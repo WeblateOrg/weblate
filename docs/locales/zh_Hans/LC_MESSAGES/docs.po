@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-30 16:22+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2021-12-31 06:28+0000\n"
+"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -377,10 +377,9 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"默认情况下，这可防止 Weblate 因 `用户` 和 `查看者` :ref:`默认组<default-"
-"groups>` 本身的配置而授予其提供的访问权限。但这并不妨碍您向这些项目授予站点范"
-"围的权限，可用的方法有改变默认组、创建一个新的组，或如下方 :ref:`custom-acl` "
-"中所述为单个组件创建额外的自定义设置。"
+"默认情况下，这可防止 Weblate 因 `用户` 和 `查看者` :ref:`默认组<default-groups>` "
+"本身的配置而授予其提供的访问权限。但这并不妨碍您向这些项目授予站点范围的权限，可用的方法有改变默认组、创建一个新的组，或如下方 :ref:`custom-"
+"acl` 中所述为单个部件创建额外的自定义设置。"
 
 #: ../../admin/access.rst:188
 msgid ""
@@ -504,7 +503,7 @@ msgstr ""
 
 #: ../../admin/access.rst:248
 msgid "Custom permissions for languages, components or projects"
-msgstr "语言、组件或项目的自定义权限"
+msgstr "语言、部件或项目的自定义权限"
 
 #: ../../admin/access.rst:250
 msgid ""
@@ -513,9 +512,8 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
-"您可以创建自己的专用组来管理不同对象（如语言、组件和项目）的权限。虽然这些组"
-"只能授予额外的权限，但您不能通过添加另一个自定义组来撤销全站或每个项目组授予"
-"的任意权限。"
+"您可以创建自己的专用组来管理不同对象（如语言、部件和项目）的权限。虽然这些组只能授予额外的权限，但您不能通过添加另一个自定义组来撤销全站或每个项目组授予的"
+"任意权限。"
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:385
 #: ../../admin/config.rst:249 ../../admin/config.rst:268
@@ -649,7 +647,7 @@ msgstr "`群组`"
 msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
-msgstr "分组连接角色、用户和身份验证对象(项目、语言和组件列表)。"
+msgstr "分组连接角色、用户和身份验证对象(项目、语言和部件列表)。"
 
 #: ../../admin/access.rst:331
 msgid ""
@@ -669,13 +667,12 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "group, see :ref:`default-groups`)."
 msgstr ""
-"用户必须是链接到项目的组或项目中的任何组件的成员。拥有成员身份就足够了，浏览"
-"项目不需要特定的权限 （这被用于默认的 `查看者` 小组，见 :ref:`default-"
-"groups` ）。"
+"用户必须是链接到项目的组或项目中的任何部件的成员。拥有成员身份就足够了，浏览项目不需要特定的权限 （这被用于默认的 `查看者` 小组，见 :ref"
+":`default-groups` ）。"
 
 #: ../../admin/access.rst:343
 msgid "Access for browse to a component"
-msgstr "浏览组件的权限"
+msgstr "浏览部件的权限"
 
 #: ../../admin/access.rst:345
 msgid ""
@@ -685,9 +682,8 @@ msgid ""
 "component requires explicit permissions for the component (or a component "
 "list the component is in)."
 msgstr ""
-"用户一旦能够访问组件的项目，就可以不受限制地访问组件。（并将拥有该项目授予用"
-"户的所有权限）。在开启 :ref:`component-restricted` 的情况下，访问组件需要对该"
-"组件（或该组件所在的组件列表）具有显式权限。"
+"用户一旦能够访问部件的项目，就可以不受限制地访问部件。（并将拥有该项目授予用户的所有权限）。在开启 :ref:`component-restricted`"
+" 的情况下，访问部件需要对该部件（或该部件所在的部件列表）具有显式权限。"
 
 #: ../../admin/access.rst:353
 msgid "Scope of groups"
@@ -707,9 +703,8 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"如果群组指定了任何 :guilabel:`组件列表`，则授予该组成员的所有权限都适用于附加"
-"到该组的组件列表中的所有组件，并为这些组件所在的所有项目授予没有额外权限的访"
-"问权。:guilabel:`组件` 和 :guilabel:`项目` 被忽略。"
+"如果群组指定了任何 :guilabel:`部件列表`，则授予该组成员的所有权限都适用于附加到该组的部件列表中的所有部件，并为这些部件所在的所有项目授予没有"
+"额外权限的访问权。:guilabel:`部件` 和 :guilabel:`项目` 被忽略。"
 
 #: ../../admin/access.rst:364
 msgid ""
@@ -718,7 +713,7 @@ msgid ""
 "the group, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"如果该组指定了任何:guilabel:`Components`，那么该组成员的所有权限将被授予附属于该组的所有组件，并且对这些组件所在的所有项目授予没有额"
+"如果该组指定了任何:guilabel:`Components`，那么该组成员的所有权限将被授予附属于该组的所有部件，并且对这些部件所在的所有项目授予没有额"
 "外权限的访问权限。:guilabel:`Projects`被忽略。"
 
 #: ../../admin/access.rst:369
@@ -755,9 +750,7 @@ msgstr ""
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following group:"
-msgstr ""
-"假设有一个项目 ``foo`` 包含以下组件： ``foo/bar`` 和 ``foo/baz``，以及以下群"
-"组："
+msgstr "假设有一个项目 ``foo`` 包含以下部件： ``foo/bar`` 和 ``foo/baz``，以及以下群组："
 
 #: ../../admin/access.rst:390
 msgid "Group `Spanish Admin-Reviewers`"
@@ -789,9 +782,7 @@ msgstr "该组的成员将具有以下权限（假设是默认的角色设置）
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
-msgstr ""
-"对整个项目 ``foo`` 的一般（浏览）访问，包括其中的两个组件： ``foo/bar`` 和 "
-"``foo/baz``。"
+msgstr "对整个项目 ``foo`` 的一般（浏览）访问，包括其中的两个部件： ``foo/bar`` 和 ``foo/baz``。"
 
 #: ../../admin/access.rst:406
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
@@ -907,11 +898,11 @@ msgstr "部件"
 
 #: ../../admin/access.rst:473
 msgid "Edit component settings [`Administration`]"
-msgstr "编辑组件设置[`Administration`]"
+msgstr "编辑部件设置[`Administration`]"
 
 #: ../../admin/access.rst:475
 msgid "Lock component, preventing translations [`Administration`]"
-msgstr "锁定组件，防止翻译 [`Administration`]"
+msgstr "锁定部件，防止翻译 [`Administration`]"
 
 #: ../../admin/access.rst:479
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
@@ -1458,7 +1449,7 @@ msgstr "自动翻译的来源"
 
 #: ../../admin/addons.rst:54
 msgid "``others`` -- Other translation components"
-msgstr "``others`` -- 其他翻译组件"
+msgstr "``others`` -- 其他翻译部件"
 
 #: ../../admin/addons.rst:56
 msgid "``mt`` -- Machine translation"
@@ -1502,7 +1493,7 @@ msgstr "触发器"
 
 #: ../../admin/addons.rst:64 ../../admin/addons.rst:404
 msgid "component update, daily"
-msgstr "组件更新，每天"
+msgstr "部件更新，每天"
 
 #: ../../admin/addons.rst:66
 msgid ""
@@ -1516,13 +1507,13 @@ msgstr "触发条件："
 
 #: ../../admin/addons.rst:70
 msgid "When new strings appear in a component."
-msgstr "当组件中出现新字符串时。"
+msgstr "当部件中出现新字符串时。"
 
 #: ../../admin/addons.rst:71
 msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
-msgstr "每个组件每个月一次，可以使用 :setting:`BACKGROUND_TASKS` 进行配置。"
+msgstr "每个部件每个月一次，可以使用 :setting:`BACKGROUND_TASKS` 进行配置。"
 
 #: ../../admin/addons.rst:75
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1606,9 +1597,7 @@ msgstr "可以用于本地化静态 HTML 网页，或者在 JavaScript 代码中
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
-msgstr ""
-"为你的组件生成一个唯一的 URL，你可以将其包含在 HTML 页面中以本地化它们。详情"
-"见 :ref:`weblate-cdn`。"
+msgstr "为你的部件生成一个唯一的 URL，你可以将其包含在 HTML 页面中以本地化它们。详情见 :ref:`weblate-cdn`。"
 
 #: ../../admin/addons.rst:108
 msgid ""
@@ -1815,7 +1804,7 @@ msgstr "``addons``"
 
 #: ../../admin/addons.rst:192
 msgid "Clone addons from the main component to the newly created ones"
-msgstr "把来自主组件的附加组件克隆到新创建的部件"
+msgstr "将主部件的附加组件克隆到新创建的部件"
 
 #: ../../admin/addons.rst:194
 #, fuzzy
@@ -1852,8 +1841,8 @@ msgid ""
 "djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
-"每次更新 VCS 时触发，在其他方面类似 :djadmin:`import_project` 管理命令。通过"
-"这种方式，你可以在一个 VCS 中跟踪多个翻译组件。"
+"每次更新 VCS 时触发，在其他方面类似 :djadmin:`import_project` 管理命令。通过这种方式，你可以在一个 VCS "
+"中跟踪多个翻译部件。"
 
 #: ../../admin/addons.rst:207
 msgid ""
@@ -1867,9 +1856,7 @@ msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
-msgstr ""
-"点击 :guilabel:`Save` 后，将显示匹配组件的预览，您可以从中检查配置是否真正符"
-"合您的需求："
+msgstr "点击 :guilabel:`Save` 后，将显示匹配部件的预览，您可以从中检查配置是否真正符合您的需求："
 
 #: ../../admin/addons.rst:219
 msgid ""
@@ -1970,7 +1957,7 @@ msgstr "要删除的标签"
 
 #: ../../admin/addons.rst:259
 msgid "component update"
-msgstr "组件更新"
+msgstr "部件更新"
 
 #: ../../admin/addons.rst:261
 msgid "Bulk edit flags, labels, or states of strings."
@@ -2819,9 +2806,7 @@ msgstr "安装方法请参见 :ref:`custom-addon-modules` 。"
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
-msgstr ""
-"对于任何给定的组件，当前路径设置为版本控制系统（VCS）仓库的根目录时，执行脚"
-"本。"
+msgstr "对于任何给定的部件，当前路径设置为版本控制系统（VCS）仓库的根目录时，执行脚本。"
 
 #: ../../admin/addons.rst:764
 msgid "Additionally, the following environment variables are available:"
@@ -2841,11 +2826,11 @@ msgstr "版本控制系统（VCS）仓库的绝对路径。"
 
 #: ../../admin/addons.rst:782
 msgid "Repository branch configured in the current component."
-msgstr "当前组件配置的仓库分支。"
+msgstr "当前部件配置的仓库分支。"
 
 #: ../../admin/addons.rst:786
 msgid "Filemask for current component."
-msgstr "当前组件的文件掩码。"
+msgstr "当前部件的文件掩码。"
 
 #: ../../admin/addons.rst:790
 msgid "Filename of template for monolingual translations (can be empty)."
@@ -2857,13 +2842,13 @@ msgstr "建立新的翻译所使用文件的文件名（可以为空）。"
 
 #: ../../admin/addons.rst:801
 msgid "File format used in current component."
-msgstr "用于当前组件的文件格式。"
+msgstr "用于当前部件的文件格式。"
 
 #: ../../admin/addons.rst:805
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
-msgstr "当前处理的翻译的语言（对于组件级别的钩子不可用）。"
+msgstr "当前处理的翻译的语言（对于部件级别的钩子不可用）。"
 
 #: ../../admin/addons.rst:810
 msgid ""
@@ -2873,7 +2858,7 @@ msgstr "更新后的上个 HEAD (仅在运行更新后钩子后可用)。"
 
 #: ../../admin/addons.rst:816
 msgid "Component slug used to construct URL."
-msgstr "组件标识串用于构建 URL 。"
+msgstr "部件标识串用于构建 URL 。"
 
 #: ../../admin/addons.rst:822
 msgid "Project slug used to construct URL."
@@ -2881,7 +2866,7 @@ msgstr "项目标识串用于构建 URL 。"
 
 #: ../../admin/addons.rst:828
 msgid "Component name."
-msgstr "组件名称。"
+msgstr "部件名称。"
 
 #: ../../admin/addons.rst:834
 msgid "Project name."
@@ -2889,7 +2874,7 @@ msgstr "项目名称。"
 
 #: ../../admin/addons.rst:840
 msgid "Component URL."
-msgstr "组件 URL 。"
+msgstr "部件 URL 。"
 
 #: ../../admin/addons.rst:846
 msgid "Project engage URL."
@@ -2971,7 +2956,7 @@ msgstr "SSH 密钥管理，见 :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr "所有组件的警报概述，见 :ref:`alerts`"
+msgstr "所有部件的警报概述，见 :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
@@ -3025,9 +3010,7 @@ msgid ""
 "Adding a project serves as container for all components. Usually you create "
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
-msgstr ""
-"添加项目作为所有组件的容器。通常可以为一部分软件或图书（各自参数的信息请参"
-"见 :ref:`project` ）来建立一个项目："
+msgstr "添加项目作为所有部件的容器。通常可以为一部分软件或图书（各自参数的信息请参见 :ref:`project` ）来建立一个项目："
 
 #: ../../admin/admin.rst:57
 msgid ":ref:`project`"
@@ -3035,15 +3018,13 @@ msgstr ":ref:`project`"
 
 #: ../../admin/admin.rst:62
 msgid "Bilingual components"
-msgstr "双语组件"
+msgstr "双语部件"
 
 #: ../../admin/admin.rst:64
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
-msgstr ""
-"一旦添加了一个项目，就可以添加翻译组件了。（关于各自参数的信息，请参见 :ref:"
-"`component` ）："
+msgstr "一旦添加了一个项目，就可以添加翻译部件了。（关于各自参数的信息，请参见 :ref:`component` ）："
 
 #: ../../admin/admin.rst:71 ../../admin/admin.rst:87
 msgid ":ref:`component`, :ref:`bimono`"
@@ -3051,7 +3032,7 @@ msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
-msgstr "单语言组件"
+msgstr "单语言部件"
 
 #: ../../admin/admin.rst:79
 msgid ""
@@ -3074,7 +3055,7 @@ msgstr "在以前的版本中，这个功能被称为白板消息。"
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
-msgstr "通过张贴网站范围的，每个项目、组件或语言的公告，向翻译者提供信息。"
+msgstr "通过张贴网站范围的，每个项目、部件或语言的公告，向翻译者提供信息。"
 
 #: ../../admin/announcements.rst:10
 msgid ""
@@ -3130,15 +3111,15 @@ msgstr "特定项目"
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
-msgstr "项目内显示，包括其所有的组件和翻译。"
+msgstr "项目内显示，包括其所有的部件和翻译。"
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr "特定组件"
+msgstr "特定部件"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr "对于给定的组件机器翻译来显示。"
+msgstr "对于给定的部件机器翻译来显示。"
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
@@ -4294,9 +4275,9 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
-"版本控制存储库包含带有 Weblate 更改的上游存储库的副本。如果你对所有翻译组件启"
-"用了:ref:`component-push_on_commit``，那么所有 Weblate 变化都包括在上游。不需"
-"要在 Weblate 端备份存储库，因为它们可以从上游位置再次克隆，不会丢失数据。"
+"版本控制存储库包含带有 Weblate 更改的上游存储库的副本。如果你对所有翻译部件启用了:ref:`component-"
+"push_on_commit``，那么所有 Weblate 变化都包括在上游。不需要在 Weblate "
+"端备份存储库，因为它们可以从上游位置再次克隆，不会丢失数据。"
 
 #: ../../admin/backup.rst:291
 msgid "SSH and GPG keys"
@@ -5576,22 +5557,20 @@ msgstr "使用语言信息检查，验证捷克语中的两种复数形式不同
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr "组件列表"
+msgstr "部件列表"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
 "Specify multiple lists of components to appear as options on the user "
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
-msgstr ""
-"指定多个组件列表，作为显示在用户控制面板上的选项，用户可以从中挑选一个作为默"
-"认视图。请参阅 :ref:`dashboard` 了解更多信息。"
+msgstr "指定多个部件列表，作为显示在用户控制面板上的选项，用户可以从中挑选一个作为默认视图。请参阅 :ref:`dashboard` 了解更多信息。"
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr "控制面板上出现的每个组件列表都会显示一个状态。"
+msgstr "控制面板上出现的每个部件列表都会显示一个状态。"
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -5600,8 +5579,8 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
-"可以在管理界面的 :guilabel:`组件列表` 部分指定组件列表的名称和内容。每个组件"
-"列表必须有一个显示给用户的名称，和一个在 URL 中代表它的标识串。"
+"可以在管理界面的 :guilabel:`部件列表` 部分指定部件列表的名称和内容。每个部件列表必须有一个显示给用户的名称，和一个在 URL "
+"中代表它的标识串。"
 
 #: ../../admin/componentlists.rst:22
 msgid ""
@@ -5613,30 +5592,27 @@ msgstr ""
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr "自动组件列表"
+msgstr "自动部件列表"
 
 #: ../../admin/componentlists.rst:30
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
-"通过建立 :guilabel:`Automatic component list assignment` 规则，根据其标识串自"
-"动将组件添加到列表中。"
+"通过建立 :guilabel:`Automatic component list assignment` 规则，根据其标识串自动将部件添加到列表中。"
 
 #: ../../admin/componentlists.rst:33
 msgid ""
 "Useful for maintaining component lists for large installations, or in case "
 "you want to have one component list with all components on your Weblate "
 "installation."
-msgstr ""
-"这对于维护大型安装的组件列表很有用，或者你想在 Weblate 安装中拥有一个包含所有"
-"组件的组件列表。"
+msgstr "这对于维护大型安装的部件列表很有用，或者你想在 Weblate 安装中拥有一个包含所有部件的部件列表。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr "制作一个包含你的 Weblate 安装时的所有组件的组件列表。"
+msgstr "制作一个包含你的 Weblate 安装时的所有部件的部件列表。"
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -5644,8 +5620,8 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. 在项目和组件字段用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic "
-"component list assignment` ，如这张图所示："
+"1. 在项目和部件字段用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic component list "
+"assignment` ，如这张图所示："
 
 #: ../../admin/componentlists.rst:None
 msgid ""
@@ -6410,7 +6386,7 @@ msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:506
 msgid "The default value for component restriction."
-msgstr "组件限制的默认值。"
+msgstr "部件限制的默认值。"
 
 #: ../../admin/config.rst:510
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
@@ -6444,7 +6420,7 @@ msgstr "安装在每个创建的部件上的默认附加组件。"
 
 #: ../../admin/config.rst:541
 msgid "This setting affects only newly created components."
-msgstr "此设置只影响新创建的组件。"
+msgstr "此设置只影响新创建的部件。"
 
 #: ../../admin/config.rst:543 ../../admin/config.rst:972
 #: ../../admin/config.rst:1720 ../../admin/config.rst:1796
@@ -6508,7 +6484,7 @@ msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:616
 msgid "Merge style for any new components."
-msgstr "任何新组件的合并风格。"
+msgstr "任何新部件的合并风格。"
 
 #: ../../admin/config.rst:618
 msgid "`rebase` - default"
@@ -8126,9 +8102,8 @@ msgid ""
 "in case there is actually only single project in Weblate. Alternatively set "
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
-"将用户直接重定向到项目或组件，而不是显示控制面板。可以将其设置为 ``True`` ，"
-"在这种情况下，只在 Weblate 实际只有单一的项目时有用。另外可以设置项目标识串，"
-"将无条件地重定向到这个项目。"
+"将用户直接重定向到项目或部件，而不是显示控制面板。可以将其设置为 ``True`` ，在这种情况下，只在 Weblate "
+"实际只有单一的项目时有用。另外可以设置项目标识串，将无条件地重定向到这个项目。"
 
 #: ../../admin/config.rst:2009
 msgid ""
@@ -8299,7 +8274,7 @@ msgid ""
 "Removing the addon from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall addon from all components "
 "prior to removing it from this list."
-msgstr "从列表中删除附加组件并不会将它从部件中卸载。Weblate 在这种情况下会崩溃。请在从这个列表中删除前从所有部件中卸载附加组件。"
+msgstr "从列表中删除附加组件并不能将其从部件中卸载。Weblate 在这种情况下会崩溃。请先从所有部件中卸载附加组件，然后再将其从此列表中删除。"
 
 #: ../../admin/config.rst:2202
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
@@ -8469,7 +8444,7 @@ msgstr "在仓库管理中或使用 :ref:`api` 或 :ref:`wlc` 来手动触发更
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
-msgstr "启用 :setting:`AUTO_UPDATE` 以自动更新你的 Weblate 实例上的所有组件"
+msgstr "启用 :setting:`AUTO_UPDATE` 以自动更新你的 Weblate 实例上的所有部件"
 
 #: ../../admin/continuous.rst:67
 msgid ""
@@ -8534,7 +8509,7 @@ msgstr "进行更新的脚本看起来像这样："
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
-msgstr "如果多个组件分享相同的仓库，需要分别将他们全部锁定："
+msgstr "如果多个部件分享相同的仓库，需要分别将他们全部锁定："
 
 #: ../../admin/continuous.rst:128
 msgid ""
@@ -8760,11 +8735,10 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
-"每个翻译组件可以新建推送 URL（请参见 :ref:`component-push` ），在那种情况下 "
-"Weblate 能够将更改推送到远程仓库。 Weblate 还可以配置在每次提交时自动推送更改"
-"（这是默认的，请参见 :ref:`component-push_on_commit` ）。如果不想更改自动给推"
-"送，可以在 :guilabel:`Repository maintenance` 之下手动进行，或通过 :option:"
-"`wlc push` 使用 API。"
+"每个翻译部件可以新建推送 URL（请参见 :ref:`component-push` ），在那种情况下 Weblate 能够将更改推送到远程仓库。 "
+"Weblate 还可以配置在每次提交时自动推送更改（这是默认的，请参见 :ref:`component-push_on_commit` "
+"）。如果不想更改自动给推送，可以在 :guilabel:`Repository maintenance` 之下手动进行，或通过 :option:`wlc "
+"push` 使用 API。"
 
 #: ../../admin/continuous.rst:283
 msgid ""
@@ -9006,16 +8980,14 @@ msgstr ""
 
 #: ../../admin/continuous.rst:392
 msgid "Keeping translations same across components"
-msgstr "跨组件保持翻译一致"
+msgstr "跨部件保持翻译一致"
 
 #: ../../admin/continuous.rst:394
 msgid ""
 "Once you have multiple translation components, you might want to ensure that "
 "the same strings have same translation. This can be achieved at several "
 "levels."
-msgstr ""
-"一旦具有多个翻译组件，你会想要确保相同的字符串具有相同的翻译。这可以在几个层"
-"次实现。"
+msgstr "一旦具有多个翻译部件，你会想要确保相同的字符串具有相同的翻译。这可以在几个层次实现。"
 
 #: ../../admin/continuous.rst:398
 msgid "Translation propagation"
@@ -9028,9 +9000,8 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
-"当 :ref:`component-allow_translation_propagation` 处于启用状态时（这是默认"
-"的，请参见 :ref:`component` ），在所有的组件中字符串匹配时，所有新的翻译自动"
-"进行。在所有的组件中这样的翻译都适当地归功于当前翻译的用户。"
+"当 :ref:`component-allow_translation_propagation` 处于启用状态时（这是默认的，请参见 "
+":ref:`component` ），在所有的部件中字符串匹配时，所有新的翻译自动进行。在所有的部件中这样的翻译都适当地归功于当前翻译的用户。"
 
 #: ../../admin/continuous.rst:407
 msgid ""
@@ -9685,7 +9656,7 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:154
 msgid "``licensee`` (optional for detecting license when creating component)"
-msgstr "``licensee`` （可选，用于创建组件时检测许可证）"
+msgstr "``licensee`` （可选，用于创建部件时检测许可证）"
 
 #: ../../admin/install.rst:154
 msgid "https://github.com/licensee/licensee"
@@ -10800,7 +10771,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1121
 msgid "Updating component alerts (daily)."
-msgstr "更新组件警报（每天）。"
+msgstr "更新部件警报（每天）。"
 
 #: ../../admin/install.rst:1122
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
@@ -11616,9 +11587,7 @@ msgstr "内存越多越好——用于所有级别的缓存（文件系统，数
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
-msgstr ""
-"许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译组件，推荐至少有 4 GB 的"
-"内存。"
+msgstr "许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译部件，推荐至少有 4 GB 的内存。"
 
 #: ../../admin/install/steps/hw.rst:19
 msgid ""
@@ -12393,8 +12362,8 @@ msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
-"为新组件的 :ref:`component-restricted` 配置默认值，请参见 :setting:"
-"`DEFAULT_RESTRICTED_COMPONENT` 。"
+"为新部件的 :ref:`component-restricted` 配置默认值，请参见 "
+":setting:`DEFAULT_RESTRICTED_COMPONENT` 。"
 
 #: ../../admin/install/docker.rst:653
 msgid ""
@@ -12402,8 +12371,8 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"为新组件的 :ref:`component-allow_translation_propagation` 配置默认值，请参"
-"见 :setting:`DEFAULT_TRANSLATION_PROPAGATION` 。"
+"为新部件的 :ref:`component-allow_translation_propagation` 配置默认值，请参见 "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION` 。"
 
 #: ../../admin/install/docker.rst:657
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
@@ -13659,9 +13628,8 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
-"可选地安装生产服务器运行所需要的软件，参见 :ref:`server` 、 :ref:`database-"
-"setup` 、 :ref:`celery` 。根据于您的安装所占的空间，您会想要在特定的服务器上"
-"运行这些组件。"
+"可选地安装生产服务器运行所需要的软件，参见 :ref:`server` 、 :ref:`database-setup` 、 :ref:`celery` "
+"。根据于您的安装所占的空间，您会想要在特定的服务器上运行这些部件。"
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
@@ -13829,8 +13797,7 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
-"新建一个组件，该组件是要翻译的实际对象——它指向版本控制系统（VCS）仓库，并选择"
-"要翻译的文件。更多详细信息请参见 :ref:`component` 。"
+"新建一个部件，该部件是要翻译的实际对象——它指向版本控制系统（VCS）仓库，并选择要翻译的文件。更多详细信息请参见 :ref:`component` 。"
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -13840,9 +13807,8 @@ msgid ""
 "properties, Java properties or Qt Linguist files, see :ref:`formats` for "
 "more details."
 msgstr ""
-"这里的重要字段是：组件名称、版本控制系统（VCS）仓库地址和用于查找可翻译文件的"
-"掩码。Weblate 支持多种格式，包括 gettext PO 文件、Android 资源字符串、iOS 字"
-"符串属性， Java 属性或 Qt Linguist 文件，更多详细信息请参见 :ref:`formats` 。"
+"这里的重要字段是：部件名称、版本控制系统（VCS）仓库地址和用于查找可翻译文件的掩码。Weblate 支持多种格式，包括 gettext PO 文件、"
+"Android 资源字符串、iOS 字符串属性， Java 属性或 Qt Linguist 文件，更多详细信息请参见 :ref:`formats` 。"
 
 #: ../../admin/install/steps/install-after.rst:30
 msgid ""
@@ -15151,13 +15117,13 @@ msgstr "添加了翻译模式参数。"
 
 #: ../../admin/management.rst:112
 msgid "Performs automatic translation based on other component translations."
-msgstr "根据其他组件翻译进行自动翻译。"
+msgstr "根据其他部件翻译进行自动翻译。"
 
 #: ../../admin/management.rst:116
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
-msgstr "指定可用作翻译的来源的组件。如果不指定，将使用项目中的所有组件。"
+msgstr "指定可用作翻译的来源的部件。如果不指定，将使用项目中的所有部件。"
 
 #: ../../admin/management.rst:121
 msgid ""
@@ -15182,7 +15148,7 @@ msgstr "如果给定的翻译不存在，自动添加语言。"
 #: ../../admin/management.rst:139
 msgid ""
 "Use machine translation instead of other components as machine translations."
-msgstr "实用机器翻译而不是其他组件作为机器翻译。"
+msgstr "实用机器翻译而不是其他部件作为机器翻译。"
 
 #: ../../admin/management.rst:143
 msgid "Similarity threshold for machine translation, defaults to 80."
@@ -15223,8 +15189,7 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
-"您可以确定或者哪个项目或组件要更新（例如 ``weblate/application`` ），或者使"
-"用 ``--all`` 来更新所有现有组件。"
+"您可以确定或者哪个项目或部件要更新（例如 ``weblate/application`` ），或者使用 ``--all`` 来更新所有现有部件。"
 
 #: ../../admin/management.rst:180
 msgid "commitgit"
@@ -15370,7 +15335,7 @@ msgstr "import_demo"
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>."
-msgstr "根据 <https://github.com/WeblateOrg/demo> 使用组件来新建演示项目。"
+msgstr "根据 <https://github.com/WeblateOrg/demo> 使用部件来新建演示项目。"
 
 #: ../../admin/management.rst:312
 msgid "This can be useful when developing Weblate."
@@ -15382,7 +15347,7 @@ msgstr "import_json"
 
 #: ../../admin/management.rst:322
 msgid "Batch import of components based on JSON data."
-msgstr "根据 JSON 数据批量导入组件。"
+msgstr "根据 JSON 数据批量导入部件。"
 
 #: ../../admin/management.rst:324
 msgid ""
@@ -15390,31 +15355,30 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
-"导入的 JSON 文件结构非常符合组件对象（请参见 :http:get:`/api/components/"
-"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 "
-"``filemask`` 字段。"
+"导入的 JSON 文件结构非常符合部件对象（请参见 :http:get:`/api/components/"
+"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 ``filemask`` 字段。"
 
 #: ../../admin/management.rst:330
 msgid "Specifies where the components will be imported from."
-msgstr "指定从哪里导入组件。"
+msgstr "指定从哪里导入部件。"
 
 #: ../../admin/management.rst:334
 msgid "Use the given VCS repository from this component for all of them."
-msgstr "对所有的使用来自这个组件的给定版本控制系统（VCS）仓库。"
+msgstr "对所有的使用来自这个部件的给定版本控制系统（VCS）仓库。"
 
 #: ../../admin/management.rst:338
 msgid "Skip (already) imported components."
-msgstr "跳过（已经）导入的组件。"
+msgstr "跳过（已经）导入的部件。"
 
 #: ../../admin/management.rst:342
 msgid "Update (already) imported components."
-msgstr "更新（已经）导入的组件。"
+msgstr "更新（已经）导入的部件。"
 
 #: ../../admin/management.rst:346
 msgid ""
 "The parameters ``--ignore`` and ``--update`` are there to deal with already "
 "imported components."
-msgstr "那里的参数 ``--ignore`` 和 ``--update`` 用于处理已经导入的组件。"
+msgstr "那里的参数 ``--ignore`` 和 ``--update`` 用于处理已经导入的部件。"
 
 #: ../../admin/management.rst:349
 msgid "Example of JSON file:"
@@ -15470,13 +15434,13 @@ msgstr ""
 
 #: ../../admin/management.rst:394
 msgid "Batch imports components into project based on filemask."
-msgstr "根据 filemask ，将组件批量导入项目。"
+msgstr "根据 filemask ，将部件批量导入项目。"
 
 #: ../../admin/management.rst:396
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
-msgstr "`<project>` 将已存在的项目命名，组件将导入其中。"
+msgstr "`<project>` 将已存在的项目命名，部件将导入其中。"
 
 #: ../../admin/management.rst:399
 msgid ""
@@ -15485,9 +15449,8 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
-"`<gitrepo>` 确定了要使用的 Git 仓库的 URL，而 `<branch>` 说明了 Git 分支。为"
-"了从现有的 Weblate 组件导入另外的翻译组件，使用 `<gitrepo>` 的 `weblate://"
-"<project>/<component>` URL 。"
+"`<gitrepo>` 确定了要使用的 Git 仓库的 URL，而 `<branch>` 说明了 Git 分支。为了从现有的 Weblate "
+"部件导入另外的翻译部件，使用 `<gitrepo>` 的 `weblate://<project>/<component>` URL 。"
 
 #: ../../admin/management.rst:404
 msgid ""
@@ -15502,8 +15465,7 @@ msgstr ""
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
-msgstr ""
-"简单的匹配对组件名称使用 ``**`` ，对语言使用 ``*`` ，例如： ``**/*.po``"
+msgstr "简单的匹配对部件名称使用 ``**`` ，对语言使用 ``*`` ，例如： ``**/*.po``"
 
 #: ../../admin/management.rst:410
 msgid ""
@@ -15517,13 +15479,11 @@ msgstr ""
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
-msgstr ""
-"根据文件，导入与现有的组件匹配，并且添加不存在的那些。它不更改已经存在的那"
-"些。"
+msgstr "根据文件，导入与现有的部件匹配，并且添加不存在的那些。它不更改已经存在的那些。"
 
 #: ../../admin/management.rst:418
 msgid "Customize the name of a component using Django template syntax."
-msgstr "使用 Django 模板语法来定制组件的名称。"
+msgstr "使用 Django 模板语法来定制部件的名称。"
 
 #: ../../admin/management.rst:420
 msgid "For example: ``Documentation: {{ component }}``"
@@ -15563,12 +15523,11 @@ msgstr ""
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
-msgstr ""
-"你可以指定哪个组件作为主组件——即真正包含版本控制系统（VCS）仓库的组件。"
+msgstr "你可以指定哪个部件作为主部件——即真正包含版本控制系统（VCS）仓库的部件。"
 
 #: ../../admin/management.rst:451
 msgid "Specify the overall, project or component translation license."
-msgstr "指定整体、项目或组件翻译的许可。"
+msgstr "指定整体、项目或部件翻译的许可。"
 
 #: ../../admin/management.rst:455
 msgid "Specify the URL where the translation license is to be found."
@@ -15599,9 +15558,7 @@ msgid ""
 "Then the Tanaguru tool, where the file format needs be specified, along with "
 "the base file template, and how all components and translations are located "
 "in single folder:"
-msgstr ""
-"然后 Tangaguru 工具，那里需要指定文件格式和译文模板文件，并且指定所有组件和翻"
-"译如何位于单一一个文件夹中："
+msgstr "然后 Tangaguru 工具，那里需要指定文件格式和译文模板文件，并且指定所有部件和翻译如何位于单一一个文件夹中："
 
 #: ../../admin/management.rst:489
 msgid ""
@@ -15609,8 +15566,8 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
-"更复杂的例子是关于解析文件名而从文件名中得到正确的组件和语言，像 ``src/"
-"security/Numerous_security_holes_in_0.10.1.de.po``："
+"更复杂的例子是关于解析文件名而从文件名中得到正确的部件和语言，像 ``src/security/Numerous_security_holes_in_0."
+"10.1.de.po``："
 
 #: ../../admin/management.rst:500
 msgid "Filtering only translations in a chosen language:"
@@ -15666,7 +15623,7 @@ msgstr "install_addon"
 
 #: ../../admin/management.rst:570
 msgid "Installs an add-on to a set of components."
-msgstr "将附加组件安装到一组组件中。"
+msgstr "将一个附加组件安装到一组部件中。"
 
 #: ../../admin/management.rst:574
 msgid ""
@@ -15687,7 +15644,7 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
-"可以或者定义将附加组件安装到哪个项目或组件中（例如 ``weblate/application``），或者使用 ``--all`` 来包括所有现有的组件。"
+"可以定义将附加组件安装到哪个项目或部件中（例如 ``weblate/application``），或者使用 ``--all`` 来包含所有现有的部件。"
 
 #: ../../admin/management.rst:587
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
@@ -15734,8 +15691,7 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
-"可以或者定义使用哪个项目或组件（例如 ``weblate/application``），或者使用 ``--"
-"all`` 从所有现存的组件中列出翻译者。"
+"可以或者定义使用哪个项目或部件（例如 ``weblate/application``），或者使用 ``--all`` 从所有现存的部件中列出翻译者。"
 
 #: ../../admin/management.rst:628
 msgid "list_versions"
@@ -15781,7 +15737,7 @@ msgstr "lock_translation"
 
 #: ../../admin/management.rst:664
 msgid "Prevents further translation of a component."
-msgstr "防止进一步翻译组件。"
+msgstr "防止进一步翻译部件。"
 
 #: ../../admin/management.rst:668 ../../admin/management.rst:727
 msgid ""
@@ -15842,7 +15798,7 @@ msgstr "unlock_translation"
 
 #: ../../admin/management.rst:723
 msgid "Unlocks a given component, making it available for translation."
-msgstr "将给定的组件解锁，使它能够被翻译。"
+msgstr "将给定的部件解锁，使它能够被翻译。"
 
 #: ../../admin/management.rst:734
 msgid ":djadmin:`lock_translation`"
@@ -16188,16 +16144,13 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
-"账单模块额外允许项目管理员不是超级用户的情况下去新建新的项目和组件（请参见 :"
-"ref:`adding-projects`）。当后面的条件满足是这是可能的："
+"账单模块额外允许项目管理员不是超级用户的情况下去新建新的项目和部件（请参见 :ref:`adding-projects`）。当后面的条件满足是这是可能的："
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
-msgstr ""
-"账单在其配置的限制下（任何过度的使用都会阻止新建项目/组件），并且被支付（如果"
-"价格为非零值的话）"
+msgstr "账单在其配置的限制下（任何过度的使用都会阻止新建项目/部件），并且被支付（如果价格为非零值的话）"
 
 #: ../../admin/optionals.rst:99
 msgid ""
@@ -16358,7 +16311,7 @@ msgstr "来自未经身份验证用户的建议"
 
 #: ../../admin/optionals.rst:201
 msgid "Project and component descriptions and links"
-msgstr "项目和组件描述及链接"
+msgstr "项目和部件描述及链接"
 
 #: ../../admin/optionals.rst:205
 msgid ""
@@ -16617,7 +16570,7 @@ msgstr "翻译组织"
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
-msgstr "Weblate 将项目/组件的可翻译版本控制系统（VCS）内容组织成树状结构。"
+msgstr "Weblate 将项目/部件的可翻译版本控制系统（VCS）内容组织成树状结构。"
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -16633,9 +16586,7 @@ msgid ""
 "On the level above, :ref:`component`, which is actually the component to "
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
-msgstr ""
-"在上面的级别上，即 :ref:`component`，实际上是要翻译的组件，您定义要使用的版本"
-"控制系统（VCS）仓库以及要翻译的文件掩码。"
+msgstr "在上面的级别上，即 :ref:`component`，实际上是要翻译的部件，您定义要使用的版本控制系统（VCS）仓库以及要翻译的文件掩码。"
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -16661,26 +16612,24 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
-"您可以使用 :ref:`internal-urls` 共享克隆的版本控制系统（VCS）仓库。当您有许多"
-"共享同一版本控制系统（VCS）的组件时，强烈推荐使用此功能。它提高了性能并减少了"
-"所需的磁盘空间。"
+"您可以使用 :ref:`internal-urls` "
+"共享克隆的版本控制系统（VCS）仓库。当您有许多共享同一版本控制系统（VCS）的部件时，强烈推荐使用此功能。它提高了性能并减少了所需的磁盘空间。"
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
-msgstr "添加翻译项目和组件"
+msgstr "添加翻译项目和部件"
 
 #: ../../admin/projects.rst:37
 msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
-msgstr ""
-"已包含用于添加项目和组件的界面，您不再需要使用 :ref:`admin-interface`。"
+msgstr "已包含用于添加项目和部件的界面，您不再需要使用 :ref:`admin-interface`。"
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
-msgstr "现在，添加组件的过程是多阶段的，可以自动发现大多数参数。"
+msgstr "现在，添加部件的过程是多阶段的，可以自动发现大多数参数。"
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -16690,10 +16639,9 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
-"根据你的权限，可以创建新的翻译项目和组件。具备 :guilabel:`Add new projects` "
-"权限的用户总是可以这么做。如果你的实例使用付费托管（如 https://hosted."
-"weblate.org/，请参见 :ref:`billing`），你还可以从管理账单的用户账户基于套餐限"
-"额创建它们。"
+"根据你的权限，可以创建新的翻译项目和部件。具备 :guilabel:`Add new projects` "
+"权限的用户总是可以这么做。如果你的实例使用付费托管（如 https://hosted.weblate.org/，请参见 "
+":ref:`billing`），你还可以从管理账单的用户账户基于套餐限额创建它们。"
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -16718,9 +16666,7 @@ msgid ""
 "there. The process of creating a component is multi-staged and automatically "
 "detects most translation parameters. There are several approaches to "
 "creating component:"
-msgstr ""
-"只需单击一次即可启动创建新翻译组件的操作。创建组件的过程是多阶段的，并自动检"
-"测大多数翻译参数。有几种创建组件的方法："
+msgstr "只需单击一次即可启动创建新翻译部件的操作。创建部件的过程是多阶段的，并自动检测大多数翻译参数。有几种创建部件的方法："
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -16728,7 +16674,7 @@ msgstr "从版本控制"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr "从远程版本控制仓库创建组件。"
+msgstr "从远程版本控制仓库创建部件。"
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -16737,7 +16683,7 @@ msgstr "从现有部件"
 #: ../../admin/projects.rst:71
 msgid ""
 "Creates additional component to existing one by choosing different files."
-msgstr "通过选择不同的文件为现有组件创建其他组件。"
+msgstr "通过选择不同的文件为现有部件创建其他部件。"
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -16746,7 +16692,7 @@ msgstr "其他分支"
 #: ../../admin/projects.rst:73
 msgid ""
 "Creates additional component to existing one, just for different branch."
-msgstr "仅针对不同分支，为现有组件创建其他组件。"
+msgstr "仅针对不同分支，为现有部件创建其他部件。"
 
 #: ../../admin/projects.rst:76
 msgid "Upload translations files"
@@ -16781,9 +16727,7 @@ msgstr "创建空白翻译项目并手动添加字符串。"
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
-msgstr ""
-"一旦有了现有的翻译组件，就可以使用同一仓库轻松地为其他文件或分支添加新的组"
-"件。"
+msgstr "一旦有了现有的翻译部件，就可以使用同一仓库轻松地为其他文件或分支添加新的部件。"
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
@@ -16799,7 +16743,7 @@ msgstr "在下一页上，将显示已发现的可翻译资源的列表："
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
-msgstr "最后，您检查翻译组件信息并填写可选详细信息："
+msgstr "最后，您检查翻译部件信息并填写可选详细信息："
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -16818,9 +16762,8 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
-"创建一个翻译项目，然后在其中添加一个新的翻译组件。这个项目就像一个架子，里面"
-"堆放着真正的翻译。同一项目中的所有组件共享建议及其字典；翻译也将自动传播到单"
-"个项目中的所有组件（除非在组件配置中关闭），请参见 :ref:`memory`。"
+"创建一个翻译项目，然后在其中添加一个新的翻译部件。这个项目就像一个架子，里面堆放着真正的翻译。同一项目中的所有部件共享建议及其字典；翻译也将自动传播到单个"
+"项目中的所有部件（除非在部件配置中关闭），请参见 :ref:`memory`。"
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:257
 msgid ":doc:`/devel/integration`"
@@ -16997,7 +16940,7 @@ msgstr ":ref:`language-parsing-codes`"
 
 #: ../../admin/projects.rst:249 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr "组件配置"
+msgstr "部件配置"
 
 #: ../../admin/projects.rst:251
 msgid ""
@@ -17006,9 +16949,8 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
-"组件是用于翻译的内容的分组。您输入版本控制系统（VCS）仓库位置和想要翻译那个文"
-"件的掩码，Weblate 会自动地从 这个版本控制系统（VCS）中取回，并找到所有匹配的"
-"翻译文件。"
+"部件是用于翻译的内容的分组。您输入版本控制系统（VCS）仓库位置和想要翻译那个文件的掩码，Weblate 会自动地从 "
+"这个版本控制系统（VCS）中取回，并找到所有匹配的翻译文件。"
 
 #: ../../admin/projects.rst:259
 msgid ""
@@ -17027,9 +16969,7 @@ msgid ""
 "Weblate easily handles translations with 10000s of strings, but it is harder "
 "to split work and coordinate among translators with such large translation "
 "components."
-msgstr ""
-"Weblate 能够轻松处理 10000 个字符串，但大的翻译组件的分割工作和翻译者之间的协"
-"调更困难。"
+msgstr "Weblate 能够轻松处理 10000 个字符串，但大的翻译部件的分割工作和翻译者之间的协调更困难。"
 
 #: ../../admin/projects.rst:270
 msgid ""
@@ -17046,8 +16986,7 @@ msgstr ""
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
-msgstr ""
-"使用版本控制系统（VCS）工作的所有重要参数都包含在组件中，并且从中取出翻译："
+msgstr "使用版本控制系统（VCS）工作的所有重要参数都包含在部件中，并且从中取出翻译："
 
 #: ../../admin/projects.rst:281 ../../admin/projects.rst:877
 msgid "Component name"
@@ -17055,24 +16994,24 @@ msgstr "部件名"
 
 #: ../../admin/projects.rst:283
 msgid "Verbose component name, used to display the component name."
-msgstr "冗长组件名称，用于显示组件的名称。"
+msgstr "冗长部件名称，用于显示部件的名称。"
 
 #: ../../admin/projects.rst:288 ../../admin/projects.rst:879 ../../api.rst:2178
 #: ../../api.rst:2248 ../../api.rst:2344
 msgid "Component slug"
-msgstr "组件标识串"
+msgstr "部件标识串"
 
 #: ../../admin/projects.rst:290
 msgid "Component name suitable for URLs."
-msgstr "适用于 URLs 的组件名称。"
+msgstr "适用于 URLs 的部件名称。"
 
 #: ../../admin/projects.rst:295
 msgid "Component project"
-msgstr "组件项目"
+msgstr "部件项目"
 
 #: ../../admin/projects.rst:297
 msgid ":ref:`project` where the component belongs."
-msgstr "组件所属的 :ref:`project`。"
+msgstr "部件所属的 :ref:`project`。"
 
 #: ../../admin/projects.rst:302
 msgid "Version control system"
@@ -17106,8 +17045,7 @@ msgid ""
 "ref:`internal-urls` for more details."
 msgstr ""
 "这可以或者是真实的版本控制系统（VCS）的 URL， 或者是 ``weblate://project/"
-"component``，指示了仓库应该与其它组件分享。更多细节请参见 :ref:`internal-"
-"urls`。"
+"component``，指示了仓库应该与其它部件分享。更多细节请参见 :ref:`internal-urls`。"
 
 #: ../../admin/projects.rst:330
 msgid "Repository push URL"
@@ -17219,9 +17157,8 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
-"要翻译的文件的掩码，包括路径。它应包含一个“*”替换语言代码（有关处理方式的信"
-"息，请参阅 :ref:`languages`）。如果您的仓库包含多个翻译文件（例如，多个 "
-"gettext 域），则您需要为每个文件创建一个组件。"
+"要翻译的文件的掩码，包括路径。它应包含一个“*”替换语言代码（有关处理方式的信息，请参阅 "
+":ref:`languages`）。如果您的仓库包含多个翻译文件（例如，多个 gettext 域），则您需要为每个文件创建一个部件。"
 
 #: ../../admin/projects.rst:407
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
@@ -17359,9 +17296,7 @@ msgid ""
 "components within same project. This really depends on what you are "
 "translating, sometimes it's desirable to have make use of a translation more "
 "than once."
-msgstr ""
-"您可以关闭项目内从其它组件到这个组件的翻译的传播。这实际上取决于您要翻译的内"
-"容，有时最好能多次使用同一个翻译。"
+msgstr "您可以关闭项目内从其它部件到这个部件的翻译的传播。这实际上取决于您要翻译的内容，有时最好能多次使用同一个翻译。"
 
 #: ../../admin/projects.rst:501
 msgid ""
@@ -17387,7 +17322,7 @@ msgstr "启用建议"
 
 #: ../../admin/projects.rst:515
 msgid "Whether translation suggestions are accepted for this component."
-msgstr "对于这个组件，建议的翻译是否被接受。"
+msgstr "对于这个部件，建议的翻译是否被接受。"
 
 #: ../../admin/projects.rst:520 ../../admin/translating.rst:7
 #: ../../workflows.rst:80 ../../workflows.rst:111 ../../workflows.rst:149
@@ -17653,9 +17588,8 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
-"设置在后台任务或 :djadmin:`commit_pending` 管理命令提交更改前，这些更改存在的"
-"时长（以小时为单位）。一旦存在至少一个比该时长更旧的更改，便会提交组件中的所"
-"有更改。"
+"设置在后台任务或 :djadmin:`commit_pending` "
+"管理命令提交更改前，这些更改存在的时长（以小时为单位）。一旦存在至少一个比该时长更旧的更改，便会提交部件中的所有更改。"
 
 #: ../../admin/projects.rst:700
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -17678,14 +17612,14 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
-"在第一次推送或合并到上游仓库失败后，锁定该组件（及其链接组件，参见 :ref:"
-"`internal-urls`），或从上游仓库拉出。这样可以避免增加必须手动解决的冲突。"
+"在第一次推送或合并到上游仓库失败后，锁定该部件（及其链接部件，参见 :ref:`internal-"
+"urls`），或从上游仓库拉出。这样可以避免增加必须手动解决的冲突。"
 
 #: ../../admin/projects.rst:716
 msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
-msgstr "一旦仓库没有故障留下来了，组件将会自动解锁。"
+msgstr "一旦仓库没有故障留下来了，部件将会自动解锁。"
 
 #: ../../admin/projects.rst:722
 msgid "Source language"
@@ -17817,9 +17751,7 @@ msgid ""
 "By default the component is visible to anybody who has access to the "
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
-msgstr ""
-"组件默认对访问项目的任何人都可见，即使不能在组件中进行任何更改。这会容易地使"
-"翻译在项目内保持一致。"
+msgstr "部件默认对访问项目的任何人都可见，即使不能在部件中进行任何更改。这会容易地使翻译在项目内保持一致。"
 
 #: ../../admin/projects.rst:799
 msgid ""
@@ -17839,7 +17771,7 @@ msgstr "默认设置可在 :setting:`DEFAULT_RESTRICTED_COMPONENT` 中更改。"
 msgid ""
 "This applies to project admins as well — please make sure you will not loose "
 "access to the component after toggling the status."
-msgstr "这也应用于项目管理员—请确认切换状态后，您不会丢失对组件的访问。"
+msgstr "这也应用于项目管理员—请确认切换状态后，您不会丢失对部件的访问。"
 
 #: ../../admin/projects.rst:815
 msgid "Share in projects"
@@ -17849,16 +17781,14 @@ msgstr "在项目中分享"
 msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
-msgstr "可以选择组件可见的附加项目。这在分享不同项目间使用的库时是有用的。"
+msgstr "可以选择部件可见的其他项目。这在分享不同项目间使用的库时是有用的。"
 
 #: ../../admin/projects.rst:822
 msgid ""
 "Sharing a component doesn't change its access control. It only makes it "
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
-msgstr ""
-"分享组件不更改其访问控制。这样做只是让它在浏览其它项目时可见。用户仍然需要访"
-"问实际组件的权限来浏览或翻译它。"
+msgstr "分享部件不更改其访问控制。这样做只是让它在浏览其它项目时可见。用户仍然需要访问实际部件的权限来浏览或翻译它。"
 
 #: ../../admin/projects.rst:830
 msgid "Use as a glossary"
@@ -17868,9 +17798,7 @@ msgstr "用作术语表"
 msgid ""
 "Allows using this component as a glossary. You can configure how it will be "
 "listed using :ref:`component-glossary_color`."
-msgstr ""
-"允许使用该组件作为术语表。您可以配置其列出方式，借助 :ref:`component-"
-"glossary_color`。"
+msgstr "允许使用该部件作为术语表。您可以配置其列出方式，借助 :ref:`component-glossary_color`。"
 
 #: ../../admin/projects.rst:837
 msgid ""
@@ -17935,7 +17863,7 @@ msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:870
 msgid "There following variables are available in the component templates:"
-msgstr "可以在组件模板中得到后面的变量："
+msgstr "可以在部件模板中得到后面的变量："
 
 #: ../../admin/projects.rst:872
 msgid "``{{ language_code }}``"
@@ -18200,7 +18128,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:994
 msgid "Automatic creation of components"
-msgstr "自动新建组件"
+msgstr "自动新建部件"
 
 #: ../../admin/projects.rst:996
 msgid ""
@@ -18227,8 +18155,8 @@ msgid ""
 "all components and then run :djadmin:`import_project` or :djadmin:"
 "`import_json`."
 msgstr ""
-"对于管理命令，您需要新建包含所有组件的项目，然后运行 :djadmin:"
-"`import_project` 或 :djadmin:`import_json`。"
+"对于管理命令，您需要新建包含所有部件的项目，然后运行 :djadmin:`import_project` 或 "
+":djadmin:`import_json`。"
 
 #: ../../admin/projects.rst:1012
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
@@ -18294,7 +18222,7 @@ msgstr "您运行的 Weblate 版本"
 msgid ""
 "Tallies of some objects in your Weblate database (projects, components, "
 "languages, source strings and users)"
-msgstr "您 Weblate 数据库中一些对象的记录（项目、组件、语言、源字符串和用户）"
+msgstr "您 Weblate 数据库中一些对象的记录（项目、部件、语言、源字符串和用户）"
 
 #: ../../admin/support.rst:33
 msgid "The public SSH key of your instance"
@@ -18841,9 +18769,7 @@ msgid ""
 "The keys for JSON based formats no longer include leading dot. The strings "
 "are adjusted during the database migration, but external components might "
 "need adjustment in case you rely on keys in exports or API."
-msgstr ""
-"基于 JSON 格式的密钥是不再包括前导的点。在数据库迁移过程中调整字符串，但在你"
-"依赖于导出或 API 中的密钥时，外部组件会需要调整。"
+msgstr "基于 JSON 格式的密钥是不再包括前导的点。在数据库迁移过程中调整字符串，但在你依赖于导出或 API 中的密钥时，外部部件会需要调整。"
 
 #: ../../admin/upgrade.rst:160
 msgid ""
@@ -18887,8 +18813,7 @@ msgid ""
 "The source language attribute was moved from project to a component what is "
 "exposed in the API. You will need to update :ref:`wlc` in case you are using "
 "it."
-msgstr ""
-"源语言属性从项目移动到 API 中暴露的组件。在使用时你会需要更新 :ref:`wlc`。"
+msgstr "源语言属性从项目移动到 API 中暴露的部件。在使用时你会需要更新 :ref:`wlc`。"
 
 #: ../../admin/upgrade.rst:175
 msgid ""
@@ -18962,10 +18887,9 @@ msgid ""
 "upgrading and it is recommeded to force loading of affected component using :"
 "djadmin:`loadpo`."
 msgstr ""
-":ref:`mono_gettext` 现在当出现时使用 ``msgid`` 和 ``msgctxt``。这将改变此类文"
-"件中翻译字符串的标识，破坏到 Weblate 扩展数据，如截图或审查状态，的链接。请确"
-"保在升级之前提交对此类文件的待处理更改，并且建议你强制加载受影响的组件，方法"
-"是使用 :djadmin:`loadpo`。"
+":ref:`mono_gettext` 现在当出现时使用 ``msgid`` 和 ``msgctxt``。这将改变此类文件中翻译字符串的标识，破坏到 "
+"Weblate 扩展数据，如截图或审查状态，的链接。请确保在升级之前提交对此类文件的待处理更改，并且建议你强制加载受影响的部件，方法是使用 "
+":djadmin:`loadpo`。"
 
 #: ../../admin/upgrade.rst:204
 msgid ""
@@ -19012,8 +18936,8 @@ msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
-"创建组件的 API 现在自动使用 :ref:`internal-urls`，见:http:post:`/api/"
-"projects/(string:project)/components/`。"
+"创建部件的 API 现在自动使用 :ref:`internal-urls`，见:http:post:`/api/projects/"
+"(string:project)/components/`。"
 
 #: ../../admin/upgrade.rst:235
 msgid ""
@@ -19725,15 +19649,13 @@ msgid ""
 "link to associated components; see :http:get:`/api/components/(string:"
 "project)/(string:component)/`"
 msgstr ""
-"相关联组件的连接；请参见 :http:get:`/api/components/(string:project)/(string:"
-"component)/`"
+"相关联部件的连接；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:445
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
-msgstr ""
-"相关联组件列表的连接；请参见 :http:get:`/api/component-lists/(str:slug)/`"
+msgstr "相关联部件列表的连接；请参见 :http:get:`/api/component-lists/(str:slug)/`"
 
 #: ../../api.rst:476 ../../api.rst:486
 msgid "Changes the group parameters."
@@ -19757,15 +19679,15 @@ msgstr "唯一的角色 ID"
 
 #: ../../api.rst:511
 msgid "Associate components with a group."
-msgstr "将组件与群组关联。"
+msgstr "将部件与群组关联。"
 
 #: ../../api.rst:515 ../../api.rst:523
 msgid "The unique component ID"
-msgstr "唯一的组件 ID"
+msgstr "唯一的部件 ID"
 
 #: ../../api.rst:519
 msgid "Delete component from a group."
-msgstr "从群组删除组件。"
+msgstr "从群组删除部件。"
 
 #: ../../api.rst:528
 msgid "Associate projects with a group."
@@ -19793,15 +19715,15 @@ msgstr "从群组删除语言。"
 
 #: ../../api.rst:562
 msgid "Associate componentlists with a group."
-msgstr "将组件列表与群组关联。"
+msgstr "将部件列表与群组关联。"
 
 #: ../../api.rst:566 ../../api.rst:574
 msgid "The unique componentlist ID"
-msgstr "唯一的组件列表 ID"
+msgstr "唯一的部件列表 ID"
 
 #: ../../api.rst:570
 msgid "Delete componentlist from a group."
-msgstr "从群组删除组件列表。"
+msgstr "从群组删除部件列表。"
 
 #: ../../api.rst:583
 msgid ""
@@ -20015,8 +19937,7 @@ msgstr "项目网站"
 msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
-msgstr ""
-"组件列表的 URL；请参见 :http:get:`/api/projects/(string:project)/components/`"
+msgstr "部件列表的 URL；请参见 :http:get:`/api/projects/(string:project)/components/`"
 
 #: ../../api.rst:793
 msgid ""
@@ -20088,7 +20009,7 @@ msgstr ""
 
 #: ../../api.rst:850 ../../api.rst:1355 ../../api.rst:1817
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr "组件对象的矩阵；请参见 :http:get:`/api/changes/(int:id)/`"
+msgstr "部件对象的矩阵；请参见 :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:854
 msgid ""
@@ -20136,23 +20057,20 @@ msgstr "**JSON 响应的示例：**"
 
 #: ../../api.rst:925
 msgid "Returns a list of translation components in the given project."
-msgstr "返回给定项目的翻译组件列表。"
+msgstr "返回给定项目的翻译部件列表。"
 
 #: ../../api.rst:929
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"组件对象的矩阵；请参见 :http:get:`/api/components/(string:project)/(string:"
-"component)/`"
+"部件对象的矩阵；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:937
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
-msgstr ""
-"``zipfile`` 和 ``docfile`` 参数现在可被无 VCS 的组件所接受，见 :ref:`vcs-"
-"local`."
+msgstr "``zipfile`` 和 ``docfile`` 参数现在可被无 VCS 的部件所接受，见 :ref:`vcs-local`."
 
 #: ../../api.rst:941
 msgid ""
@@ -20162,7 +20080,7 @@ msgstr ""
 
 #: ../../api.rst:943
 msgid "Creates translation components in the given project."
-msgstr "在给定的项目中新建翻译组件。"
+msgstr "在给定的项目中新建翻译部件。"
 
 #: ../../api.rst:947
 msgid ""
@@ -20174,9 +20092,7 @@ msgstr ""
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
-msgstr ""
-"多数组件的新建发生在后台。检查新建组件的 ``task_url`` 属性，并按照那里的步骤"
-"进行。"
+msgstr "多数部件的新建发生在后台。检查新建部件的 ``task_url`` 属性，并按照那里的步骤进行。"
 
 #: ../../api.rst:957
 msgid "ZIP file to upload into Weblate for translations initialization"
@@ -20195,16 +20111,14 @@ msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"组件参数，参见 :http:get:`/api/components/(string:project)/(string:"
-"component)/`"
+"部件参数，参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:961
 msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"新建组件对象；请参见 :http:get:`/api/components/(string:project)/(string:"
-"component)/`"
+"新建部件对象；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:963
 msgid ""
@@ -20253,24 +20167,22 @@ msgstr "返回项目的统计数据。"
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
-msgstr ""
-"使用:http:post:`/api/projects/(string:project)/components/` 创建新组件。"
+msgstr "使用:http:post:`/api/projects/(string:project)/components/` 创建新部件。"
 
 #: ../../api.rst:1131
 msgid "Returns a list of translation components."
-msgstr "返回翻译组件的列表。"
+msgstr "返回一个翻译部件的列表。"
 
 #: ../../api.rst:1135
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
-"组件对象属性记录在 :http:get:`/api/components/(string:project)/(string:"
-"component)/`。"
+"部件对象属性记录在 :http:get:`/api/components/(string:project)/(string:component)/`。"
 
 #: ../../api.rst:1139
 msgid "Returns information about translation component."
-msgstr "返回翻译组件的信息。"
+msgstr "返回翻译部件的信息。"
 
 #: ../../api.rst:1145
 msgid ""
@@ -20465,7 +20377,7 @@ msgstr "后台任务 URL （如果有的话）；请参见 :http:get:`/api/tasks
 
 #: ../../api.rst:1236
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr "通过 :http:method:`PATCH` 请求编辑一个组件。"
+msgstr "通过 :http:method:`PATCH` 请求编辑一个部件。"
 
 #: ../../api.rst:1242
 msgid "Project source language code (optional)"
@@ -20473,11 +20385,11 @@ msgstr "项目源语言代码（可选）"
 
 #: ../../api.rst:1244 ../../api.rst:1328
 msgid "name of component"
-msgstr "组件名称"
+msgstr "部件名称"
 
 #: ../../api.rst:1245 ../../api.rst:1329
 msgid "slug of component"
-msgstr "组件的标识串"
+msgstr "部件的标识串"
 
 #: ../../api.rst:1246 ../../api.rst:1330
 msgid "VCS repository URL"
@@ -20485,7 +20397,7 @@ msgstr "版本控制系统（VCS）仓库的URL"
 
 #: ../../api.rst:1319
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr "通过 :http:method:`PUT` 请求编辑一个组件。"
+msgstr "通过 :http:method:`PUT` 请求编辑一个部件。"
 
 #: ../../api.rst:1325
 msgid "VCS repository branch"
@@ -20513,15 +20425,13 @@ msgstr "版本控制系统"
 
 #: ../../api.rst:1339
 msgid "Deletes a component."
-msgstr "删除组件。"
+msgstr "删除部件。"
 
 #: ../../api.rst:1348
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
-msgstr ""
-"返回组件更改的列表。这本质是一个组件范围的 :http:get:`/api/changes/`接受相同"
-"的参数。"
+msgstr "返回部件更改的列表。这本质是一个部件范围的 :http:get:`/api/changes/`接受相同的参数。"
 
 #: ../../api.rst:1362
 msgid ""
@@ -20541,24 +20451,24 @@ msgstr "筛选已下载的字符串，见 :ref:`search`。"
 
 #: ../../api.rst:1374
 msgid "Returns a list of component screenshots."
-msgstr "返回组件屏幕截图的列表。"
+msgstr "返回部件屏幕截图的列表。"
 
 #: ../../api.rst:1380
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
-msgstr "组件屏幕截图的矩阵；请参见 :http:get:`/api/screenshots/(int:id)/`"
+msgstr "部件屏幕截图的矩阵；请参见 :http:get:`/api/screenshots/(int:id)/`"
 
 #: ../../api.rst:1385
 msgid "Returns component lock status."
-msgstr "返回组件锁定状态。"
+msgstr "返回部件锁定状态。"
 
 #: ../../api.rst:1391
 msgid "whether component is locked for updates"
-msgstr "组件是否因更新而锁定"
+msgstr "部件是否因更新而锁定"
 
 #: ../../api.rst:1404
 msgid "Sets component lock status."
-msgstr "设置组件锁定状态。"
+msgstr "设置部件锁定状态。"
 
 #: ../../api.rst:1406
 msgid ""
@@ -20621,7 +20531,7 @@ msgstr "为新的翻译下载模板文件。"
 
 #: ../../api.rst:1538
 msgid "Returns a list of translation objects in the given component."
-msgstr "返回给定组件中翻译对象的列表。"
+msgstr "返回给定部件中翻译对象的列表。"
 
 #: ../../api.rst:1544
 msgid ""
@@ -20633,7 +20543,7 @@ msgstr ""
 
 #: ../../api.rst:1548
 msgid "Creates new translation in the given component."
-msgstr "在给定组件中新建新的翻译。"
+msgstr "在给定部件中新建新的翻译。"
 
 #: ../../api.rst:1554
 msgid ""
@@ -20646,7 +20556,7 @@ msgstr "新建的新翻译对象"
 
 #: ../../api.rst:1628
 msgid "Returns paginated statistics for all translations within component."
-msgstr "对组件内所有的翻译返回分页的统计数据。"
+msgstr "对部件内所有的翻译返回分页的统计数据。"
 
 #: ../../api.rst:1636
 msgid ""
@@ -20658,7 +20568,7 @@ msgstr ""
 
 #: ../../api.rst:1640
 msgid "Returns projects linked with a component."
-msgstr "返回与组件相连的项目。"
+msgstr "返回与部件相连的项目。"
 
 #: ../../api.rst:1648
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
@@ -20666,11 +20576,11 @@ msgstr "相关的项目，请参见 :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1652
 msgid "Associate project with a component."
-msgstr "将项目与一个组件相关联。"
+msgstr "将项目与一个部件相关联。"
 
 #: ../../api.rst:1664
 msgid "Remove association of a project with a component."
-msgstr "删除项目与组件的关联性。"
+msgstr "删除项目与部件的关联性。"
 
 #: ../../api.rst:1672
 msgid "Slug of the project to remove"
@@ -20703,8 +20613,7 @@ msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
-"组件对象；请参见 :http:get:`/api/components/(string:project)/(string:"
-"component)/`"
+"部件对象；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:1698
 msgid "number of strings failing checks"
@@ -20818,7 +20727,7 @@ msgstr "搜索查询字符串 :ref:`Searching` （可选）"
 
 #: ../../api.rst:1832
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr "组件对象的矩阵；请参见 :http:get:`/api/units/(int:id)/`"
+msgstr "部件对象的矩阵；请参见 :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1836
 msgid "Add new monolingual unit."
@@ -21158,7 +21067,7 @@ msgstr "相关单元对象的 URL"
 #: ../../api.rst:2093 ../../api.rst:2122 ../../api.rst:2181 ../../api.rst:2192
 #: ../../api.rst:2203 ../../api.rst:2236
 msgid "URL of a related component object"
-msgstr "相关组件对象的 URL"
+msgstr "相关部件对象的 URL"
 
 #: ../../api.rst:2094
 msgid "URL of a related user object"
@@ -21283,7 +21192,7 @@ msgstr "附加组件名称"
 
 #: ../../api.rst:2237 ../../api.rst:2250 ../../api.rst:2258 ../../api.rst:2266
 msgid "Optional addon configuration"
-msgstr "最优附加组件配置"
+msgstr "可选的附加组件配置"
 
 #: ../../api.rst:2241
 msgid ":doc:`/admin/addons`"
@@ -21311,30 +21220,30 @@ msgstr "部件列表"
 
 #: ../../api.rst:2285
 msgid "Returns a list of component lists."
-msgstr "返回一个组件列表的列表。"
+msgstr "返回一个部件列表的列表。"
 
 #: ../../api.rst:2289
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
-msgstr "组件列表对象属性记录在 :http:get:`/api/component-lists/(str:slug)/`。"
+msgstr "部件列表对象属性记录在 :http:get:`/api/component-lists/(str:slug)/`。"
 
 #: ../../api.rst:2293
 msgid "Returns information about component list."
-msgstr "返回组件列表的信息。"
+msgstr "返回部件列表的信息。"
 
 #: ../../api.rst:2295 ../../api.rst:2307 ../../api.rst:2317 ../../api.rst:2327
 #: ../../api.rst:2334 ../../api.rst:2342
 msgid "Component list slug"
-msgstr "组件列表的标识串"
+msgstr "部件列表的标识串"
 
 #: ../../api.rst:2297 ../../api.rst:2309 ../../api.rst:2319
 msgid "name of a component list"
-msgstr "组件列表的名称"
+msgstr "部件列表的名称"
 
 #: ../../api.rst:2298 ../../api.rst:2310 ../../api.rst:2320
 msgid "slug of a component list"
-msgstr "组件列表的表示串"
+msgstr "部件列表的表示串"
 
 #: ../../api.rst:2299 ../../api.rst:2311 ../../api.rst:2321
 msgid "whether to show it on a dashboard"
@@ -21346,23 +21255,23 @@ msgstr "自动分配规则"
 
 #: ../../api.rst:2305 ../../api.rst:2315
 msgid "Changes the component list parameters."
-msgstr "更改组件列表参数。"
+msgstr "更改部件列表参数。"
 
 #: ../../api.rst:2325
 msgid "Deletes the component list."
-msgstr "删除组件列表。"
+msgstr "删除部件列表。"
 
 #: ../../api.rst:2332
 msgid "Associate component with a component list."
-msgstr "使组件与组件列表相关。"
+msgstr "使部件与部件列表相关。"
 
 #: ../../api.rst:2336
 msgid "Component ID"
-msgstr "组件 ID"
+msgstr "部件 ID"
 
 #: ../../api.rst:2340
 msgid "Disassociate a component from the component list."
-msgstr "将组件与组件列表接触相关性。"
+msgstr "取消部件与部件列表的关联。"
 
 #: ../../api.rst:2352
 msgid ""
@@ -21432,7 +21341,7 @@ msgstr "项目数"
 
 #: ../../api.rst:2387
 msgid "Number of components"
-msgstr "组件数"
+msgstr "部件数"
 
 #: ../../api.rst:2388
 msgid "Number of translations"
@@ -21478,8 +21387,8 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
-"可以为项目、组件和翻译使用仓库端点来更新各自的仓库；文档请参见 :http:post:`/"
-"api/projects/(string:project)/repository/`。"
+"可以为项目、部件和翻译使用仓库端点来更新各自的仓库；文档请参见 :http:post:`/api/projects/(string:project)/"
+"repository/`。"
 
 #: ../../api.rst:2412
 msgid ""
@@ -21494,7 +21403,7 @@ msgstr ""
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
-msgstr "触发组件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）。"
+msgstr "触发部件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）。"
 
 #: ../../api.rst:2422
 msgid ""
@@ -21508,13 +21417,13 @@ msgstr ""
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
-msgstr "触发项目中所有组件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）。"
+msgstr "触发项目中所有部件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）。"
 
 #: ../../api.rst:2430
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
-msgstr "处理 Github 通知与自动更新匹配组件的特殊钩子。"
+msgstr "处理 Github 通知与自动更新匹配部件的特殊钩子。"
 
 #: ../../api.rst:2435
 msgid ""
@@ -21551,7 +21460,7 @@ msgstr "关于对整个 Weblate 启动钩子"
 msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
-msgstr "处理 GitLab 通知并自动更新匹配组件的特殊钩子。"
+msgstr "处理 GitLab 通知并自动更新匹配部件的特殊钩子。"
 
 #: ../../api.rst:2456
 msgid "For instruction on setting up GitLab integration"
@@ -21569,7 +21478,7 @@ msgstr "关于 GitLab Webhooks 的一般信息"
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
-msgstr "处理 Bitbucket 通知并自动更新匹配的组件的特殊钩子。"
+msgstr "处理 Bitbucket 通知并自动更新匹配的部件的特殊钩子。"
 
 #: ../../api.rst:2470
 msgid "For instruction on setting up Bitbucket integration"
@@ -21587,7 +21496,7 @@ msgstr "关于 Bitbucket Webhooks 的一般信息"
 msgid ""
 "Special hook for handling Pagure notifications and automatically updating "
 "matching components."
-msgstr "处理 Pagure 通知并自动更新匹配的组件的特殊钩子。"
+msgstr "处理 Pagure 通知并自动更新匹配的部件的特殊钩子。"
 
 #: ../../api.rst:2486
 msgid "For instruction on setting up Pagure integration"
@@ -21605,7 +21514,7 @@ msgstr "关于 Pagure Webhooks 的一般信息"
 msgid ""
 "Special hook for handling Azure Repos notifications and automatically "
 "updating matching components."
-msgstr "处理 Azure Repos 通知并自动更新匹配的组件的特殊钩子。"
+msgstr "处理 Azure Repos 通知并自动更新匹配的部件的特殊钩子。"
 
 #: ../../api.rst:2502
 msgid "For instruction on setting up Azure integration"
@@ -21627,7 +21536,7 @@ msgstr "关于 Azure Repos Web Hooks 的一般信息"
 msgid ""
 "Special hook for handling Gitea Webhook notifications and automatically "
 "updating matching components."
-msgstr "处理 Gitea Webhook 通知并自动更新匹配的组件的特殊钩子。"
+msgstr "处理 Gitea Webhook 通知并自动更新匹配的部件的特殊钩子。"
 
 #: ../../api.rst:2517
 msgid ":ref:`gitea-setup`"
@@ -21649,7 +21558,7 @@ msgstr "关于 Gitea Webhooks 的一般信息"
 msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
-msgstr "处理 Gitee Webhook 通知并自动更新匹配的组件的特殊钩子。"
+msgstr "处理 Gitee Webhook 通知并自动更新匹配的部件的特殊钩子。"
 
 #: ../../api.rst:2533
 msgid ":ref:`gitee-setup`"
@@ -21693,7 +21602,7 @@ msgstr ""
 
 #: ../../api.rst:2557
 msgid "Retrieves statistics for given component in given format."
-msgstr "为给定的组件以给定的格式检索统计数据。"
+msgstr "为给定的部件以给定的格式检索统计数据。"
 
 #: ../../api.rst:2559
 msgid "**Example request**:"
@@ -21717,7 +21626,7 @@ msgstr "返回带有翻译近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2642
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr "返回带有组件近期变更的 RSS 订阅源。"
+msgstr "返回带有部件近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2646
 msgid "Retrieves RSS feed with recent changes for a project."
@@ -21753,7 +21662,7 @@ msgstr ""
 
 #: ../../changes.rst:8
 msgid "Fixed API display of branch in components with a shared repository."
-msgstr "修复了在有共享代码库的组件中分支的 API 显示。"
+msgstr "修复了在有共享代码库的部件中分支的 API 显示。"
 
 #: ../../changes.rst:9
 msgid "Improved analysis on the failed push alert."
@@ -21952,7 +21861,7 @@ msgstr "修复了为单语言翻译生成 MO 文件。"
 #: ../../changes.rst:66
 msgid ""
 "Added API endpoint to download all component translations as a ZIP file."
-msgstr "新增 API 端点，支持以 ZIP 文件打包下载所有组件翻译。"
+msgstr "新增 API 端点，支持以 ZIP 文件打包下载所有部件翻译。"
 
 #: ../../changes.rst:67
 msgid "Added support for Python 3.10."
@@ -22027,7 +21936,7 @@ msgstr ""
 
 #: ../../changes.rst:88
 msgid "Fixed commit messages for linked components."
-msgstr "修复了链接组件的提交说明。"
+msgstr "修复了链接部件的提交说明。"
 
 #: ../../changes.rst:90
 msgid ""
@@ -22073,7 +21982,7 @@ msgstr "改进了挤压附加组件与 Gerrit 的兼容性。"
 
 #: ../../changes.rst:103
 msgid "Fixed adding strings to monolingual glossary components."
-msgstr "修正了向单语术语表组件添加字符串的问题。"
+msgstr "修正了向单语术语表部件添加字符串的问题。"
 
 #: ../../changes.rst:104
 msgid "Improved performance in handling variants."
@@ -22235,7 +22144,7 @@ msgstr "扩展了关于附加组件的文档。"
 
 #: ../../changes.rst:154
 msgid "Performance improvements for components with linked repositories."
-msgstr "改善了带链接仓库的组件的性能。"
+msgstr "改善了带链接仓库的部件的性能。"
 
 #: ../../changes.rst:155
 msgid "Added support for free DeepL API."
@@ -22263,7 +22172,7 @@ msgstr "发布于 2021 年 05 月 08 日。"
 
 #: ../../changes.rst:165
 msgid "Fixed crash after moving shared component between projects."
-msgstr "修复了在项目之间移动共享组件后的崩溃。"
+msgstr "修复了在项目之间移动共享部件后的崩溃。"
 
 #: ../../changes.rst:166
 msgid "Fixed adding new strings to empty properties files."
@@ -22390,7 +22299,7 @@ msgstr "现在可以配置联系人表单电子邮件的发件人。"
 
 #: ../../changes.rst:204
 msgid "Improved parameters validation in component creation API."
-msgstr "改进了组件新建 API 中的参数验证。"
+msgstr "改进了部件新建 API 中的参数验证。"
 
 #: ../../changes.rst:206
 msgid "Improved automatic translation add-on performance and reliability."
@@ -22552,7 +22461,7 @@ msgstr "使用 API 更好地处理单语言 PO 的上传。"
 
 #: ../../changes.rst:257
 msgid "Improved alerts behavior on glossary components."
-msgstr "改进了术语表组件的警报行为。"
+msgstr "改进了术语表部件的警报行为。"
 
 #: ../../changes.rst:258
 msgid "Improved Markdown link checks."
@@ -22564,7 +22473,7 @@ msgstr "在面包屑导航中指示术语表和源语言。"
 
 #: ../../changes.rst:260
 msgid "Paginated component listing of huge projects."
-msgstr "对大型项目中的组件清单进行分页。"
+msgstr "对大型项目中的部件清单进行分页。"
 
 #: ../../changes.rst:261
 msgid "Improved performance of translation, component or project removal."
@@ -22605,7 +22514,7 @@ msgstr "添加了对 gettext PO 中所用的 ``lua-format`` 的支持。"
 
 #: ../../changes.rst:274
 msgid "Added support for sharing a component between projects."
-msgstr "新增支持在项目间共享一个组件。"
+msgstr "新增支持在项目间共享一个部件。"
 
 #: ../../changes.rst:275
 msgid ""
@@ -22770,7 +22679,7 @@ msgstr "改进了显示 ghost 翻译时的性能。"
 
 #: ../../changes.rst:323
 msgid "Reimplemented translation editor to use native browser textarea."
-msgstr "重新实现翻译编辑器，使用原生浏览器文本区。"
+msgstr "重新实现了翻译编辑器以使用浏览器原生文本区域。"
 
 #: ../../changes.rst:324
 msgid "Fixed cleanup add-on breaking adding new strings."
@@ -22798,7 +22707,7 @@ msgstr "发布于 2020 年 12 月 15 日。"
 
 #: ../../changes.rst:334
 msgid "Improved validation when creating a component."
-msgstr "改进了新建组件时的验证。"
+msgstr "改进了新建部件时的验证。"
 
 #: ../../changes.rst:335
 msgid "Weblate now requires Django 3.1."
@@ -22910,7 +22819,7 @@ msgstr "发布于 2020 年 11 月 4 日。"
 
 #: ../../changes.rst:365
 msgid "Fixed crash on certain component filemasks."
-msgstr "修复了某个组件文件掩码的崩溃。"
+msgstr "修复了某个部件文件掩码的崩溃。"
 
 #: ../../changes.rst:366
 msgid "Improved accuracy of the consecutive duplicated words check."
@@ -23026,7 +22935,7 @@ msgstr "包括了 API 中的用户统计数据。"
 
 #: ../../changes.rst:401
 msgid "Fixed component ordering on paginated pages."
-msgstr "修复了分页的页面上订购的组件。"
+msgstr "修复了分页的页面上订购的部件。"
 
 #: ../../changes.rst:402
 msgid "Define source language for a glossary."
@@ -23054,7 +22963,7 @@ msgstr "改进了内建备份的文档。"
 
 #: ../../changes.rst:408
 msgid "Moved source language attribute from project to a component."
-msgstr "将源语言属性从项目移动到组件。"
+msgstr "将源语言属性从项目移动到部件。"
 
 #: ../../changes.rst:409
 msgid "Add Vue I18n formatting check."
@@ -23088,7 +22997,7 @@ msgstr "单元 API 现在能正常处理多个字符串。"
 
 #: ../../changes.rst:416
 msgid "Component creation can now handle ZIP file or document upload."
-msgstr "组件的新建现在能够处理上传的 ZIP 文件或文档。"
+msgstr "部件的新建现在能够处理上传的 ZIP 文件或文档。"
 
 #: ../../changes.rst:417
 msgid "Consolidated API response status codes."
@@ -23172,7 +23081,7 @@ msgstr "修复了启用尾注时的 Git 挤压提交问题。"
 
 #: ../../changes.rst:441
 msgid "Fixed creating local VCS components using API."
-msgstr "修复了使用 API 创建本地版本控制系统（VCS）组件。"
+msgstr "修复了使用 API 创建本地版本控制系统（VCS）部件。"
 
 #: ../../changes.rst:444
 msgid "Weblate 4.2.1"
@@ -23221,7 +23130,7 @@ msgstr "可以配置字符串附近显示的数字。"
 
 #: ../../changes.rst:462
 msgid "Added support for locking components experiencing repository errors."
-msgstr "增加了对锁定遇到存储库错误的组件的支持。"
+msgstr "增加了对锁定遇到存储库错误的部件的支持。"
 
 #: ../../changes.rst:463
 msgid "Simplified main navigation (replaced buttons with icons)."
@@ -23249,13 +23158,13 @@ msgstr "改进了批量更改状态的性能。"
 
 #: ../../changes.rst:469
 msgid "Added compatibility redirects after project or component renaming."
-msgstr "添加了项目或组件重命名后重定向的兼容性。"
+msgstr "添加了项目或部件重命名后重定向的兼容性。"
 
 #: ../../changes.rst:470
 msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
-msgstr "为字符串的统一、组件的锁定和许可的更改添加了通知。"
+msgstr "为字符串的统一、部件的锁定和许可的更改添加了通知。"
 
 #: ../../changes.rst:471
 msgid "Added support for ModernMT."
@@ -23275,7 +23184,7 @@ msgstr "新增了对 ECMAScript 模板字面量的检查。"
 
 #: ../../changes.rst:475
 msgid "Added option to watch a component."
-msgstr "添加了关注组件的选项。"
+msgstr "添加了关注部件的选项。"
 
 #: ../../changes.rst:476
 msgid "Removed leading dot from JSON unit keys."
@@ -23287,7 +23196,7 @@ msgstr "删除了翻译记忆库单独的 Celery 队列。"
 
 #: ../../changes.rst:478
 msgid "Allow translating all components a language at once."
-msgstr "允许使用同一种语言同时翻译所有组件。"
+msgstr "允许使用同一种语言同时翻译所有部件。"
 
 #: ../../changes.rst:479
 msgid "Allow to configure ``Content-Security-Policy`` HTTP headers."
@@ -23311,7 +23220,7 @@ msgstr "Weblate 域现在在设置中配置，请参见 :setting:`SITE_DOMAIN`�
 
 #: ../../changes.rst:483
 msgid "Add support for searching by component and project."
-msgstr "增加了对按照组件和项目进行搜索的支持。"
+msgstr "增加了对按照部件和项目进行搜索的支持。"
 
 #: ../../changes.rst:486
 msgid "Weblate 4.1.1"
@@ -23511,7 +23420,7 @@ msgstr "对 Google Translate V3 API（高级版）添加了支持。"
 
 #: ../../changes.rst:538
 msgid "Added ability to restrict access on component level."
-msgstr "添加了对组件层访问限制的能力。"
+msgstr "添加了对部件层访问限制的能力。"
 
 #: ../../changes.rst:539
 msgid ""
@@ -23550,7 +23459,7 @@ msgstr "文档中笔误的修复。"
 
 #: ../../changes.rst:551
 msgid "Fixed creating components using API in some cases."
-msgstr "修复了一些情况下使用 API 新建组件的问题。"
+msgstr "修复了一些情况下使用 API 新建部件的问题。"
 
 #: ../../changes.rst:552
 msgid "Fixed JavaScript errors breaking mobile navigation."
@@ -23596,7 +23505,7 @@ msgstr "修复了非超级用户的 PostgreSQL 迁移。"
 
 #: ../../changes.rst:566
 msgid "Fixed changing the repository URL while creating component."
-msgstr "修复了新建组件时更改仓库 URL。"
+msgstr "修复了新建部件时更改仓库 URL。"
 
 #: ../../changes.rst:567
 msgid "Fixed crash when upstream repository is gone."
@@ -23624,7 +23533,7 @@ msgstr "改进了翻译记忆库的性能。"
 
 #: ../../changes.rst:578
 msgid "Fixed possible crash on component deletion."
-msgstr "修复了组件删除时可能的崩溃。"
+msgstr "修复了部件删除时可能的崩溃。"
 
 #: ../../changes.rst:579
 msgid "Fixed displaying of translation changes in some corner cases."
@@ -23640,7 +23549,7 @@ msgstr "改进了一致性检查中的误报。"
 
 #: ../../changes.rst:582
 msgid "Fixed deadlock when changing linked component repository."
-msgstr "修复了更改链接组件仓库时的死锁。"
+msgstr "修复了更改链接部件仓库时的死锁。"
 
 #: ../../changes.rst:583
 msgid "Included edit distance in changes listing and CSV and reports."
@@ -23700,11 +23609,11 @@ msgstr "Weblate 现在需要 Python 3.6 或更新版本。"
 
 #: ../../changes.rst:606
 msgid "Added management overview of component alerts."
-msgstr "添加了组件警报的管理概览。"
+msgstr "添加了部件警报的管理概览。"
 
 #: ../../changes.rst:607
 msgid "Added component alert for broken repository browser URLs."
-msgstr "添加了仓库浏览器链接失效的组件警报。"
+msgstr "添加了仓库浏览器链接失效的部件警报。"
 
 #: ../../changes.rst:608
 msgid "Improved sign in and registration pages."
@@ -23738,7 +23647,7 @@ msgstr "将 Microsoft Translator 升级为版本 3 的 API。"
 
 #: ../../changes.rst:615
 msgid "Reimplemented translation memory backend."
-msgstr "重新应用翻译记忆库后端。"
+msgstr "重新实现了翻译记忆库后端。"
 
 #: ../../changes.rst:616
 msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
@@ -23776,7 +23685,7 @@ msgstr "为 :doc:`user/search` 中的准确匹配添加了支持。"
 msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
-msgstr "扩展了 API 覆盖屏幕截图、用户、用户组、组件列表，并扩展了新建项目。"
+msgstr "扩展了 API 覆盖屏幕截图、用户、用户组、部件列表，并扩展了新建项目。"
 
 #: ../../changes.rst:625
 msgid "Add support for source upload on bilingual translations."
@@ -23908,7 +23817,7 @@ msgstr "记录 Celery 设置更改。"
 
 #: ../../changes.rst:671
 msgid "Improved filename validation on component creation."
-msgstr "改进了新建组件时文件名的验证。"
+msgstr "改进了新建部件时文件名的验证。"
 
 #: ../../changes.rst:672
 msgid "Fixed minimal versions of some dependencies."
@@ -23936,7 +23845,7 @@ msgstr "发布于 2020 年 02 月 17 日。"
 
 #: ../../changes.rst:682
 msgid "Allow using VCS push URL during component creation via API."
-msgstr "允许通过 API 新建组件的过程中使用版本控制系统（VCS）推送 URL。"
+msgstr "允许通过 API 新建部件的过程中使用版本控制系统（VCS）推送 URL。"
 
 #: ../../changes.rst:683
 msgid "Rendered width check now shows image with the render."
@@ -24217,7 +24126,7 @@ msgstr "为标记为编辑的自动翻译字符串添加了支持。"
 
 #: ../../changes.rst:769
 msgid "Avoid sending duplicate notifications for linked component alerts."
-msgstr "避免对链接组件警报发送重复通知。"
+msgstr "避免对链接部件警报发送重复通知。"
 
 #: ../../changes.rst:770
 msgid "Improve default merge request message."
@@ -24346,7 +24255,7 @@ msgstr "为纯 XML 格式添加了支持。"
 #: ../../changes.rst:809
 msgid ""
 "Extended API with project, component and translation removal and creation."
-msgstr "扩展了 API 的项目、组件和翻译的删除与新建。"
+msgstr "扩展了 API 的项目、部件和翻译的删除与新建。"
 
 #: ../../changes.rst:810
 msgid "Added support for Gitea and Gitee webhooks."
@@ -24376,7 +24285,7 @@ msgstr "为传输 web 应用的安全 HTML 标记添加了新的检查并进行�
 
 #: ../../changes.rst:816
 msgid "Add component alert on unsupported configuration."
-msgstr "对不支持的配置添加了组件警报。"
+msgstr "对不支持的配置添加了部件警报。"
 
 #: ../../changes.rst:817
 msgid "Added automatic translation add-on to bootstrap translations."
@@ -24416,7 +24325,7 @@ msgstr "允许用户下载他们自己的报告。"
 
 #: ../../changes.rst:826
 msgid "Added localization guide to help configuring components."
-msgstr "添加了本地化向导来配置组件。"
+msgstr "添加了本地化向导来配置部件。"
 
 #: ../../changes.rst:827
 msgid "Added support for GitLab merge requests."
@@ -24440,7 +24349,7 @@ msgstr "发布于 2019 年 08 月 15 日。"
 
 #: ../../changes.rst:836
 msgid "Added support for simplified creating of similar components."
-msgstr "为简化创建相似的组件提供了支持。"
+msgstr "为简化创建相似的部件提供了支持。"
 
 #: ../../changes.rst:837
 msgid ""
@@ -24469,7 +24378,7 @@ msgstr "修复了 Weblate 未知的语言列表。"
 
 #: ../../changes.rst:844
 msgid "Add support for cloning add-ons to discovered components."
-msgstr "支持将附加组件克隆到发现的组件。"
+msgstr "支持将附加组件克隆到发现的部件。"
 
 #: ../../changes.rst:845
 msgid "Add support for replacing file content with uploaded."
@@ -24607,11 +24516,11 @@ msgstr "在报告中包括了同意的统计数据。"
 
 #: ../../changes.rst:886
 msgid "Report progress when updating translation component."
-msgstr "当更新翻译组件时的报告过程。"
+msgstr "当更新翻译部件时的报告过程。"
 
 #: ../../changes.rst:887
 msgid "Allow to abort running background component update."
-msgstr "允许终止运行后台组件的更新。"
+msgstr "允许终止运行后台部件的更新。"
 
 #: ../../changes.rst:888
 msgid "Extend template language for filename manipulations."
@@ -24660,7 +24569,7 @@ msgstr "添加了选项来启动禅编辑器的水平模式。"
 
 #: ../../changes.rst:899
 msgid "Improved import performance with many linked components."
-msgstr "提高了许多被链接组件的导入性能。"
+msgstr "提高了许多被链接部件的导入性能。"
 
 #: ../../changes.rst:900
 msgid "Fixed examples installation in some cases."
@@ -24800,7 +24709,7 @@ msgstr "通知评论中提及的用户。"
 
 #: ../../changes.rst:942
 msgid "Removed file format autodetection from component setup."
-msgstr "从组件设置中删除了文件格式自动检测。"
+msgstr "从部件设置中删除了文件格式自动检测。"
 
 #: ../../changes.rst:944
 msgid "Added digest notifications."
@@ -24808,11 +24717,11 @@ msgstr "添加了摘要通知。"
 
 #: ../../changes.rst:945
 msgid "Added support for muting component notifications."
-msgstr "为组件通知静音添加了支持。"
+msgstr "为部件通知静音添加了支持。"
 
 #: ../../changes.rst:946
 msgid "Added notifications for new alerts, whiteboard messages or components."
-msgstr "添加了新警报、白板消息或组件的通知。"
+msgstr "添加了新警报、白板消息或部件的通知。"
 
 #: ../../changes.rst:947
 msgid "Notifications for administered projects can now be configured."
@@ -24853,7 +24762,7 @@ msgstr "改进了添加新语言选择的验证。"
 
 #: ../../changes.rst:960
 msgid "Allow to edit file format in component settings."
-msgstr "在组件设置中允许编辑文件格式。"
+msgstr "在部件设置中允许编辑文件格式。"
 
 #: ../../changes.rst:961
 msgid "Update installation instructions to prefer Python 3."
@@ -24886,7 +24795,7 @@ msgstr "添加了管理全体翻译记忆库的界面。"
 
 #: ../../changes.rst:973
 msgid "Improved alerting on bad component state."
-msgstr "改进了对不良组件状态的警报。"
+msgstr "改进了对不良部件状态的警报。"
 
 #: ../../changes.rst:974
 msgid "Added user interface to manage whiteboard messages."
@@ -24902,7 +24811,7 @@ msgstr "减少更新上游仓库时的提交数量。"
 
 #: ../../changes.rst:977
 msgid "Fixed possible metadata loss when moving component between projects."
-msgstr "修复了在项目之间移动组件时可能的元数据丢失。"
+msgstr "修复了在项目之间移动部件时可能的元数据丢失。"
 
 #: ../../changes.rst:978
 msgid "Improved navigation in the Zen mode."
@@ -24958,7 +24867,7 @@ msgstr "Celery 现在可以使用多个项目队列。"
 
 #: ../../changes.rst:995
 msgid "Added support for renaming and moving projects and components."
-msgstr "为项目与组件的重命名和移动添加了支持。"
+msgstr "为项目与部件的重命名和移动添加了支持。"
 
 #: ../../changes.rst:996
 msgid "Include characters counts in reports."
@@ -24968,7 +24877,7 @@ msgstr "在报告中包括字符计数。"
 msgid ""
 "Added guided adding of translation components with automatic detection of "
 "translation files."
-msgstr "添加了带有翻译文件自动检测的翻译组件添加向导。"
+msgstr "添加了带有翻译文件自动检测的翻译部件添加向导。"
 
 #: ../../changes.rst:998
 msgid "Customizable merge commit messages for Git."
@@ -24976,7 +24885,7 @@ msgstr "可定制的 Git 合并提交说明。"
 
 #: ../../changes.rst:999
 msgid "Added visual indication of component alerts in navigation."
-msgstr "在导航栏中添加了组件警报的视觉指示。"
+msgstr "在导航栏中添加了部件警报的视觉指示。"
 
 #: ../../changes.rst:1000
 msgid "Improved performance of loading translation files."
@@ -25016,7 +24925,7 @@ msgstr "发布于 2018 年 11 月 30 日。"
 
 #: ../../changes.rst:1013
 msgid "Added support for component and project removal."
-msgstr "为组件和项目删除添加了支持。"
+msgstr "为部件和项目删除添加了支持。"
 
 #: ../../changes.rst:1014
 msgid "Improved performance for some monolingual translations."
@@ -25025,7 +24934,7 @@ msgstr "改进了一些单语言翻译的性能。"
 #: ../../changes.rst:1015
 msgid ""
 "Added translation component alerts to highlight problems with a translation."
-msgstr "添加了翻译组件警报，以突出显示翻译中的问题。"
+msgstr "添加了翻译部件警报，以突出显示翻译中的问题。"
 
 #: ../../changes.rst:1016
 msgid "Expose XLIFF string resname as context when available."
@@ -25121,7 +25030,7 @@ msgstr "修复了偶发的全文索引更新失败。"
 
 #: ../../changes.rst:1047
 msgid "Improved validation when creating new components."
-msgstr "改进了新建新组件时的验证。"
+msgstr "改进了新建新部件时的验证。"
 
 #: ../../changes.rst:1048
 msgid "Added support for cleanup of old suggestions."
@@ -25150,7 +25059,7 @@ msgstr "为 Excel 文件的导出和导入添加了支持。"
 #: ../../changes.rst:1058
 msgid ""
 "Improve component cleanup in case of multiple component discovery add-ons."
-msgstr "改进了多组件发现附加组件情况下的组件清理。"
+msgstr "改进了多部件发现附加组件情况下的部件清理。"
 
 #: ../../changes.rst:1059
 msgid "Rewritten Microsoft Terminology machine translation backend."
@@ -25202,7 +25111,7 @@ msgstr "为每天自动更新仓库添加了支持。"
 
 #: ../../changes.rst:1071
 msgid "Added support for creating projects and components by users."
-msgstr "为用户新建项目和组件添加了支持。"
+msgstr "为用户新建项目和部件添加了支持。"
 
 #: ../../changes.rst:1072
 msgid "Built-in translation memory now automatically stores translations done."
@@ -25340,7 +25249,7 @@ msgstr "导致移动或重命名模块的一些代码清理。"
 
 #: ../../changes.rst:1124
 msgid "New add-on for automatic component discovery."
-msgstr "自动组件发现的新附加组件。"
+msgstr "自动发现部件的新附加组件。"
 
 #: ../../changes.rst:1125
 msgid ""
@@ -25357,7 +25266,7 @@ msgstr "新的附加组件，将贡献者姓名存储在 PO 文件标头中。"
 
 #: ../../changes.rst:1128
 msgid "The per component hook scripts are removed, use add-ons instead."
-msgstr "删除了每组件钩子脚本，转而使用附加组件替代。"
+msgstr "删除了每个部件的钩子脚本，请改用附加组件。"
 
 #: ../../changes.rst:1129
 msgid "Add support for collecting contributor agreements."
@@ -25370,7 +25279,7 @@ msgstr "现在在历史中跟踪访问控制更改。"
 #: ../../changes.rst:1131
 msgid ""
 "New add-on to ensure all components in a project have same translations."
-msgstr "新附加组件，以确保项目中的所有组件都有相同的翻译。"
+msgstr "用于确保项目中的所有组件都有相同的翻译的新附加组件。"
 
 #: ../../changes.rst:1132
 msgid "Support for more variables in commit message templates."
@@ -25449,7 +25358,7 @@ msgstr "添加了内建翻译记忆库。"
 msgid ""
 "Added componentlists overview to dashboard and per component list overview "
 "pages."
-msgstr "为面板添加了组件概况和每个组件列表概况的页面。"
+msgstr "为面板添加了部件概况和每个部件列表概况的页面。"
 
 #: ../../changes.rst:1156
 msgid "Added support for DeepL machine translation service."
@@ -25715,7 +25624,7 @@ msgstr "对于表单中的文本长度现在强制进行最大长度检测。"
 
 #: ../../changes.rst:1247
 msgid "Make the commit_pending age configurable per component."
-msgstr "每个组件进行 commit_pending 时间配置。"
+msgstr "每个部件进行 commit_pending 时间配置。"
 
 #: ../../changes.rst:1248
 msgid "Various user interface cleanups."
@@ -25723,7 +25632,7 @@ msgstr "各种用户界面清理。"
 
 #: ../../changes.rst:1249
 msgid "Fixed component/project/site wide search for translations."
-msgstr "修复了组件/项目/网站范围的翻译搜索。"
+msgstr "修复了部件/项目/网站范围的翻译搜索。"
 
 #: ../../changes.rst:1252
 msgid "Weblate 2.15"
@@ -25928,7 +25837,7 @@ msgstr "添加选项来查看用户待定的建议。"
 
 #: ../../changes.rst:1320
 msgid "Add option to automatically build component lists."
-msgstr "添加选项来自动建立组件列表。"
+msgstr "添加选项来自动建立部件列表。"
 
 #: ../../changes.rst:1321
 msgid "Default dashboard for unauthenticated users can be configured."
@@ -25988,11 +25897,11 @@ msgstr "改进了网站范围的搜索速度。"
 
 #: ../../changes.rst:1339
 msgid "Added project and component wide search."
-msgstr "添加了项目和组件范围的搜索。"
+msgstr "添加了项目和部件范围的搜索。"
 
 #: ../../changes.rst:1340
 msgid "Added project and component wide search and replace."
-msgstr "添加了项目和组件范围的搜索与替换。"
+msgstr "添加了项目和部件范围的搜索与替换。"
 
 #: ../../changes.rst:1341
 msgid "Improved rendering of inconsistent translations."
@@ -26041,7 +25950,7 @@ msgstr "Mercurial 后端改进。"
 
 #: ../../changes.rst:1356
 msgid "Added option to specify translation component priority."
-msgstr "添加了选项来制定翻译组件优先性。"
+msgstr "添加了选项来制定翻译部件优先性。"
 
 #: ../../changes.rst:1357
 msgid "More consistent usage of Group ACL even with less used permissions."
@@ -26061,7 +25970,7 @@ msgstr "在 Git 导出器附加组件中与各种 Git 版本有更好地兼容�
 
 #: ../../changes.rst:1361
 msgid "Included per project and component stats."
-msgstr "包括每个项目的和组件的统计数据。"
+msgstr "包括每个项目的和部件的统计数据。"
 
 #: ../../changes.rst:1362
 msgid ""
@@ -26121,7 +26030,7 @@ msgstr "支持 Microsoft Cognitive Services Translator API。"
 
 #: ../../changes.rst:1384
 msgid "Simplified project and component user interface."
-msgstr "简化了项目和组件用户界面。"
+msgstr "简化了项目和部件用户界面。"
 
 #: ../../changes.rst:1385
 msgid "Added automatic fix to remove control characters."
@@ -26165,7 +26074,7 @@ msgstr "扩展了 createadmin 管理命令的参数。"
 
 #: ../../changes.rst:1399
 msgid "Extended import_json to be able to handle with existing components."
-msgstr "扩展了 import_json，而能够处理现有组件。"
+msgstr "扩展了 import_json，而能够处理现有部件。"
 
 #: ../../changes.rst:1400
 msgid "Added support for YAML files."
@@ -26174,7 +26083,7 @@ msgstr "新增了对 YAML 文件的支持。"
 #: ../../changes.rst:1401
 msgid ""
 "Project owners can now configure translation component and project details."
-msgstr "项目所有者现在可以配置翻译组件和项目细节。"
+msgstr "项目所有者现在可以配置翻译部件和项目细节。"
 
 #: ../../changes.rst:1402
 msgid "Use \"Watched\" instead of \"Subscribed\" projects."
@@ -26202,7 +26111,7 @@ msgstr "改进个人资料中语言选择的用户体验。"
 
 #: ../../changes.rst:1408
 msgid "Fixed showing whiteboard messages for component."
-msgstr "修复了组件的白板消息显示问题。"
+msgstr "修复了部件的白板消息显示问题。"
 
 #: ../../changes.rst:1409
 msgid "Keep preferences tab selected after saving."
@@ -26347,7 +26256,7 @@ msgstr "发布于 2016 年 04 月 28 日。"
 
 #: ../../changes.rst:1457
 msgid "Fixed validation of components with language filter."
-msgstr "修复了语言筛选程序的验证组件。"
+msgstr "修复了语言筛选程序的验证部件。"
 
 #: ../../changes.rst:1458 ../../changes.rst:1485
 msgid "Improved support for XLIFF files."
@@ -26416,7 +26325,7 @@ msgstr "改进了亚美尼亚语的质量检查。"
 #: ../../changes.rst:1479
 msgid ""
 "Support for starting translation components without existing translations."
-msgstr "为开始没有现有翻译的翻译组件添加支持。"
+msgstr "为开始没有现有翻译的翻译部件添加支持。"
 
 #: ../../changes.rst:1480
 msgid "Support for adding new translations in Qt TS."
@@ -26511,7 +26420,7 @@ msgstr "改进了解析错误的通知。"
 #: ../../changes.rst:1503
 msgid ""
 "Added option to import components with duplicate name to import_project."
-msgstr "在 import_project 中增加了导入名称重复的组件的选项。"
+msgstr "在 import_project 中增加了导入名称重复的部件的选项。"
 
 #: ../../changes.rst:1505
 msgid "Added XLIFF export for dictionary."
@@ -26577,7 +26486,7 @@ msgstr "钩子脚本以 VCS root 作为当前目录执行。"
 msgid ""
 "Hook scripts are executed with environment variables describing current "
 "component."
-msgstr "钩子脚本以描述当前组件的环境变量来执行。"
+msgstr "钩子脚本以描述当前部件的环境变量来执行。"
 
 #: ../../changes.rst:1526
 msgid "Add management command to optimize fulltext index."
@@ -26767,7 +26676,7 @@ msgstr "为单语言 JSON 翻译添加了支持。"
 
 #: ../../changes.rst:1581
 msgid "Record component locking in a history."
-msgstr "在历史中记录组件锁定。"
+msgstr "在历史中记录部件锁定。"
 
 #: ../../changes.rst:1582
 msgid ""
@@ -27017,7 +26926,7 @@ msgstr "支持检查 Python brace 格式字符串。"
 
 #: ../../changes.rst:1669
 msgid "Per component customization of quality checks."
-msgstr "每个组件的质量检查定制。"
+msgstr "每个部件的质量检查定制。"
 
 #: ../../changes.rst:1670
 msgid "Detailed per translation stats."
@@ -27406,7 +27315,7 @@ msgstr "添加了选项将仓库重置为原始状态（对于有特权的用户
 
 #: ../../changes.rst:1787
 msgid "Project or component can now be locked for translations."
-msgstr "现在可以为翻译锁定项目和组件。"
+msgstr "现在可以为翻译锁定项目和部件。"
 
 #: ../../changes.rst:1788
 msgid "Possibility to disable some translations."
@@ -27482,11 +27391,11 @@ msgstr "改进了几个翻译。"
 
 #: ../../changes.rst:1811 ../../changes.rst:1846
 msgid "Better validation while creating component."
-msgstr "新建组件时更好的验证。"
+msgstr "新建部件时更好的验证。"
 
 #: ../../changes.rst:1812
 msgid "Added support for shared git repositories across components."
-msgstr "为在组件之间分享 git 仓库添加了支持。"
+msgstr "为在部件之间分享 git 仓库添加了支持。"
 
 #: ../../changes.rst:1813
 msgid "Do not necessary commit on every attempt to pull remote repo."
@@ -27506,11 +27415,11 @@ msgstr "发布于 2012 年 05 月 10 日。"
 
 #: ../../changes.rst:1821
 msgid "Improved validation while adding/saving component."
-msgstr "改进了添加/存储组件时的验证。"
+msgstr "改进了添加/存储部件时的验证。"
 
 #: ../../changes.rst:1822
 msgid "Experimental support for Android component files (needs patched ttkit)."
-msgstr "实验性支持 Android 组件文件（需要打补丁的 ttkit）。"
+msgstr "实验性支持 Android 部件文件（需要打补丁的 ttkit）。"
 
 #: ../../changes.rst:1823
 msgid "Updates from hooks are run in background."
@@ -27910,7 +27819,7 @@ msgstr "Weblate 附加组件的基础类。"
 #: ../../../.venv/lib/python3.9/site-packages/weblate/addons/base.py:docstring
 #: of weblate.addons.base.BaseAddon.can_install:1
 msgid "Check whether add-on is compatible with given component."
-msgstr "检查附加组件是否与给定组件兼容。"
+msgstr "检查附加组件是否与给定部件兼容。"
 
 #: ../../../.venv/lib/python3.9/site-packages/weblate/addons/base.py:docstring
 #: of weblate.addons.base.BaseAddon.configure:1
@@ -28164,9 +28073,7 @@ msgid ""
 "A lot of things are done in the background by Celery workers. If things like "
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
-msgstr ""
-"Celery workers 在后台完成很多事。如果像发送电子邮件或删除组件这样的事情不能正"
-"常运作，那么可能有一个相关的问题。"
+msgstr "Celery workers 在后台完成很多事。如果像发送电子邮件或删除部件这样的事情不能正常运作，那么可能有一个相关的问题。"
 
 #: ../../contributing/debugging.rst:53
 msgid "Things to check in that case:"
@@ -28902,9 +28809,7 @@ msgid ""
 "Weblate depends on third-party components for many things. In case you find "
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
-msgstr ""
-"Weblate 在很多事情上依赖于第三方组件。如果你发现一个影响这些组件的漏洞，请直"
-"接报告给相应的项目。"
+msgstr "Weblate 在很多事情上依赖于第三方部件。如果你发现一个影响这些部件的漏洞，请直接报告给相应的项目。"
 
 #: ../../contributing/issues.rst:40
 msgid "Some of these are:"
@@ -29198,7 +29103,7 @@ msgstr "*字符串来源*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Filename or component name"
-msgstr "文件名或组件名"
+msgstr "文件名或部件名"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*string*"
@@ -29210,7 +29115,7 @@ msgstr "test.tmx"
 
 #: ../../contributing/schemas.rst:9
 msgid "project/component"
-msgstr "项目/组件"
+msgstr "项目/部件"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
@@ -29484,7 +29389,7 @@ msgstr "**dashboard\\_component\\_list**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Default component list*"
-msgstr "*默认组件列表*"
+msgstr "*默认部件列表*"
 
 #: ../../contributing/schemas.rst:19
 msgid "null"
@@ -29848,8 +29753,8 @@ msgid ""
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
-"一旦设置了解释程序不要忘记安装依赖：要么通过控制台(IDE的控制台默认情况下会直"
-"接使用你的 virtualenv)，或者当你得到一个关于缺少依赖项的警告时通过接口。"
+"一旦设置了解释程序别忘了安装依赖项：要么通过控制台（IDE的控制台默认情况下会直接使用你的 "
+"virtualenv），或者当你得到一个关于缺少依赖项的警告时通过接口。"
 
 #: ../../contributing/start.rst:143
 msgid ""
@@ -30025,16 +29930,14 @@ msgstr ""
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
-msgstr "翻译组件警报"
+msgstr "翻译部件警报"
 
 #: ../../devel/alerts.rst:6
 msgid ""
 "Shows errors in the Weblate configuration or the translation project for any "
 "given translation component. Guidance on how to address found issues is also "
 "offered."
-msgstr ""
-"为任何给定的翻译组件在 Weblate 配置或翻译项目中显示错误。还提供了如何将找到的"
-"问题定位的指南。"
+msgstr "为任何给定的翻译部件在 Weblate 配置或翻译项目中显示错误。还提供了如何将找到的问题定位的指南。"
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
@@ -30094,11 +29997,11 @@ msgstr "歧义语言代码"
 
 #: ../../devel/alerts.rst:24
 msgid "Unused new base in component settings"
-msgstr "在组件设置中未使用的新基础"
+msgstr "在部件设置中未使用的新基础"
 
 #: ../../devel/alerts.rst:25
 msgid "Duplicate filemask used for linked components"
-msgstr "用于链接组件的重复文件掩码"
+msgstr "用于链接部件的重复文件掩码"
 
 #: ../../devel/alerts.rst:27
 msgid ""
@@ -30112,12 +30015,12 @@ msgid ""
 "If it is missing, the component clears all current checks. Alerts can not be "
 "ignored, but will disappear once the underlying problem has been fixed."
 msgstr ""
-"警报会在每个组件页面的 :guilabel:`警报` 选项卡中列出。如果缺少该选项卡，组件"
-"会清除所有当前的检查。警报无法被忽略，但一旦根本的问题被修复，警报就会消失。"
+"警报会在每个部件页面的 :guilabel:`警报` "
+"选项卡中列出。如果缺少该选项卡，部件会清除所有当前的检查。警报无法被忽略，但一旦根本的问题被修复，警报就会消失。"
 
 #: ../../devel/alerts.rst:34
 msgid "A component with both duplicated strings and languages looks like this:"
-msgstr "包含重复的字符串和语言的组件如下所示："
+msgstr "包含重复的字符串和语言的部件如下所示："
 
 #: ../../devel/alerts.rst:40
 msgid ":ref:`production-certs`"
@@ -30136,9 +30039,7 @@ msgid ""
 "The :guilabel:`Community localization checklist` which can be found in the "
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
-msgstr ""
-"可以在每个组件的菜单中找到 :guilabel:`社区本地化检查清单`，它可以就如何让社区"
-"翻译者轻松进行本地化过程为您提供指导。"
+msgstr "可以在每个部件的菜单中找到 :guilabel:`社区本地化检查清单`，它可以就如何让社区翻译者轻松进行本地化过程为您提供指导。"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -30347,9 +30248,7 @@ msgid ""
 "To import such translation into Weblate, all you need to define are the "
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
-msgstr ""
-"要将这样的翻译导入 Weblate，您只需要在创建组件时定义以下字段（字段的详细说"
-"明，请参见 :ref:`component`）："
+msgstr "要将这样的翻译导入 Weblate，您只需要在创建部件时定义以下字段（字段的详细说明，请参见 :ref:`component`）："
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
@@ -30421,20 +30320,17 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
-"在安装到您的组件中式，它将提交的翻译推送到 CND（请参见 :ref:`lazy-commit`），"
-"而这些可以在您的 web 页面上使用来将其本地化。"
+"在安装到您的部件中式，它将提交的翻译推送到 CND（请参见 :ref:`lazy-commit`），而这些可以在您的 web 页面上使用来将其本地化。"
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
-msgstr "创建组件中"
+msgstr "创建部件中"
 
 #: ../../devel/html.rst:22
 msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
-msgstr ""
-"首先您需要新建单语言组件，它将保持您的字符串，其一般指示请参见 :ref:`adding-"
-"projects`。"
+msgstr "首先您需要新建单语言部件，它将保持您的字符串，其一般指示请参见 :ref:`adding-projects`。"
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -30464,9 +30360,8 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
-"对于那些不想要使用（或不具有）现有仓库的人，当新建组件时选择 :guilabel:"
-"`Start from scratch` ，并选择 `JSON file` 作为文件格式（这是选择任何单语言格"
-"式都可以）。"
+"对于那些不想要使用（或不具有）现有仓库的人，当新建部件时选择 :guilabel:`Start from scratch` ，并选择 `JSON "
+"file` 作为文件格式（这是选择任何单语言格式都可以）。"
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN addon"
@@ -30603,7 +30498,7 @@ msgstr "Weblate 基础知识"
 
 #: ../../snippets/basics.rst:5
 msgid "Project and component structure"
-msgstr "项目和组件架构"
+msgstr "项目和部件架构"
 
 #: ../../snippets/basics.rst:7
 msgid ""
@@ -30614,10 +30509,8 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
-"在 Weblate 中， 翻译组织成为项目和组件。每个项目可以包含几个组件，并且组件包"
-"含各个语言的翻译。组件相应于一个翻译文件（例如 :ref:`gettext` 或 :ref:"
-"`aresource`）。项目帮助您将组件组织为逻辑的组（例如，将一个应用中使用的所有翻"
-"译分组）。"
+"在 Weblate 中， 翻译组织成为项目和部件。每个项目可以包含几个部件，并且部件包含各个语言的翻译。部件相应于一个翻译文件（例如 "
+":ref:`gettext` 或 :ref:`aresource`）。项目帮助您将部件组织为逻辑的组（例如，将一个应用中使用的所有翻译分组）。"
 
 #: ../../snippets/basics.rst:14
 msgid ""
@@ -30627,9 +30520,8 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
-"默认情况下，每个项目内都有对跨组件传播的公共字符串的翻译。这减轻了重复和多版"
-"本翻译的负担。但假如翻译应当有所不同，可以使用 :ref:`component-"
-"allow_translation_propagation` 通过 :ref:`component` 禁用翻译传播。"
+"默认情况下，每个项目内都有对跨部件传播的公共字符串的翻译。这减轻了重复和多版本翻译的负担。但假如翻译应当有所不同，可以使用 :ref"
+":`component-allow_translation_propagation` 通过 :ref:`component` 禁用翻译传播。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -30642,8 +30534,8 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
-"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，最简单的"
-"方法是授予 Weblate 访问存储库的权限。导入过程将指导您将翻译配置进组件。"
+"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，最简单的方法是授予 Weblate "
+"访问存储库的权限。导入过程将指导您将翻译配置进部件。"
 
 #: ../../devel/integration.rst:13
 msgid ""
@@ -30927,8 +30819,8 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "any translation component, project or on the dashboard:"
 msgstr ""
-"报告特性给出了给定时间内的翻译进程。提供了任何给定组件相对于时间的贡献总结。"
-"汇报工具可以在任何翻译组件、项目或面板上的 :guilabel:`洞察` 菜单中找到："
+"报告特性给出了给定时间内的翻译进程。提供了任何给定部件相对于时间的贡献总结。汇报工具可以在任何翻译部件、项目或面板上的 :guilabel:`洞察` "
+"菜单中找到："
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -31074,14 +30966,13 @@ msgstr "活动报告"
 msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
-msgstr "活动报告检查项目、组件或独立用户的翻译的更改。"
+msgstr "活动报告检查项目、部件或独立用户的翻译的更改。"
 
 #: ../../devel/review.rst:13
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
-msgstr ""
-"一个项目或组件的活动报告可以从其控制面板上的 :guilabel:`Info` 选项卡中获取。"
+msgstr "一个项目或部件的活动报告可以从其控制面板上的 :guilabel:`Info` 选项卡中获取。"
 
 #: ../../devel/review.rst:18
 msgid ""
@@ -31108,9 +30999,8 @@ msgid ""
 "easier to translate. All types of failing source checks are displayed on "
 "the :guilabel:`Source` tab of every component."
 msgstr ""
-"有很多 :ref:`checks`，其中一些专注于提高源字符串的质量。很多未通过的检查都给"
-"出了建议提示，使源字符串更容易翻译。所有类型的未通过的原文检查都显示在每个组"
-"件的 :guilabel:`Source` 选项卡上。"
+"有很多 :ref:`checks`，其中一些专注于提高源字符串的质量。很多未通过的检查都给出了建议提示，使源字符串更容易翻译。"
+"所有类型的未通过的原文检查都显示在每个部件的 :guilabel:`Source` 选项卡上。"
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
@@ -31268,7 +31158,7 @@ msgstr "`gettext PO 文件`"
 
 #: ../../devel/sphinx.rst:43
 msgid "Component discovery configuration"
-msgstr "组件发现配置"
+msgstr "部件发现配置"
 
 #: ../../devel/sphinx.rst:46
 msgid ""
@@ -31724,7 +31614,7 @@ msgstr "字符串标签"
 msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
-msgstr "在项目配置中通过文本和颜色将组件翻译字符串分类。"
+msgstr "在项目配置中通过文本和颜色将部件翻译字符串分类。"
 
 #: ../../devel/translations.rst:141
 msgid ""
@@ -31870,9 +31760,8 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblate 支持在一个 :ref:`project` 内推送翻译更改。对于每个将其打开的 :ref:"
-"`component` （默认行为），所作的更改自动传递给其它组件。即使分支本身已经非常"
-"多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并翻译更改。"
+"Weblate 支持在一个 :ref:`project` 内推送翻译更改。对于每个将其打开的 :ref:`component` "
+"（默认行为），所作的更改自动传递给其它部件。即使分支本身已经非常多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并翻译更改。"
 
 #: ../../faq.rst:158
 msgid ""
@@ -31901,9 +31790,8 @@ msgid ""
 "propagation feature (turned on by default, and can be turned off in the :ref:"
 "`component`) to translate strings for all platforms at once."
 msgstr ""
-"一旦在一个项目中将所有平台的翻译文件作为组件添加（请参见 :ref:`adding-"
-"projects`），就可以立刻使用翻译传播特性（默认打开，并且可以在 :ref:"
-"`component` 中关闭），来翻译所有平台的字符串了。"
+"一旦在一个项目中将所有平台的翻译文件作为部件添加（请参见 :ref:`adding-projects`），就可以立刻使用翻译传播特性（默认打开，"
+"并且可以在 :ref:`component` 中关闭），来翻译所有平台的字符串了。"
 
 #: ../../faq.rst:187
 msgid "How to export the Git repository that Weblate uses?"
@@ -32030,9 +31918,7 @@ msgstr "为什么所有提交都是由 Weblate <noreply@weblate.org> 提交的�
 msgid ""
 "This is the default committer name, configured when you create a translation "
 "component. You can change it in the administration at any time."
-msgstr ""
-"这是默认的提交者的名称，当创建翻译组件时配置。可以在任何时间在管理时将其更"
-"改。"
+msgstr "这是默认的提交者的名称，当创建翻译部件时配置。可以在任何时间在管理时将其更改。"
 
 #: ../../faq.rst:255
 msgid ""
@@ -32061,7 +31947,7 @@ msgstr ""
 
 #: ../../faq.rst:273
 msgid "Lock the affected component in Weblate."
-msgstr "在 Weblate 锁定受影响的组件。"
+msgstr "在 Weblate 锁定受影响的部件。"
 
 #: ../../faq.rst:274
 msgid "Commit any pending changes and merge them into the upstream repository."
@@ -32088,7 +31974,7 @@ msgstr ""
 
 #: ../../faq.rst:278
 msgid "Unlock the component and re-enable hooks in the project configuration."
-msgstr "解锁组件并重新启用项目配置中的挂钩。"
+msgstr "解锁部件并重新启用项目配置中的挂钩。"
 
 #: ../../faq.rst:284
 msgid "How do I review the translations of others?"
@@ -32336,9 +32222,7 @@ msgstr ""
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
-msgstr ""
-"如果需要对源语言进行翻译，请更改组件设置中的 :ref:`component-"
-"source_language`。"
+msgstr "如果需要对源语言进行翻译，请更改部件设置中的 :ref:`component-source_language`。"
 
 #: ../../faq.rst:454
 msgid ""
@@ -32444,15 +32328,13 @@ msgid ""
 "Weblate was designed in a way that every PO file is represented as a single "
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
-msgstr ""
-"Weblate 的设计方式是将每个 PO 文件表示为单个组件。这对翻译人员来说是有好处"
-"的，这样他们就知道他们实际上在翻译什么。"
+msgstr "Weblate 的设计方式是将每个 PO 文件表示为单个部件。这对翻译人员来说是有好处的，这样他们就知道他们实际上在翻译什么。"
 
 #: ../../faq.rst:517
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
-msgstr "翻译人员可以将项目的所有组件作为一个整体翻译成一种特定的语言。"
+msgstr "翻译人员可以将项目的所有部件作为一个整体翻译成一种特定的语言。"
 
 #: ../../faq.rst:523
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
@@ -32988,9 +32870,8 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
-"一些项目决定使用 gettext 作为单语格式 —— 它们仅在源代码中编码 ID，然后将字符"
-"串翻译成所有语言，包括英语。支持此功能，尽管在将组件导入 Weblate 时必须明确选"
-"择此文件格式。"
+"一些项目决定使用 gettext 作为单语格式 —— 它们仅在源代码中编码 ID，然后将字符串翻译成所有语言，包括英语。支持此功能，尽管在将部件导入 "
+"Weblate 时必须明确选择此文件格式。"
 
 #: ../../formats.rst:222
 msgid "The monolingual gettext PO file typically looks like this:"
@@ -35040,9 +34921,8 @@ msgid ""
 "in case the string is not interpreted as a formatting string, but format "
 "string syntax happens to be used."
 msgstr ""
-"可以按每单位（请参阅 :ref:`additional`）或在 :ref:`component` 中完成此操作。"
-"为每个组件定义它比较简单，但是如果该字符串未解释为格式化字符串，而碰巧使用了"
-"格式化字符串语法，则可能导致误报。"
+"可以按每单位（请参阅 :ref:`additional`）或在 :ref:`component` "
+"中完成此操作。为每个部件定义它比较简单，但是如果该字符串未解释为格式化字符串，而碰巧使用了格式化字符串语法，则可能导致误报。"
 
 #: ../../user/checks.rst:147
 msgid ""
@@ -35769,9 +35649,7 @@ msgstr ""
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
-msgstr ""
-"此检查应用于项目中所有开启了 :ref:`component-allow_translation_propagation`的"
-"组件。"
+msgstr "此检查应用于项目中所有开启了 :ref:`component-allow_translation_propagation`的部件。"
 
 #: ../../user/checks.rst:624
 msgid ""
@@ -36967,9 +36845,7 @@ msgstr ""
 msgid ""
 "Use any component as a glossary by turning on :ref:`component-is_glossary`. "
 "You can create multiple glossaries for one project."
-msgstr ""
-"使用任何组件作为术语表，方法是开启 :ref:`component-is_glossary`。你可以为一个"
-"项目创建多个术语表。"
+msgstr "使用任何部件作为术语表，方法是开启 :ref:`component-is_glossary`。你可以为一个项目创建多个术语表。"
 
 #: ../../user/glossary.rst:27
 msgid ""
@@ -36983,7 +36859,7 @@ msgstr ""
 msgid ""
 "The glossary component looks like any other component in Weblate with added "
 "colored label:"
-msgstr "术语表组件看起来与 Weblate 中的其他组件一样，只是多了个彩色标签："
+msgstr "术语表部件看起来与 Weblate 中的其他部件一样，只是多了个彩色标签："
 
 #: ../../user/glossary.rst:37
 msgid "You can browse all glossary terms:"
@@ -37226,9 +37102,8 @@ msgid ""
 "list`, you have to select which component list will be displayed from the :"
 "guilabel:`Default component list` drop-down."
 msgstr ""
-"在 :guilabel:`首选项` 选项卡，你可以选择默认显示的控制面板视图。如果你选择 :"
-"guilabel:`组件列表`，你必须从 :guilabel:`默认组件列表` 下拉菜单中选择要显示哪"
-"个组件列表。"
+"在 :guilabel:`首选项` 选项卡，你可以选择默认显示的控制面板视图。如果你选择 :guilabel:`部件列表`，你必须从 "
+":guilabel:`默认部件列表` 下拉菜单中选择要显示哪个部件列表。"
 
 #: ../../user/profile.rst:120
 msgid ":ref:`componentlists`"
@@ -38235,8 +38110,8 @@ msgid ""
 "this tab shows all of them if they are found to be inconsistent (see :ref:"
 "`check-inconsistent`). You can choose which one to use."
 msgstr ""
-"如果一条信息出现在多个地方（例如多个组件），若发现它们不一致，这个选项卡会显"
-"示所有的信息（参见 :ref:`check-inconsistent`）。你可以选择使用其中之一。"
+"如果一条信息出现在多个地方（例如多个部件），若发现它们不一致，这个选项卡会显示所有的信息（参见 :ref:`check-"
+"inconsistent`）。你可以选择使用其中之一。"
 
 #: ../../user/translating.rst:276
 msgid "Look at similar strings translated in past, see :ref:`memory`."
@@ -38337,7 +38212,7 @@ msgstr ""
 
 #: ../../user/translating.rst:336
 msgid "Using other Weblate components as a source for translations."
-msgstr "使用其他 Weblate 组件作为翻译的来源。"
+msgstr "使用其他 Weblate 部件作为翻译的来源。"
 
 #: ../../user/translating.rst:337
 msgid ""
@@ -39194,7 +39069,7 @@ msgstr "列出 Weblate 中的项目。"
 
 #: ../../wlc.rst:156
 msgid "Lists components in Weblate."
-msgstr "列出 Weblate 中的组件。"
+msgstr "列出 Weblate 中的部件。"
 
 #: ../../wlc.rst:160
 msgid "Lists translations in Weblate."
@@ -39202,28 +39077,28 @@ msgstr "列出 Weblate 中的翻译。"
 
 #: ../../wlc.rst:164
 msgid "Shows Weblate object (translation, component or project)."
-msgstr "显示 Weblate 对象（翻译，组件或项目）。"
+msgstr "显示 Weblate 对象（翻译，部件或项目）。"
 
 #: ../../wlc.rst:168
 msgid "Lists Weblate object (translation, component or project)."
-msgstr "列出 Weblate 对象（翻译，组件或项目）。"
+msgstr "列出 Weblate 对象（翻译，部件或项目）。"
 
 #: ../../wlc.rst:172
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
-msgstr "提交在 Weblate 对象（翻译，组件或项目）中所做的更改。"
+msgstr "提交在 Weblate 对象（翻译，部件或项目）中所做的更改。"
 
 #: ../../wlc.rst:176
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
-msgstr "拉取远程仓库的更改到 Weblate 对象中（翻译，组件或项目）。"
+msgstr "拉取远程仓库的更改到 Weblate 对象中（翻译，部件或项目）。"
 
 #: ../../wlc.rst:180
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
-msgstr "将 Weblate 对象更改推送到远程仓库（翻译，组件或项目）。"
+msgstr "将 Weblate 对象更改推送到远程仓库（翻译，部件或项目）。"
 
 #: ../../wlc.rst:186 ../../wlc.rst:242
 msgid "Supported since wlc 0.7."
@@ -39233,7 +39108,7 @@ msgstr "自 wlc 0.7 起受支持。"
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
-msgstr "重置 Weblate 对象中的更改以匹配远程存储库（翻译，组件或项目）。"
+msgstr "重置 Weblate 对象中的更改以匹配远程存储库（翻译，部件或项目）。"
 
 #: ../../wlc.rst:194 ../../wlc.rst:259
 msgid "Supported since wlc 0.9."
@@ -39243,20 +39118,19 @@ msgstr "从 wlc 0.9 开始受支持。"
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
-msgstr ""
-"删除 Weblate 对象中所有未跟踪的更改以匹配远程仓库（翻译，组件或项目）。"
+msgstr "删除 Weblate 对象中所有未跟踪的更改以匹配远程仓库（翻译，部件或项目）。"
 
 #: ../../wlc.rst:200
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
-msgstr "显示给定 Weblate 对象（翻译，组件或项目）的仓库状态。"
+msgstr "显示给定 Weblate 对象（翻译，部件或项目）的仓库状态。"
 
 #: ../../wlc.rst:204
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
-msgstr "显示给定 Weblate 对象（翻译，组件或项目）的详细统计数据。"
+msgstr "显示给定 Weblate 对象（翻译，部件或项目）的详细统计数据。"
 
 #: ../../wlc.rst:210 ../../wlc.rst:218 ../../wlc.rst:226
 msgid "Supported since wlc 0.5."
@@ -39268,11 +39142,11 @@ msgstr "显示锁定状态。"
 
 #: ../../wlc.rst:220
 msgid "Locks component from further translation in Weblate."
-msgstr "锁定组件以防止在 Weblate 中进一步翻译。"
+msgstr "锁定部件以防止在 Weblate 中进一步翻译。"
 
 #: ../../wlc.rst:228
 msgid "Unlocks translation of Weblate component."
-msgstr "解锁 Weblate 组件的翻译。"
+msgstr "解锁 Weblate 部件的翻译。"
 
 #: ../../wlc.rst:234
 msgid "Supported since wlc 0.7 and Weblate 2.10."
@@ -39388,7 +39262,7 @@ msgstr "API 服务器网址，默认为 ``http://127.0.0.1:8000/api/``。"
 
 #: ../../wlc.rst:313
 msgid "Path to the default translation - component or project."
-msgstr "默认翻译的路径 —— 组件或项目。"
+msgstr "默认翻译的路径 —— 部件或项目。"
 
 #: ../../wlc.rst:315
 msgid "The configuration file is an INI file, for example:"
