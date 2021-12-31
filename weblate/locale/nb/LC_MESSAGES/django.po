@@ -2,7 +2,7 @@
 # Copyright (C) 2015 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2015.
-# Allan Nordhøy <epost@anotheragency.no>, 2018, 2019, 2020, 2021.
+# Allan Nordhøy <epost@anotheragency.no>, 2018, 2019, 2020, 2021, 2022.
 # Petter Reinholdtsen <pere-weblate@hungry.com>, 2018, 2019, 2020, 2021, 2022.
 # Jon Harald Søby <jhsoby@gmail.com>, 2018.
 # Kurt Eilertsen <kurt@kheds.com>, 2018, 2020.
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 12:58+0000\n"
 "PO-Revision-Date: 2022-01-02 13:56+0000\n"
-"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -1649,8 +1649,6 @@ msgid "This is not used when a component list is selected."
 msgstr "Dette brukes ikke når en komponentliste er valgt."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
 msgstr "Dette brukes ikke når en komponent er valgt."
 
@@ -1828,10 +1826,8 @@ msgstr "Slett eksisterende oversettelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Last ned oversettelse"
+msgstr "Last ned oversettelsesfil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
@@ -2087,7 +2083,7 @@ msgstr "Fakturering"
 #, fuzzy
 #| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "E-post med aktiveringsinfo vil bli sendt hit."
+msgstr "E-post med brukerinvitasjon ble sendt."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
@@ -2870,19 +2866,19 @@ msgstr "Følgende oppføringer blir ikke oversatt i følge ordlisten: %s"
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "Java-meldingsformat"
+msgstr "ICU-meldingsformatsyntaks"
 
 #: weblate/checks/icu.py:270
 #, fuzzy
 #| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Syntaksfeil i språkalias."
+msgstr "Syntaksfeil i ICU-meldingsformatstrenger."
 
 #: weblate/checks/icu.py:292
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Java-meldingsformat"
+msgstr "ICU-meldingsformat"
 
 #: weblate/checks/icu.py:294
 msgid ""
@@ -2897,16 +2893,14 @@ msgid "Syntax error: %s"
 msgstr "Syntaksfeil: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Forbudt oversettelse: %s"
+msgstr "Én eller flere ukjente plassholdere i oversettelsen: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Plassholder mangler i oversettelse: %s"
+msgstr "Én eller flere plassholdere mangler i oversettelsen: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
@@ -2936,11 +2930,11 @@ msgid ""
 msgstr "Plassholder skal være XML-tagg i oversettelse: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Plassholder skal ikke være XML-tagg i oversettelse: %s"
+msgstr ""
+"Én eller flere plassholdere skal ikke være en XML-tagg i oversettelsen: %s"
 
 #: weblate/checks/icu.py:504
 #, fuzzy, python-format
@@ -2948,10 +2942,9 @@ msgid "One or more XML tags has unexpected content in the translation: %s"
 msgstr "XML-tagg har uventet innhold i oversettelsesdelen: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Manglende parametre for oversettelsesflagg: \"%s\""
+msgstr "Én eller flere XML-etiketter mangler innhold i oversettelsen: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -3347,10 +3340,8 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON-fil"
 
 #: weblate/formats/ttkit.py:1337
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "i18next- JSON-fil"
+msgstr "i18next- JSON-fil versjon 3"
 
 #: weblate/formats/ttkit.py:1345
 msgid "go-i18n JSON file"
@@ -7194,10 +7185,8 @@ msgstr "Kildestreng"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Plassering av kildestreng"
+msgstr "Beskrivelse av kildestreng"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7287,34 +7276,26 @@ msgstr ""
 
 #: weblate/templates/manage-access.html:206
 #: weblate/trans/models/projecttoken.py:41
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "Utløpt"
+msgstr "Utløper"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Dette vil slette <b>%(user)s</b> tilgang til dette prosjektet."
+msgstr ""
+"Dette vil slette prosjektsymbolet <b>%(token)s</b> fra dette prosjektet."
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "Opprett prosjekt"
+msgstr "Opprett et prosjektsymbol"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Opprettet"
+msgstr "Opprett"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "Din personlige API-nøkkel:"
+msgstr "Personlig API-nøkkel"
 
 #: weblate/templates/manage-access.html:279
 #, fuzzy
@@ -8044,10 +8025,8 @@ msgstr ""
 "Weblate er fri programvare laget av frivillige, og tar imot donasjoner."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Siste måned"
+msgstr "Siste 12 måneder"
 
 #: weblate/templates/snippets/activity.html:14
 #, fuzzy
