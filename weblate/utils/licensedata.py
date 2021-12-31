@@ -146,6 +146,7 @@ LICENSES = (
         "https://spdx.org/licenses/Apache-2.0.html",
         True,
     ),
+    ("App-s2p", "App::s2p License", "https://spdx.org/licenses/App-s2p.html", False),
     ("AML", "Apple MIT License", "https://spdx.org/licenses/AML.html", False),
     (
         "APSL-1.0",
