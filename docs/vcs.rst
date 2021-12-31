@@ -261,9 +261,10 @@ For the ``hello`` repository from selenic.com using Mercurial::
     the remote helper sometimes creates a new tip when pushing changes back.
 
 .. _vcs-github:
+.. _github-push:
 
-GitHub
-------
+GitHub (pull requests)
+----------------------
 
 .. versionadded:: 2.3
 
@@ -274,23 +275,11 @@ translation changes as pull requests, instead of pushing directly to the reposit
 :ref:`vcs-github` creates pull requests.
 The latter is not needed for merely accessing Git repositories.
 
-.. seealso::
-
-   :ref:`push-changes`
-
-
-.. _github-push:
-
-Pushing changes to GitHub as pull requests
-++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a GitHub repository, they can be sent as
-either one or many pull requests instead.
-
 You need to configure API credentials to make this work.
 
 .. seealso::
 
+   :ref:`push-changes`,
    :setting:`GITHUB_USERNAME`,
    :setting:`GITHUB_TOKEN`,
    :setting:`GITHUB_CREDENTIALS`
@@ -298,9 +287,10 @@ You need to configure API credentials to make this work.
 .. _GitHub API: https://docs.github.com/en/rest
 
 .. _vcs-gitlab:
+.. _gitlab-push:
 
-GitLab
-------
+GitLab (merge requests)
+-----------------------
 
 .. versionadded:: 3.9
 
@@ -313,22 +303,11 @@ works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-gitlab` creates merge request.
 
-.. seealso::
-
-   :ref:`push-changes`
-
-.. _gitlab-push:
-
-Pushing changes to GitLab as merge requests
-+++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a GitLab repository, they can be sent as either
-one or many merge requests instead.
-
 You need to configure API credentials to make this work.
 
 .. seealso::
 
+   :ref:`push-changes`,
    :setting:`GITLAB_USERNAME`,
    :setting:`GITLAB_TOKEN`,
    :setting:`GITLAB_CREDENTIALS`
@@ -336,9 +315,10 @@ You need to configure API credentials to make this work.
 .. _GitLab API: https://docs.gitlab.com/ee/api/
 
 .. _vcs-pagure:
+.. _pagure-push:
 
-Pagure
-------
+Pagure (merge requests)
+-----------------------
 
 .. versionadded:: 4.3.2
 
@@ -351,22 +331,11 @@ works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-pagure` creates merge request.
 
-.. seealso::
-
-   :ref:`push-changes`
-
-.. _pagure-push:
-
-Pushing changes to Pagure as merge requests
-+++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a Pagure repository, they can be sent as either
-one or many merge requests instead.
-
 You need to configure API credentials to make this work.
 
 .. seealso::
 
+   :ref:`push-changes`,
    :setting:`PAGURE_USERNAME`,
    :setting:`PAGURE_TOKEN`,
    :setting:`PAGURE_CREDENTIALS`
