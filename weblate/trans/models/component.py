@@ -2214,7 +2214,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
                     raise ValidationError(
-                        {setting: _("Option is not available for linked repositories.")}
+                        {
+                            setting: _(
+                                "Option is not available for linked repositories. "
+                                "Setting from linked component will be used."
+                            )
+                        }
                     )
         # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)
