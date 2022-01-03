@@ -353,6 +353,12 @@ List all projects:
     web: https://weblate.org/
     web_url: http://example.com/projects/hello/
 
+Upload translation file:
+
+.. code-block:: sh
+
+   $ wlc upload project/component/language --input /tmp/hello.po
+
 You can also designate what project wlc should work on:
 
 .. code-block:: sh
