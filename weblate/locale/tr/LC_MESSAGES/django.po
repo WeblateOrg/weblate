@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-22 12:58+0000\n"
+"POT-Creation-Date: 2022-01-03 12:26+0000\n"
 "PO-Revision-Date: 2021-12-22 19:40+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -689,113 +689,116 @@ msgid "Monthly digest"
 msgstr "Aylık özet"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:407
+#: weblate/accounts/notifications.py:416
 msgid "Repository failure"
 msgstr "Depo hatası"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:435
+#: weblate/accounts/notifications.py:444
 msgid "Repository operation"
 msgstr "Depo işlemi"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:446
+#: weblate/accounts/notifications.py:455
 msgid "Component locking"
 msgstr "Bileşen kilitleme"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:454
+#: weblate/accounts/notifications.py:463
 msgid "Changed license"
 msgstr "Lisans değişti"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:462 weblate/trans/models/change.py:291
+#: weblate/accounts/notifications.py:471 weblate/trans/models/change.py:291
 msgid "Parse error"
 msgstr "Ayrıştırma hatası"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:470
+#: weblate/accounts/notifications.py:479
 msgid "New string"
 msgstr "Yeni dizgi"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:479 weblate/trans/models/change.py:335
+#: weblate/accounts/notifications.py:488 weblate/trans/models/change.py:335
 msgid "New contributor"
 msgstr "Yeni katılımcı"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:488
+#: weblate/accounts/notifications.py:497
 msgid "New suggestion"
 msgstr "Yeni öneri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:498
+#: weblate/accounts/notifications.py:507
 msgid "Comment on own translation"
 msgstr "Kendi çevirinde yorum"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:537
+#: weblate/accounts/notifications.py:546
 msgid "Mentioned in comment"
 msgstr "Yorumda bahsedildi"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:580 weblate/templates/translate.html:401
+#: weblate/accounts/notifications.py:589 weblate/templates/translate.html:401
 #: weblate/trans/forms.py:987
 msgid "New comment"
 msgstr "Yeni yorum"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:601
+#: weblate/accounts/notifications.py:610
 msgid "Changed string"
 msgstr "Dizgi değiştirildi"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:610
+#: weblate/accounts/notifications.py:619
 #: weblate/templates/snippets/embed-units.html:48 weblate/trans/forms.py:2161
 #: weblate/utils/views.py:138
 msgid "Translated string"
 msgstr "Dizgi çevrildi"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:619
+#: weblate/accounts/notifications.py:628
 msgid "Approved string"
 msgstr "Dizgi onaylandı"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:628
+#: weblate/accounts/notifications.py:637
 msgid "New language"
 msgstr "Yeni dil"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:645
+#: weblate/accounts/notifications.py:654
 msgid "New translation component"
 msgstr "Yeni çeviri bileşeni"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:653 weblate/trans/models/change.py:337
+#: weblate/accounts/notifications.py:662 weblate/trans/models/change.py:337
 msgid "New announcement"
 msgstr "Yeni duyuru"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:665 weblate/trans/models/change.py:339
+#: weblate/accounts/notifications.py:674 weblate/trans/models/change.py:339
 msgid "New alert"
 msgstr "Yeni uyarı"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:735
+#: weblate/accounts/notifications.py:744
 msgid "Pending suggestions"
 msgstr "Öneriler beklemede"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:746
+#: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-msgid "Strings needing action"
-msgstr "Eylem gerektiren dizgiler"
+#, fuzzy
+#| msgctxt "Number of hosted strings"
+#| msgid "Hosted strings"
+msgid "Unfinished strings"
+msgstr "Barındırılan dizgi"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1038,7 +1041,7 @@ msgstr ""
 "Makine çevirisini veya diğer bileşenleri kullanarak dizgileri kendiliğinden "
 "çevirir."
 
-#: weblate/addons/base.py:330 weblate/trans/views/create.py:178
+#: weblate/addons/base.py:320 weblate/trans/views/create.py:178
 #: weblate/trans/views/settings.py:110
 msgid ""
 "The repository is outdated, you might not get expected results until you "
@@ -1385,9 +1388,13 @@ msgid "Language filter"
 msgstr "Dil süzgeci"
 
 #: weblate/addons/forms.py:284
+#, fuzzy
+#| msgid ""
+#| "Regular expression to filter translation files against when scanning for "
+#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
-"filemask."
+"file mask."
 msgstr ""
 "Dosya maskesi taranırken çeviri dosyalarını süzmek için kullanılan düzenli "
 "ifade."
@@ -2861,53 +2868,53 @@ msgstr "ICU MessageFormat sözdizimi"
 msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "ICU MessageFormat dizgilerinde sözdizimi hataları."
 
-#: weblate/checks/icu.py:292
+#: weblate/checks/icu.py:298
 msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
-#: weblate/checks/icu.py:294
+#: weblate/checks/icu.py:300
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
 "ICU MessageFormat dizgilerinde sözdizimi hataları ve/veya yer tutucu "
 "uyuşmazlıkları."
 
-#: weblate/checks/icu.py:460
+#: weblate/checks/icu.py:466
 #, python-format
 msgid "Syntax error: %s"
 msgstr "Sözdizimi hatası: %s"
 
-#: weblate/checks/icu.py:464
+#: weblate/checks/icu.py:470
 #, python-format
 msgid "One or more unknown placeholders in the translation: %s"
 msgstr "Çeviride bir veya daha fazla bilinmeyen yer tutucu: %s"
 
-#: weblate/checks/icu.py:469
+#: weblate/checks/icu.py:475
 #, python-format
 msgid "One or more placeholders missing in the translation: %s"
 msgstr "Çeviride bir veya daha fazla eksik yer tutucu: %s"
 
-#: weblate/checks/icu.py:473
+#: weblate/checks/icu.py:479
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
 msgstr "Bir veya daha fazla yanlış yer tutucu türü: %s"
 
-#: weblate/checks/icu.py:478
+#: weblate/checks/icu.py:484
 #, python-format
 msgid "Missing other sub-message for: %s"
 msgstr "Diğer alt iletinin eksik olduğu: %s"
 
-#: weblate/checks/icu.py:481
+#: weblate/checks/icu.py:487
 #, python-format
 msgid "Incorrect plural selectors for: %s"
 msgstr "Yanlış çoğul seçicilerin olduğu: %s"
 
-#: weblate/checks/icu.py:486
+#: weblate/checks/icu.py:492
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
 msgstr "Yanlış alt ileti seçicilerinin olduğu: %s"
 
-#: weblate/checks/icu.py:492
+#: weblate/checks/icu.py:498
 #, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
@@ -2916,19 +2923,19 @@ msgstr ""
 "Bir veya daha fazla yer tutucu, çeviride karşılık gelen bir XML etiketine "
 "sahip olmalıdır: %s"
 
-#: weblate/checks/icu.py:498
+#: weblate/checks/icu.py:504
 #, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
 msgstr ""
 "Bir veya daha fazla yer tutucu, çeviride bir XML etiketi olmamalıdır: %s"
 
-#: weblate/checks/icu.py:504
+#: weblate/checks/icu.py:510
 #, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
 msgstr "Bir veya daha fazla XML etiketi çeviride beklenmeyen içeriğe sahip: %s"
 
-#: weblate/checks/icu.py:509
+#: weblate/checks/icu.py:515
 #, python-format
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Bir veya daha fazla XML etiketi çeviride eksik içeriğe sahip: %s"
@@ -4980,8 +4987,8 @@ msgstr "Eklentiyi yapılandır"
 
 #: weblate/templates/addons/addon_head.html:7
 msgid ""
-"This add-on is used for the whole project, it is enough to install it for one "
-"component."
+"This add-on is used for the whole project, it is enough to install it for "
+"one component."
 msgstr ""
 "Bu eklenti tüm proje için kullanılıyor, bir bileşen için yüklemek yeterli."
 
@@ -7165,18 +7172,22 @@ msgid "Screenshot context"
 msgstr "Ekran görüntüsü bağlamı"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, python-format
-msgid "%(count)s string needing action in %(component)s"
-msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "%(component)s bileşeninde eylem gerektiren %(count)s dizgi var"
-msgstr[1] "%(component)s bileşeninde eylem gerektiren %(count)s dizgi var"
+#, fuzzy, python-format
+#| msgid "%(count)s pending suggestion in %(component)s"
+#| msgid_plural "%(count)s pending suggestions in %(component)s"
+msgid "%(count)s unfinished string in %(component)s"
+msgid_plural "%(count)s unfinished strings in %(component)s"
+msgstr[0] "%(component)s bileşeninde bekleyen %(count)s öneri"
+msgstr[1] "%(component)s bileşeninde bekleyen %(count)s öneri"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, python-format
-msgid "%(count)s string needing action"
-msgid_plural "%(count)s strings needing action"
-msgstr[0] "%(count)s eylem gerektiren dizgi"
-msgstr[1] "%(count)s eylem gerektiren dizgi"
+#, fuzzy, python-format
+#| msgid "%(count)s string"
+#| msgid_plural "%(count)s strings"
+msgid "%(count)s unfinished string"
+msgid_plural "%(count)s unfinished strings"
+msgstr[0] "%(count)s dizgi"
+msgstr[1] "%(count)s dizgi"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:132
 msgid "Access control"
@@ -8395,15 +8406,19 @@ msgid "Sort this column"
 msgstr "Bu sütunu sırala"
 
 #: weblate/templates/snippets/list-objects.html:43
-msgid "Untranslated"
-msgstr "Çevrilmemiş"
+msgid "Unfinished"
+msgstr ""
 
 #: weblate/templates/snippets/list-objects.html:53
-msgid "Untranslated words"
+#, fuzzy
+#| msgid "Untranslated words"
+msgid "Unfinished words"
 msgstr "Çevrilmemiş sözcükler"
 
 #: weblate/templates/snippets/list-objects.html:63
-msgid "Untranslated characters"
+#, fuzzy
+#| msgid "Untranslated characters"
+msgid "Unfinished characters"
 msgstr "Çevrilmemiş karakterler"
 
 #: weblate/templates/snippets/list-objects.html:83
@@ -8717,8 +8732,10 @@ msgid "Suggested change:"
 msgstr "Önerilen değişiklik:"
 
 #: weblate/templates/snippets/suggestions.html:59
-msgid "Failing checks:"
-msgstr "Kusur denetimleri:"
+#: weblate/trans/templatetags/translations.py:597
+msgctxt "String state"
+msgid "Failed checks:"
+msgstr "Başarısız olan denetimler:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 msgid "Source in review"
@@ -8862,7 +8879,9 @@ msgid "Filename"
 msgstr "Dosya adı"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-msgid "Some linked components have the same filemask."
+#, fuzzy
+#| msgid "Some linked components have the same filemask."
+msgid "Some linked components have the same file mask."
 msgstr "Bazı bağlantılı bileşenler aynı dosya maskesine sahip."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
@@ -8870,7 +8889,9 @@ msgid "Please fix this by removing one of them."
 msgstr "Lütfen birini kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-msgid "The following filemasks were found multiple times:"
+#, fuzzy
+#| msgid "The following filemasks were found multiple times:"
+msgid "The following file masks were found multiple times:"
 msgstr "Aşağıdaki dosya maskeleri birden çok kez bulundu:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
@@ -8995,17 +9016,24 @@ msgid "This component set up is incomplete, as it lacks any translations."
 msgstr "Bu bileşenin ayarlanması, hiçbir çeviri olmadığı için tamamlanmadı."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
+#, fuzzy
+#| msgid ""
+#| "Starting new translations directly in Weblate is possible, and creates "
+#| "files based on the filemask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
-"based on the filemask."
+"based on the file mask."
 msgstr ""
 "Doğrudan Weblate’de yeni çeviriler başlatmak mümkündür ve dosya maskesine "
 "dayalı dosyalar oluşturur."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Check whether the filemask <code>%(filemask)s</code> matches files in "
+#| "your version control system repository."
 msgid ""
-"Check whether the filemask <code>%(filemask)s</code> matches files in your "
+"Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
 "<code> %(filemask)s </code> dosya maskesinin sürüm denetim sistemi "
@@ -9030,7 +9058,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate, yukarı akış deposuna değişiklikleri yollayamadı."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2419
+#: weblate/trans/models/component.py:2424
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -9823,12 +9851,16 @@ msgstr ""
 "çevrimdışı çeviri için uygun"
 
 #: weblate/templates/translation.html:338
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
 msgid ""
-"Strings needing action, converted files enriched with comments; suitable for "
+"Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Eylem gerektiren dizgiler, açıklamalarla zenginleştirilmiş dönüştürülmüş "
-"dosyalar; çevrimdışı çeviri için uygun"
+"Tüm dizgiler, açıklamalarla zenginleştirilmiş dönüştürülmüş dosyalar; "
+"çevrimdışı çeviri için uygun"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10016,8 +10048,10 @@ msgid "Strings with context"
 msgstr "Bağlamı olan dizgiler"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-msgid "Strings needing action without suggestions"
-msgstr "Eylem gerektiren önerisiz dizgiler"
+#, fuzzy
+#| msgid "Approved strings with suggestions"
+msgid "Unfinished strings without suggestions"
+msgstr "Önerileri olan onaylanmış dizgiler"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10580,7 +10614,7 @@ msgstr ""
 "düzenleyebilirsiniz."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2134 weblate/trans/models/component.py:3117
+#: weblate/trans/forms.py:2134 weblate/trans/models/component.py:3122
 msgid "Context"
 msgstr "Bağlam"
 
@@ -10726,7 +10760,9 @@ msgstr "Yinelenen çeviri."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-msgid "Duplicated filemask."
+#, fuzzy
+#| msgid "Duplicated filemask."
+msgid "Duplicated file mask."
 msgstr "Yinelenen dosya maskesi."
 
 #. Translators: Name of an alert
@@ -10815,7 +10851,9 @@ msgid "Unused enforced checks."
 msgstr "Kullanılmayan zorunlu denetimler."
 
 #: weblate/trans/models/alert.py:387
-msgid "No mask matches."
+#, fuzzy
+#| msgid "No mask matches."
+msgid "No file mask matches."
 msgstr "Eşleşen maske yok."
 
 #: weblate/trans/models/alert.py:399
@@ -11497,9 +11535,13 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Bileşenin depo hatalarında kilitlenmesi gerekip gerekmediği."
 
 #: weblate/trans/models/component.py:582
+#, fuzzy
+#| msgid ""
+#| "Regular expression used to filter translation files when scanning for "
+#| "filemask."
 msgid ""
-"Regular expression used to filter translation files when scanning for "
-"filemask."
+"Regular expression used to filter translation files when scanning for file "
+"mask."
 msgstr ""
 "Dosya maskesi taranırken çeviri dosyalarını süzmek için kullanılan düzenli "
 "ifade."
@@ -11559,8 +11601,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "Depo alınamadı: %s"
 
 #: weblate/trans/models/component.py:1267
-#: weblate/trans/models/component.py:2319
-#: weblate/trans/models/component.py:2378
+#: weblate/trans/models/component.py:2324
+#: weblate/trans/models/component.py:2383
 msgid "File does not exist."
 msgstr "Dosya mevcut değil."
 
@@ -11610,46 +11652,59 @@ msgstr ""
 "Weblate projesi için geçersiz bağlantı, weblate://project/component şeklinde "
 "kullanın."
 
-#: weblate/trans/models/component.py:2217
-msgid "Option is not available for linked repositories."
+#: weblate/trans/models/component.py:2219
+#, fuzzy
+#| msgid "Option is not available for linked repositories."
+msgid ""
+"Option is not available for linked repositories. Setting from linked "
+"component will be used."
 msgstr "Bağlantılı depolar için seçenek kullanılamaz."
 
-#: weblate/trans/models/component.py:2226
-msgid "The filemask did not match any files."
+#: weblate/trans/models/component.py:2231
+#, fuzzy
+#| msgid "The filemask did not match any files."
+msgid "The file mask did not match any files."
 msgstr "Dosya maskesi hiçbir dosyayla eşleşmedi."
 
-#: weblate/trans/models/component.py:2235
-#, python-format
-msgid "The language code for %s was empty, please check the filemask."
+#: weblate/trans/models/component.py:2240
+#, fuzzy, python-format
+#| msgid "The language code for %s was empty, please check the filemask."
+msgid "The language code for %s was empty, please check the file mask."
 msgstr "%s dil kodu boştu, lütfen dosya maskesini gözden geçirin."
 
-#: weblate/trans/models/component.py:2244
-#, python-format
-msgid "The language code \"%s\" is too long, please check the filemask."
+#: weblate/trans/models/component.py:2249
+#, fuzzy, python-format
+#| msgid "The language code \"%s\" is too long, please check the filemask."
+msgid "The language code \"%s\" is too long, please check the file mask."
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini gözden geçirin."
 
-#: weblate/trans/models/component.py:2251
-#, python-format
+#: weblate/trans/models/component.py:2256
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for translating different resources."
 msgid ""
-"There is more than one file for %s language, please adjust the filemask and "
+"There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
 msgstr ""
 "%s dili için birden fazla dosya var, lütfen dosya maskesini ayarlayın ve "
 "farklı kaynakları çevirmek için bileşenleri kullanın."
 
-#: weblate/trans/models/component.py:2265
-msgid "Could not find any matching language, please check the filemask."
+#: weblate/trans/models/component.py:2270
+#, fuzzy
+#| msgid "Could not find any matching language, please check the filemask."
+msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "Eşleşen herhangi bir dil bulunamadı, lütfen dosya maskesini gözden geçirin."
 
-#: weblate/trans/models/component.py:2284
+#: weblate/trans/models/component.py:2289
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "Eşleşen %d dosya ayrıştırılamadı."
 msgstr[1] "Eşleşen %d dosya ayrıştırılamadı."
 
-#: weblate/trans/models/component.py:2312
+#: weblate/trans/models/component.py:2317
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -11657,26 +11712,26 @@ msgstr ""
 "Weblate'i yeni çeviri dosyaları eklemek için ayarladınız, ancak bunu yapmak "
 "için bir temel dosya sağlamadınız."
 
-#: weblate/trans/models/component.py:2323
+#: weblate/trans/models/component.py:2328
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "Yeni çeviriler için temel dosya ayrıştırma başarısız oldu: %s"
 
-#: weblate/trans/models/component.py:2327
+#: weblate/trans/models/component.py:2332
 msgid "Unrecognized base file for new translations."
 msgstr "Yeni çeviriler için tanınmayan temel dosya."
 
-#: weblate/trans/models/component.py:2338
+#: weblate/trans/models/component.py:2343
 msgid "You can not use a base file for bilingual translation."
 msgstr "İki dilli çeviri için bir temel dosya kullanamazsınız."
 
-#: weblate/trans/models/component.py:2344
-#: weblate/trans/models/component.py:2360
+#: weblate/trans/models/component.py:2349
+#: weblate/trans/models/component.py:2365
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "Bir ara dil dosyası, düzenleme şablonu olmadan kullanılamaz."
 
-#: weblate/trans/models/component.py:2352
+#: weblate/trans/models/component.py:2357
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -11684,30 +11739,30 @@ msgstr ""
 "Bir ara dil dosyası, tek dilli temel dil dosyasından farklı olmak "
 "zorundadır. Muhtemelen boş tutabilirsiniz."
 
-#: weblate/trans/models/component.py:2367
+#: weblate/trans/models/component.py:2372
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Bir .pot dosyasının temel dosya olarak kullanılması desteklenmez."
 
-#: weblate/trans/models/component.py:2383
+#: weblate/trans/models/component.py:2388
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Çeviri temel dosyası ayrıştırılamadı: %s"
 
-#: weblate/trans/models/component.py:2393
+#: weblate/trans/models/component.py:2398
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Şablon dili ({0}) kaynak dili ({1}) ile eşleşmiyor!"
 
-#: weblate/trans/models/component.py:2398
+#: weblate/trans/models/component.py:2403
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Tek dilli bir çeviriyi temel dosya olmadan kullanamazsınız."
 
-#: weblate/trans/models/component.py:2424
+#: weblate/trans/models/component.py:2429
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Depo güncellenemedi: %s"
 
-#: weblate/trans/models/component.py:2441
+#: weblate/trans/models/component.py:2446
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -11715,55 +11770,55 @@ msgstr ""
 "Lütfen ya bir talimat URL'sini doldurun ya da yeni bir dil eklemek için "
 "farklı bir seçenek kullanın."
 
-#: weblate/trans/models/component.py:2472
+#: weblate/trans/models/component.py:2477
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Kaynak dil değiştirilemez, lütfen bunun yerine bileşeni yeniden oluşturun."
 
-#: weblate/trans/models/component.py:2480
+#: weblate/trans/models/component.py:2485
 msgid "Component with this URL slug already exists in the project."
 msgstr "Bu URL kısaltmasına sahip bileşen, projede zaten var."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2490
 msgid "Component with this name already exists in the project."
 msgstr "Bu ada sahip bileşen zaten projede var."
 
-#: weblate/trans/models/component.py:2510
+#: weblate/trans/models/component.py:2515
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Geçersiz düzenli ifadeden dolayı dosya eşleşmeleri doğrulanamıyor."
 
-#: weblate/trans/models/component.py:2520
+#: weblate/trans/models/component.py:2525
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "Önerileri otomatik olarak kabul etmek yalnızca oylama açıkken çalışır."
 
-#: weblate/trans/models/component.py:3002
+#: weblate/trans/models/component.py:3007
 msgid "Could not add new translation file."
 msgstr "Yeni çeviri dosyası eklenemedi."
 
-#: weblate/trans/models/component.py:3018
+#: weblate/trans/models/component.py:3023
 msgid "The given language is filtered by the language filter."
 msgstr "Verilen dil, dil süzgeci tarafından süzüldü."
 
-#: weblate/trans/models/component.py:3042
+#: weblate/trans/models/component.py:3047
 msgid "Translation file already exists!"
 msgstr "Çeviri dosyası zaten var!"
 
-#: weblate/trans/models/component.py:3071 weblate/trans/views/basic.py:429
+#: weblate/trans/models/component.py:3076 weblate/trans/views/basic.py:429
 msgid "The translation will be updated in the background."
 msgstr "Çeviri arka planda güncellenecektir."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3119 weblate/utils/views.py:143
+#: weblate/trans/models/component.py:3124 weblate/utils/views.py:143
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Anahtar"
 
-#: weblate/trans/models/component.py:3192
+#: weblate/trans/models/component.py:3197
 msgid "Add new glossary term"
 msgstr "Yeni sözlük terimi ekle"
 
-#: weblate/trans/models/component.py:3193
+#: weblate/trans/models/component.py:3198
 msgid "Add new translation string"
 msgstr "Yeni çeviri dizgisi ekle"
 
@@ -12228,11 +12283,6 @@ msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "şu andan itibaren %(count)s saat"
 msgstr[1] "şu andan itibaren %(count)s saat"
-
-#: weblate/trans/templatetags/translations.py:597
-msgctxt "String state"
-msgid "Failed checks:"
-msgstr "Başarısız olan denetimler:"
 
 #: weblate/trans/templatetags/translations.py:605
 msgctxt "String state"
@@ -13236,6 +13286,37 @@ msgstr "Yapılandırma hatası yoksayılamadı!"
 #, python-format
 msgid "Created user account %s."
 msgstr "Oluşturulan kullanıcı hesabı %s."
+
+#~ msgid "Strings needing action"
+#~ msgstr "Eylem gerektiren dizgiler"
+
+#, python-format
+#~ msgid "%(count)s string needing action in %(component)s"
+#~ msgid_plural "%(count)s strings needing action in %(component)s"
+#~ msgstr[0] "%(component)s bileşeninde eylem gerektiren %(count)s dizgi var"
+#~ msgstr[1] "%(component)s bileşeninde eylem gerektiren %(count)s dizgi var"
+
+#, python-format
+#~ msgid "%(count)s string needing action"
+#~ msgid_plural "%(count)s strings needing action"
+#~ msgstr[0] "%(count)s eylem gerektiren dizgi"
+#~ msgstr[1] "%(count)s eylem gerektiren dizgi"
+
+#~ msgid "Untranslated"
+#~ msgstr "Çevrilmemiş"
+
+#~ msgid "Failing checks:"
+#~ msgstr "Kusur denetimleri:"
+
+#~ msgid ""
+#~ "Strings needing action, converted files enriched with comments; suitable "
+#~ "for offline translation"
+#~ msgstr ""
+#~ "Eylem gerektiren dizgiler, açıklamalarla zenginleştirilmiş dönüştürülmüş "
+#~ "dosyalar; çevrimdışı çeviri için uygun"
+
+#~ msgid "Strings needing action without suggestions"
+#~ msgstr "Eylem gerektiren önerisiz dizgiler"
 
 #~ msgctxt "Previous year"
 #~ msgid "Previous"
