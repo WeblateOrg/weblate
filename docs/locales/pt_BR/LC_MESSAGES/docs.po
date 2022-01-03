@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-03 13:26+0100\n"
-"PO-Revision-Date: 2021-12-22 19:40+0000\n"
+"PO-Revision-Date: 2022-01-03 19:25+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -1604,11 +1604,8 @@ msgid "``nottranslated`` -- Not translated strings"
 msgstr "``nottranslated`` -- Textos não traduzidos"
 
 #: ../../admin/addons.rst:48
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "``todo`` -- Unfinished strings"
-msgstr "Textos hospedados"
+msgstr "``todo`` -- Textos não finalizados"
 
 #: ../../admin/addons.rst:50
 msgid "``fuzzy`` -- Strings marked for edit"
@@ -1998,10 +1995,6 @@ msgid "Language filter"
 msgstr "Filtro de idioma"
 
 #: ../../admin/addons.rst:192
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -3060,18 +3053,13 @@ msgid "Writing add-on"
 msgstr "Escrevendo extensões"
 
 #: ../../admin/addons.rst:741
-#, fuzzy
-#| msgid ""
-#| "You can write your own add-ons too, create a subclass of :class:`weblate."
-#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
-#| "callback to do the processing."
 msgid ""
 "You can write your own add-ons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the add-on metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"Você pode escrever suas próprias extensões também. Crie uma subclasse de :"
-"class:`weblate.addons.base.BaseAddon` para definir os metadados da extensão "
+"Você pode escrever suas próprias extensões também. Crie uma subclasse de "
+":class:`weblate.addons.base.BaseAddon` para definir os metadados da extensão "
 "e, então, implemente uma função de retorno que vai fazer o processamento."
 
 #: ../../admin/addons.rst:747
@@ -9066,12 +9054,6 @@ msgid "WEBLATE_ADDONS"
 msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:2157
-#, fuzzy
-#| msgid ""
-#| "List of addons available for use. To use them, they have to be enabled "
-#| "for a given translation component. By default this includes all built-in "
-#| "addons, when extending the list you will probably want to keep existing "
-#| "ones enabled, for example:"
 msgid ""
 "List of add-ons available for use. To use them, they have to be enabled for "
 "a given translation component. By default this includes all built-in add-"
@@ -9084,11 +9066,6 @@ msgstr ""
 "vai querer manter as existentes habilitadas, por exemplo:"
 
 #: ../../admin/config.rst:2196
-#, fuzzy
-#| msgid ""
-#| "Removing the addon from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall addon from "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall add-on from all components "
@@ -9837,11 +9814,6 @@ msgstr ""
 "commit_pending_age` em :ref:`component`."
 
 #: ../../admin/continuous.rst:370
-#, fuzzy
-#| msgid ""
-#| "Commits are created for every component. So in case you have many "
-#| "components you will still see lot of commits. You might utilize :ref:"
-#| "`addon-weblate.git.squash` addon in that case."
 msgid ""
 "Commits are created for every component. So in case you have many components "
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
@@ -9865,19 +9837,14 @@ msgid "Processing repository with scripts"
 msgstr "Processando repositório com scripts"
 
 #: ../../admin/continuous.rst:385
-#, fuzzy
-#| msgid ""
-#| "The way to customize how Weblate interacts with the repository is :ref:"
-#| "`addons`. Consult :ref:`addon-script` for info on how to execute external "
-#| "scripts through addons."
 msgid ""
 "The way to customize how Weblate interacts with the repository is :ref:"
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
-"A maneira de personalizar como o Weblate interage com o repositório é com :"
-"ref:`addons`. Consulte :ref:`addon-script` para obter informações sobre como "
-"executar scripts externos através de extensões."
+"A maneira de personalizar como o Weblate interage com o repositório é com "
+":ref:`addons`. Consulte :ref:`addon-script` para obter informações sobre "
+"como executar scripts externos através de extensões."
 
 #: ../../admin/continuous.rst:392
 msgid "Keeping translations same across components"
@@ -9934,13 +9901,6 @@ msgstr ""
 "escolher a tradução certa."
 
 #: ../../admin/continuous.rst:420
-#, fuzzy
-#| msgid ""
-#| "Automatic translation based on different components can be way to "
-#| "synchronize the translations across components. You can either trigger it "
-#| "manually (see :ref:`auto-translation`) or make it run automatically on "
-#| "repository update using addon (see :ref:`addon-weblate.autotranslate."
-#| "autotranslate`)."
 msgid ""
 "Automatic translation based on different components can be way to "
 "synchronize the translations across components. You can either trigger it "
@@ -9951,8 +9911,8 @@ msgstr ""
 "A tradução automática com base em diferentes componentes pode ser uma "
 "maneira de sincronizar as traduções entre os componentes. Você pode acioná-"
 "la manualmente (veja :ref:`auto-translation`) ou fazê-la ser executada "
-"automaticamente na atualização do repositório usando uma extensão (veja :ref:"
-"`addon-weblate.autotranslate.autotranslate`)."
+"automaticamente na atualização do repositório usando uma extensão (veja :ref"
+":`addon-weblate.autotranslate.autotranslate`)."
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
@@ -14387,18 +14347,12 @@ msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1411
-#, fuzzy
-#| msgid "Changing enabled apps, checks, addons or autofixes"
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
 "Alterando aplicativos, verificações, extensões ou correções automáticas "
 "habilitados"
 
 #: ../../admin/install/docker.rst:1415
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, addons or autofixes can be "
-#| "adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
@@ -14675,6 +14629,9 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"Essa abordagem também pode ser usada para substituir os modelos Weblate. Por "
+"exemplo documentos :ref:`legais <legal>` podem ser colocados em :file:`/app/"
+"data/python/customize/templates/legal/documents`."
 
 #: ../../admin/install/docker.rst:1585
 msgid ""
@@ -15252,17 +15209,14 @@ msgid "Parsing language codes"
 msgstr "Analisando códigos de idioma"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "While parsing translations, Weblate attempts to map language code "
-#| "(usually the ISO 639-1 one) to any existing language object."
 msgid ""
 "While parsing translations, Weblate attempts to map language code (usually "
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
-"Ao analisar as traduções, o Weblate tenta mapear o código de idioma "
-"(geralmente o ISO 639-1) para qualquer objeto de idioma existente."
+"Ao analisar as traduções, o Weblate tenta mapear o código de idioma ("
+"geralmente o ISO 639-1) a partir da :ref: `component-filemask` para qualquer "
+"objeto de idioma existente."
 
 #: ../../admin/languages.rst:18
 msgid ""
@@ -16989,8 +16943,6 @@ msgstr ""
 "parâmetros são aceitos."
 
 #: ../../admin/management.rst:394
-#, fuzzy
-#| msgid "Batch imports components into project based on filemask."
 msgid "Batch imports components into project based on the file mask."
 msgstr ""
 "Executa importação em lote de componentes para o projeto com base na máscara "
@@ -17513,10 +17465,6 @@ msgid "Manually, :ref:`machine-translation` view while translating."
 msgstr "Manualmente, a visão de :ref:`machine-translation` durante a tradução."
 
 #: ../../admin/memory.rst:18
-#, fuzzy
-#| msgid ""
-#| "Automatically, by translating strings using :ref:`auto-translation`, or :"
-#| "ref:`addon-weblate.autotranslate.autotranslate` addon."
 msgid ""
 "Automatically, by translating strings using :ref:`auto-translation`, or :ref:"
 "`addon-weblate.autotranslate.autotranslate` add-on."
@@ -19383,8 +19331,6 @@ msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr "Valor padrão pode ser alterado por :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:671
-#, fuzzy
-#| msgid "Commit, add, delete, merge and addon messages"
 msgid "Commit, add, delete, merge and add-on messages"
 msgstr "Mensagens de commit, add, merge e extensão"
 
@@ -19504,11 +19450,6 @@ msgstr ""
 "caso, veja :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:743
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter the translation when scanning for "
-#| "filemask. It can be used to limit the list of languages managed by "
-#| "Weblate."
 msgid ""
 "Regular expression used to filter the translation when scanning for file "
 "mask. It can be used to limit the list of languages managed by Weblate."
@@ -19742,8 +19683,6 @@ msgid "Commit message formatting, see :ref:`component`"
 msgstr "Formatação de mensagens de commit, veja :ref:`component`"
 
 #: ../../admin/projects.rst:868
-#, fuzzy
-#| msgid "Several addons"
 msgid "Several add-ons"
 msgstr "Várias extensões"
 
@@ -19885,10 +19824,6 @@ msgid "``{{ addon_name }}``"
 msgstr "``{{ addon_name }}``"
 
 #: ../../admin/projects.rst:907
-#, fuzzy
-#| msgid ""
-#| "Name of currently executed addon, available only in the addon commit "
-#| "message."
 msgid ""
 "Name of currently executed add-on, available only in the add-on commit "
 "message."
@@ -20051,13 +19986,6 @@ msgid "Automatic creation of components"
 msgstr "Criação automática de componentes"
 
 #: ../../admin/projects.rst:996
-#, fuzzy
-#| msgid ""
-#| "In case your project has dozen of translation files (e.g. for different "
-#| "gettext domains, or parts of Android apps), you might want to import them "
-#| "automatically. This can either be achieved from the command-line by "
-#| "using :djadmin:`import_project` or :djadmin:`import_json`, or by "
-#| "installing the :ref:`addon-weblate.discovery.discovery` addon."
 msgid ""
 "In case your project has dozen of translation files (e.g. for different "
 "gettext domains, or parts of Android apps), you might want to import them "
@@ -20072,11 +20000,6 @@ msgstr ""
 "extensão :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1002
-#, fuzzy
-#| msgid ""
-#| "To use the addon, you first need to create a component for one "
-#| "translation file (choose the one that is the least likely to be renamed "
-#| "or removed in future), and install the addon on this component."
 msgid ""
 "To use the add-on, you first need to create a component for one translation "
 "file (choose the one that is the least likely to be renamed or removed in "
@@ -23356,8 +23279,6 @@ msgid "Delete screenshot."
 msgstr "Exclui captura de tela."
 
 #: ../../api.rst:2223
-#, fuzzy
-#| msgid "Returns a list of addons."
 msgid "Returns a list of add-ons."
 msgstr "Retorna uma lista de extensões."
 
@@ -23369,20 +23290,14 @@ msgstr ""
 "addons/(int:id)/`."
 
 #: ../../api.rst:2231
-#, fuzzy
-#| msgid "Returns information about addon information."
 msgid "Returns information about add-on information."
 msgstr "Retorna informações sobre dados da extensão."
 
 #: ../../api.rst:2235 ../../api.rst:2249
-#, fuzzy
-#| msgid "name of an addon"
 msgid "name of an add-on"
 msgstr "nome de uma extensão"
 
 #: ../../api.rst:2237 ../../api.rst:2250 ../../api.rst:2258 ../../api.rst:2266
-#, fuzzy
-#| msgid "Optional addon configuration"
 msgid "Optional add-on configuration"
 msgstr "Configuração opcional da extensão"
 
@@ -23391,26 +23306,18 @@ msgid ":doc:`/admin/addons`"
 msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2245
-#, fuzzy
-#| msgid "Creates a new addon."
 msgid "Creates a new add-on."
 msgstr "Cria uma nova extensão."
 
 #: ../../api.rst:2254
-#, fuzzy
-#| msgid "Edit partial information about addon."
 msgid "Edit partial information about add-on."
 msgstr "Edita informações parciais sobre extensão."
 
 #: ../../api.rst:2262
-#, fuzzy
-#| msgid "Edit full information about addon."
 msgid "Edit full information about add-on."
 msgstr "Edita informações completas sobre extensão."
 
 #: ../../api.rst:2270
-#, fuzzy
-#| msgid "Delete addon."
 msgid "Delete add-on."
 msgstr "Exclui extensão."
 
@@ -23911,28 +23818,23 @@ msgid "Improved accuracy of :ref:`check-kashida`."
 msgstr "Merolhada a precisão da :ref:`check-kashida`."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "The Docker container now uses Django 4.0, see above for changes."
 msgid "The Weblate Docker container now uses Python 3.10."
-msgstr "O contêiner Docker agora usa Django 4.0, consulte as alterações acima."
+msgstr "O contêiner Docker do Weblate agora usa Python 3.10."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Fixed creating add-ons using API."
 msgid "Fixed add-on installation using API."
-msgstr "Corrigida a criação de extensões usando API."
+msgstr "Corrigida a instalação de extensão usando API."
 
 #: ../../changes.rst:14
 msgid ""
 "Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`."
 msgstr ""
+"Renomeada :guilabel:`Textos que necessitam ação` para :guilabel:`Textos não "
+"finalizados`."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
-msgstr ""
-"Ignora a verificação de qualidade :ref:`check-icu-message-format-syntax`."
+msgstr "Corrigidos falso-positivos de :ref:`check-icu-message-format-syntax`."
 
 #: ../../changes.rst:18
 msgid "Weblate 4.10"
@@ -25178,8 +25080,6 @@ msgid "Released on November 4th 2020."
 msgstr "Lançado em 4 de novembro de 2020."
 
 #: ../../changes.rst:369
-#, fuzzy
-#| msgid "Fixed crash on certain component filemasks."
 msgid "Fixed crash on certain component file masks."
 msgstr "Corrigida a falha em algumas máscaras de arquivo de componentes."
 
@@ -26338,11 +26238,9 @@ msgstr "Automaticamente desfaz shallow em cópias locais, se necessário."
 
 #: ../../changes.rst:697
 msgid "Fixed download of strings needing action."
-msgstr "Consertado o download de textos precisando de ação."
+msgstr "Corrigido o download de textos que necessitam ação."
 
 #: ../../changes.rst:698
-#, fuzzy
-#| msgid "New alert to warn about using the same filemask twice."
 msgid "New alert to warn about using the same file mask twice."
 msgstr ""
 "Novo alerta para alertar sobre o uso da mesma máscara de arquivo duas vezes."
@@ -27887,7 +27785,7 @@ msgstr "Alterado o bloqueio de repositório para usar biblioteca de terceiros."
 
 #: ../../changes.rst:1149
 msgid "Added support for downloading only strings needing action."
-msgstr "Adicionado suporte para baixar apenas textos que precisam de ação."
+msgstr "Adicionado suporte para baixar apenas textos que necessitam ação."
 
 #: ../../changes.rst:1150
 msgid "Added support for searching in several languages at once."
@@ -29052,7 +28950,7 @@ msgstr ""
 msgid ""
 "Clarified terminology on strings needing action and not translated strings."
 msgstr ""
-"Esclarecida a terminologia sobre textos necessitando ação e textos não "
+"Esclarecida a terminologia sobre textos que necessitam ação e textos não "
 "traduzidas."
 
 #: ../../changes.rst:1502
@@ -32945,8 +32843,6 @@ msgid "Unused new base in component settings"
 msgstr "Nova base não utilizada nas configurações de componente"
 
 #: ../../devel/alerts.rst:25
-#, fuzzy
-#| msgid "Duplicate filemask used for linked components"
 msgid "Duplicate file mask used for linked components"
 msgstr "Máscara de arquivo duplicada usada para componentes vinculados"
 
@@ -33088,13 +32984,6 @@ msgstr ""
 "dentro do Weblate."
 
 #: ../../devel/gettext.rst:35
-#, fuzzy
-#| msgid ""
-#| ":file:`LANGUAGE.mo` contains binary representation of :file:`LANGUAGE.po` "
-#| "and is used at application runtime. Typically it is not kept under "
-#| "version control, but generated at compilation time using `msgfmt`_. In "
-#| "case you want to have it in the version control, you can generate it in "
-#| "Weblate using :ref:`addon-weblate.gettext.mo` addon."
 msgid ""
 ":file:`LANGUAGE.mo` contains binary representation of :file:`LANGUAGE.po` "
 "and is used at application runtime. Typically it is not kept under version "
@@ -33286,10 +33175,6 @@ msgid "Translating HTML and JavaScript using Weblate CDN"
 msgstr "Traduzindo HTML e JavaScript usando CDN do Weblate"
 
 #: ../../devel/html.rst:6
-#, fuzzy
-#| msgid ""
-#| "Starting with Weblate 4.2 it is possible to export localization to a CDN "
-#| "using :ref:`addon-weblate.cdn.cdnjs` addon."
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` add-on."
@@ -33330,14 +33215,6 @@ msgstr ""
 "textos. Veja :ref:`add-projects` para instruções genéricas sobre isso."
 
 #: ../../devel/html.rst:25
-#, fuzzy
-#| msgid ""
-#| "In case you have existing repository to start with (for example the one "
-#| "containing HTML files), create an empty JSON file in the repository for "
-#| "the source language (see :ref:`component-source_language`), for example :"
-#| "file:`locales/en.json`. The content should be ``{}`` to indicate an empty "
-#| "object. Once you have that, the repository can be imported into Weblate "
-#| "and you can start with an addon configuration."
 msgid ""
 "In case you have existing repository to start with (for example the one "
 "containing HTML files), create an empty JSON file in the repository for the "
@@ -33348,8 +33225,8 @@ msgid ""
 msgstr ""
 "Caso você tenha um repositório existente para começar (por exemplo, aquele "
 "que contém arquivos HTML), crie um arquivo JSON vazio no repositório para o "
-"idioma de origem (consulte :ref:`component-source_language`), por exemplo :"
-"file:`locales/en.json`. O conteúdo deve ser ``{}`` para indicar um objeto "
+"idioma de origem (consulte :ref:`component-source_language`), por exemplo "
+":file:`locales/en.json`. O conteúdo deve ser ``{}`` para indicar um objeto "
 "vazio. Depois de fazer isso, o repositório pode ser importado para o Weblate "
 "e você pode começar com uma configuração adicional."
 
@@ -33374,16 +33251,10 @@ msgstr ""
 "monolíngue este ponto)."
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configuring Weblate CDN addon"
 msgid "Configuring Weblate CDN add-on"
 msgstr "Configurando extensão de CDN do Weblate"
 
 #: ../../devel/html.rst:47
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` addon provides few configuration "
-#| "options."
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options."
 msgstr ""
@@ -33458,10 +33329,6 @@ msgstr ""
 "como um seletor para processar todos os elementos."
 
 #: ../../devel/html.rst:95
-#, fuzzy
-#| msgid ""
-#| "Right now, only text of the elements is extracted. This addon doesn't "
-#| "support localization of element attributes or elements with childs."
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with childs."
@@ -33739,14 +33606,6 @@ msgid "Updating target language files"
 msgstr "Atualizando arquivos de idioma de destino"
 
 #: ../../devel/integration.rst:89
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :ref:`component-template`, and not "
-#| "in actual translations. It does not however perform any automatic cleanup "
-#| "of stale strings as that might have unexpected outcomes. If you want to "
-#| "do this, please install :ref:`addon-weblate.cleanup.generic` addon which "
-#| "will handle the cleanup according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :ref:`component-template`, and not in actual "
@@ -33763,12 +33622,6 @@ msgstr ""
 "que fará a limpeza de acordo com seus requisitos."
 
 #: ../../devel/integration.rst:96
-#, fuzzy
-#| msgid ""
-#| "Weblate also will not try to update bilingual files in any way, so if you "
-#| "need :file:`po` files being updated from :file:`pot`, you need to do it "
-#| "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
-#| "using :ref:`addon-weblate.gettext.msgmerge` addon."
 msgid ""
 "Weblate also will not try to update bilingual files in any way, so if you "
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
@@ -33776,9 +33629,9 @@ msgid ""
 "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
 "Weblate também não tentará atualizar arquivos bilíngues de nenhuma forma, "
-"então se você precisar que os arquivos :file:`po` sejam atualizados de :file:"
-"`pot`, você precisa fazer isso sozinho usando :ref:`upload-method` de :"
-"guilabel:`Atualizar textos fonte`: ou usando a extensão :ref:`addon-weblate."
+"então se você precisar que os arquivos :file:`po` sejam atualizados de "
+":file:`pot`, você precisa fazer isso sozinho usando :ref:`upload-method` de "
+":guilabel:`Atualizar textos fonte`: ou usando a extensão :ref:`addon-weblate."
 "gettext.msgmerge`."
 
 #: ../../devel/integration.rst:103
@@ -34264,14 +34117,6 @@ msgstr ""
 "como uma tradução."
 
 #: ../../devel/sphinx.rst:22
-#, fuzzy
-#| msgid ""
-#| "Now all you need is translating the documentation content. Sphinx "
-#| "generates PO file for each directory or top level file, what can lead to "
-#| "quite a lot of files to translate (depending on :confval:`sphinx:"
-#| "gettext_compact` settings). You can import the :file:`index.po` into "
-#| "Weblate as an initial component and then configure :ref:`addon-weblate."
-#| "discovery.discovery` addon to automatically discover all others."
 msgid ""
 "Now all you need is translating the documentation content. Sphinx generates "
 "PO file for each directory or top level file, what can lead to quite a lot "
@@ -34282,10 +34127,11 @@ msgid ""
 msgstr ""
 "Agora tudo que você precisa é traduzir o conteúdo da documentação. O Sphinx "
 "gera um arquivo PO para cada diretório ou arquivo de nível superior, o que "
-"pode levar a muitos arquivos para traduzir (dependendo das configurações de :"
-"confval:`sphinx: gettext_compact`). Você pode importar o :file:`index.po` no "
-"Weblate como um componente inicial e então configurar a extensão :ref:`addon-"
-"weblate.discovery.discovery` para descobrir automaticamente todos os outros."
+"pode levar a muitos arquivos para traduzir (dependendo das configurações de "
+":confval:`sphinx: gettext_compact`). Você pode importar o :file:`index.po` "
+"no Weblate como um componente inicial e então configurar a extensão :ref"
+":`addon-weblate.discovery.discovery` para descobrir automaticamente todos os "
+"outros."
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -34823,10 +34669,6 @@ msgstr ""
 "configuração do projeto."
 
 #: ../../devel/translations.rst:141
-#, fuzzy
-#| msgid ""
-#| "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
-#| "using the :ref:`addon-weblate.flags.bulk` addon."
 msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` add-on."
@@ -39342,11 +39184,6 @@ msgstr ""
 "linha na aba :guilabel:`Outras ocorrências`."
 
 #: ../../user/checks.rst:635
-#, fuzzy
-#| msgid ""
-#| "You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to "
-#| "automate translating of newly added strings which are already translated "
-#| "in another component."
 msgid ""
 "You can use :ref:`addon-weblate.autotranslate.autotranslate` add-on to "
 "automate translating of newly added strings which are already translated in "
@@ -40565,16 +40402,12 @@ msgid "Add as translation (``translate``)"
 msgstr "Adicionar como tradução (``translate``)"
 
 #: ../../user/files.rst:87
-#, fuzzy
-#| msgid ""
-#| "Imported translations are added as translations. This is the most common "
-#| "usecase, and the default behavior."
 msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
 msgstr ""
-"Traduções importadas são adicionadas como traduções. Este é o caso de uso "
-"mais comum e o comportamento padrão."
+"Os textos importados são adicionados como traduções para textos existentes. "
+"Este é o caso de uso mais comum e o comportamento padrão."
 
 #: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
 msgid ""
@@ -40587,31 +40420,23 @@ msgid "Add as suggestion (``suggest``)"
 msgstr "Adicionar como sugestão (``suggest``)"
 
 #: ../../user/files.rst:92
-#, fuzzy
-#| msgid ""
-#| "Imported translations are added as suggestions, do this when you want to "
-#| "have your uploaded strings reviewed."
 msgid ""
 "Imported strings are added as suggestions, do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
-"As traduções importadas são adicionadas como sugestões, faça isso quando "
-"quiser ter seus textos enviados revisados."
+"Os textos importados são adicionados como sugestões, faça isso quando quiser "
+"ter seus textos enviados revisados."
 
 #: ../../user/files.rst:99
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "Adicionar como tradução que necessita edição (``fuzzy``)"
 
 #: ../../user/files.rst:97
-#, fuzzy
-#| msgid ""
-#| "Imported translations are added as translations needing edit. This can be "
-#| "useful when you want translations to be used, but also reviewed."
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
-"As traduções importadas são adicionadas como traduções que necessitam de "
+"Os textos importados são adicionados como traduções que necessitam de "
 "edição. Isso pode ser útil quando você quer que as traduções sejam usadas, "
 "mas também revisadas."
 
@@ -41749,14 +41574,6 @@ msgid "Translation links"
 msgstr "Links de tradução"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Strings needing "
-#| "action`. If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -41766,11 +41583,11 @@ msgid ""
 "specific string or term."
 msgstr ""
 "Tendo navegado para um componente, um conjunto de links leva a sua tradução "
-"real. A tradução é ainda dividida em verificações individuais, como :"
-"guilabel:`Textos não traduzidos` ou :guilabel:`Textos que necessitam "
-"edição`. Se todo o projeto for traduzido, sem erro, :guilabel:`Todos os "
-"textos` ainda estão disponíveis. Alternativamente, você pode usar o campo de "
-"pesquisa para encontrar um texto ou termo específico."
+"real. A tradução é ainda dividida em verificações individuais, como "
+":guilabel:`Textos não traduzidos` ou :guilabel:`Textos não finalizados`. Se "
+"todo o projeto for traduzido, sem erro, :guilabel:`Todos os textos` ainda "
+"estão disponíveis. Alternativamente, você pode usar o campo de pesquisa para "
+"encontrar um texto ou termo específico."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -42534,8 +42351,6 @@ msgstr ""
 "guilabel:`Ferramentas` de cada projeto, componente ou tradução."
 
 #: ../../user/translating.rst:407
-#, fuzzy
-#| msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
 msgstr ":ref:`Extensão de edição em massa <addon-weblate.flags.bulk>`"
 
@@ -42882,10 +42697,6 @@ msgstr ""
 "exporter`)."
 
 #: ../../vcs.rst:150
-#, fuzzy
-#| msgid ""
-#| "Some addons can operate on multiple components sharing one repository, "
-#| "for example :ref:`addon-weblate.git.squash`."
 msgid ""
 "Some add-ons can operate on multiple components sharing one repository, for "
 "example :ref:`addon-weblate.git.squash`."
@@ -43074,10 +42885,8 @@ msgstr ""
 "das mudanças de volta."
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "GitHub pull request from fork"
 msgid "GitHub (pull requests)"
-msgstr "Pull request de GitHub do fork"
+msgstr "GitHub (pull request)"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -43104,22 +42913,16 @@ msgid "You need to configure API credentials to make this work."
 msgstr "Você precisa configurar credenciais de API para fazer isso funcionar."
 
 #: ../../vcs.rst:282
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-#| "`GITHUB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
 "setting:`GITHUB_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-"`GITHUB_CREDENTIALS`"
+":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, "
+":setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:293
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "GitLab (merge requests)"
-msgstr "Merge request de GitLab do fork"
+msgstr "GitLab (merge requests)"
 
 #: ../../vcs.rst:297
 msgid ""
@@ -43145,22 +42948,16 @@ msgstr ""
 "request."
 
 #: ../../vcs.rst:310
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
-#| "`GITLAB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
 "setting:`GITLAB_CREDENTIALS`"
 msgstr ""
-":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
-"`GITLAB_CREDENTIALS`"
+":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, "
+":setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:321
-#, fuzzy
-#| msgid "Pagure merge request from fork"
 msgid "Pagure (merge requests)"
-msgstr "Merge request de Pagure do fork"
+msgstr "Pagure (merge requests)"
 
 #: ../../vcs.rst:325
 msgid ""
@@ -43186,16 +42983,12 @@ msgstr ""
 "request."
 
 #: ../../vcs.rst:338
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
-#| "`PAGURE_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :"
 "setting:`PAGURE_CREDENTIALS`"
 msgstr ""
-":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
-"`PAGURE_CREDENTIALS`"
+":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
+":setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:348
 msgid "Gerrit"
@@ -43638,18 +43431,16 @@ msgstr ""
 "partir de stdin (entrada padrão)."
 
 #: ../../wlc.rst:273
-#, fuzzy
-#| msgid "User-uploaded  fonts, see :ref:`fonts`."
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr "Fontes enviadas pelo usuário, veja :ref:`fonts`."
+msgstr "Método de envio para usar, veja :ref:`upload-method`."
 
 #: ../../wlc.rst:281
 msgid "Author name, to override currently authenticated user"
-msgstr ""
+msgstr "Nome do autor, para substituir o usuário atualmente autenticado"
 
 #: ../../wlc.rst:285
 msgid "Author e-mail, to override currently authenticated user"
-msgstr ""
+msgstr "E-mail do autor, para substituir o usuário atualmente autenticado"
 
 #: ../../wlc.rst:290
 msgid ""
@@ -43764,10 +43555,8 @@ msgid "List all projects:"
 msgstr "Listar todos os projetos:"
 
 #: ../../wlc.rst:373
-#, fuzzy
-#| msgid "Upload translations files"
 msgid "Upload translation file:"
-msgstr "Enviar arquivos de tradução"
+msgstr "Enviar arquivo de tradução:"
 
 #: ../../wlc.rst:379
 msgid "You can also designate what project wlc should work on:"
@@ -43900,11 +43689,6 @@ msgid "The states are represented in the translation files when possible."
 msgstr "Os estados são representados nos arquivos de tradução quando possível."
 
 #: ../../workflows.rst:53
-#, fuzzy
-#| msgid ""
-#| "In case file format you use does not support storing states, you might "
-#| "want to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged "
-#| "strings as needing editing."
 msgid ""
 "In case file format you use does not support storing states, you might want "
 "to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
