@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2018, 2019, 2020, 2021.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2018, 2019, 2020, 2021, 2022.
 # ButterflyOfFire <ButterflyOfFire@protonmail.com>, 2018.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2021-12-22 12:58+0000\n"
+"PO-Revision-Date: 2022-01-03 19:24+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -766,11 +766,8 @@ msgstr "הצעות ממתינות"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Unfinished strings"
-msgstr "מחרוזות מתארחות"
+msgstr "מחרוזות שטרם הושלמו"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1337,14 +1334,10 @@ msgid "Language filter"
 msgstr "מסנן השפות"
 
 #: weblate/addons/forms.py:284
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
-msgstr "ביטויים רגולריים לסינון קובצי תרגומים כנגד סריקה אחר מסכת קובץ."
+msgstr "ביטוי רגולרי לסינון קובצי תרגומים מולו בעת סריקה אחר מסכת קובץ."
 
 #: weblate/addons/forms.py:289
 msgid "Clone add-ons from the main component to the newly created ones"
@@ -7045,26 +7038,22 @@ msgid "Screenshot context"
 msgstr "הקשר צילום המסך"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "הצעה ממתינה ברכיב %(component)s"
-msgstr[1] "%(count)s הצעות ממתינות ברכיב %(component)s"
-msgstr[2] "%(count)s הצעות ממתינות ברכיב %(component)s"
-msgstr[3] "%(count)s הצעות ממתינות ברכיב %(component)s"
+msgstr[0] "מחרוזת שטרם הושלמה ברכיב %(component)s"
+msgstr[1] "%(count)s מחרוזות שטרם הושלמו ברכיב %(component)s"
+msgstr[2] "%(count)s מחרוזות שטרם הושלמו ברכיב %(component)s"
+msgstr[3] "%(count)s מחרוזות שטרם הושלמו ברכיב %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "מחרוזת"
-msgstr[1] "%(count)s מחרוזות"
-msgstr[2] "%(count)s מחרוזות"
-msgstr[3] "%(count)s מחרוזות"
+msgstr[0] "מחרוזת שטרם הושלמה"
+msgstr[1] "%(count)s מחרוזות שטרם הושלמו"
+msgstr[2] "%(count)s מחרוזות שטרם הושלמו"
+msgstr[3] "%(count)s מחרוזות שטרם הושלמו"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:132
 msgid "Access control"
@@ -8248,19 +8237,15 @@ msgstr "מיון עמודה זו"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr ""
+msgstr "טרם הושלמו"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgid "Untranslated words"
 msgid "Unfinished words"
-msgstr "מילים לא מתורגמות"
+msgstr "מילים שטרם הושלמו"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "תווים שלא תורגמו"
+msgstr "תווים שטרם הושלמו"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8713,8 +8698,6 @@ msgid "Filename"
 msgstr "שם קובץ"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid "Some linked components have the same file mask."
 msgstr "למספר רכיבים מקושרים יש את אותה מסכת קבצים."
 
@@ -8723,8 +8706,6 @@ msgid "Please fix this by removing one of them."
 msgstr "נא לתקן זאת על ידי הסרת אחת מהן."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
 msgstr "מסכות הקבצים הבאות נמצאו מספר פעמים:"
 
@@ -8840,10 +8821,6 @@ msgid "This component set up is incomplete, as it lacks any translations."
 msgstr "רכיב זה מוגדר חלקית כיוון שחסרים בו תרגומים כלשהם."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Starting new translations directly in Weblate is possible, and creates "
-#| "files based on the filemask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
@@ -8852,10 +8829,7 @@ msgstr ""
 "הקבצים."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the filemask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
@@ -9657,14 +9631,11 @@ msgid ""
 msgstr "כל המחרוזות, בהמרה לקבצים שמועשרים בתגובות, מתאים לתרגום בלתי־מקוון"
 
 #: weblate/templates/translation.html:338
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for offline "
-#| "translation"
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
-msgstr "כל המחרוזות, בהמרה לקבצים שמועשרים בתגובות, מתאים לתרגום בלתי־מקוון"
+msgstr ""
+"מחרוזות שטרם הושלמו, בהמרה לקבצים שמועשרים בתגובות, מתאים לתרגום בלתי־מקוון"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -9844,10 +9815,8 @@ msgid "Strings with context"
 msgstr "מחרוזות עם הקשר"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "מחרוזות שאושרו עם הצעות"
+msgstr "מחרוזות שטרם הושלמו ללא הצעות"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10527,8 +10496,6 @@ msgstr "תרגום כפול."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
 msgstr "מסכת קובץ כפולה."
 
@@ -10618,10 +10585,8 @@ msgid "Unused enforced checks."
 msgstr "בדיקות שנאכפות ואינן בשימוש."
 
 #: weblate/trans/models/alert.py:387
-#, fuzzy
-#| msgid "No mask matches."
 msgid "No file mask matches."
-msgstr "אין התאמה עם המסכה."
+msgstr "אין התאמות למסכה."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
@@ -11283,10 +11248,6 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "האם על הרכיב להינעל עקב שגיאות במאגר."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -11392,46 +11353,35 @@ msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "קישור שגוי למיזם Weblate, יש להשתמש בצורה weblate://project/component."
 
 #: weblate/trans/models/component.py:2219
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "האפשרות אינה זמינה במאגרים מקושרים."
+msgstr "האפשרות אינה זמינה במאגרים מקושרים. יעשה שימוש בהגדרות מהרכיב המקושר."
 
 #: weblate/trans/models/component.py:2231
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
 msgstr "המסכה אינה תואמת קבצים כלשהם."
 
 #: weblate/trans/models/component.py:2240
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
 msgstr "קוד השפה עבור %s היה ריק, נא לבדוק את מסכת הקובץ."
 
 #: weblate/trans/models/component.py:2249
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
 msgstr "קוד השפה „%s” ארוך מדי, נא לבדוק את מסכת הקובץ."
 
 #: weblate/trans/models/component.py:2256
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
 msgstr ""
-"יש יותר מקובץ אחד לשפה %s, נא להתאים את מסכת הקבצים ולהשתמש ברכיבים כדי "
-"לתרגם משאבים שונים."
+"יש יותר מקובץ אחד ל%s, נא להתאים את מסכת הקבצים ולהשתמש ברכיבים כדי לתרגם "
+"משאבים שונים."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr "לא ניתן למצוא שפה תואמת כלשהי, נא לבדוק את מסכת הקובץ."
 
