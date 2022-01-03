@@ -200,7 +200,7 @@ component.
 
 Right now this controls:
 
-* :ref:`addon-weblate.autotranslate.autotranslate` addon
+* :ref:`addon-weblate.autotranslate.autotranslate` add-on
 * :doc:`checks` recalculation
 
 Possible choices:
@@ -534,7 +534,7 @@ Default commit messages for different operations, please check :ref:`component` 
 DEFAULT_ADDONS
 --------------
 
-Default addons to install on every created component.
+Default add-ons to install on every created component.
 
 .. note::
 
@@ -1067,7 +1067,7 @@ The restriction is the length of the source string * 10 characters.
 LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
 --------------------------------------
 
-These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon.
+These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on.
 :setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
 available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
 store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.

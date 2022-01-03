@@ -262,7 +262,7 @@ You can find some examples of typical configurations in the :ref:`formats`.
 
     It is recommended to keep translation components to a reasonable size - split
     the translation by anything that makes sense in your case (individual
-    apps or addons, book chapters or websites).
+    apps or add-ons, book chapters or websites).
 
     Weblate easily handles translations with 10000s of strings, but it is harder
     to split work and coordinate among translators with such large translation components.
