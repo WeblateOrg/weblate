@@ -2154,8 +2154,8 @@ Configures how deep cloning of repositories Weblate should do.
 WEBLATE_ADDONS
 --------------
 
-List of addons available for use. To use them, they have to be enabled for
-a given translation component. By default this includes all built-in addons, when
+List of add-ons available for use. To use them, they have to be enabled for
+a given translation component. By default this includes all built-in add-ons, when
 extending the list you will probably want to keep existing ones enabled, for
 example:
 
@@ -2163,7 +2163,7 @@ example:
 .. code-block:: python
 
     WEBLATE_ADDONS = (
-        # Built-in addons
+        # Built-in add-ons
         "weblate.addons.gettext.GenerateMoAddon",
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
@@ -2193,8 +2193,8 @@ example:
 
 .. note::
 
-    Removing the addon from the list does not uninstall it from the components.
-    Weblate will crash in that case. Please uninstall addon from all components
+    Removing the add-on from the list does not uninstall it from the components.
+    Weblate will crash in that case. Please uninstall add-on from all components
     prior to removing it from this list.
 
 .. seealso::

@@ -147,7 +147,7 @@ Reasons to use this:
 * Saves disk space on the server, the repository is stored just once.
 * Makes the updates faster, only one repository is updated.
 * There is just single exported repository with Weblate translations (see :ref:`git-exporter`).
-* Some addons can operate on multiple components sharing one repository, for example :ref:`addon-weblate.git.squash`.
+* Some add-ons can operate on multiple components sharing one repository, for example :ref:`addon-weblate.git.squash`.
 
 
 HTTPS repositories

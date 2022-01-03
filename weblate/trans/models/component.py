@@ -535,7 +535,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
     addon_message = models.TextField(
-        verbose_name=gettext_lazy("Commit message when addon makes a change"),
+        verbose_name=gettext_lazy("Commit message when add-on makes a change"),
         help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."

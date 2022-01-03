@@ -90,13 +90,13 @@ For monolingual files (see :ref:`formats`) Weblate might add new translation
 strings not present in the :ref:`component-template`, and not in actual
 translations. It does not however perform any automatic cleanup of stale
 strings as that might have unexpected outcomes. If you want to do this, please
-install :ref:`addon-weblate.cleanup.generic` addon which will handle the
+install :ref:`addon-weblate.cleanup.generic` add-on which will handle the
 cleanup according to your requirements.
 
 Weblate also will not try to update bilingual files in any way, so if you need
 :file:`po` files being updated from :file:`pot`, you need to do it yourself
 using :guilabel:`Update source strings` :ref:`upload-method` or using
-:ref:`addon-weblate.gettext.msgmerge` addon.
+:ref:`addon-weblate.gettext.msgmerge` add-on.
 
 .. seealso::
 

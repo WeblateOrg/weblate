@@ -291,19 +291,19 @@ class MissingLicense(BaseAlert):
 @register
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not run addon.")
+    verbose = _("Could not run add-on.")
 
 
 @register
 class CDNAddonError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not run addon.")
+    verbose = _("Could not run add-on.")
 
 
 @register
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not run addon.")
+    verbose = _("Could not run add-on.")
 
 
 @register

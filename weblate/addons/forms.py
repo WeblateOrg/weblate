@@ -286,7 +286,7 @@ class DiscoveryForm(BaseAddonForm):
         ),
     )
     copy_addons = forms.BooleanField(
-        label=_("Clone addons from the main component to the newly created ones"),
+        label=_("Clone add-ons from the main component to the newly created ones"),
         required=False,
         initial=True,
     )

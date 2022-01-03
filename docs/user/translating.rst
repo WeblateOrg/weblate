@@ -404,7 +404,7 @@ The following operations are supported:
 
 .. seealso::
 
-   :ref:`Bulk edit addon <addon-weblate.flags.bulk>`
+   :ref:`Bulk edit add-on <addon-weblate.flags.bulk>`
 
 Matrix View
 -----------

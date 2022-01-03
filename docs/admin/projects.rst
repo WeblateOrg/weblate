@@ -667,8 +667,8 @@ Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 .. _component-merge_message:
 .. _component-addon_message:
 
-Commit, add, delete, merge and addon messages
-+++++++++++++++++++++++++++++++++++++++++++++
+Commit, add, delete, merge and add-on messages
+++++++++++++++++++++++++++++++++++++++++++++++
 
 Message used when committing a translation, see :ref:`markup`.
 
@@ -862,7 +862,7 @@ powerful.
 Currently it is used in:
 
 * Commit message formatting, see :ref:`component`
-* Several addons
+* Several add-ons
     * :ref:`addon-weblate.discovery.discovery`
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
@@ -904,7 +904,7 @@ There following variables are available in the component templates:
 ``{{ author }}``
     Author of current commit, available only in the commit scope.
 ``{{ addon_name }}``
-    Name of currently executed addon, available only in the addon commit message.
+    Name of currently executed add-on, available only in the add-on commit message.
 
 The following variables are available in the repository browser or editor templates:
 
@@ -997,11 +997,11 @@ In case your project has dozen of translation files (e.g. for different
 gettext domains, or parts of Android apps), you might want to import them
 automatically. This can either be achieved from the command-line by using
 :djadmin:`import_project` or :djadmin:`import_json`, or by installing the
-:ref:`addon-weblate.discovery.discovery` addon.
+:ref:`addon-weblate.discovery.discovery` add-on.
 
-To use the addon, you first need to create a component for one translation
+To use the add-on, you first need to create a component for one translation
 file (choose the one that is the least likely to be renamed or removed in future),
-and install the addon on this component.
+and install the add-on on this component.
 
 For the management commands, you need to create a project which will contain all
 components and then run :djadmin:`import_project` or

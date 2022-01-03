@@ -2220,7 +2220,7 @@ Add-ons
 
 .. http:get:: /api/addons/
 
-    Returns a list of addons.
+    Returns a list of add-ons.
 
     .. seealso::
 
@@ -2228,13 +2228,13 @@ Add-ons
 
 .. http:get:: /api/addons/(int:id)/
 
-    Returns information about addon information.
+    Returns information about add-on information.
 
     :param id: Add-on ID
     :type id: int
-    :>json string name: name of an addon
+    :>json string name: name of an add-on
     :>json string component: URL of a related component object
-    :>json object configuration: Optional addon configuration
+    :>json object configuration: Optional add-on configuration
 
     .. seealso::
 
@@ -2242,32 +2242,32 @@ Add-ons
 
 .. http:post:: /api/components/(string:project)/(string:component)/addons/
 
-    Creates a new addon.
+    Creates a new add-on.
 
     :param string project_slug: Project slug
     :param string component_slug: Component slug
-    :<json string name: name of an addon
-    :<json object configuration: Optional addon configuration
+    :<json string name: name of an add-on
+    :<json object configuration: Optional add-on configuration
 
 .. http:patch:: /api/addons/(int:id)/
 
-    Edit partial information about addon.
+    Edit partial information about add-on.
 
     :param id: Add-on ID
     :type id: int
-    :>json object configuration: Optional addon configuration
+    :>json object configuration: Optional add-on configuration
 
 .. http:put:: /api/addons/(int:id)/
 
-    Edit full information about addon.
+    Edit full information about add-on.
 
     :param id: Add-on ID
     :type id: int
-    :>json object configuration: Optional addon configuration
+    :>json object configuration: Optional add-on configuration
 
 .. http:delete:: /api/addons/(int:id)/
 
-    Delete addon.
+    Delete add-on.
 
     :param id: Add-on ID
     :type id: int

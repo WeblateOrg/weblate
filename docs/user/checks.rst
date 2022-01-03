@@ -632,7 +632,7 @@ This check applies to all components in a project that have
    :guilabel:`Use this translation` button displayed on each line in the
    :guilabel:`Other occurrences` tab.
 
-   You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to
+   You can use :ref:`addon-weblate.autotranslate.autotranslate` add-on to
    automate translating of newly added strings which are already translated in
    another component.
 

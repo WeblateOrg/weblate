@@ -653,7 +653,7 @@ class Migration(migrations.Migration):
                         default=settings.DEFAULT_ADDON_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_addon],
-                        verbose_name="Commit message when addon makes a change",
+                        verbose_name="Commit message when add-on makes a change",
                     ),
                 ),
                 (
