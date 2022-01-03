@@ -268,6 +268,12 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
     check_id = "icu_message_format_syntax"
     name = _("ICU MessageFormat syntax")
     description = _("Syntax errors in ICU MessageFormat strings.")
+    default_disabled = True
+
+    def __init__(self):
+        super().__init__()
+        self.enable_string = "icu-message-format"
+        self.ignore_string = f"ignore-{self.enable_string}"
 
     def check_source_unit(self, source, unit):
         """Checker for source strings. Only check for syntax issues."""

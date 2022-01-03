@@ -91,6 +91,11 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         self.assertFalse(check.check_source_unit([""], self.get_mock()))
         self.assertFalse(check.check_source_unit(["Hello, {name}!"], self.get_mock()))
 
+    def test_source_non_icu(self):
+        check = ICUSourceCheck()
+        source = "icon in the top bar: {{ img-queue | strip }}"
+        self.assertFalse(check.check_source([source], MockUnit("x", source=source)))
+
     def test_bad_source(self):
         check = ICUSourceCheck()
         self.assertTrue(check.check_source_unit(["Hello, {name!"], self.get_mock()))

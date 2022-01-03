@@ -1266,7 +1266,8 @@ ICU MessageFormat syntax
 :Summary: Syntax errors in ICU MessageFormat strings.
 :Scope: source strings
 :Check class: ``weblate.checks.icu.ICUSourceCheck``
-:Flag to ignore: ``ignore-icu-message-format-syntax``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
 
 .. seealso:: :ref:`check-icu-message-format`
 

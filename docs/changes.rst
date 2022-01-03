@@ -12,6 +12,7 @@ Released on December 22nd 2021.
 * The Weblate Docker container now uses Python 3.10.
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
+* Fixed false positives from :ref:`check-icu-message-format-syntax`.
 
 Weblate 4.10
 ------------
