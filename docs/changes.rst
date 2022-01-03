@@ -13,6 +13,7 @@ Released on December 22nd 2021.
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
+* Indicate lock and contributor agreement on other occurrences listing.
 
 Weblate 4.10
 ------------

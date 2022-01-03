@@ -700,11 +700,20 @@ def user_permissions(user, groups):
     return mark_safe("".join(result))
 
 
+def _needs_agreement(component, user):
+    if not component.agreement:
+        return False
+    return not ContributorAgreement.objects.has_agreed(user, component)
+
+
+@register.simple_tag(takes_context=True)
+def needs_agreement(context, component):
+    return _needs_agreement(component, context["user"])
+
+
 @register.simple_tag(takes_context=True)
 def show_contributor_agreement(context, component):
-    if not component.agreement:
-        return ""
-    if ContributorAgreement.objects.has_agreed(context["user"], component):
+    if not _needs_agreement(component, context["user"]):
         return ""
 
     return render_to_string(
