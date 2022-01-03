@@ -275,7 +275,9 @@ translation changes as pull requests, instead of pushing directly to the reposit
 :ref:`vcs-github` creates pull requests.
 The latter is not needed for merely accessing Git repositories.
 
-You need to configure API credentials to make this work.
+You need to configure API credentials (:setting:`GITHUB_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`GitHub` option when selecting :ref:`component-vcs`.
 
 .. seealso::
 
@@ -303,7 +305,9 @@ works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-gitlab` creates merge request.
 
-You need to configure API credentials to make this work.
+You need to configure API credentials (:setting:`GITLAB_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`GitLab` option when selecting :ref:`component-vcs`.
 
 .. seealso::
 
@@ -331,7 +335,9 @@ works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-pagure` creates merge request.
 
-You need to configure API credentials to make this work.
+You need to configure API credentials (:setting:`PAGURE_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Pagure` option when selecting :ref:`component-vcs`.
 
 .. seealso::
 
