@@ -7,7 +7,7 @@
 # Volkan Gezer <volkangezer@gmail.com>, 2019.
 # Serdar Sağlam <teknomobil@msn.com>, 2019.
 # Ali Demirtas <alidemirtas94@gmail.com>, 2019, 2020.
-# Burak Yavuz <hitowerdigit@hotmail.com>, 2019, 2020, 2021.
+# Burak Yavuz <hitowerdigit@hotmail.com>, 2019, 2020, 2021, 2022.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Oguz Ersen <oguzersen@protonmail.com>, 2019.
 # Oğuz Ersen <oguzersen@protonmail.com>, 2019, 2020, 2021.
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2021-12-22 19:40+0000\n"
+"PO-Revision-Date: 2022-01-03 19:24+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -794,11 +794,8 @@ msgstr "Öneriler beklemede"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Unfinished strings"
-msgstr "Barındırılan dizgi"
+msgstr "Tamamlanmamış dizgiler"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1388,10 +1385,6 @@ msgid "Language filter"
 msgstr "Dil süzgeci"
 
 #: weblate/addons/forms.py:284
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -7172,22 +7165,18 @@ msgid "Screenshot context"
 msgstr "Ekran görüntüsü bağlamı"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(component)s bileşeninde bekleyen %(count)s öneri"
-msgstr[1] "%(component)s bileşeninde bekleyen %(count)s öneri"
+msgstr[0] "%(component)s içinde %(count)s tamamlanmamış dizgi"
+msgstr[1] "%(component)s içinde %(count)s tamamlanmamış dizgi"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s dizgi"
-msgstr[1] "%(count)s dizgi"
+msgstr[0] "%(count)s tamamlanmamış dizgi"
+msgstr[1] "%(count)s tamamlanmamış dizgi"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:132
 msgid "Access control"
@@ -8407,19 +8396,15 @@ msgstr "Bu sütunu sırala"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr ""
+msgstr "Tamamlanmamış"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgid "Untranslated words"
 msgid "Unfinished words"
-msgstr "Çevrilmemiş sözcükler"
+msgstr "Tamamlanmamış sözcükler"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "Çevrilmemiş karakterler"
+msgstr "Tamamlanmamış karakterler"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8879,8 +8864,6 @@ msgid "Filename"
 msgstr "Dosya adı"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid "Some linked components have the same file mask."
 msgstr "Bazı bağlantılı bileşenler aynı dosya maskesine sahip."
 
@@ -8889,8 +8872,6 @@ msgid "Please fix this by removing one of them."
 msgstr "Lütfen birini kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
 msgstr "Aşağıdaki dosya maskeleri birden çok kez bulundu:"
 
@@ -8968,7 +8949,7 @@ msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
-"Lütfen, çeviri dosyalarından aynı tanımlayıcıya sahip yinelenmiş dizgileri "
+"Lütfen, çeviri dosyalarından aynı tanımlayıcıya sahip yinelenen dizgileri "
 "kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
@@ -9016,10 +8997,6 @@ msgid "This component set up is incomplete, as it lacks any translations."
 msgstr "Bu bileşenin ayarlanması, hiçbir çeviri olmadığı için tamamlanmadı."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Starting new translations directly in Weblate is possible, and creates "
-#| "files based on the filemask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
@@ -9028,10 +9005,7 @@ msgstr ""
 "dayalı dosyalar oluşturur."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the filemask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
@@ -9851,16 +9825,12 @@ msgstr ""
 "çevrimdışı çeviri için uygun"
 
 #: weblate/templates/translation.html:338
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for offline "
-#| "translation"
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Tüm dizgiler, açıklamalarla zenginleştirilmiş dönüştürülmüş dosyalar; "
-"çevrimdışı çeviri için uygun"
+"Tamamlanmamış dizgiler, açıklamalarla zenginleştirilmiş dönüştürülmüş "
+"dosyalar; çevrimdışı çeviri için uygun"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10048,10 +10018,8 @@ msgid "Strings with context"
 msgstr "Bağlamı olan dizgiler"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "Önerileri olan onaylanmış dizgiler"
+msgstr "Önerileri olmayan tamamlanmamış dizgiler"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10760,8 +10728,6 @@ msgstr "Yinelenen çeviri."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
 msgstr "Yinelenen dosya maskesi."
 
@@ -10851,10 +10817,8 @@ msgid "Unused enforced checks."
 msgstr "Kullanılmayan zorunlu denetimler."
 
 #: weblate/trans/models/alert.py:387
-#, fuzzy
-#| msgid "No mask matches."
 msgid "No file mask matches."
-msgstr "Eşleşen maske yok."
+msgstr "Eşleşen dosya maskesi yok."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
@@ -11535,10 +11499,6 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Bileşenin depo hatalarında kilitlenmesi gerekip gerekmediği."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -11653,36 +11613,29 @@ msgstr ""
 "kullanın."
 
 #: weblate/trans/models/component.py:2219
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "Bağlantılı depolar için seçenek kullanılamaz."
+msgstr ""
+"Bağlantılı depolar için seçenek kullanılamaz. Bağlantılı bileşenden ayar "
+"kullanılacaktır."
 
 #: weblate/trans/models/component.py:2231
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
 msgstr "Dosya maskesi hiçbir dosyayla eşleşmedi."
 
 #: weblate/trans/models/component.py:2240
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
 msgstr "%s dil kodu boştu, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/models/component.py:2249
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/models/component.py:2256
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
@@ -11691,8 +11644,6 @@ msgstr ""
 "farklı kaynakları çevirmek için bileşenleri kullanın."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "Eşleşen herhangi bir dil bulunamadı, lütfen dosya maskesini gözden geçirin."
