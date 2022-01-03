@@ -26,7 +26,7 @@ from django.db.models import Q
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
-from django.utils.translation import gettext
+from django.utils.translation import activate, gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
 
@@ -161,6 +161,11 @@ class LanguagesForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+
+    def save(self, commit=True):
+        super().save(commit=commit)
+        # Activate selected language
+        activate(self.cleaned_data["language"])
 
 
 class ProfileForm(ProfileBaseForm):
