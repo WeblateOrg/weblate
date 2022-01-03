@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2019, 2021.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019, 2020, 2021.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019, 2020, 2021, 2022.
 # RD WebDesign <weblate@rdwebdesign.com.br>, 2019.
 # Paulo Schopf <pschopf@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2021-12-22 12:58+0000\n"
+"PO-Revision-Date: 2022-01-03 19:24+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -807,11 +807,8 @@ msgstr "Sugestões pendentes"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Unfinished strings"
-msgstr "Textos hospedados"
+msgstr "Textos não finalizados"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1405,10 +1402,6 @@ msgid "Language filter"
 msgstr "Filtro de idioma"
 
 #: weblate/addons/forms.py:284
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -7207,22 +7200,18 @@ msgid "Screenshot context"
 msgstr "Contexto da captura de tela"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s sugestão pendente em %(component)s"
-msgstr[1] "%(count)s sugestões pendentes em %(component)s"
+msgstr[0] "%(count)s texto não finalizado em %(component)s"
+msgstr[1] "%(count)s textos não finalizados em %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s texto"
-msgstr[1] "%(count)s textos"
+msgstr[0] "%(count)s texto não finalizado"
+msgstr[1] "%(count)s textos não finalizados"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:132
 msgid "Access control"
@@ -8448,19 +8437,15 @@ msgstr "Organizar esta coluna"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr ""
+msgstr "Não finalizados"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgid "Untranslated words"
 msgid "Unfinished words"
-msgstr "Palavras não traduzidas"
+msgstr "Palavras não finalizadas"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "Caracteres não traduzidos"
+msgstr "Caracteres não finalizados"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8920,8 +8905,6 @@ msgid "Filename"
 msgstr "Nome de arquivo"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid "Some linked components have the same file mask."
 msgstr "Alguns componentes vinculados contêm a mesma máscara de arquivo."
 
@@ -8930,10 +8913,8 @@ msgid "Please fix this by removing one of them."
 msgstr "Por favor, corrija isto removendo um deles."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
-msgstr "As seguintes máscaras de arquivos foram encontradas várias vezes:"
+msgstr "As seguintes máscaras de arquivo foram encontradas várias vezes:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -9064,10 +9045,6 @@ msgstr ""
 "traduções."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Starting new translations directly in Weblate is possible, and creates "
-#| "files based on the filemask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
@@ -9076,15 +9053,12 @@ msgstr ""
 "arquivos com base na máscara de arquivo."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the filemask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"Verifique se a máscara do arquivo <code>%(filemask)s</code> coincide com os "
+"Verifique se a máscara de arquivo <code>%(filemask)s</code> coincide com os "
 "arquivos do seu repositório."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
@@ -9912,16 +9886,12 @@ msgstr ""
 "para tradução offline"
 
 #: weblate/templates/translation.html:338
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for offline "
-#| "translation"
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Todos os textos, arquivos convertidos enriquecidos com comentários; adequado "
-"para tradução offline"
+"Textos não finalizados, arquivos convertidos enriquecidos com comentários; "
+"adequado para tradução offline"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10108,10 +10078,8 @@ msgid "Strings with context"
 msgstr "Textos com contexto"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "Textos aprovados com sugestões"
+msgstr "Textos não finalizados sem sugestões"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10819,8 +10787,6 @@ msgstr "Tradução duplicada."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
 msgstr "Máscara de arquivo duplicada."
 
@@ -10910,10 +10876,8 @@ msgid "Unused enforced checks."
 msgstr "Verificações forçadas."
 
 #: weblate/trans/models/alert.py:387
-#, fuzzy
-#| msgid "No mask matches."
 msgid "No file mask matches."
-msgstr "Nenhuma máscara corresponde."
+msgstr "Nenhuma máscara de arquivo corresponde."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
@@ -11599,10 +11563,6 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Define se o componente deve ser bloqueado em erros de repositório."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -11721,38 +11681,31 @@ msgstr ""
 "Link inválido para o projeto Weblate, use weblate://projeto/componente."
 
 #: weblate/trans/models/component.py:2219
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "A opção não está disponível para repositórios vinculados."
+msgstr ""
+"A opção não está disponível para repositórios vinculados. As configurações "
+"de componente vinculado serão usadas."
 
 #: weblate/trans/models/component.py:2231
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
 msgstr "A máscara de arquivo não corresponde a nenhum arquivo."
 
 #: weblate/trans/models/component.py:2240
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
 msgstr ""
 "O código de idioma para %s estava vazio, verifique a máscara de arquivo."
 
 #: weblate/trans/models/component.py:2249
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
 msgstr ""
 "O código de idioma \"%s\" é muito longo, verifique a máscara de arquivo."
 
 #: weblate/trans/models/component.py:2256
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
@@ -11761,8 +11714,6 @@ msgstr ""
 "use os componentes para traduzir os diferentes recursos."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "Não foi possível encontrar nenhum idioma correspondente, verifique a máscara "
