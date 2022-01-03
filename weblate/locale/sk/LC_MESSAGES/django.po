@@ -14,13 +14,14 @@
 # MartinIIOT <max_m@centrum.sk>, 2020.
 # Allan Nordhøy <epost@anotheragency.no>, 2021.
 # Milan <mobrcian@hotmail.com>, 2021.
+# Palco <xpavolcsiba@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2021-12-15 19:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-01-03 19:24+0000\n"
+"Last-Translator: Palco <xpavolcsiba@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -38,10 +39,8 @@ msgstr "Žiadny"
 #: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:238
 #: weblate/templates/snippets/user-list.html:12
-#, fuzzy
-#| msgid "User comments"
 msgid "User avatar"
-msgstr "Komentáre od užívateľov"
+msgstr "Avatar používateľa"
 
 #: weblate/accounts/forms.py:82
 msgid ""
@@ -59,16 +58,13 @@ msgid "Full name"
 msgstr "Celé meno"
 
 #: weblate/accounts/forms.py:170 weblate/accounts/models.py:557
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Váš e-mail"
+msgstr "Verejný e-mail"
 
 #: weblate/accounts/forms.py:277
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Zoznamy komponentov"
+msgstr "Zoznam komponentov: %s"
 
 #: weblate/accounts/forms.py:303 weblate/accounts/forms.py:370
 #: weblate/accounts/templatetags/authnames.py:36 weblate/auth/models.py:327
@@ -113,10 +109,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Na túto adresu Vám príde aktivačný e-mail."
 
 #: weblate/accounts/forms.py:394
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Príliš veľa neúspešných pokusov o registráciu z tejto polohy!"
+msgstr "Príliš veľa neúspešných pokusov o registráciu z tejto polohy."
 
 #: weblate/accounts/forms.py:401
 msgid "New password"
@@ -163,24 +157,16 @@ msgid "Password"
 msgstr "Heslo"
 
 #: weblate/accounts/forms.py:518
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Zadajte prosím správne používateľské meno a heslo. Oboje rozlišujú veľké a "
-"malé písmená."
+msgstr "Zadajte prosím správne používateľské meno a heslo."
 
 #: weblate/accounts/forms.py:519
 msgid "This account is inactive."
 msgstr "Tento účet je neaktívny."
 
 #: weblate/accounts/forms.py:536
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "Príliš veľa pokusov o prihlásenie z tejto oblasti!"
+msgstr "Príliš veľa pokusov o prihlásenie z tejto oblasti."
 
 #: weblate/accounts/forms.py:621
 msgid "Component wide notifications"
@@ -195,10 +181,8 @@ msgid "Use default setting"
 msgstr "Použiť predvolené nastavenie"
 
 #: weblate/accounts/forms.py:671
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Sledované projekty"
+msgstr "Ostatné projekty"
 
 #: weblate/accounts/forms.py:673 weblate/accounts/models.py:495
 #: weblate/templates/accounts/profile.html:67
@@ -219,14 +203,11 @@ msgid "Component: {}"
 msgstr "Komponent: {}"
 
 #: weblate/accounts/forms.py:684
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Dostanete upozornenie na každú takúto udalosť vo vami sledovaných projektoch."
+"Dostanete upozornenie na každú takúto udalosť vo vami nesledovaných "
+"projektoch."
 
 #: weblate/accounts/forms.py:689
 msgid ""
@@ -236,45 +217,30 @@ msgstr ""
 "Dostanete upozornenie na každú takúto udalosť vo vami sledovaných projektoch."
 
 #: weblate/accounts/forms.py:694
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Dostanete upozornenie na každú takúto udalosť vo vami sledovaných projektoch."
+"Dostanete upozornenie na každú takúto udalosť v projektoch, ktoré spravujete."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Dostanete upozornenie na každú takúto udalosť vo vami sledovaných projektoch."
+msgstr "Dostanete upozornenie na každú takúto udalosť v projekte %(project)s."
 
 #: weblate/accounts/forms.py:702
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
-"Dostanete upozornenie na každú takúto udalosť vo vami sledovaných projektoch."
+"Dostanete upozornenie na každú takúto udalosť v komponente %(component)s."
 
 #: weblate/accounts/forms.py:709
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Obdržíte upozornenia len pre vami prekladané jazyky vo vami sledovaných "
-"projektoch."
+"Obdržíte upozornenia len pre vami prekladané jazyky v projektoch, ktoré "
+"nesledujete."
 
 #: weblate/accounts/forms.py:714
 msgid ""
@@ -285,40 +251,29 @@ msgstr ""
 "projektoch."
 
 #: weblate/accounts/forms.py:719
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Obdržíte upozornenia len pre vami prekladané jazyky vo vami sledovaných "
-"projektoch."
+"Obdržíte upozornenia len pre vami prekladané jazyky v projektoch, ktoré "
+"spravujete."
 
 #: weblate/accounts/forms.py:724
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Obdržíte upozornenia len pre vami prekladané jazyky vo vami sledovaných "
-"projektoch."
+"Obdržíte upozornenia len pre vami prekladané jazyky v projekte %(project)s."
 
 #: weblate/accounts/forms.py:728
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Obdržíte upozornenia len pre vami prekladané jazyky vo vami sledovaných "
-"projektoch."
+"Obdržíte upozornenia len pre vami prekladané jazyky v komponente "
+"%(component)s."
 
 #: weblate/accounts/forms.py:768 weblate/auth/models.py:310
 #: weblate/templates/manage-access.html:35 weblate/utils/forms.py:42
