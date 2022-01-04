@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2022-01-04 12:59+0000\n"
+"PO-Revision-Date: 2022-01-05 08:22+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -8993,20 +8993,16 @@ msgid "Filename"
 msgstr "Numele fișierului"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid "Some linked components have the same file mask."
-msgstr "Unele componente legate au aceeași mască de fișier."
+msgstr "Unele componente legate au aceeași mască - fișier."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Please fix this by removing one of them."
 msgstr "Vă rugăm să remediați acest lucru prin eliminarea unuia dintre ele."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
-msgstr "Următoarele măști de fișiere au fost găsite de mai multe ori:"
+msgstr "Următoarele măști - de fișiere au fost găsite de mai multe ori:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -9140,28 +9136,21 @@ msgstr ""
 "Acest set de componente este incomplet, deoarece îi lipsesc traducerile."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Starting new translations directly in Weblate is possible, and creates "
-#| "files based on the filemask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
 msgstr ""
 "Este posibilă începerea de noi traduceri direct în Weblate, care creează "
-"fișiere pe baza filemask-ului."
+"fișiere pe baza măștii-fișierului."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the filemask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"Verificați dacă masca de fișiere <code>%(filemask)s</code> se potrivește cu "
-"fișierele din depozitul sistemului de control al versiunilor."
+"Verificați dacă masca - de fișiere <code>%(filemask)s</code> se potrivește "
+"cu fișierele din depozitul sistemului de control al versiunilor."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -10008,16 +9997,12 @@ msgstr ""
 "pentru traducere offline"
 
 #: weblate/templates/translation.html:338
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for offline "
-#| "translation"
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Toate șirurile, fișiere convertite îmbogățite cu comentarii; potrivite "
-"pentru traducere offline"
+"Șiruri de caractere neterminate, fișiere convertite îmbogățite cu comentarii;"
+" potrivite pentru traducere offline"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10205,10 +10190,8 @@ msgid "Strings with context"
 msgstr "Șiruri de caractere cu context"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "Șiruri aprobate cu sugestii"
+msgstr "Șiruri neterminate fără sugestii"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10934,10 +10917,8 @@ msgstr "Traducere duplicată."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
-msgstr "File mask duplicat."
+msgstr "Masca - fișierului duplicat."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:208
@@ -11025,10 +11006,8 @@ msgid "Unused enforced checks."
 msgstr "Cecuri executate neutilizate."
 
 #: weblate/trans/models/alert.py:387
-#, fuzzy
-#| msgid "No mask matches."
 msgid "No file mask matches."
-msgstr "Nici o mască nu se potrivește."
+msgstr "Nici o mască - de fișier nu se potrivește."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
@@ -11717,16 +11696,12 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Dacă componenta trebuie să fie blocată la erori de depozit."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
 msgstr ""
 "Expresie regulată utilizată pentru a filtra fișierele de traducere la "
-"scanarea pentru filemask."
+"scanarea pentru masca - de fișier."
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -11844,50 +11819,45 @@ msgstr ""
 "component."
 
 #: weblate/trans/models/component.py:2219
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "Opțiunea nu este disponibilă pentru depozitele legate."
+msgstr ""
+"Opțiunea nu este disponibilă pentru depozitele legate. Se vor utiliza "
+"setările din componenta legată."
 
 #: weblate/trans/models/component.py:2231
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
-msgstr "File mask nu se potrivește cu niciun fișier."
+msgstr "Masca - de fișier nu s-a potrivit cu niciun fișier."
 
 #: weblate/trans/models/component.py:2240
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
-msgstr "Codul de limbă pentru %s a fost gol, vă rugăm să verificați filemask."
+msgstr ""
+"Codul de limbă pentru %s a fost gol, vă rugăm să verificați masca - "
+"fișierului."
 
 #: weblate/trans/models/component.py:2249
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
-msgstr "Codul de limbă \"%s\" este prea lung, vă rugăm să verificați filemask."
+msgstr ""
+"Codul de limbă \"%s\" este prea lung, vă rugăm să verificați masca - "
+"fișierului."
 
 #: weblate/trans/models/component.py:2256
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
 msgstr ""
-"Există mai mult de un fișier pentru limba %s, vă rugăm să ajustați filemask "
-"și să utilizați componente pentru traducerea diferitelor resurse."
+"Există mai mult de un fișier pentru limba %s, vă rugăm să ajustați masca - "
+"fișierului și să utilizați componente pentru traducerea diferitelor resurse."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
-"Nu a fost găsită nicio limbă corespunzătoare, vă rugăm să verificați "
-"filemask."
+"Nu a fost găsită nicio limbă corespunzătoare, vă rugăm să verificați masca "
+"fișierului."
 
 #: weblate/trans/models/component.py:2289
 #, python-format
