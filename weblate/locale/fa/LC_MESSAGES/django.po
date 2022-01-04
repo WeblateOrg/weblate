@@ -11,13 +11,14 @@
 # Mostafa Ahangarha <ahangarha@gmail.com>, 2020.
 # سهیل خانعلی‌پور <soheil@disroot.org>, 2021.
 # Danial Behzadi <dani.behzi@ubuntu.com>, 2021.
+# Eshagh Shahedany <eshagh094@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2021-11-10 10:05+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-01-05 08:22+0000\n"
+"Last-Translator: Eshagh Shahedany <eshagh094@gmail.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/weblate/"
 "application/fa/>\n"
 "Language: fa\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -42,11 +43,11 @@ msgstr "آواتار کاربر"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "این رایانامه قبلا استفاده شده است. لطفا نشانی دیگری را ارائه کنید."
+msgstr "این رایانامه قبلاً استفاده شده است. لطفاً نشانی دیگری را ارائه کنید."
 
 #: weblate/accounts/forms.py:108
 msgid "This username is already taken. Please choose another."
-msgstr "این نام کاربری قبلا گرفته شده است. نام دیگری انتخاب کنید."
+msgstr "این نام کاربری قبلاً گرفته شده است. نام دیگری انتخاب کنید."
 
 #: weblate/accounts/forms.py:119 weblate/accounts/forms.py:769
 #: weblate/auth/models.py:321 weblate/templates/manage-access.html:36
@@ -55,13 +56,12 @@ msgstr "نام کامل"
 
 #: weblate/accounts/forms.py:170 weblate/accounts/models.py:557
 msgid "Public e-mail"
-msgstr "رایانامه عمومی"
+msgstr "رایانامهٔ عمومی"
 
 #: weblate/accounts/forms.py:277
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "فهرست‌های اجزاء"
+msgstr "فهرست اجزاء: %s"
 
 #: weblate/accounts/forms.py:303 weblate/accounts/forms.py:370
 #: weblate/accounts/templatetags/authnames.py:36 weblate/auth/models.py:327
@@ -85,7 +85,7 @@ msgstr "نام شما"
 
 #: weblate/accounts/forms.py:350
 msgid "Your e-mail"
-msgstr "رایانامه شما"
+msgstr "رایانامهٔ شما"
 
 #: weblate/accounts/forms.py:352 weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:73
@@ -98,12 +98,12 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr ""
-"لطفا به زبان انگلیسی با ما تماس بگیرید در غیر این صورت ممکن است نتوانیم "
-"درخواست شما را پی‌گیری کنیم."
+"لطفاً به زبان انگلیسی با ما تماس بگیرید، در غیر این صورت ممکن است نتوانیم "
+"درخواست شما را بررسی کنیم."
 
 #: weblate/accounts/forms.py:371
 msgid "Activation e-mail will be sent here."
-msgstr "رایانامه فعال‌سازی به این نشانی فرستاده خواهد شد."
+msgstr "رایانامهٔ فعّال‌سازی به این نشانی فرستاده خواهد شد."
 
 #: weblate/accounts/forms.py:394
 msgid "Too many failed registration attempts from this location."
@@ -111,15 +111,15 @@ msgstr "تلاش‌های ثبت ناموفق بسیار زیادی از این 
 
 #: weblate/accounts/forms.py:401
 msgid "New password"
-msgstr "گذرواژه جدید"
+msgstr "گذرواژهٔ جدید"
 
 #: weblate/accounts/forms.py:404
 msgid "New password confirmation"
-msgstr "تایید گذرواژه جدید"
+msgstr "تایید گذرواژهٔ جدید"
 
 #: weblate/accounts/forms.py:426
 msgid "Your password has been changed."
-msgstr "گذرواژه شما تغییر کرده است."
+msgstr "گذرواژهٔ شما تغییر کرده است."
 
 #: weblate/accounts/forms.py:452
 #, python-format
@@ -406,10 +406,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "موافقت با شرایط خدمت {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "دعوت شده به وب‌لیت توسط {username}."
+msgstr "توسط {username} به {site_title} دعوت شدید."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -466,7 +465,7 @@ msgstr "زبان رابط کاربری"
 
 #: weblate/accounts/models.py:372
 msgid "Translated languages"
-msgstr "زبان‌های ترجمه"
+msgstr "زبان‌های ترجمه شده"
 
 #: weblate/accounts/models.py:375
 msgid ""
@@ -729,7 +728,7 @@ msgstr ""
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:479
 msgid "New string"
-msgstr "رشته جدید"
+msgstr "رشتهٔ جدید"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -761,19 +760,19 @@ msgstr "نظر جدید"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:610
 msgid "Changed string"
-msgstr "تغییر متن"
+msgstr "رشتهٔ تغییر داده شده"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:619
 #: weblate/templates/snippets/embed-units.html:48 weblate/trans/forms.py:2161
 #: weblate/utils/views.py:138
 msgid "Translated string"
-msgstr "ترجمه رشته"
+msgstr "رشتهٔ ترجمه شده"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:628
 msgid "Approved string"
-msgstr "تایید رشته"
+msgstr "رشتهٔ پذیرفته شده"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:637
@@ -806,10 +805,8 @@ msgstr "پیشنهادات معوق"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgid "Source strings"
 msgid "Unfinished strings"
-msgstr "رشته های منبع"
+msgstr "رشته‌های ناتمام"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1088,20 +1085,16 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/cleanup.py:63
-#, fuzzy
-#| msgid "Source strings"
 msgid "Remove blank strings"
-msgstr "رشته های منبع"
+msgstr "برداشتن رشته‌های خالی"
 
 #: weblate/addons/cleanup.py:64
 msgid "Removes strings without a translation from translation files."
-msgstr ""
+msgstr "رشته‌های بدون ترجمه از پرونده‌های ترجمه برداشته می‌شوند."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Interlingua"
 msgid "Add missing languages"
-msgstr "میان‌زبان"
+msgstr "افزودن زبان‌های گم‌شده"
 
 #: weblate/addons/consistency.py:34
 msgid ""
@@ -1136,10 +1129,8 @@ msgid "This add-on executes a script."
 msgstr ""
 
 #: weblate/addons/flags.py:45
-#, fuzzy
-#| msgid "Source strings"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "رشته های منبع"
+msgstr "پرچم‌گذاری رشته‌های منبع جدید به عنوان «نیازمند ویرایش»"
 
 #: weblate/addons/flags.py:47
 msgid ""
@@ -1226,16 +1217,12 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:129
-#, fuzzy
-#| msgid "Source strings"
 msgid "Keep previous msgids of translated strings"
-msgstr "رشته های منبع"
+msgstr "نگه‌داری msgid های قبلی از رشته‌های ترجمه شده"
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Source strings"
 msgid "Remove locations of translated strings"
-msgstr "رشته های منبع"
+msgstr "برداشتن مکان‌ها از رشته‌های ترجمه شده"
 
 #: weblate/addons/forms.py:139
 msgid "Use fuzzy matching"
@@ -1476,7 +1463,7 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:128 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr "رشته های منبع"
+msgstr "رشته‌های منبع"
 
 #: weblate/addons/forms.py:478
 #, fuzzy
@@ -1485,16 +1472,12 @@ msgid "Target translation"
 msgstr "ترجمه"
 
 #: weblate/addons/forms.py:480
-#, fuzzy
-#| msgid "Translate"
 msgid "String prefix"
-msgstr "ترجمه"
+msgstr "پیشوند ترجمه"
 
 #: weblate/addons/forms.py:485
-#, fuzzy
-#| msgid "Translate"
 msgid "String suffix"
-msgstr "ترجمه"
+msgstr "پسوند ترجمه"
 
 #: weblate/addons/forms.py:502
 msgid "The source and target have to be different languages."
@@ -1786,17 +1769,13 @@ msgstr "رشته های منبع"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Translate"
 msgid "Add new string"
-msgstr "ترجمه"
+msgstr "افزودن رشتهٔ جدید"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Source strings"
 msgid "Remove a string"
-msgstr "رشته های منبع"
+msgstr "برداشتن یک رشته"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
@@ -1807,17 +1786,13 @@ msgstr "رشته های منبع"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
-#, fuzzy
-#| msgid "Source strings"
 msgid "Edit strings"
-msgstr "رشته های منبع"
+msgstr "ویرایش رشته‌ها"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:83
-#, fuzzy
-#| msgid "Source strings"
 msgid "Review strings"
-msgstr "رشته های منبع"
+msgstr "بازبینی رشته‌ها"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:85
@@ -1826,10 +1801,8 @@ msgstr ""
 
 #. Translators: Permission name
 #: weblate/auth/data.py:87
-#, fuzzy
-#| msgid "Source strings"
 msgid "Edit source strings"
-msgstr "رشته های منبع"
+msgstr "ویرایش رشته‌های منبع"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:89
@@ -1881,10 +1854,8 @@ msgstr "ترجمه"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
-#, fuzzy
-#| msgid "Interlingua"
 msgid "Add several languages for translation"
-msgstr "میان‌زبان"
+msgstr "افزودن چند زبان برای ترجمه"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -1896,7 +1867,7 @@ msgstr "ترجمه"
 #. Translators: Permission name
 #: weblate/auth/data.py:109
 msgid "Overwrite existing strings with upload"
-msgstr ""
+msgstr "بازنویسی رشته‌های موجود با بارگذاری"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:111
@@ -1943,7 +1914,7 @@ msgstr ""
 #. Translators: Permission name
 #: weblate/auth/data.py:133
 msgid "Add new projects"
-msgstr ""
+msgstr "افزودن پروژهٔ جدید"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -2032,11 +2003,9 @@ msgid "Power user"
 msgstr ""
 
 #: weblate/auth/data.py:203
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Access-control role"
 msgid "Review strings"
-msgstr "رشته های منبع"
+msgstr "بازبینی رشته‌ها"
 
 #: weblate/auth/data.py:206
 msgctxt "Access-control role"
@@ -2046,7 +2015,7 @@ msgstr "بازگردانی"
 #: weblate/auth/data.py:208
 msgctxt "Access-control role"
 msgid "Manage languages"
-msgstr ""
+msgstr "مدیریت زبان‌ها"
 
 #: weblate/auth/data.py:212
 #, fuzzy
@@ -2215,15 +2184,15 @@ msgstr ""
 
 #: weblate/auth/models.py:123
 msgid "All projects"
-msgstr ""
+msgstr "همهٔ پروژه‌ها"
 
 #: weblate/auth/models.py:124
 msgid "All public projects"
-msgstr ""
+msgstr "همهٔ پروژه‌های عمومی"
 
 #: weblate/auth/models.py:125
 msgid "All protected projects"
-msgstr ""
+msgstr "همهٔ پروژه‌های محافظت شده"
 
 #: weblate/auth/models.py:126
 #, fuzzy
@@ -2238,7 +2207,7 @@ msgstr "رشته های منبع"
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:374
 #: weblate/templates/snippets/info.html:408 weblate/trans/views/basic.py:79
 msgid "Projects"
-msgstr ""
+msgstr "پروژه‌ها"
 
 #: weblate/auth/models.py:134 weblate/templates/component-list.html:15
 #: weblate/templates/language-project.html:17
@@ -2373,7 +2342,7 @@ msgstr ""
 
 #: weblate/billing/models.py:163
 msgid "Billed projects"
-msgstr ""
+msgstr "ایجاد پروژه"
 
 #: weblate/billing/models.py:165
 #, fuzzy
@@ -2432,10 +2401,8 @@ msgid "Source words"
 msgstr ""
 
 #: weblate/billing/models.py:353 weblate/templates/addons/generate_help.html:16
-#, fuzzy
-#| msgid "Source strings"
 msgid "Number of strings"
-msgstr "رشته های منبع"
+msgstr "شمارهٔ رشته‌ها"
 
 #: weblate/billing/models.py:360
 msgid "N/A"
@@ -2451,12 +2418,11 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/billing/models.py:439
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "رشته های منبع"
-msgstr[1] "رشته های منبع"
+msgstr[0] "حاوی %d پروژه"
+msgstr[1] "حاوی %d پروژه"
 
 #: weblate/billing/models.py:456
 #, fuzzy, python-format
@@ -2778,7 +2744,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Source strings"
 msgid "String variant"
-msgstr "رشته های منبع"
+msgstr "گونهٔ رشته"
 
 #: weblate/checks/flags.py:262
 #, fuzzy, python-format
@@ -3152,10 +3118,8 @@ msgid "Regular expression"
 msgstr ""
 
 #: weblate/checks/placeholders.py:114
-#, fuzzy
-#| msgid "Translate"
 msgid "Translation does not match regular expression:"
-msgstr "ترجمه"
+msgstr ""
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3607,7 +3571,7 @@ msgstr "ترجمه"
 #: weblate/templates/snippets/component-glossary-badge.html:4
 #: weblate/templates/translate.html:536 weblate/trans/forms.py:1405
 msgid "Glossary"
-msgstr "واژه نامه"
+msgstr "واژه‌نامه"
 
 #: weblate/glossary/views.py:74 weblate/utils/views.py:377
 #, python-format
@@ -4161,14 +4125,12 @@ msgstr ""
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
 #: weblate/templates/base.html:123 weblate/templates/base.html:291
 msgid "Dashboard"
-msgstr ""
+msgstr "پیش‌خوان"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
 #: weblate/templates/base.html:137
-#, fuzzy
-#| msgid "Source strings"
 msgid "Browse all projects"
-msgstr "رشته های منبع"
+msgstr "مرور همهٔ پروژه‌ها"
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
@@ -4987,8 +4949,8 @@ msgstr ""
 #, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "%(count)s بازگردانی%(count)s بازگردانی"
-msgstr[1] ""
+msgstr[0] "%(count)s ترجمه"
+msgstr[1] "%(count)s ترجمه"
 
 #: weblate/templates/accounts/user.html:56
 #, fuzzy, python-format
@@ -5292,10 +5254,8 @@ msgid "The following components matched existing ones"
 msgstr "ترجمه"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "Source strings"
 msgid "No matching components were found!"
-msgstr "رشته های منبع"
+msgstr "هیچ اجزاء منطبق‌ای یافت نشد!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -5764,10 +5724,8 @@ msgid "Browse"
 msgstr "مرور"
 
 #: weblate/templates/browse.html:49
-#, fuzzy
-#| msgid "Source strings"
 msgid "No strings found!"
-msgstr "رشته های منبع"
+msgstr "هیچ رشته‌ای یافت نشد!"
 
 #: weblate/templates/check.html:20 weblate/templates/check_component.html:22
 #: weblate/templates/check_project.html:21 weblate/templates/checks.html:19
@@ -6845,10 +6803,9 @@ msgid "Mark as spam"
 msgstr ""
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "ترجمه"
+msgstr ""
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7014,10 +6971,8 @@ msgid "There was no contributor agreement before."
 msgstr ""
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "Source strings"
 msgid "New agreement:"
-msgstr "رشته های منبع"
+msgstr ""
 
 #: weblate/templates/mail/component_license.html:24
 #, fuzzy
@@ -8223,10 +8178,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "Translate"
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "ترجمه"
+msgstr ""
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -8896,13 +8849,11 @@ msgstr ""
 #: weblate/templates/snippets/query-field.html:8 weblate/trans/filter.py:33
 #: weblate/trans/filter.py:121
 msgid "All strings"
-msgstr ""
+msgstr "همهٔ رشته‌ها"
 
 #: weblate/templates/snippets/query-field.html:12
-#, fuzzy
-#| msgid "Source strings"
 msgid "Custom search"
-msgstr "رشته های منبع"
+msgstr "جست‌وجوی سفارشی"
 
 #: weblate/templates/snippets/query-field.html:22
 #: weblate/templates/snippets/user-query-field.html:5
@@ -8972,11 +8923,9 @@ msgstr ""
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:597
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "رشته های منبع"
+msgstr "بررسی‌های شکست خورده:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 #, fuzzy
@@ -9489,10 +9438,8 @@ msgstr ""
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
-#, fuzzy
-#| msgid "Translate"
 msgid "The following translation components will be removed:"
-msgstr "ترجمه"
+msgstr "اجزاء ترجمهٔ زیر برداشته خواهند شد:"
 
 #: weblate/templates/trans/delete-component.html:20
 #, fuzzy
@@ -9512,10 +9459,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "Translate"
 msgid "The following translations will be removed:"
-msgstr "ترجمه"
+msgstr "ترجمه‌های زیر برداشته خواهند شد:"
 
 #: weblate/templates/trans/delete-project-language.html:14
 #, fuzzy
@@ -10359,7 +10304,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Translate"
 msgid "Missing translated string!"
-msgstr "ترجمه"
+msgstr "رشته‌های ترجمه شدهٔ گم شده!"
 
 #: weblate/trans/forms.py:387
 msgid "Search filter"
@@ -10569,10 +10514,8 @@ msgstr ""
 
 #: weblate/trans/forms.py:938 weblate/trans/forms.py:947
 #: weblate/trans/forms.py:955
-#, fuzzy
-#| msgid "Source strings"
 msgid "Component not found!"
-msgstr "رشته های منبع"
+msgstr "جزء یافت نشد!"
 
 #: weblate/trans/forms.py:957
 msgid "Please provide valid component slug!"
@@ -10694,17 +10637,15 @@ msgstr ""
 #, fuzzy
 #| msgid "Translate"
 msgid "Missing date!"
-msgstr "ترجمه"
+msgstr "تاریخ گم شده!"
 
 #: weblate/trans/forms.py:1230
 msgid "Starting date has to be before ending date!"
 msgstr ""
 
 #: weblate/trans/forms.py:1248
-#, fuzzy
-#| msgid "Translate"
 msgid "You do not have permission to access this component!"
-msgstr "ترجمه"
+msgstr "شما برای دسترسی به این جزء مجوز ندارید!"
 
 #: weblate/trans/forms.py:1305
 msgid "This field has been identified as spam!"
@@ -10951,10 +10892,8 @@ msgid "I accept the contributor agreement"
 msgstr ""
 
 #: weblate/trans/forms.py:2316
-#, fuzzy
-#| msgid "Translate"
 msgid "The slug does not match the one marked for deletion!"
-msgstr "ترجمه"
+msgstr ""
 
 #: weblate/trans/forms.py:2322 weblate/trans/forms.py:2331
 #: weblate/trans/forms.py:2340 weblate/trans/forms.py:2349
@@ -12620,11 +12559,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:605
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "رشته های منبع"
+msgstr "بررسی‌های نادیده گرفته شده:"
 
 #: weblate/trans/templatetags/translations.py:610
 #, fuzzy
@@ -12651,10 +12588,8 @@ msgid "This translation is locked."
 msgstr "ترجمه"
 
 #: weblate/trans/templatetags/translations.py:796
-#, fuzzy
-#| msgid "Translate"
 msgid "Updating translation component…"
-msgstr "ترجمه"
+msgstr "به‌روز رسانی اجزاء ترجمه…"
 
 #: weblate/trans/templatetags/translations.py:806
 msgid "Some of the components within this project have alerts."
@@ -13121,10 +13056,8 @@ msgid "Language of the project was removed."
 msgstr "ترجمه"
 
 #: weblate/trans/views/source.py:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Failed to change additional string info!"
-msgstr "رشته های منبع"
+msgstr "تغییر اطّلاعات اضافی رشته شکست خورد!"
 
 #: weblate/trans/widgets.py:248
 #, fuzzy
@@ -13323,10 +13256,9 @@ msgid "Read only"
 msgstr ""
 
 #: weblate/utils/validators.py:67
-#, fuzzy, python-brace-format
-#| msgid "Source strings"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "رشته های منبع"
+msgstr "تدوین شکست خورد: {0}"
 
 #: weblate/utils/validators.py:70
 #, fuzzy
