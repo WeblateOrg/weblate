@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-03 12:26+0000\n"
-"PO-Revision-Date: 2022-01-04 15:27+0000\n"
-"Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
+"PO-Revision-Date: 2022-01-05 08:22+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -720,7 +720,7 @@ msgstr "Bloqueo de componente"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:463
 msgid "Changed license"
-msgstr "Licencia cambiada"
+msgstr "Licencia modificada"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -752,7 +752,7 @@ msgstr "Comentario en una traducción suya"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:546
 msgid "Mentioned in comment"
-msgstr "Mencionados en el comentario"
+msgstr "Mención en un comentario"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:589 weblate/templates/translate.html:401
@@ -2906,10 +2906,8 @@ msgid "Following terms are not translated according to glossary: %s"
 msgstr "Estos términos no se tradujeron acorde al glosario: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "MessageFormat de Java"
+msgstr "Sintaxis MessageFormat de ICU"
 
 #: weblate/checks/icu.py:270
 #, fuzzy
@@ -2918,10 +2916,8 @@ msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "Error de sintaxis en los alias de idiomas."
 
 #: weblate/checks/icu.py:298
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "MessageFormat de Java"
+msgstr "MessageFormat de ICU"
 
 #: weblate/checks/icu.py:300
 msgid ""
@@ -2934,21 +2930,19 @@ msgid "Syntax error: %s"
 msgstr "Error sintáctico: %s"
 
 #: weblate/checks/icu.py:470
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Traducción prohibida: %s"
+msgstr "Hay uno o más sustitutorios desconocidos en la traducción: %s"
 
 #: weblate/checks/icu.py:475
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Acceda a su cuenta para guardar las traducciones."
+msgstr "Faltan uno o más sustitutorios en la traducción: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Uno o más tipos de sustitutorio son incorrectos: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
@@ -2973,23 +2967,22 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Traducción prohibida: %s"
+msgstr ""
+"Uno o más sustitutorios no deben ser una etiqueta XML en la traducción: %s"
 
 #: weblate/checks/icu.py:510
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Al indicador de traducción le faltan parámetros: «%s»"
+msgstr ""
+"Una o más etiquetas XML tienen contenido inesperado en la traducción: %s"
 
 #: weblate/checks/icu.py:515
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Al indicador de traducción le faltan parámetros: «%s»"
+msgstr "A una o más etiquetas XML les falta contenido en la traducción: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -3005,7 +2998,7 @@ msgstr "Sintaxis XML"
 
 #: weblate/checks/markup.py:167
 msgid "The translation is not valid XML"
-msgstr "La traducción no es válida en XML"
+msgstr "La traducción no constituye XML válido"
 
 #: weblate/checks/markup.py:191
 msgid "XML markup"
@@ -4327,7 +4320,7 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Solicite un enlace de confirmación nuevo si caduca."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
@@ -4344,10 +4337,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "Revise su buzón de correo para encontrar el enlace de confirmación."
+msgstr "Regístrese nuevamente si caduca el enlace de confirmación."
 
 #: weblate/templates/accounts/email-sent.html:42
 #, fuzzy, python-format
@@ -7252,10 +7243,8 @@ msgstr "Cadena de origen"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Ubicación de cadena de origen"
+msgstr "Descripción de cadena de origen"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7352,22 +7341,17 @@ msgid "Expires"
 msgstr "Caducado"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Esto quitará el acceso de <b>%(user)s</b> a este proyecto."
+msgstr "Esto eliminará la ficha de proyecto <b>%(token)s</b> de este proyecto."
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "Crear proyecto"
+msgstr "Crear ficha de proyecto"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Creación"
+msgstr "Crear"
 
 #: weblate/templates/manage-access.html:266
 msgid "Personal API key"
@@ -7681,16 +7665,16 @@ msgstr "Huella"
 
 #: weblate/templates/manage/ssh.html:83
 msgid "Add host key"
-msgstr "Agrega llave de servidor"
+msgstr "Añadir clave de anfitrión"
 
 #: weblate/templates/manage/ssh.html:87
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
-"Para acceder a servidores SSH, necesita verificar la llave del servidor. "
-"Puede obtener la llave del servidor ingresando un dominio o IP para el mismo "
-"en el formulario a continuación."
+"Para acceder a servidores SSH, se necesita verificar la clave de anfitrión. "
+"Puede obtener la clave de anfitrión al introducir su nombre de dominio o IP "
+"en el formulario siguiente."
 
 #: weblate/templates/manage/tools.html:35
 #: weblate/templates/manage/tools.html:42
@@ -8084,17 +8068,13 @@ msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr "Weblate es software libre creado por voluntarios, y acepta donaciones."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Mes pasado"
+msgstr "Últimos 12 meses"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr "Anterior"
+msgstr "Anteriores"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
@@ -9556,6 +9536,8 @@ msgid ""
 "Token was created, please save it now as it won't be displayed again: "
 "%(token)s"
 msgstr ""
+"Se ha creado la ficha. Guárdela ahora, puesto que no volverá a mostrarse: "
+"%(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -10387,16 +10369,12 @@ msgid "Add as needing edit"
 msgstr "Añadir como pendiente de edición"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Weblate no pudo procesar los archivos de traducción al actualizar las "
-"traducciones."
+"Observe que traducir todas las cadenas descartará todas las traducciones "
+"existentes."
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -10427,16 +10405,12 @@ msgid "Score threshold"
 msgstr "Umbral de puntuación"
 
 #: weblate/trans/forms.py:895
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Garantiza que en todos los componentes de un proyecto se utilice el mismo "
-"conjunto de idiomas."
+"Introduzca el componente que deberá utilizarse como fuente. Manténgalo vacío "
+"para utilizar todos los componentes del proyecto actual."
 
 #: weblate/trans/forms.py:906
 msgid "All components in current project"
@@ -10448,10 +10422,8 @@ msgid "Component not found!"
 msgstr "No se encontró el componente."
 
 #: weblate/trans/forms.py:957
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Error de análisis en %(component)s"
+msgstr "Proporcione un «slug» de componente válido."
 
 #: weblate/trans/forms.py:965
 msgid "Scope"
@@ -11069,7 +11041,7 @@ msgstr "Traducción completada"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:251
 msgid "Translation changed"
-msgstr "Traducción cambiada"
+msgstr "Traducción modificada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:253
@@ -12134,11 +12106,11 @@ msgstr ""
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "Valor de ficha"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "Valor de ficha que utilizar en la API"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -12181,21 +12153,17 @@ msgid "No translation found."
 msgstr "No se encontró ninguna traducción."
 
 #: weblate/trans/models/unit.py:888
-#, fuzzy, python-format
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
+#, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"Para colaborar en esta traducción debe aceptar un acuerdo de contribuidor."
+"No se pudo propagar la cadena hacia %(component)s porque no ha aceptado un "
+"acuerdo de contribuidor."
 
 #: weblate/trans/models/unit.py:1330
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "Traducción automática"
+msgstr "Traducida automáticamente"
 
 #: weblate/trans/models/unit.py:1505
 msgid "Unmark as read-only"
@@ -13173,7 +13141,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:118
 msgid "Invalid image!"
-msgstr "¡Imagen inválida!"
+msgstr "Imagen no válida."
 
 #: weblate/utils/validators.py:127
 #, python-format
