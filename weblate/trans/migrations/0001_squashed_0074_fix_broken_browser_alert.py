@@ -382,7 +382,7 @@ class Migration(migrations.Migration):
                             weblate.trans.validators.validate_filemask,
                             weblate.utils.validators.validate_filename,
                         ],
-                        verbose_name="Filemask",
+                        verbose_name="File mask",
                     ),
                 ),
                 (

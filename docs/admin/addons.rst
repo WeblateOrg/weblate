@@ -785,7 +785,7 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_FILEMASK
 
-    Filemask for current component.
+    File mask for current component.
 
 .. envvar:: WL_TEMPLATE
 

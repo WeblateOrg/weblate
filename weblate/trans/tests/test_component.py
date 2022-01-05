@@ -670,7 +670,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = "foo/x.po"
         self.assertRaisesMessage(
             ValidationError,
-            "Filemask does not contain * as a language placeholder!",
+            "File mask does not contain * as a language placeholder!",
             self.component.full_clean,
         )
 

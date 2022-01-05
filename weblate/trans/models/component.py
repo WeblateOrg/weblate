@@ -330,7 +330,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         blank=True,
     )
     filemask = models.CharField(
-        verbose_name=gettext_lazy("Filemask"),
+        verbose_name=gettext_lazy("File mask"),
         max_length=FILENAME_LENGTH,
         validators=[validate_filemask, validate_filename],
         help_text=gettext_lazy(

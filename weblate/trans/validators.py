@@ -29,7 +29,7 @@ def validate_filemask(val):
     """Validate that filemask contains *."""
     if "*" not in val:
         raise ValidationError(
-            _("Filemask does not contain * as a language placeholder!")
+            _("File mask does not contain * as a language placeholder!")
         )
 
 
