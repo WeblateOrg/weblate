@@ -67,7 +67,7 @@ The following metrics are available for each:
 `Count`
    Number of strings.
 `Edits`
-   Number of edits in the string, measured in Damerau–Levenshtein distance.
+   Number of edited characters in the string, measured in Damerau–Levenshtein distance.
 `Source words`
    Number of words in the source string.
 `Source characters`
