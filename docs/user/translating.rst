@@ -379,7 +379,7 @@ strings using :guilabel:`Search and replace` in the :guilabel:`Tools` menu.
 
 .. hint::
 
-    Don't worry about messing up the strings. This is a two-step process
+    Don’t worry about messing up the strings. This is a two-step process
     showing a preview of edited strings before the actual change is confirmed.
 
 .. _bulk-edit:
