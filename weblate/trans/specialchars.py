@@ -288,7 +288,7 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
     yield get_quote(code, SINGLE_CLOSE, _("Closing single quote"))
 
     if code in HYPHEN_LANGS:
-        yield _("Hyphen"), "-", "-"
+        yield _("Hyphen"), "‐", "‐"
 
     if code in EN_DASH_LANGS:
         yield _("En dash"), "–", "–"
