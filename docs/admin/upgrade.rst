@@ -183,7 +183,7 @@ Notable configuration or dependencies changes:
 
 .. versionchanged:: 4.3.2
 
-   * The ``post_update`` method of addons now takes extra ``skip_push`` parameter.
+   * The ``post_update`` method of add-ons now takes extra ``skip_push`` parameter.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

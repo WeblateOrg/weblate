@@ -393,7 +393,7 @@ the :command:`msgmerge` tool:
     msgmerge -U locale/cs/LC_MESSAGES/django.mo locale/django.pot
 
 In case you want to do the update automatically, you can install
-addon :ref:`addon-weblate.gettext.msgmerge`.
+add-on :ref:`addon-weblate.gettext.msgmerge`.
 
 .. seealso::
 
