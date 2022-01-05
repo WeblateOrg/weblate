@@ -135,7 +135,7 @@ SORT_CHOICES = {
     "priority": gettext_lazy("Priority"),
     "labels": gettext_lazy("Labels"),
     "source": gettext_lazy("Source string"),
-    "target": gettext_lazy("Translated string"),
+    "target": gettext_lazy("Target string"),
     "timestamp": gettext_lazy("Age of string"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
