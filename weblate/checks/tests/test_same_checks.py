@@ -90,11 +90,19 @@ class SameCheckTest(CheckTestCase):
     def test_same_copyright(self):
         self.do_test(
             False,
-            ("(c) Copyright 2013 Michal Čihař", "(c) Copyright 2013 Michal Čihař", ""),
+            (
+                "(c) Copyright 2013 Michal Čihař",
+                "(c) Copyright 2013 Michal Čihař",
+                "",
+            ),
         )
         self.do_test(
             False,
-            ("© Copyright 2013 Michal Čihař", "© Copyright 2013 Michal Čihař", ""),
+            (
+                "© Copyright 2013 Michal Čihař",
+                "© Copyright 2013 Michal Čihař",
+                "",
+            ),
         )
 
     def test_same_format(self):
