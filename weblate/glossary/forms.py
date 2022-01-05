@@ -90,6 +90,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         glossaries = Translation.objects.filter(
             language=translation.language,
             component__in=component.project.glossaries,
+            component__manage_units=True,
         )
         if not instance and not initial:
             initial = {}
