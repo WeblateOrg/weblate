@@ -1,0 +1,23 @@
+# This file is maintained in https://github.com/WeblateOrg/meta/
+name: Flake8
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  yarn-update:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - run: ./scripts/yarn-update --no-upgrade
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: create-pull-request/yarn-update
+          title: "js: Update vendored libraries"
+          labels: |
+            dependencies
+            automerge
