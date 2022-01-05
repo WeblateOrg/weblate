@@ -36,15 +36,16 @@ from weblate.utils.ratelimit import session_ratelimit_post
 def add_glossary_term(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     component = unit.translation.component
-    request.user.check_access_component(component)
+    user = request.user
+    user.check_access_component(component)
 
     code = 403
     results = ""
     details = ""
     terms = []
 
-    if request.user.has_perm("glossary.add", component.project):
-        form = TermForm(unit, request.POST)
+    if user.has_perm("glossary.add", component.project):
+        form = TermForm(unit, user, request.POST)
         if form.is_valid():
             translation = form.cleaned_data["translation"]
             added = translation.add_unit(request, **form.as_kwargs())
@@ -61,7 +62,7 @@ def add_glossary_term(request, unit_id):
                         | translation.unit_set.filter(pk__in=terms).distinct()
                     ),
                     "unit": unit,
-                    "user": request.user,
+                    "user": user,
                 },
             )
         else:

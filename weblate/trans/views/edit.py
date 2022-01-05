@@ -521,6 +521,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 def translate(request, project, component, lang):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
     obj, project, unit_set = parse_params(request, project, component, lang)
+    user = request.user
 
     # Search results
     search_result = search(obj, project, unit_set, request)
@@ -604,17 +605,17 @@ def translate(request, project, component, lang):  # noqa: C901
         return response
 
     # Show secondary languages for signed in users
-    if request.user.is_authenticated:
-        secondary = unit.get_secondary_units(request.user)
+    if user.is_authenticated:
+        secondary = unit.get_secondary_units(user)
     else:
         secondary = None
 
     # Prepare form
-    form = TranslationForm(request.user, unit)
+    form = TranslationForm(user, unit)
     sort = get_sort_name(request, obj)
 
     screenshot_form = None
-    if request.user.has_perm("screenshot.add", unit.translation):
+    if user.has_perm("screenshot.add", unit.translation):
         screenshot_form = ScreenshotForm(
             unit.translation.component, initial={"translation": unit.translation}
         )
@@ -631,8 +632,8 @@ def translate(request, project, component, lang):  # noqa: C901
             "object": obj,
             "project": project,
             "unit": unit,
-            "nearby": unit.nearby(request.user.profile.nearby_strings),
-            "nearby_keys": unit.nearby_keys(request.user.profile.nearby_strings),
+            "nearby": unit.nearby(user.profile.nearby_strings),
+            "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "others": get_other_units(unit),
             "search_url": search_result["url"],
             "search_items": search_result["items"],
@@ -648,12 +649,12 @@ def translate(request, project, component, lang):  # noqa: C901
                 project,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
-            "context_form": ContextForm(instance=unit.source_unit, user=request.user),
+            "context_form": ContextForm(instance=unit.source_unit, user=user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": locked,
             "glossary": get_glossary_terms(unit),
-            "addterm_form": TermForm(unit),
+            "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
@@ -662,7 +663,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "display_checks": list(get_display_checks(unit)),
             "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
             "new_unit_form": get_new_unit_form(
-                unit.translation, request.user, initial={"variant": unit.source}
+                unit.translation, user, initial={"variant": unit.source}
             ),
             "screenshot_form": screenshot_form,
         },
