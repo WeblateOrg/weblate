@@ -25,6 +25,8 @@ It can be also added using the admin interface:
 
 .. image:: /screenshots/announcement.png
 
+Announcements can be deleted only via admin interface.
+
 The announcements are then shown based on their specified context:
 
 No context specified
