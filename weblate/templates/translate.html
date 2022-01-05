@@ -548,7 +548,7 @@
             {% include "snippets/glossary.html" %}
         </tbody>
     </table>
-{% if user_can_add_glossary %}
+{% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
     <div class="panel-footer panel-footer-links">
         <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% trans "Add term to glossary" %}</a>
     </div>
