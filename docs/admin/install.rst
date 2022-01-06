@@ -567,6 +567,11 @@ allow IP address spoofing for installations not using a reverse proxy. Enabling
 but you might need to adjust :setting:`IP_PROXY_HEADER` and
 :setting:`IP_PROXY_OFFSET` as well.
 
+Another thing to take care of is the :mailheader:`Host` header. It should match
+to whatever is configured as :setting:`SITE_DOMAIN`. Additional configuration
+might be needed in your reverse proxy (for example use ``ProxyPreserveHost On``
+for Apache or ``proxy_set_header Host $host;`` with nginx).
+
 .. seealso::
 
     :ref:`spam-protection`,
