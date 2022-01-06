@@ -93,12 +93,12 @@ class GitSquashAddon(BaseAddon):
 
             trailer_lines = set()
             seen_change_id = False
-            for trailer in repository.execute(command).split("\n"):
+            for trailer in reversed(repository.execute(command).split("\n")):
                 # Skip blank lines
                 if not trailer.strip():
                     continue
 
-                # Pick only first Change-Id, there suppose to be only one in the
+                # Pick the last Change-Id, there suppose to be only one in the
                 # commit (used by Gerrit)
                 if trailer.startswith("Change-Id:"):
                     if seen_change_id:
