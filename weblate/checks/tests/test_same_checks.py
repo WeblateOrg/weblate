@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -91,16 +91,16 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                "(c) Copyright 2013 Michal Čihař",
-                "(c) Copyright 2013 Michal Čihař",
+                "(c) Copyright © 2013–2022 Michal Čihař",
+                "(c) Copyright © 2013–2022 Michal Čihař",
                 "",
             ),
         )
         self.do_test(
             False,
             (
-                "© Copyright 2013 Michal Čihař",
-                "© Copyright 2013 Michal Čihař",
+                "© Copyright © 2013–2022 Michal Čihař",
+                "© Copyright © 2013–2022 Michal Čihař",
                 "",
             ),
         )
