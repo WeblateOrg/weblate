@@ -1441,7 +1441,7 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self):
-        if not self.is_source:
+        if not self.is_source or not self.component.manage_units:
             return
         for source in self.component.get_all_sources():
             # Is the string a terminology
