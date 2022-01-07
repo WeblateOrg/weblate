@@ -3137,6 +3137,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for addon in Addon.objects.filter_component(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
+            result["__all__"].append(addon)
+            result["__names__"].append(addon.name)
         return result
 
     def schedule_sync_terminology(self):
