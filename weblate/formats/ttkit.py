@@ -572,6 +572,14 @@ class PoMonoUnit(PoUnit):
                 result.append(context)
         return "\n".join(result)
 
+    def set_target(self, target):
+        """Set translation unit target."""
+        # Add blank msgid_plural to store plural
+        if isinstance(target, (list, multistring)) and not self.unit.hasplural():
+            self.unit.msgid_plural = ['""']
+
+        super().set_target(target)
+
 
 class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF.

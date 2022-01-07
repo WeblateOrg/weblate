@@ -7,7 +7,7 @@ Not yet released.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
 * Indicate lock and contributor agreement on other occurrences listing.
-* Fixed updating PO files with obsolete strings.
+* Fixed updating PO files with obsolete strings or missing plurals.
 
 Weblate 4.10.1
 --------------
