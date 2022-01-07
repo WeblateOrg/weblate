@@ -2624,15 +2624,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point.
-            processed = set()
             previous = self.repository.last_remote_revision
             for addon in self.addons_cache["__all__"]:
                 # Skip addons installed elsewhere (repo/project wide)
                 if addon.component_id != self.id:
                     continue
-                if addon.id in processed:
-                    continue
-                processed.add(addon.id)
                 self.log_debug("configuring add-on: %s", addon.name)
                 addon.addon.post_configure()
             current = self.repository.last_remote_revision
