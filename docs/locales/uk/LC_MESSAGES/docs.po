@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-03 19:25+0000\n"
+"PO-Revision-Date: 2022-01-07 16:38+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -6543,8 +6543,6 @@ msgid "Right now this controls:"
 msgstr "У поточній версії керує такими елементами:"
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr "додатком :ref:`addon-weblate.autotranslate.autotranslate`"
 
@@ -7055,8 +7053,6 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:537
-#, fuzzy
-#| msgid "Default addons to install on every created component."
 msgid "Default add-ons to install on every created component."
 msgstr "Типові додатки, які слід встановлювати для усіх створених складників."
 
@@ -7680,13 +7676,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL і LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon. :"
-#| "setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is "
-#| "available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate "
-#| "should store generated files which will be served at the :setting:"
-#| "`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
@@ -10167,8 +10156,6 @@ msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:116
-#, fuzzy
-#| msgid "Custom quality checks, addons and auto-fixes"
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr "Нетипові перевірки якості, додатки та автоматичні виправлення"
 
@@ -11192,6 +11179,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Ще однією річчю, про яку слід подбати, є заголовок :mailheader:`Host`. Він "
+"має відповідати тому, що налаштовано у :setting:`SITE_DOMAIN`. Можливо, "
+"знадобиться додаткове налаштовування у вашому оберненому проксі (наприклад, "
+"скористатися ``ProxyPreserveHost On`` для Apache або ``proxy_set_header Host "
+"$host;`` для nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -18835,11 +18827,6 @@ msgstr ""
 "`форматах<formats>`."
 
 #: ../../admin/projects.rst:263
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep translation components to a reasonable size - "
-#| "split the translation by anything that makes sense in your case "
-#| "(individual apps or addons, book chapters or websites)."
 msgid ""
 "It is recommended to keep translation components to a reasonable size - "
 "split the translation by anything that makes sense in your case (individual "
@@ -21002,10 +20989,6 @@ msgstr ""
 "скоригуйте ваші скрипти запуску та значення параметра ``CELERY_TASK_ROUTES``."
 
 #: ../../admin/upgrade.rst:186
-#, fuzzy
-#| msgid ""
-#| "The ``post_update`` method of addons now takes extra ``skip_push`` "
-#| "parameter."
 msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
@@ -24000,10 +23983,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -24027,14 +24008,16 @@ msgstr ""
 "format-syntax`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Indicate administered projects on project listing."
 msgid "Indicate lock and contributor agreement on other occurrences listing."
-msgstr "Реалізовано індикацію для адміністрованих проєктів у списку проєктів."
+msgstr ""
+"Реалізовано показ блокування і угоду учасника розробки у списку інших "
+"випадків."
 
 #: ../../changes.rst:10
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
 msgstr ""
+"Виправлено оновлення файлів PO із застарілими рядками або пропущеними "
+"формами множини."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.10.1"
@@ -30825,8 +30808,6 @@ msgstr ""
 "появи програми у 2012 внесок до неї зробили тисячі людей."
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Developing addons"
 msgid "Developing add-ons"
 msgstr "Розробка додатків"
 
@@ -30956,8 +30937,6 @@ msgid "Hook triggered before new unit is created."
 msgstr "Скрипт обробки, який вмикається до створення нового модуля."
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Here is an example addon:"
 msgid "Here is an example add-on:"
 msgstr "Ось приклад додатка:"
 
@@ -31979,10 +31958,8 @@ msgid "License"
 msgstr "Ліцензія"
 
 #: ../../contributing/license.rst:4 ../../../README.rst:62
-#, fuzzy
-#| msgid "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
 msgid "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
-msgstr "© Michal Čihař michal@cihar.com, 2012–2019"
+msgstr "© Michal Čihař michal@cihar.com, 2012–2022"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -33286,6 +33263,15 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
+"Виконуючи ці настанови, підтримайте створення повноцінного багатомовного "
+"інструмента пост-редагування. Добрі переклади визначаються за допомогою "
+"системно-функціональної моделі Хауса, метою якої є визначення контекстуально "
+"правильного перекладу. Напишіть ваші власні `настанови пост-редагування "
+"<https://www.taus.net/academy/best-practices/postedit-best-practices/machine-"
+"translation-post-editing-guidelines>`_ і змініть ці рекомендації за вашими "
+"власними визначеннями. У більшості випадків, як інструмент рецензування, "
+"корисним є `додаток до браузера languageTool <https://languagetool.org/"
+"#firefox_chrome>`_."
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -33302,10 +33288,8 @@ msgstr ""
 "локалізації вашого проєкту перекладачами зі спільноти користувачів."
 
 #: ../../devel/community.rst:18
-#, fuzzy
-#| msgid "Terminology"
 msgid "Terminology management"
-msgstr "Термінологія"
+msgstr "Керування термінологією"
 
 #: ../../devel/community.rst:19
 msgid ""
@@ -33319,6 +33303,15 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"Пост-редагування комп'ютерного перекладу із впливами прив'язки термінології "
+"на кожному з рівнів процесу перекладу. Систему комп'ютерного перекладу можна "
+"адаптувати до певного словника та стилю із постійним тренуванням або `"
+"нейронним відновленням неточностей <https://www.aclweb.org/anthology/P19-1175"
+".pdf>`_. `Імпортуйте <https://docs.weblate.org/en/latest/admin/memory.html"
+"#imported-translation-memory>`_ вашу наявну пам'ять перекладів до weblate "
+"або створіть початковий набір з вашою базовою термінологією. Зрештою, засіб "
+"коригування має бути насичено даними додаткових документів термінології для "
+"гарантування належного корпусу даних та реальних результатів."
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -33327,12 +33320,15 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"Якість автоматичного перекладу (її часто вимірюють BLEU-рейтингом) тісно "
+"пов'язана із часом редагування [1]. Виберіть модуль комп'ютерного перекладу, "
+"у якому передбачено підтримку потрібних вам мов і областей знань. Вивчіть "
+"питання щодо функціональних можливостей модуля перекладу та якості пост-"
+"редагування, якої слід від нього очікувати."
 
 #: ../../devel/community.rst:27
-#, fuzzy
-#| msgid "New translation"
 msgid "Review translations"
-msgstr "Новий переклад"
+msgstr "Рецензування перекладів"
 
 #: ../../devel/community.rst:28
 msgid ""
@@ -33340,12 +33336,14 @@ msgid ""
 "editing. With an impartial and competent revisor, the two man rules reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
+"Переклади має бути рецензовано сторонньою особою після пост-редагування. "
+"Неупереджений і компетентний рецензент забезпечить наявність двох точок "
+"зору, що зменшить кількість помилок та підвищить якість та однорідність "
+"текстів."
 
 #: ../../devel/community.rst:31
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Structured feedback"
-msgstr "reStructuredText"
+msgstr "Структурований відгук"
 
 #: ../../devel/community.rst:32
 msgid ""
@@ -33353,12 +33351,13 @@ msgid ""
 "checks.html>`_ in weblate. Pay the lectors to give structured feedback and "
 "use it to increase those checks."
 msgstr ""
+"У Weblate є багато `перевірок якості <https://docs.weblate.org/en/latest/"
+"user/checks.html>`_. Заплатіть вичитувачам за структуровані відгуки і "
+"скористайтеся ними для удосконалення цих перевірок."
 
 #: ../../devel/community.rst:35
-#, fuzzy
-#| msgid "Translation organization"
 msgid "Translation definition"
-msgstr "Упорядкування перекладів"
+msgstr "Визначення перекладу"
 
 #: ../../devel/community.rst:36
 msgid ""
@@ -33377,6 +33376,20 @@ msgid ""
 "context - i.e. embedding in a larger social and literary context - and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
+"Окрім менталістських та заснованих на результатах аналітичних визначень із "
+"потужним приведенням, найкращим є лінгвістичний підхід на основі тексту з "
+"реалізованими методами перекладу. Коректно сформульованою теорією оцінки "
+"перекладу є системно-функціональна модель Хауса, у якій акцент зроблено на "
+"зв'язку між оригіналом і перекладом. У моделі зроблено припущення, що "
+"переклад є спробою зберегти семантичний, прагматичний та текстуальний сенс "
+"текстового еквівалента при переході з одного лінгвістичного коду до іншого. "
+"Рівень якості перекладу можна оцінити за рівнем еквівалентності, "
+"відповідністю між профілем тексту та функцією тексту. Оскільки його не можна "
+"обчислити автоматично, слід зібрати достатні дані для уможливлення "
+"однорідної людської оцінки. Двома головним параметрами узгодження у "
+"відповідній моделі є макроконтекст, тобто вбудовування у ширший соціальний і "
+"літературний контекст, та мікроконтекст, що складається з поля, напрямку та "
+"модальності."
 
 #: ../../devel/community.rst:41
 msgid ""
@@ -33384,6 +33397,9 @@ msgid ""
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Marina Sanchez-Torron і Philipp Koehn у «Machine Translation Quality and "
+"Post-Editor Productivity», Рисунок 1: https://www.cs.jhu.edu/~phi/"
+"publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:42
 msgid ""
@@ -33391,6 +33407,9 @@ msgid ""
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik S.101 und Folgende"
 msgstr ""
+"Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
+"hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
+"Übersetzungskritik S.101 und Folgende"
 
 #: ../../devel/community.rst:43
 msgid ""
@@ -33398,6 +33417,9 @@ msgid ""
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 msgstr ""
+"post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing "
+"Guidelines, 2010 https://www.taus.net/academy/best-practices/"
+"postedit-best-practices/machine-translation-post-editing-guidelines"
 
 #: ../../devel/community.rst:44
 msgid ""
@@ -33405,6 +33427,9 @@ msgid ""
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
+"neural fuzzy repair, Bram Bulté і Arda Tezcan у «Neural Fuzzy Repair: "
+"Integrating Fuzzy Matches into Neural MachineTranslation», 2019 "
+"https://aclanthology.org/P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -34409,14 +34434,12 @@ msgid "`Edits`"
 msgstr "`Edits`"
 
 #: ../../devel/reporting.rst:70
-#, fuzzy
-#| msgid ""
-#| "Number of edits in the string, measured in Damerau–Levenshtein distance."
 msgid ""
 "Number of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
 msgstr ""
-"Кількість редагувань у рядку, виміряна за відстанню Дамерау-Левенштейна."
+"Кількість редагованих символів у рядку, виміряна за відстанню "
+"Дамерау-Левенштейна."
 
 #: ../../devel/reporting.rst:71
 msgid "`Source words`"
@@ -35837,10 +35860,6 @@ msgstr ""
 "допомогою програми :command:`msgmerge`:"
 
 #: ../../faq.rst:395
-#, fuzzy
-#| msgid ""
-#| "In case you want to do the update automatically, you can install addon :"
-#| "ref:`addon-weblate.gettext.msgmerge`."
 msgid ""
 "In case you want to do the update automatically, you can install add-on :ref:"
 "`addon-weblate.gettext.msgmerge`."
@@ -43471,6 +43490,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Щоб це спрацювало, вам слід налаштувати реєстраційні дані для програмного "
+"інтерфейсу (:setting:`GITHUB_CREDENTIALS`) у параметрах Weblate. Після "
+"налаштовування ви побачите пункт :guilabel:`GitHub` при виборі :ref:`системи "
+"керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:284
 msgid ""
@@ -43513,6 +43536,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Щоб це спрацювало, вам слід налаштувати реєстраційні дані для програмного "
+"інтерфейсу (:setting:`GITLAB_CREDENTIALS`) у параметрах Weblate. Після "
+"налаштовування ви побачите пункт :guilabel:`GitLab` при виборі :ref:`системи "
+"керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:314
 msgid ""
@@ -43555,6 +43582,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Щоб це спрацювало, вам слід налаштувати реєстраційні дані для програмного "
+"інтерфейсу (:setting:`PAGURE_CREDENTIALS`) у параметрах Weblate. Після "
+"налаштовування ви побачите пункт :guilabel:`Pagure` при виборі :ref:`системи "
+"керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:344
 msgid ""
