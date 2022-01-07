@@ -382,6 +382,30 @@ class PoFormatTest(AutoFormatTest):
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
+    def test_obsolete(self):
+        # Test adding unit matching obsolete one
+        storage = self.FORMAT(TEST_PO)
+        # Remove duplicate entry
+        unit = storage.all_units[1]
+        self.assertEqual(unit.source, "Hello, world!\n")
+        storage.delete_unit(unit.unit)
+
+        # Verify it is not present
+        handle = BytesIO()
+        storage.save_content(handle)
+        content = handle.getvalue().decode()
+        self.assertNotIn('\nmsgid "Hello, world!\\n"', content)
+
+        # Add unit back, it should now overwrite obsolete one
+        storage.add_unit(unit.unit)
+
+        # Verify it is properly added
+        handle = BytesIO()
+        storage.save_content(handle)
+        content = handle.getvalue().decode()
+        self.assertIn('\nmsgid "Hello, world!\\n"', content)
+        self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
+
 
 class PropertiesFormatTest(AutoFormatTest):
     FORMAT = PropertiesFormat

@@ -1051,6 +1051,14 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             report_error(cause="Failed msgmerge")
             raise UpdateError(" ".join(cmd), error.output + error.stderr)
 
+    def add_unit(self, ttkit_unit):
+        self.store.require_index()
+        # Check if there is matching obsolete unit
+        old_unit = self.store.id_index.get(ttkit_unit.getid())
+        if old_unit and old_unit.isobsolete():
+            self.store.removeunit(old_unit)
+        super().add_unit(ttkit_unit)
+
 
 class PoFormat(BasePoFormat):
     name = _("gettext PO file")
