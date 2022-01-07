@@ -1,10 +1,14 @@
 # This file is maintained in https://github.com/WeblateOrg/meta/
-name: Flake8
+name: yarn update
 
 on:
   push:
     branches:
       - main
+    paths:
+      - ".github/workflows/yarn-update.yml"
+      - "scripts/yarn-update"
+      - "scripts/yarn/*"
 
 jobs:
   yarn-update:
