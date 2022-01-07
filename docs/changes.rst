@@ -8,6 +8,7 @@ Not yet released.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
 * Indicate lock and contributor agreement on other occurrences listing.
 * Fixed updating PO files with obsolete strings or missing plurals.
+* Improved squash add-on compatibility with Gerrit.
 
 Weblate 4.10.1
 --------------
