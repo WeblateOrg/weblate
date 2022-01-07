@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2022-01-03 19:24+0000\n"
+"PO-Revision-Date: 2022-01-07 16:38+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -2483,7 +2483,7 @@ msgstr "niet-overeenkomende ellips"
 
 #: weblate/checks/chars.py:289
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "Bron en vertaling eindigen niet allebei met een ellips (…)"
+msgstr "Bron en vertaling eindigen niet met een ellips (…)"
 
 #: weblate/checks/chars.py:307
 msgid "Mismatched \\n"
@@ -2511,11 +2511,11 @@ msgstr "De vertaling bevat een extra spatie zonder breedte"
 
 #: weblate/checks/chars.py:342 weblate/checks/flags.py:74
 msgid "Maximum length of translation"
-msgstr "Maximum lengte van de vertaling"
+msgstr "Maximumlengte van de vertaling"
 
 #: weblate/checks/chars.py:343
 msgid "Translation should not exceed given length"
-msgstr "Vertaling mag de opgegeven lengte niet overschrijden"
+msgstr "de vertaling mag de opgegeven lengte niet overschrijden"
 
 #: weblate/checks/chars.py:359
 msgid "Mismatched semicolon"
@@ -2523,7 +2523,7 @@ msgstr "niet-overeenkomende puntkomma"
 
 #: weblate/checks/chars.py:360
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Bron en vertaling eindigen niet met een puntkomma"
+msgstr "de bron en vertaling eindigen niet met een puntkomma"
 
 #: weblate/checks/chars.py:373
 msgid "Kashida letter used"
@@ -2575,7 +2575,7 @@ msgstr "Is vertaald"
 
 #: weblate/checks/consistency.py:147
 msgid "This string has been translated in the past"
-msgstr "Deze tekenreeks is in het verleden reeds vertaald"
+msgstr "Deze tekenreeks is ooit vertaald geweest"
 
 #: weblate/checks/consistency.py:155
 #, python-format
@@ -2677,7 +2677,7 @@ msgstr "Tekenreeksvariant"
 #: weblate/checks/flags.py:262
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Ongeldige aanmerking: “%s”"
+msgstr "Ongeldige aanvullende optie: “%s”"
 
 #: weblate/checks/flags.py:266
 #, python-format
@@ -2692,7 +2692,7 @@ msgstr "De aanmerking bevat onjuiste aanvullende opties: “%s”"
 #: weblate/checks/flags.py:276
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Ontbrekende aanvullende opties bij aanmerking: “%s”"
+msgstr "Ontbrekende opties bij aanvullende optie: “%s”"
 
 #: weblate/checks/format.py:392
 #, python-format
@@ -2959,7 +2959,7 @@ msgstr "xml-syntaxis"
 
 #: weblate/checks/markup.py:167
 msgid "The translation is not valid XML"
-msgstr "De vertaling is geen geldige XML"
+msgstr "De vertaling is geen geldige xml"
 
 #: weblate/checks/markup.py:191
 msgid "XML markup"
@@ -2975,7 +2975,7 @@ msgstr "Markdown-verwijzingen"
 
 #: weblate/checks/markup.py:252
 msgid "Markdown link references do not match source"
-msgstr "De Markdown-linkreferenties komen niet overeen met de bron"
+msgstr "De Markdown-verwijzingen komen niet overeen met de bron"
 
 #: weblate/checks/markup.py:268
 msgid "Markdown links"
@@ -3028,7 +3028,7 @@ msgstr "Qt indeling"
 
 #: weblate/checks/qt.py:50
 msgid "Qt format string does not match source"
-msgstr "Qt-Indelingstekenreeks komt niet overeen met bron"
+msgstr "De Qt-indelingstekenreeks komt niet overeen met de bron"
 
 #: weblate/checks/qt.py:62
 msgid "Qt plural format"
@@ -3040,13 +3040,12 @@ msgstr "De Qt-meervoudstekenreeks komt niet overeen met de bron"
 
 #: weblate/checks/render.py:45
 msgid "Maximum size of translation"
-msgstr "Maximum grootte van de vertaling"
+msgstr "Maximumomvang van de vertaling"
 
 #: weblate/checks/render.py:46
 msgid "Translation rendered text should not exceed given size"
 msgstr ""
-"De vertaling van de getoonde tekst mag de opgegeven grootte niet "
-"overschrijden"
+"De vertaling van de getoonde tekst mag de opgegeven omvang niet overschrijden"
 
 #: weblate/checks/ruby.py:68
 msgid "Ruby format"
@@ -3062,11 +3061,11 @@ msgstr "ongewijzigde vertaling"
 
 #: weblate/checks/same.py:158
 msgid "Source and translation are identical"
-msgstr "Bron en vertaling zijn identiek"
+msgstr "de bron en vertaling zijn identiek"
 
 #: weblate/checks/source.py:42
 msgid "Unpluralised"
-msgstr "Geen meervoud"
+msgstr "geen meervoud"
 
 #: weblate/checks/source.py:43
 msgid "The string is used as plural, but not using plural forms"
@@ -7729,10 +7728,8 @@ msgid "Import translation memory"
 msgstr "Vertaalgeheugen importeren"
 
 #: weblate/templates/message.html:15
-#, fuzzy
-#| msgid "New announcement"
 msgid "Delete announcement"
-msgstr "Nieuwe aankondiging"
+msgstr "Aankondiging verwijderen"
 
 #: weblate/templates/new-language.html:26
 msgid ""
@@ -12001,7 +11998,7 @@ msgstr "De in de api te verwerken sleutelwaarde"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
-msgstr "Aanvaarden van suggestie mislukt!"
+msgstr "De suggestie kan niet worden aanvaard!"
 
 #: weblate/trans/models/translation.py:169
 msgid "source"
@@ -12018,17 +12015,17 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Bestandsnaam %s niet gevonden in de opslagruimte! Om een nieuwe vertaling "
-"toe te voegen, voeg het taalbestand toe aan de opslagruimte."
+"%s is niet aangetroffen in de opslagruimte! Voeg het taalbestand toe om een "
+"vertaling te kunnen starten."
 
 #: weblate/trans/models/translation.py:219
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
+msgstr "%(file)s kan niet worden verwerkt: %(error)s"
 
 #: weblate/trans/models/translation.py:1475
 msgid "This string seems to already exist."
-msgstr "Deze tekenreeks lijkt reeds te bestaan."
+msgstr "Deze tekenreeks lijkt reeds aanwezig."
 
 #: weblate/trans/models/translation.py:1482
 #, python-format
@@ -12045,7 +12042,7 @@ msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"De tekenreeks van %(component)s kan niet worden ingediend omdat u niet bent "
+"De tekenreeks kan niet worden ingediend bij %(component)s omdat u niet bent "
 "ingestemd met een medewerkersovereenkomst."
 
 #: weblate/trans/models/unit.py:1330
@@ -12066,7 +12063,7 @@ msgstr "Demarkeren als verboden vertaling"
 
 #: weblate/trans/models/unit.py:1523
 msgid "Mark as forbidden translation"
-msgstr "Aanduiden als verboden vertaling"
+msgstr "Markeren als verboden vertaling"
 
 #: weblate/trans/models/unit.py:1531
 msgid "Unmark as terminology"
@@ -12082,7 +12079,7 @@ msgstr "Tabulatieteken invoegen"
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert new line"
-msgstr "Nieuwe regel toevoegen"
+msgstr "Nieuwe regel"
 
 #: weblate/trans/specialchars.py:32
 msgid "Insert horizontal ellipsis"
@@ -12091,29 +12088,23 @@ msgstr "Beletselteken (…) invoegen"
 #: weblate/trans/specialchars.py:272
 #, python-brace-format
 msgid "Insert character {0}"
-msgstr "Teken {0} invoegen"
+msgstr "{0} invoegen"
 
 #: weblate/trans/specialchars.py:285
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "Dubbel aanhalingsteken openen"
+msgstr "Dubbel aanhalingstekenen openen"
 
 #: weblate/trans/specialchars.py:286
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "Aanhalingsteken sluiten"
+msgstr "Dubbel aanhalingsteken sluiten"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
-msgstr ""
+msgstr "Dubbel aanhalingsteken openen (alternatief)"
 
 #: weblate/trans/specialchars.py:288
-#, fuzzy
-#| msgid "Opening single quote"
 msgid "Alternative closing quote"
-msgstr "Aanhalingsteken openen"
+msgstr "Dubbel aanhalingsteken sluiten (alternatief)Aanhalingsteken openen"
 
 #: weblate/trans/specialchars.py:291
 msgid "Hyphen"
@@ -13072,20 +13063,20 @@ msgstr "Dit e-mailadres is niet toegestaan."
 
 #: weblate/utils/validators.py:199
 msgid "Could not evaluate plural formula: {}"
-msgstr "Kan de meervoudsformule niet controleren: {}"
+msgstr "De meervoudsformule kan niet worden gecontroleerd: {}"
 
 #: weblate/utils/validators.py:205
 msgid "The filename can not contain reference to a parent directory."
 msgstr ""
-"De bestandsnaam mag geen referentie bevatten naar een bovenliggende map."
+"De bestandsnaam mag geen verwijzing bevatten naar een bovenliggende map."
 
 #: weblate/utils/validators.py:208
 msgid "The filename can not be an absolute path."
-msgstr "De bestandsnaam mag geen absoluut pad zijn."
+msgstr "De bestandsnaam mag geen absolute locatie zijn."
 
 #: weblate/utils/validators.py:214
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
-msgstr "De bestandsnaam moet zo eenvoudig mogelijk zijn. Suggestie: {}"
+msgstr "De bestandsnaam dient zo eenvoudig mogelijk te zijn. Suggestie: {}"
 
 #: weblate/utils/validators.py:224
 msgid "This name is prohibited"
@@ -13104,10 +13095,8 @@ msgid "Position"
 msgstr "Positie"
 
 #: weblate/utils/views.py:138
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string"
-msgstr "Doeltekenreeksen"
+msgstr "Doeltekenreeks"
 
 #: weblate/utils/views.py:139
 msgid "Age of string"
