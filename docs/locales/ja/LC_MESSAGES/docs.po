@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-07 12:47+0000\n"
+"PO-Revision-Date: 2022-01-07 16:38+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -200,7 +200,7 @@ msgstr "プロジェクトで使用できるすべての権限を含みます。
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr "査読（ :ref:`review workflow <reviews>` がオンになっている場合のみ）"
+msgstr "査読（ :ref:`review workflow <reviews>` が有効化されている場合のみ）"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
@@ -6127,8 +6127,6 @@ msgid "Right now this controls:"
 msgstr "現在管理できるもの:"
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` アドオン"
 
@@ -6627,8 +6625,6 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:537
-#, fuzzy
-#| msgid "Default addons to install on every created component."
 msgid "Default add-ons to install on every created component."
 msgstr "作成したすべてのコンポーネントにインストールするデフォルトのアドオン。"
 
@@ -7234,23 +7230,16 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL および LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon. :"
-#| "setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is "
-#| "available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate "
-#| "should store generated files which will be served at the :setting:"
-#| "`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"これらの設定は :ref:`addon-weblate.cdn.cdnjs` アドオンを設定します。 :"
-"setting:`LOCALIZE_CDN_URL` は現地語化 CDN が利用可能なルート URL を定義し、:"
-"setting:`LOCALIZE_CDN_PATH` は :setting:`LOCALIZE_CDN_URL` で提供される生成"
-"ファイルを Weblate がどこに保存するかパスを定義します。"
+"これらの設定では :ref:`addon-weblate.cdn.cdnjs` アドオンを設定します。 "
+":setting:`LOCALIZE_CDN_URL` は現地語化 CDN が利用可能なルート URL "
+"を定義し、:setting:`LOCALIZE_CDN_PATH` は :setting:`LOCALIZE_CDN_URL` "
+"で提供される生成ファイルを Weblate が保存するパスを定義します。"
 
 #: ../../admin/config.rst:1077
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -9449,8 +9438,6 @@ msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 msgstr ":doc:`django:howto/static-files/index`、:ref:`static-files`"
 
 #: ../../admin/customize.rst:116
-#, fuzzy
-#| msgid "Custom quality checks, addons and auto-fixes"
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr "品質検査、アドオン、自動修正のカスタマイズ"
 
@@ -21717,10 +21704,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS Wikipedia 参照: <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -21733,7 +21718,7 @@ msgstr "API を使用したアドオンのインストールの修正。"
 #: ../../changes.rst:7
 msgid ""
 "Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`."
-msgstr ""
+msgstr ":guilabel:`要編集の文字列` のラベルを :guilabel:`翻訳未完成の文字列` に変更。"
 
 #: ../../changes.rst:8
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
@@ -27936,8 +27921,6 @@ msgstr ""
 "ています。"
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Developing addons"
 msgid "Developing add-ons"
 msgstr "アドオンの開発"
 
@@ -28055,8 +28038,6 @@ msgid "Hook triggered before new unit is created."
 msgstr "新しいユニットが作成される前にフックが起動します。"
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Here is an example addon:"
 msgid "Here is an example add-on:"
 msgstr "アドオンの例:"
 
@@ -28959,10 +28940,8 @@ msgid "License"
 msgstr "ライセンス"
 
 #: ../../contributing/license.rst:4 ../../../README.rst:62
-#, fuzzy
-#| msgid "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
 msgid "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
-msgstr "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
+msgstr "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -30171,7 +30150,7 @@ msgstr ""
 
 #: ../../devel/community.rst:2
 msgid "Building translators community"
-msgstr ""
+msgstr "翻訳者コミュニティの構築"
 
 #: ../../devel/community.rst:4
 msgid ""
@@ -30184,6 +30163,11 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
+"これらの推奨事項に従うことで、多言語による完全な機械翻訳後編集の作成をサポートします。良い翻訳は、文脈的に正しい翻訳を目指す House "
+"のシステム機能モデルによって定義されます。独自の `機械翻訳後編集のガイドライン <https://www.taus.net/academy/"
+"best-practices/postedit-best-practices/machine-translation-post-editing-"
+"guidelines>`_ を作成し、独自の定義に合わせてこれらの推奨事項を変更します。ほとんどの場合、`ブラウザ プラグインの言語ツール "
+"<https://languagetool.org/#firefox_chrome>`_  は、校正ツールとして便利です。"
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -30195,12 +30179,12 @@ msgid ""
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
+"各コンポーネントのメニューに記載されているe :guilabel:`現地化コミュニティのチェックリスト` "
+"を使用すると、現地語化の作業をコミュニティの翻訳者が簡単に行えるようになります。"
 
 #: ../../devel/community.rst:18
-#, fuzzy
-#| msgid "Terminology"
 msgid "Terminology management"
-msgstr "専門用語"
+msgstr "用語集の管理"
 
 #: ../../devel/community.rst:19
 msgid ""
@@ -30214,6 +30198,11 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"用語の割り当てを使用した機械翻訳後の編集は、翻訳プロセスの各レベルに影響を与えます。機械翻訳システムは、継続的なトレーニングまたは `ニューラル "
+"ファジー修復 <https://www.aclweb.org/anthology/P19-1175.pdf>`_ "
+"を使用して、特定の語彙とスタイルに適合させることができます。既存の翻訳メモリを weblate に `インポート <https://docs."
+"weblate.org/en/latest/admin/memory.html#imported-translation-memory>`_ "
+"するか、基本的な用語で初期スコープを作成します。最終的には、現場での十分な知識と成果を保証するために、追加の用語文書を業者に指定することが必要です。"
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -30222,12 +30211,13 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"自動翻訳（多くの場合、BLEUスコアで測定）の品質は、編集時間と相関関係があります [1] "
+"。必要な言語とドメインに対応するマシンのバックエンドを選択します。翻訳バックエンドがどのように機能するか確認し、ポスト "
+"エディタが必要とする品質を明確にします。"
 
 #: ../../devel/community.rst:27
-#, fuzzy
-#| msgid "New translation"
 msgid "Review translations"
-msgstr "新しい翻訳"
+msgstr "翻訳の査読"
 
 #: ../../devel/community.rst:28
 msgid ""
@@ -30235,12 +30225,12 @@ msgid ""
 "editing. With an impartial and competent revisor, the two man rules reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
+"翻訳は、機械翻訳後の編集の後に 2 人目の人が査読することが必要です。公平で有能な改訂者により、2 "
+"人のルールは誤りを減らし、コンテンツの品質と一貫性を向上させます。"
 
 #: ../../devel/community.rst:31
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Structured feedback"
-msgstr "reStructuredText"
+msgstr "フィードバック構造"
 
 #: ../../devel/community.rst:32
 msgid ""
@@ -30248,12 +30238,12 @@ msgid ""
 "checks.html>`_ in weblate. Pay the lectors to give structured feedback and "
 "use it to increase those checks."
 msgstr ""
+"weblate には、数多くの `品質検査 <https://docs.weblate.org/en/latest/user/checks.html>`"
+"_ があります。業者にお金を払ってフィードバック構造をしてもらい、それを使ってそれらの検査を増やします。"
 
 #: ../../devel/community.rst:35
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Translation definition"
-msgstr "翻訳についての説明"
+msgstr "翻訳の定義"
 
 #: ../../devel/community.rst:36
 msgid ""
@@ -38097,11 +38087,10 @@ msgid ""
 "is still available. Alternatively you can use the search field to find a "
 "specific string or term."
 msgstr ""
-"コンポーネントでは、翻訳の編集画面に移動できるリンクの一覧があります。さらに"
-"翻訳は、次のような個別の検査結果に分類されています、例えば :guilabel:`未翻訳"
-"の文字列` または :guilabel:`翻訳未完成の文字列`。プロジェクト全体で不合格とな"
-"らずに翻訳できた場合であっても、:guilabel:`すべての文字列` が使用できます。ま"
-"た、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
+"コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに翻訳は、次のような個別の検査結果に分類されています、例えば "
+":guilabel:`未翻訳の文字列` または "
+":guilabel:`翻訳未完成の文字列`。プロジェクト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
+"が使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
