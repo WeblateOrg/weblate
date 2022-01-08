@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-07 02:39+0000\n"
+"PO-Revision-Date: 2022-01-08 22:16+0000\n"
 "Last-Translator: Michael Timothy Notopuro 12A1-23 MT BreakThrough "
 "<mt310804@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
@@ -56,50 +56,66 @@ msgid ""
 "following settings. If you don’t need any complex setup, those are "
 "sufficient for you."
 msgstr ""
+"நீங்கள் முழு Weblate நிறுவலையும் நிர்வகிக்கவில்லை மற்றும் சில திட்டப்பணிகளை "
+"(`Hosted Weblate <https://hosted.weblate.org/>`_ போன்றவை) நிர்வகிப்பதற்கான "
+"அணுகல் இருந்தால், உங்கள் அணுகல் கட்டுப்பாட்டு மேலாண்மை விருப்பங்கள் பின்வரும்"
+" அமைப்புகளுக்கு மட்டுமே. உங்களுக்கு சிக்கலான அமைப்பு எதுவும் தேவையில்லை "
+"என்றால், அவை உங்களுக்கு போதுமானவை."
 
 #: ../../admin/access.rst:28
 msgid "Project access control"
-msgstr ""
+msgstr "திட்ட அணுகல் கட்டுப்பாடு"
 
 #: ../../snippets/not-hosted-libre.rst:3
 msgid ""
 "This feature is unavailable for projects running the Libre plan on Hosted "
 "Weblate."
 msgstr ""
+"ஹோஸ்ட் செய்யப்பட்ட வெப்லேட்டில் Libre திட்டத்தை இயக்கும் திட்டங்களுக்கு இந்த "
+"அம்சம் கிடைக்காது."
 
 #: ../../admin/access.rst:32
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "guilabel:`Access control` setting. Available options are:"
 msgstr ""
+"வேறுபட்ட :guilabel:`அணுகல் கட்டுப்பாடு` அமைப்பைத் தேர்ந்தெடுப்பதன் மூலம் "
+"தனிப்பட்ட திட்டங்களுக்கான பயனர்களின் அணுகலைக கட்\n"
+"படுத்தலாம்.  கிடைக்கக்கூடிய விருப்பங்கள்:"
 
 #: ../../admin/access.rst:35
 msgid "Public"
-msgstr ""
+msgstr "பொது"
 
 #: ../../admin/access.rst:36
 msgid "Publicly visible, translatable for all logged-in users."
 msgstr ""
+"பொதுவில் தெரியும், உள்நுழைந்துள்ள அனைத்து பயனர்களுக்கும் "
+"மொழிபெயர்க்கக்கூடியது."
 
 #: ../../admin/access.rst:37
 msgid "Protected"
-msgstr ""
+msgstr "பாதுகாக்கப்பட்டது"
 
 #: ../../admin/access.rst:38
 msgid "Publicly visible, but translatable only for selected users."
 msgstr ""
+"பொதுவில் தெரியும், ஆனால் தேர்ந்தெடுக்கப்பட்ட பயனர்களுக்கு மட்டுமே மொழிபெயர்க்"
+"க முடியும்."
 
 #: ../../admin/access.rst:39
 msgid "Private"
-msgstr ""
+msgstr "தனியார்"
 
 #: ../../admin/access.rst:40
 msgid "Visible and translatable only for selected users."
 msgstr ""
+"தேர்ந்தெடுக்கப்பட்ட பயனர்களுக்கு மட்டுமே தெரியும் மற்றும் "
+"மொழிபெயர்க்கக்கூடியது."
 
 #: ../../admin/access.rst:44
 msgid "Custom"
-msgstr ""
+msgstr "தனிப்பயன்"
 
 #: ../../admin/access.rst:42
 msgid ""
@@ -107,6 +123,10 @@ msgid ""
 "all users are forbidden to performed any actions on the project. You will "
 "have to set up all the permissions using :ref:`custom-acl`."
 msgstr ""
+":ref:`பயனர் மேலாண்மை <manage-acl>` அம்சங்கள் முடக்கப்படும்; முன்னிருப்பாக "
+"அனைத்து பயனர்களும் திட்டத்தில் எந்த செயலையும் செய்ய தடை விதிக்கப்பட்டுள்ளது. "
+"நீங்கள் அனைத்து அனுமதிகளையும் :ref:`custom-acl` ஐப் பயன்படுத்தி அமைக்க "
+"வேண்டும்."
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -114,10 +134,13 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`அணுகல்கட்டுப்பாடு` என்பது ஒவ்வொரு திட்டப்பணியின் உள்ளமைவின் "
+"(:guilabel:`Manage` ↓ :guilabel:`Settings`) :guilabel:`Access` தாவலில் "
+"மாற்றப்படலாம்."
 
 #: ../../admin/access.rst:52
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
+msgstr "இயல்புநிலை மதிப்பை :setting:`DEFAULT ACCESS CONTROL` மூலம் மாற்றலாம்."
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -126,6 +149,11 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"`தனியார்` திட்டங்களுக்குக் கூட, உங்கள் திட்டத்தைப் பற்றிய சில தகவல்கள் "
+"வெளிப்படும்: அணுகல் கட்டுப்பாட்டு அமைப்பு இருந்தபோதிலும், முழு நிகழ்விற்கான "
+"புள்ளிவிவரங்கள் மற்றும் மொழிச் சுருக்கம் எல்லா திட்டங்களின் எண்ணிக்கையையும் "
+"உள்ளடக்கும். உங்கள் திட்டத்தின் பெயர் மற்றும் பிற தகவல்களை இதன் மூலம் "
+"வெளிப்படுத்த முடியாது."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -133,6 +161,10 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"இயல்புநிலையாக பயனர்களுக்குக் கிடைக்கும் அனுமதிகளின் உண்மையான தொகுப்பு `பொது`"
+", `பாதுகாக்கப்பட்ட` மற்றும் `தனியார்` திட்டங்களில் வெப்லேட் நிகழ்வு "
+"நிர்வாகியால் :ref:` custom settings <custom-acl>` ஐப் பயன்படுத்தி மறுவரையறை "
+"செய்ய முடியும்."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -141,6 +173,10 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
+"`தனிப்பயன்` அணுகல் கட்டுப்பாட்டை இயக்குவதன் மூலம், தேர்ந்தெடுக்கப்பட்ட "
+"திட்டத்திற்காக உருவாக்கிய அனைத்து :ref:`special group <manage-acl>` Weblate "
+"அகற்றும். முழு வெப்லேட் நிகழ்விற்கும் நிர்வாகி அனுமதியின்றி இதைச் செய்தால், "
+"திட்டத்தை நிர்வகிப்பதற்கான அணுகலை உடனடியாக இழப்பீர்கள்."
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -150,7 +186,7 @@ msgstr "இன்டர்லிங்வா"
 
 #: ../../admin/access.rst:81
 msgid "Managing per-project access control"
-msgstr ""
+msgstr "ஒரு திட்டத்திற்கான அணுகல் கட்டுப்பாட்டை நிர்வகித்தல்"
 
 #: ../../admin/access.rst:83
 msgid ""
@@ -158,38 +194,46 @@ msgid ""
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
+":guilabel:`நிர்வகிதிட்ட அணுகல்' சிறப்புரிமை (பார்க்க :ref:`privileges`) உள்ள "
+"பயனர்கள், `தனிப்பயன்` அணுகல் கட்டுப்பாடு அல்லாத திட்டங்களில் பயனர்களை "
+"நிர்வகிக்க முடியும். அவர்கள் பின்வரும் குழுக்களில் ஒன்றுக்கு பயனர்களை "
+"ஒதுக்கலாம்."
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "`பொது`, `பாதுகாக்கப்பட்ட` மற்றும் `தனியார்` திட்டங்களுக்கு:"
 
 #: ../../admin/access.rst:90
 msgid "Administration"
-msgstr ""
+msgstr "நிர்வாகம்"
 
 #: ../../admin/access.rst:90
 msgid "Includes all permissions available for the project."
-msgstr ""
+msgstr "திட்டத்திற்கான அனைத்து அனுமதிகளையும் உள்ளடக்கியது."
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgstr ""
+"மதிப்பாய்வு (:ref:`review பணிப்பாய்வு <reviews>` இயக்கப்பட்டிருந்தால் "
+"மட்டும்)"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "மதிப்பாய்வின் போது மொழிபெயர்ப்புகளை அங்கீகரிக்க முடியும்."
 
 #: ../../admin/access.rst:95
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "`பாதுகாக்கப்பட்ட` மற்றும் `தனியார்` திட்டங்களுக்கு மட்டும்:"
 
 #: ../../admin/access.rst:98
 msgid "Translate"
-msgstr ""
+msgstr "மொழிபெயர்"
 
 #: ../../admin/access.rst:98
 msgid "Can translate the project and upload translations made offline."
 msgstr ""
+"திட்டத்தை மொழிபெயர்க்கலாம் மற்றும் ஆஃப்லைனில் செய்யப்பட்ட மொழிபெயர்ப்புகளைப் "
+"பதிவேற்றலாம்."
 
 #: ../../admin/access.rst:102 ../../devel/community.rst:40
 #, fuzzy
@@ -202,6 +246,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
+"மூலச் சரங்களைத் திருத்தலாம் (அனுமதிக்கப்பட்டால் :ref:`project அமைப்புகளில் "
+"<component-manage_units>`) மற்றும் மூல சரத் தகவலை."
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:270
 #: ../../admin/access.rst:286 ../../admin/access.rst:397 ../../api.rst:648
@@ -228,32 +274,32 @@ msgstr "இன்டர்லிங்வா"
 
 #: ../../admin/access.rst:111
 msgid "Memory"
-msgstr ""
+msgstr "நினைவு"
 
 #: ../../admin/access.rst:111
-#, fuzzy
-#| msgid "Interlingua"
 msgid "Can manage translation memory."
-msgstr "இன்டர்லிங்வா"
+msgstr "மொழிபெயர்ப்பு நினைவகத்தை நிர்வகிக்க முடியும்."
 
 #: ../../admin/access.rst:115 ../../admin/access.rst:508 ../../api.rst:2103
 #: ../../user/translating.rst:266
 msgid "Screenshots"
-msgstr ""
+msgstr "திரைக்காட்சிகள்"
 
 #: ../../admin/access.rst:114
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
+"ஸ்கிரீன் ஷாட்களை நிர்வகிக்கலாம் (அவற்றைச் சேர்க்கலாம் அல்லது அகற்றலாம், "
+"மேலும் அவற்றை மூலச் சரங்களுடன் இணைக்கலாம்)."
 
 #: ../../admin/access.rst:118 ../../admin/access.rst:566
 msgid "VCS"
-msgstr ""
+msgstr "வி.சி.எஸ்"
 
 #: ../../admin/access.rst:118
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "VCS ஐ நிர்வகிக்கலாம் மற்றும் ஏற்றுமதி களஞ்சியத்தை அணுகலாம்."
 
 #: ../../admin/access.rst:121 ../../admin/optionals.rst:63
 msgid "Billing"
@@ -261,7 +307,7 @@ msgstr "பில்லிங்"
 
 #: ../../admin/access.rst:121
 msgid "Can access billing info and settings (see :ref:`billing`)."
-msgstr ""
+msgstr "பில்லிங் தகவல் மற்றும் அமைப்புகளை அணுகலாம் (பார்க்க :ref:`billing`)."
 
 #: ../../admin/access.rst:123
 msgid ""
@@ -269,6 +315,9 @@ msgid ""
 "now. Also this way it’s not possible to give just some additional "
 "permissions to all users."
 msgstr ""
+"துரதிர்ஷ்டவசமாக, இந்த முன் வரையறுக்கப்பட்ட குழுக்களை இப்போதைக்கு மாற்ற "
+"முடியாது. மேலும் இந்த வழியில் அனைத்து பயனர்களுக்கும் சில கூடுதல் அனுமதிகளை "
+"வழங்க முடியாது."
 
 #: ../../admin/access.rst:129
 msgid ""
@@ -277,6 +326,11 @@ msgid ""
 "``Project@Group``, also displayed in the Django admin interface this way. "
 "Although they can’t be edited from Weblate user-interface."
 msgstr ""
+"`தனிப்பயன்` அல்லாத அணுகல் கட்டுப்பாட்டிற்கு, மேலே விவரிக்கப்பட்ட ஒவ்வொரு "
+"குழுவின் ஒரு நிகழ்வு உண்மையில் ஒவ்வொரு திட்டத்திற்கும் வரையறுக்கப்படுகிறது. "
+"அந்தக் குழுக்களின் உண்மையான பெயர் ``Project@Group``, இது ஜாங்கோ நிர்வாக "
+"இடைமுகத்திலும் இந்த வழியில் காட்டப்படும். Weblate பயனர் இடைமுகத்திலிருந்து "
+"அவற்றைத் திருத்த முடியாது என்றாலும்."
 
 #: ../../admin/access.rst:136
 msgid ""
@@ -284,10 +338,12 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"இந்த அம்சங்கள் :guilabel:`Access control` பக்கத்தில் கிடைக்கும், இதை "
+"திட்டத்தின் மெனுவில் இருந்து அணுகலாம் :guilabel:`Manage` ↓ :guilabel:`Users`."
 
 #: ../../admin/access.rst:142
 msgid "New user invitation"
-msgstr ""
+msgstr "புதிய பயனர் அழைப்பு"
 
 #: ../../admin/access.rst:144
 msgid ""
@@ -298,6 +354,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"மேலும், திட்டத்தில் ஏற்கனவே உள்ள பயனரைச் சேர்ப்பதைத் தவிர, புதியவர்களை அழைக்"
+"க முடியும். எந்தவொரு புதிய பயனரும் உடனடியாக உருவாக்கப்படுவார்கள், ஆனால் "
+"மின்னஞ்சல் மூலம் அனுப்பப்பட்ட அழைப்பிதழில் உள்ள இணைப்புடன் உள்நுழையும் வரை "
+"கணக்கு செயலற்ற நிலையில் இருக்கும். அவ்வாறு செய்வதற்கு, தளம் முழுவதும் "
+"சிறப்புரிமைகள் எதுவும் இருக்க வேண்டிய அவசியமில்லை, திட்டத்தின் நோக்கத்திற்கா"
+"ன அணுகல் நிர்வாக அனுமதி (எ.கா. `நிர்வாகம்` குழுவில் உள்ள உறுப்பினர்) "
+"போதுமானதாக இருக்கும்."
 
 #: ../../admin/access.rst:153
 msgid ""
@@ -305,6 +368,9 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"அழைக்கப்பட்ட பயனர் அழைப்பின் செல்லுபடியை தவறவிட்டால், கணக்கு ஏற்கனவே "
+"உருவாக்கப்பட்டதால், கடவுச்சொல் மீட்டமைப்பு படிவத்தில் அழைக்கப்பட்ட மின்னஞ்சல்"
+" முகவரியைப் பயன்படுத்தி அவர்கள் கடவுச்சொல்லை அமைக்கலாம்."
 
 #: ../../admin/access.rst:159
 msgid ""
