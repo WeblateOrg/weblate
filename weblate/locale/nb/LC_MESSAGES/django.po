@@ -13,13 +13,14 @@
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # Dag Høidahl <dagh@fix.no>, 2020.
+# FTno <ft-002@tutanota.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2022-01-03 11:20+0000\n"
-"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
+"PO-Revision-Date: 2022-01-10 08:08+0000\n"
+"Last-Translator: FTno <ft-002@tutanota.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -792,11 +793,8 @@ msgstr "Ventende forslag"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Unfinished strings"
-msgstr "Vertslagrede strenger"
+msgstr "Uferdige strenger"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1783,7 +1781,7 @@ msgstr "Rediger strenger"
 #. Translators: Permission name
 #: weblate/auth/data.py:83
 msgid "Review strings"
-msgstr "Korrekturles strenger"
+msgstr "Gjennomgangsstrenger"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:85
@@ -2023,7 +2021,7 @@ msgstr "Brukere"
 #: weblate/auth/data.py:236
 msgctxt "Access-control group"
 msgid "Reviewers"
-msgstr "Korrekturlesere"
+msgstr "Gjennomseere"
 
 #: weblate/auth/data.py:237
 msgctxt "Access-control group"
@@ -6767,8 +6765,8 @@ msgid ""
 "If you like Weblate and you want to continue using it, please purchase the "
 "subscription. If not, tell us what you are missing."
 msgstr ""
-"Hvis du liker Weblate, og du vil fortsette å bruke den, kan du kjøpe "
-"abonnementet. Hvis ikke, fortell oss hva du mangler."
+"Hvis du liker og vil fortsette å bruke Weblate, kan du kjøpe abonnementet. "
+"Hvis ikke, fortell oss hva du savner."
 
 #: weblate/templates/mail/billing_expired.html:12
 msgid ""
@@ -7200,22 +7198,18 @@ msgid "Screenshot context"
 msgstr "Skjermbildekontekst"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s ventende forslag i %(component)s"
-msgstr[1] "%(count)s ventende forslag i %(component)s"
+msgstr[0] "%(count)s uferdig streng i %(component)s"
+msgstr[1] "%(count)s uferdige strenger i %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s streng"
-msgstr[1] "%(count)s strenger"
+msgstr[0] "%(count)s uferdig streng"
+msgstr[1] "%(count)s uferdige strenger"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:132
 msgid "Access control"
@@ -7947,7 +7941,7 @@ msgstr "Prøv igjen senere."
 
 #: weblate/templates/replace.html:24
 msgid "Please review and confirm the search and replace results."
-msgstr "Se over og bekreft søket og erstatt resultater."
+msgstr "Se over og bekreft resultatene for søk og erstatt."
 
 #: weblate/templates/replace.html:28
 msgid ""
@@ -8488,19 +8482,15 @@ msgstr "Sorter kolonnen"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr ""
+msgstr "Uferdig"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgid "Untranslated words"
 msgid "Unfinished words"
-msgstr "Uoversatte ord"
+msgstr "Uferdige ord"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "Uoversatte tegn"
+msgstr "Uferdige tegn"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -9612,8 +9602,8 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Kun korrekturlesere kan endre godkjente strenger, legg til et forslag hvis "
-"du synes den bør endres."
+"Kun gjennomseere kan endre godkjente strenger, legg til et forslag hvis du "
+"synes strengen bør endres."
 
 #: weblate/templates/translate.html:206
 msgid ""
@@ -9642,10 +9632,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "Utilstrekkelige rettigheter for å lagre oversettelser."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Lagre og ikke gå videre"
+msgstr "Lagre og fortsett"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -9985,13 +9973,12 @@ msgstr ""
 "frakoblet oversettelse."
 
 #: weblate/templates/translation.html:338
-#, fuzzy
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Alle strengene, konverterte filer med deres kommentarer; passer for "
-"frakoblet oversettelse."
+"Uferdige strenger, konverterte filer med deres kommentarer; passer for "
+"frakoblet oversettelse"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10159,8 +10146,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Alle seneste endringer er laget med Weblate i %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Read-only strings"
 msgstr "Skrivebeskyttede strenger"
 
@@ -10181,18 +10166,14 @@ msgid "Strings with context"
 msgstr "Strenger med bindeleddsinformasjon"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "Godkjente strenger med forslag"
+msgstr "Uferdige strenger uten forslag"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
 msgstr "Oversatte strenger med kontroller som feiler"
 
 #: weblate/trans/filter.py:57
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "Translated strings with dismissed checks"
 msgstr "Oversatte strenger med avviste kontroller"
 
@@ -10202,13 +10183,11 @@ msgstr "Godkjente strenger"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:132
 msgid "Strings waiting for review"
-msgstr "Strenger merket til gjennomgang"
+msgstr "Strenger som venter på gjennomgang"
 
 #: weblate/trans/filter.py:67
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Strings without a label"
-msgstr "Strenger uten etiketter"
+msgstr "Strenger uten etikett"
 
 #: weblate/trans/filter.py:68
 msgid "Pluralized string"
@@ -12074,19 +12053,19 @@ msgstr ""
 
 #: weblate/trans/models/project.py:139
 msgid "Enable reviews"
-msgstr "Aktiver korrekturlesing"
+msgstr "Aktiver gjennomganger"
 
 #: weblate/trans/models/project.py:141
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "Krever at utvalgte korrekturlesere godkjenner oversettelser."
+msgstr "Krever dedikerte gjennomseere for å godkjenne oversettelser."
 
 #: weblate/trans/models/project.py:144
 msgid "Enable source reviews"
-msgstr "Aktiver kilde-korrekturlesing"
+msgstr "Aktiver kilde-gjennomganger"
 
 #: weblate/trans/models/project.py:147
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Krever at utvalgte korrekturlesere godkjenner kildestrenger."
+msgstr "Krever dedikerte gjennomseere for å godkjenne kildestrenger."
 
 #: weblate/trans/models/project.py:151
 msgid "Enable hooks"
@@ -12461,7 +12440,7 @@ msgstr[1] "%(count)s timer fra nå"
 #: weblate/trans/templatetags/translations.py:605
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Avviste sjekker:"
+msgstr "Avviste kontroller:"
 
 #: weblate/trans/templatetags/translations.py:610
 msgctxt "String state"
