@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-03 19:25+0000\n"
-"Last-Translator: S3aBreeze <paperwork@evilcorp.ltd>\n"
+"PO-Revision-Date: 2022-01-10 08:08+0000\n"
+"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1621,11 +1621,8 @@ msgid "``nottranslated`` -- Not translated strings"
 msgstr "``nottranslated`` -- Непереведённые строки"
 
 #: ../../admin/addons.rst:48
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "``todo`` -- Unfinished strings"
-msgstr "Хранимые строки"
+msgstr "``в разработке`` -- Незавершённые строки"
 
 #: ../../admin/addons.rst:50
 msgid "``fuzzy`` -- Strings marked for edit"
@@ -3079,11 +3076,6 @@ msgid "Writing add-on"
 msgstr "Создание надстройки"
 
 #: ../../admin/addons.rst:741
-#, fuzzy
-#| msgid ""
-#| "You can write your own add-ons too, create a subclass of :class:`weblate."
-#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
-#| "callback to do the processing."
 msgid ""
 "You can write your own add-ons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the add-on metadata, and then implement a "
@@ -6601,8 +6593,6 @@ msgid "Right now this controls:"
 msgstr "В данный момент оно управляет:"
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate.autotranslate` addon"
 
@@ -7127,11 +7117,8 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:537
-#, fuzzy
-#| msgid "Default addons to install on every created component."
 msgid "Default add-ons to install on every created component."
-msgstr ""
-"Умолчательные надстройки, устанавливаемые в каждый созданный компонент."
+msgstr "Умолчательные надстройки, устанавливаемые в каждый созданный компонент."
 
 #: ../../admin/config.rst:541
 msgid "This setting affects only newly created components."
@@ -7757,13 +7744,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL и LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon. :"
-#| "setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is "
-#| "available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate "
-#| "should store generated files which will be served at the :setting:"
-#| "`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
@@ -9187,12 +9167,6 @@ msgid "WEBLATE_ADDONS"
 msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:2157
-#, fuzzy
-#| msgid ""
-#| "List of addons available for use. To use them, they have to be enabled "
-#| "for a given translation component. By default this includes all built-in "
-#| "addons, when extending the list you will probably want to keep existing "
-#| "ones enabled, for example:"
 msgid ""
 "List of add-ons available for use. To use them, they have to be enabled for "
 "a given translation component. By default this includes all built-in add-"
@@ -9205,11 +9179,6 @@ msgstr ""
 "то, вероятно, вы захотите оставить эти дополнения включёнными, например:"
 
 #: ../../admin/config.rst:2196
-#, fuzzy
-#| msgid ""
-#| "Removing the addon from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall addon from "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall add-on from all components "
@@ -9971,11 +9940,6 @@ msgstr ""
 "<component>`."
 
 #: ../../admin/continuous.rst:370
-#, fuzzy
-#| msgid ""
-#| "Commits are created for every component. So in case you have many "
-#| "components you will still see lot of commits. You might utilize :ref:"
-#| "`addon-weblate.git.squash` addon in that case."
 msgid ""
 "Commits are created for every component. So in case you have many components "
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
@@ -9998,11 +9962,6 @@ msgid "Processing repository with scripts"
 msgstr "Обработка репозитория скриптами"
 
 #: ../../admin/continuous.rst:385
-#, fuzzy
-#| msgid ""
-#| "The way to customize how Weblate interacts with the repository is :ref:"
-#| "`addons`. Consult :ref:`addon-script` for info on how to execute external "
-#| "scripts through addons."
 msgid ""
 "The way to customize how Weblate interacts with the repository is :ref:"
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
@@ -10068,13 +10027,6 @@ msgstr ""
 "такие различия вручную и выбрать правильный перевод."
 
 #: ../../admin/continuous.rst:420
-#, fuzzy
-#| msgid ""
-#| "Automatic translation based on different components can be way to "
-#| "synchronize the translations across components. You can either trigger it "
-#| "manually (see :ref:`auto-translation`) or make it run automatically on "
-#| "repository update using addon (see :ref:`addon-weblate.autotranslate."
-#| "autotranslate`)."
 msgid ""
 "Automatic translation based on different components can be way to "
 "synchronize the translations across components. You can either trigger it "
@@ -10283,8 +10235,6 @@ msgstr ""
 "прочими подобными) <django:howto/static-files/index>`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:116
-#, fuzzy
-#| msgid "Custom quality checks, addons and auto-fixes"
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr ""
 "Пользовательские проверки качества, надстройки и автоматические исправления"
@@ -11312,6 +11262,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Ещё один момент, на который следует обратить внимание, это заголовок "
+":mailheader:`Host`. Он должен соответствовать тому, что настроено в "
+":setting:`SITE_DOMAIN`. Дополнительная настройка может потребоваться в вашем "
+"обратном прокси (например, используйте ``ProxyPreserveHost On`` для Apache "
+"или ``proxy_set_header Host $host;`` для nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -14653,18 +14608,12 @@ msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1411
-#, fuzzy
-#| msgid "Changing enabled apps, checks, addons or autofixes"
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
 "Изменение включённых приложений, проверок, надстроек или автоматических "
 "исправлений"
 
 #: ../../admin/install/docker.rst:1415
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, addons or autofixes can be "
-#| "adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
@@ -14943,6 +14892,9 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"Этот подход также можно использовать для переопределения шаблонов Weblate. "
+"Например, документы :ref:`legal` могут быть помещены в :file:`/app/data/"
+"python/customize/templates/legal/documents`."
 
 #: ../../admin/install/docker.rst:1585
 msgid ""
@@ -15538,17 +15490,13 @@ msgid "Parsing language codes"
 msgstr "Разбор кодов языков"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "While parsing translations, Weblate attempts to map language code "
-#| "(usually the ISO 639-1 one) to any existing language object."
 msgid ""
 "While parsing translations, Weblate attempts to map language code (usually "
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
 "При разборе переводов Weblate пытается сопоставить код языка (обычно по ISO "
-"639-1) с любым существующим объектом языка."
+"639-1) из :ref:`component-filemask` с любым существующим объектом языка."
 
 #: ../../admin/languages.rst:18
 msgid ""
@@ -17293,8 +17241,6 @@ msgstr ""
 "принимаемых параметрах."
 
 #: ../../admin/management.rst:394
-#, fuzzy
-#| msgid "Batch imports components into project based on filemask."
 msgid "Batch imports components into project based on the file mask."
 msgstr "Пакетный импорт компонентов в проект на основе маски файлов."
 
@@ -17828,10 +17774,6 @@ msgstr ""
 "<machine-translation>`."
 
 #: ../../admin/memory.rst:18
-#, fuzzy
-#| msgid ""
-#| "Automatically, by translating strings using :ref:`auto-translation`, or :"
-#| "ref:`addon-weblate.autotranslate.autotranslate` addon."
 msgid ""
 "Automatically, by translating strings using :ref:`auto-translation`, or :ref:"
 "`addon-weblate.autotranslate.autotranslate` add-on."
@@ -19046,19 +18988,14 @@ msgstr ""
 "Некоторые примеры типовых конфигураций можно найти в разделе :ref:`formats`."
 
 #: ../../admin/projects.rst:263
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep translation components to a reasonable size - "
-#| "split the translation by anything that makes sense in your case "
-#| "(individual apps or addons, book chapters or websites)."
 msgid ""
 "It is recommended to keep translation components to a reasonable size - "
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
 "Рекомендуется держать размер компонентов перевода в разумных пределах — "
-"разбивайте перевод по любому критерию, который в вашем случае имеет смысл "
-"(по отдельным приложениям или дополнениям, по главам книг или по веб-сайтам)."
+"разбивайте перевод по любому критерию, который в вашем случае имеет смысл ("
+"по отдельным приложениям или дополнениям, по главам книг или по веб-сайтам)."
 
 #: ../../admin/projects.rst:267
 msgid ""
@@ -19744,6 +19681,9 @@ msgid ""
 "Upstream repository changed are merged into Weblate one. This is the safest "
 "way, but might produce a lot of merge commits."
 msgstr ""
+"Изменения из вышестоящего репозитория сливаются в репозиторий Weblate. Это "
+"самый безопасный способ, но он может привести к большому количеству коммитов "
+"слияния."
 
 #: ../../admin/projects.rst:662
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -19752,8 +19692,6 @@ msgstr ""
 "`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:671
-#, fuzzy
-#| msgid "Commit, add, delete, merge and addon messages"
 msgid "Commit, add, delete, merge and add-on messages"
 msgstr "Сообщения коммита, добавления, удаления, слияния и сообщения надстроек"
 
@@ -19877,18 +19815,13 @@ msgstr ""
 "перевод, смотрите раздел :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:743
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter the translation when scanning for "
-#| "filemask. It can be used to limit the list of languages managed by "
-#| "Weblate."
 msgid ""
 "Regular expression used to filter the translation when scanning for file "
 "mask. It can be used to limit the list of languages managed by Weblate."
 msgstr ""
 "Регулярное выражение, используемое для фильтрации перевода при поиске файлов "
-"по маске. Это можно использовать для ограничения списка управляемых "
-"Weblate’ом языков."
+"по маске. Это можно использовать для ограничения списка управляемых Weblate’"
+"ом языков."
 
 #: ../../admin/projects.rst:748
 msgid "You need to list language codes as they appear in the filename."
@@ -20117,8 +20050,6 @@ msgstr ""
 "Для форматирования сообщений коммитов, смотрите раздел :ref:`component`"
 
 #: ../../admin/projects.rst:868
-#, fuzzy
-#| msgid "Several addons"
 msgid "Several add-ons"
 msgstr "В нескольких надстройках"
 
@@ -20260,10 +20191,6 @@ msgid "``{{ addon_name }}``"
 msgstr "``{{ addon_name }}``"
 
 #: ../../admin/projects.rst:907
-#, fuzzy
-#| msgid ""
-#| "Name of currently executed addon, available only in the addon commit "
-#| "message."
 msgid ""
 "Name of currently executed add-on, available only in the add-on commit "
 "message."
@@ -20425,13 +20352,6 @@ msgid "Automatic creation of components"
 msgstr "Автоматическое создание компонентов"
 
 #: ../../admin/projects.rst:996
-#, fuzzy
-#| msgid ""
-#| "In case your project has dozen of translation files (e.g. for different "
-#| "gettext domains, or parts of Android apps), you might want to import them "
-#| "automatically. This can either be achieved from the command-line by "
-#| "using :djadmin:`import_project` or :djadmin:`import_json`, or by "
-#| "installing the :ref:`addon-weblate.discovery.discovery` addon."
 msgid ""
 "In case your project has dozen of translation files (e.g. for different "
 "gettext domains, or parts of Android apps), you might want to import them "
@@ -20446,11 +20366,6 @@ msgstr ""
 "с помощью установки надстройки :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1002
-#, fuzzy
-#| msgid ""
-#| "To use the addon, you first need to create a component for one "
-#| "translation file (choose the one that is the least likely to be renamed "
-#| "or removed in future), and install the addon on this component."
 msgid ""
 "To use the add-on, you first need to create a component for one translation "
 "file (choose the one that is the least likely to be renamed or removed in "
@@ -20818,7 +20733,7 @@ msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
 msgstr ""
-"Используйте пояснения, чтобы уточненять сферу применения или детали "
+"Используйте пояснения, чтобы уточнять сферу применения или детали "
 "использования строки. В поле поддерживается разметка Markdown, так что вы "
 "можете добавлять в него ссылки или другие элементы разметки текста."
 
@@ -20869,18 +20784,14 @@ msgid "Docker image upgrades"
 msgstr "Обновления образа Docker’а"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :doc:`install/docker`) has all upgrade "
-#| "steps integrated. There are no manual step besides pulling latest version."
 msgid ""
 "The official Docker image (see :doc:`install/docker`) has all Weblate "
 "upgrade steps integrated. There are typically no manual steps needed besides "
 "pulling latest version."
 msgstr ""
 "В официальный образ Docker’а (смотрите раздел :doc:`install/docker`) уже "
-"интегрированы все шаги для обновления. Вручную делать ничего не надо, за "
-"исключением извлечения последней версии."
+"интегрированы все шаги для обновления Weblate. Обычно вручную делать ничего "
+"не надо, за исключением извлечения последней версии."
 
 #: ../../admin/upgrade.rst:12
 #, fuzzy
@@ -21264,10 +21175,6 @@ msgstr ""
 "подправьте свои скрипты запуска и значение параметра ``CELERY_TASK_ROUTES``."
 
 #: ../../admin/upgrade.rst:186
-#, fuzzy
-#| msgid ""
-#| "The ``post_update`` method of addons now takes extra ``skip_push`` "
-#| "parameter."
 msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
@@ -21428,22 +21335,16 @@ msgstr ""
 "на больших сайтах."
 
 #: ../../admin/upgrade.rst:274
-#, fuzzy
-#| msgid "Upgrade from 4.0 to 4.1"
 msgid "Upgrade from 4.9 to 4.10"
-msgstr "Обновление с версии 4.0 до версии 4.1"
+msgstr "Обновление с версии 4.9 до версии 4.10"
 
 #: ../../admin/upgrade.rst:278
-#, fuzzy
-#| msgid ""
-#| "There is a change in storing metrics, the upgrade can take long time on "
-#| "larger sites."
 msgid ""
 "There is a change in per-project groups, the upgrade can take long time on "
 "sites with thousands of projects."
 msgstr ""
-"Произошли изменение в хранении метрик, обновление может занять много времени "
-"на больших сайтах."
+"Изменены группы по проектам, обновление может занять много времени на сайтах "
+"с тысячами проектов."
 
 #: ../../admin/upgrade.rst:280
 msgid ""
@@ -21451,36 +21352,32 @@ msgid ""
 "incompatible-4.0`. Weblate still supports Django 3.2 for now, in case any of "
 "these are problematic. Most notable changes which might affect Weblate:"
 msgstr ""
+"В Django 4.0 были внесены некоторые несовместимые изменения, смотрите раздел "
+":ref:`django:backwards-incompatible-4.0`. Weblate пока поддерживает Django "
+"3.2, на случай, если что-то из этого окажется проблематичным. Наиболее "
+"заметные изменения, которые могут повлиять на Weblate:"
 
 #: ../../admin/upgrade.rst:285
-#, fuzzy
-#| msgid "Dropped support for Django 1.10 and added support for Django 2.0."
 msgid ""
 "Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and "
 "higher."
 msgstr ""
-"Прекращена поддержка Django 1.10 и добавлена поддерживается Django 2.0."
+"Прекращена поддержка PostgreSQL 9.6, Django 4.0 поддерживает PostgreSQL 10 и "
+"выше."
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr "Формат :setting:`django:CSRF_TRUSTED_ORIGINS` был изменён."
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
-msgstr ""
+msgstr "Контейнер Docker теперь использует Django 4.0, изменения смотреть выше."
 
 #: ../../admin/upgrade.rst:295
 msgid "Upgrading from Python 2 to Python 3"
 msgstr "Обновление с Python’а 2 на Python 3"
 
 #: ../../admin/upgrade.rst:297
-#, fuzzy
-#| msgid ""
-#| "Weblate no longer supports Python older than 3.5. In case you are still "
-#| "running on older version, please perform migration to Python 3 first on "
-#| "existing version and upgrade later. See `Upgrading from Python 2 to "
-#| "Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
-#| "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgid ""
 "Weblate no longer supports Python older than 3.6. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -21488,7 +21385,7 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
-"Weblate больше не поддерживает Python старше версии 3.5. В случае, если вы "
+"Weblate больше не поддерживает Python старше версии 3.6. В случае, если вы "
 "всё ещё работаете на более старой версии, пожалуйста, сначала выполните "
 "миграцию на Python 3 на существующей версии и обновите её только после "
 "перехода. Смотрите раздел `Обновление с Python’а 2 на Python 3 в "
@@ -23787,8 +23684,6 @@ msgid "Delete screenshot."
 msgstr "Удаляет снимок экрана."
 
 #: ../../api.rst:2223
-#, fuzzy
-#| msgid "Returns a list of addons."
 msgid "Returns a list of add-ons."
 msgstr "Возвращает список надстроек."
 
@@ -23800,20 +23695,14 @@ msgstr ""
 "(int:id)/`."
 
 #: ../../api.rst:2231
-#, fuzzy
-#| msgid "Returns information about addon information."
 msgid "Returns information about add-on information."
 msgstr "Возвращает информацию о надстройке."
 
 #: ../../api.rst:2235 ../../api.rst:2249
-#, fuzzy
-#| msgid "name of an addon"
 msgid "name of an add-on"
 msgstr "название надстройки"
 
 #: ../../api.rst:2237 ../../api.rst:2250 ../../api.rst:2258 ../../api.rst:2266
-#, fuzzy
-#| msgid "Optional addon configuration"
 msgid "Optional add-on configuration"
 msgstr "Необязательные настройки надстройки"
 
@@ -23822,26 +23711,18 @@ msgid ":doc:`/admin/addons`"
 msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2245
-#, fuzzy
-#| msgid "Creates a new addon."
 msgid "Creates a new add-on."
 msgstr "Создаёт новую надстройку."
 
 #: ../../api.rst:2254
-#, fuzzy
-#| msgid "Edit partial information about addon."
 msgid "Edit partial information about add-on."
 msgstr "Редактирует часть информации о надстройке."
 
 #: ../../api.rst:2262
-#, fuzzy
-#| msgid "Edit full information about addon."
 msgid "Edit full information about add-on."
 msgstr "Редактирует всю информацию о надстройке."
 
 #: ../../api.rst:2270
-#, fuzzy
-#| msgid "Delete addon."
 msgid "Delete add-on."
 msgstr "Удаляет надстройку."
 
@@ -24311,90 +24192,75 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ещё не выпущен."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed creating add-ons using API."
 msgid "Fixed add-on installation using API."
-msgstr "Исправлено создание надстроек с помощью API."
+msgstr "Исправлена установка надстроек с помощью API."
 
 #: ../../changes.rst:7
 msgid ""
 "Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`."
 msgstr ""
+"Переименовано :guilabel:`Строки, требующие действий` в :guilabel:`"
+"Незавершённые строки`."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
-msgstr "Пропустите проверку качества :ref:`check-icu-message-format-syntax`."
+msgstr ""
+"Исправлены ложные срабатывания от :ref:`check-icu-message-format-syntax`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Indicate administered projects on project listing."
 msgid "Indicate lock and contributor agreement on other occurrences listing."
-msgstr "Обозначение управляемых проектов в списке проектов."
+msgstr ""
+"Обозначение замка и соглашение с участником в списке других происшествий."
 
 #: ../../changes.rst:10
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
 msgstr ""
+"Исправлено обновление файлов PO с устаревшими строками или отсутствующими "
+"множественными числами."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.10.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.10.1"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "Released on December 22nd 2021."
-msgstr "Выпущено 16 декабря 2021 года."
+msgstr "Выпущено 22 декабря 2021 года."
 
 #: ../../changes.rst:17
 msgid "Documented changes introduced by upgrading to Django 4.0."
-msgstr ""
+msgstr "Документированы изменения, внесённые при обновлении до Django 4.0."
 
 #: ../../changes.rst:18
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
-msgstr ""
+msgstr "Исправлено отображение метки :guilabel:`Автоматически переведённая`."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "Fixed API display of branch in components with a shared repository."
-msgstr ""
-"Исправлена взаимоблокировка при изменении репозитория связанного компонента."
+msgstr "Исправлено отображение ветки в API в компонентах с общим репозиторием."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Improved administration of users."
 msgid "Improved analysis on the failed push alert."
-msgstr "Улучшено управление пользователями."
+msgstr "Улучшен анализ предупреждения о неудачной отправке изменений."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Added date filtering when browsing changes."
 msgid "Fixed manually editing page when browsing changes."
-msgstr "Добавлена фильтрация по дате при просмотре изменений."
+msgstr "Исправлено ручное редактирование страницы при изменении просмотра."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improved configuration health check."
 msgid "Improved accuracy of :ref:`check-kashida`."
-msgstr "Улучшена проверка работоспособности конфигурации."
+msgstr "Улучшена точность :ref:`check-kashida`."
 
 #: ../../changes.rst:23
 msgid "The Weblate Docker container now uses Python 3.10."
-msgstr ""
+msgstr "Контейнер Docker для Weblate теперь использует Python 3.10."
 
 #: ../../changes.rst:26
 msgid "Weblate 4.10"
@@ -24457,26 +24323,17 @@ msgid "Added support for project scoped access tokens for API."
 msgstr "Добавлена поддержка токенов доступа на уровне проекта в API."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Fixed unit removal in some cases."
 msgid "Fixed string removal in some cases."
-msgstr "Исправлено удаление единиц перевода в некоторых случаях."
+msgstr "Исправлено удаление строк в некоторых случаях."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed creating new languages."
 msgid "Fixed translating newly added strings."
-msgstr "Исправлено создание новых языков."
+msgstr "Исправлен перевод вновь добавленных строк."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid "Label automatically translated strings to ease their filtering."
 msgstr ""
-"Автоматически переводит строки при помощи машинного перевода или других "
-"компонентов."
+"Автоматическая пометка переведённых строк, чтобы облегчить их фильтрацию."
 
 #: ../../changes.rst:43
 msgid ""
@@ -25646,11 +25503,8 @@ msgid "Released on November 4th 2020."
 msgstr "Выпущен 4 ноября 2020 года."
 
 #: ../../changes.rst:377
-#, fuzzy
-#| msgid "Fixed crash on certain component filemasks."
 msgid "Fixed crash on certain component file masks."
-msgstr ""
-"Исправлено падение при использовани некоторых файловых масок компонентов."
+msgstr "Исправлен сбой при определённых масках файлов компонентов."
 
 #: ../../changes.rst:378
 msgid "Improved accuracy of the consecutive duplicated words check."
@@ -26838,8 +26692,6 @@ msgid "Fixed download of strings needing action."
 msgstr "Исправлено скачивание строк, требующих действий."
 
 #: ../../changes.rst:706
-#, fuzzy
-#| msgid "New alert to warn about using the same filemask twice."
 msgid "New alert to warn about using the same file mask twice."
 msgstr ""
 "Новое предупреждение о повторном использовании одной и той же маски файлов."
@@ -28620,8 +28472,7 @@ msgstr ""
 
 #: ../../changes.rst:1216
 msgid "Dropped support for Django 1.10 and added support for Django 2.0."
-msgstr ""
-"Прекращена поддержка Django 1.10 и добавлена поддерживается Django 2.0."
+msgstr "Прекращена поддержка Django 1.10 и добавлена поддержка Django 2.0."
 
 #: ../../changes.rst:1217
 msgid "Removed locking of translations while translating."
@@ -31133,8 +30984,6 @@ msgstr ""
 "момента уже тысячи людей внесли в него свой вклад."
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Developing addons"
 msgid "Developing add-ons"
 msgstr "Разработка надстроек"
 
@@ -31271,8 +31120,6 @@ msgid "Hook triggered before new unit is created."
 msgstr "Обработчик, вызываемый перед созданием новой единицы перевода."
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Here is an example addon:"
 msgid "Here is an example add-on:"
 msgstr "Вот пример надстройки:"
 
@@ -32303,11 +32150,9 @@ msgid "License"
 msgstr "Лицензия"
 
 #: ../../contributing/license.rst:4 ../../../README.rst:62
-#, fuzzy
-#| msgid "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
 msgid "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
 msgstr ""
-"Авторское право © 2012–2020 Михал Чигарж (Michal Čihař) michal@cihar.com"
+"Авторское право © 2012–2022 Михал Чигарж (Michal Čihař) michal@cihar.com"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -33561,8 +33406,6 @@ msgid "Unused new base in component settings"
 msgstr "Неиспользованный новый базовый файл в настройках компонента"
 
 #: ../../devel/alerts.rst:25
-#, fuzzy
-#| msgid "Duplicate filemask used for linked components"
 msgid "Duplicate file mask used for linked components"
 msgstr "Дублирование маски файлов, используемой для связанных компонентов"
 
@@ -33608,6 +33451,15 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
+"Следуя этим рекомендациям, можно создать полноценный многоязычный инструмент "
+"постредактирования. Хороший перевод определяется через системно-"
+"функциональную модель House, которая нацелена на контекстуально правильный "
+"перевод. Напишите своё собственное руководство `постредактирования "
+"<https://www.taus.net/academy/best-practices/postedit-best-practices/machine-"
+"translation-post-editing-guidelines>`_ и измените эти рекомендации в "
+"соответствии с вашими собственными определениями. В большинстве случаев в "
+"качестве инструмента корректуры полезен `расширение для браузера "
+"languageTool <https://languagetool.org/#firefox_chrome>`_."
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -33624,10 +33476,8 @@ msgstr ""
 "упростите сообществу переводчиков процесс локализации вашей программы."
 
 #: ../../devel/community.rst:18
-#, fuzzy
-#| msgid "Terminology"
 msgid "Terminology management"
-msgstr "Терминология"
+msgstr "Управление терминологией"
 
 #: ../../devel/community.rst:19
 msgid ""
@@ -33641,6 +33491,15 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"Постредактирование МП с присвоением терминологии влияет на каждый уровень "
+"процесса перевода. Система машинного перевода может быть адаптирована к "
+"конкретной лексике и стилю с помощью непрерывного обучения или `нейро-"
+"нечёткого восстановления <https://www.aclweb.org/anthology/P19-1175.pdf>`_. "
+"Импортируйте <https://docs.weblate.org/ru/latest/admin/memory.html#imported-"
+"translation-memory>`_ существующую память переводов в weblate или создайте "
+"начальный объём с вашей базовой терминологией. В конце лектор должен быть "
+"проинструктирован с дополнительными терминологическими документами, чтобы "
+"гарантировать хорошие знания и результат в данной области."
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -33649,12 +33508,15 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"Качество автоматического перевода (часто измеряемое с помощью измерения BLEU)"
+" коррелирует со временем редактирования [1]. Выберите серверную часть для "
+"машинного перевода, которая поддерживает необходимые языки и домены. "
+"Поясните, как функционирует серверная часть перевода и какое качество "
+"перевода должен ожидать постредактор."
 
 #: ../../devel/community.rst:27
-#, fuzzy
-#| msgid "New translation"
 msgid "Review translations"
-msgstr "Новый перевод"
+msgstr "Рецензирование переводов"
 
 #: ../../devel/community.rst:28
 msgid ""
