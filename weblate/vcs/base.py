@@ -31,7 +31,6 @@ from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import get_clean_env, path_separator
@@ -474,7 +473,6 @@ class Repository:
     def get_examples_paths():
         """Generator of possible paths for examples."""
         yield os.path.join(os.path.dirname(os.path.dirname(__file__)), "examples")
-        yield resource_filename(Requirement.parse("weblate"), "examples")
 
     @classmethod
     def find_merge_driver(cls, name):

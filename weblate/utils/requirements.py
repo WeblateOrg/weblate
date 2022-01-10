@@ -53,7 +53,6 @@ REQUIRES = [
     "django-appconf",
     "user-agents",
     "filelock",
-    "setuptools",
     "jellyfish",
     "openpyxl",
     "celery",
