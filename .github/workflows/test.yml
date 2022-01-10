@@ -88,7 +88,7 @@ jobs:
       - name: Django checks
         run: coverage run ./manage.py check
       - name: Test with Django
-        run: coverage run ./manage.py test
+        run: coverage run ./manage.py test -v2
       - name: Test wsgi startup
         env:
           PYTHONPATH: .
