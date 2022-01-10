@@ -32,6 +32,7 @@ from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
 from weblate_language_data.languages import LANGUAGES
@@ -343,6 +344,24 @@ class LanguageQuerySet(models.QuerySet):
             ):
                 return default
         return super().get(*args, **kwargs)
+
+    def get_request_language(self, request):
+        """
+        Guess user language from a HTTP request.
+
+        Accept-Language HTTP header, for most browser it consists of browser
+        language with higher rank and OS language with lower rank so it still
+        might be usable guess.
+        """
+        accept = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
+        for accept_lang, _unused in parse_accept_lang_header(accept):
+            if accept_lang == "en":
+                continue
+            try:
+                return self.get(code=accept_lang)
+            except Language.DoesNotExist:
+                continue
+        return None
 
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
