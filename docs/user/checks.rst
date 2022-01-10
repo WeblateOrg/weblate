@@ -336,7 +336,7 @@ Java MessageFormat
 :Summary: Java MessageFormat string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
-:Flag to enable uncodintionally: ``java-messageformat``
+:Flag to enable unconditionally: ``java-messageformat``
 :Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
 :Flag to ignore: ``ignore-java-messageformat``
 :Position format string example: ``There are {0} apples``
