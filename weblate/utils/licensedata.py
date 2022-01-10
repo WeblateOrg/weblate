@@ -943,6 +943,12 @@ LICENSES = (
         True,
     ),
     (
+        "Elastic-2.0",
+        "Elastic License 2.0",
+        "https://spdx.org/licenses/Elastic-2.0.html",
+        False,
+    ),
+    (
         "MIT-advertising",
         "Enlightenment License (e16)",
         "https://spdx.org/licenses/MIT-advertising.html",
