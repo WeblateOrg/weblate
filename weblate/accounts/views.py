@@ -50,7 +50,6 @@ from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
@@ -96,7 +95,7 @@ from weblate.accounts.forms import (
     UserSearchForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Profile, Subscription, VerifiedEmail
+from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     FREQ_INSTANT,
     FREQ_NONE,
@@ -318,46 +317,11 @@ def get_notification_forms(request):
             )
 
 
-def fixup_profile(profile):
-    fields = set()
-    if not profile.language:
-        profile.language = get_language()
-        fields.add("language")
-
-    allowed = {clist.pk for clist in profile.allowed_dashboard_component_lists}
-
-    if not allowed and profile.dashboard_view in (
-        Profile.DASHBOARD_COMPONENT_LIST,
-        Profile.DASHBOARD_COMPONENT_LISTS,
-    ):
-        profile.dashboard_view = Profile.DASHBOARD_WATCHED
-        fields.add("dashboard_view")
-
-    if profile.dashboard_component_list_id and (
-        profile.dashboard_component_list_id not in allowed
-        or profile.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
-    ):
-        profile.dashboard_component_list = None
-        profile.dashboard_view = Profile.DASHBOARD_WATCHED
-        fields.add("dashboard_view")
-        fields.add("dashboard_component_list")
-
-    if (
-        not profile.dashboard_component_list_id
-        and profile.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
-    ):
-        profile.dashboard_view = Profile.DASHBOARD_WATCHED
-        fields.add("dashboard_view")
-
-    if fields:
-        profile.save(update_fields=fields)
-
-
 @never_cache
 @login_required
 def user_profile(request):
     profile = request.user.profile
-    fixup_profile(profile)
+    profile.fixup_profile()
 
     form_classes = [
         LanguagesForm,
