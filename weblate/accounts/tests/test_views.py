@@ -381,7 +381,7 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertRedirects(response, reverse("profile"))
 
-    def test_profile_dasbhoard(self):
+    def test_profile_dashboard(self):
         # Save profile with invalid settings
         response = self.client.post(
             reverse("profile"),
