@@ -696,7 +696,7 @@ class Profile(models.Model):
     def watches_project(self, project):
         return project.id in self.watched_project_ids
 
-    def fixup_profile(self):
+    def fixup_profile(self, request):
         fields = set()
         if not self.language:
             self.language = get_language()
@@ -726,6 +726,19 @@ class Profile(models.Model):
         ):
             self.dashboard_view = Profile.DASHBOARD_WATCHED
             fields.add("dashboard_view")
+
+        if not self.languages.exists():
+            language = Language.objects.get_request_language(request)
+            if language:
+                self.laguages.add(language)
+                messages.info(
+                    request,
+                    _(
+                        "Added %(language)s to your translated languages. "
+                        "You can adjust them in the settings."
+                    )
+                    % {"language": language},
+                )
 
         if fields:
             self.save(update_fields=fields)
@@ -788,7 +801,7 @@ def post_login_handler(sender, request, user, **kwargs):
         )
 
     # Sanitize profile
-    user.profile.fixup_profile()
+    user.profile.fixup_profile(request)
 
 
 @receiver(post_save, sender=User)

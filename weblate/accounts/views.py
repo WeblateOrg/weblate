@@ -321,7 +321,7 @@ def get_notification_forms(request):
 @login_required
 def user_profile(request):
     profile = request.user.profile
-    profile.fixup_profile()
+    profile.fixup_profile(request)
 
     form_classes = [
         LanguagesForm,
