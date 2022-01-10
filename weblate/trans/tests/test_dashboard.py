@@ -128,6 +128,7 @@ class DashboardTest(ViewTestCase):
         # Pick language from request
         response = self.client.get(reverse("home"), HTTP_ACCEPT_LANGUAGE="cs")
         self.assertTrue(response.context["suggestions"])
+        self.assertFalse(self.user.profile.languages.exists())
 
     def test_user_hide_completed(self):
         self.user.profile.hide_completed = True

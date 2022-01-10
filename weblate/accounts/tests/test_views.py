@@ -571,6 +571,19 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, "Please enable the password authentication")
         load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
 
+    def test_language(self):
+        self.user.profile.languages.clear()
+
+        # English is not saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="en")
+        self.assertFalse(self.user.profile.languages.exists())
+
+        # Other language is saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="cs")
+        self.assertEqual(
+            set(self.user.profile.languages.values_list("code", flat=True)), {"cs"}
+        )
+
 
 class EditUserTest(FixtureTestCase):
     def setUp(self):

@@ -730,7 +730,7 @@ class Profile(models.Model):
         if not self.languages.exists():
             language = Language.objects.get_request_language(request)
             if language:
-                self.laguages.add(language)
+                self.languages.add(language)
                 messages.info(
                     request,
                     _(
