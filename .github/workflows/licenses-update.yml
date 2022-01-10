@@ -19,6 +19,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.4.0
+        with:
+          submodules: true
       - run: ./scripts/generate-license-data
       - name: Update dependabot branch
         if: github.ref != 'refs/heads/main'
