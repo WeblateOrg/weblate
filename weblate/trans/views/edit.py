@@ -45,6 +45,7 @@ from weblate.glossary.models import get_glossary_terms
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.screenshots.forms import ScreenshotForm
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AutoForm,
     ChecksumForm,
@@ -960,7 +961,12 @@ def delete_unit(request, unit_id):
     if not request.user.has_perm("unit.delete", unit):
         raise PermissionDenied()
 
-    unit.translation.delete_unit(request, unit)
+    try:
+        unit.translation.delete_unit(request, unit)
+    except FileParseError as error:
+        unit.translation.component.update_import_alerts(delete=False)
+        messages.error(request, _("Failed to remove the string: %s") % error)
+        return redirect(unit)
     return redirect(unit.translation)
 
 

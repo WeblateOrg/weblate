@@ -10,6 +10,7 @@ Not yet released.
 * Fixed updating PO files with obsolete strings or missing plurals.
 * Improved squash add-on compatibility with Gerrit.
 * Automatically initialize user languages based on the :http:header:`Accept-Language` header.
+* Improved error handling on string removal.
 
 Weblate 4.10.1
 --------------

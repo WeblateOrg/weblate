@@ -1872,12 +1872,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for component in self.linked_childs:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
-    def update_import_alerts(self):
+    def update_import_alerts(self, delete: bool = True):
         self.log_info("checking triggered alerts")
         for alert in ALERTS_IMPORT:
             if alert in self.alerts_trigger:
                 self.add_alert(alert, occurrences=self.alerts_trigger[alert])
-            else:
+            elif delete:
                 self.delete_alert(alert)
         self.alerts_trigger = {}
 
