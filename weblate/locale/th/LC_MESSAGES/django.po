@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Michal Čihař <michal@cihar.com>, 2019, 2020.
 # anonymous <noreply@weblate.org>, 2019, 2020.
-# AefghThreenine <aefgh39622@gmail.com>, 2020, 2021.
+# AefghThreenine <aefgh39622@gmail.com>, 2020, 2021, 2022.
 # Anonymous <noreply@weblate.org>, 2020.
 # นายสุชัย วรรณกิจวรกุล <wonsuchai@gmail.com>, 2021.
 msgid ""
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2021-12-15 19:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-01-12 19:53+0000\n"
+"Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -512,15 +512,13 @@ msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "จำนวนสตริงใกล้เคียงที่จะแสดงในแต่ละทิศทางในตัวแก้ไขแบบเต็ม"
 
 #: weblate/accounts/models.py:453
-#, fuzzy
-#| msgid "Versions"
 msgid "Automatically watch projects on contribution"
-msgstr "รุ่น"
+msgstr "เฝ้าดูโครงการที่ได้มีส่วนร่วมโดยอัตโนมัติ"
 
 #: weblate/accounts/models.py:456
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "เมื่อคุณแปลสตริงในโครงการ คุณก็จะเริ่มเฝ้าดูโครงการด้วย"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -825,7 +823,7 @@ msgstr "คำขอของคุณได้ถูกส่งแล้ว �
 
 #: weblate/accounts/views.py:382
 msgid "Your profile has been updated."
-msgstr "โปรไฟล์ของคุณได้ถูกอัปเดตแล้ว"
+msgstr "โปรไฟล์ของคุณได้ถูกปรับปรุงแล้ว"
 
 #: weblate/accounts/views.py:417
 msgid "User profile"
@@ -995,7 +993,7 @@ msgstr "แปลสตริงโดยใช้การแปลด้วย
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
-msgstr "คลังเก็บล้าสมัยแล้ว คุณอาจไม่ได้รับผลลัพธ์ที่คาดคิดจนกว่าคุณจะอัปเดต"
+msgstr "คลังเก็บล้าสมัยแล้ว คุณอาจไม่ได้รับผลลัพธ์ที่คาดคิดจนกว่าคุณจะปรับปรุง"
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
@@ -1019,7 +1017,7 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"อัปเดตไฟล์คำแปลทั้งหมดให้ตรงกับไฟล์ฐานแบบภาษาเดียว "
+"ปรับปรุงไฟล์คำแปลทั้งหมดให้ตรงกับไฟล์ฐานแบบภาษาเดียว "
 "ซึ่งจะเป็นการเอาคีย์คำแปลเก่าที่ไม่มีในไฟล์ฐานแล้วออกสำหรับรูปแบบไฟล์ส่วนใหญ่"
 
 #: weblate/addons/cleanup.py:63
@@ -1193,7 +1191,7 @@ msgstr "ต่อผู้เขียน"
 
 #: weblate/addons/forms.py:157
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "ผนวกเทรลเลอร์ลงในข้อความคอมมิตที่ถูกย่อให้สั้นลง"
 
 #: weblate/addons/forms.py:161
 msgid ""
@@ -1201,6 +1199,8 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
+"บรรทัดเทรลเลอร์คือบรรทัดที่ดูคล้า่ยกับส่วนหัวอีเมลแบบ RFC 822 "
+"ซึ่งใช้เป็นส่วนท้ายของข้อความคอมมิตส่วนที่อิสระ เช่น 'Co-authored-by: …'"
 
 #: weblate/addons/forms.py:167
 #, fuzzy
@@ -1419,13 +1419,13 @@ msgstr "สร้างไฟล์ที่ประกอบด้วยข้
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "การสร้างโลเคลเทียม"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr ""
+msgstr "สร้างการแปลโดยเพิ่มคำนำหน้าและคำลงท้ายในสตริงต้นฉบับอัตโนมัติ"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1437,33 +1437,35 @@ msgstr "สร้างไฟล์ MO สำหรับทุกไฟล์ P
 
 #: weblate/addons/gettext.py:65
 msgid "Update LINGUAS file"
-msgstr "อัปเดตไฟล์ LINGUAS"
+msgstr "ปรับปรุงไฟล์ LINGUAS"
 
 #: weblate/addons/gettext.py:66
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "อัปเดตไฟล์ LINGUAS เมื่อมีคำแปลใหม่ถูกเพิ่ม"
+msgstr "ปรับปรุงไฟล์ LINGUAS เมื่อมีคำแปลใหม่ถูกเพิ่ม"
 
 #: weblate/addons/gettext.py:157
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "อัปเดตตัวแปร ALL_LINGUAS ในไฟล์ \"configure\""
+msgstr "ปรับปรุงตัวแปร ALL_LINGUAS ในไฟล์ \"configure\""
 
 #: weblate/addons/gettext.py:159
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"อัปเดตตัวแปร ALL_LINGUAS ในไฟล์ \"configure\", \"configure.in\" หรือ \"configure."
-"ac\" เมื่อเพิ่มคำแปลใหม่"
+"ปรับปรุงตัวแปร ALL_LINGUAS ในไฟล์ \"configure\", \"configure.in\" หรือ "
+"\"configure.ac\" เมื่อเพิ่มคำแปลใหม่"
 
 #: weblate/addons/gettext.py:228
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "อัปเดตไฟล์ PO เพื่อให้ตรงกับ POT (msgmerge)"
+msgstr "ปรับปรุงไฟล์ PO เพื่อให้ตรงกับ POT (msgmerge)"
 
 #: weblate/addons/gettext.py:230
 msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"ปรับปรุงไฟล์ PO ทั้งหมด (ตามที่กำหนดค่าโดย \"ไฟล์มาสก์\") ให้ตรงกับไฟล์ POT "
+"(ตามที่กำหนดค่าโดย \"แม่แบบสำหรับการแปลใหม่\") โดยใช้ msgmerge"
 
 #: weblate/addons/gettext.py:313
 msgid "Customize gettext output"
@@ -1484,6 +1486,8 @@ msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
+"ปรับปรุงส่วนข้อคิดเห็นของส่วนหัวไฟล์ PO "
+"ให้มีชื่อผู้มีส่วนร่วมและปีที่มีส่วนร่วม"
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -1528,7 +1532,7 @@ msgstr "ตั้งกรอบเวลาสำหรับการเอา
 
 #: weblate/addons/resx.py:29
 msgid "Update RESX files"
-msgstr "อัปเดตไฟล์ RESX"
+msgstr "ปรับปรุงไฟล์ RESX"
 
 #: weblate/addons/resx.py:31
 msgid ""
@@ -1536,8 +1540,8 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"อัปเดตไฟล์คำแปลทั้งหมดให้ตรงกับไฟล์ฐานอัปสตรีมภาษาเดียว สตริงที่ไม่ได้ใช้จะถูกเอาออก "
-"และสตริงใหม่จะถูกเพิ่มเป็นสำเนาของสตริงต้นฉบับ"
+"ปรับปรุงไฟล์คำแปลทั้งหมดให้ตรงกับไฟล์ฐานอัปสตรีมภาษาเดียว "
+"สตริงที่ไม่ได้ใช้จะถูกเอาออก และสตริงใหม่จะถูกเพิ่มเป็นสำเนาของสตริงต้นฉบับ"
 
 #: weblate/addons/views.py:84
 #, fuzzy
@@ -1551,12 +1555,14 @@ msgstr ""
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
-msgstr ""
+msgstr "กำหนดเอาต์พุต YAML เอง"
 
 #: weblate/addons/yaml.py:33
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
+"อนุญาตให้ปรับแต่งการทำงานของเอาต์พุต YAML เช่น ความยาวบรรทัด "
+"หรือการขึ้นบรรทัดใหม่"
 
 #: weblate/auth/admin.py:146 weblate/auth/admin.py:151
 msgid "Personal info"
@@ -2205,7 +2211,7 @@ msgstr "ข้อความเพิ่มเติม"
 #: weblate/billing/forms.py:33
 msgid ""
 "Please describe the project and your relation to it, preferably in English."
-msgstr "โปรดอธิบายเกี่ยวกับโครงการและความเกี่ยวข้องของคุณ โดยควรอธิบายเป็นภาษาอังกฤษ"
+msgstr "โปรดอธิบายเกี่ยวกับโครงการและความเกี่ยวข้องของคุณ ควรเป็นภาษาอังกฤษ"
 
 #: weblate/billing/models.py:160 weblate/templates/billing/detail.html:21
 msgid "Billing plan"
@@ -2489,20 +2495,17 @@ msgid "This string has been translated in the past"
 msgstr "สตริงนี้ได้ถูกแปลแล้วในอดีต"
 
 #: weblate/checks/consistency.py:155
-#, fuzzy, python-format
-#| msgid "Administration"
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "การดูแลระบบ"
+msgstr "คำแปลก่อนหน้าคือ \"%s\""
 
 #: weblate/checks/duplicate.py:47
-#, fuzzy
-#| msgid "Search"
 msgid "Consecutive duplicated words"
-msgstr "ค้นหา"
+msgstr "คำซ้ำที่ต่อเนื่องกัน"
 
 #: weblate/checks/duplicate.py:48
 msgid "Text contains the same word twice in a row:"
-msgstr ""
+msgstr "ข้อความประกอบด้วยคำเดียวกันสองคำติดกัน:"
 
 #: weblate/checks/flags.py:47
 msgid "RST text"
@@ -2672,38 +2675,28 @@ msgid "JavaScript format string does not match source"
 msgstr "สตริงรูปแบบ JavaScript ไม่ตรงตามต้นฉบับ"
 
 #: weblate/checks/format.py:491
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "รูปแบบ C"
+msgstr "รูปแบบ Lua"
 
 #: weblate/checks/format.py:492
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "สตริงรูปแบบ C ไม่ตรงกับต้นฉบับ"
+msgstr "สตริงรูปแบบ Lua ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:499
 msgid "Object Pascal format"
-msgstr ""
+msgstr "รูปแบบ Object Pascal"
 
 #: weblate/checks/format.py:500
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Object Pascal format string does not match source"
-msgstr "สตริงรูปแบบ Perl ไม่ตรงกับต้นฉบับ"
+msgstr "สตริงรูปแบบ Object Pascal ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:508
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "รูปแบบไฟล์"
+msgstr "รูปแบบ Scheme"
 
 #: weblate/checks/format.py:509
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "สตริงรูปแบบ C ไม่ตรงกับต้นฉบับ"
+msgstr "สตริงรูปแบบ Scheme ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:522
 msgid "Python brace format"
@@ -2751,25 +2744,19 @@ msgstr "การแทรกแบบ i18next ไม่ตรงกับต้
 
 #: weblate/checks/format.py:610
 msgid "ECMAScript template literals"
-msgstr ""
+msgstr "สัญพจน์แม่แบบ ECMAScript"
 
 #: weblate/checks/format.py:611
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "สตริงรูปแบบ JavaScript ไม่ตรงตามต้นฉบับ"
+msgstr "สัญพจน์แม่แบบ ECMAScript ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:623
-#, fuzzy
-#| msgid "Administration"
 msgid "Percent placeholders"
-msgstr "การดูแลระบบ"
+msgstr "ตัวยึดเปอร์เซ็นต์"
 
 #: weblate/checks/format.py:624
-#, fuzzy
-#| msgid "Administration"
 msgid "The percent placeholders do not match source"
-msgstr "การดูแลระบบ"
+msgstr "ตัวยึดเปอร์เซ็นต์ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:630
 #, fuzzy
@@ -2904,43 +2891,43 @@ msgstr ""
 
 #: weblate/checks/markup.py:166
 msgid "XML syntax"
-msgstr ""
+msgstr "ไวยากรณ์ XML"
 
 #: weblate/checks/markup.py:167
 msgid "The translation is not valid XML"
-msgstr ""
+msgstr "คำแปลไม่ใช่ XML ที่ถูกต้อง"
 
 #: weblate/checks/markup.py:191
 msgid "XML markup"
-msgstr ""
+msgstr "XML markup"
 
 #: weblate/checks/markup.py:192
 msgid "XML tags in translation do not match source"
-msgstr ""
+msgstr "ป้ายกำกับ XML ในคำแปลไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/markup.py:251
 msgid "Markdown references"
-msgstr ""
+msgstr "การอ้างอิง Markdown"
 
 #: weblate/checks/markup.py:252
 msgid "Markdown link references do not match source"
-msgstr ""
+msgstr "การอ้างอิงลิงก์ Markdown ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/markup.py:268
 msgid "Markdown links"
-msgstr ""
+msgstr "ลิงก์ Markdown"
 
 #: weblate/checks/markup.py:269
 msgid "Markdown links do not match source"
-msgstr ""
+msgstr "ลิงก์ Markdown ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/markup.py:297
 msgid "Markdown syntax"
-msgstr ""
+msgstr "ไวยากรณ์ Markdown"
 
 #: weblate/checks/markup.py:298
 msgid "Markdown syntax does not match source"
-msgstr ""
+msgstr "ไวยากรณ์ Markdown ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/markup.py:333
 msgid "The translation does not contain an URL"
@@ -5700,7 +5687,7 @@ msgstr "ความคืบหน้า"
 
 #: weblate/templates/component-progress.html:17
 msgid "Component is being updated…"
-msgstr "กำลังอัปเดตคอมโพเนนต์…"
+msgstr "กำลังปรับปรุงคอมโพเนนต์…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
 msgid "Return to the component"
@@ -5708,7 +5695,7 @@ msgstr "กลับไปยังคอมโพเนนต์"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
-msgstr "ยกเลิกการอัปเดต"
+msgstr "ยกเลิกการปรับปรุง"
 
 #: weblate/templates/component-progress.html:38
 msgid "Return to the component after completion"
@@ -7011,7 +6998,8 @@ msgstr "มีคำขอสำหรับภาษาใหม่บน %(com
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
-msgstr "โปรดเพิ่มไฟล์ภาษาไปยัง VCS Weblate จะค้นพบโดยอัตโนมัติในการอัปเดตครั้งถัดไป"
+msgstr ""
+"โปรดเพิ่มไฟล์ภาษาไปยัง VCS Weblate จะค้นพบโดยอัตโนมัติในการปรับปรุงครั้งถัดไป"
 
 #: weblate/templates/mail/new_language.html:21
 msgid ""
@@ -10108,11 +10096,11 @@ msgstr "ส่งการเปลี่ยนแปลงที่รอค้
 
 #: weblate/trans/admin.py:46
 msgid "Update VCS repository"
-msgstr "อัปเดตคลังเก็บ VCS"
+msgstr "ปรับปรุงคลังเก็บ VCS"
 
 #: weblate/trans/admin.py:65
 msgid "Update quality checks"
-msgstr "อัปเดตการตรวจสอบคุณภาพ"
+msgstr "ปรับปรุงการตรวจสอบคุณภาพ"
 
 #: weblate/trans/admin.py:90
 msgid "Administrators"
