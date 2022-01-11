@@ -195,7 +195,7 @@ class Repository:
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
-            universal_newlines=not raw,
+            text=not raw,
             check=False,
             **kwargs,
         )

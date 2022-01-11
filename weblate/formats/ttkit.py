@@ -1035,10 +1035,9 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 check=True,
-                universal_newlines=True,
+                text=True,
             )
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)

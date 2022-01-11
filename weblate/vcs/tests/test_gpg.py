@@ -47,9 +47,8 @@ class GPGTest(TestCase):
             result = subprocess.run(
                 ["gpg", "--version"],
                 check=True,
-                universal_newlines=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                text=True,
+                capture_output=True,
             )
             version = result.stdout.splitlines()[0].strip().rsplit(None, 1)[-1]
             if LooseVersion(version) < LooseVersion("2.1"):

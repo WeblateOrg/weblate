@@ -36,10 +36,9 @@ def find_git_http_backend():
     try:
         path = subprocess.run(
             ["git", "--exec-path"],
-            universal_newlines=True,
+            text=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
         ).stdout.strip()
         if path:
             GIT_PATHS.insert(0, path)
