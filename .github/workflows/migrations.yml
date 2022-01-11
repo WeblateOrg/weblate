@@ -34,10 +34,10 @@ jobs:
           key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install $CI_DATABASE
-      - name: Set up Python 3.10
+      - name: Set up Python 3.7
         uses: actions/setup-python@v2.3.1
         with:
-          python-version: "3.10"
+          python-version: 3.7
       - name: Install pip dependencies
         run: |
           ./ci/pip-install
