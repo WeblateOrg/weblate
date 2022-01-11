@@ -11,6 +11,7 @@ Not yet released.
 * Improved squash add-on compatibility with Gerrit.
 * Automatically initialize user languages based on the :http:header:`Accept-Language` header.
 * Improved error handling on string removal.
+* Weblate now requires Python 3.7 or newer.
 
 Weblate 4.10.1
 --------------

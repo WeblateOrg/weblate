@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.6"
           - "3.7"
           - "3.8"
           - "3.9"
@@ -40,9 +39,6 @@ jobs:
             requirements: minimal
             database: postgresql
           # Reduced testing for edge deps
-          - python-version: 3.6
-            requirements: edge
-            database: postgresql
           - python-version: 3.9
             requirements: edge
             database: postgresql
