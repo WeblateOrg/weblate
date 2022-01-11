@@ -183,8 +183,7 @@ class Repository:
             args = [cls._cmd] + list(args)
         text_cmd = " ".join(args)
         kwargs = {}
-        # These are mutually exclusive, on Python 3.7+ it is posible
-        # to pass stdin = None, but on 3.6 stdin has to be omitted
+        # These are mutually exclusive
         if stdin is not None:
             kwargs["input"] = stdin
         else:
