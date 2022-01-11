@@ -50,7 +50,11 @@ def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
         # Indicate alerts
-        for alert in projects.values("id").annotate(Count("component__alert")):
+        for alert in (
+            projects.values("id")
+            .filter(component__alert__dismissed=False)
+            .annotate(Count("component__alert"))
+        ):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
