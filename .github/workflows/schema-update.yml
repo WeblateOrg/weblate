@@ -1,4 +1,4 @@
-name: licenses update
+name: jsonschema update
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - "docs/Makefile"
 
 jobs:
-  licenses-update:
+  jsonschema-update:
     runs-on: ubuntu-20.04
     permissions:
       contents: write
@@ -34,7 +34,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: create-pull-request/licenses-update
+          branch: create-pull-request/jsonschema-update
           title: "docs: Update JSON schemas"
           commit-message: "docs: Update JSON schemas"
           labels: |
