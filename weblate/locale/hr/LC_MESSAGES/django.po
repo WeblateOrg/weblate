@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Michal Čihař <michal@cihar.com>, 2019.
-# Milo Ivir <mail@milotype.de>, 2019, 2020, 2021.
+# Milo Ivir <mail@milotype.de>, 2019, 2020, 2021, 2022.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Marino <mrabach@gmail.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2021-12-23 22:25+0000\n"
+"PO-Revision-Date: 2022-01-12 19:54+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -779,11 +779,8 @@ msgstr "Prijedlozi na čekanju"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Unfinished strings"
-msgstr "Spremljeni izrazi"
+msgstr "Nedovršeni izrazi"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1370,10 +1367,6 @@ msgid "Language filter"
 msgstr "Filtar jezika"
 
 #: weblate/addons/forms.py:284
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -7141,24 +7134,20 @@ msgid "Screenshot context"
 msgstr "Snimka ekrana konteksta"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s prijedlog na čekanju u %(component)s"
-msgstr[1] "%(count)s prijedloga na čekanju u %(component)s"
-msgstr[2] "%(count)s prijedloga na čekanju u %(component)s"
+msgstr[0] "%(count)s nedovršen izraz u %(component)s"
+msgstr[1] "%(count)s nedovršena izraza u %(component)s"
+msgstr[2] "%(count)s nedovršenih izraza u %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s izraz"
-msgstr[1] "%(count)s izraza"
-msgstr[2] "%(count)s izraza"
+msgstr[0] "%(count)s nedovršen izraz"
+msgstr[1] "%(count)s nedovršena izraza"
+msgstr[2] "%(count)s nedovršenih izraza"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:132
 msgid "Access control"
@@ -7672,10 +7661,8 @@ msgid "Import translation memory"
 msgstr "Uvezi prevodilačku memoriju"
 
 #: weblate/templates/message.html:15
-#, fuzzy
-#| msgid "New announcement"
 msgid "Delete announcement"
-msgstr "Nova objava"
+msgstr "Izbriši objavu"
 
 #: weblate/templates/new-language.html:26
 msgid ""
@@ -8390,19 +8377,15 @@ msgstr "Razvrstaj ovaj stupac"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr ""
+msgstr "Nedovršeno"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgid "Untranslated words"
 msgid "Unfinished words"
-msgstr "Neprevedene riječi"
+msgstr "Nedovršene riječi"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "Neprevedeni znakovi"
+msgstr "Nedovršeni znakovi"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8861,8 +8844,6 @@ msgid "Filename"
 msgstr "Ime datoteke"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid "Some linked components have the same file mask."
 msgstr "Neke komponente u ovom projektu imaju istu masku datoteke."
 
@@ -8871,8 +8852,6 @@ msgid "Please fix this by removing one of them."
 msgstr "Ispravi ovo, uklanjanjem jedne od njih."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
 msgstr "Sljedeće maske datoteke su pronađene višestruko:"
 
@@ -9000,10 +8979,6 @@ msgid "This component set up is incomplete, as it lacks any translations."
 msgstr "Postava ove komponente je nepotpuna, jer nema nijedan prijevod."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Starting new translations directly in Weblate is possible, and creates "
-#| "files based on the filemask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
@@ -9012,10 +8987,7 @@ msgstr ""
 "datoteke na osnovi maske datoteke."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the filemask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
@@ -9853,16 +9825,12 @@ msgstr ""
 "prevođenje"
 
 #: weblate/templates/translation.html:338
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for offline "
-#| "translation"
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Svi izrazi, konvertirane datoteke s komentarima; prikladno za izvanmrežno "
-"prevođenje"
+"Nedovršeni izrazi, konvertirane datoteke s komentarima; prikladno za "
+"izvanmrežno prevođenje"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10048,10 +10016,8 @@ msgid "Strings with context"
 msgstr "Izrazi s kontekstom"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "Odobreni izrazi s prijedlozima"
+msgstr "Nedovršeni izrazi bez prijedloga"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10749,8 +10715,6 @@ msgstr "Dupli prijevod."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
 msgstr "Dupla maska datoteke."
 
@@ -10840,10 +10804,8 @@ msgid "Unused enforced checks."
 msgstr "Nekorištene obavezne provjere."
 
 #: weblate/trans/models/alert.py:387
-#, fuzzy
-#| msgid "No mask matches."
 msgid "No file mask matches."
-msgstr "Nijedna maska se ne poklapa."
+msgstr "Nijedna maska datoteke se ne poklapa."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
@@ -11521,10 +11483,6 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Treba li se komponenta zaključati prilikom greške repozitorija."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -11642,36 +11600,29 @@ msgstr ""
 "Neispravna poveznica na Weblate projekt, koristi weblate://project/component."
 
 #: weblate/trans/models/component.py:2219
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "Opcija nije dostupna za povezane ropozitorije."
+msgstr ""
+"Opcija nije dostupna za povezane ropozitorije. Koristit će se postavka iz "
+"povezane komponente."
 
 #: weblate/trans/models/component.py:2231
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
 msgstr "Maska datoteke se ne poklapa s nijednom datotekom."
 
 #: weblate/trans/models/component.py:2240
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
 msgstr "Jezični kod za %s je bio prazan, provjeri masku datoteke."
 
 #: weblate/trans/models/component.py:2249
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
 msgstr "Jezični kod „%s” je predugačak, provjeri masku datoteke."
 
 #: weblate/trans/models/component.py:2256
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
@@ -11680,8 +11631,6 @@ msgstr ""
 "prilagodi masku datoteke i koristi komponente."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Nije pronađen nijedan odgovarajući jezik, provjeri masku datoteke."
 
@@ -12044,26 +11993,20 @@ msgid "Insert character {0}"
 msgstr "Umetni znak {0}"
 
 #: weblate/trans/specialchars.py:285
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "Otvoreni navodnici"
+msgstr "Glavni uvodni citat"
 
 #: weblate/trans/specialchars.py:286
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "Zatvoreni polunavodnik"
+msgstr "Glavni završni citat"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
-msgstr ""
+msgstr "Alternativni uvodni citat"
 
 #: weblate/trans/specialchars.py:288
-#, fuzzy
-#| msgid "Opening single quote"
 msgid "Alternative closing quote"
-msgstr "Otvoreni polunavodnik"
+msgstr "Alternativni završni citat"
 
 #: weblate/trans/specialchars.py:291
 msgid "Hyphen"
@@ -13064,10 +13007,8 @@ msgid "Position"
 msgstr "Mjesto"
 
 #: weblate/utils/views.py:138
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string"
-msgstr "Izrazi ciljnog jezika"
+msgstr "Izraz cilja"
 
 #: weblate/utils/views.py:139
 msgid "Age of string"
