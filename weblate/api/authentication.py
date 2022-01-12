@@ -39,15 +39,16 @@ class ProjectUser(AbstractBaseUser):
 
     USERNAME_FIELD = "username"
 
-    def __init__(self, *args, **kwargs) -> None:
-        self.project = kwargs.pop("project")
+    def __init__(self, token: ProjectToken) -> None:
+        self.token = token
+        self.project = token.project
         self.groups = []
         self.is_superuser = False
         self.username = self.project.slug
         self.allowed_project_ids = {self.project.id}
         self.allowed_projects = Project.objects.filter(pk=self.project.id)
         self.component_permissions = {}
-        super().__init__(*args, **kwargs)
+        super().__init__()
 
     def has_perm(self, perm: str, obj=None):
         if isinstance(obj, ProjectLanguage):
@@ -71,7 +72,7 @@ class ProjectTokenAuthentication(TokenAuthentication):
             project_token = ProjectToken.objects.get(
                 token=key, expires__gte=timezone.now()
             )
-            user = ProjectUser(project=project_token.project)
+            user = ProjectUser(token=project_token)
             return (user, key)
         except ProjectToken.DoesNotExist:
             return None
