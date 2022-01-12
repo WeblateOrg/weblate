@@ -177,11 +177,17 @@ class ChangeQuerySet(models.QuerySet):
 
 
 class ChangeManager(models.Manager):
-    def create(self, user=None, **kwargs):
+    def create(self, user=None, author=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner."""
         if user is not None and not user.is_authenticated:
             user = None
-        return super().create(user=user, **kwargs)
+        elif hasattr(user, "get_token_user"):
+            # ProjectToken / ProjectUser integration
+            user = user.get_token_user()
+        if hasattr(author, "get_token_user"):
+            # ProjectToken / ProjectUser integration
+            author = author.get_token_user()
+        return super().create(user=user, author=author, **kwargs)
 
 
 class Change(models.Model, UserDisplayMixin):

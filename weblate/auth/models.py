@@ -419,6 +419,10 @@ class User(AbstractBaseUser):
         return self.username == settings.ANONYMOUS_USER_NAME
 
     @cached_property
+    def is_bot(self):
+        return not self.is_active and self.username.startswith("bot-")
+
+    @cached_property
     def is_authenticated(self):
         return not self.is_anonymous
 

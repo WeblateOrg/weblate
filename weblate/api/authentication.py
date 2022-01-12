@@ -63,6 +63,14 @@ class ProjectUser(AbstractBaseUser):
             return obj.pk == self.project.pk
         return False
 
+    @property
+    def is_bot(self):
+        return True
+
+    def get_token_user(self):
+        self.token.ensure_has_user()
+        return self.token.user
+
 
 class ProjectTokenAuthentication(TokenAuthentication):
     """Authentication with project token."""
