@@ -292,7 +292,7 @@ class GroupManyToManyField(models.ManyToManyField):
 
         # We care only on forward relation
         if not descriptor.reverse:
-            # Running in migrations
+            # We are running in a migration
             if isinstance(descriptor.rel.model, str):
                 return
 
