@@ -71,3 +71,19 @@ class ProjectTokenTest(ViewTestCase):
         )
 
         self.assertEqual(response.status_code, 401)
+
+    def test_use_token_write(self):
+        """Use the token for API write."""
+        token = self.create_token()
+        self.client.logout()
+        unit = self.get_unit()
+
+        response = self.client.patch(
+            reverse("api:unit-detail", kwargs={"pk": unit.pk}),
+            {"state": "20", "target": ["Test translation"]},
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f"Token {token}",
+        )
+
+        self.assertEqual(response.data["target"], ["Test translation\n"])
+        self.assertEqual(response.status_code, 200)

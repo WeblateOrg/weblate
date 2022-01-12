@@ -973,9 +973,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         )
 
         # Generate Change object for this change
-        self.generate_change(user or author, author, change_action)
+        change = self.generate_change(user or author, author, change_action)
 
-        if change_action not in (
+        if change.action not in (
             Change.ACTION_UPLOAD,
             Change.ACTION_AUTO,
             Change.ACTION_BULK_EDIT,
@@ -984,7 +984,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.translation.invalidate_cache()
 
             # Update user stats
-            author.profile.increase_count("translated")
+            change.author.profile.increase_count("translated")
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit["target"] != self.target:
@@ -1037,7 +1037,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def generate_change(self, user, author, change_action, check_new=True):
         """Create Change entry for saving unit."""
         # Notify about new contributor
-        if check_new and not self.translation.change_set.filter(user=user).exists():
+        if (
+            check_new
+            and user is not None
+            and not user.is_bot
+            and not self.translation.change_set.filter(user=user).exists()
+        ):
             Change.objects.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,
@@ -1062,7 +1067,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 action = Change.ACTION_NEW
 
         # Create change object
-        Change.objects.create(
+        return Change.objects.create(
             unit=self,
             action=action,
             user=user,

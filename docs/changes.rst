@@ -12,6 +12,7 @@ Not yet released.
 * Automatically initialize user languages based on the :http:header:`Accept-Language` header.
 * Improved error handling on string removal.
 * Weblate now requires Python 3.7 or newer.
+* Fixed some write operations with projec token authentication.
 
 Weblate 4.10.1
 --------------
