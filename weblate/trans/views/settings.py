@@ -18,7 +18,7 @@
 #
 
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext as _
@@ -128,10 +128,13 @@ def dismiss_alert(request, project, component):
     if not request.user.has_perm("component.edit", obj):
         raise Http404()
 
-    alert = obj.alert_set.get(name=request.POST["dismiss"])
-    if alert.obj.dismissable:
-        alert.dismissed = True
-        alert.save(update_fields=["dismissed"])
+    try:
+        alert = obj.alert_set.get(name=request.POST["dismiss"])
+        if alert.obj.dismissable:
+            alert.dismissed = True
+            alert.save(update_fields=["dismissed"])
+    except ObjectDoesNotExist:
+        pass
 
     return redirect_param(obj, "#alerts")
 
