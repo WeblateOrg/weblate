@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-10 08:08+0000\n"
+"PO-Revision-Date: 2022-01-12 19:54+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -103,7 +103,7 @@ msgstr "プライベート"
 
 #: ../../admin/access.rst:40
 msgid "Visible and translatable only for selected users."
-msgstr "選択したユーザーのみ表示および翻訳できます。"
+msgstr "選択したユーザーのみ、表示および翻訳ができます。"
 
 #: ../../admin/access.rst:44
 msgid "Custom"
@@ -139,10 +139,8 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
-"「プライベート」プロジェクトの場合でも、プロジェクトに関する情報が公開されま"
-"す。インスタンス全体の統計と言語の概要には、アクセス制御の設定に関係なく、す"
-"べてのプロジェクトのカウントが含まれます。これでは、プロジェクト名やその他の"
-"情報は公開されません。"
+"`プライベート` プロジェクトの場合でも公開される、プロジェクトに関する情報:　インスタンス全体の統計と言語の概要には、アクセス制御の設定にかかわらず、す"
+"べてのプロジェクトの統計値が含まれています。この情報からは、プロジェクト名やその他の情報は分かりません。"
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -150,9 +148,8 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
-"`Public`、` Protected`、および `Private`プロジェクトでユーザーがデフォルトで"
-"使用できる実際の権限のセットは、Weblateインスタンス管理者が :ref:`custom "
-"settings <custom-acl>`を使用して再定義できます。"
+"`公開`、`保護`、および `プライベート` プロジェクトでユーザーがデフォルトで使用できる実際の権限のセットは、Weblate インスタンス管理者が "
+":ref:`custom settings <custom-acl>` から再定義できます。"
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -161,10 +158,9 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
-"`カスタム` アクセス制御を有効にすると、Weblate は選択したプロジェクト用に作成"
-"したすべての :ref:`special groups` を削除します。Weblate インスタンス全体の管"
-"理者権限なしに実行すると、プロジェクトを管理するためのアクセス権を即座に失い"
-"ます。"
+"`カスタム` アクセス制御を有効にすると、Weblate は選択したプロジェクト用に作成したすべての :ref:`special groups "
+"<manage-acl>` を削除します。Weblate "
+"インスタンス全体の管理者権限なしに実行すると、プロジェクトを管理するためのアクセス権を即座に失います。"
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -18236,7 +18232,7 @@ msgstr ""
 
 #: ../../admin/support.rst:27
 msgid "Data submitted to the Weblate"
-msgstr "Weblate に送信したデータ"
+msgstr "Weblate に送信されるデータ"
 
 #: ../../admin/support.rst:29
 msgid "URL where your Weblate instance is configured"
@@ -18264,11 +18260,11 @@ msgstr "インスタンスの SSH 公開鍵"
 
 #: ../../admin/support.rst:35
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
-msgstr ""
+msgstr ":ref:`discover-weblate` が有効の場合に、追加で送信されるデータ:"
 
 #: ../../admin/support.rst:37
 msgid "List of public projects (name, URL and website)"
-msgstr ""
+msgstr "公開プロジェクトのリスト（プロジェクト名、URL および Web サイト）"
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
@@ -18302,7 +18298,7 @@ msgstr ""
 
 #: ../../admin/support.rst:55
 msgid "Discover Weblate"
-msgstr "Weblate の探索"
+msgstr "Weblate プロジェクトの探索"
 
 #: ../../admin/support.rst:61
 msgid "This feature is currently in early beta."
@@ -18314,6 +18310,9 @@ msgid ""
 "Weblate servers and communities. Users can browse registered services on "
 "<https://weblate.org/discover/>, and find there projects to contribute."
 msgstr ""
+"「Weblate プロジェクトの探索」は、世界中のユーザーに、自分の Weblate "
+"プロジェクトのサーバーやコミュニティーを見つけてもらうための登録サービスです。ユーザーは <https://weblate.org/discover/> "
+"から登録されたサービスを閲覧し、貢献するプロジェクトを探すことができます。"
 
 #: ../../admin/support.rst:68
 msgid "Getting listed"
@@ -18324,6 +18323,7 @@ msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
 msgstr ""
+"「Weblate プロジェクトの探索」に参加すると、Weblate はサーバーに関する情報を送信します。参照: :ref:`support-data`。"
 
 #: ../../admin/support.rst:76
 msgid ""
@@ -18331,10 +18331,12 @@ msgid ""
 "support`) in Discover Weblate all you need to do is turn this on in the "
 "management panel:"
 msgstr ""
+"管理パネルから有効にするだけで、「Weblate プロジェクトの探索」のリストに、アクティブ サポート サブスクリプション（参照: :ref"
+":`activate-support`）を使用してサーバーを追加する方法:"
 
 #: ../../admin/support.rst:82
 msgid "Listing your server without a support subscription in Discover Weblate:"
-msgstr ""
+msgstr "「Weblate プロジェクトの探索」のリストに、アクティブ サポート サブスクリプションを使用せずに追加する方法:"
 
 #: ../../admin/support.rst:84
 msgid "Register yourself at <https://weblate.org/user/>"
@@ -29052,6 +29054,8 @@ msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
+"保留中の可能性がある翻訳をマージする :command:`wlc push; git remote update; git merge origin/"
+"weblate`"
 
 #: ../../contributing/release.rst:35
 msgid "Perform the release:"
@@ -29095,7 +29099,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:46
 msgid "Increase version in the website download links."
-msgstr ""
+msgstr "Web サイトのダウンロード リンクのバージョンを上げる。"
 
 #: ../../contributing/release.rst:47
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
@@ -29650,9 +29654,8 @@ msgid ""
 "Foundation's Core Infrastructure Initiative <https://bestpractices."
 "coreinfrastructure.org/projects/552>`_."
 msgstr ""
-"Weblate の開発は、`Linux Foundation の Core Infrastructure Initiative のベス"
-"トプラクティス<https://bestpractices.coreinfrastructure.org/projects/552>`_ "
-"に従っています。"
+"Weblate の開発は、`Linux Foundation の Core Infrastructure Initiative のベストプラクティス "
+"<https://bestpractices.coreinfrastructure.org/projects/552>`_ に従っています。"
 
 #: ../../contributing/security.rst:12
 #, fuzzy
@@ -38875,10 +38878,9 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side` depending on your personal preference."
 msgstr ""
-":ref:`user-profile`の :ref:`profile-preferences` タブから、Zen エディタ選択し"
-"てデフォルトのエディタに設定できます。さらにここでは、翻訳一覧の表示を :"
-"guilabel:`Top to bottom` または :guilabel:`Side by side` のどちらにするか選択"
-"できます。"
+":ref:`user-profile` の :ref:`profile-preferences` タブから、Zen "
+"エディタ選択してデフォルトのエディタに設定できます。さらにここでは、翻訳一覧の表示を :guilabel:`縦表示` または "
+":guilabel:`横表示` のどちらにするか選択できます。"
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
