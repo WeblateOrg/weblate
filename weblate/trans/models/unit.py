@@ -675,15 +675,16 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         state = self.get_unit_state(unit, flags)
         original_state = self.get_unit_state(unit, None)
 
-        # Has source changed
+        # Has source/target changed
         same_source = source == self.source and context == self.context
+        same_target = target == self.target
 
         # Monolingual files handling (without target change)
         if (
             not created
             and state != STATE_READONLY
             and unit.template is not None
-            and target == self.target
+            and same_target
         ):
             if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
                 if self.previous_source == self.source and self.fuzzy:
@@ -703,7 +704,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 original_state = self.original_state
 
         # Update checks on fuzzy update or on content change
-        same_target = target == self.target
         same_state = state == self.state and flags == self.flags
         same_metadata = (
             location == self.location
