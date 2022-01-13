@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-12 19:54+0000\n"
+"PO-Revision-Date: 2022-01-14 05:01+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -289,9 +289,8 @@ msgid ""
 "``Project@Group``, also displayed in the Django admin interface this way. "
 "Although they can’t be edited from Weblate user-interface."
 msgstr ""
-"对于非 `自定义` 访问控制，每个项目实际上都定义了上述每个群组的实例。 这些组的"
-"实际名称将是 ``Project@Group``，也以这种方式显示在 Django 管理界面中。但是无"
-"法在 Weblate 用户界面编辑它们。"
+"对于非 `自定义` 访问控制，每个项目实际上都定义了上述每个群组的实例。这些组的实际名称将是 ``Project@Group``，也以这种方式显示在 "
+"Django 管理界面中。但是无法在 Weblate 用户界面编辑它们。"
 
 #: ../../admin/access.rst:136
 msgid ""
@@ -1333,9 +1332,7 @@ msgid ""
 "Never remove the predefined Weblate groups and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
-msgstr ""
-"决不要移除预先定义的 Weblate 群组和用户，因为这会这可能会导致意想不到的问题！"
-"如果你不需要他们，你可以删除他们的所有特权。"
+msgstr "切勿移除预先定义的 Weblate 群组和用户，因为这可能会导致意想不到的问题！如果你用不到它们，你可以移除它们的全部权限。"
 
 #: ../../admin/access.rst:661
 msgid "Additional access restrictions"
@@ -3119,7 +3116,7 @@ msgstr "通过发布站点范围、每个项目、部件或语言的公告，向
 #: ../../admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
-msgstr "宣布翻译的目的、截止日期、状态或特定目标。"
+msgstr "宣布目的、截止日期、状态或指定翻译目标。"
 
 #: ../../admin/announcements.rst:12
 msgid ""
@@ -3131,7 +3128,7 @@ msgstr "用户将收到关注的项目公告的通知（除非用户选择关闭
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
-msgstr "这会用于从发布网站的目的到指定翻译的目标的各种事情。"
+msgstr "这对宣布网站的目的和指定翻译目标等各种事情都很有用。"
 
 #: ../../admin/announcements.rst:18
 msgid ""
@@ -7312,6 +7309,7 @@ msgstr "最简单的方法就是在浏览器中打开如下网址："
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 
 #: ../../admin/config.rst:1315
 msgid ""
@@ -23545,7 +23543,7 @@ msgstr "在 ZIP 下载中包括了模板。"
 #: ../../changes.rst:533
 msgid ""
 "Add support for Markdown and notification configuration in announcements."
-msgstr "为声明中的标记和通知配置添加了支持。"
+msgstr "为公告增加了对 Markdown 的支持和相关通知配置项。"
 
 #: ../../changes.rst:534
 msgid "Extended details in check listings."
@@ -24000,7 +23998,7 @@ msgstr "发布于 2020 年 02 月 22 日。"
 
 #: ../../changes.rst:674
 msgid "Fixed rendering of suggestions."
-msgstr "修复了提出建议的问题。"
+msgstr "修复了建议的呈现问题。"
 
 #: ../../changes.rst:675
 msgid "Fixed some strings wrongly reported as having no words."
@@ -25979,7 +25977,7 @@ msgstr "当删除账户或添加新的团体时，询问密码确认。"
 
 #: ../../changes.rst:1308
 msgid "Show time when suggestion has been made."
-msgstr "当做出建议时显示时间。"
+msgstr "显示提出建议的时间。"
 
 #: ../../changes.rst:1309
 msgid "There is new quality check for trailing semicolon."
@@ -32618,13 +32616,12 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"Weblate 当前不支持 :ref:`vcs-git`（扩展支持 :ref:`vcs-github`、:ref:`vcs-"
-"gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 以外的任何 VCSes，但能"
-"够对其它 VCSes 写后端。"
+"Weblate 当前不原生支持除 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref:`vcs-gerrit` "
+"和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 以外的任何 VCS，但可以为其他 VCS 编写后端。"
 
 #: ../../faq.rst:481
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
-msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCSes。"
+msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCS。"
 
 #: ../../faq.rst:483
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
@@ -32636,8 +32633,8 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
-"为了本地支持其它 VCSes，Weblate 需要使用分布式 VCS，并可能能够调整来与 Git "
-"和 Mercurial 以外的其它任何 VCSes 工作，但必须有人应用这项支持。"
+"对于其它 VCS 的原生支持，Weblate 需要使用分布式 VCS，并可能会调整为能与除 Git 和 Mercurial "
+"以外的任何东西一起使用，必须有人来实现这项支持。"
 
 #: ../../faq.rst:494
 msgid "How does Weblate credit translators?"
@@ -33129,6 +33126,9 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
+"将包含翻译文件中的只读字符串，但不能在 Weblate 中对其进行编辑。只有少数格式（:ref:`xliff` 和 "
+":ref:`aresource`）原生支持此功能，但可以通过添加 ``read-only`` 标记在其他格式中模拟，请参阅 :ref:`custom-"
+"checks`。"
 
 #: ../../formats.rst:160
 msgid "GNU gettext"
