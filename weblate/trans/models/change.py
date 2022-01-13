@@ -242,6 +242,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_AGREEMENT_CHANGE = 56
     ACTION_SCREENSHOT_ADDED = 57
     ACTION_SCREENSHOT_UPLOADED = 58
+    ACTION_STRING_REPO_UPDATE = 59
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -360,6 +361,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
         # Translators: Name of event in the history
         (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -378,6 +381,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_AUTO,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -416,6 +420,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION_CLEANUP,
         ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Actions indicating a repository merge failure
@@ -532,7 +537,8 @@ class Change(models.Model, UserDisplayMixin):
                 # ProjectToken / ProjectUser integration
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
-        self.fixup_refereces()
+        if not args:
+            self.fixup_refereces()
 
     def fixup_refereces(self):
         """Updates refereces based to least specific one."""

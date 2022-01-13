@@ -14,6 +14,7 @@ Not yet released.
 * Weblate now requires Python 3.7 or newer.
 * Fixed some write operations with projec token authentication.
 * Fixed string state tracking when the strings changes in the repository.
+* Track string changes from the repository.
 
 Weblate 4.10.1
 --------------

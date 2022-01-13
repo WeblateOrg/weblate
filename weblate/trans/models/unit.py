@@ -782,6 +782,17 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     target=self.source,
                 )
             )
+        # Track VCS change
+        translation.update_changes.append(
+            self.generate_change(
+                user=None,
+                author=None,
+                change_action=Change.ACTION_STRING_REPO_UPDATE,
+                check_new=False,
+                save=False,
+            )
+        )
+
         # Update translation memory if needed
         if (
             self.state >= STATE_TRANSLATED
@@ -1041,7 +1052,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             # Invalidate stats
             unit.translation.invalidate_cache()
 
-    def generate_change(self, user, author, change_action, check_new=True):
+    def generate_change(
+        self, user, author, change_action, check_new: bool = True, save: bool = True
+    ):
         """Create Change entry for saving unit."""
         # Notify about new contributor
         if (
@@ -1074,7 +1087,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 action = Change.ACTION_NEW
 
         # Create change object
-        return Change.objects.create(
+        change = Change(
             unit=self,
             action=action,
             user=user,
@@ -1086,6 +1099,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 "old_state": self.old_unit["state"],
             },
         )
+        if save:
+            change.save(force_insert=True)
+        return change
 
     @cached_property
     def suggestions(self):
