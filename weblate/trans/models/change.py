@@ -28,6 +28,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import (
     gettext_lazy,
+    ngettext,
     ngettext_lazy,
     pgettext,
     pgettext_lazy,
@@ -596,6 +597,16 @@ class Change(models.Model, UserDisplayMixin):
         from weblate.utils.markdown import render_markdown
 
         details = self.details
+
+        if self.action == self.ACTION_NEW_STRING:
+            return (
+                ngettext(
+                    "%d new string to translate appeared in the translation.",
+                    "%d new strings to translate appeared to the translation.",
+                    self.plural_count,
+                )
+                % self.plural_count
+            )
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
