@@ -39,6 +39,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
+from weblate.utils.state import STATE_LOOKUP
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -557,6 +558,12 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
         return str(self.ACTIONS_DICT.get(self.action, self.action))
+
+    def get_state_display(self):
+        state = self.details.get("state")
+        if not state:
+            return ""
+        return STATE_LOOKUP[state]
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE

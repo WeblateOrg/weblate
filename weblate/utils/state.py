@@ -34,6 +34,8 @@ STATE_CHOICES = (
     (STATE_READONLY, pgettext_lazy("String state", "Read only")),
 )
 
+STATE_LOOKUP = dict(STATE_CHOICES)
+
 STATE_NAMES = {
     "empty": STATE_EMPTY,
     "untranslated": STATE_EMPTY,

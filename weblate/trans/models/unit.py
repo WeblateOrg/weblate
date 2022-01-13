@@ -1081,6 +1081,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             author=author,
             target=self.target,
             old=self.old_unit["target"],
+            details={
+                "state": self.state,
+                "old_state": self.old_unit["state"],
+            },
         )
 
     @cached_property
