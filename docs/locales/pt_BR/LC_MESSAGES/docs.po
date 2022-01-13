@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-03 19:25+0000\n"
+"PO-Revision-Date: 2022-01-14 05:01+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -6536,8 +6536,6 @@ msgid "Right now this controls:"
 msgstr "No momento, isso controla:"
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr "Extensão :ref:`addon-weblate.autotranslate.autotranslate`"
 
@@ -7056,8 +7054,6 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:537
-#, fuzzy
-#| msgid "Default addons to install on every created component."
 msgid "Default add-ons to install on every created component."
 msgstr "Extensões padrão para instalar em cada componente criado."
 
@@ -7672,24 +7668,17 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL e LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon. :"
-#| "setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is "
-#| "available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate "
-#| "should store generated files which will be served at the :setting:"
-#| "`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"Essas configurações definem a extensão :ref:`addon-weblate.cdn.cdnjs`. :"
-"setting:`LOCALIZE_CDN_URL` define a URL raiz onde o CDN de localização está "
+"Essas configurações definem a extensão :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` define a URL raiz onde o CDN de localização está "
 "disponível e :setting:`LOCALIZE_CDN_PATH` define o caminho onde o Weblate "
-"deve armazenar arquivos gerados que serão servidos em :setting:"
-"`LOCALIZE_CDN_URL`."
+"deve armazenar arquivos gerados que serão servidos em "
+":setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:1077
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -10116,8 +10105,6 @@ msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:116
-#, fuzzy
-#| msgid "Custom quality checks, addons and auto-fixes"
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr ""
 "Verificações de qualidade personalizadas, extensões e correções automáticas"
@@ -11116,6 +11103,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Outra coisa a ajustar é o cabeçalho :mailheader:`Host`. Deve corresponder ao "
+"que está configurado como :setting:`SITE_DOMAIN`. Configuração adicional "
+"pode ser necessária em seu proxy reverso (por exemplo, use ``"
+"ProxyPreserveHost On`` para Apache ou ``proxy_set_header Host $host;`` com "
+"nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -18677,19 +18669,14 @@ msgstr ""
 "`formats`."
 
 #: ../../admin/projects.rst:263
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep translation components to a reasonable size - "
-#| "split the translation by anything that makes sense in your case "
-#| "(individual apps or addons, book chapters or websites)."
 msgid ""
 "It is recommended to keep translation components to a reasonable size - "
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
 "Recomenda-se manter os componentes de tradução em um tamanho razoável -- "
-"divida a tradução por qualquer coisa que faça sentido no seu caso "
-"(aplicativos ou extensões individuais, capítulos de livros ou sites)."
+"divida a tradução por qualquer coisa que faça sentido no seu caso ("
+"aplicativos ou extensões individuais, capítulos de livros ou sites)."
 
 #: ../../admin/projects.rst:267
 msgid ""
@@ -20817,10 +20804,6 @@ msgstr ""
 "``CELERY_TASK_ROUTES``."
 
 #: ../../admin/upgrade.rst:186
-#, fuzzy
-#| msgid ""
-#| "The ``post_update`` method of addons now takes extra ``skip_push`` "
-#| "parameter."
 msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
@@ -23815,10 +23798,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -23840,14 +23821,15 @@ msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
 msgstr "Corrigidos falso-positivos de :ref:`check-icu-message-format-syntax`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Indicate administered projects on project listing."
 msgid "Indicate lock and contributor agreement on other occurrences listing."
-msgstr "Indica projetos administrados na lista de projetos."
+msgstr ""
+"Indica o bloqueio e o acordo do colaborador na lista de outras ocorrências."
 
 #: ../../changes.rst:10
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
 msgstr ""
+"Corrigida a atualização de arquivos PO com textos obsoletos ou plurais "
+"ausentes."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.10.1"
@@ -30491,8 +30473,6 @@ msgstr ""
 "de pessoas contribuíram."
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Developing addons"
 msgid "Developing add-ons"
 msgstr "Desenvolvendo extensões"
 
@@ -30624,8 +30604,6 @@ msgid "Hook triggered before new unit is created."
 msgstr "Gancho acionado antes que a nova unidade seja criada."
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Here is an example addon:"
 msgid "Here is an example add-on:"
 msgstr "Aqui está um exemplo de extensão:"
 
@@ -31649,10 +31627,8 @@ msgid "License"
 msgstr "Licença"
 
 #: ../../contributing/license.rst:4 ../../../README.rst:62
-#, fuzzy
-#| msgid "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
 msgid "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
-msgstr "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
+msgstr "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -32948,6 +32924,15 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
+"Seguir essas recomendações permite a criação de uma ferramenta de pós-edição "
+"multilíngue completa. Boas traduções são definidas através do modelo "
+"sistêmico-funcional de House que visa uma tradução correta contextual. "
+"Escreva seu próprio `guia de pós-edição <https://www.taus.net/academy/"
+"best-practices/postedit-best-practices/machine-translation-post-editing-"
+"guidelines>`_ e altere essas recomendações para se adequar ao seu próprias "
+"definições. Na maioria dos casos, o `plugin do navegador do languageTool "
+"<https://languagetool.org/#firefox_chrome>`_ é útil como ferramenta de "
+"revisão."
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -32964,10 +32949,8 @@ msgstr ""
 "processo de localização para os tradutores da comunidade."
 
 #: ../../devel/community.rst:18
-#, fuzzy
-#| msgid "Terminology"
 msgid "Terminology management"
-msgstr "Terminologia"
+msgstr "Gerenciamento de terminologia"
 
 #: ../../devel/community.rst:19
 msgid ""
