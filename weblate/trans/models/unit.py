@@ -560,7 +560,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             else:
                 component.needs_variants_update = True
 
-    def get_unit_state(self, unit, flags):
+    def get_unit_state(self, unit, flags: str, string_changed: bool = False):
         """Calculate translated and fuzzy status."""
         # Read-only from the file format
         if unit.is_readonly():
@@ -577,13 +577,16 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
-        if unit.is_fuzzy(self.fuzzy):
+        if unit.is_fuzzy(self.fuzzy and not string_changed):
             return STATE_FUZZY
 
         if not unit.is_translated():
             return STATE_EMPTY
 
-        if unit.is_approved(self.approved) and self.translation.enable_review:
+        if (
+            unit.is_approved(self.approved and not string_changed)
+            and self.translation.enable_review
+        ):
             return STATE_APPROVED
 
         return STATE_TRANSLATED
@@ -671,13 +674,15 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 component, source, context, pos, note, location, flags
             )
 
-        # Calculate state
-        state = self.get_unit_state(unit, flags)
-        original_state = self.get_unit_state(unit, None)
-
         # Has source/target changed
         same_source = source == self.source and context == self.context
         same_target = target == self.target
+
+        # Calculate state
+        state = self.get_unit_state(
+            unit, flags, string_changed=not same_source or not same_target
+        )
+        original_state = self.get_unit_state(unit, None)
 
         # Monolingual files handling (without target change)
         if (
