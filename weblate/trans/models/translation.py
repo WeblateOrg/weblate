@@ -416,51 +416,49 @@ class Translation(
                 translation_store = store
                 store = self.load_store(force_intermediate=True)
 
-            for pos, unit in enumerate(store.content_units):
-                # Use translation store if exists and if it contains the string
-                if translation_store is not None:
-                    try:
-                        translated_unit, created = translation_store.find_unit(
-                            unit.context
-                        )
-                        if translated_unit and not created:
-                            unit = translated_unit
-                        else:
-                            # Patch unit to have matching source
-                            unit.source = translated_unit.source
-                    except UnitNotFound:
-                        pass
-
-                id_hash = unit.id_hash
-
-                # Check for possible duplicate units
-                if id_hash in updated:
-                    newunit = updated[id_hash]
-                    self.log_warning(
-                        "duplicate string to translate: %s (%s)",
-                        newunit,
-                        repr(newunit.source),
-                    )
-                    Change.objects.create(
-                        unit=newunit,
-                        action=Change.ACTION_DUPLICATE_STRING,
-                        user=user,
-                        author=user,
-                    )
-                    self.component.trigger_alert(
-                        "DuplicateString",
-                        language_code=self.language.code,
-                        source=newunit.source,
-                        unit_pk=newunit.pk,
-                    )
-                    continue
-
-                self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
-
         except FileParseError as error:
             report_error(cause="Failed to parse file on update")
             self.log_warning("skipping update due to parse error: %s", error)
             return
+
+        for pos, unit in enumerate(store.content_units):
+            # Use translation store if exists and if it contains the string
+            if translation_store is not None:
+                try:
+                    translated_unit, created = translation_store.find_unit(unit.context)
+                    if translated_unit and not created:
+                        unit = translated_unit
+                    else:
+                        # Patch unit to have matching source
+                        unit.source = translated_unit.source
+                except UnitNotFound:
+                    pass
+
+            id_hash = unit.id_hash
+
+            # Check for possible duplicate units
+            if id_hash in updated:
+                newunit = updated[id_hash]
+                self.log_warning(
+                    "duplicate string to translate: %s (%s)",
+                    newunit,
+                    repr(newunit.source),
+                )
+                Change.objects.create(
+                    unit=newunit,
+                    action=Change.ACTION_DUPLICATE_STRING,
+                    user=user,
+                    author=user,
+                )
+                self.component.trigger_alert(
+                    "DuplicateString",
+                    language_code=self.language.code,
+                    source=newunit.source,
+                    unit_pk=newunit.pk,
+                )
+                continue
+
+            self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
 
         # Delete stale units
         stale = set(dbunits) - set(updated)
