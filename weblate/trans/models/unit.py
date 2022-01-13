@@ -769,11 +769,13 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             component.updated_sources[self.id] = self
         # Indicate source string change
         if not same_source and previous_source:
-            Change.objects.create(
-                unit=self,
-                action=Change.ACTION_SOURCE_CHANGE,
-                old=previous_source,
-                target=self.source,
+            translation.update_changes.append(
+                Change(
+                    unit=self,
+                    action=Change.ACTION_SOURCE_CHANGE,
+                    old=previous_source,
+                    target=self.source,
+                )
             )
         # Update translation memory if needed
         if (

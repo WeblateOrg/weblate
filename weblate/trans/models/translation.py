@@ -163,6 +163,7 @@ class Translation(
         self.was_new = 0
         self.reason = ""
         self._invalidate_scheduled = False
+        self.update_changes = []
 
     def get_badges(self):
         if self.is_source:
@@ -356,6 +357,7 @@ class Translation(
         details = {
             "filename": self.filename,
         }
+        self.update_changes = []
 
         # Check if we're not already up to date
         try:
@@ -444,11 +446,13 @@ class Translation(
                     newunit,
                     repr(newunit.source),
                 )
-                Change.objects.create(
-                    unit=newunit,
-                    action=Change.ACTION_DUPLICATE_STRING,
-                    user=user,
-                    author=user,
+                self.update_changes.append(
+                    Change(
+                        unit=newunit,
+                        action=Change.ACTION_DUPLICATE_STRING,
+                        user=user,
+                        author=user,
+                    )
                 )
                 self.component.trigger_alert(
                     "DuplicateString",
@@ -472,9 +476,15 @@ class Translation(
         self.store_hash()
 
         # Store change entry
-        Change.objects.create(
-            translation=self, action=change, user=user, author=user, details=details
+        self.update_changes.append(
+            Change(
+                translation=self, action=change, user=user, author=user, details=details
+            )
         )
+
+        # Save change
+        Change.objects.bulk_create(self.update_changes, batch_size=500)
+        self.update_changes = []
 
         # Invalidate keys cache
         transaction.on_commit(self.invalidate_keys)
