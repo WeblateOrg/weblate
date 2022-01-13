@@ -502,15 +502,8 @@ class Change(models.Model, UserDisplayMixin):
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
 
-        if self.unit:
-            self.translation = self.unit.translation
-        if self.screenshot:
-            self.translation = self.screenshot.translation
-        if self.translation:
-            self.component = self.translation.component
-            self.language = self.translation.language
-        if self.component:
-            self.project = self.component.project
+        self.fixup_refereces()
+
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
 
@@ -538,6 +531,19 @@ class Change(models.Model, UserDisplayMixin):
                 # ProjectToken / ProjectUser integration
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
+        self.fixup_refereces()
+
+    def fixup_refereces(self):
+        """Updates refereces based to least specific one."""
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.screenshot:
+            self.translation = self.screenshot.translation
+        if self.translation:
+            self.component = self.translation.component
+            self.language = self.translation.language
+        if self.component:
+            self.project = self.component.project
 
     @property
     def plural_count(self):
