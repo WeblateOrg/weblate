@@ -538,7 +538,7 @@ class Change(models.Model, UserDisplayMixin):
                 # ProjectToken / ProjectUser integration
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
-        if not args:
+        if not self.pk:
             self.fixup_refereces()
 
     def fixup_refereces(self):
