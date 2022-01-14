@@ -2753,35 +2753,29 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("UnsupportedConfiguration")
 
-        if not self.alert_set.filter(dismissed=True, name="BrokenBrowserURL").exists():
-            location_error = None
-            location_link = None
-            if self.repoweb:
-                unit = allunits.exclude(location="").first()
-                if unit:
-                    for _location, filename, line in unit.get_locations():
-                        location_link = self.get_repoweb_link(filename, line)
-                        if location_link is None:
-                            continue
-                        # We only test first link
-                        location_error = get_uri_error(location_link)
-                        break
-            if location_error:
-                self.add_alert(
-                    "BrokenBrowserURL", link=location_link, error=location_error
-                )
-            else:
-                self.delete_alert("BrokenBrowserURL")
+        location_error = None
+        location_link = None
+        if self.repoweb:
+            unit = allunits.exclude(location="").first()
+            if unit:
+                for _location, filename, line in unit.get_locations():
+                    location_link = self.get_repoweb_link(filename, line)
+                    if location_link is None:
+                        continue
+                    # We only test first link
+                    location_error = get_uri_error(location_link)
+                    break
+        if location_error:
+            self.add_alert("BrokenBrowserURL", link=location_link, error=location_error)
+        else:
+            self.delete_alert("BrokenBrowserURL")
 
         if self.project.web:
-            if not self.alert_set.filter(
-                dismissed=True, name="BrokenProjectURL"
-            ).exists():
-                error = get_uri_error(self.project.web)
-                if error is not None:
-                    self.add_alert("BrokenProjectURL", error=error)
-                else:
-                    self.delete_alert("BrokenProjectURL")
+            location_error = get_uri_error(self.project.web)
+            if location_error is not None:
+                self.add_alert("BrokenProjectURL", error=location_error)
+            else:
+                self.delete_alert("BrokenProjectURL")
         else:
             self.delete_alert("BrokenProjectURL")
 
