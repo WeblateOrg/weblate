@@ -15,6 +15,7 @@ Not yet released.
 * Fixed some write operations with projec token authentication.
 * Fixed string state tracking when the strings changes in the repository.
 * Track string changes from the repository.
+* Sticky header on translations listing to improve navigation.
 
 Weblate 4.10.1
 --------------
