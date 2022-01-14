@@ -66,7 +66,7 @@
             </a>
           {% endif %}
         </th>
-        <th title="{% trans "Sort this column" %}" class="number zero-width-1200 sort-cell">
+        <th title="{% trans "Sort this column" %}" class="number zero-width-1400 sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "nottranslated" %}-{% endif %}nottranslated">
           {% endif %}
@@ -185,7 +185,7 @@
 {% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-640" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.nottranslated query="q=state:empty" class="zero-width-1200" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
