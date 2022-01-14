@@ -815,10 +815,10 @@ class Translation(
                 # Approved with suggestions
                 result.add_if(self.stats, "approved_suggestions", "info")
 
-            # Untranslated strings
+            # Unfinished strings
             result.add_if(self.stats, "todo", "danger")
 
-            # Not translated strings
+            # Untranslated strings
             result.add_if(self.stats, "nottranslated", "danger")
 
             # Fuzzy strings

@@ -43,7 +43,7 @@ Automatic translation
                 |                 |                              |                                                                                        |
                 |                 |                              | ``all`` -- All strings                                                                 |
                 |                 |                              |                                                                                        |
-                |                 |                              | ``nottranslated`` -- Not translated strings                                            |
+                |                 |                              | ``nottranslated`` -- Untranslated strings                                              |
                 |                 |                              |                                                                                        |
                 |                 |                              | ``todo`` -- Unfinished strings                                                         |
                 |                 |                              |                                                                                        |

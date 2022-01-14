@@ -134,7 +134,7 @@ Capabilities of all supported formats:
 .. [#n] Source string descriptions can be used to pass additional info about the string to translate.
 .. [#c] Context is used to differentiate identical strings used in different scopes (for example `Sun` can be used as an abbreviated name of the day "Sunday" or as the name of our closest star).
 .. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
-.. [#a] Additional states supported by the file format in addition to "Not translated" and "Translated".
+.. [#a] Additional states supported by the file format in addition to "Untranslated" and "Translated".
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a source string description.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The gettext type comments are used as flags.

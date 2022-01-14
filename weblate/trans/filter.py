@@ -32,7 +32,7 @@ class FilterRegistry:
         result = [
             ("all", _("All strings"), ""),
             ("readonly", _("Read-only strings"), "state:read-only"),
-            ("nottranslated", _("Not translated strings"), "state:empty"),
+            ("nottranslated", _("Untranslated strings"), "state:empty"),
             ("todo", _("Unfinished strings"), "state:<translated"),
             ("translated", _("Translated strings"), "state:>=translated"),
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
@@ -119,7 +119,7 @@ def get_filter_choice(project=None):
     """Return all filtering choices."""
     result = [
         ("all", _("All strings")),
-        ("nottranslated", _("Not translated strings")),
+        ("nottranslated", _("Untranslated strings")),
         ("todo", _("Unfinished strings")),
         ("translated", _("Translated strings")),
         ("fuzzy", _("Strings marked for edit")),
