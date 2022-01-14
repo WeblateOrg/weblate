@@ -42,12 +42,16 @@ def get_uri_error(uri):
         return "Non existing test URL"
     cache_key = f"uri-check-{uri}"
     cached = cache.get(cache_key)
-    if cached:
+    if cached is True:
         LOGGER.debug("URL check for %s, cached success", uri)
         return None
+    elif cached:
+        # The cache contains string here
+        LOGGER.debug("URL check for %s, cached failure", uri)
+        return cached
     try:
         with request("get", uri, stream=True):
-            cache.set(cache_key, True, 3600)
+            cache.set(cache_key, True, 12 * 3600)
             LOGGER.debug("URL check for %s, tested success", uri)
             return None
     except requests.exceptions.RequestException as error:
@@ -55,4 +59,6 @@ def get_uri_error(uri):
         if getattr(error.response, "status_code", 0) == 429:
             # Silently ignore rate limiting issues
             return None
-        return str(error)
+        result = str(error)
+        cache.set(cache_key, result, 3600)
+        return result
