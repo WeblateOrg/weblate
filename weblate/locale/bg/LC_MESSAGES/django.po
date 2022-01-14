@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2022-01-14 05:01+0000\n"
+"PO-Revision-Date: 2022-01-15 12:54+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -433,7 +433,7 @@ msgstr "Моля, подновете паролата си, за да възст
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
-"Моля, свържете се с ръководителите на проекта, ако смятате, че има грешка."
+"Моля, свържете се с отговорниците на проекта, ако смятате, че има грешка."
 
 #: weblate/accounts/models.py:308 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1969,7 +1969,7 @@ msgstr "Управление на речника"
 #: weblate/auth/data.py:191
 msgctxt "Access-control role"
 msgid "Power user"
-msgstr ""
+msgstr "Супер-потребител"
 
 #: weblate/auth/data.py:203
 msgctxt "Access-control role"
@@ -3146,6 +3146,8 @@ msgstr "Шрифт по подразбиране"
 #: weblate/fonts/models.py:118
 msgid "Default font is used unless per language override matches."
 msgstr ""
+"Шрифтът по подразбиране се ползва винаги, освен ако няма заместител за "
+"конкретния език."
 
 #: weblate/fonts/models.py:141 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
@@ -3183,10 +3185,8 @@ msgid "Font deleted."
 msgstr "Шрифтът е изтрит."
 
 #: weblate/fonts/views.py:155
-#, fuzzy
-#| msgid "No words found!"
 msgid "No override found."
-msgstr "Няма намерени думи!"
+msgstr "Няма намерен заместител."
 
 #: weblate/fonts/views.py:158
 msgid "Font group deleted."
@@ -5823,7 +5823,7 @@ msgstr "Публикуван е обявление"
 #: weblate/templates/component.html:97 weblate/templates/guide.html:10
 #: weblate/templates/guide.html:26
 msgid "Community localization checklist"
-msgstr ""
+msgstr "Списък със задачи за обществения превод"
 
 #: weblate/templates/component.html:103 weblate/templates/component.html:266
 #: weblate/templates/project.html:108 weblate/templates/project.html:262
@@ -6273,7 +6273,7 @@ msgid ""
 "to contribute please get in touch with the project maintainers."
 msgstr ""
 "Този превод е отворен само за ограничена група от преводачи. Ако искате да "
-"участвате, моля, свържете се с ръководителите на проекта."
+"участвате, моля, свържете се с отговорниците на проекта."
 
 #: weblate/templates/engage.html:56
 msgid ""
@@ -6288,10 +6288,8 @@ msgid "Translate"
 msgstr "Превод"
 
 #: weblate/templates/engage.html:65
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Други езици"
+msgstr "Преглед на езиците в проекта"
 
 #: weblate/templates/fonts/font_detail.html:9
 #: weblate/templates/fonts/font_list.html:9
@@ -6327,10 +6325,8 @@ msgid "Group name"
 msgstr "Име на групата"
 
 #: weblate/templates/fonts/font_list.html:27
-#, fuzzy
-#| msgid "Language code"
 msgid "Language overrides"
-msgstr "Код на езика"
+msgstr "Заместители за езици"
 
 #: weblate/templates/fonts/font_list.html:51
 msgid "Add font group"
@@ -6341,10 +6337,8 @@ msgid "Please upload fonts to be able to define font groups."
 msgstr "Първо качете шрифтове, за да можете да създавате групи от шрифтове."
 
 #: weblate/templates/fonts/font_list.html:92
-#, fuzzy
-#| msgid "Add host key"
 msgid "Add font"
-msgstr "Добавяне на ключ на хост"
+msgstr "Добавяне на шрифт"
 
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/memory/index.html:165
@@ -6359,10 +6353,8 @@ msgid "Font group"
 msgstr "Група от шрифтове"
 
 #: weblate/templates/fonts/fontgroup_detail.html:22
-#, fuzzy
-#| msgid "Language code"
 msgid "language override"
-msgstr "Код на езика"
+msgstr "заместител за език"
 
 #: weblate/templates/fonts/fontgroup_detail.html:29
 #: weblate/templates/manage-access.html:57
@@ -6372,10 +6364,8 @@ msgid "Remove"
 msgstr "Премахване"
 
 #: weblate/templates/fonts/fontgroup_detail.html:47
-#, fuzzy
-#| msgid "Used languages"
 msgid "Add language override"
-msgstr "Използвани езици"
+msgstr "Добавяне на заместител за език"
 
 #: weblate/templates/fonts/fontgroup_detail.html:60
 msgid "Edit font group"
@@ -6387,8 +6377,6 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Уеб сайтът използва %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:13
-#, fuzzy
-#| msgid "Privacy Policy"
 msgid "Privacy policy"
 msgstr "Политика на поверителност"
 
@@ -6517,11 +6505,8 @@ msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr "Познатите замествания като „@“ вместо „а“ не помагат много."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr "Паролата не може да бъде само един знак или интервал."
+msgstr "Паролата не може да съдържа повтарящи се думи или знаци."
 
 #: weblate/templates/js/git-status.html:20
 #: weblate/templates/mail/repository_error.html:13
@@ -6529,16 +6514,12 @@ msgid "Repository status"
 msgstr "Състояние на хранилището"
 
 #: weblate/templates/js/git-status.html:29 weblate/templates/translate.html:688
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Подаване на промените в местното хранилище"
+msgstr "Чакащи промени, все още неподадени в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:34
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Подаване на промените в местното хранилище"
+msgstr "Подаване на чакащите промени в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit"
@@ -6577,10 +6558,8 @@ msgid "Pull"
 msgstr "Изтегляне"
 
 #: weblate/templates/js/git-status.html:71
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Пребазиране на местните промени върху отдалеченото хранилище"
+msgstr "Пребазиране на промените в Weblate върху отдалеченото хранилище"
 
 #: weblate/templates/js/git-status.html:71
 #: weblate/trans/models/component.py:144
@@ -6592,10 +6571,8 @@ msgid "Locking prevents translators from doing changes"
 msgstr "Заключването не позволява на преводачите да правят промени"
 
 #: weblate/templates/js/git-status.html:91
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Позволяване на промените в местното хранилище"
+msgstr "Позволяване на промените в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:91
 #: weblate/templates/snippets/component/lock.html:11
@@ -6603,10 +6580,8 @@ msgid "Unlock"
 msgstr "Отключване"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Забраняване на промените в местното хранилище"
+msgstr "Забраняване на промените в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:93
 msgid "Lock"
@@ -6626,10 +6601,8 @@ msgid "Maintenance"
 msgstr "Профилактика"
 
 #: weblate/templates/js/git-status.html:114
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Нулиране на всички промени в местното хранилище"
+msgstr "Нулиране на всички промени в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:114
 #: weblate/templates/translate.html:475
@@ -6645,20 +6618,17 @@ msgid "Cleanup"
 msgstr "Почистване"
 
 #: weblate/templates/js/git-status.html:120
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Нулиране на всички промени в местното хранилище"
+msgstr "Принудително записване на всички промени в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:120
 msgid "Force synchronization"
 msgstr "Принудително синхронизиране"
 
 #: weblate/templates/js/git-status.html:134
-#, fuzzy, python-format
-#| msgid "Merge failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Грешка при сливането на %(component)s"
+msgstr "Хранилище за %(component)s"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Repository details"
@@ -6669,10 +6639,8 @@ msgid "Repository changes"
 msgstr "Промени в хранилището"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
-#, fuzzy
-#| msgid "Used languages"
 msgid "Add language"
-msgstr "Използвани езици"
+msgstr "Добавяне на език"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -6681,16 +6649,12 @@ msgstr "Преглед на всички промени в езици"
 
 #: weblate/templates/last-changes-content.html:27
 #: weblate/templates/snippets/suggestions.html:23
-#, fuzzy
-#| msgid "Check details"
 msgid "View details"
-msgstr "Подробности за проверките"
+msgstr "Преглед на подробностите"
 
 #: weblate/templates/last-changes-content.html:29
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "View notification"
-msgstr "Куки за известия"
+msgstr "Преглед на известието"
 
 #: weblate/templates/last-changes-content.html:34
 msgid "Revert"
@@ -6704,29 +6668,23 @@ msgstr "Блокиране на потребителя"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s глас"
-msgstr[1] "%(count)s гласа"
+msgstr[0] "%(count)s редактиран знак"
+msgstr[1] "%(count)s редактирани знака"
 
 #: weblate/templates/last-changes-content.html:57
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Current translation"
-msgstr "Преводи на Weblate"
+msgstr "Текущ превод"
 
 #: weblate/templates/last-changes-content.html:85
 msgid "No matching activity found."
-msgstr "Не е намерено съответстващо действие."
+msgstr "Няма намерена съответстваща дейност."
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Other components"
 msgid "Resolved comment"
-msgstr "Други компоненти"
+msgstr "Коментар с решен проблем"
 
 #: weblate/templates/list-comments.html:15
 msgid "Source string comment"
@@ -6746,10 +6704,9 @@ msgid "Mark as spam"
 msgstr "Отбелязване като спам"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "Има промяна в акаунта Ви в %(site_title)s:"
+msgstr "Следната дейност беше извършена с акаунта Ви в %(site_title)s:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6771,22 +6728,17 @@ msgid "Your registration on %(site_title)s"
 msgstr "Вашата регистрация на %(site_title)s"
 
 #: weblate/templates/mail/approved_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New translation in %(translation)s"
+#, python-format
 msgid "Approved translation in %(translation)s"
-msgstr "Нов превод в %(translation)s"
+msgstr "Одобрен превод в %(translation)s"
 
 #: weblate/templates/mail/base.html:52
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation Info"
-msgstr "Известия за превод"
+msgstr "Информация за превода"
 
 #: weblate/templates/mail/base.html:62
-#, fuzzy
-#| msgid "Project Information"
 msgid "Component Information"
-msgstr "Информация за проекта"
+msgstr "Информация за компонента"
 
 #: weblate/templates/mail/base.html:77
 msgid "Project Information"
@@ -6797,10 +6749,8 @@ msgid "Weblate, the libre continuous localization system."
 msgstr "Weblate – системата за непрекъснати преводи."
 
 #: weblate/templates/mail/base.html:106
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Turn off this notification"
-msgstr "Куки за известия"
+msgstr "Изключване на това известие"
 
 #: weblate/templates/mail/base.html:117
 #, python-format
@@ -6844,10 +6794,8 @@ msgid "This billing plan covers following projects:"
 msgstr "Този платежен план покрива следните проекти:"
 
 #: weblate/templates/mail/billing_expired.html:28
-#, fuzzy
-#| msgid "Whole project"
 msgid "Remove the project"
-msgstr "Целият проект"
+msgstr "Премахване на проекта"
 
 #: weblate/templates/mail/billing_expired.html:34
 msgid "All projects covered by this billing plan have been removed."
@@ -6964,20 +6912,18 @@ msgstr ""
 "%(site_title)s."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Invitation to %(site_title)s"
-msgstr "Вашата регистрация на %(site_title)s"
+msgstr "Покана за %(site_title)s"
 
 #: weblate/templates/mail/new_alert.html:12
 msgid "View all alerts"
 msgstr "Всички сигнали"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "Нов коментар в %(component)s"
+msgstr "Ново предупреждение в %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
 msgid "Announcement"
@@ -7008,10 +6954,8 @@ msgid "New translation component %(component)s"
 msgstr "Нов компонент за превод %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:6
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Congratulations"
-msgstr "Хостинг на превода"
+msgstr "Поздравления"
 
 #: weblate/templates/mail/new_contributor.html:8
 #, python-format
@@ -7024,10 +6968,8 @@ msgid "New contributor in %(translation)s"
 msgstr "Нов участник в %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
-#, fuzzy
-#| msgid "Used languages"
 msgid "Added language"
-msgstr "Използвани езици"
+msgstr "Добавен език"
 
 #: weblate/templates/mail/new_language.html:12
 #, python-format
@@ -7059,10 +7001,8 @@ msgid "Requested language"
 msgstr "Заявен език"
 
 #: weblate/templates/mail/new_language.html:33
-#, fuzzy
-#| msgid "Other translation components"
 msgid "View translation component"
-msgstr "Други компоненти на превода"
+msgstr "Преглед на компонента за превод"
 
 #: weblate/templates/mail/new_language_subject.txt:4
 #, python-format
@@ -7128,10 +7068,9 @@ msgid "Account removal on %(site_title)s"
 msgstr "Изтриване на акаунта в %(site_title)s"
 
 #: weblate/templates/mail/repository_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(component)s"
+#, python-format
 msgid "Repository failure in %(component)s"
-msgstr "Грешка при сливането на %(component)s"
+msgstr "Грешка в хранилището на %(component)s"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
 #, python-format
@@ -7166,13 +7105,9 @@ msgid "Password reset on %(site_title)s"
 msgstr "Паролата за %(site_title)s е нулирана"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
 msgstr ""
-"Ако не разпознавате тази промяна, можете да я докладвате чрез бутона по-долу."
+"Ако това не е направено от Вас, може да ни докладвате чрез бутона по-долу."
 
 #: weblate/templates/mail/shared-activity.html:19
 msgid "Please request support through other means."
@@ -7188,10 +7123,8 @@ msgstr ""
 "на проблемите на Weblate%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:24
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
-msgstr "Отчети"
+msgstr "Докладване"
 
 #: weblate/templates/mail/shared-registration.html:3
 msgid ""
@@ -7220,22 +7153,16 @@ msgstr ""
 "достъп до акаунта си."
 
 #: weblate/templates/mail/shared-registration.html:19
-#, fuzzy
-#| msgid "Password reset"
 msgid "Confirm password reset"
-msgstr "Възстановяване на паролата"
+msgstr "Потвърждаване на нулирането на паролата"
 
 #: weblate/templates/mail/shared-registration.html:21
-#, fuzzy
-#| msgid "Account removal"
 msgid "Confirm account removal"
-msgstr "Изтриване на акаунта"
+msgstr "Потвърждаване на изтриването на акаунта"
 
 #: weblate/templates/mail/shared-registration.html:23
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "Потребителска регистрация"
+msgstr "Потвърждаване на регистрацията"
 
 #: weblate/templates/mail/shared-registration.html:28
 msgid "If there is a problem with your registration, please contact us."
@@ -7255,10 +7182,8 @@ msgstr "Изходен низ"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Местоположение на изходния низ"
+msgstr "Описание на изходния низ"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7268,16 +7193,14 @@ msgstr "Местоположение на изходния низ"
 #: weblate/templates/mail/snippets/unit-screenshots.html:14
 #: weblate/templates/translate.html:590
 msgid "Screenshot context"
-msgstr "Снимка на екрана за контекст"
+msgstr "Екранна снимка за контекст"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s изчакващо предложение в %(component)s"
-msgstr[1] "%(count)s изчакващи предложения в %(component)s"
+msgstr[0] "%(count)s незавършен низ в %(component)s"
+msgstr[1] "%(count)s незавършени низа в %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, python-format
@@ -7314,10 +7237,8 @@ msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr "Това ще отнеме достъпа на <b>%(user)s</b> до този проект."
 
 #: weblate/templates/manage-access.html:85
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "Администриране"
+msgstr "Повторно изпращане на поканата"
 
 #: weblate/templates/manage-access.html:122
 msgid ""
@@ -7328,45 +7249,33 @@ msgstr ""
 "от проекта."
 
 #: weblate/templates/manage-access.html:137
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add a user"
-msgstr "Добавяне на нов потребител"
+msgstr "Добавяне на потребител"
 
 #: weblate/templates/manage-access.html:158
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Отключване"
+msgstr "Блокиране"
 
 #: weblate/templates/manage-access.html:169
-#, fuzzy
-#| msgid "Add new user"
 msgid "Invite new user"
-msgstr "Добавяне на нов потребител"
+msgstr "Поканване на нов потребител"
 
 #: weblate/templates/manage-access.html:175
 msgid "Invite"
 msgstr "Поканване"
 
 #: weblate/templates/manage-access.html:190
-#, fuzzy
-#| msgid ""
-#| "The user management in Weblate is disabled, you can change permissions in "
-#| "the Django admin interface."
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
 msgstr ""
 "Управлението на потребителите в Weblate е изключено. Можете да промените "
-"правата чрез администраторския интерфейс на Django."
+"правомощията чрез администраторския интерфейс на Django."
 
 #: weblate/templates/manage-access.html:206
 #: weblate/trans/models/projecttoken.py:41
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "Изтекъл"
+msgstr "Изтича"
 
 #: weblate/templates/manage-access.html:228
 #, python-format
@@ -7379,10 +7288,8 @@ msgid "Create a project token"
 msgstr "Създаване на идентификатор за проекта"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Създадено"
+msgstr "Създаване"
 
 #: weblate/templates/manage-access.html:266
 msgid "Personal API key"
@@ -7401,10 +7308,8 @@ msgid "dismissed"
 msgstr "пренебрегнато"
 
 #: weblate/templates/manage/alerts.html:33
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Projects without components"
-msgstr "Проект / компонент"
+msgstr "Проекти без компоненти"
 
 #: weblate/templates/manage/alerts.html:45
 #: weblate/templates/manage/performance.html:92
@@ -7416,16 +7321,12 @@ msgid "Appearance"
 msgstr "Външен вид"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Search in comment strings"
 msgid "Customize appearance"
-msgstr "Търсене в коментарите"
+msgstr "Персонализиране на външния вид"
 
 #: weblate/templates/manage/appearance.html:24
-#, fuzzy
-#| msgid "Administration"
 msgid "Reset customization"
-msgstr "Администриране"
+msgstr "Нулиране на персонализациите"
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:76
 msgid "Backups"
@@ -7453,10 +7354,8 @@ msgid "Turn on"
 msgstr "Включване"
 
 #: weblate/templates/manage/backups.html:63
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform backup"
-msgstr "Производителност"
+msgstr "Запазване на резервно копие"
 
 #: weblate/templates/manage/backups.html:81
 msgid ""
@@ -7479,10 +7378,8 @@ msgid "Add backup service"
 msgstr "Добавяне на услуга за резервни копия"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commercial hosting"
 msgid "Commercial"
-msgstr "Платен хостинг"
+msgstr "Платен"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
@@ -7490,76 +7387,56 @@ msgstr "Свободен"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
-#, fuzzy
-#| msgid "Weblate statistics"
 msgid "Weblate support status"
-msgstr "Статистика на Weblate"
+msgstr "Състояние на поддръжката на Weblate"
 
 #: weblate/templates/manage/index.html:28
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate version"
-msgstr "Преводи на Weblate"
+msgstr "Версия на Weblate"
 
 #: weblate/templates/manage/index.html:40
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support status"
-msgstr "Подкрепете Weblate на {0}"
+msgstr "Състояние на поддръжката"
 
 #: weblate/templates/manage/index.html:45
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeding service limits"
-msgstr "В рамките на ограниченията"
+msgstr "Ограниченията на услугата са превишени"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support expiry"
-msgstr "Подкрепете Weblate на {0}"
+msgstr "Краен срок на поддръжката"
 
 #: weblate/templates/manage/index.html:58
 msgid "Discover Weblate"
 msgstr "Открийте Weblate"
 
 #: weblate/templates/manage/index.html:60
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Откриване на компоненти"
+msgstr "Разглеждане на откритията"
 
 #: weblate/templates/manage/index.html:62
 msgid "Your Weblate is listed on weblate.org"
 msgstr "Вашият Weblate присъства в weblate.org"
 
 #: weblate/templates/manage/index.html:64
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Disable discovery"
-msgstr "Откриване на компоненти"
+msgstr "Изключване на откриването"
 
 #: weblate/templates/manage/index.html:65
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Управление на моите езици"
+msgstr "Управление на показването"
 
 #: weblate/templates/manage/index.html:67
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Вашият Weblate не присъства в weblate.org"
 
 #: weblate/templates/manage/index.html:69
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Откриване на компоненти"
+msgstr "Включване на откриването"
 
 #: weblate/templates/manage/index.html:77
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Manage support package"
-msgstr "Управлявани проекти"
+msgstr "Управление на пакета за поддръжка"
 
 #: weblate/templates/manage/index.html:80
 #: weblate/templates/manage/snippets/activation-form.html:18
@@ -7581,17 +7458,12 @@ msgid "Ignore permanently"
 msgstr "Пренебрегване за постоянно"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"Можете спокойно да пренебрегнете завинаги грешките за файловите формати, "
-"които не смятате да използвате. Обикновени този грешки са предизвикани от "
+"Можете спокойно да пренебрегнете завинаги грешките за функционалностите, "
+"които не смятате да използвате. Обикновени тези грешки са предизвикани от "
 "липсващи или остарели зависимости."
 
 #: weblate/templates/manage/performance.html:66
@@ -7607,40 +7479,29 @@ msgid "System encoding"
 msgstr "Системна кодировка"
 
 #: weblate/templates/manage/performance.html:128
-#, fuzzy
-#| msgid "Service"
 msgid "Web server"
-msgstr "Услуга"
+msgstr "Уеб-сървър"
 
 #: weblate/templates/manage/performance.html:128
 msgid "Celery worker"
 msgstr "Работник на Celery"
 
 #: weblate/templates/manage/performance.html:132
-#, fuzzy
-#| msgid "Full name"
 msgid "Filenames encoding"
-msgstr "Пълно име"
+msgstr "Кодировка на файловите имена"
 
 #: weblate/templates/manage/performance.html:134
 #: weblate/templates/manage/performance.html:139
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Unknown"
 msgid "Unknown encoding"
-msgstr "Неизвестно"
+msgstr "Неизвестна кодировка"
 
 #: weblate/templates/manage/performance.html:137
-#, fuzzy
-#| msgid "Component locked"
 msgid "Content encoding"
-msgstr "Заключване на компонент"
+msgstr "Кодировка на съдържанието"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "Дейност"
+msgstr "Свързаност"
 
 #: weblate/templates/manage/performance.html:155
 msgid "Database latency"
@@ -7672,16 +7533,12 @@ msgstr ""
 "копия на инсталацията Ви на Weblate в облака."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
-#, fuzzy
-#| msgid "Active"
 msgid "Activate"
-msgstr "Активно"
+msgstr "Активиране"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:5
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Backup repository"
-msgstr "Нулиране на хранилище"
+msgstr "Хранилище за резервни копия"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:9
 msgid "Passphrase"
@@ -7721,10 +7578,6 @@ msgid "Generate SSH key"
 msgstr "Създаване на SSH-ключ"
 
 #: weblate/templates/manage/ssh.html:40
-#, fuzzy
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate it for you."
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
@@ -7775,10 +7628,8 @@ msgstr ""
 "някои операции по управлението."
 
 #: weblate/templates/manage/tools.html:49
-#, fuzzy
-#| msgid "Register email"
 msgid "Send test e-mail"
-msgstr "Регистриране на е-поща"
+msgstr "Изпращане на пробно е-писмо"
 
 #: weblate/templates/manage/tools.html:63
 msgid "Test Sentry integration"
@@ -7789,32 +7640,24 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Създаване на тестово събитие за изпробване на интеграцията със Sentry."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user"
 msgstr "Добавяне на нов потребител"
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "матрица"
+msgstr "Матрица"
 
 #: weblate/templates/matrix.html:37
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Използвани езици"
+msgstr "Показвани езици"
 
 #: weblate/templates/matrix.html:42
 msgid "Choose"
 msgstr "Избиране"
 
 #: weblate/templates/memory/index.html:28
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation memory status"
-msgstr "Състояние на превода"
+msgstr "Състояние на паметта за преводи"
 
 #: weblate/templates/memory/index.html:34
 msgid "Shared translation memory"
@@ -7822,11 +7665,8 @@ msgstr "Споделена памет за преводи"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:39
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "on"
-msgstr "Няма"
+msgstr "вкл"
 
 #. Translators: Shared translation memory is disabled
 #: weblate/templates/memory/index.html:42
@@ -7850,19 +7690,15 @@ msgstr "Брой на Вашите записи"
 #: weblate/templates/memory/index.html:100
 #: weblate/templates/memory/index.html:136
 #: weblate/templates/memory/index.html:148
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download as JSON"
-msgstr "Сваляне на статистиките (JSON)"
+msgstr "Сваляне като JSON"
 
 #: weblate/templates/memory/index.html:68
 #: weblate/templates/memory/index.html:101
 #: weblate/templates/memory/index.html:137
 #: weblate/templates/memory/index.html:149
-#, fuzzy
-#| msgid "Download translation as TMX"
 msgid "Download as TMX"
-msgstr "Сваляне на превода във формат „TMX“"
+msgstr "Сваляне като TMX"
 
 #: weblate/templates/memory/index.html:82
 #: weblate/templates/memory/index.html:116
@@ -7883,10 +7719,8 @@ msgid "Total number of entries"
 msgstr "Общ брой елементи"
 
 #: weblate/templates/memory/index.html:160
-#, fuzzy
-#| msgid "Import as translated"
 msgid "Import translation memory"
-msgstr "Внасяне като преведени"
+msgstr "Внасяне на памет за преводи"
 
 #: weblate/templates/message.html:15
 msgid "Delete announcement"
@@ -7941,16 +7775,12 @@ msgstr ""
 "низовете започнат да се превеждат."
 
 #: weblate/templates/new-language.html:55
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
 msgstr ""
-"Ръководителите на проекта ще бъдат уведомени за тази заявка и ще добавят "
-"езика ръчно."
+"Отговорниците на проекта ще бъдат уведомени за тази заявка, за да могат да "
+"добавят езика ръчно."
 
 #: weblate/templates/new-language.html:59
 msgid "Can't find your language in the list above?"
@@ -7970,14 +7800,11 @@ msgstr "Подайте заявка за нов език"
 
 #: weblate/templates/paginator.html:9
 #: weblate/templates/snippets/position-field.html:15
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Click to edit position"
-msgstr "Добра настройка"
+msgstr "Щракнете, за да редактирате позицията"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
@@ -8005,26 +7832,20 @@ msgid "Labels"
 msgstr "Етикети"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "Редактиране на базовия файл"
+msgstr "Редактиране на етикета"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:33
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "Име на езика"
+msgstr "Име на етикета"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
 msgstr "Цвят"
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Used languages"
 msgid "Add label"
-msgstr "Използвани езици"
+msgstr "Добавяне на етикет"
 
 #: weblate/templates/project.html:41
 msgid "Announcements"
@@ -8047,10 +7868,8 @@ msgstr ""
 "зададеното му време, или за постоянно, докато не бъде изтрито."
 
 #: weblate/templates/project.html:254
-#, fuzzy
-#| msgid "Whole project"
 msgid "Rename project"
-msgstr "Целият проект"
+msgstr "Преименуване на проекта"
 
 #: weblate/templates/project.html:257
 msgid ""
@@ -8061,20 +7880,14 @@ msgstr ""
 "да актуализират отметките си или връзките в клонираните си хранилища!"
 
 #: weblate/templates/project.html:293
-#, fuzzy
-#| msgid ""
-#| "Credits list all translators who have contributed to this component in a "
-#| "given time period. It can be useful for including in your documentation "
-#| "or application to thank translators."
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"В списъка със заслуги са изброени всички преводачи, които да участвали в "
-"този компонент в даден период от време. Това може да бъде полезно, ако "
-"искате да включите имената им в документацията или приложението си, за да им "
-"благодарите."
+"Показва всички преводачи, които са участвали в този проект в даден период от "
+"време. Това може да бъде полезно за документацията или за самото приложение, "
+"за да благодарите на преводачите и да отчетете приноса им."
 
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
@@ -8132,10 +7945,8 @@ msgid "Source string search"
 msgstr "Търсене в изходни низове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:82
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "Екранни снимки"
+msgstr "Подробности за екранната снимка"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -8158,10 +7969,8 @@ msgid "There are no assigned strings."
 msgstr "Няма назначени низове."
 
 #: weblate/templates/screenshots/screenshot_sources_search_actions.html:2
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Add to screenshot"
-msgstr "Добавяне на нова екранна снимка"
+msgstr "Добавяне към екранната снимка"
 
 #: weblate/templates/search.html:31
 #: weblate/templates/snippets/embed-units.html:114
@@ -8192,33 +8001,25 @@ msgstr ""
 "Weblate е безплатен софтуер създаден от доброволци, който приема дарения."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Последния месец"
+msgstr "Последните 12 месеца"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr "Предходен"
+msgstr "Предходни"
 
 #: weblate/templates/snippets/activity.html:16
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Activity in last 12 months"
-msgstr "Дейност в последните 30 дни"
+msgstr "Дейност в последните 12 месеца"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "преди %(count)s час"
-msgstr[1] "преди %(count)s часа"
+msgstr[0] "%(count)s промяна"
+msgstr[1] "%(count)s промени"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -8238,10 +8039,8 @@ msgstr ""
 "Можете да промените състоянието на всички низове от определен тип наведнъж."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:8
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "View contributor agreement"
-msgstr "Споразумение за принос"
+msgstr "Преглед на споразумението за принос"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:10
 #: weblate/templates/trans/other-row.html:22
@@ -8279,10 +8078,8 @@ msgid "Source string length"
 msgstr "Дължина на изходния низ"
 
 #: weblate/templates/snippets/embed-units.html:67
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Assigned screenshots"
-msgstr "Добавяне на нова екранна снимка"
+msgstr "Свързани екранни снимки"
 
 #: weblate/templates/snippets/embed-units.html:70
 msgid "Actions"
@@ -8293,10 +8090,8 @@ msgid "Loading results…"
 msgstr "Зареждане на резултатите…"
 
 #: weblate/templates/snippets/format-translation.html:16
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Clone to translation"
-msgstr "Преводи на Weblate"
+msgstr "Копиране в превода"
 
 #: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1731
 #: weblate/trans/models/component.py:268
@@ -8326,27 +8121,22 @@ msgstr "Последна отдалечена промяна"
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:43
 #: weblate/templates/snippets/git-info.html:59
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "Публикувано от %(author)s на %(date)s"
+msgstr "Промяна от %(author)s %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
 msgid "Last commit in Weblate"
 msgstr "Последно подаване в Weblate"
 
 #: weblate/templates/snippets/git-info.html:68
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Пребазиране на хранилище"
+msgstr "Хранилище на Weblate"
 
 #: weblate/templates/snippets/glossary.html:7
 #: weblate/trans/templatetags/translations.py:614
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This translation is forbidden."
-msgstr "Този превод в момента е заключен."
+msgstr "Този превод е забранен."
 
 #: weblate/templates/snippets/glossary.html:9
 msgid "This term should not be translated."
@@ -8357,10 +8147,8 @@ msgid "Copy word into translation"
 msgstr "Копиране на думата в превода"
 
 #: weblate/templates/snippets/glossary.html:23
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary term"
-msgstr "Изнасяне на речник"
+msgstr "Редактиране на термина в речника"
 
 #: weblate/templates/snippets/glossary.html:54
 msgid "No related strings found in the glossary."
@@ -8388,10 +8176,8 @@ msgid "Instructions for translators"
 msgstr "Инструкции за преводачите"
 
 #: weblate/templates/snippets/info.html:111
-#, fuzzy
-#| msgid "Contact us"
 msgid "Project maintainers"
-msgstr "Свържете се с нас"
+msgstr "Отговорници на проекта"
 
 #: weblate/templates/snippets/info.html:123
 #: weblate/templates/snippets/info.html:180
@@ -8408,39 +8194,29 @@ msgid "Translation process"
 msgstr "Процес на превода"
 
 #: weblate/templates/snippets/info.html:149
-#, fuzzy
-#| msgid "Translations can be made only through suggesting."
 msgid "Translations can only be done through suggestions."
 msgstr "Преводи могат да бъдат правени само чрез предложения."
 
 #: weblate/templates/snippets/info.html:150
-#, fuzzy, python-format
-#| msgid ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s vote."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
+#, python-format
 msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
-"Предложенията се приемат автоматично като преводи след като получат "
-"%(count)s глас."
+"Предложенията се приемат автоматично като преводи след като получат един "
+"глас."
 msgstr[1] ""
-"Предложенията се приемат автоматично като преводи след като получат "
-"%(count)s гласа."
+"Предложенията се приемат автоматично като преводи след като получат %(count)"
+"s гласа."
 
 #: weblate/templates/snippets/info.html:152
 msgid "Translations can be made directly."
 msgstr "Преводи може да бъдат правени директно."
 
 #: weblate/templates/snippets/info.html:154
-#, fuzzy
-#| msgid "Translations can be made directly."
 msgid "Translation suggestions can be made."
-msgstr "Преводи може да бъдат правени директно."
+msgstr "Могат да се правят предложения за превод."
 
 #: weblate/templates/snippets/info.html:156
 msgid "Translation suggestions are turned off."
@@ -8451,16 +8227,12 @@ msgid "The translation uses monolingual files."
 msgstr "Преводът използва едноезични файлове."
 
 #: weblate/templates/snippets/info.html:167
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation base language is editable."
-msgstr "Преводът беше приключен."
+msgstr "Основният език на превода може да бъде редактиран."
 
 #: weblate/templates/snippets/info.html:169
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation base language can not be edited."
-msgstr "Преводът беше приключен."
+msgstr "Основният език на превода не може да бъде редактиран."
 
 #: weblate/templates/snippets/info.html:172
 msgid "The translation uses bilingual files."
@@ -8469,8 +8241,6 @@ msgstr "Преводът използва двуезични файлове."
 #: weblate/templates/snippets/info.html:206
 #: weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/models/component.py:333
-#, fuzzy
-#| msgid "File mask"
 msgid "File mask"
 msgstr "Файлова маска"
 
@@ -8507,10 +8277,8 @@ msgid "Browse all users"
 msgstr "Преглед на всички потребители"
 
 #: weblate/templates/snippets/info.html:270
-#, fuzzy
-#| msgid "Service status"
 msgid "String statistics"
-msgstr "Състояние на услугата"
+msgstr "Статистика за низовете"
 
 #: weblate/templates/snippets/info.html:275
 msgid "Strings percent"
@@ -8519,38 +8287,29 @@ msgstr "Процент на низовете"
 #: weblate/templates/snippets/info.html:276
 #: weblate/templates/snippets/info.html:451
 #: weblate/templates/snippets/info.html:486
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Преведени текстове"
+msgstr "Брой съхранявани низове"
 
 #: weblate/templates/snippets/info.html:277
-#, fuzzy
-#| msgid "Percent"
 msgid "Words percent"
-msgstr "Проценти"
+msgstr "Процент на думите"
 
 #: weblate/templates/snippets/info.html:278
 #: weblate/templates/snippets/info.html:445
 #: weblate/templates/snippets/info.html:479
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Непреведено"
+msgstr "Брой съхранявани думи"
 
 #: weblate/templates/snippets/info.html:279
 msgid "Characters percent"
 msgstr "Процент на знаците"
 
 #: weblate/templates/snippets/info.html:280
-#, fuzzy
-#| msgid "Control chars"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Контролни символи"
+msgstr "Брой съхранявани знаци"
 
 #: weblate/templates/snippets/info.html:295
 #: weblate/templates/trans/alert/duplicatestring.html:10
@@ -8579,17 +8338,13 @@ msgstr "Глобални числа"
 
 #: weblate/templates/snippets/info.html:400
 #: weblate/templates/snippets/info.html:471
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "and previous 30 days"
-msgstr "Дейност в последните 30 дни"
+msgstr "и предходните 30 дни"
 
 #: weblate/templates/snippets/info.html:401
 #: weblate/templates/snippets/info.html:472
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Trends of last 30 days"
-msgstr "Дейност в последните 30 дни"
+msgstr "Тенденции през последните 30 дни"
 
 #: weblate/templates/snippets/info.html:439
 msgid "Quick numbers"
@@ -8597,10 +8352,8 @@ msgstr "Бързи числа"
 
 #: weblate/templates/snippets/info.html:463
 #: weblate/templates/snippets/info.html:500
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributors"
-msgstr "Статистика за участника"
+msgstr "Участници"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -8617,12 +8370,12 @@ msgstr ""
 "Допълнителни етикети могат да бъдат създадени от администраторите на проекта."
 
 #: weblate/templates/snippets/libre-basic.html:3
-#, fuzzy
-#| msgid "Translated content has to be released under free software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
-msgstr "Преведеното съдържание трябва да бъде под свободен лиценз."
+msgstr ""
+"Преведеното съдържание трябва да бъде лиценз одобрен от OSI или признат за "
+"свободен от FSF."
 
 #: weblate/templates/snippets/libre-basic.html:4
 msgid ""
@@ -8735,16 +8488,12 @@ msgstr ""
 "лиценза, посочен във всеки проект, който превеждате."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Това уравнение определя коя форма за множествено число ще бъде използвана "
-"при зададения брой (n)."
+"Тази формула определя коя форма за множествено число ще бъде използвана при "
+"зададения брой (n)."
 
 #: weblate/templates/snippets/position-field.html:8
 #: weblate/templates/snippets/position-field.html:11
@@ -8844,28 +8593,20 @@ msgid "Key/Context strings"
 msgstr "Ключ/контекст на низа"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "Места"
+msgstr "Низове за местоположение"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Service status"
 msgid "String state"
-msgstr "Състояние на услугата"
+msgstr "Състояние на низа"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "Изчакващи предложения"
+msgstr "Изчакващ низ"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "String target language"
-msgstr "Управление на моите езици"
+msgstr "Целеви език на низа"
 
 #: weblate/templates/snippets/query-builder.html:23
 msgid "String changed by"
@@ -8876,11 +8617,9 @@ msgid "Search for…"
 msgstr "Търсене…"
 
 #: weblate/templates/snippets/query-builder.html:27
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Точно съвпадение"
+msgstr "Точно"
 
 #: weblate/templates/snippets/query-builder.html:36
 msgid "String has suggestion"
@@ -8945,10 +8684,8 @@ msgid "All strings"
 msgstr "Всички низове"
 
 #: weblate/templates/snippets/query-field.html:12
-#, fuzzy
-#| msgid "Search"
 msgid "Custom search"
-msgstr "Търсене"
+msgstr "Персонализирано търсене"
 
 #: weblate/templates/snippets/query-field.html:22
 #: weblate/templates/snippets/user-query-field.html:5
@@ -9051,10 +8788,8 @@ msgid "Could not find any such user."
 msgstr "Няма намерен такъв потребител."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
-msgstr "Следене"
+msgstr "Следен"
 
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
@@ -9074,10 +8809,8 @@ msgid "Mute notifications for %(object)s"
 msgstr "Заглушаване на известията за %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watch"
 msgid "Not watching"
-msgstr "Следене"
+msgstr "Неследен"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, python-format
@@ -9104,10 +8837,8 @@ msgid "The following occurrences were found:"
 msgstr "Открити са следните срещания:"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
-#, fuzzy
-#| msgid "Comment"
 msgid "Command"
-msgstr "Коментар"
+msgstr "Команда"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
@@ -9116,10 +8847,8 @@ msgid "Error"
 msgstr "Грешка"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr "Дали компонентът е заключен за промени на превода."
+msgstr "Файлове за превеждани езици използват нееднозначни езикови кодове."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
@@ -9170,39 +8899,29 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "Адресът на уеб сайта на проекта сочи към несъществуващо местоположение:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr "Заключването на превода ще попречи на другите да работят по него."
+msgstr "Добавката за CDN на Weblate не може да анализира файловете HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
-#, fuzzy
-#| msgid "Full name"
 msgid "Filename"
-msgstr "Пълно име"
+msgstr "Име на файла"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
 msgstr "Някои свързани компоненти имат същата файлова маска."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Please fix errors in the form."
 msgid "Please fix this by removing one of them."
-msgstr "Моля, поправете грешките във формуляра."
+msgstr "Моля, оправете това, като премахнете една от тях."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
 msgstr "Следните файлови маски са открити няколко пъти:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "The component contains translation file for the source language."
-msgstr "Дали компонентът е заключен за промени на превода."
+msgstr "Компонентът съдържа файл за превод за изходния език."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatelanguage.html:28
@@ -9242,18 +8961,16 @@ msgstr ""
 "от Weblate, настройте езиковия филтър така, че да го изключва."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
-msgstr "Дали компонентът е заключен за промени на превода."
+msgstr ""
+"Компонентът съдържа няколко файла за превод, свързани с един и същ език в "
+"Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:25
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please fix this by removing one of the translation files."
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr "Моля, оправете това, като премахнете един от файловете за превод."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:31
 msgid ""
@@ -9264,16 +8981,12 @@ msgstr ""
 "и с конкретна наставка за територия (например „de“ и „de_DE“)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Language code"
 msgid "Language codes"
-msgstr "Код на езика"
+msgstr "Езикови кодове"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "The component contains several duplicated translation strings."
-msgstr "Дали компонентът е заключен за промени на превода."
+msgstr "Компонентът съдържа няколко дублирани низа за превод."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
@@ -9356,12 +9069,12 @@ msgstr[0] "Показано е само %(count)s срещане."
 msgstr[1] "Показани са само няколко от всички %(count)s срещания."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr "Заключването на превода ще попречи на другите да работят по него."
+msgstr ""
+"Weblate не може да анализира файловете за превод, докато преводите се "
+"обновяват."
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
@@ -9433,7 +9146,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Следните принудителни проверки не се ползват никъде:"
+msgstr "Следните задължителни проверки не се ползват никъде:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -9441,7 +9154,7 @@ msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"Проверката на качеството „%(check)s“ е принудителна, но не е включена чрез "
+"Проверката на качеството „%(check)s“ е задължителна, но не е включена чрез "
 "<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -9455,7 +9168,7 @@ msgstr "Управление на екранните снимки"
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate не успя да изтегли промените от отдалеченото хранилище при "
+"Weblate не успя да получи промените от отдалеченото хранилище при "
 "обновяването на хранилището."
 
 #: weblate/templates/trans/change_list.html:23
@@ -9472,10 +9185,8 @@ msgstr "Следване чрез RSS"
 
 #: weblate/templates/trans/component_create.html:7
 #: weblate/templates/trans/component_form.html:7
-#, fuzzy
-#| msgid "Other components"
 msgid "Create component"
-msgstr "Други компоненти"
+msgstr "Създаване на компонент"
 
 #: weblate/templates/trans/component_create.html:14
 #: weblate/templates/trans/component_form.html:12
@@ -9483,34 +9194,24 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Нямате право да създавате компоненти в нито един проект."
 
 #: weblate/templates/trans/component_create.html:25
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "Контрол на версиите"
+msgstr "От системата за контрол на версиите"
 
 #: weblate/templates/trans/component_create.html:28
-#, fuzzy
-#| msgid "Component list"
 msgid "From existing component"
-msgstr "Списък с компоненти"
+msgstr "От съществуващ компонент"
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Допълнително съобщение"
+msgstr "Допълнителен клон"
 
 #: weblate/templates/trans/component_create.html:34
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translations files"
-msgstr "Качване на превод"
+msgstr "Качване на файлове за превод"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Коментар към превода"
+msgstr "Превод на документ"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -9611,10 +9312,8 @@ msgid "The following translation components will be removed:"
 msgstr "Следните компоненти за превод ще бъдат премахнати:"
 
 #: weblate/templates/trans/delete-component.html:20
-#, fuzzy
-#| msgid "Component to use"
 msgid "Component to remove"
-msgstr "Кой компонент да се ползва"
+msgstr "Компонент за премахване"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "I understand the consequences, delete this translation"
@@ -9634,10 +9333,8 @@ msgid "The following translations will be removed:"
 msgstr "Следните преводи ще бъдат премахнати:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project name"
 msgid "Project language to remove"
-msgstr "Име на проекта"
+msgstr "Език за премахване от проекта"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -9657,10 +9354,8 @@ msgstr ""
 "както вероятно и други неща."
 
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "Project name"
 msgid "Project to remove"
-msgstr "Име на проекта"
+msgstr "Проект за премахване"
 
 #: weblate/templates/trans/delete-translation.html:5
 #, python-format
@@ -9715,11 +9410,8 @@ msgstr ""
 "отключите."
 
 #: weblate/templates/trans/merge_instructions.html:33
-#, fuzzy
-#| msgid "Check the FAQ for information on how to resolve this."
 msgid "Check the FAQ for info on how to resolve this."
-msgstr ""
-"Прегледайте ЧЗВ за повече информация относно това как да се справите с това."
+msgstr "Прегледайте ЧЗВ за повече информация как да се справите с това."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -9732,10 +9424,8 @@ msgid "This translation"
 msgstr "Този превод"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Преведено"
+msgstr "Прехвърлено"
 
 #: weblate/templates/trans/other-row.html:18
 #: weblate/trans/models/component.py:391
@@ -9813,44 +9503,32 @@ msgid "Source change"
 msgstr "Промяна в изходния низ"
 
 #: weblate/templates/translate.html:129
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Език на потребителския интерфейс"
+msgstr "Междинен език"
 
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:605
 #: weblate/templates/zen-units.html:28 weblate/trans/forms.py:466
 #: weblate/trans/models/unit.py:330
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation"
-msgstr "Превод"
+msgstr "Обяснение"
 
 #: weblate/templates/translate.html:161 weblate/trans/forms.py:973
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "Докладване на проблем с регистрацията"
+msgstr "Докладване на проблем с изходния низ"
 
 #: weblate/templates/translate.html:181
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete string"
-msgstr "Позволяване на предложенията"
+msgstr "Изтриване на низа"
 
 #: weblate/templates/translate.html:189
-#, fuzzy
-#| msgid "Changed since"
 msgid "Add variant of this string"
-msgstr "Променено след"
+msgstr "Добавяне на вариант на този низ"
 
 #: weblate/templates/translate.html:198 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
 msgstr "Този превод в момента е заключен."
 
 #: weblate/templates/translate.html:202
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
 msgstr "Моля, впишете се, за да можете да запазвате преводите си."
 
@@ -9876,10 +9554,8 @@ msgstr ""
 "за принос."
 
 #: weblate/templates/translate.html:212
-#, fuzzy
-#| msgid "Insufficient privileges for adding suggestions."
 msgid "Insufficient privileges for editing source strings."
-msgstr "Нямате нужните права да правите предложения."
+msgstr "Нямате нужните правомощия за редактиране на изходни низове."
 
 #: weblate/templates/translate.html:214 weblate/trans/views/edit.py:400
 #: weblate/trans/views/edit.py:421 weblate/trans/views/edit.py:439
@@ -9924,32 +9600,24 @@ msgid "Similar keys"
 msgstr "Подобни ключове"
 
 #: weblate/templates/translate.html:246
-#, fuzzy
-#| msgid "Changed since"
 msgid "Variants of the string"
-msgstr "Променено след"
+msgstr "Варианти на низа"
 
 #: weblate/templates/translate.html:246 weblate/templates/translate.html:513
 msgid "Variants"
 msgstr "Варианти"
 
 #: weblate/templates/translate.html:252
-#, fuzzy
-#| msgid "Last occurrence"
 msgid "Other occurrences"
-msgstr "Последно срещане"
+msgstr "Други срещания"
 
 #: weblate/templates/translate.html:258
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
-msgstr "Предложения от машинния превод"
+msgstr "Предложения от системи за автоматичен превод"
 
 #: weblate/templates/translate.html:258
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Автоматично приемане на предложенията"
+msgstr "Автоматични предложения"
 
 #: weblate/templates/translate.html:260
 msgid "Translations of this string in the other languages"
@@ -9993,16 +9661,12 @@ msgstr[0] "Следният низ има различен източник, н�
 msgstr[1] "Следните низове имат различен източник, но същия контекст."
 
 #: weblate/templates/translate.html:343
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Разрешаване на разпространението на превода"
+msgstr "Прилагане на избрания превод към всички прехвърлени низове"
 
 #: weblate/templates/translate.html:345
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Apply selected translation to current string"
-msgstr "Качване на превод"
+msgstr "Прилагане на избрания превод към текущия низ"
 
 #: weblate/templates/translate.html:377
 msgid "Origin"
@@ -10028,22 +9692,16 @@ msgstr[0] "Има %(count)s предложение за този низ."
 msgstr[1] "Има %(count)s предложения за този низ."
 
 #: weblate/templates/translate.html:449
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced"
-msgstr "Пренебрегнати проверки"
+msgstr "Задължително"
 
 #: weblate/templates/translate.html:462
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "Fix string"
-msgstr "Низове за iOS"
+msgstr "Поправяне на низа"
 
 #: weblate/templates/translate.html:472
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "For all languages"
-msgstr "Преглед на промените във всички езици"
+msgstr "За всички езици"
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -10065,10 +9723,8 @@ msgid "Browse glossary %(name)s"
 msgstr "Преглед на речника %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add term to glossary"
-msgstr "Добавяне на думата в речника"
+msgstr "Добавяне на термина в речника"
 
 #: weblate/templates/translate.html:583
 msgid "String information"
@@ -10079,10 +9735,8 @@ msgid "No screenshot currently associated."
 msgstr "В момента няма свързана екранна снимка."
 
 #: weblate/templates/translate.html:610
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
-msgstr "Този превод в момента е заключен."
+msgstr "В момента няма зададено обяснение."
 
 #: weblate/templates/translate.html:639
 msgid "No labels currently set."
@@ -10097,10 +9751,8 @@ msgid "No flags currently set."
 msgstr "В момента няма зададени флагове."
 
 #: weblate/templates/translate.html:666
-#, fuzzy
-#| msgid "Service status"
 msgid "String age"
-msgstr "Състояние на услугата"
+msgstr "Възраст на низа"
 
 #: weblate/templates/translate.html:672
 msgid "Source string age"
@@ -10117,16 +9769,12 @@ msgid "string %(position)s"
 msgstr "низ %(position)s"
 
 #: weblate/templates/translate.html:688
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Разглеждане на изчакващите"
+msgstr "на изчакване"
 
 #: weblate/templates/translate.html:717
-#, fuzzy
-#| msgid "Check flags"
 msgid "Inherited flags"
-msgstr "Ключове за проверки"
+msgstr "Наследени флагове"
 
 #: weblate/templates/translate.html:723
 #, python-format
@@ -10222,16 +9870,12 @@ msgstr ""
 "всички преводи."
 
 #: weblate/templates/translation.html:310
-#, fuzzy
-#| msgid "Download"
 msgid "Quick downloads"
-msgstr "Сваляне"
+msgstr "Бързи сваляния"
 
 #: weblate/templates/translation.html:317
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "Някои форми за множествено число имат един и същ превод"
+msgstr "Файл в оригиналния формат, както е преведен в хранилището"
 
 #: weblate/templates/translation.html:326
 msgid ""
@@ -10382,10 +10026,8 @@ msgid "Trailing ellipsis"
 msgstr "Многоточие накрая"
 
 #: weblate/trans/autofixes/chars.py:57
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
-msgstr "Контролни символи"
+msgstr "Контролни знаци"
 
 #: weblate/trans/autofixes/custom.py:45
 msgid "Apostrophes in Java MessageFormat"
@@ -10396,10 +10038,9 @@ msgid "Trailing and leading whitespace"
 msgstr "Интервал в началото и края"
 
 #: weblate/trans/context_processors.py:133
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "Weblate на наш сървър — място, където да превеждате проекта си."
+msgstr ""
+"Weblate на наш сървър — място, където да локализирате софтуерния си проект."
 
 #: weblate/trans/context_processors.py:136
 msgid "This site runs Weblate for localizing various software projects."
@@ -10466,16 +10107,12 @@ msgid "Pluralized string"
 msgstr "Низ с множествено число"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failed check: {}"
-msgstr "Неуспешни проверки"
+msgstr "Неуспешна проверка: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
-#, fuzzy
-#| msgid "Share"
 msgid "Labeled: {}"
-msgstr "Споделяне"
+msgstr "С етикет: {}"
 
 #: weblate/trans/forms.py:160
 msgid "Invalid checksum specified!"
@@ -10506,8 +10143,6 @@ msgid "Search filter"
 msgstr "Филтър за търсене"
 
 #: weblate/trans/forms.py:392
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
 msgstr "Моля, изберете правилен вид филтър."
 
@@ -10553,26 +10188,18 @@ msgid "Translation text too long!"
 msgstr "Преводът е твърде дълъг!"
 
 #: weblate/trans/forms.py:598
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File upload mode"
-msgstr "Качването на файла беше неуспешно: %s"
+msgstr "Режим на качване на файла"
 
 #: weblate/trans/forms.py:600 weblate/trans/forms.py:837
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as translation"
-msgstr "Добавяне като друг превод"
+msgstr "Добавяне като превод"
 
 #: weblate/trans/forms.py:601
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as approved translation"
-msgstr "Добавяне като друг превод"
+msgstr "Добавяне като одобрен превод"
 
 #: weblate/trans/forms.py:602 weblate/trans/forms.py:836
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add as suggestion"
 msgstr "Добавяне като предложение"
 
@@ -10581,20 +10208,16 @@ msgid "Add as translation needing edit"
 msgstr "Добавяне като превод, нуждаещ се от редактиране"
 
 #: weblate/trans/forms.py:604
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Replace existing translation file"
-msgstr "Замяна на съществуващите преводи"
+msgstr "Замяна на съществуващ файл за превод"
 
 #: weblate/trans/forms.py:605
 msgid "Update source strings"
 msgstr "Обновяване на изходните низове"
 
 #: weblate/trans/forms.py:606
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new strings"
-msgstr "Добавяне на нов потребител"
+msgstr "Добавяне на нови низове"
 
 #: weblate/trans/forms.py:612
 msgid "Processing of strings needing edit"
@@ -10652,24 +10275,20 @@ msgid "Could not find reverted change."
 msgstr "Върнатата промяна не може да бъде намерена."
 
 #: weblate/trans/forms.py:834
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Автоматичен превод"
+msgstr "Режим на автоматичен превод"
 
 #: weblate/trans/forms.py:838
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as needing edit"
-msgstr "Добавяне като превод, нуждаещ се от редактиране"
+msgstr "Добавяне като „нуждаещ се от редактиране“"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
-msgstr "Заключването на превода ще попречи на другите да работят по него."
+msgstr ""
+"Имайте предвид, че превеждането на всички низове ще премахне всички "
+"съществуващи преводи."
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -10692,10 +10311,8 @@ msgstr ""
 "преводи, за да получите достъп до допълнителни компоненти."
 
 #: weblate/trans/forms.py:868
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "Машини за превод, които да се използват"
+msgstr "Системи за машинен превод"
 
 #: weblate/trans/forms.py:871
 msgid "Score threshold"
@@ -10751,8 +10368,6 @@ msgid "All components"
 msgstr "Всички компоненти"
 
 #: weblate/trans/forms.py:1049
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "Моля, изберете"
 
@@ -10765,10 +10380,8 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Въведете име или е-поща на съществуващ акаунт в Weblate."
 
 #: weblate/trans/forms.py:1132
-#, fuzzy
-#| msgid "Locations"
 msgid "Block duration"
-msgstr "Места"
+msgstr "Продължителност на блокирането"
 
 #: weblate/trans/forms.py:1134
 msgid "Block user until I unblock them"
@@ -10807,26 +10420,20 @@ msgid "Report period"
 msgstr "Период на отчета"
 
 #: weblate/trans/forms.py:1156
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Last 30 days"
-msgstr "Дейност в последните 30 дни"
+msgstr "Последните 30 дни"
 
 #: weblate/trans/forms.py:1157
-#, fuzzy
-#| msgid "Last month"
 msgid "This month"
-msgstr "Последния месец"
+msgstr "Този месец"
 
 #: weblate/trans/forms.py:1158
 msgid "Last month"
 msgstr "Последния месец"
 
 #: weblate/trans/forms.py:1159
-#, fuzzy
-#| msgid "Last year"
 msgid "This year"
-msgstr "Последната година"
+msgstr "Тази година"
 
 #: weblate/trans/forms.py:1160
 msgid "Last year"
@@ -10897,29 +10504,21 @@ msgid "Commit messages"
 msgstr "Съобщения при подаване на промените"
 
 #: weblate/trans/forms.py:1469
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation files"
-msgstr "Файл за превод"
+msgstr "Файлове за превод"
 
 #: weblate/trans/forms.py:1476
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Monolingual translations"
-msgstr "Хостинг на превода"
+msgstr "Едноезични преводи"
 
 #: weblate/trans/forms.py:1482
-#, fuzzy
-#| msgid "No adding of language"
 msgid "Adding new languages"
-msgstr "Без добавяне на език"
+msgstr "Добавяне на нови езици"
 
 #: weblate/trans/forms.py:1560 weblate/trans/models/component.py:242
 #: weblate/trans/models/componentlist.py:44 weblate/trans/models/project.py:88
-#, fuzzy
-#| msgid "Used languages"
 msgid "Display name"
-msgstr "Използвани езици"
+msgstr "Показвано име"
 
 #: weblate/trans/forms.py:1563 weblate/trans/models/component.py:245
 #: weblate/trans/models/componentlist.py:48 weblate/trans/models/project.py:91
@@ -10932,10 +10531,8 @@ msgid "Name used in URLs and filenames."
 msgstr "Име, което да бъде използвано в адресите и имената на файловете."
 
 #: weblate/trans/forms.py:1568 weblate/trans/models/component.py:627
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "Управление на речника"
+msgstr "Използване като речник"
 
 #: weblate/trans/forms.py:1583
 msgid "Select existing component to copy configuration from."
@@ -10950,16 +10547,12 @@ msgid "Language used for source strings in all components"
 msgstr "Езикът на изходните низове във всички компоненти"
 
 #: weblate/trans/forms.py:1686
-#, fuzzy
-#| msgid "New translation"
 msgid "ZIP file containing translations"
-msgstr "Нов превод"
+msgstr "Файл ZIP с преводи"
 
 #: weblate/trans/forms.py:1700
-#, fuzzy
-#| msgid "Units to translate"
 msgid "Document to translate"
-msgstr "Единици за превод"
+msgstr "Документ за превод"
 
 #: weblate/trans/forms.py:1724
 msgid ""
@@ -10982,10 +10575,8 @@ msgid "Repository branch to translate"
 msgstr "Клон за превод от хранилището"
 
 #: weblate/trans/forms.py:1769
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "Почистване на файловете за превод"
+msgstr "Изберете файлове за превод, които да се внесат"
 
 #: weblate/trans/forms.py:1770
 msgid "Specify configuration manually"
@@ -11076,38 +10667,28 @@ msgid "State to set"
 msgstr "Състояние за задаване"
 
 #: weblate/trans/forms.py:2239
-#, fuzzy
-#| msgid "Download latest changes as CSV"
 msgid "Do not change"
-msgstr "Сваляне на последните промени във формат CSV"
+msgstr "Да не се променя"
 
 #: weblate/trans/forms.py:2241
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags to add"
-msgstr "Файл за превод"
+msgstr "Файлове за превод, които да се добавят"
 
 #: weblate/trans/forms.py:2242
 msgid "Translation flags to remove"
-msgstr "Флагове за превод за премахване"
+msgstr "Флагове за превод, които да се премахнат"
 
 #: weblate/trans/forms.py:2245
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "Потребител, който да бъде добавен"
+msgstr "Етикети, които да се добавят"
 
 #: weblate/trans/forms.py:2251
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "Премахване на предложение"
+msgstr "Етикети, които да се премахнат"
 
 #: weblate/trans/forms.py:2290
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "I accept the contributor agreement"
-msgstr "Споразумение за принос"
+msgstr "Приемам споразумението за принос"
 
 #: weblate/trans/forms.py:2316
 msgid "The slug does not match the one marked for deletion!"
@@ -11115,50 +10696,37 @@ msgstr "Краткото име на съвпада с това, което е �
 
 #: weblate/trans/forms.py:2322 weblate/trans/forms.py:2331
 #: weblate/trans/forms.py:2340 weblate/trans/forms.py:2349
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Removal confirmation"
-msgstr "Лоша настройка"
+msgstr "Потвърждение на премахването"
 
 #: weblate/trans/forms.py:2323
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr "Въведете краткото име на превода в целия му вид, за да потвърдите."
 
 #: weblate/trans/forms.py:2332
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr "Въведете краткото име на компонента в целия му вид, за да потвърдите."
 
 #: weblate/trans/forms.py:2341
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the slug of the project to confirm."
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr "Въведете краткото име на проекта в целия му вид, за да потвърдите."
 
 #: weblate/trans/forms.py:2350
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr ""
+"Въведете краткото име на проекта и езика в целия му вид, за да потвърдите."
 
 #: weblate/trans/forms.py:2377
-#, fuzzy
-#| msgid "Author name"
 msgid "Author username"
-msgstr "Име на автора"
+msgstr "Потребителско име на автора"
 
 #: weblate/trans/forms.py:2441
 msgid "Expires cannot be in the past!"
 msgstr "Срокът на действие не може да бъде в миналото!"
 
 #: weblate/trans/guide.py:80
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Настройки на контрола на версиите"
+msgstr "Интеграция на система за контрол на версиите"
 
 #: weblate/trans/guide.py:89
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -11224,8 +10792,6 @@ msgstr "Дублиран превод."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
 msgstr "Дублирана файлова маска."
 
@@ -11277,10 +10843,8 @@ msgstr "Добавката не може да бъде изпълнена."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
-#, fuzzy
-#| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
-msgstr "Сваляне за самостоятелен превод."
+msgstr "Неправилна конфигурация на едноезичен превод."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:318
@@ -11289,24 +10853,18 @@ msgstr "Неподдържана настройка на компонента"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Адрес за разглеждане на хранилището"
+msgstr "Повреден адрес за разглеждане на хранилището"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Уеб сайт на проекта"
+msgstr "Повреден адрес към уеб сайта"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:352
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Unused screenshot"
-msgstr "Добавяне на нова екранна снимка"
+msgstr "Неизползвана екранна снимка"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:358
@@ -11320,13 +10878,11 @@ msgstr "Не отговаря на условията на хостинга за
 
 #: weblate/trans/models/alert.py:380
 msgid "Unused enforced checks."
-msgstr "Неизползвани принудителни проверки."
+msgstr "Неизползвани задължителни проверки."
 
 #: weblate/trans/models/alert.py:387
-#, fuzzy
-#| msgid "More users matched."
 msgid "No file mask matches."
-msgstr "Намерени са още потребители."
+msgstr "Няма съответстваща файлова маска."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
@@ -11357,10 +10913,8 @@ msgid "Success (green)"
 msgstr "Успех (зелено)"
 
 #: weblate/trans/models/announcement.py:125
-#, fuzzy
-#| msgid "Expired"
 msgid "Expiry date"
-msgstr "Изтекъл"
+msgstr "Дата на изтичане"
 
 #: weblate/trans/models/announcement.py:127
 msgid ""
@@ -11482,27 +11036,27 @@ msgstr "Неуспешно изпращане към хранилището"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:293
 msgid "Removed translation"
-msgstr "Изтриване на превод"
+msgstr "Изтрит е превод"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:295
 msgid "Suggestion removed"
-msgstr "Премахване на предложение"
+msgstr "Премахнато е предложение"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:299
 msgid "Suggestion removed during cleanup"
-msgstr "Предложението е премахнато при почистване"
+msgstr "Премахнато е предложение при почистване"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:301
 msgid "Source string changed"
-msgstr "Изходният низ е променен"
+msgstr "Променен е изходен низ"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:303
 msgid "New string added"
-msgstr "Новият низ е добавен"
+msgstr "Добавен е нов низ"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:305
@@ -11511,31 +11065,23 @@ msgstr "Масова промяна на състоянието"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:307
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed visibility"
-msgstr "Променено след"
+msgstr "Променена видимост"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:309
-#, fuzzy
-#| msgid "Add new user"
 msgid "Added user"
-msgstr "Добавяне на нов потребител"
+msgstr "Добавен е нов потребител"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:311
-#, fuzzy
-#| msgid "Remove"
 msgid "Removed user"
-msgstr "Премахване"
+msgstr "Премахнат е потребител"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:313
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Процес на превода"
+msgstr "Одобрен е превод"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:315
@@ -11544,45 +11090,33 @@ msgstr "Отбелязано за редактиране"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:317
-#, fuzzy
-#| msgid "Other components"
 msgid "Removed component"
-msgstr "Други компоненти"
+msgstr "Премахнат е компонент"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:319
-#, fuzzy
-#| msgid "Whole project"
 msgid "Removed project"
-msgstr "Целият проект"
+msgstr "Премахнат е проект"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:321
-#, fuzzy
-#| msgid "Used languages"
 msgid "Found duplicated language"
-msgstr "Използвани езици"
+msgstr "Открит е дублиран език"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:323
-#, fuzzy
-#| msgid "Whole project"
 msgid "Renamed project"
-msgstr "Целият проект"
+msgstr "Преименуван е проект"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
-#, fuzzy
-#| msgid "Other components"
 msgid "Renamed component"
-msgstr "Други компоненти"
+msgstr "Преименуван е компонент"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:327
-#, fuzzy
-#| msgid "Other components"
 msgid "Moved component"
-msgstr "Други компоненти"
+msgstr "Преместен е компонент"
 
 #: weblate/trans/models/change.py:332
 msgctxt "Name of event in the history"
@@ -11591,43 +11125,33 @@ msgstr "Нов низ за превод"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:341
-#, fuzzy
-#| msgid "No adding of language"
 msgid "Added new language"
-msgstr "Без добавяне на език"
+msgstr "Добавен е нов език"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:343
 msgid "Requested new language"
-msgstr "Заявен нов език"
+msgstr "Заявен е нов език"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:345
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Created project"
-msgstr "Следени проекти"
+msgstr "Създаден е проект"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:347
-#, fuzzy
-#| msgid "Other components"
 msgid "Created component"
-msgstr "Други компоненти"
+msgstr "Създаден е компонент"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:349
-#, fuzzy
-#| msgid "Remove"
 msgid "Invited user"
-msgstr "Премахване"
+msgstr "Поканен потребител"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:351
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Received repository notification"
-msgstr "Профилактика на хранилището"
+msgstr "Получена е известие от хранилището"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:353
@@ -11636,31 +11160,23 @@ msgstr "Заменен файл поради качване"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:355
-#, fuzzy
-#| msgid "Last change"
 msgid "License changed"
-msgstr "Последна промяна"
+msgstr "Лицензът е променен"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "Споразумение за принос"
+msgstr "Споразумението за принос е променено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:359
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screnshot added"
-msgstr "Име на екранната снимка"
+msgstr "Добавена е екранна снимка"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:361
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
-msgstr "Качени снимки"
+msgstr "Качена е екранна снимка"
 
 #: weblate/trans/models/change.py:429
 msgid "New string to translate"
@@ -11682,10 +11198,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s в %(time)s в %(translation)s, от %(user)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "Файлът %s е променен."
+msgstr "Файлът „%s“ беше променен."
 
 #: weblate/trans/models/change.py:595
 #, python-format
@@ -11703,22 +11218,18 @@ msgid "N/A"
 msgstr "Няма"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Лицензът за компонента %(component)s беше сменен от %(old)s на %(target)s."
+"Лицензът за компонента „%(component)s“ беше променен от %(old)s на "
+"%(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
-#, fuzzy
-#| msgid "Contact us"
 msgid "Contact maintainers"
-msgstr "Свържете се с нас"
+msgstr "Свържете се с отговорниците"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:120
@@ -11760,51 +11271,40 @@ msgid "Android style"
 msgstr "Стил Android"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "Javanese"
 msgid "Java style"
-msgstr "Явански"
+msgstr "Стил Java"
 
 #: weblate/trans/models/component.py:144
 msgid "Merge"
 msgstr "Сливане"
 
 #: weblate/trans/models/component.py:259
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository with translations."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
 "Система за контрол на версиите, която да бъде използвана за достъп до Вашето "
-"хранилище с преводи."
+"хранилище с преводи. Можете да изберете и допълнителна интеграция с трета "
+"страна, за изпращане на заявки за сливане."
 
 #: weblate/trans/models/component.py:271
-#, fuzzy
-#| msgid ""
-#| "URL of a repository, use weblate://project/component for sharing with "
-#| "other component."
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"Адрес на хранилището, ако искате да използвате хранилището на друг "
-"компонент, въведете адрес от вида: „weblate://проект/компонент“ (без "
-"кавичките)."
+"Адрес на хранилище. Използвайте weblate://проект/компонент за споделяне с "
+"друг компонент."
 
 #: weblate/trans/models/component.py:283
 msgid "Repository push URL"
 msgstr "Адрес за изпращане към отд. хранилище"
 
 #: weblate/trans/models/component.py:286
-#, fuzzy
-#| msgid "URL of a push repository, pushing is disabled if empty."
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr ""
 "Адрес за изпращане към отдалечено хранилище. Ако е празно, изпращането ще "
-"бъде забранено."
+"бъде изключено."
 
 #: weblate/trans/models/component.py:291
 msgid "Repository browser"
@@ -11826,12 +11326,10 @@ msgid "Exported repository URL"
 msgstr "Адрес на изнесеното хранилище"
 
 #: weblate/trans/models/component.py:304
-#, fuzzy
-#| msgid "URL of a repository where users can fetch changes from Weblate"
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr ""
-"Адрес на хранилището, от където потребителите могат да изтеглят промените от "
-"Weblate"
+"Адрес на хранилището, от където потребителите могат да получават промените "
+"от Weblate"
 
 #: weblate/trans/models/component.py:309
 msgid "Source string bug reporting address"
@@ -11877,9 +11375,6 @@ msgid "Edit base file"
 msgstr "Редактиране на базовия файл"
 
 #: weblate/trans/models/component.py:357
-#, fuzzy
-#| msgid ""
-#| "Whether users will be able to edit base file for monolingual translations."
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
@@ -11898,10 +11393,8 @@ msgstr ""
 "изходни низове."
 
 #: weblate/trans/models/component.py:394
-#, fuzzy
-#| msgid "Component is now open for translation updates."
 msgid "Locked component will not get any translation updates."
-msgstr "Промените на преводите на компонента са разрешени."
+msgstr "Заключените компоненти не получават обновления на преводите."
 
 #: weblate/trans/models/component.py:398
 msgid "Allow translation propagation"
@@ -11916,10 +11409,8 @@ msgstr ""
 "превод в този"
 
 #: weblate/trans/models/component.py:407
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Turn on suggestions"
-msgstr "Изчакващи предложения"
+msgstr "Включване на предложенията"
 
 #: weblate/trans/models/component.py:409
 msgid "Whether to allow translation suggestions at all."
@@ -11940,10 +11431,6 @@ msgid "Autoaccept suggestions"
 msgstr "Автоматично приемане на предложенията"
 
 #: weblate/trans/models/component.py:422
-#, fuzzy
-#| msgid ""
-#| "Automatically accept suggestions with this number of votes, use 0 to "
-#| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
@@ -11952,58 +11439,42 @@ msgstr ""
 "автоматично. 0 = изключено."
 
 #: weblate/trans/models/component.py:428 weblate/trans/models/unit.py:321
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Файл за превод"
+msgstr "Флагове за превод"
 
 #: weblate/trans/models/component.py:431 weblate/trans/models/unit.py:324
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks, check "
-#| "documentation for possible values."
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
-"Допълнителни ключове, разделени със запетаи, които да повлияят на проверките "
-"на качеството. Можете да намерите възможните стойности в документацията."
+"Допълнителни флагове, разделени със запетаи, които да повлияят на "
+"поведението на Weblate."
 
 #: weblate/trans/models/component.py:437
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "Пренебрегнати проверки"
+msgstr "Задължителни проверки"
 
 #: weblate/trans/models/component.py:438
 msgid "List of checks which can not be ignored."
 msgstr "Списък с проверки, които не могат да бъдат пренебрегвани."
 
 #: weblate/trans/models/component.py:456
-#, fuzzy
-#| msgid ""
-#| "Agreement which needs to be approved before user can translate this "
-#| "component."
 msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
-"Споразумение, което трябва да бъде прието, преди потребителят да може да "
-"превежда този компонент."
+"Потребителско споразумение, което трябва да бъде прието, преди потребителят "
+"да може да превежда този компонент."
 
 #: weblate/trans/models/component.py:463
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Adding new translation"
-msgstr "Добавяне като друг превод"
+msgstr "Добавяне на нов превод"
 
 #: weblate/trans/models/component.py:467
 msgid "How to handle requests for creating new translations."
 msgstr "Как да се процедира със заявките за създаване на нови преводи."
 
 #: weblate/trans/models/component.py:470
-#, fuzzy
-#| msgid "Language code"
 msgid "Language code style"
-msgstr "Код на езика"
+msgstr "Стил на езиковия код"
 
 #: weblate/trans/models/component.py:476
 msgid ""
@@ -12046,16 +11517,12 @@ msgstr "Съобщение за подаване по време на прево
 #: weblate/trans/models/component.py:504 weblate/trans/models/component.py:513
 #: weblate/trans/models/component.py:522 weblate/trans/models/component.py:531
 #: weblate/trans/models/component.py:540
-#, fuzzy
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
-"Можете да използвате форматиращи низове. Моля, прегледайте документацията за "
-"повече подробности."
+"Можете да използвате шаблонен език за различни видове информация. Моля, "
+"прегледайте документацията за повече подробности."
 
 #: weblate/trans/models/component.py:511
 msgid "Commit message when adding translation"
@@ -12066,16 +11533,12 @@ msgid "Commit message when removing translation"
 msgstr "Съобщение за подаване при премахване на превод"
 
 #: weblate/trans/models/component.py:529
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Съобщение за подаване при премахване на превод"
+msgstr "Съобщение за подаване при сливане на превод"
 
 #: weblate/trans/models/component.py:538
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when add-on makes a change"
-msgstr "Съобщение за подаване при добавяне на превод"
+msgstr "Съобщение за подаване когато добавка прави промяна"
 
 #: weblate/trans/models/component.py:547
 msgid "Push on commit"
@@ -12103,48 +11566,32 @@ msgid "Lock on error"
 msgstr "Заключване при грешка"
 
 #: weblate/trans/models/component.py:566
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "Whether the component should be locked on repository errors."
-msgstr "Дали компонентът е заключен за промени на превода."
+msgstr "Дали компонентът да се заключва при грешки в хранилището."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
 msgstr ""
-"Регулярен израз, който се използва за филтриране на превода при сканиране за "
+"Регулярен израз за филтриране на файловете за превод при сканиране за "
 "файлова маска."
 
 #: weblate/trans/models/component.py:587
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Variants regular expression"
-msgstr "Регулярен израз за е-поща"
+msgstr "Регулярен израз за варианти"
 
 #: weblate/trans/models/component.py:593
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
 msgid "Regular expression used to determine variants of a string."
-msgstr ""
-"Регулярен израз, който се използва за филтриране на превода при сканиране за "
-"файлова маска."
+msgstr "Регулярен израз за определяне на вариантите на един низ."
 
 #: weblate/trans/models/component.py:602
 msgid "Components with higher priority are offered first to translators."
 msgstr "На преводачите се предлагат първо компонентите с по-висок приоритет."
 
 #: weblate/trans/models/component.py:606
-#, fuzzy
-#| msgid "Other components"
 msgid "Restricted component"
-msgstr "Други компоненти"
+msgstr "Компонент с ограничен достъп"
 
 #: weblate/trans/models/component.py:610
 msgid ""
@@ -12154,32 +11601,24 @@ msgstr ""
 "с изрично дадено правомощие."
 
 #: weblate/trans/models/component.py:617
-#, fuzzy
-#| msgid "Other projects"
 msgid "Share in projects"
-msgstr "Други проекти"
+msgstr "Споделяне с други проекти"
 
 #: weblate/trans/models/component.py:621
 msgid "Choose additional projects where this component will be listed."
 msgstr "Изберете допълнителни проекти, където този компонент да се показва."
 
 #: weblate/trans/models/component.py:632
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary color"
-msgstr "Речник"
+msgstr "Цвят на речника"
 
 #: weblate/trans/models/component.py:1187
-#, fuzzy
-#| msgid ""
-#| "Failed to verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
-"Неуспешна проверка на SSH-ключа на хоста. Моля, добавете го в страницата за "
-"SSH в интерфейса за администриране."
+"Неуспешна проверка на SSH-ключа. Моля, добавете го в страницата за SSH в "
+"администраторския интерфейс."
 
 #: weblate/trans/models/component.py:1196
 msgid ""
@@ -12190,34 +11629,28 @@ msgstr ""
 "адреса, или използвайте SSH."
 
 #: weblate/trans/models/component.py:1202
-#, fuzzy, python-format
-#| msgid "Failed to update repository: %s"
+#, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Неуспешно обновяване на хранилището: %s"
+msgstr "Неуспешно получаване на промените от хранилището: %s"
 
 #: weblate/trans/models/component.py:1267
 #: weblate/trans/models/component.py:2324
 #: weblate/trans/models/component.py:2383
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "File does not exist."
-msgstr "Този превод в момента е заключен."
+msgstr "Файлът не съществува."
 
 #: weblate/trans/models/component.py:1434
-#, fuzzy, python-format
-#| msgid "Failed to push to remote branch on %s."
+#, python-format
 msgid "Could not push to remote branch on %s."
 msgstr "Неуспешно изпращане на промените към отдалечения клон на %s."
 
 #: weblate/trans/models/component.py:1447
-#, fuzzy, python-format
-#| msgid "Push is disabled for %s."
+#, python-format
 msgid "Push is turned off for %s."
 msgstr "Изпращането е изключено за %s."
 
 #: weblate/trans/models/component.py:1505
-#, fuzzy, python-format
-#| msgid "Failed to reset to remote branch on %s."
+#, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Неуспешно нулиране на отдалечения клон на %s."
 
@@ -12227,29 +11660,22 @@ msgid "Could not clean the repository on %s."
 msgstr "Не може да се почисти хранилището на %s."
 
 #: weblate/trans/models/component.py:1695
-#, fuzzy, python-format
-#| msgid "Failed to rebase our branch onto remote branch %s."
+#, python-format
 msgid "Could not rebase local branch onto remote branch %s."
-msgstr "Неуспешно пребазиране на клона върху отдалечения клон %s."
+msgstr "Неуспешно пребазиране на локалния клон върху отдалечения клон %s."
 
 #: weblate/trans/models/component.py:1701
-#, fuzzy, python-format
-#| msgid "Failed to merge remote branch into %s."
+#, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Неуспешно сливане на отдалечения клон в %s."
 
 #: weblate/trans/models/component.py:2190
-#, fuzzy
-#| msgid ""
-#| "Invalid link to a Weblate project, can not link to linked repository!"
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Грешна връзка към проект в Weblate. Не може да се създаде връзка към "
 "свързаното хранилище!"
 
 #: weblate/trans/models/component.py:2199
-#, fuzzy
-#| msgid "Invalid link to a Weblate project, can not link to self!"
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Грешна връзка към проект в Weblate. Не може да се създаде връзка към себе си!"
@@ -12261,49 +11687,40 @@ msgstr ""
 "проект/компонент."
 
 #: weblate/trans/models/component.py:2219
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "Опцията не е налична за свързани хранилища."
+msgstr ""
+"Опцията не е налична за свързани хранилища. Ще се използва настройката от "
+"свързания компонент."
 
 #: weblate/trans/models/component.py:2231
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
-msgstr "Няма файлове, отговарящи на зададената маска."
+msgstr "Няма файлове, отговарящи на маската."
 
 #: weblate/trans/models/component.py:2240
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
-msgstr "Кодът на език за %s беше празен. Моля, проверете файловата маска."
+msgstr "Езиковият код за %s беше празен. Моля, проверете файловата маска."
 
 #: weblate/trans/models/component.py:2249
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
-msgstr "Кодът на езика „%s“ е твърде дълъг. Моля, проверете файловата маска."
+msgstr "Езиковият код „%s“ е твърде дълъг. Моля, проверете файловата маска."
 
 #: weblate/trans/models/component.py:2256
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language (%s), please adjust the mask and "
-#| "use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
 msgstr ""
-"Има повече файлове за един език (%s). Моля, настройте маската и използвайте "
-"компоненти за превеждане на различни материали."
+"Има повече от един файл за езика „%s“. Моля, настройте файловата маска и "
+"използвайте компоненти за превод на различните материали."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
-"Не може да бъде намерен съвпадащ език. Моля, проверете файловата маска."
+"Не може да бъде намерен съответстващ език. Моля, проверете файловата маска."
 
 #: weblate/trans/models/component.py:2289
 #, python-format
@@ -12353,10 +11770,9 @@ msgid "Using a .pot file as base file is unsupported."
 msgstr "Използването на файлове с формат „.pot“ като базови не се поддържа."
 
 #: weblate/trans/models/component.py:2388
-#, fuzzy, python-format
-#| msgid "Failed to parse translation base file: %s"
+#, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "Неуспешен анализ на базовия файл за преводи: %s"
+msgstr "Неуспешен анализ на базовия файл за превод: %s"
 
 #: weblate/trans/models/component.py:2398
 #, python-brace-format
@@ -12369,21 +11785,16 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr "Не можете да използвате едноезичен превод без базов файл."
 
 #: weblate/trans/models/component.py:2429
-#, fuzzy, python-format
-#| msgid "Failed to update repository: %s"
+#, python-format
 msgid "Could not update repository: %s"
 msgstr "Неуспешно обновяване на хранилището: %s"
 
 #: weblate/trans/models/component.py:2446
-#, fuzzy
-#| msgid ""
-#| "Please either fill in instructions URL or use different option for adding "
-#| "new language."
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
-"Моля, или попълнете адреса с инструкции, или изберете различен вариант за "
+"Моля, или попълнете адреса за инструкции, или изберете различен вариант за "
 "добавяне на нов език."
 
 #: weblate/trans/models/component.py:2477
@@ -12426,10 +11837,8 @@ msgid "Translation file already exists!"
 msgstr "Вече съществува такъв файл за превод!"
 
 #: weblate/trans/models/component.py:3076 weblate/trans/views/basic.py:429
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
-msgstr "Преводът беше приключен."
+msgstr "Преводът ще бъде обновен на във фонов режим."
 
 #. Translators: Translation key for monolingual translations
 #: weblate/trans/models/component.py:3124 weblate/utils/views.py:143
@@ -12438,10 +11847,8 @@ msgid "Key"
 msgstr "Ключ"
 
 #: weblate/trans/models/component.py:3199
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add new glossary term"
-msgstr "Добавяне на думата в речника"
+msgstr "Добавяне на нов термин в речника"
 
 #: weblate/trans/models/component.py:3200
 msgid "Add new translation string"
@@ -12508,50 +11915,36 @@ msgid "Translation instructions"
 msgstr "Инструкции за превода"
 
 #: weblate/trans/models/project.py:109
-#, fuzzy
-#| msgid "Set Language-Team header"
 msgid "Set \"Language-Team\" header"
-msgstr "Задаване на заглавката за преводаческия екип"
+msgstr "Задаване на заглавката „Language-Team“"
 
 #: weblate/trans/models/project.py:112
-#, fuzzy
-#| msgid ""
-#| "Whether the Language-Team in file headers should be updated by Weblate."
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
-"Дали заглавката за преводаческия екип (Language-Team) в заглавната част на "
-"файловете да бъде задавана от Weblate."
+"Позволява на Weblate да обновява заглавката „Language-Team“ във файловете на "
+"проекта Ви."
 
 #: weblate/trans/models/project.py:116
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Use shared translation memory"
-msgstr "Използване на този превод"
+msgstr "Използване на споделена памет за преводи"
 
 #: weblate/trans/models/project.py:119
 msgid "Uses the pool of shared translations between projects."
 msgstr "Използва съвкупността от споделени преводи между проектите."
 
 #: weblate/trans/models/project.py:123
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Contribute to shared translation memory"
-msgstr "Използване на този превод"
+msgstr "Допринасяне към споделената памет за преводи"
 
 #: weblate/trans/models/project.py:126
 msgid "Contributes to the pool of shared translations between projects."
 msgstr "Допринася към съвкупността от споделените между проектите преводи."
 
 #: weblate/trans/models/project.py:134
-#, fuzzy
-#| msgid ""
-#| "How to restrict access to this project, please check the documentation "
-#| "for more details."
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr ""
-"Как да ограничите достъпа до този проект. Моля, прегледайте документацията "
-"за повече подробности."
+"Как да ограничите достъпа до този проект може да разберете в документацията."
 
 #: weblate/trans/models/project.py:139
 msgid "Enable reviews"
@@ -12592,11 +11985,11 @@ msgstr ""
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "Стойност на идентификатора"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "Стойност на идентификатора, която да се ползва за ППИ"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -12644,14 +12037,12 @@ msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"Низът не може да бъде добавен в %(component)s, тъй като не сте приели "
+"Низът не може да бъде прехвърлен в %(component)s, тъй като не сте приели "
 "споразумението за принос."
 
 #: weblate/trans/models/unit.py:1330
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "Автоматичен превод"
+msgstr "Автоматично преведено"
 
 #: weblate/trans/models/unit.py:1505
 msgid "Unmark as read-only"
@@ -12695,16 +12086,12 @@ msgid "Insert character {0}"
 msgstr "Вмъкване на знак {0}"
 
 #: weblate/trans/specialchars.py:285
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "Отваряща двойна кавичка"
+msgstr "Основна отваряща кавичка"
 
 #: weblate/trans/specialchars.py:286
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "Затваряща единична кавичка"
+msgstr "Основна затваряща кавичка"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
@@ -12937,18 +12324,14 @@ msgid "Dismissed checks:"
 msgstr "Пренебрегнати проверки:"
 
 #: weblate/trans/templatetags/translations.py:610
-#, fuzzy
-#| msgid "Comment"
 msgctxt "String state"
 msgid "Commented"
-msgstr "Коментар"
+msgstr "С коментари"
 
 #: weblate/trans/templatetags/translations.py:612
-#, fuzzy
-#| msgid "Suggested"
 msgctxt "String state"
 msgid "Suggested"
-msgstr "Предложено"
+msgstr "С предложения"
 
 #: weblate/trans/templatetags/translations.py:633
 #, python-format
@@ -12957,10 +12340,8 @@ msgstr "ид. на низа %s"
 
 #: weblate/trans/templatetags/translations.py:800
 #: weblate/trans/templatetags/translations.py:820
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This translation is locked."
-msgstr "Този превод в момента е заключен."
+msgstr "Този превод е заключен."
 
 #: weblate/trans/templatetags/translations.py:805
 msgid "Updating translation component…"
@@ -12975,10 +12356,8 @@ msgid "You administrate this project."
 msgstr "Вие сте администратор на този проект."
 
 #: weblate/trans/templatetags/translations.py:865
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This translation does not yet exist."
-msgstr "Този превод в момента е заключен."
+msgstr "Този превод все още не съществува."
 
 #: weblate/trans/templatetags/translations.py:878
 #, python-format
@@ -13032,17 +12411,13 @@ msgstr ""
 "на езика!"
 
 #: weblate/trans/validators.py:41
-#, fuzzy
-#| msgid ""
-#| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
-#| "suggestion."
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Стойността 1 не може да се използва за автоматичното приемане на "
-"предложения, тъй като всеки потребител автоматично дава положителен глас за "
-"предложението си."
+"предложения, тъй като това ще позволи на потребителите да гласуват за "
+"собствените си предложения."
 
 #: weblate/trans/validators.py:52
 #, python-format
@@ -13074,28 +12449,20 @@ msgid "Failed to find group to add a user!"
 msgstr "Не беше намерена група, в която да бъде добавен потребител!"
 
 #: weblate/trans/views/acl.py:153
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "You can not block yourself on this project."
-msgstr "Потребителят беше добавен към този проект."
+msgstr "Не може да блокирате собствения си достъп до този проект."
 
 #: weblate/trans/views/acl.py:173
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Потребителят беше добавен към този проект."
+msgstr "Потребителят беше блокиран в този проект."
 
 #: weblate/trans/views/acl.py:175
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Потребителят беше добавен към този проект."
+msgstr "Потребителят вече е блокиран в този проект."
 
 #: weblate/trans/views/acl.py:202
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been invited to this project."
-msgstr "Потребителят беше добавен към този проект."
+msgstr "Потребителят беше поканен в този проект."
 
 #: weblate/trans/views/acl.py:242
 msgid "User has been removed from this project."
@@ -13109,7 +12476,7 @@ msgstr "Включете се в „{0}“!"
 #: weblate/trans/views/basic.py:423
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "До ръководителите на проекта беше изпратена заявка за нов език."
+msgstr "До отговорниците на проекта беше изпратена заявка за нов език."
 
 #: weblate/trans/views/changes.py:76
 #, python-format
@@ -13179,10 +12546,8 @@ msgstr ""
 "влезете следващия път."
 
 #: weblate/trans/views/dashboard.py:191
-#, fuzzy
-#| msgid "Please set your full name in your profile."
 msgid "Please set your full name and e-mail in your profile."
-msgstr "Моля, въведете пълното си име в профила си."
+msgstr "Моля, въведете пълно име и е-поща в профила си."
 
 #: weblate/trans/views/edit.py:246 weblate/trans/views/edit.py:546
 msgid "No string matched your search!"
@@ -13272,10 +12637,8 @@ msgid "Failed to process form!"
 msgstr "Грешка при обработката на формуляра!"
 
 #: weblate/trans/views/edit.py:706
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "Източник за автоматичен превод"
+msgstr "Извършва се автоматичен превод"
 
 #: weblate/trans/views/edit.py:742
 msgid "Source needs review"
@@ -13290,16 +12653,12 @@ msgid "Failed to add comment!"
 msgstr "Грешка при добавянето на коментара!"
 
 #: weblate/trans/views/edit.py:766
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Comment has been deleted."
-msgstr "Коментарът към превода беше изтрит."
+msgstr "Коментарът беше изтрит."
 
 #: weblate/trans/views/edit.py:784
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Comment has been resolved."
-msgstr "Коментарът към превода беше изтрит."
+msgstr "Проблемът в коментара беше разрешен."
 
 #: weblate/trans/views/edit.py:948
 msgid "New string has been added."
@@ -13333,10 +12692,10 @@ msgstr[1] ""
 "обновени: {3})."
 
 #: weblate/trans/views/files.py:210
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "Каченият файл ще бъде слят с текущия превод."
+msgstr ""
+"Формите за множествено число в качения файл не съответстват на текущия "
+"превод."
 
 #: weblate/trans/views/files.py:215
 #, python-format
@@ -13344,8 +12703,6 @@ msgid "File upload has failed: %s"
 msgstr "Качването на файла беше неуспешно: %s"
 
 #: weblate/trans/views/git.py:42
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation in progress."
 msgid "Failed to lock the repository, another operation is in progress."
 msgstr ""
 "Заключването на хранилището е невъзможно. В момента протича друга операция."
@@ -13367,16 +12724,12 @@ msgid "All repositories have been reset."
 msgstr "Всички хранилища бяха нулирани."
 
 #: weblate/trans/views/git.py:107
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "Всички хранилища бяха нулирани."
+msgstr "Всички хранилища бяха почистени."
 
 #: weblate/trans/views/git.py:121
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Преводът беше премахнат."
+msgstr "Файловете за превод бяха синхронизирани."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
@@ -13447,10 +12800,8 @@ msgid "Translation has been removed."
 msgstr "Преводът беше премахнат."
 
 #: weblate/trans/views/settings.py:172
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation component was scheduled for removal."
-msgstr "Преводът беше премахнат."
+msgstr "Компонентът за превод е заплануван за премахване."
 
 #: weblate/trans/views/settings.py:191
 msgid "Project was scheduled for removal."
@@ -13465,16 +12816,12 @@ msgid "Failed to change additional string info!"
 msgstr "Допълнителната информация за низа не може да бъде променена!"
 
 #: weblate/trans/widgets.py:248
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Big status badge"
-msgstr "Групова промяна на състоянието"
+msgstr "Голяма значка за състоянието"
 
 #: weblate/trans/widgets.py:282
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Small status badge"
-msgstr "Групова промяна на състоянието"
+msgstr "Малка значка за състоянието"
 
 #: weblate/trans/widgets.py:304
 msgctxt "Status widget name"
@@ -13488,10 +12835,8 @@ msgid "Project %s"
 msgstr "Проект %s"
 
 #: weblate/trans/widgets.py:382
-#, fuzzy
-#| msgid "Status widgets"
 msgid "Status badge"
-msgstr "Джаджи за състоянието"
+msgstr "Значка за състоянието"
 
 #: weblate/trans/widgets.py:385
 msgid "translated"
@@ -13503,11 +12848,9 @@ msgid "Vertical language bar chart"
 msgstr "Графика за езиците с вертикални ленти"
 
 #: weblate/trans/widgets.py:512
-#, fuzzy
-#| msgid "Browse all language changes"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
-msgstr "Преглед на промените във всички езици"
+msgstr "Графика за езиците с хоризонтални ленти"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:24
@@ -13536,10 +12879,8 @@ msgstr "Маслиново"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:34
-#, fuzzy
-#| msgid "Greek"
 msgid "Green"
-msgstr "Гръцки"
+msgstr "Зелено"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:36
@@ -13553,10 +12894,8 @@ msgstr "Жълто"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:40
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "Промяна"
+msgstr "Оранжево"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:42
@@ -13607,15 +12946,12 @@ msgid "Failed to render template: {}"
 msgstr "Грешка при възпроизвеждането на шаблона: {}"
 
 #: weblate/utils/render.py:178
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
-"Моля, не променяйте обекта тук, вместо това използвайте интерфейса на "
-"Weblate."
+"Вече не се поддържат форматиращи низове. Вместо това използвайте шаблонния "
+"език."
 
 #: weblate/utils/render.py:196
 msgid "The editor link lacks URL scheme!"
@@ -13626,24 +12962,18 @@ msgid "Forbidden URL scheme!"
 msgstr "Непозволена адресна схема!"
 
 #: weblate/utils/search.py:296
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported state: {}"
-msgstr "Неподдържан файлов формат: {0}"
+msgstr "Неподдържано състояние: {0}"
 
 #: weblate/utils/search.py:361
 msgid "Invalid timestamp: {}"
 msgstr "Неправилно времево клеймо: {}"
 
 #: weblate/utils/search.py:431
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"
-msgstr "Регулярен израз за е-поща"
+msgstr "Неправилен регулярен израз: {}"
 
 #: weblate/utils/state.py:30
-#, fuzzy
-#| msgid "Empty"
 msgctxt "String state"
 msgid "Empty"
 msgstr "Празно"
@@ -13674,11 +13004,8 @@ msgid "Compilation failed: {0}"
 msgstr "Грешка при компилирането: {0}"
 
 #: weblate/utils/validators.py:70
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "The regular expression can not match an empty string."
-msgstr ""
-"Регулярен израз, който се използва за проверка на потребителска е-поща."
+msgstr "Регулярният израз не може да открива съвпадения с празни низове."
 
 #: weblate/utils/validators.py:78
 #, python-brace-format
@@ -13703,8 +13030,6 @@ msgid "The image is too big, please crop or scale it down."
 msgstr "Изображението е твърде голямо. Моля, смалете го или го изрежете."
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "Моля, избягвайте употребата на специални знаци в пълното име."
 
@@ -13713,8 +13038,6 @@ msgid "Name consists only of disallowed characters."
 msgstr "Името съдържа само неразрешени знаци."
 
 #: weblate/utils/validators.py:170
-#, fuzzy
-#| msgid "Username can not start with full stop."
 msgid "The username can not start with a full stop."
 msgstr "Потребителското име не може да започва с точка."
 
@@ -13723,10 +13046,8 @@ msgid "Enter a valid e-mail address."
 msgstr "Въведете правилен адрес на е-поща."
 
 #: weblate/utils/validators.py:189
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
-msgstr "Тази е-поща не е позволена."
+msgstr "Този адрес на е-поща не е позволен."
 
 #: weblate/utils/validators.py:199
 msgid "Could not evaluate plural formula: {}"
@@ -13763,10 +13084,8 @@ msgid "Position"
 msgstr "Място"
 
 #: weblate/utils/views.py:138
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string"
-msgstr "Целеви низове"
+msgstr "Целеви низ"
 
 #: weblate/utils/views.py:139
 msgid "Age of string"
@@ -13789,10 +13108,8 @@ msgid "Git with force push"
 msgstr "Git с принудително изпращане на промените"
 
 #: weblate/vcs/git.py:926
-#, fuzzy
-#| msgid "Source code repository"
 msgid "No remote repository"
-msgstr "Хранилище за изходния код"
+msgstr "Липсва отдалечено хранилище"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
@@ -13846,38 +13163,28 @@ msgid "Port"
 msgstr "Порт"
 
 #: weblate/wladmin/forms.py:57
-#, fuzzy
-#| msgid "Activation email will be sent here."
 msgid "The test e-mail will be sent to this address."
-msgstr "Тук ще бъде изпратено е-писмото за активиране."
+msgstr "Пробното е-писмо ще бъде изпратено на този адрес."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
-msgstr "Потребителско име или е-поща"
+msgstr "Потребителско име или регистрирана е-поща"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
 msgstr "Моля, посочете семейство на шрифт, подходящо за CSS."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Страницата не е намерена"
+msgstr "Шрифт за страницата"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add host key"
 msgid "Header font"
-msgstr "Добавяне на ключ на хост"
+msgstr "Шрифт за заглавната част"
 
 #: weblate/wladmin/forms.py:95
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "Фокусиране върху полето за писане на коментар"
+msgstr "Цвят при фокусиране"
 
 #: weblate/wladmin/forms.py:96
 msgid "Hover color"
@@ -13904,10 +13211,8 @@ msgid "Community support"
 msgstr "Поддръжка от общността"
 
 #: weblate/wladmin/models.py:77
-#, fuzzy
-#| msgid "Hosting site"
 msgid "Hosted service"
-msgstr "Уеб сайт за съхранение"
+msgstr "Хоствана услуга"
 
 #: weblate/wladmin/models.py:78
 msgid "Basic self-hosted support"
@@ -13922,10 +13227,8 @@ msgid "Premium self-hosted support"
 msgstr "Специализирана поддръжка за самостоятелен хостинг"
 
 #: weblate/wladmin/models.py:161
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Backup repository URL"
-msgstr "Нулиране на хранилище"
+msgstr "Адрес на хранилището за резервния копия"
 
 #: weblate/wladmin/models.py:163
 msgid ""
@@ -13946,32 +13249,24 @@ msgid "Backup failed"
 msgstr "Създаването на резервно копие беше неуспешно"
 
 #: weblate/wladmin/models.py:216
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "Изтриване на този акаунт"
+msgstr "Най-старите резервни копия са изтрити"
 
 #: weblate/wladmin/models.py:217
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "Профилактика на хранилището"
+msgstr "Подготовка на хранилището"
 
 #: weblate/wladmin/sites.py:80 weblate/wladmin/sites.py:81
 msgid "Weblate administration"
 msgstr "Администриране на Weblate"
 
 #: weblate/wladmin/sites.py:196
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "Извеждането на обектите е изключено"
+msgstr "Показването на обектите е изключено"
 
 #: weblate/wladmin/templates/admin/base.html:6
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Return to Weblate"
-msgstr "Дарете на Weblate"
+msgstr "Обратно към Weblate"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
@@ -14001,26 +13296,21 @@ msgid "Reports"
 msgstr "Отчети"
 
 #: weblate/wladmin/views.py:75
-#, fuzzy
-#| msgid "Weblate statistics"
 msgid "Weblate status"
-msgstr "Статистика на Weblate"
+msgstr "Състояние на Weblate"
 
 #: weblate/wladmin/views.py:81
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
-msgstr "Хранилище"
+msgstr "Хранилища"
 
 #: weblate/wladmin/views.py:131
 msgid "Test e-mail sent."
 msgstr "Пробното е-писмо е изпратено."
 
 #: weblate/wladmin/views.py:134
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not send test e-mail: %s"
-msgstr "Неуспешно създаване на ключ: %s"
+msgstr "Пробното е-писмо не може да бъде изпратено: %s"
 
 #: weblate/wladmin/views.py:183
 msgid "Activation completed."
