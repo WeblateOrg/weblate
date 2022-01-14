@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-07 13:48+0100\n"
-"PO-Revision-Date: 2022-01-05 08:22+0000\n"
+"PO-Revision-Date: 2022-01-15 12:54+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -6563,8 +6563,6 @@ msgid "Right now this controls:"
 msgstr "În momentul de față acest lucru controlează:"
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 
@@ -7087,11 +7085,8 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:537
-#, fuzzy
-#| msgid "Default addons to install on every created component."
 msgid "Default add-ons to install on every created component."
-msgstr ""
-"Suplimentele implicite care se instalează pe fiecare componentă creată."
+msgstr "Suplimentele implicite care se instalează pe fiecare componentă creată."
 
 #: ../../admin/config.rst:541
 msgid "This setting affects only newly created components."
@@ -7708,24 +7703,17 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL și LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon. :"
-#| "setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is "
-#| "available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate "
-#| "should store generated files which will be served at the :setting:"
-#| "`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"Aceste setări configurează addon-ul :ref:`addon-weblate.cdn.cdnjs`. :setting:"
-"`LOCALIZE_CDN_URL` definește URL-ul rădăcină unde este disponibil CDN-ul de "
-"localizare și :setting:`LOCALIZE_CDN_PATH` definește calea unde Weblate ar "
-"trebui să stocheze fișierele generate care vor fi servite la :setting:"
-"`LOCALIZE_CDN_URL`."
+"Aceste setări configurează add-on-ul :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` definește URL-ul rădăcină unde este disponibil "
+"CDN-ul de localizare și :setting:`LOCALIZE_CDN_PATH` definește calea unde "
+"Weblate ar trebui să stocheze fișierele generate care vor fi servite la "
+":setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:1077
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -10189,10 +10177,8 @@ msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:116
-#, fuzzy
-#| msgid "Custom quality checks, addons and auto-fixes"
 msgid "Custom quality checks, add-ons and auto-fixes"
-msgstr "Verificări de calitate personalizate, addon-uri și auto-corectări"
+msgstr "Verificări personalizate ale calității, add-on-uri și corecții automate"
 
 #: ../../admin/customize.rst:118
 msgid ""
@@ -11195,6 +11181,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Un alt lucru de care trebuie să aveți grijă este antetul :mailheader:`Host`. "
+"Acesta ar trebui să corespundă cu ceea ce este configurat ca "
+":setting:`SITE_DOMAIN`. Ar putea fi necesară o configurare suplimentară în "
+"proxy-ul invers (de exemplu, utilizați ``ProxyPreserveHost On`` pentru "
+"Apache sau ``proxy_set_header Host $host;`` cu nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -18836,19 +18827,14 @@ msgstr ""
 "`formats`."
 
 #: ../../admin/projects.rst:263
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep translation components to a reasonable size - "
-#| "split the translation by anything that makes sense in your case "
-#| "(individual apps or addons, book chapters or websites)."
 msgid ""
 "It is recommended to keep translation components to a reasonable size - "
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
 "Se recomandă să păstrezi componentele de traducere la o dimensiune "
-"rezonabilă - împarte traducerea în funcție de ceea ce are sens în cazul tău "
-"(aplicații individuale sau addon-uri, capitole de carte sau site-uri web)."
+"rezonabilă - împarte traducerea în funcție de ceea ce are sens în cazul tău ("
+"aplicații individuale sau add-on-uri, capitole de carte sau site-uri web)."
 
 #: ../../admin/projects.rst:267
 msgid ""
@@ -21011,15 +20997,11 @@ msgstr ""
 "``CELERY_TASK_ROUTES``."
 
 #: ../../admin/upgrade.rst:186
-#, fuzzy
-#| msgid ""
-#| "The ``post_update`` method of addons now takes extra ``skip_push`` "
-#| "parameter."
 msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
 msgstr ""
-"Metoda ``post_update`` a addon-urilor acceptă acum un parametru suplimentar "
+"Metoda ``post_update`` a add-on-urilor acceptă acum un parametru suplimentar "
 "``skip_push``."
 
 #: ../../admin/upgrade.rst:191
@@ -24090,10 +24072,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS pe wikipedia <https://en.wikipedia.org/wiki/RSS>``_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -24117,14 +24097,16 @@ msgstr ""
 "syntax`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Indicate administered projects on project listing."
 msgid "Indicate lock and contributor agreement on other occurrences listing."
-msgstr "Indicați proiectele administrate pe lista de proiecte."
+msgstr ""
+"Indicați acordul de blocare și acordul contributorului pe lista altor "
+"evenimente."
 
 #: ../../changes.rst:10
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
 msgstr ""
+"S-a reparat actualizarea fișierelor PO cu șiruri de caractere învechite sau "
+"cu plural lipsă."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.10.1"
@@ -30968,10 +30950,8 @@ msgstr ""
 "oameni au contribuit."
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Developing addons"
 msgid "Developing add-ons"
-msgstr "Dezvoltarea de addon-uri"
+msgstr "Dezvoltarea de add-on-uri"
 
 #: ../../contributing/addons.rst:4
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
@@ -31092,10 +31072,8 @@ msgid "Hook triggered before new unit is created."
 msgstr "Cârlig declanșat înainte de crearea unei noi unități."
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Here is an example addon:"
 msgid "Here is an example add-on:"
-msgstr "Iată un exemplu de addon:"
+msgstr "Iată un exemplu de add-on:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
@@ -32119,10 +32097,8 @@ msgid "License"
 msgstr "Licență"
 
 #: ../../contributing/license.rst:4 ../../../README.rst:62
-#, fuzzy
-#| msgid "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
 msgid "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
-msgstr "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
+msgstr "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -33422,6 +33398,15 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
+"Urmarea acestor recomandări sprijină crearea unui instrument de post-editare "
+"complet și multilingv. Traducerile bune sunt definite prin modelul sistemic-"
+"funcțional al Casei, care vizează o traducere corectă din punct de vedere "
+"contextual. Scrieți-vă propriul `ghid de post-editare <https://www.taus.net/"
+"academy/best-practices/postedit-best-practices/machine-translation-post-"
+"editing-guidelines>`_ și modificați aceste recomandări pentru a le adapta la "
+"propriile definiții. În majoritatea cazurilor, `browser-plugin-ul "
+"languageTool <https://languagetool.org/#firefox_chrome>`_ este util ca "
+"instrument de corectare."
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -33438,10 +33423,8 @@ msgstr ""
 "procesul de localizare mai ușor pentru traducătorii din comunitate."
 
 #: ../../devel/community.rst:18
-#, fuzzy
-#| msgid "Terminology"
 msgid "Terminology management"
-msgstr "Terminologie"
+msgstr "Managementul terminologiei"
 
 #: ../../devel/community.rst:19
 msgid ""
@@ -33455,6 +33438,15 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"Post-editarea MT cu atribuirea terminologiei influențează fiecare nivel al "
+"procesului de traducere. Sistemul de traducere automată poate fi adaptat la "
+"vocabularul și stilul specific cu ajutorul unei formări continue sau a `"
+"reparării fuzzy neuronale <https://www.aclweb.org/anthology/P19-1175.pdf>`_. "
+"`Importați <https://docs.weblate.org/en/latest/admin/memory.html#imported-"
+"translation-memory>`_ memoria dvs. de traducere existentă în weblate sau "
+"creați un domeniu inițial cu terminologia dvs. de bază. În final, lectorul "
+"ar trebui să fie instruit cu documente terminologice suplimentare pentru a "
+"garanta o bună cunoaștere și randament în domeniu."
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -33463,12 +33455,14 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"Calitatea traducerii automate (adesea măsurată cu scorul BLEU) este corelată "
+"cu timpul de editare [1]. Alegeți un backend de mașină care acceptă limbile "
+"și domeniile necesare. Explicați clar cum funcționează backend-ul de "
+"traducere și la ce calitate trebuie să se aștepte post-editorul."
 
 #: ../../devel/community.rst:27
-#, fuzzy
-#| msgid "New translation"
 msgid "Review translations"
-msgstr "Traducere nouă"
+msgstr "Revizuirea traducerilor"
 
 #: ../../devel/community.rst:28
 msgid ""
@@ -33476,12 +33470,13 @@ msgid ""
 "editing. With an impartial and competent revisor, the two man rules reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
+"Traducerile ar trebui să fie revizuite de o a doua persoană după post-"
+"editare. Cu un revizor imparțial și competent, regula celor două persoane "
+"reduce erorile și îmbunătățește calitatea și coerența conținutului."
 
 #: ../../devel/community.rst:31
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Structured feedback"
-msgstr "reStructuratText"
+msgstr "Feedback structurat"
 
 #: ../../devel/community.rst:32
 msgid ""
@@ -33489,12 +33484,13 @@ msgid ""
 "checks.html>`_ in weblate. Pay the lectors to give structured feedback and "
 "use it to increase those checks."
 msgstr ""
+"Există multe `verificări ale calității <https://docs.weblate.org/en/latest/"
+"user/checks.html>`_ în weblate. Plătiți lectorii pentru a oferi un feedback "
+"structurat și folosiți-l pentru a crește aceste verificări."
 
 #: ../../devel/community.rst:35
-#, fuzzy
-#| msgid "Translation organization"
 msgid "Translation definition"
-msgstr "Organizarea traducerii"
+msgstr "Definiția traducerii"
 
 #: ../../devel/community.rst:36
 msgid ""
@@ -33513,6 +33509,20 @@ msgid ""
 "context - i.e. embedding in a larger social and literary context - and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
+"Pe lângă definițiile mentaliste și cele bazate pe impact, care realizează o "
+"reducere puternică, abordarea lingvistică bazată pe text se potrivește cel "
+"mai bine cu metodele de traducere implementate. O teorie bine formulată "
+"pentru evaluarea traducerilor este modelul sistemic-funcțional al lui House, "
+"care se concentrează pe relația dintre original și traducere. Modelul "
+"pornește de la premisa că traducerea este o încercare de a păstra "
+"echivalentul semantic, pragmatic și textual al unui text la trecerea de la "
+"un cod lingvistic la altul. Gradul de calitate al unei traduceri se bazează "
+"pe gradul de echivalență, pe corespondența dintre profilul textului și "
+"funcția textului. Deoarece acesta nu poate fi calculat în mod automat, ar "
+"trebui să se colecteze suficiente informații pentru a permite o evaluare "
+"umană uniformă. Cei doi parametri principali de concordanță într-un model "
+"corespunzător sunt macrocontextul - adică încadrarea într-un context social "
+"și literar mai larg - și microcontextul format din domeniu, tenor și mod."
 
 #: ../../devel/community.rst:41
 msgid ""
@@ -33520,6 +33530,9 @@ msgid ""
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Marina Sanchez-Torron și Philipp Koehn în Machine Translation Quality and "
+"Post-Editor Productivity, Figura 1: https://www.cs.jhu.edu/~phi/publications/"
+"machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:42
 msgid ""
@@ -33527,6 +33540,9 @@ msgid ""
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik S.101 und Folgende"
 msgstr ""
+"Joanna Best și Sylvia Kalina.Translating and Interpreting: an Orientation "
+"Guide. A. Francke Verlag Tübingen und Base, 2002. Posibilități de critică a "
+"traducerii p.101 și următoarele"
 
 #: ../../devel/community.rst:43
 msgid ""
@@ -33534,6 +33550,9 @@ msgid ""
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 msgstr ""
+"ghid de post-editare, Sharon O'Brien și Fred Hollowood în MT Post-editing "
+"Guidelines, 2010 https://www.taus.net/academy/best-practices/"
+"postedit-best-practices/machine-translation-post-editing-guidelines"
 
 #: ../../devel/community.rst:44
 msgid ""
@@ -33541,6 +33560,9 @@ msgid ""
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
+"Neural Fuzzy Repair, Bram Bulté și Arda Tezcan în Neural Fuzzy Repair: "
+"Integrating Fuzzy Matches into Neural MachineTranslation, 2019 "
+"https://aclanthology.org/P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -34546,14 +34568,11 @@ msgid "`Edits`"
 msgstr "`Edituri`"
 
 #: ../../devel/reporting.rst:70
-#, fuzzy
-#| msgid ""
-#| "Number of edits in the string, measured in Damerau–Levenshtein distance."
 msgid ""
 "Number of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
 msgstr ""
-"Numărul de modificări din șir, măsurat în distanța Damerau-Levenshtein."
+"Numărul de caractere editate în șir, măsurat în distanța Damerau-Levenshtein."
 
 #: ../../devel/reporting.rst:71
 msgid "`Source words`"
@@ -35985,16 +36004,12 @@ msgstr ""
 "traducere utilizând instrumentul :command:`msgmerge`:"
 
 #: ../../faq.rst:395
-#, fuzzy
-#| msgid ""
-#| "In case you want to do the update automatically, you can install addon :"
-#| "ref:`addon-weblate.gettext.msgmerge`."
 msgid ""
 "In case you want to do the update automatically, you can install add-on :ref:"
 "`addon-weblate.gettext.msgmerge`."
 msgstr ""
 "În cazul în care doriți să faceți actualizarea în mod automat, puteți "
-"instala addon :ref:`addon-weblate.gettext.msgmerge`."
+"instala add-on :ref:`addon-weblate.gettext.msgmerge`."
 
 #: ../../faq.rst:404
 msgid "Troubleshooting"
@@ -43658,6 +43673,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Trebuie să configurați acreditările API (:setting:`GITHUB_CREDENTIALS`) în "
+"setările Weblate pentru ca acest lucru să funcționeze. Odată configurat, "
+"veți vedea o opțiune :guilabel:`GitHub` atunci când selectați :ref"
+":`component-vcs`."
 
 #: ../../vcs.rst:284
 msgid ""
@@ -43700,6 +43719,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Trebuie să configurați acreditările API (:setting:`GITLAB_CREDENTIALS`) în "
+"setările Weblate pentru ca acest lucru să funcționeze. Odată configurat, "
+"veți vedea o opțiune :guilabel:`GitLab` atunci când selectați :ref"
+":`component-vcs`."
 
 #: ../../vcs.rst:314
 msgid ""
@@ -43742,6 +43765,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Trebuie să configurați acreditările API (:setting:`PAGURE_CREDENTIALS`) în "
+"setările Weblate pentru ca acest lucru să funcționeze. Odată configurat, "
+"veți vedea o opțiune :guilabel:`Pagure` atunci când selectați :ref"
+":`component-vcs`."
 
 #: ../../vcs.rst:344
 msgid ""
