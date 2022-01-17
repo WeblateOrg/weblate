@@ -1580,6 +1580,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     translation.component = self
                 if translation.component.linked_component_id == self.id:
                     translation.component.linked_component = self
+                if translation.pk == translation.component.source_translation.pk:
+                    translation = translation.component.source_translation
                 translation.commit_pending(reason, user, skip_push=True, signals=False)
                 components[translation.component.pk] = translation.component
 
