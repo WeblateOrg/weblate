@@ -40,6 +40,7 @@ class EditTest(ViewTestCase):
     second_target = "Ahoj svete!\n"
     already_translated = 0
     needs_bilingual_context = False
+    new_source_string = "Source string" * 100000
 
     def setUp(self):
         super().setUp()
@@ -127,7 +128,7 @@ class EditTest(ViewTestCase):
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():
-            args = {"context": key, "source_0": "Source string" * 100000}
+            args = {"context": key, "source_0": self.new_source_string}
             language = "en"
         else:
             args = {"source_0": key, "target_0": "Translation string"}
@@ -259,6 +260,27 @@ class EditResourceTest(EditTest):
 
     def create_component(self):
         return self.create_android()
+
+    def test_new_unit_translate(self):
+        """Test for translating newly added string, issue #6890."""
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+
+        # Add new string
+        response = self.add_unit("key")
+        self.assertContains(response, "New string has been added")
+        self.assertEqual(Unit.objects.filter(pending=True).count(), 1)
+        self.assertEqual(Unit.objects.filter(context="key").count(), 2)
+
+        # Edit unit
+        self.edit_unit(source=self.new_source_string, target="Překlad")
+        self.assertEqual(Unit.objects.filter(pending=True).count(), 2)
+
+        # Commit to the file
+        self.component.commit_pending("test", None)
+        self.assertEqual(Unit.objects.filter(pending=True).count(), 0)
+        self.assertEqual(Unit.objects.filter(context="key").count(), 2)
 
 
 class EditLanguageTest(EditTest):
