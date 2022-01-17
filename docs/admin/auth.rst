@@ -342,7 +342,7 @@ Weblate functionality.
 .. tip::
 
    You can still use password authentication for the admin interface, for users you
-   manually create there. Just navigate to ``/admin/``.
+   manually create there. Just navigate to ``/admin/login/``.
 
 For example authentication using only the openSUSE Open ID provider can be achieved
 using the following:
