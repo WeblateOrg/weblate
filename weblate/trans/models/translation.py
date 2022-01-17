@@ -612,8 +612,7 @@ class Translation(
         self.invalidate_cache()
 
         # Make sure template cache is purged upon commit
-        if self.is_template:
-            self.component.drop_template_store_cache()
+        self.drop_store_cache()
 
         return True
 
