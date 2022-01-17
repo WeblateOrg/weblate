@@ -261,7 +261,7 @@ class EditResourceTest(EditTest):
     def create_component(self):
         return self.create_android()
 
-    def test_new_unit_translate(self):
+    def test_new_unit_translate(self, commit_translation: bool = False):
         """Test for translating newly added string, issue #6890."""
         self.make_manager()
         self.component.manage_units = True
@@ -278,9 +278,16 @@ class EditResourceTest(EditTest):
         self.assertEqual(Unit.objects.filter(pending=True).count(), 2)
 
         # Commit to the file
-        self.component.commit_pending("test", None)
+        if commit_translation:
+            translation = self.get_translation()
+            translation.commit_pending("test", None)
+        else:
+            self.component.commit_pending("test", None)
         self.assertEqual(Unit.objects.filter(pending=True).count(), 0)
         self.assertEqual(Unit.objects.filter(context="key").count(), 2)
+
+    def test_new_unit_translate_commit_translation(self, commit_translation=False):
+        self.test_new_unit_translate(commit_translation=True)
 
 
 class EditLanguageTest(EditTest):
