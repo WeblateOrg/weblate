@@ -1088,7 +1088,8 @@ Other authentication settings
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
-    Disables e-mail authentication when set to any value.
+    Disables e-mail authentication when set to any value. See
+    :ref:`disable-email-auth`.
 
 
 PostgreSQL database setup

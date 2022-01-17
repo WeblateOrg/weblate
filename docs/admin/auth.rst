@@ -330,6 +330,8 @@ overriding naming for Auth0 would look like:
    SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
    SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
 
+.. _disable-email-auth:
+
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -338,6 +340,9 @@ E-mail and password authentication can be turned off by removing
 :setting:`django:AUTHENTICATION_BACKENDS`. Always keep
 ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
 Weblate functionality.
+
+Disabling e-mail authentication will disable all e-mail related functionality -
+inviting users or password reset feature.
 
 .. tip::
 
