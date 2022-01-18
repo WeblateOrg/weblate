@@ -16,6 +16,7 @@ Not yet released.
 * Fixed string state tracking when the strings changes in the repository.
 * Track string changes from the repository.
 * Sticky header on translations listing to improve navigation.
+* Fixed untranslating strings in :ref:`javaprop`.
 
 Weblate 4.10.1
 --------------
