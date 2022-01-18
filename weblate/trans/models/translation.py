@@ -734,20 +734,8 @@ class Translation(
             # Update fuzzy/approved flag
             pounit.set_state(unit.state)
 
-            # Update comments as they might have been changed by state changes
-            state = unit.get_unit_state(pounit, "")
-            flags = pounit.flags
-            update_fields = ["pending", "details"]
-            only_save = True
-            if state != unit.state or flags != unit.flags:
-                unit.state = state
-                update_fields.append("state")
-                unit.flags = flags
-                update_fields.append("flags")
-                only_save = False
-
             unit.save(
-                update_fields=update_fields, same_content=True, only_save=only_save
+                update_fields=["pending", "details"], same_content=True, only_save=True
             )
 
         # Did we do any updates?
