@@ -203,6 +203,12 @@ class KeyValueUnit(TTKitUnit):
             return not self.unit.isfuzzy() and self.unit.value != ""
         return self.unit.istranslated()
 
+    def set_target(self, target):
+        """Set translation unit target."""
+        super().set_target(target)
+        # Propagate to value so that searializing of empty values works correctly
+        self.unit.value = self.unit.target
+
 
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit

@@ -481,6 +481,20 @@ class EditJavaTest(EditTest):
     def create_component(self):
         return self.create_java()
 
+    def test_untranslate(self):
+        translation = self.get_translation()
+
+        # Edit translation
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "cs")
+        self.component.commit_pending("test", None)
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 1)
+
+        # Untranslate
+        self.edit_unit("Hello, world!\n", "", "cs")
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 0)
+        self.component.commit_pending("test", None)
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 0)
+
 
 class EditAppStoreTest(EditTest):
     has_plurals = False
