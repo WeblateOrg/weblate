@@ -17,6 +17,7 @@ Not yet released.
 * Track string changes from the repository.
 * Sticky header on translations listing to improve navigation.
 * Fixed untranslating strings in :ref:`javaprop`.
+* Fixed Git operation with non-ascii branch names.
 
 Weblate 4.10.1
 --------------

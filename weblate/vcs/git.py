@@ -346,7 +346,7 @@ class GitRepository(Repository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
         """Configure remote repository."""
-        escaped_branch = dumps(branch)
+        escaped_branch = dumps(branch, ensure_ascii=False)
         self.config_update(
             # Pull url
             ('remote "origin"', "url", pull_url),
@@ -356,7 +356,10 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                dumps(f"+refs/heads/{branch}:refs/remotes/origin/{branch}")
+                dumps(
+                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+                    ensure_ascii=False,
+                )
                 if fast
                 else "+refs/heads/*:refs/remotes/origin/*",
             ),
@@ -364,7 +367,11 @@ class GitRepository(Repository):
             ('remote "origin"', "tagOpt", "--no-tags"),
             # Set branch to track
             (f"branch {escaped_branch}", "remote", "origin"),
-            (f"branch {escaped_branch}", "merge", dumps(f"refs/heads/{branch}")),
+            (
+                f"branch {escaped_branch}",
+                "merge",
+                dumps(f"refs/heads/{branch}", ensure_ascii=False),
+            ),
         )
         self.branch = branch
 
