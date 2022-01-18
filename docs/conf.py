@@ -183,15 +183,15 @@ graphviz_output_format = "svg"
 # Use localized Python docs on Read the Docs build
 rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE")
 
-python_doc_url = "https://docs.python.org/3.9/"
+python_doc_url = "https://docs.python.org/3/"
 if rtd_lang == "pt_BR":
-    python_doc_url = "https://docs.python.org/pt-br/3.9/"
+    python_doc_url = "https://docs.python.org/pt-br/3/"
 elif rtd_lang in ("es", "fr", "ja", "ko"):
-    python_doc_url = f"https://docs.python.org/{rtd_lang}/3.9/"
+    python_doc_url = f"https://docs.python.org/{rtd_lang}/3/"
 elif rtd_lang == "zh_CN":
-    python_doc_url = "https://docs.python.org/zh-cn/3.9/"
+    python_doc_url = "https://docs.python.org/zh-cn/3/"
 elif rtd_lang == "zh_TW":
-    python_doc_url = "https://docs.python.org/zh-tw/3.9/"
+    python_doc_url = "https://docs.python.org/zh-tw/3/"
 
 django_doc_url = "https://docs.djangoproject.com/en/stable/"
 if rtd_lang in ("el", "es", "fr", "id", "ja", "ko", "pl"):
