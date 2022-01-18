@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2022-01-07 13:49+0000\n"
+"PO-Revision-Date: 2022-01-20 06:55+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -386,7 +386,7 @@ msgstr "Ktoś próbował zarejestrować się przy użyciu Twojego adresu e-mail.
 #: weblate/accounts/models.py:158
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Nie można zalogować się przy użyciu {method} ({name})."
+msgstr "Nie udało się zalogować przy użyciu {method} ({name})."
 
 #: weblate/accounts/models.py:159
 msgid "Account locked due to many failed sign in attempts."
@@ -442,7 +442,7 @@ msgstr "Zalogowano przy użyciu hasła z nowego urządzenia."
 
 #: weblate/accounts/models.py:177
 msgid "Could not sign in using password."
-msgstr "Nie można zalogować się przy użyciu hasła."
+msgstr "Nie udało się zalogować się przy użyciu hasła."
 
 #: weblate/accounts/models.py:182
 msgid "To restore access to your account, please reset your password."
@@ -878,7 +878,7 @@ msgstr "Rejestracja użytkownika"
 
 #: weblate/accounts/views.py:211
 msgid "Could not send message to administrator."
-msgstr "Nie można wysłać wiadomości do administratora."
+msgstr "Nie udało się wysłać wiadomości do administratora."
 
 #: weblate/accounts/views.py:237
 msgid "Your request has been sent, you will shortly hear from us."
@@ -963,7 +963,7 @@ msgstr "Resetowanie hasła zostało zakończone."
 
 #: weblate/accounts/views.py:1121
 msgid "Could not remove user identity"
-msgstr "Nie można usunąć tożsamości użytkownika"
+msgstr "Nie udało się usunąć tożsamości użytkownika"
 
 #: weblate/accounts/views.py:1131
 msgid "Add another identity by confirming your e-mail address first."
@@ -971,7 +971,7 @@ msgstr "Dodaj kolejną tożsamość, potwierdzając najpierw swój adres e-mail.
 
 #: weblate/accounts/views.py:1177
 msgid "Could not complete registration."
-msgstr "Nie można dokończyć rejestracji."
+msgstr "Nie udało się ukończyć rejestracji."
 
 #: weblate/accounts/views.py:1180
 msgid "Please check if you have already registered an account."
@@ -993,7 +993,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:1199
 msgid "Could not authenticate due to invalid session state."
-msgstr "Nie można uwierzytelnić z powodu nieprawidłowego stanu sesji."
+msgstr "Nie udało się uwierzytelnić z powodu nieprawidłowego stanu sesji."
 
 #: weblate/accounts/views.py:1206
 msgid "Got no e-mail address from third party authentication service."
@@ -1011,8 +1011,8 @@ msgstr "Nowe rejestracje są wyłączone."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Nie można uwierzytelnić, prawdopodobnie z powodu wygasłego tokena lub błędu "
-"połączenia."
+"Nie udało się uwierzytelnić, prawdopodobnie z powodu wygasłego tokena lub "
+"błędu połączenia."
 
 #: weblate/accounts/views.py:1279
 msgid "Authentication cancelled."
@@ -1393,7 +1393,7 @@ msgstr "Pozostaw puste dla plików tłumaczeń dwujęzycznych."
 
 #: weblate/addons/forms.py:270
 msgid "Define the base file for new translations"
-msgstr "Zdefiniuj plik szablonu dla nowych tłumaczeń"
+msgstr "Zdefiniuj plik bazowy dla nowych tłumaczeń"
 
 #: weblate/addons/forms.py:274 weblate/trans/models/component.py:378
 msgid ""
@@ -6582,7 +6582,7 @@ msgstr "Pull"
 
 #: weblate/templates/js/git-status.html:71
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Przeprowadź ponownie zmiany Weblate w zdalnym repozytorium"
+msgstr "Wykonaj rebase zmian Weblate na zdalne repozytorium"
 
 #: weblate/templates/js/git-status.html:71
 #: weblate/trans/models/component.py:144
@@ -10317,11 +10317,11 @@ msgstr "Adres e-mail autora"
 
 #: weblate/trans/forms.py:806 weblate/trans/forms.py:808
 msgid "Could not find merged string."
-msgstr "Nie można znaleźć scalonego ciągu."
+msgstr "Nie udało się znaleźć scalonego ciągu."
 
 #: weblate/trans/forms.py:826
 msgid "Could not find reverted change."
-msgstr "Nie można znaleźć przywróconej zmiany."
+msgstr "Nie udało się znaleźć cofniętej zmiany."
 
 #: weblate/trans/forms.py:834
 msgid "Automatic translation mode"
@@ -10842,22 +10842,22 @@ msgstr "Zduplikowana maska pliku."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:208
 msgid "Could not merge the repository."
-msgstr "Nie można scalić repozytorium."
+msgstr "Nie udało się scalić repozytorium."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:215
 msgid "Could not update the repository."
-msgstr "Nie można zaktualizować repozytorium."
+msgstr "Nie udało się zaktualizować repozytorium."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:222
 msgid "Could not push the repository."
-msgstr "Nie można przekazać repozytorium."
+msgstr "Nie udało się wypchnąć repozytorium."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:261
 msgid "Could not parse translation files."
-msgstr "Nie można przeanalizować plików tłumaczeń."
+msgstr "Nie udało się przeanalizować plików tłumaczeń."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:268
@@ -10883,7 +10883,7 @@ msgstr "Brak informacji o licencji."
 #: weblate/trans/models/alert.py:294 weblate/trans/models/alert.py:300
 #: weblate/trans/models/alert.py:306
 msgid "Could not run add-on."
-msgstr "Nie można uruchomić dodatku."
+msgstr "Nie udało się uruchomić dodatku."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
@@ -11320,7 +11320,7 @@ msgstr "Styl Java"
 
 #: weblate/trans/models/component.py:144
 msgid "Merge"
-msgstr "Merge"
+msgstr "Scal"
 
 #: weblate/trans/models/component.py:259
 msgid ""
@@ -11413,7 +11413,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:354
 msgid "Edit base file"
-msgstr "Edytuj plik szablonu"
+msgstr "Edytuj plik bazowy"
 
 #: weblate/trans/models/component.py:357
 msgid ""
@@ -11538,15 +11538,15 @@ msgstr ""
 
 #: weblate/trans/models/component.py:492
 msgid "Merge style"
-msgstr "Scalanie stylów"
+msgstr "Styl scalania"
 
 #: weblate/trans/models/component.py:497
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Zdefiniuj, czy Weblate powinien scalić repozytorium upstream lub zmienić na "
-"nim zmiany bazy."
+"Określ, czy Weblate powinno scalić repozytorium upstream, czy zrobić na nie "
+"rebase."
 
 #: weblate/trans/models/component.py:502
 msgid "Commit message when translating"
@@ -11660,7 +11660,7 @@ msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
-"Nie można zweryfikować klucza hosta SSH, dodaj je na stronie SSH w "
+"Nie udało się zweryfikować klucza hosta SSH, dodaj je na stronie SSH w "
 "interfejsie administratora."
 
 #: weblate/trans/models/component.py:1196
@@ -11674,7 +11674,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1202
 #, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Nie można pobrać repozytorium: %s"
+msgstr "Nie udało się pobrać repozytorium: %s"
 
 #: weblate/trans/models/component.py:1267
 #: weblate/trans/models/component.py:2324
@@ -11695,22 +11695,22 @@ msgstr "Przesyłanie dla %s jest wyłączone."
 #: weblate/trans/models/component.py:1505
 #, python-format
 msgid "Could not reset to remote branch on %s."
-msgstr "Nie można zresetować do zdalnego oddziału na %s."
+msgstr "Nie udało się zresetować do zdalnej gałęzi na %s."
 
 #: weblate/trans/models/component.py:1536
 #, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Nie można wyczyścić repozytorium %s."
+msgstr "Nie udało się wyczyścić repozytorium %s."
 
 #: weblate/trans/models/component.py:1695
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
-msgstr "Nie można ponownie podzielić bazy lokalnej na oddział zdalny %s."
+msgstr "Nie udało się wykonać rebase lokalnej gałęzi na zdalną gałąź %s."
 
 #: weblate/trans/models/component.py:1701
 #, python-format
 msgid "Could not merge remote branch into %s."
-msgstr "Nie można scalić zdalnej gałęzi z %s."
+msgstr "Nie udało się scalić zdalnej gałęzi z %s."
 
 #: weblate/trans/models/component.py:2190
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
@@ -11767,9 +11767,9 @@ msgstr "Nie udało się znaleźć żadnego pasującego języka, sprawdź maskę 
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Nie można przeanalizować %d dopasowanego pliku."
-msgstr[1] "Nie można przeanalizować %d dopasowanych plików."
-msgstr[2] "Nie można przeanalizować %d dopasowanych plików."
+msgstr[0] "Nie udało się przeanalizować %d dopasowanego pliku."
+msgstr[1] "Nie udało się przeanalizować %d dopasowanych plików."
+msgstr[2] "Nie udało się przeanalizować %d dopasowanych plików."
 
 #: weblate/trans/models/component.py:2317
 msgid ""
@@ -11815,7 +11815,7 @@ msgstr "Używanie pliku .pot jako pliku podstawowego nie jest obsługiwane."
 #: weblate/trans/models/component.py:2388
 #, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "Nie można przeanalizować podstawowego pliku tłumaczenia: %s"
+msgstr "Nie udało się przeanalizować bazowego pliku tłumaczenia: %s"
 
 #: weblate/trans/models/component.py:2398
 #, python-brace-format
@@ -11829,7 +11829,7 @@ msgstr "Nie możesz używać tłumaczenia jednojęzycznego bez pliku bazowego."
 #: weblate/trans/models/component.py:2429
 #, python-format
 msgid "Could not update repository: %s"
-msgstr "Nie można zaktualizować repozytorium: %s"
+msgstr "Nie udało się zaktualizować repozytorium: %s"
 
 #: weblate/trans/models/component.py:2446
 msgid ""
@@ -11865,7 +11865,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:3007
 msgid "Could not add new translation file."
-msgstr "Nie można dodać nowego pliku tłumaczenia."
+msgstr "Nie udało się dodać nowego pliku tłumaczenia."
 
 #: weblate/trans/models/component.py:3023
 msgid "The given language is filtered by the language filter."
@@ -12076,8 +12076,8 @@ msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"Nie można propagować ciągu do %(component)s, ponieważ nie zgadzasz się z "
-"umową współtwórcy."
+"Nie udało się spropagować ciągu do %(component)s, ponieważ nie zgadzasz się "
+"z umową współtwórcy."
 
 #: weblate/trans/models/unit.py:1330
 msgid "Automatically translated"
@@ -13109,7 +13109,7 @@ msgstr "Ten adres e-mail jest niedozwolony."
 
 #: weblate/utils/validators.py:199
 msgid "Could not evaluate plural formula: {}"
-msgstr "Nie można ocenić formuły liczby mnogiej: {}"
+msgstr "Nie udało się sprawdzić formuły liczby mnogiej: {}"
 
 #: weblate/utils/validators.py:205
 msgid "The filename can not contain reference to a parent directory."
@@ -13373,8 +13373,8 @@ msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
 msgstr ""
-"Nie można aktywować instalacji. Upewnij się, że token aktywacyjny jest "
-"poprawny."
+"Nie udało się aktywować instalacji. Upewnij się, że Twój token aktywacyjny "
+"jest prawidłowy."
 
 #: weblate/wladmin/views.py:234
 msgid "Backup process triggered"
@@ -13382,7 +13382,7 @@ msgstr "Uruchomiono proces tworzenia kopii zapasowej"
 
 #: weblate/wladmin/views.py:256
 msgid "Could not dismiss the configuration error!"
-msgstr "Nie można odrzucić błędu konfiguracji!"
+msgstr "Nie udało się odrzucić błędu konfiguracji!"
 
 #: weblate/wladmin/views.py:356
 #, python-format
