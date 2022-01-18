@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-07 12:48+0000\n"
-"PO-Revision-Date: 2022-01-18 01:54+0000\n"
+"PO-Revision-Date: 2022-01-20 06:55+0000\n"
 "Last-Translator: Þórhalla Guðmundsdóttir Beck <plergux@outlook.com>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
@@ -403,7 +403,7 @@ msgstr ""
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Aðgangur að verkefni {project} var hindraður"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -891,12 +891,16 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Svo virðist sem þú hafir sóst eftir reynslutíma nýlega. Vinsamlegast sendu "
+"okkur fyrirspurn þína svo að við getum fundið bestu lausnina fyrir þig."
 
 #: weblate/accounts/views.py:597
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Reynslutíminn þinn er nú byrjaður; búðu til þýðingaverkefnið þitt og byrjaðu "
+"að Weblata!"
 
 #: weblate/accounts/views.py:603 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
@@ -940,6 +944,7 @@ msgstr "Gat ekki fjarlægt auðkenni notandans"
 #: weblate/accounts/views.py:1131
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
+"Bættu við nýju auðkenni með því að staðfesta tölvupóstfangið þitt fyrst."
 
 #: weblate/accounts/views.py:1177
 msgid "Could not complete registration."
@@ -947,25 +952,29 @@ msgstr "Ekki tókst að ljúka nýskráningu."
 
 #: weblate/accounts/views.py:1180
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Athugaðu hvort að þú hefur nú þegar skráð reikning."
 
 #: weblate/accounts/views.py:1182
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
+"Þú getur líka beðið um nýtt aðgangsorð ef þú hefur týnt aðgangsupplýsingunum "
+"þínum."
 
 #: weblate/accounts/views.py:1192
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
+"Reyndu að skrá þig aftur til þess að staðfesta hver þú ert, "
+"staðfestingarteiknið rann líklegast út."
 
 #: weblate/accounts/views.py:1199
 msgid "Could not authenticate due to invalid session state."
-msgstr ""
+msgstr "Gat ekki staðfest vegna ógildrar setustöðu."
 
 #: weblate/accounts/views.py:1206
 msgid "Got no e-mail address from third party authentication service."
-msgstr ""
+msgstr "Fékk ekki neitt tölvupóstfang frá staðfestingarþjónustu þriðja aðila."
 
 #: weblate/accounts/views.py:1208
 msgid "Please register using e-mail instead."
@@ -979,6 +988,7 @@ msgstr "Slökkt er á nýskráningum."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
+"Tókst ekki að staðfesta, líklegast vena útrunnis teikns eða tengingarvillu."
 
 #: weblate/accounts/views.py:1279
 msgid "Authentication cancelled."
@@ -986,7 +996,7 @@ msgstr "Auðkenning afturkölluð."
 
 #: weblate/accounts/views.py:1282
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Vefþjónninn leyfir ekki staðfestingu."
 
 #: weblate/accounts/views.py:1286
 msgid "The supplied e-mail address is already in use for another account."
@@ -1217,7 +1227,7 @@ msgstr "Nota loðna samsvörun"
 
 #: weblate/addons/forms.py:145
 msgid "Commit squashing"
-msgstr ""
+msgstr "Steypa saman innleggjum"
 
 #: weblate/addons/forms.py:148
 msgid "All commits into one"
@@ -1237,7 +1247,7 @@ msgstr "Á hvern höfund"
 
 #: weblate/addons/forms.py:157
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Bættu viðskeyti við samsteypt innleggsskilaboð"
 
 #: weblate/addons/forms.py:161
 msgid ""
@@ -1245,6 +1255,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
+"Viðskeytislínur eru línur sem líta svipað út og RFC 822 tölvuóstfangshausar "
+"sem koma í lok annars laussniðins hluta innleggsskilaboða, svo sem "
+"'Meðhöfundar: ...'."
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
@@ -1255,6 +1268,8 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Þessi innleggsskilaboð verða notuð í staðinn fyrir samanlögð "
+"innleggsskilaboð úr samsteyptu innleggjunum."
 
 #: weblate/addons/forms.py:188
 msgid "Sort JSON keys"
@@ -1323,6 +1338,8 @@ msgstr "Atkvæðamörk"
 #: weblate/addons/forms.py:243
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
+"Þröskuldur fyrir fjarlægingu. Þessi reitur hefur engin áhrif þegar "
+"atkvæðagreiðsla er óvirk."
 
 #: weblate/addons/forms.py:250
 msgid "Regular expression to match translation files against"
@@ -9886,16 +9903,12 @@ msgid "Add as needing edit"
 msgstr "Bæta við svo þarfnist breytinga"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Weblate tókst ekki að þátta þýðingaskrárnar á meðan þýðingarnar voru "
-"uppfærðar."
+"Taktu eftir að við það að þýða alla strengi verður öllum þýðingum sem þegar "
+"eru til eytt."
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -9924,15 +9937,12 @@ msgid "Score threshold"
 msgstr ""
 
 #: weblate/trans/forms.py:895
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Tryggir að samræmt mengi tungumála er notað fyrir alla þætti verkefnis."
+"Settu inn íhlut til þess að nota sem uppruna, skildu eftir autt til þess að "
+"nota alla íhluti í virka verkefninu."
 
 #: weblate/trans/forms.py:906
 msgid "All components in current project"
@@ -9944,10 +9954,8 @@ msgid "Component not found!"
 msgstr "Þýðingarhluti fannst ekki!"
 
 #: weblate/trans/forms.py:957
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Þáttunarvilla í %(component)s"
+msgstr "Notaðu gildan íhlut!"
 
 #: weblate/trans/forms.py:965
 msgid "Scope"
@@ -10210,10 +10218,8 @@ msgid ""
 msgstr "Notar og gefur í safn af sameiginlegum þýðingum milli þýðingaverkefna."
 
 #: weblate/trans/forms.py:2021
-#, fuzzy
-#| msgid "Optional context to clarify the source strings."
 msgid "Optional additional filter on the strings"
-msgstr "Valkvætt samhengi til skýringar á upprunastrengjunum."
+msgstr "Valkvæð viðbótarsía fyrir strengina"
 
 #: weblate/trans/forms.py:2024
 msgid "Search string"
@@ -10894,19 +10900,14 @@ msgid "Repository browser"
 msgstr "Gagnasafnsvafri"
 
 #: weblate/trans/models/component.py:293
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Settu inn sérsniðna URL-slóð til að tengja við grunnkóðann. Þú getur notað "
-"{{branch}} fyrir grein, {{filename}} og {{line}} sem ígildi skráarheitis og "
-"línu."
+"Hlekkur á hirsluvafra, notaðu {{grein}} fyrir grein, {{skráarheiti}} og "
+"{{lína}} sem ígildi skráarheitis og línu. Hægt er að fjarlægja yfirskrá með "
+"því að nota {{skráarheiti|yfirskrá}}."
 
 #: weblate/trans/models/component.py:301
 msgid "Exported repository URL"
