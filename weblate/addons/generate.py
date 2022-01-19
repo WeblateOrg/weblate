@@ -59,32 +59,22 @@ class GenerateFileAddon(BaseAddon):
         translation.addon_commit_files.append(filename)
 
 
-class PseudolocaleAddon(BaseAddon):
+class LocaleGenerateAddonBase(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
-    name = "weblate.generate.pseudolocale"
-    verbose = _("Pseudolocale generation")
-    description = _(
-        "Generates a translation by adding prefix and suffix "
-        "to source strings automatically."
-    )
-    settings_form = PseudolocaleAddonForm
     multiple = True
     icon = "language.svg"
 
-    def fetch_strings(self, component, key: str, query):
-        translation = component.translation_set.get(pk=self.instance.configuration[key])
-        return translation, {
+    def fetch_strings(self, translation, query):
+        return {
             unit.source_unit_id: unit for unit in translation.unit_set.filter(query)
         }
 
-    def do_update(self, component, query):
+    def generate_translation(
+        self, source_translation, target_translation, prefix: str = "", suffix: str = ""
+    ):
         updated = 0
-        prefix = self.instance.configuration["prefix"]
-        suffix = self.instance.configuration["suffix"]
-        _source_translation, sources = self.fetch_strings(
-            component, "source", Q(state__gte=STATE_TRANSLATED)
-        )
-        target_translation, targets = self.fetch_strings(component, "target", query)
+        sources = self.fetch_strings(source_translation, Q(state__gte=STATE_TRANSLATED))
+        targets = self.fetch_strings(target_translation, Q(state__lte=STATE_TRANSLATED))
         for source_id, unit in targets.items():
             if source_id not in sources:
                 continue
@@ -103,6 +93,36 @@ class PseudolocaleAddon(BaseAddon):
                 updated += 1
         if updated > 0:
             target_translation.invalidate_cache()
+
+    def do_update(self, component):
+        raise NotImplementedError()
+
+    def daily(self, component):
+        # Check all strings
+        self.do_update(component)
+
+    def component_update(self, component):
+        # Update only untranslated strings
+        self.do_update(component)
+
+
+class PseudolocaleAddon(LocaleGenerateAddonBase):
+    events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
+    name = "weblate.generate.pseudolocale"
+    verbose = _("Pseudolocale generation")
+    description = _(
+        "Generates a translation by adding prefix and suffix "
+        "to source strings automatically."
+    )
+    settings_form = PseudolocaleAddonForm
+
+    def do_update(self, component, query):
+        self.generate_translation(
+            component.translation_set.get(pk=self.instance.configuration["source"]),
+            component.translation_set.get(pk=self.instance.configuration["target"]),
+            prefix=self.instance.configuration["prefix"],
+            suffix=self.instance.configuration["suffix"],
+        )
 
     def daily(self, component):
         # Check all strings
