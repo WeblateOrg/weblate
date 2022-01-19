@@ -25,6 +25,7 @@ from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from lxml.cssselect import CSSSelector
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
@@ -471,6 +472,13 @@ class CDNJSForm(BaseAddonForm):
                     context={"url": self._addon.cdn_js_url, "user": self.user},
                 ),
             )
+
+    def clean_css_selector(self):
+        try:
+            CSSSelector(self.cleaned_data["css_selector"], translator="html")
+        except Exception as error:
+            raise forms.ValidationError(_("Failed to parse CSS selector: %s") % error)
+        return self.cleaned_data["css_selector"]
 
 
 class PseudolocaleAddonForm(BaseAddonForm):
