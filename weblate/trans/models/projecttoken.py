@@ -1,6 +1,6 @@
 #
 # Copyright © 2021 Christian Köberl
-# Copyright © 2022 Michal Čihař <michal@cihar.com>
+# Copyright © 2022–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
