@@ -701,12 +701,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     if previous_source == "":
                         previous_source = self.source
                     state = STATE_FUZZY
-            elif self.state in (STATE_FUZZY, STATE_APPROVED):
-                # We should keep calculated flags if translation was
-                # not changed outside
+            elif self.state == STATE_FUZZY and self.previous_source:
+                # Avoid losing previous source of fuzzy strings
                 previous_source = self.previous_source
-                state = self.state
-                original_state = self.original_state
 
         # Update checks on fuzzy update or on content change
         same_state = state == self.state and flags == self.flags
