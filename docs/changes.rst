@@ -18,6 +18,7 @@ Not yet released.
 * Sticky header on translations listing to improve navigation.
 * Fixed untranslating strings in :ref:`javaprop`.
 * Fixed Git operation with non-ascii branch names.
+* New add-on :ref:`addon-weblate.generate.prefill`.
 
 Weblate 4.10.1
 --------------

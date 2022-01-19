@@ -388,10 +388,27 @@ Content
 
     :ref:`markup`
 
+.. _addon-weblate.generate.prefill:
+
+Prefill translation with source
+-------------------------------
+
+.. versionadded:: 4.11
+
+:Add-on ID: ``weblate.generate.prefill``
+:Configuration: `This add-on has no configuration.`
+:Triggers: component update, daily
+
+Fills in translation strings with source string.
+
+Use this when you can not have empty strings in the translation files.
+
 .. _addon-weblate.generate.pseudolocale:
 
 Pseudolocale generation
 -----------------------
+
+.. versionadded:: 4.5
 
 :Add-on ID: ``weblate.generate.pseudolocale``
 :Configuration: +------------+--------------------+--+

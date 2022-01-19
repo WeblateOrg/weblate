@@ -1080,6 +1080,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.flags.BulkEditAddon",
     "weblate.addons.generate.GenerateFileAddon",
     "weblate.addons.generate.PseudolocaleAddon",
+    "weblate.addons.generate.PrefillAddon",
     "weblate.addons.json.JSONCustomizeAddon",
     "weblate.addons.properties.PropertiesSortAddon",
     "weblate.addons.git.GitSquashAddon",
