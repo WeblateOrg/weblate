@@ -397,7 +397,7 @@ Object Pascal format
    :ref:`check-formats`,
    `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
    `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
-   `Delphi formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
+   `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
 
 .. _check-percent-placeholders:
 
