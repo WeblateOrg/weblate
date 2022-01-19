@@ -49,7 +49,7 @@
 </td>
 {% with count=screenshot.units.count %}
 <td data-value="{{ count }}">
-    {{ count | intcomma }}
+    <a href="{{ screenshot.translation.get_translate_url }}?q={{ screenshot.filter_name }}">{{ count | intcomma }}</a>
     {% if count == 0 %}
     <span title="{% trans "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
     {% endif %}
