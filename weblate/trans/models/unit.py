@@ -701,7 +701,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     if previous_source == "":
                         previous_source = self.source
                     state = STATE_FUZZY
-            elif self.state == STATE_FUZZY and self.previous_source:
+            elif (
+                self.state == STATE_FUZZY
+                and state == STATE_FUZZY
+                and not previous_source
+            ):
                 # Avoid losing previous source of fuzzy strings
                 previous_source = self.previous_source
 

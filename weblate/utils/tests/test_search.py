@@ -329,6 +329,13 @@ class QueryParserTest(TestCase, SearchMixin):
             | Q(labels__name__iexact="test label"),
         )
 
+    def test_screenshot(self):
+        self.assert_query(
+            "screenshot:'test screenshot'",
+            Q(source_unit__screenshots__name__iexact="test screenshot")
+            | Q(screenshots__name__iexact="test screenshot"),
+        )
+
     def test_priority(self):
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))

@@ -81,6 +81,10 @@ Fields
    Filter by suggestion author.
 ``explanation:TEXT``
    Search in explanations.
+``label:TEXT``
+   Search in labels.
+``screenshot:TEXT``
+   Search in screenshots.
 
 Boolean operators
 -----------------
