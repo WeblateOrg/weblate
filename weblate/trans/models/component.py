@@ -141,7 +141,11 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ("java", gettext_lazy("Java style")),
 )
 
-MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
+MERGE_CHOICES = (
+    ("merge", gettext_lazy("Merge")),
+    ("rebase", gettext_lazy("Rebase")),
+    ("merge_noff", gettext_lazy("Merge without fast-forward")),
+)
 
 LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
 
@@ -1704,6 +1708,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
             kwargs = {"message": render_template(self.merge_message, component=self)}
+            if method == "merge_noff":
+                kwargs["no_ff"] = True
 
         with self.repository.lock:
             try:
