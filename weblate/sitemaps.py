@@ -112,14 +112,10 @@ class EngageLangSitemap(Sitemap):
 
     def items(self):
         """Return list of existing project, language tuples."""
-        ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
         ).order_by("id")
-        for project in projects:
-            for lang in project.languages:
-                ret.append((project, lang))
-        return ret
+        return [(project, lang) for project in projects for lang in project.languages]
 
     def location(self, obj):
         return reverse("engage", kwargs={"project": obj[0].slug, "lang": obj[1].code})

@@ -113,11 +113,11 @@ class BBCodeCheck(TargetCheck):
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
             return []
-        ret = []
-        for match in BBCODE_MATCH.finditer(source):
-            for tag in ("start", "end"):
-                ret.append((match.start(tag), match.end(tag), match.group(tag)))
-        return ret
+        return [
+            (match.start(tag), match.end(tag), match.group(tag))
+            for match in BBCODE_MATCH.finditer(source)
+            for tag in ("start", "end")
+        ]
 
 
 class BaseXMLCheck(TargetCheck):
