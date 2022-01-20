@@ -105,6 +105,7 @@ class LocaleGenerateAddonBase(BaseAddon):
                 updated += 1
         if updated > 0:
             target_translation.invalidate_cache()
+        return updated
 
     def daily(self, component):
         raise NotImplementedError()
@@ -155,12 +156,15 @@ class PrefillAddon(LocaleGenerateAddonBase):
 
     def do_update(self, component):
         source_translation = component.source_translation
+        updated = 0
         for translation in component.translation_set.prefetch():
             if translation.is_source:
                 continue
-            self.generate_translation(
+            updated += self.generate_translation(
                 source_translation,
                 translation,
                 target_state=STATE_FUZZY,
                 query=Q(state=STATE_EMPTY),
             )
+        if updated:
+            component.commit_pending("add-on", None)

@@ -308,6 +308,7 @@ class GettextAddonTest(ViewTestCase):
                 sources = unit.get_source_plurals()
                 for text in unit.get_target_plurals():
                     self.assertIn(text, sources)
+        self.assertFalse(Unit.objects.filter(pending=True).exists())
 
 
 class AppStoreAddonTest(ViewTestCase):
