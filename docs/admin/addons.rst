@@ -401,7 +401,9 @@ Prefill translation with source
 
 Fills in translation strings with source string.
 
-Use this when you can not have empty strings in the translation files.
+All untranslated strings in the component will be fileld with the source
+string, and marked as needing edit. Use this when you can not have empty
+strings in the translation files.
 
 .. _addon-weblate.generate.pseudolocale:
 
