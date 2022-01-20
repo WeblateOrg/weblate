@@ -238,6 +238,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.add_remote_commit()
         self.test_merge()
 
+    def test_merge_remote_no_ff(self):
+        self.add_remote_commit()
+        self.test_merge(no_ff=True)
+
     def test_rebase_remote(self):
         self.add_remote_commit()
         self.test_rebase()
@@ -278,10 +282,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             ["README.md", "READ ME.md"], self.repo.list_upstream_changed_files()
         )
 
-    def test_merge(self):
+    def test_merge(self, **kwargs):
         self.test_update_remote()
         with self.repo.lock:
-            self.repo.merge()
+            self.repo.merge(**kwargs)
 
     def test_rebase(self):
         self.test_update_remote()
