@@ -366,17 +366,21 @@ def download_translation_file(
     return response
 
 
-def show_form_errors(request, form):
-    """Show all form errors as a message."""
+def get_form_errors(form):
     for error in form.non_field_errors():
-        messages.error(request, error)
+        yield error
     for field in form:
         for error in field.errors:
-            messages.error(
-                request,
-                _("Error in parameter %(field)s: %(error)s")
-                % {"field": field.name, "error": error},
-            )
+            yield _("Error in parameter %(field)s: %(error)s") % {
+                "field": field.name,
+                "error": error,
+            }
+
+
+def show_form_errors(request, form):
+    """Show all form errors as a message."""
+    for error in get_form_errors(form):
+        messages.error(request, error)
 
 
 class ErrorFormView(FormView):

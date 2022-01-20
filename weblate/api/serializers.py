@@ -41,7 +41,11 @@ from weblate.trans.models import (
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
-from weblate.utils.views import create_component_from_doc, create_component_from_zip
+from weblate.utils.views import (
+    create_component_from_doc,
+    create_component_from_zip,
+    get_form_errors,
+)
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -1169,13 +1173,9 @@ class AddonSerializer(serializers.ModelSerializer):
             form = addon.get_add_form(None, component, data=attrs["configuration"])
             form.is_valid()
             if not form.is_valid():
-                for error in form.non_field_errors():
-                    raise serializers.ValidationError({"configuration": error})
-                for field in form:
-                    for error in field.errors:
-                        raise serializers.ValidationError(
-                            {"configuration": f"Error in {field.name}: {error}"}
-                        )
+                raise serializers.ValidationError(
+                    {"configuration": list(get_form_errors(form))}
+                )
         return attrs
 
     def save(self, **kwargs):
