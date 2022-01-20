@@ -270,9 +270,8 @@ def ocr_search(request, pk):
 
     # Extract and match strings
     with c_locale(), PyTessBaseAPI() as api:
-        for image in (original_image, scaled_image):
-            for match in ocr_extract(api, image, strings):
-                results.add(sources[match])
+        results = {sources[match] for image in (original_image, scaled_image) for match in ocr_extract(api, image, strings)}
+        
 
     # Close images
     original_image.close()
