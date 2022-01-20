@@ -179,7 +179,9 @@ class GitRepository(Repository):
         except RepositoryException:
             return False
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Merge remote branch or reverts the merge."""
         tmp = "weblate-merge-tmp"
         if abort:
@@ -207,6 +209,8 @@ class GitRepository(Repository):
                 "--message",
                 message or f"Merge branch '{remote}' into Weblate",
             ]
+            if no_ff:
+                cmd.append("--no-ff")
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.branch)
             self.execute(cmd)
@@ -609,7 +613,9 @@ class SubversionRepository(GitRepository):
             args.insert(0, revision)
         cls._popen(["svn", "clone"] + args)
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Rebases.
 
         Git-svn does not support merge.
@@ -669,7 +675,9 @@ class GitMergeRequestBase(GitForcePushRepository):
     identifier = None
     API_TEMPLATE = ""
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Merge remote branch or reverts the merge."""
         # This reverts merge behavior of pure git backend
         # as we're expecting there will be an additional merge
@@ -680,6 +688,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(["checkout", self.branch])
         else:
             cmd = ["merge"]
+            if no_ff:
+                cmd.append("--no-ff")
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.get_remote_branch_name())
             self.execute(cmd)
@@ -954,7 +964,9 @@ class LocalRepository(GitRepository):
     def rebase(self, abort=False):
         return
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         return
 
     def list_remote_branches(self):
