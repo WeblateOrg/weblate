@@ -655,9 +655,13 @@ Rebase
    as :ref:`component-vcs`, especially when pushing to a different branch.
 
 Merge
-   Upstream repository changed are merged into Weblate one. This is the safest
-   way, but might produce a lot of merge commits.
+   Upstream repository changed are merged into Weblate one. The merge utilizes
+   fast-forward when possbile. This is the safest way, but might produce a lot
+   of merge commits.
 
+Merge without fast-forward
+   Upstream repository changed are merged into Weblate one with doing a merge
+   commit every time (even when fast-forward would be possible).
 
 Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 

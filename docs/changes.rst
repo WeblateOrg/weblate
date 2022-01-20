@@ -19,6 +19,7 @@ Not yet released.
 * Fixed untranslating strings in :ref:`javaprop`.
 * Fixed Git operation with non-ascii branch names.
 * New add-on :ref:`addon-weblate.generate.prefill`.
+* Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
 
 Weblate 4.10.1
 --------------
