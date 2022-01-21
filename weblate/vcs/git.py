@@ -1241,7 +1241,7 @@ class PagureRepository(GitMergeRequestBase):
 
         for param in params:
             param.update(base_params)
-            response, error = self.request("post", credentials, fork_url, data=param)
+            _response, error = self.request("post", credentials, fork_url, data=param)
             if '" cloned to "' in error or "already exists" in error:
                 break
 
