@@ -561,7 +561,7 @@ real_patterns = [
         weblate.trans.views.settings.remove_translation,
         name="remove_translation",
     ),
-    # Rename/move
+    # Project renameing and moving
     path(
         "rename/<name:project>/",
         weblate.trans.views.settings.rename_project,

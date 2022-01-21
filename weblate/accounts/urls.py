@@ -32,8 +32,9 @@ register_weblate_converters()
 # - removed some configurability (just to avoid additional deps)
 # - the association_id has to be numeric (patch accepted upstream)
 social_urls = [
-    # authentication / association
+    # user authentication / association
     path("login/<slug:backend>/", weblate.accounts.views.social_auth, name="begin"),
+    # partial pipeline completion
     path(
         "complete/<slug:backend>/",
         weblate.accounts.views.social_complete,
