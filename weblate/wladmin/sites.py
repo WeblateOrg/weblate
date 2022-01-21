@@ -23,6 +23,7 @@ from django.contrib.admin import AdminSite
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework.authtoken.admin import TokenAdmin
@@ -181,7 +182,7 @@ class WeblateAdminSite(AdminSite):
 
             self.register(Consumer, ConsumerAdmin)
 
-    @never_cache
+    @method_decorator(never_cache)
     def logout(self, request, extra_context=None):
         if request.method == "POST":
             messages.info(request, _("Thank you for using Weblate."))
