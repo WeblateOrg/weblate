@@ -161,7 +161,9 @@ class BaseAddon:
     @classmethod
     def can_install(cls, component, user):
         """Check whether add-on is compatible with given component."""
-        return all(getattr(component, key) in values for key, values in cls.compat.items())
+        return all(
+            getattr(component, key) in values for key, values in cls.compat.items()
+        )
 
     def pre_push(self, component):
         """Hook triggered before repository is pushed upstream."""
