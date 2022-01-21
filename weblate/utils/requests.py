@@ -45,7 +45,7 @@ def get_uri_error(uri):
     if cached is True:
         LOGGER.debug("URL check for %s, cached success", uri)
         return None
-    elif cached:
+    if cached:
         # The cache contains string here
         LOGGER.debug("URL check for %s, cached failure", uri)
         return cached
