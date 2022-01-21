@@ -831,7 +831,8 @@ class GitMergeRequestBase(GitForcePushRepository):
 
 class GithubRepository(GitMergeRequestBase):
 
-    name = "GitHub"
+    name = gettext_lazy("GitHub pull request")
+    identifier = "github"
     _version = None
     API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
 
@@ -1039,7 +1040,8 @@ class LocalRepository(GitRepository):
 
 class GitLabRepository(GitMergeRequestBase):
 
-    name = "GitLab"
+    name = gettext_lazy("GitLab merge request")
+    identifier = "gitlab"
     _version = None
     API_TEMPLATE = "https://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
 
@@ -1184,7 +1186,8 @@ class GitLabRepository(GitMergeRequestBase):
 
 class PagureRepository(GitMergeRequestBase):
 
-    name = "Pagure"
+    name = gettext_lazy("Pagure merge request")
+    identifier = "pagure"
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
 

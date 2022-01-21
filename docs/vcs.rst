@@ -263,8 +263,8 @@ For the ``hello`` repository from selenic.com using Mercurial::
 .. _vcs-github:
 .. _github-push:
 
-GitHub (pull requests)
-----------------------
+GitHub pull requests
+--------------------
 
 .. versionadded:: 2.3
 
@@ -291,8 +291,8 @@ Weblate settings to make this work. Once configured, you will see a
 .. _vcs-gitlab:
 .. _gitlab-push:
 
-GitLab (merge requests)
------------------------
+GitLab merge requests
+---------------------
 
 .. versionadded:: 3.9
 
@@ -321,8 +321,8 @@ Weblate settings to make this work. Once configured, you will see a
 .. _vcs-pagure:
 .. _pagure-push:
 
-Pagure (merge requests)
------------------------
+Pagure merge requests
+---------------------
 
 .. versionadded:: 4.3.2
 
