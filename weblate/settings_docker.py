@@ -40,7 +40,7 @@ SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
 SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
 
 # Whether site uses https
-ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
+ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
 SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
 
@@ -81,10 +81,10 @@ DATABASES = {
         # Customizations for databases.
         "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
         # Persistent connections
-        "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE", 0),
+        "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE"),
         # Disable server-side cursors, might be needed with pgbouncer
         "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
-            "POSTGRES_DISABLE_SERVER_SIDE_CURSORS", False
+            "POSTGRES_DISABLE_SERVER_SIDE_CURSORS"
         ),
     }
 }
@@ -228,18 +228,18 @@ TEMPLATES = [
 
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
-GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME", None)
-GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN", None)
+GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME")
+GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN")
 
 # GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
-GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
-GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN", None)
+GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME")
+GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN")
 
 # Pagure username and token for sending merge requests.
 # Please see the documentation for more details.
-PAGURE_USERNAME = os.environ.get("WEBLATE_PAGURE_USERNAME", None)
-PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN", None)
+PAGURE_USERNAME = os.environ.get("WEBLATE_PAGURE_USERNAME")
+PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN")
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
@@ -582,7 +582,7 @@ REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS"
 REGISTRATION_EMAIL_MATCH = os.environ.get("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 
 # Shortcut for login required setting
-REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN", False)
+REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN")
 
 # Middleware
 MIDDLEWARE = [
@@ -775,19 +775,19 @@ MT_SERVICES = (
 # Machine translation API keys
 
 # URL of the Apertium APy server
-MT_APERTIUM_APY = os.environ.get("WEBLATE_MT_APERTIUM_APY", None)
+MT_APERTIUM_APY = os.environ.get("WEBLATE_MT_APERTIUM_APY")
 if MT_APERTIUM_APY:
     MT_SERVICES += ("weblate.machinery.apertium.ApertiumAPYTranslation",)
 
 # AWS
-MT_AWS_REGION = os.environ.get("WEBLATE_MT_AWS_REGION", None)
-MT_AWS_ACCESS_KEY_ID = os.environ.get("WEBLATE_MT_AWS_ACCESS_KEY_ID", None)
-MT_AWS_SECRET_ACCESS_KEY = os.environ.get("WEBLATE_MT_AWS_SECRET_ACCESS_KEY", None)
+MT_AWS_REGION = os.environ.get("WEBLATE_MT_AWS_REGION")
+MT_AWS_ACCESS_KEY_ID = os.environ.get("WEBLATE_MT_AWS_ACCESS_KEY_ID")
+MT_AWS_SECRET_ACCESS_KEY = os.environ.get("WEBLATE_MT_AWS_SECRET_ACCESS_KEY")
 if MT_AWS_ACCESS_KEY_ID:
     MT_SERVICES += ("weblate.machinery.aws.AWSTranslation",)
 
 # DeepL API key
-MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY", None)
+MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY")
 MT_DEEPL_API_URL = os.environ.get(
     "WEBLATE_MT_DEEPL_API_URL", "https://api.deepl.com/v2/"
 )
@@ -795,15 +795,15 @@ if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
 # LibreTranslate
-MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY", None)
-MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL", None)
+MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY")
+MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL")
 if MT_LIBRETRANSLATE_API_URL:
     MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
-MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
-MT_MICROSOFT_REGION = os.environ.get("WEBLATE_MT_MICROSOFT_REGION", None)
+MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY")
+MT_MICROSOFT_REGION = os.environ.get("WEBLATE_MT_MICROSOFT_REGION")
 MT_MICROSOFT_ENDPOINT_URL = os.environ.get(
     "WEBLATE_MT_MICROSOFT_ENDPOINT_URL", "api.cognitive.microsoft.com"
 )
@@ -815,7 +815,7 @@ if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
 
 # ModernMT
-MT_MODERNMT_KEY = os.environ.get("WEBLATE_MT_MODERNMT_KEY", None)
+MT_MODERNMT_KEY = os.environ.get("WEBLATE_MT_MODERNMT_KEY")
 if MT_MODERNMT_KEY:
     MT_SERVICES += ("weblate.machinery.modernmt.ModernMTTranslation",)
 
@@ -839,14 +839,14 @@ if "WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED" in os.environ:
     )
 
 # Google API key for Google Translate API
-MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY", None)
+MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY")
 
 if MT_GOOGLE_KEY:
     MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
 
 # Google Translate API V3 (Advanced)
-MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS", None)
-MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT", None)
+MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS")
+MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT")
 MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", "global")
 
 if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
@@ -871,10 +871,10 @@ MT_YANDEX_KEY = None
 MT_TMSERVER = None
 
 # SAP Translation Hub
-MT_SAP_BASE_URL = os.environ.get("WEBLATE_MT_SAP_BASE_URL", None)
-MT_SAP_SANDBOX_APIKEY = os.environ.get("WEBLATE_MT_SAP_SANDBOX_APIKEY", None)
-MT_SAP_USERNAME = os.environ.get("WEBLATE_MT_SAP_USERNAME", None)
-MT_SAP_PASSWORD = os.environ.get("WEBLATE_MT_SAP_PASSWORD", None)
+MT_SAP_BASE_URL = os.environ.get("WEBLATE_MT_SAP_BASE_URL")
+MT_SAP_SANDBOX_APIKEY = os.environ.get("WEBLATE_MT_SAP_SANDBOX_APIKEY")
+MT_SAP_USERNAME = os.environ.get("WEBLATE_MT_SAP_USERNAME")
+MT_SAP_PASSWORD = os.environ.get("WEBLATE_MT_SAP_PASSWORD")
 MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
 if MT_SAP_BASE_URL:
     MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
@@ -955,14 +955,14 @@ EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 ENABLE_HOOKS = True
 
 # Version hiding
-HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION", False)
+HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
 
 # Licensing filter
 if "WEBLATE_LICENSE_FILTER" in os.environ:
     LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))
     LICENSE_FILTER.discard("")
 
-LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED", False)
+LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED")
 WEBSITE_REQUIRED = get_env_bool("WEBLATE_WEBSITE_REQUIRED", True)
 
 # Language filter
@@ -1103,8 +1103,8 @@ DEFAULT_FROM_EMAIL = os.environ.get("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
 # Extract redis password
-REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", None)
-REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS", False) else "redis"
+REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
+REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
 
 # Configuration for caching
 CACHES = {
@@ -1206,7 +1206,7 @@ modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 # Email server
 EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
-EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL", False)
+EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
 EMAIL_HOST = os.environ.get("WEBLATE_EMAIL_HOST", "localhost")
 EMAIL_HOST_USER = os.environ.get(
     "WEBLATE_EMAIL_HOST_USER", os.environ.get("WEBLATE_EMAIL_USER", "")
@@ -1232,7 +1232,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 # CELERY_BROKER_URL = "memory://"
 # CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
-CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER", False)
+CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
     REDIS_PROTO,
     f":{REDIS_PASSWORD}@" if REDIS_PASSWORD else "",
@@ -1265,7 +1265,7 @@ CELERY_TASK_ROUTES = {
 DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")
 
 # Enable auto updating
-AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
+AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE")
 
 # Update languages on migration
 UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
@@ -1274,12 +1274,10 @@ UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
 ENABLE_AVATARS = get_env_bool("WEBLATE_ENABLE_AVATARS", True)
 
 # Default access control
-DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
+DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL")
 
 # Default access control
-DEFAULT_RESTRICTED_COMPONENT = get_env_bool(
-    "WEBLATE_DEFAULT_RESTRICTED_COMPONENT", False
-)
+DEFAULT_RESTRICTED_COMPONENT = get_env_bool("WEBLATE_DEFAULT_RESTRICTED_COMPONENT")
 
 # Default translation propagation
 DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
@@ -1309,26 +1307,26 @@ for name in os.environ:
         locals()[name[8:]] = get_env_int(name)
 
 # PGP commits signing
-WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
+WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY")
 
 # Localize CDN addon
-LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL", None)
-LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
+LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL")
+LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH")
 
 # Integration links
-GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL", None)
-STATUS_URL = os.environ.get("WEBLATE_STATUS_URL", None)
-LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL", None)
-PRIVACY_URL = os.environ.get("WEBLATE_PRIVACY_URL", None)
+GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL")
+STATUS_URL = os.environ.get("WEBLATE_STATUS_URL")
+LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL")
+PRIVACY_URL = os.environ.get("WEBLATE_PRIVACY_URL")
 
 # Third party services integration
-MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
-MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
-GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
-SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
-SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", None)
-SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE", 0.0)
-AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
+MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID")
+MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL")
+GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID")
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
+SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT")
+SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
+AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY")
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):
