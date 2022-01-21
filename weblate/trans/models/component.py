@@ -1695,7 +1695,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for component in self.linked_childs:
             vcs_pre_update.send(sender=component.__class__, component=component)
 
-        # Merge/rebase
+        # Apply logic for merge or rebase
         if method == "rebase":
             method_func = self.repository.rebase
             error_msg = _("Could not rebase local branch onto remote branch %s.")
@@ -2330,7 +2330,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # File is present, but does not exist
         if not os.path.exists(filename):
             raise ValidationError({"new_base": _("File does not exist.")})
-        # File is present, but is not valid
+        # File is present, but it is not valid
         if errors:
             message = _(
                 "Failed to parse base file for new translations: %s"
