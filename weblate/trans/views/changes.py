@@ -38,7 +38,7 @@ from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.forms import FilterForm
 from weblate.utils.site import get_site_url
-from weblate.utils.views import get_project_translation, show_form_errors
+from weblate.utils.views import get_project_translation
 
 
 class ChangesView(ListView):
@@ -182,8 +182,6 @@ class ChangesView(ListView):
             self._get_queryset_user(form)
 
             self._get_request_params()
-        else:
-            show_form_errors(self.request, form)
 
         result = Change.objects.last_changes(self.request.user)
 
