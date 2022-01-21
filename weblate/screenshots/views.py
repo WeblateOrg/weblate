@@ -266,8 +266,6 @@ def ocr_search(request, pk):
     sources = dict(translation.unit_set.values_list("source", "pk"))
     strings = tuple(sources.keys())
 
-    
-
     # Extract and match strings
     with c_locale(), PyTessBaseAPI() as api:
         results = {
