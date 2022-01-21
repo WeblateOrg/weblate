@@ -21,7 +21,10 @@ from django.conf import settings
 from django.urls import include, path
 
 import weblate.accounts.views
-import weblate.utils.urls
+from weblate.utils.urls import register_weblate_converters
+
+register_weblate_converters()
+
 
 # Follows copy of social_django.urls with few changes:
 # - authentication requires POST (issue submitted upstream)

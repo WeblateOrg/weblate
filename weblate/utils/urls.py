@@ -41,8 +41,9 @@ class OptionalPathConverter(StringConverter):
     regex = "(info/|git-upload-pack)[a-z0-9_/-]*|"
 
 
-register_converter(WeblateSlugConverter, "name")
-register_converter(GitPathConverter, "gitpath")
-register_converter(WordConverter, "word")
-register_converter(WidgetExtensionConverter, "extension")
-register_converter(OptionalPathConverter, "optionalpath")
+def register_weblate_converters():
+    register_converter(WeblateSlugConverter, "name")
+    register_converter(GitPathConverter, "gitpath")
+    register_converter(WordConverter, "word")
+    register_converter(WidgetExtensionConverter, "extension")
+    register_converter(OptionalPathConverter, "optionalpath")
