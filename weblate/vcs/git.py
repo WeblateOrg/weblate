@@ -735,13 +735,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         url, owner, slug = self.get_api_url()
         hostname = urllib.parse.urlparse(url).hostname.lower()
 
-        credentials = getattr(settings, f"{self.name}_CREDENTIALS".upper())
+        credentials = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
         if hostname in credentials:
             username = credentials[hostname]["username"]
             token = credentials[hostname]["token"]
         else:
-            username = getattr(settings, f"{self.name}_USERNAME".upper())
-            token = getattr(settings, f"{self.name}_TOKEN".upper())
+            username = getattr(settings, f"{self.identifier.upper()}_USERNAME")
+            token = getattr(settings, f"{self.identifier.upper()}_TOKEN")
             if not username or not token:
                 raise RepositoryException(
                     0, f"{self.name} API access for {hostname} is not configured"
@@ -758,8 +758,8 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     @classmethod
     def is_configured(cls) -> bool:
-        return getattr(settings, f"{cls.name}_USERNAME".upper()) or getattr(
-            settings, f"{cls.name}_CREDENTIALS".upper()
+        return getattr(settings, f"{cls.identifier.upper()}_USERNAME") or getattr(
+            settings, f"{cls.identifier.upper()}_CREDENTIALS"
         )
 
     def push_to_fork(self, credentials: Dict, local_branch: str, fork_branch: str):
