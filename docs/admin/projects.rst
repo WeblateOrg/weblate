@@ -656,7 +656,7 @@ Rebase
 
 Merge
    Upstream repository changed are merged into Weblate one. The merge utilizes
-   fast-forward when possbile. This is the safest way, but might produce a lot
+   fast-forward when possible. This is the safest way, but might produce a lot
    of merge commits.
 
 Merge without fast-forward

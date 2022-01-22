@@ -12,7 +12,7 @@ Not yet released.
 * Automatically initialize user languages based on the :http:header:`Accept-Language` header.
 * Improved error handling on string removal.
 * Weblate now requires Python 3.7 or newer.
-* Fixed some write operations with projec token authentication.
+* Fixed some write operations with project token authentication.
 * Fixed string state tracking when the strings changes in the repository.
 * Track string changes from the repository.
 * Sticky header on translations listing to improve navigation.

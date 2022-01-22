@@ -341,8 +341,8 @@ E-mail and password authentication can be turned off by removing
 ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
 Weblate functionality.
 
-Disabling e-mail authentication will disable all e-mail related functionality -
-inviting users or password reset feature.
+Disabling e-mail authentication will disable all e-mail related functionality –
+user invitation or password reset feature.
 
 .. tip::
 

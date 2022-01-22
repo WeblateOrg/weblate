@@ -144,7 +144,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
 class PrefillAddon(LocaleGenerateAddonBase):
     name = "weblate.generate.prefill"
     verbose = _("Prefill translation with source")
-    description = _("Fills in translation strings with source string. ")
+    description = _("Fills in translation strings with source string.")
 
     def daily(self, component):
         # Check all strings

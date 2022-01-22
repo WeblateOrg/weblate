@@ -401,7 +401,7 @@ Prefill translation with source
 
 Fills in translation strings with source string.
 
-All untranslated strings in the component will be fileld with the source
+All untranslated strings in the component will be filled with the source
 string, and marked as needing edit. Use this when you can not have empty
 strings in the translation files.
 

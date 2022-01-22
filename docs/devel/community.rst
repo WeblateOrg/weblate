@@ -34,7 +34,8 @@ There are many :doc:`/user/checks` in weblate. Pay the lectors to give structure
 Translation definition
 ----------------------
 In addition to the mentalistic and impact-based definitions which make a strong reduction, the text-based linguistic approach fits best with the implemented translation methods. A well-formulated theory for translation evaluation is House's systemic-functional model, which focuses on the relation between original and translation. The model assumes that translation is an attempt to keep the semantic, pragmatic, and textual meaning of a text equivalent when crossing from one linguistic code to another.
-The degree of quality of a translation is based on the degree of equivalence, the correspondence between the text profile and the text function. Because it cannot be calculated automatically, sufficient information should be collected to enable a uniform human evaluation. The two main parameters of agreement in a corresponding model are the macro-context – i.e. embedding in a larger social and literary context - and the micro-context consisting of field, tenor and mode.
+
+The degree of quality of a translation is based on the degree of equivalence, the correspondence between the text profile and the text function. Because it cannot be calculated automatically, sufficient information should be collected to enable a uniform human evaluation. The two main parameters of agreement in a corresponding model are the macro-context – i.e. embedding in a larger social and literary context – and the micro-context consisting of field, tenor and mode.
 
 Sources
 -------
