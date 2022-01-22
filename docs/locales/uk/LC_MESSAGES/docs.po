@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 08:41+0100\n"
-"PO-Revision-Date: 2022-01-07 16:38+0000\n"
+"PO-Revision-Date: 2022-01-22 11:50+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -1602,8 +1602,6 @@ msgid "``all`` -- All strings"
 msgstr "``all`` — усі рядки"
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid "``nottranslated`` -- Not translated strings"
 msgid "``nottranslated`` -- Untranslated strings"
 msgstr "``nottranslated`` — неперекладені рядки"
 
@@ -2377,22 +2375,16 @@ msgid "Content"
 msgstr "Вміст"
 
 #: ../../admin/addons.rst:394
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Джерело автоматичного перекладу"
+msgstr "Заповнити переклади початковими рядками"
 
 #: ../../admin/addons.rst:398
-#, fuzzy
-#| msgid "``weblate.generate.pseudolocale``"
 msgid "``weblate.generate.prefill``"
-msgstr "``weblate.generate.pseudolocale``"
+msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:402
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Цей переклад використовується для джерельних рядків."
+msgstr "Заповнює рядки перекладу початковими рядками."
 
 #: ../../admin/addons.rst:404
 msgid ""
@@ -2400,6 +2392,9 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Усі непрекладені рядки складника буде заповнено початковими рядками і "
+"позначено як так, що потребують редагування. Скористайтеся цим, якщо у файла "
+"перекладу усі переклади мають бути непорожніми."
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -3863,19 +3858,18 @@ msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality - inviting users or password reset feature."
 msgstr ""
+"Вимикання розпізнавання за електронною поштою призведе до вимикання усіх "
+"функціональних можливостей, які пов'язано із електронною поштою: запрошення "
+"користувачів або можливості скидання паролів."
 
 #: ../../admin/auth.rst:349
-#, fuzzy
-#| msgid ""
-#| "You can still use password authentication for the admin interface, for "
-#| "users you manually create there. Just navigate to ``/admin/``."
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
 msgstr ""
 "Ви все ще можете скористатися для створених тут вручну записів користувачів "
 "розпізнаванням за паролями для адміністративного інтерфейсу. Просто "
-"перейдіть до ``/admin/``."
+"перейдіть до ``/admin/login/``."
 
 #: ../../admin/auth.rst:352
 msgid ""
@@ -11210,13 +11204,6 @@ msgstr ""
 "значення параметрів :setting:`IP_PROXY_HEADER` і :setting:`IP_PROXY_OFFSET`."
 
 #: ../../admin/install.rst:570
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :mailheader:`Host` header. It should "
-#| "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
-#| "configuration might be needed in your reverse proxy (for example use "
-#| "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` "
-#| "with nginx)."
 msgid ""
 "Another thing to take care of is the :http:header:`Host` header. It should "
 "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
@@ -11224,7 +11211,7 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
-"Ще однією річчю, про яку слід подбати, є заголовок :mailheader:`Host`. Він "
+"Ще однією річчю, про яку слід подбати, є заголовок :http:header:`Host`. Він "
 "має відповідати тому, що налаштовано у :setting:`SITE_DOMAIN`. Можливо, "
 "знадобиться додаткове налаштовування у вашому оберненому проксі (наприклад, "
 "скористатися ``ProxyPreserveHost On`` для Apache або ``proxy_set_header Host "
@@ -14122,14 +14109,12 @@ msgid "Other authentication settings"
 msgstr "Інші параметри розпізнавання"
 
 #: ../../admin/install/docker.rst:1091
-#, fuzzy
-#| msgid "Disables e-mail authentication when set to any value."
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
 "Вимикає розпізнавання за допомогою електронної пошти, якщо встановлено будь-"
-"яке значення."
+"яке значення. Див. :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1096
 msgid "PostgreSQL database setup"
@@ -16088,19 +16073,14 @@ msgstr ""
 "setting:`MT_DEEPL_API_URL`."
 
 #: ../../admin/machine.rst:109
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-#| "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-#| "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgid ""
 ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgstr ""
 ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-"<https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/pro>`_, "
-"`Документація з програмного інтерфейсу DeepL <https://www.deepl.com/api."
+"<https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/pro>`_, `"
+"Документація з програмного інтерфейсу DeepL <https://www.deepl.com/docs-api."
 "html>`_"
 
 #: ../../admin/machine.rst:118
@@ -19561,33 +19541,27 @@ msgid "Merge"
 msgstr "Злити"
 
 #: ../../admin/projects.rst:658
-#, fuzzy
-#| msgid ""
-#| "Upstream repository changed are merged into Weblate one. This is the "
-#| "safest way, but might produce a lot of merge commits."
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
 "fast-forward when possbile. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
-"Зміни у основному сховищі записуються до сховища Weblate. Це найбезпечніший "
-"спосіб, але він може призвести до багатьох внесків об'єднання гілок."
+"Зміни у основному сховищі записуються до сховища Weblate. Під час об'єднання "
+"буде використано швидке переспрямовування, якщо це можливо. Це "
+"найбезпечніший спосіб, але він може призвести до багатьох внесків об'єднання "
+"гілок."
 
 #: ../../admin/projects.rst:664
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Об'єднати без швидкого переспрямовування"
 
 #: ../../admin/projects.rst:663
-#, fuzzy
-#| msgid ""
-#| "Upstream repository changed are merged into Weblate one. This is the "
-#| "safest way, but might produce a lot of merge commits."
 msgid ""
 "Upstream repository changed are merged into Weblate one with doing a merge "
 "commit every time (even when fast-forward would be possible)."
 msgstr ""
-"Зміни у основному сховищі записуються до сховища Weblate. Це найбезпечніший "
-"спосіб, але він може призвести до багатьох внесків об'єднання гілок."
+"Зміни у основному сховищі записуються до сховища Weblate із окремим внеском "
+"об'єднання кожного разу (навіть якщо можливе швидке переспрямовування)."
 
 #: ../../admin/projects.rst:666
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -20611,6 +20585,9 @@ msgid ""
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
+"Прапорці рядка також успадковуються від :ref:`прапорців складника <component-"
+"check_flags>` у :ref:`складнику <component>` та прапорців з файла перекладу ("
+"див. :doc:`/formats`)."
 
 #: ../../admin/translating.rst:97
 msgid "Explanation"
@@ -21269,17 +21246,12 @@ msgstr ""
 "вище."
 
 #: ../../admin/upgrade.rst:293
-#, fuzzy
-#| msgid "Upgrade from 4.0 to 4.1"
 msgid "Upgrade from 4.10 to 4.11"
-msgstr "Оновлення з 4.0 до 4.1"
+msgstr "Оновлення з 4.10 до 4.11"
 
 #: ../../admin/upgrade.rst:297 ../../changes.rst:14
-#, fuzzy
-#| msgid "Weblate now requires Python 3.6 or newer."
 msgid "Weblate now requires Python 3.7 or newer."
-msgstr ""
-"Для роботи Weblate з цієї версії потрібен Python 3.6 або новіша версія."
+msgstr "Для роботи Weblate з цієї версії потрібен Python 3.7 або новіша версія."
 
 #: ../../admin/upgrade.rst:304
 msgid "Upgrading from Python 2 to Python 3"
@@ -24117,59 +24089,55 @@ msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
 msgstr ""
+"Реалізовано автоматичну ініціалізацію мов користувача на основі заголовка "
+":http:header:`Accept-Language`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved error handling in gitexport module."
 msgid "Improved error handling on string removal."
-msgstr "Удосконалено обробку помилок у модулі gitexport."
+msgstr "Удосконалено обробку помилок при вилученні рядка."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed GitHub hooks for repositories with authentication."
 msgid "Fixed some write operations with projec token authentication."
 msgstr ""
-"Виправлено спостережні скрипти GitHub для репозиторіїв із розпізнаванням "
-"користувачів."
+"Виправлено деякі дії із запису при розпізнаванні у проєкті за допомогою "
+"жетонів."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "Fixed string state tracking when the strings changes in the repository."
-msgstr "Файл у початковому форматі, перекладено у репозиторії"
+msgstr ""
+"Виправлено стеження за станом рядка, коли до рядка внесено зміни у "
+"репозиторії."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Update with changes from the remote repository"
 msgid "Track string changes from the repository."
-msgstr "Оновлення зі змінами з зовнішнього репозиторію"
+msgstr "Реалізовано стеження за змінами рядка у репозиторії."
 
 #: ../../changes.rst:18
 msgid "Sticky header on translations listing to improve navigation."
 msgstr ""
+"Реалізовано липкий заголовок у списках перекладів для удосконалення "
+"навігації."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed untranslating strings in :ref:`javaprop`."
-msgstr "Виправлено переклад нових доданих рядків."
+msgstr ""
+"Усунено проблему із непридатними до перекладу рядками у :ref:`javaprop`."
 
 #: ../../changes.rst:20
 msgid "Fixed Git operation with non-ascii branch names."
 msgstr ""
+"Виправлено роботу з Git для гілок, назви яких містять символи поза ASCII."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ":ref:`addon-weblate.generate.generate`"
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
-msgstr ":ref:`addon-weblate.generate.generate`"
+msgstr "Новий додаток :ref:`addon-weblate.generate.prefill`."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ""
 "Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`."
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr ""
+"Додано :ref:`component-merge_style` :guilabel:`Об'єднати без швидкого "
+"переспрямовування` ."
 
 #: ../../changes.rst:25
 msgid "Weblate 4.10.1"
@@ -33439,17 +33407,6 @@ msgid "Terminology management"
 msgstr "Керування термінологією"
 
 #: ../../devel/community.rst:19
-#, fuzzy
-#| msgid ""
-#| "Post-editing of MT with terminology assignment influences each level of "
-#| "the translation process. The machine translation system can be adapted to "
-#| "the specific vocabulary and style with a continued training or `neural "
-#| "fuzzy repair <https://www.aclweb.org/anthology/P19-1175.pdf>`_. `Import "
-#| "<https://docs.weblate.org/en/latest/admin/memory.html#imported-"
-#| "translation-memory>`_ your existing translation memory into weblate or "
-#| "create an initial scope with your basic terminology. In the end the "
-#| "lector should be instructed with additional terminology documents to "
-#| "guarantee a good knowledge and output in the field."
 msgid ""
 "Post-editing of MT with terminology assignment influences each level of the "
 "translation process. The machine translation system can be adapted to the "
@@ -33463,14 +33420,13 @@ msgid ""
 msgstr ""
 "Пост-редагування комп'ютерного перекладу із впливами прив'язки термінології "
 "на кожному з рівнів процесу перекладу. Систему комп'ютерного перекладу можна "
-"адаптувати до певного словника та стилю із постійним тренуванням або "
-"`нейронним відновленням неточностей <https://www.aclweb.org/anthology/"
-"P19-1175.pdf>`_. `Імпортуйте <https://docs.weblate.org/en/latest/admin/"
-"memory.html#imported-translation-memory>`_ вашу наявну пам'ять перекладів до "
-"weblate або створіть початковий набір з вашою базовою термінологією. "
-"Зрештою, засіб коригування має бути насичено даними додаткових документів "
-"термінології для гарантування належного корпусу даних та реальних "
-"результатів."
+"адаптувати до певного словника та стилю із постійним тренуванням або `"
+"нейронним відновленням неточностей <https://aclanthology.org/P19-1175.pdf>`"
+"_. `Імпортуйте <https://docs.weblate.org/en/latest/admin/memory.html"
+"#imported-translation-memory>`_ вашу наявну пам'ять перекладів до weblate "
+"або створіть початковий набір з вашою базовою термінологією. Зрештою, засіб "
+"коригування має бути насичено даними додаткових документів термінології для "
+"гарантування належного корпусу даних та реальних результатів."
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -33490,12 +33446,6 @@ msgid "Review translations"
 msgstr "Рецензування перекладів"
 
 #: ../../devel/community.rst:28
-#, fuzzy
-#| msgid ""
-#| "The translations should be reviewed by a second person after the post-"
-#| "editing. With an impartial and competent revisor, the two man rules "
-#| "reduces the errors and improves the quality and consistency of the "
-#| "content."
 msgid ""
 "The translations should be reviewed by a second person after the post-"
 "editing. With an impartial and competent revisor, the two man rule reduces "
@@ -33511,40 +33461,19 @@ msgid "Structured feedback"
 msgstr "Структурований відгук"
 
 #: ../../devel/community.rst:32
-#, fuzzy
-#| msgid ""
-#| "There are many `quality checks <https://docs.weblate.org/en/latest/user/"
-#| "checks.html>`_ in weblate. Pay the lectors to give structured feedback "
-#| "and use it to increase those checks."
 msgid ""
 "There are many :doc:`/user/checks` in weblate. Pay the lectors to give "
 "structured feedback and use it to increase those checks."
 msgstr ""
-"У Weblate є багато `перевірок якості <https://docs.weblate.org/en/latest/"
-"user/checks.html>`_. Заплатіть вичитувачам за структуровані відгуки і "
-"скористайтеся ними для удосконалення цих перевірок."
+"У Weblate є багато :doc:`перевірок якості </user/checks>`. Заплатіть "
+"вичитувачам за структуровані відгуки і скористайтеся ними для удосконалення "
+"цих перевірок."
 
 #: ../../devel/community.rst:35
 msgid "Translation definition"
 msgstr "Визначення перекладу"
 
 #: ../../devel/community.rst:36
-#, fuzzy
-#| msgid ""
-#| "In addition to the mentalistic and impact-based definitions which make a "
-#| "strong reduction, the text-based linguistic approach fits best with the "
-#| "implemented translation methods. A well-formulated theory for translation "
-#| "evaluation is House's systemic-functional model, which focuses on the "
-#| "relation between original and translation. The model assumes that "
-#| "translation is an attempt to keep the semantic, pragmatic, and textual "
-#| "meaning of a text equivalent when crossing from one linguistic code to "
-#| "another. The degree of quality of a translation is based on the degree of "
-#| "equivalence, the correspondence between the text profile and the text "
-#| "function. Because it cannot be calculated automatically, sufficient "
-#| "information should be collected to enable a uniform human evaluation. The "
-#| "two main parameters of agreement in a corresponding model are the macro-"
-#| "context - i.e. embedding in a larger social and literary context - and "
-#| "the micro-context consisting of field, tenor and mode."
 msgid ""
 "In addition to the mentalistic and impact-based definitions which make a "
 "strong reduction, the text-based linguistic approach fits best with the "
@@ -33587,11 +33516,6 @@ msgstr ""
 "publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:42
-#, fuzzy
-#| msgid ""
-#| "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine "
-#| "Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. "
-#| "Möglichkeiten der Übersetzungskritik S.101 und Folgende"
 msgid ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
@@ -33599,7 +33523,7 @@ msgid ""
 msgstr ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
-"Übersetzungskritik S.101 und Folgende"
+"Übersetzungskritik, починаючи зі сторінки 101"
 
 #: ../../devel/community.rst:43
 msgid ""
@@ -34503,22 +34427,21 @@ msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/libraries.rst:2
-#, fuzzy
-#| msgid "Localization updates."
 msgid "Localization libraries and packages"
-msgstr "Оновлення локалізації."
+msgstr "Бібліотеки і пакунки локалізації"
 
 #: ../../devel/libraries.rst:4
 msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
+"Weblate можна інтегрувати до вашого комплексу програм за допомогою "
+":doc:`/api`. На цій сторінці наведено список сторонніх бібліотек, до яких "
+"інтегровано Weblate."
 
 #: ../../devel/libraries.rst:7
-#, fuzzy
-#| msgid "Weblate Translation Memory Schema"
 msgid "`Weblate Translation Provider for Symfony Translation`_"
-msgstr "Схема пам'яті перекладів Weblate"
+msgstr "`Система перекладу Weblate для перекладу Symfony`_"
 
 #: ../../devel/libraries.rst:11
 msgid ""
@@ -34526,6 +34449,10 @@ msgid ""
 "Either submit a pull request with the changes directly or write us at "
 "care@weblate.org to get listed."
 msgstr ""
+"Працюєте над інтеграцією Weblate до вашого комплексу програм? Додайте ваш "
+"пункт до списку! Або подайте запит щодо злиття із вашими змінами "
+"безпосередньо, або напишіть на адресу care@weblate.org, щоб автор сторінки "
+"додав вас до списку."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -36689,16 +36616,12 @@ msgstr ""
 "перекладачам визначити, у який спосіб використовується рядок."
 
 #: ../../formats.rst:137
-#, fuzzy
-#| msgid ""
-#| "Additional states supported by the file format in addition to \"Not "
-#| "translated\" and \"Translated\"."
 msgid ""
 "Additional states supported by the file format in addition to \"Untranslated"
 "\" and \"Translated\"."
 msgstr ""
-"Форматом передбачено підтримку додаткових стані рядка, окрім станів «Не "
-"перекладено» та «Перекладено»."
+"Форматом передбачено підтримку додаткових стані рядка, окрім станів "
+"«Неперекладений» та «Перекладено»."
 
 #: ../../formats.rst:138
 msgid ""
@@ -39576,14 +39499,6 @@ msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
 msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:397
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu."
-#| "org/software/gettext/manual/html_node/object_002dpascal_002dformat."
-#| "html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
-#| "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-#| "formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
-#| "System.SysUtils.Format>`_"
 msgid ""
 ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/object_002dpascal_002dformat."
@@ -39596,7 +39511,7 @@ msgstr ""
 "software/gettext/manual/html_node/object_002dpascal_002dformat."
 "html#object_002dpascal_002dformat>`_ `рядки форматування Free Pascal "
 "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `рядки "
-"форматування Delphi <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
+"форматування Delphi <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 
 #: ../../user/checks.rst:405
@@ -42016,12 +41931,6 @@ msgid "``has:TEXT``"
 msgstr "``has:ТЕКСТ``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -42030,7 +41939,8 @@ msgid ""
 msgstr ""
 "Шукати за атрибутами рядка - ``plural``, ``context``, ``suggestion``, "
 "``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``."
+"``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, "
+"``label``."
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -42175,28 +42085,20 @@ msgid "Search in explanations."
 msgstr "Шукати у поясненнях."
 
 #: ../../user/search.rst:84
-#, fuzzy
-#| msgid "``state:TEXT``"
 msgid "``label:TEXT``"
-msgstr "``state:ТЕКСТ``"
+msgstr "``label:ТЕКСТ``"
 
 #: ../../user/search.rst:85
-#, fuzzy
-#| msgid "String labels"
 msgid "Search in labels."
-msgstr "Мітки рядків"
+msgstr "Пошук у мітках."
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "``screenshots``"
 msgid "``screenshot:TEXT``"
-msgstr "``screenshots``"
+msgstr "``screenshot:ТЕКСТ``"
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in screenshots."
-msgstr "Шукати у коментарях користувачів."
+msgstr "Пошук у знімках вікон."
 
 #: ../../user/search.rst:90
 msgid "Boolean operators"
@@ -42396,14 +42298,6 @@ msgid "Translation links"
 msgstr "Посилання на переклади"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Unfinished "
-#| "strings`. If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -42413,10 +42307,11 @@ msgid ""
 "specific string or term."
 msgstr ""
 "На сторінці складника ви побачите набір посилань на сам переклад. Переклад "
-"поділено на окремі частини, зокрема :guilabel:`Неперекладені` або :guilabel:"
-"`Незавершені рядки`. Якщо перекладено увесь проєкт і немає помилок, "
-"доступним буде лише пункт :guilabel:`Усі рядки`. Крім того, ви можете "
-"скористатися полем для пошуку для того, щоб знайти певний рядок або термін."
+"поділено на окремі частини, зокрема :guilabel:`Неперекладені рядки` або "
+":guilabel:`Незавершені рядки`. Якщо перекладено увесь проєкт і немає "
+"помилок, доступним буде лише пункт :guilabel:`Усі рядки`. Крім того, ви "
+"можете скористатися полем для пошуку для того, щоб знайти певний рядок або "
+"термін."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -43726,10 +43621,8 @@ msgstr ""
 "пункт при записі змін до основної репозиторію."
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "GitHub (pull requests)"
 msgid "GitHub pull requests"
-msgstr "GitHub (запити щодо злиття)"
+msgstr "Запити щодо злиття GitHub"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -43771,10 +43664,8 @@ msgstr ""
 "setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge requests"
-msgstr "Неправильний запит на злиття!"
+msgstr "Запити щодо об'єднання GitLab"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -43819,10 +43710,8 @@ msgstr ""
 "setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge requests"
-msgstr "Неправильний запит на злиття!"
+msgstr "Запити щодо об'єднання Pagure"
 
 #: ../../vcs.rst:329
 msgid ""
