@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 12:06+0000\n"
-"PO-Revision-Date: 2022-01-22 11:50+0000\n"
+"PO-Revision-Date: 2022-01-22 18:52+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -1517,16 +1517,12 @@ msgstr ""
 "kennen aan brontekenreeksen."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Bron van automatische vertaling"
+msgstr "Vertaling vooraf invullen met brontekenreeks"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Deze vertaling wordt gebruikt voor brontekenreeksen."
+msgstr "Vult de brontekenreeksen in in de vertaalvakken."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2571,8 +2567,6 @@ msgid "Missing plurals"
 msgstr "Ontbrekende meervouden"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "Enkele meervoudsvormen zijn niet vertaald"
 
@@ -2589,10 +2583,6 @@ msgid "Inconsistent"
 msgstr "Inconsistent"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -3201,10 +3191,8 @@ msgid "Unsupported file format."
 msgstr "Niet-ondersteund bestandsformaat."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "Deze naam is al in gebruik door een ander item."
+msgstr "Dit lettertype is al in gebruik."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3215,10 +3203,8 @@ msgid "Font deleted."
 msgstr "Het lettertype is verwijderd."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "Deze naam is al in gebruik door een ander item."
+msgstr "Er is al een lettertypegroep met deze naam."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -6599,15 +6585,14 @@ msgid "Rebase"
 msgstr "Herbaseren"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Wijzigingen van de externe opslagruimte ophalen"
+msgstr ""
+"Wijzigingen van de externe opslagruimte ophalen zonder vooruit te spoelen"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Samenvoegen zonder vooruitspoelen"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -7960,10 +7945,6 @@ msgid "Please review and confirm the search and replace results."
 msgstr "Controleer en bevestig de resultaten voor het zoeken en vervangen."
 
 #: weblate/templates/replace.html:28
-#, fuzzy
-#| msgid ""
-#| "Showing and replacing only the first 250 matches. Perform the replacement "
-#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
@@ -8384,10 +8365,8 @@ msgstr "Aanpassing nodig"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Vertaalde tekenreeksen"
+msgstr "Onvertaalde tekenreeksen"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10617,10 +10596,8 @@ msgid "Language used for source strings in all components"
 msgstr "Taal die wordt gebruikt als brontekenreeks in alle onderdelen"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Deze naam is al in gebruik door een ander item."
+msgstr "Deze onderdeelnaam is al in gebruik."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -11254,10 +11231,8 @@ msgstr "Schermfoto geüpload"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Kon de opslagruimte niet bijwerken."
+msgstr "Tekenreeks bijgewerkt in de opslagruimte"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11281,13 +11256,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Nieuwe tekenreeks om te vertalen in %(translation)s"
-msgstr[1] "Nieuwe tekenreeksen om te vertalen in %(translation)s"
+msgstr[0] "%d nieuwe te vertalen tekenreeks toegevoegd aan de vertaling."
+msgstr[1] "%d nieuwe te vertalen tekenreeksen toegevoegd aan de vertaling."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12739,10 +12712,9 @@ msgid "New string has been added."
 msgstr "Er is een nieuwe tekenreeks toegevoegd."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "De nieuwe tekenreeks kan niet worden verwerkt"
+msgstr "De tekenreeks kan niet worden verwijderd: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13198,23 +13170,19 @@ msgstr "Git met afgedwongen push"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "‘Pull request’ op GitHub"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Geen externe opslagruimte"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Ongeldig verzoek tot samenvoegen!"
+msgstr "GitLab-samenvoegverzoek"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Ongeldig verzoek tot samenvoegen!"
+msgstr "Pagure-samenvoegverzoek"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
