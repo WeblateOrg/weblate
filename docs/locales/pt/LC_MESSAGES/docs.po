@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 08:41+0100\n"
+"POT-Creation-Date: 2022-01-22 13:07+0100\n"
 "PO-Revision-Date: 2022-01-22 11:50+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -230,7 +230,7 @@ msgstr "Traduzir"
 msgid "Can translate the project and upload translations made offline."
 msgstr "Pode traduzir o projeto e enviar traduções feitas offline."
 
-#: ../../admin/access.rst:102 ../../devel/community.rst:40
+#: ../../admin/access.rst:102 ../../devel/community.rst:41
 msgid "Sources"
 msgstr "Fontes"
 
@@ -2385,8 +2385,13 @@ msgid "Fills in translation strings with source string."
 msgstr "Esta tradução está a ser utilizada como cadeias fonte."
 
 #: ../../admin/addons.rst:404
+#, fuzzy
+#| msgid ""
+#| "All untranslated strings in the component will be fileld with the source "
+#| "string, and marked as needing edit. Use this when you can not have empty "
+#| "strings in the translation files."
 msgid ""
-"All untranslated strings in the component will be fileld with the source "
+"All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
@@ -3841,9 +3846,13 @@ msgstr ""
 "Weblate."
 
 #: ../../admin/auth.rst:344
+#, fuzzy
+#| msgid ""
+#| "Disabling e-mail authentication will disable all e-mail related "
+#| "functionality - inviting users or password reset feature."
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
-"functionality - inviting users or password reset feature."
+"functionality – user invitation or password reset feature."
 msgstr ""
 "Desativar a autenticação de e-mail desativará todas as funcionalidades "
 "relacionadas a e-mail - convidar utilizadores ou o recurso de redefinição de "
@@ -9127,7 +9136,6 @@ msgstr ""
 "glossários em vários formatos de ficheiro."
 
 #: ../../admin/config.rst:2217 ../../admin/config.rst:2234
-#: ../../user/files.rst:74
 msgid ":ref:`formats`"
 msgstr ":ref:`formats`"
 
@@ -11137,9 +11145,9 @@ msgid ""
 msgstr ""
 "Outra coisa a tratar é do cabeçalho :http:header:`Host`. Deve combinar com o "
 "que estiver configurado como :set:`SITE_DOMAIN`. Uma configuração adicional "
-"pode ser necessária no seu proxy reverso (por exemplo, use ``"
-"ProxyPreserveHost On`` para o Apache ou ``proxy_set_header Host $host;`` no "
-"nginx)."
+"pode ser necessária no seu proxy reverso (por exemplo, use "
+"``ProxyPreserveHost On`` para o Apache ou ``proxy_set_header Host $host;`` "
+"no nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -18990,9 +18998,15 @@ msgstr ""
 "ao criar cadeias de origem reais."
 
 #: ../../admin/projects.rst:445
+#, fuzzy
+#| msgid ""
+#| "When set, the source strings are based on this file, but all other "
+#| "languages are based on :ref:`component-template`. In case the string is "
+#| "not translated into the source language, translating to other languages "
+#| "is prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
-"are based on :ref:`component-template`. In case the string is not translated "
+"are based on :ref:`component-template`. In case the string is untranslated "
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
@@ -19365,7 +19379,7 @@ msgstr "Unir"
 #| "safest way, but might produce a lot of merge commits."
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
-"fast-forward when possbile. This is the safest way, but might produce a lot "
+"fast-forward when possible. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
 "O repositório upstream alterado é mesclado com o do Weblate. É a maneira "
@@ -23108,8 +23122,12 @@ msgid "translation unit flags"
 msgstr "marcadores da unidade de tradução"
 
 #: ../../api.rst:2012
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved, 100 - read only"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
 "estado da unidade, 0 - não traduzida, 10 - necessita tradução, 20 - "
@@ -23180,8 +23198,12 @@ msgid "Performs partial update on translation unit."
 msgstr "Realiza uma atualização parcial na unidade de tradução."
 
 #: ../../api.rst:2036 ../../api.rst:2049
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
 "estado da unidade, 0 - não traduzida, 10 - necessita edição, 20 - traduzida, "
@@ -23903,8 +23925,8 @@ msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
 msgstr ""
-"Inicializar automaticamente os idiomas do utilizador à base do cabeçalho "
-":http:header:'Accept-Language'."
+"Inicializar automaticamente os idiomas do utilizador à base do cabeçalho :"
+"http:header:'Accept-Language'."
 
 #: ../../changes.rst:13
 #, fuzzy
@@ -23915,7 +23937,7 @@ msgstr "Melhor manuseio de erros no módulo gitexport."
 #: ../../changes.rst:15
 #, fuzzy
 #| msgid "Fixed GitHub hooks for repositories with authentication."
-msgid "Fixed some write operations with projec token authentication."
+msgid "Fixed some write operations with project token authentication."
 msgstr "Corrigidos ganchos so GitHub para repositórios com autenticação."
 
 #: ../../changes.rst:16
@@ -29118,8 +29140,12 @@ msgstr ""
 "\"fuzzy\")."
 
 #: ../../changes.rst:1521
+#, fuzzy
+#| msgid ""
+#| "Clarified terminology on strings needing action and not translated "
+#| "strings."
 msgid ""
-"Clarified terminology on strings needing action and not translated strings."
+"Clarified terminology on strings needing action and untranslated strings."
 msgstr ""
 "Esclarecida a terminologia sobre textos necessitando ação e textos não "
 "traduzidas."
@@ -30280,7 +30306,10 @@ msgstr ""
 "Adicionada lista de mudanças recentes para todas as páginas de tradução."
 
 #: ../../changes.rst:1873
-msgid "Check for not translated strings ignores format string only messages."
+#, fuzzy
+#| msgid ""
+#| "Check for not translated strings ignores format string only messages."
+msgid "Check for untranslated strings ignores format string only messages."
 msgstr ""
 "A verificação de textos não traduzidos ignora mensagens de texto apenas de "
 "formato."
@@ -33060,8 +33089,8 @@ msgstr ""
 "Seguir essas recomendações permite a criação de uma ferramenta de pós-edição "
 "multilingue completa. Boas traduções são definidas através do modelo "
 "sistémico-funcional de House que visa uma tradução correta contextual. "
-"Escreva o seu próprio `guia de pós-edição <https://www.taus.net/academy/"
-"best-practices/postedit-best-practices/machine-translation-post-editing-"
+"Escreva o seu próprio `guia de pós-edição <https://www.taus.net/academy/best-"
+"practices/postedit-best-practices/machine-translation-post-editing-"
 "guidelines>`_ e altere essas recomendações para se adequar às seu próprias "
 "definições. Na maioria dos casos, a `extenção do navegador do languageTool "
 "<https://languagetool.org/#firefox_chrome>`_ é útil como ferramenta de "
@@ -33158,16 +33187,21 @@ msgid ""
 "relation between original and translation. The model assumes that "
 "translation is an attempt to keep the semantic, pragmatic, and textual "
 "meaning of a text equivalent when crossing from one linguistic code to "
-"another. The degree of quality of a translation is based on the degree of "
+"another."
+msgstr ""
+
+#: ../../devel/community.rst:38
+msgid ""
+"The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
 "function. Because it cannot be calculated automatically, sufficient "
 "information should be collected to enable a uniform human evaluation. The "
 "two main parameters of agreement in a corresponding model are the macro-"
-"context – i.e. embedding in a larger social and literary context - and the "
+"context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
 
-#: ../../devel/community.rst:41
+#: ../../devel/community.rst:42
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
@@ -33177,7 +33211,7 @@ msgstr ""
 "Post-Editor Productivity*, Imagem 1: https://www.cs.jhu.edu/~phi/"
 "publications/machine-translation-quality.pdf"
 
-#: ../../devel/community.rst:42
+#: ../../devel/community.rst:43
 msgid ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
@@ -33187,25 +33221,25 @@ msgstr ""
 "hilfe. Editora A. Francke Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik a partir da página número 101"
 
-#: ../../devel/community.rst:43
+#: ../../devel/community.rst:44
 msgid ""
 "post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing "
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 msgstr ""
 "Guia de pós-edição, Sharon O'Brien e Fred Hollowood em MT Post-editing "
-"Guidelines, 2010 https://www.taus.net/academy/best-practices/"
-"postedit-best-practices/machine-translation-post-editing-guidelines"
+"Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
+"practices/machine-translation-post-editing-guidelines"
 
-#: ../../devel/community.rst:44
+#: ../../devel/community.rst:45
 msgid ""
 "neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: "
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
 "conserto neural nebuloso, Bram Bulté e Arda Tezcan em Neural Fuzzy Repair: "
-"Integrating Fuzzy Matches into Neural MachineTranslation, 2019 "
-"https://aclanthology.org/P19-1175.pdf"
+"Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
+"aclanthology.org/P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -34092,7 +34126,9 @@ msgstr ""
 #: ../../devel/libraries.rst:7
 #, fuzzy
 #| msgid "Weblate Translation Memory Schema"
-msgid "`Weblate Translation Provider for Symfony Translation`_"
+msgid ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 msgstr "Esquema de memória de tradução Weblate"
 
 #: ../../devel/libraries.rst:11
@@ -34102,8 +34138,8 @@ msgid ""
 "care@weblate.org to get listed."
 msgstr ""
 "Está a construir uma integração Weblate para a sua estrutura? Seja listado "
-"aqui! Envie um pedido com as alterações diretamente ou escreva-nos a care@"
-"weblate.org para ser listado."
+"aqui! Envie um pedido com as alterações diretamente ou escreva-nos a "
+"care@weblate.org para ser listado."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -39472,9 +39508,13 @@ msgid "Inconsistent"
 msgstr "Inconsistente"
 
 #: ../../user/checks.rst:607
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is not "
+#| "translated in some components."
 msgid ""
-"This string has more than one translation in this project or is not "
-"translated in some components."
+"This string has more than one translation in this project or is untranslated "
+"in some components."
 msgstr ""
 "Esta cadeia tem mais de uma tradução neste projeto ou não está traduzida em "
 "alguns componentes."
@@ -39519,12 +39559,19 @@ msgstr ""
 "inconsistências, ela limita a quantidade de correspondências."
 
 #: ../../user/checks.rst:629
+#, fuzzy
+#| msgid ""
+#| "This check also fires in case the string is translated in one component "
+#| "and not in another. It can be used as a quick way to manually handle "
+#| "strings which are not translated in some components just by clicking on "
+#| "the :guilabel:`Use this translation` button displayed on each line in "
+#| "the :guilabel:`Other occurrences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
-"which are not translated in some components just by clicking on the :"
-"guilabel:`Use this translation` button displayed on each line in the :"
-"guilabel:`Other occurrences` tab."
+"which are untranslated in some components just by clicking on the :guilabel:"
+"`Use this translation` button displayed on each line in the :guilabel:`Other "
+"occurrences` tab."
 msgstr ""
 "Esta verificação também é disparada no caso de a cadeia estar traduzida num "
 "componente e não em outro. Ela pode ser usada como uma maneira rápida de "
@@ -39980,7 +40027,9 @@ msgid "Missing plurals"
 msgstr "Faltam plurais"
 
 #: ../../user/checks.rst:937
-msgid "Some plural forms are not translated"
+#, fuzzy
+#| msgid "Some plural forms are not translated"
+msgid "Some plural forms are untranslated"
 msgstr "Alguns plurais não estão traduzidos"
 
 #: ../../user/checks.rst:939
@@ -40731,28 +40780,25 @@ msgstr ""
 "ainda é recomendado usar o mesmo formato de ficheiro como o para a tradução, "
 "caso contrário, alguns recursos podem não ser traduzidos corretamente."
 
-#: ../../user/files.rst:76
-msgid ""
-"The uploaded file is merged to update the translation, overwriting existing "
-"entries by default (this can be turned off or on in the upload dialog)."
-msgstr ""
-"O ficheiro enviado é mesclado para atualizar a tradução, substituindo as "
-"entradas existentes por predefinição (pode ser desativado ou ativado na "
-"caixa de diálogo de envio)."
+#: ../../user/files.rst:74
+#, fuzzy
+#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
+msgid ":ref:`formats`, :doc:`/user/files`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
-#: ../../user/files.rst:82
+#: ../../user/files.rst:80
 msgid "Import methods"
 msgstr "Métodos de importação"
 
-#: ../../user/files.rst:84
+#: ../../user/files.rst:82
 msgid "These are the choices presented when uploading translation files:"
 msgstr "Estas são as opções apresentadas ao enviar ficheiros de tradução:"
 
-#: ../../user/files.rst:89
+#: ../../user/files.rst:87
 msgid "Add as translation (``translate``)"
 msgstr "Adicionar como tradução (``translate``)"
 
-#: ../../user/files.rst:87
+#: ../../user/files.rst:85
 msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
@@ -40760,18 +40806,18 @@ msgstr ""
 "Os textos importados são adicionados como traduções para textos existentes. "
 "Este é o caso de uso mais comum e o comportamento padrão."
 
-#: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
+#: ../../user/files.rst:88 ../../user/files.rst:93 ../../user/files.rst:98
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr ""
 "Apenas traduções são usadas do ficheiro carregado e nenhum conteúdo "
 "adicional."
 
-#: ../../user/files.rst:94
+#: ../../user/files.rst:92
 msgid "Add as suggestion (``suggest``)"
 msgstr "Adicionar como sugestão (``suggest``)"
 
-#: ../../user/files.rst:92
+#: ../../user/files.rst:90
 msgid ""
 "Imported strings are added as suggestions, do this when you want to have "
 "your uploaded strings reviewed."
@@ -40779,11 +40825,11 @@ msgstr ""
 "Os textos importados são adicionados como sugestões, faça isso quando quiser "
 "ter os seus textos enviados revisados."
 
-#: ../../user/files.rst:99
+#: ../../user/files.rst:97
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "Adicionar como tradução que necessita de edição (\"fuzzy\")"
 
-#: ../../user/files.rst:97
+#: ../../user/files.rst:95
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
@@ -40792,11 +40838,11 @@ msgstr ""
 "edição. Isso pode ser útil quando quer que as traduções sejam usadas, mas "
 "também revisadas."
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid "Replace existing translation file (``replace``)"
 msgstr "Substituir ficheiro de tradução existente (\"replace\")"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
@@ -40804,11 +40850,11 @@ msgstr ""
 "O ficheiro existente é substituído por novo conteúdo. Isso pode levar à "
 "perda de traduções existentes, use com cuidado."
 
-#: ../../user/files.rst:107
+#: ../../user/files.rst:105
 msgid "Update source strings (``source``)"
 msgstr "Atualizar cadeias fonte (\"source\")"
 
-#: ../../user/files.rst:105
+#: ../../user/files.rst:103
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
@@ -40816,20 +40862,20 @@ msgstr ""
 "Atualiza cadeias fonte em ficheiro de tradução bilíngue. Isso é semelhante "
 "ao que :ref:`addon-weblate.gettext.msgmerge` faz."
 
-#: ../../user/files.rst:108
+#: ../../user/files.rst:106
 msgid "This option is supported only for some file formats."
 msgstr "Esta opção é suportada apenas para alguns formatos de ficheiro."
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid "Add new strings (``add``)"
 msgstr "Adicionar cadeias (``add``)"
 
-#: ../../user/files.rst:110
+#: ../../user/files.rst:108
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
 msgstr "Adiciona cadeias à tradução. Pula a que já existe."
 
-#: ../../user/files.rst:112
+#: ../../user/files.rst:110
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
@@ -40837,19 +40883,19 @@ msgstr ""
 "Caso queira adicionar cadeias e atualizar traduções existentes, envie do "
 "ficheiro pela segunda vez com :guilabel:`Adicionar como tradução`."
 
-#: ../../user/files.rst:115
+#: ../../user/files.rst:113
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
 msgstr ""
 "Esta opção está disponível apenas com :ref:`component-manage_units` ativado."
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
 msgstr ""
 "Apenas fonte, tradução e chave (contexto) são usados do ficheiro enviado."
 
-#: ../../user/files.rst:121
+#: ../../user/files.rst:119
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
@@ -40857,19 +40903,19 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 
-#: ../../user/files.rst:126
+#: ../../user/files.rst:124
 msgid "Conflicts handling"
 msgstr "Gestão de conflitos"
 
-#: ../../user/files.rst:128
+#: ../../user/files.rst:126
 msgid "Defines how to deal with uploaded strings which are already translated."
 msgstr "Define como lidar com cadeias enviadas que já são traduzidas."
 
-#: ../../user/files.rst:133
+#: ../../user/files.rst:131
 msgid "Strings needing edit"
 msgstr "Cadeias necessitando de edição"
 
-#: ../../user/files.rst:135
+#: ../../user/files.rst:133
 msgid ""
 "There is also an option for how to handle strings needing edit in the "
 "imported file. Such strings can be handle in one of the three following "
@@ -40881,11 +40927,11 @@ msgstr ""
 "maneiras seguintes: \"Não importar\", \"Importar como cadeia que necessita "
 "edição\" ou \"Importar como traduzido\"."
 
-#: ../../user/files.rst:143
+#: ../../user/files.rst:141
 msgid "Overriding authorship"
 msgstr "Substituindo autoria"
 
-#: ../../user/files.rst:145
+#: ../../user/files.rst:143
 msgid ""
 "With admin permissions, you can also specify authorship of uploaded file. "
 "This can be useful in case you've received the file in another way and want "
@@ -43350,8 +43396,8 @@ msgid ""
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
 "Precisa configurar as credenciais da API (:setting:`GITLAB_CREDENTIALS`) nas "
-"configurações da Weblate para funcionar. Uma vez configurado, verá uma opção "
-":guilabel:`GitLab` ao selecionar :ref:`component-vcs`."
+"configurações da Weblate para funcionar. Uma vez configurado, verá uma "
+"opção :guilabel:`GitLab` ao selecionar :ref:`component-vcs`."
 
 #: ../../vcs.rst:314
 msgid ""
@@ -43397,8 +43443,8 @@ msgid ""
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
 "Precisa configurar as credenciais da API (:setting:`PAGURE_CREDENTIALS`) nas "
-"configurações da Weblate para funcionar. Uma vez configurado, verá uma opção "
-":guilabel:`Pagure` ao selecionar :ref:`component-vcs`."
+"configurações da Weblate para funcionar. Uma vez configurado, verá uma "
+"opção :guilabel:`Pagure` ao selecionar :ref:`component-vcs`."
 
 #: ../../vcs.rst:344
 msgid ""
@@ -44370,6 +44416,25 @@ msgstr ""
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid ""
+#~ "This string has more than one translation in this project or is not "
+#~ "translated in some components."
+#~ msgstr ""
+#~ "Esta cadeia tem mais de uma tradução neste projeto ou não está traduzida "
+#~ "em alguns componentes."
+
+#~ msgid "Some plural forms are not translated"
+#~ msgstr "Alguns plurais não estão traduzidos"
+
+#~ msgid ""
+#~ "The uploaded file is merged to update the translation, overwriting "
+#~ "existing entries by default (this can be turned off or on in the upload "
+#~ "dialog)."
+#~ msgstr ""
+#~ "O ficheiro enviado é mesclado para atualizar a tradução, substituindo as "
+#~ "entradas existentes por predefinição (pode ser desativado ou ativado na "
+#~ "caixa de diálogo de envio)."
 
 #~ msgid ""
 #~ "The default set of translation flags is determined by the translation :"

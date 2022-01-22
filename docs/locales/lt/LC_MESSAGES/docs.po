@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 08:41+0100\n"
+"POT-Creation-Date: 2022-01-22 13:07+0100\n"
 "PO-Revision-Date: 2021-05-23 17:57+0000\n"
 "Last-Translator: Jacque Fresco <aidter@use.startmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -192,7 +192,7 @@ msgstr "Versti"
 msgid "Can translate the project and upload translations made offline."
 msgstr ""
 
-#: ../../admin/access.rst:102 ../../devel/community.rst:40
+#: ../../admin/access.rst:102 ../../devel/community.rst:41
 #, fuzzy
 #| msgid "Add new association"
 msgid "Sources"
@@ -2184,7 +2184,7 @@ msgstr "Vertimų būsena"
 
 #: ../../admin/addons.rst:404
 msgid ""
-"All untranslated strings in the component will be fileld with the source "
+"All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
@@ -3465,7 +3465,7 @@ msgstr ""
 #: ../../admin/auth.rst:344
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
-"functionality - inviting users or password reset feature."
+"functionality – user invitation or password reset feature."
 msgstr ""
 
 #: ../../admin/auth.rst:349
@@ -8125,7 +8125,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:2217 ../../admin/config.rst:2234
-#: ../../user/files.rst:74
 msgid ":ref:`formats`"
 msgstr ""
 
@@ -16122,7 +16121,7 @@ msgstr ""
 #: ../../admin/projects.rst:445
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
-"are based on :ref:`component-template`. In case the string is not translated "
+"are based on :ref:`component-template`. In case the string is untranslated "
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
@@ -16438,7 +16437,7 @@ msgstr ""
 #: ../../admin/projects.rst:658
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
-"fast-forward when possbile. This is the safest way, but might produce a lot "
+"fast-forward when possible. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
 
@@ -19725,7 +19724,7 @@ msgstr ""
 
 #: ../../api.rst:2012
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
 
@@ -19804,7 +19803,7 @@ msgstr "Stebimi vertimai"
 
 #: ../../api.rst:2036 ../../api.rst:2049
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
 
@@ -20522,7 +20521,7 @@ msgid "Improved error handling on string removal."
 msgstr "Stebimi vertimai"
 
 #: ../../changes.rst:15
-msgid "Fixed some write operations with projec token authentication."
+msgid "Fixed some write operations with project token authentication."
 msgstr ""
 
 #: ../../changes.rst:16
@@ -25578,7 +25577,7 @@ msgstr ""
 
 #: ../../changes.rst:1521
 msgid ""
-"Clarified terminology on strings needing action and not translated strings."
+"Clarified terminology on strings needing action and untranslated strings."
 msgstr ""
 
 #: ../../changes.rst:1522
@@ -26678,7 +26677,7 @@ msgid "Added list of recent changes to all translation pages."
 msgstr ""
 
 #: ../../changes.rst:1873
-msgid "Check for not translated strings ignores format string only messages."
+msgid "Check for untranslated strings ignores format string only messages."
 msgstr ""
 
 #: ../../changes.rst:1876
@@ -29291,37 +29290,42 @@ msgid ""
 "relation between original and translation. The model assumes that "
 "translation is an attempt to keep the semantic, pragmatic, and textual "
 "meaning of a text equivalent when crossing from one linguistic code to "
-"another. The degree of quality of a translation is based on the degree of "
+"another."
+msgstr ""
+
+#: ../../devel/community.rst:38
+msgid ""
+"The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
 "function. Because it cannot be calculated automatically, sufficient "
 "information should be collected to enable a uniform human evaluation. The "
 "two main parameters of agreement in a corresponding model are the macro-"
-"context – i.e. embedding in a larger social and literary context - and the "
+"context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
 
-#: ../../devel/community.rst:41
+#: ../../devel/community.rst:42
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
 
-#: ../../devel/community.rst:42
+#: ../../devel/community.rst:43
 msgid ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik starting on page number 101"
 msgstr ""
 
-#: ../../devel/community.rst:43
+#: ../../devel/community.rst:44
 msgid ""
 "post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing "
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 msgstr ""
 
-#: ../../devel/community.rst:44
+#: ../../devel/community.rst:45
 msgid ""
 "neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: "
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
@@ -30035,7 +30039,9 @@ msgstr ""
 #: ../../devel/libraries.rst:7
 #, fuzzy
 #| msgid "Watched translations"
-msgid "`Weblate Translation Provider for Symfony Translation`_"
+msgid ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 msgstr "Stebimi vertimai"
 
 #: ../../devel/libraries.rst:11
@@ -34643,8 +34649,8 @@ msgstr ""
 
 #: ../../user/checks.rst:607
 msgid ""
-"This string has more than one translation in this project or is not "
-"translated in some components."
+"This string has more than one translation in this project or is untranslated "
+"in some components."
 msgstr ""
 
 #: ../../user/checks.rst:609
@@ -34682,9 +34688,9 @@ msgstr ""
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
-"which are not translated in some components just by clicking on the :"
-"guilabel:`Use this translation` button displayed on each line in the :"
-"guilabel:`Other occurrences` tab."
+"which are untranslated in some components just by clicking on the :guilabel:"
+"`Use this translation` button displayed on each line in the :guilabel:`Other "
+"occurrences` tab."
 msgstr ""
 
 #: ../../user/checks.rst:635
@@ -35082,8 +35088,10 @@ msgid "Missing plurals"
 msgstr ""
 
 #: ../../user/checks.rst:937
-msgid "Some plural forms are not translated"
-msgstr ""
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Some plural forms are untranslated"
+msgstr "Stebimi vertimai"
 
 #: ../../user/checks.rst:939
 #, fuzzy
@@ -35752,135 +35760,133 @@ msgid ""
 "otherwise some features might not be translated properly."
 msgstr ""
 
-#: ../../user/files.rst:76
-msgid ""
-"The uploaded file is merged to update the translation, overwriting existing "
-"entries by default (this can be turned off or on in the upload dialog)."
+#: ../../user/files.rst:74
+msgid ":ref:`formats`, :doc:`/user/files`"
 msgstr ""
 
-#: ../../user/files.rst:82
+#: ../../user/files.rst:80
 msgid "Import methods"
 msgstr ""
 
-#: ../../user/files.rst:84
+#: ../../user/files.rst:82
 msgid "These are the choices presented when uploading translation files:"
 msgstr ""
 
-#: ../../user/files.rst:89
+#: ../../user/files.rst:87
 #, fuzzy
 #| msgid "Add new association"
 msgid "Add as translation (``translate``)"
 msgstr "Pridėti naują asociaciją"
 
-#: ../../user/files.rst:87
+#: ../../user/files.rst:85
 msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
 msgstr ""
 
-#: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
+#: ../../user/files.rst:88 ../../user/files.rst:93 ../../user/files.rst:98
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr ""
 
-#: ../../user/files.rst:94
+#: ../../user/files.rst:92
 #, fuzzy
 #| msgid "Permissions"
 msgid "Add as suggestion (``suggest``)"
 msgstr "Leidimai"
 
-#: ../../user/files.rst:92
+#: ../../user/files.rst:90
 msgid ""
 "Imported strings are added as suggestions, do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
 
-#: ../../user/files.rst:99
+#: ../../user/files.rst:97
 #, fuzzy
 #| msgid "Add new association"
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "Pridėti naują asociaciją"
 
-#: ../../user/files.rst:97
+#: ../../user/files.rst:95
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Replace existing translation file (``replace``)"
 msgstr "Stebimi vertimai"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
 
-#: ../../user/files.rst:107
+#: ../../user/files.rst:105
 #, fuzzy
 #| msgid "Add new association"
 msgid "Update source strings (``source``)"
 msgstr "Pridėti naują asociaciją"
 
-#: ../../user/files.rst:105
+#: ../../user/files.rst:103
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
 msgstr ""
 
-#: ../../user/files.rst:108
+#: ../../user/files.rst:106
 msgid "This option is supported only for some file formats."
 msgstr ""
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 #, fuzzy
 #| msgid "Add new association"
 msgid "Add new strings (``add``)"
 msgstr "Pridėti naują asociaciją"
 
-#: ../../user/files.rst:110
+#: ../../user/files.rst:108
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
 msgstr ""
 
-#: ../../user/files.rst:112
+#: ../../user/files.rst:110
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
 msgstr ""
 
-#: ../../user/files.rst:115
+#: ../../user/files.rst:113
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
 msgstr ""
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
 msgstr ""
 
-#: ../../user/files.rst:121
+#: ../../user/files.rst:119
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
 
-#: ../../user/files.rst:126
+#: ../../user/files.rst:124
 msgid "Conflicts handling"
 msgstr ""
 
-#: ../../user/files.rst:128
+#: ../../user/files.rst:126
 msgid "Defines how to deal with uploaded strings which are already translated."
 msgstr ""
 
-#: ../../user/files.rst:133
+#: ../../user/files.rst:131
 msgid "Strings needing edit"
 msgstr ""
 
-#: ../../user/files.rst:135
+#: ../../user/files.rst:133
 msgid ""
 "There is also an option for how to handle strings needing edit in the "
 "imported file. Such strings can be handle in one of the three following "
@@ -35888,11 +35894,11 @@ msgid ""
 "translated\"."
 msgstr ""
 
-#: ../../user/files.rst:143
+#: ../../user/files.rst:141
 msgid "Overriding authorship"
 msgstr ""
 
-#: ../../user/files.rst:145
+#: ../../user/files.rst:143
 msgid ""
 "With admin permissions, you can also specify authorship of uploaded file. "
 "This can be useful in case you've received the file in another way and want "

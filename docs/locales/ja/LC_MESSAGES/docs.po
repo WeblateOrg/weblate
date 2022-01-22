@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 08:41+0100\n"
+"POT-Creation-Date: 2022-01-22 13:07+0100\n"
 "PO-Revision-Date: 2022-01-14 05:01+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -218,7 +218,7 @@ msgstr "翻訳"
 msgid "Can translate the project and upload translations made offline."
 msgstr "プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードできる。"
 
-#: ../../admin/access.rst:102 ../../devel/community.rst:40
+#: ../../admin/access.rst:102 ../../devel/community.rst:41
 msgid "Sources"
 msgstr "原文"
 
@@ -2195,7 +2195,7 @@ msgstr "この翻訳は、原文として使用されます。"
 
 #: ../../admin/addons.rst:404
 msgid ""
-"All untranslated strings in the component will be fileld with the source "
+"All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
@@ -3592,10 +3592,16 @@ msgstr ""
 "で残しておいてください。"
 
 #: ../../admin/auth.rst:344
+#, fuzzy
+#| msgid ""
+#| "This will disable *all* e-mail delivery including registration or "
+#| "password reset e-mails."
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
-"functionality - inviting users or password reset feature."
+"functionality – user invitation or password reset feature."
 msgstr ""
+"これにより、登録やパスワード リセットを含む *すべての* メール配信が無効になり"
+"ます。"
 
 #: ../../admin/auth.rst:349
 #, fuzzy
@@ -8637,7 +8643,6 @@ msgstr ""
 "す。"
 
 #: ../../admin/config.rst:2217 ../../admin/config.rst:2234
-#: ../../user/files.rst:74
 msgid ":ref:`formats`"
 msgstr ":ref:`formats`"
 
@@ -17283,7 +17288,7 @@ msgstr ""
 #: ../../admin/projects.rst:445
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
-"are based on :ref:`component-template`. In case the string is not translated "
+"are based on :ref:`component-template`. In case the string is untranslated "
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
@@ -17591,7 +17596,7 @@ msgstr "マージ"
 #: ../../admin/projects.rst:658
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
-"fast-forward when possbile. This is the safest way, but might produce a lot "
+"fast-forward when possible. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
 
@@ -21043,8 +21048,12 @@ msgid "translation unit flags"
 msgstr "翻訳ユニットのフラグ"
 
 #: ../../api.rst:2012
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved, 100 - read only"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
 "ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済、100 - 編集"
@@ -21112,8 +21121,12 @@ msgid "Performs partial update on translation unit."
 msgstr "翻訳ユニットを部分的に更新します。"
 
 #: ../../api.rst:2036 ../../api.rst:2049
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
 "ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済（査読ワーク"
@@ -21833,8 +21846,10 @@ msgid "Improved error handling on string removal."
 msgstr "新しい文字列を追加するときのパフォーマンスの向上。"
 
 #: ../../changes.rst:15
-msgid "Fixed some write operations with projec token authentication."
-msgstr ""
+#, fuzzy
+#| msgid "The server does not allow authentication."
+msgid "Fixed some write operations with project token authentication."
+msgstr "サーバーは認証を許可していません。"
 
 #: ../../changes.rst:16
 #, fuzzy
@@ -26643,8 +26658,12 @@ msgid "Clarified terminology on strings needing edit (formerly fuzzy)."
 msgstr "編集が必要な文字列に関する用語の明確化（以前は \"fuzzy”）。"
 
 #: ../../changes.rst:1521
+#, fuzzy
+#| msgid ""
+#| "Clarified terminology on strings needing action and not translated "
+#| "strings."
 msgid ""
-"Clarified terminology on strings needing action and not translated strings."
+"Clarified terminology on strings needing action and untranslated strings."
 msgstr "作業が必要な文字列と、未翻訳の文字列の用語の明確化。"
 
 #: ../../changes.rst:1522
@@ -27742,7 +27761,7 @@ msgid "Added list of recent changes to all translation pages."
 msgstr ""
 
 #: ../../changes.rst:1873
-msgid "Check for not translated strings ignores format string only messages."
+msgid "Check for untranslated strings ignores format string only messages."
 msgstr ""
 
 #: ../../changes.rst:1876
@@ -30441,12 +30460,44 @@ msgid ""
 "relation between original and translation. The model assumes that "
 "translation is an attempt to keep the semantic, pragmatic, and textual "
 "meaning of a text equivalent when crossing from one linguistic code to "
-"another. The degree of quality of a translation is based on the degree of "
+"another."
+msgstr ""
+"大幅な削減を可能にする精神的および基本的な効果の定義に加えて、テキストベース"
+"の言語的アプローチは、組み込みの翻訳手法として最適です。翻訳評価のため十分に"
+"定式化された理論は、オリジナルと翻訳の関係に焦点を当てた House の体系的機能モ"
+"デルです。このモデルでは、翻訳とは、ある言語コードから別の言語コードに移行す"
+"るときに、テキストの意味、語用論、およびテキストの意味を同等に保つ試みである"
+"と想定しています。翻訳の品質の度合いは、同等性の程度、テキスト プロファイルと"
+"テキスト関数の間の度合い基づいています。自動的に計算することはできないため、"
+"人間が均一に評価できるように十分な情報を収集することが必要です。対応するモデ"
+"ルを一致させる 2 つの主要なパラメータは、マクロ コンテキスト（つまり、より大"
+"きな社会的および文学的文脈に埋め込む）と、フィールド、方針、およびモードで構"
+"成されるマイクロ コンテキストです。"
+
+#: ../../devel/community.rst:38
+#, fuzzy
+#| msgid ""
+#| "In addition to the mentalistic and impact-based definitions which make a "
+#| "strong reduction, the text-based linguistic approach fits best with the "
+#| "implemented translation methods. A well-formulated theory for translation "
+#| "evaluation is House's systemic-functional model, which focuses on the "
+#| "relation between original and translation. The model assumes that "
+#| "translation is an attempt to keep the semantic, pragmatic, and textual "
+#| "meaning of a text equivalent when crossing from one linguistic code to "
+#| "another. The degree of quality of a translation is based on the degree of "
+#| "equivalence, the correspondence between the text profile and the text "
+#| "function. Because it cannot be calculated automatically, sufficient "
+#| "information should be collected to enable a uniform human evaluation. The "
+#| "two main parameters of agreement in a corresponding model are the macro-"
+#| "context - i.e. embedding in a larger social and literary context - and "
+#| "the micro-context consisting of field, tenor and mode."
+msgid ""
+"The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
 "function. Because it cannot be calculated automatically, sufficient "
 "information should be collected to enable a uniform human evaluation. The "
 "two main parameters of agreement in a corresponding model are the macro-"
-"context – i.e. embedding in a larger social and literary context - and the "
+"context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
 "大幅な削減を可能にする精神的および基本的な効果の定義に加えて、テキストベース"
@@ -30461,7 +30512,7 @@ msgstr ""
 "きな社会的および文学的文脈に埋め込む）と、フィールド、方針、およびモードで構"
 "成されるマイクロ コンテキストです。"
 
-#: ../../devel/community.rst:41
+#: ../../devel/community.rst:42
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
@@ -30470,7 +30521,7 @@ msgstr ""
 "Marina Sanchez-Torron と Philipp Koehn、機械翻訳の品質と編集後の生産性。図 "
 "1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf"
 
-#: ../../devel/community.rst:42
+#: ../../devel/community.rst:43
 #, fuzzy
 #| msgid ""
 #| "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine "
@@ -30484,7 +30535,7 @@ msgstr ""
 "Joanna Best と Sylvia Kalina。翻訳と通訳: オリエンテーションのヘルプ。 A. "
 "Francke Verlag Tübingen と Base、2002 年。翻訳批評の機会 p.101 および 以降"
 
-#: ../../devel/community.rst:43
+#: ../../devel/community.rst:44
 msgid ""
 "post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing "
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
@@ -30494,7 +30545,7 @@ msgstr ""
 "イドライン、2010 年。 https://www.taus.net/academy/best-practices/postedit-"
 "best-practices/machine-translation-post-editing-guidelines"
 
-#: ../../devel/community.rst:44
+#: ../../devel/community.rst:45
 msgid ""
 "neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: "
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
@@ -31205,7 +31256,9 @@ msgstr ""
 #: ../../devel/libraries.rst:7
 #, fuzzy
 #| msgid "Weblate Translation Memory Schema"
-msgid "`Weblate Translation Provider for Symfony Translation`_"
+msgid ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 msgstr "Weblate 翻訳メモリスキーマ"
 
 #: ../../devel/libraries.rst:11
@@ -35948,9 +36001,13 @@ msgid "Inconsistent"
 msgstr "一貫性の欠如"
 
 #: ../../user/checks.rst:607
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is not "
+#| "translated in some components."
 msgid ""
-"This string has more than one translation in this project or is not "
-"translated in some components."
+"This string has more than one translation in this project or is untranslated "
+"in some components."
 msgstr ""
 "この文字列は、このプロジェクトで複数の翻訳があるか、コンポーネントによっては"
 "翻訳されていないものもあります。"
@@ -35994,12 +36051,19 @@ msgstr ""
 "限されます。"
 
 #: ../../user/checks.rst:629
+#, fuzzy
+#| msgid ""
+#| "This check also fires in case the string is translated in one component "
+#| "and not in another. It can be used as a quick way to manually handle "
+#| "strings which are not translated in some components just by clicking on "
+#| "the :guilabel:`Use this translation` button displayed on each line in "
+#| "the :guilabel:`Other occurrences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
-"which are not translated in some components just by clicking on the :"
-"guilabel:`Use this translation` button displayed on each line in the :"
-"guilabel:`Other occurrences` tab."
+"which are untranslated in some components just by clicking on the :guilabel:"
+"`Use this translation` button displayed on each line in the :guilabel:`Other "
+"occurrences` tab."
 msgstr ""
 "この検査は、文字列があるコンポーネントでは翻訳されていて、別のコンポーネント"
 "では翻訳されていない場合にも発生します。これは、:guilabel:`その他の出現箇所` "
@@ -36448,7 +36512,9 @@ msgid "Missing plurals"
 msgstr "複数形の不足"
 
 #: ../../user/checks.rst:937
-msgid "Some plural forms are not translated"
+#, fuzzy
+#| msgid "Some plural forms are not translated"
+msgid "Some plural forms are untranslated"
 msgstr "翻訳されていない複数形が存在するもの"
 
 #: ../../user/checks.rst:939
@@ -37172,28 +37238,25 @@ msgstr ""
 "するファイル形式と同じファイル形式を使用することを推奨します。ファイル形式が"
 "異なると、一部の内容が正しく翻訳されないことがあります。"
 
-#: ../../user/files.rst:76
-msgid ""
-"The uploaded file is merged to update the translation, overwriting existing "
-"entries by default (this can be turned off or on in the upload dialog)."
-msgstr ""
-"アップロードしたファイルは翻訳の更新のためにマージされ、デフォルトで既存のエ"
-"ントリが上書きされます（アップロードのオプション画面で上書き する/しない を選"
-"択できます）。"
+#: ../../user/files.rst:74
+#, fuzzy
+#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
+msgid ":ref:`formats`, :doc:`/user/files`"
+msgstr ":ref:`fmt_capabs`、:ref:`workflows`"
 
-#: ../../user/files.rst:82
+#: ../../user/files.rst:80
 msgid "Import methods"
 msgstr "インポート方法"
 
-#: ../../user/files.rst:84
+#: ../../user/files.rst:82
 msgid "These are the choices presented when uploading translation files:"
 msgstr "翻訳ファイルをアップロードするときに表示される選択項目:"
 
-#: ../../user/files.rst:89
+#: ../../user/files.rst:87
 msgid "Add as translation (``translate``)"
 msgstr "翻訳として追加（``translate``）"
 
-#: ../../user/files.rst:87
+#: ../../user/files.rst:85
 msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
@@ -37201,16 +37264,16 @@ msgstr ""
 "インポートした文字列は、翻訳として既存の文字列に追加されます。これは最も一般"
 "的な使用例であり、デフォルトの動作です。"
 
-#: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
+#: ../../user/files.rst:88 ../../user/files.rst:93 ../../user/files.rst:98
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr "アップロードしたファイルは翻訳のみを使用し、追加の情報は使用しません。"
 
-#: ../../user/files.rst:94
+#: ../../user/files.rst:92
 msgid "Add as suggestion (``suggest``)"
 msgstr "提案として追加（``suggest``）"
 
-#: ../../user/files.rst:92
+#: ../../user/files.rst:90
 msgid ""
 "Imported strings are added as suggestions, do this when you want to have "
 "your uploaded strings reviewed."
@@ -37218,11 +37281,11 @@ msgstr ""
 "インポートした翻訳は、提案として追加されます。アップロードした文字列を検討し"
 "てもらうには、この操作を行ってください。"
 
-#: ../../user/files.rst:99
+#: ../../user/files.rst:97
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "要編集の翻訳として追加（``fuzzy``）"
 
-#: ../../user/files.rst:97
+#: ../../user/files.rst:95
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
@@ -37230,11 +37293,11 @@ msgstr ""
 "インポートした翻訳は、要編集の翻訳として追加されます。これは、翻訳を使用しな"
 "がら査読もしてもらうのに便利です。"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid "Replace existing translation file (``replace``)"
 msgstr "既存の翻訳ファイルの置き換え（``replace``）"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
@@ -37242,11 +37305,11 @@ msgstr ""
 "既存のファイルを新しいコンテンツで置き換えます。既存の翻訳を失うことがあるの"
 "で使用に注意してください。"
 
-#: ../../user/files.rst:107
+#: ../../user/files.rst:105
 msgid "Update source strings (``source``)"
 msgstr "原文の更新（``source``）"
 
-#: ../../user/files.rst:105
+#: ../../user/files.rst:103
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
@@ -37254,20 +37317,20 @@ msgstr ""
 "対訳ファイルの原文を更新します。これは :ref:`addon-weblate.gettext.msgmerge` "
 "と似ています。"
 
-#: ../../user/files.rst:108
+#: ../../user/files.rst:106
 msgid "This option is supported only for some file formats."
 msgstr "このオプションは、一部のファイル形式でのみ対応しています。"
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid "Add new strings (``add``)"
 msgstr "新しい文字列の追加 (``add``)"
 
-#: ../../user/files.rst:110
+#: ../../user/files.rst:108
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
 msgstr "翻訳に新しい文字列を追加します。既に存在する文字列は除外します。"
 
-#: ../../user/files.rst:112
+#: ../../user/files.rst:110
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
@@ -37275,21 +37338,21 @@ msgstr ""
 "新しい文字列の追加、および既存の翻訳の更新の両方を行う場合は、:guilabel:`翻訳"
 "として追加` を使用してファイルをもう一度アップロードします。"
 
-#: ../../user/files.rst:115
+#: ../../user/files.rst:113
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
 msgstr ""
 "このオプションは、:ref:`component-manage_units` を有効にした場合のみ使用でき"
 "ます。"
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
 msgstr ""
 "アップロードしたファイルからは、原文、翻訳、およびキー（コンテキスト）のみを"
 "使用します。"
 
-#: ../../user/files.rst:121
+#: ../../user/files.rst:119
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
@@ -37297,19 +37360,19 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 
-#: ../../user/files.rst:126
+#: ../../user/files.rst:124
 msgid "Conflicts handling"
 msgstr "コンフリクト処理"
 
-#: ../../user/files.rst:128
+#: ../../user/files.rst:126
 msgid "Defines how to deal with uploaded strings which are already translated."
 msgstr "すでに翻訳されているアップロード済みの文字列の処理方法を定義します。"
 
-#: ../../user/files.rst:133
+#: ../../user/files.rst:131
 msgid "Strings needing edit"
 msgstr "要編集の文字列"
 
-#: ../../user/files.rst:135
+#: ../../user/files.rst:133
 msgid ""
 "There is also an option for how to handle strings needing edit in the "
 "imported file. Such strings can be handle in one of the three following "
@@ -37320,11 +37383,11 @@ msgstr ""
 "す。文字列は、「インポートしない」、「要編集として文字列をインポート」、「翻"
 "訳済みとしてインポート」の三択から 1 つを選んで処理します。"
 
-#: ../../user/files.rst:143
+#: ../../user/files.rst:141
 msgid "Overriding authorship"
 msgstr "翻訳者の変更"
 
-#: ../../user/files.rst:145
+#: ../../user/files.rst:143
 msgid ""
 "With admin permissions, you can also specify authorship of uploaded file. "
 "This can be useful in case you've received the file in another way and want "
@@ -40645,6 +40708,25 @@ msgstr ""
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
+
+#~ msgid ""
+#~ "This string has more than one translation in this project or is not "
+#~ "translated in some components."
+#~ msgstr ""
+#~ "この文字列は、このプロジェクトで複数の翻訳があるか、コンポーネントによって"
+#~ "は翻訳されていないものもあります。"
+
+#~ msgid "Some plural forms are not translated"
+#~ msgstr "翻訳されていない複数形が存在するもの"
+
+#~ msgid ""
+#~ "The uploaded file is merged to update the translation, overwriting "
+#~ "existing entries by default (this can be turned off or on in the upload "
+#~ "dialog)."
+#~ msgstr ""
+#~ "アップロードしたファイルは翻訳の更新のためにマージされ、デフォルトで既存の"
+#~ "エントリが上書きされます（アップロードのオプション画面で上書き する/しな"
+#~ "い を選択できます）。"
 
 #~ msgid "GitLab (merge requests)"
 #~ msgstr "GitLab（マージ リクエスト）"

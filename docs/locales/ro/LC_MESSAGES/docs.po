@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 08:41+0100\n"
+"POT-Creation-Date: 2022-01-22 13:07+0100\n"
 "PO-Revision-Date: 2022-01-15 12:54+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
@@ -229,7 +229,7 @@ msgstr "Tradu"
 msgid "Can translate the project and upload translations made offline."
 msgstr "Poate traduce proiectul și poate încărca traducerile făcute offline."
 
-#: ../../admin/access.rst:102 ../../devel/community.rst:40
+#: ../../admin/access.rst:102 ../../devel/community.rst:41
 msgid "Sources"
 msgstr "Surse"
 
@@ -2390,7 +2390,7 @@ msgstr "Această traducere este utilizată pentru șirurile sursă."
 
 #: ../../admin/addons.rst:404
 msgid ""
-"All untranslated strings in the component will be fileld with the source "
+"All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
@@ -3851,10 +3851,16 @@ msgstr ""
 "Weblate."
 
 #: ../../admin/auth.rst:344
+#, fuzzy
+#| msgid ""
+#| "This will disable *all* e-mail delivery including registration or "
+#| "password reset e-mails."
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
-"functionality - inviting users or password reset feature."
+"functionality – user invitation or password reset feature."
 msgstr ""
+"Acest lucru va dezactiva *toată* livrarea de e-mailuri, inclusiv e-mailurile "
+"de înregistrare sau de resetare a parolei."
 
 #: ../../admin/auth.rst:349
 #, fuzzy
@@ -9195,7 +9201,6 @@ msgstr ""
 "traduceri sau glosare în diferite formate de fișiere."
 
 #: ../../admin/config.rst:2217 ../../admin/config.rst:2234
-#: ../../user/files.rst:74
 msgid ":ref:`formats`"
 msgstr ""
 
@@ -19183,9 +19188,15 @@ msgstr ""
 "utilizat la crearea șirurilor sursă reale."
 
 #: ../../admin/projects.rst:445
+#, fuzzy
+#| msgid ""
+#| "When set, the source strings are based on this file, but all other "
+#| "languages are based on :ref:`component-template`. In case the string is "
+#| "not translated into the source language, translating to other languages "
+#| "is prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
-"are based on :ref:`component-template`. In case the string is not translated "
+"are based on :ref:`component-template`. In case the string is untranslated "
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
@@ -19563,7 +19574,7 @@ msgstr "Îmbinare"
 #| "safest way, but might produce a lot of merge commits."
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
-"fast-forward when possbile. This is the safest way, but might produce a lot "
+"fast-forward when possible. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
 "Modificările din depozitul din amonte sunt comasate în cel din Weblate. "
@@ -23407,8 +23418,12 @@ msgid "translation unit flags"
 msgstr "indicatori de unitate pentru traducere"
 
 #: ../../api.rst:2012
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved, 100 - read only"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
 "starea unității, 0 - netradus, 10 - necesită editare, 20 - tradus, 30 - "
@@ -23481,8 +23496,12 @@ msgid "Performs partial update on translation unit."
 msgstr "Efectuează o actualizare parțială a unității de traducere."
 
 #: ../../api.rst:2036 ../../api.rst:2049
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
 "starea unității, 0 - netradusă, 10 - necesită editare, 20 - tradusă, 30 - "
@@ -24217,7 +24236,7 @@ msgstr "A fost îmbunătățită gestionarea erorilor în modulul gitexport."
 #: ../../changes.rst:15
 #, fuzzy
 #| msgid "Fixed GitHub hooks for repositories with authentication."
-msgid "Fixed some write operations with projec token authentication."
+msgid "Fixed some write operations with project token authentication."
 msgstr "Corectarea hook-urilor GitHub pentru depozite cu autentificare."
 
 #: ../../changes.rst:16
@@ -29569,8 +29588,12 @@ msgstr ""
 "editare (anterior fuzzy)."
 
 #: ../../changes.rst:1521
+#, fuzzy
+#| msgid ""
+#| "Clarified terminology on strings needing action and not translated "
+#| "strings."
 msgid ""
-"Clarified terminology on strings needing action and not translated strings."
+"Clarified terminology on strings needing action and untranslated strings."
 msgstr ""
 "A fost clarificată terminologia referitoare la șirurile care necesită "
 "acțiune și la șirurile care nu sunt traduse."
@@ -30754,7 +30777,10 @@ msgstr ""
 "traducere."
 
 #: ../../changes.rst:1873
-msgid "Check for not translated strings ignores format string only messages."
+#, fuzzy
+#| msgid ""
+#| "Check for not translated strings ignores format string only messages."
+msgid "Check for untranslated strings ignores format string only messages."
 msgstr ""
 "Verificarea șirurilor de caractere netraduse ignoră doar mesajele cu șiruri "
 "de format."
@@ -33684,12 +33710,47 @@ msgid ""
 "relation between original and translation. The model assumes that "
 "translation is an attempt to keep the semantic, pragmatic, and textual "
 "meaning of a text equivalent when crossing from one linguistic code to "
-"another. The degree of quality of a translation is based on the degree of "
+"another."
+msgstr ""
+"Pe lângă definițiile mentaliste și cele bazate pe impact, care realizează o "
+"reducere puternică, abordarea lingvistică bazată pe text se potrivește cel "
+"mai bine cu metodele de traducere implementate. O teorie bine formulată "
+"pentru evaluarea traducerilor este modelul sistemic-funcțional al lui House, "
+"care se concentrează pe relația dintre original și traducere. Modelul "
+"pornește de la premisa că traducerea este o încercare de a păstra "
+"echivalentul semantic, pragmatic și textual al unui text la trecerea de la "
+"un cod lingvistic la altul. Gradul de calitate al unei traduceri se bazează "
+"pe gradul de echivalență, pe corespondența dintre profilul textului și "
+"funcția textului. Deoarece acesta nu poate fi calculat în mod automat, ar "
+"trebui să se colecteze suficiente informații pentru a permite o evaluare "
+"umană uniformă. Cei doi parametri principali de concordanță într-un model "
+"corespunzător sunt macrocontextul - adică încadrarea într-un context social "
+"și literar mai larg - și microcontextul format din domeniu, tenor și mod."
+
+#: ../../devel/community.rst:38
+#, fuzzy
+#| msgid ""
+#| "In addition to the mentalistic and impact-based definitions which make a "
+#| "strong reduction, the text-based linguistic approach fits best with the "
+#| "implemented translation methods. A well-formulated theory for translation "
+#| "evaluation is House's systemic-functional model, which focuses on the "
+#| "relation between original and translation. The model assumes that "
+#| "translation is an attempt to keep the semantic, pragmatic, and textual "
+#| "meaning of a text equivalent when crossing from one linguistic code to "
+#| "another. The degree of quality of a translation is based on the degree of "
+#| "equivalence, the correspondence between the text profile and the text "
+#| "function. Because it cannot be calculated automatically, sufficient "
+#| "information should be collected to enable a uniform human evaluation. The "
+#| "two main parameters of agreement in a corresponding model are the macro-"
+#| "context - i.e. embedding in a larger social and literary context - and "
+#| "the micro-context consisting of field, tenor and mode."
+msgid ""
+"The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
 "function. Because it cannot be calculated automatically, sufficient "
 "information should be collected to enable a uniform human evaluation. The "
 "two main parameters of agreement in a corresponding model are the macro-"
-"context – i.e. embedding in a larger social and literary context - and the "
+"context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
 "Pe lângă definițiile mentaliste și cele bazate pe impact, care realizează o "
@@ -33707,7 +33768,7 @@ msgstr ""
 "corespunzător sunt macrocontextul - adică încadrarea într-un context social "
 "și literar mai larg - și microcontextul format din domeniu, tenor și mod."
 
-#: ../../devel/community.rst:41
+#: ../../devel/community.rst:42
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
@@ -33717,7 +33778,7 @@ msgstr ""
 "Post-Editor Productivity, Figura 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 
-#: ../../devel/community.rst:42
+#: ../../devel/community.rst:43
 #, fuzzy
 #| msgid ""
 #| "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine "
@@ -33732,7 +33793,7 @@ msgstr ""
 "Guide. A. Francke Verlag Tübingen und Base, 2002. Posibilități de critică a "
 "traducerii p.101 și următoarele"
 
-#: ../../devel/community.rst:43
+#: ../../devel/community.rst:44
 msgid ""
 "post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing "
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
@@ -33742,7 +33803,7 @@ msgstr ""
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 
-#: ../../devel/community.rst:44
+#: ../../devel/community.rst:45
 msgid ""
 "neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: "
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
@@ -34648,7 +34709,9 @@ msgstr ""
 #: ../../devel/libraries.rst:7
 #, fuzzy
 #| msgid "Weblate Translation Memory Schema"
-msgid "`Weblate Translation Provider for Symfony Translation`_"
+msgid ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 msgstr "Schema de memorie de traducere Weblate"
 
 #: ../../devel/libraries.rst:11
@@ -40066,9 +40129,13 @@ msgid "Inconsistent"
 msgstr "Inconsecvent"
 
 #: ../../user/checks.rst:607
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is not "
+#| "translated in some components."
 msgid ""
-"This string has more than one translation in this project or is not "
-"translated in some components."
+"This string has more than one translation in this project or is untranslated "
+"in some components."
 msgstr ""
 "Acest șir are mai multe traduceri în acest proiect sau nu este tradus în "
 "anumite componente."
@@ -40113,12 +40180,19 @@ msgstr ""
 "neconcordanțele, ci limitează numărul de rezultate."
 
 #: ../../user/checks.rst:629
+#, fuzzy
+#| msgid ""
+#| "This check also fires in case the string is translated in one component "
+#| "and not in another. It can be used as a quick way to manually handle "
+#| "strings which are not translated in some components just by clicking on "
+#| "the :guilabel:`Use this translation` button displayed on each line in "
+#| "the :guilabel:`Other occurrences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
-"which are not translated in some components just by clicking on the :"
-"guilabel:`Use this translation` button displayed on each line in the :"
-"guilabel:`Other occurrences` tab."
+"which are untranslated in some components just by clicking on the :guilabel:"
+"`Use this translation` button displayed on each line in the :guilabel:`Other "
+"occurrences` tab."
 msgstr ""
 "Această verificare se declanșează și în cazul în care șirul este tradus într-"
 "o componentă și nu în alta. Poate fi utilizată ca o modalitate rapidă de a "
@@ -40574,7 +40648,9 @@ msgid "Missing plurals"
 msgstr "Lipsește pluralul"
 
 #: ../../user/checks.rst:937
-msgid "Some plural forms are not translated"
+#, fuzzy
+#| msgid "Some plural forms are not translated"
+msgid "Some plural forms are untranslated"
 msgstr "Unele forme de plural nu sunt traduse"
 
 #: ../../user/checks.rst:939
@@ -41336,29 +41412,26 @@ msgstr ""
 "pentru traducere, altfel este posibil ca unele caracteristici să nu fie "
 "traduse corespunzător."
 
-#: ../../user/files.rst:76
-msgid ""
-"The uploaded file is merged to update the translation, overwriting existing "
-"entries by default (this can be turned off or on in the upload dialog)."
-msgstr ""
-"Fișierul încărcat este fuzionat pentru a actualiza traducerea, suprascriind "
-"în mod implicit intrările existente (acest lucru poate fi dezactivat sau "
-"activat în caseta de dialog privind încărcarea)."
+#: ../../user/files.rst:74
+#, fuzzy
+#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
+msgid ":ref:`formats`, :doc:`/user/files`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
-#: ../../user/files.rst:82
+#: ../../user/files.rst:80
 msgid "Import methods"
 msgstr "Metode de import"
 
-#: ../../user/files.rst:84
+#: ../../user/files.rst:82
 msgid "These are the choices presented when uploading translation files:"
 msgstr ""
 "Acestea sunt opțiunile prezentate la încărcarea fișierelor de traducere:"
 
-#: ../../user/files.rst:89
+#: ../../user/files.rst:87
 msgid "Add as translation (``translate``)"
 msgstr "Adăugați ca traducere (``translate``)"
 
-#: ../../user/files.rst:87
+#: ../../user/files.rst:85
 msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
@@ -41366,18 +41439,18 @@ msgstr ""
 "Șirurile importate sunt adăugate ca traduceri la șirurile existente. Acesta "
 "este cel mai frecvent caz de utilizare și este comportamentul implicit."
 
-#: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
+#: ../../user/files.rst:88 ../../user/files.rst:93 ../../user/files.rst:98
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr ""
 "Se utilizează doar traducerile din fișierul încărcat și nu se utilizează "
 "conținut suplimentar."
 
-#: ../../user/files.rst:94
+#: ../../user/files.rst:92
 msgid "Add as suggestion (``suggest``)"
 msgstr "Adăugați ca sugestie (``suggest``)"
 
-#: ../../user/files.rst:92
+#: ../../user/files.rst:90
 msgid ""
 "Imported strings are added as suggestions, do this when you want to have "
 "your uploaded strings reviewed."
@@ -41385,11 +41458,11 @@ msgstr ""
 "Șirurile de caractere importate sunt adăugate ca sugestii, faceți acest "
 "lucru atunci când doriți ca șirurile încărcate să fie revizuite."
 
-#: ../../user/files.rst:99
+#: ../../user/files.rst:97
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "Adăugați ca traducere care necesită editare (``fuzzy``)"
 
-#: ../../user/files.rst:97
+#: ../../user/files.rst:95
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
@@ -41398,11 +41471,11 @@ msgstr ""
 "editate. Acest lucru poate fi util atunci când doriți ca traducerile să fie "
 "utilizate, dar și revizuite."
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid "Replace existing translation file (``replace``)"
 msgstr "Înlocuirea fișierului de traducere existent (``replace``)"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
@@ -41410,11 +41483,11 @@ msgstr ""
 "Fișierul existent este înlocuit cu un nou conținut. Acest lucru poate duce "
 "la pierderea traducerilor existente, utilizați cu prudență."
 
-#: ../../user/files.rst:107
+#: ../../user/files.rst:105
 msgid "Update source strings (``source``)"
 msgstr "Actualizarea șirurilor sursă (``source``)"
 
-#: ../../user/files.rst:105
+#: ../../user/files.rst:103
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
@@ -41423,23 +41496,23 @@ msgstr ""
 "Acest lucru este similar cu ceea ce face :ref:`addon-weblate.gettext."
 "msgmerge`."
 
-#: ../../user/files.rst:108
+#: ../../user/files.rst:106
 msgid "This option is supported only for some file formats."
 msgstr ""
 "Această opțiune este acceptată numai pentru anumite formate de fișiere."
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid "Add new strings (``add``)"
 msgstr "Adăugarea de noi șiruri de caractere (``add``)"
 
-#: ../../user/files.rst:110
+#: ../../user/files.rst:108
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
 msgstr ""
 "Adaugă noi șiruri de caractere la traducere. Ocolește pe cele care există "
 "deja."
 
-#: ../../user/files.rst:112
+#: ../../user/files.rst:110
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
@@ -41448,21 +41521,21 @@ msgstr ""
 "traducerile existente, încărcați fișierul a doua oară cu :guilabel:`Adaugați "
 "ca traducere`."
 
-#: ../../user/files.rst:115
+#: ../../user/files.rst:113
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
 msgstr ""
 "Această opțiune este disponibilă numai dacă opțiunea :ref:`component-"
 "manage_units` este activată."
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
 msgstr ""
 "Din fișierul încărcat se utilizează doar sursa, traducerea și cheia "
 "(contextul)."
 
-#: ../../user/files.rst:121
+#: ../../user/files.rst:119
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
@@ -41470,20 +41543,20 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 
-#: ../../user/files.rst:126
+#: ../../user/files.rst:124
 msgid "Conflicts handling"
 msgstr "Gestionarea conflictelor"
 
-#: ../../user/files.rst:128
+#: ../../user/files.rst:126
 msgid "Defines how to deal with uploaded strings which are already translated."
 msgstr ""
 "Definește modul de tratare a șirurilor încărcate care sunt deja traduse."
 
-#: ../../user/files.rst:133
+#: ../../user/files.rst:131
 msgid "Strings needing edit"
 msgstr "Șiruri de caractere care au nevoie de editare"
 
-#: ../../user/files.rst:135
+#: ../../user/files.rst:133
 msgid ""
 "There is also an option for how to handle strings needing edit in the "
 "imported file. Such strings can be handle in one of the three following "
@@ -41496,11 +41569,11 @@ msgstr ""
 "importați\", \"Importați ca șir de caractere care necesită editare\" sau "
 "\"Importați ca tradus\"."
 
-#: ../../user/files.rst:143
+#: ../../user/files.rst:141
 msgid "Overriding authorship"
 msgstr "Suprascrierea autorului"
 
-#: ../../user/files.rst:145
+#: ../../user/files.rst:143
 msgid ""
 "With admin permissions, you can also specify authorship of uploaded file. "
 "This can be useful in case you've received the file in another way and want "
@@ -45024,6 +45097,25 @@ msgstr ""
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid ""
+#~ "This string has more than one translation in this project or is not "
+#~ "translated in some components."
+#~ msgstr ""
+#~ "Acest șir are mai multe traduceri în acest proiect sau nu este tradus în "
+#~ "anumite componente."
+
+#~ msgid "Some plural forms are not translated"
+#~ msgstr "Unele forme de plural nu sunt traduse"
+
+#~ msgid ""
+#~ "The uploaded file is merged to update the translation, overwriting "
+#~ "existing entries by default (this can be turned off or on in the upload "
+#~ "dialog)."
+#~ msgstr ""
+#~ "Fișierul încărcat este fuzionat pentru a actualiza traducerea, "
+#~ "suprascriind în mod implicit intrările existente (acest lucru poate fi "
+#~ "dezactivat sau activat în caseta de dialog privind încărcarea)."
 
 #~ msgid ""
 #~ "The default set of translation flags is determined by the translation :"

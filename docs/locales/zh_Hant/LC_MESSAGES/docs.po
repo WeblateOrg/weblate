@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 08:41+0100\n"
+"POT-Creation-Date: 2022-01-22 13:07+0100\n"
 "PO-Revision-Date: 2021-12-04 17:52+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -230,7 +230,7 @@ msgstr "翻譯"
 msgid "Can translate the project and upload translations made offline."
 msgstr "可以翻譯項目，並將離線的翻譯上傳。"
 
-#: ../../admin/access.rst:102 ../../devel/community.rst:40
+#: ../../admin/access.rst:102 ../../devel/community.rst:41
 msgid "Sources"
 msgstr "原文"
 
@@ -2366,7 +2366,7 @@ msgstr "此翻譯正作為來源字串。"
 
 #: ../../admin/addons.rst:404
 msgid ""
-"All untranslated strings in the component will be fileld with the source "
+"All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
@@ -3763,10 +3763,14 @@ msgstr ""
 "accounts.auth.WeblateUserBackend`` 保留在那裡，它用於 Weblate 核心功能。"
 
 #: ../../admin/auth.rst:344
+#, fuzzy
+#| msgid ""
+#| "This will disable *all* e-mail delivery including registration or "
+#| "password reset e-mails."
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
-"functionality - inviting users or password reset feature."
-msgstr ""
+"functionality – user invitation or password reset feature."
+msgstr "這將禁止 *所有* 電子郵件的投遞，包括註冊或密碼重置電子郵件。"
 
 #: ../../admin/auth.rst:349
 #, fuzzy
@@ -8912,7 +8916,6 @@ msgid ""
 msgstr "可用的導出程序列表，提供下載各種文件格式的翻譯或詞彙表。"
 
 #: ../../admin/config.rst:2217 ../../admin/config.rst:2234
-#: ../../user/files.rst:74
 msgid ":ref:`formats`"
 msgstr ""
 
@@ -18220,9 +18223,15 @@ msgstr ""
 "件，並且在新建真正的源字符串時使用。"
 
 #: ../../admin/projects.rst:445
+#, fuzzy
+#| msgid ""
+#| "When set, the source strings are based on this file, but all other "
+#| "languages are based on :ref:`component-template`. In case the string is "
+#| "not translated into the source language, translating to other languages "
+#| "is prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
-"are based on :ref:`component-template`. In case the string is not translated "
+"are based on :ref:`component-template`. In case the string is untranslated "
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
@@ -18561,7 +18570,7 @@ msgstr "合併"
 #: ../../admin/projects.rst:658
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
-"fast-forward when possbile. This is the safest way, but might produce a lot "
+"fast-forward when possible. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
 
@@ -22245,8 +22254,12 @@ msgid "translation unit flags"
 msgstr "翻譯單元的標記"
 
 #: ../../api.rst:2012
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved, 100 - read only"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr "單元狀態，0——未翻譯，10——需要編輯，20——已翻譯，30——以通過，100——只讀"
 
@@ -22326,8 +22339,12 @@ msgid "Performs partial update on translation unit."
 msgstr "執行自動翻譯"
 
 #: ../../api.rst:2036 ../../api.rst:2049
+#, fuzzy
+#| msgid ""
+#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
-"unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
+"unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
 "單元狀態, 0 - 未翻譯, 10 - 需要編輯, 20 - 已翻譯, 30 - 已批准 (需啟用審核工作"
@@ -23079,7 +23096,7 @@ msgstr "改進了 gitexport 模塊中的錯誤處理。"
 #: ../../changes.rst:15
 #, fuzzy
 #| msgid "Fixed GitHub hooks for repositories with authentication."
-msgid "Fixed some write operations with projec token authentication."
+msgid "Fixed some write operations with project token authentication."
 msgstr "對帶有驗證的倉庫修復了 GitHub 鉤子。"
 
 #: ../../changes.rst:16
@@ -28343,8 +28360,12 @@ msgid "Clarified terminology on strings needing edit (formerly fuzzy)."
 msgstr "闡明了需要編輯的字符串的術語（以前被稱為 fuzzy，即模糊）。"
 
 #: ../../changes.rst:1521
+#, fuzzy
+#| msgid ""
+#| "Clarified terminology on strings needing action and not translated "
+#| "strings."
 msgid ""
-"Clarified terminology on strings needing action and not translated strings."
+"Clarified terminology on strings needing action and untranslated strings."
 msgstr "明確需要動作的字符串和不需要翻譯的字符串的術語。"
 
 #: ../../changes.rst:1522
@@ -29446,7 +29467,10 @@ msgid "Added list of recent changes to all translation pages."
 msgstr "為所有翻譯頁面添加了最近更改的列表。"
 
 #: ../../changes.rst:1873
-msgid "Check for not translated strings ignores format string only messages."
+#, fuzzy
+#| msgid ""
+#| "Check for not translated strings ignores format string only messages."
+msgid "Check for untranslated strings ignores format string only messages."
 msgstr "檢查未翻譯的字符串，忽略格式字符串只檢查消息。"
 
 #: ../../changes.rst:1876
@@ -32426,37 +32450,42 @@ msgid ""
 "relation between original and translation. The model assumes that "
 "translation is an attempt to keep the semantic, pragmatic, and textual "
 "meaning of a text equivalent when crossing from one linguistic code to "
-"another. The degree of quality of a translation is based on the degree of "
+"another."
+msgstr ""
+
+#: ../../devel/community.rst:38
+msgid ""
+"The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
 "function. Because it cannot be calculated automatically, sufficient "
 "information should be collected to enable a uniform human evaluation. The "
 "two main parameters of agreement in a corresponding model are the macro-"
-"context – i.e. embedding in a larger social and literary context - and the "
+"context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
 
-#: ../../devel/community.rst:41
+#: ../../devel/community.rst:42
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
 
-#: ../../devel/community.rst:42
+#: ../../devel/community.rst:43
 msgid ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik starting on page number 101"
 msgstr ""
 
-#: ../../devel/community.rst:43
+#: ../../devel/community.rst:44
 msgid ""
 "post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing "
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 msgstr ""
 
-#: ../../devel/community.rst:44
+#: ../../devel/community.rst:45
 msgid ""
 "neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: "
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
@@ -33353,7 +33382,9 @@ msgstr ""
 #: ../../devel/libraries.rst:7
 #, fuzzy
 #| msgid "Delete translation memory"
-msgid "`Weblate Translation Provider for Symfony Translation`_"
+msgid ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 msgstr "刪除翻譯記憶"
 
 #: ../../devel/libraries.rst:11
@@ -38523,9 +38554,13 @@ msgid "Inconsistent"
 msgstr "不一致"
 
 #: ../../user/checks.rst:607
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is not "
+#| "translated in some components."
 msgid ""
-"This string has more than one translation in this project or is not "
-"translated in some components."
+"This string has more than one translation in this project or is untranslated "
+"in some components."
 msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
 
 #: ../../user/checks.rst:609
@@ -38564,12 +38599,19 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:629
+#, fuzzy
+#| msgid ""
+#| "This check also fires in case the string is translated in one component "
+#| "and not in another. It can be used as a quick way to manually handle "
+#| "strings which are not translated in some components just by clicking on "
+#| "the :guilabel:`Use this translation` button displayed on each line in "
+#| "the :guilabel:`Other occurrences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
-"which are not translated in some components just by clicking on the :"
-"guilabel:`Use this translation` button displayed on each line in the :"
-"guilabel:`Other occurrences` tab."
+"which are untranslated in some components just by clicking on the :guilabel:"
+"`Use this translation` button displayed on each line in the :guilabel:`Other "
+"occurrences` tab."
 msgstr ""
 "此檢查還會在字符串在一個組件中翻譯而不在另一個組件中進行觸發。它可以用作手動"
 "處理在某些組件中未翻譯的快速方法，只需點擊以下方式：“圭冊：”使用此翻譯“按"
@@ -38994,7 +39036,9 @@ msgid "Missing plurals"
 msgstr "缺少複數形"
 
 #: ../../user/checks.rst:937
-msgid "Some plural forms are not translated"
+#, fuzzy
+#| msgid "Some plural forms are not translated"
+msgid "Some plural forms are untranslated"
 msgstr "有些複數形沒有翻譯"
 
 #: ../../user/checks.rst:939
@@ -39700,29 +39744,27 @@ msgstr ""
 "可以上載支持的文件格式中的任何文件，但仍然建議使用與用於翻譯的文件格式相同的"
 "文件格式，否則可能無法正確翻譯一些功能。"
 
-#: ../../user/files.rst:76
-msgid ""
-"The uploaded file is merged to update the translation, overwriting existing "
-"entries by default (this can be turned off or on in the upload dialog)."
-msgstr ""
-"上載的文件合併以更新翻譯，默認覆蓋現有條目（這可以在上載對話框中關閉或打"
-"開）。"
+#: ../../user/files.rst:74
+#, fuzzy
+#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
+msgid ":ref:`formats`, :doc:`/user/files`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
-#: ../../user/files.rst:82
+#: ../../user/files.rst:80
 msgid "Import methods"
 msgstr ""
 
-#: ../../user/files.rst:84
+#: ../../user/files.rst:82
 msgid "These are the choices presented when uploading translation files:"
 msgstr "這些是上傳翻譯文件時提供的選項："
 
-#: ../../user/files.rst:89
+#: ../../user/files.rst:87
 #, fuzzy
 #| msgid "Add a translation message"
 msgid "Add as translation (``translate``)"
 msgstr "新增翻譯訊息"
 
-#: ../../user/files.rst:87
+#: ../../user/files.rst:85
 #, fuzzy
 #| msgid ""
 #| "Imported translations are added as translations. This is the most common "
@@ -39732,18 +39774,18 @@ msgid ""
 "most common usecase, and the default behavior."
 msgstr "導入翻譯作為翻譯添加。這是最常見的usecase和默認行為。"
 
-#: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
+#: ../../user/files.rst:88 ../../user/files.rst:93 ../../user/files.rst:98
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr "只能從上傳的文件中使用翻譯，而且沒有其他內容。"
 
-#: ../../user/files.rst:94
+#: ../../user/files.rst:92
 #, fuzzy
 #| msgid "Add as suggestion"
 msgid "Add as suggestion (``suggest``)"
 msgstr "新增為建議"
 
-#: ../../user/files.rst:92
+#: ../../user/files.rst:90
 #, fuzzy
 #| msgid ""
 #| "Imported translations are added as suggestions, do this when you want to "
@@ -39753,13 +39795,13 @@ msgid ""
 "your uploaded strings reviewed."
 msgstr "將導入的翻譯添加為建議，當您想要查看上傳的字符串時執行此操作。"
 
-#: ../../user/files.rst:99
+#: ../../user/files.rst:97
 #, fuzzy
 #| msgid "Add as translation needing edit"
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "新增為需要編輯的翻譯"
 
-#: ../../user/files.rst:97
+#: ../../user/files.rst:95
 #, fuzzy
 #| msgid ""
 #| "Imported translations are added as translations needing edit. This can be "
@@ -39771,25 +39813,25 @@ msgstr ""
 "作為需要編輯的翻譯添加導入的翻譯。當您希望使用翻譯時，這可能很有用，還可以查"
 "看。"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 #, fuzzy
 #| msgid "Replace existing translation file"
 msgid "Replace existing translation file (``replace``)"
 msgstr "取代既有翻譯檔"
 
-#: ../../user/files.rst:102
+#: ../../user/files.rst:100
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr "現有文件替換為新內容。這可能導致現有翻譯丟失，謹慎使用。"
 
-#: ../../user/files.rst:107
+#: ../../user/files.rst:105
 #, fuzzy
 #| msgid "Update source strings"
 msgid "Update source strings (``source``)"
 msgstr "更新來源字串"
 
-#: ../../user/files.rst:105
+#: ../../user/files.rst:103
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
@@ -39797,24 +39839,24 @@ msgstr ""
 "更新雙語翻譯文件中的源字符串。這類似於什麼：REF：`addon-webblate.gettext."
 "msgmerge`。"
 
-#: ../../user/files.rst:108
+#: ../../user/files.rst:106
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "This option is supported only for some file formats."
 msgstr "不支援的檔案格式。"
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 #, fuzzy
 #| msgid "Add new string"
 msgid "Add new strings (``add``)"
 msgstr "新增新字串"
 
-#: ../../user/files.rst:110
+#: ../../user/files.rst:108
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
 msgstr "將新字符串添加到翻譯中。它跳過已經存在的那個。"
 
-#: ../../user/files.rst:112
+#: ../../user/files.rst:110
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
@@ -39822,37 +39864,37 @@ msgstr ""
 "如果您想要添加新字符串並更新現有翻譯，請使用以下時間將文件上載：Guilabel：“添"
 "加作為翻譯”。"
 
-#: ../../user/files.rst:115
+#: ../../user/files.rst:113
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
 msgstr "此選項僅適用於：REF：“Component-Manage_units`”。"
 
-#: ../../user/files.rst:117
+#: ../../user/files.rst:115
 #, fuzzy
 #| msgid "No strings were imported from the uploaded file."
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
 msgstr "未從上傳的檔案中匯入任何字串。"
 
-#: ../../user/files.rst:121
+#: ../../user/files.rst:119
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
 
-#: ../../user/files.rst:126
+#: ../../user/files.rst:124
 msgid "Conflicts handling"
 msgstr ""
 
-#: ../../user/files.rst:128
+#: ../../user/files.rst:126
 msgid "Defines how to deal with uploaded strings which are already translated."
 msgstr "定義如何處理已翻譯的上傳字符串。"
 
-#: ../../user/files.rst:133
+#: ../../user/files.rst:131
 msgid "Strings needing edit"
 msgstr ""
 
-#: ../../user/files.rst:135
+#: ../../user/files.rst:133
 msgid ""
 "There is also an option for how to handle strings needing edit in the "
 "imported file. Such strings can be handle in one of the three following "
@@ -39862,11 +39904,11 @@ msgstr ""
 "還有一個選擇如何處理需要在導入的文件中編輯的字符串。這種字符串可以以以下三種"
 "方式之一句柄：“不要導入”，“導入作為字符串需要編輯”，或“轉換為”導入“。"
 
-#: ../../user/files.rst:143
+#: ../../user/files.rst:141
 msgid "Overriding authorship"
 msgstr ""
 
-#: ../../user/files.rst:145
+#: ../../user/files.rst:143
 msgid ""
 "With admin permissions, you can also specify authorship of uploaded file. "
 "This can be useful in case you've received the file in another way and want "
@@ -43126,6 +43168,22 @@ msgstr ""
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ""
+
+#~ msgid ""
+#~ "This string has more than one translation in this project or is not "
+#~ "translated in some components."
+#~ msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
+
+#~ msgid "Some plural forms are not translated"
+#~ msgstr "有些複數形沒有翻譯"
+
+#~ msgid ""
+#~ "The uploaded file is merged to update the translation, overwriting "
+#~ "existing entries by default (this can be turned off or on in the upload "
+#~ "dialog)."
+#~ msgstr ""
+#~ "上載的文件合併以更新翻譯，默認覆蓋現有條目（這可以在上載對話框中關閉或打"
+#~ "開）。"
 
 #~ msgid ""
 #~ "The default set of translation flags is determined by the translation :"
