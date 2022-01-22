@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 12:06+0000\n"
-"PO-Revision-Date: 2022-01-15 12:54+0000\n"
+"PO-Revision-Date: 2022-01-22 18:52+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1463,10 +1463,9 @@ msgstr ""
 "анализирани за извличане на низове за превод."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Флаговете не могат да бъдат анализирани: %s"
+msgstr "Селекторът за CSS не може да бъде анализиран: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1513,16 +1512,12 @@ msgstr ""
 "изходен низ."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Източник за автоматичен превод"
+msgstr "Предварително попълване на превода с изходния низ"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Този превод се използва като изходни низове."
+msgstr "Попълва преводите като се използват изходните низове."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2570,10 +2565,8 @@ msgid "Missing plurals"
 msgstr "Липсващи форми за множествено число"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
-msgstr "Някои от формите за множествено число нямат превод"
+msgstr "Някои от формите за множествено число не са преведени"
 
 #: weblate/checks/consistency.py:55
 msgid "Same plurals"
@@ -2588,10 +2581,6 @@ msgid "Inconsistent"
 msgstr "Непоследователност"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -3201,10 +3190,8 @@ msgid "Unsupported file format."
 msgstr "Неподдържан файлов формат."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "Вече има запис с това име."
+msgstr "Вече има шрифт с това име."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3216,10 +3203,8 @@ msgid "Font deleted."
 msgstr "Шрифтът е изтрит."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "Вече има запис с това име."
+msgstr "Вече има група от шрифтове с това име."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -6600,15 +6585,13 @@ msgid "Rebase"
 msgstr "Пребазиране"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Изтегляне на промените от отдалеченото хранилище"
+msgstr "Изтегляне на промените от отдалеченото хранилище без прескачания"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Сливане без прескачания"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -7958,16 +7941,12 @@ msgid "Please review and confirm the search and replace results."
 msgstr "Моля, прегледайте и потвърдете резултатите от търсенето и замяната."
 
 #: weblate/templates/replace.html:28
-#, fuzzy
-#| msgid ""
-#| "Showing and replacing only the first 250 matches. Perform the replacement "
-#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
 msgstr ""
 "Показват се и се заменят само първите 250 съвпадения. Извършете замяната "
-"отново, за да я приложите върху повече записи."
+"отново, за да я приложите върху още."
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
@@ -8381,10 +8360,8 @@ msgstr "Нуждае се от редактиране"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Преведени низове"
+msgstr "Непреведени низове"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10607,10 +10584,8 @@ msgid "Language used for source strings in all components"
 msgstr "Езикът на изходните низове във всички компоненти"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Вече има запис с това име."
+msgstr "Вече има компонент с това име."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -11246,10 +11221,8 @@ msgstr "Качена е екранна снимка"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Неуспешно обновяване на хранилището."
+msgstr "Обновен е низ в хранилището"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11271,13 +11244,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s в %(time)s в %(translation)s, от %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Нов низ за превод на %(translation)s"
-msgstr[1] "Нови низове за превод на %(translation)s"
+msgstr[0] "В превода се появи %d нов низ за превод."
+msgstr[1] "В превода се появиха %d нови низа за превод."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12738,10 +12709,9 @@ msgid "New string has been added."
 msgstr "Новият низ беше добавен."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to save translation!"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Грешка при запазването на превода!"
+msgstr "Грешка при премахването на низа: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13189,23 +13159,19 @@ msgstr "Git с принудително изпращане на променит
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "Заявка за изтегляне в GitHub"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Липсва отдалечено хранилище"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Грешна заявка за сливане!"
+msgstr "Заявка за сливане в Gitlab"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Грешна заявка за сливане!"
+msgstr "Заявка за сливане в Pagure"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
