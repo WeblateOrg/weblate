@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 07:41+0000\n"
-"PO-Revision-Date: 2022-01-14 05:00+0000\n"
+"PO-Revision-Date: 2022-01-22 11:50+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1473,10 +1473,9 @@ msgstr ""
 "textos traduzíveis."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Falha ao analisar marcadores: %s"
+msgstr "Falha ao analisar o seletor de CSS: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1524,16 +1523,12 @@ msgstr ""
 "automaticamente."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Fonte da tradução automática"
+msgstr "Preencher tradução com fonte"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string. "
-msgstr "Essa tradução é usada para textos fonte."
+msgstr "Preenche textos de tradução com textos fonte. "
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -6581,7 +6576,7 @@ msgstr "Pull"
 
 #: weblate/templates/js/git-status.html:71
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Realocar as alterações do Weblate no repositório remoto"
+msgstr "Faz um rebase das alterações do Weblate no repositório remoto"
 
 #: weblate/templates/js/git-status.html:71
 #: weblate/trans/models/component.py:146
@@ -6589,15 +6584,13 @@ msgid "Rebase"
 msgstr "Rebase"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Obtém as alterações do repositório remoto"
+msgstr "Obtém as alterações do repositório remoto sem fast-forward"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Mesclar sem fast-forward"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -8365,10 +8358,8 @@ msgstr "Necessita edição"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Textos traduzidos"
+msgstr "Textos não traduzidos"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -11223,10 +11214,8 @@ msgstr "Captura de tela enviada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Não foi possível atualizar o repositório."
+msgstr "Texto atualizado no repositório"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11248,13 +11237,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s em %(time)s no %(translation)s pelo %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Novo texto para traduzir em %(translation)s"
-msgstr[1] "Novos textos para traduzir em %(translation)s"
+msgstr[0] "%d novo texto para traduzir apareceu na tradução."
+msgstr[1] "%d novos textos para traduzir apareceram na tradução."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12707,10 +12694,9 @@ msgid "New string has been added."
 msgstr "Um novo texto foi adicionado."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Falha ao analisar novo texto"
+msgstr "Falha ao remover o texto: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13153,23 +13139,19 @@ msgstr "Git com push forçado"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "Pull request do GitHub"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Sem repositório remoto"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Requisição de mesclagem inválida!"
+msgstr "Merge request do GitLab"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Requisição de mesclagem inválida!"
+msgstr "merge request do Pagure"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
