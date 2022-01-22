@@ -25,8 +25,8 @@
 {% show_message "info" msg %}
 
 {% if limited %}
-{% trans "Showing and replacing only the first 250 matches. Perform the replacement again to replace more entries." as msg %}
-{% show_message "warning" msg %}
+  {% trans "Showing and replacing only the first 250 matches. Perform the replacement again to replace more." as msg %}
+  {% show_message "warning" msg %}
 {% endif %}
 
 <form method="POST">
