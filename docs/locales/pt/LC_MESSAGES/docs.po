@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 08:41+0100\n"
-"PO-Revision-Date: 2022-01-22 07:40+0000\n"
+"PO-Revision-Date: 2022-01-22 11:50+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -2390,6 +2390,9 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Todas as cadeias não traduzidas no componente serão preenchidas com a cadeia "
+"de origem e marcadas como precisar a serem editadas. Use isto quando não "
+"puder ter cadeias de caracteres vazias nos ficheiros de tradução."
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -3842,6 +3845,9 @@ msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality - inviting users or password reset feature."
 msgstr ""
+"Desativar a autenticação de e-mail desativará todas as funcionalidades "
+"relacionadas a e-mail - convidar utilizadores ou o recurso de redefinição de "
+"palavras-passe."
 
 #: ../../admin/auth.rst:349
 #, fuzzy
@@ -11129,6 +11135,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Outra coisa a tratar é do cabeçalho :http:header:`Host`. Deve combinar com o "
+"que estiver configurado como :set:`SITE_DOMAIN`. Uma configuração adicional "
+"pode ser necessária no seu proxy reverso (por exemplo, use ``"
+"ProxyPreserveHost On`` para o Apache ou ``proxy_set_header Host $host;`` no "
+"nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -19362,7 +19373,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:664
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Mesclar sem fast-forward"
 
 #: ../../admin/projects.rst:663
 #, fuzzy
@@ -23880,6 +23891,8 @@ msgstr "Indica projetos administrados na lista de projetos."
 #: ../../changes.rst:10
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
 msgstr ""
+"Corrigida a atualização de ficheiros PO com textos obsoletos ou plurais "
+"ausentes."
 
 #: ../../changes.rst:11 ../../changes.rst:126
 msgid "Improved squash add-on compatibility with Gerrit."
@@ -23890,6 +23903,8 @@ msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
 msgstr ""
+"Inicializar automaticamente os idiomas do utilizador à base do cabeçalho "
+":http:header:'Accept-Language'."
 
 #: ../../changes.rst:13
 #, fuzzy
@@ -23917,7 +23932,7 @@ msgstr "Atualizar com as alterações do repositório remoto"
 
 #: ../../changes.rst:18
 msgid "Sticky header on translations listing to improve navigation."
-msgstr ""
+msgstr "Cabeçalho fixo na listagem de traduções para melhorar a navegação."
 
 #: ../../changes.rst:19
 #, fuzzy
@@ -23927,7 +23942,7 @@ msgstr "Corrigida a tradução de cadeias recém-adicionadas."
 
 #: ../../changes.rst:20
 msgid "Fixed Git operation with non-ascii branch names."
-msgstr ""
+msgstr "Corrigida a operação do Git com nomes de ramos não ASCII."
 
 #: ../../changes.rst:21
 #, fuzzy
@@ -33042,6 +33057,15 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
+"Seguir essas recomendações permite a criação de uma ferramenta de pós-edição "
+"multilingue completa. Boas traduções são definidas através do modelo "
+"sistémico-funcional de House que visa uma tradução correta contextual. "
+"Escreva o seu próprio `guia de pós-edição <https://www.taus.net/academy/"
+"best-practices/postedit-best-practices/machine-translation-post-editing-"
+"guidelines>`_ e altere essas recomendações para se adequar às seu próprias "
+"definições. Na maioria dos casos, a `extenção do navegador do languageTool "
+"<https://languagetool.org/#firefox_chrome>`_ é útil como ferramenta de "
+"revisão."
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -33073,6 +33097,15 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"A pós-edição de MT com atribuição de terminologia influencia cada nível do "
+"processo de tradução. O sistema de tradução automática pode ser adaptado ao "
+"vocabulário e estilo específicos com um treino contínuo ou `conserto fuzzy "
+"neural <https://aclanthology.org/P19-1175.pdf>>x id=\"269\"></x>. `Importar "
+"<https://docs.weblate.org/en/latest/admin/memory.html#imported-translation-"
+"memory>`_ a sua memória de tradução existente ao Weblate ou criar um escopo "
+"inicial com a sua terminologia básica. No final, o leitor deve ser instruído "
+"com documentos terminológicos adicionais para garantir um bom conhecimento e "
+"uma boa produção na área."
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -33081,6 +33114,10 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"A qualidade da tradução automática (frequentemente medida com a pontuação "
+"BLEU) correlaciona com o tempo de edição [1]. Escolha um backend de máquina "
+"que suporte os idiomas e domínios necessários. Clarifique como o backend de "
+"tradução funciona e qual a qualidade que o pós-editor deve esperar."
 
 #: ../../devel/community.rst:27
 msgid "Review translations"
@@ -33092,6 +33129,9 @@ msgid ""
 "editing. With an impartial and competent revisor, the two man rule reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
+"As traduções devem ser revistas por uma segunda pessoa a seguir da pós-"
+"edição. Com um revisor imparcial e competente, a regra dos dois membros "
+"reduz erros e melhora a qualidade e consistência do conteúdo."
 
 #: ../../devel/community.rst:31
 msgid "Structured feedback"
@@ -33102,6 +33142,8 @@ msgid ""
 "There are many :doc:`/user/checks` in weblate. Pay the lectors to give "
 "structured feedback and use it to increase those checks."
 msgstr ""
+"Há muitos :doc:`/user/checks' no weblate. Pague aos palestrantes para dar "
+"opinião estruturada e utilizá-la para aumentar essas verificações."
 
 #: ../../devel/community.rst:35
 msgid "Translation definition"
@@ -33131,6 +33173,9 @@ msgid ""
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Marina Sanchez-Torron e Philipp Koehn em *Machine Translation Quality and "
+"Post-Editor Productivity*, Imagem 1: https://www.cs.jhu.edu/~phi/"
+"publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:42
 msgid ""
@@ -33138,6 +33183,9 @@ msgid ""
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik starting on page number 101"
 msgstr ""
+"Joanna Best e Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
+"hilfe. Editora A. Francke Tübingen und Base, 2002. Möglichkeiten der "
+"Übersetzungskritik a partir da página número 101"
 
 #: ../../devel/community.rst:43
 msgid ""
@@ -33145,6 +33193,9 @@ msgid ""
 "Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-"
 "practices/machine-translation-post-editing-guidelines"
 msgstr ""
+"Guia de pós-edição, Sharon O'Brien e Fred Hollowood em MT Post-editing "
+"Guidelines, 2010 https://www.taus.net/academy/best-practices/"
+"postedit-best-practices/machine-translation-post-editing-guidelines"
 
 #: ../../devel/community.rst:44
 msgid ""
@@ -33152,6 +33203,9 @@ msgid ""
 "Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://"
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
+"conserto neural nebuloso, Bram Bulté e Arda Tezcan em Neural Fuzzy Repair: "
+"Integrating Fuzzy Matches into Neural MachineTranslation, 2019 "
+"https://aclanthology.org/P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -34032,6 +34086,8 @@ msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
+"O Weblate pode ser integrado na sua estrutura pelo :doc:`/api`. Esta página "
+"lista bibliotecas de terceiros que integram o Weblate."
 
 #: ../../devel/libraries.rst:7
 #, fuzzy
@@ -34045,6 +34101,9 @@ msgid ""
 "Either submit a pull request with the changes directly or write us at "
 "care@weblate.org to get listed."
 msgstr ""
+"Está a construir uma integração Weblate para a sua estrutura? Seja listado "
+"aqui! Envie um pedido com as alterações diretamente ou escreva-nos a care@"
+"weblate.org para ser listado."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -43243,6 +43302,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Precisa configurar as credenciais da API (:setting:`GITHUB_CREDENTIALS`) nas "
+"configurações do Weblate par fazê-lo funcionar. Uma vez configurado, verá "
+"uma opção :guilabel:`GitHub` ao selecionar :ref:`component-vcs`."
 
 #: ../../vcs.rst:284
 msgid ""
@@ -43287,6 +43349,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Precisa configurar as credenciais da API (:setting:`GITLAB_CREDENTIALS`) nas "
+"configurações da Weblate para funcionar. Uma vez configurado, verá uma opção "
+":guilabel:`GitLab` ao selecionar :ref:`component-vcs`."
 
 #: ../../vcs.rst:314
 msgid ""
@@ -43331,6 +43396,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Precisa configurar as credenciais da API (:setting:`PAGURE_CREDENTIALS`) nas "
+"configurações da Weblate para funcionar. Uma vez configurado, verá uma opção "
+":guilabel:`Pagure` ao selecionar :ref:`component-vcs`."
 
 #: ../../vcs.rst:344
 msgid ""
