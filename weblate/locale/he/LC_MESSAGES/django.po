@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 07:41+0000\n"
-"PO-Revision-Date: 2022-01-07 16:38+0000\n"
+"PO-Revision-Date: 2022-01-22 12:06+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1401,10 +1401,9 @@ msgstr ""
 "לתרגום."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "פענוח הדגלונים נכשל: %s"
+msgstr "פענוח בורר ה־CSS נכשל: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1448,16 +1447,12 @@ msgid ""
 msgstr "מייצר תרגום על ידי הוספת קידומת וסיומת למחרוזות המקור אוטומטית."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "מקור תרגום אוטומטי"
+msgstr "מילוי המקור בתרגום מראש"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string. "
-msgstr "תרגום זה משמש למחרוזות המקור."
+msgstr "ממלא את מחרוזות התרגום במחרוזת המקור. "
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -6426,15 +6421,13 @@ msgid "Rebase"
 msgstr "החלפת בסיס"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "משיכת השינויים מהמאגר המרוחק"
+msgstr "משיכת השינויים מהמאגר המרוחק ללא הרצה קדימה"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "מיזוג ללא הרצה קדימה"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -8166,10 +8159,8 @@ msgstr "טעונת שיפור"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "מחרוזות מתורגמות"
+msgstr "מחרוזות שלא תורגמו"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10930,10 +10921,8 @@ msgstr "הועלה צילום מסך"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "לא ניתן לעדכן את המאגר."
+msgstr "המחרוזת עודכנה במאגר"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -10957,15 +10946,13 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "מחרוזת חדשה לתרגום תחת %(translation)s"
-msgstr[1] "מחרוזות חדשות לתרגום תחת %(translation)s"
-msgstr[2] "מחרוזות חדשות לתרגום תחת %(translation)s"
-msgstr[3] "מחרוזות חדשות לתרגום תחת %(translation)s"
+msgstr[0] "מחרוזת חדשה לתרגום הופיעה בתרגום."
+msgstr[1] "%d מחרוזות חדשות לתרגום הופיעו בתרגום."
+msgstr[2] "%d מחרוזות חדשות לתרגום הופיעו בתרגום."
+msgstr[3] "%d מחרוזות חדשות לתרגום הופיעו בתרגום."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12383,10 +12370,9 @@ msgid "New string has been added."
 msgstr "נוספה מחרוזת חדשה."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "פענוח המחרוזת החדשה נכשל"
+msgstr "הסרת המחרוזת נכשלה: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -12834,23 +12820,19 @@ msgstr "Git עם אילוץ דחיפה"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "בקשת דחיפה ל־GitHub"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "אין מאגר מרוחק"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "בקשת המיזוג שגויה!"
+msgstr "בקשת מיזוג ל־GitLab"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "בקשת המיזוג שגויה!"
+msgstr "בקשת מיזוג ל־Pagure"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
