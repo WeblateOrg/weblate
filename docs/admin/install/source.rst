@@ -40,7 +40,6 @@ Installing from sources
         weblate migrate
         weblate collectstatic
         weblate compress
-        weblate compilemessages
 
    .. note::
 
