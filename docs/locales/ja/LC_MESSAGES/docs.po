@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-01-14 05:01+0000\n"
+"PO-Revision-Date: 2022-01-23 23:34+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -1423,8 +1423,6 @@ msgid "``all`` -- All strings"
 msgstr "``all`` -- すべての文字列"
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid "``nottranslated`` -- Not translated strings"
 msgid "``nottranslated`` -- Untranslated strings"
 msgstr "``nottranslated`` -- 未翻訳の文字列"
 
@@ -2176,22 +2174,16 @@ msgid "Content"
 msgstr "内容"
 
 #: ../../admin/addons.rst:394
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "自動翻訳の参照元"
+msgstr "事前に原文を翻訳に代入"
 
 #: ../../admin/addons.rst:398
-#, fuzzy
-#| msgid "``weblate.generate.pseudolocale``"
 msgid "``weblate.generate.prefill``"
-msgstr "``weblate.generate.pseudolocale``"
+msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:402
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "この翻訳は、原文として使用されます。"
+msgstr "初期値として原文を翻訳に代入する。"
 
 #: ../../admin/addons.rst:404
 msgid ""
@@ -3592,28 +3584,16 @@ msgstr ""
 "で残しておいてください。"
 
 #: ../../admin/auth.rst:344
-#, fuzzy
-#| msgid ""
-#| "This will disable *all* e-mail delivery including registration or "
-#| "password reset e-mails."
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
-msgstr ""
-"これにより、登録やパスワード リセットを含む *すべての* メール配信が無効になり"
-"ます。"
+msgstr "メール認証を無効にすると、メールに関連するすべての機能（ユーザーの招待またはパスワードのリセット機能）が無効になります。"
 
 #: ../../admin/auth.rst:349
-#, fuzzy
-#| msgid ""
-#| "You can still use password authentication for the admin interface, for "
-#| "users you manually create there. Just navigate to ``/admin/``."
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
-msgstr ""
-"管理画面から手動で作成したユーザーは、まだパスワード認証をすることができま"
-"す。``/admin/`` で入力するだけです。"
+msgstr "管理画面から手動で作成したユーザーは、引き続きパスワード認証ができます。``/admin/login/`` で入力するだけです。"
 
 #: ../../admin/auth.rst:352
 msgid ""
@@ -14716,19 +14696,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:109
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-#| "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-#| "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgid ""
 ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgstr ""
 ":setting:`MT_DEEPL_KEY`、:setting:`MT_DEEPL_API_URL`、`DeepL website "
-"<https://www.deepl.com/>`_ 、`DeepL pricing <https://www.deepl.com/pro>`_ 、"
-"`DeepL API documentation <https://www.deepl.com/api.html>`_"
+"<https://www.deepl.com/>`_ 、`DeepL pricing <https://www.deepl.com/pro>`_ 、`"
+"DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 
 #: ../../admin/machine.rst:118
 msgid "LibreTranslate"
@@ -17602,7 +17577,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:664
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "fast-forward なしで、マージする"
 
 #: ../../admin/projects.rst:663
 msgid ""
@@ -19058,10 +19033,8 @@ msgid "Upgrade from 4.10 to 4.11"
 msgstr ""
 
 #: ../../admin/upgrade.rst:297 ../../changes.rst:14
-#, fuzzy
-#| msgid "Weblate needs Git 2.12 or newer."
 msgid "Weblate now requires Python 3.7 or newer."
-msgstr "Weblate には Git 2.12 以降が必要です。"
+msgstr "Weblate には Python 3.7 以降が必要になりました。"
 
 #: ../../admin/upgrade.rst:304
 msgid "Upgrading from Python 2 to Python 3"
@@ -21048,16 +21021,10 @@ msgid "translation unit flags"
 msgstr "翻訳ユニットのフラグ"
 
 #: ../../api.rst:2012
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
-msgstr ""
-"ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済、100 - 編集"
-"不可"
+msgstr "ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済、100 - 編集不可"
 
 #: ../../api.rst:2013
 msgid "whether the unit is fuzzy or marked for review"
@@ -21121,16 +21088,12 @@ msgid "Performs partial update on translation unit."
 msgstr "翻訳ユニットを部分的に更新します。"
 
 #: ../../api.rst:2036 ../../api.rst:2049
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
-"ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済（査読ワーク"
-"フローを有効にすることが必要。参照: :ref:`reviews`）"
+"ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済（査読ワークフローを有効にすることが必要。参照: "
+":ref:`reviews`）"
 
 #: ../../api.rst:2045
 msgid "Performs full update on translation unit."
@@ -21840,55 +21803,41 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Improved error handling on string removal."
-msgstr "新しい文字列を追加するときのパフォーマンスの向上。"
+msgstr "文字列削除時のエラー処理の改善。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Fixed some write operations with project token authentication."
-msgstr "サーバーは認証を許可していません。"
+msgstr "プロジェクト トークン認証を使用する一部の書き込み操作の修正。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "Fixed string state tracking when the strings changes in the repository."
-msgstr "リポジトリで使われている元の形式の翻訳ファイル"
+msgstr "リポジトリ内の文字列を変更したときの文字列の状態の追跡を修正。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Update with changes from the remote repository"
 msgid "Track string changes from the repository."
-msgstr "リモートのリポジトリからの変更で更新する"
+msgstr "リポジトリからの文字列変更を追跡。"
 
 #: ../../changes.rst:18
 msgid "Sticky header on translations listing to improve navigation."
 msgstr ""
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed untranslating strings in :ref:`javaprop`."
-msgstr "新しく追加した文字列の翻訳を修正。"
+msgstr ":ref:`javaprop` では未翻訳となる問題の修正。"
 
 #: ../../changes.rst:20
 msgid "Fixed Git operation with non-ascii branch names."
 msgstr ""
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ":ref:`addon-weblate.generate.generate`"
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
-msgstr ":ref:`addon-weblate.generate.generate`"
+msgstr "新しいアドオン :ref:`addon-weblate.generate.prefill`。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ""
 "Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`."
-msgstr ":ref:`component`、:ref:`component-merge_style`"
+msgstr "guilabel:`fast-forward なしのマージ` :ref:`component-merge_style` の追加。"
 
 #: ../../changes.rst:25
 msgid "Weblate 4.10.1"
@@ -26658,10 +26607,6 @@ msgid "Clarified terminology on strings needing edit (formerly fuzzy)."
 msgstr "編集が必要な文字列に関する用語の明確化（以前は \"fuzzy”）。"
 
 #: ../../changes.rst:1521
-#, fuzzy
-#| msgid ""
-#| "Clarified terminology on strings needing action and not translated "
-#| "strings."
 msgid ""
 "Clarified terminology on strings needing action and untranslated strings."
 msgstr "作業が必要な文字列と、未翻訳の文字列の用語の明確化。"
@@ -30350,17 +30295,6 @@ msgid "Terminology management"
 msgstr "用語集の管理"
 
 #: ../../devel/community.rst:19
-#, fuzzy
-#| msgid ""
-#| "Post-editing of MT with terminology assignment influences each level of "
-#| "the translation process. The machine translation system can be adapted to "
-#| "the specific vocabulary and style with a continued training or `neural "
-#| "fuzzy repair <https://www.aclweb.org/anthology/P19-1175.pdf>`_. `Import "
-#| "<https://docs.weblate.org/en/latest/admin/memory.html#imported-"
-#| "translation-memory>`_ your existing translation memory into weblate or "
-#| "create an initial scope with your basic terminology. In the end the "
-#| "lector should be instructed with additional terminology documents to "
-#| "guarantee a good knowledge and output in the field."
 msgid ""
 "Post-editing of MT with terminology assignment influences each level of the "
 "translation process. The machine translation system can be adapted to the "
@@ -30372,14 +30306,12 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
-"用語の割り当てを使用した機械翻訳後の編集は、翻訳プロセスの各レベルに影響を与"
-"えます。機械翻訳システムは、継続的なトレーニングまたは `ニューラル ファジー修"
-"復 <https://www.aclweb.org/anthology/P19-1175.pdf>`_ を使用して、特定の語彙と"
-"スタイルに適合させることができます。既存の翻訳メモリを weblate に `インポー"
-"ト <https://docs.weblate.org/en/latest/admin/memory.html#imported-"
-"translation-memory>`_ するか、基本的な用語を含む初期の用語集を作成します。最"
-"終的には、その分野における必要な知識と翻訳結果を保証するために、専門家に追加"
-"の用語集の作成をお願いすることが必要です。"
+"用語の割り当てを使用した機械翻訳後の編集は、翻訳プロセスの各レベルに影響を与えます。機械翻訳システムは、継続的なトレーニングまたは `ニューラル "
+"ファジー修復 <https://aclanthology.org/P19-1175.pdf>`_ "
+"を使用して、特定の語彙とスタイルに適合させることができます。既存の翻訳メモリを weblate に `インポート <https://docs."
+"weblate.org/en/latest/admin/memory.html#imported-translation-memory>`_ するか、基本"
+"的な用語を含む初期の用語集を作成します。最終的には、その分野における必要な知識と翻訳結果を保証するために、専門家に追加の用語集の作成をお願いすることが必要"
+"です。"
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -30398,60 +30330,31 @@ msgid "Review translations"
 msgstr "翻訳の査読"
 
 #: ../../devel/community.rst:28
-#, fuzzy
-#| msgid ""
-#| "The translations should be reviewed by a second person after the post-"
-#| "editing. With an impartial and competent revisor, the two man rules "
-#| "reduces the errors and improves the quality and consistency of the "
-#| "content."
 msgid ""
 "The translations should be reviewed by a second person after the post-"
 "editing. With an impartial and competent revisor, the two man rule reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
-"翻訳は、機械翻訳後の編集の後に 2 人目が査読することが必要です。公平で有能な校"
-"閲者がいることで、2 人体制の制度は誤りを減らし、コンテンツの品質と一貫性を向"
-"上させます。"
+"翻訳は、機械翻訳後の編集の後に 2 人目が査読することが必要です。公平で有能な校閲者がいることで、2 "
+"人体制の制度は誤りを減らし、コンテンツの品質と一貫性を向上させます。"
 
 #: ../../devel/community.rst:31
 msgid "Structured feedback"
 msgstr "構造化されたフィードバック"
 
 #: ../../devel/community.rst:32
-#, fuzzy
-#| msgid ""
-#| "There are many `quality checks <https://docs.weblate.org/en/latest/user/"
-#| "checks.html>`_ in weblate. Pay the lectors to give structured feedback "
-#| "and use it to increase those checks."
 msgid ""
 "There are many :doc:`/user/checks` in weblate. Pay the lectors to give "
 "structured feedback and use it to increase those checks."
 msgstr ""
-"weblate には、数多くの `品質検査 <https://docs.weblate.org/en/latest/user/"
-"checks.html>`_ があります。言語の専門家に報酬を支払い構造化されたフィードバッ"
-"クを行い、それを使用して検査項目を増やします。"
+"weblate には、数多くの :doc:`/user/checks` "
+"があります。言語の専門家に報酬を支払い、構造化されたフィードバックを行い、検査項目を増やします。"
 
 #: ../../devel/community.rst:35
 msgid "Translation definition"
 msgstr "翻訳の定義"
 
 #: ../../devel/community.rst:36
-#, fuzzy
-#| msgid ""
-#| "In addition to the mentalistic and impact-based definitions which make a "
-#| "strong reduction, the text-based linguistic approach fits best with the "
-#| "implemented translation methods. A well-formulated theory for translation "
-#| "evaluation is House's systemic-functional model, which focuses on the "
-#| "relation between original and translation. The model assumes that "
-#| "translation is an attempt to keep the semantic, pragmatic, and textual "
-#| "meaning of a text equivalent when crossing from one linguistic code to "
-#| "another. The degree of quality of a translation is based on the degree of "
-#| "equivalence, the correspondence between the text profile and the text "
-#| "function. Because it cannot be calculated automatically, sufficient "
-#| "information should be collected to enable a uniform human evaluation. The "
-#| "two main parameters of agreement in a corresponding model are the macro-"
-#| "context - i.e. embedding in a larger social and literary context - and "
-#| "the micro-context consisting of field, tenor and mode."
 msgid ""
 "In addition to the mentalistic and impact-based definitions which make a "
 "strong reduction, the text-based linguistic approach fits best with the "
@@ -30462,35 +30365,11 @@ msgid ""
 "meaning of a text equivalent when crossing from one linguistic code to "
 "another."
 msgstr ""
-"大幅な削減を可能にする精神的および基本的な効果の定義に加えて、テキストベース"
-"の言語的アプローチは、組み込みの翻訳手法として最適です。翻訳評価のため十分に"
-"定式化された理論は、オリジナルと翻訳の関係に焦点を当てた House の体系的機能モ"
-"デルです。このモデルでは、翻訳とは、ある言語コードから別の言語コードに移行す"
-"るときに、テキストの意味、語用論、およびテキストの意味を同等に保つ試みである"
-"と想定しています。翻訳の品質の度合いは、同等性の程度、テキスト プロファイルと"
-"テキスト関数の間の度合い基づいています。自動的に計算することはできないため、"
-"人間が均一に評価できるように十分な情報を収集することが必要です。対応するモデ"
-"ルを一致させる 2 つの主要なパラメータは、マクロ コンテキスト（つまり、より大"
-"きな社会的および文学的文脈に埋め込む）と、フィールド、方針、およびモードで構"
-"成されるマイクロ コンテキストです。"
+"大幅な削減を可能にする精神的および基本的な効果の定義に加えて、テキストベースの言語的アプローチは、組み込みの翻訳手法として最適です。翻訳評価のため十分に定"
+"式化された理論は、オリジナルと翻訳の関係に焦点を当てた House の体系的機能モデルです。このモデルでは、翻訳とは、ある言語コードから別の言語コードに移"
+"行するときに、テキストの意味、語用論、およびテキストの意味を同等に保つ試みであると想定しています。"
 
 #: ../../devel/community.rst:38
-#, fuzzy
-#| msgid ""
-#| "In addition to the mentalistic and impact-based definitions which make a "
-#| "strong reduction, the text-based linguistic approach fits best with the "
-#| "implemented translation methods. A well-formulated theory for translation "
-#| "evaluation is House's systemic-functional model, which focuses on the "
-#| "relation between original and translation. The model assumes that "
-#| "translation is an attempt to keep the semantic, pragmatic, and textual "
-#| "meaning of a text equivalent when crossing from one linguistic code to "
-#| "another. The degree of quality of a translation is based on the degree of "
-#| "equivalence, the correspondence between the text profile and the text "
-#| "function. Because it cannot be calculated automatically, sufficient "
-#| "information should be collected to enable a uniform human evaluation. The "
-#| "two main parameters of agreement in a corresponding model are the macro-"
-#| "context - i.e. embedding in a larger social and literary context - and "
-#| "the micro-context consisting of field, tenor and mode."
 msgid ""
 "The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
@@ -30500,17 +30379,10 @@ msgid ""
 "context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
-"大幅な削減を可能にする精神的および基本的な効果の定義に加えて、テキストベース"
-"の言語的アプローチは、組み込みの翻訳手法として最適です。翻訳評価のため十分に"
-"定式化された理論は、オリジナルと翻訳の関係に焦点を当てた House の体系的機能モ"
-"デルです。このモデルでは、翻訳とは、ある言語コードから別の言語コードに移行す"
-"るときに、テキストの意味、語用論、およびテキストの意味を同等に保つ試みである"
-"と想定しています。翻訳の品質の度合いは、同等性の程度、テキスト プロファイルと"
-"テキスト関数の間の度合い基づいています。自動的に計算することはできないため、"
-"人間が均一に評価できるように十分な情報を収集することが必要です。対応するモデ"
-"ルを一致させる 2 つの主要なパラメータは、マクロ コンテキスト（つまり、より大"
-"きな社会的および文学的文脈に埋め込む）と、フィールド、方針、およびモードで構"
-"成されるマイクロ コンテキストです。"
+"翻訳の品質の度合いは、同等性の程度、テキスト "
+"プロファイルとテキスト関数の間の度合い基づいています。自動的に計算することはできないため、人間が均一に評価できるように十分な情報を収集することが必要です。"
+"対応するモデルを一致させる 2 つの主要なパラメータは、マクロ コンテキスト（つまり、より大きな社会的および文学的文脈に埋め込む）と、フィールド、方針、"
+"およびモードで構成されるマイクロ コンテキストです。"
 
 #: ../../devel/community.rst:42
 msgid ""
@@ -30522,18 +30394,13 @@ msgstr ""
 "1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:43
-#, fuzzy
-#| msgid ""
-#| "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine "
-#| "Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. "
-#| "Möglichkeiten der Übersetzungskritik S.101 und Folgende"
 msgid ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
 "Übersetzungskritik starting on page number 101"
 msgstr ""
-"Joanna Best と Sylvia Kalina。翻訳と通訳: オリエンテーションのヘルプ。 A. "
-"Francke Verlag Tübingen と Base、2002 年。翻訳批評の機会 p.101 および 以降"
+"Joanna Best と Sylvia Kalina。翻訳と通訳: オリエンテーションのヘルプ。 A. Francke Verlag Tübingen "
+"と Base、2002 年。翻訳批評の機会 p.101 頁 以降"
 
 #: ../../devel/community.rst:44
 msgid ""
@@ -31242,10 +31109,8 @@ msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`、:doc:`/vcs`"
 
 #: ../../devel/libraries.rst:2
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization libraries and packages"
-msgstr "翻訳ガイド"
+msgstr "現地語化ライブラリとパッケージ"
 
 #: ../../devel/libraries.rst:4
 msgid ""
@@ -31254,12 +31119,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/libraries.rst:7
-#, fuzzy
-#| msgid "Weblate Translation Memory Schema"
 msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
-msgstr "Weblate 翻訳メモリスキーマ"
+msgstr ""
+"`Symfony 翻訳用の Weblate 翻訳プロバイダ <https://github.com/m2mtech/"
+"weblate-translation-provider/>`_"
 
 #: ../../devel/libraries.rst:11
 msgid ""
@@ -35667,14 +35532,6 @@ msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
 msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:397
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu."
-#| "org/software/gettext/manual/html_node/object_002dpascal_002dformat."
-#| "html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
-#| "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-#| "formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
-#| "System.SysUtils.Format>`_"
 msgid ""
 ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/object_002dpascal_002dformat."
@@ -35687,7 +35544,7 @@ msgstr ""
 "software/gettext/manual/html_node/object_002dpascal_002dformat."
 "html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
 "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-"formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
+"formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 
 #: ../../user/checks.rst:405
@@ -36001,16 +35858,10 @@ msgid "Inconsistent"
 msgstr "一貫性の欠如"
 
 #: ../../user/checks.rst:607
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
-msgstr ""
-"この文字列は、このプロジェクトで複数の翻訳があるか、コンポーネントによっては"
-"翻訳されていないものもあります。"
+msgstr "この文字列は、このプロジェクトで複数の翻訳があるか、コンポーネントによっては翻訳されていないものもあります。"
 
 #: ../../user/checks.rst:609
 msgid "``weblate.checks.consistency.ConsistencyCheck``"
@@ -36051,13 +35902,6 @@ msgstr ""
 "限されます。"
 
 #: ../../user/checks.rst:629
-#, fuzzy
-#| msgid ""
-#| "This check also fires in case the string is translated in one component "
-#| "and not in another. It can be used as a quick way to manually handle "
-#| "strings which are not translated in some components just by clicking on "
-#| "the :guilabel:`Use this translation` button displayed on each line in "
-#| "the :guilabel:`Other occurrences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
@@ -36065,11 +35909,9 @@ msgid ""
 "`Use this translation` button displayed on each line in the :guilabel:`Other "
 "occurrences` tab."
 msgstr ""
-"この検査は、文字列があるコンポーネントでは翻訳されていて、別のコンポーネント"
-"では翻訳されていない場合にも発生します。これは、:guilabel:`その他の出現箇所` "
-"タブの各行に表示される :guilabel:`この翻訳を使う` ボタンをクリックするだけ"
-"で、一部のコンポーネントで翻訳されていない文字列を手動で処理する簡単な方法と"
-"して使用できます。"
+"この検査は、文字列があるコンポーネントでは翻訳されていて、別のコンポーネントでは未翻訳の場合にも発生します。これは、:guilabel:`その他の出現箇所"
+"` タブの各行に表示される :guilabel:`この翻訳を使う` "
+"ボタンをクリックするだけで、一部のコンポーネントで翻訳されていない文字列を手動で処理する簡単な方法として使用できます。"
 
 #: ../../user/checks.rst:635
 msgid ""
@@ -36512,10 +36354,8 @@ msgid "Missing plurals"
 msgstr "複数形の不足"
 
 #: ../../user/checks.rst:937
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
-msgstr "翻訳されていない複数形が存在するもの"
+msgstr "翻訳されなかった複数形がある"
 
 #: ../../user/checks.rst:939
 msgid "``weblate.checks.consistency.PluralsCheck``"
@@ -37239,10 +37079,8 @@ msgstr ""
 "異なると、一部の内容が正しく翻訳されないことがあります。"
 
 #: ../../user/files.rst:74
-#, fuzzy
-#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
 msgid ":ref:`formats`, :doc:`/user/files`"
-msgstr ":ref:`fmt_capabs`、:ref:`workflows`"
+msgstr ":ref:`formats`, :doc:`/user/files`"
 
 #: ../../user/files.rst:80
 msgid "Import methods"
@@ -38048,21 +37886,15 @@ msgid "``has:TEXT``"
 msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``, ``label``."
 msgstr ""
-"属性がある文字列の検索 - ``plural``, ``context``, ``suggestion``, "
-"``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``。"
+"属性がある文字列の検索 - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``"
+", ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, "
+"``flags``, ``explanation``, ``glossary``, ``note``、 ``label``。"
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -38204,28 +38036,20 @@ msgid "Search in explanations."
 msgstr "説明の検索。"
 
 #: ../../user/search.rst:84
-#, fuzzy
-#| msgid "``state:TEXT``"
 msgid "``label:TEXT``"
-msgstr "``state:TEXT``"
+msgstr "``label:TEXT``"
 
 #: ../../user/search.rst:85
-#, fuzzy
-#| msgid "Search in explanations."
 msgid "Search in labels."
-msgstr "説明の検索。"
+msgstr "ラベルの検索。"
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "``screenshots``"
 msgid "``screenshot:TEXT``"
-msgstr "``screenshots``"
+msgstr "``screenshot:TEXT``"
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in screenshots."
-msgstr "ユーザー コメントの検索。"
+msgstr "スクリーンショットの検索。"
 
 #: ../../user/search.rst:90
 msgid "Boolean operators"
@@ -38418,14 +38242,6 @@ msgid "Translation links"
 msgstr "翻訳リンク"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Unfinished "
-#| "strings`. If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -38434,11 +38250,10 @@ msgid ""
 "still available. Alternatively you can use the search field to find a "
 "specific string or term."
 msgstr ""
-"コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに"
-"翻訳は、次のような個別の検査結果に分類されています、例えば :guilabel:`未翻訳"
-"の文字列` または :guilabel:`翻訳未完成の文字列`。プロジェクト全体で不合格とな"
-"らずに翻訳できた場合であっても、:guilabel:`すべての文字列` が使用できます。ま"
-"た、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
+"コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに翻訳は、次のような個別の検査結果に分類されています、例えば "
+":guilabel:`未翻訳の文字列` または "
+":guilabel:`翻訳未完成の文字列`。プロジェクト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
+"が使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -39666,10 +39481,8 @@ msgstr ""
 "元に戻すときにリモート ヘルパーが新しい tip を作成してしまうことがあります。"
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "GitHub (pull requests)"
 msgid "GitHub pull requests"
-msgstr "GitHub（プル リクエスト）"
+msgstr "GitHub プル リクエスト"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -39707,10 +39520,8 @@ msgstr ""
 "setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge requests"
-msgstr "マージリクエストが正しくありません！"
+msgstr "GitLab マージ リクエスト"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -39750,10 +39561,8 @@ msgstr ""
 "setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge requests"
-msgstr "マージリクエストが正しくありません！"
+msgstr "Pagure マージ リクエスト"
 
 #: ../../vcs.rst:329
 msgid ""
