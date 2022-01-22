@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 07:41+0000\n"
-"PO-Revision-Date: 2022-01-07 16:38+0000\n"
+"PO-Revision-Date: 2022-01-22 11:50+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1456,10 +1456,9 @@ msgstr ""
 "URL'lerdeki dosya adlarının listesi."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "İşaretleri ayrıştırma başarısız: %s"
+msgstr "CSS seçiciyi ayrıştırma başarısız oldu: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1504,16 +1503,12 @@ msgstr ""
 "Kaynak dizgilere kendiliğinden ön ek ve son ek ekleyerek çeviri oluşturur."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Otomatik çeviri kaynağı"
+msgstr "Çeviriyi kaynakla önceden doldur"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string. "
-msgstr "Bu çeviri kaynak dizgiler için kullanılır."
+msgstr "Çeviri dizgilerini kaynak dizgiyle doldurur. "
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -6553,15 +6548,13 @@ msgid "Rebase"
 msgstr "Yeniden konumla"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Uzak depodan değişiklikleri çek"
+msgstr "Hızlı ileri almadan uzak depodan değişiklikleri çek"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Hızlı ileri almadan birleştir"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -8325,10 +8318,8 @@ msgstr "Düzenleme gerekli"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Çevrilmiş dizgiler"
+msgstr "Çevrilmemiş dizgiler"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -11164,10 +11155,8 @@ msgstr "Ekran görüntüsü yüklendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Depo güncellenemedi."
+msgstr "Depodaki dizgi güncellendi"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11190,13 +11179,11 @@ msgstr ""
 "%(user)s tarafından %(translation)s dilinde %(time)s tarihinde %(action)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "%(translation)s içinde çevrilecek yeni dizgi"
-msgstr[1] "%(translation)s içinde çevrilecek yeni dizgiler"
+msgstr[0] "Çevrilecek %d yeni dizgi çeviride göründü."
+msgstr[1] "Çevrilecek %d yeni dizgi çeviride göründü."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12631,10 +12618,9 @@ msgid "New string has been added."
 msgstr "Yeni dizgi eklendi."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Yeni dizgiyi ayrıştırma başarısız"
+msgstr "Dizgiyi kaldırma başarısız oldu: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13077,23 +13063,19 @@ msgstr "Git (zorlama push ile)"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub çekme isteği"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Uzak depo yok"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Geçersiz birleştirme isteği!"
+msgstr "GitLab birleştirme isteği"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Geçersiz birleştirme isteği!"
+msgstr "Pagure birleştirme isteği"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
