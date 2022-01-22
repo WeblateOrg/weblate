@@ -71,10 +71,8 @@ features might not be translated properly.
 
 .. seealso::
 
-   :ref:`formats`
-
-The uploaded file is merged to update the translation, overwriting existing
-entries by default (this can be turned off or on in the upload dialog).
+   :ref:`formats`,
+   :doc:`/user/files`
 
 .. _upload-method:
 
