@@ -1661,10 +1661,14 @@ class ComponentProjectForm(ComponentNameForm):
         project = self.cleaned_data["project"]
         name = self.cleaned_data.get("name")
         if name and project.component_set.filter(name__iexact=name).exists():
-            raise ValidationError({"name": _("Entry by the same name already exists.")})
+            raise ValidationError(
+                {"name": _("Component with the same name already exists.")}
+            )
         slug = self.cleaned_data.get("slug")
         if slug and project.component_set.filter(slug__iexact=slug).exists():
-            raise ValidationError({"slug": _("Entry by the same name already exists.")})
+            raise ValidationError(
+                {"slug": _("Component with the same name already exists.")}
+            )
 
 
 class ComponentScratchCreateForm(ComponentProjectForm):
