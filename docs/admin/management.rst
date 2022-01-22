@@ -238,7 +238,7 @@ Performs cleanup of stored SSH host keys:
 
 .. seealso::
 
-   :ref`ssh-repos`
+   :ref:`ssh-repos`
 
 createadmin
 -----------
