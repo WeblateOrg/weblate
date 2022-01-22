@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 07:41+0000\n"
-"PO-Revision-Date: 2022-01-20 06:55+0000\n"
+"PO-Revision-Date: 2022-01-22 08:51+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -1480,10 +1480,9 @@ msgstr ""
 "przeanalizowania w celu przetłumaczenia ciągów."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Nie udało się przeanalizować flag: %s"
+msgstr "Nie udało się przeanalizować selektora CSS: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1529,16 +1528,12 @@ msgstr ""
 "ciągów źródłowych."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Źródło automatycznego tłumaczenia"
+msgstr "Wypełnij wstępnie tłumaczenie źródłem"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string. "
-msgstr "Tłumaczenie jest używany dla ciągów źródłowych."
+msgstr "Wypełnia ciągi tłumaczeń ciągami źródłowymi. "
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -6611,15 +6606,13 @@ msgid "Rebase"
 msgstr "Rebase"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Pobierz zmiany ze zdalnego repozytorium"
+msgstr "Pobierz zmiany ze zdalnego repozytorium bez przewijania do przodu"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Scal bez przewijania do przodu"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -7055,7 +7048,7 @@ msgstr ""
 
 #: weblate/templates/mail/new_language.html:25
 msgid "Requested language"
-msgstr "Język, którego dotyczy wniosek"
+msgstr "Zażądany języka"
 
 #: weblate/templates/mail/new_language.html:33
 msgid "View translation component"
@@ -7240,7 +7233,7 @@ msgstr "Jeśli masz problem z rejestracją, skontaktuj się z nami."
 #: weblate/templates/translate.html:88 weblate/trans/forms.py:2144
 #: weblate/utils/views.py:137
 msgid "Source string"
-msgstr "Źródłowy ciąg"
+msgstr "Ciąg źródłowy"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
@@ -8404,10 +8397,8 @@ msgstr "Wymaga edycji"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Ciągi przetłumaczone"
+msgstr "Nieprzetłumaczone ciągi"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10993,7 +10984,7 @@ msgstr "Ostrzeżenie (żółty)"
 
 #: weblate/trans/models/announcement.py:116
 msgid "Danger (red)"
-msgstr "Zmień słowo"
+msgstr "Niebezpieczeństwo (czerwony)"
 
 #: weblate/trans/models/announcement.py:117
 msgid "Success (green)"
@@ -11092,7 +11083,7 @@ msgstr "Przesłano zmiany"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:282
 msgid "Reset repository"
-msgstr "Resetuj repozytorium"
+msgstr "Zresetowano repozytorium"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:284
@@ -11207,7 +11198,7 @@ msgstr "Przeniesiono komponent"
 #: weblate/trans/models/change.py:335
 msgctxt "Name of event in the history"
 msgid "New string to translate"
-msgstr "Nowy ciąg znaków do przetłumaczenia"
+msgstr "Nowy ciąg do przetłumaczenia"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:344
@@ -11217,7 +11208,7 @@ msgstr "Dodano nowy język"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:346
 msgid "Requested new language"
-msgstr "Wymagany nowy język"
+msgstr "Zażądano nowego języka"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:348
@@ -11242,17 +11233,17 @@ msgstr "Otrzymano powiadomienie o repozytorium"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:356
 msgid "Replaced file by upload"
-msgstr "Plik zastąpiony przez przesłanie"
+msgstr "Zastąpiono plik przez przesłanie"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:358
 msgid "License changed"
-msgstr "Zmiana licencji"
+msgstr "Zmieniono licencję"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:360
 msgid "Contributor agreement changed"
-msgstr "Zmiana umowy uczestników"
+msgstr "Zmieniono umowę współpracownika"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:362
@@ -11266,10 +11257,8 @@ msgstr "Przesłano zrzut ekranu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Nie udało się zaktualizować repozytorium."
+msgstr "Zaktualizowano ciąg w repozytorium"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11292,14 +11281,12 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s o %(time)s w projekcie %(translation)s przez %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Nowy ciąg znaków do przetłumaczenia w projekcie %(translation)s"
-msgstr[1] "Nowe ciągi znaków do przetłumaczenia w projekcie %(translation)s"
-msgstr[2] "Nowych ciągów znaków do przetłumaczenia w projekcie %(translation)s"
+msgstr[0] "Pojawił się %d nowy ciąg do przetłumaczenia."
+msgstr[1] "Pojawiły się %d nowe ciągi do przetłumaczenia."
+msgstr[2] "Pojawiło się %d nowych ciągów do przetłumaczenia."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12769,10 +12756,9 @@ msgid "New string has been added."
 msgstr "Dodano nowy ciąg znaków."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Nie można przeanalizować nowego ciągu"
+msgstr "Nie udało się usunąć ciągu: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13224,23 +13210,19 @@ msgstr "Git z wymuszonym wypchnięciem"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub pull request"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Brak zdalnego repozytorium"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Nieprawidłowe żądanie połączenia!"
+msgstr "GitLab merge request"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Nieprawidłowe żądanie połączenia!"
+msgstr "Pagure merge request"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
