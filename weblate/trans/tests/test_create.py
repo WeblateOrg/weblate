@@ -355,7 +355,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Test/Create Component")
 
         response = create()
-        self.assertContains(response, "Entry by the same name already exists.")
+        self.assertContains(response, "Component with the same name already exists.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch_android(self):
