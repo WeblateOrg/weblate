@@ -40,8 +40,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 07:41+0000\n"
-"PO-Revision-Date: 2022-01-20 06:55+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2022-01-22 11:50+0000\n"
+"Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -845,7 +845,7 @@ msgstr "Ausstehende Vorschläge"
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
 msgid "Unfinished strings"
-msgstr "Unfertige Zeichenketten"
+msgstr "Unvollständige Zeichenketten"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1524,10 +1524,9 @@ msgstr ""
 "übersetzbaren Zeichenkette analysiert werden sollen."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Fehler beim Analysieren von Markierungen: %s"
+msgstr "Fehler beim Analysieren des CSS-Selektors: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1574,16 +1573,12 @@ msgstr ""
 "Suffix zu Ausgangszeichenketten."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Automatische Übersetzung"
+msgstr "Übersetzung mit Quelle vorbelegen"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string. "
-msgstr "Diese Übersetzung wird für Ausgangszeichenketten verwendet."
+msgstr "Füllt Übersetzungszeichenketten mit Quellzeichenketten aus. "
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -6743,15 +6738,13 @@ msgid "Rebase"
 msgstr "Umbasieren (rebase)"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Änderungen aus dem entfernten Repository ziehen"
+msgstr "Änderungen aus dem entfernten Repository ohne Fast-Forward ziehen"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Zusammenführen ohne Fast-Forward"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -7398,15 +7391,15 @@ msgstr "Bildschirmfoto zum Kontext"
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s unfertige Zeichenkette in %(component)s"
-msgstr[1] "%(count)s unfertige Zeichenketten in %(component)s"
+msgstr[0] "%(count)s unvollständige Zeichenkette in %(component)s"
+msgstr[1] "%(count)s unvollständige Zeichenketten in %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s unfertige Zeichenkette"
-msgstr[1] "%(count)s unfertige Zeichenketten"
+msgstr[0] "%(count)s unvollständige Zeichenkette"
+msgstr[1] "%(count)s unvollständige Zeichenketten"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:136
 msgid "Access control"
@@ -8543,10 +8536,8 @@ msgstr "Bearbeitung erforderlich"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Übersetzte Zeichenketten"
+msgstr "Nicht übersetzte Zeichenketten"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -8656,15 +8647,15 @@ msgstr "Diese Spalte sortieren"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr "Unfertig"
+msgstr "Unvollständig"
 
 #: weblate/templates/snippets/list-objects.html:53
 msgid "Unfinished words"
-msgstr "Unfertige Wörter"
+msgstr "Unvollständige Wörter"
 
 #: weblate/templates/snippets/list-objects.html:63
 msgid "Unfinished characters"
-msgstr "Unfertige Zeichen"
+msgstr "Unvollständige Zeichen"
 
 #: weblate/templates/snippets/list-objects.html:73
 msgid "Untranslated"
@@ -10147,8 +10138,8 @@ msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
-"Unfertige Zeichenketten, konvertierte Dateien mit Kommentaren angereichert; "
-"geeignet für die Offline-Übersetzung"
+"Unvollständige Zeichenketten, konvertierte Dateien mit Kommentaren "
+"angereichert; geeignet für die Offline-Übersetzung"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -10339,7 +10330,7 @@ msgstr "Zeichenketten mit Kontext"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
 msgid "Unfinished strings without suggestions"
-msgstr "Unfertige Zeichenketten ohne Vorschläge"
+msgstr "Unvollständige Zeichenketten ohne Vorschläge"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -11468,10 +11459,8 @@ msgstr "Bildschirmfoto hochgeladen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Das Repository konnte nicht aktualisiert werden."
+msgstr "Zeichenkette im Repository aktualisiert"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11494,13 +11483,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s am %(time)s in %(translation)s von %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Neue Zeichenkette zum Übersetzen in %(translation)s"
-msgstr[1] "Neue Zeichenketten zum Übersetzen in %(translation)s"
+msgstr[0] "%d neue Zeichenkette zum Übersetzen."
+msgstr[1] "%d neue Zeichenketten zum Übersetzen."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12977,10 +12964,9 @@ msgid "New string has been added."
 msgstr "Neue Zeichenkette wurde hinzugefügt."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Neue Zeichenkette konnte nicht analysiert werden"
+msgstr "Zeichenkette konnte nicht entfernt werden: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13439,23 +13425,19 @@ msgstr "Git Push erzwingen"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub-Pull-Request"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Kein Remote-Repository"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Ungültige Zusammenführungsanfrage!"
+msgstr "GitLab-Merge-Request"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Ungültige Zusammenführungsanfrage!"
+msgstr "Pagure-Merge-Request"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
