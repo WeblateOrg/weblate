@@ -1699,7 +1699,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     can_add_unit: bool = False
     set_context_bilingual: bool = True
 
-    # Ensure that not translated units are saved too as missing properties and
+    # Ensure that untranslated units are saved too as missing properties and
     # comments are preserved as in the original source file.
     def save_content(self, handle):
         current_units = self.all_units

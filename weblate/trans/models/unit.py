@@ -809,7 +809,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         Mark read-only strings:
 
         * Flagged with 'read-only'
-        * Where source string is not translated
+        * Where source string is untranslated
         """
         if "read-only" in self.all_flags or (
             not self.is_source and self.source_unit.state < STATE_TRANSLATED

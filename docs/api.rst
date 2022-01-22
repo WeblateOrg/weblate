@@ -2009,7 +2009,7 @@ and XLIFF.
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
-    :>json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
+    :>json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
     :>json boolean fuzzy: whether the unit is fuzzy or marked for review
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
@@ -2033,7 +2033,7 @@ and XLIFF.
 
     :param id: Unit ID
     :type id: int
-    :<json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
+    :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
@@ -2046,7 +2046,7 @@ and XLIFF.
 
     :param id: Unit ID
     :type id: int
-    :<json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
+    :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`

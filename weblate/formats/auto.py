@@ -68,7 +68,7 @@ def try_load(
                     BytesIOMode(filename, content), template_store
                 )
                 result.check_valid()
-                # Skip if there is not translated unit
+                # Skip if there is untranslated unit
                 # this can easily happen when importing bilingual
                 # storage which can be monolingual as well
                 if list(result.iterate_merge("")):

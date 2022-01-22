@@ -332,7 +332,7 @@ class Translation(
 
         # Check if unit is worth notification:
         # - new and untranslated
-        # - newly not translated
+        # - newly untranslated
         # - newly fuzzy
         # - source string changed
         if newunit.state < STATE_TRANSLATED and (

@@ -336,7 +336,7 @@ class MoExporter(PoExporter):
         return
 
     def add_unit(self, unit):
-        # We do not store not translated units
+        # We do not store untranslated units
         if not unit.translated:
             return
         # Parse properties from unit

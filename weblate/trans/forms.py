@@ -495,7 +495,7 @@ class TranslationForm(UnitForm):
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
         self.fields["review"].widget.attrs["class"] = "review_radio"
-        # Avoid failing validation on not translated string
+        # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
         self.helper = FormHelper()

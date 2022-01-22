@@ -604,7 +604,7 @@ translations have been reverted in VCS or lost otherwise.
 Inconsistent
 ~~~~~~~~~~~~
 
-:Summary: This string has more than one translation in this project or is not translated in some components.
+:Summary: This string has more than one translation in this project or is untranslated in some components.
 :Scope: all strings
 :Check class: ``weblate.checks.consistency.ConsistencyCheck``
 :Flag to ignore: ``ignore-inconsistent``
@@ -628,7 +628,7 @@ This check applies to all components in a project that have
 
    This check also fires in case the string is translated in one component and
    not in another. It can be used as a quick way to manually handle strings
-   which are not translated in some components just by clicking on the
+   which are untranslated in some components just by clicking on the
    :guilabel:`Use this translation` button displayed on each line in the
    :guilabel:`Other occurrences` tab.
 
@@ -934,7 +934,7 @@ Check fails if the number of ``\n`` literals in translation do not match the sou
 Missing plurals
 ~~~~~~~~~~~~~~~
 
-:Summary: Some plural forms are not translated
+:Summary: Some plural forms are untranslated
 :Scope: translated strings
 :Check class: ``weblate.checks.consistency.PluralsCheck``
 :Flag to ignore: ``ignore-plurals``

@@ -1518,7 +1518,7 @@ Released on Mar 10th 2016.
 * Added quality check for AngularJS interpolation.
 * Added extensive group based ACLs.
 * Clarified terminology on strings needing edit (formerly fuzzy).
-* Clarified terminology on strings needing action and not translated strings.
+* Clarified terminology on strings needing action and untranslated strings.
 * Support for Python 3.
 * Dropped support for Django 1.7.
 * Dropped dependency on msginit for creating new gettext PO files.
@@ -1870,7 +1870,7 @@ Released on April 18th 2012.
 * Better validation while creating component.
 * Integrated full setup into syncdb.
 * Added list of recent changes to all translation pages.
-* Check for not translated strings ignores format string only messages.
+* Check for untranslated strings ignores format string only messages.
 
 Weblate 0.8
 ~~~~~~~~~~~

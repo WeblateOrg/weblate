@@ -31,7 +31,7 @@ class PluralsCheck(TargetCheck):
 
     check_id = "plurals"
     name = _("Missing plurals")
-    description = _("Some plural forms are not translated")
+    description = _("Some plural forms are untranslated")
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -75,7 +75,7 @@ class ConsistencyCheck(TargetCheck):
     name = _("Inconsistent")
     description = _(
         "This string has more than one translation in this project "
-        "or is not translated in some components."
+        "or is untranslated in some components."
     )
     ignore_untranslated = False
     propagates = True

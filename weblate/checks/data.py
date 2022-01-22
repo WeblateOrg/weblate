@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# We ignore some words which are usually not translated
+# We ignore some words which are usually untranslated
 IGNORE_WORDS = {
     "abc",
     "accelerator",
