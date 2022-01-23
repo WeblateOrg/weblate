@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-01-22 07:40+0000\n"
-"Last-Translator: FTno <ft-002@tutanota.com>\n"
+"PO-Revision-Date: 2022-01-23 23:34+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "documentation/nb_NO/>\n"
 "Language: nb\n"
@@ -74,10 +74,13 @@ msgstr ""
 "vertstjent plan."
 
 #: ../../admin/access.rst:32
+#, fuzzy
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "guilabel:`Access control` setting. Available options are:"
 msgstr ""
+"Du kan begrense en brukers tilgang til prosjekter ved å velge en annen "
+":guilabel:`Tilgangskontroll`-innstilling. TIlgjengelige alternativer er:"
 
 #: ../../admin/access.rst:35
 msgid "Public"
@@ -113,6 +116,9 @@ msgid ""
 "all users are forbidden to performed any actions on the project. You will "
 "have to set up all the permissions using :ref:`custom-acl`."
 msgstr ""
+":ref:`Brukerhåndtering <manage-acl>`-funksjoner vil bli avskrudd; som "
+"forvalg forbys alle brukere å utføre noen prosjekthandlinger. Du må sette "
+"opp alle tilgangene med :ref:`custom-acl`."
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -120,10 +126,13 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`Tilgangskontroll` kan endres i :guilabel:`Tilgang`-fanen i "
+"oppsettsverktøyet (:guilabel:`Håndter` ↓ :guilabel:`Innstillinger`) for "
+"hvert respektive prosjekt."
 
 #: ../../admin/access.rst:52
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
+msgstr "Forvalgte verdier kan endres med :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -132,6 +141,10 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"Selv for `Private` prosjekter kan noe info om prosjektet ditt være offentlig:"
+" Statistikk og språksammendrag for hele instansen vil inkludere opptellinger "
+"for alle prosjekter, på tross av tilgangskontroll-innstillingene. "
+"Prosjektnavnet og annen info kan ikke avsløres på denne måten."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -169,7 +182,7 @@ msgstr ""
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "For `Offentlige`, `Beskyttede` og `Private` prosjekter:"
 
 #: ../../admin/access.rst:90
 msgid "Administration"
@@ -191,7 +204,7 @@ msgstr "Kan godkjenne oversettelser under vurdering."
 
 #: ../../admin/access.rst:95
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Kun for `Private` og `Beskyttede` prosjekter:"
 
 #: ../../admin/access.rst:98
 msgid "Translate"
@@ -252,13 +265,12 @@ msgid "Screenshots"
 msgstr "Skjermavbildninger"
 
 #: ../../admin/access.rst:114
-#, fuzzy
-#| msgid ""
-#| "Deleting screenshot will remove it from all associated source strings."
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
-msgstr "Slettes skjermbildet, fjernes det fra alle tilknyttede kildestrenger."
+msgstr ""
+"Kan håndtere skjermavbildninger (legge til eller fjerne dem, og tilknytte "
+"dem til kildestrenger)."
 
 #: ../../admin/access.rst:118 ../../admin/access.rst:566
 msgid "VCS"
