@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-01-22 18:53+0000\n"
+"PO-Revision-Date: 2022-01-23 23:34+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -340,8 +340,8 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"通过 :guilabel:`Users` 选项卡下的 :ref:`management interface <management-"
-"interface>` 获取可在站点范围内使用的相同类型的邀请。"
+"通过 :guilabel:`Users` 选项卡下的 :ref:`management interface <management-interface>`"
+" 获取可在站点范围内使用的同样的邀请。"
 
 #: ../../admin/access.rst:168
 msgid "Blocking users"
@@ -805,8 +805,7 @@ msgstr "复查 ``foo/bar`` 西班牙语翻译（不是在其他地方）中的�
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
-msgstr ""
-"管理整个“foo/bar”存储库的 VCS，例如 提交翻译人员对所有语言所做的待定更改。"
+msgstr "管理整个 ``foo/bar`` 仓库的 VCS，例如提交所有语言的翻译者所做的待处理更改。"
 
 #: ../../admin/access.rst:413
 msgid "Automatic group assignments"
@@ -6227,7 +6226,7 @@ msgstr "COMMIT_PENDING_HOURS"
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
-msgstr "通过后台任务方式提交待定的更改之间的小时数。"
+msgstr "通过后台任务方式提交待处理更改之间的小时数。"
 
 #: ../../admin/config.rst:371
 msgid ""
@@ -8586,21 +8585,17 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
-"第一种方法容易用于单语言文件——可以添加 Weblate 之内的新字符串，并将文件的整个"
-"编辑留在那里。对于双语文件，通常存在某种消息提取过程而从源代码产生翻译文件。"
-"在一些情况下，这可以分成两部分——一部分用于提取过程产生模板（例如使用 :"
-"program:`xgettext` 产生 gettex POT ），然后下一步过程将它合并到真正的翻译中"
-"（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。可以在 Weblate 中执行"
-"第二步，它将确认在这个操作前所有待定的更改都包括进去了。"
+"第一种方法容易用于单语言文件——可以添加 Weblate 之内的新字符串，并将文件的整个编辑留在那里。对于双语文件，通常存在某种消息提取过程而从源代码产生"
+"翻译文件。在一些情况下，这可以分成两部分——一部分用于提取过程产生模板（例如使用 :program:`xgettext` 产生 gettex POT "
+"），然后下一步过程将它合并到真正的翻译中（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。您可以在 Weblate "
+"中执行第二步，它将确保在此操作之前包含所有待处理的更改。"
 
 #: ../../admin/continuous.rst:92
 msgid ""
 "The second approach can be achieved by using :ref:`api` to force Weblate to "
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
-msgstr ""
-"第二种方法可以这样实现，使用 :ref:`api` ，当你在自己一侧进行更改时，强制 "
-"Weblate 推送所有待定的更改，并锁定翻译。"
+msgstr "第二种方法是使用 :ref:`api` 强制 Weblate 推送所有待处理的更改，并在您进行更改时锁定翻译。"
 
 #: ../../admin/continuous.rst:96
 msgid "The script for doing updates can look like this:"
@@ -10880,9 +10875,7 @@ msgstr "配置健康性的检查（每小时）。"
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
 "`commit_pending`."
-msgstr ""
-"提交待定的更改（每小时），请参见 :ref:`lazy-commit` 和 :djadmin:"
-"`commit_pending` 。"
+msgstr "提交待处理的更改（每小时），请参见 :ref:`lazy-commit` 和 :djadmin:`commit_pending`。"
 
 #: ../../admin/install.rst:1126
 msgid "Updating component alerts (daily)."
@@ -11369,7 +11362,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1448
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr "提交待定更改 （参见 :ref:`lazy-commit`）。"
+msgstr "提交待处理更改（参见 :ref:`lazy-commit`）。"
 
 #: ../../admin/install.rst:1450
 msgid "A typical setup using Redis as a backend looks like this:"
@@ -15330,7 +15323,7 @@ msgstr "commitgit"
 
 #: ../../admin/management.rst:184
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr "将任何可能待定的更改提交给后端 Git 仓库。"
+msgstr "将任何可能的待处理更改提交到后端 Git 仓库。"
 
 #: ../../admin/management.rst:190
 msgid "commit_pending"
@@ -15338,7 +15331,7 @@ msgstr "commit_pending"
 
 #: ../../admin/management.rst:194
 msgid "Commits pending changes older than a given age."
-msgstr "提交早于给定时间段的待定更改。"
+msgstr "提交超过给定期限的待处理更改。"
 
 #: ../../admin/management.rst:201
 msgid ""
@@ -15927,7 +15920,7 @@ msgstr "将提交的更改推送到上游的版本控制系统（VCS）仓库。
 
 #: ../../admin/management.rst:708
 msgid "Force commits any pending changes, prior to pushing."
-msgstr "在推送前，强制执行任何待定的更改。"
+msgstr "强制提交任何待处理的更改，然后再推送。"
 
 #: ../../admin/management.rst:715
 msgid ""
@@ -17394,21 +17387,14 @@ msgstr ""
 "件，并且在新建真正的源字符串时使用。"
 
 #: ../../admin/projects.rst:445
-#, fuzzy
-#| msgid ""
-#| "When set, the source strings are based on this file, but all other "
-#| "languages are based on :ref:`component-template`. In case the string is "
-#| "untranslated into the source language, translating to other languages is "
-#| "prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
 "are based on :ref:`component-template`. In case the string is not translated "
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
-"设置时，源字符串基于此文件，但所有其他语言都基于 :ref:`component-template`。"
-"如果字符串没有被翻译成源语言，则禁止翻译成其他语言。这提供了 :ref:`source-"
-"quality-gateway`。"
+"设置好后，源字符串将基于此文件，但所有其他语言都基于 :ref:`component-"
+"template`。如果字符串没有被翻译成源语言，则禁止翻译成其他语言。这样就提供了 :ref:`source-quality-gateway`。"
 
 #: ../../admin/projects.rst:452
 msgid ""
@@ -20249,7 +20235,7 @@ msgstr ""
 
 #: ../../api.rst:860 ../../api.rst:1461
 msgid "whether there are any pending changes to commit"
-msgstr "是否有待定的更改要提交"
+msgstr "是否有任何要提交的待处理更改"
 
 #: ../../api.rst:861 ../../api.rst:1462
 msgid "whether there are any upstream changes to merge"
@@ -24737,7 +24723,7 @@ msgstr "为 Azure Repos 添加了 webhook 支持。"
 #: ../../changes.rst:878
 msgid ""
 "New opt-in notifications on pending suggestions or untranslated strings."
-msgstr "待定建议或未翻译字符串的新的选择使用通知。"
+msgstr "新的可选的待处理建议或未翻译字符串通知。"
 
 #: ../../changes.rst:879
 msgid "Add one click unsubscribe link to notification e-mails."
@@ -26130,7 +26116,7 @@ msgstr "修复了在一些许可丢失的情况下的合并问题。"
 
 #: ../../changes.rst:1333
 msgid "Fixed listing of current file format in translation download."
-msgstr "修复了翻译下载中当前文件的列表。"
+msgstr "修复了翻译下载中当前文件格式的列表。"
 
 #: ../../changes.rst:1334
 msgid ""
@@ -26151,7 +26137,7 @@ msgstr "添加了在丢失翻译时触发的质量检查。"
 
 #: ../../changes.rst:1343
 msgid "Add option to view pending suggestions from user."
-msgstr "添加选项来查看用户待定的建议。"
+msgstr "添加了查看用户待处理建议的选项。"
 
 #: ../../changes.rst:1344
 msgid "Add option to automatically build component lists."
@@ -26870,7 +26856,7 @@ msgstr "第三放服务的直接登录/注册链接，如果是唯一一个的�
 
 #: ../../changes.rst:1565
 msgid "Commit pending changes on account removal."
-msgstr "账户删除时提交待定的更改。"
+msgstr "账户删除时提交待处理的更改。"
 
 #: ../../changes.rst:1566
 msgid "Add management command to change site name."
@@ -31014,10 +31000,9 @@ msgid ""
 "the :guilabel:`Repository maintenance`) or from the command-line using :ref:"
 "`wlc`."
 msgstr ""
-"为了从 Weblate 取回更新的字符串，可以简单地取回基础的Git仓库（要么来自文件系"
-"统，要么可以通过 :ref:`git-exporter`来获得）。在这之前，您会想要提交任何挂起"
-"的更改（请参见 :ref:`lazy-commit`）。这可以通过（在 :guilabel:`Repository "
-"maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
+"要从 Weblate 获取更新的字符串，只需获取底层的 Git 仓库（要么来自文件系统，要么可以通过 :ref:`git-exporter` "
+"获取）。在这之前，您可能想要先提交任何待处理的更改（请参见 :ref:`lazy-commit`）。这可以通过在用户界面（在 :guilabel:`"
+"Repository maintenance`）或使用 :ref:`wlc` 从命令行执行此操作。"
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -31196,8 +31181,7 @@ msgstr ":guilabel:`Commit`"
 msgid ""
 "Commits any pending changes present in Weblate database and not in the "
 "repository, see :ref:`lazy-commit`."
-msgstr ""
-"提交任何在 Weblate 数据库中且不在代码库中的挂起更改，见 :ref:`lazy-commit`。"
+msgstr "提交任何在 Weblate 数据库中且不在代码库中的待处理更改，见 :ref:`lazy-commit`。"
 
 #: ../../devel/integration.rst:133
 msgid ":guilabel:`Push`"
@@ -32177,11 +32161,9 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
-"在翻译文件在 Weblate 和上游仓库同时更改时，合并冲突不时发生。通常可以通过在对"
-"翻译文件进行更改前（例如在运行 msgmerge 前）合并仓库来避免发生这个情况。只要"
-"告诉 Weblate 执行挂起所有的翻译（可以在 :guilabel:`Manage` 菜单中的 :"
-"guilabel:`Repository maintenance` 中去做），并合并仓库即可（如果自动推送没有"
-"打开的话）。"
+"当 Weblate 和上游仓库的翻译文件同时被更改时，合并冲突时有发生。通常可以通过在对翻译文件进行更改前（例如在运行 msgmerge 前）先合并 "
+"Weblate 的翻译来避免这种情况。只需告诉 Weblate 提交所有待处理的翻译（可以在 :guilabel:`Manage` 菜单中的 "
+":guilabel:`Repository maintenance` 中执行此操作），并合并仓库（如果没有开启自动推送）。"
 
 #: ../../faq.rst:46
 msgid ""
@@ -32441,7 +32423,7 @@ msgstr "在 Weblate 锁定受影响的部件。"
 
 #: ../../faq.rst:274
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "提交任何挂起的更改，并将它们合并到上游代码库中。"
+msgstr "提交任何待处理的更改，并将它们合并到上游代码库中。"
 
 #: ../../faq.rst:275
 msgid ""
@@ -39818,7 +39800,7 @@ msgstr "您还可以指定 wlc 应该从事的项目："
 #: ../../wlc.rst:407
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
-msgstr "通过此设置，可以轻松地提交当前项目中待定的更改："
+msgstr "通过此设置，可以轻松地提交当前项目中待处理的更改："
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
