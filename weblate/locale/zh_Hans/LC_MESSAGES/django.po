@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-01-22 18:52+0000\n"
+"PO-Revision-Date: 2022-01-23 23:34+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -5892,9 +5892,7 @@ msgstr "RSS"
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
-msgstr ""
-"每种语言均有独立的 RSS 订阅源，您可以通过在上述 URL 末尾追加语言代码来构造取"
-"得。"
+msgstr "每种语言均有独立的 RSS 订阅源，您可以通过在上述 URL 末尾加上语言代码来构造取得。"
 
 #: weblate/templates/data.html:56
 msgid ""
@@ -6269,11 +6267,11 @@ msgstr "代码库状态"
 
 #: weblate/templates/js/git-status.html:29 weblate/templates/translate.html:688
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "待定更改尚未提交到 Weblate 仓库"
+msgstr "待处理更改尚未提交到 Weblate 仓库"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit pending changes to the Weblate repository"
-msgstr "提交待定更改到 Weblate 仓库"
+msgstr "将待处理的更改提交到 Weblate 仓库"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit"
@@ -6795,7 +6793,7 @@ msgstr "带有建议的字符串"
 #, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "在 %(component)s 中 %(count)s 个待处理的建议"
+msgstr[0] "%(component)s 中有 %(count)s 个待处理的建议"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -9338,7 +9336,7 @@ msgstr "字符串 %(position)s"
 
 #: weblate/templates/translate.html:688
 msgid "pending"
-msgstr "待定"
+msgstr "待处理"
 
 #: weblate/templates/translate.html:717
 msgid "Inherited flags"
@@ -9551,7 +9549,7 @@ msgstr "退出禅模式"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
-msgstr "提交待定更改"
+msgstr "提交待处理的更改"
 
 #: weblate/trans/admin.py:46
 msgid "Update VCS repository"
@@ -11045,7 +11043,7 @@ msgstr "对变更进行提交的延时时间"
 #: weblate/trans/models/component.py:562
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "任何待提交修改提交至版本控制系统（VCS）的延时（以小时计算）。"
+msgstr "任何待处理更改提交至版本控制系统（VCS）的时间（以小时为单位）。"
 
 #: weblate/trans/models/component.py:567
 msgid "Lock on error"
@@ -11556,7 +11554,7 @@ msgstr "长破折号"
 
 #: weblate/trans/specialchars.py:301
 msgid "User configured character: {}"
-msgstr "用户配置字符串：{}"
+msgstr "用户配置的字符：{}"
 
 #: weblate/trans/tasks.py:402
 msgid "Automatic translation completed, no strings were updated."
@@ -12113,7 +12111,7 @@ msgstr "锁定失败，正执行其他操作。"
 
 #: weblate/trans/views/git.py:57
 msgid "All pending translations were committed."
-msgstr "已提交所有候选译文。"
+msgstr "已提交所有待处理译文。"
 
 #: weblate/trans/views/git.py:72
 msgid "All repositories were updated."
