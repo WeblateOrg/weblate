@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.17.0 (ad2f4ad) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.17.1 (97cf273) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4058,10 +4058,7 @@ var Sentry = (function (exports) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 normalized.contexts.trace = event.contexts.trace;
             }
-            var _a = this.getOptions()._experiments, _experiments = _a === void 0 ? {} : _a;
-            if (_experiments.ensureNoCircularStructures) {
-                return normalize(normalized);
-            }
+            event.sdkProcessingMetadata = __assign(__assign({}, event.sdkProcessingMetadata), { baseClientNormalized: true });
             return normalized;
         };
         /**
@@ -4369,10 +4366,56 @@ var Sentry = (function (exports) {
         var useEnvelope = eventType === 'transaction' || !!api.tunnel;
         var transactionSampling = (event.sdkProcessingMetadata || {}).transactionSampling;
         var _a = transactionSampling || {}, samplingMethod = _a.method, sampleRate = _a.rate;
+        // TODO: Below is a temporary hack in order to debug a serialization error - see
+        // https://github.com/getsentry/sentry-javascript/issues/2809 and
+        // https://github.com/getsentry/sentry-javascript/pull/4425. TL;DR: even though we normalize all events (which should
+        // prevent this), something is causing `JSON.stringify` to throw a circular reference error.
+        //
+        // When it's time to remove it:
+        // 1. Delete everything between here and where the request object `req` is created, EXCEPT the line deleting
+        //    `sdkProcessingMetadata`
+        // 2. Restore the original version of the request body, which is commented out
+        // 3. Search for `skippedNormalization` and pull out the companion hack in the browser playwright tests
+        enhanceEventWithSdkInfo(event, api.metadata.sdk);
+        event.tags = event.tags || {};
+        event.extra = event.extra || {};
+        // In theory, all events should be marked as having gone through normalization and so
+        // we should never set this tag
+        if (!(event.sdkProcessingMetadata && event.sdkProcessingMetadata.baseClientNormalized)) {
+            event.tags.skippedNormalization = true;
+        }
         // prevent this data from being sent to sentry
+        // TODO: This is NOT part of the hack - DO NOT DELETE
         delete event.sdkProcessingMetadata;
+        var body;
+        try {
+            // 99.9% of events should get through just fine - no change in behavior for them
+            body = JSON.stringify(event);
+        }
+        catch (err) {
+            // Record data about the error without replacing original event data, then force renormalization
+            event.tags.JSONStringifyError = true;
+            event.extra.JSONStringifyError = err;
+            try {
+                body = JSON.stringify(normalize(event));
+            }
+            catch (newErr) {
+                // At this point even renormalization hasn't worked, meaning something about the event data has gone very wrong.
+                // Time to cut our losses and record only the new error. With luck, even in the problematic cases we're trying to
+                // debug with this hack, we won't ever land here.
+                var innerErr = newErr;
+                body = JSON.stringify({
+                    message: 'JSON.stringify error after renormalization',
+                    // setting `extra: { innerErr }` here for some reason results in an empty object, so unpack manually
+                    extra: { message: innerErr.message, stack: innerErr.stack },
+                });
+            }
+        }
         var req = {
-            body: JSON.stringify(sdkInfo ? enhanceEventWithSdkInfo(event, api.metadata.sdk) : event),
+            // this is the relevant line of code before the hack was added, to make it easy to undo said hack once we've solved
+            // the mystery
+            // body: JSON.stringify(sdkInfo ? enhanceEventWithSdkInfo(event, api.metadata.sdk) : event),
+            body: body,
             type: eventType,
             url: useEnvelope
                 ? getEnvelopeEndpointWithUrlEncodedAuth(api.dsn, api.tunnel)
@@ -4421,7 +4464,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.0';
+    var SDK_VERSION = '6.17.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
