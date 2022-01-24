@@ -10,7 +10,10 @@
         <div class="btn-group search-group" role="group">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="source:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "Source strings" %}</span> <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="source:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="search-label">{% trans "Source strings" %}</span>
+                  <span class="caret"></span>
+                </button>
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="source:">{% trans "Source strings" %}</a></li>
                   <li><a href="#" data-field="target:">{% trans "Target strings" %}</a></li>
@@ -24,7 +27,9 @@
                 </ul>
               </div><!-- /btn-group -->
               <input type="text" class="form-control" placeholder="{% trans "Search for…" %}">
-              <span id="is-exact" class="input-group-addon"><input type="checkbox" > <span>{% trans "Exact" context "Exact search toggle" %}</span> </span>
+              <span id="is-exact" class="input-group-addon">
+                <label><input type="checkbox" > {% trans "Exact" context "Exact search toggle" %}</label>
+              </span>
               <span class="input-group-btn">
                 <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
               </span>
