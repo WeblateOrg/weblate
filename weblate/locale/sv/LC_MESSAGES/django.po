@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-01-12 19:53+0000\n"
+"PO-Revision-Date: 2022-01-25 02:44+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1448,10 +1448,9 @@ msgstr ""
 "för översättningsbara strängar."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Det gick inte att tolka flaggor: %s"
+msgstr "Det gick inte att tolka CSS-selektorn: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1497,16 +1496,12 @@ msgstr ""
 "till källsträngarna."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Automatisk översättningskälla"
+msgstr "Förfyll översättning med källa"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Den här översättningen används för källsträngar."
+msgstr "Fyller i översättningssträngar med källsträng."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2550,8 +2545,6 @@ msgid "Missing plurals"
 msgstr "Saknade pluralformer"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "Några pluralformer är inte översatta"
 
@@ -2568,10 +2561,6 @@ msgid "Inconsistent"
 msgstr "Inkonsekvent"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -3175,10 +3164,8 @@ msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "Det finns redan en post med samma namn."
+msgstr "Teckensnitt med samma namn finns redan."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3189,10 +3176,8 @@ msgid "Font deleted."
 msgstr "Teckensnitt raderat."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "Det finns redan en post med samma namn."
+msgstr "Teckensnittsgrupp med samma namn finns redan."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -6548,15 +6533,13 @@ msgid "Rebase"
 msgstr "Ombasera (rebase)"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Hämta ändringar från fjärrarkivet"
+msgstr "Hämta ändringar från fjärrarkivet utan snabbspolning"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Sammanfoga utan snabbspolning"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -7906,16 +7889,12 @@ msgid "Please review and confirm the search and replace results."
 msgstr "Granska och bekräfta resultaten för sök och ersätt."
 
 #: weblate/templates/replace.html:28
-#, fuzzy
-#| msgid ""
-#| "Showing and replacing only the first 250 matches. Perform the replacement "
-#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
 msgstr ""
 "Visar och ersätter bara de första 250 matchningarna. Utför ersättningen igen "
-"för att ersätta fler poster."
+"för att ersätta fler."
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
@@ -8326,10 +8305,8 @@ msgstr "Behöver åtgärdas"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Översatta strängar"
+msgstr "Oöversatta strängar"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10539,10 +10516,8 @@ msgid "Language used for source strings in all components"
 msgstr "Språk som används som källsträngar i alla komponenter"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Det finns redan en post med samma namn."
+msgstr "En komponent med samma namn finns redan."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -11170,10 +11145,8 @@ msgstr "Skärmdump uppladdad"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Kunde inte uppdatera arkivet."
+msgstr "Sträng uppdaterad i arkivet"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11195,13 +11168,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s vid %(time)s i %(translation)s av %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Ny sträng att översätta i %(translation)s"
-msgstr[1] "Nya strängar att översätta i %(translation)s"
+msgstr[0] "%d ny sträng att översätta dök upp i översättningen."
+msgstr[1] "%d nya strängar att översätta dök upp i översättningen."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12635,10 +12606,9 @@ msgid "New string has been added."
 msgstr "Ny sträng har lagts till."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Det gick inte att tolka den nya strängen"
+msgstr "Det gick inte att ta bort strängen: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13079,23 +13049,19 @@ msgstr "Git med kraft push"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub pull-begäran"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Ingen fjärrarkiv"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Ogiltig sammanslagningsförfrågan!"
+msgstr "GitLab sammanslagningsbegäran"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Ogiltig sammanslagningsförfrågan!"
+msgstr "Pagure sammanslagningsbegäran"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
