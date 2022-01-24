@@ -105,18 +105,6 @@ class PostgreSQLSubstringLookup(PatternLookup):
         return f"{lhs} ILIKE {rhs}", params
 
 
-def table_has_row(connection, table, rowname):
-    """Check whether actual table has row."""
-    with connection.cursor() as cursor:
-        table_description = connection.introspection.get_table_description(
-            cursor, table
-        )
-        for row in table_description:
-            if row.name == rowname:
-                return True
-    return False
-
-
 def re_escape(pattern):
     """Escape for use in database regexp match.
 
