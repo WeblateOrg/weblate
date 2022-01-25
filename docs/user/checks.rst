@@ -909,7 +909,6 @@ Mismatched semicolon
 :Flag to ignore: ``ignore-end-semicolon``
 
 Checks that semicolons at the end of sentences are replicated between both source and translation.
-This can be useful to keep formatting of entries such as desktop files.
 
 .. seealso::
 
