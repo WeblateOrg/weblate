@@ -282,7 +282,7 @@
       </thead>
       <tbody>
       <tr>
-      <th>{% trans "Total" %}</th>
+      <th>{% trans "Total" context "Number of strings" %}</th>
       <td class="number"></td>
       <td class="number">{{ stats.all|intcomma }}</td>
       <td class="number"></td>
@@ -292,7 +292,7 @@
       </tr>
       {% if show_source %}
       <tr>
-      <th>{% trans "Source" %}</th>
+      <th>{% trans "Source" context "Number of strings" %}</th>
       <td class="number"></td>
       <td class="number">{{ stats.source_strings|intcomma }}</td>
       <td class="number"></td>
@@ -303,7 +303,7 @@
       {% endif %}
       {% if stats.approved %}
       <tr>
-      <th>{% trans "Approved" %}</th>
+      <th>{% trans "Approved" context "Number of strings" %}</th>
       <td class="number">{{ stats.approved_percent|percent_format }}</td>
       <td class="number">{{ stats.approved|intcomma }}</td>
       <td class="number">{{ stats.approved_words_percent|percent_format }}</td>
@@ -313,7 +313,7 @@
       </tr>
       {% endif %}
       <tr>
-      <th>{% trans "Translated" %}</th>
+      <th>{% trans "Translated" context "Number of strings" %}</th>
       <td class="number">{{ stats.translated_percent|percent_format }}</td>
       <td class="number">{{ stats.translated|intcomma }}</td>
       <td class="number">{{ stats.translated_words_percent|percent_format }}</td>
@@ -322,7 +322,7 @@
       <td class="number">{{ stats.translated_chars|intcomma }}</td>
       </tr>
       <tr>
-      <th>{% trans "Needs editing" %}</th>
+      <th>{% trans "Needs editing" context "Number of strings" %}</th>
       <td class="number">{{ stats.fuzzy_percent|percent_format }}</td>
       <td class="number">{{ stats.fuzzy|intcomma }}</td>
       <td class="number">{{ stats.fuzzy_words_percent|percent_format }}</td>
@@ -331,7 +331,7 @@
       <td class="number">{{ stats.fuzzy_chars|intcomma }}</td>
       </tr>
       <tr>
-      <th>{% trans "Failing checks" %}</th>
+      <th>{% trans "Failing checks" context "Number of strings" %}</th>
       <td class="number">{{ stats.allchecks_percent|percent_format }}</td>
       <td class="number">{{ stats.allchecks|intcomma }}</td>
       <td class="number">{{ stats.allchecks_words_percent|percent_format }}</td>
@@ -340,7 +340,7 @@
       <td class="number">{{ stats.allchecks_chars|intcomma }}</td>
       </tr>
       <tr>
-      <th>{% trans "Strings with suggestions" %}</th>
+      <th>{% trans "Strings with suggestions" context "Number of strings" %}</th>
       <td class="number">{{ stats.suggestions_percent|percent_format }}</td>
       <td class="number">{{ stats.suggestions|intcomma }}</td>
       <td class="number">{{ stats.suggestions_words_percent|percent_format }}</td>
@@ -349,7 +349,7 @@
       <td class="number">{{ stats.suggestions_chars|intcomma }}</td>
       </tr>
       <tr>
-      <th>{% trans "Untranslated strings" %}</th>
+      <th>{% trans "Untranslated strings" context "Number of strings" %}</th>
       <td class="number">{{ stats.nottranslated_percent|percent_format }}</td>
       <td class="number">{{ stats.nottranslated|intcomma }}</td>
       <td class="number">{{ stats.nottranslated_words_percent|percent_format }}</td>
