@@ -567,7 +567,7 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
 
-# Content-Security-Policy
+# Content-Security-Policy header
 CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
 CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
 CSP_CONNECT_SRC = get_env_list("WEBLATE_CSP_CONNECT_SRC")

@@ -295,5 +295,6 @@ autodoc_mock_imports = [
     "weblate.utils.files",
 ]
 
-# Gettext / i18n
+# Create single gettext PO file for while documentation,
+# instead of having one file per chapter.
 gettext_compact = "docs"

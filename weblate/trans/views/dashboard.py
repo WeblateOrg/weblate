@@ -172,7 +172,7 @@ def home(request):
         )
         return redirect("password")
 
-    # Warn about not filled in username (usually caused by migration of
+    # Warn about not filled in username, this is usually caused by migration of
     # users from older system
     if user.is_authenticated and (not user.full_name or not user.email):
         messages.warning(
