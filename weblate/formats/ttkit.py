@@ -1418,17 +1418,24 @@ class CSVFormat(TTKitFormat):
         """Return most common file extension for format."""
         return "csv"
 
+    @staticmethod
+    def get_content_and_filename(storefile):
+        # Did we get file or filename or file object?
+        if hasattr(storefile, "read"):
+            filename = getattr(storefile, "name", getattr(storefile, "filename", None))
+            content = storefile.read()
+            storefile.close()
+        else:
+            filename = storefile
+            with open(filename, "rb") as handle:
+                content = handle.read()
+        return content, filename
+
     def parse_store(self, storefile):
         """Parse the store."""
         storeclass = self.get_class()
 
-        # Did we get file or filename?
-        if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
-
-        # Read content for fixups
-        content = storefile.read()
-        storefile.close()
+        content, filename = self.get_content_and_filename(storefile)
 
         # Parse file
         store = storeclass()
@@ -1450,16 +1457,13 @@ class CSVFormat(TTKitFormat):
         if len(header) != 2:
             return store
 
-        return self.parse_simple_csv(content, storefile)
+        return self.parse_simple_csv(content, filename)
 
-    def parse_simple_csv(self, content, storefile):
+    def parse_simple_csv(self, content, filename):
         storeclass = self.get_class()
         result = storeclass(fieldnames=["source", "target"], encoding=self.encoding)
         result.parse(content, sample_length=None)
-        result.fileobj = storefile
-        filename = getattr(storefile, "name", getattr(storefile, "filename", None))
-        if filename:
-            result.filename = filename
+        result.filename = filename
         return result
 
 
@@ -1476,11 +1480,9 @@ class CSVSimpleFormat(CSVFormat):
 
     def parse_store(self, storefile):
         """Parse the store."""
-        # Did we get file or filename?
-        if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
+        content, filename = self.get_content_and_filename(storefile)
 
-        return self.parse_simple_csv(storefile.read(), storefile)
+        return self.parse_simple_csv(content, filename)
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
