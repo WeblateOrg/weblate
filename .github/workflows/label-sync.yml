@@ -3,19 +3,19 @@ name: Sync labels
 on:
   push:
     branches:
-      - main
+    - main
     paths:
-      - .github/labels.yml
-      - .github/workflows/label-sync.yml
+    - .github/labels.yml
+    - .github/workflows/label-sync.yml
 jobs:
   build:
     name: Sync labels
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: micnncim/action-label-syncer@v1.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        with:
-          manifest: .github/labels.yml
+    - uses: actions/checkout@v2.4.0
+    - uses: micnncim/action-label-syncer@v1.3.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      with:
+        manifest: .github/labels.yml

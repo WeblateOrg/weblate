@@ -4,13 +4,13 @@ name: yarn update
 on:
   push:
     branches:
-      - "dependabot/**"
-      - "renovate/**"
-      - "main"
+    - dependabot/**
+    - renovate/**
+    - main
     paths:
-      - ".github/workflows/yarn-update.yml"
-      - "scripts/yarn-update"
-      - "scripts/yarn/*"
+    - .github/workflows/yarn-update.yml
+    - scripts/yarn-update
+    - scripts/yarn/*
 
 jobs:
   yarn-update:
@@ -20,20 +20,20 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v2.4.0
-      - run: ./scripts/yarn-update --no-upgrade
-      - name: Update branch
-        if: github.ref != 'refs/heads/main'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "js: Update vendored libraries"
-      - name: Create Pull Request
-        if: github.ref == 'refs/heads/main'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          branch: create-pull-request/yarn-update
-          title: "js: Update vendored libraries"
-          commit-message: "js: Update vendored libraries"
-          labels: |
-            dependencies
-            automerge
+    - uses: actions/checkout@v2.4.0
+    - run: ./scripts/yarn-update --no-upgrade
+    - name: Update branch
+      if: github.ref != 'refs/heads/main'
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: 'js: Update vendored libraries'
+    - name: Create Pull Request
+      if: github.ref == 'refs/heads/main'
+      uses: peter-evans/create-pull-request@v3
+      with:
+        branch: create-pull-request/yarn-update
+        title: 'js: Update vendored libraries'
+        commit-message: 'js: Update vendored libraries'
+        labels: |
+          dependencies
+          automerge
