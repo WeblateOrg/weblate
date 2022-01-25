@@ -46,7 +46,7 @@ services:
   cache:
     image: redis:6-alpine
     restart: always
-    command: [redis-server, --appendonly, yes]
+    command: [redis-server, --save, '60', '1']
     volumes:
     - redis-data:/data
 volumes:
