@@ -254,7 +254,7 @@ def manage_access(request, project):
 
     return render(
         request,
-        "manage-access.html",
+        "trans/project-access.html",
         {
             "object": obj,
             "project": obj,
