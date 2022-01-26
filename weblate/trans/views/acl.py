@@ -280,7 +280,7 @@ def delete_token(request, project):
     """Delete project token."""
     obj = get_project(request, project)
 
-    if not request.user.has_perm("project.edit", obj):
+    if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
     form = ProjectTokenDeleteForm(obj, request.POST)
@@ -299,7 +299,7 @@ def create_token(request, project):
     """Create project token."""
     obj = get_project(request, project)
 
-    if not request.user.has_perm("project.edit", obj):
+    if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
     form = ProjectTokenCreateForm(obj, request.POST)
@@ -319,10 +319,10 @@ def create_token(request, project):
 @require_POST
 @login_required
 def delete_group(request, project):
-    """Delete project token."""
+    """Delete project group."""
     obj = get_project(request, project)
 
-    if not request.user.has_perm("project.edit", obj):
+    if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
     form = ProjectGroupDeleteForm(obj, request.POST)
