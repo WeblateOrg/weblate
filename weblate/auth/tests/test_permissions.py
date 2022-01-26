@@ -36,7 +36,7 @@ class PermissionsTest(FixtureTestCase):
         self.superuser = User.objects.create_user(
             "super", "super@example.com", is_superuser=True
         )
-        self.project.add_user(self.admin, "@Administration")
+        self.project.add_user(self.admin, "Administration")
 
     def test_admin_perm(self):
         self.assertTrue(self.superuser.has_perm("upload.authorship", self.project))

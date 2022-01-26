@@ -295,6 +295,8 @@ Upgrade from 4.10 to 4.11
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * Weblate now requires Python 3.7 or newer.
+* The implementation of :ref:`manage-acl` has changed, removing the project
+  prefix from the group names. This affects API users.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

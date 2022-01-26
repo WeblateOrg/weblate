@@ -74,9 +74,7 @@ def set_groups(request, project):
     obj, form = check_user_form(request, project)
 
     try:
-        group = obj.group_set.get(
-            name__contains="@", internal=True, pk=int(request.POST.get("group", ""))
-        )
+        group = obj.defined_groups.get(pk=int(request.POST.get("group", "")))
     except (Group.DoesNotExist, ValueError):
         group = None
 
@@ -90,7 +88,7 @@ def set_groups(request, project):
         status = None
     elif action == "remove":
         owners = User.objects.all_admins(obj)
-        if group.name.endswith("@Administration") and owners.count() <= 1:
+        if group.name.endswith("Administration") and owners.count() <= 1:
             code = 400
             message = _("You can not remove last owner!")
         else:
@@ -260,7 +258,7 @@ def manage_access(request, project):
             "object": obj,
             "project": obj,
             "project_tokens": obj.projecttoken_set.all(),
-            "groups": Group.objects.for_project(obj),
+            "groups": obj.defined_groups.order(),
             "all_users": User.objects.for_project(obj),
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),

@@ -137,7 +137,7 @@ class CreateTest(ViewTestCase):
         # Create billing and add permissions
         billing = create_test_billing(self.user)
         billing.projects.add(self.project)
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         self.assert_create_component(True)
 
         # Create two components

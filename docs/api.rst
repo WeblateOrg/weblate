@@ -442,7 +442,8 @@ Groups
     :>json array roles: link to associated roles; see :http:get:`/api/roles/(int:id)/`
     :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json array componentlist: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+    :>json array componentlists: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+    :>json str defining_project: likn to defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
 
     **Example JSON data:**
 

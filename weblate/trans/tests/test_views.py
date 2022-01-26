@@ -130,7 +130,7 @@ class ViewTestCase(RepoTestCase):
         # Sitewide privileges
         self.user.groups.add(Group.objects.get(name="Managers"))
         # Project privileges
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
 
     def get_request(self, user=None):
         """Wrapper to get fake request object."""

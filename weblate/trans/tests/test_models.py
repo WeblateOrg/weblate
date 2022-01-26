@@ -175,7 +175,7 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(user.can_access_project(project))
 
         # Add to ACL group
-        user.groups.add(Group.objects.get(name="Test@Translate"))
+        user.groups.add(Group.objects.get(name="Translate", defining_project=project))
 
         # Need to fetch user again to clear permission cache
         user = User.objects.get(username="testuser")

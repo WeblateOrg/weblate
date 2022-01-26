@@ -19,6 +19,7 @@
 
 import os
 import os.path
+from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
@@ -254,29 +255,26 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def get_group(self, group):
-        return self.group_set.get(name=f"{self.name}{group}")
-
-    def add_user(self, user, group=None):
+    def add_user(self, user, group: Optional[str] = None):
         """Add user based on username or email address."""
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
-                group = "@Translate"
+                group = "Translate"
             elif self.source_review or self.translation_review:
-                group = "@Review"
+                group = "Review"
             else:
-                group = "@Administration"
-        group = self.get_group(group)
-        user.groups.add(group)
+                group = "Administration"
+        group_obj = self.defined_groups.get(name=group)
+        user.groups.add(group_obj)
         user.profile.watched.add(self)
 
-    def remove_user(self, user, group=None):
+    def remove_user(self, user, group: Optional[str] = None):
         """Add user based on username or email address."""
         if group is None:
-            groups = self.group_set.filter(internal=True, name__contains="@")
+            groups = self.defined_groups.all()
             user.groups.remove(*groups)
         else:
-            group = self.get_group(group)
+            group = self.defined_groups.get(name=group)
             user.groups.remove(group)
 
     def get_reverse_url_kwargs(self):
@@ -413,7 +411,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
                 self.access_control = Project.ACCESS_PUBLIC
             self.save()
         if not user.is_superuser:
-            self.add_user(user, "@Administration")
+            self.add_user(user, "Administration")
         Change.objects.create(
             action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user
         )

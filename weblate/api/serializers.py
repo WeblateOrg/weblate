@@ -312,11 +312,17 @@ class GroupSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
+    defining_project = serializers.HyperlinkedRelatedField(
+        view_name="api:project-detail",
+        lookup_field="slug",
+        read_only=True,
+    )
 
     class Meta:
         model = Group
         fields = (
             "name",
+            "defining_project",
             "project_selection",
             "language_selection",
             "url",

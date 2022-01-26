@@ -2456,4 +2456,4 @@ class ProjectGroupDeleteForm(forms.Form):
     def __init__(self, project, *args, **kwargs):
         self.project = project
         super().__init__(*args, **kwargs)
-        self.fields["group"].queryset = Group.objects.for_project(project)
+        self.fields["group"].queryset = project.defined_groups.all()

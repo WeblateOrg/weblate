@@ -71,7 +71,7 @@ class BillingTest(TestCase):
             name=name, slug=name, access_control=Project.ACCESS_PROTECTED
         )
         self.billing.projects.add(project)
-        project.add_user(self.user, "@Billing")
+        project.add_user(self.user, "Billing")
 
     def test_view_billing(self):
         self.add_project()
