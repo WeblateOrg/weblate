@@ -229,11 +229,8 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
-    def for_project(self, project):
-        """Return all users having ACL for this project."""
-        groups = project.defined_groups.all()
-        return self.filter(groups__in=groups).distinct()
 
+class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
         """All users having explicit permission on a project.
 
@@ -357,7 +354,7 @@ class User(AbstractBaseUser):
         ),
     )
 
-    objects = UserManager()
+    objects = UserManager.from_queryset(UserQuerySet)()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"

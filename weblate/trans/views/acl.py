@@ -251,6 +251,8 @@ def manage_access(request, project):
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
+    groups = obj.defined_groups.order()
+
     return render(
         request,
         "trans/project-access.html",
@@ -258,8 +260,8 @@ def manage_access(request, project):
             "object": obj,
             "project": obj,
             "project_tokens": obj.projecttoken_set.all(),
-            "groups": obj.defined_groups.order(),
-            "all_users": User.objects.for_project(obj),
+            "groups": groups,
+            "all_users": User.objects.filter(groups__in=groups).distinct().order(),
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
             "create_project_token_form": ProjectTokenCreateForm(obj),
