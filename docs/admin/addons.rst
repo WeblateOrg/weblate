@@ -276,7 +276,7 @@ Other automated operations for Weblate metadata can also be done.
     * - Labels to add
       - *recent*
 
-.. list-table:: Marking all :ref:`appstore` changelog entries read-only
+.. list-table:: Marking all :ref:`appstore` changelog strings read-only
     :stub-columns: 1
 
     * - Search query
