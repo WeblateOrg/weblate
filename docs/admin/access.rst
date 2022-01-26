@@ -448,8 +448,8 @@ set of permissions.
 
 .. _privileges:
 
-List of privileges
-^^^^^^^^^^^^^^^^^^
+List of privileges and built-in roles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ..
    Generated using ./manage.py list_permissions
