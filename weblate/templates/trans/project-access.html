@@ -206,12 +206,28 @@
       <tr>
         <th>{% trans "Name" %}</th>
         <th>{% trans "Roles" %}</th>
+        <th>{% trans "Languages" %}</th>
         <th></th>
       </tr>
       {% for group in groups %}
       <tr>
-        <td>{{ group.name }}</td>
-        <td>{% for role in group.roles.all %}<span class="badge">{{ role }}</span>{% endfor %}</td>
+        <td>
+          {{ group.name }}
+        </td>
+        <td>
+          {% for role in group.roles.all %}
+            <span class="badge">{{ role }}</span>
+          {% endfor %}
+        </td>
+        <td>
+          {% if role.language_selection == role.SELECTION_ALL %}
+            {% trans "All languages" %}
+          {% else %}
+            {% for language in group.languages.all %}
+              <span class="badge">{{ language }}</span>
+            {% endfor %}
+          {% endif %}
+        </td>
         <td>
           <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
             {% icon 'delete.svg' %}
