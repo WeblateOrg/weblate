@@ -203,58 +203,62 @@
       </h4>
     </div>
     <table class="table table-striped">
-      <tr>
-        <th>{% trans "Name" %}</th>
-        <th>{% trans "Roles" %}</th>
-        <th>{% trans "Languages" %}</th>
-        <th></th>
-      </tr>
-      {% for group in groups %}
-      <tr>
-        <td>
-          {{ group.name }}
-        </td>
-        <td>
-          {% for role in group.roles.all %}
-            <span class="badge">{{ role }}</span>
-          {% endfor %}
-        </td>
-        <td>
-          {% if role.language_selection == role.SELECTION_ALL %}
-            {% trans "All languages" %}
-          {% else %}
-            {% for language in group.languages.all %}
-              <span class="badge">{{ language }}</span>
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Roles" %}</th>
+          <th>{% trans "Languages" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in groups %}
+        <tr>
+          <td>
+            {{ group.name }}
+          </td>
+          <td>
+            {% for role in group.roles.all %}
+              <span class="badge">{{ role }}</span>
             {% endfor %}
-          {% endif %}
-        </td>
-        <td>
-          <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
-            {% icon 'delete.svg' %}
-          </a>
-          <form action="{% url "delete-project-group" project=object.slug %}" method="post" class="inlineform">
-            {% csrf_token %}
-            <input type="hidden" name="group" value="{{ group.id }}" />
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
-                  </div>
-                  <div class="modal-body" id="delete_group_body_{{ group.id }}">
-                    {% blocktrans with group=group.name %}This will delete the project group <b>{{ group }}</b> from this project.{% endblocktrans %}
-                  </div>
-                  <div class="modal-footer">
-                    <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
-                  </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
+          </td>
+          <td>
+            {% if role.language_selection == role.SELECTION_ALL %}
+              {% trans "All languages" %}
+            {% else %}
+              {% for language in group.languages.all %}
+                <span class="badge">{{ language }}</span>
+              {% endfor %}
+            {% endif %}
+          </td>
+          <td>
+            <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+              {% icon 'delete.svg' %}
+            </a>
+            <form action="{% url "delete-project-group" project=object.slug %}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="group" value="{{ group.id }}" />
+              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                    </div>
+                    <div class="modal-body" id="delete_group_body_{{ group.id }}">
+                      {% blocktrans with group=group.name %}This will delete the project group <b>{{ group }}</b> from this project.{% endblocktrans %}
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      <tbody>
     </table>
   </div>
 </div>
@@ -268,42 +272,46 @@
       </h4>
     </div>
     <table class="table table-striped">
-      <tr>
-        <th>{% trans "Name" %}</th>
-        <th>{% trans "Expires" %}</th>
-        <th></th>
-      </tr>
-      {% for token in project_tokens %}
-      <tr>
-        <td>{{ token.name }}</td>
-        <td>{{ token.expires }}</td>
-        <td>
-          <a href="#" data-toggle="modal" data-target="#delete_token_{{ token.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
-            {% icon 'delete.svg' %}
-          </a>
-          <form action="{% url "delete-project-token" project=object.slug %}" method="post" class="inlineform">
-            {% csrf_token %}
-            <input type="hidden" name="token" value="{{ token.id }}" />
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_token_title_{{ token.id }}" aria-describedby="delete_token_body_{{ token.id }}" id="delete_token_{{ token.id }}">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delete_token_title_{{ token.id }}">{% trans "Are you absolutely sure?" %}</h4>
-                  </div>
-                  <div class="modal-body" id="delete_token_body_{{ token.id }}">
-                    {% blocktrans with token=token.name %}This will delete the project token <b>{{ token }}</b> from this project.{% endblocktrans %}
-                  </div>
-                  <div class="modal-footer">
-                    <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
-                  </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Expires" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for token in project_tokens %}
+        <tr>
+          <td>{{ token.name }}</td>
+          <td>{{ token.expires }}</td>
+          <td>
+            <a href="#" data-toggle="modal" data-target="#delete_token_{{ token.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+              {% icon 'delete.svg' %}
+            </a>
+            <form action="{% url "delete-project-token" project=object.slug %}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="token" value="{{ token.id }}" />
+              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_token_title_{{ token.id }}" aria-describedby="delete_token_body_{{ token.id }}" id="delete_token_{{ token.id }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="delete_token_title_{{ token.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                    </div>
+                    <div class="modal-body" id="delete_token_body_{{ token.id }}">
+                      {% blocktrans with token=token.name %}This will delete the project token <b>{{ token }}</b> from this project.{% endblocktrans %}
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      <tbody>
     </table>
   </div>
 
