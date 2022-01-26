@@ -846,18 +846,23 @@ class GithubRepository(GitMergeRequestBase):
         return "api.github.com"
 
     def request(self, method: str, credentials: Dict, url: str, json: Dict):
-        response = requests.request(
-            method,
-            url,
-            headers={
-                "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token {}".format(credentials["token"]),
-            },
-            json=json,
-        )
+        try:
+            response = requests.request(
+                method,
+                url,
+                headers={
+                    "Accept": "application/vnd.github.v3+json",
+                    "Authorization": "token {}".format(credentials["token"]),
+                },
+                json=json,
+            )
+        except OSError as error:
+            report_error(cause="request")
+            raise RepositoryException(0, str(error))
         try:
             data = response.json()
         except JSONDecodeError as error:
+            report_error(cause="request json decoding")
             response.raise_for_status()
             raise RepositoryException(0, str(error))
 
