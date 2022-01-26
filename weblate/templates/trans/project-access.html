@@ -22,7 +22,6 @@
 
 <div class="tab-content">
 <div class="tab-pane active" id="users">
-{% if object.access_control != object.ACCESS_CUSTOM %}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -212,19 +211,6 @@
       </form>
     </div>
   </div>
-{% else %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        {% documentation_icon 'admin/access' 'groups' right=True %}
-        {% trans "Users" %}
-      </h4>
-    </div>
-    <div class="panel-body">
-      <p class="help-block">{% trans "Weblate user management is turned off, you can change permissions in the Django admin interface." %}</p>
-    </div>
-  </div>
-{% endif %}
 </div>
 
 <div class="tab-pane" id="teams">

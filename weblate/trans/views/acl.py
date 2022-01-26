@@ -55,10 +55,7 @@ def check_user_form(
     """
     obj = get_project(request, project)
 
-    if (
-        not request.user.has_perm("project.permissions", obj)
-        or obj.access_control == obj.ACCESS_CUSTOM
-    ):
+    if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
     if pass_project:
