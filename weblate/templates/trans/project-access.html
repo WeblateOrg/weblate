@@ -47,12 +47,22 @@
       <tbody>
         {% for user in all_users %}
           <tr>
-            <td><a href="{{ user.get_absolute_url }}">{{ user.username }}</a></td>
-            <td>{{ user.full_name }}</td>
+            <td>
+              <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
+            </td>
+            <td>
+              {{ user.full_name }}
+            </td>
             {% if can_edit_user %}
               <td>{{ user.email }}</td>
             {% endif %}
-            <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
+            <td>
+              {% if user.last_login %}
+                {{ user.last_login|naturaltime }}
+              {% else %}
+                {% trans "Not yet signed in" %}
+              {% endif %}
+            </td>
             {% user_permissions user groups %}
             <td>
               <a href="#" data-toggle="modal" data-target="#delete_user_{{ user.id }}" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
