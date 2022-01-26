@@ -84,18 +84,6 @@ NAME_MAPPING = {
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 
-PERM_TEMPLATE = """
-<td>
-<input type="checkbox"
-    class="set-group"
-    data-placement="bottom"
-    data-username="{0}"
-    data-group="{1}"
-    data-name="{2}"
-    {3} />
-</td>
-"""
-
 SOURCE_LINK = """
 <a href="{0}" target="_blank" rel="noopener noreferrer"
     class="wrap-text" dir="ltr">{1}</a>
@@ -682,22 +670,6 @@ def active_link(context, slug):
     if slug == context["active_tab_slug"]:
         return mark_safe('class="active"')
     return ""
-
-
-@register.simple_tag
-def user_permissions(user, groups):
-    """Render checksboxes for user permissions."""
-    result = []
-    for group in groups:
-        checked = ""
-        if user.groups.filter(pk=group.pk).exists():
-            checked = ' checked="checked"'
-        result.append(
-            PERM_TEMPLATE.format(
-                escape(user.username), group.pk, escape(group.short_name), checked
-            )
-        )
-    return mark_safe("".join(result))
 
 
 def _needs_agreement(component, user):

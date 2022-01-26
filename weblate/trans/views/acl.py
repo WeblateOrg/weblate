@@ -21,7 +21,7 @@ from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
+from django.db.models import Prefetch
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -35,6 +35,7 @@ from weblate.trans.forms import (
     ProjectGroupDeleteForm,
     ProjectTokenCreateForm,
     ProjectTokenDeleteForm,
+    ProjectUserGroupForm,
     UserBlockForm,
     UserManageForm,
 )
@@ -45,7 +46,9 @@ from weblate.utils.views import get_project, show_form_errors
 from weblate.vcs.ssh import get_key_data
 
 
-def check_user_form(request, project, verbose=False, form_class=UserManageForm):
+def check_user_form(
+    request, project, form_class=UserManageForm, pass_project: bool = False
+):
     """Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all user management views.
@@ -58,12 +61,14 @@ def check_user_form(request, project, verbose=False, form_class=UserManageForm):
     ):
         raise PermissionDenied()
 
-    form = form_class(request.POST)
+    if pass_project:
+        form = form_class(obj, request.POST)
+    else:
+        form = form_class(request.POST)
 
     if form.is_valid():
         return obj, form
-    if verbose:
-        show_form_errors(request, form)
+    show_form_errors(request, form)
     return obj, None
 
 
@@ -71,29 +76,31 @@ def check_user_form(request, project, verbose=False, form_class=UserManageForm):
 @login_required
 def set_groups(request, project):
     """Change group assignment for a user."""
-    obj, form = check_user_form(request, project)
+    obj, form = check_user_form(
+        request, project, form_class=ProjectUserGroupForm, pass_project=True
+    )
 
-    try:
-        group = obj.defined_groups.get(pk=int(request.POST.get("group", "")))
-    except (Group.DoesNotExist, ValueError):
-        group = None
+    user = form.cleaned_data["user"]
+    desired_groups = {group.id for group in form.cleaned_data["groups"]}
+    current_groups = set(
+        user.groups.filter(defining_project=obj).values_list("id", flat=True)
+    )
 
-    action = request.POST.get("action")
-
-    user = form.cleaned_data["user"] if form else None
-
-    if group is None or form is None:
-        code = 400
-        message = _("Invalid parameters!")
-        status = None
-    elif action == "remove":
-        owners = User.objects.all_admins(obj)
-        if group.name.endswith("Administration") and owners.count() <= 1:
-            code = 400
-            message = _("You can not remove last owner!")
-        else:
-            code = 200
-            message = ""
+    for group in obj.defined_groups.all():
+        if group.id in desired_groups:
+            if group.id in current_groups:
+                continue
+            user.groups.add(group)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_ADD_USER,
+                user=request.user,
+                details={"username": user.username, "group": group.name},
+            )
+        elif group.id in current_groups:
+            if request.user == user:
+                messages.error(request, _("You can not remove yourself!"))
+                continue
             user.groups.remove(group)
             Change.objects.create(
                 project=obj,
@@ -101,29 +108,18 @@ def set_groups(request, project):
                 user=request.user,
                 details={"username": user.username, "group": group.name},
             )
-        status = user.groups.filter(pk=group.pk).exists()
-    else:
-        user.groups.add(group)
-        Change.objects.create(
-            project=obj,
-            action=Change.ACTION_ADD_USER,
-            user=request.user,
-            details={"username": user.username, "group": group.name},
-        )
-        code = 200
-        message = ""
-        status = user.groups.filter(pk=group.pk).exists()
 
-    return JsonResponse(
-        data={"responseCode": code, "message": message, "state": status}
-    )
+    return redirect("manage-access", project=obj.slug)
 
 
 @require_POST
 @login_required
 def add_user(request, project):
     """Add user to a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
 
     if form is not None:
         try:
@@ -146,7 +142,7 @@ def add_user(request, project):
 @login_required
 def block_user(request, project):
     """Block user from a project."""
-    obj, form = check_user_form(request, project, True, form_class=UserBlockForm)
+    obj, form = check_user_form(request, project, form_class=UserBlockForm)
 
     if form is not None and form.cleaned_data["user"].id == request.user.id:
         messages.error(request, _("You can not block yourself on this project."))
@@ -180,7 +176,10 @@ def block_user(request, project):
 @login_required
 def unblock_user(request, project):
     """Block user from a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
 
     if form is not None:
         user = form.cleaned_data["user"]
@@ -193,7 +192,7 @@ def unblock_user(request, project):
 @login_required
 def invite_user(request, project):
     """Invite user to a project."""
-    obj, form = check_user_form(request, project, True, form_class=InviteUserForm)
+    obj, form = check_user_form(request, project, form_class=InviteUserForm)
 
     if form is not None:
         try:
@@ -209,7 +208,10 @@ def invite_user(request, project):
 @login_required
 def resend_invitation(request, project):
     """Remove user from a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
 
     if form is not None:
         send_invitation(request, obj.name, form.cleaned_data["user"])
@@ -222,14 +224,15 @@ def resend_invitation(request, project):
 @login_required
 def delete_user(request, project):
     """Remove user from a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
 
     if form is not None:
-        owners = User.objects.all_admins(obj)
         user = form.cleaned_data["user"]
-        is_owner = owners.filter(pk=user.pk).exists()
-        if is_owner and owners.count() <= 1:
-            messages.error(request, _("You can not remove last owner!"))
+        if request.user == user:
+            messages.error(request, _("You can not remove yourself!"))
         else:
             obj.remove_user(user)
             Change.objects.create(
@@ -252,6 +255,25 @@ def manage_access(request, project):
         raise PermissionDenied()
 
     groups = obj.defined_groups.order()
+    users = (
+        User.objects.filter(groups__in=groups)
+        .distinct()
+        .order()
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="project_groups",
+            ),
+        )
+    )
+
+    for user in users:
+        user.group_edit_form = ProjectUserGroupForm(
+            obj,
+            initial={"user": user.username, "groups": user.project_groups},
+            auto_id=f"id_user_{user.id}_%s",
+        )
 
     return render(
         request,
@@ -261,7 +283,7 @@ def manage_access(request, project):
             "project": obj,
             "project_tokens": obj.projecttoken_set.all(),
             "groups": groups,
-            "all_users": User.objects.filter(groups__in=groups).distinct().order(),
+            "all_users": users,
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
             "create_project_token_form": ProjectTokenCreateForm(obj),

@@ -40,6 +40,7 @@ class ACLTest(FixtureTestCase):
             "seconduser", "noreply@example.org", "testpassword"
         )
         self.admin_group = self.project.defined_groups.get(name="Administration")
+        self.translate_group = self.project.defined_groups.get(name="Translate")
 
     def add_acl(self):
         """Add user to ACL."""
@@ -188,8 +189,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "add",
+                "groups": [self.admin_group.pk],
             },
         )
         self.assertTrue(
@@ -201,8 +201,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "remove",
+                "groups": [self.translate_group.pk],
             },
         )
         self.assertFalse(
@@ -219,8 +218,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "add",
+                "groups": [self.admin_group.pk],
             },
         )
         self.remove_user()
@@ -237,8 +235,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "remove",
+                "groups": [self.translate_group.pk],
             },
         )
         self.assertTrue(
@@ -250,8 +247,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.user.username,
-                "group": self.admin_group.pk,
-                "action": "remove",
+                "groups": [self.translate_group.pk],
             },
         )
         self.assertTrue(

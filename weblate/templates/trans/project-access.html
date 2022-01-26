@@ -39,9 +39,8 @@
             <th>{% trans "E-mail" %}</th>
           {% endif %}
           <th>{% trans "Last login" %}</th>
-          {% for group in groups %}
-            <th><div class="vertical-text">{{ group.short_name }}</div></th>
-          {% endfor %}
+          <th>{% trans "Teams" %}</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -63,8 +62,15 @@
                 {% trans "Not yet signed in" %}
               {% endif %}
             </td>
-            {% user_permissions user groups %}
             <td>
+              {% for group in user.project_groups %}
+                <span class="badge">{{ group }}</span>
+              {% endfor %}
+            </td>
+            <td>
+              <a href="#" data-toggle="modal" data-target="#edit_user_{{ user.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
+                {% icon 'pencil.svg' %}
+              </a>
               <a href="#" data-toggle="modal" data-target="#delete_user_{{ user.id }}" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
                 {% icon 'delete.svg' %}
               </a>
@@ -89,6 +95,27 @@
                 </div><!-- /.modal -->
               </form>
 
+              <form action="{% url "set-groups" project=object.slug %}" method="post" class="inlineform">
+                {% csrf_token %}
+                <div class="modal fade" tabindex="-1" role="dialog" id="edit_user_{{ user.id }}">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{% blocktrans with username=user.username %}Edit team membership for {{ username }}{% endblocktrans %}</h4>
+                      </div>
+                      <div class="modal-body">
+                        {{ user.group_edit_form| crispy }}
+                      </div>
+                      <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+              </form>
+
+
               {% if not user.last_login %}
                 <form action="{% url "resend_invitation" project=object.slug %}" method="post" class="inlineform">
                   {% csrf_token %}
@@ -107,7 +134,7 @@
             <td>{{ userblock.user.full_name }}</td>
             <td>{{ userblock.user.email }}</td>
             <td>{% if userblock.user.last_login %}{{ userblock.user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
-            <td colspan="{{groups|length}}">
+            <td>
               <strong>
                 {% if userblock.expiry %}
                   {% blocktrans with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktrans %}
@@ -133,10 +160,6 @@
       <p class="help-block">{% trans "Once all its permissions are removed, the user will be removed from the project." %}</p>
     </div>
   </div>
-
-  <form action="{% url "set-groups" project=object.slug %}" method="post" id="set_groups_form">
-    {% csrf_token %}
-  </form>
 
   <div class="row">
     <div class="col-sm-6">

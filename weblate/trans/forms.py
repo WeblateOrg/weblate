@@ -2457,3 +2457,18 @@ class ProjectGroupDeleteForm(forms.Form):
         self.project = project
         super().__init__(*args, **kwargs)
         self.fields["group"].queryset = project.defined_groups.all()
+
+
+class ProjectUserGroupForm(UserManageForm):
+    groups = forms.ModelMultipleChoiceField(
+        Group.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        label=_("Teams"),
+        required=False,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["user"].widget = forms.HiddenInput()
+        self.fields["groups"].queryset = project.defined_groups.all()

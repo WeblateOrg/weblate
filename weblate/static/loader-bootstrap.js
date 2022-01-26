@@ -733,39 +733,6 @@ $(function () {
     return false;
   });
 
-  /* Access management */
-  $(".set-group").click(function () {
-    var $this = $(this);
-    var $form = $("#set_groups_form");
-
-    $this.prop("disabled", true);
-    $this.data("error", "");
-    $this.parent().removeClass("load-error");
-
-    $.ajax({
-      type: "POST",
-      url: $form.attr("action"),
-      data: {
-        csrfmiddlewaretoken: $form.find("input").val(),
-        action: $this.prop("checked") ? "add" : "remove",
-        user: $this.data("username"),
-        group: $this.data("group"),
-      },
-      dataType: "json",
-      success: function (data) {
-        if (data.responseCode !== 200) {
-          addAlert(data.message);
-        }
-        $this.prop("checked", data.state);
-        $this.prop("disabled", false);
-      },
-      error: function (xhr, textStatus, errorThrown) {
-        addAlert(errorThrown);
-        $this.prop("disabled", false);
-      },
-    });
-  });
-
   /* Avoid double submission of non AJAX forms */
   $("form:not(.double-submission)").on("submit", function (e) {
     var $form = $(this);
