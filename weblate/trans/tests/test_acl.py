@@ -354,3 +354,13 @@ class ACLTest(FixtureTestCase):
         )
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 0)
+
+    def test_delete_group(self):
+        self.project.add_user(self.user, "@Administration")
+        group = Group.objects.get(name="Test@Memory")
+        response = self.client.post(
+            reverse("delete-project-group", kwargs=self.kw_project),
+            {"group": group.pk},
+        )
+        self.assertRedirects(response, self.access_url + "#groups")
+        self.assertFalse(Group.objects.filter(pk=group.pk).exists())

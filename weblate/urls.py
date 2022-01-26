@@ -391,6 +391,11 @@ real_patterns = [
         name="set-groups",
     ),
     path(
+        "access/<name:project>/group/delete/",
+        weblate.trans.views.acl.delete_group,
+        name="delete-project-group",
+    ),
+    path(
         "token/<name:project>/create/",
         weblate.trans.views.acl.create_token,
         name="create-project-token",

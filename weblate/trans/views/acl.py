@@ -32,6 +32,7 @@ from weblate.accounts.models import AuditLog
 from weblate.auth.forms import InviteUserForm, send_invitation
 from weblate.auth.models import Group, User
 from weblate.trans.forms import (
+    ProjectGroupDeleteForm,
     ProjectTokenCreateForm,
     ProjectTokenDeleteForm,
     UserBlockForm,
@@ -313,3 +314,22 @@ def create_token(request, project):
         show_form_errors(request, form)
 
     return redirect_param("manage-access", "#api", project=obj.slug)
+
+
+@require_POST
+@login_required
+def delete_group(request, project):
+    """Delete project token."""
+    obj = get_project(request, project)
+
+    if not request.user.has_perm("project.edit", obj):
+        raise PermissionDenied()
+
+    form = ProjectGroupDeleteForm(obj, request.POST)
+
+    if form.is_valid():
+        form.cleaned_data["group"].delete()
+    else:
+        show_form_errors(request, form)
+
+    return redirect_param("manage-access", "#groups", project=obj.slug)

@@ -16,6 +16,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#users" data-toggle="tab" id="tab_users">{% trans "Users" %}</a></li>
+  <li><a href="#groups" data-toggle="tab" id="tab_groups">{% trans "Groups" %}</a></li>
   <li><a href="#api" data-toggle="tab" id="tab_api">{% trans "API access" %}</a></li>
 </ul>
 
@@ -192,6 +193,56 @@
   </div>
 {% endif %}
 </div>
+
+<div class="tab-pane" id="groups">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/access' 'groups' right=True %}
+        {% trans "Groups" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <tr>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Roles" %}</th>
+        <th></th>
+      </tr>
+      {% for group in groups %}
+      <tr>
+        <td>{{ group.name }}</td>
+        <td>{% for role in group.roles.all %}<span class="badge">{{ role }}</span>{% endfor %}</td>
+        <td>
+          <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+            {% icon 'delete.svg' %}
+          </a>
+          <form action="{% url "delete-project-group" project=object.slug %}" method="post" class="inlineform">
+            {% csrf_token %}
+            <input type="hidden" name="group" value="{{ group.id }}" />
+            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                  </div>
+                  <div class="modal-body" id="delete_group_body_{{ group.id }}">
+                    {% blocktrans with group=group.name %}This will delete the project group <b>{{ group }}</b> from this project.{% endblocktrans %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
 <div class="tab-pane" id="api">
   <div class="panel panel-default">
     <div class="panel-heading">

@@ -43,7 +43,7 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -2444,3 +2444,16 @@ class ProjectTokenCreateForm(forms.ModelForm):
         if expires < timezone.now():
             raise forms.ValidationError(gettext("Expires cannot be in the past!"))
         return expires
+
+
+class ProjectGroupDeleteForm(forms.Form):
+    group = forms.ModelChoiceField(
+        Group.objects.none(),
+        widget=forms.HiddenInput,
+        required=True,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["group"].queryset = Group.objects.for_project(project)
