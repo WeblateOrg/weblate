@@ -332,4 +332,4 @@ def delete_group(request, project):
     else:
         show_form_errors(request, form)
 
-    return redirect_param("manage-access", "#groups", project=obj.slug)
+    return redirect_param("manage-access", "#teams", project=obj.slug)

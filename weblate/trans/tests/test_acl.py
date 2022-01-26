@@ -356,5 +356,5 @@ class ACLTest(FixtureTestCase):
             reverse("delete-project-group", kwargs=self.kw_project),
             {"group": group.pk},
         )
-        self.assertRedirects(response, self.access_url + "#groups")
+        self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())

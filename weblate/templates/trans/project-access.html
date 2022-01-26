@@ -16,7 +16,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#users" data-toggle="tab" id="tab_users">{% trans "Users" %}</a></li>
-  <li><a href="#groups" data-toggle="tab" id="tab_groups">{% trans "Groups" %}</a></li>
+  <li><a href="#teams" data-toggle="tab" id="tab_teams">{% trans "Teams" %}</a></li>
   <li><a href="#api" data-toggle="tab" id="tab_api">{% trans "API access" %}</a></li>
 </ul>
 
@@ -204,12 +204,12 @@
 {% endif %}
 </div>
 
-<div class="tab-pane" id="groups">
+<div class="tab-pane" id="teams">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
         {% documentation_icon 'admin/access' 'groups' right=True %}
-        {% trans "Groups" %}
+        {% trans "Teams" %}
       </h4>
     </div>
     <table class="table table-striped">
