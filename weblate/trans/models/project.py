@@ -268,14 +268,10 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         user.groups.add(group_obj)
         user.profile.watched.add(self)
 
-    def remove_user(self, user, group: Optional[str] = None):
+    def remove_user(self, user):
         """Add user based on username or email address."""
-        if group is None:
-            groups = self.defined_groups.all()
-            user.groups.remove(*groups)
-        else:
-            group = self.defined_groups.get(name=group)
-            user.groups.remove(group)
+        groups = self.defined_groups.all()
+        user.groups.remove(*groups)
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
