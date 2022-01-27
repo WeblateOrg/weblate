@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-01-08 22:16+0000\n"
+"PO-Revision-Date: 2022-01-28 19:54+0000\n"
 "Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
 "application/az/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -102,11 +102,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Aktivasiya maili buraya göndəriləcək."
 
 #: weblate/accounts/forms.py:399
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many failed registration attempts from this location."
-msgstr ""
-"Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
+msgstr "Bu məkandan həddindən çox qeydiyyat cəhdi edilmişdir."
 
 #: weblate/accounts/forms.py:406
 msgid "New password"
@@ -137,9 +134,8 @@ msgid "Current password"
 msgstr "Cari parol"
 
 #: weblate/accounts/forms.py:494
-#, fuzzy
 msgid "Leave empty if you have not yet set a password."
-msgstr "Şifrə təyin etməmisinizsə boş buraxın."
+msgstr "Hələlik şifrə təyin etməmisinizsə boş buraxın."
 
 #: weblate/accounts/forms.py:506
 msgid "You have entered an invalid password."
@@ -162,11 +158,8 @@ msgid "This account is inactive."
 msgstr "Bu hesab deaktivdir."
 
 #: weblate/accounts/forms.py:541
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts from this location."
-msgstr ""
-"Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
+msgstr "Bu məkandan həddindən çox qeydiyyat cəhdi edilmişdir."
 
 #: weblate/accounts/forms.py:626
 msgid "Component wide notifications"
@@ -177,15 +170,12 @@ msgid "Translation notifications"
 msgstr "Tərcümə Bildirişləri"
 
 #: weblate/accounts/forms.py:650
-#, fuzzy
 msgid "Use default setting"
-msgstr "Defolt parametri işlət"
+msgstr "Standart ayarları istifadə edin"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "İzlənilən layiəhlər"
+msgstr "Digər layihələr"
 
 #: weblate/accounts/forms.py:678 weblate/accounts/models.py:494
 #: weblate/templates/accounts/profile.html:67
@@ -206,14 +196,9 @@ msgid "Component: {}"
 msgstr "Komponent: {}"
 
 #: weblate/accounts/forms.py:689
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr ""
-"İzlədiyiniz layihələrlə bağlı hər hadisə üçün bir bildiriş alacaqsınız."
+msgstr "Baxılmamış layihələrlə bağlı hər hadisə üçün bir bildiriş alacaqsınız."
 
 #: weblate/accounts/forms.py:694
 msgid ""
@@ -242,15 +227,11 @@ msgstr ""
 "%(component)s komponentində hər növ hadisə üçün bir bildiriş alacaqsınız."
 
 #: weblate/accounts/forms.py:714
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"İzlədiyiniz layihələrinizdə yalnız tərcümə edilmiş dilləriniz üçün bu "
+"Baxılmamış layihələrinizdə yalnız tərcümə edilmiş dilləriniz üçün bu "
 "bildirişləri alacaqsınız."
 
 #: weblate/accounts/forms.py:719
@@ -262,15 +243,12 @@ msgstr ""
 "bildirişləri alacaqsınız."
 
 #: weblate/accounts/forms.py:724
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Tərcümə edilmiş dilləriniz üçün bu bildirişləri yalnız admin icazəsi olan "
-"layihələrdə alacaqsınız."
+"Yalnız admin icazələri olan layihələrinizdə tərcümə olunmuş dilləriniz üçün "
+"bu bildirişləri alacaqsınız."
 
 #: weblate/accounts/forms.py:729
 #, python-format
@@ -308,43 +286,33 @@ msgid "Suggestions made"
 msgstr "Edilmiş təklif"
 
 #: weblate/accounts/forms.py:778
-#, fuzzy
-#| msgid "Comment added"
 msgid "Comments made"
-msgstr "Şərh əlavə olundu"
+msgstr "Verilən şərhlər"
 
 #: weblate/accounts/forms.py:779
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots uploaded"
-msgstr "Ekran görüntüsü konteksti"
+msgstr "Ekran görüntüsü yükləndi"
 
 #: weblate/accounts/forms.py:802
-#, fuzzy
-#| msgid "Format string does not match source"
 msgid "Chosen sorting is not supported."
-msgstr "Sətir formatı qaynaqla tutuşmur"
+msgstr "Seçilmiş çeşidləmə dəstəklənmir."
 
 #: weblate/accounts/forms.py:809
-#, fuzzy
-#| msgid "Import glossary"
 msgid "Add user to a group"
-msgstr "Terminoloji lüğəti import et"
+msgstr "İstifadəçini qrupa əlavə edin"
 
 #: weblate/accounts/forms.py:819
-#, fuzzy
-#| msgid "Used in"
 msgid "Add group"
-msgstr "İstifadə edildiyi yer"
+msgstr "Qrup əlavə edin"
 
 #: weblate/accounts/models.py:145
 msgid "Password changed."
 msgstr "Parol dəyişdi."
 
 #: weblate/accounts/models.py:146
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "İstifadəçi adı {old} -dən {new} -ə dəyişdirildi."
+msgstr "{old} istifadəçi adı {new} kimi dəyişdirildi."
 
 #: weblate/accounts/models.py:147
 #, python-brace-format
@@ -365,14 +333,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Şifrə sıfırlanması təsdiq edildi, şifrə bağlandı."
 
 #: weblate/accounts/models.py:151
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Konfiqurasiya edilmiş giriş {method} ({name}) istifadə edin."
+msgstr "{method}{name} istifadə edərək girişi tənzimləyin."
 
 #: weblate/accounts/models.py:152
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "{method} ({name}) istifadə edərək silindi."
+msgstr "{method} ({name}) istifadə edərək giriş söndürüldü."
 
 #: weblate/accounts/models.py:153
 #, python-brace-format
@@ -385,16 +353,12 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Yeni cihazdan {method} ({name}) istifadə edərək daxil oldun."
 
 #: weblate/accounts/models.py:155
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Kimsə e-mailinizla qeydiyyatdan keçməyə cəhd göstərdi."
+msgstr "Kimsə e-poçtunuz ilə qeydiyyatdan keçməyə cəhd göstərdi."
 
 #: weblate/accounts/models.py:156
-#, fuzzy
-#| msgid "Register using email"
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Kimsə e-mailinizla qeydiyyatdan keçməyə cəhd göstərdi."
+msgstr "Kimsə e-poçtunuz ünvanınız ilə qeydiyyatdan keçməyə cəhd göstərdi."
 
 #: weblate/accounts/models.py:157
 #, python-brace-format
@@ -415,16 +379,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Xidmət şərtləri ilə razılaşma {date}."
 
 #: weblate/accounts/models.py:161
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "{username} tərəfindən Weblate-a dəvət olunmuşdur."
+msgstr "{username} tərəfindən {site_title}-a dəvət olunmuşdur."
 
 #: weblate/accounts/models.py:162
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Yeni tərcümə başlat"
+msgstr "Sınaq dövrünü başlatmaq."
 
 #: weblate/accounts/models.py:163
 #, python-brace-format
