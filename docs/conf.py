@@ -263,6 +263,9 @@ linkcheck_ignore = [
     # Requires a valid token
     "https://api.deepl.com/v2/translate",
 ]
+linkcheck_anchors_ignore = [
+    "https://web.libera.chat/#",
+]
 
 # HTTP docs
 http_index_ignore_prefixes = ["/api/"]
