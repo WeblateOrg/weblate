@@ -28,7 +28,8 @@ from social_django.views import complete
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.models import Group, User, get_anonymous
 from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -131,3 +132,26 @@ class UserEditForm(AdminInviteUserForm):
     class Meta:
         model = User
         fields = ["username", "full_name", "email", "is_superuser", "is_active"]
+
+
+class SimpleGroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ["name", "roles", "language_selection", "languages"]
+
+    def save(self, commit=True, project=None):
+        if not commit:
+            return super().save(commit=commit)
+        if project:
+            self.instance.defining_project = project
+            self.instance.project_selection = SELECTION_MANUAL
+
+        self.instance.save()
+
+        # Save languages only for manual selection, otherwise
+        # it would override logic from Group.save()
+        if self.instance.language_selection == SELECTION_MANUAL:
+            self._save_m2m()
+        if project:
+            self.instance.projects.add(project)
+        return self.instance

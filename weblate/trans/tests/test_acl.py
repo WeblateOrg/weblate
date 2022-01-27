@@ -23,7 +23,7 @@ from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 
-from weblate.auth.models import Group, User, get_anonymous
+from weblate.auth.models import Group, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -354,3 +354,52 @@ class ACLTest(FixtureTestCase):
         )
         self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
+
+    def test_create_group(self):
+        self.project.add_user(self.user, "Administration")
+        response = self.client.post(
+            reverse("create-project-group", kwargs=self.kw_project),
+            {
+                "name": "Czech team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 0,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+            },
+        )
+        self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="Czech team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 0)
+        self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+        return group
+
+    def test_edit_group(self):
+        group = self.test_create_group()
+
+        kwargs = {"pk": group.pk}
+        kwargs.update(self.kw_project)
+
+        response = self.client.post(
+            reverse("edit-project-group", kwargs=kwargs),
+            {
+                "name": "Global team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 1,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+            },
+        )
+        self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="Global team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 1)
+        self.assertNotEqual(
+            list(group.languages.values_list("code", flat=True)), ["cs"]
+        )

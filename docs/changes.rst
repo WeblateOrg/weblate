@@ -22,6 +22,7 @@ Not yet released.
 * Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
 * Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
 * Improved punctionation checks for Burmese.
+* Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
 
 Weblate 4.10.1
 --------------

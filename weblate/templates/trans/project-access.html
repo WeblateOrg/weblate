@@ -253,6 +253,9 @@
             {% endif %}
           </td>
           <td>
+            <a href="#" data-toggle="modal" data-target="#edit_group_{{ group.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
+              {% icon 'pencil.svg' %}
+            </a>
             <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
               {% icon 'delete.svg' %}
             </a>
@@ -276,12 +279,48 @@
                 </div><!-- /.modal-dialog -->
               </div><!-- /.modal -->
             </form>
+            <form action="{% url "edit-project-group" project=object.slug pk=group.id %}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="group" value="{{ group.id }}" />
+              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_group_title_{{ group.id }}" aria-describedby="edit_group_body_{{ group.id }}" id="edit_group_{{ group.id }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="edit_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                    </div>
+                    <div class="modal-body" id="edit_group_body_{{ group.id }}">
+                      {% crispy group.edit_form %}
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </form>
           </td>
         </tr>
         {% endfor %}
       <tbody>
     </table>
   </div>
+  <form action="{% url "create-project-group" project=object.slug %}" method="post">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/access' 'groups' right=True %}
+          {% trans "Create new team" %}
+        </h4>
+      </div>
+      <div class="panel-body">
+        {% crispy create_team_form %}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+      </div>
+    </div>
+  </form>
 </div>
 
 <div class="tab-pane" id="api">

@@ -81,8 +81,12 @@ Managing per-project access control
 +++++++++++++++++++++++++++++++++++
 
 Users with the :guilabel:`Manage project access` privilege (see
-:ref:`privileges`) can manage users in projects with non-`Custom` access
-control. They can assign users to one of the following groups.
+:ref:`privileges`) can manage users in projects via adding them to the teams.
+The initial set of teams is provided by Weblate, but additional ones can be
+defined providing more fine-grained access control. You can limit teams to
+languages and assign them design access roles (see :ref:`privileges`).
+
+The following teams are automatically created for every project:
 
 For `Public`, `Protected` and `Private` projects:
 
@@ -119,17 +123,6 @@ VCS
 
 Billing
     Can access billing info and settings (see :ref:`billing`).
-
-Unfortunately, it’s not possible to change this predefined set of
-groups for now. Also this way it’s not possible to give just some additional permissions
-to all users.
-
-.. note::
-
-    For non-`Custom` access control an instance of each group described above is
-    actually defined for each project. The actual name of those groups will be
-    ``Project@Group``, also displayed in the Django admin interface this way.
-    Although they can’t be edited from Weblate user-interface.
 
 .. image:: /screenshots/manage-users.png
 
