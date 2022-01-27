@@ -239,11 +239,13 @@
           <td>
             {% for role in group.roles.all %}
               <span class="badge">{{ role }}</span>
+            {% empty %}
+              <em>{% trans "Access only" %}</em>
             {% endfor %}
           </td>
           <td>
             {% if group.language_selection %}
-              {% trans "All languages" %}
+              <em>{% trans "All languages" %}</em>
             {% else %}
               {% for language in group.languages.all %}
                 <span class="badge">{{ language }}</span>
