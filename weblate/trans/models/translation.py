@@ -52,7 +52,7 @@ from weblate.trans.models.unit import (
     Unit,
 )
 from weblate.trans.models.variant import Variant
-from weblate.trans.signals import store_post_load, vcs_pre_commit
+from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
 from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
@@ -1065,7 +1065,8 @@ class Translation(
         return (0, 0, self.unit_set.count(), len(store2.content_units))
 
     def handle_add_upload(self, request, store, fuzzy: str = ""):
-        has_template = self.component.has_template()
+        component = self.component
+        has_template = component.has_template()
         skipped = 0
         accepted = 0
         if has_template:
@@ -1086,12 +1087,13 @@ class Translation(
                 is_batch_update=True,
             )
             accepted += 1
-        self.component.invalidate_cache()
-        if self.component.needs_variants_update:
-            self.component.update_variants()
-        self.component.schedule_sync_terminology()
-        self.component.update_source_checks()
-        self.component.run_batched_checks()
+        component.invalidate_cache()
+        if component.needs_variants_update:
+            component.update_variants()
+        component.schedule_sync_terminology()
+        component.update_source_checks()
+        component.run_batched_checks()
+        component_post_update.send(sender=self.__class__, component=component)
         return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
@@ -1393,6 +1395,7 @@ class Translation(
                 )
             component.schedule_sync_terminology()
             component.invalidate_cache()
+            component_post_update.send(sender=self.__class__, component=component)
         return result
 
     @transaction.atomic

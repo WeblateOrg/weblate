@@ -20,6 +20,7 @@ Not yet released.
 * Fixed Git operation with non-ascii branch names.
 * New add-on :ref:`addon-weblate.generate.prefill`.
 * Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
+* Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
 
 Weblate 4.10.1
 --------------
