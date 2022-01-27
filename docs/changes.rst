@@ -21,6 +21,7 @@ Not yet released.
 * New add-on :ref:`addon-weblate.generate.prefill`.
 * Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
 * Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
+* Improved punctionation checks for Burmese.
 
 Weblate 4.10.1
 --------------
