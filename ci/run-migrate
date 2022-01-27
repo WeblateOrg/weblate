@@ -55,6 +55,9 @@ check
 # Load basic project fixture
 ./manage.py loaddata simple-project.json
 check
+# Force creating project groups
+./manage.py shell -c 'from weblate.trans.models import Project; for project in Project.objects.interator(): project.save()'
+check
 # Enable suggestion voting
 ./manage.py shell -c 'from weblate.trans.models import Component; Component.objects.all().update(suggestion_voting=True, suggestion_autoaccept=2)'
 check
