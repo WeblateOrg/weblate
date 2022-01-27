@@ -59,7 +59,7 @@ https://github.com/WeblateOrg/weblate/issues
 
 Live chat
 ----
-Live chat about Weblate is available at Libera.Chat IRC network. The channel name is #libera . This can be accessed by, for example, http://web.libera.chat or an IRC client installed on your computer.
+Live chat about Weblate is available at Libera.Chat IRC network. The channel name is #weblate . This can be accessed by, for example, http://web.libera.chat or an IRC client installed on your computer.
 
 License
 -------
