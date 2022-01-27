@@ -804,9 +804,14 @@ class UserSearchForm(forms.Form):
         return None
 
 
+class GroupChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.long_name()
+
+
 class GroupAddForm(forms.Form):
-    add_group = forms.ModelChoiceField(
-        label=_("Add user to a group"), queryset=Group.objects.all(), required=True
+    add_group = GroupChoiceField(
+        label=_("Add user to a group"), queryset=Group.objects.order(), required=True
     )
 
     def __init__(self, *args, **kwargs):

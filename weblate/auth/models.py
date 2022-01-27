@@ -99,7 +99,7 @@ class Role(models.Model):
 class GroupQuerySet(models.QuerySet):
     def order(self):
         """Ordering in project scope by priority."""
-        return self.order_by("name")
+        return self.order_by("defining_project__name", "name")
 
 
 class Group(models.Model):
@@ -193,6 +193,11 @@ class Group(models.Model):
                 ),
                 clear=True,
             )
+
+    def long_name(self):
+        if self.defining_project:
+            return f"{self.defining_project} / {self}"
+        return self.__str__()
 
 
 class UserManager(BaseUserManager):

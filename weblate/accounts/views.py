@@ -643,6 +643,9 @@ class UserPage(UpdateView):
         )
         context["user_languages"] = user.profile.languages.all()[:7]
         context["group_form"] = self.group_form or GroupAddForm()
+        context["page_user_groups"] = user.groups.prefetch_related(
+            "defining_project"
+        ).order()
         return context
 
 
