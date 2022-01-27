@@ -242,7 +242,7 @@
             {% endfor %}
           </td>
           <td>
-            {% if role.language_selection == role.SELECTION_ALL %}
+            {% if group.language_selection %}
               {% trans "All languages" %}
             {% else %}
               {% for language in group.languages.all %}
