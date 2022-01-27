@@ -169,6 +169,8 @@ class Group(models.Model):
         verbose_name_plural = "Groups"
 
     def __str__(self):
+        if self.defining_project:
+            return pgettext("Per-project access-control group", self.name)
         return pgettext("Access-control group", self.name)
 
     def save(self, *args, **kwargs):
@@ -195,12 +197,6 @@ class Group(models.Model):
                 ),
                 clear=True,
             )
-
-    @cached_property
-    def short_name(self):
-        if self.defining_project:
-            return pgettext("Per-project access-control group", self.name)
-        return self.__str__()
 
 
 class UserManager(BaseUserManager):
