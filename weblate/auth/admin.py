@@ -217,8 +217,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     model = Group
     form = GroupChangeForm
     inlines = [InlineAutoGroupAdmin]
-    search_fields = ("name",)
-    ordering = ("name",)
+    search_fields = ("name", "defining_project__name")
+    ordering = ("defining_project__name", "name")
     list_filter = ("internal", "project_selection", "language_selection")
     filter_horizontal = (
         "roles",
@@ -227,6 +227,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         "components",
         "componentlists",
     )
+    list_display = ("name", "defining_project")
 
     new_obj = None
 
