@@ -103,10 +103,6 @@ class GroupQuerySet(models.QuerySet):
 
 
 class Group(models.Model):
-    SELECTION_MANUAL = 0
-    SELECTION_ALL = 1
-    SELECTION_COMPONENT_LIST = 2
-
     name = models.CharField(_("Name"), max_length=150)
     roles = models.ManyToManyField(
         Role,
@@ -727,7 +723,7 @@ def change_componentlist(sender, instance, action, **kwargs):
     if not action.startswith("post_"):
         return
     groups = Group.objects.filter(
-        componentlists=instance, project_selection=Group.SELECTION_COMPONENT_LIST
+        componentlists=instance, project_selection=SELECTION_COMPONENT_LIST
     )
     for group in groups:
         group.projects.set(
