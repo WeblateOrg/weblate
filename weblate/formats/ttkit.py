@@ -423,7 +423,7 @@ class TTKitFormat(TranslationFormat):
         plural = language.plural
 
         for unit in self.store.units:
-            if unit.istranslatable():
+            if unit.istranslatable() and (unit.istranslated() or unit.isfuzzy()):
                 self.untranslate_unit(unit, plural, fuzzy)
 
     @classmethod
