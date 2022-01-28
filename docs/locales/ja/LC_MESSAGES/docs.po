@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-01-23 23:34+0000\n"
+"PO-Revision-Date: 2022-01-28 19:54+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1135,8 +1135,8 @@ msgid ""
 "View upstream repository location [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"upstream リポジトリの場所の表示 [`Administration`, `Access repository`, "
-"`Power user`, `Manage repository`]"
+"アップストリーム リポジトリの場所の表示 [`Administration`, `Access repository`, `Power user`, `"
+"Manage repository`]"
 
 #: ../../admin/access.rst:577
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
@@ -1428,7 +1428,7 @@ msgstr "``nottranslated`` -- 未翻訳の文字列"
 
 #: ../../admin/addons.rst:48
 msgid "``todo`` -- Unfinished strings"
-msgstr "``todo`` -- 翻訳未完成の文字列"
+msgstr "``todo`` -- 翻訳途中の文字列"
 
 #: ../../admin/addons.rst:50
 msgid "``fuzzy`` -- Strings marked for edit"
@@ -1677,8 +1677,8 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"単一言語の基本ファイルに合わせてすべての翻訳ファイルを更新します。ほとんどの"
-"ファイル形式で、基本ファイルに存在しない、無効な翻訳キーを削除します。"
+"すべての翻訳ファイルを、モノリンガルの基準ファイルと合致するように更新します。ほとんどのファイル形式で、基準ファイルに存在しない、無効な翻訳キーが削除され"
+"ます。"
 
 #: ../../admin/addons.rst:156
 msgid "Add missing languages"
@@ -1780,7 +1780,7 @@ msgstr "``filename``, ``template``"
 
 #: ../../admin/addons.rst:188
 msgid "Define the monolingual base filename"
-msgstr "単一言語の基本ファイル名の定義"
+msgstr "モノリンガルの基準ファイル名の定義"
 
 #: ../../admin/addons.rst:188
 msgid "Leave empty for bilingual translation files."
@@ -2489,9 +2489,8 @@ msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the add-on configuration."
 msgstr ""
-"新しい変更が upstream リポジトリから新しい変更をプルするたびに起動します。大"
-"部分の msgmerge のコマンド ライン オプションはアドオンの設定から設定できま"
-"す。"
+"新しい変更がアップストリーム リポジトリから新しい変更をプルするたびに起動します。大部分の msgmerge のコマンド ライン "
+"オプションはアドオンの設定から設定できます。"
 
 #: ../../admin/addons.rst:576
 msgid "Squash Git commits"
@@ -2513,7 +2512,7 @@ msgstr "コミットの圧縮"
 
 #: ../../admin/addons.rst:582
 msgid "``all`` -- All commits into one"
-msgstr "``all`` -- すべてのコミットを 1 つにまとめる"
+msgstr "``all`` -- すべてのコミットを 1 つに統合"
 
 #: ../../admin/addons.rst:584
 msgid "``language`` -- Per language"
@@ -2578,7 +2577,7 @@ msgstr "変更をプッシュする前に Git コミットの内容を簡略化�
 
 #: ../../admin/addons.rst:601
 msgid "All commits into one"
-msgstr "すべてのコミットを 1 つにまとめる"
+msgstr "すべてのコミットを 1 つに統合"
 
 #: ../../admin/addons.rst:602
 msgid "Per language"
@@ -2769,9 +2768,8 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"すべての翻訳ファイルを更新して、上流のモノリンガル基本ファイルに合わせます。"
-"使われなくなった文字列は削除され、新しい文字列は原文のコピーとして追加されま"
-"す。"
+"すべての翻訳ファイルを、アップストリームのモノリンガルの基準ファイルと合致するように更新します。未使用の文字列は削除され、新しい文字列は原文をコピーして追"
+"加されます。"
 
 #: ../../admin/addons.rst:705
 msgid ""
@@ -2906,7 +2904,7 @@ msgstr "使用中のバージョン管理システム。"
 
 #: ../../admin/addons.rst:793
 msgid "Upstream repository URL."
-msgstr "Upstream リポジトリの URL。"
+msgstr "アップストリーム リポジトリの URL。"
 
 #: ../../admin/addons.rst:797
 msgid "Absolute path to VCS repository."
@@ -2922,7 +2920,7 @@ msgstr "現在のコンポーネントのファイルマスク。"
 
 #: ../../admin/addons.rst:811
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr "単一言語翻訳用のテンプレートのファイル名（空欄でも可）。"
+msgstr "モノリンガル翻訳用のテンプレートのファイル名（空欄でも可）。"
 
 #: ../../admin/addons.rst:817
 msgid "Filename of the file used for creating new translations (can be empty)."
@@ -2983,10 +2981,8 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"VCS の upstream ソースが変更されたときに翻訳ファイルを更新するために使用でき"
-"ます。これを実現するには、 Weblate は VCS にコミットされたファイルだけを確認"
-"するので、スクリプトの一部として変更をコミットする必要があることに注意してく"
-"ださい。"
+"VCS のアップストリーム ソースが変更されたときに翻訳ファイルを更新するために使用できます。これを実現するには、 Weblate は VCS "
+"にコミットされたファイルだけを確認するので、スクリプトの一部として変更をコミットする必要があることに注意してください。"
 
 #: ../../admin/addons.rst:880
 msgid "For example with Gulp you can do it using following code:"
@@ -3135,7 +3131,7 @@ msgstr ":ref:`component`、:ref:`bimono`"
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
-msgstr "単一言語コンポーネント"
+msgstr "モノリンガル コンポーネント"
 
 #: ../../admin/admin.rst:79
 msgid ""
@@ -5792,17 +5788,14 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"大規模な導入時に、コンポーネント リストを管理する場合、または導入済みの "
-"Weblate のすべてのコンポーネントを 1 つのコンポーネント リストにまとめる場合"
-"に便利です。"
+"大規模な導入時に、コンポーネント リストを管理する場合、または導入済みの Weblate のすべてのコンポーネントを 1 つのコンポーネント "
+"リストに統合する場合に便利です。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr ""
-"導入済みの Weblate のすべてのコンポーネントをまとめたコンポーネント リストを"
-"作成します。"
+msgstr "導入済みの Weblate のすべてのコンポーネントを、統合したコンポーネント リストを作成します。"
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -9217,7 +9210,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:364
 msgid "A merge from upstream occurs."
-msgstr ""
+msgstr "アップストリームからのマージが発生します。"
 
 #: ../../admin/continuous.rst:365
 msgid "An explicit commit is requested."
@@ -15644,7 +15637,7 @@ msgstr "例：``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:424
 msgid "Customize the base file for monolingual translations."
-msgstr ""
+msgstr "モノリンガルの翻訳用に基準ファイルをカスタマイズします。"
 
 #: ../../admin/management.rst:426
 msgid "For example: ``{{ component }}/res/values/string.xml``"
@@ -15907,7 +15900,7 @@ msgstr "pushgit"
 
 #: ../../admin/management.rst:704
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr ""
+msgstr "コミットした変更をアップストリームの VCS リポジトリにプッシュします。"
 
 #: ../../admin/management.rst:708
 msgid "Force commits any pending changes, prior to pushing."
@@ -16678,6 +16671,8 @@ msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate は、Translate Toolkit で対応している幅広い翻訳ファイル形式（バイリンガルとモノリンガルの両方）に対応しています。参照: "
+":ref:`formats`。"
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -17235,11 +17230,11 @@ msgstr ":ref:`bimono`、:ref:`faq-duplicate-files`"
 #: ../../formats.rst:1369 ../../formats.rst:1482 ../../formats.rst:1513
 #: ../../formats.rst:1548
 msgid "Monolingual base language file"
-msgstr "単一言語のベース言語ファイル"
+msgstr "モノリンガル用の基準の言語ファイル"
 
 #: ../../admin/projects.rst:422
 msgid "Base file containing string definitions for :ref:`monolingual`."
-msgstr ""
+msgstr ":ref:`monolingual` の文字列を定義した基準ファイルです。"
 
 #: ../../admin/projects.rst:432
 msgid "Edit base file"
@@ -17247,7 +17242,7 @@ msgstr "基本ファイルの編集"
 
 #: ../../admin/projects.rst:434
 msgid "Whether to allow editing the base file for :ref:`monolingual`."
-msgstr ""
+msgstr ":ref:`monolingual` の基準ファイルの編集を許可するかどうか。"
 
 #: ../../admin/projects.rst:439
 msgid "Intermediate language file"
@@ -17259,6 +17254,8 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+":ref:`monolingual` "
+"の中間言語ファイル。ほとんどの場合、これは開発者によって提供される翻訳ファイルであり、実際の原文を作成するときに使用されます。"
 
 #: ../../admin/projects.rst:445
 msgid ""
@@ -17300,6 +17297,8 @@ msgid ""
 "this in case you want to have all strings present with empty value when "
 "creating new translation."
 msgstr ""
+"Weblate は、さまざまなモノリンガル形式として開始する場合、デフォルトで空のファイルを用意します。新しい翻訳を作成するときに、すべての文字列を空の値"
+"として設定する場合に使用します。"
 
 #: ../../admin/projects.rst:471
 msgid ""
@@ -17322,6 +17321,7 @@ msgid ""
 "Email address used for reporting upstream bugs. This address will also "
 "receive notification about any source string comments made in Weblate."
 msgstr ""
+"アップストリームのバグの報告に使用するメール アドレス。このアドレスは、Weblate で作成された原文へのコメントについての通知も受け取ります。"
 
 #: ../../admin/projects.rst:495
 msgid "Allow translation propagation"
@@ -17540,7 +17540,7 @@ msgstr "マージ スタイル"
 msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
-msgstr ""
+msgstr "アップストリーム リポジトリからの更新の処理方法を設定できます。実際の実装はVCSに依存します。参照: :doc:`/vcs`。"
 
 #: ../../admin/projects.rst:655
 msgid "Rebase"
@@ -17551,6 +17551,8 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
+"更新時にアップストリーム リポジトリ上の Weblate コミットをリベースします。これにより、追加のマージ "
+"コミットをせずにクリーンな履歴を提供できます。"
 
 #: ../../admin/projects.rst:651
 msgid ""
@@ -20063,7 +20065,7 @@ msgstr "コミットが必要な保留中の変更があるかどうか"
 
 #: ../../api.rst:861 ../../api.rst:1462
 msgid "whether there are any upstream changes to merge"
-msgstr "マージが必要な upstream に変更があるかどうか"
+msgstr "マージが必要なアップストリームに変更があるかどうか"
 
 #: ../../api.rst:862 ../../api.rst:1463
 msgid "whether there are any local changes to push"
@@ -20469,7 +20471,7 @@ msgstr "リポジトリ内の翻訳ファイルのマスク"
 
 #: ../../api.rst:1331
 msgid "base file for monolingual translations"
-msgstr "単一言語翻訳用の基本ファイル"
+msgstr "モノリンガル翻訳用の基準ファイル"
 
 #: ../../api.rst:1332
 msgid "base file for adding new translations"
@@ -20592,7 +20594,7 @@ msgstr ""
 
 #: ../../api.rst:1520
 msgid "Downloads base file for monolingual translations."
-msgstr "単一言語翻訳用の基本ファイルをダウンロードします。"
+msgstr "モノリンガル翻訳用の基準ファイルをダウンロードします。"
 
 #: ../../api.rst:1529
 msgid "Downloads template file for new translations."
@@ -20717,7 +20719,7 @@ msgstr "提案のある文字列の数"
 
 #: ../../api.rst:1707
 msgid "whether the translation has a monolingual base"
-msgstr "翻訳が単一言語ベースかどうか"
+msgstr "翻訳がモノリンガルの基準ファイルを基にしているかどうか"
 
 #: ../../api.rst:1709
 msgid ""
@@ -20806,7 +20808,7 @@ msgstr ""
 
 #: ../../api.rst:1836
 msgid "Add new monolingual unit."
-msgstr "新しい単一言語ユニットを追加します。"
+msgstr "新しいモノリンガル ユニットを追加します。"
 
 #: ../../api.rst:1844
 msgid "Name of translation unit"
@@ -21777,8 +21779,7 @@ msgstr "API を使用したアドオンのインストールの修正。"
 #: ../../changes.rst:7
 msgid ""
 "Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`."
-msgstr ""
-":guilabel:`要編集の文字列` のラベルを :guilabel:`翻訳未完成の文字列` に変更。"
+msgstr ":guilabel:`要編集の文字列` のラベルを :guilabel:`翻訳途中の文字列` に変更。"
 
 #: ../../changes.rst:8
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
@@ -22061,10 +22062,8 @@ msgstr ""
 ":setting:`BORG_EXTRA_ARGS` による Borg の呼び出しのカスタマイズに対応。"
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid "base file for monolingual translations"
 msgid "Fixed generating of MO files for monolingual translations."
-msgstr "単一言語翻訳用の基本ファイル"
+msgstr "モノリンガル翻訳用の MO ファイルの生成の修正。"
 
 #: ../../changes.rst:90
 msgid ""
@@ -22185,11 +22184,8 @@ msgid "Performance improvements."
 msgstr ""
 
 #: ../../changes.rst:127
-#, fuzzy
-#| msgid "Fixed adding new units to monolingual translations using upload."
 msgid "Fixed adding strings to monolingual glossary components."
-msgstr ""
-"アップロードを使用した、単一言語の翻訳に新しいユニットを追加する問題の修正。"
+msgstr "モノリンガルの用語集コンポーネントに文字列を追加するのを修正。"
 
 #: ../../changes.rst:128
 msgid "Improved performance in handling variants."
@@ -22458,8 +22454,7 @@ msgstr "アップグレード時に発生する可能性のあるキャッシュ
 
 #: ../../changes.rst:212
 msgid "Fixed adding new units to monolingual translations using upload."
-msgstr ""
-"アップロードを使用した、単一言語の翻訳に新しいユニットを追加する問題の修正。"
+msgstr "アップロードを使用した、モノリンガルの翻訳に新しいユニットを追加する問題の修正。"
 
 #: ../../changes.rst:214
 msgid ""
@@ -22857,7 +22852,7 @@ msgstr "ユーザーの管理の改善。"
 
 #: ../../changes.rst:339
 msgid "Improved handling of context in monolingual PO files."
-msgstr "単一言語の PO ファイルでのコンテキスト処理の改善。"
+msgstr "モノリンガルの PO ファイルでのコンテキスト処理の改善。"
 
 #: ../../changes.rst:340
 msgid ""
@@ -24077,7 +24072,7 @@ msgstr ""
 
 #: ../../changes.rst:711
 msgid "Display nearby keys on monolingual translations."
-msgstr "単一言語の翻訳で前後の翻訳キーを表示。"
+msgstr "モノリンガルの翻訳で前後の翻訳キーを表示。"
 
 #: ../../changes.rst:712
 msgid "Added support for grouping string shapings."
@@ -28074,12 +28069,12 @@ msgstr "変更がリポジトリにコミットされた後にフックが起動
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
 msgid "Hook triggered after repository is pushed upstream."
-msgstr "リポジトリが upstream にプッシュされた後にフックが起動します。"
+msgstr "リポジトリがアップストリームにプッシュされた後にフックが起動します。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
 msgid "Hook triggered after repository is updated from upstream."
-msgstr "リポジトリが upstream から更新された後に起動するフック。"
+msgstr "リポジトリがアップストリームから更新された後に起動するフック。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
@@ -28093,9 +28088,8 @@ msgid ""
 "you can pass this to underlying methods as ``commit_and_push`` or "
 "``commit_pending``."
 msgstr ""
-"アドオン操作で upstream への変更のプッシュをスキップさせるどうかを指定しま"
-"す。通常、これは ``commit_and_push`` または ``commit_pending`` として基底クラ"
-"スのメソッドに渡せます。"
+"アドオン操作でアップストリームへの変更のプッシュをスキップさせるどうかを指定します。通常、これは ``commit_and_push`` または "
+"``commit_pending`` として基底クラスのメソッドに渡せます。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
@@ -28105,12 +28099,12 @@ msgstr "変更がリポジトリにコミットされる前にフックが起動
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_push:1
 msgid "Hook triggered before repository is pushed upstream."
-msgstr "リポジトリが upstream にプッシュされる前に起動するフック。"
+msgstr "リポジトリがアップストリームにプッシュされる前に起動するフック。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
 msgid "Hook triggered before repository is updated from upstream."
-msgstr "リポジトリが upstream から更新される前に起動するフック。"
+msgstr "リポジトリがアップストリームから更新される前に起動するフック。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
@@ -30206,7 +30200,7 @@ msgstr ""
 
 #: ../../devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
-msgstr "単一言語の翻訳の設定が間違っています。"
+msgstr "モノリンガル翻訳の設定が間違っています。"
 
 #: ../../devel/alerts.rst:20
 msgid "Broken :ref:`component`"
@@ -31050,9 +31044,7 @@ msgstr ":guilabel:`プッシュ`"
 msgid ""
 "Pushes changes to the upstream repository, if configured by :ref:`component-"
 "push`."
-msgstr ""
-":ref:`component-push` に設定している場合、上流リポジトリに変更をプッシュしま"
-"す。"
+msgstr ":ref:`component-push` に設定している場合、アップストリーム リポジトリに変更をプッシュします。"
 
 #: ../../devel/integration.rst:137
 msgid ":guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`"
@@ -31947,12 +31939,10 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
-"マージの競合は、Weblate と upstream リポジトリの両方で翻訳ファイルが同時に変"
-"更されたとき、たまに発生します。通常、翻訳ファイルに変更を加える前に"
-"（msgmerge を実行する前）Weblate 翻訳をマージすることで、これを回避できます。"
-"Weblate に、保留中の翻訳をすべてコミットして（:guilabel:`管理` メニューの :"
-"guilabel:`リポジトリのメンテナンス` から操作）、リポジトリをマージするように"
-"指示するだけです（自動プッシュが無効のとき）。"
+"マージの競合は、Weblate とアップストリーム "
+"リポジトリの両方で翻訳ファイルが同時に変更されたとき、たまに発生します。通常、翻訳ファイルに変更を加える前に（msgmerge を実行する前）"
+"Weblate 翻訳をマージすることで、これを回避できます。Weblate に、保留中の翻訳をすべてコミットして（:guilabel:`管理` "
+"メニューの :guilabel:`リポジトリのメンテナンス` から操作）、リポジトリをマージするように指示するだけです（自動プッシュが無効のとき）。"
 
 #: ../../faq.rst:46
 msgid ""
@@ -31962,10 +31952,9 @@ msgid ""
 "Weblate will be able to use the merged version without any other special "
 "actions."
 msgstr ""
-"マージの競合が既に発生している場合、マシン上のすべての競合をローカルで解決す"
-"る最も簡単な方法は、Weblate をリモート リポジトリとして追加し、上流にマージし"
-"て競合を修正することです。変更を元に戻すと、Weblate はそのままでマージされた"
-"バージョンを使用できます。"
+"マージの競合が既に発生している場合、マシン上のすべての競合をローカルで解決する最も簡単な方法は、Weblate をリモート "
+"リポジトリとして追加し、アップストリームにマージして競合を修正することです。変更を元に戻すと、Weblate "
+"はそのままでマージされたバージョンを使用できます。"
 
 #: ../../faq.rst:54
 msgid ""
@@ -31997,10 +31986,8 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
-"Weblate Git リポジトリのローカル クローンを取得して保持します。また、"
-"upstream の Git リポジトリの新しいローカル クローンも取得します（つまり、"
-"upstream の Git リポジトリのコピーが 2 つ必要。例: 完全なコピーと作業用コ"
-"ピー）手順:"
+"Weblate Git リポジトリのローカル クローンを取得して保持します。また、アップストリームの Git リポジトリの新しいローカル "
+"クローンも取得します（つまり、アップストリームの Git リポジトリのコピーが 2 つ必要。例: 完全なコピーと作業用コピー）手順:"
 
 #: ../../faq.rst:144
 msgid ""
@@ -32200,7 +32187,7 @@ msgstr "影響を受けるコンポーネントを Weblate でロックします
 
 #: ../../faq.rst:274
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "保留中の変更をコミットし、上流リポジトリにマージします。"
+msgstr "保留中の変更をコミットし、アップストリーム リポジトリにマージします。"
 
 #: ../../faq.rst:275
 msgid ""
@@ -32590,9 +32577,8 @@ msgid ""
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
-"Weblate は `translate-toolkit`_ で扱えるほとんどの翻訳フォーマットに対応して"
-"いますが、フォーマットごとに小さな差異があり、テストが不十分なフォーマットで"
-"は問題が発生することがあります。"
+"Weblate は `translate-toolkit`_ "
+"で扱えるほとんどの翻訳フォーマットに対応していますが、ファイル形式ごとに細かな違いがあり、テストが不十分なファイル形式では問題が発生することがあります。"
 
 #: ../../formats.rst:12 ../../formats.rst:1575
 msgid ":doc:`tt:formats/index`"
@@ -32624,13 +32610,12 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
-":index:`モノリンガル <pair: translation; monolingual>` と :index:`バイリンガ"
-"ル <pair: translation; bilingual>` 形式のどちらもサポートされています。バイリ"
-"ンガル形式は一つのファイルの中に二つの言語、原文と翻訳文が保存されます（典型"
-"例は :ref:`gettext`、:ref:`xliff` や :ref:`apple`）。一方、モノリンガル形式は"
-"文字列をIDで識別し、それぞれの言語のファイルには各IDに対応するその言語への翻"
-"訳のみが含まれます（典型例は :ref:`aresource`）。いくつかのファイルフォーマッ"
-"トはどちらの形式でも使われることがあります、下記の詳しい説明を見てください。"
+":index:`モノリンガル <pair: translation; monolingual>` と :index:`バイリンガル <pair: "
+"translation; bilingual>` "
+"の両方の形式に対応しています。バイリンガル形式は一つのファイルの中に二つの言語、原文と翻訳文が保存されます（典型例は "
+":ref:`gettext`、:ref:`xliff` や :ref:`apple`）。一方、モノリンガル形式は文字列を ID で識別し、"
+"それぞれの言語のファイルには各 ID に対応するその言語への翻訳のみが含まれます（典型例は "
+":ref:`aresource`）。ファイル形式によっては、両方の形式で使用します。詳細は、下記の説明を確認してください。"
 
 #: ../../formats.rst:35
 msgid ""
@@ -32639,6 +32624,8 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"モノリンガル ファイルを正しく使用するには、原文とともに翻訳する文字列の完全なリストを含むファイルを操作することが必要です。このファイルは、"
+"Weblate 内では :ref:`component-template` と呼ばれますが、名前を変更することができます。"
 
 #: ../../formats.rst:40
 msgid ""
@@ -32646,6 +32633,8 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"さらに、このワークフローは、:ref:`component-intermediate` "
+"を使用して、開発者が提供する文字列を含むように拡張できますが、最終的な文字列としては使用できません。"
 
 #: ../../formats.rst:45
 msgid "Automatic detection"
@@ -32657,29 +32646,28 @@ msgid ""
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
 msgstr ""
-"Weblate は、広く普及しているいくつかのファイル形式を自動的に検出することがで"
-"きますが、この検出機能によってパフォーマンスが低下したり、特定のファイル形式"
-"に特化した機能（新しい翻訳の自動追加など）が制限されたりします。"
+"Weblate は、広く普及しているファイル形式などを自動的に検出できますが、この検出機能によって性能が低下したり、特定のファイル形式よっては、特化した機"
+"能（新しい翻訳の自動追加など）が制限されます。"
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
-msgstr ""
+msgstr "翻訳の種類別の機能"
 
 #: ../../formats.rst:56
 msgid "Capabilities of all supported formats:"
-msgstr ""
+msgstr "ファイル形式が対応するすべての機能:"
 
 #: ../../formats.rst:59
 msgid "Format"
-msgstr ""
+msgstr "ファイル形式"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "ファイル種別 [#m]_"
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "複数形 [#p]_"
 
 #: ../../formats.rst:59
 msgid "Descriptions [#n]_"
@@ -32687,19 +32675,19 @@ msgstr "説明 [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
-msgstr ""
+msgstr "付随情報 [#c]_"
 
 #: ../../formats.rst:59
 msgid "Location [#l]_"
-msgstr ""
+msgstr "文字列位置 [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
-msgstr ""
+msgstr "フラグ [#f]_"
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "追加の状態 [#a]_"
 
 #: ../../formats.rst:61 ../../formats.rst:79 ../../formats.rst:123
 msgid "bilingual"
@@ -32715,16 +32703,16 @@ msgstr "バイリンガル"
 #: ../../formats.rst:111 ../../formats.rst:123 ../../formats.rst:127
 #: ../../formats.rst:129
 msgid "yes"
-msgstr "はい"
+msgstr "yes"
 
 #: ../../formats.rst:61 ../../formats.rst:63
 msgid "yes [#po]_"
-msgstr "はい [#po]_"
+msgstr "yes [#po]_"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:75
 #: ../../formats.rst:95 ../../formats.rst:107
 msgid "needs editing"
-msgstr ""
+msgstr "要編集"
 
 #: ../../formats.rst:63
 msgid ":ref:`mono_gettext`"
@@ -32741,7 +32729,7 @@ msgstr ""
 #: ../../formats.rst:121 ../../formats.rst:125 ../../formats.rst:127
 #: ../../formats.rst:129
 msgid "mono"
-msgstr ""
+msgstr "モノリンガル"
 
 #: ../../formats.rst:65
 msgid ":ref:`xliff`"
@@ -32750,16 +32738,16 @@ msgstr ""
 #: ../../formats.rst:65 ../../formats.rst:67 ../../formats.rst:75
 #: ../../formats.rst:95
 msgid "both"
-msgstr ""
+msgstr "両方"
 
 #: ../../formats.rst:65 ../../formats.rst:75 ../../formats.rst:77
 #: ../../formats.rst:93 ../../formats.rst:103 ../../formats.rst:123
 msgid "yes [#xl]_"
-msgstr "はい [#xl]_"
+msgstr "yes [#xl]_"
 
 #: ../../formats.rst:65
 msgid "needs editing, approved"
-msgstr ""
+msgstr "要編集、承認済"
 
 #: ../../formats.rst:67
 msgid ":ref:`javaprop`"
@@ -32777,7 +32765,7 @@ msgstr ""
 #: ../../formats.rst:121 ../../formats.rst:123 ../../formats.rst:125
 #: ../../formats.rst:127 ../../formats.rst:129
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: ../../formats.rst:69
 #, fuzzy
@@ -32795,7 +32783,7 @@ msgstr ""
 
 #: ../../formats.rst:77
 msgid "yes [#x]_"
-msgstr "はい [#x]_"
+msgstr "yes [#x]_"
 
 #: ../../formats.rst:81
 msgid ":ref:`php`"
@@ -32803,7 +32791,7 @@ msgstr ""
 
 #: ../../formats.rst:81
 msgid "no [#lp]_"
-msgstr "いいえ [#lp]_"
+msgstr "no [#lp]_"
 
 #: ../../formats.rst:83
 msgid ":ref:`json`"
@@ -32897,7 +32885,7 @@ msgstr ":ref:`alerts`"
 
 #: ../../formats.rst:129
 msgid "no [#fp]_"
-msgstr "いいえ [#fp]_"
+msgstr "no [#fp]_"
 
 #: ../../formats.rst:132
 msgid "See :ref:`bimono`"
@@ -32905,13 +32893,13 @@ msgstr "参照: :ref:`bimono`"
 
 #: ../../formats.rst:133
 msgid "Plurals are necessary to properly localize strings with variable count."
-msgstr ""
+msgstr "複数形は、数の値を持つ文字列を適切に現地語化するために必要です。"
 
 #: ../../formats.rst:134
 msgid ""
 "Source string descriptions can be used to pass additional info about the "
 "string to translate."
-msgstr ""
+msgstr "原文の説明を使用して、翻訳する文字列に関する追加情報を渡すことができます。"
 
 #: ../../formats.rst:135
 msgid ""
@@ -32919,24 +32907,26 @@ msgid ""
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
 msgstr ""
+"付随情報は、異なるスコープで使用される同一の文字列を区別するために使用します（例: "
+"「Sun」は曜日の省略名として使用するか、太陽の名前として使用できます）。"
 
 #: ../../formats.rst:136
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
-msgstr ""
+msgstr "ソースコード内の文字列の位置情報は、熟練した翻訳者が文字列の使用状況を把握する参考になります。"
 
 #: ../../formats.rst:137
 msgid ""
 "Additional states supported by the file format in addition to \"Untranslated"
 "\" and \"Translated\"."
-msgstr ""
+msgstr "「未翻訳」と「翻訳済」に加えて、ファイル形式で対応する追加の状態。"
 
 #: ../../formats.rst:138
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a source "
 "string description."
-msgstr ""
+msgstr "``<string>`` 要素の前に配置された XML コメントであり、原文の説明として解釈されます。"
 
 #: ../../formats.rst:139
 msgid "See :ref:`custom-checks`"
@@ -32944,7 +32934,7 @@ msgstr "参照: :ref:`custom-checks`"
 
 #: ../../formats.rst:140
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "gettext 型のコメントはフラグとして使用されます。"
 
 #: ../../formats.rst:141
 msgid ""
@@ -32954,18 +32944,21 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"フラグは、すべての XML のファイル形式の非標準の属性 ``weblate-flags`` から抽出されます。また、``max-length:N`` "
+"は XLIFF 規格で定義されている ``maxwidth`` `属性<http://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#maxwidth>`_ により対応しています。参照: :ref:`xliff-flags`。"
 
 #: ../../formats.rst:142
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
-msgstr ""
+msgstr "複数形は、文字列構文で定義する Laravel の場合にのみ対応しています。参照: `Laravel での現地語化の方法`_。"
 
 #: ../../formats.rst:143
 msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
-msgstr ""
+msgstr "複数形は文字列の構文で処理され、Weblate では複数形として公開されません。"
 
 #: ../../formats.rst:148
 msgid "Read-only strings"
@@ -32978,14 +32971,13 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
-"翻訳ファイルからの翻訳禁止の文字列を含みますが、Weblate で編集できません。こ"
-"の機能は複数のフォーマット（:ref:`xliff` および :ref:`aresource`）には公式に"
-"対応していますが、その他のフォーマットでは ``read-only`` フラグを追加するとエ"
-"ミュレートできます。"
+"翻訳ファイルの翻訳禁止の文字列を含みますが、Weblate では編集できません。この機能は複数のフォーマット（:ref:`xliff` および "
+":ref:`aresource`）には公式に対応していますが、その他のフォーマットでは ``read-only`` "
+"フラグを追加するとエミュレートできます。"
 
 #: ../../formats.rst:160
 msgid "GNU gettext"
-msgstr ""
+msgstr "GNU gettext"
 
 #: ../../formats.rst:166
 msgid "Most widely used format for translating libre software."
@@ -32995,11 +32987,11 @@ msgstr "libre ソフトウェアの翻訳に最も広く使用されているフ
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
-msgstr ""
+msgstr "ファイルに保存されている付随情報は、ヘッダーを調整するか、対応する原文にリンクして対応します。"
 
 #: ../../formats.rst:171
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "一般的なバイリンガルの gettext PO ファイル:"
 
 #: ../../formats.rst:189 ../../formats.rst:255 ../../formats.rst:429
 #: ../../formats.rst:464 ../../formats.rst:499 ../../formats.rst:534
@@ -33011,7 +33003,7 @@ msgstr ""
 #: ../../formats.rst:1302 ../../formats.rst:1333 ../../formats.rst:1365
 #: ../../formats.rst:1478 ../../formats.rst:1509 ../../formats.rst:1544
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "典型的な Weblate :ref:`component`"
 
 #: ../../formats.rst:193 ../../formats.rst:380 ../../formats.rst:435
 #: ../../formats.rst:470 ../../formats.rst:505 ../../formats.rst:540
@@ -33023,7 +33015,7 @@ msgstr ""
 #: ../../formats.rst:1273 ../../formats.rst:1482 ../../formats.rst:1484
 #: ../../formats.rst:1516 ../../formats.rst:1550
 msgid "`Empty`"
-msgstr ""
+msgstr "`Empty（空）`"
 
 #: ../../formats.rst:195 ../../formats.rst:261
 msgid "``po/messages.pot``"
@@ -33031,7 +33023,7 @@ msgstr "``po/messages.pot``"
 
 #: ../../formats.rst:197
 msgid "`Gettext PO file`"
-msgstr ""
+msgstr "`Gettext PO ファイル`"
 
 #: ../../formats.rst:202
 msgid ""
@@ -33049,7 +33041,7 @@ msgstr ""
 
 #: ../../formats.rst:215
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "モノリンガルの gettext"
 
 #: ../../formats.rst:217
 msgid ""
@@ -33058,14 +33050,17 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"一部のプロジェクトでは、gettext をモノリンガル形式として使用することを定めています。ソースコード内の ID "
+"のみをコード化し、文字列を英語を含むすべての言語に翻訳することが必要です。これには対応していますが、コンポーネントを Weblate "
+"にインポートするときは、このファイル形式を明示的に選択することが必要です。"
 
 #: ../../formats.rst:222
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "一般的なモノリンガルの gettext PO ファイル:"
 
 #: ../../formats.rst:238
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "一般的な基準の言語ファイル:"
 
 #: ../../formats.rst:259
 msgid "``po/en.po``"
@@ -33401,7 +33396,7 @@ msgstr "翻訳用の Inno Setup INI ファイル形式。"
 #: ../../formats.rst:570
 msgid ""
 "Inno Setup INI translations are usually used as monolingual translations."
-msgstr "Inno Setup INI の翻訳は、通常、単一言語の翻訳として使用されます。"
+msgstr "Inno Setup INI の翻訳は、通常、モノリンガルの翻訳として使用されます。"
 
 #: ../../formats.rst:574
 msgid ""
@@ -33993,7 +33988,7 @@ msgstr ""
 
 #: ../../formats.rst:1144
 msgid "Typical Weblate :ref:`component` for monolingual CSV"
-msgstr ""
+msgstr "典型的なモノリンガル CSV 用の Weblate :ref:`component`"
 
 #: ../../formats.rst:1152
 msgid "`Simple CSV file`"
@@ -37030,15 +37025,15 @@ msgstr "CSV"
 
 #: ../../user/files.rst:38
 msgid "JSON (only available for monolingual translations)"
-msgstr "JSON（単一言語翻訳でのみ使用可能）"
+msgstr "JSON（モノリンガル翻訳でのみ使用可能）"
 
 #: ../../user/files.rst:39
 msgid "Android String Resource (only available for monolingual translations)"
-msgstr "Android 文字列リソース（単一言語翻訳でのみ使用可能）"
+msgstr "Android 文字列リソース（モノリンガル翻訳でのみ使用可能）"
 
 #: ../../user/files.rst:40
 msgid "iOS strings (only available for monolingual translations)"
-msgstr "iOS 文字列（単一言語翻訳でのみ使用可能）"
+msgstr "iOS 文字列（モノリンガル翻訳でのみ使用可能）"
 
 #: ../../user/files.rst:44
 msgid ""
@@ -37253,10 +37248,8 @@ msgid ""
 "the glossary containing words from the currently translated string are "
 "displayed in the sidebar of the translation editor."
 msgstr ""
-"各言語の用語集は単独で管理できますが、プロジェクト管理者と多言語翻訳者が言語"
-"間の一貫性を維持しやすいように単一のコンポーネントとしてまとめて保存されま"
-"す。翻訳エディタのサイドバーに、翻訳中の文字列の単語を含む用語集の用語が表示"
-"されます。"
+"各言語の用語集は単独で管理できますが、プロジェクト管理者と多言語翻訳者が言語間の一貫性を維持しやすいように単一のコンポーネントとして統合して保存されます。"
+"翻訳エディタのサイドバーに、翻訳中の文字列の単語を含む用語集の用語が表示されます。"
 
 #: ../../user/glossary.rst:16
 msgid "Managing glossaries"
@@ -38252,7 +38245,7 @@ msgid ""
 msgstr ""
 "コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに翻訳は、次のような個別の検査結果に分類されています、例えば "
 ":guilabel:`未翻訳の文字列` または "
-":guilabel:`翻訳未完成の文字列`。プロジェクト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
+":guilabel:`翻訳途中の文字列`。プロジェクト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
 "が使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
@@ -38813,11 +38806,10 @@ msgid ""
 "bilingual one, making Weblate mistaking the translation key for the actual "
 "source string. See :ref:`bimono` for more info."
 msgstr ""
-"デフォルトの翻訳文の長さ制限は、原文の 10 倍です。無効にするには、:setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` を設定します。制限の影響を受けた"
-"場合、間違ってバイリンガルとして設定した単一言語の翻訳が原因であり、Weblate "
-"が翻訳キーを実際の原文と間違えたことも考えられます。詳細については、:ref:"
-"`bimono` を確認してください。"
+"デフォルトの翻訳文の長さ制限は、原文の 10 "
+"倍です。無効にするには、:setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` "
+"を設定します。制限の影響を受けた場合、間違ってバイリンガルとして設定したモノリンガルの翻訳が原因であり、Weblate "
+"が翻訳キーを実際の原文と間違えたことも考えられます。詳細については、:ref:`bimono` を確認してください。"
 
 #: ../../user/translating.rst:306
 msgid ""
@@ -38950,8 +38942,7 @@ msgid ""
 "define strings by searching for them and set up something to be done for "
 "matching ones. The following operations are supported:"
 msgstr ""
-"一括編集では、複数の文字列に対して 1 つの操作をまとめて実行できます。検索する"
-"文字列を設定し、一致するすべての文字列を更新します。対応する操作:"
+"一括編集では、複数の文字列に対して 1 つの修正をまとめて実行できます。検索する文字列を設定し、一致するすべての文字列を更新します。対応する操作:"
 
 #: ../../user/translating.rst:394
 msgid "Changing string state (for example to approve all unreviewed strings)."
@@ -39108,9 +39099,8 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
-"プライベート リポジトリに接続するために最もよく使用される方法は、SSH による接"
-"続です。SSH で upstream リポジトリに接続するために、Weblate SSH 公開鍵（参"
-"照: :ref:`weblate-ssh-key`）を承認します。"
+"プライベート リポジトリに接続するために最もよく使用される方法は、SSH による接続です。SSH でアップストリーム リポジトリに接続するために、"
+"Weblate SSH 公開鍵（参照: :ref:`weblate-ssh-key`）を承認します。"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -39217,9 +39207,9 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
-":ref:`component-push_branch` を設定していない場合、プロジェクトはフォークさ"
-"れ、変更はフォークを通してプッシュされます。設定されている場合、変更は "
-"upstream リポジトリと選択したブランチにプッシュされます。"
+":ref:`component-push_branch` "
+"を設定していない場合、プロジェクトはフォークされ、変更はフォークを通してプッシュされます。設定されている場合、変更はアップストリーム "
+"リポジトリと選択したブランチにプッシュされます。"
 
 #: ../../vcs.rst:113
 msgid ""
@@ -39412,9 +39402,7 @@ msgstr ""
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
-msgstr ""
-"upstream のリポジトリではコミットが失われやすいので、注意して使用してくださ"
-"い。"
+msgstr "アップストリーム のリポジトリではコミットが失われやすいので、注意して使用してください。"
 
 #: ../../vcs.rst:223
 msgid "Customizing Git configuration"
@@ -39711,10 +39699,8 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
-"Weblate は、リモート VCS がなくても動作します。最初の翻訳は、アップロードする"
-"とインポートされます。あとで、個々のファイルをファイル アップロードで置き換え"
-"るか、Weblate から直接、翻訳文字列を追加できます（現在、単一言語翻訳でのみ使"
-"用できます）。"
+"Weblate は、リモート VCS がなくても動作します。最初の翻訳は、アップロードするとインポートされます。あとで、個々のファイルをファイル "
+"アップロードで置き換えるか、Weblate から直接、翻訳文字列を追加できます（現在、モノリンガル翻訳でのみ使用できます）。"
 
 #: ../../vcs.rst:453
 msgid ""
@@ -40488,9 +40474,9 @@ msgid ""
 "strings.  The actual process depends on whether you use bilingual or "
 "monolingual formats."
 msgstr ""
-":ref:`project-source_review` を有効にすると、査読の処理を原文に適用できます。"
-"有効にすると、ユーザーは原文の問題を報告できます。 実際の処理は、バイリンガル"
-"形式と単一言語形式のどちらを使用するかで変わります。"
+":ref:`project-source_review` "
+"を有効にすると、査読の処理を原文に適用できます。有効にすると、ユーザーは原文の問題を報告できます。 "
+"実際の処理は、バイリンガル形式とモノリンガル形式のどちらを使用するかで変わります。"
 
 #: ../../workflows.rst:247
 msgid ""
@@ -40498,8 +40484,8 @@ msgid ""
 "ref:`reviews` - once issue is reported on the source string, it is marked "
 "as :guilabel:`Needs editing`."
 msgstr ""
-"単一言語形式の場合、原文の査読は :ref:`reviews` と同じように動作します - 原文"
-"で問題が報告されると、:guilabel:`要編集` が設定される。"
+"モノリンガル形式の場合、原文の査読は :ref:`reviews` と同じように動作します - 原文で問題が報告されると、:guilabel:`要編集` "
+"が設定される。"
 
 #: ../../workflows.rst:251
 msgid ""
