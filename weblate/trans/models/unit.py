@@ -1098,6 +1098,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             details={
                 "state": self.state,
                 "old_state": self.old_unit["state"],
+                "source": self.source,
             },
         )
         if save:

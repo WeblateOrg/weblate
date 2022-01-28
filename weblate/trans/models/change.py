@@ -688,3 +688,6 @@ class Change(models.Model, UserDisplayMixin):
         except MemoryError:
             # Too long strings
             return abs(len(self.old) - len(self.target))
+
+    def get_source(self):
+        return self.details.get("source", self.unit.source)
