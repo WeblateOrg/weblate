@@ -189,7 +189,7 @@ class SearchViewTest(ViewTestCase):
         self.assertNotContains(response, "Plural form ")
 
     def test_checksum(self):
-        self.do_search({"checksum": "invalid"}, "Invalid checksum specified!")
+        self.do_search({"checksum": "invalid"}, None)
 
 
 class ReplaceTest(ViewTestCase):

@@ -539,7 +539,7 @@ def translate(request, project, component, lang):  # noqa: C901
 
     # Checksum unit access
     payload = request.GET or request.POST
-    if "checksum" in payload:
+    if payload.get("checksum"):
         checksum_form = ChecksumForm(unit_set, payload)
         if checksum_form.is_valid():
             unit = checksum_form.cleaned_data["unit"]
