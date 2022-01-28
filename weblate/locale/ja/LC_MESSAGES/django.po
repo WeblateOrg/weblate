@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-01-23 23:34+0000\n"
+"PO-Revision-Date: 2022-01-28 19:54+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -214,45 +214,35 @@ msgstr "コンポーネント: {}"
 #: weblate/accounts/forms.py:689
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr ""
-"監視していないプロジェクトでは、このようなイベントが発生するたびに通知が届き"
-"ます。"
+msgstr "監視していないプロジェクトでは、次のイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:694
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr ""
-"監視中のプロジェクトで、次のイベントが発生するたびに通知を受け取ります。"
+msgstr "監視中のプロジェクトでは、次のイベントが発生するたびに通知を受け取ります。"
 
 #: weblate/accounts/forms.py:699
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr ""
-"管理者権限を持っているプロジェクトでは、このようなイベントが発生するたびに通"
-"知が届きます。"
+msgstr "管理者権限があるプロジェクトでは、次のイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:704
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"%(project)s プロジェクトでは、このようなイベントが発生するたびに通知が届きま"
-"す。"
+msgstr "%(project)s プロジェクトでは、次のイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:707
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"%(component)s コンポーネントでは、このようなイベントが発生するたびに通知が届"
-"きます。"
+msgstr "%(component)s コンポーネントでは、次のイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:714
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
-msgstr ""
-"監視していないプロジェクトでは、翻訳の登録をした言語にのみ通知が届きます。"
+msgstr "監視していないプロジェクトでは、翻訳をした言語にのみ次の通知が届きます。"
 
 #: weblate/accounts/forms.py:719
 msgid ""
@@ -264,24 +254,21 @@ msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
-msgstr ""
-"管理者権限を持っているプロジェクトで、翻訳の登録をした言語のみ通知が届きま"
-"す。"
+msgstr "管理者権限があるプロジェクトでは、翻訳をした言語のみ次の通知が届きます。"
 
 #: weblate/accounts/forms.py:729
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "%(project)s プロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
+msgstr "%(project)s プロジェクトでは、翻訳をした言語のみ次の通知が届きます。"
 
 #: weblate/accounts/forms.py:733
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr ""
-"%(component)s コンポーネントで、翻訳の登録をした言語のみ通知が届きます。"
+msgstr "%(component)s コンポーネントでは、翻訳をした言語のみ次の通知が届きます。"
 
 #: weblate/accounts/forms.py:773 weblate/auth/models.py:310
 #: weblate/templates/manage-access.html:35 weblate/utils/forms.py:42
@@ -687,15 +674,15 @@ msgstr "即時通知"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr "1 日のまとめ"
+msgstr "1 日分"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr "1 週間のまとめ"
+msgstr "1 週間分"
 
 #: weblate/accounts/notifications.py:57
 msgid "Monthly digest"
-msgstr "1 か月のまとめ"
+msgstr "1 か月分"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:416
@@ -802,7 +789,7 @@ msgstr "採用待ちの提案"
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
 msgid "Unfinished strings"
-msgstr "翻訳未完成の文字列"
+msgstr "翻訳途中の文字列"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1067,8 +1054,8 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"単一言語の基本ファイルに合わせてすべての翻訳ファイルを更新します。ほとんどの"
-"ファイル形式で、基本ファイルに存在しない、無効な翻訳キーを削除します。"
+"すべての翻訳ファイルを、モノリンガルの基準ファイルと合致するように更新します。ほとんどのファイル形式で、基準ファイルに存在しない、無効な翻訳キーが削除され"
+"ます。"
 
 #: weblate/addons/cleanup.py:63
 msgid "Remove blank strings"
@@ -1231,7 +1218,7 @@ msgstr "コミットの圧縮"
 
 #: weblate/addons/forms.py:149
 msgid "All commits into one"
-msgstr "すべてのコミットを 1 つにまとめる"
+msgstr "すべてのコミットを 1 つに統合"
 
 #: weblate/addons/forms.py:150
 msgid "Per language"
@@ -1357,7 +1344,7 @@ msgstr "コンポーネント名のカスタマイズ"
 
 #: weblate/addons/forms.py:265
 msgid "Define the monolingual base filename"
-msgstr "単一言語の基本ファイル名の定義"
+msgstr "モノリンガルの基準ファイル名の定義"
 
 #: weblate/addons/forms.py:268
 msgid "Leave empty for bilingual translation files."
@@ -1610,9 +1597,8 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"すべての翻訳ファイルを更新して、上流のモノリンガル基本ファイルに合わせます。"
-"使われなくなった文字列は削除され、新しい文字列は原文のコピーとして追加されま"
-"す。"
+"すべての翻訳ファイルを、アップストリームのモノリンガルの基準ファイルと合致するように更新します。未使用の文字列は削除され、新しい文字列は原文をコピーして追"
+"加されます。"
 
 #: weblate/addons/views.py:84
 msgid "Invalid add-on name specified!"
@@ -3255,7 +3241,7 @@ msgstr "gettext PO ファイル"
 
 #: weblate/formats/ttkit.py:1090
 msgid "gettext PO file (monolingual)"
-msgstr "gettext PO ファイル (単一言語)"
+msgstr "gettext PO ファイル（モノリンガル）"
 
 #: weblate/formats/ttkit.py:1114
 msgid "Qt Linguist translation file"
@@ -5068,9 +5054,7 @@ msgstr "複数のファイルに分割された Android リソース文字列の
 msgid ""
 "You can use Django template markup in both component name and the "
 "monolingual base filename, for example:"
-msgstr ""
-"Django のテンプレート マークアップは、コンポーネント名と単一言語の基本ファイ"
-"ル名の両方に使用できます。例:"
+msgstr "Django のテンプレートのマークアップは、コンポーネント名とモノリンガルの基準ファイル名の両方に使用できます。例:"
 
 #: weblate/templates/addons/discovery_help.html:71
 msgid "Component filename match"
@@ -7135,13 +7119,13 @@ msgstr "スクリーンショットのコンテキスト"
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(component)s に %(count)s 個の翻訳未完成の文字列"
+msgstr[0] "%(component)s に %(count)s 個の翻訳途中の文字列"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s 個の翻訳未完成の文字列"
+msgstr[0] "%(count)s 個の翻訳途中の文字列"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:136
 msgid "Access control"
@@ -8139,7 +8123,7 @@ msgstr "翻訳の提案は無効になっています。"
 
 #: weblate/templates/snippets/info.html:165
 msgid "The translation uses monolingual files."
-msgstr "翻訳は単一言語のファイルを使用しています。"
+msgstr "翻訳はモノリンガルのファイルを使用します。"
 
 #: weblate/templates/snippets/info.html:167
 msgid "The translation base language is editable."
@@ -8163,7 +8147,7 @@ msgstr "ファイルマスク"
 #: weblate/templates/trans/alert/inexistantfiles.html:11
 #: weblate/trans/models/component.py:347
 msgid "Monolingual base language file"
-msgstr "単一言語のベース言語ファイル"
+msgstr "モノリンガル用の基準の言語ファイル"
 
 #: weblate/templates/snippets/info.html:220
 #: weblate/templates/translate.html:679
@@ -8350,15 +8334,15 @@ msgstr "この列のソート"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr "翻訳未完成"
+msgstr "翻訳途中"
 
 #: weblate/templates/snippets/list-objects.html:53
 msgid "Unfinished words"
-msgstr "翻訳未完成の単語"
+msgstr "翻訳途中の単語"
 
 #: weblate/templates/snippets/list-objects.html:63
 msgid "Unfinished characters"
-msgstr "翻訳未完成の文字"
+msgstr "翻訳途中の文字"
 
 #: weblate/templates/snippets/list-objects.html:73
 msgid "Untranslated"
@@ -8840,8 +8824,8 @@ msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"単一言語の翻訳ファイルをバイリンガルとして使用しているようです。その場合は、"
-"単一言語の基本言語ファイルの場所を設定してください。"
+"モノリンガルの翻訳ファイルなのに、バイリンガル用として設定していませんか。モノリンガルの場合は、モノリンガル用の基準の言語ファイルの場所を設定してください"
+"。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -8932,13 +8916,11 @@ msgstr ""
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
-msgstr ""
-"翻訳コンポーネントは単一言語のようですが、そのような設定にはなっていません。"
+msgstr "翻訳コンポーネントはモノリンガルのようですが、そのような設定にはなっていません。"
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add a monolingual base language file in the component settings."
-msgstr ""
-"コンポーネントの設定で、単一言語のベース言語ファイルを追加してください。"
+msgstr "コンポーネントの設定で、モノリンガル用の基準の言語ファイルを追加してください。"
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
@@ -9776,8 +9758,7 @@ msgstr "すべての文字列、コメントを付加したファイル（オフ
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
-msgstr ""
-"翻訳未完成の文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
+msgstr "翻訳途中の文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -9963,7 +9944,7 @@ msgstr "コンテキストがある文字列"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
 msgid "Unfinished strings without suggestions"
-msgstr "提案のない翻訳未完成の文字列"
+msgstr "提案のない翻訳途中の文字列"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -10387,7 +10368,7 @@ msgstr "翻訳ファイル"
 
 #: weblate/trans/forms.py:1476
 msgid "Monolingual translations"
-msgstr "単一言語の翻訳"
+msgstr "モノリンガル翻訳"
 
 #: weblate/trans/forms.py:1482
 msgid "Adding new languages"
@@ -10708,7 +10689,7 @@ msgstr "アドオンを実行できません。"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
 msgid "Misconfigured monolingual translation."
-msgstr "単一言語の翻訳の設定が間違っています。"
+msgstr "モノリンガル翻訳の設定が間違っています。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:318
@@ -11232,9 +11213,7 @@ msgstr ""
 msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
-msgstr ""
-"すべての文字列とその原文を含む基本ファイルのファイル名。単一言語の翻訳形式の"
-"使用に最適です。"
+msgstr "すべての文字列とその原文を含む翻訳の基準ファイルのファイル名。モノリンガル翻訳のファイル形式に適しています。"
 
 #: weblate/trans/models/component.py:358
 msgid "Edit base file"
@@ -11244,7 +11223,7 @@ msgstr "基本ファイルの編集"
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
-msgstr "ユーザーが単一言語翻訳の基本ファイルを編集できるかどうか。"
+msgstr "ユーザーがモノリンガル翻訳の基準ファイルを編集できるようにするかどうか。"
 
 #: weblate/trans/models/component.py:370
 msgid ""
@@ -11362,9 +11341,7 @@ msgstr "マージ スタイル"
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
-msgstr ""
-"Weblate が upstream のリポジトリをマージするか、変更点をリベースするかどうか"
-"を設定します。"
+msgstr "Weblate がアップストリームのリポジトリをマージするか、変更点をリベースするかどうかを設定します。"
 
 #: weblate/trans/models/component.py:506
 msgid "Commit message when translating"
@@ -11609,9 +11586,7 @@ msgstr "編集テンプレートなしでは、中間言語ファイルを使用
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
-msgstr ""
-"中間言語ファイルは、単一言語の基本言語ファイルと同一にしないでください。中間"
-"言語ファイルの中身は、空でもかまいません。"
+msgstr "中間言語ファイルは、モノリンガル用の基準の言語ファイルと同一にしないでください。中間言語ファイルの中身は、空でもかまいません。"
 
 #: weblate/trans/models/component.py:2380
 msgid "Using a .pot file as base file is unsupported."
@@ -11629,7 +11604,7 @@ msgstr "ひな形となる言語 ({0}) が原文の言語 ({1}) と一致して�
 
 #: weblate/trans/models/component.py:2411
 msgid "You can not use a monolingual translation without a base file."
-msgstr "基本ファイルがないと、単一言語の翻訳はできません。"
+msgstr "基準ファイルがないと、モノリンガル翻訳はできません。"
 
 #: weblate/trans/models/component.py:2437
 #, python-format
