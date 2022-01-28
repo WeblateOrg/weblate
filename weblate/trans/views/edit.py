@@ -538,12 +538,18 @@ def translate(request, project, component, lang):  # noqa: C901
     offset = search_result["offset"]
 
     # Checksum unit access
-    checksum_form = ChecksumForm(unit_set, request.GET or request.POST)
-    if checksum_form.is_valid():
-        unit = checksum_form.cleaned_data["unit"]
-        try:
-            offset = search_result["ids"].index(unit.id) + 1
-        except ValueError:
+    payload = request.GET or request.POST
+    if "checksum" in payload:
+        checksum_form = ChecksumForm(unit_set, payload)
+        if checksum_form.is_valid():
+            unit = checksum_form.cleaned_data["unit"]
+            try:
+                offset = search_result["ids"].index(unit.id) + 1
+            except ValueError:
+                offset = None
+        else:
+            offset = None
+        if offset is None:
             messages.warning(request, _("No string matched your search!"))
             return redirect(obj)
     else:
