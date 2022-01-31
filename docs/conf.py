@@ -262,8 +262,7 @@ linkcheck_ignore = [
     "http://127.0.0.1:8080/",
     # Requires a valid token
     "https://api.deepl.com/v2/translate",
-]
-linkcheck_anchors_ignore = [
+    # Anchors are used to specify channel name here
     "https://web.libera.chat/#",
 ]
 
