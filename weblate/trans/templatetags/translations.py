@@ -183,7 +183,7 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                fr"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
+                rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
                 self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))

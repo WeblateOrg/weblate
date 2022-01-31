@@ -877,12 +877,13 @@ class AutoForm(forms.Form):
         self.obj = obj
 
         # Add components from other projects with enabled shared TM
-        self.components = (
-            obj.project.component_set.filter(source_language=obj.source_language)
-            | Component.objects.filter(
-                source_language_id=obj.source_language_id,
-                project__contribute_shared_tm=True,
-            ).exclude(project=obj.project)
+        self.components = obj.project.component_set.filter(
+            source_language=obj.source_language
+        ) | Component.objects.filter(
+            source_language_id=obj.source_language_id,
+            project__contribute_shared_tm=True,
+        ).exclude(
+            project=obj.project
         )
 
         # Fetching is faster than doing count on possibly thousands of components
