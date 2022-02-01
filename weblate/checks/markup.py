@@ -91,8 +91,8 @@ class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
 
     check_id = "bbcode"
-    name = _("BBcode markup")
-    description = _("BBcode in translation does not match source")
+    name = _("BBCode markup")
+    description = _("BBCode in translation does not match source")
 
     def check_single(self, source, target, unit):
         # Parse source

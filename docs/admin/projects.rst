@@ -462,7 +462,7 @@ Base file used to generate new translations, e.g. ``.pot`` file with gettext.
 
 .. hint::
 
-   In many monolingual formats Weblate starts with blank file by default. Use
+   In many monolingual formats Weblate starts with empty file by default. Use
    this in case you want to have all strings present with empty value when
    creating new translation.
 

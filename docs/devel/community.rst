@@ -29,7 +29,7 @@ The translations should be reviewed by a second person after the post-editing. W
 
 Structured feedback
 -------------------
-There are many :doc:`/user/checks` in weblate. Pay the lectors to give structured feedback and use it to increase those checks.
+There are many :doc:`/user/checks` in Weblate which provide structured feedback on quality of the translations.
 
 Translation definition
 ----------------------

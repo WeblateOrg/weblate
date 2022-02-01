@@ -171,11 +171,11 @@ The following keyboard shortcuts can be utilized during translation:
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+PageUp` or                      | Navigate to previous translation in current search.                   |
 |                                           |                                                                       |
-| :kbd:`Ctrl ↑` or                          |                                                                       |
+| :kbd:`Ctrl+↑` or                          |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Alt ↑` or                           |                                                                       |
+| :kbd:`Alt+↑` or                           |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd ↑`                              |                                                                       |
+| :kbd:`Cmd+↑`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+PageDown` or                    | Navigate to next translation in current search.                       |
 |                                           |                                                                       |
@@ -185,8 +185,8 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Save current translation.                                             |
-|                                           |                                                                       |
+| :kbd:`Alt+Enter` or                       | Submit current form, while editing translation this is same as        |
+|                                           | pressing :guilabel:`Save and continue`.                               |
 | :kbd:`Ctrl+Enter` or                      |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+Enter`                          |                                                                       |

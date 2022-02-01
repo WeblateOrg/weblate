@@ -44,10 +44,10 @@ good quality translations.
 
 .. _check-bbcode:
 
-BBcode markup
+BBCode markup
 ~~~~~~~~~~~~~
 
-:Summary: BBcode in translation does not match source
+:Summary: BBCode in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.BBCodeCheck``
 :Flag to ignore: ``ignore-bbcode``
@@ -59,7 +59,7 @@ This check ensures they are also found in translation.
 
 .. note::
 
-    The method for detecting BBcode is currently quite simple so this check
+    The method for detecting BBCode is currently quite simple so this check
     might produce false positives.
 
 .. _check-duplicate:

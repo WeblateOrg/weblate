@@ -582,7 +582,7 @@ def unit_state_title(unit) -> str:
     if checks:
         state.append(
             "{} {}".format(
-                pgettext("String state", "Failed checks:"),
+                pgettext("String state", "Failing checks:"),
                 ", ".join(str(check) for check in checks),
             )
         )
@@ -747,7 +747,7 @@ def translation_alerts(translation):
     if translation.is_source:
         yield (
             "state/source.svg",
-            gettext("This translation is used for source strings."),
+            gettext("This language is used for source strings."),
             None,
         )
 

@@ -56,7 +56,7 @@
 
             {% with suggestion_checks=suggestion.get_checks %}
             {% if suggestion_checks %}
-            <p class="help-block">{% trans "Failed checks:" context "String state" %}</p>
+            <p class="help-block">{% trans "Failing checks:" context "String state" %}</p>
             {% for check in suggestion.get_checks %}
                 <span class="badge badge-danger" title="{{ check.get_description }}">{{ check.get_name }}</span>
             {% endfor %}

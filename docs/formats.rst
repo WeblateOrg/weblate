@@ -684,7 +684,7 @@ Android string resources
 Android specific file format for translating applications.
 
 Android string resources are monolingual, the :ref:`component-template` is
-stored in a different location from the others :file:`res/values/strings.xml`.
+stored in a different location from the other files -- :file:`res/values/strings.xml`.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
