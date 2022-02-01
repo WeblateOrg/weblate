@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-02-01 08:08+0000\n"
+"PO-Revision-Date: 2022-02-01 08:17+0000\n"
 "Last-Translator: S3aBreeze <paperwork@evilcorp.ltd>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -2598,8 +2598,6 @@ msgid "Missing plurals"
 msgstr "Нет форм множественного числа"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "Некоторые формы множественного числа не переведены"
 
@@ -2616,10 +2614,6 @@ msgid "Inconsistent"
 msgstr "Противоречия"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -8430,10 +8424,8 @@ msgstr "На правку"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Переведенные строки"
+msgstr "Непереведённые строки"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10667,10 +10659,8 @@ msgid "Language used for source strings in all components"
 msgstr "Язык, используемый в исходных строках всех компонентов"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Запись с таким именем уже существует."
+msgstr "Компонент с таким именем уже существует."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -11298,10 +11288,8 @@ msgstr "Снимок экрана загружен"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Не удалось обновить репозиторий."
+msgstr "Строка обновлена в репозитории"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11324,14 +11312,12 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "В %(time)s %(user)s сделал %(action)s на %(translation)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Новая строка для перевода в %(translation)s"
-msgstr[1] "Новые строки для перевода в %(translation)s"
-msgstr[2] "Новые строки для перевода в %(translation)s"
+msgstr[0] "%d новая строка теперь доступна для перевода."
+msgstr[1] "%d новые строки теперь доступны для перевода."
+msgstr[2] "%d новых строк теперь доступны для перевода."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12804,10 +12790,9 @@ msgid "New string has been added."
 msgstr "Новая строка была добавлена."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Не удалось разобрать новую строку"
+msgstr "Не удалось удалить строку: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
