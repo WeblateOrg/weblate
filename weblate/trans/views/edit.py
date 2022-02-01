@@ -670,7 +670,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "display_checks": list(get_display_checks(unit)),
             "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
             "new_unit_form": get_new_unit_form(
-                unit.translation, user, initial={"variant": unit.source}
+                unit.translation, user, initial={"variant": unit.pk}
             ),
             "screenshot_form": screenshot_form,
         },

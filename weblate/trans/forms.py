@@ -2074,11 +2074,16 @@ class MatrixLanguageForm(forms.Form):
 
 
 class NewUnitBaseForm(forms.Form):
-    variant = forms.CharField(required=False, widget=forms.HiddenInput, strip=False)
+    variant = forms.ModelChoiceField(
+        Unit.objects.none(),
+        widget=forms.HiddenInput,
+        required=False,
+    )
 
     def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.translation = translation
+        self.fields["variant"].queryset = translation.unit_set.all()
         self.user = user
 
     def clean(self):
@@ -2097,7 +2102,7 @@ class NewUnitBaseForm(forms.Form):
         flags.merge(self.get_glossary_flags())
         variant = self.cleaned_data.get("variant")
         if variant:
-            flags.set_value("variant", variant)
+            flags.set_value("variant", variant.source)
         return {
             "context": self.cleaned_data.get("context", ""),
             "source": self.cleaned_data["source"],
