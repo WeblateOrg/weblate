@@ -147,10 +147,6 @@ class BaseStats:
     def stats(self):
         return self
 
-    @staticmethod
-    def get_badges():
-        return []
-
     @property
     def is_loaded(self):
         return self._data is not None

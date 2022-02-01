@@ -165,10 +165,6 @@ class Translation(
         self._invalidate_scheduled = False
         self.update_changes = []
 
-    def get_badges(self):
-        if self.is_source:
-            yield (_("source"), _("This translation is used for source strings."))
-
     @cached_property
     def full_slug(self):
         return "/".join(
