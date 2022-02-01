@@ -197,7 +197,7 @@ cases does not bring many benefits.
 
    Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
    PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
-   See :ref:`upgrade-4.10` for more details.
+   See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
@@ -224,8 +224,65 @@ should be no need for additional manual actions.
     continue upgrading to newer versions.
 
 You might also want to update the ``docker-compose`` repository, though it's
-not needed in most case. Please beware of PostgreSQL version changes in this
-case as it's not straightforward to upgrade the database, see `GitHub issue <https://github.com/docker-library/postgres/issues/37>`_ for more info.
+not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
+
+.. _docker-postgres-upgrade:
+
+Upgrading PostgreSQL container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PostgreSQL containers do not support automatic upgrading between version, you
+need to perform the upgrade manually. Following steps show one of the options
+of upgrading.
+
+.. seealso::
+
+   https://github.com/docker-library/postgres/issues/37
+
+1. Stop Weblate container:
+
+   .. code-block:: shell
+
+      docker-compose stop weblate cache
+
+2. Backup the database:
+
+   .. code-block:: shell
+
+      docker-compose exec database pg_dumpall --clean --username weblate > backup.sql
+
+3. Stop all the containers:
+
+   .. code-block:: shell
+
+      docker-compose down
+
+4. Remove the PostgreSQL volume
+
+   .. code-block:: shell
+
+      docker-compose rm -v database
+
+5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
+
+6. Start the database container:
+
+   .. code-block:: shell
+
+      docker-compose create database
+      docker-compose start database
+
+7. Restore the database from the backup:
+
+   .. code-block:: shell
+
+      cat backup.sql | docker-compose exec database psql --username weblate --dbname postgres
+
+8. Start all remaining containers:
+
+   .. code-block:: shell
+
+      docker-compose up -d
 
 .. _docker-admin-login:
 
