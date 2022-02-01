@@ -19,7 +19,7 @@ The announcements can posted on each level in the :guilabel:`Manage` menu, using
 :guilabel:`Post announcement`:
 
 .. image:: /screenshots/announcement-project.png
-    :alt: Image showing a announcement that reads: "Translations will be used only if they reach 60%" atop the dashboard view.
+    :alt: Image showing an announcement that reads: "Translations will be used only if they reach 60%" atop the dashboard view.
 
 It can be also added using the admin interface:
 
@@ -47,4 +47,4 @@ Language specified
 This is how it looks on the language overview page:
 
 .. image:: /screenshots/announcement-language.png
-   :alt: Image showing a announcement that reads: "Czech translators rock!" atop the Czech language overview.
+   :alt: Image showing an announcement that reads: "Czech translators rock!" atop the Czech language overview.
