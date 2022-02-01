@@ -37,6 +37,7 @@ EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_L
 ANDROID_CODES = {
     "zh_Hans": "zh-rCN",
     "zh_Hant": "zh-rTW",
+    "zh_Hant_HK": "zh-rHK",
     "he": "iw",
     "id": "in",
     "yi": "ji",
