@@ -42,6 +42,12 @@ def highlight_pygments(source: str, unit):
                     result.append((start, start + len(text), text))
             elif token == Token.Literal.String.Interpol:
                 result.append((start, start + len(text), text))
+            elif token == Token.Generic.Strong:
+                end = start + len(text)
+                result.extend(((start, start + 2, "**"), (end - 2, end, "**")))
+            elif token == Token.Generic.Emph:
+                end = start + len(text)
+                result.extend(((start, start + 1, "*"), (end - 1, end, "*")))
             start += len(text)
 
     return result
