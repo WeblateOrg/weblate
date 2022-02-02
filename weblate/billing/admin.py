@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+from django.contrib.admin import RelatedOnlyFieldListFilter
 from django.utils.translation import gettext_lazy as _
 
 from weblate.wladmin.models import WeblateModelAdmin
@@ -98,7 +98,11 @@ class BillingAdmin(WeblateModelAdmin):
 
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")
-    list_filter = ("currency", "billing")
+    list_filter = (
+        "currency",
+        ("billing__projects", RelatedOnlyFieldListFilter),
+        ("billing__owners", RelatedOnlyFieldListFilter),
+    )
     search_fields = ("billing__projects__name", "ref", "note")
     date_hierarchy = "end"
     ordering = ["billing", "-start"]
