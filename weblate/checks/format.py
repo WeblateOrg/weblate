@@ -375,12 +375,10 @@ class BaseFormatCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         match_objects = self.regexp.finditer(source)
         for match in match_objects:
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+            yield (match.start(), match.end(), match.group())
 
     def format_result(self, result):
         if (

@@ -251,10 +251,12 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
     def test_check_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, <link> {na<>me} </link>. You have {count, plural, one "
-            "{# message} other {# messages}}.",
-            self.get_mock(),
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, <link> {na<>me} </link>. You have {count, plural, one "
+                "{# message} other {# messages}}.",
+                self.get_mock(),
+            )
         )
 
         self.assertListEqual(
@@ -265,22 +267,29 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
     def test_check_error_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, {name}! You have {count,number", self.get_mock()
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, {name}! You have {count,number", self.get_mock()
+            )
         )
 
         self.assertListEqual(highlights, [])
 
     def test_check_flag_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, {name}! You have {count,number", self.get_mock(None, "-highlight")
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, {name}! You have {count,number",
+                self.get_mock(None, "-highlight"),
+            )
         )
 
         self.assertListEqual(highlights, [])
 
     def test_check_no_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, {name}!", MockUnit("java_format", flags="java-format")
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, {name}!", MockUnit("java_format", flags="java-format")
+            )
         )
 
         self.assertListEqual(highlights, [])
@@ -348,10 +357,12 @@ class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
         )
 
     def test_check_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, <link> {na<>me} </link>. You have {count, plural, "
-            "one {# message} other {# messages}}.",
-            self.get_mock(),
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, <link> {na<>me} </link>. You have {count, plural, "
+                "one {# message} other {# messages}}.",
+                self.get_mock(),
+            )
         )
 
         self.assertListEqual(

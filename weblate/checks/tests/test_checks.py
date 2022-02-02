@@ -343,6 +343,6 @@ class CheckTestCase(SimpleTestCase):
             source=self.test_highlight[1],
         )
         self.assertEqual(
-            self.check.check_highlight(self.test_highlight[1], unit),
+            list(self.check.check_highlight(self.test_highlight[1], unit)),
             self.test_highlight[2],
         )

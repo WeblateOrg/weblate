@@ -75,14 +75,12 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
 
         regexp = self.get_value(unit)
 
         for match in regexp.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+            yield (match.start(), match.end(), match.group())
 
     def get_description(self, check_obj):
         unit = check_obj.unit
@@ -127,14 +125,12 @@ class RegexCheck(TargetCheckParametrized):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
 
         regex = self.get_value(unit)
 
         for match in regex.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+            yield (match.start(), match.end(), match.group())
 
     def get_description(self, check_obj):
         unit = check_obj.unit

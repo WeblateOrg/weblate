@@ -112,12 +112,10 @@ class BBCodeCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        return [
-            (match.start(tag), match.end(tag), match.group(tag))
-            for match in BBCODE_MATCH.finditer(source)
-            for tag in ("start", "end")
-        ]
+            return
+        for match in BBCODE_MATCH.finditer(source):
+            for tag in ("start", "end"):
+                yield match.start(tag), match.end(tag), match.group(tag)
 
 
 class BaseXMLCheck(TargetCheck):
@@ -312,8 +310,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         for match in MD_SYNTAX.finditer(source):
             value = ""
             for i in range(MD_SYNTAX_GROUPS):
@@ -322,9 +319,8 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
                     break
             start = match.start()
             end = match.end()
-            ret.append((start, start + len(value), value))
-            ret.append((end - len(value), end, value if value != "<" else ">"))
-        return ret
+            yield (start, start + len(value), value)
+            yield ((end - len(value), end, value if value != "<" else ">"))
 
 
 class URLCheck(TargetCheck):

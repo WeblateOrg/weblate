@@ -101,7 +101,7 @@ class RegexTest(CheckTestCase):
             "@:(foo.bar.baz) | @:(hello.world) | {foo32}",
         )
         self.assertEqual(
-            self.check.check_highlight(unit.source, unit),
+            list(self.check.check_highlight(unit.source, unit)),
             [
                 (0, 15, "@:(foo.bar.baz)"),
                 (18, 33, "@:(hello.world)"),

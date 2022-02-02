@@ -134,24 +134,19 @@ def update_maybe_value(value, old):
     return 0
 
 
-def extract_highlights(token, source, out=None):
+def extract_highlights(token, source):
     """Extract all placeholders from an AST selected for highlighting."""
-    if out is None:
-        out = []
-
     if isinstance(token, str):
-        return out
+        return
 
     if isinstance(token, list):
         for tok in token:
-            extract_highlights(tok, source, out)
-
-        return out
+            yield from extract_highlights(tok, source)
 
     # Sanity check the token. They should always have
     # start and end.
     if "start" not in token or "end" not in token:
-        return out
+        return
 
     start = token["start"]
     end = token["end"]
@@ -163,16 +158,14 @@ def extract_highlights(token, source, out=None):
     if "options" in token:
         usable = False
         for subast in token["options"].values():
-            extract_highlights(subast, source, out)
+            yield from extract_highlights(subast, source)
 
     if "contents" in token:
         usable = False
-        extract_highlights(token["contents"], source, out)
+        yield from extract_highlights(token["contents"], source)
 
     if usable:
-        out.append((start, end, source[start:end]))
-
-    return out
+        yield (start, end, source[start:end])
 
 
 def extract_placeholders(token, variables=None):
@@ -517,11 +510,11 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
+            return
 
         flags = self.get_flags(unit)
         if "-highlight" in flags:
-            return []
+            return
 
         strict_tags = "strict-xml" in flags
         allow_tags = strict_tags or "xml" in flags
@@ -529,6 +522,6 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
         ast, _, _ = parse_icu(source, allow_tags, strict_tags, tag_prefix, True)
         if not ast:
-            return []
+            return
 
-        return extract_highlights(ast, source)
+        yield from extract_highlights(ast, source)
