@@ -29,28 +29,26 @@ def highlight_pygments(source: str, unit):
     This is not reeally a full syntax hightlighting, we're only interested in
     non-translatable strings.
     """
-    result = []
-
     if "rst-text" in unit.all_flags:
         lexer = RstLexer(stripnl=False)
         start = 0
         for token, text in lexer.get_tokens(source):
             if token == Token.Literal.String:
                 if text[0] == "`" and text != "`_":
-                    result.append((start, start + 1, "`"))
+                    yield ((start, start + 1, "`"))
                 else:
-                    result.append((start, start + len(text), text))
+                    yield ((start, start + len(text), text))
             elif token == Token.Literal.String.Interpol:
-                result.append((start, start + len(text), text))
+                yield ((start, start + len(text), text))
             elif token == Token.Generic.Strong:
                 end = start + len(text)
-                result.extend(((start, start + 2, "**"), (end - 2, end, "**")))
+                yield (start, start + 2, "**")
+                yield (end - 2, end, "**")
             elif token == Token.Generic.Emph:
                 end = start + len(text)
-                result.extend(((start, start + 1, "*"), (end - 1, end, "*")))
+                yield (start, start + 1, "*")
+                yield (end - 1, end, "*")
             start += len(text)
-
-    return result
 
 
 def highlight_string(source: str, unit, hightlight_syntax: bool = False):
@@ -61,10 +59,10 @@ def highlight_string(source: str, unit, hightlight_syntax: bool = False):
     for check in CHECKS:
         if not CHECKS[check].target:
             continue
-        highlights += CHECKS[check].check_highlight(source, unit)
+        highlights.extend(CHECKS[check].check_highlight(source, unit))
 
     if hightlight_syntax:
-        highlights += highlight_pygments(source, unit)
+        highlights.extend(highlight_pygments(source, unit))
 
     # Remove empty strings
     highlights = [highlight for highlight in highlights if highlight[2]]
