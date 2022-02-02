@@ -77,6 +77,8 @@ class WeblateAccountsConf(AppConf):
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
+    REGISTRATION_HINTS = {}
+
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
 

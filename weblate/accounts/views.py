@@ -23,6 +23,7 @@ from collections import defaultdict
 from datetime import timedelta
 from email.headerregistry import Address
 from importlib import import_module
+from typing import Optional
 
 import social_django.utils
 from django.conf import settings
@@ -891,6 +892,11 @@ def reset_password_set(request):
     )
 
 
+def get_registration_hint(email: str) -> Optional[str]:
+    domain = email.rsplit("@", 1)[-1]
+    return settings.REGISTRATION_HINTS.get(domain)
+
+
 @never_cache
 def reset_password(request):
     """Password reset handling."""
@@ -920,13 +926,15 @@ def reset_password(request):
                     store_userid(request, True)
                     return social_complete(request, "email")
             else:
+                email = form.cleaned_data["email"]
                 send_notification_email(
                     None,
-                    [form.cleaned_data["email"]],
+                    [email],
                     "reset-nonexisting",
                     context={
                         "address": get_ip_address(request),
                         "user_agent:": get_user_agent(request),
+                        "registration_hint": get_registration_hint(email),
                     },
                 )
             return fake_email_sent(request, True)
