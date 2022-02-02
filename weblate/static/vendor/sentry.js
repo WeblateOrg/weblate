@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.17.3 (42e245a) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.17.4 (20d1bfb) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4464,7 +4464,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.3';
+    var SDK_VERSION = '6.17.4';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5832,6 +5832,7 @@ var Sentry = (function (exports) {
                     attachStacktrace: attachStacktrace,
                     isRejection: false,
                 }), url, line, column);
+            event.level = exports.Severity.Error;
             addMechanismAndCapture(hub, error, event, 'onerror');
         });
     }
