@@ -269,8 +269,7 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker-compose create database
-      docker-compose start database
+      docker-compose up -d database
 
 7. Restore the database from the backup:
 
