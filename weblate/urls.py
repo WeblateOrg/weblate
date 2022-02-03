@@ -34,6 +34,7 @@ import weblate.checks.views
 import weblate.fonts.views
 import weblate.glossary.views
 import weblate.lang.views
+import weblate.machinery.views
 import weblate.memory.views
 import weblate.screenshots.views
 import weblate.trans.views.about
@@ -736,6 +737,27 @@ real_patterns = [
         weblate.memory.views.DownloadView.as_view(),
         name="memory-download",
     ),
+    # Machinery
+    path(
+        "manage/machinery/",
+        management_access(weblate.machinery.views.ListMachineryGlobalView.as_view()),
+        name="machinery-list",
+    ),
+    path(
+        "manage/machinery/<name:machinery>/",
+        management_access(weblate.machinery.views.EditMachineryGlobalView.as_view()),
+        name="machinery-edit",
+    ),
+    path(
+        "machinery/<name:project>/",
+        weblate.machinery.views.ListMachineryProjectView.as_view(),
+        name="machinery-list",
+    ),
+    path(
+        "machinery/<name:project>/<name:machinery>/",
+        weblate.machinery.views.EditMachineryProjectView.as_view(),
+        name="machinery-edit",
+    ),
     # Languages browsing
     path("languages/", weblate.lang.views.show_languages, name="languages"),
     path(
@@ -900,12 +922,12 @@ real_patterns = [
     path("js/matomo/", weblate.trans.views.js.matomo, name="js-matomo"),
     path(
         "js/translate/<name:service>/<int:unit_id>/",
-        weblate.trans.views.js.translate,
+        weblate.machinery.views.translate,
         name="js-translate",
     ),
     path(
         "js/memory/<int:unit_id>/",
-        weblate.trans.views.js.memory,
+        weblate.machinery.views.memory,
         name="js-memory",
     ),
     path(

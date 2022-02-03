@@ -21,7 +21,8 @@ from functools import reduce
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import URLMachineryForm
 
 LANGUAGE_MAP = {
     "ca": "cat",
@@ -88,19 +89,17 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     name = "Apertium APy"
     max_score = 90
+    settings_form = URLMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        self.url = self.get_server_url()
+    @property
+    def url(self):
+        return self.settings["url"]
 
     @staticmethod
-    def get_server_url():
-        """Return URL of a server."""
-        if settings.MT_APERTIUM_APY is None:
-            raise MissingConfiguration("Not configured Apertium APy URL")
-
-        return settings.MT_APERTIUM_APY.rstrip("/")
+    def migrate_settings():
+        return {
+            "url": settings.MT_APERTIUM_APY.rstrip("/"),
+        }
 
     @property
     def all_langs(self):

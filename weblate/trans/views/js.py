@@ -19,78 +19,16 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.machinery.base import MachineTranslationError
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import sort_unicode
-from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project, get_translation
-
-
-def handle_machinery(request, service, unit, search=None):
-    if not request.user.has_perm("machinery.view", unit.translation):
-        raise PermissionDenied()
-
-    # Error response
-    response = {
-        "responseStatus": 500,
-        "service": service,
-        "responseDetails": "",
-        "translations": [],
-        "lang": unit.translation.language.code,
-        "dir": unit.translation.language.direction,
-    }
-
-    try:
-        translation_service = MACHINE_TRANSLATION_SERVICES[service]
-        response["service"] = translation_service.name
-    except KeyError:
-        response["responseDetails"] = _("Service is currently not available.")
-    else:
-        try:
-            response["translations"] = translation_service.translate(
-                unit, request.user, search=search
-            )
-            response["responseStatus"] = 200
-        except MachineTranslationError as exc:
-            response["responseDetails"] = str(exc)
-        except Exception as error:
-            report_error()
-            response["responseDetails"] = f"{error.__class__.__name__}: {error}"
-
-    if response["responseStatus"] != 200:
-        unit.translation.log_info("machinery failed: %s", response["responseDetails"])
-
-    return JsonResponse(data=response)
-
-
-@require_POST
-def translate(request, unit_id, service):
-    """AJAX handler for translating."""
-    if service not in MACHINE_TRANSLATION_SERVICES:
-        raise Http404("Invalid service specified")
-
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    return handle_machinery(request, service, unit)
-
-
-@require_POST
-def memory(request, unit_id):
-    """AJAX handler for translation memory."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    query = request.POST.get("q")
-    if not query:
-        return HttpResponseBadRequest("Missing search string")
-
-    return handle_machinery(request, "weblate-translation-memory", unit, search=query)
 
 
 def get_unit_translations(request, unit_id):

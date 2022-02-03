@@ -24,8 +24,9 @@ from hashlib import md5
 from typing import Dict, List
 
 from django.core.cache import cache
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
+from django.utils.translation import gettext as _
 from requests.exceptions import HTTPError
 
 from weblate.checks.utils import highlight_string
@@ -46,10 +47,6 @@ def get_machinery_language(language):
 
 class MachineTranslationError(Exception):
     """Generic Machine translation error."""
-
-
-class MissingConfiguration(ImproperlyConfigured):
-    """Exception raised when configuration is wrong."""
 
 
 class MachineryRateLimit(MachineTranslationError):
@@ -74,25 +71,48 @@ class MachineTranslation:
     accounting_key = "external"
     force_uncleanup = False
     hightlight_syntax = False
+    settings_form = None
+    validate_payload = ("en", "de", "test", None, None, False, 75)
 
     @classmethod
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self):
+    def __init__(self, settings: Dict[str, str]):
         """Create new machine translation object."""
-        self.mtid = self.name.lower().replace(" ", "-")
+        self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error = None
         self.supported_languages_error_age = 0
+        self.settings = settings
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
-    def get_identifier(self):
-        return self.mtid
+    @staticmethod
+    def migrate_settings():
+        # TODO: Drop in Weblate 5.1
+        return {}
+
+    def validate_settings(self):
+        try:
+            self.download_languages()
+        except Exception as error:
+            raise ValidationError(_("Failed to fetch supported languages: %s") % error)
+        try:
+            self.download_translations(*self.validate_payload)
+        except Exception as error:
+            raise ValidationError(_("Failed to fetch translation: %s") % error)
+
+    @classmethod
+    def get_identifier(cls):
+        return cls.name.lower().replace(" ", "-")
+
+    @classmethod
+    def get_doc_anchor(cls):
+        return f"mt-{cls.get_identifier()}"
 
     def account_usage(self, project, delta: int = 1):
         key = f"machinery-accounting:{self.accounting_key}:{project.id}"

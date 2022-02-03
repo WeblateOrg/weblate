@@ -202,6 +202,7 @@ class AutoTranslationMtTest(ViewTestCase):
             allow_translation_propagation=False,
         )
         self.update_fulltext_index()
+        self.configure_mt()
 
     def test_none(self):
         """Test for automatic translation with no content."""

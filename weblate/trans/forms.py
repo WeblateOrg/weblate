@@ -54,7 +54,7 @@ from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery.models import MACHINERY
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
@@ -905,10 +905,21 @@ class AutoForm(forms.Form):
                 ("", _("All components in current project"))
             ] + choices
 
+        machinery_settings = obj.project.get_machinery_settings()
+
+        engines = sorted(
+            (
+                MACHINERY[engine](setting)
+                for engine, setting in machinery_settings.items()
+                if engine in MACHINERY
+            ),
+            key=lambda engine: engine.name,
+        )
+        engine_ids = {engine.get_identifier() for engine in engines}
         self.fields["engines"].choices = [
-            (key, mt.name) for key, mt in MACHINE_TRANSLATION_SERVICES.items()
+            (engine.get_identifier(), engine.name) for engine in engines
         ]
-        if "weblate" in MACHINE_TRANSLATION_SERVICES.keys():
+        if "weblate" in engine_ids:
             self.fields["engines"].initial = "weblate"
 
         use_types = {"all", "nottranslated", "todo", "fuzzy", "check:inconsistent"}

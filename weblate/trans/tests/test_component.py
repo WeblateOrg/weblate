@@ -487,6 +487,7 @@ class ComponentTest(RepoTestCase):
         }
     )
     def test_create_autoaddon(self):
+        self.configure_mt()
         component = self.create_idml()
         self.assertEqual(
             set(component.addon_set.values_list("name", flat=True)),

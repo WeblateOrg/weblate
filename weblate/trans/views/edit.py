@@ -43,7 +43,6 @@ from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.lang.models import Language
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
@@ -661,7 +660,9 @@ def translate(request, project, component, lang):  # noqa: C901
             ).order,
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
-            "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
+            "machinery_services": json.dumps(
+                list(project.get_machinery_settings().keys())
+            ),
             "new_unit_form": get_new_unit_form(
                 unit.translation, user, initial={"variant": unit.pk}
             ),

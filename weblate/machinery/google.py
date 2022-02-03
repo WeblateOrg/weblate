@@ -20,11 +20,8 @@
 from django.conf import settings
 from requests.exceptions import RequestException
 
-from weblate.machinery.base import (
-    MachineTranslation,
-    MachineTranslationError,
-    MissingConfiguration,
-)
+from .base import MachineTranslation, MachineTranslationError
+from .forms import KeyMachineryForm
 
 GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 
@@ -48,17 +45,18 @@ class GoogleTranslation(GoogleBaseTranslation):
 
     name = "Google Translate"
     max_score = 90
+    settings_form = KeyMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_GOOGLE_KEY is None:
-            raise MissingConfiguration("Google Translate requires API key")
+    @staticmethod
+    def migrate_settings():
+        return {
+            "key": settings.MT_GOOGLE_KEY,
+        }
 
     def download_languages(self):
         """List of supported languages."""
         response = self.request(
-            "get", GOOGLE_API_ROOT + "languages", params={"key": settings.MT_GOOGLE_KEY}
+            "get", GOOGLE_API_ROOT + "languages", params={"key": self.settings["key"]}
         )
         payload = response.json()
 
@@ -82,7 +80,7 @@ class GoogleTranslation(GoogleBaseTranslation):
             "get",
             GOOGLE_API_ROOT,
             params={
-                "key": settings.MT_GOOGLE_KEY,
+                "key": self.settings["key"],
                 "q": text,
                 "source": source,
                 "target": language,

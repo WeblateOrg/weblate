@@ -16,6 +16,7 @@ Not yet released.
 * Added support for storing escaped XML elements in XLIFF.
 * Improved formatting of placeholder check errors.
 * Redirect /.well-known/change-password to /accounts/password/.
+* Machine translation services are now configurable per project.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

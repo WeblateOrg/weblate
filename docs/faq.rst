@@ -324,7 +324,7 @@ How can I use existing translations while translating?
 - Use the import functionality to load compendium as translations,
   suggestions or translations needing review. This is the best approach for a one-time
   translation using a compendium or a similar translation database.
-- You can set up :ref:`tmserver` with all databases you have and let Weblate use
+- You can set up :ref:`mt-tmserver` with all databases you have and let Weblate use
   it. This is good when you want to use it several times during
   translation.
 - Another option is to translate all related projects in a single Weblate

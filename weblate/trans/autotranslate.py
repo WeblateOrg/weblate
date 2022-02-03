@@ -23,7 +23,7 @@ from celery import current_task
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
@@ -150,16 +150,21 @@ class AutoTranslate:
         units = self.get_units()
         num_units = len(units)
 
+        machinery_settings = self.translation.component.project.get_machinery_settings()
+
         engines = sorted(
-            (engine for engine in engines if engine in MACHINE_TRANSLATION_SERVICES),
-            key=lambda x: MACHINE_TRANSLATION_SERVICES[x].get_rank(),
+            (
+                MACHINERY[engine](setting)
+                for engine, setting in machinery_settings.items()
+                if engine in MACHINERY and engine in engines
+            ),
+            key=lambda engine: engine.get_rank(),
             reverse=True,
         )
 
         self.progress_steps = 2 * (len(engines) + num_units)
 
-        for pos, engine in enumerate(engines):
-            translation_service = MACHINE_TRANSLATION_SERVICES[engine]
+        for pos, translation_service in enumerate(engines):
             batch_size = translation_service.batch_size
 
             for batch_start in range(0, num_units, batch_size):
