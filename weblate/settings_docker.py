@@ -1164,7 +1164,10 @@ REST_FRAMEWORK = {
         "weblate.api.throttling.UserRateThrottle",
         "weblate.api.throttling.AnonRateThrottle",
     ),
-    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "5000/hour"},
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": os.environ.get("WEBLATE_API_RATELIMIT_ANON", "100/day"),
+        "user": os.environ.get("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
+    },
     "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),
     "PAGE_SIZE": 20,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",

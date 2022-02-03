@@ -173,6 +173,9 @@ Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
+In the Docker container this can be configured using
+:envvar:`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`.
+
 The status of rate limiting is reported in following headers:
 
 +---------------------------+---------------------------------------------------+
@@ -190,7 +193,9 @@ The status of rate limiting is reported in following headers:
 .. seealso::
 
    :ref:`rate-limit`,
-   :ref:`user-rate`
+   :ref:`user-rate`,
+   :envvar:`WEBLATE_API_RATELIMIT_ANON`,
+   :envvar:`WEBLATE_API_RATELIMIT_USER`
 
 
 API Entry Point

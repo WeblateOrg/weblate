@@ -803,6 +803,19 @@ Generic settings
       :setting:`RATELIMIT_WINDOW`,
       :setting:`RATELIMIT_LOCKOUT`
 
+
+.. envvar:: WEBLATE_API_RATELIMIT_ANON
+.. envvar:: WEBLATE_API_RATELIMIT_USER
+
+   .. versionadded:: 4.11
+
+   Configures API rate limiting. Defaults to ``100/day`` for anonymous and
+   ``5000/hour`` for authenticated users.
+
+   .. seealso::
+
+      :ref:`api-rate`
+
 .. envvar:: WEBLATE_ENABLE_AVATARS
 
    .. versionadded:: 4.6.1
