@@ -255,13 +255,14 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker-compose database
+      docker-compose stop database
 
 4. Remove the PostgreSQL volume
 
    .. code-block:: shell
 
       docker-compose rm -v database
+      docker volume remove weblate_postgres-data
 
 5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
 
