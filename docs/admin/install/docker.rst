@@ -276,7 +276,7 @@ of upgrading.
 
    .. code-block:: shell
 
-      cat backup.sql | docker-compose exec database psql --username weblate --dbname postgres
+      cat backup.sql | docker-compose exec -T database psql --username weblate --dbname postgres
 
 8. Start all remaining containers:
 
