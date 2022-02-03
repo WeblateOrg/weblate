@@ -42,6 +42,7 @@ class Check:
     param_type = None
     always_display = False
     batch_project_wide = False
+    skip_suggestions = False
 
     def get_identifier(self):
         return self.check_id

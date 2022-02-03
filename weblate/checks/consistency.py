@@ -80,6 +80,7 @@ class ConsistencyCheck(TargetCheck):
     ignore_untranslated = False
     propagates = True
     batch_project_wide = True
+    skip_suggestions = True
 
     def check_target_unit(self, sources, targets, unit):
         component = unit.translation.component
@@ -146,6 +147,7 @@ class TranslatedCheck(TargetCheck):
     name = _("Has been translated")
     description = _("This string has been translated in the past")
     ignore_untranslated = False
+    skip_suggestions = True
 
     def get_description(self, check_obj):
         unit = check_obj.unit
