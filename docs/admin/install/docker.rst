@@ -251,11 +251,11 @@ of upgrading.
 
       docker-compose exec database pg_dumpall --clean --username weblate > backup.sql
 
-3. Stop all the containers:
+3. Stop the database container:
 
    .. code-block:: shell
 
-      docker-compose down
+      docker-compose database
 
 4. Remove the PostgreSQL volume
 
