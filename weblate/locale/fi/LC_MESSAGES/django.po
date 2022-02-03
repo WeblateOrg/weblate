@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Tuomas Harju <tuomas@rtj-group.com>, 2018, 2019, 2020, 2021.
-# Tuomas Hietala <tuomas.hietala@iki.fi>, 2019, 2020, 2021.
+# Tuomas Hietala <tuomas.hietala@iki.fi>, 2019, 2020, 2021, 2022.
 # Nikolay Korotkiy <sikmir@gmail.com>, 2019.
 # Toni Lähdekorpi <toni@lygon.net>, 2019.
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2019, 2020.
@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2021-12-21 13:11+0000\n"
-"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
+"PO-Revision-Date: 2022-02-04 13:54+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1516,7 +1516,7 @@ msgstr ""
 
 #: weblate/addons/generate.py:119
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Pseudolokaalin luominen"
 
 #: weblate/addons/generate.py:121
 msgid ""
@@ -1533,10 +1533,8 @@ msgid "Prefill translation with source"
 msgstr "Automaattisen käännöksen lähde"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Tätä käännöstä käytetään lähdeteksteille."
+msgstr "Täyttää käännöstekstit lähdeteksteillä."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2578,8 +2576,6 @@ msgid "Missing plurals"
 msgstr "Puuttuvat monikot"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "Joitakin monikkomuotoja ei ole käännetty"
 
@@ -2596,10 +2592,6 @@ msgid "Inconsistent"
 msgstr "Epäjohdonmukainen"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -2865,11 +2857,11 @@ msgstr "ECMAScript-mallin literaalit eivät vastaa lähdettä"
 
 #: weblate/checks/format.py:623
 msgid "Percent placeholders"
-msgstr "Paikkamerkit"
+msgstr "Prosenttipaikanvaraajat"
 
 #: weblate/checks/format.py:624
 msgid "The percent placeholders do not match source"
-msgstr "Käännöksen paikkamerkit eivät vastaa lähdettä"
+msgstr "Prosenttipaikanvaraajat eivät vastaa lähdettä"
 
 #: weblate/checks/format.py:630
 msgid "Vue I18n formatting"
@@ -2920,26 +2912,28 @@ msgstr "ICU:n viestimuoto"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Syntaksivirheitä ja/tai paikanvaraajien täsmäämättömyyttä ICU MessageFormat "
+"-teksteissä."
 
 #: weblate/checks/icu.py:466
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Syntaksivirhe: %s"
 
 #: weblate/checks/icu.py:470
 #, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Yksi tai useampi tuntematon paikkamerkki käännöksessä: %s"
+msgstr "Yksi tai useampi tuntematon paikanvaraaja käännöksessä: %s"
 
 #: weblate/checks/icu.py:475
 #, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Käännöksestä puuttuu yksi tai useampi paikkamerkki: %s"
+msgstr "Käännöksestä puuttuu yksi tai useampi paikanvaraaja: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Yksi tai useampi paikanvaraajatyyppi on virheellinen: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
@@ -2968,7 +2962,7 @@ msgstr ""
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
 msgstr ""
-"Yksi tai useampi paikkamerkki ei saa olla XML-tunniste käännöksessä: %s"
+"Yksi tai useampi paikanvaraaja ei saa olla XML-tunniste käännöksessä: %s"
 
 #: weblate/checks/icu.py:510
 #, python-format
@@ -3045,7 +3039,7 @@ msgstr "Käännös käyttää turvatonta HTML-merkintää"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
-msgstr "Plassholdere"
+msgstr "Paikanvaraajat"
 
 #: weblate/checks/placeholders.py:42
 msgid "Translation is missing some placeholders"
@@ -3206,10 +3200,8 @@ msgid "Unsupported file format."
 msgstr "Tiedostomuotoa ei tueta."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "Samanniminen merkintä on jo olemassa."
+msgstr "Samanniminen fontti on jo olemassa."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3220,10 +3212,8 @@ msgid "Font deleted."
 msgstr "Fontti poistettu."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "Samanniminen merkintä on jo olemassa."
+msgstr "Samanniminen fonttiryhmä on jo olemassa."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -4293,7 +4283,7 @@ msgstr "Rekisteröinti"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "Löydät vahvistuslinkin sähköpostistasi."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4309,24 +4299,28 @@ msgstr "Rekisteröinti melkein valmis"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
-msgstr ""
+msgstr "Noudata salasanan palautusohjeita, jotka on lähetetty sähköpostiisi."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Pyydä uutta vahvistuslinkkiä mikäli se raukeaa."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"Poista käyttäjätilisi napsauttamalla vahvistuslinkkiä sinulle lähetetyssä "
+"sähköpostissa."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"Napsauta sinulle sähköpostissa lähetettyä vahvistuslinkkiä ja aloita tilisi "
+"käyttö."
 
 #: weblate/templates/accounts/email-sent.html:37
 msgid "Register again if the confirmation link expires."
@@ -7108,6 +7102,8 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"Salasanaa ei voi palauttaa, koska tälle sähköpostiosoitteelle ei ole "
+"rekisteröity käyttäjätiliä sivustolla %(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
@@ -7133,7 +7129,7 @@ msgstr ""
 
 #: weblate/templates/mail/shared-activity.html:19
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Pyydä tukea muilla tavoin."
 
 #: weblate/templates/mail/shared-activity.html:20
 #, python-format
@@ -7745,10 +7741,8 @@ msgid "Import translation memory"
 msgstr "Tuo käännösmuisti"
 
 #: weblate/templates/message.html:15
-#, fuzzy
-#| msgid "New announcement"
 msgid "Delete announcement"
-msgstr "Uusi tiedotus"
+msgstr "Poista tiedotus"
 
 #: weblate/templates/new-language.html:26
 msgid ""
@@ -7924,10 +7918,6 @@ msgid "Please review and confirm the search and replace results."
 msgstr "Ole hyvä ja tarkista sekä vahvista etsi ja korvaa -toiminnon tulokset."
 
 #: weblate/templates/replace.html:28
-#, fuzzy
-#| msgid ""
-#| "Showing and replacing only the first 250 matches. Perform the replacement "
-#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
@@ -8069,7 +8059,7 @@ msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
-msgstr ""
+msgstr "Seuraa, milloin projektin lukitus avataan"
 
 #: weblate/templates/snippets/component/lock.html:17
 msgid ""
@@ -8091,10 +8081,8 @@ msgid "Source string length"
 msgstr "Lähdetekstin pituus"
 
 #: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:138
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string"
-msgstr "Kohdetekstit"
+msgstr "Kohdeteksti"
 
 #: weblate/templates/snippets/embed-units.html:67
 msgid "Assigned screenshots"
@@ -9281,7 +9269,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Arkistossa olevissa tiedostonimissä täytyy olla lokaalikoodit."
 
 #: weblate/templates/trans/component_create.html:105
 #, fuzzy
@@ -10571,10 +10559,8 @@ msgid "Language used for source strings in all components"
 msgstr "Kaikkien komponenttien lähdeteksteissä käytetty kieli"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Samanniminen merkintä on jo olemassa."
+msgstr "Samanniminen komponentti on jo olemassa."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -11235,7 +11221,7 @@ msgstr "Komponentti lukittiin automaattisesti hälytyksen vuoksi."
 
 #: weblate/trans/models/change.py:446
 msgid "Fixing an alert automatically unlocked the component."
-msgstr ""
+msgstr "Hälytyksen korjaaminen avasi automaattisesti komponentin lukituksen."
 
 #: weblate/trans/models/change.py:502
 #, python-format
@@ -11243,13 +11229,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s, tehnyt %(user)s %(time)s käännökselle %(translation)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Uusi teksti käännettäväksi projektissa %(translation)s"
-msgstr[1] "Uusia tekstejä käännettäväksi projektissa %(translation)s"
+msgstr[0] "Yksi uusi käännettävä teksti ilmestyi käännökseen."
+msgstr[1] "%d uutta käännettävää tekstiä ilmestyi käännökseen."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -11264,7 +11248,7 @@ msgstr "Tiedoston \"%s\" jäsentäminen pakotettiin."
 #: weblate/trans/models/change.py:632
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "Tiedosto %s lisättiin."
 
 #: weblate/trans/models/change.py:636
 msgctxt "License information not available"
@@ -11272,10 +11256,7 @@ msgid "N/A"
 msgstr "-"
 
 #: weblate/trans/models/change.py:638
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
@@ -12096,15 +12077,13 @@ msgid "No translation found."
 msgstr "Käännöstä ei löytynyt."
 
 #: weblate/trans/models/unit.py:907
-#, fuzzy, python-format
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
+#, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"Osallistuaksesi tähän käännökseen sinun pitää hyväksyä osallistujasopimus."
+"Teksti ei kertautunut komponenttiin %(component)s koska et ole hyväksynyt "
+"osallistujasopimusta."
 
 #: weblate/trans/models/unit.py:1363
 #, fuzzy
@@ -12158,26 +12137,20 @@ msgid "Insert character {0}"
 msgstr "Lisää merkki {0}"
 
 #: weblate/trans/specialchars.py:285
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "Avaava lainausmerkki"
+msgstr "Avaava päälainausmerkki"
 
 #: weblate/trans/specialchars.py:286
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "Sulkeva puolilainausmerkki"
+msgstr "Sulkeva päälainausmerkki"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
-msgstr ""
+msgstr "Avaava vaihtoehtoinen lainausmerkki"
 
 #: weblate/trans/specialchars.py:288
-#, fuzzy
-#| msgid "Opening single quote"
 msgid "Alternative closing quote"
-msgstr "Avaava puolilainausmerkki"
+msgstr "Sulkeva vaihtoehtoinen lainausmerkki"
 
 #: weblate/trans/specialchars.py:291
 msgid "Hyphen"
@@ -12710,10 +12683,8 @@ msgid "Automatic translation in progress"
 msgstr "Automaattinen kääntäminen on kesken"
 
 #: weblate/trans/views/edit.py:743
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source needs review"
-msgstr "Lähdetekstien yhteenveto"
+msgstr "Lähde vaatii tarkistamista"
 
 #: weblate/trans/views/edit.py:746
 msgid "Posted new comment"
@@ -12724,26 +12695,21 @@ msgid "Failed to add comment!"
 msgstr "Kommentin lisääminen epäonnistui!"
 
 #: weblate/trans/views/edit.py:767
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been deleted."
-msgstr "Käännöskommentti on ratkaistu."
+msgstr "Kommentti on poistettu."
 
 #: weblate/trans/views/edit.py:785
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been resolved."
-msgstr "Käännöskommentti on ratkaistu."
+msgstr "Kommentti on ratkaistu."
 
 #: weblate/trans/views/edit.py:949
 msgid "New string has been added."
 msgstr "Uusi teksti on lisätty."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Uuden tekstin jäsentäminen epäonnistui"
+msgstr "Tekstin %s poistaminen epäonnistui."
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
