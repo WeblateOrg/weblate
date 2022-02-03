@@ -62,7 +62,7 @@ class MemoryModelTest(FixtureTestCase):
     def test_machine(self):
         add_document()
         unit = self.get_unit()
-        machine_translation = WeblateMemory()
+        machine_translation = WeblateMemory({})
         self.assertEqual(
             machine_translation.translate(unit, search="Hello"),
             [
@@ -79,7 +79,7 @@ class MemoryModelTest(FixtureTestCase):
     def test_machine_batch(self):
         add_document()
         unit = self.get_unit()
-        machine_translation = WeblateMemory()
+        machine_translation = WeblateMemory({})
         unit.source = "Hello"
         machine_translation.batch_translate([unit])
         self.assertEqual(unit.machinery, {"best": 100, "translation": "Ahoj"})

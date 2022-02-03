@@ -720,6 +720,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Access control")
         self.screenshot("manage-users.png")
+        # Automatic suggestions
+        self.click(htmlid="projects-menu")
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Automatic suggestions")
+        self.screenshot("project-machinery.png")
         # Access control settings
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():

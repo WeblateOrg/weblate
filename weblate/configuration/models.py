@@ -28,9 +28,13 @@ class SettingQuerySet(models.QuerySet):
 
 class Setting(models.Model):
     CATEGORY_UI = 1
+    CATEGORY_MT = 2
 
     category = models.IntegerField(
-        choices=((CATEGORY_UI, "UI"),),
+        choices=(
+            (CATEGORY_UI, "UI"),
+            (CATEGORY_MT, "MT"),
+        ),
         db_index=True,
     )
     name = models.CharField(max_length=100)

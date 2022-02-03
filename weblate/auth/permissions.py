@@ -19,7 +19,6 @@
 
 from django.conf import settings
 
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import (
     Component,
     ComponentList,
@@ -321,10 +320,6 @@ def check_contribute(user, permission, translation):
 
 @register_perm("machinery.view")
 def check_machinery(user, permission, obj):
-    # No permission in case there are no machinery services enabled
-    if not MACHINE_TRANSLATION_SERVICES.exists():
-        return False
-
     # No machinery for source without intermediate language
     if (
         isinstance(obj, Translation)

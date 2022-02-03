@@ -146,6 +146,8 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("memory.edit", _("Manage translation memory")),
     # Translators: Permission name
+    ("machinery.edit", _("Manage machinery")),
+    # Translators: Permission name
     ("componentlist.edit", _("Manage component lists")),
 )
 

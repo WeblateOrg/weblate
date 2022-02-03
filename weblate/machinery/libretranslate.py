@@ -20,7 +20,9 @@
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from weblate.machinery.base import MachineTranslation
+
+from .forms import KeyURLMachineryForm
 
 LIBRETRANSLATE_TRANSLATE = "{}translate"
 LIBRETRANSLATE_LANGUAGES = "{}languages"
@@ -34,17 +36,19 @@ class LibreTranslateTranslation(MachineTranslation):
     language_map = {
         "zh_hans": "zh",
     }
+    settings_form = KeyURLMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_LIBRETRANSLATE_API_URL is None:
-            raise MissingConfiguration("LibreTranslate requires API URL")
+    @staticmethod
+    def migrate_settings():
+        return {
+            "url": settings.MT_LIBRETRANSLATE_API_URL,
+            "key": settings.MT_LIBRETRANSLATE_KEY,
+        }
 
     def download_languages(self):
         response = self.request(
             "get",
-            LIBRETRANSLATE_LANGUAGES.format(settings.MT_LIBRETRANSLATE_API_URL),
+            LIBRETRANSLATE_LANGUAGES.format(self.settings["url"]),
         )
         return [x["code"] for x in response.json()]
 
@@ -61,9 +65,9 @@ class LibreTranslateTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         response = self.request(
             "post",
-            LIBRETRANSLATE_TRANSLATE.format(settings.MT_LIBRETRANSLATE_API_URL),
+            LIBRETRANSLATE_TRANSLATE.format(self.settings["url"]),
             data={
-                "api_key": settings.MT_LIBRETRANSLATE_KEY,
+                "api_key": self.settings["key"],
                 "q": text,
                 "source": source,
                 "target": language,

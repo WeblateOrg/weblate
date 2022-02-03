@@ -18,11 +18,13 @@
 #
 
 from datetime import timedelta
+from typing import Dict
 
 from django.conf import settings
 from django.utils import timezone
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import MicrosoftMachineryForm
 
 TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
 TOKEN_EXPIRY = timedelta(minutes=9)
@@ -33,6 +35,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
     name = "Microsoft Translator"
     max_score = 90
+    settings_form = MicrosoftMachineryForm
 
     language_map = {
         "zh-hant": "zh-Hant",
@@ -47,30 +50,35 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "sr-cyrl": "sr-Cyrl",
     }
 
-    def __init__(self):
+    def __init__(self, settings: Dict[str, str]):
         """Check configuration."""
-        super().__init__()
+        super().__init__(settings)
         self._access_token = None
         self._token_expiry = None
 
         # check settings for Microsoft region prefix
-        if settings.MT_MICROSOFT_REGION is None:
+        if not self.settings["region"]:
             region = ""
         else:
-            region = f"{settings.MT_MICROSOFT_REGION}."
+            region = f"{self.settings['region']}."
 
         self._cognitive_token_url = TOKEN_URL.format(
             region,
-            settings.MT_MICROSOFT_ENDPOINT_URL,
-            settings.MT_MICROSOFT_COGNITIVE_KEY,
+            self.settings["endpoint_url"],
+            self.settings["key"],
         )
 
-        if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
-            raise MissingConfiguration("Microsoft Translator requires credentials")
-
     @staticmethod
-    def get_url(suffix):
-        return f"https://{settings.MT_MICROSOFT_BASE_URL}/{suffix}"
+    def migrate_settings():
+        return {
+            "region": settings.MT_MICROSOFT_REGION,
+            "endpoint_url": settings.MT_MICROSOFT_ENDPOINT_URL,
+            "base_url": settings.MT_MICROSOFT_BASE_URL,
+            "key": settings.MT_MICROSOFT_COGNITIVE_KEY,
+        }
+
+    def get_url(self, suffix):
+        return f"https://{self.settings['base_url']}/{suffix}"
 
     def is_token_expired(self):
         """Check whether token is about to expire."""

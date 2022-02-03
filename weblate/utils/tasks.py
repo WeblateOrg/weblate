@@ -34,7 +34,7 @@ from ruamel.yaml import YAML
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery.models import MACHINERY
 from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
@@ -51,7 +51,7 @@ def ping():
         "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
-        "mt_services": sorted(MACHINE_TRANSLATION_SERVICES.keys()),
+        "mt_services": sorted(MACHINERY.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
         "uid": os.getuid(),
     }

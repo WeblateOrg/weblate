@@ -22,7 +22,8 @@ from urllib.parse import quote
 from django.conf import settings
 from requests.exceptions import HTTPError
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import URLMachineryForm
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -31,19 +32,17 @@ class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
 
     name = "tmserver"
-
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        self.url = self.get_server_url()
+    settings_form = URLMachineryForm
 
     @staticmethod
-    def get_server_url():
-        """Return URL of a server."""
-        if settings.MT_TMSERVER is None:
-            raise MissingConfiguration("Not configured tmserver URL")
+    def migrate_settings():
+        return {
+            "url": settings.MT_TMSERVER,
+        }
 
-        return settings.MT_TMSERVER.rstrip("/")
+    @property
+    def url(self):
+        return self.settings["url"]
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
@@ -106,7 +105,8 @@ class AmagamaTranslation(TMServerTranslation):
     """Specific instance of tmserver ran by Virtaal authors."""
 
     name = "Amagama"
+    settings_form = None
 
-    @staticmethod
-    def get_server_url():
+    @property
+    def url(self):
         return AMAGAMA_LIVE

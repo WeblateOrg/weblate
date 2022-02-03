@@ -19,5 +19,6 @@
 
 from weblate.utils.classloader import ClassLoader
 
-# Initialize checks list
-MACHINE_TRANSLATION_SERVICES = ClassLoader("MT_SERVICES")
+# Initialize machinery list
+# TODO: Drop in Weblate 5.1
+MACHINE_TRANSLATION_SERVICES = ClassLoader("MT_SERVICES", construct=False)

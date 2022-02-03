@@ -31,6 +31,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
+from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
@@ -168,6 +169,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         ),
         validators=[validate_language_aliases],
     )
+
+    machinery_settings = models.JSONField(default=dict, blank=True)
 
     is_lockable = True
     _reverse_url_name = "project"
@@ -501,3 +504,13 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             result = get_glossary_automaton(self)
             cache.set(self.glossary_automaton_key, result, 24 * 3600)
         return result
+
+    def get_machinery_settings(self):
+        settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+        for item, value in self.machinery_settings.items():
+            if value is None:
+                if item in settings:
+                    del settings[item]
+            else:
+                settings[item] = value
+        return settings

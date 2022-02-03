@@ -102,7 +102,7 @@ of them in :file:`requirements-optional.txt`.
     https://github.com/Nekmo/python-akismet
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
-``Zeep`` (optional for :ref:`ms-terminology`)
+``Zeep`` (optional for :ref:`mt-microsoft-terminology`)
     https://docs.python-zeep.org/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
