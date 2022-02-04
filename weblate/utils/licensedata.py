@@ -1326,6 +1326,7 @@ LICENSES = (
     ),
     ("IPA", "IPA Font License", "https://spdx.org/licenses/IPA.html", True),
     ("ISC", "ISC License", "https://spdx.org/licenses/ISC.html", True),
+    ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", False),
     (
         "JPNIC",
         "Japan Network Information Center License",
