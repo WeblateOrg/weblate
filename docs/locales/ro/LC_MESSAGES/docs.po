@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-01-15 12:54+0000\n"
+"PO-Revision-Date: 2022-02-04 22:48+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -1611,8 +1611,6 @@ msgid "``all`` -- All strings"
 msgstr "``all`` -- Toate șirurile de caractere"
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid "``nottranslated`` -- Not translated strings"
 msgid "``nottranslated`` -- Untranslated strings"
 msgstr "``nottranslated`` -- Șiruri netraduse"
 
@@ -2371,22 +2369,16 @@ msgid "Content"
 msgstr "Conținut"
 
 #: ../../admin/addons.rst:394
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Sursa de traducere automată"
+msgstr "Preumplerea traducerii cu sursa"
 
 #: ../../admin/addons.rst:398
-#, fuzzy
-#| msgid "``weblate.generate.pseudolocale``"
 msgid "``weblate.generate.prefill``"
-msgstr "``weblate.generate.pseudolocale``"
+msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:402
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Această traducere este utilizată pentru șirurile sursă."
+msgstr "Completează șirurile de traducere cu șirul sursă."
 
 #: ../../admin/addons.rst:404
 msgid ""
@@ -2394,6 +2386,10 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Toate șirurile de caractere netraduse din componentă vor fi completate cu "
+"șirul sursă și vor fi marcate ca necesitând editare. Utilizați această "
+"opțiune atunci când nu puteți avea șiruri de caractere goale în fișierele de "
+"traducere."
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -3851,29 +3847,22 @@ msgstr ""
 "Weblate."
 
 #: ../../admin/auth.rst:344
-#, fuzzy
-#| msgid ""
-#| "This will disable *all* e-mail delivery including registration or "
-#| "password reset e-mails."
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
 msgstr ""
-"Acest lucru va dezactiva *toată* livrarea de e-mailuri, inclusiv e-mailurile "
-"de înregistrare sau de resetare a parolei."
+"Dezactivarea autentificării prin e-mail va dezactiva toate funcționalitățile "
+"legate de e-mail - invitația utilizatorului sau funcția de resetare a "
+"parolei."
 
 #: ../../admin/auth.rst:349
-#, fuzzy
-#| msgid ""
-#| "You can still use password authentication for the admin interface, for "
-#| "users you manually create there. Just navigate to ``/admin/``."
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
 msgstr ""
 "Puteți utiliza în continuare autentificarea prin parolă pentru interfața de "
 "administrare, pentru utilizatorii pe care îi creați manual acolo. Trebuie "
-"doar să navigați la ``/admin/``."
+"doar să navigați la ``/admin/login/``."
 
 #: ../../admin/auth.rst:352
 msgid ""
@@ -11219,13 +11208,6 @@ msgstr ""
 "ajustați :setting:`IP_PROXY_HEADER` și :setting:`IP_PROXY_OFFSET`."
 
 #: ../../admin/install.rst:570
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :mailheader:`Host` header. It should "
-#| "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
-#| "configuration might be needed in your reverse proxy (for example use "
-#| "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` "
-#| "with nginx)."
 msgid ""
 "Another thing to take care of is the :http:header:`Host` header. It should "
 "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
@@ -11233,11 +11215,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
-"Un alt lucru de care trebuie să aveți grijă este antetul :mailheader:`Host`. "
-"Acesta ar trebui să corespundă cu ceea ce este configurat ca :setting:"
-"`SITE_DOMAIN`. Ar putea fi necesară o configurare suplimentară în proxy-ul "
-"invers (de exemplu, utilizați ``ProxyPreserveHost On`` pentru Apache sau "
-"``proxy_set_header Host $host;`` cu nginx)."
+"Un alt lucru de care trebuie să aveți grijă este antetul :http:header:`Host`"
+". Acesta ar trebui să corespundă cu ceea ce este configurat ca "
+":setting:`SITE_DOMAIN`. Ar putea fi necesară o configurare suplimentară în "
+"proxy-ul invers (de exemplu, utilizați ``ProxyPreserveHost On`` pentru "
+"Apache sau ``proxy_set_header Host $host;`` cu nginx)."
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -14129,14 +14111,12 @@ msgid "Other authentication settings"
 msgstr "Alte setări de autentificare"
 
 #: ../../admin/install/docker.rst:1091
-#, fuzzy
-#| msgid "Disables e-mail authentication when set to any value."
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
 "Dezactivează autentificarea e-mailurilor atunci când este setat la orice "
-"valoare."
+"valoare. A se vedea :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1096
 msgid "PostgreSQL database setup"
@@ -16087,19 +16067,14 @@ msgstr ""
 "prin :setting:`MT_DEEPL_API_URL`."
 
 #: ../../admin/machine.rst:109
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-#| "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-#| "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgid ""
 ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgstr ""
 ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-"<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-"`DeepL API documentation <https://www.deepl.com/api.html>``_"
+"<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, `"
+"DeepL API documentation <https://www.deepl.com/docs-api.html>``_"
 
 #: ../../admin/machine.rst:118
 msgid "LibreTranslate"
@@ -19188,12 +19163,6 @@ msgstr ""
 "utilizat la crearea șirurilor sursă reale."
 
 #: ../../admin/projects.rst:445
-#, fuzzy
-#| msgid ""
-#| "When set, the source strings are based on this file, but all other "
-#| "languages are based on :ref:`component-template`. In case the string is "
-#| "not translated into the source language, translating to other languages "
-#| "is prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
 "are based on :ref:`component-template`. In case the string is not translated "
@@ -19203,7 +19172,7 @@ msgstr ""
 "Atunci când este setat, șirurile sursă se bazează pe acest fișier, dar toate "
 "celelalte limbi se bazează pe :ref:`component-template`. În cazul în care "
 "șirul nu este tradus în limba sursă, traducerea în alte limbi este "
-"interzisă. Acest lucru oferă :ref:`source-quality-gateway`."
+"interzisă. Acest lucru asigură :ref:`source-quality-gateway`."
 
 #: ../../admin/projects.rst:452
 msgid ""
@@ -19568,35 +19537,27 @@ msgid "Merge"
 msgstr "Îmbinare"
 
 #: ../../admin/projects.rst:658
-#, fuzzy
-#| msgid ""
-#| "Upstream repository changed are merged into Weblate one. This is the "
-#| "safest way, but might produce a lot of merge commits."
 msgid ""
 "Upstream repository changed are merged into Weblate one. The merge utilizes "
 "fast-forward when possible. This is the safest way, but might produce a lot "
 "of merge commits."
 msgstr ""
-"Modificările din depozitul din amonte sunt comasate în cel din Weblate. "
-"Acesta este cel mai sigur mod, dar poate produce o mulțime de comenzi de "
-"fuziune."
+"Modificările din depozitul din upstream sunt comasate în cel din Weblate. "
+"Fuziunea utilizează fast-forward atunci când este posibil. Acesta este cel "
+"mai sigur mod, dar poate produce o mulțime de comenzi de fuziune."
 
 #: ../../admin/projects.rst:664
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Fuziune fără fast-forward"
 
 #: ../../admin/projects.rst:663
-#, fuzzy
-#| msgid ""
-#| "Upstream repository changed are merged into Weblate one. This is the "
-#| "safest way, but might produce a lot of merge commits."
 msgid ""
 "Upstream repository changed are merged into Weblate one with doing a merge "
 "commit every time (even when fast-forward would be possible)."
 msgstr ""
-"Modificările din depozitul din amonte sunt comasate în cel din Weblate. "
-"Acesta este cel mai sigur mod, dar poate produce o mulțime de comenzi de "
-"fuziune."
+"Modificările din depozitul din amonte sunt fuzionate în cel din Weblate cu "
+"efectuarea unei comenzi de fuziune de fiecare dată (chiar și atunci când ar "
+"fi posibilă o avansare rapidă)."
 
 #: ../../admin/projects.rst:666
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -20633,6 +20594,9 @@ msgid ""
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
+"Stegulețele pentru șiruri de caractere sunt, de asemenea, moștenite de la "
+":ref:`component-check_flags` de la :ref:`component` și de la stegulețele din "
+"fișierul de traducere (a se vedea :doc:`/formats`)."
 
 #: ../../admin/translating.rst:97
 msgid "Explanation"
@@ -21285,16 +21249,12 @@ msgstr ""
 "modificări."
 
 #: ../../admin/upgrade.rst:293
-#, fuzzy
-#| msgid "Upgrade from 4.0 to 4.1"
 msgid "Upgrade from 4.10 to 4.11"
-msgstr "Actualizare de la 4.0 la 4.1"
+msgstr "Actualizare de la 4.10 la 4.11"
 
 #: ../../admin/upgrade.rst:297 ../../changes.rst:14
-#, fuzzy
-#| msgid "Weblate now requires Python 3.6 or newer."
 msgid "Weblate now requires Python 3.7 or newer."
-msgstr "Weblate necesită acum Python 3.6 sau o versiune mai nouă."
+msgstr "Weblate necesită acum Python 3.7 sau o versiune mai nouă."
 
 #: ../../admin/upgrade.rst:304
 msgid "Upgrading from Python 2 to Python 3"
@@ -23418,10 +23378,6 @@ msgid "translation unit flags"
 msgstr "indicatori de unitate pentru traducere"
 
 #: ../../api.rst:2012
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
@@ -23496,10 +23452,6 @@ msgid "Performs partial update on translation unit."
 msgstr "Efectuează o actualizare parțială a unității de traducere."
 
 #: ../../api.rst:2036 ../../api.rst:2049
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
@@ -24226,57 +24178,51 @@ msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
 msgstr ""
+"Inițializează automat limbile utilizatorilor pe baza antetului :http:header"
+":`Accept-Language`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved error handling in gitexport module."
 msgid "Improved error handling on string removal."
-msgstr "A fost îmbunătățită gestionarea erorilor în modulul gitexport."
+msgstr ""
+"A fost îmbunătățită gestionarea erorilor la eliminarea șirurilor de "
+"caractere."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed GitHub hooks for repositories with authentication."
 msgid "Fixed some write operations with project token authentication."
-msgstr "Corectarea hook-urilor GitHub pentru depozite cu autentificare."
+msgstr ""
+"Corectarea unor operații de scriere cu autentificarea cu token de proiect."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "Fixed string state tracking when the strings changes in the repository."
-msgstr "Fișier în format original, așa cum a fost tradus în depozit"
+msgstr ""
+"A fost reparată urmărirea stării șirurilor de caractere atunci când acestea "
+"se modifică în depozit."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Update with changes from the remote repository"
 msgid "Track string changes from the repository."
-msgstr "Actualizarea cu modificările din depozitul de la distanță"
+msgstr "Urmăriți modificările de șiruri din depozit."
 
 #: ../../changes.rst:18
 msgid "Sticky header on translations listing to improve navigation."
-msgstr ""
+msgstr "Antet lipicios pe lista de traduceri pentru a îmbunătăți navigarea."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed untranslating strings in :ref:`javaprop`."
-msgstr "A fost reparată traducerea șirurilor nou adăugate."
+msgstr "S-a reparat necorelarea șirurilor de caractere în :ref:`javaprop`."
 
 #: ../../changes.rst:20
 msgid "Fixed Git operation with non-ascii branch names."
-msgstr ""
+msgstr "A fost reparată operațiunea Git cu nume de ramură non-ascii."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ":ref:`addon-weblate.generate.generate`"
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
-msgstr ":ref:`addon-weblate.generate.generate`"
+msgstr "Un nou add-on :ref:`addon-weblate.generate.prefill`."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ""
 "Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`."
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr ""
+"Adăugat :guilabel:`Merge fără fast-forward` :ref:`component-merge_style`."
 
 #: ../../changes.rst:25
 msgid "Weblate 4.10.1"
@@ -29588,15 +29534,11 @@ msgstr ""
 "editare (anterior fuzzy)."
 
 #: ../../changes.rst:1521
-#, fuzzy
-#| msgid ""
-#| "Clarified terminology on strings needing action and not translated "
-#| "strings."
 msgid ""
 "Clarified terminology on strings needing action and untranslated strings."
 msgstr ""
-"A fost clarificată terminologia referitoare la șirurile care necesită "
-"acțiune și la șirurile care nu sunt traduse."
+"A fost clarificată terminologia privind șirurile care necesită acțiune și "
+"șirurile netraduse."
 
 #: ../../changes.rst:1522
 msgid "Support for Python 3."
@@ -30777,9 +30719,6 @@ msgstr ""
 "traducere."
 
 #: ../../changes.rst:1873
-#, fuzzy
-#| msgid ""
-#| "Check for not translated strings ignores format string only messages."
 msgid "Check for untranslated strings ignores format string only messages."
 msgstr ""
 "Verificarea șirurilor de caractere netraduse ignoră doar mesajele cu șiruri "
@@ -33599,17 +33538,6 @@ msgid "Terminology management"
 msgstr "Managementul terminologiei"
 
 #: ../../devel/community.rst:19
-#, fuzzy
-#| msgid ""
-#| "Post-editing of MT with terminology assignment influences each level of "
-#| "the translation process. The machine translation system can be adapted to "
-#| "the specific vocabulary and style with a continued training or `neural "
-#| "fuzzy repair <https://www.aclweb.org/anthology/P19-1175.pdf>`_. `Import "
-#| "<https://docs.weblate.org/en/latest/admin/memory.html#imported-"
-#| "translation-memory>`_ your existing translation memory into weblate or "
-#| "create an initial scope with your basic terminology. In the end the "
-#| "lector should be instructed with additional terminology documents to "
-#| "guarantee a good knowledge and output in the field."
 msgid ""
 "Post-editing of MT with terminology assignment influences each level of the "
 "translation process. The machine translation system can be adapted to the "
@@ -33623,13 +33551,13 @@ msgid ""
 msgstr ""
 "Post-editarea MT cu atribuirea terminologiei influențează fiecare nivel al "
 "procesului de traducere. Sistemul de traducere automată poate fi adaptat la "
-"vocabularul și stilul specific cu ajutorul unei formări continue sau a "
-"`reparării fuzzy neuronale <https://www.aclweb.org/anthology/P19-1175."
-"pdf>`_. `Importați <https://docs.weblate.org/en/latest/admin/memory."
-"html#imported-translation-memory>`_ memoria dvs. de traducere existentă în "
-"weblate sau creați un domeniu inițial cu terminologia dvs. de bază. În "
-"final, lectorul ar trebui să fie instruit cu documente terminologice "
-"suplimentare pentru a garanta o bună cunoaștere și randament în domeniu."
+"vocabularul și stilul specific cu ajutorul unei formări continue sau a `"
+"reparării fuzzy neuronale <https://aclanthology.org/P19-1175.pdf>`_. `"
+"Importați <https://docs.weblate.org/en/latest/admin/memory.html#imported-"
+"translation-memory>`_ memoria dvs. de traducere existentă în weblate sau "
+"creați un domeniu inițial cu terminologia dvs. de bază. În final, lectorul "
+"ar trebui să fie instruit cu documente terminologice suplimentare pentru a "
+"garanta o bună cunoaștere și randament în domeniu."
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -33648,12 +33576,6 @@ msgid "Review translations"
 msgstr "Revizuirea traducerilor"
 
 #: ../../devel/community.rst:28
-#, fuzzy
-#| msgid ""
-#| "The translations should be reviewed by a second person after the post-"
-#| "editing. With an impartial and competent revisor, the two man rules "
-#| "reduces the errors and improves the quality and consistency of the "
-#| "content."
 msgid ""
 "The translations should be reviewed by a second person after the post-"
 "editing. With an impartial and competent revisor, the two man rule reduces "
@@ -33668,40 +33590,18 @@ msgid "Structured feedback"
 msgstr "Feedback structurat"
 
 #: ../../devel/community.rst:32
-#, fuzzy
-#| msgid ""
-#| "There are many `quality checks <https://docs.weblate.org/en/latest/user/"
-#| "checks.html>`_ in weblate. Pay the lectors to give structured feedback "
-#| "and use it to increase those checks."
 msgid ""
 "There are many :doc:`/user/checks` in weblate. Pay the lectors to give "
 "structured feedback and use it to increase those checks."
 msgstr ""
-"Există multe `verificări ale calității <https://docs.weblate.org/en/latest/"
-"user/checks.html>`_ în weblate. Plătiți lectorii pentru a oferi un feedback "
-"structurat și folosiți-l pentru a crește aceste verificări."
+"Există multe :doc:`/user/checks` în weblate. Plătiți lectorii pentru a oferi "
+"un feedback structurat și folosiți-l pentru a crește aceste verificări."
 
 #: ../../devel/community.rst:35
 msgid "Translation definition"
 msgstr "Definiția traducerii"
 
 #: ../../devel/community.rst:36
-#, fuzzy
-#| msgid ""
-#| "In addition to the mentalistic and impact-based definitions which make a "
-#| "strong reduction, the text-based linguistic approach fits best with the "
-#| "implemented translation methods. A well-formulated theory for translation "
-#| "evaluation is House's systemic-functional model, which focuses on the "
-#| "relation between original and translation. The model assumes that "
-#| "translation is an attempt to keep the semantic, pragmatic, and textual "
-#| "meaning of a text equivalent when crossing from one linguistic code to "
-#| "another. The degree of quality of a translation is based on the degree of "
-#| "equivalence, the correspondence between the text profile and the text "
-#| "function. Because it cannot be calculated automatically, sufficient "
-#| "information should be collected to enable a uniform human evaluation. The "
-#| "two main parameters of agreement in a corresponding model are the macro-"
-#| "context - i.e. embedding in a larger social and literary context - and "
-#| "the micro-context consisting of field, tenor and mode."
 msgid ""
 "In addition to the mentalistic and impact-based definitions which make a "
 "strong reduction, the text-based linguistic approach fits best with the "
@@ -33719,31 +33619,9 @@ msgstr ""
 "care se concentrează pe relația dintre original și traducere. Modelul "
 "pornește de la premisa că traducerea este o încercare de a păstra "
 "echivalentul semantic, pragmatic și textual al unui text la trecerea de la "
-"un cod lingvistic la altul. Gradul de calitate al unei traduceri se bazează "
-"pe gradul de echivalență, pe corespondența dintre profilul textului și "
-"funcția textului. Deoarece acesta nu poate fi calculat în mod automat, ar "
-"trebui să se colecteze suficiente informații pentru a permite o evaluare "
-"umană uniformă. Cei doi parametri principali de concordanță într-un model "
-"corespunzător sunt macrocontextul - adică încadrarea într-un context social "
-"și literar mai larg - și microcontextul format din domeniu, tenor și mod."
+"un cod lingvistic la altul."
 
 #: ../../devel/community.rst:38
-#, fuzzy
-#| msgid ""
-#| "In addition to the mentalistic and impact-based definitions which make a "
-#| "strong reduction, the text-based linguistic approach fits best with the "
-#| "implemented translation methods. A well-formulated theory for translation "
-#| "evaluation is House's systemic-functional model, which focuses on the "
-#| "relation between original and translation. The model assumes that "
-#| "translation is an attempt to keep the semantic, pragmatic, and textual "
-#| "meaning of a text equivalent when crossing from one linguistic code to "
-#| "another. The degree of quality of a translation is based on the degree of "
-#| "equivalence, the correspondence between the text profile and the text "
-#| "function. Because it cannot be calculated automatically, sufficient "
-#| "information should be collected to enable a uniform human evaluation. The "
-#| "two main parameters of agreement in a corresponding model are the macro-"
-#| "context - i.e. embedding in a larger social and literary context - and "
-#| "the micro-context consisting of field, tenor and mode."
 msgid ""
 "The degree of quality of a translation is based on the degree of "
 "equivalence, the correspondence between the text profile and the text "
@@ -33753,20 +33631,13 @@ msgid ""
 "context – i.e. embedding in a larger social and literary context – and the "
 "micro-context consisting of field, tenor and mode."
 msgstr ""
-"Pe lângă definițiile mentaliste și cele bazate pe impact, care realizează o "
-"reducere puternică, abordarea lingvistică bazată pe text se potrivește cel "
-"mai bine cu metodele de traducere implementate. O teorie bine formulată "
-"pentru evaluarea traducerilor este modelul sistemic-funcțional al lui House, "
-"care se concentrează pe relația dintre original și traducere. Modelul "
-"pornește de la premisa că traducerea este o încercare de a păstra "
-"echivalentul semantic, pragmatic și textual al unui text la trecerea de la "
-"un cod lingvistic la altul. Gradul de calitate al unei traduceri se bazează "
-"pe gradul de echivalență, pe corespondența dintre profilul textului și "
-"funcția textului. Deoarece acesta nu poate fi calculat în mod automat, ar "
-"trebui să se colecteze suficiente informații pentru a permite o evaluare "
-"umană uniformă. Cei doi parametri principali de concordanță într-un model "
-"corespunzător sunt macrocontextul - adică încadrarea într-un context social "
-"și literar mai larg - și microcontextul format din domeniu, tenor și mod."
+"Gradul de calitate al unei traduceri se bazează pe gradul de echivalență, pe "
+"corespondența dintre profilul textului și funcția textului. Deoarece acesta "
+"nu poate fi calculat automat, ar trebui să se colecteze suficiente "
+"informații pentru a permite o evaluare umană uniformă. Cei doi parametri "
+"principali de concordanță într-un model corespunzător sunt macrocontextul - "
+"adică încadrarea într-un context social și literar mai larg - și "
+"microcontextul format din domeniu, tenor și mod."
 
 #: ../../devel/community.rst:42
 msgid ""
@@ -33779,11 +33650,6 @@ msgstr ""
 "machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:43
-#, fuzzy
-#| msgid ""
-#| "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine "
-#| "Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. "
-#| "Möglichkeiten der Übersetzungskritik S.101 und Folgende"
 msgid ""
 "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-"
 "hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der "
@@ -33791,7 +33657,7 @@ msgid ""
 msgstr ""
 "Joanna Best și Sylvia Kalina.Translating and Interpreting: an Orientation "
 "Guide. A. Francke Verlag Tübingen und Base, 2002. Posibilități de critică a "
-"traducerii p.101 și următoarele"
+"traducerii începând cu pagina numărul 101"
 
 #: ../../devel/community.rst:44
 msgid ""
@@ -34695,24 +34561,24 @@ msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/libraries.rst:2
-#, fuzzy
-#| msgid "Localization updates."
 msgid "Localization libraries and packages"
-msgstr "Actualizări de localizare."
+msgstr "Biblioteci și pachete de localizare"
 
 #: ../../devel/libraries.rst:4
 msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
+"Weblate poate fi integrat în cadrul dumneavoastră folosind :doc:`/api`. "
+"Această pagină enumeră bibliotecile terților care integrează Weblate."
 
 #: ../../devel/libraries.rst:7
-#, fuzzy
-#| msgid "Weblate Translation Memory Schema"
 msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
-msgstr "Schema de memorie de traducere Weblate"
+msgstr ""
+"`Weblate Translation Provider pentru Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 
 #: ../../devel/libraries.rst:11
 msgid ""
@@ -34720,6 +34586,9 @@ msgid ""
 "Either submit a pull request with the changes directly or write us at "
 "care@weblate.org to get listed."
 msgstr ""
+"Construiți o integrare Weblate pentru cadrul dumneavoastră? Fiți listat "
+"aici! Fie trimiteți o cerere de extragere cu modificările direct, fie "
+"scrieți-ne la care@weblate.org pentru a fi listat."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -36893,16 +36762,12 @@ msgstr ""
 "pricepuți să își dea seama cum este utilizat acel șir."
 
 #: ../../formats.rst:137
-#, fuzzy
-#| msgid ""
-#| "Additional states supported by the file format in addition to \"Not "
-#| "translated\" and \"Translated\"."
 msgid ""
 "Additional states supported by the file format in addition to \"Untranslated"
 "\" and \"Translated\"."
 msgstr ""
-"Stări suplimentare acceptate de formatul de fișier în plus față de \"Netradus"
-"\" și \"Tradus\"."
+"Stări suplimentare acceptate de formatul de fișier, în plus față de "
+"\"Untranslated\" și \"Translated\"."
 
 #: ../../formats.rst:138
 msgid ""
@@ -39795,14 +39660,6 @@ msgstr ""
 "software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:397
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu."
-#| "org/software/gettext/manual/html_node/object_002dpascal_002dformat."
-#| "html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
-#| "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-#| "formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
-#| "System.SysUtils.Format>`_"
 msgid ""
 ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/object_002dpascal_002dformat."
@@ -39815,7 +39672,7 @@ msgstr ""
 "org/software/gettext/manual/html_node/object_002dpascal_002dformat."
 "html#object_002dpascal_002dformat>`_ `Șiruri de formatare Free Pascal "
 "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Șiruri de "
-"formatare Delphi <http://docwiki.embarcadero.com/Libraries/Sydney/en/System."
+"formatare Delphi <https://docwiki.embarcadero.com/Libraries/Sydney/en/System."
 "SysUtils.Format>``_"
 
 #: ../../user/checks.rst:405
@@ -40129,15 +39986,11 @@ msgid "Inconsistent"
 msgstr "Inconsecvent"
 
 #: ../../user/checks.rst:607
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
-"Acest șir are mai multe traduceri în acest proiect sau nu este tradus în "
+"Acest șir are mai multe traduceri în acest proiect sau este netradus în "
 "anumite componente."
 
 #: ../../user/checks.rst:609
@@ -40180,13 +40033,6 @@ msgstr ""
 "neconcordanțele, ci limitează numărul de rezultate."
 
 #: ../../user/checks.rst:629
-#, fuzzy
-#| msgid ""
-#| "This check also fires in case the string is translated in one component "
-#| "and not in another. It can be used as a quick way to manually handle "
-#| "strings which are not translated in some components just by clicking on "
-#| "the :guilabel:`Use this translation` button displayed on each line in "
-#| "the :guilabel:`Other occurrences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
@@ -40648,10 +40494,8 @@ msgid "Missing plurals"
 msgstr "Lipsește pluralul"
 
 #: ../../user/checks.rst:937
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
-msgstr "Unele forme de plural nu sunt traduse"
+msgstr "Unele forme de plural sunt netraduse"
 
 #: ../../user/checks.rst:939
 msgid "``weblate.checks.consistency.PluralsCheck``"
@@ -41413,10 +41257,8 @@ msgstr ""
 "traduse corespunzător."
 
 #: ../../user/files.rst:74
-#, fuzzy
-#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
 msgid ":ref:`formats`, :doc:`/user/files`"
-msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
+msgstr ":ref:`formats`, :doc:`/user/files`"
 
 #: ../../user/files.rst:80
 msgid "Import methods"
@@ -42269,22 +42111,16 @@ msgid "``has:TEXT``"
 msgstr "`` are:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``, ``label``."
 msgstr ""
-"Caută șiruri de caractere care au atributele - ``plural``, ``context``, "
+"Caută șirul de caractere care are atributele - ``plural``, ``context``, "
 "``sugestie``, ``comentariu``, ``verificare``, ``verificare respinsă``, "
-"``traducere``, ``variantă``, ``captură de ecran``, ``flags``, "
-"``explicație``, ``glosar``, ``nota``."
+"``traducere``, ``variantă``, ``captură de ecran``, ``flags``, ``explicație``"
+", ``glosar``, ``notă``, ``etichetă``."
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -42430,28 +42266,20 @@ msgid "Search in explanations."
 msgstr "Căutați în explicații."
 
 #: ../../user/search.rst:84
-#, fuzzy
-#| msgid "``state:TEXT``"
 msgid "``label:TEXT``"
-msgstr "``stat:TEXT``"
+msgstr "``etichetă:TEXT``"
 
 #: ../../user/search.rst:85
-#, fuzzy
-#| msgid "String labels"
 msgid "Search in labels."
-msgstr "Șir de etichete"
+msgstr "Căutați în etichete."
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "``note:TEXT``"
 msgid "``screenshot:TEXT``"
-msgstr "``note:TEXT``"
+msgstr "``captură de ecran:TEXT``"
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in screenshots."
-msgstr "Căutați în comentariile utilizatorilor."
+msgstr "Căutați în capturi de ecran."
 
 #: ../../user/search.rst:90
 msgid "Boolean operators"
@@ -42652,14 +42480,6 @@ msgid "Translation links"
 msgstr "Link-uri de traducere"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Unfinished "
-#| "strings`. If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -42670,8 +42490,8 @@ msgid ""
 msgstr ""
 "După ce ați navigat către o componentă, un set de linkuri conduce la "
 "traducerea efectivă a acesteia. Traducerea este împărțită în continuare în "
-"verificări individuale, cum ar fi :guilabel:`Not translated strings` sau :"
-"guilabel:`Unfinished strings`. Dacă întregul proiect este tradus, fără "
+"verificări individuale, cum ar fi :guilabel:`Strings netraduse` sau "
+":guilabel:`Strings neterminate`. Dacă întregul proiect este tradus, fără "
 "erori, :guilabel:`All strings` este încă disponibil. Alternativ, puteți "
 "utiliza câmpul de căutare pentru a găsi un anumit șir sau termen."
 
@@ -43980,10 +43800,8 @@ msgstr ""
 "atunci când împinge modificările înapoi."
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "GitHub (pull requests)"
 msgid "GitHub pull requests"
-msgstr "GitHub (solicitări de tracțiune)"
+msgstr "GitHub solicitări de tracțiune"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -44025,10 +43843,8 @@ msgstr ""
 "setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge requests"
-msgstr "Cerere de fuziune invalidă!"
+msgstr "Cereri de fuziune GitLab"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -44073,10 +43889,8 @@ msgstr ""
 "setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge requests"
-msgstr "Cerere de fuziune invalidă!"
+msgstr "Cereri de fuziune Pagure"
 
 #: ../../vcs.rst:329
 msgid ""
