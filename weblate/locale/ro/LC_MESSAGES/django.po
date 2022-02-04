@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-01-15 12:54+0000\n"
+"PO-Revision-Date: 2022-02-04 22:48+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1484,10 +1484,9 @@ msgstr ""
 "distanță care trebuie analizate pentru șiruri de caractere traductibile."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Nu a reușit să analizeze indicatoarele: %s"
+msgstr "Nu a reușit să analizeze selectorul CSS: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1535,16 +1534,12 @@ msgstr ""
 "șirurile sursă."
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Sursa de traducere automată"
+msgstr "Preumplerea traducerii cu sursa"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Această traducere este utilizată pentru șirurile sursă."
+msgstr "Completează șirurile de traducere cu șirul sursă."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2598,10 +2593,8 @@ msgid "Missing plurals"
 msgstr "Lipsește pluralul"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
-msgstr "Unele forme de plural nu sunt traduse"
+msgstr "Unele forme de plural sunt netraduse"
 
 #: weblate/checks/consistency.py:55
 msgid "Same plurals"
@@ -2616,15 +2609,11 @@ msgid "Inconsistent"
 msgstr "Inconsecvent"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
-"Acest șir are mai multe traduceri în acest proiect sau nu este tradus în "
+"Acest șir are mai multe traduceri în acest proiect sau este netradus în "
 "anumite componente."
 
 #: weblate/checks/consistency.py:146
@@ -3230,10 +3219,8 @@ msgid "Unsupported file format."
 msgstr "Format de fișier neacceptat."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "Există deja o intrare cu același nume."
+msgstr "Fontul cu același nume există deja."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3244,10 +3231,8 @@ msgid "Font deleted."
 msgstr "Font șters."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "Există deja o intrare cu același nume."
+msgstr "Grupul de fonturi cu același nume există deja."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -6665,15 +6650,13 @@ msgid "Rebase"
 msgstr "rebazare"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Extrageți modificările din depozitul de la distanță"
+msgstr "Extrageți modificările din depozitul de la distanță fără fast-forward"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "Fuziune fără fast-forward"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -8043,16 +8026,12 @@ msgstr ""
 "Vă rugăm să revizuiți și să confirmați rezultatele căutării și înlocuirii."
 
 #: weblate/templates/replace.html:28
-#, fuzzy
-#| msgid ""
-#| "Showing and replacing only the first 250 matches. Perform the replacement "
-#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
 msgstr ""
 "Afișarea și înlocuirea doar a primelor 250 de meciuri. Efectuați din nou "
-"înlocuirea pentru a înlocui mai multe intrări."
+"înlocuirea pentru a înlocui mai multe."
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
@@ -8464,10 +8443,8 @@ msgstr "Necesită editare"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Șiruri traduse"
+msgstr "Șiruri netraduse"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10729,10 +10706,8 @@ msgid "Language used for source strings in all components"
 msgstr "Limba utilizată pentru șirurile sursă în toate componentele"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Există deja o intrare cu același nume."
+msgstr "Componenta cu același nume există deja."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -11375,10 +11350,8 @@ msgstr "Screnshot încărcat"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "Nu s-a putut actualiza depozitul."
+msgstr "Șir actualizat în depozit"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11401,14 +11374,12 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s la %(time)s pe %(translation)s de %(user)s"
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Șir nou de tradus în %(translation)s"
-msgstr[1] "Șir nou de tradus în %(translation)s"
-msgstr[2] "Șiruri noi de tradus în %(translation)s"
+msgstr[0] "%d noul șir de tradus a apărut în traducere."
+msgstr[1] "%d șiruri noi de tradus au apărut în traducere."
+msgstr[2] "%d de șiruri noi de tradus au apărut în traducere."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12903,10 +12874,9 @@ msgid "New string has been added."
 msgstr "A fost adăugat un nou șir."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Nu a reușit să analizeze noul șir de caractere"
+msgstr "Nu s-a reușit eliminarea șirului: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13369,23 +13339,19 @@ msgstr "Git cu forța push"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub cerere de tragere"
 
 #: weblate/vcs/git.py:944
 msgid "No remote repository"
 msgstr "Nu există un depozit de la distanță"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "Cerere de fuziune invalidă!"
+msgstr "Cerere de fuziune GitLab"
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "Cerere de fuziune invalidă!"
+msgstr "Cerere de fuziune Pagure"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
