@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-02-03 10:35+0000\n"
-"Last-Translator: Michalis <michalisntovas@yahoo.gr>\n"
+"PO-Revision-Date: 2022-02-05 15:59+0000\n"
+"Last-Translator: george kitsoukakis <norhorn@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
 "Language: el\n"
@@ -833,7 +833,7 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:68
 msgid "Can not reuse previously used password."
-msgstr "Δεν μπορείτε να ξαναχρησιμοποιήσετε συνθηματικό προηγούμενης χρήσης."
+msgstr "Δεν μπορείτε να ξαναχρησιμοποιήσετε ίδιο συνθηματικό."
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
@@ -1168,6 +1168,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Κάθε φορά που εισάγεται μια νέα καταχώρηση από το VCS στο Weblate, "
+"επισημαίνεται ότι χρειάζεται επεξεργασία. Με αυτόν τον τρόπο μπορείτε εύκολα "
+"να εντοπίζετε και να επεξεργάζεστε τις καταχωρήσεις από τους προγραμματιστές."
 
 #: weblate/addons/flags.py:66
 msgid "Flag new translations as \"Needs editing\""
@@ -1179,6 +1182,10 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Κάθε φορά που εισάγεται μια νέα μετάφραση από το VCS στο Weblate, "
+"επισημαίνεται ότι χρειάζεται επεξεργασία. Με αυτόν τον τρόπο μπορείτε εύκολα "
+"να εντοπίζετε και να επεξεργάζεστε τις μεταφράσεις που δημιουργούνται από "
+"τους προγραμματιστές."
 
 #: weblate/addons/flags.py:84
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1190,6 +1197,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
+"Κάθε φορά που εισάγεται μια νέα μετάφραση από το VCS και ταιριάζει με την "
+"αρχική προέλευση, επισημαίνεται ότι χρειάζεται επεξεργασία στο Weblate. "
+"Ιδιαίτερα χρήσιμο για μορφές αρχείων που περιλαμβάνουν την προέλευση για τα "
+"μη μεταφρασμένα."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:68
 #: weblate/templates/component.html:209
@@ -4864,7 +4875,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:30
 #, python-format
 msgid "Last sign-in on %(date)s"
-msgstr ""
+msgstr "Τελευταία σύνδεση σε %(date)s"
 
 #: weblate/templates/accounts/user.html:32
 msgid "Never signed-in"
@@ -5443,7 +5454,7 @@ msgstr "Σχέδιο"
 
 #: weblate/templates/billing/list.html:11
 msgid "Hosted words"
-msgstr "Φιλοξενούμενες λέξεις"
+msgstr "Σύνολο Λέξεων"
 
 #: weblate/templates/billing/list.html:28
 msgid "No users currently assigned!"
@@ -5842,7 +5853,7 @@ msgstr "Σελίδα συμπλοκής"
 #: weblate/templates/component.html:119 weblate/templates/project.html:124
 #: weblate/templates/translation.html:113
 msgid "Status widgets"
-msgstr "ΜΙκροεφαρμογές κατάστασης"
+msgstr "Μικροεφαρμογές κατάστασης"
 
 #: weblate/templates/component.html:135
 msgid "You don't have permission to start a new translation"
@@ -8057,17 +8068,13 @@ msgstr ""
 "δέχεται δωρεές."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Τελευταίο μήνα"
+msgstr "Τελευταίοι 12 μήνες"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr "Προηγούμενο"
+msgstr "Προηγούμενοι"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
@@ -8354,7 +8361,7 @@ msgstr "Ποσοστό κειμένων"
 #: weblate/templates/snippets/info.html:486
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Φιλοξενούμενα κείμενα"
+msgstr "Σύνολο Κειμένων"
 
 #: weblate/templates/snippets/info.html:277
 msgid "Words percent"
@@ -8365,7 +8372,7 @@ msgstr "Ποσοστό λέξεων"
 #: weblate/templates/snippets/info.html:479
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Φιλοξενούμενες λέξεις"
+msgstr "Σύνολο Λέξεων"
 
 #: weblate/templates/snippets/info.html:279
 msgid "Characters percent"
@@ -8374,7 +8381,7 @@ msgstr "Ποσοστό χαρακτήρων"
 #: weblate/templates/snippets/info.html:280
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Φιλοξενούμενοι χαρακτήρες"
+msgstr "Σύνολο Χαρακτήρων"
 
 #: weblate/templates/snippets/info.html:295
 #: weblate/templates/trans/alert/duplicatestring.html:10
@@ -8394,10 +8401,8 @@ msgstr "Χρειάζεται επεξεργασία"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Μεταφρασμένα κείμενα"
+msgstr "Αμετάφραστα κείμενα"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -8405,10 +8410,8 @@ msgstr ""
 
 #: weblate/templates/snippets/info.html:400
 #: weblate/templates/snippets/info.html:471
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "Τελευταίες 30 ημέρες"
+msgstr "και πριν 30 ημέρες"
 
 #: weblate/templates/snippets/info.html:401
 #: weblate/templates/snippets/info.html:472
@@ -8514,10 +8517,8 @@ msgid "Unfinished words"
 msgstr "Μη μεταφρασμένες λέξεις"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "Μη μεταφρασμένοι χαρακτήρες"
+msgstr "Μη ολοκληρωμένοι χαρακτήρες"
 
 #: weblate/templates/snippets/list-objects.html:73
 msgid "Untranslated"
@@ -8742,7 +8743,7 @@ msgstr "Εγκεκριμένα κείμενα με προτάσεις"
 
 #: weblate/templates/snippets/query-builder.html:100
 msgid "All untranslated strings added the past month"
-msgstr "Όλα τα αμετάφραστα κείμενα που προστέθηκαν τον προηγούμενο μήνα"
+msgstr "Όλα τα αμετάφραστα κείμενα του προηγούμενου μήνα"
 
 #: weblate/templates/snippets/query-builder.html:107
 msgid "Translated strings in a certain language"
@@ -8856,12 +8857,12 @@ msgstr "Δεν βρέθηκε κανένας τέτοιος χρήστης."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
-msgstr "Παρακολουθούμενο"
+msgstr "Παρακολουθείται"
 
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Τέλος παρακολούθησης έργου %(project)s"
+msgstr "Άρση παρακολούθησης του %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
@@ -8877,7 +8878,7 @@ msgstr "Σίγαση ειδοποιήσεων για το %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
 msgid "Not watching"
-msgstr "Χωρίς παρακολούθηση"
+msgstr "Δεν παρακολουθείται"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, python-format
@@ -13085,7 +13086,7 @@ msgstr "Χρειάζεται επεξεργασία"
 #: weblate/utils/state.py:32
 msgctxt "String state"
 msgid "Translated"
-msgstr "Μεταφράσμένα"
+msgstr "Μεταφρασμένα"
 
 #: weblate/utils/state.py:33
 msgctxt "String state"
