@@ -90,7 +90,7 @@ class RegexTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Translation does not match regular expression: <code>URL</code>",
+            "Does not match regular expression <code>URL</code>.",
         )
 
     def test_check_highlight_groups(self):
