@@ -18,16 +18,16 @@ tab.
 More reports are accessible on the :guilabel:`Insights`
 tab, selecting :guilabel:`Translation reports`.
 
-The activity of the currently signed in user can be seen by clicking on
-:guilabel:`Profile` from the user menu on the top right.
+The activity of the currently signed in user can be seen by clicking on the
+user name from the user menu on the top right.
 
 Source strings checks
 ---------------------
 
-There are many :ref:`checks`, some of them focus on improving the
-quality of source strings. Many failing checks suggest a hint to make source strings
-easier to translate. All types of failing source checks are displayed on the :guilabel:`Source`
-tab of every component.
+There are many :ref:`checks`, some of them focus on improving the quality of
+source strings. Many failing checks suggest a hint to make source strings
+easier to translate. All types of failing source checks are displayed on the
+source language of every component.
 
 Translation string checks
 -------------------------

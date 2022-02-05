@@ -109,7 +109,7 @@ class RegexCheck(TargetCheckParametrized):
     check_id = "regex"
     default_disabled = True
     name = _("Regular expression")
-    description = _("Translation does not match regular expression:")
+    description = _("Translation does not match regular expression")
 
     @property
     def param_type(self):
@@ -138,5 +138,6 @@ class RegexCheck(TargetCheckParametrized):
             return super().get_description(check_obj)
         regex = self.get_value(unit)
         return mark_safe(
-            f"{escape(self.description)} <code>{escape(regex.pattern)}</code>"
+            escape(_("Does not match regular expression %s."))
+            % f"<code>{escape(regex.pattern)}</code>"
         )

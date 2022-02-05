@@ -395,7 +395,7 @@ Object Pascal format
 .. seealso::
 
    :ref:`check-formats`,
-   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
+   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_,
    `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
    `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
 
@@ -1008,7 +1008,7 @@ Regular expression
 
 .. versionadded:: 3.9
 
-:Summary: Translation does not match regular expression:
+:Summary: Translation does not match regular expression
 :Scope: translated strings
 :Check class: ``weblate.checks.placeholders.RegexCheck``
 :Flag to enable: ``regex``
