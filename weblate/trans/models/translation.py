@@ -1344,7 +1344,9 @@ class Translation(
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
-                    if unit.extra_flags != new_flags or unit.explanation != explanation:
+                    if not skip_existing and (
+                        unit.extra_flags != new_flags or unit.explanation != explanation
+                    ):
                         unit.extra_flags = new_flags
                         unit.explanation = explanation
                         unit.save(
