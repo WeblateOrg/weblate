@@ -2030,7 +2030,7 @@ class ReplaceForm(forms.Form):
         min_length=1,
         required=True,
         strip=False,
-        help_text=_("Case sensitive string to replace and search."),
+        help_text=_("Case sensitive string to search for and replace."),
     )
     replacement = forms.CharField(
         label=_("Replacement string"), min_length=1, required=True, strip=False
@@ -2448,7 +2448,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         expires = self.cleaned_data["expires"]
         expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
         if expires < timezone.now():
-            raise forms.ValidationError(gettext("Expires cannot be in the past!"))
+            raise forms.ValidationError(gettext("Expiry cannot be in the past!"))
         return expires
 
 
