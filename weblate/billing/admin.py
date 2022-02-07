@@ -91,7 +91,7 @@ class BillingAdmin(WeblateModelAdmin):
         obj = form.instance
         # Add owners as admin if there is none
         for project in obj.projects.all():
-            group = project.defined.groups.get(name="Administration")
+            group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
                 group.user_set.add(*obj.owners.all())
 
