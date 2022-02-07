@@ -346,12 +346,6 @@ LICENSES = (
         False,
     ),
     (
-        "bzip2-1.0.5",
-        "bzip2 and libbzip2 License v1.0.5",
-        "https://spdx.org/licenses/bzip2-1.0.5.html",
-        False,
-    ),
-    (
         "bzip2-1.0.6",
         "bzip2 and libbzip2 License v1.0.6",
         "https://spdx.org/licenses/bzip2-1.0.6.html",
@@ -2250,6 +2244,12 @@ LICENSES = (
     ("Wsuipa", "Wsuipa License", "https://spdx.org/licenses/Wsuipa.html", False),
     ("Xnet", "X.Net License", "https://spdx.org/licenses/Xnet.html", True),
     ("X11", "X11 License", "https://spdx.org/licenses/X11.html", True),
+    (
+        "X11-distribute-modifications-variant",
+        "X11 License Distribution Modification Variant",
+        "https://spdx.org/licenses/X11-distribute-modifications-variant.html",
+        False,
+    ),
     ("Xerox", "Xerox License", "https://spdx.org/licenses/Xerox.html", False),
     (
         "XFree86-1.1",
