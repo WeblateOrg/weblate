@@ -466,6 +466,7 @@ class Translation(
         # Delete stale units
         stale = set(dbunits) - set(updated)
         if stale:
+            self.log_debug("deleting %d stale strings", len(stale))
             self.unit_set.filter(id_hash__in=stale).delete()
             self.component.needs_cleanup = True
 
