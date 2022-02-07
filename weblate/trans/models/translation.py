@@ -1282,6 +1282,7 @@ class Translation(
         auto_context: bool = False,
         is_batch_update: bool = False,
         skip_existing: bool = False,
+        sync_terminology: bool = True,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1349,6 +1350,7 @@ class Translation(
                         unit.save(
                             update_fields=["extra_flags", "explanation"],
                             same_content=True,
+                            sync_terminology=False,
                         )
                 except Unit.DoesNotExist:
                     pass
@@ -1368,7 +1370,10 @@ class Translation(
                 unit.trigger_update_variants = False
                 try:
                     with transaction.atomic():
-                        unit.save(force_insert=True)
+                        unit.save(
+                            force_insert=True,
+                            sync_terminology=False,
+                        )
                         changes.append(
                             Change(
                                 unit=unit,
@@ -1398,7 +1403,8 @@ class Translation(
                 component.update_variants(
                     updated_units=Unit.objects.filter(pk__in=unit_ids)
                 )
-            component.schedule_sync_terminology()
+            if sync_terminology:
+                component.schedule_sync_terminology()
             component.invalidate_cache()
             component_post_update.send(sender=self.__class__, component=component)
         return result
@@ -1464,6 +1470,7 @@ class Translation(
                 "",
                 is_batch_update=True,
                 skip_existing=True,
+                sync_terminology=False,
             )
 
     def validate_new_unit_data(  # noqa: C901

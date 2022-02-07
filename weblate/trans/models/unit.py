@@ -370,6 +370,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         force_insert: bool = False,
         force_update: bool = False,
         only_save: bool = False,
+        sync_terminology: bool = True,
         using=None,
         update_fields: Optional[List[str]] = None,
     ):
@@ -415,7 +416,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.update_variants()
 
         # Update terminology
-        self.sync_terminology()
+        if sync_terminology:
+            self.sync_terminology()
 
     def get_absolute_url(self):
         return "{}?checksum={}".format(
