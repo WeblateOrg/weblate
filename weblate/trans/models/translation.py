@@ -1309,6 +1309,7 @@ class Translation(
                 context = f"{base}{suffix}"
 
         unit_ids = []
+        changes = []
         for translation in translations:
             is_source = translation.is_source
             kwargs = {}
@@ -1366,12 +1367,14 @@ class Translation(
                 try:
                     with transaction.atomic():
                         unit.save(force_insert=True)
-                        Change.objects.create(
-                            unit=unit,
-                            action=Change.ACTION_NEW_UNIT,
-                            target=current_target,
-                            user=user,
-                            author=user,
+                        changes.append(
+                            Change(
+                                unit=unit,
+                                action=Change.ACTION_NEW_UNIT,
+                                target=current_target,
+                                user=user,
+                                author=user,
+                            )
                         )
                 except IntegrityError:
                     if not skip_existing:
@@ -1384,6 +1387,9 @@ class Translation(
             if translation == self:
                 result = unit
             unit_ids.append(unit.pk)
+
+        if changes:
+            Change.objects.bulk_create(changes)
 
         if not is_batch_update:
             if self.component.needs_variants_update:
