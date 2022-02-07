@@ -1289,7 +1289,9 @@ class Translation(
         component = self.component
         if self.is_source:
             translations = [self]
-            translations.extend(component.translation_set.exclude(id=self.id))
+            translations.extend(
+                component.translation_set.exclude(id=self.id).select_related("language")
+            )
         else:
             translations = [component.source_translation, self]
         has_template = component.has_template()
