@@ -30,7 +30,7 @@ and lists all contributors for a given language:
 
     * Dutch
 
-        * Jane Doe <jane@example.com> (42)
+        * Jane Roe <kabeljau@example.com> (42)
 
 
 .. hint::
