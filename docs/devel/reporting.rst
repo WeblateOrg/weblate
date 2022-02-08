@@ -1,14 +1,14 @@
 Translation progress reporting
 ==============================
 
-Reporting features give insight into how a translation progresses over a given
-period. A summary of contributions to any given component over time is
-provided. The reporting tool is found in the :guilabel:`Insights` menu of any
-translation component, project or on the dashboard:
+Reporting features give insight into translation progress over a given period.
+A summary of contributions to any given component over time is provided.
+The reporting tool is found in the :guilabel:`Insights` menu of any
+translation component and project, and shown on the dashboard:
 
 .. image:: /screenshots/reporting.png
 
-Several reporting tools are available on this page and all can produce output
+Several reporting tools are available on this page, all of which can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for
 embedding statistics into existing documentation, while JSON is useful for further
 processing of the data.
@@ -18,8 +18,8 @@ processing of the data.
 Translator credits
 ------------------
 
-Generates a document usable for crediting translators - sorted by language
-and lists all contributors to a given language:
+Generates a document usable for crediting translators — sorted by language
+and lists all contributors for a given language:
 
 .. code-block:: rst
 
@@ -35,7 +35,7 @@ and lists all contributors to a given language:
 
 .. hint::
 
-    The number in parenthesis indicates number of contributions in given period.
+    The number in parenthesis indicates the number of contributions in given period.
 
 .. _stats:
 
@@ -48,19 +48,19 @@ Generates the number of translated words and strings by translator name:
 .. literalinclude:: reporting-example.rst
     :language: rst
 
-It can be useful if you pay your translators based on amount of work, it gives
-you various stats on translators work.
+This can be useful if you pay your translators based on the amount of work done,
+as it grants various statistics to that effect.
 
-All stats are available in three variants:
+All stats are available in four variants:
 
 `Total`
    Overall number of edited strings.
 `New`
-   Newly translated strings which didn't have translation before.
+   Newly translated strings which didn't have a translation before.
 `Approved`
-   Count for string approvals in review workflow (see :ref:`reviews`).
+   Tally of string approvals in the review workflow (see :ref:`reviews`).
 `Edited`
-   Edited strings which had translation before.
+   Edited strings which had a translation before.
 
 The following metrics are available for each:
 
