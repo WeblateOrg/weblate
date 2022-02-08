@@ -1,3 +1,31 @@
+Weblate 4.11
+-------------
+
+Not yet released.
+
+* Fixed add-on installation using API.
+* Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
+* Fixed false positives from :ref:`check-icu-message-format-syntax`.
+* Indicate lock and contributor agreement on other occurrences listing.
+* Fixed updating PO files with obsolete strings or missing plurals.
+* Improved squash add-on compatibility with Gerrit.
+* Automatically initialize user languages based on the :http:header:`Accept-Language` header.
+* Improved error handling on string removal.
+* Weblate now requires Python 3.7 or newer.
+* Fixed some write operations with project token authentication.
+* Fixed string state tracking when the strings changes in the repository.
+* Track string changes from the repository.
+* Sticky header on translations listing to improve navigation.
+* Fixed untranslating strings in :ref:`javaprop`.
+* Fixed Git operation with non-ascii branch names.
+* New add-on :ref:`addon-weblate.generate.prefill`.
+* Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
+* Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
+* Improved punctionation checks for Burmese.
+* Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
+* Added documentation links to alerts.
+* Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
+
 Weblate 4.10.1
 --------------
 
@@ -1495,7 +1523,7 @@ Released on Mar 10th 2016.
 * Added quality check for AngularJS interpolation.
 * Added extensive group based ACLs.
 * Clarified terminology on strings needing edit (formerly fuzzy).
-* Clarified terminology on strings needing action and not translated strings.
+* Clarified terminology on strings needing action and untranslated strings.
 * Support for Python 3.
 * Dropped support for Django 1.7.
 * Dropped dependency on msginit for creating new gettext PO files.
@@ -1759,7 +1787,7 @@ Released on November 16th 2012.
 * Compatibility with PostgreSQL database backend.
 * Removes languages removed in upstream git repository.
 * Improved quality checks processing.
-* Added new checks (BB code, XML markup and newlines).
+* Added new checks (BBCode, XML markup and newlines).
 * Support for optional rebasing instead of merge.
 * Possibility to relocate Weblate (for example to run it under /weblate path).
 * Support for manually choosing file type in case autodetection fails.
@@ -1847,7 +1875,7 @@ Released on April 18th 2012.
 * Better validation while creating component.
 * Integrated full setup into syncdb.
 * Added list of recent changes to all translation pages.
-* Check for not translated strings ignores format string only messages.
+* Check for untranslated strings ignores format string only messages.
 
 Weblate 0.8
 ~~~~~~~~~~~

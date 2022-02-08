@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -43,7 +43,7 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -495,7 +495,7 @@ class TranslationForm(UnitForm):
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
         self.fields["review"].widget.attrs["class"] = "review_radio"
-        # Avoid failing validation on not translated string
+        # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
         self.helper = FormHelper()
@@ -877,12 +877,13 @@ class AutoForm(forms.Form):
         self.obj = obj
 
         # Add components from other projects with enabled shared TM
-        self.components = (
-            obj.project.component_set.filter(source_language=obj.source_language)
-            | Component.objects.filter(
-                source_language_id=obj.source_language_id,
-                project__contribute_shared_tm=True,
-            ).exclude(project=obj.project)
+        self.components = obj.project.component_set.filter(
+            source_language=obj.source_language
+        ) | Component.objects.filter(
+            source_language_id=obj.source_language_id,
+            project__contribute_shared_tm=True,
+        ).exclude(
+            project=obj.project
         )
 
         # Fetching is faster than doing count on possibly thousands of components
@@ -1661,10 +1662,14 @@ class ComponentProjectForm(ComponentNameForm):
         project = self.cleaned_data["project"]
         name = self.cleaned_data.get("name")
         if name and project.component_set.filter(name__iexact=name).exists():
-            raise ValidationError({"name": _("Entry by the same name already exists.")})
+            raise ValidationError(
+                {"name": _("Component with the same name already exists.")}
+            )
         slug = self.cleaned_data.get("slug")
         if slug and project.component_set.filter(slug__iexact=slug).exists():
-            raise ValidationError({"slug": _("Entry by the same name already exists.")})
+            raise ValidationError(
+                {"slug": _("Component with the same name already exists.")}
+            )
 
 
 class ComponentScratchCreateForm(ComponentProjectForm):
@@ -2025,7 +2030,7 @@ class ReplaceForm(forms.Form):
         min_length=1,
         required=True,
         strip=False,
-        help_text=_("Case sensitive string to replace and search."),
+        help_text=_("Case sensitive string to search for and replace."),
     )
     replacement = forms.CharField(
         label=_("Replacement string"), min_length=1, required=True, strip=False
@@ -2069,11 +2074,16 @@ class MatrixLanguageForm(forms.Form):
 
 
 class NewUnitBaseForm(forms.Form):
-    variant = forms.CharField(required=False, widget=forms.HiddenInput, strip=False)
+    variant = forms.ModelChoiceField(
+        Unit.objects.none(),
+        widget=forms.HiddenInput,
+        required=False,
+    )
 
     def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.translation = translation
+        self.fields["variant"].queryset = translation.unit_set.all()
         self.user = user
 
     def clean(self):
@@ -2092,7 +2102,7 @@ class NewUnitBaseForm(forms.Form):
         flags.merge(self.get_glossary_flags())
         variant = self.cleaned_data.get("variant")
         if variant:
-            flags.set_value("variant", variant)
+            flags.set_value("variant", variant.source)
         return {
             "context": self.cleaned_data.get("context", ""),
             "source": self.cleaned_data["source"],
@@ -2438,5 +2448,33 @@ class ProjectTokenCreateForm(forms.ModelForm):
         expires = self.cleaned_data["expires"]
         expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
         if expires < timezone.now():
-            raise forms.ValidationError(gettext("Expires cannot be in the past!"))
+            raise forms.ValidationError(gettext("Expiry cannot be in the past!"))
         return expires
+
+
+class ProjectGroupDeleteForm(forms.Form):
+    group = forms.ModelChoiceField(
+        Group.objects.none(),
+        widget=forms.HiddenInput,
+        required=True,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["group"].queryset = project.defined_groups.all()
+
+
+class ProjectUserGroupForm(UserManageForm):
+    groups = forms.ModelMultipleChoiceField(
+        Group.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        label=_("Teams"),
+        required=False,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["user"].widget = forms.HiddenInput()
+        self.fields["groups"].queryset = project.defined_groups.all()

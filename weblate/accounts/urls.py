@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,10 @@ from django.conf import settings
 from django.urls import include, path
 
 import weblate.accounts.views
-import weblate.utils.urls
+from weblate.utils.urls import register_weblate_converters
+
+register_weblate_converters()
+
 
 # Follows copy of social_django.urls with few changes:
 # - authentication requires POST (issue submitted upstream)
@@ -29,8 +32,9 @@ import weblate.utils.urls
 # - removed some configurability (just to avoid additional deps)
 # - the association_id has to be numeric (patch accepted upstream)
 social_urls = [
-    # authentication / association
+    # user authentication / association
     path("login/<slug:backend>/", weblate.accounts.views.social_auth, name="begin"),
+    # partial pipeline completion
     path(
         "complete/<slug:backend>/",
         weblate.accounts.views.social_complete,

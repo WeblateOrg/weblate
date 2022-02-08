@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -128,6 +128,7 @@ class DashboardTest(ViewTestCase):
         # Pick language from request
         response = self.client.get(reverse("home"), HTTP_ACCEPT_LANGUAGE="cs")
         self.assertTrue(response.context["suggestions"])
+        self.assertFalse(self.user.profile.languages.exists())
 
     def test_user_hide_completed(self):
         self.user.profile.hide_completed = True

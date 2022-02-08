@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -375,12 +375,10 @@ class BaseFormatCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         match_objects = self.regexp.finditer(source)
         for match in match_objects:
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+            yield (match.start(), match.end(), match.group())
 
     def format_result(self, result):
         if (

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -282,7 +282,9 @@ def show_component(request, project, component):
                 instance=obj,
             ),
             "search_form": SearchForm(request.user),
-            "alerts": obj.all_alerts,
+            "alerts": obj.all_alerts
+            if "alerts" not in request.GET
+            else obj.alert_set.all(),
         },
     )
 
@@ -400,34 +402,35 @@ def new_language(request, project, component):
                 "component": obj,
                 "details": {},
             }
-            for language in Language.objects.filter(code__in=langs):
-                kwargs["details"]["language"] = language.code
-                if can_add:
-                    translation = obj.add_new_language(
-                        language, request, create_translations=False
-                    )
-                    if translation:
-                        kwargs["translation"] = translation
-                        if len(langs) == 1:
-                            result = translation
-                        Change.objects.create(
-                            action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+            with obj.repository.lock:
+                for language in Language.objects.filter(code__in=langs):
+                    kwargs["details"]["language"] = language.code
+                    if can_add:
+                        translation = obj.add_new_language(
+                            language, request, create_translations=False
                         )
-                elif obj.new_lang == "contact":
-                    Change.objects.create(
-                        action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
+                        if translation:
+                            kwargs["translation"] = translation
+                            if len(langs) == 1:
+                                result = translation
+                            Change.objects.create(
+                                action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                            )
+                    elif obj.new_lang == "contact":
+                        Change.objects.create(
+                            action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
+                        )
+                        messages.success(
+                            request,
+                            _(
+                                "A request for a new translation has been "
+                                "sent to the project's maintainers."
+                            ),
+                        )
+                if not obj.create_translations(request=request):
+                    messages.warning(
+                        request, _("The translation will be updated in the background.")
                     )
-                    messages.success(
-                        request,
-                        _(
-                            "A request for a new translation has been "
-                            "sent to the project's maintainers."
-                        ),
-                    )
-            if not obj.create_translations(request=request):
-                messages.warning(
-                    request, _("The translation will be updated in the background.")
-                )
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
             return redirect(result)

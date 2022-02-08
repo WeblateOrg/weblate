@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -90,6 +90,11 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         check = ICUSourceCheck()
         self.assertFalse(check.check_source_unit([""], self.get_mock()))
         self.assertFalse(check.check_source_unit(["Hello, {name}!"], self.get_mock()))
+
+    def test_source_non_icu(self):
+        check = ICUSourceCheck()
+        source = "icon in the top bar: {{ img-queue | strip }}"
+        self.assertFalse(check.check_source([source], MockUnit("x", source=source)))
 
     def test_bad_source(self):
         check = ICUSourceCheck()
@@ -246,10 +251,12 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
     def test_check_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, <link> {na<>me} </link>. You have {count, plural, one "
-            "{# message} other {# messages}}.",
-            self.get_mock(),
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, <link> {na<>me} </link>. You have {count, plural, one "
+                "{# message} other {# messages}}.",
+                self.get_mock(),
+            )
         )
 
         self.assertListEqual(
@@ -260,22 +267,29 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
     def test_check_error_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, {name}! You have {count,number", self.get_mock()
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, {name}! You have {count,number", self.get_mock()
+            )
         )
 
         self.assertListEqual(highlights, [])
 
     def test_check_flag_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, {name}! You have {count,number", self.get_mock(None, "-highlight")
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, {name}! You have {count,number",
+                self.get_mock(None, "-highlight"),
+            )
         )
 
         self.assertListEqual(highlights, [])
 
     def test_check_no_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, {name}!", MockUnit("java_format", flags="java-format")
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, {name}!", MockUnit("java_format", flags="java-format")
+            )
         )
 
         self.assertListEqual(highlights, [])
@@ -343,10 +357,12 @@ class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
         )
 
     def test_check_highlight(self):
-        highlights = self.check.check_highlight(
-            "Hello, <link> {na<>me} </link>. You have {count, plural, "
-            "one {# message} other {# messages}}.",
-            self.get_mock(),
+        highlights = list(
+            self.check.check_highlight(
+                "Hello, <link> {na<>me} </link>. You have {count, plural, "
+                "one {# message} other {# messages}}.",
+                self.get_mock(),
+            )
         )
 
         self.assertListEqual(

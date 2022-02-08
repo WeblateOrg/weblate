@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -227,7 +227,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
     verbose = _("Update PO files to match POT (msgmerge)")
     description = _(
-        'Updates all PO files (as configured by "Filemask") to match the '
+        'Updates all PO files (as configured by "File mask") to match the '
         'POT file (as configured by "Template for new translations") using msgmerge.'
     )
     alert = "MsgmergeAddonError"

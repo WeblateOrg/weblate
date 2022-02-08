@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -237,7 +237,9 @@ class Flags:
         if hasattr(value, "pattern"):
             value = value.pattern
         if " " in value or any(c in value for c in SYNTAXCHARS):
-            return '"{}"'.format(value.replace('"', r"\"").replace("\n", "\\n"))
+            return '"{}"'.format(
+                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r")
+            )
         return value
 
     @classmethod

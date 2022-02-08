@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,13 +21,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.trans.models import Unit
 from weblate.utils.ratelimit import session_ratelimit_post
+from weblate.utils.views import get_form_errors
 
 
 @require_POST
@@ -36,15 +36,16 @@ from weblate.utils.ratelimit import session_ratelimit_post
 def add_glossary_term(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     component = unit.translation.component
-    request.user.check_access_component(component)
+    user = request.user
+    user.check_access_component(component)
 
     code = 403
     results = ""
     details = ""
     terms = []
 
-    if request.user.has_perm("glossary.add", component.project):
-        form = TermForm(unit, request.POST)
+    if user.has_perm("glossary.add", component.project):
+        form = TermForm(unit, user, request.POST)
         if form.is_valid():
             translation = form.cleaned_data["translation"]
             added = translation.add_unit(request, **form.as_kwargs())
@@ -61,20 +62,11 @@ def add_glossary_term(request, unit_id):
                         | translation.unit_set.filter(pk__in=terms).distinct()
                     ),
                     "unit": unit,
-                    "user": request.user,
+                    "user": user,
                 },
             )
         else:
-            messages = []
-            for error in form.non_field_errors():
-                messages.append(error)
-            for field in form:
-                for error in field.errors:
-                    messages.append(
-                        _("Error in parameter %(field)s: %(error)s")
-                        % {"field": field.name, "error": error},
-                    )
-            details = "\n".join(messages)
+            details = "\n".join(get_form_errors(form))
 
     return JsonResponse(
         data={

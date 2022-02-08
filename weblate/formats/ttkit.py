@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -202,6 +202,12 @@ class KeyValueUnit(TTKitUnit):
         if hasattr(self.unit, "value"):
             return not self.unit.isfuzzy() and self.unit.value != ""
         return self.unit.istranslated()
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        super().set_target(target)
+        # Propagate to value so that searializing of empty values works correctly
+        self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
@@ -417,7 +423,7 @@ class TTKitFormat(TranslationFormat):
         plural = language.plural
 
         for unit in self.store.units:
-            if unit.istranslatable():
+            if unit.istranslatable() and (unit.istranslated() or unit.isfuzzy()):
                 self.untranslate_unit(unit, plural, fuzzy)
 
     @classmethod
@@ -571,6 +577,14 @@ class PoMonoUnit(PoUnit):
             if context:
                 result.append(context)
         return "\n".join(result)
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        # Add blank msgid_plural to store plural
+        if isinstance(target, (list, multistring)) and not self.unit.hasplural():
+            self.unit.msgid_plural = ['""']
+
+        super().set_target(target)
 
 
 class XliffUnit(TTKitUnit):
@@ -1027,10 +1041,9 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 check=True,
-                universal_newlines=True,
+                text=True,
             )
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)
@@ -1050,6 +1063,14 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
         except subprocess.CalledProcessError as error:
             report_error(cause="Failed msgmerge")
             raise UpdateError(" ".join(cmd), error.output + error.stderr)
+
+    def add_unit(self, ttkit_unit):
+        self.store.require_index()
+        # Check if there is matching obsolete unit
+        old_unit = self.store.id_index.get(ttkit_unit.getid())
+        if old_unit and old_unit.isobsolete():
+            self.store.removeunit(old_unit)
+        super().add_unit(ttkit_unit)
 
 
 class PoFormat(BasePoFormat):
@@ -1397,17 +1418,24 @@ class CSVFormat(TTKitFormat):
         """Return most common file extension for format."""
         return "csv"
 
+    @staticmethod
+    def get_content_and_filename(storefile):
+        # Did we get file or filename or file object?
+        if hasattr(storefile, "read"):
+            filename = getattr(storefile, "name", getattr(storefile, "filename", None))
+            content = storefile.read()
+            storefile.close()
+        else:
+            filename = storefile
+            with open(filename, "rb") as handle:
+                content = handle.read()
+        return content, filename
+
     def parse_store(self, storefile):
         """Parse the store."""
         storeclass = self.get_class()
 
-        # Did we get file or filename?
-        if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
-
-        # Read content for fixups
-        content = storefile.read()
-        storefile.close()
+        content, filename = self.get_content_and_filename(storefile)
 
         # Parse file
         store = storeclass()
@@ -1429,16 +1457,13 @@ class CSVFormat(TTKitFormat):
         if len(header) != 2:
             return store
 
-        return self.parse_simple_csv(content, storefile)
+        return self.parse_simple_csv(content, filename)
 
-    def parse_simple_csv(self, content, storefile):
+    def parse_simple_csv(self, content, filename):
         storeclass = self.get_class()
         result = storeclass(fieldnames=["source", "target"], encoding=self.encoding)
         result.parse(content, sample_length=None)
-        result.fileobj = storefile
-        filename = getattr(storefile, "name", getattr(storefile, "filename", None))
-        if filename:
-            result.filename = filename
+        result.filename = filename
         return result
 
 
@@ -1455,11 +1480,9 @@ class CSVSimpleFormat(CSVFormat):
 
     def parse_store(self, storefile):
         """Parse the store."""
-        # Did we get file or filename?
-        if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
+        content, filename = self.get_content_and_filename(storefile)
 
-        return self.parse_simple_csv(storefile.read(), storefile)
+        return self.parse_simple_csv(content, filename)
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
@@ -1678,7 +1701,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     can_add_unit: bool = False
     set_context_bilingual: bool = True
 
-    # Ensure that not translated units are saved too as missing properties and
+    # Ensure that untranslated units are saved too as missing properties and
     # comments are preserved as in the original source file.
     def save_content(self, handle):
         current_units = self.all_units

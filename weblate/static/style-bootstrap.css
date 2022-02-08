@@ -301,6 +301,9 @@ td .list-group {
   height: auto;
 }
 
+.sort-cell {
+  white-space: nowrap;
+}
 .sort-cell,
 .sort-cell a {
   cursor: pointer;
@@ -518,6 +521,9 @@ form + .login-label {
 .history-data .text-muted {
   font-size: 14px;
 }
+.history-data {
+  padding-bottom: 4px;
+}
 
 .history-event p {
   margin-left: 34px;
@@ -679,10 +685,6 @@ legend {
   display: none;
 }
 
-#is-exact span {
-  margin: 4px 4px 0 4px;
-}
-
 .dir-rtl .sort-field {
   margin-left: 0;
 }
@@ -771,7 +773,7 @@ input[type="date"].form-control,
 input[type="time"].form-control,
 input[type="datetime-local"].form-control,
 input[type="month"].form-control {
-  line-height: initial;
+  line-height: 1.5;
 }
 
 .highlight-number {
@@ -1465,6 +1467,13 @@ input.color_edit:checked + label {
   }
 }
 
+@media (max-width: 1400px) {
+  .zero-width-1400 {
+    display: none;
+    width: 0;
+  }
+}
+
 @media (max-width: 1200px) {
   .zero-width-1200 {
     display: none;
@@ -1783,4 +1792,18 @@ a.language:hover {
 .dismiss-all input {
   vertical-align: middle;
   margin: 3px;
+}
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+.input-group > .form-control {
+  height: 38px;
+}
+.input-group-addon label {
+  display: inherit;
+  max-width: inherit;
+  margin-bottom: inherit;
+  font-weight: inherit;
 }

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,7 +25,7 @@ from weblate.checks.models import Check
 
 
 class Command(BaseCommand):
-    help = "lists top not translated failing checks"
+    help = "lists top untranslated failing checks"
 
     def handle(self, *args, **options):
         results = (

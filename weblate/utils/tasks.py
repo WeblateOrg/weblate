@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -40,7 +40,7 @@ from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
-from weblate.utils.errors import report_error
+from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -139,14 +139,19 @@ def database_backup():
             subprocess.run(
                 cmd,
                 env=env,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 stdin=subprocess.DEVNULL,
                 check=True,
-                universal_newlines=True,
+                text=True,
             )
         except subprocess.CalledProcessError as error:
-            report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
+            add_breadcrumb(
+                category="backup",
+                message="database dump output",
+                stdout=error.stdout,
+                stderr=error.stderr,
+            )
+            report_error()
             raise
 
         if compress:

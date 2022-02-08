@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -381,7 +381,7 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertRedirects(response, reverse("profile"))
 
-    def test_profile_dasbhoard(self):
+    def test_profile_dashboard(self):
         # Save profile with invalid settings
         response = self.client.post(
             reverse("profile"),
@@ -570,6 +570,19 @@ class ProfileTest(FixtureTestCase):
         response = self.client.get(reverse("profile"))
         self.assertNotContains(response, "Please enable the password authentication")
         load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
+
+    def test_language(self):
+        self.user.profile.languages.clear()
+
+        # English is not saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="en")
+        self.assertFalse(self.user.profile.languages.exists())
+
+        # Other language is saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="cs")
+        self.assertEqual(
+            set(self.user.profile.languages.values_list("code", flat=True)), {"cs"}
+        )
 
 
 class EditUserTest(FixtureTestCase):

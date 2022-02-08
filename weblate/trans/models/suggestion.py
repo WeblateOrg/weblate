@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -197,6 +197,8 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         result = []
         for check, check_obj in CHECKS.target.items():
+            if check_obj.skip_suggestions:
+                continue
             if check_obj.check_target(source, target, fake_unit):
                 result.append(Check(unit=fake_unit, dismissed=False, name=check))
         return result

@@ -183,7 +183,7 @@ Notable configuration or dependencies changes:
 
 .. versionchanged:: 4.3.2
 
-   * The ``post_update`` method of addons now takes extra ``skip_push`` parameter.
+   * The ``post_update`` method of add-ons now takes extra ``skip_push`` parameter.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -286,6 +286,17 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   * Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed.
 
 * The Docker container now uses Django 4.0, see above for changes.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.10 to 4.11
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires Python 3.7 or newer.
+* The implementation of :ref:`manage-acl` has changed, removing the project
+  prefix from the group names. This affects API users.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

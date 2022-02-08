@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -103,18 +103,6 @@ class PostgreSQLSubstringLookup(PatternLookup):
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return f"{lhs} ILIKE {rhs}", params
-
-
-def table_has_row(connection, table, rowname):
-    """Check whether actual table has row."""
-    with connection.cursor() as cursor:
-        table_description = connection.introspection.get_table_description(
-            cursor, table
-        )
-        for row in table_description:
-            if row.name == rowname:
-                return True
-    return False
 
 
 def re_escape(pattern):

@@ -311,7 +311,7 @@ under the same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
 In the Docker container, all files in the :file:`/app/data` volume have to be
-owned by weblate user inside the container (UID 1000).
+owned by the ``weblate`` user inside the container (UID 1000).
 
 .. seealso::
 
@@ -566,6 +566,11 @@ allow IP address spoofing for installations not using a reverse proxy. Enabling
 :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most usual setups,
 but you might need to adjust :setting:`IP_PROXY_HEADER` and
 :setting:`IP_PROXY_OFFSET` as well.
+
+Another thing to take care of is the :http:header:`Host` header. It should match
+to whatever is configured as :setting:`SITE_DOMAIN`. Additional configuration
+might be needed in your reverse proxy (for example use ``ProxyPreserveHost On``
+for Apache or ``proxy_set_header Host $host;`` with nginx).
 
 .. seealso::
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -146,6 +146,7 @@ LICENSES = (
         "https://spdx.org/licenses/Apache-2.0.html",
         True,
     ),
+    ("App-s2p", "App::s2p License", "https://spdx.org/licenses/App-s2p.html", False),
     ("AML", "Apple MIT License", "https://spdx.org/licenses/AML.html", False),
     (
         "APSL-1.0",
@@ -342,12 +343,6 @@ LICENSES = (
         "BUSL-1.1",
         "Business Source License 1.1",
         "https://spdx.org/licenses/BUSL-1.1.html",
-        False,
-    ),
-    (
-        "bzip2-1.0.5",
-        "bzip2 and libbzip2 License v1.0.5",
-        "https://spdx.org/licenses/bzip2-1.0.5.html",
         False,
     ),
     (
@@ -871,6 +866,12 @@ LICENSES = (
     ("Cube", "Cube License", "https://spdx.org/licenses/Cube.html", False),
     ("curl", "curl License", "https://spdx.org/licenses/curl.html", False),
     (
+        "DL-DE-BY-2.0",
+        "Data licence Germany – attribution – version 2.0",
+        "https://spdx.org/licenses/DL-DE-BY-2.0.html",
+        False,
+    ),
+    (
         "DRL-1.0",
         "Detection Rule License 1.0",
         "https://spdx.org/licenses/DRL-1.0.html",
@@ -934,6 +935,12 @@ LICENSES = (
         "Eiffel Forum License v2.0",
         "https://spdx.org/licenses/EFL-2.0.html",
         True,
+    ),
+    (
+        "Elastic-2.0",
+        "Elastic License 2.0",
+        "https://spdx.org/licenses/Elastic-2.0.html",
+        False,
     ),
     (
         "MIT-advertising",
@@ -1313,6 +1320,7 @@ LICENSES = (
     ),
     ("IPA", "IPA Font License", "https://spdx.org/licenses/IPA.html", True),
     ("ISC", "ISC License", "https://spdx.org/licenses/ISC.html", True),
+    ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", False),
     (
         "JPNIC",
         "Japan Network Information Center License",
@@ -2236,6 +2244,12 @@ LICENSES = (
     ("Wsuipa", "Wsuipa License", "https://spdx.org/licenses/Wsuipa.html", False),
     ("Xnet", "X.Net License", "https://spdx.org/licenses/Xnet.html", True),
     ("X11", "X11 License", "https://spdx.org/licenses/X11.html", True),
+    (
+        "X11-distribute-modifications-variant",
+        "X11 License Distribution Modification Variant",
+        "https://spdx.org/licenses/X11-distribute-modifications-variant.html",
+        False,
+    ),
     ("Xerox", "Xerox License", "https://spdx.org/licenses/Xerox.html", False),
     (
         "XFree86-1.1",

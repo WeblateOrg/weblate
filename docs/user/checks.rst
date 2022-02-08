@@ -44,10 +44,10 @@ good quality translations.
 
 .. _check-bbcode:
 
-BBcode markup
+BBCode markup
 ~~~~~~~~~~~~~
 
-:Summary: BBcode in translation does not match source
+:Summary: BBCode in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.BBCodeCheck``
 :Flag to ignore: ``ignore-bbcode``
@@ -59,7 +59,7 @@ This check ensures they are also found in translation.
 
 .. note::
 
-    The method for detecting BBcode is currently quite simple so this check
+    The method for detecting BBCode is currently quite simple so this check
     might produce false positives.
 
 .. _check-duplicate:
@@ -336,7 +336,7 @@ Java MessageFormat
 :Summary: Java MessageFormat string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
-:Flag to enable uncodintionally: ``java-messageformat``
+:Flag to enable unconditionally: ``java-messageformat``
 :Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
 :Flag to ignore: ``ignore-java-messageformat``
 :Position format string example: ``There are {0} apples``
@@ -395,9 +395,9 @@ Object Pascal format
 .. seealso::
 
    :ref:`check-formats`,
-   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
+   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_,
    `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
-   `Delphi formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
+   `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
 
 .. _check-percent-placeholders:
 
@@ -604,7 +604,7 @@ translations have been reverted in VCS or lost otherwise.
 Inconsistent
 ~~~~~~~~~~~~
 
-:Summary: This string has more than one translation in this project or is not translated in some components.
+:Summary: This string has more than one translation in this project or is untranslated in some components.
 :Scope: all strings
 :Check class: ``weblate.checks.consistency.ConsistencyCheck``
 :Flag to ignore: ``ignore-inconsistent``
@@ -628,11 +628,11 @@ This check applies to all components in a project that have
 
    This check also fires in case the string is translated in one component and
    not in another. It can be used as a quick way to manually handle strings
-   which are not translated in some components just by clicking on the
+   which are untranslated in some components just by clicking on the
    :guilabel:`Use this translation` button displayed on each line in the
    :guilabel:`Other occurrences` tab.
 
-   You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to
+   You can use :ref:`addon-weblate.autotranslate.autotranslate` add-on to
    automate translating of newly added strings which are already translated in
    another component.
 
@@ -909,7 +909,6 @@ Mismatched semicolon
 :Flag to ignore: ``ignore-end-semicolon``
 
 Checks that semicolons at the end of sentences are replicated between both source and translation.
-This can be useful to keep formatting of entries such as desktop files.
 
 .. seealso::
 
@@ -934,7 +933,7 @@ Check fails if the number of ``\n`` literals in translation do not match the sou
 Missing plurals
 ~~~~~~~~~~~~~~~
 
-:Summary: Some plural forms are not translated
+:Summary: Some plural forms are untranslated
 :Scope: translated strings
 :Check class: ``weblate.checks.consistency.PluralsCheck``
 :Flag to ignore: ``ignore-plurals``
@@ -1009,7 +1008,7 @@ Regular expression
 
 .. versionadded:: 3.9
 
-:Summary: Translation does not match regular expression:
+:Summary: Translation does not match regular expression
 :Scope: translated strings
 :Check class: ``weblate.checks.placeholders.RegexCheck``
 :Flag to enable: ``regex``
@@ -1266,7 +1265,8 @@ ICU MessageFormat syntax
 :Summary: Syntax errors in ICU MessageFormat strings.
 :Scope: source strings
 :Check class: ``weblate.checks.icu.ICUSourceCheck``
-:Flag to ignore: ``ignore-icu-message-format-syntax``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
 
 .. seealso:: :ref:`check-icu-message-format`
 
@@ -1341,4 +1341,4 @@ For example with Gettext in Python it could be:
 
     from gettext import ngettext
 
-    print ngettext("Selected %d file", "Selected %d files", files) % files
+    print(ngettext("Selected %d file", "Selected %d files", files) % files)

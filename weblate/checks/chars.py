@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -188,6 +188,8 @@ class EndStopCheck(TargetCheck):
         if self.is_language(unit, ("sat",)):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))
+        if self.is_language(unit, ("my",)):
+            return self.check_chars(source, target, -1, (".", "။"))
         return self.check_chars(
             source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។")
         )
@@ -276,6 +278,8 @@ class EndExclamationCheck(TargetCheck):
             return False
         if self.is_language(unit, ("hy", "jbo")):
             return False
+        if self.is_language(unit, ("my",)):
+            return self.check_chars(source, target, -1, ("!", "႟"))
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
         return self.check_chars(source, target, -1, ("!", "！", "՜", "᥄", "႟", "߹"))

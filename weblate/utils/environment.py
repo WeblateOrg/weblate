@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -46,7 +46,7 @@ def get_env_int(name: str, default: int = 0) -> int:
     return int(os.environ[name])
 
 
-def get_env_float(name: str, default: float = 0) -> float:
+def get_env_float(name: str, default: float = 0.0) -> float:
     """Helper to get float value from environment."""
     if name not in os.environ:
         return default

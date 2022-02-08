@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -46,7 +46,7 @@ def handle_task_failure(exception=None, **kwargs):
     from weblate.utils.errors import report_error
 
     report_error(
-        extra_data=kwargs,
+        extra_log=repr(kwargs),
         cause="Failure while executing task",
         skip_sentry=True,
         print_tb=True,

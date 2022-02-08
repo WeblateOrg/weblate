@@ -242,14 +242,20 @@
     <table class="table table-listing">
       <thead>
         <tr>
+          <th>{% trans "Project" %}</th>
           <th>{% trans "Group" %}</th>
           <th class="number">{% trans "Members" %}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        {% for group in page_user.groups.all %}
+        {% for group in page_user_groups %}
           <tr>
+            {% if group.defining_project %}
+              <th>{{ group.defining_project }}</th>
+            {% else %}
+              <td><em>{% trans "None" %}</em></td>
+            {% endif %}
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user_set.count }}</td>
             <td>

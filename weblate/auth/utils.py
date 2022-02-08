@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+from typing import Set
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -68,12 +70,13 @@ def migrate_permissions(model):
     model.objects.exclude(id__in=ids).delete()
 
 
-def migrate_roles(model, perm_model):
+def migrate_roles(model, perm_model) -> Set[str]:
     """Create roles as defined in the data."""
-    result = False
+    result = set()
     for role, permissions in ROLES:
         instance, created = model.objects.get_or_create(name=role)
-        result |= created
+        if created:
+            result.add(role)
         instance.permissions.set(
             perm_model.objects.filter(codename__in=permissions), clear=True
         )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -137,7 +137,7 @@ class CreateTest(ViewTestCase):
         # Create billing and add permissions
         billing = create_test_billing(self.user)
         billing.projects.add(self.project)
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         self.assert_create_component(True)
 
         # Create two components
@@ -355,7 +355,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Test/Create Component")
 
         response = create()
-        self.assertContains(response, "Entry by the same name already exists.")
+        self.assertContains(response, "Component with the same name already exists.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch_android(self):

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -91,8 +91,8 @@ class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
 
     check_id = "bbcode"
-    name = _("BBcode markup")
-    description = _("BBcode in translation does not match source")
+    name = _("BBCode markup")
+    description = _("BBCode in translation does not match source")
 
     def check_single(self, source, target, unit):
         # Parse source
@@ -112,12 +112,10 @@ class BBCodeCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         for match in BBCODE_MATCH.finditer(source):
             for tag in ("start", "end"):
-                ret.append((match.start(tag), match.end(tag), match.group(tag)))
-        return ret
+                yield match.start(tag), match.end(tag), match.group(tag)
 
 
 class BaseXMLCheck(TargetCheck):
@@ -312,8 +310,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         for match in MD_SYNTAX.finditer(source):
             value = ""
             for i in range(MD_SYNTAX_GROUPS):
@@ -322,9 +319,8 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
                     break
             start = match.start()
             end = match.end()
-            ret.append((start, start + len(value), value))
-            ret.append((end - len(value), end, value if value != "<" else ">"))
-        return ret
+            yield (start, start + len(value), value)
+            yield ((end - len(value), end, value if value != "<" else ">"))
 
 
 class URLCheck(TargetCheck):

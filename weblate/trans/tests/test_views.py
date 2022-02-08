@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,6 +31,7 @@ from django.core.cache import cache
 from django.core.management import call_command
 from django.test.client import RequestFactory
 from django.urls import reverse
+from django.utils.translation import activate
 from PIL import Image
 
 from weblate.auth.models import Group, setup_project_groups
@@ -116,6 +117,11 @@ class ViewTestCase(RepoTestCase):
         self.project_url = self.project.get_absolute_url()
         self.component_url = self.component.get_absolute_url()
 
+    def tearDown(self):
+        super().tearDown()
+        # Reset to English language
+        activate("en")
+
     def update_fulltext_index(self):
         wait_for_celery()
 
@@ -124,7 +130,7 @@ class ViewTestCase(RepoTestCase):
         # Sitewide privileges
         self.user.groups.add(Group.objects.get(name="Managers"))
         # Project privileges
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
 
     def get_request(self, user=None):
         """Wrapper to get fake request object."""

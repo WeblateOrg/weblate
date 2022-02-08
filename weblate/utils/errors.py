@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,10 +20,10 @@
 import logging
 import sys
 from json import JSONDecodeError
-from typing import Dict, Optional
 
 import sentry_sdk
 from django.conf import settings
+from django.utils.translation import get_language
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
@@ -43,11 +43,11 @@ except ImportError:
 
 
 def report_error(
-    extra_data: Optional[Dict] = None,
     level: str = "warning",
     cause: str = "Handled exception",
     skip_sentry: bool = False,
     print_tb: bool = False,
+    extra_log: str = None,
 ):
     """Wrapper for error reporting.
 
@@ -55,14 +55,12 @@ def report_error(
     handling error gracefully and giving user cleaner message.
     """
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
-        rollbar.report_exc_info(extra_data=extra_data, level=level)
+        rollbar.report_exc_info(level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
         with sentry_sdk.push_scope() as scope:
-            if extra_data:
-                for key, value in extra_data.items():
-                    scope.set_extra(key, value)
-            scope.set_extra("error_cause", cause)
+            scope.set_tag("cause", cause)
+            scope.set_tag("user.locale", get_language())
             scope.level = level
             sentry_sdk.capture_exception()
 
@@ -70,14 +68,24 @@ def report_error(
 
     error = sys.exc_info()[1]
 
-    if isinstance(error, JSONDecodeError) and not extra_data:
-        extra_data = repr(error.doc)
+    if isinstance(error, JSONDecodeError) and not extra_log:
+        extra_log = repr(error.doc)
 
-    log("%s: %s: %s", cause, error.__class__.__name__, str(error))
-    if extra_data:
-        log("%s: %s: %s", cause, error.__class__.__name__, str(extra_data))
+    log("%s: %s: %s", cause, error.__class__.__name__, error)
+    if extra_log:
+        log("%s: %s: %s", cause, error.__class__.__name__, extra_log)
     if print_tb:
         LOGGER.exception(cause)
+
+
+def add_breadcrumb(category: str, message: str, level: str = "info", **data):
+    # Add breadcrumb only if settings are already loaded,
+    # we do not want to force loading settings early
+    if not settings.configured or not getattr(settings, "SENTRY_DSN", None):
+        return
+    sentry_sdk.add_breadcrumb(
+        category=category, message=message, level=level, data=data
+    )
 
 
 def celery_base_data_hook(request, data):

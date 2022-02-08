@@ -29,7 +29,7 @@ Translation links
 
 Having navigated to a component, a set of links lead to its actual translation.
 The translation is further divided into individual checks, like
-:guilabel:`Not translated strings` or :guilabel:`Strings needing action`.
+:guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`.
 If the whole project is translated without any errors, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
@@ -162,11 +162,11 @@ The following keyboard shortcuts can be utilized during translation:
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+PageUp` or                      | Navigate to previous translation in current search.                   |
 |                                           |                                                                       |
-| :kbd:`Ctrl ↑` or                          |                                                                       |
+| :kbd:`Ctrl+↑` or                          |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Alt ↑` or                           |                                                                       |
+| :kbd:`Alt+↑` or                           |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd ↑`                              |                                                                       |
+| :kbd:`Cmd+↑`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+PageDown` or                    | Navigate to next translation in current search.                       |
 |                                           |                                                                       |
@@ -176,8 +176,8 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Save current translation.                                             |
-|                                           |                                                                       |
+| :kbd:`Alt+Enter` or                       | Submit current form, while editing translation this is same as        |
+|                                           | pressing :guilabel:`Save and continue`.                               |
 | :kbd:`Ctrl+Enter` or                      |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+Enter`                          |                                                                       |
@@ -396,7 +396,7 @@ Supported operations:
 
 .. seealso::
 
-   :ref:`Bulk edit addon <addon-weblate.flags.bulk>`
+   :ref:`Bulk edit add-on <addon-weblate.flags.bulk>`
 
 Matrix View
 -----------

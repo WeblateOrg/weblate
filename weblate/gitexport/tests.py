@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -138,7 +138,7 @@ class GitExportTest(ViewTestCase):
 
     def test_git_receive_acl_auth(self):
         self.enable_acl()
-        self.project.add_user(self.user, "@VCS")
+        self.project.add_user(self.user, "VCS")
         response = self.git_receive(
             HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )
@@ -173,7 +173,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     def test_clone(self):
         testdir = tempfile.mkdtemp()
         if self.acl:
-            self.component.project.add_user(self.user, "@VCS")
+            self.component.project.add_user(self.user, "VCS")
         try:
             url = (
                 get_export_url(self.component)

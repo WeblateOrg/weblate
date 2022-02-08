@@ -70,6 +70,9 @@
             <li>
               <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=rebase" title="{% trans "Rebase Weblate changes onto the remote repository" %}">{% trans "Rebase" %}</a>
             </li>
+            <li>
+              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge_noff" title="{% trans "Pull changes from the remote repository without fast-forward" %}">{% trans "Merge without fast-forward" %}</a>
+            </li>
           </ul>
         </div>
       {% endif %}

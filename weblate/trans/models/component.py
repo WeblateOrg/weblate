@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -141,7 +141,11 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ("java", gettext_lazy("Java style")),
 )
 
-MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
+MERGE_CHOICES = (
+    ("merge", gettext_lazy("Merge")),
+    ("rebase", gettext_lazy("Rebase")),
+    ("merge_noff", gettext_lazy("Merge without fast-forward")),
+)
 
 LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
 
@@ -330,7 +334,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         blank=True,
     )
     filemask = models.CharField(
-        verbose_name=gettext_lazy("Filemask"),
+        verbose_name=gettext_lazy("File mask"),
         max_length=FILENAME_LENGTH,
         validators=[validate_filemask, validate_filename],
         help_text=gettext_lazy(
@@ -535,7 +539,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
     addon_message = models.TextField(
-        verbose_name=gettext_lazy("Commit message when addon makes a change"),
+        verbose_name=gettext_lazy("Commit message when add-on makes a change"),
         help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
@@ -1580,6 +1584,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     translation.component = self
                 if translation.component.linked_component_id == self.id:
                     translation.component.linked_component = self
+                if translation.pk == translation.component.source_translation.pk:
+                    translation = translation.component.source_translation
                 translation.commit_pending(reason, user, skip_push=True, signals=False)
                 components[translation.component.pk] = translation.component
 
@@ -1689,7 +1695,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for component in self.linked_childs:
             vcs_pre_update.send(sender=component.__class__, component=component)
 
-        # Merge/rebase
+        # Apply logic for merge or rebase
         if method == "rebase":
             method_func = self.repository.rebase
             error_msg = _("Could not rebase local branch onto remote branch %s.")
@@ -1702,6 +1708,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
             kwargs = {"message": render_template(self.merge_message, component=self)}
+            if method == "merge_noff":
+                kwargs["no_ff"] = True
 
         with self.repository.lock:
             try:
@@ -1872,12 +1880,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for component in self.linked_childs:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
-    def update_import_alerts(self):
+    def update_import_alerts(self, delete: bool = True):
         self.log_info("checking triggered alerts")
         for alert in ALERTS_IMPORT:
             if alert in self.alerts_trigger:
                 self.add_alert(alert, occurrences=self.alerts_trigger[alert])
-            else:
+            elif delete:
                 self.delete_alert(alert)
         self.alerts_trigger = {}
 
@@ -2214,7 +2222,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
                     raise ValidationError(
-                        {setting: _("Option is not available for linked repositories.")}
+                        {
+                            setting: _(
+                                "Option is not available for linked repositories. "
+                                "Setting from linked component will be used."
+                            )
+                        }
                     )
         # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)
@@ -2317,7 +2330,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # File is present, but does not exist
         if not os.path.exists(filename):
             raise ValidationError({"new_base": _("File does not exist.")})
-        # File is present, but is not valid
+        # File is present, but it is not valid
         if errors:
             message = _(
                 "Failed to parse base file for new translations: %s"
@@ -2619,18 +2632,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point.
-            processed = set()
             previous = self.repository.last_remote_revision
-            for addons in self.addons_cache.values():
-                for addon in addons:
-                    # Skip addons installed elsewhere (repo/project wide)
-                    if addon.component_id != self.id:
-                        continue
-                    if addon.id in processed:
-                        continue
-                    processed.add(addon.id)
-                    self.log_debug("configuring add-on: %s", addon.name)
-                    addon.addon.post_configure()
+            for addon in self.addons_cache["__all__"]:
+                # Skip addons installed elsewhere (repo/project wide)
+                if addon.component_id != self.id:
+                    continue
+                self.log_debug("configuring add-on: %s", addon.name)
+                addon.addon.post_configure()
             current = self.repository.last_remote_revision
             if previous != current:
                 self.log_debug(
@@ -2753,35 +2761,29 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("UnsupportedConfiguration")
 
-        if not self.alert_set.filter(dismissed=True, name="BrokenBrowserURL").exists():
-            location_error = None
-            location_link = None
-            if self.repoweb:
-                unit = allunits.exclude(location="").first()
-                if unit:
-                    for _location, filename, line in unit.get_locations():
-                        location_link = self.get_repoweb_link(filename, line)
-                        if location_link is None:
-                            continue
-                        # We only test first link
-                        location_error = get_uri_error(location_link)
-                        break
-            if location_error:
-                self.add_alert(
-                    "BrokenBrowserURL", link=location_link, error=location_error
-                )
-            else:
-                self.delete_alert("BrokenBrowserURL")
+        location_error = None
+        location_link = None
+        if self.repoweb:
+            unit = allunits.exclude(location="").first()
+            if unit:
+                for _location, filename, line in unit.get_locations():
+                    location_link = self.get_repoweb_link(filename, line)
+                    if location_link is None:
+                        continue
+                    # We only test first link
+                    location_error = get_uri_error(location_link)
+                    break
+        if location_error:
+            self.add_alert("BrokenBrowserURL", link=location_link, error=location_error)
+        else:
+            self.delete_alert("BrokenBrowserURL")
 
         if self.project.web:
-            if not self.alert_set.filter(
-                dismissed=True, name="BrokenProjectURL"
-            ).exists():
-                error = get_uri_error(self.project.web)
-                if error is not None:
-                    self.add_alert("BrokenProjectURL", error=error)
-                else:
-                    self.delete_alert("BrokenProjectURL")
+            location_error = get_uri_error(self.project.web)
+            if location_error is not None:
+                self.add_alert("BrokenProjectURL", error=location_error)
+            else:
+                self.delete_alert("BrokenProjectURL")
         else:
             self.delete_alert("BrokenProjectURL")
 
@@ -3132,6 +3134,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for addon in Addon.objects.filter_component(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
+            result["__all__"].append(addon)
+            result["__names__"].append(addon.name)
         return result
 
     def schedule_sync_terminology(self):

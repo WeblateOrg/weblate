@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,6 @@
 """Plain text file formats."""
 
 import os
-from collections import OrderedDict
 from glob import glob
 from itertools import chain
 from typing import Callable, List, Optional, Tuple, Union
@@ -98,7 +97,7 @@ class MultiParser:
         return filename
 
     def load_parser(self):
-        result = OrderedDict()
+        result = {}
         for name, flags in self.filenames:
             filename = self.get_filename(name)
             for match in sorted(glob(filename), key=self.file_key):

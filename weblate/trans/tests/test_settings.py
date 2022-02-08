@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -36,7 +36,7 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_project(self):
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         self.project.component_set.update(license="MIT")
         url = reverse("settings", kwargs=self.kw_project)
         response = self.client.get(url)
@@ -51,7 +51,7 @@ class SettingsTest(ViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_change_access(self):
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs=self.kw_project)
 
         # Get initial form data
@@ -95,7 +95,7 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_component(self):
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         self.assertContains(response, "Settings")
@@ -110,7 +110,7 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(component.enforced_checks, ["same", "duplicate"])
 
     def test_shared_component(self):
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs=self.kw_component)
 
         # Create extra project
@@ -130,7 +130,7 @@ class SettingsTest(ViewTestCase):
         self.assertNotContains(response, self.component.get_absolute_url())
 
         # Add link to owned project
-        other.add_user(self.user, "@Administration")
+        other.add_user(self.user, "Administration")
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Settings saved")
         response = self.client.get(other.get_absolute_url())

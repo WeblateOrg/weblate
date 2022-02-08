@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -122,10 +122,9 @@ def generate_ssh_key(request):
                 "-f",
                 keyfile,
             ],
-            universal_newlines=True,
+            text=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             env=get_clean_env(),
         )
     except (subprocess.CalledProcessError, OSError) as exc:
@@ -155,9 +154,8 @@ def add_host_key(request, host, port=""):
                 cmdline,
                 env=get_clean_env(),
                 check=True,
-                universal_newlines=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                text=True,
+                capture_output=True,
             )
             keys = set()
             for key in result.stdout.splitlines():

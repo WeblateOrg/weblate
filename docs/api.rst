@@ -173,6 +173,9 @@ Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
+In the Docker container this can be configured using
+:envvar:`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`.
+
 The status of rate limiting is reported in following headers:
 
 +---------------------------+---------------------------------------------------+
@@ -190,7 +193,9 @@ The status of rate limiting is reported in following headers:
 .. seealso::
 
    :ref:`rate-limit`,
-   :ref:`user-rate`
+   :ref:`user-rate`,
+   :envvar:`WEBLATE_API_RATELIMIT_ANON`,
+   :envvar:`WEBLATE_API_RATELIMIT_USER`
 
 
 API Entry Point
@@ -442,7 +447,8 @@ Groups
     :>json array roles: link to associated roles; see :http:get:`/api/roles/(int:id)/`
     :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json array componentlist: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+    :>json array componentlists: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+    :>json str defining_project: likn to defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
 
     **Example JSON data:**
 
@@ -2009,7 +2015,7 @@ and XLIFF.
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
-    :>json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
+    :>json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
     :>json boolean fuzzy: whether the unit is fuzzy or marked for review
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
@@ -2033,7 +2039,7 @@ and XLIFF.
 
     :param id: Unit ID
     :type id: int
-    :<json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
+    :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
@@ -2046,7 +2052,7 @@ and XLIFF.
 
     :param id: Unit ID
     :type id: int
-    :<json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
+    :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
@@ -2220,7 +2226,7 @@ Add-ons
 
 .. http:get:: /api/addons/
 
-    Returns a list of addons.
+    Returns a list of add-ons.
 
     .. seealso::
 
@@ -2228,13 +2234,13 @@ Add-ons
 
 .. http:get:: /api/addons/(int:id)/
 
-    Returns information about addon information.
+    Returns information about add-on information.
 
     :param id: Add-on ID
     :type id: int
-    :>json string name: name of an addon
+    :>json string name: name of an add-on
     :>json string component: URL of a related component object
-    :>json object configuration: Optional addon configuration
+    :>json object configuration: Optional add-on configuration
 
     .. seealso::
 
@@ -2242,32 +2248,32 @@ Add-ons
 
 .. http:post:: /api/components/(string:project)/(string:component)/addons/
 
-    Creates a new addon.
+    Creates a new add-on.
 
     :param string project_slug: Project slug
     :param string component_slug: Component slug
-    :<json string name: name of an addon
-    :<json object configuration: Optional addon configuration
+    :<json string name: name of an add-on
+    :<json object configuration: Optional add-on configuration
 
 .. http:patch:: /api/addons/(int:id)/
 
-    Edit partial information about addon.
+    Edit partial information about add-on.
 
     :param id: Add-on ID
     :type id: int
-    :>json object configuration: Optional addon configuration
+    :>json object configuration: Optional add-on configuration
 
 .. http:put:: /api/addons/(int:id)/
 
-    Edit full information about addon.
+    Edit full information about add-on.
 
     :param id: Add-on ID
     :type id: int
-    :>json object configuration: Optional addon configuration
+    :>json object configuration: Optional add-on configuration
 
 .. http:delete:: /api/addons/(int:id)/
 
-    Delete addon.
+    Delete add-on.
 
     :param id: Add-on ID
     :type id: int

@@ -189,7 +189,7 @@
 </td>
 <td>
   <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
-  <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Edit" %}</a>
+  <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Translate" %}</a>
   <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
 </td>
 </tr>
@@ -335,7 +335,7 @@
       <tr>
         <th class="number">{{ object.stats.todo|intcomma }}</th>
         <td>
-          {% trans "Strings needing action, converted files enriched with comments; suitable for offline translation" %}
+          {% trans "Unfinished strings, converted files enriched with comments; suitable for offline translation" %}
         </td>
         {% for exporter in exporters %}
           <td class="formats">

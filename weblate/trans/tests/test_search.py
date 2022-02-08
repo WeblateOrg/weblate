@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -174,7 +174,7 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"offset": 5}, None)
 
     def test_search_type(self):
-        self.do_search({"q": "state:<translated"}, "Strings needing action")
+        self.do_search({"q": "state:<translated"}, "Unfinished strings")
         self.do_search({"q": "state:needs-editing"}, None)
         self.do_search({"q": "has:suggestion"}, None)
         self.do_search({"q": "has:check"}, None)
@@ -189,7 +189,7 @@ class SearchViewTest(ViewTestCase):
         self.assertNotContains(response, "Plural form ")
 
     def test_checksum(self):
-        self.do_search({"checksum": "invalid"}, "Invalid checksum specified!")
+        self.do_search({"checksum": "invalid"}, None)
 
 
 class ReplaceTest(ViewTestCase):

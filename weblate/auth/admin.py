@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -36,7 +36,7 @@ BUILT_IN_ROLES = {role[0] for role in ROLES}
 
 def block_group_edit(obj):
     """Whether to allo user editing of an group."""
-    return obj and obj.internal and "@" in obj.name
+    return obj and obj.internal
 
 
 def block_role_edit(obj):
@@ -217,8 +217,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     model = Group
     form = GroupChangeForm
     inlines = [InlineAutoGroupAdmin]
-    search_fields = ("name",)
-    ordering = ("name",)
+    search_fields = ("name", "defining_project__name")
+    ordering = ("defining_project__name", "name")
     list_filter = ("internal", "project_selection", "language_selection")
     filter_horizontal = (
         "roles",
@@ -227,6 +227,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         "components",
         "componentlists",
     )
+    list_display = ("name", "defining_project")
 
     new_obj = None
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,12 +23,11 @@ import tempfile
 from copy import deepcopy
 from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
-from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
-from sentry_sdk import add_breadcrumb
 from weblate_language_data.countries import DEFAULT_LANGS
 
+from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -37,6 +36,7 @@ EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_L
 ANDROID_CODES = {
     "zh_Hans": "zh-rCN",
     "zh_Hant": "zh-rTW",
+    "zh_Hant_HK": "zh-rHK",
     "he": "iw",
     "id": "in",
     "yi": "ji",
@@ -540,8 +540,7 @@ class TranslationFormat:
 
     @classmethod
     def add_breadcrumb(cls, message, **data):
-        if settings.SENTRY_DSN:
-            add_breadcrumb(category="storage", message=message, data=data, level="info")
+        add_breadcrumb(category="storage", message=message, **data)
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:
         raise NotImplementedError()

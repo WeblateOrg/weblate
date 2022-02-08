@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,6 +28,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import (
     gettext_lazy,
+    ngettext,
     ngettext_lazy,
     pgettext,
     pgettext_lazy,
@@ -39,6 +40,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
+from weblate.utils.state import STATE_LOOKUP
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -177,7 +179,7 @@ class ChangeQuerySet(models.QuerySet):
 
 
 class ChangeManager(models.Manager):
-    def create(self, user=None, **kwargs):
+    def create(self, *, user=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner."""
         if user is not None and not user.is_authenticated:
             user = None
@@ -241,6 +243,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_AGREEMENT_CHANGE = 56
     ACTION_SCREENSHOT_ADDED = 57
     ACTION_SCREENSHOT_UPLOADED = 58
+    ACTION_STRING_REPO_UPDATE = 59
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -359,6 +362,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
         # Translators: Name of event in the history
         (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -377,6 +382,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_AUTO,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -415,6 +421,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION_CLEANUP,
         ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Actions indicating a repository merge failure
@@ -502,15 +509,8 @@ class Change(models.Model, UserDisplayMixin):
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
 
-        if self.unit:
-            self.translation = self.unit.translation
-        if self.screenshot:
-            self.translation = self.screenshot.translation
-        if self.translation:
-            self.component = self.translation.component
-            self.language = self.translation.language
-        if self.component:
-            self.project = self.component.project
+        self.fixup_refereces()
+
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
 
@@ -532,7 +532,26 @@ class Change(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
+        for attr in ("user", "author"):
+            user = kwargs.get(attr)
+            if user is not None and hasattr(user, "get_token_user"):
+                # ProjectToken / ProjectUser integration
+                kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
+        if not self.pk:
+            self.fixup_refereces()
+
+    def fixup_refereces(self):
+        """Updates refereces based to least specific one."""
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.screenshot:
+            self.translation = self.screenshot.translation
+        if self.translation:
+            self.component = self.translation.component
+            self.language = self.translation.language
+        if self.component:
+            self.project = self.component.project
 
     @property
     def plural_count(self):
@@ -546,6 +565,12 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
         return str(self.ACTIONS_DICT.get(self.action, self.action))
+
+    def get_state_display(self):
+        state = self.details.get("state")
+        if not state:
+            return ""
+        return STATE_LOOKUP[state]
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE
@@ -572,6 +597,18 @@ class Change(models.Model, UserDisplayMixin):
         from weblate.utils.markdown import render_markdown
 
         details = self.details
+
+        if self.action == self.ACTION_NEW_STRING:
+            result = ngettext(
+                "%d new string to translate appeared in the translation.",
+                "%d new strings to translate appeared to the translation.",
+                self.plural_count,
+            )
+            try:
+                return result % self.plural_coun
+            except TypeError:
+                # The string does not contain %d
+                return result
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
@@ -653,3 +690,6 @@ class Change(models.Model, UserDisplayMixin):
         except MemoryError:
             # Too long strings
             return abs(len(self.old) - len(self.target))
+
+    def get_source(self):
+        return self.details.get("source", self.unit.source)

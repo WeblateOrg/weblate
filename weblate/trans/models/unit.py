@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -370,6 +370,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         force_insert: bool = False,
         force_update: bool = False,
         only_save: bool = False,
+        sync_terminology: bool = True,
         using=None,
         update_fields: Optional[List[str]] = None,
     ):
@@ -415,7 +416,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.update_variants()
 
         # Update terminology
-        self.sync_terminology()
+        if sync_terminology:
+            self.sync_terminology()
 
     def get_absolute_url(self):
         return "{}?checksum={}".format(
@@ -560,7 +562,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             else:
                 component.needs_variants_update = True
 
-    def get_unit_state(self, unit, flags):
+    def get_unit_state(self, unit, flags: str, string_changed: bool = False):
         """Calculate translated and fuzzy status."""
         # Read-only from the file format
         if unit.is_readonly():
@@ -577,13 +579,16 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
-        if unit.is_fuzzy(self.fuzzy):
+        if unit.is_fuzzy(self.fuzzy and not string_changed):
             return STATE_FUZZY
 
         if not unit.is_translated():
             return STATE_EMPTY
 
-        if unit.is_approved(self.approved) and self.translation.enable_review:
+        if (
+            unit.is_approved(self.approved and not string_changed)
+            and self.translation.enable_review
+        ):
             return STATE_APPROVED
 
         return STATE_TRANSLATED
@@ -671,19 +676,22 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 component, source, context, pos, note, location, flags
             )
 
-        # Calculate state
-        state = self.get_unit_state(unit, flags)
-        original_state = self.get_unit_state(unit, None)
-
-        # Has source changed
+        # Has source/target changed
         same_source = source == self.source and context == self.context
+        same_target = target == self.target
+
+        # Calculate state
+        state = self.get_unit_state(
+            unit, flags, string_changed=not same_source or not same_target
+        )
+        original_state = self.get_unit_state(unit, None)
 
         # Monolingual files handling (without target change)
         if (
             not created
             and state != STATE_READONLY
             and unit.template is not None
-            and target == self.target
+            and same_target
         ):
             if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
                 if self.previous_source == self.source and self.fuzzy:
@@ -695,15 +703,15 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     if previous_source == "":
                         previous_source = self.source
                     state = STATE_FUZZY
-            elif self.state in (STATE_FUZZY, STATE_APPROVED):
-                # We should keep calculated flags if translation was
-                # not changed outside
+            elif (
+                self.state == STATE_FUZZY
+                and state == STATE_FUZZY
+                and not previous_source
+            ):
+                # Avoid losing previous source of fuzzy strings
                 previous_source = self.previous_source
-                state = self.state
-                original_state = self.original_state
 
         # Update checks on fuzzy update or on content change
-        same_target = target == self.target
         same_state = state == self.state and flags == self.flags
         same_metadata = (
             location == self.location
@@ -769,12 +777,25 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             component.updated_sources[self.id] = self
         # Indicate source string change
         if not same_source and previous_source:
-            Change.objects.create(
-                unit=self,
-                action=Change.ACTION_SOURCE_CHANGE,
-                old=previous_source,
-                target=self.source,
+            translation.update_changes.append(
+                Change(
+                    unit=self,
+                    action=Change.ACTION_SOURCE_CHANGE,
+                    old=previous_source,
+                    target=self.source,
+                )
             )
+        # Track VCS change
+        translation.update_changes.append(
+            self.generate_change(
+                user=None,
+                author=None,
+                change_action=Change.ACTION_STRING_REPO_UPDATE,
+                check_new=False,
+                save=False,
+            )
+        )
+
         # Update translation memory if needed
         if (
             self.state >= STATE_TRANSLATED
@@ -790,7 +811,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         Mark read-only strings:
 
         * Flagged with 'read-only'
-        * Where source string is not translated
+        * Where source string is untranslated
         """
         if "read-only" in self.all_flags or (
             not self.is_source and self.source_unit.state < STATE_TRANSLATED
@@ -973,9 +994,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         )
 
         # Generate Change object for this change
-        self.generate_change(user or author, author, change_action)
+        change = self.generate_change(user or author, author, change_action)
 
-        if change_action not in (
+        if change.action not in (
             Change.ACTION_UPLOAD,
             Change.ACTION_AUTO,
             Change.ACTION_BULK_EDIT,
@@ -984,7 +1005,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.translation.invalidate_cache()
 
             # Update user stats
-            author.profile.increase_count("translated")
+            change.author.profile.increase_count("translated")
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit["target"] != self.target:
@@ -1034,10 +1055,17 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             # Invalidate stats
             unit.translation.invalidate_cache()
 
-    def generate_change(self, user, author, change_action, check_new=True):
+    def generate_change(
+        self, user, author, change_action, check_new: bool = True, save: bool = True
+    ):
         """Create Change entry for saving unit."""
         # Notify about new contributor
-        if check_new and not self.translation.change_set.filter(user=user).exists():
+        if (
+            check_new
+            and user is not None
+            and not user.is_bot
+            and not self.translation.change_set.filter(user=user).exists()
+        ):
             Change.objects.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,
@@ -1062,14 +1090,22 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 action = Change.ACTION_NEW
 
         # Create change object
-        Change.objects.create(
+        change = Change(
             unit=self,
             action=action,
             user=user,
             author=author,
             target=self.target,
             old=self.old_unit["target"],
+            details={
+                "state": self.state,
+                "old_state": self.old_unit["state"],
+                "source": self.source,
+            },
         )
+        if save:
+            change.save(force_insert=True)
+        return change
 
     @cached_property
     def suggestions(self):

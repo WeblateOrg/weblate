@@ -3,8 +3,10 @@ name: Distribution
 on:
   push:
     branches-ignore:
-      - "dependabot/**"
-      - weblate
+    - dependabot/**
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
   pull_request:
 
 jobs:
@@ -16,34 +18,34 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache pip
-        uses: actions/cache@v2.1.7
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
-      - name: Install apt dependencies
-        run: sudo ./ci/apt-install
-      - name: Set up Python
-        uses: actions/setup-python@v2.3.1
-        with:
-          python-version: 3.9
-      - name: Used versions
-        run: ./ci/print-versions
-      - name: Install pip dependencies
-        run: ./ci/pip-install
-      - name: Install Weblate
-        run: coverage run ./setup.py install
-      - name: Check difference
-        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
-      - name: Coverage
-        run: |
-          coverage combine
-          coverage xml
-      - uses: codecov/codecov-action@v2.1.0
-        with:
-          flags: setup
-          name: setup
+    - uses: actions/checkout@v2
+    - name: Cache pip
+      uses: actions/cache@v2.1.7
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Set up Python
+      uses: actions/setup-python@v2.3.2
+      with:
+        python-version: '3.10'
+    - name: Used versions
+      run: ./ci/print-versions
+    - name: Install pip dependencies
+      run: ./ci/pip-install
+    - name: Install Weblate
+      run: coverage run ./setup.py install
+    - name: Check difference
+      run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
+    - name: Coverage
+      run: |
+        coverage combine
+        coverage xml
+    - uses: codecov/codecov-action@v2.1.0
+      with:
+        flags: setup
+        name: setup
 
   pip:
     runs-on: ubuntu-20.04
@@ -53,26 +55,26 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache pip
-        uses: actions/cache@v2.1.7
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
-      - name: Install apt dependencies
-        run: sudo ./ci/apt-install
-      - name: Set up Python
-        uses: actions/setup-python@v2.3.1
-        with:
-          python-version: 3.9
-      - name: Used versions
-        run: ./ci/print-versions
-      - name: Install pip dependencies
-        run: ./ci/pip-install
-      - name: Install Weblate
-        run: pip install .
-      - name: Check difference
-        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
+    - uses: actions/checkout@v2
+    - name: Cache pip
+      uses: actions/cache@v2.1.7
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Set up Python
+      uses: actions/setup-python@v2.3.2
+      with:
+        python-version: '3.10'
+    - name: Used versions
+      run: ./ci/print-versions
+    - name: Install pip dependencies
+      run: ./ci/pip-install
+    - name: Install Weblate
+      run: pip install .
+    - name: Check difference
+      run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
 
   dist:
     runs-on: ubuntu-20.04
@@ -81,38 +83,38 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2.1.7
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
-      - name: Install apt dependencies
-        run: sudo ./ci/apt-install
-      - name: Setup Python
-        uses: actions/setup-python@v2.3.1
-        with:
-          python-version: 3.9
-      - name: Install pip dependencies
-        run: ./ci/pip-install
-      - name: Build sdist
-        run: coverage run ./setup.py sdist
-      - name: Install sdist
-        run: |
-          pip install ./dist/*.tar.gz
-          pip uninstall --yes Weblate
-      - name: Build wheel
-        run: coverage run ./setup.py bdist_wheel
-      - name: Install wheel
-        run: |
-          pip install ./dist/*.whl
-          pip uninstall --yes Weblate
-      - name: Twine check
-        run: twine check dist/*
-      - name: Coverage
-        run: |
-          coverage combine
-          coverage xml
-      - uses: codecov/codecov-action@v2.1.0
-        with:
-          flags: setup
-          name: dist
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2.1.7
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Setup Python
+      uses: actions/setup-python@v2.3.2
+      with:
+        python-version: '3.10'
+    - name: Install pip dependencies
+      run: ./ci/pip-install
+    - name: Build sdist
+      run: coverage run ./setup.py sdist
+    - name: Install sdist
+      run: |
+        pip install ./dist/*.tar.gz
+        pip uninstall --yes Weblate
+    - name: Build wheel
+      run: coverage run ./setup.py bdist_wheel
+    - name: Install wheel
+      run: |
+        pip install ./dist/*.whl
+        pip uninstall --yes Weblate
+    - name: Twine check
+      run: twine check dist/*
+    - name: Coverage
+      run: |
+        coverage combine
+        coverage xml
+    - uses: codecov/codecov-action@v2.1.0
+      with:
+        flags: setup
+        name: dist

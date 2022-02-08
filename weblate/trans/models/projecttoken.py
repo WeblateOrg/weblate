@@ -1,5 +1,6 @@
 #
 # Copyright © 2021 Christian Köberl
+# Copyright © 2022–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from secrets import token_hex
+
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy
 
 from weblate.utils.token import get_token
@@ -39,6 +43,9 @@ class ProjectToken(models.Model):
         default=generate_token,
     )
     expires = models.DateTimeField(verbose_name=gettext_lazy("Expires"))
+    user = models.ForeignKey(
+        "weblate_auth.User", null=True, on_delete=models.deletion.CASCADE
+    )
 
     class Meta:
         unique_together = [("project", "token"), ("project", "name")]
@@ -48,3 +55,19 @@ class ProjectToken(models.Model):
 
     def __str__(self):
         return self.name
+
+    def ensure_has_user(self):
+        from weblate.auth.models import User
+
+        if self.user is not None:
+            return
+        base_name = name = f"bot-{self.project.slug}-{slugify(self.name)}"
+        while User.objects.filter(username=name).exists():
+            name = f"{base_name}-{token_hex(2)}"
+        self.user = User.objects.create(
+            username=name,
+            full_name=f"{self.project.name}: {self.name}",
+            email=f"noreply+token+{self.pk}@weblate.org",
+            is_active=False,
+        )
+        self.save(update_fields=["user"])

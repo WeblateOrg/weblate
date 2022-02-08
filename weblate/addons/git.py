@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -92,20 +92,22 @@ class GitSquashAddon(BaseAddon):
                 command += ["--"] + filenames
 
             trailer_lines = set()
-            seen_change_id = False
+            change_id_line = None
             for trailer in repository.execute(command).split("\n"):
                 # Skip blank lines
                 if not trailer.strip():
                     continue
 
-                # Pick only first Change-Id, there suppose to be only one in the
+                # Pick only last Change-Id, there suppose to be only one in the
                 # commit (used by Gerrit)
                 if trailer.startswith("Change-Id:"):
-                    if seen_change_id:
-                        continue
-                    seen_change_id = True
+                    change_id_line = trailer
+                    continue
 
                 trailer_lines.add(trailer)
+
+            if change_id_line is not None:
+                trailer_lines.add(change_id_line)
 
             if commit_message:
                 # Predefined commit message
@@ -229,7 +231,7 @@ class GitSquashAddon(BaseAddon):
             repository.execute(["reset", "--hard", tmp])
             repository.delete_branch(tmp)
 
-        except RepositoryException:
+        except Exception:
             report_error(cause="Failed squash")
             # Revert to original branch without any changes
             repository.execute(["reset", "--hard"])

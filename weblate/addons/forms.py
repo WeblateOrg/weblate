@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,6 +25,7 @@ from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from lxml.cssselect import CSSSelector
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
@@ -286,7 +287,7 @@ class DiscoveryForm(BaseAddonForm):
         ),
     )
     copy_addons = forms.BooleanField(
-        label=_("Clone addons from the main component to the newly created ones"),
+        label=_("Clone add-ons from the main component to the newly created ones"),
         required=False,
         initial=True,
     )
@@ -471,6 +472,13 @@ class CDNJSForm(BaseAddonForm):
                     context={"url": self._addon.cdn_js_url, "user": self.user},
                 ),
             )
+
+    def clean_css_selector(self):
+        try:
+            CSSSelector(self.cleaned_data["css_selector"], translator="html")
+        except Exception as error:
+            raise forms.ValidationError(_("Failed to parse CSS selector: %s") % error)
+        return self.cleaned_data["css_selector"]
 
 
 class PseudolocaleAddonForm(BaseAddonForm):

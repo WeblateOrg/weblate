@@ -37,13 +37,15 @@ Automatic translation
                 |                 |                              |                                                                                        |
                 |                 |                              | ``fuzzy`` -- Add as needing edit                                                       |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
-                | ``filter_type`` | Search filter                | Available choices:                                                                     |
+                | ``filter_type`` | Search filter                | Please note that translating all strings will discard all existing translations.       |
+                |                 |                              |                                                                                        |
+                |                 |                              | Available choices:                                                                     |
                 |                 |                              |                                                                                        |
                 |                 |                              | ``all`` -- All strings                                                                 |
                 |                 |                              |                                                                                        |
-                |                 |                              | ``nottranslated`` -- Not translated strings                                            |
+                |                 |                              | ``nottranslated`` -- Untranslated strings                                              |
                 |                 |                              |                                                                                        |
-                |                 |                              | ``todo`` -- Strings needing action                                                     |
+                |                 |                              | ``todo`` -- Unfinished strings                                                         |
                 |                 |                              |                                                                                        |
                 |                 |                              | ``fuzzy`` -- Strings marked for edit                                                   |
                 |                 |                              |                                                                                        |
@@ -176,25 +178,25 @@ Component discovery
 -------------------
 
 :Add-on ID: ``weblate.discovery.discovery``
-:Configuration: +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``match``              | Regular expression to match translation files against          |                                                                                    |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``file_format``        | File format                                                    |                                                                                    |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``name_template``      | Customize the component name                                   |                                                                                    |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``base_file_template`` | Define the monolingual base filename                           | Leave empty for bilingual translation files.                                       |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``new_base_template``  | Define the base file for new translations                      | Filename of file used for creating new translations. For gettext choose .pot file. |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``language_regex``     | Language filter                                                | Regular expression to filter translation files against when scanning for file mask.|
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``copy_addons``        | Clone addons from the main component to the newly created ones |                                                                                    |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``remove``             | Remove components for inexistant files                         |                                                                                    |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``confirm``            | I confirm the above matches look correct                       |                                                                                    |
-                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+:Configuration: +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``match``              | Regular expression to match translation files against           |                                                                                     |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``file_format``        | File format                                                     |                                                                                     |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``name_template``      | Customize the component name                                    |                                                                                     |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``base_file_template`` | Define the monolingual base filename                            | Leave empty for bilingual translation files.                                        |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``new_base_template``  | Define the base file for new translations                       | Filename of file used for creating new translations. For gettext choose .pot file.  |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``language_regex``     | Language filter                                                 | Regular expression to filter translation files against when scanning for file mask. |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``copy_addons``        | Clone add-ons from the main component to the newly created ones |                                                                                     |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``remove``             | Remove components for inexistant files                          |                                                                                     |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+                | ``confirm``            | I confirm the above matches look correct                        |                                                                                     |
+                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
 :Triggers: repository post-update
 
 Automatically adds or removes project components based on file changes in the
@@ -274,7 +276,7 @@ Other automated operations for Weblate metadata can also be done.
     * - Labels to add
       - *recent*
 
-.. list-table:: Marking all :ref:`appstore` changelog entries read-only
+.. list-table:: Marking all :ref:`appstore` changelog strings read-only
     :stub-columns: 1
 
     * - Search query
@@ -386,10 +388,29 @@ Content
 
     :ref:`markup`
 
+.. _addon-weblate.generate.prefill:
+
+Prefill translation with source
+-------------------------------
+
+.. versionadded:: 4.11
+
+:Add-on ID: ``weblate.generate.prefill``
+:Configuration: `This add-on has no configuration.`
+:Triggers: component update, daily
+
+Fills in translation strings with source string.
+
+All untranslated strings in the component will be filled with the source
+string, and marked as needing edit. Use this when you can not have empty
+strings in the translation files.
+
 .. _addon-weblate.generate.pseudolocale:
 
 Pseudolocale generation
 -----------------------
+
+.. versionadded:: 4.5
 
 :Add-on ID: ``weblate.generate.pseudolocale``
 :Configuration: +------------+--------------------+--+
@@ -737,7 +758,7 @@ Writing add-on
 ++++++++++++++
 
 You can write your own add-ons too, create a subclass of
-:class:`weblate.addons.base.BaseAddon` to define the addon metadata, and
+:class:`weblate.addons.base.BaseAddon` to define the add-on metadata, and
 then implement a callback to do the processing.
 
 .. seealso::
@@ -783,7 +804,7 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_FILEMASK
 
-    Filemask for current component.
+    File mask for current component.
 
 .. envvar:: WL_TEMPLATE
 

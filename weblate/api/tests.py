@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -921,7 +921,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 18)
+        self.assertEqual(request.data["count"], 30)
 
     def test_statistics(self):
         request = self.do_request("api:project-statistics", self.project_kwargs)
@@ -1747,7 +1747,7 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 13)
+        self.assertEqual(request.data["count"], 25)
 
     def test_screenshots(self):
         request = self.do_request("api:component-screenshots", self.component_kwargs)
@@ -2343,7 +2343,7 @@ class TranslationAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:translation-changes", self.translation_kwargs)
-        self.assertEqual(request.data["count"], 2)
+        self.assertEqual(request.data["count"], 6)
 
     def test_units(self):
         request = self.do_request("api:translation-units", self.translation_kwargs)
@@ -2463,6 +2463,20 @@ class TranslationAPITest(APIBaseTest):
             format="json",
             request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
             code=200,
+        )
+        self.assertEqual(component.source_translation.unit_set.count(), 6)
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            format="json",
+            request={"key": "invalid-plural", "value": [{}]},
+            code=400,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
 
@@ -3046,7 +3060,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 18)
+        self.assertEqual(response.data["count"], 30)
 
     def test_filter_changes_after(self):
         """Filter chanages since timestamp."""
@@ -3054,7 +3068,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 18)
+        self.assertEqual(response.data["count"], 30)
 
     def test_filter_changes_before(self):
         """Filter changes prior to timestamp."""
@@ -3282,6 +3296,19 @@ class AddonAPITest(APIBaseTest):
         self.create_addon(
             name="weblate.gettext.mo", configuration={"path": "{{var}}"}, code=400
         )
+
+    def test_discover(self):
+        initial = {
+            "file_format": "po",
+            "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            "name_template": "{{ component|title }}",
+            "language_regex": "^(?!xx).*$",
+        }
+        self.assertEqual(Component.objects.all().count(), 2)
+        self.create_addon(name="weblate.discovery.discovery", configuration=initial)
+
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+        self.assertEqual(Component.objects.all().count(), 5)
 
     def test_edit(self):
         initial = {"path": "{{ filename|stripext }}.mo"}

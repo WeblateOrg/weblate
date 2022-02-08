@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -135,7 +135,7 @@ SORT_CHOICES = {
     "priority": gettext_lazy("Priority"),
     "labels": gettext_lazy("Labels"),
     "source": gettext_lazy("Source string"),
-    "target": gettext_lazy("Translated string"),
+    "target": gettext_lazy("Target string"),
     "timestamp": gettext_lazy("Age of string"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
@@ -366,17 +366,21 @@ def download_translation_file(
     return response
 
 
-def show_form_errors(request, form):
-    """Show all form errors as a message."""
+def get_form_errors(form):
     for error in form.non_field_errors():
-        messages.error(request, error)
+        yield error
     for field in form:
         for error in field.errors:
-            messages.error(
-                request,
-                _("Error in parameter %(field)s: %(error)s")
-                % {"field": field.name, "error": error},
-            )
+            yield _("Error in parameter %(field)s: %(error)s") % {
+                "field": field.name,
+                "error": error,
+            }
+
+
+def show_form_errors(request, form):
+    """Show all form errors as a message."""
+    for error in get_form_errors(form):
+        messages.error(request, error)
 
 
 class ErrorFormView(FormView):

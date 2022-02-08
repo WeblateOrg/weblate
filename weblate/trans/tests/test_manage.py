@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -191,7 +191,7 @@ class AnnouncementTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.make_manager()
         # Add second user to receive notifications
-        self.project.add_user(self.anotheruser, "@Administration")
+        self.project.add_user(self.anotheruser, "Administration")
         response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)

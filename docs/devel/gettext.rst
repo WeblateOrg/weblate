@@ -32,7 +32,7 @@ The GNU gettext uses several files to manage the localization:
 
 * :file:`PACKAGE.pot` contains strings extracted from your source code, typically using `xgettext`_ or some high level wrappers such as `intltool`_.
 * :file:`LANGUAGE.po` contains strings with a translation to single language. It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. You can create new language files using `msginit`_ or within Weblate.
-* :file:`LANGUAGE.mo` contains binary representation of :file:`LANGUAGE.po` and is used at application runtime. Typically it is not kept under version control, but generated at compilation time using `msgfmt`_. In case you want to have it in the version control, you can generate it in Weblate using :ref:`addon-weblate.gettext.mo` addon.
+* :file:`LANGUAGE.mo` contains binary representation of :file:`LANGUAGE.po` and is used at application runtime. Typically it is not kept under version control, but generated at compilation time using `msgfmt`_. In case you want to have it in the version control, you can generate it in Weblate using :ref:`addon-weblate.gettext.mo` add-on.
 
 Overall the GNU gettext workflow looks like this:
 

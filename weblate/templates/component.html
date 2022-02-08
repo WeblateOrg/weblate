@@ -29,7 +29,7 @@
 {% perm 'component.edit' object as user_can_edit_component %}
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
+  <li class="active"><a href="#translations" data-toggle="tab">{% trans "Languages" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   {% if alerts %}
   <li><a href="#alerts" data-toggle="tab">{% trans "Alerts" %}</a></li>
@@ -146,6 +146,9 @@
     {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
   {% endif %}
   {{ alert }}
+  {% if alert.dismissed %}
+    <span class="badge">{% trans "dismissed" %}</span>
+  {% endif %}
 </div>
 <div class="panel-body">{% render_alert alert %}</div>
 <form action="{% url "dismiss-alert" project=object.project.slug component=object.slug %}" method="post">

@@ -11,8 +11,9 @@ text direction, plural definitions and language code is needed.
 Parsing language codes
 ----------------------
 
-While parsing translations, Weblate attempts to map language code
-(usually the ISO 639-1 one) to any existing language object.
+While parsing translations, Weblate attempts to map language code (usually the
+ISO 639-1 one) from the :ref:`component-filemask` to any existing language
+object.
 
 You can further adjust this mapping at project level by :ref:`project-language_aliases`.
 

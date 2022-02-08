@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import datetime
 from typing import Set
 
@@ -32,7 +31,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
+from django.utils.translation import get_language, gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
@@ -77,6 +76,8 @@ class WeblateAccountsConf(AppConf):
 
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
+
+    REGISTRATION_HINTS = {}
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
@@ -697,6 +698,53 @@ class Profile(models.Model):
     def watches_project(self, project):
         return project.id in self.watched_project_ids
 
+    def fixup_profile(self, request):
+        fields = set()
+        if not self.language:
+            self.language = get_language()
+            fields.add("language")
+
+        allowed = {clist.pk for clist in self.allowed_dashboard_component_lists}
+
+        if not allowed and self.dashboard_view in (
+            Profile.DASHBOARD_COMPONENT_LIST,
+            Profile.DASHBOARD_COMPONENT_LISTS,
+        ):
+            self.dashboard_view = Profile.DASHBOARD_WATCHED
+            fields.add("dashboard_view")
+
+        if self.dashboard_component_list_id and (
+            self.dashboard_component_list_id not in allowed
+            or self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
+        ):
+            self.dashboard_component_list = None
+            self.dashboard_view = Profile.DASHBOARD_WATCHED
+            fields.add("dashboard_view")
+            fields.add("dashboard_component_list")
+
+        if (
+            not self.dashboard_component_list_id
+            and self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
+        ):
+            self.dashboard_view = Profile.DASHBOARD_WATCHED
+            fields.add("dashboard_view")
+
+        if not self.languages.exists():
+            language = Language.objects.get_request_language(request)
+            if language:
+                self.languages.add(language)
+                messages.info(
+                    request,
+                    _(
+                        "Added %(language)s to your translated languages. "
+                        "You can adjust them in the settings."
+                    )
+                    % {"language": language},
+                )
+
+        if fields:
+            self.save(update_fields=fields)
+
 
 def set_lang_cookie(response, profile):
     """Set session language based on user preferences."""
@@ -753,6 +801,9 @@ def post_login_handler(sender, request, user, **kwargs):
                 "you do not have assigned any e-mail address."
             ),
         )
+
+    # Sanitize profile
+    user.profile.fixup_profile(request)
 
 
 @receiver(post_save, sender=User)

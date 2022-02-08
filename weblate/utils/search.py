@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -95,6 +95,7 @@ EXACT_FIELD_MAP = {
     "suggestion_author": "suggestion__user__username",
     "comment_author": "comment__user__username",
     "label": "source_unit__labels__name",
+    "screenshot": "source_unit__screenshots__name",
 }
 OPERATOR_MAP = {
     ":": "substring",
@@ -282,6 +283,8 @@ class TermExpr:
             return query | Q(translation__component__name__icontains=match)
         if field == "label":
             return query | Q(labels__name__iexact=match)
+        if field == "screenshot":
+            return query | Q(screenshots__name__iexact=match)
 
         return query
 

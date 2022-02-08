@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,7 +27,7 @@ from django.conf import settings
 
 from weblate.trans.util import get_clean_env
 from weblate.utils.data import data_dir
-from weblate.utils.errors import report_error
+from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
@@ -98,7 +98,10 @@ def borg(cmd, env=None):
             report_error()
             raise BackupError(f"Could not execute borg program: {error}")
         except subprocess.CalledProcessError as error:
-            report_error(extra_data={"stdout": error.stdout})
+            add_breadcrumb(
+                category="backup", message="borg output", stdout=error.stdout
+            )
+            report_error()
             raise BackupError(error.stdout)
 
 

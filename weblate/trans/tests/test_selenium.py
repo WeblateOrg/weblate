@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -851,7 +851,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
             self.click(
-                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Not translated strings")
+                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Untranslated strings")
             )
         self.driver.find_element(By.ID, "id_34a4642999e44a2b_0")
 

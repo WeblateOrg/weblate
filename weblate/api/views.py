@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -39,7 +39,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
@@ -79,6 +84,7 @@ from weblate.checks.models import Check
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Change,
@@ -1274,7 +1280,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         obj = self.get_object()
         if not request.user.has_perm("unit.delete", obj):
             self.permission_denied(request, "Can not remove string")
-        obj.translation.delete_unit(request, obj)
+        try:
+            obj.translation.delete_unit(request, obj)
+        except FileParseError as error:
+            obj.translation.component.update_import_alerts(delete=False)
+            return Response(
+                data={"error": "Failed to remove the string: %s" % error},
+                status=HTTP_500_INTERNAL_SERVER_ERROR,
+            )
         return Response(status=HTTP_204_NO_CONTENT)
 
 

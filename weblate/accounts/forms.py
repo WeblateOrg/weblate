@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,7 +26,7 @@ from django.db.models import Q
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
-from django.utils.translation import gettext
+from django.utils.translation import activate, gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
 
@@ -161,6 +161,11 @@ class LanguagesForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+
+    def save(self, commit=True):
+        super().save(commit=commit)
+        # Activate selected language
+        activate(self.cleaned_data["language"])
 
 
 class ProfileForm(ProfileBaseForm):
@@ -799,9 +804,14 @@ class UserSearchForm(forms.Form):
         return None
 
 
+class GroupChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.long_name()
+
+
 class GroupAddForm(forms.Form):
-    add_group = forms.ModelChoiceField(
-        label=_("Add user to a group"), queryset=Group.objects.all(), required=True
+    add_group = GroupChoiceField(
+        label=_("Add user to a group"), queryset=Group.objects.order(), required=True
     )
 
     def __init__(self, *args, **kwargs):

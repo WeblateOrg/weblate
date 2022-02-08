@@ -197,7 +197,7 @@ cases does not bring many benefits.
 
    Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
    PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
-   See :ref:`upgrade-4.10` for more details.
+   See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
@@ -224,8 +224,65 @@ should be no need for additional manual actions.
     continue upgrading to newer versions.
 
 You might also want to update the ``docker-compose`` repository, though it's
-not needed in most case. Please beware of PostgreSQL version changes in this
-case as it's not straightforward to upgrade the database, see `GitHub issue <https://github.com/docker-library/postgres/issues/37>`_ for more info.
+not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
+
+.. _docker-postgres-upgrade:
+
+Upgrading PostgreSQL container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PostgreSQL containers do not support automatic upgrading between version, you
+need to perform the upgrade manually. Following steps show one of the options
+of upgrading.
+
+.. seealso::
+
+   https://github.com/docker-library/postgres/issues/37
+
+1. Stop Weblate container:
+
+   .. code-block:: shell
+
+      docker-compose stop weblate cache
+
+2. Backup the database:
+
+   .. code-block:: shell
+
+      docker-compose exec database pg_dumpall --clean --username weblate > backup.sql
+
+3. Stop the database container:
+
+   .. code-block:: shell
+
+      docker-compose stop database
+
+4. Remove the PostgreSQL volume
+
+   .. code-block:: shell
+
+      docker-compose rm -v database
+      docker volume remove weblate_postgres-data
+
+5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
+
+6. Start the database container:
+
+   .. code-block:: shell
+
+      docker-compose up -d database
+
+7. Restore the database from the backup:
+
+   .. code-block:: shell
+
+      cat backup.sql | docker-compose exec -T database psql --username weblate --dbname postgres
+
+8. Start all remaining containers:
+
+   .. code-block:: shell
+
+      docker-compose up -d
 
 .. _docker-admin-login:
 
@@ -746,6 +803,19 @@ Generic settings
       :setting:`RATELIMIT_WINDOW`,
       :setting:`RATELIMIT_LOCKOUT`
 
+
+.. envvar:: WEBLATE_API_RATELIMIT_ANON
+.. envvar:: WEBLATE_API_RATELIMIT_USER
+
+   .. versionadded:: 4.11
+
+   Configures API rate limiting. Defaults to ``100/day`` for anonymous and
+   ``5000/hour`` for authenticated users.
+
+   .. seealso::
+
+      :ref:`api-rate`
+
 .. envvar:: WEBLATE_ENABLE_AVATARS
 
    .. versionadded:: 4.6.1
@@ -1088,7 +1158,8 @@ Other authentication settings
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
-    Disables e-mail authentication when set to any value.
+    Disables e-mail authentication when set to any value. See
+    :ref:`disable-email-auth`.
 
 
 PostgreSQL database setup
@@ -1290,6 +1361,11 @@ Example SSL configuration:
     to as SSL. It is generally used on port 465. If you are experiencing
     problems, see the explicit TLS setting :envvar:`WEBLATE_EMAIL_USE_TLS`.
 
+    .. versionchanged:: 4.11
+
+       The SSL/TLS support is automatically enabled based on the
+       :envvar:`WEBLATE_EMAIL_PORT`.
+
     .. seealso::
 
         :envvar:`WEBLATE_EMAIL_PORT`,
@@ -1302,6 +1378,11 @@ Example SSL configuration:
     This is used for explicit TLS connections, generally on port 587 or 25. If
     you are experiencing connections that hang, see the implicit TLS setting
     :envvar:`WEBLATE_EMAIL_USE_SSL`.
+
+    .. versionchanged:: 4.11
+
+       The SSL/TLS support is automatically enabled based on the
+       :envvar:`WEBLATE_EMAIL_PORT`.
 
     .. seealso::
 
@@ -1407,12 +1488,12 @@ Localization CDN
         :setting:`LOCALIZE_CDN_PATH`
 
 
-Changing enabled apps, checks, addons or autofixes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Changing enabled apps, checks, add-ons or autofixes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 3.8-5
 
-The built-in configuration of enabled checks, addons or autofixes can be
+The built-in configuration of enabled checks, add-ons or autofixes can be
 adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
@@ -1577,6 +1658,10 @@ replace the favicon.
 
    The files are copied to the corresponding location upon container startup, so
    a restart of Weblate is needed after changing the content of the volume.
+
+This approach can be also used to override Weblate templates. For example
+:ref:`legal` documents can be placed into
+:file:`/app/data/python/customize/templates/legal/documents`.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:

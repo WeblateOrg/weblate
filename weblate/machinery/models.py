@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -57,8 +57,8 @@ class WeblateConf(AppConf):
     GOOGLE_LOCATION = "global"
 
     # ModernMT
-    MT_MODERNMT_KEY = None
-    MT_MODERNMT_URL = "https://api.modernmt.com/"
+    MODERNMT_KEY = None
+    MODERNMT_URL = "https://api.modernmt.com/"
 
     # API key for Yandex Translate API
     YANDEX_KEY = None

@@ -369,7 +369,7 @@ fulfilled:
 
    Commits are created for every component. So in case you have many components
    you will still see lot of commits. You might utilize
-   :ref:`addon-weblate.git.squash` addon in that case.
+   :ref:`addon-weblate.git.squash` add-on in that case.
 
 If you want to commit changes more frequently and without checking of age, you
 can schedule a regular task to perform a commit:
@@ -384,7 +384,7 @@ Processing repository with scripts
 
 The way to customize how Weblate interacts with the repository is
 :ref:`addons`. Consult :ref:`addon-script` for info on how to execute
-external scripts through addons.
+external scripts through add-ons.
 
 .. _translation-consistency:
 
@@ -420,4 +420,4 @@ Automatic translation
 Automatic translation based on different components can be way to synchronize
 the translations across components. You can either trigger it manually (see
 :ref:`auto-translation`) or make it run automatically on repository update
-using addon (see :ref:`addon-weblate.autotranslate.autotranslate`).
+using add-on (see :ref:`addon-weblate.autotranslate.autotranslate`).

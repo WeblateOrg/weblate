@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -282,13 +282,13 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
         for char in EXTRA_CHARS[code]:
             yield format_char(char)
 
-    yield get_quote(code, DOUBLE_OPEN, _("Opening double quote"))
-    yield get_quote(code, DOUBLE_CLOSE, _("Closing double quote"))
-    yield get_quote(code, SINGLE_OPEN, _("Opening single quote"))
-    yield get_quote(code, SINGLE_CLOSE, _("Closing single quote"))
+    yield get_quote(code, MAIN_OPEN, _("Main opening quote"))
+    yield get_quote(code, MAIN_CLOSE, _("Main closing quote"))
+    yield get_quote(code, ALT_OPEN, _("Alternative opening quote"))
+    yield get_quote(code, ALT_CLOSE, _("Alternative closing quote"))
 
     if code in HYPHEN_LANGS:
-        yield _("Hyphen"), "-", "-"
+        yield _("Hyphen"), "‐", "‐"
 
     if code in EN_DASH_LANGS:
         yield _("En dash"), "–", "–"
@@ -326,7 +326,7 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
 RTL_CHARS_DATA = [format_char(chr(c)) for c in RTL_CHARS]
 
 # Quotes data, geenrated using scripts/generate-specialchars
-SINGLE_OPEN = {
+ALT_OPEN = {
     "ALL": "‘",
     "af": "‘",
     "agq": "‚",
@@ -505,7 +505,7 @@ SINGLE_OPEN = {
     "zh_Hant": "『",
     "zu": "‘",
 }
-SINGLE_CLOSE = {
+ALT_CLOSE = {
     "ALL": "’",
     "af": "’",
     "ak": "’",
@@ -682,7 +682,7 @@ SINGLE_CLOSE = {
     "zh_Hant": "』",
     "zu": "’",
 }
-DOUBLE_OPEN = {
+MAIN_OPEN = {
     "ALL": "“",
     "af": "“",
     "agq": "„",
@@ -863,7 +863,7 @@ DOUBLE_OPEN = {
     "zh_Hant": "「",
     "zu": "“",
 }
-DOUBLE_CLOSE = {
+MAIN_CLOSE = {
     "ALL": "”",
     "af": "”",
     "ak": "”",

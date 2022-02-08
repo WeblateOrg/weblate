@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -29,7 +29,7 @@ def validate_filemask(val):
     """Validate that filemask contains *."""
     if "*" not in val:
         raise ValidationError(
-            _("Filemask does not contain * as a language placeholder!")
+            _("File mask does not contain * as a language placeholder!")
         )
 
 
