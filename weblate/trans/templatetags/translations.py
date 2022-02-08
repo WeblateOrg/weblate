@@ -934,7 +934,7 @@ def number_format(number):
 @register.filter
 def trend_format(number):
     if number < 0:
-        prefix = "-"
+        prefix = "−"
         trend = "trend-down"
     else:
         prefix = "+"
