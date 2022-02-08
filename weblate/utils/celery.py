@@ -46,7 +46,7 @@ def handle_task_failure(exception=None, **kwargs):
     from weblate.utils.errors import report_error
 
     report_error(
-        extra_data=kwargs,
+        extra_log=repr(kwargs),
         cause="Failure while executing task",
         skip_sentry=True,
         print_tb=True,
