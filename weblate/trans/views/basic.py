@@ -282,7 +282,9 @@ def show_component(request, project, component):
                 instance=obj,
             ),
             "search_form": SearchForm(request.user),
-            "alerts": obj.all_alerts,
+            "alerts": obj.all_alerts
+            if "alerts" not in request.GET
+            else obj.alert_set.all(),
         },
     )
 
