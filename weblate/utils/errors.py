@@ -24,6 +24,7 @@ from typing import Dict, Optional
 
 import sentry_sdk
 from django.conf import settings
+from django.utils.translation import get_language
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
@@ -63,6 +64,7 @@ def report_error(
                 for key, value in extra_data.items():
                     scope.set_extra(key, value)
             scope.set_extra("error_cause", cause)
+            scope.set_tag("user.locale", get_language())
             scope.level = level
             sentry_sdk.capture_exception()
 
