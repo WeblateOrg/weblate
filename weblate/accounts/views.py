@@ -116,6 +116,7 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
+from weblate.utils.error import add_breadcrumb
 from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import (
     check_rate_limit,
@@ -1332,9 +1333,8 @@ def saml_metadata(request):
 
     # Handle errors
     if errors:
-        report_error(
-            level="error", cause="SAML metadata", extra_data={"errors": errors}
-        )
+        add_breadcrumb(category="auth", message="SAML errors", errors=errors)
+        report_error(level="error", cause="SAML metadata")
         return HttpResponseServerError(content=", ".join(errors))
 
     return HttpResponse(content=metadata, content_type="text/xml")

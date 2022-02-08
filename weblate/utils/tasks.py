@@ -40,6 +40,7 @@ from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
+from weblate.utils.error import add_breadcrumb
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.models import VCS_REGISTRY
@@ -145,7 +146,13 @@ def database_backup():
                 text=True,
             )
         except subprocess.CalledProcessError as error:
-            report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
+            add_breadcrumb(
+                category="backup",
+                message="database dump output",
+                stdout=error.stdout,
+                stderr=error.stderr,
+            )
+            report_error()
             raise
 
         if compress:

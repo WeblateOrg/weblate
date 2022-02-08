@@ -65,7 +65,8 @@ def get_fallback_avatar(size: int):
 
 def get_avatar_image(user, size: int):
     """Return avatar image from cache (if available) or download it."""
-    cache_key = "-".join(("avatar-img", user.username, str(size)))
+    username = user.username
+    cache_key = "-".join(("avatar-img", username, str(size)))
 
     # Try using avatar specific cache if available
     try:
@@ -79,10 +80,7 @@ def get_avatar_image(user, size: int):
             image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (OSError, CertificateError):
-            report_error(
-                extra_data={"avatar": user.username},
-                cause="Failed to fetch avatar",
-            )
+            report_error(cause=f"Failed to fetch avatar for {username}")
             return get_fallback_avatar(size)
 
     return image
