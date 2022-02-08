@@ -40,8 +40,7 @@ from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
-from weblate.utils.error import add_breadcrumb
-from weblate.utils.errors import report_error
+from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.models import VCS_REGISTRY
 

@@ -27,8 +27,7 @@ from django.conf import settings
 
 from weblate.trans.util import get_clean_env
 from weblate.utils.data import data_dir
-from weblate.utils.error import add_breadcrumb
-from weblate.utils.errors import report_error
+from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 

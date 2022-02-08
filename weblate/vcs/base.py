@@ -32,7 +32,7 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 
 from weblate.trans.util import get_clean_env, path_separator
-from weblate.utils.error import add_breadcrumb
+from weblate.utils.errors import add_breadcrumb
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 

@@ -27,7 +27,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from weblate_language_data.countries import DEFAULT_LANGS
 
-from weblate.utils.error import add_breadcrumb
+from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 

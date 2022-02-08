@@ -116,8 +116,7 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
-from weblate.utils.error import add_breadcrumb
-from weblate.utils.errors import report_error
+from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.ratelimit import (
     check_rate_limit,
     reset_rate_limit,
