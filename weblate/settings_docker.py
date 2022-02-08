@@ -1208,8 +1208,6 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
 modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
 # Email server
-EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
-EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
 EMAIL_HOST = os.environ.get("WEBLATE_EMAIL_HOST", "localhost")
 EMAIL_HOST_USER = os.environ.get(
     "WEBLATE_EMAIL_HOST_USER", os.environ.get("WEBLATE_EMAIL_USER", "")
@@ -1218,6 +1216,16 @@ EMAIL_HOST_PASSWORD = os.environ.get(
     "WEBLATE_EMAIL_HOST_PASSWORD", os.environ.get("WEBLATE_EMAIL_PASSWORD", "")
 )
 EMAIL_PORT = int(os.environ.get("WEBLATE_EMAIL_PORT", "25"))
+
+# Detect SSL/TLS setup
+if "WEBLATE_EMAIL_USE_TLS" in os.environ or "WEBLATE_EMAIL_USE_SSL" in os.environ:
+    EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
+    EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
+elif EMAIL_PORT in (25, 587):
+    EMAIL_USE_TLS = True
+elif EMAIL_PORT == 465:
+    EMAIL_USE_SSL = True
+
 EMAIL_BACKEND = os.environ.get(
     "WEBLATE_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
 )

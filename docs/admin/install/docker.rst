@@ -1361,6 +1361,11 @@ Example SSL configuration:
     to as SSL. It is generally used on port 465. If you are experiencing
     problems, see the explicit TLS setting :envvar:`WEBLATE_EMAIL_USE_TLS`.
 
+    .. versionchanged:: 4.11
+
+       The SSL/TLS support is automatically enabled based on the
+       :envvar:`WEBLATE_EMAIL_PORT`.
+
     .. seealso::
 
         :envvar:`WEBLATE_EMAIL_PORT`,
@@ -1373,6 +1378,11 @@ Example SSL configuration:
     This is used for explicit TLS connections, generally on port 587 or 25. If
     you are experiencing connections that hang, see the implicit TLS setting
     :envvar:`WEBLATE_EMAIL_USE_SSL`.
+
+    .. versionchanged:: 4.11
+
+       The SSL/TLS support is automatically enabled based on the
+       :envvar:`WEBLATE_EMAIL_PORT`.
 
     .. seealso::
 
