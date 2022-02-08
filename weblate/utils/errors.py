@@ -63,7 +63,7 @@ def report_error(
             if extra_data:
                 for key, value in extra_data.items():
                     scope.set_extra(key, value)
-            scope.set_extra("error_cause", cause)
+            scope.set_tag("cause", cause)
             scope.set_tag("user.locale", get_language())
             scope.level = level
             sentry_sdk.capture_exception()
