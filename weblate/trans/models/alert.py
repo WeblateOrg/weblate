@@ -196,6 +196,8 @@ class DuplicateFilemask(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Duplicated file mask.")
     link_wide = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-filemask"
 
     def __init__(self, instance, duplicates):
         super().__init__(instance)
@@ -207,6 +209,8 @@ class MergeFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _("Could not merge the repository.")
     link_wide = True
+    doc_page = "faq"
+    doc_anchor = "merge"
 
 
 @register
@@ -214,6 +218,8 @@ class UpdateFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _("Could not update the repository.")
     link_wide = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-repo"
 
 
 @register
@@ -223,6 +229,8 @@ class PushFailure(ErrorAlert):
     link_wide = True
     behind_message = "The tip of your current branch is behind its remote counterpart"
     terminal_message = "terminal prompts disabled"
+    doc_page = "admin/projects"
+    doc_anchor = "component-push"
 
     def get_analysis(self):
         terminal_disabled = self.terminal_message in self.error
@@ -286,36 +294,47 @@ class RepositoryChanges(BaseAlert):
 class MissingLicense(BaseAlert):
     # Translators: Name of an alert
     verbose = _("License info missing.")
+    doc_page = "admin/projects"
+    doc_anchor = "component-license"
 
 
 @register
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
     verbose = _("Could not run add-on.")
+    doc_page = "adons"
 
 
 @register
 class CDNAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = _("Could not run add-on.")
+    doc_page = "adons"
+    doc_anchor = "addon-weblate-cdn-cdnjs"
 
 
 @register
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = _("Could not run add-on.")
+    doc_page = "adons"
+    doc_anchor = "addon-weblate-gettext-msgmerge"
 
 
 @register
 class MonolingualTranslation(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Misconfigured monolingual translation.")
+    doc_page = "formats"
+    doc_anchor = "bimono"
 
 
 @register
 class UnsupportedConfiguration(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Unsupported component configuration")
+    doc_page = "admin/projects"
+    doc_anchor = "component"
 
     def __init__(self, instance, vcs, file_format):
         super().__init__(instance)
@@ -328,6 +347,8 @@ class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Broken repository browser URL")
     dismissable = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-repoweb"
 
     def __init__(self, instance, link, error):
         super().__init__(instance)
@@ -340,6 +361,8 @@ class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Broken project website URL")
     dismissable = True
+    doc_page = "admin/projects"
+    doc_anchor = "project-web"
 
     def __init__(self, instance, error=None):
         super().__init__(instance)
@@ -350,6 +373,8 @@ class BrokenProjectURL(BaseAlert):
 class UnusedScreenshot(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Unused screenshot")
+    doc_page = "admin/translating"
+    doc_anchor = "screenshots"
 
 
 @register
