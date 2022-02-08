@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-02-08 09:08+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2022-02-09 19:44+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -30802,7 +30802,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
-msgstr ""
+msgstr "Weblate との統合"
 
 #: ../../snippets/basics.rst:2
 msgid "Weblate basics"
@@ -30852,12 +30852,14 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
+"Weblate は基本機能として、VCS との統合を前提に開発されています。そのため、インポートする最も簡単な方法は、Weblate "
+"に対してリポジトリへのアクセス権を付与することです。インポートの処理では、翻訳をコンポーネントへ変換する設定の方法が表示されます。"
 
 #: ../../devel/integration.rst:13
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
-msgstr ""
+msgstr "また、Weblate では翻訳を統合せずに、翻訳をすべてローカル リポジトリに含める設定もできます。"
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -30865,7 +30867,7 @@ msgstr ":ref:`adding-projects`、:ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:22
 msgid "Fetching updated translations from Weblate"
-msgstr "更新された翻訳を Weblate から取得"
+msgstr "Weblate の機能で更新済みの翻訳の取得"
 
 #: ../../devel/integration.rst:24
 msgid ""
@@ -30876,6 +30878,10 @@ msgid ""
 "the :guilabel:`Repository maintenance`) or from the command-line using :ref:"
 "`wlc`."
 msgstr ""
+"Weblate の機能で更新済みの文字列を取得するには、基になる Git リポジトリを取得するだけです （ファイル システムから取得するか、:ref"
+":`git-exporter` を有効化して取得します）。事前に、保留中の変更をコミットしておいてください（参照: :ref:`lazy-"
+"commit`）。操作は、ユーザーインターフェイス（ :guilabel:`リポジトリのメンテナンス` ）または、:ref:`wlc` "
+"を使用してコマンドラインから行います。"
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -30883,12 +30889,14 @@ msgid ""
 "and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
 "changes`."
 msgstr ""
+"これを自動化するには、Weblate からリポジトリへのプッシュ アクセスを許可し、:ref:`component` で :ref:`component-"
+"push` を設定します。参照: :ref:`push-changes`。"
 
 #: ../../devel/integration.rst:33
 msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
-msgstr ""
+msgstr "あるいは、:doc:`/api` を使用して、翻訳を最新バージョンに更新できます。"
 
 #: ../../devel/integration.rst:38
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -30896,7 +30904,7 @@ msgstr ":ref:`continuous-translation`、:ref:`push-changes`、:ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
-msgstr "リモート変更を Weblate にフェッチ"
+msgstr "リモートでの変更を Weblate に取り込む"
 
 #: ../../devel/integration.rst:45
 msgid ""
@@ -30905,6 +30913,8 @@ msgid ""
 "interface (in the :guilabel:`Repository maintenance`), or from the command-"
 "line using :ref:`wlc`."
 msgstr ""
+"リポジトリ内で新しく更新された文字列を Weblate に取り込むには、上流のリポジトリからプルするだけです。これは、ユーザーインターフェイス "
+"（:guilabel:`リポジトリのメンテナンス` から）、またはコマンド ラインから :ref:`wlc` を使用して行います。"
 
 #: ../../devel/integration.rst:49
 msgid ""
@@ -30912,12 +30922,14 @@ msgid ""
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
+"これを自動化するには、リポジトリ内の Webhook を設定し、新しいコミットがあるたびに Weblate を起動するようにします。詳細は、:ref"
+":`update-vcs` を確認してください。"
 
 #: ../../devel/integration.rst:52
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
-msgstr ""
+msgstr "VCS の統合を使用しない場合は、UI または :doc:`/api` を使用して、あなたのコード ベースに合うように翻訳を更新します。"
 
 #: ../../devel/integration.rst:57
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -30925,7 +30937,7 @@ msgstr ":ref:`continuous-translation`、:ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
-msgstr "新しい文字列の追加"
+msgstr "新しい原文の追加"
 
 #: ../../devel/integration.rst:65
 msgid ""
@@ -30934,26 +30946,28 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
+"翻訳ファイルがプログラム コードと共に VCS に保存されている場合、新しい文字列を追加するためのワークフローを開発者が用意していることがあります。どのよ"
+"うな方法で文字列を追加するとしても、エラーが発生しないように、:ref:`source-quality-gateway` の使用を検討してください。"
 
 #: ../../devel/integration.rst:70
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
-msgstr ""
+msgstr "翻訳ファイルがプログラム コードと分離している場合、次の方法で Weblate に新しい文字列を追加します。"
 
 #: ../../devel/integration.rst:73
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the source language."
-msgstr ""
+msgstr "手動で、原文の言語の :guilabel:`ツール` メニューから、:guilabel:`新しい原文の追加` を行う。"
 
 #: ../../devel/integration.rst:75
 msgid ""
 "Programatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"プログラムのように、 API を使用します :http:post:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/units/`."
+"プログラムのように、 API を使用します :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`。"
 
 #: ../../devel/integration.rst:76
 msgid ""
@@ -30962,12 +30976,15 @@ msgid ""
 "both old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
+"原文のファイルを :guilabel:`既存の翻訳ファイルの置き換え` "
+"としてアップロードします（これは既存の文字列を上書きするので、ファイルに古い文字列と新しい文字列の両方が含まれていることを確認してください)。または "
+":guilabel:`新しい文字列の追加` をします。参照: :ref:`upload-method`。"
 
 #: ../../devel/integration.rst:82
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
-msgstr ""
+msgstr "Weblate で文字列を追加できるかどうかは、 :ref:`component-manage_units` から設定します。"
 
 #: ../../devel/integration.rst:87
 msgid "Updating target language files"
@@ -30982,6 +30999,10 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` add-on which will handle "
 "the cleanup according to your requirements."
 msgstr ""
+"モノリンガル ファイル（参照: :ref:`formats`）の場合、Weblate は、実際の翻訳にも、:ref:`component-"
+"template` にも存在しない新しい原文を追加することがあります。そのため、予想外の結果となることもあり、古い文字列の自動クリーンアップは実行されませ"
+"ん。必要に応じてクリーンアップを行う場合は、クリーンアップを処理する :ref:`addon-weblate.cleanup.generic` "
+"アドオンをインストールしてください。"
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -30990,6 +31011,9 @@ msgid ""
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
+"また、Weblate はバイリンガル ファイルの更新をすることは一切ありません。そのため、:file:`pot` から :file:`po` "
+"ファイルを更新することが必要な場合は、手動で :guilabel:`Update source strings`、:ref:`upload-method`"
+" または :ref:`addon-weblate.gettext.msgmerge` アドオンを使用してください。"
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -30997,6 +31021,9 @@ msgid ""
 "cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
 "gettext.msgmerge`"
 msgstr ""
+":ref:`processing`、:ref:`addon-weblate.cleanup.generic`、:ref:`addon-weblate."
+"cleanup.blank`、:ref:`addon-weblate.resx.update`、:ref:`addon-weblate.gettext."
+"msgmerge`"
 
 #: ../../devel/integration.rst:112
 msgid "Managing version control repository"
@@ -31008,6 +31035,9 @@ msgid ""
 "either connected to upstream one, or it can be only internal. The :guilabel:"
 "`Repository maintenance` lets you manipulate with the repository."
 msgstr ""
+"Weblate は、すべての翻訳をバージョン コントロール "
+"リポジトリに格納します。リポジトリは上流に接続でき、また内部だけに接続することもできます。:guilabel:`Repository "
+"maintenance` からリポジトリを操作します。"
 
 #: ../../devel/integration.rst:120
 msgid ""
@@ -31015,10 +31045,12 @@ msgid ""
 "whenever there are changes and there is usually no need to manually "
 "manipulate with it."
 msgstr ""
+":doc:`/admin/continuous` "
+"を使用すると、変更があるたびにリポジトリが自動的にプッシュするので、手動での操作は通常では必要ありません。"
 
 #: ../../devel/integration.rst:126
 msgid "Following operations are available:"
-msgstr "使用できる操作:"
+msgstr "操作可能なコマンド:"
 
 #: ../../devel/integration.rst:128
 msgid ":guilabel:`Commit`"
@@ -31028,9 +31060,7 @@ msgstr ":guilabel:`コミット`"
 msgid ""
 "Commits any pending changes present in Weblate database and not in the "
 "repository, see :ref:`lazy-commit`."
-msgstr ""
-"Weblate データベースに存在し、リポジトリに存在しない保留中の変更をコミットし"
-"ます。参照: :ref:`lazy-commit`。"
+msgstr "リポジトリには存在しないが、Weblate のデータベースに現在保留中の変更をコミットします。参照: :ref:`lazy-commit`。"
 
 #: ../../devel/integration.rst:133
 msgid ":guilabel:`Push`"
@@ -31040,11 +31070,11 @@ msgstr ":guilabel:`プッシュ`"
 msgid ""
 "Pushes changes to the upstream repository, if configured by :ref:`component-"
 "push`."
-msgstr ":ref:`component-push` に設定している場合、アップストリーム リポジトリに変更をプッシュします。"
+msgstr ":ref:`component-push` を設定している場合、上流のリポジトリに変更をプッシュします。"
 
 #: ../../devel/integration.rst:137
 msgid ":guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`"
-msgstr ""
+msgstr ":guilabel:`更新`、:guilabel:`プル`、:guilabel:`リベース`"
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -31052,6 +31082,8 @@ msgid ""
 "merge_style` when choosing :guilabel:`Update` or you can choose different "
 "one from the dropdown menu."
 msgstr ""
+"上流のリポジトリに変更があれば、Weblate リポジトリを更新します。:guilabel:`更新` の選択時に :ref:`component-"
+"merge_style` を使用する、もしくはドロップダウン メニューから異なるものを選択します。"
 
 #: ../../devel/integration.rst:143
 msgid ":guilabel:`Lock`"
@@ -31063,7 +31095,7 @@ msgstr "ロックすると、翻訳者は変更できなくなります"
 
 #: ../../devel/integration.rst:147
 msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Maintenance` から :guilabel:`Reset`"
 
 #: ../../devel/integration.rst:149
 msgid ""
@@ -31071,26 +31103,28 @@ msgid ""
 "discard all translations done in Weblate and not present in the upstream "
 "repository."
 msgstr ""
+"Weblate を上流のリポジトリに合わせてリセットします。これにより、現在の上流のリポジトリに存在しない Weblate で行われた翻訳は破棄されます。"
 
 #: ../../devel/integration.rst:153
 msgid ":guilabel:`Cleanup` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`メンテナンス` から :guilabel:`クリーンアップ`"
 
 #: ../../devel/integration.rst:155
 msgid ""
 "Removes untracked files from the repository. These could be result of "
 "misbehaving add-ons or bugs."
-msgstr ""
+msgstr "追跡されていないファイルをリポジトリから削除します。アドオンまたはバグによることが主な原因です。"
 
 #: ../../devel/integration.rst:158
 msgid ":guilabel:`Force synchronization` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`メンテナンス` から :guilabel:`同期の強制`"
 
 #: ../../devel/integration.rst:160
 msgid ""
 "Forces writing all strings to the translation files. Use this when "
 "repository files became out of sync with Weblate for some reason."
 msgstr ""
+"すべての文字列を翻訳ファイルに強制的に書き込みます。リポジトリ ファイルが、何らかの理由で Weblate と同期しなくなった場合に使用します。"
 
 #: ../../devel/integration.rst:165
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -31105,6 +31139,8 @@ msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
+"Weblate は、:doc:`/api` を使用して他のフレームワークに組み込めます。このページでは、Weblate "
+"を組み込むサードパーティのライブラリを紹介します。"
 
 #: ../../devel/libraries.rst:7
 msgid ""
@@ -31120,6 +31156,8 @@ msgid ""
 "Either submit a pull request with the changes directly or write us at "
 "care@weblate.org to get listed."
 msgstr ""
+"ご使用のフレームワークに Weblate を組み込む手段がありますか？ここに掲載されます！変更点を記載したプル リクエストを直接提出するか、 care@"
+"weblate.org まで連絡ください。"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -31132,6 +31170,8 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "any translation component, project or on the dashboard:"
 msgstr ""
+"レポート機能を使用すると、指定した期間内の翻訳の進捗状況を把握できます。コンポーネントに対して行った作業時間の概要を表示します。レポート機能は、"
+"翻訳コンポーネントの :guilabel:`詳細` メニュー、プロジェクト、またはダッシュボードにあります。操作方法:"
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -31140,21 +31180,24 @@ msgid ""
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
+"レポート機能のページには、個別のレポート機能があり、すべて HTML、reStructuredText、または JSON "
+"形式で出力を生成します。HTML、reStructuredText の形式は、既存のドキュメントに統計情報を埋め込むのに適しており、JSON "
+"形式はデータを追加処理するのに適しています。"
 
 #: ../../devel/reporting.rst:19
 msgid "Translator credits"
-msgstr ""
+msgstr "翻訳者の署名"
 
 #: ../../devel/reporting.rst:21
 msgid ""
 "Generates a document usable for crediting translators - sorted by language "
 "and lists all contributors to a given language:"
-msgstr ""
+msgstr "翻訳者の署名として使用するドキュメントを生成します。言語ごとに並ぶ、すべての翻訳者の一覧:"
 
 #: ../../devel/reporting.rst:38
 msgid ""
 "The number in parenthesis indicates number of contributions in given period."
-msgstr ""
+msgstr "括弧内の数字は、指定した期間内に貢献した数です。"
 
 #: ../../devel/reporting.rst:44
 msgid "Contributor stats"
@@ -31163,103 +31206,103 @@ msgstr "貢献者の統計情報"
 #: ../../devel/reporting.rst:46
 msgid ""
 "Generates the number of translated words and strings by translator name:"
-msgstr "翻訳者ごとの翻訳した文字列数や単語数を生成します:"
+msgstr "生成された、翻訳者ごとの翻訳した文字列数および単語数の:"
 
 #: ../../devel/reporting.rst:51
 msgid ""
 "It can be useful if you pay your translators based on amount of work, it "
 "gives you various stats on translators work."
-msgstr ""
+msgstr "翻訳者の作業量に応じて料金を支払う場合に便利です。翻訳者の作業に関するさまざまな統計情報を把握できます。"
 
 #: ../../devel/reporting.rst:54
 msgid "All stats are available in three variants:"
-msgstr "すべての統計で使用できる 3 種類:"
+msgstr "統計で把握できる 3 分類:"
 
 #: ../../devel/reporting.rst:56
 msgid "`Total`"
-msgstr ""
+msgstr "`合計`"
 
 #: ../../devel/reporting.rst:57
 msgid "Overall number of edited strings."
-msgstr ""
+msgstr "編集した文字列の合計。"
 
 #: ../../devel/reporting.rst:58
 msgid "`New`"
-msgstr ""
+msgstr "`新規の翻訳`"
 
 #: ../../devel/reporting.rst:59
 msgid "Newly translated strings which didn't have translation before."
-msgstr ""
+msgstr "未翻訳の文字列を、新規に翻訳した文字列の合計。"
 
 #: ../../devel/reporting.rst:60
 msgid "`Approved`"
-msgstr ""
+msgstr "`承認済`"
 
 #: ../../devel/reporting.rst:61
 msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
-msgstr ""
+msgstr "文字列の査読作業で承認した合計（参照: :ref:`reviews`）。"
 
 #: ../../devel/reporting.rst:63
 msgid "`Edited`"
-msgstr ""
+msgstr "`編集済`"
 
 #: ../../devel/reporting.rst:63
 msgid "Edited strings which had translation before."
-msgstr ""
+msgstr "以前に翻訳した文字列の合計。"
 
 #: ../../devel/reporting.rst:65
 msgid "The following metrics are available for each:"
-msgstr ""
+msgstr "分類で使用可能な詳細項目:"
 
 #: ../../devel/reporting.rst:67
 msgid "`Count`"
-msgstr ""
+msgstr "`文字列数`"
 
 #: ../../devel/reporting.rst:68
 msgid "Number of strings."
-msgstr ""
+msgstr "文字列の合計。"
 
 #: ../../devel/reporting.rst:69
 msgid "`Edits`"
-msgstr ""
+msgstr "`編集回数`"
 
 #: ../../devel/reporting.rst:70
 msgid ""
 "Number of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
-msgstr ""
+msgstr "文字列を編集操作した回数（ダメラウ・レーベンシュタイン距離による編集操作回数）。"
 
 #: ../../devel/reporting.rst:71
 msgid "`Source words`"
-msgstr ""
+msgstr "`原文の単語数`"
 
 #: ../../devel/reporting.rst:72
 msgid "Number of words in the source string."
-msgstr ""
+msgstr "原文の単語の合計。"
 
 #: ../../devel/reporting.rst:73
 msgid "`Source characters`"
-msgstr ""
+msgstr "`原文の文字数`"
 
 #: ../../devel/reporting.rst:74
 msgid "Number of characters in the source string."
-msgstr ""
+msgstr "原文の文字の合計。"
 
 #: ../../devel/reporting.rst:75
 msgid "`Target words`"
-msgstr ""
+msgstr "`翻訳した単語数`"
 
 #: ../../devel/reporting.rst:76
 msgid "Number of words in the translated string."
-msgstr ""
+msgstr "翻訳した文字列の単語の合計。"
 
 #: ../../devel/reporting.rst:77
 msgid "`Target characters`"
-msgstr ""
+msgstr "`翻訳した文字数`"
 
 #: ../../devel/reporting.rst:78
 msgid "Number of characters in the translated string."
-msgstr ""
+msgstr "翻訳した文字列の文字の合計。"
 
 #: ../../devel/review.rst:4
 msgid "Reviewing strings"
