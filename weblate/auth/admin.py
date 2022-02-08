@@ -208,7 +208,7 @@ class GroupChangeForm(forms.ModelForm):
                 )
         elif has_component and has_project:
             raise ValidationError(
-                {"project": _("This is not used when a component is selected.")}
+                {"projects": _("This is not used when a component is selected.")}
             )
 
 
