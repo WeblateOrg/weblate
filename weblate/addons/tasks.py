@@ -20,11 +20,12 @@
 import os
 from typing import List
 
+from django.db import Error as DjangoDatabaseError
 from django.db import transaction
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
-from weblate.addons.models import Addon
+from weblate.addons.models import Addon, handle_addon_error
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
@@ -106,7 +107,12 @@ def daily_addons():
     ):
         with transaction.atomic():
             addon.component.log_debug("running daily add-on: %s", addon.name)
-            addon.addon.daily(addon.component)
+            try:
+                addon.addon.daily(addon.component)
+            except DjangoDatabaseError:
+                raise
+            except Exception:
+                handle_addon_error(addon, addon.component)
 
 
 @app.on_after_finalize.connect
