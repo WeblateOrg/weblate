@@ -239,6 +239,8 @@ GROUPS = (
 
 # Per project group definitions
 ACL_GROUPS = {
+    pgettext("Per-project access-control group", "Administration"): "Administration",
+    pgettext("Per-project access-control group", "Review"): "Review strings",
     pgettext("Per-project access-control group", "Translate"): "Translate",
     pgettext("Per-project access-control group", "Sources"): "Edit source",
     pgettext("Per-project access-control group", "Languages"): "Manage languages",
@@ -248,8 +250,6 @@ ACL_GROUPS = {
     pgettext(
         "Per-project access-control group", "Automatic translation"
     ): "Automatic translation",
-    pgettext("Per-project access-control group", "Review"): "Review strings",
     pgettext("Per-project access-control group", "VCS"): "Manage repository",
-    pgettext("Per-project access-control group", "Administration"): "Administration",
     pgettext("Per-project access-control group", "Billing"): "Billing",
 }
