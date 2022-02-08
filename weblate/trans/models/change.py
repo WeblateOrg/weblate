@@ -599,14 +599,16 @@ class Change(models.Model, UserDisplayMixin):
         details = self.details
 
         if self.action == self.ACTION_NEW_STRING:
-            return (
-                ngettext(
-                    "%d new string to translate appeared in the translation.",
-                    "%d new strings to translate appeared to the translation.",
-                    self.plural_count,
-                )
-                % self.plural_count
+            result = ngettext(
+                "%d new string to translate appeared in the translation.",
+                "%d new strings to translate appeared to the translation.",
+                self.plural_count,
             )
+            try:
+                return result % self.plural_coun
+            except TypeError:
+                # The string does not contain %d
+                return result
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
