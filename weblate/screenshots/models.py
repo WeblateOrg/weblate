@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,6 +26,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
@@ -77,6 +78,10 @@ class Screenshot(models.Model, UserDisplayMixin):
 
     def get_absolute_url(self):
         return reverse("screenshot", kwargs={"pk": self.pk})
+
+    @property
+    def filter_name(self):
+        return f"screenshot:{Flags.format_value(self.name)}"
 
 
 @receiver(m2m_changed, sender=Screenshot.units.through)

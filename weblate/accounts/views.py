@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,6 +23,7 @@ from collections import defaultdict
 from datetime import timedelta
 from email.headerregistry import Address
 from importlib import import_module
+from typing import Optional
 
 import social_django.utils
 from django.conf import settings
@@ -48,10 +49,8 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
-from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
@@ -97,7 +96,7 @@ from weblate.accounts.forms import (
     UserSearchForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Profile, Subscription, VerifiedEmail
+from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     FREQ_INSTANT,
     FREQ_NONE,
@@ -125,6 +124,7 @@ from weblate.utils.ratelimit import (
 )
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.token import get_token
 from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = """
@@ -318,46 +318,11 @@ def get_notification_forms(request):
             )
 
 
-def fixup_profile(profile):
-    fields = set()
-    if not profile.language:
-        profile.language = get_language()
-        fields.add("language")
-
-    allowed = {clist.pk for clist in profile.allowed_dashboard_component_lists}
-
-    if not allowed and profile.dashboard_view in (
-        Profile.DASHBOARD_COMPONENT_LIST,
-        Profile.DASHBOARD_COMPONENT_LISTS,
-    ):
-        profile.dashboard_view = Profile.DASHBOARD_WATCHED
-        fields.add("dashboard_view")
-
-    if profile.dashboard_component_list_id and (
-        profile.dashboard_component_list_id not in allowed
-        or profile.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
-    ):
-        profile.dashboard_component_list = None
-        profile.dashboard_view = Profile.DASHBOARD_WATCHED
-        fields.add("dashboard_view")
-        fields.add("dashboard_component_list")
-
-    if (
-        not profile.dashboard_component_list_id
-        and profile.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
-    ):
-        profile.dashboard_view = Profile.DASHBOARD_WATCHED
-        fields.add("dashboard_view")
-
-    if fields:
-        profile.save(update_fields=fields)
-
-
 @never_cache
 @login_required
 def user_profile(request):
     profile = request.user.profile
-    fixup_profile(profile)
+    profile.fixup_profile(request)
 
     form_classes = [
         LanguagesForm,
@@ -666,19 +631,22 @@ class UserPage(UpdateView):
         context["page_profile"] = user.profile
         context["last_changes"] = last_changes.preload()
         context["last_changes_url"] = urlencode({"user": user.username})
-        context["user_translations"] = prefetch_stats(user_translations)
-        context["owned_projects"] = prefetch_project_flags(
+        context["page_user_translations"] = prefetch_stats(user_translations)
+        context["page_owned_projects"] = prefetch_project_flags(
             prefetch_stats(
                 user.owned_projects.filter(id__in=allowed_project_ids).order()
             )
         )
-        context["watched_projects"] = prefetch_project_flags(
+        context["page_watched_projects"] = prefetch_project_flags(
             prefetch_stats(
                 user.watched_projects.filter(id__in=allowed_project_ids).order()
             )
         )
         context["user_languages"] = user.profile.languages.all()[:7]
         context["group_form"] = self.group_form or GroupAddForm()
+        context["page_user_groups"] = user.groups.prefetch_related(
+            "defining_project"
+        ).order()
         return context
 
 
@@ -924,6 +892,11 @@ def reset_password_set(request):
     )
 
 
+def get_registration_hint(email: str) -> Optional[str]:
+    domain = email.rsplit("@", 1)[-1]
+    return settings.REGISTRATION_HINTS.get(domain)
+
+
 @never_cache
 def reset_password(request):
     """Password reset handling."""
@@ -953,13 +926,15 @@ def reset_password(request):
                     store_userid(request, True)
                     return social_complete(request, "email")
             else:
+                email = form.cleaned_data["email"]
                 send_notification_email(
                     None,
-                    [form.cleaned_data["email"]],
+                    [email],
                     "reset-nonexisting",
                     context={
                         "address": get_ip_address(request),
                         "user_agent:": get_user_agent(request),
+                        "registration_hint": get_registration_hint(email),
                     },
                 )
             return fake_email_sent(request, True)
@@ -988,7 +963,7 @@ def reset_api_key(request):
     # Need to delete old token as key is primary key
     with transaction.atomic():
         Token.objects.filter(user=request.user).delete()
-        Token.objects.create(user=request.user, key=get_random_string(40))
+        Token.objects.create(user=request.user, key=get_token("wlu"))
 
     return redirect_profile("#api")
 

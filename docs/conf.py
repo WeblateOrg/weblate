@@ -38,11 +38,11 @@ def setup(app):
 # -- Project information -----------------------------------------------------
 
 project = "Weblate"
-copyright = "2012 - 2021 Michal Čihař"
+copyright = "2012–2022 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.9.1"
+release = "4.11"
 
 
 # -- General configuration ---------------------------------------------------
@@ -183,15 +183,15 @@ graphviz_output_format = "svg"
 # Use localized Python docs on Read the Docs build
 rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE")
 
-python_doc_url = "https://docs.python.org/3.9/"
+python_doc_url = "https://docs.python.org/3/"
 if rtd_lang == "pt_BR":
-    python_doc_url = "https://docs.python.org/pt-br/3.9/"
+    python_doc_url = "https://docs.python.org/pt-br/3/"
 elif rtd_lang in ("es", "fr", "ja", "ko"):
-    python_doc_url = f"https://docs.python.org/{rtd_lang}/3.9/"
+    python_doc_url = f"https://docs.python.org/{rtd_lang}/3/"
 elif rtd_lang == "zh_CN":
-    python_doc_url = "https://docs.python.org/zh-cn/3.9/"
+    python_doc_url = "https://docs.python.org/zh-cn/3/"
 elif rtd_lang == "zh_TW":
-    python_doc_url = "https://docs.python.org/zh-tw/3.9/"
+    python_doc_url = "https://docs.python.org/zh-tw/3/"
 
 django_doc_url = "https://docs.djangoproject.com/en/stable/"
 if rtd_lang in ("el", "es", "fr", "id", "ja", "ko", "pl"):
@@ -262,6 +262,8 @@ linkcheck_ignore = [
     "http://127.0.0.1:8080/",
     # Requires a valid token
     "https://api.deepl.com/v2/translate",
+    # Anchors are used to specify channel name here
+    "https://web.libera.chat/#",
 ]
 
 # HTTP docs
@@ -295,5 +297,6 @@ autodoc_mock_imports = [
     "weblate.utils.files",
 ]
 
-# Gettext / i18n
+# Create single gettext PO file for while documentation,
+# instead of having one file per chapter.
 gettext_compact = "docs"

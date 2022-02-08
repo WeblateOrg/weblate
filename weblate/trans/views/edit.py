@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -45,6 +45,7 @@ from weblate.glossary.models import get_glossary_terms
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.screenshots.forms import ScreenshotForm
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AutoForm,
     ChecksumForm,
@@ -315,7 +316,7 @@ def perform_translation(unit, form, request):
         unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
-        user, form.cleaned_data["target"], form.cleaned_data["state"]
+        user, form.cleaned_data["target"], form.cleaned_data["state"], request=request
     )
     # Make sure explanation is saved
     if not saved and change_explanation:
@@ -521,6 +522,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 def translate(request, project, component, lang):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
     obj, project, unit_set = parse_params(request, project, component, lang)
+    user = request.user
 
     # Search results
     search_result = search(obj, project, unit_set, request)
@@ -536,12 +538,18 @@ def translate(request, project, component, lang):  # noqa: C901
     offset = search_result["offset"]
 
     # Checksum unit access
-    checksum_form = ChecksumForm(unit_set, request.GET or request.POST)
-    if checksum_form.is_valid():
-        unit = checksum_form.cleaned_data["unit"]
-        try:
-            offset = search_result["ids"].index(unit.id) + 1
-        except ValueError:
+    payload = request.GET or request.POST
+    if payload.get("checksum"):
+        checksum_form = ChecksumForm(unit_set, payload)
+        if checksum_form.is_valid():
+            unit = checksum_form.cleaned_data["unit"]
+            try:
+                offset = search_result["ids"].index(unit.id) + 1
+            except ValueError:
+                offset = None
+        else:
+            offset = None
+        if offset is None:
             messages.warning(request, _("No string matched your search!"))
             return redirect(obj)
     else:
@@ -604,17 +612,17 @@ def translate(request, project, component, lang):  # noqa: C901
         return response
 
     # Show secondary languages for signed in users
-    if request.user.is_authenticated:
-        secondary = unit.get_secondary_units(request.user)
+    if user.is_authenticated:
+        secondary = unit.get_secondary_units(user)
     else:
         secondary = None
 
     # Prepare form
-    form = TranslationForm(request.user, unit)
+    form = TranslationForm(user, unit)
     sort = get_sort_name(request, obj)
 
     screenshot_form = None
-    if request.user.has_perm("screenshot.add", unit.translation):
+    if user.has_perm("screenshot.add", unit.translation):
         screenshot_form = ScreenshotForm(
             unit.translation.component, initial={"translation": unit.translation}
         )
@@ -631,8 +639,8 @@ def translate(request, project, component, lang):  # noqa: C901
             "object": obj,
             "project": project,
             "unit": unit,
-            "nearby": unit.nearby(request.user.profile.nearby_strings),
-            "nearby_keys": unit.nearby_keys(request.user.profile.nearby_strings),
+            "nearby": unit.nearby(user.profile.nearby_strings),
+            "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "others": get_other_units(unit),
             "search_url": search_result["url"],
             "search_items": search_result["items"],
@@ -648,12 +656,12 @@ def translate(request, project, component, lang):  # noqa: C901
                 project,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
-            "context_form": ContextForm(instance=unit.source_unit, user=request.user),
+            "context_form": ContextForm(instance=unit.source_unit, user=user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": locked,
             "glossary": get_glossary_terms(unit),
-            "addterm_form": TermForm(unit),
+            "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
@@ -662,7 +670,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "display_checks": list(get_display_checks(unit)),
             "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
             "new_unit_form": get_new_unit_form(
-                unit.translation, request.user, initial={"variant": unit.source}
+                unit.translation, user, initial={"variant": unit.pk}
             ),
             "screenshot_form": screenshot_form,
         },
@@ -696,7 +704,9 @@ def auto_translation(request, project, component, lang):
     )
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        messages.success(request, auto_translate(*args, translation=translation))
+        messages.success(
+            request, auto_translate(*args, translation=translation)["message"]
+        )
     else:
         task = auto_translate.delay(*args)
         messages.success(
@@ -760,7 +770,7 @@ def delete_comment(request, pk):
     if "spam" in request.POST:
         comment_obj.report_spam()
     comment_obj.delete()
-    messages.info(request, _("Translation comment has been deleted."))
+    messages.info(request, _("Comment has been deleted."))
 
     return redirect_next(request.POST.get("next"), fallback_url)
 
@@ -778,7 +788,7 @@ def resolve_comment(request, pk):
 
     comment_obj.resolved = True
     comment_obj.save(update_fields=["resolved"])
-    messages.info(request, _("Translation comment has been resolved."))
+    messages.info(request, _("Comment has been resolved."))
 
     return redirect_next(request.POST.get("next"), fallback_url)
 
@@ -957,7 +967,12 @@ def delete_unit(request, unit_id):
     if not request.user.has_perm("unit.delete", unit):
         raise PermissionDenied()
 
-    unit.translation.delete_unit(request, unit)
+    try:
+        unit.translation.delete_unit(request, unit)
+    except FileParseError as error:
+        unit.translation.component.update_import_alerts(delete=False)
+        messages.error(request, _("Failed to remove the string: %s") % error)
+        return redirect(unit)
     return redirect(unit.translation)
 
 

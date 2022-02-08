@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -52,7 +52,7 @@ from weblate.trans.models.unit import (
     Unit,
 )
 from weblate.trans.models.variant import Variant
-from weblate.trans.signals import store_post_load, vcs_pre_commit
+from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
 from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
@@ -163,10 +163,7 @@ class Translation(
         self.was_new = 0
         self.reason = ""
         self._invalidate_scheduled = False
-
-    def get_badges(self):
-        if self.is_source:
-            yield (_("source"), _("This translation is used for source strings."))
+        self.update_changes = []
 
     @cached_property
     def full_slug(self):
@@ -331,7 +328,7 @@ class Translation(
 
         # Check if unit is worth notification:
         # - new and untranslated
-        # - newly not translated
+        # - newly untranslated
         # - newly fuzzy
         # - source string changed
         if newunit.state < STATE_TRANSLATED and (
@@ -356,6 +353,7 @@ class Translation(
         details = {
             "filename": self.filename,
         }
+        self.update_changes = []
 
         # Check if we're not already up to date
         try:
@@ -375,7 +373,9 @@ class Translation(
                 filenames = self.get_hash_filenames()
                 for i, old_part in enumerate(old_parts):
                     if old_part != new_parts[i]:
-                        details["filename"] = filenames[i]
+                        details["filename"] = filenames[i][
+                            len(self.component.full_path) :
+                        ].lstrip("/")
                         break
 
         elif force:
@@ -439,11 +439,13 @@ class Translation(
                         newunit,
                         repr(newunit.source),
                     )
-                    Change.objects.create(
-                        unit=newunit,
-                        action=Change.ACTION_DUPLICATE_STRING,
-                        user=user,
-                        author=user,
+                    self.update_changes.append(
+                        Change(
+                            unit=newunit,
+                            action=Change.ACTION_DUPLICATE_STRING,
+                            user=user,
+                            author=user,
+                        )
                     )
                     self.component.trigger_alert(
                         "DuplicateString",
@@ -458,11 +460,13 @@ class Translation(
         except FileParseError as error:
             report_error(cause="Failed to parse file on update")
             self.log_warning("skipping update due to parse error: %s", error)
+            self.store_update_changes()
             return
 
         # Delete stale units
         stale = set(dbunits) - set(updated)
         if stale:
+            self.log_debug("deleting %d stale strings", len(stale))
             self.unit_set.filter(id_hash__in=stale).delete()
             self.component.needs_cleanup = True
 
@@ -472,9 +476,13 @@ class Translation(
         self.store_hash()
 
         # Store change entry
-        Change.objects.create(
-            translation=self, action=change, user=user, author=user, details=details
+        self.update_changes.append(
+            Change(
+                translation=self, action=change, user=user, author=user, details=details
+            )
         )
+
+        self.store_update_changes()
 
         # Invalidate keys cache
         transaction.on_commit(self.invalidate_keys)
@@ -483,6 +491,11 @@ class Translation(
         # Use up to date list as prefetch for source
         if self.is_source:
             self.component.preload_sources(updated)
+
+    def store_update_changes(self):
+        # Save change
+        Change.objects.bulk_create(self.update_changes, batch_size=500)
+        self.update_changes = []
 
     def do_update(self, request=None, method=None):
         return self.component.do_update(request, method=method)
@@ -594,6 +607,9 @@ class Translation(
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
+
+        # Make sure template cache is purged upon commit
+        self.drop_store_cache()
 
         return True
 
@@ -715,20 +731,8 @@ class Translation(
             # Update fuzzy/approved flag
             pounit.set_state(unit.state)
 
-            # Update comments as they might have been changed by state changes
-            state = unit.get_unit_state(pounit, "")
-            flags = pounit.flags
-            update_fields = ["pending", "details"]
-            only_save = True
-            if state != unit.state or flags != unit.flags:
-                unit.state = state
-                update_fields.append("state")
-                unit.flags = flags
-                update_fields.append("flags")
-                only_save = False
-
             unit.save(
-                update_fields=update_fields, same_content=True, only_save=only_save
+                update_fields=["pending", "details"], same_content=True, only_save=True
             )
 
         # Did we do any updates?
@@ -795,10 +799,10 @@ class Translation(
                 # Approved with suggestions
                 result.add_if(self.stats, "approved_suggestions", "info")
 
-            # Untranslated strings
+            # Unfinished strings
             result.add_if(self.stats, "todo", "danger")
 
-            # Not translated strings
+            # Untranslated strings
             result.add_if(self.stats, "nottranslated", "danger")
 
             # Fuzzy strings
@@ -1058,7 +1062,8 @@ class Translation(
         return (0, 0, self.unit_set.count(), len(store2.content_units))
 
     def handle_add_upload(self, request, store, fuzzy: str = ""):
-        has_template = self.component.has_template()
+        component = self.component
+        has_template = component.has_template()
         skipped = 0
         accepted = 0
         if has_template:
@@ -1075,16 +1080,17 @@ class Translation(
                 request,
                 unit.context,
                 split_plural(unit.source),
-                split_plural(unit.target),
+                split_plural(unit.target) if not self.is_source else [],
                 is_batch_update=True,
             )
             accepted += 1
-        self.component.invalidate_cache()
-        if self.component.needs_variants_update:
-            self.component.update_variants()
-        self.component.schedule_sync_terminology()
-        self.component.update_source_checks()
-        self.component.run_batched_checks()
+        component.invalidate_cache()
+        if component.needs_variants_update:
+            component.update_variants()
+        component.schedule_sync_terminology()
+        component.update_source_checks()
+        component.run_batched_checks()
+        component_post_update.send(sender=self.__class__, component=component)
         return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
@@ -1148,6 +1154,7 @@ class Translation(
                     filecopy,
                     component.file_format_cls,
                     None,
+                    as_template=True,
                 )
             else:
                 template_store = component.template_store
@@ -1256,9 +1263,12 @@ class Translation(
 
     def get_store_change_translations(self):
         component = self.component
-        if not self.is_source or component.has_template():
-            return [self]
-        return component.translation_set.exclude(id=self.id)
+        result = []
+        if self.is_source:
+            result.extend(component.translation_set.exclude(id=self.id))
+        # Source is always at the end
+        result.append(self)
+        return result
 
     @transaction.atomic
     def add_unit(  # noqa: C901
@@ -1272,6 +1282,7 @@ class Translation(
         auto_context: bool = False,
         is_batch_update: bool = False,
         skip_existing: bool = False,
+        sync_terminology: bool = True,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1279,7 +1290,9 @@ class Translation(
         component = self.component
         if self.is_source:
             translations = [self]
-            translations.extend(component.translation_set.exclude(id=self.id))
+            translations.extend(
+                component.translation_set.exclude(id=self.id).select_related("language")
+            )
         else:
             translations = [component.source_translation, self]
         has_template = component.has_template()
@@ -1298,6 +1311,8 @@ class Translation(
                 suffix += 1
                 context = f"{base}{suffix}"
 
+        unit_ids = []
+        changes = []
         for translation in translations:
             is_source = translation.is_source
             kwargs = {}
@@ -1329,12 +1344,15 @@ class Translation(
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
-                    if unit.extra_flags != new_flags or unit.explanation != explanation:
+                    if not skip_existing and (
+                        unit.extra_flags != new_flags or unit.explanation != explanation
+                    ):
                         unit.extra_flags = new_flags
                         unit.explanation = explanation
                         unit.save(
                             update_fields=["extra_flags", "explanation"],
                             same_content=True,
+                            sync_terminology=False,
                         )
                 except Unit.DoesNotExist:
                     pass
@@ -1354,13 +1372,18 @@ class Translation(
                 unit.trigger_update_variants = False
                 try:
                     with transaction.atomic():
-                        unit.save(force_insert=True)
-                        Change.objects.create(
-                            unit=unit,
-                            action=Change.ACTION_NEW_UNIT,
-                            target=current_target,
-                            user=user,
-                            author=user,
+                        unit.save(
+                            force_insert=True,
+                            sync_terminology=False,
+                        )
+                        changes.append(
+                            Change(
+                                unit=unit,
+                                action=Change.ACTION_NEW_UNIT,
+                                target=current_target,
+                                user=user,
+                                author=user,
+                            )
                         )
                 except IntegrityError:
                     if not skip_existing:
@@ -1372,12 +1395,20 @@ class Translation(
                 component._sources[id_hash] = unit
             if translation == self:
                 result = unit
+            unit_ids.append(unit.pk)
+
+        if changes:
+            Change.objects.bulk_create(changes)
 
         if not is_batch_update:
             if self.component.needs_variants_update:
-                component.update_variants()
-            component.schedule_sync_terminology()
+                component.update_variants(
+                    updated_units=Unit.objects.filter(pk__in=unit_ids)
+                )
+            if sync_terminology:
+                component.schedule_sync_terminology()
             component.invalidate_cache()
+            component_post_update.send(sender=self.__class__, component=component)
         return result
 
     @transaction.atomic
@@ -1397,6 +1428,9 @@ class Translation(
                     continue
                 # Delete the removed unit from the database
                 translation_unit.delete()
+                # Skip file processing on source language without a storage
+                if not self.filename:
+                    continue
                 # Does unit exist in the file?
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
@@ -1424,7 +1458,7 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self):
-        if not self.is_source:
+        if not self.is_source or not self.component.manage_units:
             return
         for source in self.component.get_all_sources():
             # Is the string a terminology
@@ -1438,6 +1472,7 @@ class Translation(
                 "",
                 is_batch_update=True,
                 skip_existing=True,
+                sync_terminology=False,
             )
 
     def validate_new_unit_data(  # noqa: C901

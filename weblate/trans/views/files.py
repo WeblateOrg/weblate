@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -139,14 +139,7 @@ def download_translation(request, project, component, lang):
             show_form_errors(request, form)
             return redirect(obj)
 
-        kwargs["units"] = (
-            obj.unit_set.search(
-                form.cleaned_data.get("q", ""), project=obj.component.project
-            )
-            .distinct()
-            .order_by("position")
-            .prefetch_full()
-        )
+        kwargs["query_string"] = form.cleaned_data.get("q", "")
         kwargs["fmt"] = form.cleaned_data["format"]
 
     return download_translation_file(request, obj, **kwargs)

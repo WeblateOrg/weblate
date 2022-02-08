@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -149,12 +149,14 @@ class HgRepository(Repository):
                     raise
         self.clean_revision_cache()
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Merge remote branch or reverts the merge."""
         if abort:
             self.execute(["update", "--clean", "."])
         elif self.needs_merge():
-            if self.needs_ff():
+            if self.needs_ff() and not no_ff:
                 self.execute(["update", "--clean", "remote(.)"])
             else:
                 self.configure_merge()

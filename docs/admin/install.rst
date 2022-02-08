@@ -260,7 +260,7 @@ ensure that the key is actually owned by the mentioned person.  The GNU Privacy
 Handbook covers this topic in the chapter `Validating other keys on your public
 keyring`_. The most reliable method is to meet the developer in person and
 exchange key fingerprints, however you can also rely on the web of trust. This way
-you can trust the key transitively though signatures of others, who have met
+you can trust the key transitively through signatures of others, who have met
 the developer in person.
 
 Once the key is trusted, the warning will not occur:
@@ -311,7 +311,7 @@ under the same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
 In the Docker container, all files in the :file:`/app/data` volume have to be
-owned by weblate user inside the container (UID 1000).
+owned by the ``weblate`` user inside the container (UID 1000).
 
 .. seealso::
 
@@ -567,6 +567,11 @@ allow IP address spoofing for installations not using a reverse proxy. Enabling
 but you might need to adjust :setting:`IP_PROXY_HEADER` and
 :setting:`IP_PROXY_OFFSET` as well.
 
+Another thing to take care of is the :http:header:`Host` header. It should match
+to whatever is configured as :setting:`SITE_DOMAIN`. Additional configuration
+might be needed in your reverse proxy (for example use ``ProxyPreserveHost On``
+for Apache or ``proxy_set_header Host $host;`` with nginx).
+
 .. seealso::
 
     :ref:`spam-protection`,
@@ -593,7 +598,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies#proxy-environment-variables>`_
+   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env>`_
 
 .. _configuration:
 
@@ -1455,7 +1460,7 @@ A typical setup using Redis as a backend looks like this:
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
 You should also start the Celery worker to process the tasks and start
-scheduled tasks, this can be done directly on the command line (which is mostly
+scheduled tasks, this can be done directly on the command-line (which is mostly
 useful when debugging or developing):
 
 .. code-block:: sh
@@ -1528,7 +1533,7 @@ Monitoring Celery status
 
 You can find current length of the Celery task queues in the
 :ref:`management-interface` or you can use :djadmin:`celery_queues` on the
-command line. In case the queue will get too long, you will also get
+command-line. In case the queue will get too long, you will also get
 configuration error in the admin interface.
 
 .. warning::

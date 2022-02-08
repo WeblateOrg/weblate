@@ -1,7 +1,7 @@
 # Minimal makefile for Sphinx documentation
 #
 
-# You can set these variables from the command line, and also
+# You can set these variables from the command-line, and also
 # from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
@@ -38,7 +38,7 @@ update-screenshots: $(SCREENSHOTS)
 	@echo $(SCREENSHOTS)
 
 update-schemas:
-	@cp ../.venv/lib/python*/site-packages/weblate_schemas/schemas/* schemas/
+	@cp $$(python -c "import importlib.resources; print(importlib.resources.files('weblate_schemas'))")/schemas/* schemas/
 
 update-po: $(wildcard locales/*/LC_MESSAGES/docs.po)
 

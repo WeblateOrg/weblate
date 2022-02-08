@@ -178,11 +178,11 @@
           </button>
           <ul class="dropdown-menu">
             {% if user_can_delete %}
-              <li><a href="{% url "delete-unit" unit_id=unit.pk %}" class="link-post">{% trans "Delete string" %}</a></li>
+              <li><a href="" class="link-post" data-href="{% url "delete-unit" unit_id=unit.pk %}">{% trans "Delete string" %}</a></li>
             {% endif %}
             {% if user_can_edit_flags and flag_actions %}
               {% for action, value, name in flag_actions %}
-                <li><a href="{% url 'edit_context' pk=unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
+                <li><a href="" class="link-post" data-href="{% url 'edit_context' pk=unit.pk %}" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
               {% endfor %}
             {% endif %}
             {% if user_can_add_unit %}
@@ -214,7 +214,7 @@
             title="{% trans "Insufficient privileges for saving translations." %}"
         {% endif %}
     {% endif %}
-    > {% trans "Save" %}</button>
+    > {% trans "Save and continue" %}</button>
 
     {% if not locked and user_can_translate %}
       <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151">{% trans "Save and stay" %}</button>
@@ -420,7 +420,7 @@
 
 <div class="col-sm-3 source-info">
 
-{% if unit.all_checks or unit.suggestions or variants or display_checks %}
+{% if unit.all_checks or unit.all_comments or unit.suggestions or variants or display_checks %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
@@ -548,7 +548,7 @@
             {% include "snippets/glossary.html" %}
         </tbody>
     </table>
-{% if user_can_add_glossary %}
+{% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
     <div class="panel-footer panel-footer-links">
         <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% trans "Add term to glossary" %}</a>
     </div>
@@ -621,7 +621,7 @@
     {% if unit.note %}
     <div class="list-group-item">
     <h5>
-    {% trans "Source string comment" %}
+    {% trans "Source string description" %}
     </h5>
     {{ unit.note|urlize_ugc }}
     </div>
@@ -633,7 +633,7 @@
     {% trans "Labels" %}
     </h5>
     {% for label in unit.all_labels %}
-      <a href="?q=label:{{ label.name|urlencode }}"><span class="label label-{{ label.color }}">{{ label.name }}</span></a>
+      <a href="?q={{ label.filter_name|urlencode }}"><span class="label label-{{ label.color }}">{{ label.name }}</span></a>
     {% empty %}
     <em>{% trans "No labels currently set." %}</em>
     {% endfor %}
@@ -658,14 +658,6 @@
     {% trans "Source string location" %}
     </h5>
     {% get_location_links user.profile unit %}
-    </div>
-    {% endif %}
-    {% if unit.comment %}
-    <div class="list-group-item">
-    <h5>
-    {% trans "Comments" %}
-    </h5>
-    {{ unit.comment }}
     </div>
     {% endif %}
     <div class="list-group-item">

@@ -1,4 +1,4 @@
-var loading = 0;
+var loading = [];
 
 // Remove some weird things from location hash
 if (
@@ -11,15 +11,18 @@ if (
 
 // Loading indicator handler
 function increaseLoading(sel) {
-  if (loading === 0) {
+  if (!(sel in loading)) {
+    loading[sel] = 0;
+  }
+  if (loading[sel] === 0) {
     $("#loading-" + sel).show();
   }
-  loading += 1;
+  loading[sel] += 1;
 }
 
 function decreaseLoading(sel) {
-  loading -= 1;
-  if (loading === 0) {
+  loading[sel] -= 1;
+  if (loading[sel] === 0) {
     $("#loading-" + sel).hide();
   }
 }
@@ -694,7 +697,7 @@ $(function () {
     var $form = $("#link-post");
     var $this = $(this);
 
-    $form.attr("action", $this.attr("href"));
+    $form.attr("action", $this.attr("data-href"));
     $.each($this.data("params"), function (name, value) {
       var elm = $("<input>")
         .attr("type", "hidden")
@@ -728,39 +731,6 @@ $(function () {
       error: screenshotFailure,
     });
     return false;
-  });
-
-  /* Access management */
-  $(".set-group").click(function () {
-    var $this = $(this);
-    var $form = $("#set_groups_form");
-
-    $this.prop("disabled", true);
-    $this.data("error", "");
-    $this.parent().removeClass("load-error");
-
-    $.ajax({
-      type: "POST",
-      url: $form.attr("action"),
-      data: {
-        csrfmiddlewaretoken: $form.find("input").val(),
-        action: $this.prop("checked") ? "add" : "remove",
-        user: $this.data("username"),
-        group: $this.data("group"),
-      },
-      dataType: "json",
-      success: function (data) {
-        if (data.responseCode !== 200) {
-          addAlert(data.message);
-        }
-        $this.prop("checked", data.state);
-        $this.prop("disabled", false);
-      },
-      error: function (xhr, textStatus, errorThrown) {
-        addAlert(errorThrown);
-        $this.prop("disabled", false);
-      },
-    });
   });
 
   /* Avoid double submission of non AJAX forms */
@@ -898,17 +868,32 @@ $(function () {
 
     $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
 
+    var progress_completed = function () {
+      $bar.width("100%");
+      if ($("#progress-redirect").prop("checked")) {
+        window.location = $("#progress-return").attr("href");
+      }
+    };
+
     var progress_interval = setInterval(function () {
-      $.get(url, function (data) {
-        $bar.width(data.progress + "%");
-        $pre.text(data.log);
-        $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
-        if (data.completed) {
-          clearInterval(progress_interval);
-          if ($("#progress-redirect").prop("checked")) {
-            window.location = $("#progress-return").attr("href");
+      $.ajax({
+        url: url,
+        type: "get",
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (XMLHttpRequest.status == 404) {
+            clearInterval(progress_interval);
+            progress_completed();
           }
-        }
+        },
+        success: function (data) {
+          $bar.width(data.progress + "%");
+          $pre.text(data.log);
+          $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
+          if (data.completed) {
+            clearInterval(progress_interval);
+            progress_completed();
+          }
+        },
       });
     }, 1000);
 
@@ -1180,12 +1165,28 @@ $(function () {
   Prism.languages.none = {};
   initHighlight(document);
 
+  $(".replace-preview input[type='checkbox']").on("change", function () {
+    $(this).closest("tr").toggleClass("warning", this.checked);
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
-  console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
   console.log(
-    "%cThis is a console for developers. If someone has asked you to open this " +
-      "window, they are likely trying to compromise your Weblate account.",
-    "color: red;"
+    "%c" +
+      pgettext("Alert to user when opening browser developer console", "Stop!"),
+    "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;"
   );
-  console.log("%cPlease close this window now.", "color: blue;");
+  console.log(
+    "%c" +
+      gettext(
+        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account."
+      ),
+    "font-size: 20px; font-family: sans-serif"
+  );
+  console.log(
+    "%c" +
+      gettext(
+        "See https://en.wikipedia.org/wiki/Self-XSS for more information."
+      ),
+    "font-size: 20px; font-family: sans-serif"
+  );
 });

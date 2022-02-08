@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -45,13 +45,13 @@ class Command(BaseCommand):
         parser.add_argument(
             "--name-template",
             default="{{ component }}",
-            help="Template string, transforming the filemask match to a project name",
+            help="Template string, transforming the file mask match to a project name",
         )
         parser.add_argument(
             "--base-file-template",
             default="",
             help=(
-                "Template string, transforming the filemask "
+                "Template string, transforming the file mask "
                 "match to a monolingual base filename"
             ),
         )
@@ -59,7 +59,7 @@ class Command(BaseCommand):
             "--new-base-template",
             default="",
             help=(
-                "Template string, transforming the filemask "
+                "Template string, transforming the file mask "
                 "match to a base filename for new translations"
             ),
         )

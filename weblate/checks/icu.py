@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -134,24 +134,19 @@ def update_maybe_value(value, old):
     return 0
 
 
-def extract_highlights(token, source, out=None):
+def extract_highlights(token, source):
     """Extract all placeholders from an AST selected for highlighting."""
-    if out is None:
-        out = []
-
     if isinstance(token, str):
-        return out
+        return
 
     if isinstance(token, list):
         for tok in token:
-            extract_highlights(tok, source, out)
-
-        return out
+            yield from extract_highlights(tok, source)
 
     # Sanity check the token. They should always have
     # start and end.
     if "start" not in token or "end" not in token:
-        return out
+        return
 
     start = token["start"]
     end = token["end"]
@@ -163,16 +158,14 @@ def extract_highlights(token, source, out=None):
     if "options" in token:
         usable = False
         for subast in token["options"].values():
-            extract_highlights(subast, source, out)
+            yield from extract_highlights(subast, source)
 
     if "contents" in token:
         usable = False
-        extract_highlights(token["contents"], source, out)
+        yield from extract_highlights(token["contents"], source)
 
     if usable:
-        out.append((start, end, source[start:end]))
-
-    return out
+        yield (start, end, source[start:end])
 
 
 def extract_placeholders(token, variables=None):
@@ -268,6 +261,12 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
     check_id = "icu_message_format_syntax"
     name = _("ICU MessageFormat syntax")
     description = _("Syntax errors in ICU MessageFormat strings.")
+    default_disabled = True
+
+    def __init__(self):
+        super().__init__()
+        self.enable_string = "icu-message-format"
+        self.ignore_string = f"ignore-{self.enable_string}"
 
     def check_source_unit(self, source, unit):
         """Checker for source strings. Only check for syntax issues."""
@@ -495,7 +494,8 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
         if result.get("not_tag"):
             yield _(
-                "One or more placeholders should not be an XML tag in the translation: %s"
+                "One or more placeholders should not be "
+                "an XML tag in the translation: %s"
             ) % ", ".join(result["not_tag"])
 
         if result.get("tag_not_empty"):
@@ -510,11 +510,11 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
+            return
 
         flags = self.get_flags(unit)
         if "-highlight" in flags:
-            return []
+            return
 
         strict_tags = "strict-xml" in flags
         allow_tags = strict_tags or "xml" in flags
@@ -522,6 +522,6 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
         ast, _, _ = parse_icu(source, allow_tags, strict_tags, tag_prefix, True)
         if not ast:
-            return []
+            return
 
-        return extract_highlights(ast, source)
+        yield from extract_highlights(ast, source)

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,7 @@
 
 import os
 import os.path
+from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
@@ -50,7 +51,11 @@ def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
         # Indicate alerts
-        for alert in projects.values("id").annotate(Count("component__alert")):
+        for alert in (
+            projects.values("id")
+            .filter(component__alert__dismissed=False)
+            .annotate(Count("component__alert"))
+        ):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
@@ -250,30 +255,23 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def get_group(self, group):
-        return self.group_set.get(name=f"{self.name}{group}")
-
-    def add_user(self, user, group=None):
+    def add_user(self, user, group: Optional[str] = None):
         """Add user based on username or email address."""
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
-                group = "@Translate"
+                group = "Translate"
             elif self.source_review or self.translation_review:
-                group = "@Review"
+                group = "Review"
             else:
-                group = "@Administration"
-        group = self.get_group(group)
-        user.groups.add(group)
+                group = "Administration"
+        group_obj = self.defined_groups.get(name=group)
+        user.groups.add(group_obj)
         user.profile.watched.add(self)
 
-    def remove_user(self, user, group=None):
+    def remove_user(self, user):
         """Add user based on username or email address."""
-        if group is None:
-            groups = self.group_set.filter(internal=True, name__contains="@")
-            user.groups.remove(*groups)
-        else:
-            group = self.get_group(group)
-            user.groups.remove(group)
+        groups = self.defined_groups.all()
+        user.groups.remove(*groups)
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
@@ -409,7 +407,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
                 self.access_control = Project.ACCESS_PUBLIC
             self.save()
         if not user.is_superuser:
-            self.add_user(user, "@Administration")
+            self.add_user(user, "Administration")
         Change.objects.create(
             action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user
         )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,7 +20,7 @@
 
 import random
 from hashlib import md5
-from typing import Dict
+from typing import Dict, List
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
@@ -71,6 +71,8 @@ class MachineTranslation:
     do_cleanup = True
     batch_size = 20
     accounting_key = "external"
+    force_uncleanup = False
+    hightlight_syntax = False
 
     @classmethod
     def get_rank(cls):
@@ -238,6 +240,18 @@ class MachineTranslation:
             threshold,
         )
 
+    def unescape_text(self, text: str):
+        """Unescaping of the text with replacements."""
+        return text
+
+    def escape_text(self, text: str):
+        """Escaping of the text with replacements."""
+        return text
+
+    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+        """Generates a single replacement."""
+        return f"[X{h_start}X]"
+
     def cleanup_text(self, unit):
         """Removes placeholder to avoid confusing the machine translation."""
         text = unit.source_string
@@ -245,29 +259,32 @@ class MachineTranslation:
         if not self.do_cleanup:
             return text, replacements
 
-        highlights = highlight_string(text, unit)
+        highlights = highlight_string(
+            text, unit, hightlight_syntax=self.hightlight_syntax
+        )
         parts = []
         start = 0
         for h_start, h_end, h_text in highlights:
-            parts.append(text[start:h_start])
-            placeholder = f"[X{h_start}X]"
+            parts.append(self.escape_text(text[start:h_start]))
+            h_text = self.escape_text(h_text)
+            placeholder = self.format_replacement(h_start, h_end, h_text)
             replacements[placeholder] = h_text
             parts.append(placeholder)
             start = h_end
 
-        parts.append(text[start:])
+        parts.append(self.escape_text(text[start:]))
 
         return "".join(parts), replacements
 
-    def uncleanup_results(self, replacements, results):
+    def uncleanup_results(self, replacements: Dict[str, str], results: List[str]):
         """Reverts replacements done by cleanup_text."""
-        keys = ["text", "source"]
+        keys = ("text", "source")
         for result in results:
             for key in keys:
                 text = result[key]
                 for source, target in replacements.items():
                     text = text.replace(source, target)
-                result[key] = text
+                result[key] = self.unescape_text(text)
 
     def get_variants(self, language):
         code = self.convert_language(language)
@@ -297,7 +314,7 @@ class MachineTranslation:
         cache_key = self.translate_cache_key(source, language, text, threshold)
         if cache_key:
             result = cache.get(cache_key)
-            if result and replacements:
+            if result and (replacements or self.force_uncleanup):
                 self.uncleanup_results(replacements, result)
             return cache_key, result
         return cache_key, None
@@ -350,7 +367,7 @@ class MachineTranslation:
                     threshold=threshold,
                 )
             )
-            if replacements:
+            if replacements or self.force_uncleanup:
                 self.uncleanup_results(replacements, result)
             if cache_key:
                 cache.set(cache_key, result, 30 * 86400)

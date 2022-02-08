@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -44,12 +44,12 @@ class GlossaryCheck(TargetCheck):
             flags = term.all_flags
             expected = term_source if "read-only" in flags else term.target
             if "forbidden" in flags:
-                if re.search(fr"\b{re.escape(expected)}\b", target, re.IGNORECASE):
+                if re.search(rf"\b{re.escape(expected)}\b", target, re.IGNORECASE):
                     forbidden.add(term_source)
             else:
                 if term_source in matched:
                     continue
-                if re.search(fr"\b{re.escape(expected)}\b", target, re.IGNORECASE):
+                if re.search(rf"\b{re.escape(expected)}\b", target, re.IGNORECASE):
                     mismatched.discard(term_source)
                     matched.add(term_source)
                 else:

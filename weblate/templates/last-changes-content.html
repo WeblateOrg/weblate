@@ -48,7 +48,7 @@
                 {{ details }}
             {% elif change.can_revert %}
                 <label>{{ change.unit.translation.component.source_language }}</label>
-                {% format_translation change.unit.source change.unit.translation.component.source_language %}
+                {% format_translation change.get_source change.unit.translation.component.source_language %}
                 <label>
                     {{ change.unit.translation.language }}
                     {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
@@ -56,12 +56,20 @@
                     {% if change.unit.target == change.target %}
                       <span class="badge">{% trans "Current translation" %}</span>
                     {% endif %}
+                    {% if change.details.state %}
+                      <span class="badge">{{ change.get_state_display }}</span>
+                    {% endif %}
                 </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
             {% elif change.show_content and change.unit %}
                 <label>{{ change.unit.translation.component.source_language }}</label>
                 {% format_translation change.unit.source change.unit.translation.component.source_language %}
-                <label>{{ change.unit.translation.language }}</label>
+                <label>
+                  {{ change.unit.translation.language }}
+                  {% if change.details.state %}
+                    <span class="badge">{{ change.get_state_display }}</span>
+                  {% endif %}
+                </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural %}
             {% elif change.show_source %}
                 {% format_translation change.target change.component.source_language diff=change.old %}

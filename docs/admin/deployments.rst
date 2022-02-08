@@ -51,7 +51,7 @@ You may use your administration interface, or this button (it will bring you to 
    :alt: Install Weblate with YunoHost
    :target: https://install-app.yunohost.org/?app=weblate
 
-It also is possible to use the commandline interface:
+It also is possible to use the command-line interface:
 
 .. code-block:: sh
 

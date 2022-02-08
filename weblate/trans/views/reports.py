@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -104,9 +104,7 @@ def get_credits(request, project=None, component=None):
         mime = "text/plain"
         end = ""
 
-    result = []
-
-    result.append(start)
+    result = [start]
 
     for language in data:
         name, translators = language.popitem()
@@ -282,9 +280,7 @@ def get_counts(request, project=None, component=None):
         mime = "text/plain"
         end = RST_HEADING
 
-    result = []
-
-    result.append(start)
+    result = [start]
 
     for item in data:
         if row_start:

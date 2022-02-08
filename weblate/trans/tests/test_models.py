@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -175,7 +175,7 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(user.can_access_project(project))
 
         # Add to ACL group
-        user.groups.add(Group.objects.get(name="Test@Translate"))
+        user.groups.add(Group.objects.get(name="Translate", defining_project=project))
 
         # Need to fetch user again to clear permission cache
         user = User.objects.get(username="testuser")

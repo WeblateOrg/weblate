@@ -5,7 +5,7 @@ Project goals
 -------------
 
 Web-based continuous localization tool with tight :ref:`vcs` supporting a wide range of
-:ref:`formats`, making it easy for translators to contribute.
+:ref:`file formats <formats>`, making it easy for translators to contribute.
 
 Project name
 ------------

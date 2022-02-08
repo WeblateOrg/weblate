@@ -5,7 +5,11 @@ Docker-image upgrades
 ---------------------
 
 The official Docker image (see :doc:`install/docker`) integrates all steps.
-No manual interaction is needed beyond pulling the latest version.
+Typically, no manual interaction is needed beyond pulling the latest version.
+
+.. seealso::
+
+   :ref:`upgrading-docker`
 
 .. _generic-upgrade-instructions:
 
@@ -72,7 +76,7 @@ instructions for them at once.
 
    .. code-block:: sh
 
-        weblate collectstatic --noinput
+        weblate collectstatic --noinput --clear
 
 #. Compress JavaScript and CSS files (optional, see :ref:`production-compress`):
 
@@ -185,7 +189,8 @@ Notable configuration- and dependency changes:
 
 .. versionchanged:: 4.3.2
 
-   * The ``post_update`` method of addons now takes an extra ``skip_push`` parameter.
+
+   * The ``post_update`` method of add-ons now takes an extra ``skip_push`` parameter.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -274,14 +279,46 @@ Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _upgrade-4.10:
+
+Upgrade from 4.9 to 4.10
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in per-project groups, the upgrade can take long time on sites with thousands of projects.
+
+* Django 4.0 has made some incompatible changes, see
+  :ref:`django:backwards-incompatible-4.0`. Weblate still supports Django 3.2
+  for now, in case any of these are problematic. Most notable changes which
+  might affect Weblate:
+
+  * Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and higher.
+  * Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed.
+
+* The Docker container now uses Django 4.0, see above for changes.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.10 to 4.11
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires Python 3.7 or newer.
+* The implementation of :ref:`manage-acl` has changed, removing the project
+  prefix from the group names. This affects API users.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
 -----------------------------------
 
-Weblate no longer supports Python older than 3.5.
-If you are still running an older version, please migrate to Python 3 first
-on the existing version and upgrade it later.
+Weblate no longer supports Python older than 3.6.
+If you are still running an older version, please migrate the existing support
+to Python 3 first and upgrade it later.
 See `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation
 <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_.
 

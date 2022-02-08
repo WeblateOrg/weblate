@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -102,7 +102,8 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
         email = get_github_email(kwargs["response"]["access_token"])
         if email is not None:
             details["email"] = email
-        if details.get("email", "").endswith("@users.noreply.github.com"):
+        details_email = details.get("email") or ""
+        if details_email.endswith("@users.noreply.github.com"):
             del details["email"]
 
     # Remove any pending e-mail validation codes
@@ -406,11 +407,12 @@ def notify_connect(
 def user_full_name(strategy, details, username, user=None, **kwargs):
     """Update user full name using data from provider."""
     if user and not user.full_name:
-        full_name = details.get("fullname", "").strip()
+        full_name = details.get("fullname") or ""
+        full_name = full_name.strip()
 
         if not full_name and ("first_name" in details or "last_name" in details):
-            first_name = details.get("first_name", "")
-            last_name = details.get("last_name", "")
+            first_name = details.get("first_name")
+            last_name = details.get("last_name")
 
             if first_name and first_name not in last_name:
                 full_name = f"{first_name} {last_name}"

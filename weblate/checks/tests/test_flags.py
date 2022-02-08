@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -61,6 +61,10 @@ class FlagTest(SimpleTestCase):
         )
         flags = Flags(r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
         self.assertEqual(flags.format(), r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
+
+    def test_newline(self):
+        flags = Flags(r"""placeholders:"\n" """)
+        self.assertEqual(flags.get_value("placeholders"), ["\n"])
 
     def test_validate_value(self):
         with self.assertRaises(ValidationError):

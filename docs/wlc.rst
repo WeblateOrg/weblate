@@ -268,6 +268,23 @@ The following commands are available:
 
         File from which content is read, if left unspecified it is read from stdin.
 
+    .. option:: --method
+
+        Upload method to use, see :ref:`upload-method`.
+
+    .. option:: --fuzzy
+
+        Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+
+    .. option:: --author-name
+
+        Author name, to override currently authenticated user
+
+    .. option:: --author-email
+
+        Author e-mail, to override currently authenticated user
+
+
 .. hint::
 
    You can get more detailed information on invoking individual commands by
@@ -352,6 +369,12 @@ List all projects:
     url: http://example.com/api/projects/hello/
     web: https://weblate.org/
     web_url: http://example.com/projects/hello/
+
+Upload translation file:
+
+.. code-block:: sh
+
+   $ wlc upload project/component/language --input /tmp/hello.po
 
 You can also designate what project wlc should work on:
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,7 +42,7 @@ from weblate.addons.flags import (
     SourceEditAddon,
     TargetEditAddon,
 )
-from weblate.addons.generate import GenerateFileAddon, PseudolocaleAddon
+from weblate.addons.generate import GenerateFileAddon, PrefillAddon, PseudolocaleAddon
 from weblate.addons.gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
@@ -298,6 +298,17 @@ class GettextAddonTest(ViewTestCase):
                 self.assertTrue(text.startswith("@@@"))
                 # We need to deal with automated fixups
                 self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
+
+    def test_prefill(self):
+        self.assertTrue(PrefillAddon.can_install(self.component, None))
+        PrefillAddon.create(self.component)
+        for translation in self.component.translation_set.prefetch():
+            self.assertEqual(translation.stats.nottranslated, 0)
+            for unit in translation.unit_set.all():
+                sources = unit.get_source_plurals()
+                for text in unit.get_target_plurals():
+                    self.assertIn(text, sources)
+        self.assertFalse(Unit.objects.filter(pending=True).exists())
 
 
 class AppStoreAddonTest(ViewTestCase):

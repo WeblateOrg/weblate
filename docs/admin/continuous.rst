@@ -337,21 +337,6 @@ For example on GitHub this can be done in the repository configuration:
 
 .. image:: /images/github-protected.png
 
-.. _merge-rebase:
-
-Merge or rebase
----------------
-
-By default, Weblate merges the upstream repository into its own. This is the safest way
-in case you also access the underlying repository by other means. In case you don't
-need this, you can enable rebasing of changes on upstream, which will produce
-a history with fewer merge commits.
-
-.. note::
-
-    Rebasing can cause you trouble in case of complicated merges, so carefully
-    consider whether or not you want to enable them.
-
 Interacting with others
 -----------------------
 
@@ -384,7 +369,7 @@ fulfilled:
 
    Commits are created for every component. So in case you have many components
    you will still see lot of commits. You might utilize
-   :ref:`addon-weblate.git.squash` addon in that case.
+   :ref:`addon-weblate.git.squash` add-on in that case.
 
 If you want to commit changes more frequently and without checking of age, you
 can schedule a regular task to perform a commit:
@@ -399,7 +384,7 @@ Processing repository with scripts
 
 The way to customize how Weblate interacts with the repository is
 :ref:`addons`. Consult :ref:`addon-script` for info on how to execute
-external scripts through addons.
+external scripts through add-ons.
 
 .. _translation-consistency:
 
@@ -435,4 +420,4 @@ Automatic translation
 Automatic translation based on different components can be way to synchronize
 the translations across components. You can either trigger it manually (see
 :ref:`auto-translation`) or make it run automatically on repository update
-using addon (see :ref:`addon-weblate.autotranslate.autotranslate`).
+using add-on (see :ref:`addon-weblate.autotranslate.autotranslate`).

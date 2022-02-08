@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -343,6 +343,6 @@ class CheckTestCase(SimpleTestCase):
             source=self.test_highlight[1],
         )
         self.assertEqual(
-            self.check.check_highlight(self.test_highlight[1], unit),
+            list(self.check.check_highlight(self.test_highlight[1], unit)),
             self.test_highlight[2],
         )

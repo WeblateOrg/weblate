@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -45,6 +45,8 @@ from weblate.utils.validators import validate_filename
 
 
 class BaseAddon:
+    """Base class for Weblate add-ons."""
+
     events: Tuple[int, ...] = ()
     settings_form = None
     name = ""
@@ -59,8 +61,6 @@ class BaseAddon:
     alert: Optional[str] = None
     trigger_update = False
     stay_on_create = False
-
-    """Base class for Weblate add-ons."""
 
     def __init__(self, storage=None):
         self.instance = storage
@@ -86,19 +86,9 @@ class BaseAddon:
     def create_object(cls, component, **kwargs):
         from weblate.addons.models import Addon
 
-        if component:
-            # Reallocate to repository
-            if cls.repo_scope and component.linked_component:
-                component = component.linked_component
-            # Clear add-on cache
-            component.drop_addons_cache()
-        return Addon(
-            component=component,
-            name=cls.name,
-            project_scope=cls.project_scope,
-            repo_scope=cls.repo_scope,
-            **kwargs
-        )
+        result = Addon(component=component, name=cls.name, **kwargs)
+        result.addon_class = cls
+        return result
 
     @classmethod
     def create(cls, component, **kwargs):
@@ -171,10 +161,9 @@ class BaseAddon:
     @classmethod
     def can_install(cls, component, user):
         """Check whether add-on is compatible with given component."""
-        for key, values in cls.compat.items():
-            if getattr(component, key) not in values:
-                return False
-        return True
+        return all(
+            getattr(component, key) in values for key, values in cls.compat.items()
+        )
 
     def pre_push(self, component):
         """Hook triggered before repository is pushed upstream."""

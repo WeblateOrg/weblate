@@ -71,10 +71,8 @@ features might not be translated properly.
 
 .. seealso::
 
-   :ref:`formats`
-
-The uploaded file is merged to update the translation, overwriting existing
-entries by default (this can be turned off or on in the upload dialog).
+   :ref:`formats`,
+   :doc:`/user/files`
 
 .. _upload-method:
 
@@ -84,17 +82,17 @@ Import methods
 These are the choices presented when uploading translation files:
 
 Add as translation (``translate``)
-    Imported translations are added as translations. This is the most common usecase, and
+    Imported strings are added as translations to existing strings. This is the most common usecase, and
     the default behavior.
 
     Only translations are used from the uploaded file and no additional content.
 Add as suggestion (``suggest``)
-    Imported translations are added as suggestions, do this when you want to have your
+    Imported strings are added as suggestions, do this when you want to have your
     uploaded strings reviewed.
 
     Only translations are used from the uploaded file and no additional content.
 Add as translation needing edit (``fuzzy``)
-    Imported translations are added as translations needing edit. This can be useful
+    Imported strings are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
 
     Only translations are used from the uploaded file and no additional content.

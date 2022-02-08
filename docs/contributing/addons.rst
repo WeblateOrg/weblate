@@ -1,5 +1,5 @@
-Developing addons
-=================
+Developing add-ons
+==================
 
 :ref:`addons` are way to customize localization workflow in Weblate.
 
@@ -8,7 +8,7 @@ Developing addons
 .. autoclass:: BaseAddon
     :members:
 
-Here is an example addon:
+Here is an example add-on:
 
 .. literalinclude:: ../../weblate/addons/example.py
     :language: python

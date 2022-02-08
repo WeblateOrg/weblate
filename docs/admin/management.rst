@@ -224,6 +224,22 @@ manually, as the cleanups happen automatically in the background.
 
    :ref:`production-cron`
 
+cleanup_ssh_keys
+----------------
+
+.. django-admin:: cleanup_ssh_keys
+
+.. versionadded:: 4.9.1
+
+Performs cleanup of stored SSH host keys:
+
+* Removes deprecated RSA keys for GitHub which might cause issues connecting to GitHub.
+* Removes duplicate entries in host keys.
+
+.. seealso::
+
+   :ref:`ssh-repos`
+
 createadmin
 -----------
 
@@ -375,7 +391,7 @@ import_project
     :ref:`addon-weblate.discovery.discovery` add-on, leading to some
     changes in behavior and what parameters are accepted.
 
-Batch imports components into project based on filemask.
+Batch imports components into project based on the file mask.
 
 `<project>` names an existing project, into which the components are to
 be imported.

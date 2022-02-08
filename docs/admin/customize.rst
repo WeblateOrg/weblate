@@ -112,8 +112,8 @@ Changing the logo
 .. _custom-addon-modules:
 .. _custom-check-modules:
 
-Custom quality checks, addons and auto-fixes
---------------------------------------------
+Custom quality checks, add-ons and auto-fixes
+---------------------------------------------
 
 To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 :ref:`own-addon` in Weblate:

@@ -1,15 +1,15 @@
-name: "CodeQL"
+name: CodeQL
 
 on:
   push:
     branches:
-      - main
+    - main
   pull_request:
     # The branches below must be a subset of the branches above
     branches:
-      - main
+    - main
   schedule:
-    - cron: "0 4 * * 0"
+  - cron: 0 4 * * 0
 
 jobs:
   analyze:
@@ -18,34 +18,34 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.10"
+        - '3.10'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2.4.0
-      - name: Cache pip
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
-      - name: Install apt dependencies
-        run: sudo ./ci/apt-install $CI_DATABASE
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Used versions
-        run: ./ci/print-versions
-      - name: Install pip dependencies
-        run: ./ci/pip-install ${{ matrix.requirements }}
+    - name: Checkout repository
+      uses: actions/checkout@v2.4.0
+    - name: Cache pip
+      uses: actions/cache@v2.1.7
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install $CI_DATABASE
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2.3.2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Used versions
+      run: ./ci/print-versions
+    - name: Install pip dependencies
+      run: ./ci/pip-install ${{ matrix.requirements }}
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: ${{ matrix.language }}
-          setup-python-dependencies: false
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+        setup-python-dependencies: false
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v1
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1

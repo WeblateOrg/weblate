@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -274,7 +274,9 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:variant", Q(variant__isnull=False))
-        self.assert_query("has:label", Q(source_unit__labels__isnull=False))
+        self.assert_query(
+            "has:label", Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
+        )
         self.assert_query("has:context", ~Q(context=""))
         self.assert_query(
             "has:screenshot",
@@ -323,7 +325,15 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_labels(self):
         self.assert_query(
             "label:'test label'",
-            Q(source_unit__labels__name__iexact="test label"),
+            Q(source_unit__labels__name__iexact="test label")
+            | Q(labels__name__iexact="test label"),
+        )
+
+    def test_screenshot(self):
+        self.assert_query(
+            "screenshot:'test screenshot'",
+            Q(source_unit__screenshots__name__iexact="test screenshot")
+            | Q(screenshots__name__iexact="test screenshot"),
         )
 
     def test_priority(self):

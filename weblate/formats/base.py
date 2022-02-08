@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -37,6 +37,7 @@ EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_L
 ANDROID_CODES = {
     "zh_Hans": "zh-rCN",
     "zh_Hant": "zh-rTW",
+    "zh_Hant_HK": "zh-rHK",
     "he": "iw",
     "id": "in",
     "yi": "ji",
@@ -172,6 +173,7 @@ class TranslationFormat:
     autoaddon: Dict[str, Dict[str, str]] = {}
     create_empty_bilingual: bool = False
     bilingual_class = None
+    create_style = "create"
 
     @classmethod
     def get_identifier(cls):

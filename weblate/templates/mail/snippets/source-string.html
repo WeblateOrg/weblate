@@ -10,8 +10,8 @@
 
 {% format_translation unit.source unit.translation.component.source_language %}
 
-{% if unit.comment %}
-<h2>{% trans "Source string comment" %}</h2>
+{% if unit.note %}
+<h2>{% trans "Source string description" %}</h2>
 
-{% format_translation unit.comment unit.translation.component.source_language %}
+{% format_translation unit.note unit.translation.component.source_language %}
 {% endif %}

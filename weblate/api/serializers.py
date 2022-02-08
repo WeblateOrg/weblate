@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,7 +20,6 @@ from copy import copy
 from zipfile import BadZipfile
 
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
@@ -42,7 +41,11 @@ from weblate.trans.models import (
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
-from weblate.utils.views import create_component_from_doc, create_component_from_zip
+from weblate.utils.views import (
+    create_component_from_doc,
+    create_component_from_zip,
+    get_form_errors,
+)
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -309,11 +312,17 @@ class GroupSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
+    defining_project = serializers.HyperlinkedRelatedField(
+        view_name="api:project-detail",
+        lookup_field="slug",
+        read_only=True,
+    )
 
     class Meta:
         model = Group
         fields = (
             "name",
+            "defining_project",
             "project_selection",
             "language_selection",
             "url",
@@ -370,11 +379,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         }
 
 
-class RepoField(serializers.CharField):
+class LinkedField(serializers.CharField):
     def get_attribute(self, instance):
         if instance.linked_component:
             instance = instance.linked_component
-        url = getattr(instance, self.source)
+        return getattr(instance, self.source)
+
+
+class RepoField(LinkedField):
+    def get_attribute(self, instance):
+        url = super().get_attribute(instance)
         if not settings.HIDE_REPO_CREDENTIALS:
             return url
         return cleanup_repo_url(url)
@@ -426,6 +440,8 @@ class ComponentSerializer(RemovableSerializer):
     repo = RepoField(max_length=REPO_LENGTH)
 
     push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    push_branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -789,11 +805,15 @@ class UploadRequestSerializer(ReadOnlySerializer):
     def check_perms(self, user, obj):
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"conflicts": "You can not overwrite existing translations."}
+            )
         if data["conflicts"] == "replace-approved" and not user.has_perm(
             "unit.review", obj
         ):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"conflicts": "You can not overwrite existing approved translations."}
+            )
 
         if data["method"] == "source" and not obj.is_source:
             raise serializers.ValidationError(
@@ -801,7 +821,9 @@ class UploadRequestSerializer(ReadOnlySerializer):
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"method": "This method is not available here."}
+            )
 
 
 class RepoRequestSerializer(ReadOnlySerializer):
@@ -862,6 +884,8 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
+    child = serializers.CharField()
+
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
 
@@ -1157,13 +1181,9 @@ class AddonSerializer(serializers.ModelSerializer):
             form = addon.get_add_form(None, component, data=attrs["configuration"])
             form.is_valid()
             if not form.is_valid():
-                for error in form.non_field_errors():
-                    raise serializers.ValidationError({"configuration": error})
-                for field in form:
-                    for error in field.errors:
-                        raise serializers.ValidationError(
-                            {"configuration": f"Error in {field.name}: {error}"}
-                        )
+                raise serializers.ValidationError(
+                    {"configuration": list(get_form_errors(form))}
+                )
         return attrs
 
     def save(self, **kwargs):

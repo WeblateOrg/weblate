@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -138,20 +138,19 @@ Translate-URL: {{ url }}"""
 
     DEFAULT_PULL_MESSAGE = """Translations update from {{ site_title }}
 
-Translations update from [{{ site_title }}]({{url}})
-for {{ project_name }}/{{ component_name }}.
+Translations update from [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{url}}).
 
-{% if component.linked_childs %}
+{% if component_linked_childs %}
 It also includes following components:
-{% for linked in component.linked_child %}
-{{ component.project.name }}/{{ component.name }}
+{% for linked in component_linked_childs %}
+* [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})
 {% endfor %}
 {% endif %}
 
 Current translation status:
 
 ![Weblate translation status]({{widget_url}})
-"""
+"""  # noqa: E501
 
     # Billing
     INVOICE_PATH = ""

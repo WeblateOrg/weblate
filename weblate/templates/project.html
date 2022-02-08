@@ -142,7 +142,7 @@
   {% if offer_hosting %}
     {% for billing in object.billings %}
       {% if billing.is_trial and billing.plan.price == 0 %}
-        <a href="{{ billing.get_absolute_url }}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
+        <a href="{{ billing.get_absolute_url }}" class="btn btn-primary">{% trans "Request approval for Libre hosting" %}</a>
       {% endif %}
     {% endfor %}
   {% endif %}
@@ -185,11 +185,12 @@
 <div class="tab-pane" id="replace">
 <form action="{% url 'replace' project=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'search-replace' right=True %}
+  {% trans "Search and replace" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
-{% csrf_token %}
-{{ replace_form|crispy }}
+{% crispy replace_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
@@ -203,9 +204,11 @@
 <div class="tab-pane" id="bulk-edit">
 <form action="{% url 'bulk-edit' project=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+  {% trans "Bulk edit" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change the state of all strings matching given type at once." %}</p>
 {% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">

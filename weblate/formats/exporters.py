@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -336,7 +336,7 @@ class MoExporter(PoExporter):
         return
 
     def add_unit(self, unit):
-        # We do not store not translated units
+        # We do not store untranslated units
         if not unit.translated:
             return
         # Parse properties from unit

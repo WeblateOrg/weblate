@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.db import models
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
+from weblate.checks.flags import Flags
 from weblate.utils.colors import COLOR_CHOICES
+
+TRANSLATION_LABELS = {"Automatically translated"}
 
 
 class Label(models.Model):
@@ -49,3 +51,7 @@ class Label(models.Model):
                 self.color, escape(self.name)
             )
         )
+
+    @property
+    def filter_name(self):
+        return f"label:{Flags.format_value(self.name)}"

@@ -1,14 +1,14 @@
 # This file is maintained in https://github.com/WeblateOrg/meta/
 
-name: "Close stale"
+name: Close stale
 on:
   schedule:
-    - cron: "30 1 * * *"
+  - cron: 30 1 * * *
   push:
     branches:
-      - main
+    - main
     paths:
-      - .github/workflows/stale.yml
+    - .github/workflows/stale.yml
   workflow_dispatch:
 
 jobs:
@@ -19,25 +19,25 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/stale@v4
-        with:
-          days-before-pr-stale: 30
-          days-before-pr-close: 14
-          days-before-stale: 10
-          days-before-close: 4
-          exempt-issue-labels: bug,enhancement,documentation,security
-          stale-issue-label: wontfix
-          stale-pr-label: wontfix
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          stale-issue-message: |
-            This issue has been automatically marked as stale because there wasn’t any recent activity.
+    - uses: actions/stale@v4
+      with:
+        days-before-pr-stale: 30
+        days-before-pr-close: 14
+        days-before-stale: 10
+        days-before-close: 4
+        exempt-issue-labels: bug,enhancement,documentation,security
+        stale-issue-label: wontfix
+        stale-pr-label: wontfix
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: |
+          This issue has been automatically marked as stale because there wasn’t any recent activity.
 
-            It will be closed soon if no further action occurs.
+          It will be closed soon if no further action occurs.
 
-            Thank you for your contributions!
-          stale-pr-message: |
-            This pull request has been automatically marked as stale because there wasn’t any recent activity.
+          Thank you for your contributions!
+        stale-pr-message: |
+          This pull request has been automatically marked as stale because there wasn’t any recent activity.
 
-            It will be closed soon if no further action occurs.
+          It will be closed soon if no further action occurs.
 
-            Thank you for your contributions!
+          Thank you for your contributions!

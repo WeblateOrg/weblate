@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -46,11 +46,32 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
     <dir>{}</dir>
     <dir>{}</dir>
     <dir>{}</dir>
+    <dir>{}</dir>
     <config>
         <rescan>
             <int>30</int>
         </rescan>
     </config>
+
+    <alias>
+        <family>sans-serif</family>
+        <prefer>
+            <family>Source Sans 3</family>
+            <family>DejaVu Sans</family>
+            <family>Noto Sans</family>
+            <family>Droid Sans Fallback</family>
+        </prefer>
+    </alias>
+
+    <alias>
+        <family>Source Sans 3</family>
+        <default><family>sans-serif</family></default>
+    </alias>
+
+    <alias>
+        <family>DejaVu Sans</family>
+        <default><family>sans-serif</family></default>
+    </alias>
 
     <!--
      Synthetic emboldening for fonts that do not have bold face available
@@ -97,8 +118,9 @@ def configure_fontconfig():
             FONTCONFIG_CONFIG.format(
                 data_dir("cache", "fonts"),
                 fonts_dir,
-                os.path.join(settings.STATIC_ROOT, "font-source", "TTF"),
-                os.path.join(settings.STATIC_ROOT, "font-dejavu"),
+                os.path.join(settings.STATIC_ROOT, "vendor", "font-source", "TTF"),
+                os.path.join(settings.STATIC_ROOT, "vendor", "font-dejavu"),
+                os.path.join(settings.STATIC_ROOT, "font-noto"),
                 os.path.join(settings.STATIC_ROOT, "font-droid"),
             )
         )

@@ -158,19 +158,19 @@
 
 <div class="tab-pane active" id="contributed">
 <div class="list-group">
-{% include "list-projects.html" with projects=user_translations name_source="translation" %}
+{% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True  name_source="translation" %}
 </div>
 </div>
 
 <div class="tab-pane" id="managed">
 <div class="list-group">
-{% include "list-projects.html" with projects=owned_projects %}
+{% include "list-projects.html" with projects=page_owned_projects %}
 </div>
 </div>
 
 <div class="tab-pane" id="watched">
 <div class="list-group">
-{% include "list-projects.html" with projects=watched_projects %}
+{% include "list-projects.html" with projects=page_watched_projects %}
 </div>
 </div>
 
@@ -242,18 +242,24 @@
     <table class="table table-listing">
       <thead>
         <tr>
+          <th>{% trans "Project" %}</th>
           <th>{% trans "Group" %}</th>
           <th class="number">{% trans "Members" %}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        {% for group in page_user.groups.all %}
+        {% for group in page_user_groups %}
           <tr>
+            {% if group.defining_project %}
+              <th>{{ group.defining_project }}</th>
+            {% else %}
+              <td><em>{% trans "None" %}</em></td>
+            {% endif %}
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user_set.count }}</td>
             <td>
-              <a href="{{ page_user.get_absolute_url }}" class="btn btn-link btn-xs red link-post" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
+              <a href="" class="btn btn-link btn-xs red link-post" data-href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
                 {% icon 'delete.svg' %}
               </a>
             </td>
@@ -270,7 +276,7 @@
               {% endif %}
             </td>
             <td>
-              <a href="{% url 'unblock-user' project=userblock.project.slug %}" class="btn btn-link btn-xs link-post" data-params='{"user": "{{ userblock.user.username|escapejs }}"}' title="{% trans "Unblock user" %}">
+              <a href="" class="btn btn-link btn-xs link-post" data-href="{% url 'unblock-user' project=userblock.project.slug %}" data-params='{"user": "{{ userblock.user.username|escapejs }}"}' title="{% trans "Unblock user" %}">
                 {% icon 'close.svg' %}
               </a>
             </td>

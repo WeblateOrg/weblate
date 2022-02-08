@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,7 +27,6 @@ from django.utils import translation
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from django.utils.translation.trans_real import parse_accept_lang_header
 from django.views.decorators.cache import never_cache
 
 from weblate.accounts.models import Profile
@@ -99,17 +98,10 @@ def guess_user_language(request, translations):
         except Language.DoesNotExist:
             pass
 
-    # Accept-Language HTTP header, for most browser it consists of browser
-    # language with higher rank and OS language with lower rank so it still
-    # might be usable guess
-    accept = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
-    for accept_lang, _unused in parse_accept_lang_header(accept):
-        if accept_lang == "en":
-            continue
-        try:
-            return Language.objects.get(code=accept_lang)
-        except Language.DoesNotExist:
-            continue
+    # Try getting from Accept-Language
+    language = Language.objects.get_request_language(request)
+    if language is not None:
+        return language
 
     # Random language from existing translations, we do not want to list all
     # languages by default
@@ -180,7 +172,7 @@ def home(request):
         )
         return redirect("password")
 
-    # Warn about not filled in username (usually caused by migration of
+    # Warn about not filled in username, this is usually caused by migration of
     # users from older system
     if user.is_authenticated and (not user.full_name or not user.email):
         messages.warning(

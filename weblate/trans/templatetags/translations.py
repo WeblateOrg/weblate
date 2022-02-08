@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -83,18 +83,6 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
-
-PERM_TEMPLATE = """
-<td>
-<input type="checkbox"
-    class="set-group"
-    data-placement="bottom"
-    data-username="{0}"
-    data-group="{1}"
-    data-name="{2}"
-    {3} />
-</td>
-"""
 
 SOURCE_LINK = """
 <a href="{0}" target="_blank" rel="noopener noreferrer"
@@ -195,7 +183,7 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                fr"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
+                rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
                 self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
@@ -594,7 +582,7 @@ def unit_state_title(unit) -> str:
     if checks:
         state.append(
             "{} {}".format(
-                pgettext("String state", "Failed checks:"),
+                pgettext("String state", "Failing checks:"),
                 ", ".join(str(check) for check in checks),
             )
         )
@@ -684,27 +672,20 @@ def active_link(context, slug):
     return ""
 
 
-@register.simple_tag
-def user_permissions(user, groups):
-    """Render checksboxes for user permissions."""
-    result = []
-    for group in groups:
-        checked = ""
-        if user.groups.filter(pk=group.pk).exists():
-            checked = ' checked="checked"'
-        result.append(
-            PERM_TEMPLATE.format(
-                escape(user.username), group.pk, escape(group.short_name), checked
-            )
-        )
-    return mark_safe("".join(result))
+def _needs_agreement(component, user):
+    if not component.agreement:
+        return False
+    return not ContributorAgreement.objects.has_agreed(user, component)
+
+
+@register.simple_tag(takes_context=True)
+def needs_agreement(context, component):
+    return _needs_agreement(component, context["user"])
 
 
 @register.simple_tag(takes_context=True)
 def show_contributor_agreement(context, component):
-    if not component.agreement:
-        return ""
-    if ContributorAgreement.objects.has_agreed(context["user"], component):
+    if not _needs_agreement(component, context["user"]):
         return ""
 
     return render_to_string(
@@ -766,7 +747,7 @@ def translation_alerts(translation):
     if translation.is_source:
         yield (
             "state/source.svg",
-            gettext("This translation is used for source strings."),
+            gettext("This language is used for source strings."),
             None,
         )
 
@@ -953,7 +934,7 @@ def number_format(number):
 @register.filter
 def trend_format(number):
     if number < 0:
-        prefix = "-"
+        prefix = "−"
         trend = "trend-down"
     else:
         prefix = "+"

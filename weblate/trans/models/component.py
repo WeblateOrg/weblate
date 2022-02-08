@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -34,6 +34,7 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.validators import MaxValueValidator
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.urls import reverse
@@ -140,7 +141,11 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ("java", gettext_lazy("Java style")),
 )
 
-MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
+MERGE_CHOICES = (
+    ("merge", gettext_lazy("Merge")),
+    ("rebase", gettext_lazy("Rebase")),
+    ("merge_noff", gettext_lazy("Merge without fast-forward")),
+)
 
 LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
 
@@ -329,7 +334,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         blank=True,
     )
     filemask = models.CharField(
-        verbose_name=gettext_lazy("Filemask"),
+        verbose_name=gettext_lazy("File mask"),
         max_length=FILENAME_LENGTH,
         validators=[validate_filemask, validate_filename],
         help_text=gettext_lazy(
@@ -534,7 +539,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
     addon_message = models.TextField(
-        verbose_name=gettext_lazy("Commit message when addon makes a change"),
+        verbose_name=gettext_lazy("Commit message when add-on makes a change"),
         help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
@@ -549,9 +554,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             "Whether the repository should be pushed upstream on every commit."
         ),
     )
-    commit_pending_age = models.IntegerField(
+    commit_pending_age = models.SmallIntegerField(
         verbose_name=gettext_lazy("Age of changes to commit"),
         default=settings.COMMIT_PENDING_HOURS,
+        validators=[MaxValueValidator(2160)],
         help_text=gettext_lazy(
             "Time in hours after which any pending changes will be "
             "committed to the VCS."
@@ -578,7 +584,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default="^[^.]+$",
         help_text=gettext_lazy(
             "Regular expression used to filter "
-            "translation files when scanning for filemask."
+            "translation files when scanning for file mask."
         ),
     )
     variant_regex = RegexField(
@@ -1578,6 +1584,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     translation.component = self
                 if translation.component.linked_component_id == self.id:
                     translation.component.linked_component = self
+                if translation.pk == translation.component.source_translation.pk:
+                    translation = translation.component.source_translation
                 translation.commit_pending(reason, user, skip_push=True, signals=False)
                 components[translation.component.pk] = translation.component
 
@@ -1687,7 +1695,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for component in self.linked_childs:
             vcs_pre_update.send(sender=component.__class__, component=component)
 
-        # Merge/rebase
+        # Apply logic for merge or rebase
         if method == "rebase":
             method_func = self.repository.rebase
             error_msg = _("Could not rebase local branch onto remote branch %s.")
@@ -1700,6 +1708,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
             kwargs = {"message": render_template(self.merge_message, component=self)}
+            if method == "merge_noff":
+                kwargs["no_ff"] = True
 
         with self.repository.lock:
             try:
@@ -1870,12 +1880,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for component in self.linked_childs:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
-    def update_import_alerts(self):
+    def update_import_alerts(self, delete: bool = True):
         self.log_info("checking triggered alerts")
         for alert in ALERTS_IMPORT:
             if alert in self.alerts_trigger:
                 self.add_alert(alert, occurrences=self.alerts_trigger[alert])
-            else:
+            elif delete:
                 self.delete_alert(alert)
         self.alerts_trigger = {}
 
@@ -2209,10 +2219,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     }
                 )
             # Push repo is not used with link
-            for setting in ("push", "branch"):
+            for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
                     raise ValidationError(
-                        {setting: _("Option is not available for linked repositories.")}
+                        {
+                            setting: _(
+                                "Option is not available for linked repositories. "
+                                "Setting from linked component will be used."
+                            )
+                        }
                     )
         # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)
@@ -2221,7 +2236,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Validate that there are no double language codes."""
         if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
-                {"filemask": _("The filemask did not match any files.")}
+                {"filemask": _("The file mask did not match any files.")}
             )
         langs = set()
         existing_langs = set()
@@ -2230,7 +2245,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             code = self.get_lang_code(match)
             if not code:
                 message = (
-                    _("The language code for %s was empty, please check the filemask.")
+                    _("The language code for %s was empty, please check the file mask.")
                     % match
                 )
                 raise ValidationError({"filemask": message})
@@ -2239,7 +2254,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             )
             if len(code) > LANGUAGE_CODE_LENGTH:
                 message = (
-                    _('The language code "%s" is too long, please check the filemask.')
+                    _('The language code "%s" is too long, please check the file mask.')
                     % code
                 )
                 raise ValidationError({"filemask": message})
@@ -2247,7 +2262,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 message = (
                     _(
                         "There is more than one file for %s language, "
-                        "please adjust the filemask and use components "
+                        "please adjust the file mask and use components "
                         "for translating different resources."
                     )
                     % lang
@@ -2260,7 +2275,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # No languages matched our definition
         if not existing_langs and langs:
             message = _(
-                "Could not find any matching language, please check the filemask."
+                "Could not find any matching language, please check the file mask."
             )
             raise ValidationError({"filemask": message})
 
@@ -2315,7 +2330,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # File is present, but does not exist
         if not os.path.exists(filename):
             raise ValidationError({"new_base": _("File does not exist.")})
-        # File is present, but is not valid
+        # File is present, but it is not valid
         if errors:
             message = _(
                 "Failed to parse base file for new translations: %s"
@@ -2617,18 +2632,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point.
-            processed = set()
             previous = self.repository.last_remote_revision
-            for addons in self.addons_cache.values():
-                for addon in addons:
-                    # Skip addons installed elsewhere (repo/project wide)
-                    if addon.component_id != self.id:
-                        continue
-                    if addon.id in processed:
-                        continue
-                    processed.add(addon.id)
-                    self.log_debug("configuring add-on: %s", addon.name)
-                    addon.addon.post_configure()
+            for addon in self.addons_cache["__all__"]:
+                # Skip addons installed elsewhere (repo/project wide)
+                if addon.component_id != self.id:
+                    continue
+                self.log_debug("configuring add-on: %s", addon.name)
+                addon.addon.post_configure()
             current = self.repository.last_remote_revision
             if previous != current:
                 self.log_debug(
@@ -2636,8 +2646,18 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
                 self.create_translations()
 
-    def update_variants(self):
+    def update_variants(self, updated_units=None):
         from weblate.trans.models import Unit
+
+        component_units = Unit.objects.filter(translation__component=self, variant=None)
+
+        if updated_units is None:
+            # Assume all units without a variant were updated
+            process_units = component_units
+            updated_unit_id_hashes = set()
+        else:
+            process_units = updated_units
+            updated_unit_id_hashes = {unit.id_hash for unit in updated_units}
 
         # Delete stale regex variants
         Variant.objects.filter(component=self).exclude(
@@ -2647,38 +2667,38 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Handle regex based variants
         if self.variant_regex:
             variant_re = re.compile(self.variant_regex)
-            units = Unit.objects.filter(
-                translation__component=self,
-                context__regex=self.variant_regex,
-                variant=None,
-            )
+            units = process_units.filter(context__regex=self.variant_regex)
+            variant_updates = {}
             for unit in units.iterator():
                 if variant_re.findall(unit.context):
                     key = variant_re.sub("", unit.context)
-                    variant = Variant.objects.get_or_create(
-                        key=key, component=self, variant_regex=self.variant_regex
-                    )[0]
-                    Unit.objects.filter(pk=unit.pk).update(variant=variant)
+                    if key in variant_updates:
+                        variant = variant_updates[key][0]
+                    else:
+                        variant = Variant.objects.get_or_create(
+                            key=key, component=self, variant_regex=self.variant_regex
+                        )[0]
+                        variant_updates[key] = (variant, [])
+                    variant_updates[key][1].append(unit.pk)
+
+            if variant_updates:
+                for variant, unit_ids in variant_updates.values():
+                    # Update matching units
+                    Unit.objects.filter(pk__in=unit_ids).update(variant=variant)
+                    # Update variant links for keys
+                    component_units.filter(context=variant.key).update(variant=variant)
 
         # Update variant links
-        for variant in Variant.objects.filter(component=self).iterator():
-            if variant.variant_regex:
-                Unit.objects.filter(
-                    translation__component=self, variant=None, context=variant.key
-                ).update(variant=variant)
-            else:
-                # Link based on source string
-                Unit.objects.filter(
-                    translation__component=self, variant=None, source=variant.key
-                ).update(variant=variant)
-                # Link defining units
-                Unit.objects.filter(
-                    translation__component=self,
-                    variant=None,
-                    id_hash__in=variant.defining_units.values_list(
-                        "id_hash", flat=True
-                    ),
-                ).update(variant=variant)
+        for variant in self.variant_set.filter(variant_regex="").prefetch_related(
+            "defining_units"
+        ):
+            defining_units = {unit.id_hash for unit in variant.defining_units.all()}
+            if updated_unit_id_hashes and not updated_unit_id_hashes & defining_units:
+                continue
+            # Link based on source string or defining units
+            component_units.filter(
+                Q(source=variant.key) | Q(id_hash__in=defining_units)
+            ).update(variant=variant)
 
     def update_link_alerts(self, noupdate: bool = False):
         base = self.linked_component if self.is_repo_link else self
@@ -2741,35 +2761,29 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("UnsupportedConfiguration")
 
-        if not self.alert_set.filter(dismissed=True, name="BrokenBrowserURL").exists():
-            location_error = None
-            location_link = None
-            if self.repoweb:
-                unit = allunits.exclude(location="").first()
-                if unit:
-                    for _location, filename, line in unit.get_locations():
-                        location_link = self.get_repoweb_link(filename, line)
-                        if location_link is None:
-                            continue
-                        # We only test first link
-                        location_error = get_uri_error(location_link)
-                        break
-            if location_error:
-                self.add_alert(
-                    "BrokenBrowserURL", link=location_link, error=location_error
-                )
-            else:
-                self.delete_alert("BrokenBrowserURL")
+        location_error = None
+        location_link = None
+        if self.repoweb:
+            unit = allunits.exclude(location="").first()
+            if unit:
+                for _location, filename, line in unit.get_locations():
+                    location_link = self.get_repoweb_link(filename, line)
+                    if location_link is None:
+                        continue
+                    # We only test first link
+                    location_error = get_uri_error(location_link)
+                    break
+        if location_error:
+            self.add_alert("BrokenBrowserURL", link=location_link, error=location_error)
+        else:
+            self.delete_alert("BrokenBrowserURL")
 
         if self.project.web:
-            if not self.alert_set.filter(
-                dismissed=True, name="BrokenProjectURL"
-            ).exists():
-                error = get_uri_error(self.project.web)
-                if error is not None:
-                    self.add_alert("BrokenProjectURL", error=error)
-                else:
-                    self.delete_alert("BrokenProjectURL")
+            location_error = get_uri_error(self.project.web)
+            if location_error is not None:
+                self.add_alert("BrokenProjectURL", error=location_error)
+            else:
+                self.delete_alert("BrokenProjectURL")
         else:
             self.delete_alert("BrokenProjectURL")
 
@@ -2809,6 +2823,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.add_alert("NoMaskMatches")
         else:
             self.delete_alert("NoMaskMatches")
+
+        missing_files = [
+            name
+            for name in (self.template, self.intermediate, self.new_base)
+            if name and not os.path.exists(os.path.join(self.full_path, name))
+        ]
+        if missing_files:
+            self.add_alert("InexistantFiles", files=missing_files)
+        else:
+            self.delete_alert("InexistantFiles")
 
         self.update_link_alerts()
 
@@ -2862,6 +2886,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @property
     def file_format_name(self):
         return self.file_format_cls.name
+
+    @property
+    def file_format_create_style(self):
+        return self.file_format_cls.create_style
 
     @property
     def file_format_cls(self):
@@ -2951,11 +2979,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return False
 
         # Check if template can be parsed
-        if not fast and self.has_template():
-            try:
-                self.template_store.check_valid()
-            except (FileParseError, ValueError):
-                return False
+        if self.has_template():
+            if fast:
+                if not os.path.exists(self.get_template_filename()):
+                    return False
+            else:
+                try:
+                    self.template_store.check_valid()
+                except (FileParseError, ValueError):
+                    return False
 
         return self.is_valid_base_for_new(fast=fast)
 
@@ -3041,6 +3073,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 request, _("The translation will be updated in the background.")
             )
 
+        # Delete no matches alert as we have just added the file
+        self.delete_alert("NoMaskMatches")
+
         return translation
 
     def do_lock(self, user, lock: bool = True, auto: bool = False):
@@ -3099,6 +3134,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for addon in Addon.objects.filter_component(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
+            result["__all__"].append(addon)
+            result["__names__"].append(addon.name)
         return result
 
     def schedule_sync_terminology(self):

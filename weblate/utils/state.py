@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -33,6 +33,8 @@ STATE_CHOICES = (
     (STATE_APPROVED, pgettext_lazy("String state", "Approved")),
     (STATE_READONLY, pgettext_lazy("String state", "Read only")),
 )
+
+STATE_LOOKUP = dict(STATE_CHOICES)
 
 STATE_NAMES = {
     "empty": STATE_EMPTY,

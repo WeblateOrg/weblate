@@ -262,7 +262,7 @@ You can find some examples of typical configurations in the :ref:`formats`.
 
     It is recommended to keep translation components to a reasonable size - split
     the translation by anything that makes sense in your case (individual
-    apps or addons, book chapters or websites).
+    apps or add-ons, book chapters or websites).
 
     Weblate easily handles translations with 10000s of strings, but it is harder
     to split work and coordinate among translators with such large translation components.
@@ -333,6 +333,8 @@ Repository URL used for pushing. This setting is used only for :ref:`vcs-git`
 and :ref:`vcs-mercurial` and push support is turned off for these when this is
 empty.
 
+For linked repositories, this is not used and setting from linked component applies.
+
 .. seealso::
 
    See :ref:`vcs-repos` for more details on how to specify a repository URL and
@@ -371,12 +373,16 @@ Repository branch
 
 Which branch to checkout from the VCS, and where to look for translations.
 
+For linked repositories, this is not used and setting from linked component applies.
+
 .. _component-push_branch:
 
 Push branch
 +++++++++++
 
 Branch for pushing changes, leave empty to use :ref:`component-branch`.
+
+For linked repositories, this is not used and setting from linked component applies.
 
 .. note::
 
@@ -438,7 +444,7 @@ strings.
 
 When set, the source strings are based on this file, but all other languages
 are based on :ref:`component-template`. In case the string is not translated
-into the source langugage, translating to other languages is prohibited. This
+into the source language, translating to other languages is prohibited. This
 provides :ref:`source-quality-gateway`.
 
 .. seealso::
@@ -456,7 +462,7 @@ Base file used to generate new translations, e.g. ``.pot`` file with gettext.
 
 .. hint::
 
-   In many monolingual formats Weblate starts with blank file by default. Use
+   In many monolingual formats Weblate starts with empty file by default. Use
    this in case you want to have all strings present with empty value when
    creating new translation.
 
@@ -636,8 +642,26 @@ Merge style
 +++++++++++
 
 You can configure how updates from the upstream repository are handled.
-This might not be supported for some VCSs. See :ref:`merge-rebase` for
-more details.
+The actual implementation depends on VCS, see :doc:`/vcs`.
+
+Rebase
+   Rebases Weblate commits on top of upstream repository on update. This
+   provides clean history without extra merge commits.
+
+   Rebasing can cause you trouble in case of complicated merges, so carefully
+   consider whether or not you want to enable them.
+
+   You might need to enable force pushing by choosing :ref:`vcs-git-force-push`
+   as :ref:`component-vcs`, especially when pushing to a different branch.
+
+Merge
+   Upstream repository changed are merged into Weblate one. The merge utilizes
+   fast-forward when possible. This is the safest way, but might produce a lot
+   of merge commits.
+
+Merge without fast-forward
+   Upstream repository changed are merged into Weblate one with doing a merge
+   commit every time (even when fast-forward would be possible).
 
 Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 
@@ -647,8 +671,8 @@ Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 .. _component-merge_message:
 .. _component-addon_message:
 
-Commit, add, delete, merge and addon messages
-+++++++++++++++++++++++++++++++++++++++++++++
+Commit, add, delete, merge and add-on messages
+++++++++++++++++++++++++++++++++++++++++++++++
 
 Message used when committing a translation, see :ref:`markup`.
 
@@ -720,7 +744,7 @@ something else than English.
 Language filter
 +++++++++++++++
 
-Regular expression used to filter the translation when scanning for filemask.
+Regular expression used to filter the translation when scanning for file mask.
 It can be used to limit the list of languages managed by Weblate.
 
 .. note::
@@ -842,7 +866,7 @@ powerful.
 Currently it is used in:
 
 * Commit message formatting, see :ref:`component`
-* Several addons
+* Several add-ons
     * :ref:`addon-weblate.discovery.discovery`
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
@@ -884,7 +908,7 @@ There following variables are available in the component templates:
 ``{{ author }}``
     Author of current commit, available only in the commit scope.
 ``{{ addon_name }}``
-    Name of currently executed addon, available only in the addon commit message.
+    Name of currently executed add-on, available only in the add-on commit message.
 
 The following variables are available in the repository browser or editor templates:
 
@@ -975,13 +999,13 @@ Automatic creation of components
 
 In case your project has dozen of translation files (e.g. for different
 gettext domains, or parts of Android apps), you might want to import them
-automatically. This can either be achieved from the command line by using
+automatically. This can either be achieved from the command-line by using
 :djadmin:`import_project` or :djadmin:`import_json`, or by installing the
-:ref:`addon-weblate.discovery.discovery` addon.
+:ref:`addon-weblate.discovery.discovery` add-on.
 
-To use the addon, you first need to create a component for one translation
+To use the add-on, you first need to create a component for one translation
 file (choose the one that is the least likely to be renamed or removed in future),
-and install the addon on this component.
+and install the add-on on this component.
 
 For the management commands, you need to create a project which will contain all
 components and then run :djadmin:`import_project` or

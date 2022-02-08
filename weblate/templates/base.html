@@ -161,7 +161,7 @@ var _rollbarConfig = {
               {% if languages %}
                 {% for project in watched_projects %}
                   {% for language in languages %}
-                    <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failed checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+                    <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failing checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
                   {% endfor %}
                   {% if languages|length > 1 %}
                     <li role="separator" class="divider"></li>
@@ -172,13 +172,13 @@ var _rollbarConfig = {
                 {% endif %}
               {% endif %}
               {% for project in watched_projects %}
-                <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failed checks in {{ project }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failing checks in {{ project }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
             {% if languages %}
               {% for language in languages %}
-                <li><a href="{% url 'checks' %}?lang={{ language.code }}">{% blocktrans %}Failed checks in {{ language }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' %}?lang={{ language.code }}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
@@ -251,7 +251,7 @@ var _rollbarConfig = {
             <li><a id="memory-button" href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
             <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}">{% trans "Sign out" %}</a></li>
+            <li><a id="logout-button" href="" class="button link-post" data-href="{% url 'logout' %}">{% trans "Sign out" %}</a></li>
           </ul>
         </li>
         {% endif %}

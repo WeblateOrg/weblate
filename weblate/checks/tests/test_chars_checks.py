@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -340,6 +340,7 @@ class KashidaCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = ("string", "string", "")
+        self.test_good_ignore = ("string", "بـ:", "")
         self.test_failure_1 = ("string", "string\u0640", "")
         self.test_failure_2 = ("string", "string\uFE79", "")
         self.test_failure_3 = ("string", "string\uFE7F", "")

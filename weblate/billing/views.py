@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -88,7 +88,7 @@ def handle_post(request, billing):
             billing.plan = Plan.objects.get(slug="libre")
             billing.removal = None
             billing.save(update_fields=["state", "plan", "removal"])
-        elif "request" in request.POST:
+        elif "request" in request.POST and billing.is_libre_trial:
             form = HostingForm(request.POST)
             if form.is_valid():
                 project = billing.projects.get()

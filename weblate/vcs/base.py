@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,6 @@ from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import get_clean_env, path_separator
@@ -184,8 +183,7 @@ class Repository:
             args = [cls._cmd] + list(args)
         text_cmd = " ".join(args)
         kwargs = {}
-        # These are mutually exclusive, on Python 3.7+ it is posible
-        # to pass stdin = None, but on 3.6 stdin has to be omitted
+        # These are mutually exclusive
         if stdin is not None:
             kwargs["input"] = stdin
         else:
@@ -196,7 +194,7 @@ class Repository:
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
-            universal_newlines=not raw,
+            text=not raw,
             check=False,
             **kwargs,
         )
@@ -304,7 +302,9 @@ class Repository:
         """Reset working copy to match remote branch."""
         raise NotImplementedError()
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Merge remote branch or reverts the merge."""
         raise NotImplementedError()
 
@@ -474,7 +474,6 @@ class Repository:
     def get_examples_paths():
         """Generator of possible paths for examples."""
         yield os.path.join(os.path.dirname(os.path.dirname(__file__)), "examples")
-        yield resource_filename(Requirement.parse("weblate"), "examples")
 
     @classmethod
     def find_merge_driver(cls, name):

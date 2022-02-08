@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -32,7 +32,7 @@ class ExamplePreAddon(BaseScriptAddon):
     name = "weblate.example.pre"
     # Verbose name and long descrption
     verbose = _("Execute script before commit")
-    description = _("This addon executes a script.")
+    description = _("This add-on executes a script.")
 
     # Script to execute
     script = "/bin/true"

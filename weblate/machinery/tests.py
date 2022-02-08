@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,10 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
 from copy import copy
 from typing import Type
 from unittest import SkipTest
 from unittest.mock import Mock, patch
+from urllib.parse import parse_qs
 
 import responses
 from botocore.stub import ANY, Stubber
@@ -327,10 +329,14 @@ class BaseMachineTranslationTest(TestCase):
                 machine_translation.is_supported(self.ENGLISH, self.NOTSUPPORTED)
             )
 
-    def assert_translate(self, lang, word, expected_len, machine=None, cache=False):
+    def assert_translate(
+        self, lang, word, expected_len, machine=None, cache=False, unit_args=None
+    ):
+        if unit_args is None:
+            unit_args = {}
         if machine is None:
             machine = self.get_machine(cache=cache)
-        translation = machine.translate(MockUnit(code=lang, source=word))
+        translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
         self.assertEqual(len(translation), expected_len)
         for result in translation:
@@ -1014,16 +1020,68 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             status=500,
         )
 
-    def mock_response(self):
+    def mock_languages(self):
         responses.add(
             responses.POST,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
+
+    def mock_response(self):
+        self.mock_languages()
         responses.add(
             responses.POST,
             "https://api.deepl.com/v2/translate",
             json=DEEPL_RESPONSE,
+        )
+
+    @responses.activate
+    def test_formality(self):
+        def request_callback(request):
+            headers = {}
+            payload = parse_qs(request.body)
+            self.assertIn("formality", payload)
+            return (200, headers, json.dumps(DEEPL_RESPONSE))
+
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        # Fetch from service
+        self.assert_translate(
+            "DE@FORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assert_translate(
+            "DE@INFORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+
+    @responses.activate
+    def test_replacements(self):
+        def request_callback(request):
+            headers = {}
+            payload = parse_qs(request.body)
+            self.assertEqual(payload["text"], ['Hello, <x id="7"></x>!'])
+            return (200, headers, json.dumps(DEEPL_RESPONSE))
+
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        # Fetch from service
+        self.assert_translate(
+            self.SUPPORTED,
+            "Hello, %s!",
+            self.EXPECTED_LEN,
+            machine=machine,
+            unit_args={"flags": "python-format"},
         )
 
     @responses.activate

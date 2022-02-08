@@ -25,7 +25,7 @@ To fetch updated strings from Weblate, you can simply fetch the underlying Git
 repository (either from filesystem, or it can be made available through
 :ref:`git-exporter`). Prior to this, you might want to commit any pending
 changes (see :ref:`lazy-commit`). You can do so in the user interface
-(in the :guilabel:`Repository maintenance`) or from the command line using :ref:`wlc`.
+(in the :guilabel:`Repository maintenance`) or from the command-line using :ref:`wlc`.
 
 This can be automated if you grant Weblate push access to your repository and
 configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
@@ -44,7 +44,7 @@ Fetching remote changes into Weblate
 
 To fetch the strings newly updated in your repository into Weblate, just let it pull from the upstream
 repository. This can be achieved in the user interface (in the :guilabel:`Repository
-maintenance`), or from the command line using :ref:`wlc`.
+maintenance`), or from the command-line using :ref:`wlc`.
 
 This can be automated by setting a webhook in your repository to trigger
 Weblate whenever there is a new commit, see :ref:`update-vcs` for more details.
@@ -71,7 +71,7 @@ When the translation files are separate from the code, there are following ways 
 new strings into Weblate.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
-  menu in the language used as the source for translations.
+  menu in the source language.
 * Programatically, using API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 * By uploading source file as :guilabel:`Replace existing translation file`
   (this overwrites existing strings, so please make sure the file includes both
@@ -90,13 +90,13 @@ For monolingual files (see :ref:`formats`) Weblate might add new translation
 strings not present in the :ref:`component-template`, and not in actual
 translations. It does not however perform any automatic cleanup of stale
 strings as that might have unexpected outcomes. If you want to do this, please
-install :ref:`addon-weblate.cleanup.generic` addon which will handle the
+install :ref:`addon-weblate.cleanup.generic` add-on which will handle the
 cleanup according to your requirements.
 
 Weblate also will not try to update bilingual files in any way, so if you need
 :file:`po` files being updated from :file:`pot`, you need to do it yourself
 using :guilabel:`Update source strings` :ref:`upload-method` or using
-:ref:`addon-weblate.gettext.msgmerge` addon.
+:ref:`addon-weblate.gettext.msgmerge` add-on.
 
 .. seealso::
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -99,6 +99,15 @@ def render_template(template, **kwargs):
                 },
             )
         )
+        if component.linked_childs:
+            kwargs["component_linked_childs"] = [
+                {
+                    "project_name": linked.project.name,
+                    "name": linked.name,
+                    "url": get_site_url(linked.get_absolute_url()),
+                }
+                for linked in component.linked_childs
+            ]
         project = component.project
         kwargs.pop("component", None)
 
@@ -110,6 +119,7 @@ def render_template(template, **kwargs):
         kwargs.pop("project", None)
 
     kwargs["site_title"] = settings.SITE_TITLE
+    kwargs["site_url"] = get_site_url()
 
     with override("en"):
         return Template(template, engine=RestrictedEngine()).render(

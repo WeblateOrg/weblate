@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -43,7 +43,7 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -54,7 +54,15 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
+from weblate.trans.models import (
+    Announcement,
+    Change,
+    Component,
+    Label,
+    Project,
+    ProjectToken,
+    Unit,
+)
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
@@ -487,7 +495,7 @@ class TranslationForm(UnitForm):
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
         self.fields["review"].widget.attrs["class"] = "review_radio"
-        # Avoid failing validation on not translated string
+        # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
         self.helper = FormHelper()
@@ -831,7 +839,14 @@ class AutoForm(forms.Form):
         ],
         initial="suggest",
     )
-    filter_type = FilterField(required=True, initial="todo")
+    filter_type = FilterField(
+        required=True,
+        initial="todo",
+        help_text=_(
+            "Please note that translating all strings will "
+            "discard all existing translations."
+        ),
+    )
     auto_source = forms.ChoiceField(
         label=_("Automatic translation source"),
         choices=[
@@ -859,14 +874,16 @@ class AutoForm(forms.Form):
     def __init__(self, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
         super().__init__(*args, **kwargs)
+        self.obj = obj
 
         # Add components from other projects with enabled shared TM
-        self.components = (
-            obj.project.component_set.filter(source_language=obj.source_language)
-            | Component.objects.filter(
-                source_language_id=obj.source_language_id,
-                project__contribute_shared_tm=True,
-            ).exclude(project=obj.project)
+        self.components = obj.project.component_set.filter(
+            source_language=obj.source_language
+        ) | Component.objects.filter(
+            source_language_id=obj.source_language_id,
+            project__contribute_shared_tm=True,
+        ).exclude(
+            project=obj.project
         )
 
         # Fetching is faster than doing count on possibly thousands of components
@@ -924,7 +941,9 @@ class AutoForm(forms.Form):
             slashes = component.count("/")
             if slashes == 0:
                 try:
-                    result = self.components.get(slug=component)
+                    result = self.components.get(
+                        slug=component, project=self.obj.project
+                    )
                 except Component.DoesNotExist:
                     raise ValidationError(_("Component not found!"))
             elif slashes == 1:
@@ -1065,6 +1084,11 @@ class ContextForm(forms.ModelForm):
         return self.doc_links[field.name]
 
     def __init__(self, data=None, instance=None, user=None, **kwargs):
+        kwargs["initial"] = {
+            "labels": Label.objects.filter(
+                Q(unit=instance) | Q(unit__source_unit=instance)
+            )
+        }
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
         self.fields["labels"].queryset = project.label_set.all()
@@ -1638,10 +1662,14 @@ class ComponentProjectForm(ComponentNameForm):
         project = self.cleaned_data["project"]
         name = self.cleaned_data.get("name")
         if name and project.component_set.filter(name__iexact=name).exists():
-            raise ValidationError({"name": _("Entry by the same name already exists.")})
+            raise ValidationError(
+                {"name": _("Component with the same name already exists.")}
+            )
         slug = self.cleaned_data.get("slug")
         if slug and project.component_set.filter(slug__iexact=slug).exists():
-            raise ValidationError({"slug": _("Entry by the same name already exists.")})
+            raise ValidationError(
+                {"slug": _("Component with the same name already exists.")}
+            )
 
 
 class ComponentScratchCreateForm(ComponentProjectForm):
@@ -1994,8 +2022,15 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
 
 
 class ReplaceForm(forms.Form):
+    q = QueryField(
+        required=False, help_text=_("Optional additional filter on the strings")
+    )
     search = forms.CharField(
-        label=_("Search string"), min_length=1, required=True, strip=False
+        label=_("Search string"),
+        min_length=1,
+        required=True,
+        strip=False,
+        help_text=_("Case sensitive string to search for and replace."),
     )
     replacement = forms.CharField(
         label=_("Replacement string"), min_length=1, required=True, strip=False
@@ -2004,6 +2039,14 @@ class ReplaceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         kwargs["auto_id"] = "id_replace_%s"
         super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            SearchField("q"),
+            Field("search"),
+            Field("replacement"),
+            Div(template="snippets/replace-help.html"),
+        )
 
 
 class ReplaceConfirmForm(forms.Form):
@@ -2031,11 +2074,16 @@ class MatrixLanguageForm(forms.Form):
 
 
 class NewUnitBaseForm(forms.Form):
-    variant = forms.CharField(required=False, widget=forms.HiddenInput)
+    variant = forms.ModelChoiceField(
+        Unit.objects.none(),
+        widget=forms.HiddenInput,
+        required=False,
+    )
 
     def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.translation = translation
+        self.fields["variant"].queryset = translation.unit_set.all()
         self.user = user
 
     def clean(self):
@@ -2054,7 +2102,7 @@ class NewUnitBaseForm(forms.Form):
         flags.merge(self.get_glossary_flags())
         variant = self.cleaned_data.get("variant")
         if variant:
-            flags.set_value("variant", variant)
+            flags.set_value("variant", variant.source)
         return {
             "context": self.cleaned_data.get("context", ""),
             "source": self.cleaned_data["source"],
@@ -2217,6 +2265,7 @@ class BulkEditForm(forms.Form):
 
     def __init__(self, user, obj, *args, **kwargs):
         project = kwargs.pop("project")
+        kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)
         labels = project.label_set.all()
         if labels:
@@ -2235,7 +2284,11 @@ class BulkEditForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q"), Field("state"), Field("add_flags"), Field("remove_flags")
+            Div(template="snippets/bulk-help.html"),
+            SearchField("q"),
+            Field("state"),
+            Field("add_flags"),
+            Field("remove_flags"),
         )
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
@@ -2357,3 +2410,71 @@ class LabelForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+
+class ProjectTokenDeleteForm(forms.Form):
+    token = forms.ModelChoiceField(
+        ProjectToken.objects.none(),
+        widget=forms.HiddenInput,
+        required=True,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["token"].queryset = project.projecttoken_set.all()
+
+
+class ProjectTokenCreateForm(forms.ModelForm):
+    class Meta:
+        model = ProjectToken
+        fields = ["name", "expires", "project"]
+        widgets = {
+            "expires": WeblateDateInput(),
+            "project": forms.HiddenInput,
+        }
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        kwargs["initial"] = {"project": project}
+        super().__init__(*args, **kwargs)
+
+    def clean_project(self):
+        if self.project != self.cleaned_data["project"]:
+            raise ValidationError("Invalid project!")
+        return self.cleaned_data["project"]
+
+    def clean_expires(self):
+        expires = self.cleaned_data["expires"]
+        expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
+        if expires < timezone.now():
+            raise forms.ValidationError(gettext("Expiry cannot be in the past!"))
+        return expires
+
+
+class ProjectGroupDeleteForm(forms.Form):
+    group = forms.ModelChoiceField(
+        Group.objects.none(),
+        widget=forms.HiddenInput,
+        required=True,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["group"].queryset = project.defined_groups.all()
+
+
+class ProjectUserGroupForm(UserManageForm):
+    groups = forms.ModelMultipleChoiceField(
+        Group.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        label=_("Teams"),
+        required=False,
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        super().__init__(*args, **kwargs)
+        self.fields["user"].widget = forms.HiddenInput()
+        self.fields["groups"].queryset = project.defined_groups.all()

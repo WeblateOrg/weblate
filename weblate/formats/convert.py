@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -111,6 +111,7 @@ class ConvertFormat(TranslationFormat):
     can_add_unit = False
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
+    create_style = "copy"
 
     def save_content(self, handle):
         """Store content to file."""

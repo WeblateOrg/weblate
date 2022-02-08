@@ -14,6 +14,13 @@
   {% if item.is_propagated %}
     <span class="badge pull-right flip">{% trans "Propagated" %}</span>
   {% endif %}
+  {% if item.translation.component.locked %}
+    <span class="badge pull-right flip">{% trans "Locked" %}</span>
+  {% endif %}
+  {% needs_agreement item.translation.component as needs_agreement %}
+  {% if needs_agreement %}
+    <span class="badge pull-right flip" title="{% trans "Contribution to this translation requires you to agree with a contributor agreement." %}" >{% trans "Contributor agreement" %}</span>
+  {% endif %}
   <span class="badge pull-right flip">{{ item.get_state_display }}</span>
   <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
 </td>

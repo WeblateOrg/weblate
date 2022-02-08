@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,6 +42,7 @@ class Check:
     param_type = None
     always_display = False
     batch_project_wide = False
+    skip_suggestions = False
 
     def get_identifier(self):
         return self.check_id
@@ -76,7 +77,7 @@ class Check:
 
     def check_target(self, sources, targets, unit):
         """Check target strings."""
-        # No checking of not translated units (but we do check needs editing ones)
+        # No checking of untranslated units (but we do check needs editing ones)
         if self.ignore_untranslated and (not unit.state or unit.readonly):
             return False
         if self.should_skip(unit):

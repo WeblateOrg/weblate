@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,7 @@
 
 from copy import copy
 from datetime import timedelta
+from itertools import chain
 from types import GeneratorType
 from typing import Optional
 from uuid import uuid4
@@ -146,10 +147,6 @@ class BaseStats:
     def stats(self):
         return self
 
-    @staticmethod
-    def get_badges():
-        return []
-
     @property
     def is_loaded(self):
         return self._data is not None
@@ -232,7 +229,8 @@ class BaseStats:
     def invalidate(self, language: Optional[Language] = None, childs: bool = False):
         """Invalidate local and cache data."""
         self.clear()
-        cache.delete_many(self.get_invalidate_keys(language, childs))
+        keys = self.get_invalidate_keys(language, childs)
+        cache.delete_many(keys)
 
     def clear(self):
         """Clear local cache."""
@@ -542,14 +540,26 @@ class TranslationStats(BaseStats):
 
     def prefetch_labels(self):
         """Prefetch check stats."""
+        from weblate.trans.models.label import TRANSLATION_LABELS
+
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
         )
         stats = self._object.unit_set.values("source_unit__labels__name").annotate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
-        for stat in stats:
-            label_name = stat["source_unit__labels__name"]
+        translation_stats = (
+            self._object.unit_set.filter(
+                labels__name__in=TRANSLATION_LABELS,
+            )
+            .values("labels__name")
+            .annotate(
+                strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+            )
+        )
+
+        for stat in chain(stats, translation_stats):
+            label_name = stat.get("source_unit__labels__name", stat.get("labels__name"))
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue
@@ -616,6 +626,12 @@ class LanguageStats(BaseStats):
 
 
 class ComponentStats(LanguageStats):
+    @cached_property
+    def translation_set(self):
+        return prefetch_stats(
+            self._object.translation_set.select_related("language").iterator()
+        )
+
     @cached_property
     def has_review(self):
         return (

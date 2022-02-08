@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -48,9 +48,7 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
 
 class RawQuotedString(QuotedString):
     def __init__(self, quote_char, esc_char="\\"):
-        super().__init__(
-            quote_char, esc_char=esc_char, convert_whitespace_escapes=False
-        )
+        super().__init__(quote_char, esc_char=esc_char, convert_whitespace_escapes=True)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
         self.escCharReplacePattern = (
             re.escape(esc_char)
@@ -63,7 +61,7 @@ class RawQuotedString(QuotedString):
 
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
-FlagName = Regex(r"""[^,:"'\\]+""")
+FlagName = Regex(r"""[^,:"'\\ \r\n\t]([^,:"'\\]*[^,:"'\\ \r\n\t])?""")
 
 RegexString = "r" + RawQuotedString('"')
 

@@ -259,6 +259,24 @@ correctly as the user that made the translation.
 
    :ref:`component`
 
+How to move files in the repository without losing history in Weblate?
+----------------------------------------------------------------------
+
+To keep the history, comments, or screenshots linked to strings after changing
+the files location you need to ensure that these strings are never deleted in
+Weblate. These removals can happen in case the Weblate repository is updated,
+but the component configuration still points to the old files. This makes
+Weblate assume that it should delete all the translations.
+
+The solution to this is to perform the operation in sync with Weblate:
+
+1. Lock the affected component in Weblate.
+2. Commit any pending changes and merge them into the upstream repository.
+3. Disable receiving webhooks the :ref:`project`; this prevents Weblate from immediately seeing changes in the repository.
+4. Do any needed changes in the repo (for example using :command:`git mv`), push them to the upstream repository.
+5. Change the :ref:`component` to match the new setup; upon changing configuration, Weblate will fetch the updated repository and notice the changed locations while keeping existing strings.
+6. Unlock the component and re-enable hooks in the project configuration.
+
 Usage
 +++++
 
@@ -375,7 +393,7 @@ the :command:`msgmerge` tool:
     msgmerge -U locale/cs/LC_MESSAGES/django.mo locale/django.pot
 
 In case you want to do the update automatically, you can install
-addon :ref:`addon-weblate.gettext.msgmerge`.
+add-on :ref:`addon-weblate.gettext.msgmerge`.
 
 .. seealso::
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -122,10 +122,9 @@ def generate_ssh_key(request):
                 "-f",
                 keyfile,
             ],
-            universal_newlines=True,
+            text=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             env=get_clean_env(),
         )
     except (subprocess.CalledProcessError, OSError) as exc:
@@ -155,16 +154,15 @@ def add_host_key(request, host, port=""):
                 cmdline,
                 env=get_clean_env(),
                 check=True,
-                universal_newlines=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                text=True,
+                capture_output=True,
             )
-            keys = []
+            keys = set()
             for key in result.stdout.splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue
-                keys.append(key)
+                keys.add(key)
                 host, keytype, fingerprint = parse_hosts_line(key)
                 messages.warning(
                     request,
@@ -175,17 +173,63 @@ def add_host_key(request, host, port=""):
                     )
                     % {"host": host, "fingerprint": fingerprint, "keytype": keytype},
                 )
-            if not keys:
+            if keys:
+                known_hosts_file = ssh_file(KNOWN_HOSTS)
+                # Remove existing key entries
+                if os.path.exists(known_hosts_file):
+                    with open(known_hosts_file) as handle:
+                        for line in handle:
+                            keys.discard(line.strip())
+                # Write any new keys
+                if keys:
+                    with open(known_hosts_file, "a") as handle:
+                        for key in keys:
+                            handle.write(key)
+                            handle.write("\n")
+            else:
                 messages.error(request, _("Failed to fetch public key for a host!"))
-            with open(ssh_file(KNOWN_HOSTS), "a") as handle:
-                for key in keys:
-                    handle.write(f"{key}\n")
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request, _("Failed to get host key: %s") % exc.stderr or exc.stdout
             )
         except OSError as exc:
             messages.error(request, _("Failed to get host key: %s") % str(exc))
+
+
+GITHUB_RSA_KEY = (
+    "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7"
+    "PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQq"
+    "ZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG"
+    "6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3J"
+    "EAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="
+)
+
+
+def cleanup_host_keys(*args, **kwargs):
+    known_hosts_file = ssh_file(KNOWN_HOSTS)
+    if not os.path.exists(known_hosts_file):
+        return
+    logger = kwargs.get("logger", print)  # noqa: T002
+    keys = []
+    with open(known_hosts_file) as handle:
+        for line in handle:
+            # Ignore IP address based RSA keys for GitHub, these
+            # are duplicate to hostname based and cause problems on
+            # migration to ECDSA.
+            # See https://github.com/WeblateOrg/weblate/issues/6830
+            if line[0].isdigit() and GITHUB_RSA_KEY in line:
+                logger(f"Removing deprecated RSA key for GitHub: {line.strip()}")
+                continue
+
+            # Avoid duplicates
+            if line in keys:
+                logger(f"Skipping duplicate key: {line.strip()}")
+                continue
+
+            keys.append(line)
+
+    with open(known_hosts_file, "w") as handle:
+        handle.writelines(keys)
 
 
 def can_generate_key():

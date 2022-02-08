@@ -184,12 +184,20 @@ and then do:
     docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
     docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
 
+.. _upgrading-docker:
+
 Upgrading the Docker container
 ------------------------------
 
 Usually it is good idea to only update the Weblate container and keep the PostgreSQL
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
+
+.. versionchanged:: 4.10-1
+
+   Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
+   PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
+   See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
@@ -216,8 +224,65 @@ should be no need for additional manual actions.
     continue upgrading to newer versions.
 
 You might also want to update the ``docker-compose`` repository, though it's
-not needed in most case. Please beware of PostgreSQL version changes in this
-case as it's not straightforward to upgrade the database, see `GitHub issue <https://github.com/docker-library/postgres/issues/37>`_ for more info.
+not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
+
+.. _docker-postgres-upgrade:
+
+Upgrading PostgreSQL container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PostgreSQL containers do not support automatic upgrading between version, you
+need to perform the upgrade manually. Following steps show one of the options
+of upgrading.
+
+.. seealso::
+
+   https://github.com/docker-library/postgres/issues/37
+
+1. Stop Weblate container:
+
+   .. code-block:: shell
+
+      docker-compose stop weblate cache
+
+2. Backup the database:
+
+   .. code-block:: shell
+
+      docker-compose exec database pg_dumpall --clean --username weblate > backup.sql
+
+3. Stop the database container:
+
+   .. code-block:: shell
+
+      docker-compose stop database
+
+4. Remove the PostgreSQL volume
+
+   .. code-block:: shell
+
+      docker-compose rm -v database
+      docker volume remove weblate_postgres-data
+
+5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
+
+6. Start the database container:
+
+   .. code-block:: shell
+
+      docker-compose up -d database
+
+7. Restore the database from the backup:
+
+   .. code-block:: shell
+
+      cat backup.sql | docker-compose exec -T database psql --username weblate --dbname postgres
+
+8. Start all remaining containers:
+
+   .. code-block:: shell
+
+      docker-compose up -d
 
 .. _docker-admin-login:
 
@@ -257,7 +322,7 @@ You can also fine-tune individual worker categories:
 .. code-block:: yaml
 
     environment:
-      UWSGI_WORKERS: 4
+      WEB_WORKERS: 4
       CELERY_MAIN_OPTIONS: --concurrency 2
       CELERY_NOTIFY_OPTIONS: --concurrency 1
       CELERY_TRANSLATE_OPTIONS: --concurrency 1
@@ -271,7 +336,7 @@ You can also fine-tune individual worker categories:
    :envvar:`CELERY_TRANSLATE_OPTIONS`,
    :envvar:`CELERY_BACKUP_OPTIONS`,
    :envvar:`CELERY_BEAT_OPTIONS`,
-   :envvar:`UWSGI_WORKERS`
+   :envvar:`WEB_WORKERS`
 
 .. _docker-scaling:
 
@@ -397,12 +462,21 @@ Generic settings
             :envvar:`WEBLATE_ADMIN_PASSWORD`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
+
+    The email address that error messages are sent from.
+
+    .. seealso::
+
+        :std:setting:`django:SERVER_EMAIL`,
+        :ref:`production-email`
+
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
 
     Configures the address for outgoing e-mails.
 
     .. seealso::
 
+        :std:setting:`django:DEFAULT_FROM_EMAIL`,
         :ref:`production-email`
 
 .. envvar:: WEBLATE_CONTACT_FORM
@@ -729,6 +803,19 @@ Generic settings
       :setting:`RATELIMIT_WINDOW`,
       :setting:`RATELIMIT_LOCKOUT`
 
+
+.. envvar:: WEBLATE_API_RATELIMIT_ANON
+.. envvar:: WEBLATE_API_RATELIMIT_USER
+
+   .. versionadded:: 4.11
+
+   Configures API rate limiting. Defaults to ``100/day`` for anonymous and
+   ``5000/hour`` for authenticated users.
+
+   .. seealso::
+
+      :ref:`api-rate`
+
 .. envvar:: WEBLATE_ENABLE_AVATARS
 
    .. versionadded:: 4.6.1
@@ -957,6 +1044,12 @@ GitHub
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ORG_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ORG_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ORG_NAME
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_ID
 
     Enables :ref:`github_auth`.
 
@@ -1065,7 +1158,8 @@ Other authentication settings
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
-    Disables e-mail authentication when set to any value.
+    Disables e-mail authentication when set to any value. See
+    :ref:`disable-email-auth`.
 
 
 PostgreSQL database setup
@@ -1384,12 +1478,12 @@ Localization CDN
         :setting:`LOCALIZE_CDN_PATH`
 
 
-Changing enabled apps, checks, addons or autofixes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Changing enabled apps, checks, add-ons or autofixes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 3.8-5
 
-The built-in configuration of enabled checks, addons or autofixes can be
+The built-in configuration of enabled checks, add-ons or autofixes can be
 adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
@@ -1430,7 +1524,7 @@ Container settings
    It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
    :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`UWSGI_WORKERS`. You can use
+   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use
    these settings to fine-tune.
 
 .. envvar:: CELERY_MAIN_OPTIONS
@@ -1458,7 +1552,7 @@ Container settings
         :doc:`Celery worker options <celery:reference/celery.bin.worker>`,
         :ref:`celery`
 
-.. envvar:: UWSGI_WORKERS
+.. envvar:: WEB_WORKERS
 
     Configure how many uWSGI workers should be executed.
 
@@ -1469,7 +1563,7 @@ Container settings
     .. code-block:: yaml
 
         environment:
-          UWSGI_WORKERS: 32
+          WEB_WORKERS: 32
 
 .. envvar:: WEBLATE_SERVICE
 
@@ -1554,6 +1648,10 @@ replace the favicon.
 
    The files are copied to the corresponding location upon container startup, so
    a restart of Weblate is needed after changing the content of the volume.
+
+This approach can be also used to override Weblate templates. For example
+:ref:`legal` documents can be placed into
+:file:`/app/data/python/customize/templates/legal/documents`.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:
