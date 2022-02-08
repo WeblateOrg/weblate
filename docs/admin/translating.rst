@@ -79,9 +79,12 @@ Translation flags
       Previously called :guilabel:`Quality checks flags`, it no
       longer configures only checks.
 
-The default set of translation flags is determined by the translation
-:ref:`component` and the translation file. However, you might want to use it
-to customize this per source string.
+Customization of quality checks and other Weblate behavior, see
+:ref:`custom-checks`.
+
+The string flags are also inherited from the :ref:`component-check_flags` at
+:ref:`component` and flags from the translation file (see :doc:`/formats`).
+
 
 .. seealso::
 

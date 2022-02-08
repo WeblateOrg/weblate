@@ -41,6 +41,12 @@ too, as it’s used to access your backups.
 
    :doc:`borg:usage/init`
 
+Customizing backup
+~~~~~~~~~~~~~~~~~~
+
+* The database backup can be configured via :setting:`DATABASE_BACKUP`.
+* The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`.
+
 .. _cloudbackup:
 
 Weblate provisioned backup storage
@@ -118,7 +124,7 @@ via SSH using the Weblate SSH key:
 3. Install `BorgBackup`_ on that server; most Linux distributions have packages available (see :doc:`borg:installation`).
 4. Choose an existing user or create a new user that will be used for backing up.
 5. Add Weblate SSH key to the user so that Weblate can SSH to the server without a password (see :ref:`weblate-ssh-key`).
-6. Configure the backup location in Weblate as ``user@host:/path/to/backups``.
+6. Configure the backup location in Weblate as ``user@host:/path/to/backups`` or ``ssh://user@host:port/path/to/backups``.
 
 .. hint::
 
@@ -126,7 +132,7 @@ via SSH using the Weblate SSH key:
 
 .. seealso::
 
-   :ref:`weblate-ssh-key`
+   :ref:`weblate-ssh-key`, :doc:`borg:usage/general`
 
 Restoring from BorgBackup
 -------------------------
@@ -309,7 +315,7 @@ restoration anyhow, so there is no problem in losing these.
 
    :ref:`celery`
 
-Command line for manual backup
+Command-line for manual backup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using a cron job, you can set up a Bash command to be executed on a daily basis, for example:

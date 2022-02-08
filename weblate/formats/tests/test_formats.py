@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -35,6 +35,7 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    FluentFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -100,6 +101,7 @@ TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
+TEST_FLUENT = get_test_file("cs.ftl")
 
 
 class AutoLoadTest(TestCase):
@@ -342,7 +344,7 @@ class PoFormatTest(AutoFormatTest):
     def load_plural(self, filename):
         with open(filename, "rb") as handle:
             store = self.parse_file(handle)
-            return store.get_plural(Language.objects.get(code="he"))
+            return store.get_plural(Language.objects.get(code="he"), store)
 
     def test_plurals(self):
         self.assertEqual(
@@ -379,6 +381,30 @@ class PoFormatTest(AutoFormatTest):
             self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
+
+    def test_obsolete(self):
+        # Test adding unit matching obsolete one
+        storage = self.FORMAT(TEST_PO)
+        # Remove duplicate entry
+        unit = storage.all_units[1]
+        self.assertEqual(unit.source, "Hello, world!\n")
+        storage.delete_unit(unit.unit)
+
+        # Verify it is not present
+        handle = BytesIO()
+        storage.save_content(handle)
+        content = handle.getvalue().decode()
+        self.assertNotIn('\nmsgid "Hello, world!\\n"', content)
+
+        # Add unit back, it should now overwrite obsolete one
+        storage.add_unit(unit.unit)
+
+        # Verify it is properly added
+        handle = BytesIO()
+        storage.save_content(handle)
+        content = handle.getvalue().decode()
+        self.assertIn('\nmsgid "Hello, world!\\n"', content)
+        self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
 
 
 class PropertiesFormatTest(AutoFormatTest):
@@ -560,6 +586,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
     def test_set_state(self):
         # Read test content
@@ -602,7 +629,7 @@ class XliffIdFormatTest(XliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS = "xml-text"
     COUNT = 5
 
     def test_edit_xliff(self):
@@ -674,13 +701,21 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = (
-        "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
+    EXPECTED_FLAGS = ", ".join(
+        (
+            "c-format",
+            "font-family:ubuntu",
+            "font-size:22",
+            "font-weight:bold",
+            "max-size:100",
+            "xml-text",
+        )
     )
     FIND_CONTEXT = "cs.po///2"
     COUNT = 5
@@ -1122,7 +1157,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         self.assert_same(testdata, newdata)
 
 
-class TBXFormatTest(AutoFormatTest):
+class TBXFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = TBXFormat
     FILE = TEST_TBX
     BASE = ""
@@ -1165,7 +1200,7 @@ class StringsdictFormatTest(XMLMixin, AutoFormatTest):
 
         # Try getting plural with zero for all languages
         for language in Language.objects.iterator():
-            plural = storage.get_plural(language)
+            plural = storage.get_plural(language, storage)
             self.assertIsInstance(plural, Plural)
             self.assertNotEqual(
                 plural.type,
@@ -1177,3 +1212,21 @@ class StringsdictFormatTest(XMLMixin, AutoFormatTest):
                 "Zero",
                 f"Invalid plural name for {language.code}: {plural.formula}",
             )
+
+
+class FluentFormatTest(AutoFormatTest):
+    FORMAT = FluentFormat
+    FILE = TEST_FLUENT
+    MIME = "text/x-fluent"
+    EXT = "ftl"
+    COUNT = 4
+    MATCH = ""
+    MASK = "locales/*/messages.ftl"
+    EXPECTED_PATH = "locales/cs_CZ/messages.ftl"
+    BASE = ""
+    FIND = 'Ahoj "světe"!\\n'
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = 'Ahoj "světe"!\\n'
+    NEW_UNIT_MATCH = b"\nkey = Source string"
+    MONOLINGUAL = True
+    EXPECTED_FLAGS = ""

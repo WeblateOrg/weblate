@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -55,7 +55,7 @@ class WeblateLock:
             self._lock = Lock(
                 default_cache.client.get_client(),
                 name=self._format_template(cache_template),
-                expire=6,
+                expire=60,
                 auto_renewal=True,
             )
         else:

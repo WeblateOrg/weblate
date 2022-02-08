@@ -25,7 +25,7 @@
       <td>{{ billing.expiry|naturaltime }}</td>
       <td>
         {% if user.is_superuser %}
-          <a href="{{ billing.get_absolute_url }}" class="btn btn-primary pull-right flip link-post" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
+          <a href="" class="btn btn-primary pull-right flip link-post" data-href="{{ billing.get_absolute_url }}" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
         {% endif %}
       </td>
     </tr>
@@ -36,7 +36,7 @@
       <td>{{ billing.removal|naturaltime }}</td>
       <td>
         {% if billing.is_trial and user.is_superuser %}
-          <a href="{{ billing.get_absolute_url }}" class="btn btn-primary pull-right flip link-post" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
+          <a href="" class="btn btn-primary pull-right flip link-post" data-href="{{ billing.get_absolute_url }}" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
         {% endif %}
       </td>
     </tr>

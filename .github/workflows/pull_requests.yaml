@@ -12,6 +12,6 @@ jobs:
     name: Weblate automerge
     if: ${{ github.actor == 'weblate' || github.actor == 'pre-commit-ci[bot]' }}
     steps:
-      - uses: actions-ecosystem/action-add-labels@v1.1.3
-        with:
-          labels: automerge
+    - uses: actions-ecosystem/action-add-labels@v1.1.3
+      with:
+        labels: automerge

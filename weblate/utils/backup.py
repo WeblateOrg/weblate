@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -121,22 +121,29 @@ def get_paper_key(location):
 def backup(location, passphrase):
     """Perform DATA_DIR backup."""
     tag_cache_dirs()
-    return borg(
+    command = [
+        "create",
+        "--verbose",
+        "--list",
+        "--filter",
+        "AME",
+        "--stats",
+        "--exclude-caches",
+        "--exclude",
+        "*/.config/borg",
+        "--compression",
+        "auto,zstd",
+    ]
+    if settings.BORG_EXTRA_ARGS:
+        command.extend(settings.BORG_EXTRA_ARGS)
+    command.extend(
         [
-            "create",
-            "--verbose",
-            "--list",
-            "--filter",
-            "AME",
-            "--stats",
-            "--exclude-caches",
-            "--exclude",
-            "*/.config/borg",
-            "--compression",
-            "auto,zstd",
             f"{location}::{{now}}",
             settings.DATA_DIR,
         ],
+    )
+    return borg(
+        command,
         {"BORG_PASSPHRASE": passphrase},
     )
 

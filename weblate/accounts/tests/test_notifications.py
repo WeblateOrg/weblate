@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -170,7 +170,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.anotheruser, "@Administration")
+        self.component.project.add_user(self.anotheruser, "Administration")
         notify_change(change.pk)
 
         # Check mail
@@ -185,7 +185,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.anotheruser, "@Administration")
+        self.component.project.add_user(self.anotheruser, "Administration")
         notify_change(change.pk)
 
         # Check mail
@@ -202,7 +202,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.anotheruser, "@Administration")
+        self.component.project.add_user(self.anotheruser, "Administration")
         notify_change(change.pk)
 
         # Check mail
@@ -271,7 +271,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(anotheruser, "@Administration")
+        self.component.project.add_user(anotheruser, "Administration")
         notify_change(change.pk)
 
         # Check mail
@@ -365,7 +365,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
     def test_notify_alert(self):
-        self.component.project.add_user(self.user, "@Administration")
+        self.component.project.add_user(self.user, "Administration")
         self.component.add_alert("PushFailure", error="Some error")
         self.validate_notifications(
             2,
@@ -376,7 +376,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
     def test_notify_alert_ignore(self):
-        self.component.project.add_user(self.user, "@Administration")
+        self.component.project.add_user(self.user, "Administration")
         # Create linked component, this triggers missing license alert
         self.create_link_existing()
         mail.outbox = []
@@ -454,7 +454,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         notification="ToDoStringsNotification",
-        subj="4 strings needing action in Test/Test",
+        subj="4 unfinished strings in Test/Test",
     ):
         self.user.subscription_set.create(
             scope=SCOPE_WATCHED, notification=notification, frequency=frequency
@@ -520,7 +520,7 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
         self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 1)
 
-        self.component.project.add_user(self.user, "@Administration")
+        self.component.project.add_user(self.user, "Administration")
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 1)

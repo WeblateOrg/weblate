@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -41,7 +41,7 @@ EVENT_CHOICES = (
     (EVENT_POST_ADD, "repository post-add"),
     (EVENT_UNIT_PRE_CREATE, "unit post-create"),
     (EVENT_UNIT_POST_SAVE, "unit post-save"),
-    (EVENT_STORE_POST_LOAD, "store post-load"),
+    (EVENT_STORE_POST_LOAD, "storage post-load"),
     (EVENT_DAILY, "daily"),
     (EVENT_COMPONENT_UPDATE, "component update"),
 )

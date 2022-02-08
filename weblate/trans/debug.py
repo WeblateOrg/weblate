@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,6 +42,9 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
             except FileNotFoundError:
                 # Can happen during upgrade - the module is installed
                 # in newer version and different path
+                pass
+            except OSError:
+                # Out of memory or too many open files
                 pass
 
         return super().get_post_parameters(request)

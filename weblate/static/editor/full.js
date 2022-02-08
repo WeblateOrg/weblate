@@ -144,12 +144,17 @@
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a cookie */
     $('.translation-tabs a[data-toggle="tab"]').on("shown.bs.tab", function () {
-      Cookies.remove("translate-tab", { path: "" });
-      Cookies.set("translate-tab", $(this).attr("href"), {
-        path: "/",
-        expires: 365,
-        sameSite: "Lax",
-      });
+      let current = Cookies.get("translate-tab");
+      let desired = $(this).attr("href");
+
+      if (current !== desired) {
+        Cookies.set("translate-tab", desired, {
+          path: "/",
+          expires: 365,
+          sameSite: "Lax",
+          secure: window.location.protocol === "https:",
+        });
+      }
     });
 
     /* Machinery */
@@ -421,7 +426,7 @@
         ".source-language-group [data-clone-text]"
       );
       if (cloneElement !== null) {
-        let source = cloneEelement.getAttribute("data-clone-text");
+        let source = cloneElement.getAttribute("data-clone-text");
         if (source.length < 200) {
           document.getElementById("id_source").value = source;
           document.getElementById("id_target").value = document.querySelector(

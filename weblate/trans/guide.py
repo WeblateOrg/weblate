@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,7 +25,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from weblate.addons.models import ADDONS, Addon
+from weblate.addons.models import ADDONS
 from weblate.trans.models import Change
 from weblate.utils.docs import get_doc_url
 
@@ -254,11 +254,7 @@ class AddonGuideline(Guideline):
     url = "addons"
 
     def is_passing(self):
-        return (
-            Addon.objects.filter_component(self.component)
-            .filter(name=self.addon)
-            .exists()
-        )
+        return self.addon in self.component.addons_cache["__names__"]
 
     def is_relevant(self):
         if self.addon not in ADDONS:

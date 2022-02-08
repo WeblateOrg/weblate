@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -75,14 +75,12 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
 
         regexp = self.get_value(unit)
 
         for match in regexp.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+            yield (match.start(), match.end(), match.group())
 
     def get_description(self, check_obj):
         unit = check_obj.unit
@@ -111,7 +109,7 @@ class RegexCheck(TargetCheckParametrized):
     check_id = "regex"
     default_disabled = True
     name = _("Regular expression")
-    description = _("Translation does not match regular expression:")
+    description = _("Translation does not match regular expression")
 
     @property
     def param_type(self):
@@ -127,14 +125,12 @@ class RegexCheck(TargetCheckParametrized):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
 
         regex = self.get_value(unit)
 
         for match in regex.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+            yield (match.start(), match.end(), match.group())
 
     def get_description(self, check_obj):
         unit = check_obj.unit
@@ -142,5 +138,6 @@ class RegexCheck(TargetCheckParametrized):
             return super().get_description(check_obj)
         regex = self.get_value(unit)
         return mark_safe(
-            f"{escape(self.description)} <code>{escape(regex.pattern)}</code>"
+            escape(_("Does not match regular expression %s."))
+            % f"<code>{escape(regex.pattern)}</code>"
         )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+from django.contrib.admin import RelatedOnlyFieldListFilter
 from django.utils.translation import gettext_lazy as _
 
 from weblate.wladmin.models import WeblateModelAdmin
@@ -91,14 +91,18 @@ class BillingAdmin(WeblateModelAdmin):
         obj = form.instance
         # Add owners as admin if there is none
         for project in obj.projects.all():
-            group = project.get_group("@Administration")
+            group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
                 group.user_set.add(*obj.owners.all())
 
 
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")
-    list_filter = ("currency", "billing")
+    list_filter = (
+        "currency",
+        ("billing__projects", RelatedOnlyFieldListFilter),
+        ("billing__owners", RelatedOnlyFieldListFilter),
+    )
     search_fields = ("billing__projects__name", "ref", "note")
     date_hierarchy = "end"
     ordering = ["billing", "-start"]

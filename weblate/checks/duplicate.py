@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -32,6 +32,7 @@ NON_WORD = re.compile("[{}\\]]+".format("".join(NON_WORD_CHARS)))
 
 # Per language ignore list
 IGNORES = {
+    "fy": {"jo", "mei"},
     "fr": {"vous", "nous"},
     "hi": {"कर"},
     "tr": {"tek"},

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 """Definition of permissions and default roles and groups."""
 
+from typing import Optional
 
 from django.utils.translation import gettext_noop as _
 
@@ -99,6 +100,8 @@ PERMISSIONS = (
     # Translators: Permission name
     ("translation.delete", _("Delete existing translation")),
     # Translators: Permission name
+    ("translation.download", _("Download translation file")),
+    # Translators: Permission name
     ("translation.add_more", _("Add several languages for translation")),
     # Translators: Permission name
     ("upload.authorship", _("Define author of uploaded translation")),
@@ -149,9 +152,12 @@ GLOBAL_PERMISSIONS = (
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
 
 
-def filter_perms(prefix):
+def filter_perms(prefix: str, exclude: Optional[set] = None):
     """Filter permission based on prefix."""
-    return {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
+    result = {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
+    if exclude:
+        result = result.difference(exclude)
+    return result
 
 
 # Translator permissions
@@ -162,6 +168,7 @@ TRANSLATE_PERMS = {
     "suggestion.vote",
     "unit.check",
     "unit.edit",
+    "translation.download",
     "upload.overwrite",
     "upload.perform",
     "machinery.view",
@@ -175,7 +182,10 @@ ROLES = (
         TRANSLATE_PERMS | {"unit.template", "source.edit"},
     ),
     (pgettext("Access-control role", "Add suggestion"), {"suggestion.add"}),
-    (pgettext("Access-control role", "Access repository"), {"vcs.access", "vcs.view"}),
+    (
+        pgettext("Access-control role", "Access repository"),
+        {"translation.download", "vcs.access", "vcs.view"},
+    ),
     (pgettext("Access-control role", "Manage glossary"), filter_perms("glossary.")),
     (
         pgettext("Access-control role", "Power user"),
@@ -194,7 +204,14 @@ ROLES = (
         TRANSLATE_PERMS | {"unit.review", "unit.override"},
     ),
     (pgettext("Access-control role", "Translate"), TRANSLATE_PERMS),
-    (pgettext("Access-control role", "Manage languages"), filter_perms("translation.")),
+    (
+        pgettext("Access-control role", "Manage languages"),
+        filter_perms("translation.", {"translation.auto"}),
+    ),
+    (
+        pgettext("Access-control role", "Automatic translation"),
+        {"translation.auto"},
+    ),
     (
         pgettext("Access-control role", "Manage translation memory"),
         filter_perms("memory."),
@@ -228,6 +245,9 @@ ACL_GROUPS = {
     pgettext("Per-project access-control group", "Glossary"): "Manage glossary",
     pgettext("Per-project access-control group", "Memory"): "Manage translation memory",
     pgettext("Per-project access-control group", "Screenshots"): "Manage screenshots",
+    pgettext(
+        "Per-project access-control group", "Automatic translation"
+    ): "Automatic translation",
     pgettext("Per-project access-control group", "Review"): "Review strings",
     pgettext("Per-project access-control group", "VCS"): "Manage repository",
     pgettext("Per-project access-control group", "Administration"): "Administration",

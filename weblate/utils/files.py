@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -71,7 +71,4 @@ def should_skip(location):
 
 def is_excluded(path):
     """Whether path should be excluded from zip extraction."""
-    for exclude in PATH_EXCLUDES:
-        if exclude in path:
-            return True
-    return False
+    return any(exclude in path for exclude in PATH_EXCLUDES)

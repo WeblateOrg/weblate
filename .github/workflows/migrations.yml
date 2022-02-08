@@ -3,9 +3,14 @@ name: Migrations
 on:
   push:
     branches-ignore:
-      - "dependabot/**"
-      - weblate
+    - dependabot/**
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
   pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   migrations:
@@ -19,57 +24,63 @@ jobs:
       CI_DATABASE: ${{ matrix.database }}
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: "60000"
-      CI_SELENIUM: "1"
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Start services
-        run: ./ci/services-up ${{ matrix.database }}
-      - name: Cache pip
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
-      - name: Install apt dependencies
-        run: sudo ./ci/apt-install $CI_DATABASE
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.7
-      - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-      - name: Check missing migrations
-        run: ./ci/run-checkmigrate
-      - name: Migrate from 4.0
-        run: ./ci/run-migrate 4.0
-      - name: Migrate from 4.0.4
-        run: ./ci/run-migrate 4.0.4
-      - name: Migrate from 4.1
-        run: ./ci/run-migrate 4.1
-      - name: Migrate from 4.2
-        run: ./ci/run-migrate 4.2
-      - name: Migrate from 4.3
-        run: ./ci/run-migrate 4.3
-      - name: Migrate from 4.4
-        run: ./ci/run-migrate 4.4
-      - name: Migrate from 4.5
-        run: ./ci/run-migrate 4.5
-      - name: Migrate from 4.6
-        run: ./ci/run-migrate 4.6
-      - name: Migrate from 4.7
-        run: ./ci/run-migrate 4.7
-      - name: Coverage
-        run: |
-          coverage combine
-          coverage xml
-      - uses: codecov/codecov-action@v2.0.2
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          flags: migrations
-          name: Migrations ${{ matrix.database }}
-      - name: Stop services
-        if: always()
-        run: ./ci/services-down ${{ matrix.database }}
+    - uses: actions/checkout@v2
+    - name: Start services
+      run: ./ci/services-up ${{ matrix.database }}
+    - name: Cache pip
+      uses: actions/cache@v2.1.7
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install $CI_DATABASE
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2.3.2
+      with:
+        python-version: 3.7
+    - name: Install pip dependencies
+      run: |
+        ./ci/pip-install
+    - name: Check missing migrations
+      run: ./ci/run-checkmigrate
+    - name: Migrate from 4.0
+      run: ./ci/run-migrate 4.0
+    - name: Migrate from 4.0.4
+      run: ./ci/run-migrate 4.0.4
+    - name: Migrate from 4.1
+      run: ./ci/run-migrate 4.1
+    - name: Migrate from 4.2
+      run: ./ci/run-migrate 4.2
+    - name: Migrate from 4.3
+      run: ./ci/run-migrate 4.3
+    - name: Migrate from 4.4
+      run: ./ci/run-migrate 4.4
+    - name: Migrate from 4.5
+      run: ./ci/run-migrate 4.5
+    - name: Migrate from 4.6
+      run: ./ci/run-migrate 4.6
+    - name: Migrate from 4.7
+      run: ./ci/run-migrate 4.7
+    - name: Migrate from 4.8
+      run: ./ci/run-migrate 4.8
+    - name: Migrate from 4.9
+      run: ./ci/run-migrate 4.9
+    - name: Migrate from 4.10
+      run: ./ci/run-migrate 4.10
+    - name: Coverage
+      run: |
+        coverage combine
+        coverage xml
+    - uses: codecov/codecov-action@v2.1.0
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        flags: migrations
+        name: Migrations ${{ matrix.database }}
+    - name: Stop services
+      if: always()
+      run: ./ci/services-down ${{ matrix.database }}

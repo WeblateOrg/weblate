@@ -110,7 +110,7 @@ Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
     :setting:`MT_DEEPL_API_URL`,
     `DeepL website <https://www.deepl.com/>`_,
     `DeepL pricing <https://www.deepl.com/pro>`_,
-    `DeepL API documentation <https://www.deepl.com/api.html>`_
+    `DeepL API documentation <https://www.deepl.com/docs-api.html>`_
 
 .. _libretranslate:
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -65,6 +65,10 @@ TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
+TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat Flags")
+TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
+TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat Tag Prefix")
+TYPED_FLAGS_ARGS["icu-tag-prefix"] = single_value_flag(str)
 TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
 TYPED_FLAGS["max-length"] = gettext_lazy("Maximum length of translation")
@@ -86,7 +90,6 @@ def _parse_flags_text(flags: str):
     value = []
     tokens = list(FlagsParser.parseString(flags, parseAll=True))
     for pos, token in enumerate(tokens):
-        token = token.strip()
         if state == 0 and token == ",":
             pass
         elif state == 0:
@@ -234,7 +237,9 @@ class Flags:
         if hasattr(value, "pattern"):
             value = value.pattern
         if " " in value or any(c in value for c in SYNTAXCHARS):
-            return '"{}"'.format(value.replace('"', r"\""))
+            return '"{}"'.format(
+                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r")
+            )
         return value
 
     @classmethod

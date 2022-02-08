@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,12 +17,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from html import escape, unescape
+
 from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 DEEPL_TRANSLATE = "{}translate"
 DEEPL_LANGUAGES = "{}languages"
+
+# Extracted from https://www.deepl.com/docs-api/translating-text/response/
+FORMAL_LANGUAGES = {"DE", "FR", "IT", "ES", "NL", "PL", "PT-PT", "PT-BR", "RU"}
 
 
 class DeepLTranslation(MachineTranslation):
@@ -35,6 +40,8 @@ class DeepLTranslation(MachineTranslation):
     language_map = {
         "zh_hans": "zh",
     }
+    force_uncleanup = True
+    hightlight_syntax = True
 
     def __init__(self):
         """Check configuration."""
@@ -52,7 +59,13 @@ class DeepLTranslation(MachineTranslation):
             DEEPL_LANGUAGES.format(settings.MT_DEEPL_API_URL),
             data={"auth_key": settings.MT_DEEPL_KEY},
         )
-        return [x["language"] for x in response.json()]
+        result = {x["language"] for x in response.json()}
+
+        for lang in FORMAL_LANGUAGES:
+            if lang in result:
+                result.add(f"{lang}@FORMAL")
+                result.add(f"{lang}@INFORMAL")
+        return result
 
     def download_translations(
         self,
@@ -65,15 +78,22 @@ class DeepLTranslation(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
+        params = {
+            "auth_key": settings.MT_DEEPL_KEY,
+            "text": text,
+            "source_lang": source,
+            "target_lang": language,
+        }
+        if language.endswith("@FORMAL"):
+            params["target_lang"] = language[:-7]
+            params["formality"] = "more"
+        elif language.endswith("@INFORMAL"):
+            params["target_lang"] = language[:-9]
+            params["formality"] = "less"
         response = self.request(
             "post",
             DEEPL_TRANSLATE.format(settings.MT_DEEPL_API_URL),
-            data={
-                "auth_key": settings.MT_DEEPL_KEY,
-                "text": text,
-                "source_lang": source,
-                "target_lang": language,
-            },
+            data=params,
         )
         payload = response.json()
 
@@ -83,4 +103,18 @@ class DeepLTranslation(MachineTranslation):
                 "quality": self.max_score,
                 "service": self.name,
                 "source": text,
+                "tag_handling": "xml",
+                "ignore_tags": "x",
             }
+
+    def unescape_text(self, text: str):
+        """Unescaping of the text with replacements."""
+        return unescape(text)
+
+    def escape_text(self, text: str):
+        """Escaping of the text with replacements."""
+        return escape(text)
+
+    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+        """Generates a single replacement."""
+        return f'<x id="{h_start}"></x>'

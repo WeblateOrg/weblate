@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,13 +19,15 @@
 
 import re
 from collections import defaultdict
+from itertools import chain
+from typing import Optional, Set
 
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
-from django.db.models.signals import m2m_changed, post_save, pre_delete
+from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.http import Http404
 from django.urls import reverse
@@ -78,7 +80,7 @@ class Permission(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(verbose_name=_("Name"), max_length=200)
+    name = models.CharField(verbose_name=_("Name"), max_length=200, unique=True)
     permissions = models.ManyToManyField(
         Permission,
         verbose_name=_("Permissions"),
@@ -94,25 +96,27 @@ class Role(models.Model):
         return pgettext("Access-control role", self.name)
 
 
-class GroupManager(BaseUserManager):
-    def for_project(self, project):
-        """All groups for a project."""
-        return self.filter(
-            projects=project, internal=True, name__contains="@"
-        ).order_by("name")
+class GroupQuerySet(models.QuerySet):
+    def order(self):
+        """Ordering in project scope by priority."""
+        return self.order_by("defining_project__name", "name")
 
 
 class Group(models.Model):
-    SELECTION_MANUAL = 0
-    SELECTION_ALL = 1
-    SELECTION_COMPONENT_LIST = 2
-
-    name = models.CharField(_("Name"), max_length=150, unique=True)
+    name = models.CharField(_("Name"), max_length=150)
     roles = models.ManyToManyField(
         Role,
         verbose_name=_("Roles"),
         blank=True,
         help_text=_("Choose roles granted to this group."),
+    )
+
+    defining_project = models.ForeignKey(
+        "trans.Project",
+        related_name="defined_groups",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
     )
 
     project_selection = models.IntegerField(
@@ -154,13 +158,15 @@ class Group(models.Model):
         verbose_name=_("Internal Weblate group"), default=False
     )
 
-    objects = GroupManager()
+    objects = GroupQuerySet.as_manager()
 
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
 
     def __str__(self):
+        if self.defining_project:
+            return pgettext("Per-project access-control group", self.name)
         return pgettext("Access-control group", self.name)
 
     def save(self, *args, **kwargs):
@@ -188,16 +194,13 @@ class Group(models.Model):
                 clear=True,
             )
 
-    @cached_property
-    def short_name(self):
-        if "@" in self.name:
-            return pgettext("Per-project access-control group", self.name.split("@")[1])
+    def long_name(self):
+        if self.defining_project:
+            return f"{self.defining_project} / {self}"
         return self.__str__()
 
 
 class UserManager(BaseUserManager):
-    use_in_migrations = True
-
     def _create_user(self, username, email, password, **extra_fields):
         """Create and save a User with the given fields."""
         if not username:
@@ -221,11 +224,8 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
-    def for_project(self, project):
-        """Return all users having ACL for this project."""
-        groups = project.group_set.filter(internal=True, name__contains="@")
-        return self.filter(groups__in=groups).distinct()
 
+class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
         """All users having explicit permission on a project.
 
@@ -291,7 +291,7 @@ class GroupManyToManyField(models.ManyToManyField):
 
         # We care only on forward relation
         if not descriptor.reverse:
-            # Running in migrations
+            # We are running in a migration
             if isinstance(descriptor.rel.model, str):
                 return
 
@@ -349,7 +349,7 @@ class User(AbstractBaseUser):
         ),
     )
 
-    objects = UserManager()
+    objects = UserManager.from_queryset(UserQuerySet)()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
@@ -416,6 +416,10 @@ class User(AbstractBaseUser):
     @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
+
+    @cached_property
+    def is_bot(self):
+        return not self.is_active and self.username.startswith("bot-")
 
     @cached_property
     def is_authenticated(self):
@@ -547,27 +551,38 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects = defaultdict(list)
         components = defaultdict(list)
-        for group in self.groups.iterator():
-            languages = set(
-                Group.languages.through.objects.filter(group=group).values_list(
-                    "language_id", flat=True
+        for group in self.groups.prefetch_related(
+            "roles__permissions",
+            "componentlists__components",
+            "components",
+            "projects",
+            "languages",
+        ):
+            languages = {language.id for language in group.languages.all()}
+            permissions = {
+                permission.codename
+                for permission in chain.from_iterable(
+                    role.permissions.all() for role in group.roles.all()
                 )
-            )
-            permissions = set(
-                group.roles.values_list("permissions__codename", flat=True)
-            )
+            }
             # Component list specific permissions
-            componentlist_values = group.componentlists.values_list(
-                "components__id", "components__project_id"
-            )
-            if componentlist_values:
+            componentlist_values = {
+                (component.id, component.project_id)
+                for component in chain.from_iterable(
+                    clist.components.all() for clist in group.componentlists.all()
+                )
+            }
+            if group.componentlists.exists():
                 for component, project in componentlist_values:
                     components[component].append((permissions, languages))
                     # Grant access to the project
                     projects[project].append(((), languages))
                 continue
             # Component specific permissions
-            component_values = group.components.values_list("id", "project_id")
+            component_values = {
+                (component.id, component.project_id)
+                for component in group.components.all()
+            }
             if component_values:
                 for component, project in component_values:
                     components[component].append((permissions, languages))
@@ -575,13 +590,11 @@ class User(AbstractBaseUser):
                     projects[project].append(((), languages))
                 continue
             # Project specific permissions
-            for project in Group.projects.through.objects.filter(
-                group=group
-            ).values_list("project_id", flat=True):
-                projects[project].append((permissions, languages))
+            for project in group.projects.all():
+                projects[project.id].append((permissions, languages))
         # Apply blocking
         now = timezone.now()
-        for block in self.userblock_set.iterator():
+        for block in self.userblock_set.all():
             if block.expiry is not None and block.expiry <= now:
                 # Delete expired blocks
                 block.delete()
@@ -691,7 +704,7 @@ def create_groups(update):
     # Create new per project groups
     if new_roles:
         for project in Project.objects.iterator():
-            project.save()
+            setup_project_groups(Project, project, new_roles=new_roles)
 
 
 def sync_create_groups(sender, **kwargs):
@@ -715,7 +728,7 @@ def change_componentlist(sender, instance, action, **kwargs):
     if not action.startswith("post_"):
         return
     groups = Group.objects.filter(
-        componentlists=instance, project_selection=Group.SELECTION_COMPONENT_LIST
+        componentlists=instance, project_selection=SELECTION_COMPONENT_LIST
     )
     for group in groups:
         group.projects.set(
@@ -742,7 +755,13 @@ def setup_language_groups(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
-def setup_project_groups(sender, instance, **kwargs):
+def setup_project_groups(
+    sender,
+    instance,
+    created: bool = False,
+    new_roles: Optional[Set[str]] = None,
+    **kwargs,
+):
     """Set up group objects upon saving project."""
     # Handle group automation to set project visibility
     auto_projects = Group.objects.filter(
@@ -758,13 +777,16 @@ def setup_project_groups(sender, instance, **kwargs):
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
 
+    # Handle no groups as newly created project
+    if not created and not instance.defined_groups.exists():
+        created = True
+
+    # No changes needed
+    if old_access_control == instance.access_control and not created and not new_roles:
+        return
+
+    # Do not pefrom anything with custom ACL
     if instance.access_control == Project.ACCESS_CUSTOM:
-        if old_access_control == Project.ACCESS_CUSTOM:
-            return
-        # Do cleanup of previous setup
-        Group.objects.filter(
-            name__contains="@", internal=True, projects=instance
-        ).delete()
         return
 
     # Choose groups to configure
@@ -781,44 +803,33 @@ def setup_project_groups(sender, instance, **kwargs):
     if "weblate.billing" not in settings.INSTALLED_APPS:
         groups.discard("Billing")
 
+    # Filter only newly introduced groups
+    if new_roles:
+        groups = {group for group in groups if ACL_GROUPS[group] in new_roles}
+
+    # Access control changed
+    elif not created and (
+        instance.access_control == Project.ACCESS_PUBLIC
+        or old_access_control in (Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE)
+    ):
+        # Avoid changing groups on some access control changes:
+        # - Public groups are always present, so skip change on changing to public
+        # - Change between protected/private means no change in groups
+        return
+
     # Create role specific groups
-    handled = set()
     for group_name in groups:
-        name = f"{instance.name}@{group_name}"
-        try:
-            group = instance.group_set.get(
-                internal=True, name__endswith=f"@{group_name}"
-            )
-            # Update exiting group (to handle rename)
-            if group.name != name:
-                group.name = name
-                group.save()
-        except Group.DoesNotExist:
-            # Create new group
-            group, created = Group.objects.get_or_create(
-                internal=True,
-                name=name,
-                defaults={
-                    "project_selection": SELECTION_MANUAL,
-                    "language_selection": SELECTION_ALL,
-                },
-            )
-            if created:
-                group.projects.add(instance)
-                group.roles.set(
-                    Role.objects.filter(name=ACL_GROUPS[group_name]), clear=True
-                )
-        handled.add(group.pk)
-
-    # Remove stale groups
-    instance.group_set.filter(name__contains="@", internal=True).exclude(
-        pk__in=handled
-    ).delete()
-
-
-@receiver(pre_delete, sender=Project)
-def cleanup_group_acl(sender, instance, **kwargs):
-    instance.group_set.filter(name__contains="@", internal=True).delete()
+        group, created = instance.defined_groups.get_or_create(
+            internal=True,
+            name=group_name,
+            project_selection=SELECTION_MANUAL,
+            defining_project=instance,
+            language_selection=SELECTION_ALL,
+        )
+        if not created:
+            continue
+        group.projects.add(instance)
+        group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
 
 
 class WeblateAuthConf(AppConf):

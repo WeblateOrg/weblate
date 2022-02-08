@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,7 +23,7 @@ from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 
-from weblate.auth.models import Group, User, get_anonymous
+from weblate.auth.models import Group, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -39,11 +39,12 @@ class ACLTest(FixtureTestCase):
         self.second_user = User.objects.create_user(
             "seconduser", "noreply@example.org", "testpassword"
         )
-        self.admin_group = self.project.group_set.get(name__endswith="@Administration")
+        self.admin_group = self.project.defined_groups.get(name="Administration")
+        self.translate_group = self.project.defined_groups.get(name="Translate")
 
     def add_acl(self):
         """Add user to ACL."""
-        self.project.add_user(self.user, "@Translate")
+        self.project.add_user(self.user, "Translate")
 
     def test_acl_denied(self):
         """No access to the project without ACL."""
@@ -93,13 +94,13 @@ class ACLTest(FixtureTestCase):
     def test_edit_acl_owner(self):
         """Owner should have access to user management."""
         self.add_acl()
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         response = self.client.get(self.access_url)
         self.assertContains(response, "Users")
 
     def add_user(self):
         self.add_acl()
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
 
         # Add user
         response = self.client.post(
@@ -111,11 +112,10 @@ class ACLTest(FixtureTestCase):
         # Ensure user is now listed
         response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
-        self.assertContains(response, self.second_user.email)
 
     def test_invite_invalid(self):
         """Test inviting invalid form."""
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
             {"email": "invalid", "username": "valid", "full_name": "name"},
@@ -125,7 +125,7 @@ class ACLTest(FixtureTestCase):
 
     def test_invite_existing(self):
         """Test inviting existing user."""
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
             {
@@ -139,14 +139,14 @@ class ACLTest(FixtureTestCase):
 
     def test_invite_user(self):
         """Test inviting user."""
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
             {"email": "user@example.com", "username": "username", "full_name": "name"},
             follow=True,
         )
         # Ensure user is now listed
-        self.assertContains(response, "user@example.com")
+        self.assertContains(response, "username")
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
@@ -189,8 +189,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "add",
+                "groups": [self.admin_group.pk],
             },
         )
         self.assertTrue(
@@ -202,8 +201,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "remove",
+                "groups": [self.translate_group.pk],
             },
         )
         self.assertFalse(
@@ -220,8 +218,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "add",
+                "groups": [self.admin_group.pk],
             },
         )
         self.remove_user()
@@ -233,13 +230,12 @@ class ACLTest(FixtureTestCase):
 
     def test_denied_owner_delete(self):
         """Test that deleting the last owner does not work."""
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         self.client.post(
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.second_user.username,
-                "group": self.admin_group.pk,
-                "action": "remove",
+                "groups": [self.translate_group.pk],
             },
         )
         self.assertTrue(
@@ -251,8 +247,7 @@ class ACLTest(FixtureTestCase):
             reverse("set-groups", kwargs=self.kw_project),
             {
                 "user": self.user.username,
-                "group": self.admin_group.pk,
-                "action": "remove",
+                "groups": [self.translate_group.pk],
             },
         )
         self.assertTrue(
@@ -263,7 +258,7 @@ class ACLTest(FixtureTestCase):
 
     def test_nonexisting_user(self):
         """Test adding non-existing user."""
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("add-user", kwargs=self.kw_project),
             {"user": "nonexisting"},
@@ -277,36 +272,30 @@ class ACLTest(FixtureTestCase):
             billing_group = 1
         else:
             billing_group = 0
-        match = f"{self.project.name}@"
+        self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.translation_review = False
         self.project.save()
-        self.assertEqual(1, Group.objects.filter(name__startswith=match).count())
+        self.assertEqual(1, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.translation_review = True
         self.project.save()
-        self.assertEqual(
-            9 + billing_group, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(10 + billing_group, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.translation_review = True
         self.project.save()
-        self.assertEqual(
-            9 + billing_group, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(10 + billing_group, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
-        self.assertEqual(0, Group.objects.filter(name__startswith=match).count())
+        self.assertEqual(10 + billing_group, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
-        self.assertEqual(0, Group.objects.filter(name__startswith=match).count())
+        self.assertEqual(10 + billing_group, self.project.defined_groups.count())
+        self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
-        self.assertEqual(
-            9 + billing_group, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(10 + billing_group, self.project.defined_groups.count())
         self.project.delete()
-        self.assertEqual(0, Group.objects.filter(name__startswith=match).count())
 
     def test_restricted_component(self):
         # Make the project public
@@ -330,7 +319,7 @@ class ACLTest(FixtureTestCase):
         self.assertNotContains(self.client.get(reverse("home")), url)
 
     def test_block_user(self):
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
 
         # Block user
         response = self.client.post(
@@ -355,3 +344,62 @@ class ACLTest(FixtureTestCase):
         )
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 0)
+
+    def test_delete_group(self):
+        self.project.add_user(self.user, "Administration")
+        group = self.project.defined_groups.get(name="Memory")
+        response = self.client.post(
+            reverse("delete-project-group", kwargs=self.kw_project),
+            {"group": group.pk},
+        )
+        self.assertRedirects(response, self.access_url + "#teams")
+        self.assertFalse(Group.objects.filter(pk=group.pk).exists())
+
+    def test_create_group(self):
+        self.project.add_user(self.user, "Administration")
+        response = self.client.post(
+            reverse("create-project-group", kwargs=self.kw_project),
+            {
+                "name": "Czech team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 0,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+            },
+        )
+        self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="Czech team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 0)
+        self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+        return group
+
+    def test_edit_group(self):
+        group = self.test_create_group()
+
+        kwargs = {"pk": group.pk}
+        kwargs.update(self.kw_project)
+
+        response = self.client.post(
+            reverse("edit-project-group", kwargs=kwargs),
+            {
+                "name": "Global team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 1,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+            },
+        )
+        self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="Global team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 1)
+        self.assertNotEqual(
+            list(group.languages.values_list("code", flat=True)), ["cs"]
+        )

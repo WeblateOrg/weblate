@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -238,6 +238,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.add_remote_commit()
         self.test_merge()
 
+    def test_merge_remote_no_ff(self):
+        self.add_remote_commit()
+        self.test_merge(no_ff=True)
+
     def test_rebase_remote(self):
         self.add_remote_commit()
         self.test_rebase()
@@ -278,10 +282,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             ["README.md", "READ ME.md"], self.repo.list_upstream_changed_files()
         )
 
-    def test_merge(self):
+    def test_merge(self, **kwargs):
         self.test_update_remote()
         with self.repo.lock:
-            self.repo.merge()
+            self.repo.merge(**kwargs)
 
     def test_rebase(self):
         self.test_update_remote()
@@ -520,7 +524,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             status=pr_status,
         )
 
-    def test_api_url(self):
+    def test_api_url_github_com(self):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
         self.assertEqual(
             self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
@@ -540,6 +544,43 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.repo.component.repo = "github.com:WeblateOrg/test.git"
         self.assertEqual(
             self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "github.com:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://api.github.com/repos/WeblateOrg/test.github.io",
+        )
+
+    def test_api_url_ghes(self):
+        self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test/"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "git@self-hosted-ghes.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "self-hosted-ghes.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "self-hosted-ghes.com:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test.github.io",
         )
 
     @responses.activate

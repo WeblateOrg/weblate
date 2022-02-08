@@ -1,22 +1,23 @@
 {% load i18n %}
 {% load crispy_forms_field %}
-<div class="input-group search-group query-field" role="group" >
-  <div class="input-group-btn">
-    <button type="button" id="query-dropdown" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      {% if not filter_name %}
-      <span class="search-label">{% trans "All strings" %}</span>
-      {% elif filter_name != search_query.strip %}
-      <span class="search-label">{{ filter_name }}</span>
-      {% else %}
-      <span class="search-label">{% trans "Custom search" %}</span>
-      {% endif %}
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      {% for _, name, query in custom_filter_list %}
-      <li><a href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a></li>
-      {% endfor %}
-    </ul>
-  </div><!-- /btn-group -->
-  {% crispy_field field 'aria-label' _('Query') %}
-</div>
+  <div class="input-group search-group query-field" role="group" >
+    <div class="input-group-btn">
+      <button type="button" id="query-dropdown" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {% if not filter_name %}
+        <span class="search-label">{% trans "All strings" %}</span>
+        {% elif filter_name != search_query.strip %}
+        <span class="search-label">{{ filter_name }}</span>
+        {% else %}
+        <span class="search-label">{% trans "Custom search" %}</span>
+        {% endif %}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {% for _, name, query in custom_filter_list %}
+        <li><a href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a></li>
+        {% endfor %}
+      </ul>
+    </div><!-- /btn-group -->
+    {% crispy_field field 'aria-label' _('Query') 'class' 'form-control' %}
+  </div>
+  {% include 'bootstrap3/layout/help_text_and_errors.html' %}

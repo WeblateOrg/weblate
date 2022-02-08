@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -55,7 +55,7 @@ with open("requirements-optional.txt") as requirements:
         else:
             dep = line.split(";")[0].strip()
             EXTRAS[section] = dep
-            if section != "MySQL":
+            if section not in ("MySQL", "zxcvbn"):
                 EXTRAS["all"].append(dep)
 
 
@@ -95,8 +95,8 @@ class WeblateBuild(build):
 
 setup(
     name="Weblate",
-    version="4.8",
-    python_requires=">=3.6",
+    version="4.11",
+    python_requires=">=3.7",
     packages=find_packages(),
     include_package_data=True,
     description=(
@@ -114,6 +114,8 @@ setup(
         "Documentation": "https://docs.weblate.org/",
         "Source Code": "https://github.com/WeblateOrg/weblate",
         "Twitter": "https://twitter.com/WeblateOrg",
+        "Release Notes": "https://docs.weblate.org/en/latest/changes.html",
+        "Funding": "https://weblate.org/donate/",
     },
     author="Michal Čihař",
     author_email="michal@cihar.com",
@@ -134,6 +136,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Topic :: Software Development :: Internationalization",
         "Topic :: Software Development :: Localization",
         "Topic :: Internet :: WWW/HTTP",

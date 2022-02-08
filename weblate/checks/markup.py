@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 
 import re
 
@@ -92,8 +91,8 @@ class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
 
     check_id = "bbcode"
-    name = _("BBcode markup")
-    description = _("BBcode in translation does not match source")
+    name = _("BBCode markup")
+    description = _("BBCode in translation does not match source")
 
     def check_single(self, source, target, unit):
         # Parse source
@@ -113,12 +112,10 @@ class BBCodeCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         for match in BBCODE_MATCH.finditer(source):
             for tag in ("start", "end"):
-                ret.append((match.start(tag), match.end(tag), match.group(tag)))
-        return ret
+                yield match.start(tag), match.end(tag), match.group(tag)
 
 
 class BaseXMLCheck(TargetCheck):
@@ -136,11 +133,24 @@ class BaseXMLCheck(TargetCheck):
 
         return parse_xml(text.encode() if "encoding" in text else text)
 
-    def is_source_xml(self, flags, source):
-        """Quick check if source looks like XML."""
-        if "xml-text" in flags:
+    def should_skip(self, unit):
+        result = super().should_skip(unit)
+        if result:
             return True
-        return "<" in source and len(XML_MATCH.findall(source))
+
+        flags = unit.all_flags
+
+        if "safe-html" in flags:
+            return True
+
+        if "xml-text" in flags:
+            return False
+
+        # Quick check if source looks like XML.
+        return not any(
+            "<" in source and len(XML_MATCH.findall(source))
+            for source in unit.get_source_plurals()
+        )
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
@@ -155,9 +165,6 @@ class XMLValidityCheck(BaseXMLCheck):
     description = _("The translation is not valid XML")
 
     def check_single(self, source, target, unit):
-        if not self.is_source_xml(unit.all_flags, source):
-            return False
-
         # Check if source is XML
         try:
             wrap = self.parse_xml(source)[1]
@@ -183,9 +190,6 @@ class XMLTagsCheck(BaseXMLCheck):
     description = _("XML tags in translation do not match source")
 
     def check_single(self, source, target, unit):
-        if not self.is_source_xml(unit.all_flags, source):
-            return False
-
         # Check if source is XML
         try:
             source_tree, wrap = self.parse_xml(source)
@@ -306,8 +310,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
-        ret = []
+            return
         for match in MD_SYNTAX.finditer(source):
             value = ""
             for i in range(MD_SYNTAX_GROUPS):
@@ -316,9 +319,8 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
                     break
             start = match.start()
             end = match.end()
-            ret.append((start, start + len(value), value))
-            ret.append((end - len(value), end, value if value != "<" else ">"))
-        return ret
+            yield (start, start + len(value), value)
+            yield ((end - len(value), end, value if value != "<" else ">"))
 
 
 class URLCheck(TargetCheck):
@@ -348,4 +350,9 @@ class SafeHTMLCheck(TargetCheck):
     default_disabled = True
 
     def check_single(self, source, target, unit):
+
+        # Strip MarkDown links
+        if "md-text" in unit.all_flags:
+            target = MD_LINK.sub("", target)
+
         return bleach.clean(target, **extract_bleach(source)) != target

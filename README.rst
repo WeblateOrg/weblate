@@ -56,10 +56,16 @@ Please report feature requests and problems to:
 
 https://github.com/WeblateOrg/weblate/issues
 
+
+Live chat
+---------
+
+Live chat about Weblate is available at `Libera.Chat <https://libera.chat/>`_ IRC network. The channel name is ``#weblate``. This can be accessed by, for example, https://web.libera.chat/#weblate or an IRC client installed on your computer.
+
 License
 -------
 
-Copyright © 2012–2021 Michal Čihař michal@cihar.com
+Copyright © 2012–2022 Michal Čihař michal@cihar.com
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

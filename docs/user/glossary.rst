@@ -48,8 +48,8 @@ toggle additional features using the :guilabel:`Tools` menu for each term.
 
 .. image:: /screenshots/glossary-tools.png
 
-Not translatable terms
-++++++++++++++++++++++
+Untranslatable terms
+++++++++++++++++++++
 
 .. versionadded:: 4.5
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -145,6 +145,8 @@ def get_clean_env(extra: Dict = None, extra_path: str = None):
         # Keep linker configuration
         "LD_LIBRARY_PATH",
         "LD_PRELOAD",
+        # Fontconfig configuration by weblate.fonts
+        "FONTCONFIG_FILE",
         # Needed by Git on Windows
         "SystemRoot",
         # Pass proxy configuration

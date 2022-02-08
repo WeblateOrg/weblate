@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -90,7 +90,7 @@ class RegexTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Translation does not match regular expression: <code>URL</code>",
+            "Does not match regular expression <code>URL</code>.",
         )
 
     def test_check_highlight_groups(self):
@@ -101,7 +101,7 @@ class RegexTest(CheckTestCase):
             "@:(foo.bar.baz) | @:(hello.world) | {foo32}",
         )
         self.assertEqual(
-            self.check.check_highlight(unit.source, unit),
+            list(self.check.check_highlight(unit.source, unit)),
             [
                 (0, 15, "@:(foo.bar.baz)"),
                 (18, 33, "@:(hello.world)"),

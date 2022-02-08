@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -53,11 +53,11 @@ class FileFormatLoader(ClassLoader):
 
     @cached_property
     def autoload(self):
-        result = []
-        for fileformat in self.data.values():
-            for autoload in fileformat.autoload:
-                result.append((autoload, fileformat))
-        return result
+        return [
+            (autoload, fileformat)
+            for fileformat in self.data.values()
+            for autoload in fileformat.autoload
+        ]
 
     def get_settings(self):
         result = list(super().get_settings())
@@ -147,6 +147,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.XWikiFullPageFormat",
         "weblate.formats.ttkit.TBXFormat",
         "weblate.formats.ttkit.StringsdictFormat",
+        "weblate.formats.ttkit.FluentFormat",
     )
 
     class Meta:

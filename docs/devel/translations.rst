@@ -138,4 +138,4 @@ Split component translation strings into categories by text and colour in the pr
 
 .. hint::
 
-    Labels can be assigned to units in :ref:`additional` by bulk editing, or using the :ref:`addon-weblate.flags.bulk` addon.
+    Labels can be assigned to units in :ref:`additional` by bulk editing, or using the :ref:`addon-weblate.flags.bulk` add-on.

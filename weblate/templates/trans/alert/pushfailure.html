@@ -5,6 +5,20 @@
 
 <pre>{{ error }}</pre>
 
-{% if terminal %}
+{% if analysis.terminal %}
   <p>{% trans "Your push URL seems to miss credentials. Either provide them in the URL or use SSH with key based authentication." %}</p>
+{% endif %}
+
+{% if analysis.repo_suggestion %}
+  <p>{% trans "You might want to use following URL instead:" %} <code>{{ analysis.repo_suggestion }}</code></p>
+{% endif %}
+
+{% if analysis.force_push_suggestion %}
+  <p>
+    {% trans "You might want to choose Git with force push as version control system in the component configuration to overwrite the remote repository after rebasing commits in Weblate." %}
+  </p>
+{% elif analysis.behind %}
+  <p>
+    {% trans "Weblate repository is missing some commits from upstream, perhaps it is not receiving notifications on repository updates." %}
+  </p>
 {% endif %}

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -315,6 +315,15 @@ class GlossaryTest(ViewTestCase):
             {"Nordrhein-Westfalen"},
         )
 
+    def test_get_single(self):
+        unit = self.get_unit("Thank you for using Weblate.")
+        unit.source = "thank"
+        self.add_term("thank", "díky")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank"},
+        )
+
     def test_add(self):
         """Test for adding term from translate page."""
         unit = self.get_unit("Thank you for using Weblate.")
@@ -353,3 +362,48 @@ class GlossaryTest(ViewTestCase):
         # Verify it has been added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
+
+    def test_terminology_explanation_sync(self):
+        unit = self.get_unit("Thank you for using Weblate.")
+        # Add terms
+        response = self.client.post(
+            reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
+            {
+                "source": "source 1",
+                "translation": self.glossary.pk,
+                "explanation": "explained 1",
+                "terminology": "1",
+            },
+        )
+        content = json.loads(response.content.decode())
+        self.assertEqual(content["responseCode"], 200)
+
+        response = self.client.post(
+            reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
+            {
+                "source": "source 2",
+                "translation": self.glossary.pk,
+                "explanation": "explained 2",
+                "terminology": "1",
+            },
+        )
+        content = json.loads(response.content.decode())
+        self.assertEqual(content["responseCode"], 200)
+
+        glossary_units = Unit.objects.filter(
+            translation__component=self.glossary.component
+        )
+
+        self.assertEqual(self.glossary.unit_set.count(), 2)
+        self.assertEqual(
+            glossary_units.count(), 2 * self.glossary.component.translation_set.count()
+        )
+
+        self.assertEqual(
+            set(
+                glossary_units.filter(translation__language_code="en").values_list(
+                    "explanation", flat=True
+                )
+            ),
+            {"explained 1", "explained 2"},
+        )

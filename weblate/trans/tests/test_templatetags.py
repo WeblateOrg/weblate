@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -176,6 +176,22 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_filename_quote(self):
+        self.unit.translation.component.repoweb = (
+            "http://example.net/{{filename}}#L{{line}}"
+        )
+        self.unit.location = "foo+bar:321"
+        self.assertHTMLEqual(
+            get_location_links(self.profile, self.unit),
+            """
+            <a class="wrap-text"
+                href="http://example.net/foo%2Bbar#L321" target="_blank"
+                dir="ltr" rel="noopener noreferrer">
+            foo+bar:321
+            </a>
+            """,
+        )
+
 
 class TranslationFormatTestCase(FixtureTestCase):
     def setUp(self):
@@ -309,6 +325,29 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_format(self):
+        unit = Unit()
+        unit.all_flags = {"php-format"}
+        self.assertHTMLEqual(
+            format_translation(
+                "%3$sHow",
+                self.component.source_language,
+                glossary=[
+                    Unit(
+                        source="show", target="zobrazit", translation=self.translation
+                    ),
+                ],
+                unit=unit,
+            )["items"][0]["content"],
+            """
+            <span class="hlcheck">
+            <span class="highlight-number"></span>
+            %3$s
+            </span>
+            How
+            """,
+        )
+
     def test_highlight(self):
         unit = self.translation.unit_set.get(id_hash=2097404709965985808)
         self.assertHTMLEqual(
@@ -399,6 +438,22 @@ class TranslationFormatTestCase(FixtureTestCase):
             </span>
             </span>
             </span>
+            """,
+        )
+
+    def test_whitespace_special(self):
+        self.assertHTMLEqual(
+            format_translation("Hello\u00A0world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="NO-BREAK SPACE">
+                    <span class="sr-only">\u00A0</span>
+                </span>
+            </span>
+            world
             """,
         )
 

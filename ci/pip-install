@@ -4,12 +4,11 @@ set -e -x
 
 python -m pip install -r requirements-ci.txt
 pip install -r requirements-test.txt
-# Install cython and pycairo first, these are needed during install of others
 if [ ${1:-latest} = minimal ] ; then
-    pip install Cython==0.29.14 pycairo==1.15.3
-    pip install requirements-builder
     requirements-builder --req requirements.txt --level min > requirements-min.txt
     requirements-builder --req requirements-optional.txt --level min >> requirements-min.txt
+    # Install cython and pycairo first, these are needed during install of others
+    pip install $(grep -E '^(Cython|pycairo)==' requirements-min.txt)
     pip install -r requirements-min.txt
 else
     pip install Cython pycairo
@@ -21,3 +20,6 @@ else
         pip install --upgrade --pre Django
     fi
 fi
+
+# Verify that deps are consistent
+pip check

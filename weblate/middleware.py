@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -86,12 +86,11 @@ class RedirectMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         # This is based on APPEND_SLASH handling in Django
-        if response.status_code == 404:
-            if self.should_redirect_with_slash(request):
-                new_path = request.get_full_path(force_append_slash=True)
-                # Prevent construction of scheme relative urls.
-                new_path = escape_leading_slashes(new_path)
-                return HttpResponsePermanentRedirect(new_path)
+        if response.status_code == 404 and self.should_redirect_with_slash(request):
+            new_path = request.get_full_path(force_append_slash=True)
+            # Prevent construction of scheme relative urls.
+            new_path = escape_leading_slashes(new_path)
+            return HttpResponsePermanentRedirect(new_path)
         return response
 
     def should_redirect_with_slash(self, request):
@@ -116,6 +115,8 @@ class RedirectMiddleware:
     def fixup_project(self, slug, request):
         try:
             project = Project.objects.get(slug__iexact=slug)
+        except Project.MultipleObjectsReturned:
+            return None
         except Project.DoesNotExist:
             try:
                 project = (

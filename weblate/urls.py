@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -57,7 +57,6 @@ import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
-import weblate.utils.urls
 import weblate.wladmin.sites
 import weblate.wladmin.views
 from weblate.auth.decorators import management_access
@@ -71,7 +70,10 @@ from weblate.trans.feeds import (
     TranslationChangesFeed,
 )
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
+from weblate.utils.urls import register_weblate_converters
 from weblate.utils.version import VERSION
+
+register_weblate_converters()
 
 handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
@@ -207,6 +209,11 @@ real_patterns = [
         name="replace",
     ),
     path(
+        "replace/<name:project>/-/<name:lang>/",
+        weblate.trans.views.search.search_replace,
+        name="replace",
+    ),
+    path(
         "replace/<name:project>/<name:component>/<name:lang>/",
         weblate.trans.views.search.search_replace,
         name="replace",
@@ -218,6 +225,11 @@ real_patterns = [
     ),
     path(
         "bulk-edit/<name:project>/<name:component>/",
+        weblate.trans.views.search.bulk_edit,
+        name="bulk-edit",
+    ),
+    path(
+        "bulk-edit/<name:project>/-/<name:lang>/",
         weblate.trans.views.search.bulk_edit,
         name="bulk-edit",
     ),
@@ -377,6 +389,31 @@ real_patterns = [
         "access/<name:project>/set/",
         weblate.trans.views.acl.set_groups,
         name="set-groups",
+    ),
+    path(
+        "access/<name:project>/team/delete/",
+        weblate.trans.views.acl.delete_group,
+        name="delete-project-group",
+    ),
+    path(
+        "access/<name:project>/team/create/",
+        weblate.trans.views.acl.create_group,
+        name="create-project-group",
+    ),
+    path(
+        "access/<name:project>/team/<int:pk>/",
+        weblate.trans.views.acl.edit_group,
+        name="edit-project-group",
+    ),
+    path(
+        "token/<name:project>/create/",
+        weblate.trans.views.acl.create_token,
+        name="create-project-token",
+    ),
+    path(
+        "token/<name:project>/delete/",
+        weblate.trans.views.acl.delete_token,
+        name="delete-project-token",
     ),
     # Used by weblate.org to reder own activity chart on homepage
     path(
@@ -539,7 +576,7 @@ real_patterns = [
         weblate.trans.views.settings.remove_translation,
         name="remove_translation",
     ),
-    # Rename/move
+    # Project renameing and moving
     path(
         "rename/<name:project>/",
         weblate.trans.views.settings.rename_project,

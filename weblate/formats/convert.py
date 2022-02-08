@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -49,6 +49,7 @@ from translate.storage.xml_extract.extract import (
     make_postore_adder,
 )
 
+from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import TTKitUnit, XliffUnit
@@ -92,6 +93,12 @@ class ConvertXliffUnit(XliffUnit):
         """Check whether unit is translated."""
         return self.unit is not None
 
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+        flags.remove("xml-text")
+        return flags.format()
+
 
 class ConvertFormat(TranslationFormat):
     """
@@ -104,6 +111,7 @@ class ConvertFormat(TranslationFormat):
     can_add_unit = False
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
+    create_style = "copy"
 
     def save_content(self, handle):
         """Store content to file."""
@@ -121,14 +129,13 @@ class ConvertFormat(TranslationFormat):
     def needs_target_sync(template_store):
         return True
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
-        store = cls.convertfile(storefile, template_store)
-        if cls.needs_target_sync(template_store):
+        store = self.convertfile(storefile, template_store)
+        if self.needs_target_sync(template_store):
             for unit in store.units:
                 if unit.isheader():
                     continue
@@ -164,7 +171,7 @@ class ConvertFormat(TranslationFormat):
             return False
         try:
             if not fast:
-                cls.load(base, None)
+                cls(base, None)
             return True
         except Exception:
             report_error(cause="File parse error")
@@ -177,7 +184,12 @@ class ConvertFormat(TranslationFormat):
     def get_class(cls):
         return None
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         raise ValueError("Not supported")
 
     def cleanup_unused(self) -> List[str]:

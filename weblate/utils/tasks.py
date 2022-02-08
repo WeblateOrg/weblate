@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -139,11 +139,10 @@ def database_backup():
             subprocess.run(
                 cmd,
                 env=env,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 stdin=subprocess.DEVNULL,
                 check=True,
-                universal_newlines=True,
+                text=True,
             )
         except subprocess.CalledProcessError as error:
             report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})

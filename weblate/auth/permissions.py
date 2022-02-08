@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@ from django.conf import settings
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import (
     Component,
+    ComponentList,
     ContributorAgreement,
     Project,
     Translation,
@@ -59,6 +60,11 @@ def check_permission(user, permission, obj):
             permission in permissions
             for permissions, _langs in user.project_permissions[obj.pk]
         )
+    if isinstance(obj, ComponentList):
+        return all(
+            check_permission(user, permission, component)
+            for component in obj.components.iterator()
+        )
     if isinstance(obj, Component):
         return (
             not obj.restricted
@@ -84,9 +90,7 @@ def check_permission(user, permission, obj):
             permission in permissions and lang in langs
             for permissions, langs in user.component_permissions[obj.component_id]
         )
-    raise ValueError(
-        f"Permission {permission} does not support: {obj.__class__.__name__}"
-    )
+    raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
 
 
 @register_perm("comment.delete", "suggestion.delete")
@@ -115,8 +119,10 @@ def check_can_edit(user, permission, obj, is_vote=False):
         project = component.project
     elif isinstance(obj, Project):
         project = obj
+    elif isinstance(obj, ProjectLanguage):
+        project = obj.project
     else:
-        raise ValueError("Uknown object for permission check!")
+        raise ValueError(f"Uknown object for permission check: {obj.__class__}")
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
@@ -172,6 +178,8 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                 return False
         else:
             if isinstance(obj, Component):
+                project = obj.project
+            elif isinstance(obj, ProjectLanguage):
                 project = obj.project
             else:
                 project = obj
@@ -371,9 +379,10 @@ def check_billing_view(user, permission, obj):
 
 @register_perm("billing:project.permissions")
 def check_billing(user, permission, obj):
-    if "weblate.billing" in settings.INSTALLED_APPS:
-        if not any(billing.plan.change_access_control for billing in obj.billings):
-            return False
+    if "weblate.billing" in settings.INSTALLED_APPS and not any(
+        billing.plan.change_access_control for billing in obj.billings
+    ):
+        return False
 
     return check_permission(user, "project.permissions", obj)
 

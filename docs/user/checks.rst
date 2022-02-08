@@ -44,10 +44,10 @@ good quality translations.
 
 .. _check-bbcode:
 
-BBcode markup
+BBCode markup
 ~~~~~~~~~~~~~
 
-:Summary: BBcode in translation does not match source
+:Summary: BBCode in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.BBCodeCheck``
 :Flag to ignore: ``ignore-bbcode``
@@ -59,7 +59,7 @@ This check ensures they are also found in translation.
 
 .. note::
 
-    The method for detecting BBcode is currently quite simple so this check
+    The method for detecting BBCode is currently quite simple so this check
     might produce false positives.
 
 .. _check-duplicate:
@@ -242,8 +242,74 @@ i18next interpolation
    :ref:`check-formats`,
    `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
 
-.. _check-java-format:
 
+.. _check-icu-message-format:
+
+ICU MessageFormat
+*****************
+
+.. versionadded:: 4.9
+
+:Summary: Syntax errors and/or placeholder mismatches in ICU MessageFormat strings.
+:Scope: translated strings
+:Check class: ``weblate.checks.icu.ICUMessageFormatCheck``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
+:Interpolation example: ``There {number, plural, one {is one apple} other {are # apples}}.``
+
+This check has support for both pure ICU MessageFormat messages as well as ICU with simple
+XML tags. You can configure the behavior of this check by using ``icu-flags:*``, either by
+opting into XML support or by disabling certain sub-checks. For example, the following flag
+enables XML support while disabling validation of plural sub-messages:
+
+.. code-block::text
+
+  icu-message-format, icu-flags:xml:-plural_selectors
+
++---------------------------+------------------------------------------------------------+
+| ``xml``                   | Enable support for simple XML tags. By default, XML tags   |
+|                           | are parsed loosely. Stray ``<`` characters are ignored     |
+|                           | if they are not reasonably part of a tag.                  |
++---------------------------+------------------------------------------------------------+
+| ``strict-xml``            | Enable support for strict XML tags. All ``<`` characters   |
+|                           | must be escaped if they are not part of a tag.             |
++---------------------------+------------------------------------------------------------+
+| ``-highlight``            | Disable highlighting placeholders in the editor.           |
++---------------------------+------------------------------------------------------------+
+| ``-require_other``        | Disable requiring sub-messages to have an ``other``        |
+|                           | selector.                                                  |
++---------------------------+------------------------------------------------------------+
+| ``-submessage_selectors`` | Skip checking that sub-message selectors match the source. |
++---------------------------+------------------------------------------------------------+
+| ``-types``                | Skip checking that placeholder types match the source.     |
++---------------------------+------------------------------------------------------------+
+| ``-extra``                | Skip checking that no placeholders are present that were   |
+|                           | not present in the source string.                          |
++---------------------------+------------------------------------------------------------+
+| ``-missing``              | Skip checking that no placeholders are missing that were   |
+|                           | present in the source string.                              |
++---------------------------+------------------------------------------------------------+
+
+Additionally, when ``strict-xml`` is not enabled but ``xml`` is enabled, you can use the
+``icu-tag-prefix:PREFIX`` flag to require that all XML tags start with a specific string.
+For example, the following flag will only allow XML tags to be matched if they start with
+``<x:``:
+
+.. code-block::text
+
+  icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"
+
+This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>``.
+
+.. seealso::
+
+  :ref:`check-icu-message-format-syntax`,
+  :ref:`check-formats`,
+  `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_,
+  `Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/icu-syntax/>`_
+
+
+.. _check-java-format:
 
 Java format
 ***********
@@ -270,7 +336,7 @@ Java MessageFormat
 :Summary: Java MessageFormat string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
-:Flag to enable uncodintionally: ``java-messageformat``
+:Flag to enable unconditionally: ``java-messageformat``
 :Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
 :Flag to ignore: ``ignore-java-messageformat``
 :Position format string example: ``There are {0} apples``
@@ -329,9 +395,9 @@ Object Pascal format
 .. seealso::
 
    :ref:`check-formats`,
-   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
+   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_,
    `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
-   `Delphi formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
+   `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
 
 .. _check-percent-placeholders:
 
@@ -352,7 +418,6 @@ Percent placeholders
    :ref:`check-formats`,
 
 .. _check-perl-format:
-
 
 Perl format
 ***********
@@ -392,7 +457,6 @@ PHP format
 
 .. _check-python-brace-format:
 
-
 Python brace format
 *******************
 
@@ -421,7 +485,7 @@ Python format
 :Flag to enable: ``python-format``
 :Flag to ignore: ``ignore-python-format``
 :Simple format string: ``There are %d apples``
-:Named format string example: ``Your balance is %(amount) %(currency)``
+:Named format string example: ``Your balance is %(amount)d %(currency)s``
 
 .. seealso::
 
@@ -540,7 +604,7 @@ translations have been reverted in VCS or lost otherwise.
 Inconsistent
 ~~~~~~~~~~~~
 
-:Summary: This string has more than one translation in this project or is not translated in some components.
+:Summary: This string has more than one translation in this project or is untranslated in some components.
 :Scope: all strings
 :Check class: ``weblate.checks.consistency.ConsistencyCheck``
 :Flag to ignore: ``ignore-inconsistent``
@@ -552,15 +616,23 @@ The check fails on differing translations of one string within a project. This
 can also lead to inconsistencies in displayed checks. You can find other
 translations of this string on the :guilabel:`Other occurrences` tab.
 
+This check applies to all components in a project that have
+:ref:`component-allow_translation_propagation` turned on.
+
+.. hint::
+
+   For performance reasons, the check might not find all inconsistencies, it
+   limits number of matches.
+
 .. note::
 
    This check also fires in case the string is translated in one component and
    not in another. It can be used as a quick way to manually handle strings
-   which are not translated in some components just by clicking on the
+   which are untranslated in some components just by clicking on the
    :guilabel:`Use this translation` button displayed on each line in the
    :guilabel:`Other occurrences` tab.
 
-   You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to
+   You can use :ref:`addon-weblate.autotranslate.autotranslate` add-on to
    automate translating of newly added strings which are already translated in
    another component.
 
@@ -673,6 +745,8 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
    The ``replacements:`` flag might be also useful to expand placeables before
    checking the string.
 
+   When ``xml-text`` flag is also used, the length calculation ignores XML tags.
+
 .. _check-max-size:
 
 Maximum size of translation
@@ -710,6 +784,8 @@ pixels:
 
    The ``replacements:`` flag might be also useful to expand placeables before
    checking the string.
+
+   When ``xml-text`` flag is also used, the length calculation ignores XML tags.
 
 .. seealso::
 
@@ -833,7 +909,6 @@ Mismatched semicolon
 :Flag to ignore: ``ignore-end-semicolon``
 
 Checks that semicolons at the end of sentences are replicated between both source and translation.
-This can be useful to keep formatting of entries such as desktop files.
 
 .. seealso::
 
@@ -858,7 +933,7 @@ Check fails if the number of ``\n`` literals in translation do not match the sou
 Missing plurals
 ~~~~~~~~~~~~~~~
 
-:Summary: Some plural forms are not translated
+:Summary: Some plural forms are untranslated
 :Scope: translated strings
 :Check class: ``weblate.checks.consistency.PluralsCheck``
 :Flag to ignore: ``ignore-plurals``
@@ -933,7 +1008,7 @@ Regular expression
 
 .. versionadded:: 3.9
 
-:Summary: Translation does not match regular expression:
+:Summary: Translation does not match regular expression
 :Scope: translated strings
 :Check class: ``weblate.checks.placeholders.RegexCheck``
 :Flag to enable: ``regex``
@@ -1068,6 +1143,10 @@ The translation uses unsafe HTML markup. This check has to be enabled using
 ``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
 autofixer which can automatically sanitize the markup.
 
+.. hint::
+
+   When ``md-text`` flag is also used, the Markdown style links are also allowed.
+
 .. seealso::
 
    The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
@@ -1107,7 +1186,10 @@ not a desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
+.. note::
 
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
 
 .. _check-xml-invalid:
 
@@ -1122,6 +1204,11 @@ XML syntax
 :Flag to ignore: ``ignore-xml-invalid``
 
 The XML markup is not valid.
+
+.. note::
+
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
 
 .. _check-zero-width-space:
 
@@ -1168,6 +1255,20 @@ rendered, and may sound better with text-to-speech.
 
    `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
+.. _check-icu-message-format-syntax:
+
+ICU MessageFormat syntax
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.9
+
+:Summary: Syntax errors in ICU MessageFormat strings.
+:Scope: source strings
+:Check class: ``weblate.checks.icu.ICUSourceCheck``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
+
+.. seealso:: :ref:`check-icu-message-format`
 
 .. _check-long-untranslated:
 
@@ -1181,7 +1282,7 @@ Long untranslated
 :Check class: ``weblate.checks.source.LongUntranslatedCheck``
 :Flag to ignore: ``ignore-long-untranslated``
 
-When the string has not been translated for a long time, it is can indicate problem in a
+When the string has not been translated for a long time, it can indicate a problem in a
 source string making it hard to translate.
 
 
@@ -1240,4 +1341,4 @@ For example with Gettext in Python it could be:
 
     from gettext import ngettext
 
-    print ngettext("Selected %d file", "Selected %d files", files) % files
+    print(ngettext("Selected %d file", "Selected %d files", files) % files)

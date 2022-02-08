@@ -113,7 +113,7 @@ upstream repository and chosen branch.
 For smaller deployments, use HTTPS authentication with a personal access
 token and your GitHub account, see `Creating an access token for command-line use`_.
 
-.. _Creating an access token for command-line use: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+.. _Creating an access token for command-line use: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 For bigger setups, it is usually better to create a dedicated user for Weblate,
 assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
@@ -147,7 +147,7 @@ Reasons to use this:
 * Saves disk space on the server, the repository is stored just once.
 * Makes the updates faster, only one repository is updated.
 * There is just single exported repository with Weblate translations (see :ref:`git-exporter`).
-* Some addons can operate on multiple components sharing one repository, for example :ref:`addon-weblate.git.squash`.
+* Some add-ons can operate on multiple components sharing one repository, for example :ref:`addon-weblate.git.squash`.
 
 
 HTTPS repositories
@@ -197,9 +197,15 @@ or by enforcing it in the VCS configuration, for example:
 Git
 ---
 
+.. hint::
+
+   Weblate needs Git 2.12 or newer.
+
 .. seealso::
 
     See :ref:`vcs-repos` for info on how to access different kinds of repositories.
+
+.. _vcs-git-force-push:
 
 Git with force push
 +++++++++++++++++++
@@ -255,9 +261,10 @@ For the ``hello`` repository from selenic.com using Mercurial::
     the remote helper sometimes creates a new tip when pushing changes back.
 
 .. _vcs-github:
+.. _github-push:
 
-GitHub
-------
+GitHub pull requests
+--------------------
 
 .. versionadded:: 2.3
 
@@ -268,23 +275,13 @@ translation changes as pull requests, instead of pushing directly to the reposit
 :ref:`vcs-github` creates pull requests.
 The latter is not needed for merely accessing Git repositories.
 
-.. seealso::
-
-   :ref:`push-changes`
-
-
-.. _github-push:
-
-Pushing changes to GitHub as pull requests
-++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a GitHub repository, they can be sent as
-either one or many pull requests instead.
-
-You need to configure API credentials to make this work.
+You need to configure API credentials (:setting:`GITHUB_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`GitHub` option when selecting :ref:`component-vcs`.
 
 .. seealso::
 
+   :ref:`push-changes`,
    :setting:`GITHUB_USERNAME`,
    :setting:`GITHUB_TOKEN`,
    :setting:`GITHUB_CREDENTIALS`
@@ -292,9 +289,10 @@ You need to configure API credentials to make this work.
 .. _GitHub API: https://docs.github.com/en/rest
 
 .. _vcs-gitlab:
+.. _gitlab-push:
 
-GitLab
-------
+GitLab merge requests
+---------------------
 
 .. versionadded:: 3.9
 
@@ -307,22 +305,13 @@ works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-gitlab` creates merge request.
 
-.. seealso::
-
-   :ref:`push-changes`
-
-.. _gitlab-push:
-
-Pushing changes to GitLab as merge requests
-+++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a GitLab repository, they can be sent as either
-one or many merge requests instead.
-
-You need to configure API credentials to make this work.
+You need to configure API credentials (:setting:`GITLAB_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`GitLab` option when selecting :ref:`component-vcs`.
 
 .. seealso::
 
+   :ref:`push-changes`,
    :setting:`GITLAB_USERNAME`,
    :setting:`GITLAB_TOKEN`,
    :setting:`GITLAB_CREDENTIALS`
@@ -330,9 +319,10 @@ You need to configure API credentials to make this work.
 .. _GitLab API: https://docs.gitlab.com/ee/api/
 
 .. _vcs-pagure:
+.. _pagure-push:
 
-Pagure
-------
+Pagure merge requests
+---------------------
 
 .. versionadded:: 4.3.2
 
@@ -345,22 +335,13 @@ works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-pagure` creates merge request.
 
-.. seealso::
-
-   :ref:`push-changes`
-
-.. _pagure-push:
-
-Pushing changes to Pagure as merge requests
-+++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a Pagure repository, they can be sent as either
-one or many merge requests instead.
-
-You need to configure API credentials to make this work.
+You need to configure API credentials (:setting:`PAGURE_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Pagure` option when selecting :ref:`component-vcs`.
 
 .. seealso::
 
+   :ref:`push-changes`,
    :setting:`PAGURE_USERNAME`,
    :setting:`PAGURE_TOKEN`,
    :setting:`PAGURE_CREDENTIALS`
@@ -453,6 +434,14 @@ environment variable set to the :setting:`DATA_DIR`:
 
 Local files
 -----------
+
+Git
+---
+
+.. hint::
+
+   Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows
+   you to switch to using Git natively with full history of your translations.
 
 .. versionadded:: 3.8
 

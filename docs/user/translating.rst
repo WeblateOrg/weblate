@@ -36,7 +36,7 @@ Translation links
 
 Having navigated to a component, a set of links lead to its actual translation.
 The translation is further divided into individual checks, like
-:guilabel:`Not translated strings` or :guilabel:`Strings needing action`. If the whole project
+:guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. If the whole project
 is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
@@ -95,6 +95,13 @@ Labels
 Labels are used to categorize strings within a project to further customize the
 localization workflow (for example to define categories of strings).
 
+Following labels are used by Weblate:
+
+Automatically translated
+   String was translated using :ref:`auto-translation`.
+Source needs review
+   String was marked for review using :ref:`source-reviews`.
+
 .. seealso::
 
     :ref:`labels`
@@ -116,7 +123,7 @@ languages translators select in the preferences will be shown
 (see :ref:`secondary-languages`) above the source string.
 
 Below the translation, translators will find suggestion made by others, to be
-accepted (✓), accepted with changes (🖉), or deleted (🗑).
+accepted (✓), accepted with changes (✏️), or deleted (🗑).
 
 .. _plurals:
 
@@ -164,11 +171,11 @@ The following keyboard shortcuts can be utilized during translation:
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+PageUp` or                      | Navigate to previous translation in current search.                   |
 |                                           |                                                                       |
-| :kbd:`Ctrl ↑` or                          |                                                                       |
+| :kbd:`Ctrl+↑` or                          |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Alt ↑` or                           |                                                                       |
+| :kbd:`Alt+↑` or                           |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd ↑`                              |                                                                       |
+| :kbd:`Cmd+↑`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+PageDown` or                    | Navigate to next translation in current search.                       |
 |                                           |                                                                       |
@@ -178,8 +185,8 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Save current translation.                                             |
-|                                           |                                                                       |
+| :kbd:`Alt+Enter` or                       | Submit current form, while editing translation this is same as        |
+|                                           | pressing :guilabel:`Save and continue`.                               |
 | :kbd:`Ctrl+Enter` or                      |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+Enter`                          |                                                                       |
@@ -342,6 +349,9 @@ components (for example the application and its website) or when bootstrapping
 a translation for a new component using existing translations
 (translation memory).
 
+The automatically translated strings are labelled by :guilabel:`Automatically
+translated`.
+
 .. seealso::
 
     :ref:`translation-consistency`
@@ -359,6 +369,8 @@ operation again.
 Default limits and fine-tuning is described in the administrative manual, see
 :ref:`rate-limit`.
 
+.. _search-replace:
+
 Search and replace
 ------------------
 
@@ -367,7 +379,7 @@ strings using :guilabel:`Search and replace` in the :guilabel:`Tools` menu.
 
 .. hint::
 
-    Don't worry about messing up the strings. This is a two-step process
+    Don’t worry about messing up the strings. This is a two-step process
     showing a preview of edited strings before the actual change is confirmed.
 
 .. _bulk-edit:
@@ -392,4 +404,21 @@ The following operations are supported:
 
 .. seealso::
 
-   :ref:`Bulk edit addon <addon-weblate.flags.bulk>`
+   :ref:`Bulk edit add-on <addon-weblate.flags.bulk>`
+
+Matrix View
+-----------
+
+To compare different languages efficiently you can use the matrix view. It is available on every component page under the :guilabel:`Tools` menu.
+First select all languages you want to compare and confirm your selection, after that you can click on any translation to open and edit it quickly.
+
+The matrix view is also a very good starting point to find missing translations in different languages and quickly add them from one view.
+
+Zen Mode
+--------
+
+The Zen editor can be enabled by clicking the :guilabel:`Zen` button on the top right while translating a component.
+It simplifies the layout and removes additional UI elements such as :guilabel:`Nearby strings` or the :guilabel:`Glossary`.
+
+You can select the Zen editor as your default editor using the :ref:`profile-preferences` tab on your :ref:`user-profile`.
+Here you can also choose between having translations listed :guilabel:`Top to bottom` or :guilabel:`Side by side` depending on your personal preference.

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,7 +28,12 @@ from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
-from weblate.trans.forms import ProjectLanguageDeleteForm, SearchForm
+from weblate.trans.forms import (
+    BulkEditForm,
+    ProjectLanguageDeleteForm,
+    ReplaceForm,
+    SearchForm,
+)
 from weblate.trans.models import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
@@ -81,7 +86,7 @@ def show_language(request, lang):
             messages.success(request, _("Language %s removed.") % obj)
             return redirect("languages")
 
-    last_changes = Change.objects.last_changes(user).filter(language=obj)[:10]
+    last_changes = Change.objects.last_changes(user).filter(language=obj)[:10].preload()
     projects = user.allowed_projects
     projects = prefetch_project_flags(
         prefetch_stats(projects.filter(component__translation__language=obj).distinct())
@@ -117,9 +122,11 @@ def show_project(request, lang, project):
     obj = ProjectLanguage(project_object, language_object)
     user = request.user
 
-    last_changes = Change.objects.last_changes(user).filter(
-        language=language_object, project=project_object
-    )[:10]
+    last_changes = (
+        Change.objects.last_changes(user)
+        .filter(language=language_object, project=project_object)[:10]
+        .preload()
+    )
 
     translations = list(obj.translation_set)
 
@@ -155,6 +162,16 @@ def show_project(request, lang, project):
             ),
             "delete_form": optional_form(
                 ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
+            ),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "bulk_state_form": optional_form(
+                BulkEditForm,
+                user,
+                "translation.auto",
+                obj,
+                user=user,
+                obj=obj,
+                project=obj.project,
             ),
         },
     )

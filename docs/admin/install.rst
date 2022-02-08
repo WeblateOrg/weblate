@@ -92,20 +92,42 @@ Optional dependencies
 Following modules are necessary for some Weblate features. You can find all
 of them in :file:`requirements-optional.txt`.
 
-``Mercurial`` (optional for Mercurial repositories support)
+``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)
     https://www.mercurial-scm.org/
-``phply`` (optional for PHP support)
+``phply`` (optional for :ref:`php`)
     https://github.com/viraptor/phply
-``tesserocr`` (optional for screenshots OCR)
+``tesserocr`` (optional for OCR in :ref:`screenshots`)
     https://github.com/sirfz/tesserocr
-``akismet`` (optional for suggestion spam protection)
-    https://github.com/ubernostrum/akismet
+``python-akismet`` (optional for :ref:`spam-protection`)
+    https://github.com/Nekmo/python-akismet
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
 ``Zeep`` (optional for :ref:`ms-terminology`)
     https://docs.python-zeep.org/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
+``fluent.syntax`` (optional for :ref:`fluent`)
+    https://projectfluent.org/
+
+.. hint::
+
+   When installing using pip, you can directly specify desired features when installing:
+
+   .. code-block:: sh
+
+      pip install "Weblate[PHP,Fluent]"
+
+   Or you can install Weblate with all optional features:
+
+   .. code-block:: sh
+
+      pip install "Weblate[all]"
+
+   Or you can install Weblate without any optional features:
+
+   .. code-block:: sh
+
+      pip install Weblate
 
 Database backend dependencies
 +++++++++++++++++++++++++++++
@@ -238,7 +260,7 @@ ensure that the key is actually owned by the mentioned person.  The GNU Privacy
 Handbook covers this topic in the chapter `Validating other keys on your public
 keyring`_. The most reliable method is to meet the developer in person and
 exchange key fingerprints, however you can also rely on the web of trust. This way
-you can trust the key transitively though signatures of others, who have met
+you can trust the key transitively through signatures of others, who have met
 the developer in person.
 
 Once the key is trusted, the warning will not occur:
@@ -289,7 +311,7 @@ under the same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
 In the Docker container, all files in the :file:`/app/data` volume have to be
-owned by weblate user inside the container (UID 1000).
+owned by the ``weblate`` user inside the container (UID 1000).
 
 .. seealso::
 
@@ -545,6 +567,11 @@ allow IP address spoofing for installations not using a reverse proxy. Enabling
 but you might need to adjust :setting:`IP_PROXY_HEADER` and
 :setting:`IP_PROXY_OFFSET` as well.
 
+Another thing to take care of is the :http:header:`Host` header. It should match
+to whatever is configured as :setting:`SITE_DOMAIN`. Additional configuration
+might be needed in your reverse proxy (for example use ``ProxyPreserveHost On``
+for Apache or ``proxy_set_header Host $host;`` with nginx).
+
 .. seealso::
 
     :ref:`spam-protection`,
@@ -571,7 +598,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-proxies#proxy-environment-variables>`_
+   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env>`_
 
 .. _configuration:
 
@@ -595,7 +622,8 @@ options:
 
     .. seealso::
 
-        :setting:`django:ADMINS`
+        :setting:`django:ADMINS`,
+        :ref:`production-admins`
 
 .. setting:: ALLOWED_HOSTS
 
@@ -667,7 +695,8 @@ options:
 
     .. seealso::
 
-        :setting:`django:DEBUG`
+        :setting:`django:DEBUG`,
+        :ref:`production-debug`
 
 .. setting:: DEFAULT_FROM_EMAIL
 
@@ -1406,8 +1435,19 @@ Background tasks using Celery
 
 .. versionadded:: 3.2
 
-Weblate uses Celery to process background tasks. A typical setup using Redis as
-a backend looks like this:
+Weblate uses Celery to execute regular and background tasks. You are supposed
+to run a Celery service that will execute these. For example, it is responsible
+for handling following operations (this list is not complete):
+
+* Receiving webhooks from external services (see :ref:`hooks`).
+* Running regular maintenance tasks such as backups, cleanups, daily add-ons, or updates
+  (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`).
+* Running :ref:`auto-translation`.
+* Sending digest notifications.
+* Offloading expensive operations from the wsgi process.
+* Committing pending changes (see :ref:`lazy-commit`).
+
+A typical setup using Redis as a backend looks like this:
 
 .. code-block:: python
 
@@ -1419,17 +1459,8 @@ a backend looks like this:
 
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
-For development, you might want to use eager configuration, which does process
-all tasks in place, but this will have performance impact on Weblate:
-
-.. code-block:: python
-
-   CELERY_TASK_ALWAYS_EAGER = True
-   CELERY_BROKER_URL = "memory://"
-   CELERY_TASK_EAGER_PROPAGATES = True
-
 You should also start the Celery worker to process the tasks and start
-scheduled tasks, this can be done directly on the command line (which is mostly
+scheduled tasks, this can be done directly on the command-line (which is mostly
 useful when debugging or developing):
 
 .. code-block:: sh
@@ -1445,6 +1476,23 @@ useful when debugging or developing):
 
    See also :ref:`file-permissions` and :ref:`server`.
 
+Executing Celery tasks in the wsgi using eager mode
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. note::
+
+   This will have severe performance impact on the web interface, and will
+   break features depending on regular trigger (for example committing pending
+   changes, digest notifications, or backups).
+
+For development, you might want to use eager configuration, which does process
+all tasks in place:
+
+.. code-block:: python
+
+   CELERY_TASK_ALWAYS_EAGER = True
+   CELERY_BROKER_URL = "memory://"
+   CELERY_TASK_EAGER_PROPAGATES = True
 
 Running Celery as system service
 ++++++++++++++++++++++++++++++++
@@ -1483,9 +1531,10 @@ the Celery startup logs in such case to figure out root cause.
 Monitoring Celery status
 ++++++++++++++++++++++++
 
-You can use :djadmin:`celery_queues` to see current length of Celery task
-queues. In case the queue will get too long, you will also get configuration
-error in the admin interface.
+You can find current length of the Celery task queues in the
+:ref:`management-interface` or you can use :djadmin:`celery_queues` on the
+command-line. In case the queue will get too long, you will also get
+configuration error in the admin interface.
 
 .. warning::
 

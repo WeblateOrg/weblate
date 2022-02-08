@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -327,9 +327,8 @@ class MoExporter(PoExporter):
             self.monolingual = translation.component.has_template()
             if self.monolingual:
                 try:
-                    self.use_context = translation.store.content_units[
-                        0
-                    ].template.source
+                    unit = translation.store.content_units[0]
+                    self.use_context = not unit.template.source
                 except IndexError:
                     pass
 
@@ -337,7 +336,7 @@ class MoExporter(PoExporter):
         return
 
     def add_unit(self, unit):
-        # We do not store not translated units
+        # We do not store untranslated units
         if not unit.translated:
             return
         # Parse properties from unit
@@ -355,8 +354,7 @@ class MoExporter(PoExporter):
         output = self.create_unit(source)
         output.target = self.handle_plurals(unit.get_target_plurals())
         if context:
-            # The setcontext doesn't work on mounit
-            output.msgctxt = [context]
+            output.setcontext(context)
         # Add unit to the storage
         self.storage.addunit(output)
 

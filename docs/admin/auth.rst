@@ -330,6 +330,8 @@ overriding naming for Auth0 would look like:
    SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
    SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
 
+.. _disable-email-auth:
+
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -339,10 +341,13 @@ E-mail and password authentication can be turned off by removing
 ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
 Weblate functionality.
 
+Disabling e-mail authentication will disable all e-mail related functionality –
+user invitation or password reset feature.
+
 .. tip::
 
    You can still use password authentication for the admin interface, for users you
-   manually create there. Just navigate to ``/admin/``.
+   manually create there. Just navigate to ``/admin/login/``.
 
 For example authentication using only the openSUSE Open ID provider can be achieved
 using the following:

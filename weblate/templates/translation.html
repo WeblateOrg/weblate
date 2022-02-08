@@ -189,7 +189,7 @@
 </td>
 <td>
   <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
-  <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Edit" %}</a>
+  <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Translate" %}</a>
   <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
 </td>
 </tr>
@@ -248,11 +248,12 @@
 
 <form action="{% url 'replace' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'search-replace' right=True %}
+  {% trans "Search and replace" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can substitute all instances of a string. The search is a simple case sensitive substring search." %}</p>
-{% csrf_token %}
-{{ replace_form|crispy }}
+{% crispy replace_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
@@ -266,9 +267,11 @@
 <div class="tab-pane" id="bulk-edit">
 <form action="{% url 'bulk-edit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+  {% trans "Bulk edit" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
@@ -332,7 +335,7 @@
       <tr>
         <th class="number">{{ object.stats.todo|intcomma }}</th>
         <td>
-          {% trans "Strings needing action, converted files enriched with comments; suitable for offline translation" %}
+          {% trans "Unfinished strings, converted files enriched with comments; suitable for offline translation" %}
         </td>
         {% for exporter in exporters %}
           <td class="formats">

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,8 +18,11 @@
 #
 
 import re
+from io import StringIO
 
 from django.http import Http404
+from lxml import etree
+from lxml.etree import XMLSyntaxError
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
@@ -39,6 +42,7 @@ class Check:
     param_type = None
     always_display = False
     batch_project_wide = False
+    skip_suggestions = False
 
     def get_identifier(self):
         return self.check_id
@@ -73,7 +77,7 @@ class Check:
 
     def check_target(self, sources, targets, unit):
         """Check target strings."""
-        # No checking of not translated units (but we do check needs editing ones)
+        # No checking of untranslated units (but we do check needs editing ones)
         if self.ignore_untranslated and (not unit.state or unit.readonly):
             return False
         if self.should_skip(unit):
@@ -159,9 +163,26 @@ class Check:
         )
 
     def get_replacement_function(self, unit):
+        def strip_xml(content):
+            try:
+                tree = etree.parse(StringIO(f"<x>{content}</x>"))
+            except XMLSyntaxError:
+                return content
+            return etree.tostring(tree, encoding="unicode", method="text")
+
+        def noop(content):
+            return content
+
         flags = unit.all_flags
+
+        # chain XML striping if needed
+        if "xml-text" in flags:
+            replacement = strip_xml
+        else:
+            replacement = noop
+
         if not flags.has_value("replacements"):
-            return lambda text: text
+            return replacement
 
         # Parse the flag
         replacements = flags.get_value("replacements")
@@ -173,7 +194,9 @@ class Check:
         # Build regexp matcher
         pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
 
-        return lambda text: pattern.sub(lambda m: replacements[m.group(0)], text)
+        return lambda text: pattern.sub(
+            lambda m: replacements[m.group(0)], replacement(text)
+        )
 
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)
@@ -199,7 +222,7 @@ class Check:
             if self.check_id in unit.all_checks_names:
                 continue
 
-            create.append(Check(unit=unit, dismissed=False, check=self.check_id))
+            create.append(Check(unit=unit, dismissed=False, name=self.check_id))
             components[unit.translation.component.id] = unit.translation.component
 
         Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
@@ -210,7 +233,7 @@ class Check:
             stale_checks = stale_checks.filter(
                 unit__translation__component__project=component.project,
                 unit__translation__component__allow_translation_propagation=True,
-                check=self.check_id,
+                name=self.check_id,
             )
             for current in Component.objects.filter(
                 pk__in=stale_checks.values_list(
@@ -222,7 +245,7 @@ class Check:
         else:
             stale_checks = stale_checks.filter(
                 unit__translation__component=component,
-                check=self.check_id,
+                name=self.check_id,
             )
             if stale_checks.delete()[0]:
                 components[component.id] = component

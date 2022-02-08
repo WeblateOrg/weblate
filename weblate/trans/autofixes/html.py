@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,10 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import bleach
 from django.utils.translation import gettext_lazy as _
 
+from weblate.checks.markup import MD_LINK
 from weblate.trans.autofixes.base import AutoFix
 from weblate.utils.html import extract_bleach
 
@@ -32,8 +32,27 @@ class BleachHTML(AutoFix):
     name = _("Unsafe HTML")
 
     def fix_single_target(self, target, source, unit):
-        if "safe-html" not in unit.all_flags:
+        flags = unit.all_flags
+        if "safe-html" not in flags:
             return target, False
 
-        newtarget = bleach.clean(target, **extract_bleach(source))
-        return newtarget, newtarget != target
+        old_target = target
+
+        # Strip MarkDown links
+        replacements = {}
+        current = 0
+
+        def handle_replace(match):
+            nonlocal current, replacements
+            current += 1
+            replacement = f"@@@@@weblate:{current}@@@@@"
+            replacements[replacement] = match.group(0)
+            return replacement
+
+        if "md-text" in flags:
+            target = MD_LINK.sub(handle_replace, target)
+
+        new_target = bleach.clean(target, **extract_bleach(source))
+        for text, replace in replacements.items():
+            new_target = new_target.replace(text, replace)
+        return new_target, new_target != old_target

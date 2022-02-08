@@ -5,7 +5,9 @@ set -e
 cd scripts/yarn/
 
 yarn install --check-files
-yarn upgrade-interactive
+if [ "$1" != "--no-upgrade" ] ; then
+  yarn upgrade-interactive
+fi
 yarn run build --scripts-prepend-node-path
 
 # Bootstrap Datepicker
@@ -35,6 +37,7 @@ cp node_modules/prismjs/components/prism-core.js ../../weblate/static/vendor/pri
 cp node_modules/prismjs/components/prism-markup.js ../../weblate/static/vendor/prism/
 cp node_modules/prismjs/components/prism-rest.js ../../weblate/static/vendor/prism/
 cp node_modules/prismjs/components/prism-markdown.js ../../weblate/static/vendor/prism/
+cp node_modules/prismjs/components/prism-icu-message-format.js ../../weblate/static/vendor/prism/
 
 # Clipboard
 cp node_modules/clipboard/dist/clipboard.js ../../weblate/static/vendor/

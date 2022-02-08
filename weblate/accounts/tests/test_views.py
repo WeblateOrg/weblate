@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 
 """Test for user handling."""
+from unittest import mock
 
 from django.conf import settings
 from django.core import mail
@@ -380,7 +381,7 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertRedirects(response, reverse("profile"))
 
-    def test_profile_dasbhoard(self):
+    def test_profile_dashboard(self):
         # Save profile with invalid settings
         response = self.client.post(
             reverse("profile"),
@@ -415,7 +416,7 @@ class ProfileTest(FixtureTestCase):
     def test_subscription(self):
         # Get profile page
         response = self.client.get(reverse("profile"))
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Extract current form data
         data = {}
@@ -433,20 +434,20 @@ class ProfileTest(FixtureTestCase):
         # Save unchanged data
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Remove some subscriptions
         data["notifications__1-notify-LastAuthorCommentNotificaton"] = "0"
         data["notifications__1-notify-MentionCommentNotificaton"] = "0"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 6)
+        self.assertEqual(self.user.subscription_set.count(), 7)
 
         # Add some subscriptions
         data["notifications__2-notify-ChangedStringNotificaton"] = "1"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 7)
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
     def test_subscription_customize(self):
         # Initial view
@@ -476,7 +477,7 @@ class ProfileTest(FixtureTestCase):
 
     def test_watch(self):
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch project
         self.client.post(reverse("watch", kwargs=self.kw_project))
@@ -506,11 +507,11 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.subscription_set.filter(component=self.component).count(), 0
         )
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
     def test_watch_component(self):
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch component
         self.client.post(reverse("watch", kwargs=self.kw_component))
@@ -550,6 +551,38 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)
+
+    def test_profile_password_warning(self):
+        with mock.patch.object(User, "has_usable_password", return_value=False):
+            response = self.client.get(reverse("profile"))
+            self.assertContains(response, "Please enable the password authentication")
+            with modify_settings(
+                AUTHENTICATION_BACKENDS={
+                    "remove": "social_core.backends.email.EmailAuth"
+                }
+            ):
+                load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
+                response = self.client.get(reverse("profile"))
+                self.assertNotContains(
+                    response, "Please enable the password authentication"
+                )
+        self.assertEqual(self.user.has_usable_password(), True)
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, "Please enable the password authentication")
+        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
+
+    def test_language(self):
+        self.user.profile.languages.clear()
+
+        # English is not saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="en")
+        self.assertFalse(self.user.profile.languages.exists())
+
+        # Other language is saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="cs")
+        self.assertEqual(
+            set(self.user.profile.languages.values_list("code", flat=True)), {"cs"}
+        )
 
 
 class EditUserTest(FixtureTestCase):

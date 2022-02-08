@@ -47,7 +47,7 @@
 <div {% active_tab "your-subscriptions" %}>
 {% if watched_projects %}
     {% if usersubscriptions %}
-        {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Component") hide_completed=user.profile.hide_completed name_source="translation" %}
+        {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Translation") hide_completed=user.profile.hide_completed name_source="translation" %}
 
         {% include "paginator.html" with page_obj=usersubscriptions %}
     {% else %}
@@ -69,7 +69,7 @@
 {# Suggested translations #}
 <div {% active_tab "suggestions" %}>
 {% if suggestions %}
-{% include "snippets/list-objects.html" with objects=suggestions label=_("Component") name_source="translation" %}
+{% include "snippets/list-objects.html" with objects=suggestions label=_("Translation") name_source="translation" %}
 {% else %}
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
 {% endif %}
@@ -78,7 +78,7 @@
 
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
-    {% include "snippets/list-objects.html" with objects=componentlist.translations label=_("Component") name_source="translation" %}
+    {% include "snippets/list-objects.html" with objects=componentlist.translations label=_("Translation") name_source="translation" %}
 </div>{% endfor %}
 
 <div class="tab-pane" id="search">

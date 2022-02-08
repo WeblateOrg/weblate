@@ -78,9 +78,12 @@ Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 Managing per-project access control
 +++++++++++++++++++++++++++++++++++
 
-Users granted :guilabel:`Manage project access` (see :ref:`privileges`)
-can manage users in all non-`Custom` projects by assigning users
-to one of the following groups:
+Users with :guilabel:`Manage project access` (see :ref:`privileges`)
+can manage users in projects by assigning them to groups.
+More can be added, and/or limited to languages with distinct roles for fine-grained access control.
+This is the initial set of teams provided for each project:
+
+The following teams are automatically created for every project:
 
 For `Public`, `Protected` and `Private` projects:
 
@@ -122,13 +125,10 @@ VCS
 Billing
     Access billing info and settings (see :ref:`billing`).
 
-The groups making up these predefined roles can not be changed for now.
-Make your own new groups to grant specific permissions to users.
-
 .. note::
 
     Permissions for each group described above is defined for every project.
-    The actual name of those groups (as shown in the Django admin interface) is
+    The actual name of those groups (as shown in the Django-admin interface) is
     ``Project@Group``. They can't be edited from the Weblate-user interface.
 
 .. image:: /screenshots/manage-users.png
@@ -448,136 +448,156 @@ lost when upgrading.
 
 .. _privileges:
 
-List of privileges
-^^^^^^^^^^^^^^^^^^
+List of privileges and built-in roles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ..
    Generated using ./manage.py list_permissions
 
 Billing (see :ref:`billing`)
-    View billing info [`Administration`, `Billing`]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+View billing info [`Administration`, `Billing`]
 
 Changes
-    Download changes [`Administration`]
+~~~~~~~
+Download changes [`Administration`]
 
 Comments
-    Post comments [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Delete comments [`Administration`]
+Post comment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
+Delete comment [`Administration`]
 
 Component
-    Edit component settings [`Administration`]
+~~~~~~~~~
+Edit component settings [`Administration`]
 
-    Lock components, (preventing translations) [`Administration`]
+Lock components (preventing translations) [`Administration`]
 
 Glossary
-    Add glossary entries [`Administration`, `Manage glossary`, `Power user`]
+~~~~~~~~
+Add glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
-    Edit glossary entries [`Administration`, `Manage glossary`, `Power user`]
+Edit glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
-    Delete glossary entries [`Administration`, `Manage glossary`, `Power user`]
+Delete glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
-    Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
+Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
 Automatic suggestions
-    Use automatic suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+~~~~~~~~~~~~~~~~~~~~~
+Use automatic suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translation memory
-    Edit translation memory [`Administration`, `Manage translation memory`]
+~~~~~~~~~~~~~~~~~~
+Edit translation memory [`Administration`, `Manage translation memory`]
 
-    Delete translation memory [`Administration`, `Manage translation memory`]
+Delete translation memory [`Administration`, `Manage translation memory`]
 
 Projects
-    Edit project settings [`Administration`]
+~~~~~~~~
+Edit project settings [`Administration`]
 
-    Manage project access [`Administration`]
+Manage project access [`Administration`]
 
 Reports
-    Download reports [`Administration`]
+~~~~~~~
+Download reports [`Administration`]
 
 Screenshots
-    Add screenshots [`Administration`, `Manage screenshots`]
 
-    Edit screenshots [`Administration`, `Manage screenshots`]
+Add screenshots [`Administration`, `Manage screenshots`]
 
-    Delete screenshots [`Administration`, `Manage screenshots`]
+Edit screenshots [`Administration`, `Manage screenshots`]
+
+Delete screenshots [`Administration`, `Manage screenshots`]
 
 Source strings
-    Edit additional string info [`Administration`, `Edit source`]
+~~~~~~~~~~~~~~
+Edit additional string info [`Administration`, `Edit source`]
 
 Strings
-    Add new strings [`Administration`]
 
-    Remove strings [`Administration`]
+Add new strings [`Administration`]
 
-    Ignore failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+Remove strings [`Administration`]
 
-    Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+Dismiss failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Review strings [`Administration`, `Review strings`]
+Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Edit strings when suggestions are enforced [`Administration`, `Review strings`]
+Review strings [`Administration`, `Review strings`]
 
-    Edit source strings [`Administration`, `Edit source`, `Power user`]
+Edit strings when suggestions are enforced [`Administration`, `Review strings`]
+
+Edit source strings [`Administration`, `Edit source`, `Power user`]
 
 Suggestions
-    Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Add suggestions [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`]
+Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Delete suggestions [`Administration`, `Power user`]
+Add suggestions [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`]
 
-    Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+Delete suggestions [`Administration`, `Power user`]
+
+Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
-    Add language for translations [`Administration`, `Power user`, `Manage languages`]
+~~~~~~~~~~~~
+Add languages for translation [`Administration`, `Power user`, `Manage languages`]
 
-    Perform automatic translation [`Administration`, `Manage languages`]
+Perform automatic translation [`Administration`, `Automatic translation`]
 
-    Delete existing translations [`Administration`, `Manage languages`]
+Delete existing translation [`Administration`, `Manage languages`]
 
-    Add several languages for translation [`Administration`, `Manage languages`]
+Download translation files [`Administration`, `Edit source`, `Access repository`, `Power user`, `Review strings`, `Translate`, `Manage languages`]
+
+Add several languages for translation [`Administration`, `Manage languages`]
 
 Uploads
-    Define author of uploaded translations [`Administration`]
 
-    Overwrite existing strings with upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+Define the author of an uploaded translation [`Administration`]
 
-    Upload translations [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+Overwrite existing strings with upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
+Upload translations [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 VCS
-    Access the internal repository [`Administration`, `Access repository`, `Power user`, `Manage repository`]
+~~~
+Access the internal repository [`Administration`, `Access repository`, `Power user`, `Manage repository`]
 
-    Commit changes to the internal repository [`Administration`, `Manage repository`]
+Commit changes to the internal repository [`Administration`, `Manage repository`]
 
-    Push changes from the internal repository [`Administration`, `Manage repository`]
+Push changes from the internal repository [`Administration`, `Manage repository`]
 
-    Reset changes in the internal repository [`Administration`, `Manage repository`]
+Reset changes in the internal repository [`Administration`, `Manage repository`]
 
-    View the upstream repository location [`Administration`, `Access repository`, `Power user`, `Manage repository`]
+View the upstream repository location [`Administration`, `Access repository`, `Power user`, `Manage repository`]
 
-    Update the internal repository [`Administration`, `Manage repository`]
+Update the internal repository [`Administration`, `Manage repository`]
 
 Site-wide privileges
-    Use the management interface
+~~~~~~~~~~~~~~~~~~~~
+Use the management interface
 
-    Add new projects
+Add new projects
 
-    Add language definitions
+Add language definitions
 
-    Manage language definitions
+Manage language definitions
 
-    Manage groups
+Manage groups
 
-    Manage users
+Manage users
 
-    Manage roles
+Manage roles
 
-    Manage announcements
+Manage announcements
 
-    Manage translation memory
+Manage translation memory
 
-    Manage component lists
+Manage component lists
+
 
 .. note::
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -52,7 +52,7 @@ class GlossaryAddMixin(forms.Form):
         required=False,
     )
     read_only = forms.BooleanField(
-        label=gettext_lazy("Not translatable term"),
+        label=gettext_lazy("Untranslatable term"),
         required=False,
     )
 
@@ -84,13 +84,23 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             "translation": GlossaryModelChoiceField,
         }
 
-    def __init__(self, unit, data=None, instance=None, initial=None, **kwargs):
+    def __init__(self, unit, user, data=None, instance=None, initial=None, **kwargs):
         translation = unit.translation
         component = translation.component
         glossaries = Translation.objects.filter(
             language=translation.language,
             component__in=component.project.glossaries,
+            component__manage_units=True,
         )
+        self._user = user
+        exclude = [
+            glossary.pk
+            for glossary in glossaries
+            if not user.has_perm("unit.add", glossary)
+        ]
+        if exclude:
+            glossaries = glossaries.exclude(pk__in=exclude)
+
         if not instance and not initial:
             initial = {}
         if initial is not None and unit.is_source:

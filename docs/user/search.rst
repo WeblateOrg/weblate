@@ -25,17 +25,17 @@ Fields
 ------
 
 ``source:TEXT``
-   Source string case insensitive search.
+   Source string case-insensitive search.
 ``target:TEXT``
-   Target string case insensitive search.
+   Target string case-insensitive search.
 ``context:TEXT``
-   Context string case insensitive search.
+   Context string case-insensitive search.
 ``key:TEXT``
-   Key string case insensitive search.
+   Key string case-insensitive search.
 ``note:TEXT``
-   Comment string case insensitive search.
+   Source string description case-insensitive search.
 ``location:TEXT``
-   Location string case insensitive search.
+   Location string case-insensitive search.
 ``priority:NUMBER``
    String priority.
 ``added:DATETIME``
@@ -45,13 +45,13 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``.
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``.
 ``is:TEXT``
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
    String target language.
 ``component:TEXT``
-   Component slug or name case insensitive search, see :ref:`component-slug` and :ref:`component-name`.
+   Component slug or name case-insensitive search, see :ref:`component-slug` and :ref:`component-name`.
 ``project:TEXT``
    Project slug, see :ref:`project-slug`.
 ``changed_by:TEXT``
@@ -81,6 +81,10 @@ Fields
    Filter by suggestion author.
 ``explanation:TEXT``
    Search in explanations.
+``label:TEXT``
+   Search in labels.
+``screenshot:TEXT``
+   Search in screenshots.
 
 Boolean operators
 -----------------

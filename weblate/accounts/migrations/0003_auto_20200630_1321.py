@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                     ("NewAnnouncementNotificaton", "New announcement"),
                     ("NewAlertNotificaton", "New alert"),
                     ("PendingSuggestionsNotification", "Pending suggestions"),
-                    ("ToDoStringsNotification", "Strings needing action"),
+                    ("ToDoStringsNotification", "Unfinished strings"),
                 ],
                 max_length=100,
             ),

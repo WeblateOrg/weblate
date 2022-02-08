@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -48,6 +48,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
+from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
@@ -65,7 +66,14 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
+# This should match whitespace_regex in weblate/static/loader-bootstrap.js
+WHITESPACE_REGEX = (
+    r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
+    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    + r"\u202F|\u205F|\u3000)"
+)
+WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
+MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -75,18 +83,6 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
-
-PERM_TEMPLATE = """
-<td>
-<input type="checkbox"
-    class="set-group"
-    data-placement="bottom"
-    data-username="{0}"
-    data-group="{1}"
-    data-name="{2}"
-    {3} />
-</td>
-"""
 
 SOURCE_LINK = """
 <a href="{0}" target="_blank" rel="noopener noreferrer"
@@ -98,7 +94,7 @@ class Formatter:
     def __init__(self, idx, value, unit, terms, diff, search_match, match):
         # Inputs
         self.idx = idx
-        self.value = value
+        self.cleaned_value = self.value = value
         self.unit = unit
         self.terms = terms
         self.diff = diff
@@ -147,11 +143,17 @@ class Formatter:
     def parse_highlight(self):
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
+        cleaned_value = list(self.value)
         for start, end, _content in highlights:
             self.tags[start].append(
                 '<span class="hlcheck"><span class="highlight-number"></span>'
             )
             self.tags[end].insert(0, "</span>")
+            cleaned_value[start:end] = [" "] * (end - start)
+
+        # Prepare cleaned up value for glossary terms (we do not want to extract those
+        # from format strings)
+        self.cleaned_value = "".join(cleaned_value)
 
     @staticmethod
     def format_terms(terms):
@@ -181,7 +183,7 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                fr"(\W|^)({re.escape(htext)})(\W|$)", self.value, re.IGNORECASE
+                rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
                 self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
@@ -205,7 +207,7 @@ class Formatter:
 
     def parse_whitespace(self):
         """Highlight whitespaces."""
-        for match in WHITESPACE_RE.finditer(self.value):
+        for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
@@ -215,9 +217,17 @@ class Formatter:
                 )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
-        for match in re.finditer("\t", self.value):
+        for match in WHITESPACE_RE.finditer(self.value):
+            whitespace = match.group(0)
+            if whitespace == "\t":
+                cls = "space-tab"
+            else:
+                cls = "space-space"
+            title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace"><span class="space-tab"><span class="sr-only">'
+                '<span class="hlspace">'
+                f'<span class="{cls}" title="{title}">'
+                '<span class="sr-only">'
             )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
@@ -251,8 +261,9 @@ def format_translation(
     plural=None,
     diff=None,
     search_match=None,
-    simple=False,
-    wrap=False,
+    simple: bool = False,
+    wrap: bool = False,
+    noformat: bool = False,
     num_plurals=2,
     unit=None,
     match="search",
@@ -284,8 +295,8 @@ def format_translation(
     parts = []
     has_content = False
 
-    for idx, value in enumerate(plurals):
-        formatter = Formatter(idx, value, unit, terms, diff, search_match, match)
+    for idx, text in enumerate(plurals):
+        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
         formatter.parse()
 
         # Show label for plural (if there are any)
@@ -296,11 +307,12 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(value)})
+        parts.append({"title": title, "content": content, "copy": escape(text)})
         has_content |= bool(content)
 
     return {
         "simple": simple,
+        "noformat": noformat,
         "wrap": wrap,
         "items": parts,
         "language": language,
@@ -570,7 +582,7 @@ def unit_state_title(unit) -> str:
     if checks:
         state.append(
             "{} {}".format(
-                pgettext("String state", "Failed checks:"),
+                pgettext("String state", "Failing checks:"),
                 ", ".join(str(check) for check in checks),
             )
         )
@@ -660,32 +672,29 @@ def active_link(context, slug):
     return ""
 
 
-@register.simple_tag
-def user_permissions(user, groups):
-    """Render checksboxes for user permissions."""
-    result = []
-    for group in groups:
-        checked = ""
-        if user.groups.filter(pk=group.pk).exists():
-            checked = ' checked="checked"'
-        result.append(
-            PERM_TEMPLATE.format(
-                escape(user.username), group.pk, escape(group.short_name), checked
-            )
-        )
-    return mark_safe("".join(result))
+def _needs_agreement(component, user):
+    if not component.agreement:
+        return False
+    return not ContributorAgreement.objects.has_agreed(user, component)
+
+
+@register.simple_tag(takes_context=True)
+def needs_agreement(context, component):
+    return _needs_agreement(component, context["user"])
 
 
 @register.simple_tag(takes_context=True)
 def show_contributor_agreement(context, component):
-    if not component.agreement:
-        return ""
-    if ContributorAgreement.objects.has_agreed(context["user"], component):
+    if not _needs_agreement(component, context["user"]):
         return ""
 
     return render_to_string(
         "snippets/component/contributor-agreement.html",
-        {"object": component, "next": context["request"].get_full_path()},
+        {
+            "object": component,
+            "next": context["request"].get_full_path(),
+            "user": context["user"],
+        },
     )
 
 
@@ -738,7 +747,7 @@ def translation_alerts(translation):
     if translation.is_source:
         yield (
             "state/source.svg",
-            gettext("This translation is used for source strings."),
+            gettext("This language is used for source strings."),
             None,
         )
 
@@ -925,7 +934,7 @@ def number_format(number):
 @register.filter
 def trend_format(number):
     if number < 0:
-        prefix = "-"
+        prefix = "−"
         trend = "trend-down"
     else:
         prefix = "+"

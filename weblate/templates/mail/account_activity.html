@@ -4,7 +4,7 @@
 
 {% block content %}
 <p>
-{% blocktrans %}There has been a following change in your account at {{ site_title }}:{% endblocktrans %}
+{% blocktrans %}The following activity has occured on your account at {{ site_title }}:{% endblocktrans %}
 </p>
 
 <p>
@@ -17,25 +17,6 @@
 </p>
 {% endif %}
 
-<table>
-<tr>
-<td>{% trans "IP address" %}</td>
-<td>{{ address }}</td>
-</tr>
-<tr>
-<td>{% trans "User agent" %}</td>
-<td>{{ user_agent }}</td>
-</tr>
-</table>
-
-<p>
-{% blocktrans %}If you don’t recognize this change, you can report it by clicking the button below.{% endblocktrans %}
-<b>{% blocktrans %}Don’t use this button for support questions. Such questions won’t be answered.{% endblocktrans %}</b>
-{% blocktrans with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>'  %}If you have an idea or a question, {{ link_start }}this{{ link_end }} is a good place to start.{% endblocktrans %}
-</p>
-
-<div class="line buttons">
-<a class="button" href="{% url 'contact' %}?t=account">{% trans "Report" %}</a>
-</p>
+{% include "mail/shared-activity.html" %}
 
 {% endblock %}

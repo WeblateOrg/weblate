@@ -11,8 +11,9 @@ text direction, plural definitions and language code is needed.
 Parsing language codes
 ----------------------
 
-While parsing translations, Weblate attempts to map language code
-(usually the ISO 639-1 one) to any existing language object.
+While parsing translations, Weblate attempts to map language code (usually the
+ISO 639-1 one) from the :ref:`component-filemask` to any existing language
+object.
 
 You can further adjust this mapping at project level by :ref:`project-language_aliases`.
 
@@ -165,11 +166,13 @@ Adding new translations
 Weblate can automatically start new translation for all of the file
 formats.
 
-Some formats expect to start with an empty file and only translated
-strings to be included (for example :ref:`aresource`), while others expect to have all
-keys present (for example :ref:`gettext`). In some situations this really doesn't depend
-on the format, but rather on the framework you use to handle the translation (for example with
-:ref:`json`).
+Some formats expect to start with an empty file and only translated strings to
+be included (for example :ref:`aresource`), while others expect to have all
+keys present (for example :ref:`gettext`). The document-based formats (for
+example :ref:`odf`) start with a copy of the source document and all strings
+marked as needing editing.  In some situations this really doesn't depend on
+the format, but rather on the framework you use to handle the translation (for
+example with :ref:`json`).
 
 When you specify :ref:`component-new_base` in :ref:`component`, Weblate will
 use this file to start new translations. Any exiting translations will be

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import (
     gettext_lazy,
+    ngettext,
     ngettext_lazy,
     pgettext,
     pgettext_lazy,
@@ -35,6 +40,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
+from weblate.utils.state import STATE_LOOKUP
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -47,9 +53,8 @@ class ChangeQuerySet(models.QuerySet):
             base = base.prefetch()
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
-    @staticmethod
-    def count_stats(days, step, dtstart, base):
-        """Count number of changes in given dataset and period grouped by step days."""
+    def count_stats(self, days: int, step: int, dtstart: datetime):
+        """Count the number of changes in a given period grouped by step days."""
         # Count number of changes
         result = []
         for _unused in range(0, days, step):
@@ -58,7 +63,7 @@ class ChangeQuerySet(models.QuerySet):
             int_end = int_start + timezone.timedelta(days=step)
 
             # Count changes
-            int_base = base.filter(timestamp__range=(int_start, int_end))
+            int_base = self.filter(timestamp__range=(int_start, int_end))
             count = int_base.aggregate(Count("id"))
 
             # Append to result
@@ -71,8 +76,8 @@ class ChangeQuerySet(models.QuerySet):
 
     def base_stats(
         self,
-        days,
-        step,
+        days: int,
+        step: int,
         project=None,
         component=None,
         translation=None,
@@ -102,10 +107,14 @@ class ChangeQuerySet(models.QuerySet):
         if user is not None:
             base = base.filter(user=user)
 
-        return self.count_stats(days, step, dtstart, base)
+        return base.count_stats(days, step, dtstart)
 
     def prefetch(self):
-        """Fetch related fields in a big chungs to avoid loading them individually."""
+        """
+        Fetch related fields at once to avoid loading them individually.
+
+        Call prefetch or prefetch_list later on paginated results to complete.
+        """
         return self.prefetch_related(
             "user",
             "translation",
@@ -113,21 +122,30 @@ class ChangeQuerySet(models.QuerySet):
             "project",
             "unit",
             "translation__language",
-            "translation__component",
-            "translation__component__project",
-            "unit__translation",
-            "unit__translation__language",
-            "unit__translation__plural",
-            "unit__translation__component",
-            "unit__translation__component__project",
-            "component__project",
+            "translation__plural",
         )
 
-    def last_changes(self, user):
-        """Return last changes for an user.
+    @staticmethod
+    def preload_list(results, *args):
+        """Companion for prefetch to fill in nested references."""
+        for item in results:
+            if item.component and "component" not in args:
+                item.component.project = item.project
+            if item.translation and "translation" not in args:
+                item.translation.component = item.component
+            if item.unit and "unit" not in args:
+                item.unit.translation = item.translation
+        return results
 
-        Prefilter Changes by ACL for users and fetches related fields for last changes
-        display.
+    def preload(self, *args):
+        """Companion for prefetch to fill in nested references."""
+        return self.preload_list(self, *args)
+
+    def last_changes(self, user):
+        """Return the most recent changes for an user.
+
+        Filters Change objects by user permissions and fetches related fields for
+        last changes display.
         """
         if user.is_superuser:
             return self.prefetch().order()
@@ -161,7 +179,7 @@ class ChangeQuerySet(models.QuerySet):
 
 
 class ChangeManager(models.Manager):
-    def create(self, user=None, **kwargs):
+    def create(self, *, user=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner."""
         if user is not None and not user.is_authenticated:
             user = None
@@ -225,6 +243,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_AGREEMENT_CHANGE = 56
     ACTION_SCREENSHOT_ADDED = 57
     ACTION_SCREENSHOT_UPLOADED = 58
+    ACTION_STRING_REPO_UPDATE = 59
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -343,6 +362,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
         # Translators: Name of event in the history
         (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -361,6 +382,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_AUTO,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -399,6 +421,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION_CLEANUP,
         ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Actions indicating a repository merge failure
@@ -415,9 +438,13 @@ class Change(models.Model, UserDisplayMixin):
     }
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
-        ACTION_LOCK: gettext_lazy("Component automatically locked"),
+        ACTION_LOCK: gettext_lazy(
+            "The component was automatically locked because of an alert."
+        ),
         # Translators: Name of event in the history
-        ACTION_UNLOCK: gettext_lazy("Component automatically unlocked"),
+        ACTION_UNLOCK: gettext_lazy(
+            "Fixing an alert automatically unlocked the component."
+        ),
     }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
@@ -482,15 +509,8 @@ class Change(models.Model, UserDisplayMixin):
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
 
-        if self.unit:
-            self.translation = self.unit.translation
-        if self.screenshot:
-            self.translation = self.screenshot.translation
-        if self.translation:
-            self.component = self.translation.component
-            self.language = self.translation.language
-        if self.component:
-            self.project = self.component.project
+        self.fixup_refereces()
+
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
 
@@ -512,7 +532,26 @@ class Change(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
+        for attr in ("user", "author"):
+            user = kwargs.get(attr)
+            if user is not None and hasattr(user, "get_token_user"):
+                # ProjectToken / ProjectUser integration
+                kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
+        if not self.pk:
+            self.fixup_refereces()
+
+    def fixup_refereces(self):
+        """Updates refereces based to least specific one."""
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.screenshot:
+            self.translation = self.screenshot.translation
+        if self.translation:
+            self.component = self.translation.component
+            self.language = self.translation.language
+        if self.component:
+            self.project = self.component.project
 
     @property
     def plural_count(self):
@@ -525,9 +564,13 @@ class Change(models.Model, UserDisplayMixin):
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
-        if self.action in self.AUTO_ACTIONS and self.auto_status:
-            return str(self.AUTO_ACTIONS[self.action])
         return str(self.ACTIONS_DICT.get(self.action, self.action))
+
+    def get_state_display(self):
+        state = self.details.get("state")
+        if not state:
+            return ""
+        return STATE_LOOKUP[state]
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE
@@ -553,13 +596,46 @@ class Change(models.Model, UserDisplayMixin):
     def get_details_display(self):  # noqa: C901
         from weblate.utils.markdown import render_markdown
 
+        details = self.details
+
+        if self.action == self.ACTION_NEW_STRING:
+            return (
+                ngettext(
+                    "%d new string to translate appeared in the translation.",
+                    "%d new strings to translate appeared to the translation.",
+                    self.plural_count,
+                )
+                % self.plural_count
+            )
+
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
+
+        if self.action in self.AUTO_ACTIONS and self.auto_status:
+            return str(self.AUTO_ACTIONS[self.action])
+
+        if self.action == self.ACTION_UPDATE:
+            reason = details.get("reason", "content changed")
+            filename = "<code>{}</code>".format(
+                escape(
+                    details.get(
+                        "filename",
+                        self.translation.filename if self.translation else "",
+                    )
+                )
+            )
+            if reason == "content changed":
+                return mark_safe(_('The "%s" file was changed.') % filename)
+            if reason == "check forced":
+                return mark_safe(_('Parsing of the "%s" file was enforced.') % filename)
+            if reason == "new file":
+                return mark_safe(_("File %s was added.") % filename)
+            raise ValueError(f"Unknown reason: {reason}")
 
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
             return _(
-                "License for component %(component)s was changed "
+                'The license of the "%(component)s" component was changed '
                 "from %(old)s to %(target)s."
             ) % {
                 "component": self.component,
@@ -568,7 +644,7 @@ class Change(models.Model, UserDisplayMixin):
             }
 
         # Following rendering relies on details present
-        if not self.details:
+        if not details:
             return ""
         user_actions = {
             self.ACTION_ADD_USER,
@@ -577,32 +653,32 @@ class Change(models.Model, UserDisplayMixin):
         }
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
-                if number == self.details["access_control"]:
+                if number == details["access_control"]:
                     return name
-            return "Unknonwn {}".format(self.details["access_control"])
+            return "Unknonwn {}".format(details["access_control"])
         if self.action in user_actions:
-            if "group" in self.details:
-                return "{username} ({group})".format(**self.details)
-            return self.details["username"]
+            if "group" in details:
+                return "{username} ({group})".format(**details)
+            return details["username"]
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         ):  # noqa: E501
             try:
-                return Language.objects.get(code=self.details["language"])
+                return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
-                return self.details["language"]
+                return details["language"]
         if self.action == self.ACTION_ALERT:
             try:
-                return ALERTS[self.details["alert"]].verbose
+                return ALERTS[details["alert"]].verbose
             except KeyError:
-                return self.details["alert"]
+                return details["alert"]
         if self.action == self.ACTION_PARSE_ERROR:
-            return "{filename}: {error_message}".format(**self.details)
+            return "{filename}: {error_message}".format(**details)
         if self.action == self.ACTION_HOOK:
-            return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
-        if self.action == self.ACTION_COMMENT and "comment" in self.details:
-            return render_markdown(self.details["comment"])
+            return "{service_long_name}: {repo_url}, {branch}".format(**details)
+        if self.action == self.ACTION_COMMENT and "comment" in details:
+            return render_markdown(details["comment"])
 
         return ""
 
@@ -612,3 +688,6 @@ class Change(models.Model, UserDisplayMixin):
         except MemoryError:
             # Too long strings
             return abs(len(self.old) - len(self.target))
+
+    def get_source(self):
+        return self.details.get("source", self.unit.source)

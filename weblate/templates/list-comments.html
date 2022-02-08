@@ -39,7 +39,7 @@
             </form>
         </div>
         {% endif %}
-        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}">
+        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}" lang="{{ comment.unit.translation.language.code }}" dir="{{ comment.unit.translation.language.direction }}">
             {{ comment.comment|markdown }}
             <span class="pull-right flip text-muted">{{ comment.timestamp|naturaltime }}</span>
             <div class="clearfix"></div>

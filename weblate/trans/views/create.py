@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -185,9 +185,8 @@ class CreateComponent(BaseCreateView):
         try:
             process_result = subprocess.run(
                 ["licensee", "detect", "--json", form.instance.full_path],
-                universal_newlines=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                text=True,
+                capture_output=True,
                 env=get_clean_env(),
                 check=True,
             )

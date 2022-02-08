@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -92,6 +92,25 @@ class Addon(models.Model):
     def __str__(self):
         return f"{self.addon.verbose}: {self.component}"
 
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        cls = self.addon_class
+        self.project_scope = cls.project_scope
+        self.repo_scope = cls.repo_scope
+        if self.component:
+            # Reallocate to repository
+            if self.repo_scope and self.component.linked_component:
+                self.component = self.component.linked_component
+            # Clear add-on cache
+            self.component.drop_addons_cache()
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
+
     def get_absolute_url(self):
         return reverse(
             "addon-detail",
@@ -108,8 +127,12 @@ class Addon(models.Model):
         self.event_set.exclude(event__in=events).delete()
 
     @cached_property
+    def addon_class(self):
+        return ADDONS[self.name]
+
+    @cached_property
     def addon(self):
-        return ADDONS[self.name](self)
+        return self.addon_class(self)
 
     def delete(self, *args, **kwargs):
         # Delete any addon alerts
@@ -150,6 +173,7 @@ class AddonsConf(AppConf):
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
         "weblate.addons.generate.PseudolocaleAddon",
+        "weblate.addons.generate.PrefillAddon",
         "weblate.addons.json.JSONCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",

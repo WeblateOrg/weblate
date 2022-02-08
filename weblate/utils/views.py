@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,6 +20,7 @@
 
 import os
 from time import mktime
+from typing import Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -36,6 +37,8 @@ from django.views.generic.edit import FormView
 from weblate.formats.models import EXPORTERS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
+from weblate.utils.errors import report_error
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -132,7 +135,7 @@ SORT_CHOICES = {
     "priority": gettext_lazy("Priority"),
     "labels": gettext_lazy("Labels"),
     "source": gettext_lazy("Source string"),
-    "target": gettext_lazy("Translated string"),
+    "target": gettext_lazy("Target string"),
     "timestamp": gettext_lazy("Age of string"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
@@ -283,14 +286,22 @@ def zip_download(root, filenames, name="translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
-            with open(filename, "rb") as handle:
-                zipfile.writestr(os.path.relpath(filename, root), handle.read())
+            try:
+                with open(filename, "rb") as handle:
+                    zipfile.writestr(os.path.relpath(filename, root), handle.read())
+            except FileNotFoundError:
+                continue
     response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
     return response
 
 
 @gzip_page
-def download_translation_file(request, translation, fmt=None, units=None):
+def download_translation_file(
+    request,
+    translation: Translation,
+    fmt: Optional[str] = None,
+    query_string: Optional[str] = None,
+):
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]
@@ -299,8 +310,9 @@ def download_translation_file(request, translation, fmt=None, units=None):
         if not exporter_cls.supports(translation):
             raise Http404("File format not supported")
         exporter = exporter_cls(translation=translation)
-        if units is None:
-            units = translation.unit_set.prefetch_full().order_by("position")
+        units = translation.unit_set.prefetch_full().order_by("position")
+        if query_string:
+            units = units.search(query_string).distinct()
         exporter.add_units(units)
         response = exporter.get_response(
             "{{project}}-{0}-{{language}}.{{extension}}".format(
@@ -309,19 +321,27 @@ def download_translation_file(request, translation, fmt=None, units=None):
         )
     else:
         # Force flushing pending units
-        translation.commit_pending("download", None)
+        try:
+            translation.commit_pending("download", None)
+        except WeblateLockTimeout:
+            report_error(cause="Download commit")
 
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.component.file_format_cls.extension()
+            extension = (
+                os.path.splitext(translation.filename)[1]
+                or f".{translation.component.file_format_cls.extension()}"
+            )
+            if not os.path.exists(filenames[0]):
+                raise Http404("File not found")
             # Create response
             response = FileResponse(
                 open(filenames[0], "rb"),
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
-            extension = "zip"
+            extension = ".zip"
             response = zip_download(
                 translation.get_filename(),
                 filenames,
@@ -330,12 +350,10 @@ def download_translation_file(request, translation, fmt=None, units=None):
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)
-        filename = "{}-{}-{}.{}".format(
-            translation.component.project.slug,
-            translation.component.slug,
-            translation.language.code,
-            extension,
-        )
+        project_slug = translation.component.project.slug
+        component_slug = translation.component.slug
+        language_code = translation.language.code
+        filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"
@@ -348,17 +366,21 @@ def download_translation_file(request, translation, fmt=None, units=None):
     return response
 
 
-def show_form_errors(request, form):
-    """Show all form errors as a message."""
+def get_form_errors(form):
     for error in form.non_field_errors():
-        messages.error(request, error)
+        yield error
     for field in form:
         for error in field.errors:
-            messages.error(
-                request,
-                _("Error in parameter %(field)s: %(error)s")
-                % {"field": field.name, "error": error},
-            )
+            yield _("Error in parameter %(field)s: %(error)s") % {
+                "field": field.name,
+                "error": error,
+            }
+
+
+def show_form_errors(request, form):
+    """Show all form errors as a message."""
+    for error in get_form_errors(form):
+        messages.error(request, error)
 
 
 class ErrorFormView(FormView):

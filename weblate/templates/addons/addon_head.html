@@ -4,10 +4,10 @@
 
 <h4>
 {% if addon.project_scope %}
-<span class="badge pull-right flip" title="{% trans "This addon is used for the whole project, it is enough to install it for one component." %}">{% trans "project wide" %}</span>
+<span class="badge pull-right flip" title="{% trans "This add-on is used for the whole project, it is enough to install it for one component." %}">{% trans "project wide" %}</span>
 {% endif %}
 {% if addon.repo_scope %}
-<span class="badge pull-right flip" title="{% trans "This addon is used for all components sharing this repository." %}">{% trans "repository wide" %}</span>
+<span class="badge pull-right flip" title="{% trans "This add-on is used for all components sharing this repository." %}">{% trans "repository wide" %}</span>
 {% endif %}
 {% icon addon.icon %}
 {{ addon.verbose }}

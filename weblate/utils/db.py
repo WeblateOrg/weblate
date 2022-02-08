@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 """Database specific code to extend Django."""
 
+import django
 from django.db import connection, models, router
 from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.deletion import Collector
@@ -102,18 +103,6 @@ class PostgreSQLSubstringLookup(PatternLookup):
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return f"{lhs} ILIKE {rhs}", params
-
-
-def table_has_row(connection, table, rowname):
-    """Check whether actual table has row."""
-    with connection.cursor() as cursor:
-        table_description = connection.introspection.get_table_description(
-            cursor, table
-        )
-        for row in table_description:
-            if row.name == rowname:
-                return True
-    return False
 
 
 def re_escape(pattern):
@@ -258,7 +247,10 @@ class FastDeleteQuerySetMixin:
         # Disable non-supported fields.
         del_query.query.select_for_update = False
         del_query.query.select_related = False
-        del_query.query.clear_ordering(force_empty=True)
+        if django.VERSION < (4, 0):
+            del_query.query.clear_ordering(force_empty=True)
+        else:
+            del_query.query.clear_ordering(clear_default=True)
 
         collector = FastCollector(using=del_query.db)
         collector.collect(del_query)

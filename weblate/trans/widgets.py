@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -50,6 +50,7 @@ COLOR_DATA = {
 }
 
 WIDGETS = {}
+WIDGET_FONT = "Source Sans 3"
 
 
 def register_widget(widget):
@@ -155,8 +156,8 @@ class BitmapWidget(ContentWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription(f"Source Sans 3 {self.font_size * 1.5}"),
-            Pango.FontDescription(f"Source Sans 3 {self.font_size}"),
+            Pango.FontDescription(f"{WIDGET_FONT} {self.font_size * 1.5}"),
+            Pango.FontDescription(f"{WIDGET_FONT} {self.font_size}"),
         ]
 
     def render_additional(self, ctx):
@@ -307,8 +308,8 @@ class OpenGraphWidget(NormalWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription(f"Source Sans 3 {42}"),
-            Pango.FontDescription(f"Source Sans 3 {18}"),
+            Pango.FontDescription(f"{WIDGET_FONT} {42}"),
+            Pango.FontDescription(f"{WIDGET_FONT} {18}"),
         ]
 
     def get_name(self) -> str:
@@ -321,7 +322,7 @@ class OpenGraphWidget(NormalWidget):
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
-        layout.set_font_description(Pango.FontDescription(f"Source Sans 3 {52}"))
+        layout.set_font_description(Pango.FontDescription(f"{WIDGET_FONT} {52}"))
         name = self.get_name()
         layout.set_markup(self.get_title(name))
 
@@ -386,7 +387,7 @@ class SVGBadgeWidget(SVGWidget):
             render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
                 0
             ].width
-            + 5
+            + 10
         )
 
         percent_text = self.get_percent_text()
@@ -394,7 +395,7 @@ class SVGBadgeWidget(SVGWidget):
             render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
                 0
             ].width
-            + 5
+            + 10
         )
 
         if self.percent >= 90:
@@ -455,7 +456,7 @@ class MultiLanguageWidget(SVGWidget):
                     render_size(
                         "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, language_name
                     )[0].width
-                    + 5
+                    + 10
                 ),
             )
             translations.append(

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
 
 from django.utils.translation import gettext_lazy as _
 
@@ -24,18 +25,6 @@ from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametri
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 
-KASHIDA_CHARS = (
-    "\u0640",
-    "\uFCF2",
-    "\uFCF3",
-    "\uFCF4",
-    "\uFE71",
-    "\uFE77",
-    "\uFE79",
-    "\uFE7B",
-    "\uFE7D",
-    "\uFE7F",
-)
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
 
 
@@ -199,6 +188,8 @@ class EndStopCheck(TargetCheck):
         if self.is_language(unit, ("sat",)):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))
+        if self.is_language(unit, ("my",)):
+            return self.check_chars(source, target, -1, (".", "။"))
         return self.check_chars(
             source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។")
         )
@@ -287,6 +278,8 @@ class EndExclamationCheck(TargetCheck):
             return False
         if self.is_language(unit, ("hy", "jbo")):
             return False
+        if self.is_language(unit, ("my",)):
+            return self.check_chars(source, target, -1, ("!", "႟"))
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
         return self.check_chars(source, target, -1, ("!", "！", "՜", "᥄", "႟", "߹"))
@@ -384,11 +377,19 @@ class KashidaCheck(TargetCheck):
     name = _("Kashida letter used")
     description = _("The decorative kashida letters should not be used")
 
+    kashida_regex = (
+        # Allow kashida after certain letters
+        "(?<![\u0628\u0643\u0644])"
+        # List of kashida letters to check
+        "[\u0640\uFCF2\uFCF3\uFCF4\uFE71\uFE77\uFE79\uFE7B\uFE7D\uFE7F]"
+    )
+    kashida_re = re.compile(kashida_regex)
+
     def check_single(self, source, target, unit):
-        return any(x in target for x in KASHIDA_CHARS)
+        return self.kashida_re.search(target)
 
     def get_fixup(self, unit):
-        return [("[{}]".format("".join(KASHIDA_CHARS)), "", "gu")]
+        return [(self.kashida_regex, "", "gu")]
 
 
 class PunctuationSpacingCheck(TargetCheck):

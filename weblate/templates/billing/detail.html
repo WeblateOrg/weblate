@@ -94,6 +94,7 @@
 {% endwith %}
 
 {% if offer_hosting and billing.plan.price == 0 %}
+<form method="POST">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -104,11 +105,14 @@
       </h4>
     </div>
     <div class="panel-body">
+      {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
+        {# Second button for bigger visibility #}
+        <input type="submit" class="btn btn-primary pull-right flip" name="request" value="{% trans "Request approval for Libre hosting" %}" />
+      {% endif %}
       {% include "snippets/libre-checklist.html" %}
     </div>
     {% if billing.is_libre_trial %}
       <div class="panel-footer">
-        <form method="POST">
           {% csrf_token %}
           {% if billing.valid_libre %}
             {% if user.is_superuser or not billing.payment.libre_request %}
@@ -120,16 +124,16 @@
                 <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
               {% else %}
                 {{ hosting_form|crispy }}
-                <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for libre hosting" %}" />
+                <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for Libre hosting" %}" />
               {% endif %}
             {% endif %}
           {% else %}
             <p>{% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}</p>
           {% endif %}
-        </form>
       </div>
     {% endif %}
   </div>
+</form>
 {% endif %}
 
 </div>

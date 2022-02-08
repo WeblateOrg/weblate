@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -44,7 +44,7 @@ class ChangesFeed(Feed):
         return reverse("home")
 
     def items(self, obj):
-        return Change.objects.last_changes(obj)[:10]
+        return Change.objects.last_changes(obj)[:10].preload()
 
     def item_title(self, item):
         return item.get_action_display()

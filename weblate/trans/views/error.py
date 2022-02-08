@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -63,6 +63,8 @@ def csrf_failure(request, reason=""):
     # send the cookies with the CSRF request and Django doesn't see the session
     # cookie).
     response.csrf_cookie_set = True
+    # Django 4.0+
+    request.META["CSRF_COOKIE_NEEDS_UPDATE"] = False
     return response
 
 

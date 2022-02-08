@@ -155,7 +155,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Add new association" %}</h4></div>
   <div class="panel-body">
 {% for name in new_backends %}
-  <a class="btn btn-link link-post" href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name %}</a>
+  <a href="" class="btn btn-link link-post" data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name %}</a>
 {% endfor %}
 </div>
 </div>
@@ -179,7 +179,7 @@
     <p>{% trans "You can download all your private data." %}</p>
    </div>
    <div class="panel-footer">
-    <a class="btn btn-primary link-post" href="{% url 'userdata' %}">{% trans "Download user data" %}</a>
+    <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% trans "Download user data" %}</a>
    </div>
 </div>
 
@@ -261,7 +261,7 @@
 <td>
     {{ user.auth_token.key }}
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
-    <a class="pull-right flip btn btn-primary link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
+    <a href="" class="pull-right flip btn btn-primary link-post" data-href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>
 <tr>

@@ -200,7 +200,7 @@ component.
 
 Right now this controls:
 
-* :ref:`addon-weblate.autotranslate.autotranslate` addon
+* :ref:`addon-weblate.autotranslate.autotranslate` add-on
 * :doc:`checks` recalculation
 
 Possible choices:
@@ -255,6 +255,26 @@ admins are still presented with full selection of languages defined in Weblate.
 .. seealso::
 
     :ref:`languages`
+
+.. setting:: BORG_EXTRA_ARGS
+
+BORG_EXTRA_ARGS
+---------------
+
+.. versionadded:: 4.9
+
+You can pass additional arguments to :command:`borg create` when built-in backups are triggered.
+
+**Example:**
+
+.. code-block:: python
+
+   BORG_EXTRA_ARGS = ["--exclude", "vcs/"]
+
+.. seealso::
+
+   :ref:`backup`,
+   :doc:`borg:usage/create`
 
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
@@ -514,7 +534,7 @@ Default commit messages for different operations, please check :ref:`component` 
 DEFAULT_ADDONS
 --------------
 
-Default addons to install on every created component.
+Default add-ons to install on every created component.
 
 .. note::
 
@@ -814,7 +834,7 @@ translation updates.
    :ref:`vcs-github`,
    `Creating a GitHub personal access token`_
 
-.. _Creating a GitHub personal access token: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+.. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -955,6 +975,10 @@ Example:
 
     LEGAL_URL = "https://weblate.org/terms/"
 
+.. seealso::
+
+   :setting:`PRIVACY_URL`
+
 .. setting:: LICENSE_EXTRA
 
 LICENSE_EXTRA
@@ -1043,7 +1067,7 @@ The restriction is the length of the source string * 10 characters.
 LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
 --------------------------------------
 
-These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon.
+These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on.
 :setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
 available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
 store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
@@ -1679,6 +1703,30 @@ Pagure personal access token used to make API calls for translation updates.
    `Pagure API <https://pagure.io/api/0/>`_
 
 
+.. setting:: PRIVACY_URL
+
+PRIVACY_URL
+-----------
+
+.. versionadded:: 4.8.1
+
+URL where your Weblate instance shows its privacy policy.
+
+.. hint::
+
+    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
+    please check :ref:`legal` for details.
+
+Example:
+
+.. code-block:: python
+
+    PRIVACY_URL = "https://weblate.org/terms/"
+
+.. seealso::
+
+   :setting:`LEGAL_URL`
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS
@@ -1967,6 +2015,32 @@ Example:
 
     SINGLE_PROJECT = "test"
 
+.. setting:: SSH_EXTRA_ARGS
+
+SSH_EXTRA_ARGS
+--------------
+
+.. versionadded:: 4.9
+
+Allows to add custom parameters when Weblate is invoking SSH. This is useful
+when connecting to servers using legacy encryption or other non-standard features.
+
+For example when SSH connection in Weblate fails with `Unable to negotiate with legacyhost: no matching key exchange method found.
+Their offer: diffie-hellman-group1-sha1`, you can enable that using:
+
+.. code-block:: python
+
+   SSH_EXTRA_ARGS = "-oKexAlgorithms=+diffie-hellman-group1-sha1"
+
+.. hint::
+
+   The string is evaluated by shell, so make sure to quote any whitespace and
+   special characters.
+
+.. seealso::
+
+   `OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_
+
 .. setting:: STATUS_URL
 
 STATUS_URL
@@ -2080,8 +2154,8 @@ Configures how deep cloning of repositories Weblate should do.
 WEBLATE_ADDONS
 --------------
 
-List of addons available for use. To use them, they have to be enabled for
-a given translation component. By default this includes all built-in addons, when
+List of add-ons available for use. To use them, they have to be enabled for
+a given translation component. By default this includes all built-in add-ons, when
 extending the list you will probably want to keep existing ones enabled, for
 example:
 
@@ -2089,7 +2163,7 @@ example:
 .. code-block:: python
 
     WEBLATE_ADDONS = (
-        # Built-in addons
+        # Built-in add-ons
         "weblate.addons.gettext.GenerateMoAddon",
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
@@ -2119,8 +2193,8 @@ example:
 
 .. note::
 
-    Removing the addon from the list does not uninstall it from the components.
-    Weblate will crash in that case. Please uninstall addon from all components
+    Removing the add-on from the list does not uninstall it from the components.
+    Weblate will crash in that case. Please uninstall add-on from all components
     prior to removing it from this list.
 
 .. seealso::

@@ -13,7 +13,7 @@
     <table class="sort table progress-table autocolspan table-listing">
   {% endif %}
   {% if not hide_details %}
-    <thead>
+    <thead class="sticky-header">
       <tr>
         <th class="sort-skip"></th>
         <th title="{% trans "Sort this column" %}" class="sort-cell">
@@ -40,7 +40,7 @@
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated">
           {% endif %}
-          {% trans "Untranslated" %}
+          {% trans "Unfinished" %}
           <span class="sort-icon {% if objects.paginator.sort_by == "untranslated" %}sort-down{% elif objects.paginator.sort_by == "-untranslated" %}sort-up{% endif %}" />
           {% if objects.paginator.num_pages > 1 %}
             </a>
@@ -50,7 +50,7 @@
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words">
           {% endif %}
-          {% trans "Untranslated words" %}
+          {% trans "Unfinished words" %}
           <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_words" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_words" %}sort-up{% endif %}" />
           {% if objects.paginator.num_pages > 1 %}
             </a>
@@ -60,8 +60,18 @@
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_chars" %}-{% endif %}untranslated_chars">
           {% endif %}
-          {% trans "Untranslated characters" %}
+          {% trans "Unfinished characters" %}
           <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_chars" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_chars" %}sort-up{% endif %}" />
+          {% if objects.paginator.num_pages > 1 %}
+            </a>
+          {% endif %}
+        </th>
+        <th title="{% trans "Sort this column" %}" class="number zero-width-1400 sort-cell">
+          {% if objects.paginator.num_pages > 1 %}
+            <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "nottranslated" %}-{% endif %}nottranslated">
+          {% endif %}
+          {% trans "Untranslated" %}
+          <span class="sort-icon {% if objects.paginator.sort_by == "nottranslated" %}sort-down{% elif objects.paginator.sort_by == "-nottranslated" %}sort-up{% endif %}" />
           {% if objects.paginator.num_pages > 1 %}
             </a>
           {% endif %}
@@ -169,12 +179,13 @@
 {% if is_glossary %}
   {% include "snippets/list-objects-number.html" with value=object.stats.translated query="q=state:>=translated" show_zero=True %}
 {% else %}
-  {% include "snippets/list-objects-percent.html" with percent=object.stats.translated_percent value=object.stats.translated all=object.stats.all %}
+  {% include "snippets/list-objects-percent.html" with percent=object.stats.translated_percent value=object.stats.translated query="q=state:>=translated" all=object.stats.all %}
 {% endif %}
 {% if not hide_details %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-640" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}

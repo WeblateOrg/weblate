@@ -22,7 +22,7 @@ Currently the following is covered:
 * Unused screenshots
 * Ambiguous language code
 * Unused new base in component settings
-* Duplicate filemask used for linked components
+* Duplicate file mask used for linked components
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).

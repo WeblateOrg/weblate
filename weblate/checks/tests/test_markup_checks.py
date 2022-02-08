@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -67,6 +67,10 @@ class XMLValidityCheckTest(CheckTestCase):
         self.do_test(
             True, ("<emphasis>2nd</emphasis>", "<emphasis>not< /emphasis>", "")
         )
+
+    def test_safe_html(self):
+        self.do_test(True, ("<br />", "<br>", ""))
+        self.do_test(False, ("<br />", "<br>", "safe-html"))
 
     def test_root(self):
         self.do_test(
@@ -336,3 +340,37 @@ class SafeHTMLCheckTest(CheckTestCase):
         self.test_failure_1 = (safe, '<a href="javascript:foo()">link</a>', "safe-html")
         self.test_failure_2 = (safe, '<a href="#" onclick="x()">link</a>', "safe-html")
         self.test_failure_3 = (safe, '<iframe src="xxx"></iframe>', "safe-html")
+
+    def test_markdown(self):
+        self.do_test(
+            False,
+            (
+                "See <https://weblate.org>",
+                "Viz <https://weblate.org>",
+                "md-text,safe-html",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "See <https://weblate.org>",
+                "Viz <https://weblate.org>",
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "See <noreply@weblate.org>",
+                "Viz <noreply@weblate.org>",
+                "md-text,safe-html",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "See <noreply@weblate.org>",
+                "Viz <noreply@weblate.org>",
+                "safe-html",
+            ),
+        )

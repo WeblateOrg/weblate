@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -831,7 +831,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("file-download.png")
         self.click("Tools")
         self.click("Automatic translation")
-        self.click(htmlid="id_select_auto_source_2")
+        self.click(htmlid="id_auto_source_1")
         self.click("Tools")
         self.screenshot("automatic-translation.png")
         self.click("Search")
@@ -851,7 +851,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
             self.click(
-                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Not translated strings")
+                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Untranslated strings")
             )
         self.driver.find_element(By.ID, "id_34a4642999e44a2b_0")
 
@@ -955,7 +955,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.find_element(By.ID, "id_name").submit()
 
         self.screenshot("user-add-component-discovery.png")
-        self.driver.find_element(By.ID, "id_id_discovery_0_1").click()
+        self.driver.find_element(By.ID, "id_discovery_1").click()
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
 

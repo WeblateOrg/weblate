@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -30,12 +30,12 @@ from django.utils.translation import gettext as _
 from jellyfish import damerau_levenshtein_distance
 from pyparsing import (
     CaselessKeyword,
+    OpAssoc,
     Optional,
     Regex,
     Word,
-    infixNotation,
-    oneOf,
-    opAssoc,
+    infix_notation,
+    one_of,
 )
 
 from weblate.checks.parser import RawQuotedString
@@ -86,8 +86,8 @@ STRING_FIELD_MAP = {
     "explanation": "source_unit__explanation",
 }
 EXACT_FIELD_MAP = {
-    "check": "check__check",
-    "dismissed_check": "check__check",
+    "check": "check__name",
+    "dismissed_check": "check__name",
     "language": "translation__language__code",
     "component": "translation__component__slug",
     "project": "translation__component__project__slug",
@@ -95,6 +95,7 @@ EXACT_FIELD_MAP = {
     "suggestion_author": "suggestion__user__username",
     "comment_author": "comment__user__username",
     "label": "source_unit__labels__name",
+    "screenshot": "source_unit__screenshots__name",
 }
 OPERATOR_MAP = {
     ":": "substring",
@@ -112,7 +113,7 @@ OR = Optional(CaselessKeyword("OR"))
 NOT = CaselessKeyword("NOT")
 
 # Search operator
-OPERATOR = oneOf(OPERATOR_MAP.keys())
+OPERATOR = one_of(OPERATOR_MAP.keys())
 
 # Field name, explicitely exlude URL like patters
 FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
@@ -133,23 +134,23 @@ TERM = (FIELD + OPERATOR + (RANGE | STRING)) | STRING
 
 # Multi term with or without operator
 QUERY = Optional(
-    infixNotation(
+    infix_notation(
         TERM,
         [
             (
                 NOT,
                 1,
-                opAssoc.RIGHT,
+                OpAssoc.RIGHT,
             ),
             (
                 AND,
                 2,
-                opAssoc.LEFT,
+                OpAssoc.LEFT,
             ),
             (
                 OR,
                 2,
-                opAssoc.LEFT,
+                OpAssoc.LEFT,
             ),
         ],
     )
@@ -163,7 +164,7 @@ class RegexExpr:
         self.expr = tokens[1]
 
 
-REGEX_STRING.addParseAction(RegexExpr)
+REGEX_STRING.add_parse_action(RegexExpr)
 
 
 class RangeExpr:
@@ -172,7 +173,7 @@ class RangeExpr:
         self.end = tokens[3]
 
 
-RANGE.addParseAction(RangeExpr)
+RANGE.add_parse_action(RangeExpr)
 
 
 class TermExpr:
@@ -237,7 +238,7 @@ class TermExpr:
         if text in ("variant", "shaping"):
             return Q(variant__isnull=False)
         if text == "label":
-            return Q(source_unit__labels__isnull=False)
+            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
@@ -280,6 +281,10 @@ class TermExpr:
             return query & Q(check__dismissed=True)
         if field == "component":
             return query | Q(translation__component__name__icontains=match)
+        if field == "label":
+            return query | Q(labels__name__iexact=match)
+        if field == "screenshot":
+            return query | Q(screenshots__name__iexact=match)
 
         return query
 
@@ -451,7 +456,7 @@ class TermExpr:
         return self.field_extra(field, query, match)
 
 
-TERM.addParseAction(TermExpr)
+TERM.add_parse_action(TermExpr)
 
 
 def parser_to_query(obj, context: Dict):
@@ -482,7 +487,7 @@ def parser_to_query(obj, context: Dict):
 def parse_string(text):
     if "\x00" in text:
         raise ValueError("Invalid query string.")
-    return QUERY.parseString(text, parseAll=True)
+    return QUERY.parse_string(text, parse_all=True)
 
 
 def parse_query(text, **context):

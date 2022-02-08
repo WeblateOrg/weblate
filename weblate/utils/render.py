@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
 from django.urls import reverse
@@ -98,6 +99,15 @@ def render_template(template, **kwargs):
                 },
             )
         )
+        if component.linked_childs:
+            kwargs["component_linked_childs"] = [
+                {
+                    "project_name": linked.project.name,
+                    "name": linked.name,
+                    "url": get_site_url(linked.get_absolute_url()),
+                }
+                for linked in component.linked_childs
+            ]
         project = component.project
         kwargs.pop("component", None)
 
@@ -107,6 +117,9 @@ def render_template(template, **kwargs):
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(project.get_absolute_url())
         kwargs.pop("project", None)
+
+    kwargs["site_title"] = settings.SITE_TITLE
+    kwargs["site_url"] = get_site_url()
 
     with override("en"):
         return Template(template, engine=RestrictedEngine()).render(

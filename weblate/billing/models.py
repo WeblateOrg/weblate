@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -450,7 +450,9 @@ class Billing(models.Model):
                     )
                 ),
             )
-        components = Component.objects.filter(project__in=self.all_projects)
+        components = Component.objects.filter(
+            project__in=self.all_projects
+        ).prefetch_related("project")
         yield LibreCheck(
             len(components) > 0,
             ngettext("Contains %d component", "Contains %d components", len(components))

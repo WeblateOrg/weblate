@@ -16,7 +16,7 @@ Content in the translation memory can be applied one of two ways:
 
 * Manually, :ref:`machine-translation` view while translating.
 * Automatically, by translating strings using :ref:`auto-translation`, or
-  :ref:`addon-weblate.autotranslate.autotranslate` addon.
+  :ref:`addon-weblate.autotranslate.autotranslate` add-on.
 
 For installation tips, see :ref:`weblate-translation-memory`, which is
 turned on by default.

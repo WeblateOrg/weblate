@@ -51,7 +51,7 @@ The states are represented in the translation files when possible.
 .. hint::
 
    In case file format you use does not support storing states, you might want
-   to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged strings
+   to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
    as needing editing.
 
 .. seealso::

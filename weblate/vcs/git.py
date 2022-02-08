@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -179,7 +179,9 @@ class GitRepository(Repository):
         except RepositoryException:
             return False
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Merge remote branch or reverts the merge."""
         tmp = "weblate-merge-tmp"
         if abort:
@@ -207,6 +209,8 @@ class GitRepository(Repository):
                 "--message",
                 message or f"Merge branch '{remote}' into Weblate",
             ]
+            if no_ff:
+                cmd.append("--no-ff")
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.branch)
             self.execute(cmd)
@@ -346,7 +350,7 @@ class GitRepository(Repository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
         """Configure remote repository."""
-        escaped_branch = dumps(branch)
+        escaped_branch = dumps(branch, ensure_ascii=False)
         self.config_update(
             # Pull url
             ('remote "origin"', "url", pull_url),
@@ -356,7 +360,10 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                dumps(f"+refs/heads/{branch}:refs/remotes/origin/{branch}")
+                dumps(
+                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+                    ensure_ascii=False,
+                )
                 if fast
                 else "+refs/heads/*:refs/remotes/origin/*",
             ),
@@ -364,7 +371,11 @@ class GitRepository(Repository):
             ('remote "origin"', "tagOpt", "--no-tags"),
             # Set branch to track
             (f"branch {escaped_branch}", "remote", "origin"),
-            (f"branch {escaped_branch}", "merge", dumps(f"refs/heads/{branch}")),
+            (
+                f"branch {escaped_branch}",
+                "merge",
+                dumps(f"refs/heads/{branch}", ensure_ascii=False),
+            ),
         )
         self.branch = branch
 
@@ -420,7 +431,7 @@ class GitRepository(Repository):
                 (
                     'merge "weblate-merge-gettext-po"',
                     "driver",
-                    f"{merge_driver} %O %A %B",
+                    f"{merge_driver} %O %A %B %P",
                 )
             )
 
@@ -602,7 +613,9 @@ class SubversionRepository(GitRepository):
             args.insert(0, revision)
         cls._popen(["svn", "clone"] + args)
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Rebases.
 
         Git-svn does not support merge.
@@ -662,7 +675,9 @@ class GitMergeRequestBase(GitForcePushRepository):
     identifier = None
     API_TEMPLATE = ""
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         """Merge remote branch or reverts the merge."""
         # This reverts merge behavior of pure git backend
         # as we're expecting there will be an additional merge
@@ -673,6 +688,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(["checkout", self.branch])
         else:
             cmd = ["merge"]
+            if no_ff:
+                cmd.append("--no-ff")
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.get_remote_branch_name())
             self.execute(cmd)
@@ -689,7 +706,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
-        slug_parts = [parts[-1].replace(".git", "")]
+        last_part = parts[-1]
+        if last_part.endswith(".git"):
+            last_part = last_part[:-4]
+        slug_parts = [last_part]
         owner = ""
         for part in parts[:-1]:
             if not part:
@@ -715,13 +735,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         url, owner, slug = self.get_api_url()
         hostname = urllib.parse.urlparse(url).hostname.lower()
 
-        credentials = getattr(settings, f"{self.name}_CREDENTIALS".upper())
+        credentials = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
         if hostname in credentials:
             username = credentials[hostname]["username"]
             token = credentials[hostname]["token"]
         else:
-            username = getattr(settings, f"{self.name}_USERNAME".upper())
-            token = getattr(settings, f"{self.name}_TOKEN".upper())
+            username = getattr(settings, f"{self.identifier.upper()}_USERNAME")
+            token = getattr(settings, f"{self.identifier.upper()}_TOKEN")
             if not username or not token:
                 raise RepositoryException(
                     0, f"{self.name} API access for {hostname} is not configured"
@@ -738,8 +758,8 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     @classmethod
     def is_configured(cls) -> bool:
-        return getattr(settings, f"{cls.name}_USERNAME".upper()) or getattr(
-            settings, f"{cls.name}_CREDENTIALS".upper()
+        return getattr(settings, f"{cls.identifier.upper()}_USERNAME") or getattr(
+            settings, f"{cls.identifier.upper()}_CREDENTIALS"
         )
 
     def push_to_fork(self, credentials: Dict, local_branch: str, fork_branch: str):
@@ -811,28 +831,38 @@ class GitMergeRequestBase(GitForcePushRepository):
 
 class GithubRepository(GitMergeRequestBase):
 
-    name = "GitHub"
+    name = gettext_lazy("GitHub pull request")
+    identifier = "github"
     _version = None
     API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
 
     def format_api_host(self, host):
-        if host == "github.com":
-            return "api.github.com"
-        return host
+
+        # In case the hostname of the repository does not point to "github.com" assume
+        # that it is on a GitHub Enterprise server, which has uses a different base URL
+        # for the API:
+        if host != "github.com":
+            return f"{host}/api/v3"
+        return "api.github.com"
 
     def request(self, method: str, credentials: Dict, url: str, json: Dict):
-        response = requests.request(
-            method,
-            url,
-            headers={
-                "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token {}".format(credentials["token"]),
-            },
-            json=json,
-        )
+        try:
+            response = requests.request(
+                method,
+                url,
+                headers={
+                    "Accept": "application/vnd.github.v3+json",
+                    "Authorization": "token {}".format(credentials["token"]),
+                },
+                json=json,
+            )
+        except OSError as error:
+            report_error(cause="request")
+            raise RepositoryException(0, str(error))
         try:
             data = response.json()
         except JSONDecodeError as error:
+            report_error(cause="request json decoding")
             response.raise_for_status()
             raise RepositoryException(0, str(error))
 
@@ -940,7 +970,9 @@ class LocalRepository(GitRepository):
     def rebase(self, abort=False):
         return
 
-    def merge(self, abort=False, message=None):
+    def merge(
+        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+    ):
         return
 
     def list_remote_branches(self):
@@ -1013,7 +1045,8 @@ class LocalRepository(GitRepository):
 
 class GitLabRepository(GitMergeRequestBase):
 
-    name = "GitLab"
+    name = gettext_lazy("GitLab merge request")
+    identifier = "gitlab"
     _version = None
     API_TEMPLATE = "https://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
 
@@ -1158,7 +1191,8 @@ class GitLabRepository(GitMergeRequestBase):
 
 class PagureRepository(GitMergeRequestBase):
 
-    name = "Pagure"
+    name = gettext_lazy("Pagure merge request")
+    identifier = "pagure"
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
 
@@ -1215,7 +1249,7 @@ class PagureRepository(GitMergeRequestBase):
 
         for param in params:
             param.update(base_params)
-            response, error = self.request("post", credentials, fork_url, data=param)
+            _response, error = self.request("post", credentials, fork_url, data=param)
             if '" cloned to "' in error or "already exists" in error:
                 break
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,7 @@ class PluralsCheck(TargetCheck):
 
     check_id = "plurals"
     name = _("Missing plurals")
-    description = _("Some plural forms are not translated")
+    description = _("Some plural forms are untranslated")
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -75,11 +75,12 @@ class ConsistencyCheck(TargetCheck):
     name = _("Inconsistent")
     description = _(
         "This string has more than one translation in this project "
-        "or is not translated in some components."
+        "or is untranslated in some components."
     )
     ignore_untranslated = False
     propagates = True
     batch_project_wide = True
+    skip_suggestions = True
 
     def check_target_unit(self, sources, targets, unit):
         component = unit.translation.component
@@ -110,10 +111,12 @@ class ConsistencyCheck(TargetCheck):
         )
 
         # List strings with different targets
+        # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
             units.values("id_hash", "translation__language", "translation__plural")
             .annotate(Count("target", distinct=True))
             .filter(target__count__gt=1)
+            .order_by("id_hash")[:100]
         )
 
         if not matches:
@@ -144,6 +147,7 @@ class TranslatedCheck(TargetCheck):
     name = _("Has been translated")
     description = _("This string has been translated in the past")
     ignore_untranslated = False
+    skip_suggestions = True
 
     def get_description(self, check_obj):
         unit = check_obj.unit
@@ -174,7 +178,7 @@ class TranslatedCheck(TargetCheck):
         changes = unit.change_set.filter(action__in=self.change_states).order()
 
         for action, target in changes.values_list("action", "target"):
-            if action in Change.ACTIONS_CONTENT and target:
+            if action in Change.ACTIONS_CONTENT and target and target != unit.target:
                 return target
             if action == Change.ACTION_SOURCE_CHANGE:
                 break

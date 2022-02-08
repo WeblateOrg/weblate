@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,8 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os.path
 import subprocess
+from functools import lru_cache
+
+from django.core.management.utils import find_command
 
 GIT_PATHS = [
     "/usr/lib/git",
@@ -28,27 +30,19 @@ GIT_PATHS = [
 ]
 
 
+@lru_cache(maxsize=None)
 def find_git_http_backend():
     """Find Git HTTP back-end."""
-    if hasattr(find_git_http_backend, "result"):
-        return find_git_http_backend.result
-
     try:
         path = subprocess.run(
             ["git", "--exec-path"],
-            universal_newlines=True,
+            text=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
         ).stdout.strip()
         if path:
             GIT_PATHS.insert(0, path)
     except OSError:
         pass
 
-    for path in GIT_PATHS:
-        name = os.path.join(path, "git-http-backend")
-        if os.path.exists(name):
-            find_git_http_backend.result = name
-            return name
-    return None
+    return find_command("git-http-backend", path=GIT_PATHS)

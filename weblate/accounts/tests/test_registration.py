@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -57,6 +57,11 @@ with open(get_test_file("saml.crt")) as handle:
     SAML_CERT = handle.read()
 with open(get_test_file("saml.key")) as handle:
     SAML_KEY = handle.read()
+
+REGISTRATION_SUCCESS = (
+    "Click the confirmation link sent to your e-mail inbox "
+    "and start using your account."
+)
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
@@ -120,7 +125,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
     def perform_registration(self):
         response = self.do_register()
         # Check we did succeed
-        self.assertContains(response, "Thank you for registering.")
+        self.assertContains(response, REGISTRATION_SUCCESS)
 
         # Confirm account
         self.assert_registration()
@@ -170,11 +175,11 @@ class RegistrationTest(BaseRegistrationTest):
         data = REGISTRATION_DATA.copy()
         data["captcha"] = form.captcha.result
         response = self.do_register(data)
-        self.assertContains(response, "Thank you for registering.")
+        self.assertContains(response, REGISTRATION_SUCCESS)
 
         # Second registration should fail
         response = self.do_register(data)
-        self.assertNotContains(response, "Thank you for registering.")
+        self.assertNotContains(response, REGISTRATION_SUCCESS)
 
     @override_settings(REGISTRATION_OPEN=False)
     def test_register_closed(self):
@@ -228,7 +233,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Disable captcha
         response = self.do_register()
         # Check we did succeed
-        self.assertContains(response, "Thank you for registering.")
+        self.assertContains(response, REGISTRATION_SUCCESS)
 
         # Confirm account
         url = self.assert_registration_mailbox()
@@ -266,7 +271,9 @@ class RegistrationTest(BaseRegistrationTest):
             reverse("password_reset"), {"email": "test@example.com"}, follow=True
         )
         self.assertContains(response, "Password reset almost complete")
-        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(len(mail.outbox), 1)
+        sent_mail = mail.outbox.pop()
+        self.assertNotIn("verification_code=", sent_mail.body)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalid(self):
@@ -693,7 +700,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
         """Test that verification link works just once."""
         response = self.do_register()
         # Check we did succeed
-        self.assertContains(response, "Thank you for registering.")
+        self.assertContains(response, REGISTRATION_SUCCESS)
         url = self.assert_registration()
 
         # Clear cookies

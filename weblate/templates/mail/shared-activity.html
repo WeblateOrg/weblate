@@ -1,0 +1,25 @@
+{% load i18n %}
+<table>
+  <tr>
+    <td>{% trans "IP address" %}</td>
+    <td>{{ address }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "User agent" %}</td>
+    <td>{{ user_agent }}</td>
+  </tr>
+  <tr>
+    <td>{{ site_title }}</td>
+    <td><a href="{{ current_site_url }}">{{ current_site_url }}</a></td>
+  </tr>
+</table>
+
+<p>
+  {% blocktrans %}If this was not done by you, report it by clicking the button below.{% endblocktrans %}
+  <b>{% blocktrans %}Please request support through other means.{% endblocktrans %}</b>
+  {% blocktrans with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>'  %}Ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktrans %}
+</p>
+
+<div class="line buttons">
+  <a class="button" href="{% url 'contact' %}?t=account">{% trans "Report" %}</a>
+</p>

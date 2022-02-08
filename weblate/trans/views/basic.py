@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.html import escape
@@ -134,9 +135,12 @@ def show_project(request, project):
     obj.stats.ensure_basic()
     user = request.user
 
-    last_changes = obj.change_set.prefetch().order()[:10]
+    last_changes = obj.change_set.prefetch().order()[:10].preload()
     last_announcements = (
-        obj.change_set.prefetch().order().filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
+        obj.change_set.prefetch()
+        .order()
+        .filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
+        .preload()
     )
 
     all_components = prefetch_stats(
@@ -204,7 +208,6 @@ def show_project(request, project):
                 user=user,
                 obj=obj,
                 project=obj,
-                auto_id="id_bulk_%s",
             ),
             "components": components,
             "licenses": sorted(
@@ -221,7 +224,7 @@ def show_component(request, project, component):
     obj.stats.ensure_basic()
     user = request.user
 
-    last_changes = obj.change_set.prefetch().order()[:10]
+    last_changes = obj.change_set.prefetch().order()[:10].preload("component")
 
     translations = prefetch_stats(list(obj.translation_set.prefetch()))
 
@@ -255,7 +258,6 @@ def show_component(request, project, component):
                 user=user,
                 obj=obj,
                 project=obj.project,
-                auto_id="id_bulk_%s",
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
@@ -280,7 +282,9 @@ def show_component(request, project, component):
                 instance=obj,
             ),
             "search_form": SearchForm(request.user),
-            "alerts": obj.all_alerts,
+            "alerts": obj.all_alerts
+            if "alerts" not in request.GET
+            else obj.alert_set.all(),
         },
     )
 
@@ -291,7 +295,7 @@ def show_translation(request, project, component, lang):
     component = obj.component
     project = component.project
     obj.stats.ensure_all()
-    last_changes = obj.change_set.prefetch().order()[:10]
+    last_changes = obj.change_set.prefetch().order()[:10].preload("translation")
     user = request.user
 
     # Get form
@@ -345,7 +349,6 @@ def show_translation(request, project, component, lang):
                 user=user,
                 obj=obj,
                 project=project,
-                auto_id="id_bulk_%s",
             ),
             "new_unit_form": get_new_unit_form(obj, user),
             "announcement_form": optional_form(
@@ -379,6 +382,7 @@ def data_project(request, project):
 @never_cache
 @login_required
 @session_ratelimit_post("language")
+@transaction.atomic
 def new_language(request, project, component):
     obj = get_component(request, project, component)
     user = request.user
@@ -390,6 +394,7 @@ def new_language(request, project, component):
         form = form_class(obj, request.POST)
 
         if form.is_valid():
+            result = obj
             langs = form.cleaned_data["lang"]
             kwargs = {
                 "user": user,
@@ -397,31 +402,38 @@ def new_language(request, project, component):
                 "component": obj,
                 "details": {},
             }
-            for language in Language.objects.filter(code__in=langs):
-                kwargs["details"]["language"] = language.code
-                if can_add:
-                    translation = obj.add_new_language(language, request)
-                    if translation:
-                        kwargs["translation"] = translation
-                        if len(langs) == 1:
-                            obj = translation
-                        Change.objects.create(
-                            action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+            with obj.repository.lock:
+                for language in Language.objects.filter(code__in=langs):
+                    kwargs["details"]["language"] = language.code
+                    if can_add:
+                        translation = obj.add_new_language(
+                            language, request, create_translations=False
                         )
-                elif obj.new_lang == "contact":
-                    Change.objects.create(
-                        action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
-                    )
-                    messages.success(
-                        request,
-                        _(
-                            "A request for a new translation has been "
-                            "sent to the project's maintainers."
-                        ),
+                        if translation:
+                            kwargs["translation"] = translation
+                            if len(langs) == 1:
+                                result = translation
+                            Change.objects.create(
+                                action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                            )
+                    elif obj.new_lang == "contact":
+                        Change.objects.create(
+                            action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
+                        )
+                        messages.success(
+                            request,
+                            _(
+                                "A request for a new translation has been "
+                                "sent to the project's maintainers."
+                            ),
+                        )
+                if not obj.create_translations(request=request):
+                    messages.warning(
+                        request, _("The translation will be updated in the background.")
                     )
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
-            return redirect(obj)
+            return redirect(result)
         messages.error(request, _("Please fix errors in the form."))
     else:
         form = form_class(obj)

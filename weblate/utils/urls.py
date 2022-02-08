@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -41,8 +41,9 @@ class OptionalPathConverter(StringConverter):
     regex = "(info/|git-upload-pack)[a-z0-9_/-]*|"
 
 
-register_converter(WeblateSlugConverter, "name")
-register_converter(GitPathConverter, "gitpath")
-register_converter(WordConverter, "word")
-register_converter(WidgetExtensionConverter, "extension")
-register_converter(OptionalPathConverter, "optionalpath")
+def register_weblate_converters():
+    register_converter(WeblateSlugConverter, "name")
+    register_converter(GitPathConverter, "gitpath")
+    register_converter(WordConverter, "word")
+    register_converter(WidgetExtensionConverter, "extension")
+    register_converter(OptionalPathConverter, "optionalpath")

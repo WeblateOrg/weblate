@@ -62,6 +62,10 @@ Here is a list of flags currently accepted:
     Define font-size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define letter spacing for rendering checks, see :ref:`fonts`.
+``icu-flags:FLAGS``
+    Define flags for customizing the behavior of the :ref:`check-icu-message-format` quality check.
+``icu-tag-prefix:PREFIX``
+    Set a required prefix for XML tags for the :ref:`check-icu-message-format` quality check.
 ``placeholders:NAME:NAME2:...``
     Placeholder strings expected in translation, see :ref:`check-placeholders`.
 ``replacements:FROM:TO:FROM2:TO2...``
@@ -89,6 +93,8 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-es-format` quality check.
 ``i18next-interpolation``
     Enable the :ref:`check-i18next-interpolation` quality check.
+``icu-message-format``
+    Enable the :ref:`check-icu-message-format` quality check.
 ``java-format``
     Enable the :ref:`check-java-format` quality check.
 ``java-messageformat``
@@ -145,6 +151,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-es-format` quality check.
 ``ignore-i18next-interpolation``
     Skip the :ref:`check-i18next-interpolation` quality check.
+``ignore-icu-message-format``
+    Skip the :ref:`check-icu-message-format` quality check.
 ``ignore-java-format``
     Skip the :ref:`check-java-format` quality check.
 ``ignore-java-messageformat``
@@ -239,6 +247,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-zero-width-space` quality check.
 ``ignore-ellipsis``
     Skip the :ref:`check-ellipsis` quality check.
+``ignore-icu-message-format-syntax``
+    Skip the :ref:`check-icu-message-format-syntax` quality check.
 ``ignore-long-untranslated``
     Skip the :ref:`check-long-untranslated` quality check.
 ``ignore-multiple-failures``
@@ -312,11 +322,11 @@ To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:
 
 ``max-size:500``
-   Defines maximal width.
+   Defines maximal width in pixels.
 ``font-family:ubuntu``
    Defines font group to use by specifying its identifier.
 ``font-size:22``
-   Defines font size.
+   Defines font size in pixels.
 
 
 .. _own-checks:

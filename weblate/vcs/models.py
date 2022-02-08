@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -51,6 +51,8 @@ class VCSConf(AppConf):
     PAGURE_USERNAME = None
     PAGURE_TOKEN = None
     PAGURE_CREDENTIALS = {}
+
+    SSH_EXTRA_ARGS = ""
 
     class Meta:
         prefix = ""

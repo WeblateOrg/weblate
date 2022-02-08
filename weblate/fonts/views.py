@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -69,7 +69,7 @@ class FontListView(ProjectViewMixin, ListView):
                 instance.save()
                 return redirect(instance)
             except ValidationError:
-                messages.error(request, _("Entry by the same name already exists."))
+                messages.error(request, _("Font with the same name already exists."))
         else:
             messages.error(request, _("Creation failed, please fix the errors below."))
         return self.get(request, **kwargs)
@@ -131,7 +131,9 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     instance.save()
                     return redirect(self.object)
                 except ValidationError:
-                    messages.error(request, _("Entry by the same name already exists."))
+                    messages.error(
+                        request, _("Font group with the same name already exists.")
+                    )
             return self.get(request, **kwargs)
         if "language" in request.POST:
             form = self._form = FontOverrideForm(request.POST)
@@ -143,7 +145,9 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     instance.save()
                     return redirect(self.object)
                 except ValidationError:
-                    messages.error(request, _("Entry by the same name already exists."))
+                    messages.error(
+                        request, _("Font group with the same name already exists.")
+                    )
             return self.get(request, **kwargs)
         if "override" in request.POST:
             try:

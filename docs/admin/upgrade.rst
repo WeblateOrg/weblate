@@ -4,8 +4,12 @@ Upgrading Weblate
 Docker image upgrades
 ---------------------
 
-The official Docker image (see :doc:`install/docker`) has all upgrade steps
-integrated. There are no manual step besides pulling latest version.
+The official Docker image (see :doc:`install/docker`) has all Weblate upgrade steps
+integrated. There are typically no manual steps needed besides pulling latest version.
+
+.. seealso::
+
+   :ref:`upgrading-docker`
 
 .. _generic-upgrade-instructions:
 
@@ -37,6 +41,12 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
+      pip install -U "Weblate[all]"
+
+   If you don't want to install all of the optional dependencies do:
+
+   .. code-block:: sh
+
       pip install -U Weblate
 
    With Git checkout you need to fetch new source code and update your installation:
@@ -49,6 +59,11 @@ work, but is not as well tested as single version upgrades.
         . ~/weblate-env/bin/pip install -e .
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
+        # Install optional dependencies directly when not using virtualenv
+        pip install --upgrade -r requirements-optional.txt
+
+#. New Weblate release might have new :ref:`optional-deps`, please check if they cover
+   features you want.
 
 #. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
@@ -63,7 +78,7 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
-        weblate collectstatic --noinput
+        weblate collectstatic --noinput --clear
 
 #. Compress JavaScript and CSS files (optional, see :ref:`production-compress`):
 
@@ -127,7 +142,7 @@ Notable configuration or dependencies changes:
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
 * There are some new and updated requirements.
 * There is a change in :setting:`django:INSTALLED_APPS`.
-* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subsciption.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -168,7 +183,7 @@ Notable configuration or dependencies changes:
 
 .. versionchanged:: 4.3.2
 
-   * The ``post_update`` method of addons now takes extra ``skip_push`` parameter.
+   * The ``post_update`` method of add-ons now takes extra ``skip_push`` parameter.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -235,12 +250,62 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.7 to 4.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+There are no additional upgrade steps needed in this release.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.8 to 4.9
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in storing metrics, the upgrade can take long time on larger sites.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+.. _upgrade-4.10:
+
+Upgrade from 4.9 to 4.10
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in per-project groups, the upgrade can take long time on sites with thousands of projects.
+
+* Django 4.0 has made some incompatible changes, see
+  :ref:`django:backwards-incompatible-4.0`. Weblate still supports Django 3.2
+  for now, in case any of these are problematic. Most notable changes which
+  might affect Weblate:
+
+  * Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and higher.
+  * Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed.
+
+* The Docker container now uses Django 4.0, see above for changes.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.10 to 4.11
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires Python 3.7 or newer.
+* The implementation of :ref:`manage-acl` has changed, removing the project
+  prefix from the group names. This affects API users.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
 -----------------------------------
 
-Weblate no longer supports Python older than 3.5. In case you are still running
+Weblate no longer supports Python older than 3.6. In case you are still running
 on older version, please perform migration to Python 3 first on existing
 version and upgrade later. See `Upgrading from Python 2 to Python 3 in the Weblate
 3.11.1 documentation

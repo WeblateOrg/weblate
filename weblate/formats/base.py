@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -33,6 +33,15 @@ from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
+
+ANDROID_CODES = {
+    "zh_Hans": "zh-rCN",
+    "zh_Hant": "zh-rTW",
+    "zh_Hant_HK": "zh-rHK",
+    "he": "iw",
+    "id": "in",
+    "yi": "ji",
+}
 
 
 class UnitNotFound(Exception):
@@ -164,6 +173,7 @@ class TranslationFormat:
     autoaddon: Dict[str, Dict[str, str]] = {}
     create_empty_bilingual: bool = False
     bilingual_class = None
+    create_style = "create"
 
     @classmethod
     def get_identifier(cls):
@@ -233,11 +243,11 @@ class TranslationFormat:
             return [self.storefile]
         return [self.storefile.name]
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         raise NotImplementedError()
 
-    def get_plural(self, language):
+    @classmethod
+    def get_plural(cls, language, store=None):
         """Return matching plural object."""
         return language.plural
 
@@ -399,10 +409,8 @@ class TranslationFormat:
     @staticmethod
     def get_language_android(code: str) -> str:
         # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == "zh_Hans":
-            return "zh-rCN"
-        if code == "zh_Hant":
-            return "zh-rTW"
+        if code in ANDROID_CODES:
+            return ANDROID_CODES[code]
         sanitized = code.replace("-", "_")
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
             return "b+{}".format(sanitized.replace("_", "+"))
@@ -457,7 +465,7 @@ class TranslationFormat:
         """Handle creation of new translation file."""
         raise NotImplementedError()
 
-    def iterate_merge(self, fuzzy):
+    def iterate_merge(self, fuzzy: str, only_translated: bool = True):
         """Iterate over units for merging.
 
         Note: This can change fuzzy state of units!
@@ -467,7 +475,7 @@ class TranslationFormat:
             if unit.is_fuzzy():
                 if not fuzzy:
                     continue
-            elif not unit.is_translated():
+            elif only_translated and not unit.is_translated():
                 continue
 
             # Unmark unit as fuzzy (to allow merge)

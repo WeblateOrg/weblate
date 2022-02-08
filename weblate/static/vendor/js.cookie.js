@@ -1,4 +1,4 @@
-/*! js-cookie v3.0.0 | MIT */
+/*! js-cookie v3.0.1 | MIT */
 ;
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -25,6 +25,9 @@
   /* eslint-disable no-var */
   var defaultConverter = {
     read: function (value) {
+      if (value[0] === '"') {
+        value = value.slice(1, -1);
+      }
       return value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent)
     },
     write: function (value) {
@@ -57,8 +60,6 @@
         .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
         .replace(/[()]/g, escape);
 
-      value = converter.write(value, key);
-
       var stringifiedAttributes = '';
       for (var attributeName in attributes) {
         if (!attributes[attributeName]) {
@@ -81,7 +82,8 @@
         stringifiedAttributes += '=' + attributes[attributeName].split(';')[0];
       }
 
-      return (document.cookie = key + '=' + value + stringifiedAttributes)
+      return (document.cookie =
+        key + '=' + converter.write(value, key) + stringifiedAttributes)
     }
 
     function get (key) {
@@ -97,12 +99,8 @@
         var parts = cookies[i].split('=');
         var value = parts.slice(1).join('=');
 
-        if (value[0] === '"') {
-          value = value.slice(1, -1);
-        }
-
         try {
-          var foundKey = defaultConverter.read(parts[0]);
+          var foundKey = decodeURIComponent(parts[0]);
           jar[foundKey] = converter.read(value, foundKey);
 
           if (key === foundKey) {

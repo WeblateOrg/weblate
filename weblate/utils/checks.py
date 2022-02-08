@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -45,8 +45,8 @@ GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
     "root@localhost",
     "webmaster@localhost",
-    "noreply@weblate.org",
     "noreply@example.com",
+    "weblate@example.com",
 }
 DEFAULT_SECRET_KEYS = {
     "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6(",
@@ -343,7 +343,7 @@ def check_settings(app_configs, **kwargs):
     """Check for sane settings."""
     errors = []
 
-    if not settings.ADMINS or "noreply@weblate.org" in (x[1] for x in settings.ADMINS):
+    if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
         errors.append(
             weblate_check(
                 "weblate.E011",

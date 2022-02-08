@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# We ignore some words which are usually not translated
+# We ignore some words which are usually untranslated
 IGNORE_WORDS = {
     "abc",
     "accelerator",
@@ -348,6 +348,7 @@ IGNORE_WORDS = {
     "icmp",
     "icon",
     "icons",
+    "icu",
     "ids",
     "idea",
     "ieee",
@@ -494,6 +495,7 @@ IGNORE_WORDS = {
     "merge",
     "mesh",
     "message",
+    "messageformat",
     "messages",
     "meta",
     "metadata",
@@ -781,6 +783,7 @@ IGNORE_WORDS = {
     "squid",
     "ssh",
     "ssl",
+    "sso",
     "stack",
     "standard",
     "start",

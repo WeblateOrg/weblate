@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -81,7 +81,7 @@ class NewLangTest(ViewTestCase):
 
     def test_contact(self):
         # Make admin to receive notifications
-        self.project.add_user(self.anotheruser, "@Administration")
+        self.project.add_user(self.anotheruser, "Administration")
 
         self.component.new_lang = "contact"
         self.component.save()
@@ -103,7 +103,7 @@ class NewLangTest(ViewTestCase):
 
     def test_add(self):
         # Make admin to receive notifications
-        self.project.add_user(self.anotheruser, "@Administration")
+        self.project.add_user(self.anotheruser, "Administration")
 
         self.assertFalse(
             self.component.translation_set.filter(language__code="af").exists()
@@ -146,7 +146,7 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, "Please fix errors in the form")
 
     def test_add_owner(self):
-        self.component.project.add_user(self.user, "@Administration")
+        self.component.project.add_user(self.user, "Administration")
         # None chosen
         response = self.client.post(
             reverse("new-language", kwargs=self.kw_component), follow=True
@@ -176,7 +176,7 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add_rejected(self):
-        self.component.project.add_user(self.user, "@Administration")
+        self.component.project.add_user(self.user, "Administration")
         self.component.language_regex = "^cs$"
         self.component.save()
         # One chosen
