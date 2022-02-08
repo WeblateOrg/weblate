@@ -48,7 +48,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
         try:
             if filename.startswith("http://") or filename.startswith("https://"):
                 with request("get", filename) as handle:
-                    content = handle.read()
+                    content = handle.text
             else:
                 with open(os.path.join(component.full_path, filename)) as handle:
                     content = handle.read()
