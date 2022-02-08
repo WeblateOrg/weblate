@@ -80,6 +80,16 @@ def report_error(
         LOGGER.exception(cause)
 
 
+def add_breadcrumb(category: str, message: str, level: str = "info", **data):
+    # Add breadcrumb only if settings are already loaded,
+    # we do not want to force loading settings early
+    if not settings.configured or not getattr(settings, "SENTRY_DSN", None):
+        return
+    sentry_sdk.add_breadcrumb(
+        category=category, message=message, level=level, data=data
+    )
+
+
 def celery_base_data_hook(request, data):
     data["framework"] = "celery"
 

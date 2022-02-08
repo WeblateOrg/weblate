@@ -28,12 +28,11 @@ from distutils.version import LooseVersion
 from typing import Iterator, List, Optional
 
 from dateutil import parser
-from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import get_clean_env, path_separator
+from weblate.utils.error import add_breadcrumb
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -114,10 +113,7 @@ class Repository:
 
     @classmethod
     def add_breadcrumb(cls, message, **data):
-        # Add breadcrumb only if settings are already loaded,
-        # we do not want to force loading settings early
-        if settings.configured and getattr(settings, "SENTRY_DSN", None):
-            add_breadcrumb(category="vcs", message=message, data=data, level="info")
+        add_breadcrumb(category="vcs", message=message, **data)
 
     @classmethod
     def log(cls, message, level: int = logging.DEBUG):
