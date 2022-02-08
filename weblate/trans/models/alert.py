@@ -288,6 +288,7 @@ class RepositoryChanges(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Repository has changes.")
     link_wide = True
+    dismissable = True
 
 
 @register
