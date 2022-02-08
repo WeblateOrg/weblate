@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-02-08 08:48+0000\n"
-"Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
+"PO-Revision-Date: 2022-02-09 19:44+0000\n"
+"Last-Translator: Walter Paulo <polo@tictips.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -4378,12 +4378,6 @@ msgid "Automated backup using BorgBackup"
 msgstr "Sauvegarde automatique avec BorgBackup"
 
 #: ../../admin/backup.rst:11
-#, fuzzy
-#| msgid ""
-#| "Weblate has built-in support for creating service backups using "
-#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
-#| "be safely stored in the cloud. The backups can be controlled in the "
-#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
@@ -4391,9 +4385,9 @@ msgid ""
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
 "Weblate est conçu pour supporter la création de services de sauvegarde avec "
-"`BorgBackup`_. Borg créé des sauvegardes chiffrées pouvant être stockés en "
-"sécurité dans le cloud. Ces sauvegardes peuvent être contrôlées depuis "
-"l’onglet :guilabel:`Backups` de l’interface de gestion."
+"`BorgBackup`_. Borg crée des sauvegardes chiffrées pouvant être stockées en "
+"sécurité dans le cloud. Ces sauvegardes peuvent être contrôlées depuis l’"
+"onglet :guilabel:`Backups` de l’interface de gestion."
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -4416,45 +4410,36 @@ msgid "Daily backups for 14 days back"
 msgstr "Sauvegardes quotidiennes des 14 derniers jours"
 
 #: ../../admin/backup.rst:23
+#, fuzzy
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Sauvegardes hebdomadaires des 8 dernières semaines"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Sauvegardes mensuelles des 6 derniers mois"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
-msgstr "Clef de chiffrement Borg"
+msgstr "Clé de chiffrement Borg"
 
 #: ../../admin/backup.rst:33
-#, fuzzy
-#| msgid ""
-#| "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
-#| "not be able to restore the backup. The passphrase is generated when "
-#| "adding new backup service and you should copy it and keep it in a secure "
-#| "place."
 msgid ""
 "`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"`BorgBackup`_ créé des sauvegardes chiffrées et dans phrase de passe vous ne "
-"serez pas en mesure de les restaurer. La phrase de passe est générée à "
-"l’ajout d’un nouveau service de sauvegarde. Vous devriez la copier et la "
+"`BorgBackup`_ crée des sauvegardes chiffrées et, sans phrase de passe, vous "
+"ne serez pas en mesure de les restaurer. La phrase de passe est générée à l’"
+"ajout d’un nouveau service de sauvegarde. Vous devriez la copier et la "
 "conserver en lieu sûr."
 
 #: ../../admin/backup.rst:37
-#, fuzzy
-#| msgid ""
-#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
-#| "key as well — it is used to access your backups."
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
 "Si jamais vous utilisez :ref:`cloudbackup`, merci de sauvegarder aussi votre "
-"clef SSH privée – elle est utilisée pour accéder à vos sauvegardes."
+"clé SSH privée – elle est utilisée pour accéder à vos sauvegardes."
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
@@ -4472,8 +4457,8 @@ msgstr "Personnaliser Weblate"
 #| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr ""
-"La valeur par défaut peut être modifiée avec :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+"La sauvegarde de la base de données peut être configurée avec "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/backup.rst:48
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
@@ -4484,20 +4469,15 @@ msgid "Weblate provisioned backup storage"
 msgstr "Espace de sauvegarde provisionné par Weblate"
 
 #: ../../admin/backup.rst:55
-#, fuzzy
-#| msgid ""
-#| "The easiest approach to backup your Weblate instance is to purchase "
-#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
-#| "The process of activating can be performed in few steps:"
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"L’approche la plus simple pour sauvegarder votre instance Weblate est de "
-"s’offrir le `service de sauvegarde de weblate.org <https://weblate.org/"
-"support/#backup>`_. La procédure d’activation peut être effectuée en "
-"quelques étapes :"
+"La manière la plus simple de sauvegarder votre instance Weblate est de s’"
+"offrir le `service de sauvegarde de weblate.org <https://weblate.org/support/"
+"#backup>`_. La procédure d’activation peut être effectuée en quelques étapes "
+":"
 
 #: ../../admin/backup.rst:59
 #, fuzzy
@@ -4507,15 +4487,11 @@ msgstr ""
 "S’offrir le service de sauvegarde sur https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:60
-#, fuzzy
-#| msgid ""
-#| "Enter obtained key in the management interface, see :ref:`activate-"
-#| "support`."
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
-"Entrez les clefs obtenues dans l’interface de gestion, voir :ref:`activate-"
+"Entrez la clé obtenue dans l’interface de gestion, voir :ref:`activate-"
 "support`."
 
 #: ../../admin/backup.rst:61
@@ -4539,50 +4515,36 @@ msgstr ""
 "`Backups`."
 
 #: ../../admin/backup.rst:63
-#, fuzzy
-#| msgid ""
-#| "Backup Borg credentials in order to be able to restore the backups, see :"
-#| "ref:`borg-keys`."
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
 "Sauvegarder les identifiants Borg pour être en mesure de restaurer les "
-"sauvegardes. Voir : :ref:`borg-keys`."
+"sauvegardes. Voir : ref:`borg-keys`."
 
 #: ../../admin/backup.rst:67
-#, fuzzy
-#| msgid ""
-#| "The manual step of turning on is there for your safety. Without your "
-#| "consent no data is sent to the backup repository obtained through the "
-#| "registration process."
 msgid ""
 "The manual step of turning everything on is there for your safety. Without "
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
 "L’étape manuelle d’activation est nécessaire pour votre sécurité. Sans votre "
-"consentement, aucune donne n’est envoyée au dépôt de sauvegarde obtenu par "
+"consentement, aucune donnée n’est envoyée au dépôt de sauvegarde obtenu par "
 "la procédure d’inscription."
 
 #: ../../admin/backup.rst:74
 msgid "Using custom backup storage"
-msgstr "Utiliser methode personnalisé de sauvegarde"
+msgstr "Utiliser un espace de stockage personnalisé"
 
 #: ../../admin/backup.rst:76
-#, fuzzy
-#| msgid ""
-#| "You can also use your own storage for the backups. SSH can be used to "
-#| "store backups on the remote destination, the target server needs to have "
-#| "`BorgBackup`_ installed."
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
 "Vous pouvez aussi utiliser votre propre espace de stockage pour vos "
-"sauvegardes. SSH peut être utilisé pour stocker les sauvegardes à distance, "
-"`BorgBackup`_ doit être installé sur le serveur cible."
+"sauvegardes. SSH peut être utilisé pour stocker les sauvegardes à distance ; "
+"dans ce cas, `BorgBackup`_ doit être installé sur le serveur cible."
 
 #: ../../admin/backup.rst:82
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -4593,23 +4555,17 @@ msgid "Local filesystem"
 msgstr "Système de fichiers local"
 
 #: ../../admin/backup.rst:87
-#, fuzzy
-#| msgid ""
-#| "It is recommended to specify absolute path for the local backup, for "
-#| "example `/path/to/backup`. The directory has to be writable by user "
-#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
-"C’est recommandé de spécifier le chemin absolu de la sauvegarde locale, par "
+"Il est recommandé de spécifier le chemin absolu de la sauvegarde locale, par "
 "exemple `/chemin/vers/la/sauvegarde`. L’utilisateur qui fait tourner Weblate "
 "doit avoir les permissions d’écriture sur le répertoire. Voir :ref:`file-"
-"permissions`. Si jamais il n’existe pas, Weblate essayera de le créer, mais "
-"la permission est aussi nécessaire pour le faire."
+"permissions`. Si le répertoire n’existe pas, Weblate essayera de le créer, "
+"mais devra disposer des permissions nécessaires pour ce faire."
 
 #: ../../admin/backup.rst:94
 #, fuzzy
@@ -4689,6 +4645,8 @@ msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Installez `BorgBackup`_ sur ce serveur ; la plupart des distributions Linux "
+"disposent des paquets nécessaires (voir :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:125
 msgid ""
@@ -37614,6 +37572,9 @@ msgid ""
 "Glossary terms are translated the same way regular strings are. You can "
 "toggle additional features using the :guilabel:`Tools` menu for each term."
 msgstr ""
+"Les termes du glossaire sont traduits de la même manière que les chaînes de "
+"caractères ordinaires. Vous pouvez activer des fonctionnalités "
+"supplémentaires en utilisant le menu :guilabel:`Outils` pour chaque terme."
 
 #: ../../user/glossary.rst:52
 #, fuzzy
