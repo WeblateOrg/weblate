@@ -897,7 +897,12 @@ class GithubRepository(GitMergeRequestBase):
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
 
     def create_pull_request(
-        self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
+        self,
+        credentials: Dict,
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
+        retry_fork: bool = True,
     ):
         """Create pull request.
 
@@ -931,12 +936,16 @@ class GithubRepository(GitMergeRequestBase):
 
             if "Validation Failed" in error_message:
                 for error in response["errors"]:
-                    if error.get("field") == "head":
+                    if error.get("field") == "head" and retry_fork:
                         # This most likely indicates that Weblate repository has moved
                         # and we should createa a fresh fork.
                         self.create_fork(credentials)
                         self.create_pull_request(
-                            credentials, origin_branch, fork_remote, fork_branch
+                            credentials,
+                            origin_branch,
+                            fork_remote,
+                            fork_branch,
+                            retry_fork=False,
                         )
                         return
 
