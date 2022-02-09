@@ -49,7 +49,7 @@ Automatic translation
                 |                 |                              |                                                                                        |
                 |                 |                              | ``fuzzy`` -- Strings marked for edit                                                   |
                 |                 |                              |                                                                                        |
-                |                 |                              | ``check:inconsistent`` -- Failed check: Inconsistent                                   |
+                |                 |                              | ``check:inconsistent`` -- Failing check: Inconsistent                                  |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
                 | ``auto_source`` | Automatic translation source | Available choices:                                                                     |
                 |                 |                              |                                                                                        |
