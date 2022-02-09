@@ -73,6 +73,8 @@ Fields
    String has dismissed check.
 ``comment:TEXT``
    Search in user comments.
+``resolved_comment:TEXT``
+   Search in resolved comments.
 ``comment_author:TEXT``
    Filter by comment author.
 ``suggestion:TEXT``

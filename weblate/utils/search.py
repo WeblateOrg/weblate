@@ -82,6 +82,7 @@ NONTEXT_FIELDS = {
 STRING_FIELD_MAP = {
     "suggestion": "suggestion__target",
     "comment": "comment__comment",
+    "resolved_comment": "comment__comment",
     "key": "context",
     "explanation": "source_unit__explanation",
 }
@@ -285,6 +286,10 @@ class TermExpr:
             return query | Q(labels__name__iexact=match)
         if field == "screenshot":
             return query | Q(screenshots__name__iexact=match)
+        if field == "comment":
+            return query & Q(comment__resolved=False)
+        if field == "resolved_comment":
+            return query & Q(comment__resolved=True)
 
         return query
 

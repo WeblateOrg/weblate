@@ -25,6 +25,7 @@ Not yet released.
 * Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
 * Added documentation links to alerts.
 * Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
+* Added support for searching for resolved comments.
 
 Weblate 4.10.1
 --------------
