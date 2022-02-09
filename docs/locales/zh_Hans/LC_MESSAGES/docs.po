@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-22 19:54+0100\n"
-"PO-Revision-Date: 2022-02-03 10:36+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2022-02-09 19:45+0000\n"
+"Last-Translator: KJH-x <kjh13710362237@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2195,7 +2195,7 @@ msgid ""
 "All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
-msgstr ""
+msgstr "部件重所有未翻译的字符串将会被源字符串填充，并被标为需要编辑。当你的翻译文件中不能兼容空字符串时请使用这个功能。"
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -2525,7 +2525,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:588
 msgid "``author`` -- Per author"
-msgstr ""
+msgstr "``作者``--每个作者"
 
 #: ../../admin/addons.rst:590
 msgid "``append_trailers``"
@@ -3164,7 +3164,7 @@ msgstr ""
 msgid ""
 "Image showing a message that reads: \"Translations will be used only if they "
 "reach 60%\" atop the dashboard view."
-msgstr ""
+msgstr "在操作面板顶部以图片显示信息：“只有当翻译程度达到60%的时候才会被采用” 。"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -3324,6 +3324,8 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"大多数身份验证后端都需要 HTTPS。 在您的 Web 服务器中启用 HTTPS 后，请使用 :setting:`ENABLE_HTTPS` 或 "
+"Docker 容器中的 :envvar:`WEBLATE_ENABLE_HTTPS` 配置 Weblate 以正确报告它。"
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3513,6 +3515,8 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"您可以使用 ``SOCIAL_AUTH_<NAME>_IMAGE`` 和 ``SOCIAL_AUTH_<NAME>_TITLE`` "
+"等设置覆盖身份验证方法显示名称和图标。 例如，Auth0 的覆盖命名如下所示："
 
 #: ../../admin/auth.rst:336
 msgid "Turning off password authentication"
@@ -3939,7 +3943,7 @@ msgstr "可通过 :setting:`DATABASE_BACKUP` 配置数据库备份。"
 
 #: ../../admin/backup.rst:48
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
-msgstr ""
+msgstr "可以使用 :setting:`BORG_EXTRA_ARGS `自定义备份创建。"
 
 #: ../../admin/backup.rst:53
 msgid "Weblate provisioned backup storage"
@@ -4080,6 +4084,7 @@ msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"在该服务器上安装 `BorgBackup`_; 大多数 Linux 发行版都有可用的软件包（参见 :doc:`borg:installation`）。"
 
 #: ../../admin/backup.rst:125
 msgid ""
@@ -4154,6 +4159,8 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"使用 Docker 容器时，设置文件已经包含在容器中，您应该恢复原始环境变量。 :file:`environment.yml` "
+"文件可能会帮助你解决这个问题（参见 :ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:155
 msgid ""
@@ -5502,7 +5509,7 @@ msgstr "管理字型"
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
-msgstr ""
+msgstr "上传到 Weblate 的字体仅用于 :ref:`check-max-size` 检查，它们在 Weblate 用户界面中没有效果。"
 
 #: ../../admin/checks.rst:294
 msgid ""
@@ -5716,7 +5723,7 @@ msgstr ""
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
-msgstr ""
+msgstr "显示已填写上述配置的 Weblate 管理面板的图像。"
 
 #: ../../admin/config.rst:6
 msgid ""
@@ -6023,7 +6030,7 @@ msgstr "BACKGROUND_TASKS"
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
-msgstr ""
+msgstr "定义应为组件触发冗长维护任务的频率。"
 
 #: ../../admin/config.rst:201
 msgid "Right now this controls:"
@@ -6043,7 +6050,7 @@ msgstr "可能的选项："
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` （这是默认设置）"
 
 #: ../../admin/config.rst:209
 msgid "``weekly``"
@@ -6061,7 +6068,7 @@ msgstr "``never``"
 msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
-msgstr ""
+msgstr "当 Weblate 包含数千个组件时，不建议增加频率。"
 
 #: ../../admin/config.rst:221
 msgid "BASE_DIR"
@@ -6121,7 +6128,7 @@ msgstr ""
 msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
-msgstr ""
+msgstr "当内置备份被触发时，你可以将额外的参数传递给 :command:`borg create`。"
 
 #: ../../admin/config.rst:276
 msgid ":ref:`backup`, :doc:`borg:usage/create`"
@@ -6240,11 +6247,11 @@ msgstr "CONTACT_FORM"
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
-msgstr ""
+msgstr "配置来自联系表单的电子邮件的发送方式。 选择与您的邮件服务器配置相匹配的配置。"
 
 #: ../../admin/config.rst:387
 msgid "``\"reply-to\"``"
-msgstr ""
+msgstr "``“回复给”``"
 
 #: ../../admin/config.rst:388
 msgid ""
@@ -6464,6 +6471,8 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"配置是否应该为新用户打开 :guilabel:`Automatically watch projects on contribution`。 默认为 "
+"``True``。"
 
 #: ../../admin/config.rst:497
 msgid ":ref:`subscriptions`"
@@ -6596,6 +6605,7 @@ msgid ""
 "Configures default value of :ref:`project-use_shared_tm` and :ref:`project-"
 "contribute_shared_tm`."
 msgstr ""
+"配置 :ref:`project-use_shared_tm` 和 :ref:`project-contribute_shared_tm` 的默认值。"
 
 #: ../../admin/config.rst:638
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
@@ -7288,7 +7298,7 @@ msgid ""
 "The full API URL is now configured to allow using the free plan. Before, it "
 "was only possible to configure the API version using "
 "``MT_DEEPL_API_VERSION``."
-msgstr ""
+msgstr "完整的 API URL 现在配置为允许使用免费计划。 以前，只能使用``MT_DEEPL_API_VERSION``配置 API 版本。"
 
 #: ../../admin/config.rst:1295
 msgid ""
