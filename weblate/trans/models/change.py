@@ -605,7 +605,7 @@ class Change(models.Model, UserDisplayMixin):
                 self.plural_count,
             )
             try:
-                return result % self.plural_coun
+                return result % self.plural_count
             except TypeError:
                 # The string does not contain %d
                 return result
