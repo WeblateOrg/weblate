@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-01-22 18:53+0000\n"
-"PO-Revision-Date: 2022-02-03 10:35+0000\n"
+"PO-Revision-Date: 2022-02-09 19:44+0000\n"
 "Last-Translator: Þórhalla Guðmundsdóttir Beck <plergux@outlook.com>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
@@ -1447,10 +1447,9 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Mistókst að þátta flögg: %s"
+msgstr "Mistókst að þátta CSS-veljara: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1494,16 +1493,12 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/generate.py:146
-#, fuzzy
-#| msgid "Previous translation was \"%s\"."
 msgid "Prefill translation with source"
-msgstr "Fyrri þýðing var \"%s\"."
+msgstr "Fylla þýðingu fyrirfram með upprunaefni"
 
 #: weblate/addons/generate.py:147
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Þessi þýðing er notuð í upprunalegum strengjum."
+msgstr "Fyllir upp í þýðingastrengina með upprunalegum textastrengjum."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2533,10 +2528,8 @@ msgid "Missing plurals"
 msgstr "Vantar fleirtölu"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
-msgstr "Ekki eru öll fleirtöluform þýdd"
+msgstr "Sum fleirtöluform eru óþýdd"
 
 #: weblate/checks/consistency.py:55
 msgid "Same plurals"
@@ -3145,10 +3138,8 @@ msgid "Unsupported file format."
 msgstr "Óstutt skráasnið."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "Færsla með sama heiti er þegar til."
+msgstr "Letur með sama heiti er þegar til."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3159,10 +3150,8 @@ msgid "Font deleted."
 msgstr "Letri eytt."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "Færsla með sama heiti er þegar til."
+msgstr "Leturhópur með sama heiti er þegar til."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -6423,10 +6412,8 @@ msgid "Rebase"
 msgstr "Endurmiða (rebase)"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Draga inn breytingar úr fjartengda gagnasafninu"
+msgstr "Draga inn breytingar úr fjartengda gagnasafninu án þess að spóla áfram"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
@@ -8112,10 +8099,8 @@ msgstr "Þarfnast breytinga"
 
 #: weblate/templates/snippets/info.html:352 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "Þýddir strengir"
+msgstr "Óþýddir strengir"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -10220,10 +10205,8 @@ msgid "Language used for source strings in all components"
 msgstr "Tungumál notað fyrir upprunalega strengi í öllum þýðingarhlutum"
 
 #: weblate/trans/forms.py:1665 weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "Færsla með sama heiti er þegar til."
+msgstr "Íhlutur með sama heiti er þegar til."
 
 #: weblate/trans/forms.py:1690
 msgid "ZIP file containing translations"
@@ -10835,10 +10818,8 @@ msgstr "Skjámynd send inn"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Outgoing commits in the Weblate repository"
 msgid "String updated in the repository"
-msgstr "Breytingar á leið út í Weblate-gagnasafninu"
+msgstr "Strengur uppfærður í hirslunni"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -10860,13 +10841,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
 #: weblate/trans/models/change.py:604
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Nýr strengur til að þýða í %(translation)s"
-msgstr[1] "Nýir strengir til að þýða í %(translation)s"
+msgstr[0] "%d nýr strengur til að þýða kom fram í þýðingunni."
+msgstr[1] "%d nýjir strengir til að þýða komu fram í þýðingunni."
 
 #: weblate/trans/models/change.py:628
 #, python-format
@@ -12235,10 +12214,9 @@ msgid "New string has been added."
 msgstr "Nýjum streng hefur verið bætt við."
 
 #: weblate/trans/views/edit.py:968
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "Gat ekki þáttað nýjan streng"
+msgstr "Gat ekki fjarlægt strenginn: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -12690,10 +12668,8 @@ msgid "GitLab merge request"
 msgstr ""
 
 #: weblate/vcs/git.py:1189
-#, fuzzy
-#| msgid "Password reset requested."
 msgid "Pagure merge request"
-msgstr "Beðið var um endurstillingu lykilorðs."
+msgstr "Beðið var um Pagure-samsteypingu"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
