@@ -140,6 +140,12 @@ class Addon(models.Model):
             self.component.delete_alert(self.addon.alert)
         super().delete(*args, **kwargs)
 
+    def disable(self):
+        self.component.log_warning(
+            "disabling no longer compatible add-on: %s", self.name
+        )
+        self.delete()
+
 
 class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
@@ -193,10 +199,9 @@ class AddonsConf(AppConf):
 
 def handle_addon_error(addon, component):
     report_error(cause="add-on error")
-    # Uninstall no longer compatible addons
+    # Uninstall no longer compatible add-ons
     if not addon.addon.can_install(component, None):
-        component.log_warning("disabling no longer compatible add-on: %s", addon.name)
-        addon.delete()
+        addon.disable()
 
 
 @receiver(vcs_pre_push)

@@ -23,7 +23,8 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Translation
+from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 
@@ -132,9 +133,21 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         self.do_update(component, Q(state__lt=STATE_TRANSLATED))
 
     def do_update(self, component, query):
+        try:
+            source_translation = component.translation_set.get(
+                pk=self.instance.configuration["source"]
+            )
+            target_translation = component.translation_set.get(
+                pk=self.instance.configuration["target"]
+            )
+        except Translation.DoesNotExist:
+            # Uninstall misconfigured add-on
+            report_error(cause="add-on error")
+            self.intance.disable()
+            return
         self.generate_translation(
-            component.translation_set.get(pk=self.instance.configuration["source"]),
-            component.translation_set.get(pk=self.instance.configuration["target"]),
+            source_translation,
+            target_translation,
             prefix=self.instance.configuration["prefix"],
             suffix=self.instance.configuration["suffix"],
             query=query,
