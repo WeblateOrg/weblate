@@ -276,6 +276,7 @@ autodoc_mock_imports = [
     "celery",
     "sentry_sdk",
     "crispy_forms",
+    "weblate.utils.errors",
     "weblate.trans.discovery",
     "weblate.checks.models",
     "weblate.trans.forms",
