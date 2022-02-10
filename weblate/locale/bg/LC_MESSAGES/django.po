@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-10 06:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-02-10 13:49+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -7144,16 +7144,13 @@ msgstr ""
 "сте използвали при регистрацията."
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
-#| "a>"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"Може би сте се регистрирали тук: <a href=\"%(translation_url)s\""
-">%(translation_url)s</a>"
+"Може би сте се регистрирали тук: <a href=\"%(registration_hint)s\""
+">%(registration_hint)s</a>?"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -8306,37 +8303,29 @@ msgstr "Изходни"
 #: weblate/templates/snippets/info.html:306
 msgctxt "Number of strings"
 msgid "Approved"
-msgstr "Одобрено"
+msgstr "Одобрени"
 
 #: weblate/templates/snippets/info.html:316
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Translated"
-msgstr "Преведено"
+msgstr "Преведени"
 
 #: weblate/templates/snippets/info.html:325
 msgctxt "Number of strings"
 msgid "Needs editing"
-msgstr "Нуждае се от редактиране"
+msgstr "Нуждаещи се от редактиране"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
-msgstr "Неуспешни проверки"
+msgstr "С неуспешни проверки"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "Низове с предложения за превод"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Untranslated strings"
 msgctxt "Number of strings"
 msgid "Untranslated strings"
 msgstr "Непреведени низове"
@@ -8775,8 +8764,6 @@ msgstr "Предложена промяна:"
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:585
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Неуспешни проверки:"
@@ -9128,10 +9115,6 @@ msgstr ""
 "хранилището."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
-#, fuzzy
-#| msgid ""
-#| "Weblate repository is missing some commits from upstream, perhaps it is "
-#| "not receiving notifications on repository updates."
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
@@ -9467,7 +9450,7 @@ msgstr "Контрол на достъпа"
 #: weblate/templates/trans/project-access.html:41
 #: weblate/templates/trans/project-access.html:221 weblate/trans/forms.py:2472
 msgid "Teams"
-msgstr ""
+msgstr "Екипи"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last login"
@@ -9486,7 +9469,7 @@ msgstr "Това ще отнеме достъпа на <b>%(user)s</b> до то
 #: weblate/templates/trans/project-access.html:104
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr ""
+msgstr "Редактиране на екипното членство за %(username)s"
 
 #: weblate/templates/trans/project-access.html:122
 msgid "Resend invitation"
@@ -9517,24 +9500,17 @@ msgid "Invite"
 msgstr "Поканване"
 
 #: weblate/templates/trans/project-access.html:243
-#, fuzzy
-#| msgid "Access control"
 msgid "Access only"
-msgstr "Контрол на достъпа"
+msgstr "Само достъп"
 
 #: weblate/templates/trans/project-access.html:273
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the project group <b>%(group)s</b> from this project."
-msgstr ""
-"Това ще изтрие идентификатора за проекта <b>%(token)s</b> от този проект."
+msgstr "Това ще изтрие групата <b>%(group)s</b> от този проект."
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new team"
-msgstr "Управление на речника"
+msgstr "Създаване на нов екип"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -9580,15 +9556,12 @@ msgid "Copy token to clipboard"
 msgstr "Копиране на идентификатора в буфера за обмен"
 
 #: weblate/templates/trans/projecttoken-created.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "Token was created, please save it now as it won't be displayed again: "
-#| "%(token)s"
+#, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
 msgstr ""
-"Идентификаторът беше създаден. Моля, запазете го сега, тъй като няма къде да "
-"се види отново: %(token)s"
+"Идентификаторът е създаден. Моля, запазете го сега, тъй като няма къде да се "
+"види отново: %(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -10099,10 +10072,8 @@ msgid "BBCode"
 msgstr "Код за BB"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
-msgstr "Текст с форматиране на Markdown"
+msgstr "Markdown"
 
 #: weblate/templates/widgets.html:60 weblate/trans/forms.py:1149
 msgid "reStructuredText"
@@ -10246,10 +10217,8 @@ msgid "Pluralized string"
 msgstr "Низ с множествено число"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "Неуспешни проверки:"
+msgstr "Неуспешна проверка: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10755,10 +10724,8 @@ msgid "Search string"
 msgstr "Търсене на"
 
 #: weblate/trans/forms.py:2033
-#, fuzzy
-#| msgid "Case sensitive string to replace and search."
 msgid "Case sensitive string to search for and replace."
-msgstr "Отчитащ регистъра низ за замяна и търсене."
+msgstr "Отчитащ регистъра низ за търсене и замяна."
 
 #: weblate/trans/forms.py:2036
 msgid "Replacement string"
@@ -10864,8 +10831,6 @@ msgid "Author username"
 msgstr "Потребителско име на автора"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
 msgstr "Срокът на действие не може да бъде в миналото!"
 
@@ -12487,10 +12452,8 @@ msgid "string ID %s"
 msgstr "ид. на низа %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "Този превод се използва като изходни низове."
+msgstr "Този език се използва за изходните низове."
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -12587,10 +12550,8 @@ msgid "Weblate statistics"
 msgstr "Статистика на Weblate"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "Не можете да премахнете последния собственик!"
+msgstr "Не можете да премахнете себе си!"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
