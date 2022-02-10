@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-01-22 18:52+0000\n"
-"Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
+"PO-Revision-Date: 2022-02-10 05:05+0000\n"
+"Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -3030,16 +3030,13 @@ msgid "Regular expression"
 msgstr "Düzenli ifade"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "Çeviri düzenli ifadeyle eşleşmiyor:"
+msgstr "Çeviri düzenli ifadeyle eşleşmiyor"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "Çeviri düzenli ifadeyle eşleşmiyor:"
+msgstr "Düzenli ifade %s ile eşleşmiyor."
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -4960,11 +4957,8 @@ msgid "Members"
 msgstr "Üyeler"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
-msgstr "Bilinmiyor"
+msgstr "Yok"
 
 #: weblate/templates/accounts/user.html:262
 msgid "Remove user from this group"
@@ -5246,22 +5240,19 @@ msgid "Checks"
 msgstr "Denetimler"
 
 #: weblate/templates/base.html:164
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
-msgstr "%(project)s — %(language)s içinde başarısız olan denetimler"
+msgstr "%(project)s — %(language)s içindeki kusur denetimleri"
 
 #: weblate/templates/base.html:175
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
-msgstr "%(project)s projesinde başarısız olan denetimler"
+msgstr "%(project)s projesindeki kusur denetimleri"
 
 #: weblate/templates/base.html:181
-#, fuzzy, python-format
-#| msgid "Failed checks in %(language)s"
+#, python-format
 msgid "Failing checks in %(language)s"
-msgstr "%(language)s içinde başarısız olan denetimler"
+msgstr "%(language)s dilindeki kusur denetimleri"
 
 #: weblate/templates/base.html:185
 msgid "Checks overview"
@@ -7117,16 +7108,13 @@ msgstr ""
 "olurken hangi e-posta adresini kullandığınızı gözden geçirin."
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
-#| "a>"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"<a href=\"%(translation_url)s\">%(translation_url)s</a> adresinde "
-"çevirebilirsiniz"
+"Belki de <a href=\"%(registration_hint)s\">%(registration_hint)s</a> "
+"adresine kaydoldunuz mu?"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -8266,15 +8254,11 @@ msgid "Hosted characters"
 msgstr "Barındırılan karakter"
 
 #: weblate/templates/snippets/info.html:285
-#, fuzzy
-#| msgid "Total"
 msgctxt "Number of strings"
 msgid "Total"
 msgstr "Toplam"
 
 #: weblate/templates/snippets/info.html:295
-#, fuzzy
-#| msgid "Source"
 msgctxt "Number of strings"
 msgid "Source"
 msgstr "Kaynak"
@@ -8287,8 +8271,6 @@ msgid "Approved"
 msgstr "Onaylı"
 
 #: weblate/templates/snippets/info.html:316
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Translated"
 msgstr "Çevrilmiş"
@@ -8301,22 +8283,16 @@ msgid "Needs editing"
 msgstr "Düzenleme gerekli"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
 msgstr "Kusur denetimleri"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "Önerileri olan dizgiler"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Untranslated strings"
 msgctxt "Number of strings"
 msgid "Untranslated strings"
 msgstr "Çevrilmemiş dizgiler"
@@ -8753,8 +8729,6 @@ msgstr "Önerilen değişiklik:"
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:585
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Kusur denetimleri:"
@@ -9097,16 +9071,12 @@ msgstr ""
 "yollamayla Git’i seçmek isteyebilirsiniz."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
-#, fuzzy
-#| msgid ""
-#| "Weblate repository is missing some commits from upstream, perhaps it is "
-#| "not receiving notifications on repository updates."
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Weblate deposunda yukarı akıştan bazı işlemeler eksik, belki de depo "
-"güncellemelerinde bildirim almıyordur."
+"Weblate deposunda yukarı akıştan bazı işlemeler eksik. Belki de uzak deponun "
+"güncellemeleri üzerine bildirim almıyordur."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -9429,7 +9399,7 @@ msgstr "Erişim denetimi"
 #: weblate/templates/trans/project-access.html:41
 #: weblate/templates/trans/project-access.html:221 weblate/trans/forms.py:2472
 msgid "Teams"
-msgstr ""
+msgstr "Takımlar"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last login"
@@ -9448,7 +9418,7 @@ msgstr "Bu, <b>%(user)s</b> kullanıcısının bu projeye erişimini kaldıracak
 #: weblate/templates/trans/project-access.html:104
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr ""
+msgstr "%(username)s için takım üyeliğini düzenle"
 
 #: weblate/templates/trans/project-access.html:122
 msgid "Resend invitation"
@@ -9477,23 +9447,17 @@ msgid "Invite"
 msgstr "Davet et"
 
 #: weblate/templates/trans/project-access.html:243
-#, fuzzy
-#| msgid "Access control"
 msgid "Access only"
-msgstr "Erişim denetimi"
+msgstr "Yalnızca erişim"
 
 #: weblate/templates/trans/project-access.html:273
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the project group <b>%(group)s</b> from this project."
-msgstr "Bu, <b>%(token)s</b> proje belirtecini bu projeden silecek."
+msgstr "Bu, <b>%(group)s</b> proje grubunu bu projeden silecek."
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "Yeni sözlük oluştur"
+msgstr "Yeni takım oluştur"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -9538,14 +9502,11 @@ msgid "Copy token to clipboard"
 msgstr "Belirteci panoya kopyala"
 
 #: weblate/templates/trans/projecttoken-created.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "Token was created, please save it now as it won't be displayed again: "
-#| "%(token)s"
+#, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
 msgstr ""
-"Belirteç oluşturuldu, lütfen bir daha görüntülenmeyecek şekilde şimdi "
+"Belirteç oluşturuldu. Lütfen bir daha görüntülenmeyecek şekilde şimdi "
 "kaydedin: %(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
@@ -10060,10 +10021,8 @@ msgid "BBCode"
 msgstr "BB kodu"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
-msgstr "Markdown metni"
+msgstr "Markdown"
 
 #: weblate/templates/widgets.html:60 weblate/trans/forms.py:1149
 msgid "reStructuredText"
@@ -10206,10 +10165,8 @@ msgid "Pluralized string"
 msgstr "Çoğullaştırılmış dizgiler"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "Kusur denetimleri:"
+msgstr "Kusur denetimleri: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10713,10 +10670,8 @@ msgid "Search string"
 msgstr "Arama dizgisi"
 
 #: weblate/trans/forms.py:2033
-#, fuzzy
-#| msgid "Case sensitive string to replace and search."
 msgid "Case sensitive string to search for and replace."
-msgstr "Değiştirmek ve aramak için büyük/küçük harf duyarlı dizgi."
+msgstr "Aramak ve değiştirmek için büyük/küçük harf duyarlı dizgi."
 
 #: weblate/trans/forms.py:2036
 msgid "Replacement string"
@@ -10822,10 +10777,8 @@ msgid "Author username"
 msgstr "Hazırlayanın kullanıcı adı"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
-msgstr "Süre sona erme geçmişte olamaz!"
+msgstr "Son kullanma tarihi geçmişte olamaz!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -12421,10 +12374,8 @@ msgid "string ID %s"
 msgstr "dizgi kimliği %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "Bu çeviri kaynak dizgiler için kullanılır."
+msgstr "Bu dil kaynak dizgiler için kullanılır."
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -12518,10 +12469,8 @@ msgid "Weblate statistics"
 msgstr "Weblate istatistikleri"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "Son sahibi kaldıramazsınız!"
+msgstr "Kendinizi kaldıramazsınız!"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
