@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-09 20:46+0100\n"
-"PO-Revision-Date: 2022-02-09 19:44+0000\n"
+"PO-Revision-Date: 2022-02-10 13:49+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -177,11 +177,6 @@ msgid "Managing per-project access control"
 msgstr "プロジェクトごとのアクセス制御の管理"
 
 #: ../../admin/access.rst:83
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Manage project access` privilege (see :ref:"
-#| "`privileges`) can manage users in projects with non-`Custom` access "
-#| "control. They can assign users to one of the following groups."
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can manage users in projects via adding them to the teams. The "
@@ -189,19 +184,18 @@ msgid ""
 "defined providing more fine-grained access control. You can limit teams to "
 "languages and assign them design access roles (see :ref:`privileges`)."
 msgstr ""
-":guilabel:`プロジェクトのアクセス管理` 権限（参照: :ref:`privileges`）がある"
-"ユーザーは、`カスタム` 以外のアクセス制御を持つプロジェクトのユーザーを管理で"
-"きます。ユーザーは、次のいずれかのグループに割り当てることができます。"
+":guilabel:`プロジェクトのアクセス管理` 権限（参照: "
+":ref:`privileges`）があるユーザーは、チームにユーザーを追加してプロジェクト内のユーザーを管理できます。最初のチームのアクセス権は "
+"Weblate によって自動生成されます。追加のチームを設定すると、より詳細なアクセス制御ができます。チームには、言語と個別のアクセス権を設定して制限をか"
+"けられます（参照: :ref:`privileges`）。"
 
 #: ../../admin/access.rst:89
-#, fuzzy
-#| msgid "The following metrics are available for each:"
 msgid "The following teams are automatically created for every project:"
-msgstr "分類で使用可能な詳細項目:"
+msgstr "プロジェクトごとに自動生成されるチームのアクセス権:"
 
 #: ../../admin/access.rst:91
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "`公開` 、 `保護` および `プライベート` プロジェクト:"
+msgstr "`公開` 、 `保護` および `プライベート` プロジェクトのアクセス権:"
 
 #: ../../admin/access.rst:94
 msgid "Administration"
@@ -209,7 +203,7 @@ msgstr "管理"
 
 #: ../../admin/access.rst:94
 msgid "Includes all permissions available for the project."
-msgstr "プロジェクトで使用できるすべての権限を含みます。"
+msgstr "プロジェクトで使用できるアクセス権をすべて含みます。"
 
 #: ../../admin/access.rst:97
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
@@ -217,11 +211,11 @@ msgstr "査読（ :ref:`review workflow <reviews>` が有効化されている�
 
 #: ../../admin/access.rst:97
 msgid "Can approve translations during review."
-msgstr "査読中に翻訳を承認できる。"
+msgstr "査読中に翻訳を承認するアクセス権。"
 
 #: ../../admin/access.rst:99
 msgid "For `Protected` and `Private` projects only:"
-msgstr "`保護` および `プライベート` プロジェクトのみ:"
+msgstr "`保護` および `プライベート` プロジェクトのみのアクセス権:"
 
 #: ../../admin/access.rst:102
 msgid "Translate"
@@ -229,7 +223,7 @@ msgstr "翻訳"
 
 #: ../../admin/access.rst:102
 msgid "Can translate the project and upload translations made offline."
-msgstr "プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードできる。"
+msgstr "プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードするアクセス権。"
 
 #: ../../admin/access.rst:106 ../../devel/community.rst:41
 msgid "Sources"
@@ -239,9 +233,7 @@ msgstr "原文"
 msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
-msgstr ""
-"原文（`プロジェクトの設定` で許可している場合）および :ref:`monolingual` と原"
-"文情報で編集できる。"
+msgstr "原文（`プロジェクトの設定` で許可している場合）および :ref:`monolingual` と原文情報を編集するアクセス権。"
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:266
 #: ../../admin/access.rst:282 ../../admin/access.rst:393 ../../api.rst:654
@@ -251,7 +243,7 @@ msgstr "言語"
 
 #: ../../admin/access.rst:109
 msgid "Can manage translated languages (add or remove translations)."
-msgstr "翻訳言語を管理できる（翻訳の追加または削除）。"
+msgstr "翻訳言語を管理するアクセス権（翻訳の追加または削除）。"
 
 #: ../../admin/access.rst:112 ../../admin/access.rst:468 ../../api.rst:2354
 #: ../../user/glossary.rst:4 ../../user/translating.rst:277
@@ -260,15 +252,15 @@ msgstr "用語集"
 
 #: ../../admin/access.rst:112
 msgid "Can manage glossary (add or remove entries, also upload)."
-msgstr "用語集を管理できる（エントリの追加または削除、またはアップロード）。"
+msgstr "用語集を管理するアクセス権（エントリの追加、削除、またはアップロード）。"
 
 #: ../../admin/access.rst:115
 msgid "Memory"
-msgstr "メモリ"
+msgstr "翻訳メモリ"
 
 #: ../../admin/access.rst:115
 msgid "Can manage translation memory."
-msgstr "翻訳メモリを管理できる。"
+msgstr "翻訳メモリを管理するアクセス権。"
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:488 ../../api.rst:2109
 #: ../../user/translating.rst:266
@@ -279,7 +271,7 @@ msgstr "スクリーンショット"
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
-msgstr "スクリーンショットを管理できる（追加または削除、原文への関連付け）。"
+msgstr "スクリーンショットを管理するアクセス権（追加または削除、原文への関連付け）。"
 
 #: ../../admin/access.rst:122 ../../admin/addons.rst:26
 #: ../../admin/continuous.rst:418 ../../user/translating.rst:326
@@ -287,10 +279,8 @@ msgid "Automatic translation"
 msgstr "自動翻訳"
 
 #: ../../admin/access.rst:122
-#, fuzzy
-#| msgid "Trigger automatic translation."
 msgid "Can use automatic translation."
-msgstr "自動翻訳を起動します。"
+msgstr "自動翻訳を有効にするアクセス権。"
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:534
 msgid "VCS"
@@ -298,7 +288,7 @@ msgstr "VCS"
 
 #: ../../admin/access.rst:125
 msgid "Can manage VCS and access the exported repository."
-msgstr "VCS を管理し、エクスポートしたリポジトリにアクセスできる。"
+msgstr "VCS を管理し、リポジトリをエクスポートするアクセス権。"
 
 #: ../../admin/access.rst:128 ../../admin/optionals.rst:63
 msgid "Billing"
@@ -306,7 +296,7 @@ msgstr "請求"
 
 #: ../../admin/access.rst:128
 msgid "Can access billing info and settings (see :ref:`billing`)."
-msgstr "請求情報と設定にアクセスできる（参照: :ref:`billing`）。"
+msgstr "請求情報と請求の設定をするアクセス権（参照: :ref:`billing`）。"
 
 #: ../../admin/access.rst:132
 msgid ""
@@ -842,10 +832,8 @@ msgstr ""
 "いロールを設定してください。"
 
 #: ../../admin/access.rst:448
-#, fuzzy
-#| msgid "List of privileges"
 msgid "List of privileges and built-in roles"
-msgstr "特権の一覧"
+msgstr "特権と自動生成されるアクセス権の一覧"
 
 #: ../../admin/access.rst:454 ../../admin/optionals.rst:261
 #: ../../user/checks.rst:0
@@ -865,10 +853,8 @@ msgid "View billing info"
 msgstr "請求情報の表示"
 
 #: ../../admin/access.rst:456
-#, fuzzy
-#| msgid "View billing info [`Administration`, `Billing`]"
 msgid "`Administration`, `Billing`"
-msgstr "請求情報の表示 [`Administration`, `Billing`]"
+msgstr "`管理`、`請求`"
 
 #: ../../admin/access.rst:458 ../../api.rst:2070
 msgid "Changes"
@@ -883,10 +869,8 @@ msgstr "変更点のダウンロード"
 #: ../../admin/access.rst:482 ../../admin/access.rst:484
 #: ../../admin/access.rst:486 ../../admin/access.rst:496
 #: ../../admin/access.rst:498 ../../admin/access.rst:528
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`"
-msgstr "管理"
+msgstr "`管理`"
 
 #: ../../admin/access.rst:460 ../../user/translating.rst:62
 msgid "Comments"
@@ -900,15 +884,9 @@ msgstr "コメントの投稿"
 #: ../../admin/access.rst:500 ../../admin/access.rst:502
 #: ../../admin/access.rst:510 ../../admin/access.rst:516
 #: ../../admin/access.rst:530 ../../admin/access.rst:532
-#, fuzzy
-#| msgid ""
-#| "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
-#| "strings`, `Translate`]"
 msgid ""
 "`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
-msgstr ""
-"コメントの投稿 [`Administration`, `Edit source`, `Power user`, `Review "
-"strings`, `Translate`]"
+msgstr "`管理`、`原文の編集`、`パワー ユーザー`、`査読`、`翻訳`"
 
 #: ../../admin/access.rst:462
 msgid "Delete comment"
@@ -932,11 +910,8 @@ msgstr "用語集への項目の追加"
 
 #: ../../admin/access.rst:468 ../../admin/access.rst:470
 #: ../../admin/access.rst:472 ../../admin/access.rst:474
-#, fuzzy
-#| msgid ""
-#| "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgid "`Administration`, `Manage glossary`, `Power user`"
-msgstr "用語集へ用語の追加 [`Administration`, `Manage glossary`, `Power user`]"
+msgstr "`管理`、`用語集の管理`、`パワー ユーザー`"
 
 #: ../../admin/access.rst:470
 msgid "Edit glossary entry"
@@ -967,11 +942,8 @@ msgid "Edit translation memory"
 msgstr "翻訳メモリの編集"
 
 #: ../../admin/access.rst:478 ../../admin/access.rst:480
-#, fuzzy
-#| msgid ""
-#| "Edit translation memory [`Administration`, `Manage translation memory`]"
 msgid "`Administration`, `Manage translation memory`"
-msgstr "翻訳メモリの編集 [`Administration`, `Manage translation memory]"
+msgstr "`管理`、`翻訳メモリの管理`"
 
 #: ../../admin/access.rst:480
 msgid "Delete translation memory"
@@ -1003,10 +975,8 @@ msgstr "スクリーンショットの追加"
 
 #: ../../admin/access.rst:488 ../../admin/access.rst:490
 #: ../../admin/access.rst:492
-#, fuzzy
-#| msgid "Add screenshot [`Administration`, `Manage screenshots`]"
 msgid "`Administration`, `Manage screenshots`"
-msgstr "スクリーンショットの追加 [`Administration`, `Manage screenshots`]"
+msgstr "`管理`、`スクリーンショットの管理`"
 
 #: ../../admin/access.rst:490
 msgid "Edit screenshot"
@@ -1025,10 +995,8 @@ msgid "Edit additional string info"
 msgstr "原文情報の追加編集"
 
 #: ../../admin/access.rst:494
-#, fuzzy
-#| msgid "Edit additional string info [`Administration`, `Edit source`]"
 msgid "`Administration`, `Edit source`"
-msgstr "追加の文字列情報の編集 [`Administration`, `Edit source`]"
+msgstr "`管理`, `原文の編集`"
 
 #: ../../admin/access.rst:496
 msgid "Strings"
@@ -1044,7 +1012,7 @@ msgstr "文字列の削除"
 
 #: ../../admin/access.rst:500
 msgid "Dismiss failing check"
-msgstr "不合格となった検査結果の除外"
+msgstr "検査の不合格項目の除外"
 
 #: ../../admin/access.rst:502
 msgid "Edit strings"
@@ -1055,24 +1023,20 @@ msgid "Review strings"
 msgstr "文字列の査読"
 
 #: ../../admin/access.rst:504 ../../admin/access.rst:506
-#, fuzzy
-#| msgid "Review strings [`Administration`, `Review strings`]"
 msgid "`Administration`, `Review strings`"
-msgstr "文字列の査読 [`Administration`, `Review strings`]"
+msgstr "`管理`、`査読`"
 
 #: ../../admin/access.rst:506
 msgid "Edit string when suggestions are enforced"
-msgstr "提案が施行されている場合の文字列の編集"
+msgstr "提案採用時の編集"
 
 #: ../../admin/access.rst:508
 msgid "Edit source strings"
 msgstr "原文の編集"
 
 #: ../../admin/access.rst:508
-#, fuzzy
-#| msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgid "`Administration`, `Edit source`, `Power user`"
-msgstr "原文の編集 [`Administration`, `Edit source`, `Power user`]"
+msgstr "`管理`、`原文の編集`、`パワー ユーザー`"
 
 #: ../../admin/access.rst:510 ../../user/translating.rst:46
 #: ../../workflows.rst:47
@@ -1088,26 +1052,18 @@ msgid "Add suggestion"
 msgstr "提案の追加"
 
 #: ../../admin/access.rst:512
-#, fuzzy
-#| msgid ""
-#| "Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power "
-#| "user`, `Review strings`, `Translate`]"
 msgid ""
 "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
 "strings`, `Translate`"
-msgstr ""
-"提案の追加 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
-"`Translate`]"
+msgstr "`管理`、`原文の編集`、`提案の追加`、`パワー ユーザー`、`査読`、`翻訳`"
 
 #: ../../admin/access.rst:514
 msgid "Delete suggestion"
 msgstr "提案の削除"
 
 #: ../../admin/access.rst:514
-#, fuzzy
-#| msgid "Delete suggestion [`Administration`, `Power user`]"
 msgid "`Administration`, `Power user`"
-msgstr "提案の削除 [`Administration`, `Power user`]"
+msgstr "`管理`、`パワー ユーザー`"
 
 #: ../../admin/access.rst:516
 msgid "Vote on suggestion"
@@ -1122,50 +1078,34 @@ msgid "Add language for translation"
 msgstr "翻訳用の言語の追加"
 
 #: ../../admin/access.rst:518
-#, fuzzy
-#| msgid ""
-#| "Add language for translation [`Administration`, `Power user`, `Manage "
-#| "languages`]"
 msgid "`Administration`, `Power user`, `Manage languages`"
-msgstr "翻訳用言語の追加 [`Administration`, `Power user`, `Manage languages`]"
+msgstr "`管理`、`パワー ユーザー`、`言語の管理`"
 
 #: ../../admin/access.rst:520
 msgid "Perform automatic translation"
 msgstr "自動翻訳の実行"
 
 #: ../../admin/access.rst:520
-#, fuzzy
-#| msgid ""
-#| "Perform automatic translation [`Administration`, `Automatic translation`]"
 msgid "`Administration`, `Automatic translation`"
-msgstr "自動翻訳の実行 [`Administration`, `Automatic translation`]"
+msgstr "`管理`、`自動翻訳`"
 
 #: ../../admin/access.rst:522
 msgid "Delete existing translation"
 msgstr "既存の翻訳の削除"
 
 #: ../../admin/access.rst:522 ../../admin/access.rst:526
-#, fuzzy
-#| msgid "Delete existing translation [`Administration`, `Manage languages`]"
 msgid "`Administration`, `Manage languages`"
-msgstr "翻訳済み文字列の削除 [`Administration`, `Manage languages`]"
+msgstr "`管理`、`言語の管理`"
 
 #: ../../admin/access.rst:524
 msgid "Download translation file"
 msgstr "翻訳ファイルのダウンロード"
 
 #: ../../admin/access.rst:524
-#, fuzzy
-#| msgid ""
-#| "Download translation file [`Administration`, `Edit source`, `Access "
-#| "repository`, `Power user`, `Review strings`, `Translate`, `Manage "
-#| "languages`]"
 msgid ""
 "`Administration`, `Edit source`, `Access repository`, `Power user`, `Review "
 "strings`, `Translate`, `Manage languages`"
-msgstr ""
-"翻訳ファイルのダウンロード [`Administration`, `Edit source`, `Access "
-"repository`, `Power user`, `Review strings`, `Translate`, `Manage languages`]"
+msgstr "`管理`、`原文の編集`、`リポジトリへのアクセス`、`パワー ユーザー`、`査読`、`翻訳`、`言語の管理`"
 
 #: ../../admin/access.rst:526
 msgid "Add several languages for translation"
@@ -1192,15 +1132,9 @@ msgid "Access the internal repository"
 msgstr "内部リポジトリへのアクセス"
 
 #: ../../admin/access.rst:534 ../../admin/access.rst:542
-#, fuzzy
-#| msgid ""
-#| "Access the internal repository [`Administration`, `Access repository`, "
-#| "`Power user`, `Manage repository`]"
 msgid ""
 "`Administration`, `Access repository`, `Power user`, `Manage repository`"
-msgstr ""
-"内部リポジトリへのアクセス [`Administration`, `Access repository`, `Power "
-"user`, `Manage repository`]"
+msgstr "`管理`、`リポジトリへのアクセス`、`パワー ユーザー`、`リポジトリの管理`"
 
 #: ../../admin/access.rst:536
 msgid "Commit changes to the internal repository"
@@ -1208,8 +1142,6 @@ msgstr "内部リポジトリへの変更点のコミット"
 
 #: ../../admin/access.rst:536 ../../admin/access.rst:538
 #: ../../admin/access.rst:540 ../../admin/access.rst:544
-#, fuzzy
-#| msgid "`Review Strings`, `Manage repository`"
 msgid "`Administration`, `Manage repository`"
 msgstr "`文字列の査読`、`リポジトリの管理`"
 
@@ -1517,8 +1449,6 @@ msgid "``fuzzy`` -- Strings marked for edit"
 msgstr "``fuzzy`` -- 要編集マーク付きの文字列"
 
 #: ../../admin/addons.rst:52
-#, fuzzy
-#| msgid "``check:inconsistent`` -- Failed check: Inconsistent"
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
 msgstr "``check:inconsistent`` -- 不合格項目: 一貫性の欠如"
 
@@ -12362,7 +12292,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:232
 msgid "Upgrading PostgreSQL container"
-msgstr ""
+msgstr "PostgreSQL コンテナのアップグレード"
 
 #: ../../admin/install/docker.rst:234
 msgid ""
@@ -12370,60 +12300,50 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
+"PostgreSQL コンテナは、バージョンの自動アップグレードには対応していません。手動でアップグレードしてください。次の手順は、"
+"アップグレードの方法の中の 1 つです。"
 
 #: ../../admin/install/docker.rst:240
-#, fuzzy
-#| msgid "https://github.com/WeblateOrg/weblate/issues"
 msgid "https://github.com/docker-library/postgres/issues/37"
-msgstr "https://github.com/WeblateOrg/weblate/issues"
+msgstr "https://github.com/docker-library/postgres/issues/37"
 
 #: ../../admin/install/docker.rst:242
-#, fuzzy
-#| msgid "List of Weblate supporters:"
 msgid "Stop Weblate container:"
-msgstr "Weblate 支援者名簿:"
+msgstr "Weblate コンテナの停止:"
 
 #: ../../admin/install/docker.rst:248
 #, fuzzy
 #| msgid "Filling up the database"
 msgid "Backup the database:"
-msgstr "データベースの準備"
+msgstr "データベースのバックアップ:"
 
 #: ../../admin/install/docker.rst:254
-#, fuzzy
-#| msgid "To stop the background containers, run:"
 msgid "Stop the database container:"
-msgstr "バックグラウンド コンテナの実行の停止方法:"
+msgstr "データベース コンテナの停止:"
 
 #: ../../admin/install/docker.rst:260
-#, fuzzy
-#| msgid "Remove the project"
 msgid "Remove the PostgreSQL volume"
-msgstr "プロジェクトの削除"
+msgstr "PostgreSQL ボリュームの削除:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
-msgstr ""
+msgstr "新しい PostgreSQL のバージョンを使用するように :file:`docker-compose.yml`を編集します。"
 
 #: ../../admin/install/docker.rst:269
 msgid "Start the database container:"
-msgstr ""
+msgstr "データベース コンテナの起動:"
 
 #: ../../admin/install/docker.rst:275
-#, fuzzy
-#| msgid "Native database backup"
 msgid "Restore the database from the backup:"
-msgstr "データベース自身でバックアップ"
+msgstr "データベースをバックアップから復元:"
 
 #: ../../admin/install/docker.rst:281
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Start all remaining containers:"
-msgstr "保守担当者に連絡"
+msgstr "残りのコンテナをすべて起動:"
 
 #: ../../admin/install/docker.rst:290
 msgid "Admin sign in"
-msgstr "管理者サイン イン"
+msgstr "管理者としてサイン イン"
 
 #: ../../admin/install/docker.rst:292
 msgid ""
@@ -22089,12 +22009,11 @@ msgstr ""
 "guilabel:`fast-forward なしのマージ` :ref:`component-merge_style` の追加。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
 "newly added strings."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` アドオン"
+msgstr ""
+"新しい文字列を追加した時に起動する :ref:`addon-weblate.autotranslate.autotranslate` アドオンの修正。"
 
 #: ../../changes.rst:24
 #, fuzzy
@@ -37333,7 +37252,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1292
 msgid "Multiple failing checks"
-msgstr "複数の検査不合格となった項目"
+msgstr "検査不合格となった複数の項目"
 
 #: ../../user/checks.rst:1294
 msgid "The translations in several languages have failing checks"
