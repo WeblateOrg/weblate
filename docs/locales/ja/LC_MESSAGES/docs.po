@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-09 20:46+0100\n"
-"PO-Revision-Date: 2022-02-10 13:49+0000\n"
+"PO-Revision-Date: 2022-02-12 12:56+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -320,6 +320,9 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"また、既存のユーザーをプロジェクトに追加する以外に、新しいユーザーを招待することもできます。新しいユーザーは直ちに作成されますが、メールで送信された招待状"
+"のリンクを使用してサインインするまで、アカウントは無効の状態のままです。メールで招待するために、サイト全体のアクセス権は必要はありません、プロジェクト全体"
+"に対するアクセス権（例: 「管理」グループへの登録）で十分です。"
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -458,6 +461,8 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"すべてのプロジェクトを `公開` （参照: :ref:`acl`）として設定してください。公開と設定されていない場合は、 `ユーザー` および `査読` "
+"グループの登録者に与えられるサイト全体のアクセス権は無効になります。"
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -638,10 +643,9 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "group, see :ref:`default-groups`)."
 msgstr ""
-"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグ"
-"ループの登録者であることが必要です。登録者であるだけで十分で、プロジェクトに"
-"表示させるための特定なアクセス権は必要ありません（これはデフォルトの `閲覧者"
-"` グループで使用します。参照: :ref:`default-groups`）。"
+"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグループに登録されていることが必要です。登録されていれば十分であり、プロジェクト"
+"に表示させるための特定なアクセス権は必要ありません（これはデフォルトの `閲覧者` グループで使用します。参照: :ref:`default-"
+"groups`）。"
 
 #: ../../admin/access.rst:339
 msgid "Access for browse to a component"
@@ -2044,10 +2048,8 @@ msgid "*recent*"
 msgstr "*recent*"
 
 #: ../../admin/addons.rst:279
-#, fuzzy
-#| msgid "Marking all :ref:`appstore` changelog entries read-only"
 msgid "Marking all :ref:`appstore` changelog strings read-only"
-msgstr "すべての :ref:`appstore` 変更履歴 エントリに翻訳禁止フラグを立てる"
+msgstr ":ref:`appstore` の変更履歴 エントリを、すべて翻訳禁止にする"
 
 #: ../../admin/addons.rst:283
 msgid "``language:en AND key:changelogs/``"
@@ -10131,16 +10133,12 @@ msgstr ""
 "違ったファイルがあります。"
 
 #: ../../admin/install.rst:313
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, all files in the :file:`/app/data` volume have "
-#| "to be owned by weblate user inside the container (UID 1000)."
 msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by the ``weblate`` user inside the container (UID 1000)."
 msgstr ""
-"Docker コンテナでは、:file:`/app/data` ボリューム内のすべてのファイルは、コン"
-"テナ内の weblate ユーザーが所有者であることが必要です（UID 1000）。"
+"Docker コンテナでは、:file:`/app/data` ボリューム内のすべてのファイルは、コンテナ内の ``weblate`` "
+"ユーザーが所有者であることが必要です（UID 1000）。"
 
 #: ../../admin/install.rst:318
 msgid ":ref:`static-files`"
@@ -12312,8 +12310,6 @@ msgid "Stop Weblate container:"
 msgstr "Weblate コンテナの停止:"
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Filling up the database"
 msgid "Backup the database:"
 msgstr "データベースのバックアップ:"
 
@@ -12828,18 +12824,12 @@ msgstr ""
 "`RATELIMIT_WINDOW`、:setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/install/docker.rst:812
-#, fuzzy
-#| msgid ""
-#| "The API requests are rate limited; the default configuration limits it to "
-#| "100 requests per day for anonymous users and 5000 requests per hour for "
-#| "authenticated users."
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
-"API リクエストは接続制限しています。デフォルト設定では、匿名ユーザーの場合は "
-"100 リクエスト / 日、認証済みユーザーの場合は 5000 リクエスト / 時間に制限し"
-"ています。"
+"API リクエストの接続制限の設定。デフォルトでは、匿名ユーザーの場合は 100 リクエスト / 日、認証済みユーザーの場合は 5000 リクエスト / "
+"時間に制限しています。"
 
 #: ../../admin/install/docker.rst:817
 #, fuzzy
@@ -15312,9 +15302,8 @@ msgid ""
 "webserver can result in files getting wrong permissions, please check :ref:"
 "`file-permissions` for more details."
 msgstr ""
-"webサーバーを実行しているのとは異なるユーザーで管理コマンドを実行すると、ファ"
-"イルのアクセス権が不正になることがあります。詳しくは :ref:`file-permissions` "
-"を参照してください。"
+"Web サーバーを実行しているのとは異なるユーザーで管理コマンドを実行すると、ファイルのアクセス権が不正になることがあります。詳しくは :ref"
+":`file-permissions` を参照してください。"
 
 #: ../../admin/management.rst:12
 msgid ""
@@ -17410,19 +17399,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:465
-#, fuzzy
-#| msgid ""
-#| "In many monolingual formats Weblate starts with blank file by default. "
-#| "Use this in case you want to have all strings present with empty value "
-#| "when creating new translation."
 msgid ""
 "In many monolingual formats Weblate starts with empty file by default. Use "
 "this in case you want to have all strings present with empty value when "
 "creating new translation."
 msgstr ""
-"Weblate は、さまざまなモノリンガル形式として開始する場合、デフォルトで空の"
-"ファイルを用意します。新しい翻訳を作成するときに、すべての文字列を空の値とし"
-"て設定する場合に使用します。"
+"Weblate は、さまざまなモノリンガル形式として開始する場合、デフォルトで空のファイルを用意します。新しい翻訳を作成するときに、すべての文字列を空の値"
+"として設定する場合に使用します。"
 
 #: ../../admin/projects.rst:471
 msgid ""
@@ -19516,16 +19499,12 @@ msgstr ""
 "org/api-guide/throttling/>`_ を確認してください。"
 
 #: ../../api.rst:176
-#, fuzzy
-#| msgid ""
-#| "On a Docker container, the site domain is configured through :envvar:"
-#| "`WEBLATE_ALLOWED_HOSTS`."
 msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgstr ""
-"Docker コンテナ上では、サイト ドメインは :envvar:`WEBLATE_ALLOWED_HOSTS` で設"
-"定します。"
+"Docker コンテナでは、:envvar:`WEBLATE_API_RATELIMIT_ANON` および "
+":envvar:`WEBLATE_API_RATELIMIT_USER` を使用して設定します。"
 
 #: ../../api.rst:179
 msgid "The status of rate limiting is reported in following headers:"
@@ -19560,15 +19539,12 @@ msgid "Added ratelimiting status headers."
 msgstr "接続制限状態のヘッダーの追加。"
 
 #: ../../api.rst:195
-#, fuzzy
-#| msgid ""
-#| ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:"
-#| "`RATELIMIT_LOCKOUT`"
 msgid ""
 ":ref:`rate-limit`, :ref:`user-rate`, :envvar:`WEBLATE_API_RATELIMIT_ANON`, :"
 "envvar:`WEBLATE_API_RATELIMIT_USER`"
 msgstr ""
-":ref:`rate-limit`、:setting:`RATELIMIT_WINDOW`、:setting:`RATELIMIT_LOCKOUT`"
+":ref:`rate-limit`、:ref:`user-rate`、:envvar:`WEBLATE_API_RATELIMIT_ANON`、:envv"
+"ar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:202
 msgid "API Entry Point"
@@ -19836,16 +19812,12 @@ msgstr ""
 "lists/(str:slug)/`"
 
 #: ../../api.rst:451
-#, fuzzy
-#| msgid ""
-#| "link to associated projects; see :http:get:`/api/projects/(string:"
-#| "project)/`"
 msgid ""
 "likn to defining project, used for :ref:`manage-acl`; see :http:get:`/api/"
 "projects/(string:project)/`"
 msgstr ""
-"関連するプロジェクトへのリンク。参照: :http:get:`/api/projects/(string:"
-"project)/`"
+":ref:`manage-acl` に使用するプロジェクトの設定へのリンク。参照: :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:482 ../../api.rst:492
 msgid "Changes the group parameters."
@@ -22016,10 +21988,8 @@ msgstr ""
 "新しい文字列を追加した時に起動する :ref:`addon-weblate.autotranslate.autotranslate` アドオンの修正。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved auto-translation performance."
 msgid "Improved punctionation checks for Burmese."
-msgstr "自動翻訳の性能の改善。"
+msgstr "ビルマ語の句読点検査の改善。"
 
 #: ../../changes.rst:25
 msgid ""
@@ -22028,10 +21998,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Fixed documentation links for add-ons."
 msgid "Added documentation links to alerts."
-msgstr "アドオンのドキュメント リンクの修正。"
+msgstr "警告へのドキュメント リンクの追加。"
 
 #: ../../changes.rst:27
 msgid ""
@@ -22040,10 +22008,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid "Added support for searching for resolved comments."
-msgstr "説明文での検索に対応。"
+msgstr "解決済みの検索の追加。"
 
 #: ../../changes.rst:31
 msgid "Weblate 4.10.1"
@@ -28088,15 +28054,15 @@ msgstr "Weblate 0.4"
 
 #: ../../changes.rst:1944 ../../changes.rst:1952
 msgid "Released on February 8th 2012."
-msgstr ""
+msgstr "2012 年 2 月 8 日にリリース。"
 
 #: ../../changes.rst:1946
 msgid "Added usage guide to documentation."
-msgstr ""
+msgstr "ドキュメントに使用ガイドの追加。"
 
 #: ../../changes.rst:1947
 msgid "Fixed API hooks not to require CSRF protection."
-msgstr ""
+msgstr "CSRF 保護が不必要な API フックの修正。"
 
 #: ../../changes.rst:1950
 msgid "Weblate 0.3"
@@ -28104,11 +28070,11 @@ msgstr "Weblate 0.3"
 
 #: ../../changes.rst:1954
 msgid "Better display of source for plural translations."
-msgstr ""
+msgstr "複数形の翻訳のための原文の表示の改善。"
 
 #: ../../changes.rst:1955
 msgid "New documentation in Sphinx format."
-msgstr ""
+msgstr "Sphinx 形式の新しいドキュメント。"
 
 #: ../../changes.rst:1956
 msgid "Displays secondary languages while translating."
@@ -28116,11 +28082,11 @@ msgstr "翻訳中に参考言語の表示。"
 
 #: ../../changes.rst:1957
 msgid "Improved error page to give list of existing projects."
-msgstr ""
+msgstr "エラーページに、既存のプロジェクト一覧を表示するように改善。"
 
 #: ../../changes.rst:1958
 msgid "New per language stats."
-msgstr ""
+msgstr "言語ごとの新しい統計。"
 
 #: ../../changes.rst:1961
 msgid "Weblate 0.2"
@@ -28128,27 +28094,27 @@ msgstr "Weblate 0.2"
 
 #: ../../changes.rst:1963
 msgid "Released on February 7th 2012."
-msgstr ""
+msgstr "2012 年 2 月 7 日にリリース。"
 
 #: ../../changes.rst:1965
 msgid "Improved validation of several forms."
-msgstr ""
+msgstr "複数のフォームの検証の改善。"
 
 #: ../../changes.rst:1966
 msgid "Warn users on profile upgrade."
-msgstr ""
+msgstr "プロファイルのアップグレード時にユーザーに警告。"
 
 #: ../../changes.rst:1967
 msgid "Remember URL for login."
-msgstr ""
+msgstr "ログイン時の URL の記録。"
 
 #: ../../changes.rst:1968
 msgid "Naming of text areas while entering plural forms."
-msgstr ""
+msgstr "複数形入力時のテキスト エリアの命名。"
 
 #: ../../changes.rst:1969
 msgid "Automatic expanding of translation area."
-msgstr ""
+msgstr "翻訳エリアの自動拡大。"
 
 #: ../../changes.rst:1972
 msgid "Weblate 0.1"
@@ -28156,7 +28122,7 @@ msgstr "Weblate 0.1"
 
 #: ../../changes.rst:1974
 msgid "Released on February 6th 2012."
-msgstr ""
+msgstr "2012 年 2 月 6 日にリリース。"
 
 #: ../../changes.rst:1976
 msgid "Initial release."
@@ -28171,18 +28137,13 @@ msgid "Project goals"
 msgstr "プロジェクトの目標"
 
 #: ../../contributing/about.rst:7
-#, fuzzy
-#| msgid ""
-#| "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
-#| "wide range of :ref:`formats`, making it easy for translators to "
-#| "contribute."
 msgid ""
 "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
-"幅広い :ref:`formats` に対応し、:ref:`vcs` と密接に結びついた Web ベースの"
-"サービスを連携した翻訳ツールです。"
+"幅広い :ref:`file formats <formats>` に対応し、:ref:`vcs` と密接に結びついた Web "
+"ベースのサービスを連携した翻訳ツールです。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -30555,16 +30516,10 @@ msgid "Structured feedback"
 msgstr "構造化されたフィードバック"
 
 #: ../../devel/community.rst:32
-#, fuzzy
-#| msgid ""
-#| "There are many :doc:`/user/checks` in weblate. Pay the lectors to give "
-#| "structured feedback and use it to increase those checks."
 msgid ""
 "There are many :doc:`/user/checks` in Weblate which provide structured "
 "feedback on quality of the translations."
-msgstr ""
-"weblate には、数多くの :doc:`/user/checks` があります。言語の専門家に報酬を支"
-"払い、構造化されたフィードバックを行い、検査項目を増やします。"
+msgstr "Weblate には、翻訳の品質を行う構造化されたフィードバックを実現する多くの :doc:`/user/checks` があります。"
 
 #: ../../devel/community.rst:35
 msgid "Translation definition"
@@ -31610,38 +31565,24 @@ msgstr ""
 "確認できます。"
 
 #: ../../devel/review.rst:21
-#, fuzzy
-#| msgid ""
-#| "The activity of the currently signed in user can be seen by clicking on :"
-#| "guilabel:`Profile` from the user menu on the top right."
 msgid ""
 "The activity of the currently signed in user can be seen by clicking on the "
 "user name from the user menu on the top right."
-msgstr ""
-"現在サインインしているユーザーの作業履歴は、右上のユーザー メニューから :"
-"guilabel:`ユーザー情報` をクリックすると表示されます。"
+msgstr "現在サインインしているユーザーの作業履歴は、右上のユーザー メニューからユーザー名をクリックすると表示されます。"
 
 #: ../../devel/review.rst:25
 msgid "Source strings checks"
 msgstr "原文の検査"
 
 #: ../../devel/review.rst:27
-#, fuzzy
-#| msgid ""
-#| "There are many :ref:`checks`, some of them focus on improving the quality "
-#| "of source strings. Many failing checks suggest a hint to make source "
-#| "strings easier to translate. All types of failing source checks are "
-#| "displayed on the :guilabel:`Source` tab of every component."
 msgid ""
 "There are many :ref:`checks`, some of them focus on improving the quality of "
 "source strings. Many failing checks suggest a hint to make source strings "
 "easier to translate. All types of failing source checks are displayed on the "
 "source language of every component."
 msgstr ""
-"多くの :ref:`checks` があり、その中には原文の品質を向上させることを目的にした"
-"ものもあります。検査に不合格となった項目の多くは、原文を正確に翻訳するための"
-"ヒントが隠れています。検査に不合格となった項目は、すべてのコンポーネントの :"
-"guilabel:`概要` タブに表示されます。"
+"多くの :ref:`checks` があり、その中には原文の品質を向上させることを目的にしたものもあります。検査に不合格となった項目の多くは、原文を正確に"
+"翻訳するためのヒントが隠れています。検査に不合格となった項目は、すべてのコンポーネントの原文の言語に表示されます。"
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
@@ -35910,14 +35851,6 @@ msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
 msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:397
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu."
-#| "org/software/gettext/manual/html_node/object_002dpascal_002dformat."
-#| "html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
-#| "<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-#| "formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
-#| "System.SysUtils.Format>`_"
 msgid ""
 ":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/object_002dpascal_002dformat."
@@ -35926,8 +35859,8 @@ msgid ""
 "formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
-":ref:`check-formats`、`Object Pascal 形式の文字列 <https://www.gnu.org/"
-"software/gettext/manual/html_node/object_002dpascal_002dformat."
+":ref:`check-formats`、`Object Pascal 形式の文字列 <https://www.gnu.org/software/"
+"gettext/manual/html_node/object_002dpascal_002dformat."
 "html#object_002dpascal_002dformat>`_、`Free Pascal 形式の文字列 <https://www."
 "freepascal.org/docs-html/rtl/sysutils/format.html>`_、`Delphi 形式の文字列 "
 "<https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils."
@@ -36706,14 +36639,10 @@ msgid "``weblate.checks.chars.EndSemicolonCheck``"
 msgstr "``weblate.checks.chars.EndSemicolonCheck``"
 
 #: ../../user/checks.rst:911
-#, fuzzy
-#| msgid ""
-#| "Checks that trailing spaces are replicated between both source and "
-#| "translation."
 msgid ""
 "Checks that semicolons at the end of sentences are replicated between both "
 "source and translation."
-msgstr "原文から翻訳に末尾のスペースが複製されているか検査します。"
+msgstr "原文から翻訳文に、末尾のセミコロンが複製されているか検査します。"
 
 #: ../../user/checks.rst:915
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
@@ -36845,10 +36774,8 @@ msgstr ""
 "wikipedia.org/wiki/History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:1011
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "正規表現が不一致の翻訳文:"
+msgstr "翻訳文には正規表現に合致するものはありません"
 
 #: ../../user/checks.rst:1013
 msgid "``weblate.checks.placeholders.RegexCheck``"
@@ -36865,8 +36792,7 @@ msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
-"翻訳文は正規表現に一致しません。正規表現は、翻訳ファイルから抽出するか、"
-"``regex`` フラグを使用して手動で定義します。例:"
+"翻訳文には正規表現に合致するものはありません。正規表現は、翻訳ファイルから抽出するか、``regex`` フラグを使用して手動で定義します。例:"
 
 #: ../../user/checks.rst:1029
 msgid "Same plurals"
@@ -37312,25 +37238,24 @@ msgstr ""
 
 #: ../../user/checks.rst:1327
 msgid "Unpluralised"
-msgstr "複数形になっていない"
+msgstr "複数形の型と異なる"
 
 #: ../../user/checks.rst:1329
 msgid "The string is used as plural, but not using plural forms"
-msgstr "文字列は複数形だが、複数形として区別されていない"
+msgstr "文字列は、複数形の型（つづり）と異なるが、複数形として解釈させる"
 
 #: ../../user/checks.rst:1331
 msgid "``weblate.checks.source.OptionalPluralCheck``"
 msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1334
-#, fuzzy
 msgid ""
 "The string is used as a plural, but does not use plural forms. In case your "
 "translation system supports this, you should use the plural aware variant of "
 "it."
 msgstr ""
-"文字列を複数形として解釈するが、複数形のつづりは使用しない。翻訳システムがこ"
-"れに対応している場合は、複数形を認識するつづりを使用することが必要です。"
+"文字列は、複数形の型（つづり）とは異なっているが、複数形として解釈させる。翻訳システムがこれに対応していない場合は、判明している単語を複数形の型（つづり）"
+"として個別に登録してください。"
 
 #: ../../user/checks.rst:1338
 msgid "For example with Gettext in Python it could be:"
@@ -38399,16 +38324,12 @@ msgid "Search in user comments."
 msgstr "ユーザー コメントの検索。"
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid "``comment:TEXT``"
 msgid "``resolved_comment:TEXT``"
-msgstr "``comment:TEXT``"
+msgstr "``resolved_comment:TEXT``"
 
 #: ../../user/search.rst:77
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in resolved comments."
-msgstr "ユーザー コメントの検索。"
+msgstr "解決済みのコメントの検索。"
 
 #: ../../user/search.rst:78
 msgid "``comment_author:TEXT``"
@@ -38885,22 +38806,16 @@ msgid ":kbd:`Alt+PageUp` or"
 msgstr ":kbd:`Alt+PageUp` or"
 
 #: ../../user/translating.rst:174
-#, fuzzy
-#| msgid ":kbd:`Ctrl ↑` or"
 msgid ":kbd:`Ctrl+↑` or"
-msgstr ":kbd:`Ctrl ↑` or"
+msgstr ":kbd:`Ctrl+↑` or"
 
 #: ../../user/translating.rst:176
-#, fuzzy
-#| msgid ":kbd:`Alt ↑` or"
 msgid ":kbd:`Alt+↑` or"
-msgstr ":kbd:`Alt ↑` or"
+msgstr ":kbd:`Alt+↑` or"
 
 #: ../../user/translating.rst:178
-#, fuzzy
-#| msgid ":kbd:`Cmd+↓`"
 msgid ":kbd:`Cmd+↑`"
-msgstr ":kbd:`Cmd+↓`"
+msgstr ":kbd:`Cmd+↑`"
 
 #: ../../user/translating.rst:172
 msgid "Navigate to previous translation in current search."
