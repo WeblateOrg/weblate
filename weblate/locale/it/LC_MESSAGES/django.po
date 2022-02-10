@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-01-22 18:52+0000\n"
+"PO-Revision-Date: 2022-02-10 06:27+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -3065,16 +3065,13 @@ msgid "Regular expression"
 msgstr "Espressione regolare"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "La traduzione non corrisponde all'espressione regolare:"
+msgstr "La traduzione non corrisponde all'espressione regolare"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "La traduzione non corrisponde all'espressione regolare:"
+msgstr "Non corrisponde all'espressione regolare %s."
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -5003,9 +5000,6 @@ msgid "Members"
 msgstr "Membri"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "Nessuno"
 
@@ -5300,20 +5294,17 @@ msgid "Checks"
 msgstr "Da verificare"
 
 #: weblate/templates/base.html:164
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "Controlli non superati in %(project)s - %(language)s"
 
 #: weblate/templates/base.html:175
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
 msgstr "Controlli non superati in %(project)s"
 
 #: weblate/templates/base.html:181
-#, fuzzy, python-format
-#| msgid "Failed checks in %(language)s"
+#, python-format
 msgid "Failing checks in %(language)s"
 msgstr "Controlli non superati in %(language)s"
 
@@ -7187,7 +7178,8 @@ msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"Puoi tradurre in <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+"Forse ti sei registrato su <a href=\"%(registration_hint)s\">% "
+"(registration_hint)s</a>?"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -8333,15 +8325,11 @@ msgid "Hosted characters"
 msgstr "Caratteri presenti"
 
 #: weblate/templates/snippets/info.html:285
-#, fuzzy
-#| msgid "Total"
 msgctxt "Number of strings"
 msgid "Total"
 msgstr "Totale"
 
 #: weblate/templates/snippets/info.html:295
-#, fuzzy
-#| msgid "Source"
 msgctxt "Number of strings"
 msgid "Source"
 msgstr "Sorgente"
@@ -8354,8 +8342,6 @@ msgid "Approved"
 msgstr "Approvate"
 
 #: weblate/templates/snippets/info.html:316
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Translated"
 msgstr "Stringhe tradotte"
@@ -8368,22 +8354,16 @@ msgid "Needs editing"
 msgstr "Richiede modifica"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
 msgstr "Errori"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "Stringhe con suggerimenti"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Untranslated strings"
 msgctxt "Number of strings"
 msgid "Untranslated strings"
 msgstr "Stringhe non tradotte"
@@ -8824,8 +8804,6 @@ msgstr "Modifica suggerita:"
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:585
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Errori:"
@@ -9174,16 +9152,12 @@ msgstr ""
 "remoto dopo aver ribasato i commit in Weblate."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
-#, fuzzy
-#| msgid ""
-#| "Weblate repository is missing some commits from upstream, perhaps it is "
-#| "not receiving notifications on repository updates."
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
 "Al repository Weblate mancano alcuni commit dall'upstream, forse non riceve "
-"notifiche sugli aggiornamenti del repository."
+"notifiche sugli aggiornamenti del repository remoto."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -9513,7 +9487,7 @@ msgstr "Controllo accesso"
 #: weblate/templates/trans/project-access.html:41
 #: weblate/templates/trans/project-access.html:221 weblate/trans/forms.py:2472
 msgid "Teams"
-msgstr ""
+msgstr "Team"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last login"
@@ -9532,7 +9506,7 @@ msgstr "Questo eliminerà definitivamente <b>%(user)s</b> da questo progetto."
 #: weblate/templates/trans/project-access.html:104
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr ""
+msgstr "Modifica appartenenza al team per %(username)s"
 
 #: weblate/templates/trans/project-access.html:122
 msgid "Resend invitation"
@@ -9563,24 +9537,18 @@ msgid "Invite"
 msgstr "Invita"
 
 #: weblate/templates/trans/project-access.html:243
-#, fuzzy
-#| msgid "Access control"
 msgid "Access only"
-msgstr "Controllo accesso"
+msgstr "Solo accesso"
 
 #: weblate/templates/trans/project-access.html:273
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the project group <b>%(group)s</b> from this project."
 msgstr ""
-"Questo eliminerà il token progetto <b>%(token)s</b> da questo progetto."
+"Questo eliminerà il gruppo progetto <b>%(group)s</b> da questo progetto."
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "Crea nuovo glossario"
+msgstr "Crea nuovo team"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -9627,10 +9595,7 @@ msgid "Copy token to clipboard"
 msgstr "Copia token negli Appunti"
 
 #: weblate/templates/trans/projecttoken-created.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "Token was created, please save it now as it won't be displayed again: "
-#| "%(token)s"
+#, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
 msgstr ""
@@ -10158,10 +10123,8 @@ msgid "BBCode"
 msgstr "Codice BB"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
-msgstr "Testo Markdown"
+msgstr "Markdown"
 
 #: weblate/templates/widgets.html:60 weblate/trans/forms.py:1149
 msgid "reStructuredText"
@@ -10303,10 +10266,8 @@ msgid "Pluralized string"
 msgstr "Stringa pluralizzata"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "Errori:"
+msgstr "Errori: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10812,11 +10773,8 @@ msgid "Search string"
 msgstr "Stringa ricerca"
 
 #: weblate/trans/forms.py:2033
-#, fuzzy
-#| msgid "Case sensitive string to replace and search."
 msgid "Case sensitive string to search for and replace."
-msgstr ""
-"Ricerca e sostituzione stringa con distinzione tra maiuscole e minuscole."
+msgstr "Ricerca e sostituzione stringa con distinzione maiuscole e minuscole."
 
 #: weblate/trans/forms.py:2036
 msgid "Replacement string"
@@ -10925,8 +10883,6 @@ msgid "Author username"
 msgstr "Nome utente autore"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
 msgstr "La scadenza non può essere nel passato!"
 
@@ -12545,10 +12501,8 @@ msgid "string ID %s"
 msgstr "ID stringa %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "Questa traduzione è usata per le stringhe sorgenti."
+msgstr "Questa lingua è usata per le stringhe sorgenti."
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -12642,10 +12596,8 @@ msgid "Weblate statistics"
 msgstr "Statistiche Weblate"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "Impossibile rimuovere l'ultimo proprietario!"
+msgstr "Non puoi rimuovere te stesso!"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
