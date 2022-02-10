@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-10 11:31+0000\n"
-"Last-Translator: mm4c <oldblue@vivaldi.net>\n"
+"PO-Revision-Date: 2022-02-10 13:48+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -1215,7 +1215,7 @@ msgstr "Inhoud van gegenereerd bestand"
 
 #: weblate/addons/forms.py:113 weblate/addons/forms.py:209
 msgid "Long lines wrapping"
-msgstr "Lange regels laten teruglopen"
+msgstr "Lange regels afbreken"
 
 #: weblate/addons/forms.py:115
 msgid "Wrap lines at 77 characters and at newlines"
@@ -9468,7 +9468,7 @@ msgstr "Hiermee verwijdert u <b>%(user)s</b> uit het project."
 #: weblate/templates/trans/project-access.html:104
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr "Bewerk team lidmaatschap voor %(username)s"
+msgstr "Teamlidmaatschap van %(username)s aanpassen"
 
 #: weblate/templates/trans/project-access.html:122
 msgid "Resend invitation"
@@ -9499,23 +9499,17 @@ msgid "Invite"
 msgstr "Uitnodigen"
 
 #: weblate/templates/trans/project-access.html:243
-#, fuzzy
-#| msgid "Access control"
 msgid "Access only"
-msgstr "Toegangsbeheer"
+msgstr "Alleen toegang"
 
 #: weblate/templates/trans/project-access.html:273
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the project group <b>%(group)s</b> from this project."
-msgstr "Hiermee verwijdert u de projectsleutel <b>%(token)s</b>."
+msgstr "Hiermee verwijdert u de projectgroep <b>%(group)s</b>."
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "Begrippenlijst samenstellen"
+msgstr "Team samenstellen"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -9560,10 +9554,7 @@ msgid "Copy token to clipboard"
 msgstr "Sleutel kopiëren naar klembord"
 
 #: weblate/templates/trans/projecttoken-created.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "Token was created, please save it now as it won't be displayed again: "
-#| "%(token)s"
+#, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
 msgstr ""
@@ -10093,10 +10084,8 @@ msgid "BBCode"
 msgstr "BB-code"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
-msgstr "Markdown-tekst"
+msgstr "Markdown"
 
 #: weblate/templates/widgets.html:60 weblate/trans/forms.py:1149
 msgid "reStructuredText"
@@ -10239,10 +10228,8 @@ msgid "Pluralized string"
 msgstr "Meervoudige tekenreeks"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "Foutmeldingen:"
+msgstr "Foutmelding: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10749,8 +10736,6 @@ msgid "Search string"
 msgstr "Tekenreeks zoeken"
 
 #: weblate/trans/forms.py:2033
-#, fuzzy
-#| msgid "Case sensitive string to replace and search."
 msgid "Case sensitive string to search for and replace."
 msgstr "Hoofdlettergevoelig zoeken en vervangen."
 
@@ -10858,8 +10843,6 @@ msgid "Author username"
 msgstr "Gebruikersnaam van auteur"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
 msgstr "Iets kan niet in het verleden verlopen!"
 
@@ -12476,10 +12459,8 @@ msgid "string ID %s"
 msgstr "tekenreeks-ID %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "Deze vertaling wordt gebruikt voor brontekenreeksen."
+msgstr "Deze taal wordt gebruikt voor brontekenreeksen."
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -12573,10 +12554,8 @@ msgid "Weblate statistics"
 msgstr "Weblate-statistieken"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "De laatste eigenaar kan niet worden verwijderd!"
+msgstr "U kunt uzelf niet verwijderen!"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
