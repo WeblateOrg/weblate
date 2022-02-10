@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-04 22:48+0000\n"
+"PO-Revision-Date: 2022-02-10 13:48+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1768,7 +1768,7 @@ msgstr "文字列の削除"
 #. Translators: Permission name
 #: weblate/auth/data.py:79
 msgid "Dismiss failing check"
-msgstr "不合格となった検査結果の除外"
+msgstr "検査の不合格項目の除外"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
@@ -1783,7 +1783,7 @@ msgstr "文字列の査読"
 #. Translators: Permission name
 #: weblate/auth/data.py:85
 msgid "Edit string when suggestions are enforced"
-msgstr "提案が施行されている場合の文字列の編集"
+msgstr "提案採用時の編集"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:87
@@ -3071,7 +3071,7 @@ msgstr "文字列では省略記号 (…) の代わりに 3 つのドット (...
 
 #: weblate/checks/source.py:68
 msgid "Multiple failing checks"
-msgstr "複数の検査不合格となった項目"
+msgstr "検査不合格となった複数の項目"
 
 #: weblate/checks/source.py:69
 msgid "The translations in several languages have failing checks"
@@ -5210,20 +5210,17 @@ msgid "Checks"
 msgstr "検査結果"
 
 #: weblate/templates/base.html:164
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "不合格項目：%(project)s — %(language)s"
 
 #: weblate/templates/base.html:175
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
 msgstr "不合格項目：%(project)s プロジェクト"
 
 #: weblate/templates/base.html:181
-#, fuzzy, python-format
-#| msgid "Failed checks in %(language)s"
+#, python-format
 msgid "Failing checks in %(language)s"
 msgstr "不合格項目：%(language)s"
 
@@ -8222,8 +8219,6 @@ msgid "Needs editing"
 msgstr "要編集"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
 msgstr "検査に不合格"
@@ -8666,11 +8661,9 @@ msgstr "提案される変更:"
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:585
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
-msgstr "不合格となった検査:"
+msgstr "不合格の検査項目:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 msgid "Source in review"
