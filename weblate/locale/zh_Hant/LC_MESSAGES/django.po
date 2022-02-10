@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Chang-Chia Tseng <pswo10680@gmail.com>, 2018, 2019, 2020, 2021.
 # Louies <louies0623@gmail.com>, 2019, 2021.
-# byStarTW <pan93412@gmail.com>, 2019, 2020, 2021.
+# byStarTW <pan93412@gmail.com>, 2019, 2020, 2021, 2022.
 # Jeff Huang <s8321414@gmail.com>, 2019, 2021.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Wei-cheng Kung <wck317@pchome.com.tw>, 2019.
@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2021-12-15 19:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-02-10 13:49+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -371,10 +371,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "服務條款協議書 {date}。"
 
 #: weblate/accounts/models.py:163
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "由 {username} 邀請至 Weblate。"
+msgstr "由 {username} 邀請至 {site_title}。"
 
 #: weblate/accounts/models.py:164
 msgid "Started trial period."
@@ -764,11 +763,8 @@ msgstr "有未決的建議"
 #: weblate/accounts/notifications.py:755
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Unfinished strings"
-msgstr "託管字串"
+msgstr "未完成字串"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -1228,18 +1224,16 @@ msgid "JSON indentation"
 msgstr "JSON 縮排"
 
 #: weblate/addons/forms.py:194
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "JSON 縮排"
+msgstr "JSON 縮排樣式"
 
 #: weblate/addons/forms.py:196
 msgid "Spaces"
-msgstr ""
+msgstr "空白"
 
 #: weblate/addons/forms.py:197
 msgid "Tabs"
-msgstr ""
+msgstr "定位字元"
 
 #: weblate/addons/forms.py:206
 msgid "YAML indentation"
@@ -1327,10 +1321,6 @@ msgid "Language filter"
 msgstr "語言篩選"
 
 #: weblate/addons/forms.py:285
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -1391,10 +1381,9 @@ msgid ""
 msgstr "在目前儲存庫或遠端 URL 中，要解析其可翻譯字串的檔案名稱清單。"
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "解析旗標失敗：%s"
+msgstr "無法解析 CSS 選擇器：%s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:14
@@ -1438,16 +1427,12 @@ msgid ""
 msgstr "藉由在來源字串加前綴與後綴，來自動生成偽語系翻譯。"
 
 #: weblate/addons/generate.py:159
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "自動翻譯來源"
+msgstr "將原文預先填充進翻譯"
 
 #: weblate/addons/generate.py:160
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "此翻譯正作為來源字串。"
+msgstr "用來源字串填充翻譯字串。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1596,14 +1581,12 @@ msgid "Important dates"
 msgstr "重要日期"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "This is not used when a component list is selected."
-msgstr "此附加元件用於共享此儲存庫的所有元件。"
+msgstr "選擇組件列表時，不使用本選項。"
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
-msgstr ""
+msgstr "選擇組件時不使用本選項。"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -1719,10 +1702,8 @@ msgstr "移除字串"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "未通過查核的訊息"
+msgstr "略過未通過查核"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
@@ -1781,10 +1762,8 @@ msgstr "刪除既有的翻譯"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "下載翻譯"
+msgstr "下載翻譯檔案"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
@@ -2037,20 +2016,16 @@ msgid "Billing"
 msgstr "帳單"
 
 #: weblate/auth/forms.py:104 weblate/trans/views/acl.py:216
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "帳號啟用信將寄到這裡。"
+msgstr "已寄送使用者邀請 E-mail。"
 
 #: weblate/auth/forms.py:113
 msgid "Send e-mail invitation to the user"
 msgstr "寄邀請信給使用者"
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "寄邀請信給使用者"
+msgstr "重新向使用者傳送邀請 E-mail"
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -2485,10 +2460,8 @@ msgid "Missing plurals"
 msgstr "缺少複數形"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
-msgstr "有些複數形沒有翻譯"
+msgstr "有些複數形未翻譯"
 
 #: weblate/checks/consistency.py:55
 msgid "Same plurals"
@@ -2503,10 +2476,6 @@ msgid "Inconsistent"
 msgstr "不一致"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -2597,16 +2566,12 @@ msgid "Font spacing"
 msgstr "字間距"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat 旗標"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat 標籤前綴"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:604
 #: weblate/utils/views.py:135
@@ -2812,90 +2777,79 @@ msgid "Following terms are not translated according to glossary: %s"
 msgstr "下述字詞未遵循詞彙表進行翻譯：%s"
 
 #: weblate/checks/icu.py:262
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat 語法"
 
 #: weblate/checks/icu.py:263
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "語言別名中的語法錯誤。"
+msgstr "ICU MessageFormat 字串有語法錯誤。"
 
 #: weblate/checks/icu.py:291
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:293
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
-msgstr ""
+msgstr "ICU MessageFormat 字串有語法錯誤或是佔位符不相符。"
 
 #: weblate/checks/icu.py:459
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "語法錯誤：%s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "禁止的翻譯：%s"
+msgstr "翻譯中有一或多個未知佔位符：%s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "請登入以儲存翻譯。"
+msgstr "翻譯中缺少一或多個佔位符：%s"
 
 #: weblate/checks/icu.py:472
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "一或多個佔位符的類型不正確：%s"
 
 #: weblate/checks/icu.py:477
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "缺少下列項目的其他子訊息：%s"
 
 #: weblate/checks/icu.py:480
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr ""
+msgstr "下列項目的複數形選擇器不正確：%s"
 
 #: weblate/checks/icu.py:485
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr ""
+msgstr "下列項目的子訊息選擇器不正確：%s"
 
 #: weblate/checks/icu.py:491
 #, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr ""
+msgstr "一或多個佔位符應在翻譯中有對應的 XML 標籤：%s"
 
 #: weblate/checks/icu.py:497
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "禁止的翻譯：%s"
+msgstr "翻譯中的一或多個佔位符不應為 XML 標籤：%s"
 
 #: weblate/checks/icu.py:503
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "翻譯旗標遺失參數：「%s」"
+msgstr "翻譯中的一或多個 XML 標籤中有非預期內容：%s"
 
 #: weblate/checks/icu.py:508
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "翻譯旗標遺失參數：「%s」"
+msgstr "翻譯中有一或多個 XML 標籤缺少內容：%s"
 
 #: weblate/checks/markup.py:94
 msgid "BBCode markup"
@@ -2971,16 +2925,13 @@ msgid "Regular expression"
 msgstr "正則表達式"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "翻譯不符正則表達式："
+msgstr "翻譯不符正則表達式"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "翻譯不符正則表達式："
+msgstr "不符合 %s 正則表達式。"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3122,10 +3073,8 @@ msgid "Unsupported file format."
 msgstr "不支援的檔案格式。"
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "已經有相同名稱的條目。"
+msgstr "已有同名字型。"
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3136,10 +3085,8 @@ msgid "Font deleted."
 msgstr "字型已刪除。"
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "已經有相同名稱的條目。"
+msgstr "已有同名字型群組。"
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -3186,10 +3133,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF 附 gettext 擴展"
+msgstr "XLIFF 1.1 附 gettext 擴展"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3304,10 +3249,8 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 檔"
 
 #: weblate/formats/ttkit.py:1358
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "i18next JSON 檔"
+msgstr "i18next JSON 檔 v3"
 
 #: weblate/formats/ttkit.py:1366
 msgid "go-i18n JSON file"
@@ -3378,16 +3321,12 @@ msgid "mi18n lang file"
 msgstr "mi18n 語言檔案"
 
 #: weblate/formats/ttkit.py:1837
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "有標籤的字串"
+msgstr "Stringsdict 檔案"
 
 #: weblate/formats/ttkit.py:1891
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "字型檔案"
+msgstr "Fluent 檔案"
 
 #: weblate/formats/txt.py:188
 msgid "App store metadata files"
@@ -3406,8 +3345,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "字串會是所有語言的一部分"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "不能翻譯的專有名詞"
 
@@ -3583,44 +3520,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "零式/一式/二式/少數/多數/其他"
 
 #: weblate/lang/models.py:626
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "零式/一式/其他"
+msgstr "零式/其他"
 
 #: weblate/lang/models.py:630
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "零式/一式/其他"
+msgstr "零式/一式/少數/其他"
 
 #: weblate/lang/models.py:634
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "零式/一式/二式/少數/多數/其他"
+msgstr "零式/一式/二式/少數/其他"
 
 #: weblate/lang/models.py:638
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "零式/一式/其他"
+msgstr "零式/一式/二式/其他"
 
 #: weblate/lang/models.py:642
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "零式/一式/二式/少數/多數/其他"
+msgstr "零式/一式/少數/多數/其他"
 
 #: weblate/lang/models.py:646
 msgctxt "Plural type"
@@ -3636,16 +3558,12 @@ msgid "Default plural"
 msgstr "預設複數形"
 
 #: weblate/lang/models.py:658
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
-msgstr "Gettext 複數形判別式"
+msgstr "gettext 複數形判別式"
 
 #: weblate/lang/models.py:659
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "有複數形的字串"
+msgstr "stringsdict 複數形"
 
 #: weblate/lang/models.py:660
 msgid "Manually entered formula"
@@ -4213,7 +4131,7 @@ msgstr "註冊"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "您會在您的電子信箱收件箱找到確認連結。"
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4229,43 +4147,35 @@ msgstr "註冊幾近完成"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
-msgstr ""
+msgstr "按照寄到您信箱收件箱的密碼恢復指示操作。"
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "確認連結過期時請求新的連結。"
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
-msgstr ""
+msgstr "點選寄給您的信件中的確認連結，來移除帳戶。"
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
-msgstr ""
+msgstr "點選寄給您的信件中的確認連結，開始使用您的帳號。"
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "請確認您郵件信箱裡的確認連結。"
+msgstr "若確認連結過期，請重新註冊。"
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
-msgstr ""
-"若您未在短時間內收到信，請先檢查您的垃圾信資料夾，或嘗試重新註冊。若問題還是"
-"無法解決，請<a href=\"%(contact_url)s\">聯絡我們</a>。"
+msgstr "如果這封信也不在垃圾收件箱，您可能需要重新註冊。若有疑問請 <a href=\"%(contact_url)s\">聯絡我們</a>。"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -4876,9 +4786,6 @@ msgid "Members"
 msgstr "成員"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "無"
 
@@ -5064,28 +4971,20 @@ msgid "Matched files"
 msgstr "符合的檔案"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
-msgstr "會刪除下列組件"
+msgstr "會移除下述組件"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
-msgstr "會建立下列組件"
+msgstr "會建立下述組件"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
-msgstr "下列組件和既有項目相符"
+msgstr "下述組件符合現有組件"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "未找到符合的查核！"
+msgstr "找不到符合的組件！"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -5160,20 +5059,17 @@ msgid "Checks"
 msgstr "查核"
 
 #: weblate/templates/base.html:164
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "%(project)s — %(language)s 中的未通過查核"
 
 #: weblate/templates/base.html:175
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
 msgstr "%(project)s 中的未通過查核"
 
 #: weblate/templates/base.html:181
-#, fuzzy, python-format
-#| msgid "Failed checks in %(language)s"
+#, python-format
 msgid "Failing checks in %(language)s"
 msgstr "%(language)s 中的未通過查核"
 
@@ -5351,8 +5247,6 @@ msgstr "待核可"
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
-#, fuzzy
-#| msgid "Request approval for libre hosting"
 msgid "Request approval for Libre hosting"
 msgstr "請求核准自由軟體專案免費代管"
 
@@ -6258,8 +6152,6 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "威力本源 %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:13
-#, fuzzy
-#| msgid "Privacy Policy"
 msgid "Privacy policy"
 msgstr "隱私政策"
 
@@ -6445,15 +6337,13 @@ msgid "Rebase"
 msgstr "衍合"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "從遠端儲存庫中拉入更動"
+msgstr "不快轉，從遠端儲存庫中拉入更動"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
 msgid "Merge without fast-forward"
-msgstr ""
+msgstr "不快轉合併"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
@@ -6561,10 +6451,8 @@ msgid_plural "%(count)s characters edited"
 msgstr[0] "編輯了 %(count)s 個字元"
 
 #: weblate/templates/last-changes-content.html:57
-#, fuzzy
-#| msgid "Create translation"
 msgid "Current translation"
-msgstr "建立翻譯"
+msgstr "目前翻譯"
 
 #: weblate/templates/last-changes-content.html:93
 msgid "No matching activity found."
@@ -6592,10 +6480,9 @@ msgid "Mark as spam"
 msgstr "標記為垃圾"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "您的 %(site_title)s 帳號有下列更動："
+msgstr "您在 %(site_title)s 的帳號發生了以下活動："
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6952,24 +6839,21 @@ msgstr "%(component)s 中有儲存庫操作"
 msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
-msgstr ""
+msgstr "%(site_title)s 沒有用這個電子信箱註冊的帳號，因此無法重設密碼。"
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
-msgstr ""
+msgstr "請檢查這個 Weblate 實體是否為您使用的實體，並確認您輸入的信箱是否是註冊用的信箱。"
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
-#| "a>"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"您可以前往 <a href=\"%(translation_url)s\">%(translation_url)s</a> 翻譯"
+"您可能已經在 <a href=\"3%(registration_hint)s\">4%(registration_hint)s</a> 註冊過了？"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -6982,23 +6866,19 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s 密碼重設"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
-msgstr "如果您不記得有更動過，您可以按下方的按鈕回報。"
+msgstr "如果這不是您操作的，請點選下方按鈕回報。"
 
 #: weblate/templates/mail/shared-activity.html:19
 msgid "Please request support through other means."
-msgstr ""
+msgstr "請透過其他方式請求支援。"
 
 #: weblate/templates/mail/shared-activity.html:20
 #, python-format
 msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
-msgstr ""
+msgstr "可以將建議與疑問寄到 %(link_start)sWeblate 議題追蹤器%(link_end)s。"
 
 #: weblate/templates/mail/shared-activity.html:24
 msgid "Report"
@@ -7055,10 +6935,8 @@ msgstr "來源字串"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:21
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "來源字串位置"
+msgstr "來源字串描述"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7071,20 +6949,16 @@ msgid "Screenshot context"
 msgstr "畫面快照情境"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(component)s 中有 %(count)s 個未決建議"
+msgstr[0] "%(component)s 中有 %(count)s 個未完成字串"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s 則字串"
+msgstr[0] "%(count)s 則未完成字串"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -7500,18 +7374,14 @@ msgid "Import translation memory"
 msgstr "匯入翻譯記憶"
 
 #: weblate/templates/message.html:15
-#, fuzzy
-#| msgid "New announcement"
 msgid "Delete announcement"
-msgstr "新增公告"
+msgstr "刪除公告"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "此字串的其他語言翻譯"
+msgstr "翻譯說明有「如何開始翻譯至其他語言」的資訊。"
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -7522,13 +7392,13 @@ msgstr "請選擇您想翻譯成什麼語言。"
 msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
-msgstr ""
+msgstr "將會以 <code>%(new_base)s</code> 為基礎，建立所有字串皆未翻譯的翻譯檔。"
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
-msgstr ""
+msgstr "將會建立空白翻譯檔，新字串會在翻譯時加入。"
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7536,37 +7406,29 @@ msgid ""
 "A translation file will be created as a copy of <code>%(new_base)s</code> "
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
-msgstr ""
+msgstr "將建立以 <code>%(new_base)s</code> 拷貝為基礎的翻譯檔，並將其中的所有字串標為「需要編輯」。字串會在翻譯時取代。"
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
-msgstr ""
+msgstr "會建立用來存放翻譯的空目錄，會在翻譯字串時建立各自的檔案。"
 
 #: weblate/templates/new-language.html:55
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
-msgstr "專案維護者將會收到這個請求的通知，通知會提醒他們手動加入語言。"
+msgstr "專案維護者將會收到這個請求的通知，提醒他們手動加入語言。"
 
 #: weblate/templates/new-language.html:59
 msgid "Can't find your language in the list above?"
 msgstr "在上面的列表中找不到您的語言嗎？"
 
 #: weblate/templates/new-language.html:61
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers for adding another one."
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
-msgstr "這個列表只包含基本語言。請聯絡專案管理員新增其他語言。"
+msgstr "這個列表只包含基本語言。請聯絡專案維護者新增其他語言。"
 
 #: weblate/templates/new-language.html:66
 msgid "Request new translation"
@@ -7685,14 +7547,10 @@ msgid "Please review and confirm the search and replace results."
 msgstr "請檢閱並確認搜尋和取代結果。"
 
 #: weblate/templates/replace.html:28
-#, fuzzy
-#| msgid ""
-#| "Showing and replacing only the first 250 matches. Perform the replacement "
-#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
-msgstr "只顯示並取代前 250 個符合項目。請再次執行取代作業以取代更多項目。"
+msgstr "只顯示並取代前 250 個符合項目。請再次執行取代作業以取代更多。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
@@ -7766,17 +7624,13 @@ msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr "Weblate 是款由志工打造的自由軟體，也接受捐款。"
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "近一個月來"
+msgstr "過去 12 個月"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr "上一則"
+msgstr "上一個"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
@@ -7838,8 +7692,6 @@ msgid "Source string length"
 msgstr "來源字串長度"
 
 #: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:138
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string"
 msgstr "目標字串"
 
@@ -8073,18 +7925,14 @@ msgid "Hosted characters"
 msgstr "託管字元"
 
 #: weblate/templates/snippets/info.html:285
-#, fuzzy
-#| msgid "Total"
 msgctxt "Number of strings"
 msgid "Total"
-msgstr "總計"
+msgstr "總數"
 
 #: weblate/templates/snippets/info.html:295
-#, fuzzy
-#| msgid "Source"
 msgctxt "Number of strings"
 msgid "Source"
-msgstr "原文"
+msgstr "原文數"
 
 #: weblate/templates/snippets/info.html:306
 #, fuzzy
@@ -8094,11 +7942,9 @@ msgid "Approved"
 msgstr "已核可"
 
 #: weblate/templates/snippets/info.html:316
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Translated"
-msgstr "已翻譯"
+msgstr "已翻譯數"
 
 #: weblate/templates/snippets/info.html:325
 #, fuzzy
@@ -8108,25 +7954,19 @@ msgid "Needs editing"
 msgstr "需要編輯"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
 msgstr "未通過查核"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "有翻譯建議的字串"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of strings"
 msgid "Untranslated strings"
-msgstr "已翻譯好的字串"
+msgstr "未翻譯字串"
 
 #: weblate/templates/snippets/info.html:368
 msgid "Global numbers"
@@ -8227,19 +8067,15 @@ msgstr "排序此欄"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr ""
+msgstr "未完成"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgid "Untranslated words"
 msgid "Unfinished words"
-msgstr "未翻譯單字數"
+msgstr "未完成單字數"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Untranslated characters"
 msgid "Unfinished characters"
-msgstr "未翻譯字元數"
+msgstr "未完成字元數"
 
 #: weblate/templates/snippets/list-objects.html:73
 msgid "Untranslated"
