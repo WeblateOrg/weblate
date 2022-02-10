@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-09 19:44+0000\n"
+"PO-Revision-Date: 2022-02-10 03:18+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -2942,16 +2942,13 @@ msgid "Regular expression"
 msgstr "正则表达式"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "翻译与正则表达式不匹配："
+msgstr "翻译与正则表达式不匹配"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "翻译与正则表达式不匹配："
+msgstr "与正则表达式 %s 不匹配。"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3623,7 +3620,7 @@ msgstr "复数形式 %d"
 
 #: weblate/lang/views.py:82
 msgid "Remove all translations using this language first."
-msgstr "首先删除使用此语言的所有翻译。"
+msgstr "首先删除使用该语言的所有翻译。"
 
 #: weblate/lang/views.py:86
 #, python-format
@@ -4801,9 +4798,6 @@ msgid "Members"
 msgstr "成员"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "无"
 
@@ -5076,20 +5070,17 @@ msgid "Checks"
 msgstr "检查"
 
 #: weblate/templates/base.html:164
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "%(project)s — %(language)s 中未通过的检查"
 
 #: weblate/templates/base.html:175
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
 msgstr "%(project)s 中未通过的检查"
 
 #: weblate/templates/base.html:181
-#, fuzzy, python-format
-#| msgid "Failed checks in %(language)s"
+#, python-format
 msgid "Failing checks in %(language)s"
 msgstr "%(language)s 中未通过的检查"
 
@@ -7944,15 +7935,11 @@ msgid "Hosted characters"
 msgstr "托管的字符"
 
 #: weblate/templates/snippets/info.html:285
-#, fuzzy
-#| msgid "Total"
 msgctxt "Number of strings"
 msgid "Total"
 msgstr "总数"
 
 #: weblate/templates/snippets/info.html:295
-#, fuzzy
-#| msgid "Source"
 msgctxt "Number of strings"
 msgid "Source"
 msgstr "原文"
@@ -7965,8 +7952,6 @@ msgid "Approved"
 msgstr "已批准"
 
 #: weblate/templates/snippets/info.html:316
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Translated"
 msgstr "已翻译"
@@ -7979,22 +7964,16 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
 msgstr "未通过的检查"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "带有建议的字符串"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Untranslated strings"
 msgctxt "Number of strings"
 msgid "Untranslated strings"
 msgstr "未翻译字符串"
@@ -8412,8 +8391,6 @@ msgstr "建议更改："
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:585
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "未通过的检查："
@@ -9094,10 +9071,8 @@ msgid "This will delete the project group <b>%(group)s</b> from this project."
 msgstr "这会从这个项目删除项目令牌 <b>%(token)s</b>。"
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "创建新的术语表"
+msgstr "创建新的团队"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -9142,13 +9117,10 @@ msgid "Copy token to clipboard"
 msgstr "复制令牌到剪贴板"
 
 #: weblate/templates/trans/projecttoken-created.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "Token was created, please save it now as it won't be displayed again: "
-#| "%(token)s"
+#, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
-msgstr "令牌已创建，请立即保存，因为不会再次显示：%(token)s"
+msgstr "已创建令牌，请立即保存，因为它不会再次显示：%(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -9631,10 +9603,8 @@ msgid "BBCode"
 msgstr "BBCode"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
-msgstr "Markdown 文本"
+msgstr "Markdown"
 
 #: weblate/templates/widgets.html:60 weblate/trans/forms.py:1149
 msgid "reStructuredText"
@@ -9775,10 +9745,8 @@ msgid "Pluralized string"
 msgstr "复数字符串"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "未通过的检查："
+msgstr "未通过的检查：{}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10365,8 +10333,6 @@ msgid "Author username"
 msgstr "作者用户名"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
 msgstr "到期日不能在过去！"
 
@@ -11877,10 +11843,8 @@ msgid "string ID %s"
 msgstr "字符串 ID %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "此翻译用作源字符串。"
+msgstr "该语言用于源字符串。"
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -11972,10 +11936,8 @@ msgid "Weblate statistics"
 msgstr "Weblate 统计"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "您不能移除最终拥有者！"
+msgstr "您不能移除你自己！"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
