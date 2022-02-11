@@ -1,29 +1,31 @@
-/*! @sentry/browser 6.17.6 (4b4faec) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.17.7 (635dfc2) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+    Copyright (c) Microsoft Corporation.
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
     /* global Reflect, Promise */
 
     var extendStatics = function(d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
 
     function __extends(d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41,14 +43,15 @@ var Sentry = (function (exports) {
     };
 
     function __values(o) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
         if (m) return m.call(o);
-        return {
+        if (o && typeof o.length === "number") return {
             next: function () {
                 if (o && i >= o.length) o = void 0;
                 return { value: o && o[i++], done: !o };
             }
         };
+        throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
     }
 
     function __read(o, n) {
@@ -68,6 +71,7 @@ var Sentry = (function (exports) {
         return ar;
     }
 
+    /** @deprecated */
     function __spread() {
         for (var ar = [], i = 0; i < arguments.length; i++)
             ar = ar.concat(__read(arguments[i]));
@@ -800,16 +804,18 @@ var Sentry = (function (exports) {
         source[name] = wrapped;
     }
     /**
-     * Defines a non enumerable property.  This creates a non enumerable property on an object.
+     * Defines a non-enumerable property on the given object.
      *
-     * @param func The function to set a property to
-     * @param name the name of the special sentry property
-     * @param value the property to define
+     * @param obj The object on which to set the property
+     * @param name The name of the property to be set
+     * @param value The value to which to set the property
      */
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    function addNonEnumerableProperty(func, name, value) {
-        Object.defineProperty(func, name, {
+    function addNonEnumerableProperty(obj, name, value) {
+        Object.defineProperty(obj, name, {
+            // enumerable: false, // the default, so we can save on bundle size by not explicitly setting it
             value: value,
+            writable: true,
+            configurable: true,
         });
     }
     /**
@@ -1332,7 +1338,7 @@ var Sentry = (function (exports) {
             if (!(level in global$2.console)) {
                 return;
             }
-            fill(global$2.console, level, function (originalConsoleLevel) {
+            fill(global$2.console, level, function (originalConsoleMethod) {
                 return function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1340,8 +1346,8 @@ var Sentry = (function (exports) {
                     }
                     triggerHandlers('console', { args: args, level: level });
                     // this fails for some browsers. :(
-                    if (originalConsoleLevel) {
-                        Function.prototype.apply.call(originalConsoleLevel, global$2.console, args);
+                    if (originalConsoleMethod) {
+                        originalConsoleMethod.call(global$2.console, args);
                     }
                 };
             });
@@ -4465,7 +4471,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.6';
+    var SDK_VERSION = '6.17.7';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4695,7 +4701,7 @@ var Sentry = (function (exports) {
     // global reference to slice
     var UNKNOWN_FUNCTION = '?';
     // Chromium based browsers: Chrome, Brave, new Opera, new Edge
-    var chrome = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+    var chrome = /^\s*at (?:(.*?) ?\((?:address at )?)?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
     // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
     // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
     // We need this specific case for now because we want no other regex to match.
@@ -4749,7 +4755,7 @@ var Sentry = (function (exports) {
     /** JSDoc */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, complexity
     function computeStackTraceFromStackProp(ex) {
-        var _a, _b;
+        var e_1, _a, _b;
         if (!ex || !ex.stack) {
             return null;
         }
@@ -4759,74 +4765,66 @@ var Sentry = (function (exports) {
         var submatch;
         var parts;
         var element;
-        for (var i = 0; i < lines.length; ++i) {
-            if ((parts = chrome.exec(lines[i]))) {
-                var isNative = parts[2] && parts[2].indexOf('native') === 0; // start of line
-                isEval = parts[2] && parts[2].indexOf('eval') === 0; // start of line
-                if (isEval && (submatch = chromeEval.exec(parts[2]))) {
-                    // throw out eval line/column and use top-most line/column number
-                    parts[2] = submatch[1]; // url
-                    parts[3] = submatch[2]; // line
-                    parts[4] = submatch[3]; // column
+        try {
+            for (var lines_1 = __values(lines), lines_1_1 = lines_1.next(); !lines_1_1.done; lines_1_1 = lines_1.next()) {
+                var line = lines_1_1.value;
+                if ((parts = chrome.exec(line))) {
+                    isEval = parts[2] && parts[2].indexOf('eval') === 0; // start of line
+                    if (isEval && (submatch = chromeEval.exec(parts[2]))) {
+                        // throw out eval line/column and use top-most line/column number
+                        parts[2] = submatch[1]; // url
+                        parts[3] = submatch[2]; // line
+                        parts[4] = submatch[3]; // column
+                    }
+                    // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
+                    // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
+                    var _c = __read(extractSafariExtensionDetails(parts[1] || UNKNOWN_FUNCTION, parts[2]), 2), func = _c[0], url = _c[1];
+                    element = {
+                        url: url,
+                        func: func,
+                        line: parts[3] ? +parts[3] : null,
+                        column: parts[4] ? +parts[4] : null,
+                    };
                 }
-                // Arpad: Working with the regexp above is super painful. it is quite a hack, but just stripping the `address at `
-                // prefix here seems like the quickest solution for now.
-                var url = parts[2] && parts[2].indexOf('address at ') === 0 ? parts[2].substr('address at '.length) : parts[2];
-                // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
-                // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
-                var func = parts[1] || UNKNOWN_FUNCTION;
-                _a = __read(extractSafariExtensionDetails(func, url), 2), func = _a[0], url = _a[1];
-                element = {
-                    url: url,
-                    func: func,
-                    args: isNative ? [parts[2]] : [],
-                    line: parts[3] ? +parts[3] : null,
-                    column: parts[4] ? +parts[4] : null,
-                };
-            }
-            else if ((parts = winjs.exec(lines[i]))) {
-                element = {
-                    url: parts[2],
-                    func: parts[1] || UNKNOWN_FUNCTION,
-                    args: [],
-                    line: +parts[3],
-                    column: parts[4] ? +parts[4] : null,
-                };
-            }
-            else if ((parts = gecko.exec(lines[i]))) {
-                isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
-                if (isEval && (submatch = geckoEval.exec(parts[3]))) {
-                    // throw out eval line/column and use top-most line number
-                    parts[1] = parts[1] || "eval";
-                    parts[3] = submatch[1];
-                    parts[4] = submatch[2];
-                    parts[5] = ''; // no column when eval
+                else if ((parts = winjs.exec(line))) {
+                    element = {
+                        url: parts[2],
+                        func: parts[1] || UNKNOWN_FUNCTION,
+                        line: +parts[3],
+                        column: parts[4] ? +parts[4] : null,
+                    };
                 }
-                else if (i === 0 && !parts[5] && ex.columnNumber !== void 0) {
-                    // FireFox uses this awesome columnNumber property for its top frame
-                    // Also note, Firefox's column number is 0-based and everything else expects 1-based,
-                    // so adding 1
-                    // NOTE: this hack doesn't work if top-most frame is eval
-                    stack[0].column = ex.columnNumber + 1;
+                else if ((parts = gecko.exec(line))) {
+                    isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
+                    if (isEval && (submatch = geckoEval.exec(parts[3]))) {
+                        // throw out eval line/column and use top-most line number
+                        parts[1] = parts[1] || "eval";
+                        parts[3] = submatch[1];
+                        parts[4] = submatch[2];
+                        parts[5] = ''; // no column when eval
+                    }
+                    var url = parts[3];
+                    var func = parts[1] || UNKNOWN_FUNCTION;
+                    _b = __read(extractSafariExtensionDetails(func, url), 2), func = _b[0], url = _b[1];
+                    element = {
+                        url: url,
+                        func: func,
+                        line: parts[4] ? +parts[4] : null,
+                        column: parts[5] ? +parts[5] : null,
+                    };
                 }
-                var url = parts[3];
-                var func = parts[1] || UNKNOWN_FUNCTION;
-                _b = __read(extractSafariExtensionDetails(func, url), 2), func = _b[0], url = _b[1];
-                element = {
-                    url: url,
-                    func: func,
-                    args: parts[2] ? parts[2].split(',') : [],
-                    line: parts[4] ? +parts[4] : null,
-                    column: parts[5] ? +parts[5] : null,
-                };
+                else {
+                    continue;
+                }
+                stack.push(element);
             }
-            else {
-                continue;
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (lines_1_1 && !lines_1_1.done && (_a = lines_1.return)) _a.call(lines_1);
             }
-            if (!element.func && element.line) {
-                element.func = UNKNOWN_FUNCTION;
-            }
-            stack.push(element);
+            finally { if (e_1) throw e_1.error; }
         }
         if (!stack.length) {
             return null;
@@ -4848,7 +4846,7 @@ var Sentry = (function (exports) {
         // reliably in other circumstances.
         var stacktrace = ex.stacktrace;
         var opera10Regex = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
-        var opera11Regex = / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\((.*)\))? in (.*):\s*$/i;
+        var opera11Regex = / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
         var lines = stacktrace.split('\n');
         var stack = [];
         var parts;
@@ -4858,16 +4856,14 @@ var Sentry = (function (exports) {
                 element = {
                     url: parts[2],
                     func: parts[3],
-                    args: [],
                     line: +parts[1],
                     column: null,
                 };
             }
             else if ((parts = opera11Regex.exec(lines[line]))) {
                 element = {
-                    url: parts[6],
+                    url: parts[5],
                     func: parts[3] || parts[4],
-                    args: parts[5] ? parts[5].split(',') : [],
                     line: +parts[1],
                     column: +parts[2],
                 };
