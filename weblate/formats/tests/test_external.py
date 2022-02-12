@@ -19,7 +19,9 @@
 """File format specific behavior."""
 
 from io import BytesIO
+from unittest import skipIf
 
+import translate.__version__
 from openpyxl import load_workbook
 
 from weblate.formats.external import XlsxFormat
@@ -27,6 +29,7 @@ from weblate.formats.tests.test_formats import AutoFormatTest
 from weblate.trans.tests.utils import get_test_file
 
 XLSX_FILE = get_test_file("cs-mono.xlsx")
+JAPANESE_FILE = get_test_file("ja.xlsx")
 
 
 class XlsxFormatTest(AutoFormatTest):
@@ -51,3 +54,9 @@ class XlsxFormatTest(AutoFormatTest):
         self.assertEqual(
             list(newworkbook.active.values), list(testworkbook.active.values)
         )
+
+    @skipIf(translate.__version__.ver <= (3, 5, 4), "broken in older translate-toolkit")
+    def test_japanese(self):
+        storage = self.FORMAT.parse(JAPANESE_FILE)
+        self.assertEqual(len(storage.all_units), 1)
+        self.assertEqual(storage.all_units[0].target, "秒")
