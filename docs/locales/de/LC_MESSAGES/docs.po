@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-09 20:46+0100\n"
-"PO-Revision-Date: 2022-01-22 18:53+0000\n"
-"Last-Translator: nautilusx <translate@disroot.org>\n"
+"PO-Revision-Date: 2022-02-12 12:56+0000\n"
+"Last-Translator: C. Rüdinger <Mail-an-CR@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -208,7 +208,7 @@ msgstr ""
 
 #: ../../admin/access.rst:89
 msgid "The following teams are automatically created for every project:"
-msgstr ""
+msgstr "Folgende Teams werden für jedes Projekt automatisch gebildet:"
 
 #: ../../admin/access.rst:91
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -304,10 +304,8 @@ msgid "Automatic translation"
 msgstr "Automatische Übersetzung"
 
 #: ../../admin/access.rst:122
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Can use automatic translation."
-msgstr "Automatische Übersetzung"
+msgstr "Darf automatische Übersetzungen verwenden."
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:534
 msgid "VCS"
@@ -895,10 +893,14 @@ msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Allgemeiner Zugriff (zur Durchsicht) auf das gesamte Projekt ``foo`` "
+"einschließlich der beiden Komponenten darin: ``foo/bar`` und ``foo/baz``."
 
 #: ../../admin/access.rst:402
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Zeichenketten in der spanischen Übersetzung von ``foo/bar`` überprüfen ("
+"nirgendwo sonst)."
 
 #: ../../admin/access.rst:403
 msgid ""
@@ -2232,8 +2234,6 @@ msgid "``read-only``"
 msgstr ""
 
 #: ../../admin/addons.rst:290
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 
@@ -3188,10 +3188,8 @@ msgid ":ref:`component`"
 msgstr ""
 
 #: ../../admin/addons.rst:874
-#, fuzzy
-#| msgid "Could not update repository: %s"
 msgid "Post-update repository processing"
-msgstr "Post-update repository processing"
+msgstr "Repository-Verarbeitung nach Aktualisierung"
 
 #: ../../admin/addons.rst:876
 msgid ""
@@ -11106,7 +11104,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1445
 msgid "Running :ref:`auto-translation`."
-msgstr "Running :ref:`auto-translation`."
+msgstr "Ausführung von :ref:`auto-translation`."
 
 #: ../../admin/install.rst:1446
 msgid "Sending digest notifications."
@@ -11117,10 +11115,8 @@ msgid "Offloading expensive operations from the wsgi process."
 msgstr ""
 
 #: ../../admin/install.rst:1448
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr "Ausstehende Änderungen an das Weblate-Repository übergeben"
+msgstr "Übergabe ausstehender Änderungen (siehe :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1450
 msgid "A typical setup using Redis as a backend looks like this:"
@@ -11761,10 +11757,8 @@ msgid "Backup the database:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:254
-#, fuzzy
-#| msgid "PostgreSQL database name."
 msgid "Stop the database container:"
-msgstr "PostgreSQL-Datenbankname."
+msgstr "Datenbank-Container sperren:"
 
 #: ../../admin/install/docker.rst:260
 #, fuzzy
@@ -11777,20 +11771,16 @@ msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
 
 #: ../../admin/install/docker.rst:269
-#, fuzzy
-#| msgid "Install database driver:"
 msgid "Start the database container:"
-msgstr "Datenbanktreiber installieren:"
+msgstr "Datenbank-Container öffnen:"
 
 #: ../../admin/install/docker.rst:275
 msgid "Restore the database from the backup:"
-msgstr ""
+msgstr "Datenbank aus Sicherung wiederherstellen:"
 
 #: ../../admin/install/docker.rst:281
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Start all remaining containers:"
-msgstr "Maintainer kontaktieren"
+msgstr "Alle verbleibenden Container öffnen:"
 
 #: ../../admin/install/docker.rst:290
 msgid "Admin sign in"
@@ -11802,18 +11792,26 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"Nach der Container-Einrichtung können Sie sich als Benutzer `admin` mit dem "
+"in :envvar:`WEBLATE_ADMIN_PASSWORD` bereitgestellten Passwort oder, falls es "
+"nicht festgelegt wurde, mit einem beim ersten Öffnen erzeugten "
+"Zufallspasswort anmelden."
 
 #: ../../admin/install/docker.rst:296
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Um das Passwort für `admin` zurückzusetzen, öffnen Sie den Container mit dem "
+"in :envvar:`WEBLATE_ADMIN_PASSWORD` neu festgelegten Passwort nochmals."
 
 #: ../../admin/install/docker.rst:301
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:306
 msgid "Number of processes and memory consumption"
@@ -11825,34 +11823,34 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"Die Anzahl der Mitarbeitervorgänge wird sowohl für uWSGI als auch Celery "
+"automatisch auf Grundlage der Anzahl der CPUs bestimmt. Dies funktioniert "
+"für die meisten virtuellen Maschinen in der Cloud gut, da sie typischerweise "
+"wenig CPUs und große Speicherkapazitäten besitzen."
 
 #: ../../admin/install/docker.rst:312
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
 msgstr ""
+"Für den Fall, dass Sie sehr viele CPU-Kerne haben und auf Speicherprobleme "
+"stoßen, versuchen Sie die Zahl der Arbeitskräfte zu reduzieren:"
 
 #: ../../admin/install/docker.rst:320
 msgid "You can also fine-tune individual worker categories:"
-msgstr ""
+msgstr "Sie können auch individuelle Arbeitskräftekategorien feinabstimmen:"
 
 #: ../../admin/install/docker.rst:332
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
 
 #: ../../admin/install/docker.rst:344
 msgid "Scaling horizontally"
@@ -12974,12 +12972,6 @@ msgstr ""
 "Anzahl der verfügbaren CPU-Kerne ermittelt."
 
 #: ../../admin/install/docker.rst:1534
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
 msgid ""
 "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -12987,10 +12979,11 @@ msgid ""
 "`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use these settings "
 "to fine-tune."
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
+"Wird zur Bestimmung von :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS` und :envvar:`WEB_WORKERS` verwendet. Sie "
+"können diese Einstellungen zur Feinabstimmung nutzen."
 
 #: ../../admin/install/docker.rst:1547
 msgid ""
@@ -20742,10 +20735,8 @@ msgid "Delete screenshot."
 msgstr "Bildschirmfoto löschen."
 
 #: ../../api.rst:2229
-#, fuzzy
-#| msgid "Customizing list of add-ons"
 msgid "Returns a list of add-ons."
-msgstr "Liste der Erweiterungen anpassen"
+msgstr "Gibt eine Liste der Erweiterungen aus."
 
 #: ../../api.rst:2233
 msgid ""
@@ -21219,20 +21210,16 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Noch nicht veröffentlicht."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed creating add-ons using API."
 msgid "Fixed add-on installation using API."
-msgstr "Die Erstellung von Erweiterungen über die API wurde behoben."
+msgstr "Installation von Erweiterungen über die API korrigiert."
 
 #: ../../changes.rst:7
 msgid ""
@@ -21282,10 +21269,8 @@ msgid "Fixed string state tracking when the strings changes in the repository."
 msgstr "Datei im Originalformat, wie sie im Repository übersetzt wurde"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Update with changes from the remote repository"
 msgid "Track string changes from the repository."
-msgstr "Aktualisieren mit Änderungen aus dem Remote-Repository"
+msgstr "Zeichenkettenveränderungen im Repository verfolgen."
 
 #: ../../changes.rst:18
 msgid "Sticky header on translations listing to improve navigation."
@@ -21303,7 +21288,7 @@ msgstr ""
 
 #: ../../changes.rst:21
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
-msgstr ""
+msgstr "Neue Erweiterung :ref:`addon-weblate.generate.prefill`."
 
 #: ../../changes.rst:22
 msgid ""
@@ -21319,10 +21304,8 @@ msgid ""
 msgstr "``weblate.autotranslate.autotranslate``"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved auto-translation performance."
 msgid "Improved punctionation checks for Burmese."
-msgstr "Verbesserte Leistung der automatischen Übersetzung."
+msgstr "Verbesserte Interpunktionsprüfung für Burmesisch."
 
 #: ../../changes.rst:25
 msgid ""
@@ -21331,23 +21314,20 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Fixed documentation links for add-ons."
 msgid "Added documentation links to alerts."
-msgstr ""
-"Die Links zu den Dokumentationen für die Erweiterungen wurden korrigiert."
+msgstr "Links zur Dokumentation bei Warnungen hinzugefügt."
 
 #: ../../changes.rst:27
 msgid ""
 "Docker container automatically enables TLS/SSL for outgoing e-mail when "
 "needed."
 msgstr ""
+"Docker-Container aktiviert bei Bedarf automatisch TLS/SSL für ausgehende "
+"E-Mails."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid "Added support for searching for resolved comments."
-msgstr "Unterstützung für die Suche in Erklärungen hinzugefügt."
+msgstr "Unterstützung für die Suche nach geklärten Kommentaren ergänzt."
 
 #: ../../changes.rst:31
 msgid "Weblate 4.10.1"
@@ -27865,10 +27845,8 @@ msgid "Hook triggered before new unit is created."
 msgstr ""
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Example add-on"
 msgid "Here is an example add-on:"
-msgstr "Beispiel-Erweiterung"
+msgstr "Hier ein Beispiel für eine Erweiterung:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
@@ -37962,10 +37940,9 @@ msgid "Source needs review"
 msgstr "Quelle muss überprüft werden"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "Strings marked for review:"
 msgid "String was marked for review using :ref:`source-reviews`."
-msgstr "Zu begutachtende Zeichenketten:"
+msgstr ""
+"Zeichenkette wurde mittels :ref:`source-reviews` zur Überprüfung markiert."
 
 #: ../../user/translating.rst:107
 msgid ":ref:`labels`"
@@ -38957,10 +38934,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitHub pull requests"
-msgstr "Ungültige Zusammenführungsanfrage!"
+msgstr "GitHub-Pull-Anfragen"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -38990,10 +38965,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge requests"
-msgstr "Ungültige Zusammenführungsanfrage!"
+msgstr "GitLab Merge Requests"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -39024,10 +38997,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge requests"
-msgstr "Ungültige Zusammenführungsanfrage!"
+msgstr "Pagure Merge Requests"
 
 #: ../../vcs.rst:329
 msgid ""
