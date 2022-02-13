@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-12 12:56+0000\n"
+"PO-Revision-Date: 2022-02-14 21:48+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -8512,8 +8512,6 @@ msgid "Filename"
 msgstr "檔名"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid "Some linked components have the same file mask."
 msgstr "部分連結的組件有相同的檔案遮罩。"
 
@@ -8522,8 +8520,6 @@ msgid "Please fix this by removing one of them."
 msgstr "請移除其中一個以修正。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
 msgstr "多次找到下列檔案遮罩："
 
@@ -8599,7 +8595,7 @@ msgstr "請從翻譯檔中移除標有相同識別碼的重複字串來修正。
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr ""
+msgstr "下列檔案已經不在儲存庫中："
 
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:366
@@ -8631,36 +8627,25 @@ msgid "Please add a monolingual base language file in the component settings."
 msgstr "請在組件設定中新增單語基底語言檔。"
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
-#, fuzzy
-#| msgid "This project does no longer fit into libre hosting conditions."
 msgid "This project does no longer fit into Libre hosting conditions."
 msgstr "本專案不再符合自由軟體託管條件。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "此組件的設置因為缺少翻譯而不完整。"
+msgstr "本組件的設定因沒有翻譯而不完整。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
-msgstr "直接新增 Weblate 翻譯，Weblate 會根據檔案遮罩建立檔案。"
+msgstr "可以直接在 Weblate 開始新翻譯，並建立以檔案遮罩為基礎的檔案。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
-msgstr "檢查檔案遮罩 <code>%(filemask)s</code>是否與存儲庫中的檔案匹配。"
+msgstr "檢查 <code>%(filemask)s</code> 檔案遮罩是否符合您版控系統儲存庫的檔案。"
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -8690,20 +8675,20 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "You might want to use following URL instead:"
-msgstr ""
+msgstr "您可能想改用下述 URL："
 
 #: weblate/templates/trans/alert/pushfailure.html:18
 msgid ""
 "You might want to choose Git with force push as version control system in "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
-msgstr ""
+msgstr "您可能會想在重定 Weblate 中的提交基底後，在組件設定中將版本控制系統設定為具有強制推送的 Git，來覆寫遠端的儲存庫。"
 
 #: weblate/templates/trans/alert/pushfailure.html:22
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
-msgstr ""
+msgstr "Weblate 儲存庫缺少某些源自上游的提交。或許是因為其未收到遠端儲存庫更新的通知。"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -8841,7 +8826,7 @@ msgstr "從含有翻譯用字串的上傳 ZIP 檔中建立新的翻譯組件。"
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "封存檔中的檔案名稱應包含語區代碼。"
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -8993,7 +8978,7 @@ msgstr "存取控制"
 #: weblate/templates/trans/project-access.html:41
 #: weblate/templates/trans/project-access.html:221 weblate/trans/forms.py:2472
 msgid "Teams"
-msgstr ""
+msgstr "團隊"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last login"
@@ -9012,7 +8997,7 @@ msgstr "這會移除 <b>%(user)s</b> 對此專案的存取權。"
 #: weblate/templates/trans/project-access.html:104
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr ""
+msgstr "編輯 %(username)s 的團隊成員身份"
 
 #: weblate/templates/trans/project-access.html:122
 msgid "Resend invitation"
@@ -9041,53 +9026,39 @@ msgid "Invite"
 msgstr "邀請"
 
 #: weblate/templates/trans/project-access.html:243
-#, fuzzy
-#| msgid "Access control"
 msgid "Access only"
-msgstr "存取控制"
+msgstr "僅供存取"
 
 #: weblate/templates/trans/project-access.html:273
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project group <b>%(group)s</b> from this project."
-msgstr "這會移除 <b>%(user)s</b> 對此專案的存取權。"
+msgstr "這會從本專案中刪除 <b>%(group)s</b> 群組專案。"
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "建立新詞彙表"
+msgstr "建立新團隊"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "已過期"
+msgstr "到期"
 
 #: weblate/templates/trans/project-access.html:362
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "這會移除 <b>%(user)s</b> 對此專案的存取權。"
+msgstr "這會從本專案刪除 <b>%(token)s</b> 專案代符。"
 
 #: weblate/templates/trans/project-access.html:385
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "建立專案"
+msgstr "建立專案代符"
 
 #: weblate/templates/trans/project-access.html:391
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "建立時間"
+msgstr "建立"
 
 #: weblate/templates/trans/project-access.html:401
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "您的個人 API 金鑰："
+msgstr "個人 API 金鑰"
 
 #: weblate/templates/trans/project-access.html:414
 msgid "This is your personal API key, do not share it with anybody else."
@@ -9102,22 +9073,18 @@ msgid "You currently do not have permission to create projects."
 msgstr "目前您尚無權建立專案。"
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
-msgstr "已經將 API 金鑰複製至剪貼簿。"
+msgstr "已將代符複製至剪貼簿。"
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "複製到剪貼簿"
+msgstr "複製代符到剪貼簿"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
-msgstr ""
+msgstr "已建立代符。請立即儲存，代符不會再次顯示：%(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -9223,11 +9190,11 @@ msgstr "權利不足，無法儲存翻譯。"
 
 #: weblate/templates/translate.html:217
 msgid "Save and continue"
-msgstr ""
+msgstr "儲存並繼續"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "儲存並保留"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9528,14 +9495,10 @@ msgid ""
 msgstr "所有字串，包含評註的已轉換檔案。適合離線翻譯"
 
 #: weblate/templates/translation.html:338
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for offline "
-#| "translation"
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
-msgstr "所有字串，包含評註的已轉換檔案。適合離線翻譯"
+msgstr "未完成字串，包含評註的已轉換檔案。適合離線翻譯"
 
 #: weblate/templates/translation.html:380
 msgid ""
@@ -9603,10 +9566,8 @@ msgid "BBCode"
 msgstr "BB 代碼"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
-msgstr "Markdown 文字"
+msgstr "Markdown"
 
 #: weblate/templates/widgets.html:60 weblate/trans/forms.py:1149
 msgid "reStructuredText"
@@ -9695,16 +9656,12 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "最近 %s 中使用 Weblate 所作的所有更動。"
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "唯讀字串"
 
 #: weblate/trans/filter.py:35 weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Untranslated strings"
-msgstr "已翻譯好的字串"
+msgstr "未翻譯字串"
 
 #: weblate/trans/filter.py:38 weblate/trans/filter.py:125
 msgid "Strings marked for edit"
@@ -9723,10 +9680,8 @@ msgid "Strings with context"
 msgstr "有情境的字串"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "有翻譯建議的核可後字串"
+msgstr "無翻譯建議的未完成字串"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -9753,10 +9708,8 @@ msgid "Pluralized string"
 msgstr "複數化字串"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "未通過查核："
+msgstr "未通過查核：{}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -9768,17 +9721,15 @@ msgstr "指定的核驗碼無效！"
 
 #: weblate/trans/forms.py:172
 msgid "More possible users were found."
-msgstr ""
+msgstr "找到更多潛在使用者。"
 
 #: weblate/trans/forms.py:186
 msgid "Missing query string."
 msgstr "缺少查詢字串。"
 
 #: weblate/trans/forms.py:193
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
-msgstr "解析查詢字串時失敗：{}"
+msgstr "無法解析查詢字串：{}"
 
 #: weblate/trans/forms.py:236 weblate/trans/forms.py:244
 msgid "Toggle text direction"
@@ -9933,14 +9884,10 @@ msgid "Add as needing edit"
 msgstr "加為需要編輯"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
-msgstr "Weblate 無法在更新翻譯時解析翻譯檔。"
+msgstr "請注意：翻譯所有字串會捨棄所有現有翻譯。"
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -9969,14 +9916,10 @@ msgid "Score threshold"
 msgstr "分數閾值"
 
 #: weblate/trans/forms.py:896
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
-msgstr "確保對一個項目內所有組件使用一致的一組語言。"
+msgstr "輸入要當作來源的組件。留空則使用本專案的所有組件。"
 
 #: weblate/trans/forms.py:907
 msgid "All components in current project"
@@ -9984,16 +9927,12 @@ msgstr "目前專案中的所有組件"
 
 #: weblate/trans/forms.py:939 weblate/trans/forms.py:948
 #: weblate/trans/forms.py:956
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "組件資訊"
+msgstr "找不到組件！"
 
 #: weblate/trans/forms.py:958
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "%(component)s 發生解析錯誤"
+msgstr "請輸入有效組件 slug！"
 
 #: weblate/trans/forms.py:966
 msgid "Scope"
@@ -10193,10 +10132,8 @@ msgid "Language used for source strings in all components"
 msgstr "此語言將作為所有組件的來源字串"
 
 #: weblate/trans/forms.py:1666 weblate/trans/forms.py:1671
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Component with the same name already exists."
-msgstr "已經有相同名稱的條目。"
+msgstr "已有同名組件。"
 
 #: weblate/trans/forms.py:1691
 msgid "ZIP file containing translations"
@@ -10250,10 +10187,8 @@ msgid ""
 msgstr "在不同專案中使用這個共享的翻譯匯聚池並且也貢獻其中。"
 
 #: weblate/trans/forms.py:2026
-#, fuzzy
-#| msgid "Optional context to clarify the source strings."
 msgid "Optional additional filter on the strings"
-msgstr "用來闡明來源字串的額外情境資訊。"
+msgstr "字串上的選填額外過濾器"
 
 #: weblate/trans/forms.py:2029
 msgid "Search string"
@@ -10261,7 +10196,7 @@ msgstr "搜尋字串"
 
 #: weblate/trans/forms.py:2033
 msgid "Case sensitive string to search for and replace."
-msgstr ""
+msgstr "用來搜尋及取代，區分大小寫的字串。"
 
 #: weblate/trans/forms.py:2036
 msgid "Replacement string"
@@ -10362,7 +10297,7 @@ msgstr "作者使用者名稱"
 
 #: weblate/trans/forms.py:2451
 msgid "Expiry cannot be in the past!"
-msgstr ""
+msgstr "到期的時間不能更早！"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -10424,8 +10359,6 @@ msgstr "重複翻譯。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Duplicated filemask."
 msgid "Duplicated file mask."
 msgstr "檔案遮罩重複。"
 
@@ -10507,8 +10440,6 @@ msgstr "模糊不清的語言碼。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:401
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
 msgstr "不符合自由軟體託管條件。"
 
@@ -10517,16 +10448,12 @@ msgid "Unused enforced checks."
 msgstr "未使用的強制查核。"
 
 #: weblate/trans/models/alert.py:413
-#, fuzzy
-#| msgid "No mask matches."
 msgid "No file mask matches."
-msgstr "找不到符合的遮罩。"
+msgstr "找不到符合的檔案遮罩。"
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Admin static files"
 msgid "Inexistant files."
-msgstr "管理靜態檔案"
+msgstr "無此檔案。"
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10758,9 +10685,6 @@ msgid "Moved component"
 msgstr "移動了組件"
 
 #: weblate/trans/models/change.py:335
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "有新字串可翻譯"
@@ -10822,10 +10746,8 @@ msgstr "已上傳畫面擷圖"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "String updated in the repository"
-msgstr "無法更新儲存庫。"
+msgstr "儲存庫有更新字串"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -10833,14 +10755,12 @@ msgid_plural "New strings to translate"
 msgstr[0] "有新字串可翻譯"
 
 #: weblate/trans/models/change.py:442
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "翻譯因為以下警告而自動鎖定："
+msgstr "組件因警告而自動鎖定。"
 
 #: weblate/trans/models/change.py:446
 msgid "Fixing an alert automatically unlocked the component."
-msgstr ""
+msgstr "修正警告會自動解鎖組件。"
 
 #: weblate/trans/models/change.py:502
 #, python-format
@@ -10848,29 +10768,25 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 在 %(time)s 對 %(translation)s %(action)s"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "%(translation)s 有新字串可翻譯"
+msgstr[0] "翻譯中多出 %d 條要翻譯的新字串。"
 
 #: weblate/trans/models/change.py:630
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "大量狀態更動"
+msgstr "「%s」檔案已變更。"
 
 #: weblate/trans/models/change.py:632
-#, fuzzy, python-format
-#| msgid "Using a .pot file as base file is unsupported."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr "不支援使用 .pot 檔作為基底檔。"
+msgstr "「%s」檔案已強制解析。"
 
 #: weblate/trans/models/change.py:634
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "已加入 %s 檔案。"
 
 #: weblate/trans/models/change.py:638
 msgctxt "License information not available"
@@ -10878,14 +10794,11 @@ msgid "N/A"
 msgstr "N/A"
 
 #: weblate/trans/models/change.py:640
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
-msgstr "%(component)s 組件的授權條款已從 %(old)s 變更為 %(target)s。"
+msgstr "「%(component)s」組件的授權條款已從 %(old)s 更改為 %(target)s。"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
@@ -10967,17 +10880,13 @@ msgid "Repository browser"
 msgstr "儲存庫瀏覽器"
 
 #: weblate/trans/models/component.py:297
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"存儲庫瀏覽器的連結，請使用 {{branch}} 作為分支名，{{filename}} 和 {{line}} 作"
-"為檔案名和列號定位處。"
+"存儲庫瀏覽器的連結，請使用 {{branch}} 作為分支名，{{filename}} 和 {{line}} 作為檔案名稱和列號定位處。您或許會想使用 "
+"{{filename|parentdir}} 除掉前置目錄。"
 
 #: weblate/trans/models/component.py:305
 msgid "Exported repository URL"
@@ -11195,10 +11104,6 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "組件是否要在儲存庫發生錯誤時鎖定。"
 
 #: weblate/trans/models/component.py:586
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -11303,44 +11208,33 @@ msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "無效的 Weblate 專案連結，請使用 weblate://project/component。"
 
 #: weblate/trans/models/component.py:2227
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "選項無法在連結儲存庫使用。"
+msgstr "選項無法在連結儲存庫使用。將會使用連結組件的設定。"
 
 #: weblate/trans/models/component.py:2239
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
 msgstr "此檔案遮罩不符合任何檔案。"
 
 #: weblate/trans/models/component.py:2248
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
-msgstr "%s 的語言代碼空白，請檢查檔案遮罩。"
+msgstr "%s 的語言代碼是空白的。請檢查檔案遮罩。"
 
 #: weblate/trans/models/component.py:2257
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
-msgstr "「%s」語言代碼過長，請檢查檔案遮罩。"
+msgstr "「%s」語言代碼過長。請檢查檔案遮罩。"
 
 #: weblate/trans/models/component.py:2264
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
-msgstr "%s語言具有多個檔案，請調整檔案遮罩，並利用組件翻譯不同的資源。"
+msgstr "%s 語言有多個檔案。請調整檔案遮罩，並使用組件功能翻譯不同資源。"
 
 #: weblate/trans/models/component.py:2278
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr "找不到任何符合的語言，請檢查檔案遮罩。"
 
@@ -11583,11 +11477,11 @@ msgstr "用逗號分隔的語言碼映射清單，例如：en_GB:en,en_US:en"
 
 #: weblate/trans/models/projecttoken.py:40
 msgid "Token value"
-msgstr ""
+msgstr "代符值"
 
 #: weblate/trans/models/projecttoken.py:42
 msgid "Token value to use in API"
-msgstr ""
+msgstr "要在 API 使用的代符值"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11619,18 +11513,13 @@ msgid "No translation found."
 msgstr "找不到翻譯。"
 
 #: weblate/trans/models/unit.py:909
-#, fuzzy, python-format
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
+#, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
-msgstr "若要成為此翻譯的貢獻者，您必須同意貢獻者協議書。"
+msgstr "無法將字串推播至 %(component)s，需要先同意貢獻者協議書才能操作。"
 
 #: weblate/trans/models/unit.py:1366
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
 msgstr "自動翻譯"
 
@@ -11676,26 +11565,20 @@ msgid "Insert character {0}"
 msgstr "插入 {0} 字元"
 
 #: weblate/trans/specialchars.py:285
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "開頭雙引號"
+msgstr "主前引號"
 
 #: weblate/trans/specialchars.py:286
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "結尾單引號"
+msgstr "主後引號"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
-msgstr ""
+msgstr "替代前引號"
 
 #: weblate/trans/specialchars.py:288
-#, fuzzy
-#| msgid "Opening single quote"
 msgid "Alternative closing quote"
-msgstr "開頭單引號"
+msgstr "替代後引號"
 
 #: weblate/trans/specialchars.py:291
 msgid "Hyphen"
@@ -11920,10 +11803,8 @@ msgid "string ID %s"
 msgstr "字串 ID %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "此翻譯正作為來源字串。"
+msgstr "本語言將當作來源字串。"
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -12014,10 +11895,8 @@ msgid "Weblate statistics"
 msgstr "Weblate 統計數據"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "您不能移除最後一位擁有者！"
+msgstr "不能移除自己！"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
@@ -12218,26 +12097,21 @@ msgid "Failed to add comment!"
 msgstr "評註內容加入失敗！"
 
 #: weblate/trans/views/edit.py:773
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been deleted."
-msgstr "已解決翻譯評註。"
+msgstr "已刪除評註。"
 
 #: weblate/trans/views/edit.py:791
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been resolved."
-msgstr "已解決翻譯評註。"
+msgstr "已解決評註。"
 
 #: weblate/trans/views/edit.py:955
 msgid "New string has been added."
 msgstr "已加入新的字串。"
 
 #: weblate/trans/views/edit.py:974
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "無法解析新字串"
+msgstr "無法移除字串：%s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -12498,10 +12372,8 @@ msgid "Silver"
 msgstr "銀色"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "已經有使用者採用此使用者名稱。"
+msgstr "已有同電子信箱的使用者。"
 
 #: weblate/utils/render.py:45
 #, python-format
@@ -12671,23 +12543,19 @@ msgstr "Git 使用強制推送"
 
 #: weblate/vcs/git.py:834
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub 推送請求 (PR)"
 
 #: weblate/vcs/git.py:958
 msgid "No remote repository"
 msgstr "沒有遠端儲存庫"
 
 #: weblate/vcs/git.py:1057
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge request"
-msgstr "無效的合併請求！"
+msgstr "GitLab 合併請求 (MR)"
 
 #: weblate/vcs/git.py:1203
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
-msgstr "無效的合併請求！"
+msgstr "Pagure 合併請求 (MR)"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
@@ -12805,15 +12673,12 @@ msgid "Backup repository URL"
 msgstr "備份儲存庫 URL"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"本機備份使用 /path/to/repo，遠端 SSH 備份則使用 user@host:/path/to/repo。"
+"本機備份使用 /path/to/repo，遠端 SSH 備份則使用 user@host:/path/to/repo 或 ssh://user@host:"
+"port/path/to/backups。"
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
