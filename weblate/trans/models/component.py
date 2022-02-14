@@ -232,9 +232,13 @@ class ComponentQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
                     component__in=self, language=F("component__source_language")
                 )
             ):
-                lookup[translation.component_id].__dict__[
-                    "source_translation"
-                ] = translation
+                try:
+                    component = lookup[translation.component_id]
+                except KeyError:
+                    # Translation was added while rendering the page
+                    continue
+
+                component.__dict__["source_translation"] = translation
 
         return self
 
