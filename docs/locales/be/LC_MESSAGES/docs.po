@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-09 20:46+0100\n"
-"PO-Revision-Date: 2022-01-07 02:39+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-02-14 21:48+0000\n"
+"Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "documentation/be/>\n"
 "Language: be\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -1016,10 +1016,8 @@ msgid "Remove a string"
 msgstr "Выдаліць радок"
 
 #: ../../admin/access.rst:500
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "Радок не прайшоў усіх праверак"
+msgstr "Адхіліць няпройдзеную праверку"
 
 #: ../../admin/access.rst:502
 msgid "Edit strings"
@@ -1119,10 +1117,8 @@ msgid "`Administration`, `Manage languages`"
 msgstr "Пачаць новы пераклад на большую колькасць моў"
 
 #: ../../admin/access.rst:524
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation file"
-msgstr "Сцягнуць пераклад як CSV"
+msgstr "Спампаваць файл перакладу"
 
 #: ../../admin/access.rst:524
 #, fuzzy
@@ -1639,12 +1635,12 @@ msgid "daily, repository post-commit, repository post-update"
 msgstr ""
 
 #: ../../admin/addons.rst:99
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Дадае CDN лакалізацыі для лакалізацыі JavaScript ці HTML."
+msgstr ""
+"Публікуе пераклады ў сетку дастаўкі змесціва (CDN) для выкарыстання ў "
+"лакалізацыі JavaScript або HTML."
 
 #: ../../admin/addons.rst:102
 msgid ""
@@ -1665,10 +1661,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:118
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Выдаліць радок"
+msgstr "Выдаліце пустыя радкі"
 
 #: ../../admin/addons.rst:122
 msgid "``weblate.cleanup.blank``"
@@ -1730,10 +1724,8 @@ msgstr ""
 "адсутнічаюць у базавым файле."
 
 #: ../../admin/addons.rst:156
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "Даданне новых моў"
+msgstr "Дадаць адсутныя мовы"
 
 #: ../../admin/addons.rst:158
 #, fuzzy
@@ -1750,6 +1742,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Забяспечвае выкарыстанне ўзгодненага набору моў для ўсіх кампанентаў у "
+"праекце."
 
 #: ../../admin/addons.rst:165
 msgid ""
@@ -1854,15 +1848,12 @@ msgid "Language filter"
 msgstr "Фільтр мовы"
 
 #: ../../admin/addons.rst:192
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Рэгулярны выраз для фільтрацыі перакладаў пры сканаванні файлавай маскі."
+"Рэгулярны выраз для фільтрацыі файлаў перакладу пры сканаванні файлавай "
+"маскі."
 
 #: ../../admin/addons.rst:194
 msgid "``copy_addons``"
@@ -2034,8 +2025,6 @@ msgid "component update"
 msgstr "Назва кампанента"
 
 #: ../../admin/addons.rst:263
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Дазваляе масава рэдагаваць адзнакі, адмеціны ці станы радкоў."
 
@@ -2102,21 +2091,15 @@ msgid "unit post-create"
 msgstr ""
 
 #: ../../admin/addons.rst:306
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Кожны раз як новы радок перакладу імпартуецца з VCS і супадае з зыходным "
-"радком, ён пазначаецца як радок, якому патрабуецца рэдагаванне ў Weblate. "
-"Гэта асабліва карысна для фарматаў файлаў, якія ўключаюць усе радкі, у тым "
-"ліку і тыя, што не перакладзеныя."
+"Кожны раз, калі новы радок перакладу імпартуецца з VCS і супадае з зыходным "
+"радком, у Weblate ён пазначаецца як радок, якому патрабуецца рэдагаванне. "
+"Гэта асабліва карысна для фарматаў файлаў, якія для неперакладзеных радкоў "
+"захоўваюць зыходныя."
 
 #: ../../admin/addons.rst:312
 msgid ""
@@ -2204,10 +2187,8 @@ msgid "repository pre-commit"
 msgstr "увесь рэпазіторый"
 
 #: ../../admin/addons.rst:366
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Генеруе файл, які змяшчае падрабязную інфармацыю пра пераклад."
+msgstr "Генеруе файл, які змяшчае падрабязную інфармацыю пра стан перакладу."
 
 #: ../../admin/addons.rst:368
 #, fuzzy
@@ -2236,20 +2217,16 @@ msgid "Content"
 msgstr ""
 
 #: ../../admin/addons.rst:394
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "Крыніца аўтаматычнага перакладу"
+msgstr "Папярэдняе запаўненне перакладу данымі з зыходных радкоў"
 
 #: ../../admin/addons.rst:398
 msgid "``weblate.generate.prefill``"
 msgstr ""
 
 #: ../../admin/addons.rst:402
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "Fills in translation strings with source string."
-msgstr "Гэты пераклад выкарыстоўваецца для зыходных радкоў."
+msgstr "Запаўняе пераклад данымі з зыходных радкоў."
 
 #: ../../admin/addons.rst:404
 msgid ""
@@ -2260,7 +2237,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Генератар псеўдалакаляў"
 
 #: ../../admin/addons.rst:415
 msgid "``weblate.generate.pseudolocale``"
@@ -2275,36 +2252,31 @@ msgid "``target``"
 msgstr ""
 
 #: ../../admin/addons.rst:419
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Стварыць пераклад"
+msgstr "Мэтавы пераклад"
 
 #: ../../admin/addons.rst:421
 msgid "``prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:421
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Узрост радка"
+msgstr "Прэфікс радка"
 
 #: ../../admin/addons.rst:423
 msgid "``suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:423
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Радкі"
+msgstr "Суфікс радка"
 
 #: ../../admin/addons.rst:427
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
+"Генеруе пераклад, аўтаматычна дадаючы да зыходных радкоў прэфікс і суфікс."
 
 #: ../../admin/addons.rst:430
 msgid ""
@@ -2350,10 +2322,6 @@ msgid "``weblate.gettext.authors``"
 msgstr ""
 
 #: ../../admin/addons.rst:464
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
@@ -2387,7 +2355,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:491
 msgid "Customize gettext output"
-msgstr "Наладка вываду gettext"
+msgstr "Наладжванне вываду gettext"
 
 #: ../../admin/addons.rst:493
 msgid "``weblate.gettext.customize``"
@@ -2402,16 +2370,13 @@ msgid "Long lines wrapping"
 msgstr "Перанос доўгіх радкоў"
 
 #: ../../admin/addons.rst:495
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Прадвызначана gettext пераносіць радкі пасля 77 сімвалаў ці сімвала новага "
-"радка, а з параметрам --no-wrap ён пераносіць пасля сімвала новага радка."
+"радка, а з параметрам --no-wrap ён пераносіць толькі пасля сімвала новага "
+"радка."
 
 #: ../../admin/addons.rst:499
 #, fuzzy
@@ -2447,8 +2412,6 @@ msgid "It offers the following options:"
 msgstr ""
 
 #: ../../admin/addons.rst:511
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Пераносіць радкі пасля 77 сімвала ці сімвала новага радка"
 
@@ -2615,17 +2578,12 @@ msgid "Append trailers to squashed commit message"
 msgstr "Дадаваць завяршальнікі ў аб’яднанае паведамленне ўнёску"
 
 #: ../../admin/addons.rst:590
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"Радкі завяршальнікаў - радкі, падобныя на загалоўкі электроннай пошты RFC "
+"Радкі завяршальніка - радкі, падобныя на загалоўкі электроннай пошты RFC "
 "822, якія дадаюцца ў канец паведамлення ўнёску пасля яго часткі ў свабоднай "
 "форме. Напрыклад \"Co-authored-by: ...\"."
 
@@ -2636,10 +2594,8 @@ msgid "``commit_message``"
 msgstr "Паведамленні ўнёска"
 
 #: ../../admin/addons.rst:592
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "Паведамленні ўнёска"
+msgstr "Паведамленне ўнёску"
 
 #: ../../admin/addons.rst:592
 msgid ""
@@ -2710,7 +2666,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:620
 msgid "Customize JSON output"
-msgstr "Наладка вываду JSON"
+msgstr "Наладжванне вываду JSON"
 
 #: ../../admin/addons.rst:622
 msgid "``weblate.json.customize``"
@@ -2741,10 +2697,8 @@ msgid "``style``"
 msgstr "Назва кампанента"
 
 #: ../../admin/addons.rst:628
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "Водступы JSON"
+msgstr "Стыль водступаў JSON"
 
 #: ../../admin/addons.rst:630
 msgid "``spaces`` -- Spaces"
@@ -2864,7 +2818,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:715
 msgid "Customize YAML output"
-msgstr "Наладка вываду YAML"
+msgstr "Наладжванне вываду YAML"
 
 #: ../../admin/addons.rst:719
 msgid "``weblate.yaml.customize``"
@@ -35100,10 +35054,6 @@ msgid "Inconsistent"
 msgstr "Не адпавядае"
 
 #: ../../user/checks.rst:607
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -35529,8 +35479,6 @@ msgid "Missing plurals"
 msgstr "Хібны множны лік"
 
 #: ../../user/checks.rst:936
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "Некаторыя формы множнага ліку не перакладзеныя"
 
@@ -35620,10 +35568,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1011
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "Пераклад не адпавядае рэгулярнаму выразу:"
+msgstr "Пераклад не адпавядае рэгулярнаму выразу"
 
 #: ../../user/checks.rst:1013
 msgid "``weblate.checks.placeholders.RegexCheck``"
