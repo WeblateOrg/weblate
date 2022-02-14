@@ -137,7 +137,7 @@ var _rollbarConfig = {
             <li><a href="{% url 'projects' %}">{% trans "Browse all projects" %}</a></li>
           </ul>
         </li>
-        {% with languages=user.profile.languages.order_translated %}
+        {% with languages=user.profile.all_languages.order_translated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="languages-menu">{% trans "Languages" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">

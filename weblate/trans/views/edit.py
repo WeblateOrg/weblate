@@ -336,7 +336,7 @@ def perform_translation(unit, form, request):
         return True
 
     # Auto subscribe user
-    if not profile.languages.exists():
+    if not profile.all_languages:
         language = unit.translation.language
         profile.languages.add(language)
         messages.info(

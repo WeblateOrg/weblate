@@ -587,6 +587,10 @@ class Profile(models.Model):
         update = {item: F(item) + increase}
         Profile.objects.filter(pk=self.pk).update(**update)
 
+    @cached_property
+    def all_languages(self):
+        return self.languages.all()
+
     @property
     def full_name(self):
         """Return user's full name."""
@@ -666,7 +670,7 @@ class Profile(models.Model):
 
     @cached_property
     def primary_language_ids(self) -> Set[int]:
-        return set(self.languages.values_list("pk", flat=True))
+        return {language.pk for language in self.all_languages}
 
     @cached_property
     def allowed_dashboard_component_lists(self):

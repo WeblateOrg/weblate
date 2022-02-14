@@ -642,7 +642,7 @@ class UserPage(UpdateView):
                 user.watched_projects.filter(id__in=allowed_project_ids).order()
             )
         )
-        context["user_languages"] = user.profile.languages.all()[:7]
+        context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
         context["page_user_groups"] = user.groups.prefetch_related(
             "defining_project"

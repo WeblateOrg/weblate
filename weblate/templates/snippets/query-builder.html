@@ -107,7 +107,7 @@
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     {% if not language %}
-    {% with languages=user.profile.languages.all %}
+    {% with languages=user.profile.all_languages %}
     <tr>
         <th>{% trans "Translated strings in a certain language" %}</th>
         <td><code>is:translated AND language:{% if languages %}{{ languages.0.code }}{% else %}en{% endif %}</code></td>

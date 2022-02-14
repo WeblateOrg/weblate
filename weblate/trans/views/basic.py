@@ -85,7 +85,7 @@ def add_ghost_translations(component, user, translations, generator, **kwargs):
     """Adds ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
         existing = {translation.language.code for translation in translations}
-        for language in user.profile.languages.all():
+        for language in user.profile.all_languages:
             if language.code in existing:
                 continue
             translations.append(generator(component, language, **kwargs))
