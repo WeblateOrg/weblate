@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-10 13:48+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-02-14 21:48+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
 "Language: sq\n"
@@ -474,7 +474,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:397
 msgid "Hide completed translations on the dashboard"
-msgstr "Fshihi përkthimet e plotësua te pulti"
+msgstr "Fshihi përkthimet e plotësuara te pulti"
 
 #: weblate/accounts/models.py:400
 msgid "Show secondary translations in the Zen mode"
@@ -743,7 +743,7 @@ msgstr "Sugjerim i ri"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:507
 msgid "Comment on own translation"
-msgstr "Komentoni në përkthimin e ri"
+msgstr "Koment në përkthimin tuaj"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:546
@@ -3053,16 +3053,13 @@ msgid "Regular expression"
 msgstr "Shprehje e rregullt"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "Përkthimi s’përputhet me shprehje të rregullt:"
+msgstr "Një shprehje e rregullt te përkthimi s’përputhet me origjinalin"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "Përkthimi s’përputhet me shprehje të rregullt:"
+msgstr "Shprehja e rregullt %s s’ka përputhje me origjinalin."
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -4995,9 +4992,6 @@ msgid "Members"
 msgstr "Anëtarë"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "Asnjë"
 
@@ -5287,22 +5281,19 @@ msgid "Checks"
 msgstr "Kontrolle"
 
 #: weblate/templates/base.html:164
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
-msgstr "Kontrolle të dështuar te %(project)s — %(language)s"
+msgstr "Dështim kontrollesh te %(project)s — %(language)s"
 
 #: weblate/templates/base.html:175
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
-msgstr "Kontrolle të dështuar te %(project)s"
+msgstr "Dështim kontrollesh te %(project)s"
 
 #: weblate/templates/base.html:181
-#, fuzzy, python-format
-#| msgid "Failed checks in %(language)s"
+#, python-format
 msgid "Failing checks in %(language)s"
-msgstr "Kontrolle të dështuar te %(language)s"
+msgstr "Dështim kontrollesh te %(language)s"
 
 #: weblate/templates/base.html:185
 msgid "Checks overview"
@@ -7171,6 +7162,8 @@ msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
+"Ndoshta, jeni regjistruar te <a href=\"%(registration_hint)s\""
+">%(registration_hint)s</a>?"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -8312,15 +8305,11 @@ msgid "Hosted characters"
 msgstr "Shenja të strehuara"
 
 #: weblate/templates/snippets/info.html:285
-#, fuzzy
-#| msgid "Total"
 msgctxt "Number of strings"
 msgid "Total"
-msgstr "Githsej"
+msgstr "Gjithsej"
 
 #: weblate/templates/snippets/info.html:295
-#, fuzzy
-#| msgid "Source"
 msgctxt "Number of strings"
 msgid "Source"
 msgstr "Burim"
@@ -8331,8 +8320,6 @@ msgid "Approved"
 msgstr "I miratuar"
 
 #: weblate/templates/snippets/info.html:316
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Number of strings"
 msgid "Translated"
 msgstr "Të përkthyer"
@@ -8343,22 +8330,16 @@ msgid "Needs editing"
 msgstr "Lyp përpunim"
 
 #: weblate/templates/snippets/info.html:334
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
-msgstr "Kontrolle të dështuar"
+msgstr "Kontrolle me dështim"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
 msgstr "Vargje me sugjerime"
 
 #: weblate/templates/snippets/info.html:352
-#, fuzzy
-#| msgid "Untranslated strings"
 msgctxt "Number of strings"
 msgid "Untranslated strings"
 msgstr "Vargje të papërkthyer"
@@ -8796,11 +8777,9 @@ msgstr "Ndryshimi i sugjeruar:"
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:585
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
-msgstr "Kontrolle të dështuar:"
+msgstr "Kontrolle me dështim:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 msgid "Source in review"
@@ -9147,15 +9126,11 @@ msgstr ""
 "“rebase” parashtrimesh në Weblate."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
-#, fuzzy
-#| msgid ""
-#| "Weblate repository is missing some commits from upstream, perhaps it is "
-#| "not receiving notifications on repository updates."
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Depos Weblate i mungojnë disa parashtrime nga upstream-i, ndoshta nuk po "
+"Depos Weblate i mungojnë disa parashtrime nga upstream-i. Ndoshta nuk po "
 "merr njoftime për përditësime depoje."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
@@ -9483,7 +9458,7 @@ msgstr "Kontroll hyrjesh"
 #: weblate/templates/trans/project-access.html:41
 #: weblate/templates/trans/project-access.html:221 weblate/trans/forms.py:2472
 msgid "Teams"
-msgstr ""
+msgstr "Ekipe"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last login"
@@ -9502,7 +9477,7 @@ msgstr "Kjo do t’i heqë <b>%(user)s</b> hyrje në këtë projekt."
 #: weblate/templates/trans/project-access.html:104
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr ""
+msgstr "Përpunoni anëtarësi ekipi për %(username)s"
 
 #: weblate/templates/trans/project-access.html:122
 msgid "Resend invitation"
@@ -9533,23 +9508,17 @@ msgid "Invite"
 msgstr "Ftoje"
 
 #: weblate/templates/trans/project-access.html:243
-#, fuzzy
-#| msgid "Access control"
 msgid "Access only"
-msgstr "Kontroll hyrjesh"
+msgstr "Vetëm hyrje"
 
 #: weblate/templates/trans/project-access.html:273
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the project group <b>%(group)s</b> from this project."
-msgstr "Kjo do të fshijë tokenin e projektit <b>%(token)s</b> nga ky projekt."
+msgstr "Kjo do të fshijë grupin e projekteve <b>%(group)s</b> nga ky projekt."
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "Krijoni fjalorth të ri"
+msgstr "Krijoni ekip të ri"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -9594,14 +9563,11 @@ msgid "Copy token to clipboard"
 msgstr "Kopjoje tokenin në të papastër"
 
 #: weblate/templates/trans/projecttoken-created.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "Token was created, please save it now as it won't be displayed again: "
-#| "%(token)s"
+#, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
 msgstr ""
-"Tokeni u krijua, ju lutemi, tani ruajeni, ngaqë s’do të shfaqet sërish: "
+"Tokeni u krijua. Ju lutemi, tani ruajeni, ngaqë s’do të shfaqet sërish: "
 "%(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
@@ -10114,8 +10080,6 @@ msgid "BBCode"
 msgstr "Kod BB"
 
 #: weblate/templates/widgets.html:59
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown"
 msgstr "Tekst Markdown"
 
@@ -10259,10 +10223,8 @@ msgid "Pluralized string"
 msgstr "Varg me shumës"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "Kontrolle të dështuar:"
+msgstr "Kontroll me dështim: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10765,15 +10727,13 @@ msgstr ""
 
 #: weblate/trans/forms.py:2026
 msgid "Optional additional filter on the strings"
-msgstr "Filtër opsional shtesë mbi vargjet."
+msgstr "Filtër opsional shtesë mbi vargjet"
 
 #: weblate/trans/forms.py:2029
 msgid "Search string"
 msgstr "Varg kërkimi"
 
 #: weblate/trans/forms.py:2033
-#, fuzzy
-#| msgid "Case sensitive string to replace and search."
 msgid "Case sensitive string to search for and replace."
 msgstr "Varg për kërkim dhe zëvendësim, marrë parasysh siç është shkruar."
 
@@ -10880,10 +10840,8 @@ msgid "Author username"
 msgstr "Emër përdoruesi i autorit"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
-msgstr "Datat e skadimit s’mund të bien në të shkuarën!"
+msgstr "Data e skadimit s’mund të bjerë në të shkuarën!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -12487,10 +12445,8 @@ msgid "string ID %s"
 msgstr "ID vargu %s"
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "This translation is used for source strings."
 msgid "This language is used for source strings."
-msgstr "Ky përkthim përdoret për vargje burim."
+msgstr "Kjo gjuhë përdoret për vargje burim."
 
 #: weblate/trans/templatetags/translations.py:772
 #: weblate/trans/templatetags/translations.py:792
@@ -12584,10 +12540,8 @@ msgid "Weblate statistics"
 msgstr "Statistika Weblate"
 
 #: weblate/trans/views/acl.py:100 weblate/trans/views/acl.py:233
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "S’mund të hiqni të zotin e fundit!"
+msgstr "S’mund të hiqni veten!"
 
 #: weblate/trans/views/acl.py:132
 msgid "User has been added to this project."
