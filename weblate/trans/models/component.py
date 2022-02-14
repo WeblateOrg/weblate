@@ -36,7 +36,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
 from django.db import models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
@@ -222,16 +222,16 @@ class ComponentQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 
     def prefetch_source_stats(self):
         """Prefetch source stats."""
-        filters = Q()
         lookup = {}
         for component in self:
             lookup[component.id] = component
-            filters |= Q(component_id=component.id) & Q(
-                language_id=component.source_language_id
-            )
 
         if lookup:
-            for translation in prefetch_stats(Translation.objects.filter(filters)):
+            for translation in prefetch_stats(
+                Translation.objects.filter(
+                    component__in=self, language=F("component__source_language")
+                )
+            ):
                 lookup[translation.component_id].__dict__[
                     "source_translation"
                 ] = translation
