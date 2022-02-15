@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.17.7 (635dfc2) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.17.8 (db493a0) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -127,41 +127,7 @@ var Sentry = (function (exports) {
      * @returns true if this is a debug build
      */
     function isDebugBuild() {
-        return typeof __SENTRY_NO_DEBUG__ !== 'undefined' && !__SENTRY_BROWSER_BUNDLE__;
-    }
-    /**
-     * Figures out if we're building a browser bundle.
-     *
-     * @returns true if this is a browser bundle build.
-     */
-    function isBrowserBundle() {
-        return typeof __SENTRY_BROWSER_BUNDLE__ !== 'undefined' && !!__SENTRY_BROWSER_BUNDLE__;
-    }
-
-    /**
-     * NOTE: In order to avoid circular dependencies, if you add a function to this module and it needs to print something,
-     * you must either a) use `console.log` rather than the logger, or b) put your function elsewhere.
-     */
-    /**
-     * Checks whether we're in the Node.js or Browser environment
-     *
-     * @returns Answer to given question
-     */
-    function isNodeEnv() {
-        // explicitly check for browser bundles as those can be optimized statically
-        // by terser/rollup.
-        return (!isBrowserBundle() &&
-            Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]');
-    }
-    /**
-     * Requires a module which is protected against bundler minification.
-     *
-     * @param request The module path to resolve
-     */
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-    function dynamicRequire(mod, request) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return mod.require(request);
+        return typeof __SENTRY_NO_DEBUG__ !== 'undefined' && !true;
     }
 
     /**
@@ -175,9 +141,7 @@ var Sentry = (function (exports) {
      * @returns Global scope object
      */
     function getGlobalObject() {
-        return (isNodeEnv()
-            ? global
-            : typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
+        return ( typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
                 ? window // eslint-disable-line no-restricted-globals
                 : typeof self !== 'undefined'
                     ? self
@@ -699,6 +663,79 @@ var Sentry = (function (exports) {
         return [memoize, unmemoize];
     }
 
+    var STACKTRACE_LIMIT = 50;
+    /**
+     * Creates a stack parser with the supplied line parsers
+     *
+     * StackFrames are returned in the correct order for Sentry Exception
+     * frames and with Sentry SDK internal frames removed from the top and bottom
+     *
+     * */
+    function createStackParser() {
+        var parsers = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            parsers[_i] = arguments[_i];
+        }
+        return function (stack, skipFirst) {
+            var e_1, _a, e_2, _b;
+            if (skipFirst === void 0) { skipFirst = 0; }
+            var frames = [];
+            try {
+                for (var _c = __values(stack.split('\n').slice(skipFirst)), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var line = _d.value;
+                    try {
+                        for (var parsers_1 = (e_2 = void 0, __values(parsers)), parsers_1_1 = parsers_1.next(); !parsers_1_1.done; parsers_1_1 = parsers_1.next()) {
+                            var parser = parsers_1_1.value;
+                            var frame = parser(line);
+                            if (frame) {
+                                frames.push(frame);
+                                break;
+                            }
+                        }
+                    }
+                    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                    finally {
+                        try {
+                            if (parsers_1_1 && !parsers_1_1.done && (_b = parsers_1.return)) _b.call(parsers_1);
+                        }
+                        finally { if (e_2) throw e_2.error; }
+                    }
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return stripSentryFramesAndReverse(frames);
+        };
+    }
+    /**
+     * @hidden
+     */
+    function stripSentryFramesAndReverse(stack) {
+        if (!stack.length) {
+            return [];
+        }
+        var localStack = stack;
+        var firstFrameFunction = localStack[0].function || '';
+        var lastFrameFunction = localStack[localStack.length - 1].function || '';
+        // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
+        if (firstFrameFunction.indexOf('captureMessage') !== -1 || firstFrameFunction.indexOf('captureException') !== -1) {
+            localStack = localStack.slice(1);
+        }
+        // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
+        if (lastFrameFunction.indexOf('sentryWrapped') !== -1) {
+            localStack = localStack.slice(0, -1);
+        }
+        // The frame where the crash happened, should be the last entry in the array
+        return localStack
+            .slice(0, STACKTRACE_LIMIT)
+            .map(function (frame) { return (__assign(__assign({}, frame), { filename: frame.filename || localStack[0].filename, function: frame.function || '?' })); })
+            .reverse();
+    }
     var defaultFunctionName = '<anonymous>';
     /**
      * Safely extract function name from itself
@@ -1347,7 +1384,7 @@ var Sentry = (function (exports) {
                     triggerHandlers('console', { args: args, level: level });
                     // this fails for some browsers. :(
                     if (originalConsoleMethod) {
-                        originalConsoleMethod.call(global$2.console, args);
+                        originalConsoleMethod.apply(global$2.console, args);
                     }
                 };
             });
@@ -2271,22 +2308,9 @@ var Sentry = (function (exports) {
         };
     }
     /**
-     * Returns the native Performance API implementation from Node.js. Returns undefined in old Node.js versions that don't
-     * implement the API.
-     */
-    function getNodePerformance() {
-        try {
-            var perfHooks = dynamicRequire(module, 'perf_hooks');
-            return perfHooks.performance;
-        }
-        catch (_) {
-            return undefined;
-        }
-    }
-    /**
      * The Performance API implementation for the current platform, if available.
      */
-    var platformPerformance = isNodeEnv() ? getNodePerformance() : getBrowserPerformance();
+    var platformPerformance =  getBrowserPerformance();
     var timestampSource = platformPerformance === undefined
         ? dateTimestampSource
         : {
@@ -3345,37 +3369,8 @@ var Sentry = (function (exports) {
         if (!hasHubOnCarrier(registry) || getHubFromCarrier(registry).isOlderThan(API_VERSION)) {
             setHubOnCarrier(registry, new Hub());
         }
-        // Prefer domains over global if they are there (applicable only to Node environment)
-        if (isNodeEnv()) {
-            return getHubFromActiveDomain(registry);
-        }
         // Return hub that lives on a global object
         return getHubFromCarrier(registry);
-    }
-    /**
-     * Try to read the hub from an active domain, and fallback to the registry if one doesn't exist
-     * @returns discovered hub
-     */
-    function getHubFromActiveDomain(registry) {
-        try {
-            var sentry = getMainCarrier().__SENTRY__;
-            var activeDomain = sentry && sentry.extensions && sentry.extensions.domain && sentry.extensions.domain.active;
-            // If there's no active domain, just return global hub
-            if (!activeDomain) {
-                return getHubFromCarrier(registry);
-            }
-            // If there's no hub on current domain, or it's an old API, assign a new one
-            if (!hasHubOnCarrier(activeDomain) || getHubFromCarrier(activeDomain).isOlderThan(API_VERSION)) {
-                var registryHubTopStack = getHubFromCarrier(registry).getStackTop();
-                setHubOnCarrier(activeDomain, new Hub(registryHubTopStack.client, Scope.clone(registryHubTopStack.scope)));
-            }
-            // Return hub that lives on a domain
-            return getHubFromCarrier(activeDomain);
-        }
-        catch (_Oo) {
-            // Return hub that lives on a global object
-            return getHubFromCarrier(registry);
-        }
     }
     /**
      * This will tell whether a carrier has a hub on it or not
@@ -4023,6 +4018,11 @@ var Sentry = (function (exports) {
                 result = finalScope.applyToEvent(prepared, hint);
             }
             return result.then(function (evt) {
+                if (evt) {
+                    // TODO this is more of the hack trying to solve https://github.com/getsentry/sentry-javascript/issues/2809
+                    // it is only attached as extra data to the event if the event somehow skips being normalized
+                    evt.sdkProcessingMetadata = __assign(__assign({}, evt.sdkProcessingMetadata), { normalizeDepth: normalize(normalizeDepth) });
+                }
                 if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
                     return _this._normalizeEvent(evt, normalizeDepth);
                 }
@@ -4374,22 +4374,27 @@ var Sentry = (function (exports) {
         var transactionSampling = (event.sdkProcessingMetadata || {}).transactionSampling;
         var _a = transactionSampling || {}, samplingMethod = _a.method, sampleRate = _a.rate;
         // TODO: Below is a temporary hack in order to debug a serialization error - see
-        // https://github.com/getsentry/sentry-javascript/issues/2809 and
-        // https://github.com/getsentry/sentry-javascript/pull/4425. TL;DR: even though we normalize all events (which should
-        // prevent this), something is causing `JSON.stringify` to throw a circular reference error.
+        // https://github.com/getsentry/sentry-javascript/issues/2809,
+        // https://github.com/getsentry/sentry-javascript/pull/4425, and
+        // https://github.com/getsentry/sentry-javascript/pull/4574.
+        //
+        // TL; DR: even though we normalize all events (which should prevent this), something is causing `JSON.stringify` to
+        // throw a circular reference error.
         //
         // When it's time to remove it:
         // 1. Delete everything between here and where the request object `req` is created, EXCEPT the line deleting
         //    `sdkProcessingMetadata`
         // 2. Restore the original version of the request body, which is commented out
-        // 3. Search for `skippedNormalization` and pull out the companion hack in the browser playwright tests
+        // 3. Search for either of the PR URLs above and pull out the companion hacks in the browser playwright tests and the
+        //    baseClient tests in this package
         enhanceEventWithSdkInfo(event, api.metadata.sdk);
         event.tags = event.tags || {};
         event.extra = event.extra || {};
         // In theory, all events should be marked as having gone through normalization and so
-        // we should never set this tag
+        // we should never set this tag/extra data
         if (!(event.sdkProcessingMetadata && event.sdkProcessingMetadata.baseClientNormalized)) {
             event.tags.skippedNormalization = true;
+            event.extra.normalizeDepth = event.sdkProcessingMetadata ? event.sdkProcessingMetadata.normalizeDepth : 'unset';
         }
         // prevent this data from being sent to sentry
         // TODO: This is NOT part of the hack - DO NOT DELETE
@@ -4471,7 +4476,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.7';
+    var SDK_VERSION = '6.17.8';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4694,196 +4699,90 @@ var Sentry = (function (exports) {
         InboundFilters: InboundFilters
     });
 
-    /**
-     * This was originally forked from https://github.com/occ/TraceKit, but has since been
-     * largely modified and is now maintained as part of Sentry JS SDK.
-     */
     // global reference to slice
     var UNKNOWN_FUNCTION = '?';
+    function createFrame(filename, func, lineno, colno) {
+        var frame = {
+            filename: filename,
+            function: func,
+            // All browser frames are considered in_app
+            in_app: true,
+        };
+        if (lineno !== undefined) {
+            frame.lineno = lineno;
+        }
+        if (colno !== undefined) {
+            frame.colno = colno;
+        }
+        return frame;
+    }
     // Chromium based browsers: Chrome, Brave, new Opera, new Edge
-    var chrome = /^\s*at (?:(.*?) ?\((?:address at )?)?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+    var chromeRegex = /^\s*at (?:(.*?) ?\((?:address at )?)?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+    var chromeEvalRegex = /\((\S*)(?::(\d+))(?::(\d+))\)/;
+    var chrome = function (line) {
+        var parts = chromeRegex.exec(line);
+        if (parts) {
+            var isEval = parts[2] && parts[2].indexOf('eval') === 0; // start of line
+            if (isEval) {
+                var subMatch = chromeEvalRegex.exec(parts[2]);
+                if (subMatch) {
+                    // throw out eval line/column and use top-most line/column number
+                    parts[2] = subMatch[1]; // url
+                    parts[3] = subMatch[2]; // line
+                    parts[4] = subMatch[3]; // column
+                }
+            }
+            // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
+            // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
+            var _a = __read(extractSafariExtensionDetails(parts[1] || UNKNOWN_FUNCTION, parts[2]), 2), func = _a[0], filename = _a[1];
+            return createFrame(filename, func, parts[3] ? +parts[3] : undefined, parts[4] ? +parts[4] : undefined);
+        }
+        return;
+    };
     // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
     // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
     // We need this specific case for now because we want no other regex to match.
-    var gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)?((?:file|https?|blob|chrome|webpack|resource|moz-extension|capacitor).*?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js)|\/[\w\-. /=]+)(?::(\d+))?(?::(\d+))?\s*$/i;
-    var winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
-    var geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
-    var chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/;
-    // Based on our own mapping pattern - https://github.com/getsentry/sentry/blob/9f08305e09866c8bd6d0c24f5b0aabdd7dd6c59c/src/sentry/lang/javascript/errormapping.py#L83-L108
-    var reactMinifiedRegexp = /Minified React error #\d+;/i;
-    /** JSDoc */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-    function computeStackTrace(ex) {
-        var stack = null;
-        var popSize = 0;
-        if (ex) {
-            if (typeof ex.framesToPop === 'number') {
-                popSize = ex.framesToPop;
-            }
-            else if (reactMinifiedRegexp.test(ex.message)) {
-                popSize = 1;
-            }
-        }
-        try {
-            // This must be tried first because Opera 10 *destroys*
-            // its stacktrace property if you try to access the stack
-            // property first!!
-            stack = computeStackTraceFromStacktraceProp(ex);
-            if (stack) {
-                return popFrames(stack, popSize);
-            }
-        }
-        catch (e) {
-            // no-empty
-        }
-        try {
-            stack = computeStackTraceFromStackProp(ex);
-            if (stack) {
-                return popFrames(stack, popSize);
-            }
-        }
-        catch (e) {
-            // no-empty
-        }
-        return {
-            message: extractMessage(ex),
-            name: ex && ex.name,
-            stack: [],
-            failed: true,
-        };
-    }
-    /** JSDoc */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, complexity
-    function computeStackTraceFromStackProp(ex) {
-        var e_1, _a, _b;
-        if (!ex || !ex.stack) {
-            return null;
-        }
-        var stack = [];
-        var lines = ex.stack.split('\n');
-        var isEval;
-        var submatch;
-        var parts;
-        var element;
-        try {
-            for (var lines_1 = __values(lines), lines_1_1 = lines_1.next(); !lines_1_1.done; lines_1_1 = lines_1.next()) {
-                var line = lines_1_1.value;
-                if ((parts = chrome.exec(line))) {
-                    isEval = parts[2] && parts[2].indexOf('eval') === 0; // start of line
-                    if (isEval && (submatch = chromeEval.exec(parts[2]))) {
-                        // throw out eval line/column and use top-most line/column number
-                        parts[2] = submatch[1]; // url
-                        parts[3] = submatch[2]; // line
-                        parts[4] = submatch[3]; // column
-                    }
-                    // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
-                    // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
-                    var _c = __read(extractSafariExtensionDetails(parts[1] || UNKNOWN_FUNCTION, parts[2]), 2), func = _c[0], url = _c[1];
-                    element = {
-                        url: url,
-                        func: func,
-                        line: parts[3] ? +parts[3] : null,
-                        column: parts[4] ? +parts[4] : null,
-                    };
+    var geckoREgex = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)?((?:file|https?|blob|chrome|webpack|resource|moz-extension|capacitor).*?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js)|\/[\w\-. /=]+)(?::(\d+))?(?::(\d+))?\s*$/i;
+    var geckoEvalRegex = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
+    var gecko = function (line) {
+        var _a;
+        var parts = geckoREgex.exec(line);
+        if (parts) {
+            var isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
+            if (isEval) {
+                var subMatch = geckoEvalRegex.exec(parts[3]);
+                if (subMatch) {
+                    // throw out eval line/column and use top-most line number
+                    parts[1] = parts[1] || "eval";
+                    parts[3] = subMatch[1];
+                    parts[4] = subMatch[2];
+                    parts[5] = ''; // no column when eval
                 }
-                else if ((parts = winjs.exec(line))) {
-                    element = {
-                        url: parts[2],
-                        func: parts[1] || UNKNOWN_FUNCTION,
-                        line: +parts[3],
-                        column: parts[4] ? +parts[4] : null,
-                    };
-                }
-                else if ((parts = gecko.exec(line))) {
-                    isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
-                    if (isEval && (submatch = geckoEval.exec(parts[3]))) {
-                        // throw out eval line/column and use top-most line number
-                        parts[1] = parts[1] || "eval";
-                        parts[3] = submatch[1];
-                        parts[4] = submatch[2];
-                        parts[5] = ''; // no column when eval
-                    }
-                    var url = parts[3];
-                    var func = parts[1] || UNKNOWN_FUNCTION;
-                    _b = __read(extractSafariExtensionDetails(func, url), 2), func = _b[0], url = _b[1];
-                    element = {
-                        url: url,
-                        func: func,
-                        line: parts[4] ? +parts[4] : null,
-                        column: parts[5] ? +parts[5] : null,
-                    };
-                }
-                else {
-                    continue;
-                }
-                stack.push(element);
             }
+            var filename = parts[3];
+            var func = parts[1] || UNKNOWN_FUNCTION;
+            _a = __read(extractSafariExtensionDetails(func, filename), 2), func = _a[0], filename = _a[1];
+            return createFrame(filename, func, parts[4] ? +parts[4] : undefined, parts[5] ? +parts[5] : undefined);
         }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (lines_1_1 && !lines_1_1.done && (_a = lines_1.return)) _a.call(lines_1);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-        if (!stack.length) {
-            return null;
-        }
-        return {
-            message: extractMessage(ex),
-            name: ex.name,
-            stack: stack,
-        };
-    }
-    /** JSDoc */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function computeStackTraceFromStacktraceProp(ex) {
-        if (!ex || !ex.stacktrace) {
-            return null;
-        }
-        // Access and store the stacktrace property before doing ANYTHING
-        // else to it because Opera is not very good at providing it
-        // reliably in other circumstances.
-        var stacktrace = ex.stacktrace;
-        var opera10Regex = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
-        var opera11Regex = / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
-        var lines = stacktrace.split('\n');
-        var stack = [];
-        var parts;
-        for (var line = 0; line < lines.length; line += 2) {
-            var element = null;
-            if ((parts = opera10Regex.exec(lines[line]))) {
-                element = {
-                    url: parts[2],
-                    func: parts[3],
-                    line: +parts[1],
-                    column: null,
-                };
-            }
-            else if ((parts = opera11Regex.exec(lines[line]))) {
-                element = {
-                    url: parts[5],
-                    func: parts[3] || parts[4],
-                    line: +parts[1],
-                    column: +parts[2],
-                };
-            }
-            if (element) {
-                if (!element.func && element.line) {
-                    element.func = UNKNOWN_FUNCTION;
-                }
-                stack.push(element);
-            }
-        }
-        if (!stack.length) {
-            return null;
-        }
-        return {
-            message: extractMessage(ex),
-            name: ex.name,
-            stack: stack,
-        };
-    }
+        return;
+    };
+    var winjsRegex = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
+    var winjs = function (line) {
+        var parts = winjsRegex.exec(line);
+        return parts
+            ? createFrame(parts[2], parts[1] || UNKNOWN_FUNCTION, +parts[3], parts[4] ? +parts[4] : undefined)
+            : undefined;
+    };
+    var opera10Regex = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
+    var opera10 = function (line) {
+        var parts = opera10Regex.exec(line);
+        return parts ? createFrame(parts[2], parts[3] || UNKNOWN_FUNCTION, +parts[1]) : undefined;
+    };
+    var opera11Regex = / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
+    var opera11 = function (line) {
+        var parts = opera11Regex.exec(line);
+        return parts ? createFrame(parts[5], parts[3] || parts[4] || UNKNOWN_FUNCTION, +parts[1], +parts[2]) : undefined;
+    };
     /**
      * Safari web extensions, starting version unknown, can produce "frames-only" stacktraces.
      * What it means, is that instead of format like:
@@ -4901,56 +4800,31 @@ var Sentry = (function (exports) {
      *
      * Because of that, it won't be captured by `chrome` RegExp and will fall into `Gecko` branch.
      * This function is extracted so that we can use it in both places without duplicating the logic.
-     * Unfortunatelly "just" changing RegExp is too complicated now and making it pass all tests
+     * Unfortunately "just" changing RegExp is too complicated now and making it pass all tests
      * and fix this case seems like an impossible, or at least way too time-consuming task.
      */
-    var extractSafariExtensionDetails = function (func, url) {
+    var extractSafariExtensionDetails = function (func, filename) {
         var isSafariExtension = func.indexOf('safari-extension') !== -1;
         var isSafariWebExtension = func.indexOf('safari-web-extension') !== -1;
         return isSafariExtension || isSafariWebExtension
             ? [
                 func.indexOf('@') !== -1 ? func.split('@')[0] : UNKNOWN_FUNCTION,
-                isSafariExtension ? "safari-extension:" + url : "safari-web-extension:" + url,
+                isSafariExtension ? "safari-extension:" + filename : "safari-web-extension:" + filename,
             ]
-            : [func, url];
+            : [func, filename];
     };
-    /** Remove N number of frames from the stack */
-    function popFrames(stacktrace, popSize) {
-        try {
-            return __assign(__assign({}, stacktrace), { stack: stacktrace.stack.slice(popSize) });
-        }
-        catch (e) {
-            return stacktrace;
-        }
-    }
-    /**
-     * There are cases where stacktrace.message is an Event object
-     * https://github.com/getsentry/sentry-javascript/issues/1949
-     * In this specific case we try to extract stacktrace.message.error.message
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function extractMessage(ex) {
-        var message = ex && ex.message;
-        if (!message) {
-            return 'No error message';
-        }
-        if (message.error && typeof message.error.message === 'string') {
-            return message.error.message;
-        }
-        return message;
-    }
 
-    var STACKTRACE_LIMIT = 50;
     /**
      * This function creates an exception from an TraceKitStackTrace
      * @param stacktrace TraceKitStackTrace that will be converted to an exception
      * @hidden
      */
-    function exceptionFromStacktrace(stacktrace) {
-        var frames = prepareFramesForEvent(stacktrace.stack);
+    function exceptionFromError(ex) {
+        // Get the frames first since Opera can lose the stack if we touch anything else first
+        var frames = parseStackFrames(ex);
         var exception = {
-            type: stacktrace.name,
-            value: stacktrace.message,
+            type: ex && ex.name,
+            value: extractMessage(ex),
         };
         if (frames && frames.length) {
             exception.stacktrace = { frames: frames };
@@ -4978,10 +4852,8 @@ var Sentry = (function (exports) {
             },
         };
         if (syntheticException) {
-            var stacktrace = computeStackTrace(syntheticException);
-            var frames_1 = prepareFramesForEvent(stacktrace.stack);
             event.stacktrace = {
-                frames: frames_1,
+                frames: parseStackFrames(syntheticException),
             };
         }
         return event;
@@ -4989,43 +4861,57 @@ var Sentry = (function (exports) {
     /**
      * @hidden
      */
-    function eventFromStacktrace(stacktrace) {
-        var exception = exceptionFromStacktrace(stacktrace);
+    function eventFromError(ex) {
         return {
             exception: {
-                values: [exception],
+                values: [exceptionFromError(ex)],
             },
         };
     }
+    /** Parses stack frames from an error */
+    function parseStackFrames(ex) {
+        // Access and store the stacktrace property before doing ANYTHING
+        // else to it because Opera is not very good at providing it
+        // reliably in other circumstances.
+        var stacktrace = ex.stacktrace || ex.stack || '';
+        var popSize = getPopSize(ex);
+        try {
+            // The order of the parsers in important
+            return createStackParser(opera10, opera11, chrome, winjs, gecko)(stacktrace, popSize);
+        }
+        catch (e) {
+            // no-empty
+        }
+        return [];
+    }
+    // Based on our own mapping pattern - https://github.com/getsentry/sentry/blob/9f08305e09866c8bd6d0c24f5b0aabdd7dd6c59c/src/sentry/lang/javascript/errormapping.py#L83-L108
+    var reactMinifiedRegexp = /Minified React error #\d+;/i;
+    function getPopSize(ex) {
+        if (ex) {
+            if (typeof ex.framesToPop === 'number') {
+                return ex.framesToPop;
+            }
+            if (reactMinifiedRegexp.test(ex.message)) {
+                return 1;
+            }
+        }
+        return 0;
+    }
     /**
-     * @hidden
+     * There are cases where stacktrace.message is an Event object
+     * https://github.com/getsentry/sentry-javascript/issues/1949
+     * In this specific case we try to extract stacktrace.message.error.message
      */
-    function prepareFramesForEvent(stack) {
-        if (!stack || !stack.length) {
-            return [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function extractMessage(ex) {
+        var message = ex && ex.message;
+        if (!message) {
+            return 'No error message';
         }
-        var localStack = stack;
-        var firstFrameFunction = localStack[0].func || '';
-        var lastFrameFunction = localStack[localStack.length - 1].func || '';
-        // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
-        if (firstFrameFunction.indexOf('captureMessage') !== -1 || firstFrameFunction.indexOf('captureException') !== -1) {
-            localStack = localStack.slice(1);
+        if (message.error && typeof message.error.message === 'string') {
+            return message.error.message;
         }
-        // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
-        if (lastFrameFunction.indexOf('sentryWrapped') !== -1) {
-            localStack = localStack.slice(0, -1);
-        }
-        // The frame where the crash happened, should be the last entry in the array
-        return localStack
-            .slice(0, STACKTRACE_LIMIT)
-            .map(function (frame) { return ({
-            colno: frame.column === null ? undefined : frame.column,
-            filename: frame.url || localStack[0].url,
-            function: frame.func || '?',
-            in_app: true,
-            lineno: frame.line === null ? undefined : frame.line,
-        }); })
-            .reverse();
+        return message;
     }
 
     /**
@@ -5069,10 +4955,7 @@ var Sentry = (function (exports) {
         if (isErrorEvent(exception) && exception.error) {
             // If it is an ErrorEvent with `error` property, extract it to get actual Error
             var errorEvent = exception;
-            // eslint-disable-next-line no-param-reassign
-            exception = errorEvent.error;
-            event = eventFromStacktrace(computeStackTrace(exception));
-            return event;
+            return eventFromError(errorEvent.error);
         }
         // If it is a `DOMError` (which is a legacy API, but still supported in some browsers) then we just extract the name
         // and message, as it doesn't provide anything else. According to the spec, all `DOMExceptions` should also be
@@ -5084,7 +4967,7 @@ var Sentry = (function (exports) {
         if (isDOMError(exception) || isDOMException(exception)) {
             var domException = exception;
             if ('stack' in exception) {
-                event = eventFromStacktrace(computeStackTrace(exception));
+                event = eventFromError(exception);
             }
             else {
                 var name_1 = domException.name || (isDOMError(domException) ? 'DOMError' : 'DOMException');
@@ -5099,8 +4982,7 @@ var Sentry = (function (exports) {
         }
         if (isError(exception)) {
             // we have a real Error object, do nothing
-            event = eventFromStacktrace(computeStackTrace(exception));
-            return event;
+            return eventFromError(exception);
         }
         if (isPlainObject(exception) || isEvent(exception)) {
             // If it's a plain object or an instance of `Event` (the built-in JS kind, not this SDK's `Event` type), serialize
@@ -5138,10 +5020,8 @@ var Sentry = (function (exports) {
             message: input,
         };
         if (options.attachStacktrace && syntheticException) {
-            var stacktrace = computeStackTrace(syntheticException);
-            var frames_1 = prepareFramesForEvent(stacktrace.stack);
             event.stacktrace = {
-                frames: frames_1,
+                frames: parseStackFrames(syntheticException),
             };
         }
         return event;
@@ -6467,8 +6347,7 @@ var Sentry = (function (exports) {
         if (!isInstanceOf(error[key], Error) || stack.length + 1 >= limit) {
             return stack;
         }
-        var stacktrace = computeStackTrace(error[key]);
-        var exception = exceptionFromStacktrace(stacktrace);
+        var exception = exceptionFromError(error[key]);
         return _walkErrorTree(limit, error[key], key, __spread([exception], stack));
     }
 
