@@ -28,7 +28,7 @@ from django.utils.functional import cached_property
 from django.utils.html import escape
 from django.utils.translation import activate, gettext
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext
+from django.utils.translation import ngettext, pgettext
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
@@ -59,7 +59,7 @@ from weblate.utils.forms import (
     SortedSelectMultiple,
     UsernameField,
 )
-from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
+from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
 from weblate.utils.validators import validate_fullname
 
 
@@ -395,8 +395,20 @@ class RegistrationForm(EmailForm):
 
     def clean(self):
         if not check_rate_limit("registration", self.request):
+            lockout_period = get_rate_setting("registration", "LOCKOUT") // 60
             raise forms.ValidationError(
-                _("Too many failed registration attempts from this location.")
+                ngettext(
+                    (
+                        "Too many failed registration attempts from this location. "
+                        "Please try again in %d minute."
+                    ),
+                    (
+                        "Too many failed registration attempts from this location. "
+                        "Please try again in %d minutes."
+                    ),
+                    lockout_period,
+                )
+                % lockout_period
             )
         return self.cleaned_data
 
@@ -537,8 +549,20 @@ class LoginForm(forms.Form):
 
         if username and password:
             if not check_rate_limit("login", self.request):
+                lockout_period = get_rate_setting("login", "LOCKOUT") // 60
                 raise forms.ValidationError(
-                    _("Too many authentication attempts from this location.")
+                    ngettext(
+                        (
+                            "Too many authentication attempts from this location. "
+                            "Please try again in %d minute."
+                        ),
+                        (
+                            "Too many authentication attempts from this location. "
+                            "Please try again in %d minutes."
+                        ),
+                        lockout_period,
+                    )
+                    % lockout_period
                 )
             self.user_cache = authenticate(
                 self.request, username=username, password=password
