@@ -67,9 +67,18 @@ class GitRepository(Repository):
             os.path.join(self.path, ".git", "config")
         ) or os.path.exists(os.path.join(self.path, "config"))
 
+    @classmethod
+    def _init(cls, path: str):
+        cls._popen(["init", path])
+        if cls.default_branch != "master":
+            # We could do here just init --initial-branch {branch}, but that does not
+            # work in Git before 2.28.0
+            with open(os.path.join(path, ".git/HEAD"), "w") as handle:
+                handle.write("ref: refs/heads/main\n")
+
     def init(self):
         """Initialize the repository."""
-        self._popen(["init", self.path])
+        self._init(self.path)
 
     @classmethod
     def get_remote_branch(cls, repo: str):
@@ -995,7 +1004,7 @@ class LocalRepository(GitRepository):
     def _clone(cls, source: str, target: str, branch: str):
         if not os.path.exists(target):
             os.makedirs(target)
-        cls._popen(["init", target])
+        cls._init(target)
         with open(os.path.join(target, "README.md"), "w") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
@@ -1003,9 +1012,6 @@ class LocalRepository(GitRepository):
             handle.write("See https://weblate.org/ for more info.\n")
         cls._popen(["add", "README.md"], target)
         cls._popen(["commit", "--message", "Repository created by Weblate"], target)
-        # We could do here just init --initial-branch {branch}, but that does not
-        # work in Git before 2.28.0
-        cls._popen(["branch", "--move", "master", branch], target)
 
     @cached_property
     def last_remote_revision(self):
