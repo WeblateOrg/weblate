@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-14 21:48+0000\n"
+"PO-Revision-Date: 2022-02-16 20:35+0000\n"
 "Last-Translator: FTno <ft-002@tutanota.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -1054,8 +1054,8 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"Pakkebrønnen er utdatert, det kan hende du må oppdatere det for at det skal "
-"fungere rett."
+"Kodelageret er utdatert, du får kanskje ikke forventede resultater før du "
+"oppdaterer det."
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
@@ -1457,8 +1457,8 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Liste over filnavn i gjeldende depot eller eksterne URLer for å analysere "
-"for oversettbare strenger."
+"Liste over filnavn i gjeldende kodelager eller eksterne nettadresser å "
+"analysere for oversettbare strenger."
 
 #: weblate/addons/forms.py:480
 #, fuzzy, python-format
@@ -1888,7 +1888,7 @@ msgstr "Gå til internt kodelager"
 #. Translators: Permission name
 #: weblate/auth/data.py:115
 msgid "Commit changes to the internal repository"
-msgstr "Send endringer til det interne pakkelageret"
+msgstr "Send endringer til det interne kodelageret"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:117
@@ -1898,7 +1898,7 @@ msgstr "Dytt endringer fra internt kodelager"
 #. Translators: Permission name
 #: weblate/auth/data.py:119
 msgid "Reset changes in the internal repository"
-msgstr "Tilbakestill endringer i lokalt kodelager"
+msgstr "Tilbakestill endringer i det interne kodelageret"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
@@ -1908,7 +1908,7 @@ msgstr "Vis hvor oppstrømskodelageret befinner seg"
 #. Translators: Permission name
 #: weblate/auth/data.py:123
 msgid "Update the internal repository"
-msgstr "Oppdater det kodelageret"
+msgstr "Oppdater det interne kodelageret"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
@@ -3058,16 +3058,13 @@ msgid "Regular expression"
 msgstr "Regulært uttrykk"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "Oversettelsen stemmer ikke overens med regulært uttrykk:"
+msgstr "Oversettelse samsvarer ikke med regulært uttrykk"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "Oversettelsen stemmer ikke overens med regulært uttrykk:"
+msgstr "Samsvarer ikke med regulært uttrykk %s."
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -4757,8 +4754,8 @@ msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
-"API-nøkkelen brukes til å identitetsbekrefte automatisk eksporterte Git-"
-"pakkebrønner."
+"API-nøkkelen brukes også for autentisering til automatisk eksporterte Git-"
+"kodelagre."
 
 #: weblate/templates/accounts/profile.html:316
 msgid ""
@@ -5082,7 +5079,7 @@ msgstr ""
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "repository wide"
-msgstr "for hele pakkebrønnen"
+msgstr "hele kodelageret"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed add-ons"
@@ -5995,7 +5992,7 @@ msgid ""
 "bookmarks or references in cloned repositories!"
 msgstr ""
 "Navneendring på komponenten vil endre alle dens URL-er og brukere vil måtte "
-"oppdatere bokmerker eller referanser til klonede depoter!"
+"oppdatere bokmerker eller referanser i klonede kodelagre!"
 
 #: weblate/templates/component.html:276
 msgid "Move component"
@@ -6007,7 +6004,7 @@ msgid ""
 "bookmarks or references in cloned repositories!"
 msgstr ""
 "Flytting av komponenten vil endre alle dens URL-er og brukere vil måtte "
-"oppdatere bokmerker eller referanser til klonede depoter!"
+"oppdatere bokmerker eller referanser i klonede kodelagre!"
 
 #: weblate/templates/component.html:284
 msgid "Move"
@@ -6200,7 +6197,7 @@ msgstr "Tilknytningshake"
 
 #: weblate/templates/data.html:123
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Du henter endringer fra fjernpakkelageret til Weblate slik:"
+msgstr "Du henter endringer fra et eksternt kodelager til Weblate slik:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -6566,15 +6563,15 @@ msgstr "Passordet ditt kan ikke inneholde gjentatte ord eller tegn."
 #: weblate/templates/js/git-status.html:20
 #: weblate/templates/mail/repository_error.html:13
 msgid "Repository status"
-msgstr "Pakkelagerstatus"
+msgstr "Kodelagerstatus"
 
 #: weblate/templates/js/git-status.html:29 weblate/templates/translate.html:688
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Ventende endringer som ennå ikke er sjekket inn i Weblate-depotet"
+msgstr "Ventende endringer som ennå ikke er innsendt til Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Forplikt ventende endringer i Weblate-depotet"
+msgstr "Send inn ventende endringer til Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit"
@@ -6582,11 +6579,11 @@ msgstr "Send"
 
 #: weblate/templates/js/git-status.html:43
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Utgående innsjekkinger i Weblate-depotet"
+msgstr "Utgående innsendelser i Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
-msgstr "Flytt endringer til fjernpakkelageret"
+msgstr "Skyv endringer til fjernkodelageret"
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push"
@@ -6594,11 +6591,11 @@ msgstr "Skyv"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Missing commits in the Weblate repository"
-msgstr "Mangler innsjekkinger i Weblate-depotet"
+msgstr "Manglende innsendelser i Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with changes from the remote repository"
-msgstr "Oppdater med endringer fra det eksterne depotet"
+msgstr "Oppdater med endringer fra det eksterne kodelageret"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update"
@@ -6606,7 +6603,7 @@ msgstr "Oppdater"
 
 #: weblate/templates/js/git-status.html:68
 msgid "Pull changes from the remote repository"
-msgstr "Hente endringer fra fjernpakkelageret"
+msgstr "Hent endringer fra fjernkodelageret"
 
 #: weblate/templates/js/git-status.html:68
 msgid "Pull"
@@ -6614,7 +6611,7 @@ msgstr "Hent"
 
 #: weblate/templates/js/git-status.html:71
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Rebase Weblate endres til det eksterne depotet"
+msgstr "Rebaser Weblate-endringer til det eksterne kodelageret"
 
 #: weblate/templates/js/git-status.html:71
 #: weblate/trans/models/component.py:146
@@ -6622,10 +6619,8 @@ msgid "Rebase"
 msgstr "Rebasering"
 
 #: weblate/templates/js/git-status.html:74
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Pull changes from the remote repository without fast-forward"
-msgstr "Hente endringer fra fjernpakkelageret"
+msgstr "Hent endringer fra det eksterne kodelageret uten fast-forward"
 
 #: weblate/templates/js/git-status.html:74
 #: weblate/trans/models/component.py:147
@@ -6639,7 +6634,7 @@ msgstr "Låsing forhindrer oversettere fra å gjøre endringer"
 
 #: weblate/templates/js/git-status.html:94
 msgid "Allow changes to the Weblate repository"
-msgstr "Tillat endringer i Weblate-depotet"
+msgstr "Tillat endringer i Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6648,7 +6643,7 @@ msgstr "Åpne"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Forhindre endringer i Weblate-depotet"
+msgstr "Forhindre endringer i Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
@@ -6659,8 +6654,8 @@ msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
 msgstr ""
-"Tilbakestilling fjerner alle endringer i Weblate slik at depotet samsvarer "
-"med oppstrøms. Bruk med forsiktighet."
+"Tilbakestilling fjerner alle endringer i Weblate slik at kodelageret "
+"samsvarer med oppstrøms. Bruk med forsiktighet."
 
 #: weblate/templates/js/git-status.html:112
 msgid "Maintenance"
@@ -6668,7 +6663,7 @@ msgstr "Vedlikehold"
 
 #: weblate/templates/js/git-status.html:117
 msgid "Reset all changes in the Weblate repository"
-msgstr "Tilbakestill alle endringer i Weblate-depotet"
+msgstr "Tilbakestill alle endringer i Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:117
 #: weblate/templates/translate.html:475
@@ -6677,7 +6672,7 @@ msgstr "Tilbakestill"
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Rydd opp alle usporede filer i Weblate-depotet"
+msgstr "Rydd opp alle usporede filer i Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -6694,15 +6689,15 @@ msgstr "Tvangsmessig synkronisering"
 #: weblate/templates/js/git-status.html:137
 #, python-format
 msgid "Repository for %(component)s"
-msgstr "Datalager for %(component)s"
+msgstr "Kodelager for %(component)s"
 
 #: weblate/templates/js/git-status.html:143
 msgid "Repository details"
-msgstr "Pakkelagerdetaljer"
+msgstr "Kodelagerdetaljer"
 
 #: weblate/templates/js/git-status.html:151
 msgid "Repository changes"
-msgstr "Endringer i pakkelager"
+msgstr "Kodelagerendringer"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
 msgid "Add language"
@@ -7161,15 +7156,13 @@ msgstr ""
 "hvilken e-postadresse du brukte da du registrerte deg."
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
-#| "a>"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"Du kan oversette fra <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+"Kanskje du har registrert deg på <a href=\"%(registration_hint)s\""
+">%(registration_hint)s</a>?"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7516,7 +7509,7 @@ msgstr "Status for kodelagre"
 
 #: weblate/templates/manage/repos.html:14
 msgid "This repository is linked to:"
-msgstr "Denne pakkebrønnen er tilknyttet:"
+msgstr "Dette kodelageret er tilknyttet:"
 
 #: weblate/templates/manage/snippets/activation-form.html:10
 msgid "Activate support package"
@@ -7536,7 +7529,7 @@ msgstr "Aktiver"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:5
 msgid "Backup repository"
-msgstr "Sikkerhetskodelager"
+msgstr "Sikkerhetskopieringslager"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:9
 msgid "Passphrase"
@@ -7559,7 +7552,7 @@ msgstr "Last ned privat nøkkel"
 msgid "The private key is needed to access the remote backup repository."
 msgstr ""
 "Den private nøkkelen er nødvendig for å få tilgang til det eksterne "
-"sikkerhetskopieringsområdet."
+"sikkerhetskopieringslageret."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -7899,7 +7892,7 @@ msgid ""
 "bookmarks or references in cloned repositories!"
 msgstr ""
 "Navneendring på prosjektet vil endre alle URL-er og brukere vil måtte "
-"oppdatere bokmerker eller referanser til klonede depoter!"
+"oppdatere bokmerker eller referanser i klonede kodelagre!"
 
 #: weblate/templates/project.html:293
 msgid ""
@@ -8167,7 +8160,7 @@ msgstr "Siste innsendelse i Weblate."
 
 #: weblate/templates/snippets/git-info.html:68
 msgid "Weblate repository"
-msgstr "Weblate oppbevaringssted"
+msgstr "Weblate kodelager"
 
 #: weblate/templates/snippets/glossary.html:7
 #: weblate/trans/templatetags/translations.py:602
@@ -8785,9 +8778,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate bruker en SSH-nøkkel for å få tilgang til pakkebrønner annensteds "
-"hen. Den tilhørende offentlige nøkkelen finnes nedenfor. Du kan bruke den "
-"til å gi Weblate tilgang til en pakkebrønn."
+"Weblate bruker SSH-nøkkel for å få tilgang til eksterne kodelagere. Den "
+"tilhørende offentlige nøkkelen finnes nedenfor. Du kan bruke den til å gi "
+"Weblate tilgang til et kodelager."
 
 #: weblate/templates/snippets/ssh-key.html:11
 msgid "SSH key not available."
@@ -9266,8 +9259,7 @@ msgstr "Administrer skjermbilder"
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate kunne ikke hente inn endringer oppstrøms fra under oppdatering av "
-"pakkelageret."
+"Weblate kunne ikke hente oppstrømsendringer under oppdatering av kodelageret."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9320,8 +9312,8 @@ msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
-"Opprett en ny oversettelseskomponent fra versjonskontrollpakkebrønn "
-"annensteds hen."
+"Opprett en ny oversettelseskomponent fra eksternt versjonskontrollsystem-"
+"kodelager."
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_create.html:66
@@ -9338,8 +9330,8 @@ msgid ""
 "Create a new translation component from a repository already cloned in "
 "Weblate."
 msgstr ""
-"Opprett en ny oversettelseskomponent fra en pakkebrønn som allerede er "
-"klonet i Weblate."
+"Opprett en ny oversettelseskomponent fra et kodelager allerede klonet i "
+"Weblate."
 
 #: weblate/templates/trans/component_create.html:77
 msgid ""
@@ -9489,7 +9481,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr "Legg til Weblate-eksportert pakkebrønn som fjernpakkebrønn."
+msgstr "Legg til Weblate-eksportert kodelager som et fjernkodelager."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
@@ -9497,7 +9489,7 @@ msgstr "Flett Weblate-endringer og løs alle konflikter."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr "Dytt endringer til oppstrømspakkebrønn."
+msgstr "Skyv endringer til oppstrømskodelager."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
@@ -9593,10 +9585,8 @@ msgid "This will delete the project group <b>%(group)s</b> from this project."
 msgstr "Dette vil slette prosjektgruppen <b>%(group)s</b> fra dette prosjektet."
 
 #: weblate/templates/trans/project-access.html:313
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Create new team"
-msgstr "Opprett ny ordbok"
+msgstr "Opprett nytt team"
 
 #: weblate/templates/trans/project-access.html:338
 #: weblate/trans/models/projecttoken.py:45
@@ -10568,10 +10558,8 @@ msgstr "Alle komponenter i gjeldende prosjekt"
 
 #: weblate/trans/forms.py:939 weblate/trans/forms.py:948
 #: weblate/trans/forms.py:956
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Komponentinformasjon"
+msgstr "Komponent ikke funnet!"
 
 #: weblate/trans/forms.py:958
 #, fuzzy
@@ -10956,10 +10944,8 @@ msgid "Author username"
 msgstr "Forfatterbrukernavn"
 
 #: weblate/trans/forms.py:2451
-#, fuzzy
-#| msgid "Expires cannot be in the past!"
 msgid "Expiry cannot be in the past!"
-msgstr "Utløp kan ikke være i fortiden."
+msgstr "Utløp kan ikke være i fortiden!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -11041,7 +11027,7 @@ msgstr "Kunne ikke oppdatere kodelageret."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:228
 msgid "Could not push the repository."
-msgstr "Kunne ikke dytte til pakkebrønnen."
+msgstr "Kunne ikke skyve til kodelageret."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:269
@@ -11056,12 +11042,12 @@ msgstr "Din faktureringsplan er oversteget."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:282
 msgid "Repository outdated."
-msgstr "Pakkelageret er utdatert."
+msgstr "Kodelager er utdatert."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:289
 msgid "Repository has changes."
-msgstr "Pakkelageret har endringer."
+msgstr "Kodelager har endringer."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:297
@@ -11234,17 +11220,17 @@ msgstr "Duplikatstreng funnet"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:278
 msgid "Committed changes"
-msgstr "Sjekket inn endringer"
+msgstr "Innsendte endringer"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:280
 msgid "Pushed changes"
-msgstr "Sendte inn endringer"
+msgstr "Sendte endringer"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:282
 msgid "Reset repository"
-msgstr "Tilbakestilt pakkelager"
+msgstr "Tilbakestilt kodelager"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:284
@@ -11431,10 +11417,8 @@ msgstr[0] "Ny streng å oversette"
 msgstr[1] "Nye strenger å oversette"
 
 #: weblate/trans/models/change.py:442
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Oversettelsen ble automatisk låst på grunn av følgende varsler:"
+msgstr "Komponenten ble automatisk låst på grunn av et varsel."
 
 #: weblate/trans/models/change.py:446
 msgid "Fixing an alert automatically unlocked the component."
@@ -11605,9 +11589,7 @@ msgstr "Dyttingsforgrening"
 
 #: weblate/trans/models/component.py:331
 msgid "Branch for pushing changes, leave empty to use repository branch"
-msgstr ""
-"Forgrening for dytting av endringer. La stå tom for å bruke pakkedepot-"
-"forgrening"
+msgstr "Gren å skyve endringer til, la stå tom for å bruke kodelager-gren"
 
 #: weblate/trans/models/component.py:341
 msgid ""
@@ -11794,7 +11776,7 @@ msgstr "Dytt ved innsendelse"
 
 #: weblate/trans/models/component.py:554
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Om arkivet bør skyves oppstrøms ved hver innsendelse."
+msgstr "Om kodelageret bør skyves oppstrøms ved hver innsendelse."
 
 #: weblate/trans/models/component.py:558
 msgid "Age of changes to commit"
@@ -11935,12 +11917,12 @@ msgstr ""
 "Ugyldig kobling til et Weblate-prosjekt, bruk weblate://project/component."
 
 #: weblate/trans/models/component.py:2227
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "Valget er ikke tilgjengelig for lenkede pakkebrønner."
+msgstr ""
+"Alternativet er ikke tilgjengelig for lenkede kodelagre. Innstilling fra "
+"lenket komponent vil bli brukt."
 
 #: weblate/trans/models/component.py:2239
 #, fuzzy
@@ -13389,7 +13371,7 @@ msgstr "GitHub-flettingsforespørsel"
 
 #: weblate/vcs/git.py:958
 msgid "No remote repository"
-msgstr "Inget fjernkodelager"
+msgstr "Ingen fjernkodelager"
 
 #: weblate/vcs/git.py:1057
 #, fuzzy
