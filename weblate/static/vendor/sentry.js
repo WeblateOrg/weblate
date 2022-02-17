@@ -1,5 +1,6 @@
-/*! @sentry/browser 6.17.8 (db493a0) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.17.9 (4ef06bf) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
+
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -81,6 +82,7 @@ var Sentry = (function (exports) {
     /**
      * TODO(v7): Remove this enum and replace with SeverityLevel
      */
+    exports.Severity = void 0;
     (function (Severity) {
         /** JSDoc */
         Severity["Fatal"] = "fatal";
@@ -141,7 +143,7 @@ var Sentry = (function (exports) {
      * @returns Global scope object
      */
     function getGlobalObject() {
-        return ( typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
+        return (typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
                 ? window // eslint-disable-line no-restricted-globals
                 : typeof self !== 'undefined'
                     ? self
@@ -527,7 +529,7 @@ var Sentry = (function (exports) {
     var SeverityLevels = ['fatal', 'error', 'warning', 'log', 'info', 'debug', 'critical'];
 
     // TODO: Implement different loggers for different environments
-    var global$1 = getGlobalObject();
+    var global$6 = getGlobalObject();
     /** Prefix for logging strings */
     var PREFIX = 'Sentry Logger ';
     /**
@@ -586,7 +588,7 @@ var Sentry = (function (exports) {
                 return;
             }
             consoleSandbox(function () {
-                global$1.console.log(PREFIX + "[Log]: " + args.join(' '));
+                global$6.console.log(PREFIX + "[Log]: " + args.join(' '));
             });
         };
         /** JSDoc */
@@ -599,7 +601,7 @@ var Sentry = (function (exports) {
                 return;
             }
             consoleSandbox(function () {
-                global$1.console.warn(PREFIX + "[Warn]: " + args.join(' '));
+                global$6.console.warn(PREFIX + "[Warn]: " + args.join(' '));
             });
         };
         /** JSDoc */
@@ -612,14 +614,14 @@ var Sentry = (function (exports) {
                 return;
             }
             consoleSandbox(function () {
-                global$1.console.error(PREFIX + "[Error]: " + args.join(' '));
+                global$6.console.error(PREFIX + "[Error]: " + args.join(' '));
             });
         };
         return Logger;
     }());
     // Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
-    global$1.__SENTRY__ = global$1.__SENTRY__ || {};
-    var logger = global$1.__SENTRY__.logger || (global$1.__SENTRY__.logger = new Logger());
+    global$6.__SENTRY__ = global$6.__SENTRY__ || {};
+    var logger = global$6.__SENTRY__.logger || (global$6.__SENTRY__.logger = new Logger());
 
     /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -1284,7 +1286,7 @@ var Sentry = (function (exports) {
         return !isChromePackagedApp && hasHistoryApi;
     }
 
-    var global$2 = getGlobalObject();
+    var global$5 = getGlobalObject();
     /**
      * Instrument native APIs to call handlers that can be used to create breadcrumbs, APM spans etc.
      *  - Console API
@@ -1368,14 +1370,14 @@ var Sentry = (function (exports) {
     }
     /** JSDoc */
     function instrumentConsole() {
-        if (!('console' in global$2)) {
+        if (!('console' in global$5)) {
             return;
         }
         ['debug', 'info', 'warn', 'error', 'log', 'assert'].forEach(function (level) {
-            if (!(level in global$2.console)) {
+            if (!(level in global$5.console)) {
                 return;
             }
-            fill(global$2.console, level, function (originalConsoleMethod) {
+            fill(global$5.console, level, function (originalConsoleMethod) {
                 return function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1384,7 +1386,7 @@ var Sentry = (function (exports) {
                     triggerHandlers('console', { args: args, level: level });
                     // this fails for some browsers. :(
                     if (originalConsoleMethod) {
-                        originalConsoleMethod.apply(global$2.console, args);
+                        originalConsoleMethod.apply(global$5.console, args);
                     }
                 };
             });
@@ -1395,7 +1397,7 @@ var Sentry = (function (exports) {
         if (!supportsNativeFetch()) {
             return;
         }
-        fill(global$2, 'fetch', function (originalFetch) {
+        fill(global$5, 'fetch', function (originalFetch) {
             return function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
@@ -1411,7 +1413,7 @@ var Sentry = (function (exports) {
                 };
                 triggerHandlers('fetch', __assign({}, handlerData));
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                return originalFetch.apply(global$2, args).then(function (response) {
+                return originalFetch.apply(global$5, args).then(function (response) {
                     triggerHandlers('fetch', __assign(__assign({}, handlerData), { endTimestamp: Date.now(), response: response }));
                     return response;
                 }, function (error) {
@@ -1428,7 +1430,7 @@ var Sentry = (function (exports) {
     /** Extract `method` from fetch call arguments */
     function getFetchMethod(fetchArgs) {
         if (fetchArgs === void 0) { fetchArgs = []; }
-        if ('Request' in global$2 && isInstanceOf(fetchArgs[0], Request) && fetchArgs[0].method) {
+        if ('Request' in global$5 && isInstanceOf(fetchArgs[0], Request) && fetchArgs[0].method) {
             return String(fetchArgs[0].method).toUpperCase();
         }
         if (fetchArgs[1] && fetchArgs[1].method) {
@@ -1442,7 +1444,7 @@ var Sentry = (function (exports) {
         if (typeof fetchArgs[0] === 'string') {
             return fetchArgs[0];
         }
-        if ('Request' in global$2 && isInstanceOf(fetchArgs[0], Request)) {
+        if ('Request' in global$5 && isInstanceOf(fetchArgs[0], Request)) {
             return fetchArgs[0].url;
         }
         return String(fetchArgs[0]);
@@ -1450,7 +1452,7 @@ var Sentry = (function (exports) {
     /* eslint-enable @typescript-eslint/no-unsafe-member-access */
     /** JSDoc */
     function instrumentXHR() {
-        if (!('XMLHttpRequest' in global$2)) {
+        if (!('XMLHttpRequest' in global$5)) {
             return;
         }
         var xhrproto = XMLHttpRequest.prototype;
@@ -1533,13 +1535,13 @@ var Sentry = (function (exports) {
         if (!supportsHistory()) {
             return;
         }
-        var oldOnPopState = global$2.onpopstate;
-        global$2.onpopstate = function () {
+        var oldOnPopState = global$5.onpopstate;
+        global$5.onpopstate = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            var to = global$2.location.href;
+            var to = global$5.location.href;
             // keep track of the current URL state, as we always receive only the updated state
             var from = lastHref;
             lastHref = to;
@@ -1581,8 +1583,8 @@ var Sentry = (function (exports) {
                 return originalHistoryFunction.apply(this, args);
             };
         }
-        fill(global$2.history, 'pushState', historyReplacementFunction);
-        fill(global$2.history, 'replaceState', historyReplacementFunction);
+        fill(global$5.history, 'pushState', historyReplacementFunction);
+        fill(global$5.history, 'replaceState', historyReplacementFunction);
     }
     var debounceDuration = 1000;
     var debounceTimerID;
@@ -1685,14 +1687,14 @@ var Sentry = (function (exports) {
             }
             // Start a new debounce timer that will prevent us from capturing multiple events that should be grouped together.
             clearTimeout(debounceTimerID);
-            debounceTimerID = global$2.setTimeout(function () {
+            debounceTimerID = global$5.setTimeout(function () {
                 debounceTimerID = undefined;
             }, debounceDuration);
         };
     }
     /** JSDoc */
     function instrumentDOM() {
-        if (!('document' in global$2)) {
+        if (!('document' in global$5)) {
             return;
         }
         // Make it so that any click or keypress that is unhandled / bubbled up all the way to the document triggers our dom
@@ -1700,8 +1702,8 @@ var Sentry = (function (exports) {
         // we instrument `addEventListener` so that we don't end up attaching this handler twice.
         var triggerDOMHandler = triggerHandlers.bind(null, 'dom');
         var globalDOMEventHandler = makeDOMEventHandler(triggerDOMHandler, true);
-        global$2.document.addEventListener('click', globalDOMEventHandler, false);
-        global$2.document.addEventListener('keypress', globalDOMEventHandler, false);
+        global$5.document.addEventListener('click', globalDOMEventHandler, false);
+        global$5.document.addEventListener('keypress', globalDOMEventHandler, false);
         // After hooking into click and keypress events bubbled up to `document`, we also hook into user-handled
         // clicks & keypresses, by adding an event listener of our own to any element to which they add a listener. That
         // way, whenever one of their handlers is triggered, ours will be, too. (This is needed because their handler
@@ -1709,7 +1711,7 @@ var Sentry = (function (exports) {
         // guaranteed to fire at least once.)
         ['EventTarget', 'Node'].forEach(function (target) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            var proto = global$2[target] && global$2[target].prototype;
+            var proto = global$5[target] && global$5[target].prototype;
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, no-prototype-builtins
             if (!proto || !proto.hasOwnProperty || !proto.hasOwnProperty('addEventListener')) {
                 return;
@@ -1770,8 +1772,8 @@ var Sentry = (function (exports) {
     var _oldOnErrorHandler = null;
     /** JSDoc */
     function instrumentError() {
-        _oldOnErrorHandler = global$2.onerror;
-        global$2.onerror = function (msg, url, line, column, error) {
+        _oldOnErrorHandler = global$5.onerror;
+        global$5.onerror = function (msg, url, line, column, error) {
             triggerHandlers('error', {
                 column: column,
                 error: error,
@@ -1789,8 +1791,8 @@ var Sentry = (function (exports) {
     var _oldOnUnhandledRejectionHandler = null;
     /** JSDoc */
     function instrumentUnhandledRejection() {
-        _oldOnUnhandledRejectionHandler = global$2.onunhandledrejection;
-        global$2.onunhandledrejection = function (e) {
+        _oldOnUnhandledRejectionHandler = global$5.onunhandledrejection;
+        global$5.onunhandledrejection = function (e) {
             triggerHandlers('unhandledrejection', e);
             if (_oldOnUnhandledRejectionHandler) {
                 // eslint-disable-next-line prefer-rest-params
@@ -2310,7 +2312,7 @@ var Sentry = (function (exports) {
     /**
      * The Performance API implementation for the current platform, if available.
      */
-    var platformPerformance =  getBrowserPerformance();
+    var platformPerformance = getBrowserPerformance();
     var timestampSource = platformPerformance === undefined
         ? dateTimestampSource
         : {
@@ -2336,7 +2338,7 @@ var Sentry = (function (exports) {
      * The number of milliseconds since the UNIX epoch. This value is only usable in a browser, and only when the
      * performance API is available.
      */
-    var browserPerformanceTimeOrigin = (function () {
+    ((function () {
         // Unfortunately browsers may report an inaccurate time origin data, through either performance.timeOrigin or
         // performance.timing.navigationStart, which results in poor results in performance data. We only treat time origin
         // data as reliable if they are within a reasonable threshold of the current time.
@@ -2373,7 +2375,7 @@ var Sentry = (function (exports) {
             }
         }
         return dateNow;
-    })();
+    }))();
 
     /**
      * Absolute maximum number of breadcrumbs added to an event.
@@ -4476,7 +4478,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.8';
+    var SDK_VERSION = '6.17.9';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4690,8 +4692,6 @@ var Sentry = (function (exports) {
         InboundFilters.id = 'InboundFilters';
         return InboundFilters;
     }());
-
-
 
     var CoreIntegrations = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -5027,7 +5027,7 @@ var Sentry = (function (exports) {
         return event;
     }
 
-    var global$3 = getGlobalObject();
+    var global$4 = getGlobalObject();
     var cachedFetchImpl;
     /**
      * A special usecase for incorrectly wrapped Fetch APIs in conjunction with ad-blockers.
@@ -5073,11 +5073,11 @@ var Sentry = (function (exports) {
         }
         /* eslint-disable @typescript-eslint/unbound-method */
         // Fast path to avoid DOM I/O
-        if (isNativeFetch(global$3.fetch)) {
-            return (cachedFetchImpl = global$3.fetch.bind(global$3));
+        if (isNativeFetch(global$4.fetch)) {
+            return (cachedFetchImpl = global$4.fetch.bind(global$4));
         }
-        var document = global$3.document;
-        var fetchImpl = global$3.fetch;
+        var document = global$4.document;
+        var fetchImpl = global$4.fetch;
         // eslint-disable-next-line deprecation/deprecation
         if (document && typeof document.createElement === "function") {
             try {
@@ -5096,7 +5096,7 @@ var Sentry = (function (exports) {
                 }
             }
         }
-        return (cachedFetchImpl = fetchImpl.bind(global$3));
+        return (cachedFetchImpl = fetchImpl.bind(global$4));
         /* eslint-enable @typescript-eslint/unbound-method */
     }
     /**
@@ -5106,11 +5106,11 @@ var Sentry = (function (exports) {
      * @param body report payload
      */
     function sendReport(url, body) {
-        var isRealNavigator = Object.prototype.toString.call(global$3 && global$3.navigator) === '[object Navigator]';
-        var hasSendBeacon = isRealNavigator && typeof global$3.navigator.sendBeacon === 'function';
+        var isRealNavigator = Object.prototype.toString.call(global$4 && global$4.navigator) === '[object Navigator]';
+        var hasSendBeacon = isRealNavigator && typeof global$4.navigator.sendBeacon === 'function';
         if (hasSendBeacon) {
             // Prevent illegal invocations - https://xgwang.me/posts/you-may-not-know-beacon/#it-may-throw-error%2C-be-sure-to-catch
-            var sendBeacon = global$3.navigator.sendBeacon.bind(global$3.navigator);
+            var sendBeacon = global$4.navigator.sendBeacon.bind(global$4.navigator);
             return sendBeacon(url, body);
         }
         if (supportsFetch()) {
@@ -5128,7 +5128,7 @@ var Sentry = (function (exports) {
         var tyStr = ty;
         return tyStr === 'event' ? 'error' : tyStr;
     }
-    var global$4 = getGlobalObject();
+    var global$3 = getGlobalObject();
     /** Base Transport class implementation */
     var BaseTransport = /** @class */ (function () {
         function BaseTransport(options) {
@@ -5142,9 +5142,9 @@ var Sentry = (function (exports) {
             this._api = initAPIDetails(options.dsn, options._metadata, options.tunnel);
             // eslint-disable-next-line deprecation/deprecation
             this.url = getStoreEndpointWithUrlEncodedAuth(this._api.dsn);
-            if (this.options.sendClientReports && global$4.document) {
-                global$4.document.addEventListener('visibilitychange', function () {
-                    if (global$4.document.visibilityState === 'hidden') {
+            if (this.options.sendClientReports && global$3.document) {
+                global$3.document.addEventListener('visibilitychange', function () {
+                    if (global$3.document.visibilityState === 'hidden') {
                         _this._flushOutcomes();
                     }
                 });
@@ -5446,8 +5446,6 @@ var Sentry = (function (exports) {
         return XHRTransport;
     }(BaseTransport));
 
-
-
     var index = /*#__PURE__*/Object.freeze({
         __proto__: null,
         BaseTransport: BaseTransport,
@@ -5497,7 +5495,7 @@ var Sentry = (function (exports) {
         return BrowserBackend;
     }(BaseBackend));
 
-    var global$5 = getGlobalObject();
+    var global$2 = getGlobalObject();
     var ignoreOnError = 0;
     /**
      * @hidden
@@ -5523,7 +5521,7 @@ var Sentry = (function (exports) {
      * @returns The wrapped function.
      * @hidden
      */
-    function wrap(fn, options, before) {
+    function wrap$1(fn, options, before) {
         // for future readers what this does is wrap a function and then create
         // a bi-directional wrapping between them.
         //
@@ -5561,7 +5559,7 @@ var Sentry = (function (exports) {
                     before.apply(this, arguments);
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-                var wrappedArguments = args.map(function (arg) { return wrap(arg, options); });
+                var wrappedArguments = args.map(function (arg) { return wrap$1(arg, options); });
                 // Attempt to invoke user-land function
                 // NOTE: If you are a Sentry user, and you are seeing this stack frame, it
                 //       means the sentry.javascript SDK caught an error invoking your application code. This
@@ -5620,7 +5618,7 @@ var Sentry = (function (exports) {
      */
     function injectReportDialog(options) {
         if (options === void 0) { options = {}; }
-        if (!global$5.document) {
+        if (!global$2.document) {
             return;
         }
         if (!options.eventId) {
@@ -5635,14 +5633,14 @@ var Sentry = (function (exports) {
             }
             return;
         }
-        var script = global$5.document.createElement('script');
+        var script = global$2.document.createElement('script');
         script.async = true;
         script.src = getReportDialogEndpoint(options.dsn, options);
         if (options.onLoad) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
             script.onload = options.onLoad;
         }
-        var injectionPoint = global$5.document.head || global$5.document.body;
+        var injectionPoint = global$2.document.head || global$2.document.body;
         if (injectionPoint) {
             injectionPoint.appendChild(script);
         }
@@ -5932,7 +5930,7 @@ var Sentry = (function (exports) {
                 args[_i] = arguments[_i];
             }
             var originalCallback = args[0];
-            args[0] = wrap(originalCallback, {
+            args[0] = wrap$1(originalCallback, {
                 mechanism: {
                     data: { function: getFunctionName(original) },
                     handled: true,
@@ -5948,7 +5946,7 @@ var Sentry = (function (exports) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return function (callback) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            return original.call(this, wrap(callback, {
+            return original.call(this, wrap$1(callback, {
                 mechanism: {
                     data: {
                         function: 'requestAnimationFrame',
@@ -5991,7 +5989,7 @@ var Sentry = (function (exports) {
                             wrapOptions.mechanism.data.handler = getFunctionName(originalFunction);
                         }
                         // Otherwise wrap directly
-                        return wrap(original, wrapOptions);
+                        return wrap$1(original, wrapOptions);
                     });
                 }
             });
@@ -6012,7 +6010,7 @@ var Sentry = (function (exports) {
             return function (eventName, fn, options) {
                 try {
                     if (typeof fn.handleEvent === 'function') {
-                        fn.handleEvent = wrap(fn.handleEvent.bind(fn), {
+                        fn.handleEvent = wrap$1(fn.handleEvent.bind(fn), {
                             mechanism: {
                                 data: {
                                     function: 'handleEvent',
@@ -6030,7 +6028,7 @@ var Sentry = (function (exports) {
                 }
                 return original.call(this, eventName, 
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                wrap(fn, {
+                wrap$1(fn, {
                     mechanism: {
                         data: {
                             function: 'addEventListener',
@@ -6351,7 +6349,7 @@ var Sentry = (function (exports) {
         return _walkErrorTree(limit, error[key], key, __spread([exception], stack));
     }
 
-    var global$6 = getGlobalObject();
+    var global$1 = getGlobalObject();
     /** UserAgent */
     var UserAgent = /** @class */ (function () {
         function UserAgent() {
@@ -6367,13 +6365,13 @@ var Sentry = (function (exports) {
             addGlobalEventProcessor(function (event) {
                 if (getCurrentHub().getIntegration(UserAgent)) {
                     // if none of the information we want exists, don't bother
-                    if (!global$6.navigator && !global$6.location && !global$6.document) {
+                    if (!global$1.navigator && !global$1.location && !global$1.document) {
                         return event;
                     }
                     // grab as much info as exists and add it to the event
-                    var url = (event.request && event.request.url) || (global$6.location && global$6.location.href);
-                    var referrer = (global$6.document || {}).referrer;
-                    var userAgent = (global$6.navigator || {}).userAgent;
+                    var url = (event.request && event.request.url) || (global$1.location && global$1.location.href);
+                    var referrer = (global$1.document || {}).referrer;
+                    var userAgent = (global$1.navigator || {}).userAgent;
                     var headers = __assign(__assign(__assign({}, (event.request && event.request.headers)), (referrer && { Referer: referrer })), (userAgent && { 'User-Agent': userAgent }));
                     var request = __assign(__assign({}, (url && { url: url })), { headers: headers });
                     return __assign(__assign({}, event), { request: request });
@@ -6552,8 +6550,6 @@ var Sentry = (function (exports) {
         }
         return undefined;
     }
-
-
 
     var BrowserIntegrations = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -6809,8 +6805,8 @@ var Sentry = (function (exports) {
      * @returns The result of wrapped function call.
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function wrap$1(fn) {
-        return wrap(fn)();
+    function wrap(fn) {
+        return wrap$1(fn)();
     }
     function startSessionOnHub(hub) {
         hub.startSession({ ignoreDuration: true });
@@ -6900,9 +6896,9 @@ var Sentry = (function (exports) {
     exports.showReportDialog = showReportDialog;
     exports.startTransaction = startTransaction;
     exports.withScope = withScope;
-    exports.wrap = wrap$1;
+    exports.wrap = wrap;
 
     return exports;
 
-}({}));
+})({});
 //# sourceMappingURL=bundle.js.map
