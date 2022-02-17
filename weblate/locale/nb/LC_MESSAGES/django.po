@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-16 20:35+0000\n"
+"PO-Revision-Date: 2022-02-17 12:04+0000\n"
 "Last-Translator: FTno <ft-002@tutanota.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -1394,15 +1394,11 @@ msgid "Language filter"
 msgstr "Språkfilter"
 
 #: weblate/addons/forms.py:285
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation files against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Regulært uttrykk å filtrere oversettelse mot ved skanning for filnavnsmaske."
+"Regulært uttrykk å filtrere oversettelsesfiler mot ved skanning for filmaske."
 
 #: weblate/addons/forms.py:290
 msgid "Clone add-ons from the main component to the newly created ones"
@@ -8123,7 +8119,7 @@ msgstr "Klon til oversettelse"
 #: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1736
 #: weblate/trans/models/component.py:272
 msgid "Source code repository"
-msgstr "Kildekodearkiv"
+msgstr "Kodelager for kildekode"
 
 #: weblate/templates/snippets/git-info.html:19
 #: weblate/trans/templatetags/translations.py:759
@@ -8478,12 +8474,11 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s av %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:10
-#, fuzzy, python-format
-#| msgid "Upload translation strings"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Fullførte oversettelse med %(count)s streng"
-msgstr[1] "Fullførte oversettelse med %(count)s strenger"
+msgstr[0] "Fullført oversettelse med %(count)s streng"
+msgstr[1] "Fullført oversettelse med %(count)s strenger"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8830,20 +8825,16 @@ msgid "Source in review"
 msgstr "Kilde under gjennomgang"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Kildestrengsredigering er avskrudd."
+msgstr "Kildestrengredigering er slått av."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr "Kildestrenger kan ikke redigeres. Du kan slette dem og legge til nye."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "The source string cannot be edited."
-msgstr "Kildestrengen kan ikke endres."
+msgstr "Kildestrengen kan ikke redigeres."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:170
 msgid "Could not find any such user."
@@ -8909,13 +8900,8 @@ msgid "Error"
 msgstr "Feil"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr ""
-"Komponenten inneholder oversettelsesfiler som bruker tvetydig språkkode."
+msgstr "Filer for oversatte språk bruker tvetydige språkkoder."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 #, fuzzy
@@ -8927,9 +8913,8 @@ msgstr ""
 "koder for individuelle språk istedenfor."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
-#, fuzzy
 msgid "Suggested individual language codes"
-msgstr "Anbefalte individuelle språkkoder"
+msgstr "Foreslåtte individuelle språkkoder"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 #, fuzzy
@@ -8983,17 +8968,14 @@ msgid "Filename"
 msgstr "Filnavn"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
 msgid "Some linked components have the same file mask."
-msgstr "Lenket komponent inneholder noen komponenter med samme filmaske."
+msgstr "Noen lenkede komponenter har samme filmaske."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Please fix this by removing one of them."
 msgstr "Fiks dette ved å fjerne én av dem."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following filemasks were found multiple times:"
 msgid "The following file masks were found multiple times:"
 msgstr "Følgende filmasker ble funnet flere ganger:"
 
@@ -9359,7 +9341,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr "Filnav i arkivet må ha lokalitetskoder i seg."
+msgstr "Filnavnene i arkivet må ha lokalitetskoder."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -11596,8 +11578,9 @@ msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Sti relativt til arkivroten for filer som skal oversettes, bruk * i stedet "
-"for språkkode, for eksempel: po/*.po eller locale/*/LC_MESSAGES/django.po."
+"Sti til filer som skal oversettes relativt til kodelagerroten, bruk * i "
+"stedet for språkkode, for eksempel: po/*.po eller locale/*/LC_MESSAGES/django"
+".po."
 
 #: weblate/trans/models/component.py:351
 msgid ""
@@ -13504,16 +13487,13 @@ msgid "Backup repository URL"
 msgstr "Sikkerhetskodelager-nettadresse"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Bruk /sti/til/kodelager for lokale sikkerhetskopier, eller bruker@vert:/sti/"
-"til/kodelager for SSH-sikkerhetskopier til annensteds hen."
+"Bruk /sti/til/kodelager for lokale sikkerhetskopier eller bruker@vert:/sti/"
+"til/kodelager eller ssh://bruker@vert:port/sti/til/sikkerhetskopier for "
+"eksterne SSH-sikkerhetskopier."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
