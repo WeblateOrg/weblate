@@ -693,6 +693,15 @@ Generic settings
 
        :ref:`vcs-pagure`
 
+.. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
+
+    Configures the default title and message for pull requests via API by changing
+    :setting:`DEFAULT_PULL_MESSAGE`
+
+    .. seealso::
+
+       :ref:`config-pull-message`
+
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.

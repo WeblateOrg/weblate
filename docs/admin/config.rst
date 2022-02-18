@@ -648,11 +648,12 @@ Default setting for translation propagation, defaults to ``True``.
 
 .. setting:: DEFAULT_PULL_MESSAGE
 
+.. _config-pull-message:
+
 DEFAULT_PULL_MESSAGE
 --------------------
 
-Title for new pull requests,
-defaulting to ``'Update from Weblate'``.
+Configures the default title and message for pull requests.
 
 .. setting:: ENABLE_AVATARS
 
