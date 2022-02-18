@@ -241,6 +241,10 @@ GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN")
 PAGURE_USERNAME = os.environ.get("WEBLATE_PAGURE_USERNAME")
 PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN")
 
+# Default pull request message.
+# Please see the documentation for more details.
+DEFAULT_PULL_MESSAGE = os.environ.get("WEBLATE_DEFAULT_PULL_MESSAGE")
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
 
