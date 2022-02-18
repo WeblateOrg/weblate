@@ -1267,7 +1267,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return []
         key = self.translation.keys_cache_key
         key_list = cache.get(key)
-        if key_list is None or self.pk not in key_list or True:
+        if key_list is None or self.pk not in key_list:
             key_list = list(
                 self.translation.unit_set.order_by("context").values_list(
                     "id", flat=True
