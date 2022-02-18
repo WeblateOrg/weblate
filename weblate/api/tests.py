@@ -130,7 +130,7 @@ class UserAPITest(APIBaseTest):
     def test_list(self):
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)
-        self.assertFalse("email" in response.data["results"][0])
+        self.assertNotIn("email", response.data["results"][0])
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)

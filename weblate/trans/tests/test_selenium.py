@@ -330,14 +330,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.get(url)
 
         # Check we got message
-        self.assertTrue(
-            "You have activated" in self.driver.find_element(By.TAG_NAME, "body").text
+        self.assertIn(
+            "You have activated", self.driver.find_element(By.TAG_NAME, "body").text
         )
 
         # Check we're signed in
         self.click(htmlid="user-dropdown")
-        self.assertTrue(
-            "Test Example" in self.driver.find_element(By.ID, "profile-name").text
+        self.assertIn(
+            "Test Example", self.driver.find_element(By.ID, "profile-name").text
         )
 
     def test_register_nocookie(self):
