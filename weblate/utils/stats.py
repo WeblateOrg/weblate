@@ -872,17 +872,14 @@ class ProjectStats(BaseStats):
     def component_set(self):
         return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
-    def get_single_language_stats(self, language, prefetch: bool = False):
+    def get_single_language_stats(self, language):
         result = ProjectLanguageStats(ProjectLanguage(self._object, language))
-        if prefetch:
-            # Share component set here
-            result.__dict__["component_set"] = self.component_set
         return result
 
     def get_language_stats(self):
         result = []
         for language in self._object.languages:
-            result.append(self.get_single_language_stats(language, prefetch=True))
+            result.append(self.get_single_language_stats(language))
         return prefetch_stats(result)
 
     def _prefetch_basic(self):
