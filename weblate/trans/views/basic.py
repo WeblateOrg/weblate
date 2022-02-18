@@ -29,6 +29,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AnnouncementForm,
     AutoForm,
@@ -427,10 +428,14 @@ def new_language(request, project, component):
                                 "sent to the project's maintainers."
                             ),
                         )
-                if not obj.create_translations(request=request):
-                    messages.warning(
-                        request, _("The translation will be updated in the background.")
-                    )
+                try:
+                    if not obj.create_translations(request=request):
+                        messages.warning(
+                            request,
+                            _("The translation will be updated in the background."),
+                        )
+                except FileParseError:
+                    pass
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
             return redirect(result)
