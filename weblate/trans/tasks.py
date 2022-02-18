@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import os
+import time
 from datetime import date, timedelta
 from glob import glob
-from time import time
 from typing import List, Optional
 
 from celery import current_task
@@ -232,7 +232,7 @@ def cleanup_stale_repos():
     prefix = data_dir("vcs")
     vcs_mask = os.path.join(prefix, "*", "*")
 
-    yesterday = time() - 86400
+    yesterday = time.monotonic() - 86400
 
     for path in glob(vcs_mask):
         if not os.path.isdir(path):

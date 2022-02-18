@@ -59,8 +59,8 @@ def ping():
 
 @app.task(trail=False)
 def heartbeat():
-    cache.set("celery_loaded", time.time())
-    cache.set("celery_heartbeat", time.time())
+    cache.set("celery_loaded", time.monotonic())
+    cache.set("celery_heartbeat", time.monotonic())
     cache.set(
         "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
     )
@@ -163,7 +163,7 @@ def database_backup():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    cache.set("celery_loaded", time.time())
+    cache.set("celery_loaded", time.monotonic())
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )

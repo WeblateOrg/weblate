@@ -190,7 +190,7 @@ def get_other_units(unit):
 
 def cleanup_session(session):
     """Delete old search results from session storage."""
-    now = int(time.time())
+    now = int(time.monotonic())
     keys = list(session.keys())
     for key in keys:
         if not key.startswith("search_"):
@@ -257,7 +257,7 @@ def search(base, project, unit_set, request, blank: bool = False):
         "key": session_key,
         "name": str(name),
         "ids": unit_ids,
-        "ttl": int(time.time()) + 86400,
+        "ttl": int(time.monotonic()) + 86400,
     }
     request.session[session_key] = store_result
 

@@ -1217,14 +1217,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.log_info("updating repository")
         try:
             with self.repository.lock:
-                start = time.time()
+                start = time.monotonic()
                 try:
                     previous = self.repository.last_remote_revision
                 except RepositoryException:
                     # Repository not yet configured
                     previous = ""
                 self.repository.update_remote()
-                timediff = time.time() - start
+                timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
                 for line in self.repository.last_output.splitlines():
                     self.log_debug("update: %s", line)

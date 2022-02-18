@@ -56,7 +56,7 @@ class NeteaseSightTranslation(MachineTranslation):
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
         nonce = str(random.randint(1000, 99999999))
-        timestamp = str(int(1000 * time.time()))
+        timestamp = str(int(1000 * time.monotonic()))
 
         sign = settings.MT_NETEASE_SECRET + nonce + timestamp
         sign = sign.encode()
