@@ -663,8 +663,7 @@ class Plural(models.Model):
     number = models.SmallIntegerField(
         default=2, verbose_name=gettext_lazy("Number of plurals")
     )
-    formula = models.CharField(
-        max_length=600,
+    formula = models.TextField(
         default="n != 1",
         validators=[validate_plural_formula],
         blank=False,
