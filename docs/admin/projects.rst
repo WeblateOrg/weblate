@@ -777,7 +777,7 @@ Regular expression used to determine the variants of a string, see
 
 .. note::
 
-    Most of the fields can be edited by project owners or managers, in the
+    Most of the fields can be edited by project owners or administrators, in the
     Weblate interface.
 
 .. seealso::

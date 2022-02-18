@@ -21,7 +21,7 @@ Not yet released.
 * New add-on :ref:`addon-weblate.generate.prefill`.
 * Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
 * Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
-* Improved punctionation checks for Burmese.
+* Improved punctuation checks for Burmese.
 * Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
 * Added documentation links to alerts.
 * Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
@@ -227,7 +227,7 @@ Released on April 19th 2021.
 * The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
 * Added trends and metrics for all objects.
-* Added support for direct copying text from secondary languages.
+* Added support for directly copying text from secondary languages.
 * Added date filtering when browsing changes.
 * Improved activity charts.
 * Sender for contact form e-mails can now be configured.
