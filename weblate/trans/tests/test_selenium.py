@@ -486,8 +486,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 presence_of_element_located(
                     (
                         By.XPATH,
-                        '//div[@id="search-results"]'
-                        '//tbody[@class="unit-listing-body"]//tr',
+                        (
+                            '//div[@id="search-results"]'
+                            '//tbody[@class="unit-listing-body"]//tr'
+                        ),
                     )
                 )
             )
