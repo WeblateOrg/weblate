@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-09 20:46+0100\n"
-"PO-Revision-Date: 2022-02-18 12:04+0000\n"
+"PO-Revision-Date: 2022-02-20 12:05+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1257,7 +1257,7 @@ msgstr "このグループからロールを削除して、未認証ユーザー
 
 #: ../../admin/access.rst:591
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr "デフォルトのロール: `Add suggestion`、 `Access repository`"
+msgstr "デフォルトのロール: `提案の追加`、 `リポジトリへのアクセス`"
 
 #: ../../admin/access.rst:600
 msgid "`Viewers`"
@@ -16259,36 +16259,34 @@ msgstr ""
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
-msgstr ""
+msgstr "Weblate モジュールのオプション"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
-msgstr ""
+msgstr "初期設定のために、オプションのモジュールを複数用意しています。"
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
-msgstr ""
+msgstr "Git エクスポーター"
 
 #: ../../admin/optionals.rst:13
 msgid ""
 "Provides you read-only access to the underlying Git repository using HTTP(S)."
-msgstr ""
-"HTTP(S) を使用して、基になる Git リポジトリへの読み取り専用アクセスを提供しま"
-"す。"
+msgstr "HTTP(S) 接続による、基になる Git リポジトリへの読み取り専用アクセスを提供します。"
 
 #: ../../admin/optionals.rst:18
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
-msgstr ""
+msgstr ":file:`settings.py` ファイルにある、インストールするアプリに ``weblate.gitexport`` を追加する:"
 
 #: ../../admin/optionals.rst:24
 msgid ""
 "Export existing repositories by migrating your database after installation:"
-msgstr ""
+msgstr "インストール後にデータベースを移行して、既存のリポジトリをエクスポートする:"
 
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:87
 #: ../../admin/optionals.rst:162 ../../faq.rst:281
 msgid "Usage"
-msgstr ""
+msgstr "使用方法"
 
 #: ../../admin/optionals.rst:33
 msgid ""
@@ -16297,12 +16295,15 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/main/``."
 msgstr ""
+"モジュールは自動的に Weblate にフックされ、エクスポートしたリポジトリの URL を :ref:`component` "
+"に設定します。リポジトリには、Weblate の URL の ``/git/`` 以降、例えば ``https://example.org/git/"
+"weblate/main/`` からアクセスします。"
 
 #: ../../admin/optionals.rst:38
 msgid ""
 "Repositories for publicly available projects can be cloned without "
 "authentication:"
-msgstr ""
+msgstr "公開しているプロジェクトのリポジトリを認証せずに複製する方法:"
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -16311,6 +16312,9 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"アクセスが制限されたリポジトリ（:ref:`access control <acl>` を `プライベート` に設定、もしくは "
+":setting:`REQUIRE_LOGIN` を有効化している場合）を参照するには、:ref:`user profile <user-"
+"profile>` から取得できる API トークンが必要です。例:"
 
 #: ../../admin/optionals.rst:55
 msgid ""
@@ -16318,22 +16322,26 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"デフォルトでは、メンバーまたは :guilabel:`ユーザー` グループおよび匿名ユーザーは、:guilabel:`リポジトリへのアクセス` および "
+":guilabel:`パワー ユーザー` のロールを使用して、公開プロジェクトのリポジトリにアクセスします。"
 
 #: ../../admin/optionals.rst:67
 msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"これは `Hosted Weblate <https://weblate.org/hosting/>`_ "
+"を使用する料金プランを設定し、請求書と使用制限を管理するために使用します。"
 
 #: ../../admin/optionals.rst:73
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
-msgstr ""
+msgstr "1. :file:`settings.py` ファイルにある、インストールするアプリに ``weblate.billing`` を追加する:"
 
 #: ../../admin/optionals.rst:80 ../../admin/optionals.rst:153
 msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
-msgstr ""
+msgstr "データベースの移行を実行し、オプションである追加のデータベース構造のモジュールをインストールする:"
 
 #: ../../admin/optionals.rst:89
 msgid ""
@@ -16341,6 +16349,8 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"インストールして、管理画面から請求書を管理します。支払いが必要なユーザーは、自分の :ref:`user-profile`の中に、新しい "
+":guilabel:`請求書` タブが表示されます。"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -16348,12 +16358,15 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"請求モジュールを使用すると、プロジェクト管理者はスーパーユーザーでなくても新しいプロジェクトやコンポーネントを作成できます（参照: :ref"
+":`adding-projects`）。使用するために必要な条件:"
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
 msgstr ""
+"請求は、設定済みの限度額以内（使用限度を超えると、プロジェクトおよびコンポーネントの作成がブロックされる）および支払済み（料金が有料である）の場合"
 
 #: ../../admin/optionals.rst:99
 msgid ""
@@ -16361,16 +16374,18 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"ユーザーは、有料の既存のプロジェクトの管理者である、または請求のアクセス権がある場合（後者は、新しいプロジェクトをインポートするために、新しい請求書を作成"
+"する場合に必要です）。"
 
 #: ../../admin/optionals.rst:103
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
-msgstr ""
+msgstr "プロジェクト作成時に、ユーザーが他の請求書にアクセスできる場合には、プロジェクトへ請求する請求書を選択できます。"
 
 #: ../../admin/optionals.rst:110
 msgid "Legal"
-msgstr "法律上の告知事項"
+msgstr "法的文書"
 
 #: ../../admin/optionals.rst:114
 msgid ""
@@ -16378,6 +16393,8 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"これは、`Hosted Weblate <https://weblate.org/hosting/>`_ "
+"で使用する法的文書を提供します。ドキュメントは空なので、次のテンプレートを記入することが必要となります。"
 
 #: ../../admin/optionals.rst:118
 msgid ":file:`legal/documents/tos.html`"
@@ -16385,7 +16402,7 @@ msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:119
 msgid "Terms of service document"
-msgstr ""
+msgstr "利用規約文書"
 
 #: ../../admin/optionals.rst:120
 msgid ":file:`legal/documents/privacy.html`"
@@ -16393,7 +16410,7 @@ msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:121
 msgid "Privacy policy document"
-msgstr ""
+msgstr "プライバシー ポリシー文書"
 
 #: ../../admin/optionals.rst:123
 msgid ":file:`legal/documents/summary.html`"
@@ -16401,7 +16418,7 @@ msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:123
 msgid "Short overview of the terms of service and privacy policy"
-msgstr ""
+msgstr "利用規約とプライバシー ポリシーの概要"
 
 #: ../../admin/optionals.rst:127
 msgid ""
@@ -16409,32 +16426,34 @@ msgid ""
 "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
 "templates/legal/documents>."
 msgstr ""
+"Hosted Weblate サービスの法的文書は、この Git リポジトリ <https://github.com/WeblateOrg/"
+"wllegal/tree/main/wllegal/templates/legal/documents> から入手できます。"
 
 #: ../../admin/optionals.rst:130
 msgid ""
 "Most likely these will not be directly usable to you, but might come in "
 "handy as a starting point if adjusted to meet your needs."
-msgstr ""
+msgstr "多くの場合、これをそのまま使用することは難しいですが、必要に合わせて変更したりすると、足掛かりとしては参考になります。"
 
 #: ../../admin/optionals.rst:136
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
-msgstr ""
+msgstr "1. :file:`settings.py` ファイルにある、インストールするアプリに ``weblate.legal`` を追加する:"
 
 #: ../../admin/optionals.rst:159
 msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
-msgstr ""
+msgstr ":file:`weblate/legal/templates/legal/` フォルダーにある法的文書を、サービスに合わせて編集する。"
 
 #: ../../admin/optionals.rst:164
 msgid ""
 "After installation and editing, the legal documents are shown in the Weblate "
 "UI."
-msgstr ""
+msgstr "インストールと編集をすると、法的文書が Weblate UI に表示されます。"
 
 #: ../../admin/optionals.rst:169
 msgid "Avatars"
-msgstr ""
+msgstr "アバター"
 
 #: ../../admin/optionals.rst:171
 msgid ""
@@ -16443,10 +16462,12 @@ msgid ""
 "from e-mails addresses configured for it can be turned off using :setting:"
 "`ENABLE_AVATARS`."
 msgstr ""
+"アバターはダウンロードして、サーバー側でキャッシュされるので、デフォルトではアバターを提供しているサイトへの情報漏洩を減らせます。設定したメールアドレスか"
+"らアバターを取得する機能は、:setting:`ENABLE_AVATARS` を使用して無効化します。"
 
 #: ../../admin/optionals.rst:175
 msgid "Weblate currently supports:"
-msgstr ""
+msgstr "現在 Weblate が対応しているアバター:"
 
 #: ../../admin/optionals.rst:177
 msgid "`Gravatar <https://gravatar.com/>`_"
@@ -16466,33 +16487,35 @@ msgstr ""
 
 #: ../../admin/optionals.rst:189
 msgid "Spam protection"
-msgstr ""
+msgstr "スパム対策"
 
 #: ../../admin/optionals.rst:191
 msgid ""
 "You can protect against spamming by users by using the `Akismet <https://"
 "akismet.com/>`_ service."
-msgstr ""
+msgstr "`Akismet <https://akismet.com/>`_ サービスを使用して、ユーザーによるスパムから保護できます。"
 
 #: ../../admin/optionals.rst:194
 msgid ""
 "Install the `akismet` Python module (this is already included in the "
 "official Docker image)."
-msgstr ""
+msgstr "`akismet` Python モジュールをインストールする（これはすでに公式の Docker イメージに含まれている）。"
 
 #: ../../admin/optionals.rst:195
 msgid "Obtain the Akismet API key."
-msgstr ""
+msgstr "Akismet API キーを取得する。"
 
 #: ../../admin/optionals.rst:196
 msgid ""
 "Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` "
 "in Docker."
 msgstr ""
+"取得した API キーを、:setting:`AKISMET_API_KEY` もしくは "
+":envvar:`WEBLATE_AKISMET_API_KEY` Docker に保存する。"
 
 #: ../../admin/optionals.rst:198
 msgid "Following content is sent to Akismet for checking:"
-msgstr ""
+msgstr "次の内容が確認のために Akismet に送信されます。"
 
 #: ../../admin/optionals.rst:200
 msgid "Suggestions from unauthenticated users"
@@ -16506,7 +16529,7 @@ msgstr "プロジェクトとコンポーネントの説明とリンク"
 msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
-msgstr ""
+msgstr "これは（特に）クライアントの IP アドレスに左右されます。適切に設定するには :ref:`reverse-proxy` を確認してください。"
 
 #: ../../admin/optionals.rst:210
 msgid ""
@@ -24673,7 +24696,7 @@ msgstr "翻訳のブートストラップ用に自動翻訳アドオンを追加
 
 #: ../../changes.rst:848
 msgid "Extend automatic translation to add suggestions."
-msgstr ""
+msgstr "提案を追加できるように自動翻訳を拡張。"
 
 #: ../../changes.rst:849
 msgid "Display add-on parameters on overview."
@@ -26678,7 +26701,7 @@ msgstr ""
 
 #: ../../changes.rst:1501
 msgid "New management command to add suggestions from command-line."
-msgstr ""
+msgstr "コマンドラインから提案を追加する、新しい管理コマンドの追加。"
 
 #: ../../changes.rst:1502
 msgid "Added support for merging comments on file upload."
