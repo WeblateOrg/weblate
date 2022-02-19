@@ -125,7 +125,7 @@ def update_component_stats(pk):
     for language in Language.objects.filter(
         translation__component=component
     ).iterator():
-        stats = project_stats.get_single_language_stats(language, prefetch=True)
+        stats = project_stats.get_single_language_stats(language)
         stats.ensure_basic()
 
 

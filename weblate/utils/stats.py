@@ -793,9 +793,10 @@ class ProjectLanguage:
 
 
 class ProjectLanguageStats(LanguageStats):
-    def __init__(self, obj: ProjectLanguage):
+    def __init__(self, obj: ProjectLanguage, project_stats=None):
         self.language = obj.language
         self.project = obj.project
+        self._project_stats = project_stats
         super().__init__(obj)
         obj.stats = self
 
@@ -805,6 +806,8 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def component_set(self):
+        if self._project_stats:
+            return self._project_stats.component_set
         return prefetch_stats(self.project.component_set.prefetch_source_stats())
 
     @cached_property
@@ -873,8 +876,9 @@ class ProjectStats(BaseStats):
         return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
     def get_single_language_stats(self, language):
-        result = ProjectLanguageStats(ProjectLanguage(self._object, language))
-        return result
+        return ProjectLanguageStats(
+            ProjectLanguage(self._object, language), project_stats=self
+        )
 
     def get_language_stats(self):
         result = []
