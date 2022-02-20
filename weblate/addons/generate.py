@@ -143,7 +143,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         except Translation.DoesNotExist:
             # Uninstall misconfigured add-on
             report_error(cause="add-on error")
-            self.intance.disable()
+            self.instance.disable()
             return
         self.generate_translation(
             source_translation,
