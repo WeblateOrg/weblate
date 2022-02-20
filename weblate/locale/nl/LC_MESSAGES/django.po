@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-10 13:48+0000\n"
+"PO-Revision-Date: 2022-02-24 17:56+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -1740,7 +1740,7 @@ msgstr "Begrippenlijstitems uploaden"
 #. Translators: Permission name
 #: weblate/auth/data.py:55
 msgid "Use automatic suggestions"
-msgstr "Automatische suggesties gebruiken"
+msgstr "Automatische vertalingen toestaan"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57
@@ -5763,7 +5763,7 @@ msgstr "Inzicht"
 #: weblate/templates/language.html:22 weblate/templates/project.html:39
 #: weblate/templates/translate.html:261 weblate/templates/translation.html:45
 msgid "History"
-msgstr "Geschiedenis"
+msgstr "Vertaalgeschiedenis"
 
 #: weblate/templates/component.html:44 weblate/templates/project.html:43
 msgid "Download statistics (CSV)"
@@ -9684,7 +9684,7 @@ msgstr "U bent niet bevoegd om suggesties toe te voegen."
 
 #: weblate/templates/translate.html:233
 msgid "Suggest"
-msgstr "Suggestie doen"
+msgstr "Opslaan als suggestie"
 
 #: weblate/templates/translate.html:235
 msgid "Skip"
@@ -9716,7 +9716,7 @@ msgstr "Varianten"
 
 #: weblate/templates/translate.html:252
 msgid "Other occurrences"
-msgstr "Andere gevallen"
+msgstr "Vergelijkbare vertalingen"
 
 #: weblate/templates/translate.html:258
 msgid "Computer-aided translation suggestions"
@@ -9724,11 +9724,11 @@ msgstr "Suggesties door machinevertaling"
 
 #: weblate/templates/translate.html:258
 msgid "Automatic suggestions"
-msgstr "Automatische suggesties"
+msgstr "Automatische vertalingen"
 
 #: weblate/templates/translate.html:260
 msgid "Translations of this string in the other languages"
-msgstr "Vertalingen van deze tekenreeks in de andere talen"
+msgstr "Vertalingen van deze tekenreeks in andere talen"
 
 #: weblate/templates/translate.html:260
 msgid "Other languages"
@@ -9774,7 +9774,7 @@ msgstr[1] ""
 
 #: weblate/templates/translate.html:343
 msgid "Apply selected translation to all propagated strings"
-msgstr "Geselecteerde vertaling toepassen op voortgezette tekenreeksen"
+msgstr "Gekozen vertaling gebruiken"
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to current string"
@@ -9933,7 +9933,7 @@ msgstr "Deze vertaling wordt gebruikt als brontekenreeks in dit onderdeel."
 
 #: weblate/templates/translation.html:171
 msgid "Strings status"
-msgstr "Status van de tekenreeksen"
+msgstr "Tekenreeksstatus"
 
 #: weblate/templates/translation.html:187
 #, python-format
@@ -11567,8 +11567,8 @@ msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
-"Aanvaard automatisch suggesties met dit aantal stemmen. Gebruik 0 om uit te "
-"schakelen."
+"Aanvaard automatisch suggesties met dit aantal stemmen. Stel in op 0 om uit "
+"te schakelen."
 
 #: weblate/trans/models/component.py:432 weblate/trans/models/unit.py:321
 msgid "Translation flags"
@@ -11592,8 +11592,8 @@ msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
-"Gebruikersovereenkomst die goedgekeurd moet worden voordat een gebruiker dit "
-"onderdeel kan vertalen."
+"Gebruikersovereenkomst die goedgekeurd dient te worden voordat een gebruiker "
+"dit onderdeel kan vertalen."
 
 #: weblate/trans/models/component.py:467
 msgid "Adding new translation"
@@ -11601,11 +11601,11 @@ msgstr "Nieuwe vertaling toevoegen"
 
 #: weblate/trans/models/component.py:471
 msgid "How to handle requests for creating new translations."
-msgstr "Hoe verzoeken voor het aanmaken van nieuwe vertalingen te verwerken."
+msgstr "Hoe verzoeken omtrent het aanmaken van nieuwe vertalingen te verwerken."
 
 #: weblate/trans/models/component.py:474
 msgid "Language code style"
-msgstr "Taalcode-stijl"
+msgstr "Taalcodestijl"
 
 #: weblate/trans/models/component.py:480
 msgid ""
@@ -11638,8 +11638,8 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Definieer of Weblate wijzigingen moet samenvoegen (merge) met de "
-"stroomopwaartse opslagruimte of deze erop moet herbaseren (rebase)."
+"Geef aan of Weblate wijzigingen moet samenvoegen met de stroomopwaartse "
+"opslagruimte of deze erop moet herbaseren."
 
 #: weblate/trans/models/component.py:506
 msgid "Commit message when translating"
@@ -11665,11 +11665,11 @@ msgstr "Commitbericht bij het verwijderen van een vertaling"
 
 #: weblate/trans/models/component.py:533
 msgid "Commit message when merging translation"
-msgstr "Commitbericht bij samenvoegen van vertaling"
+msgstr "Commitbericht bij het samenvoegen van een vertaling"
 
 #: weblate/trans/models/component.py:542
 msgid "Commit message when add-on makes a change"
-msgstr "Commitbericht wanneer een addon een wijziging doet"
+msgstr "Commitbericht als een uitbreiding een wijziging aanbrengt"
 
 #: weblate/trans/models/component.py:551
 msgid "Push on commit"
@@ -11688,8 +11688,8 @@ msgstr "Ouderdom van door te voeren wijzigingen"
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Tijd in uur waarna alle openstaande wijzigingen gecommit zullen worden in de "
-"VCS."
+"Tijd, in uren, waarna alle openstaande wijzigingen gecommit zullen worden in "
+"de vcs."
 
 #: weblate/trans/models/component.py:567
 msgid "Lock on error"
@@ -11704,8 +11704,8 @@ msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
 msgstr ""
-"Reguliere uitdrukking (regex) die gebruikt wordt voor het filteren van "
-"vertalingen bij het scannen van bestandsmasker."
+"Reguliere uitdrukking die gebruikt wordt bij het filteren van vertalingen "
+"tijdens het scannen van de bestandsmaskers."
 
 #: weblate/trans/models/component.py:591
 msgid "Variants regular expression"
