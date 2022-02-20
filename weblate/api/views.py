@@ -189,7 +189,8 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
         """Wrapper for file download."""
         if os.path.isdir(filename):
             response = zip_download(filename, filename)
-            filename = "{}.zip".format(component.slug if component else "weblate")
+            basename = component.slug if component else "weblate"
+            filename = f"{basename}.zip"
         else:
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
@@ -1285,7 +1286,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         except FileParseError as error:
             obj.translation.component.update_import_alerts(delete=False)
             return Response(
-                data={"error": "Failed to remove the string: %s" % error},
+                data={"error": f"Failed to remove the string: {error}"},
                 status=HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response(status=HTTP_204_NO_CONTENT)
