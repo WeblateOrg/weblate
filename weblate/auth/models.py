@@ -363,9 +363,6 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.full_name
 
-    def get_absolute_url(self):
-        return reverse("user_page", kwargs={"user": self.username})
-
     def save(self, *args, **kwargs):
         if self.is_anonymous:
             self.is_active = False
@@ -382,6 +379,9 @@ class User(AbstractBaseUser):
             self.email = None
         super().save(*args, **kwargs)
         self.clear_cache()
+
+    def get_absolute_url(self):
+        return reverse("user_page", kwargs={"user": self.username})
 
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
