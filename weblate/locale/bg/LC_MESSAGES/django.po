@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-14 21:48+0000\n"
+"PO-Revision-Date: 2022-02-20 12:05+0000\n"
 "Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -185,7 +185,7 @@ msgstr "Други проекти"
 #: weblate/templates/accounts/profile.html:67
 #: weblate/templates/accounts/user.html:143
 msgid "Watched projects"
-msgstr "Следени проекти"
+msgstr "Наблюдавани проекти"
 
 #: weblate/accounts/forms.py:680 weblate/templates/accounts/user.html:142
 msgid "Managed projects"
@@ -211,7 +211,7 @@ msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
-"Ще получавате известия за всяко подобно събитие в следените от Вас проекти."
+"Ще получавате известия за всяко подобно събитие в наблюдаваните проекти."
 
 #: weblate/accounts/forms.py:699
 msgid ""
@@ -244,8 +244,8 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Ще получавате тези известия само за езиците, на които превеждате, в "
-"следените от Вас проекти."
+"Ще получавате тези известия само за езиците, на които превеждате "
+"наблюдаваните проекти."
 
 #: weblate/accounts/forms.py:724
 msgid ""
@@ -545,7 +545,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:454
 msgid "Automatically watch projects on contribution"
-msgstr "Автоматично следене на проектите при превод в тях"
+msgstr "Наблюдаване на проект при превод"
 
 #: weblate/accounts/models.py:457
 msgid ""
@@ -555,7 +555,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:467 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
-msgstr "Следени преводи"
+msgstr "Наблюдавани преводи"
 
 #: weblate/accounts/models.py:468 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
@@ -585,12 +585,12 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
-"Можете да получавате известия за следените проекти; те се показват на "
+"Можете да получавате известия за наблюдаваните проекти; те се показват на "
 "таблото по подразбиране."
 
 #: weblate/accounts/models.py:506
 msgid "Website URL"
-msgstr "Адрес на уеб сайта"
+msgstr "Адрес на страницата"
 
 #: weblate/accounts/models.py:510
 msgid "Liberapay username"
@@ -616,7 +616,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:527
 msgid "Code site URL"
-msgstr "Адрес към уеб сайта с код"
+msgstr "Адрес към страницата с код"
 
 #: weblate/accounts/models.py:529
 msgid "Link to your code profile for services like Codeberg or GitLab."
@@ -2127,7 +2127,7 @@ msgstr "Повторно изпращане на е-писмото с покан
 #: weblate/auth/models.py:78
 #, python-format
 msgid "%s (site-wide permission)"
-msgstr "%s (правомощие за целия уеб сайт)"
+msgstr "%s (права за цялата система)"
 
 #: weblate/auth/models.py:83 weblate/auth/models.py:106
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -3836,12 +3836,12 @@ msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not Track"
 "\" settings in your browser."
 msgstr ""
-"Страницата използва „Matomo“ за анализиране на трафика. Matomo зачита "
-"настройките на браузъра против следене."
+"Страницата използва „Matomo“ за анализ на трафика. Matomo зачита настройките "
+"за проследяване на мрежовия четец."
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr "Този уеб сайт използва „Гугъл Анализи“ за анализиране на трафика."
+msgstr "Тази страница използва Google Analytics за анализ на трафика."
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
@@ -4049,10 +4049,10 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Този уеб сайт използва HTTPS и съответно изисква заглавката „Referer“ да "
-"бъде изпратена от браузъра, но такава не бе изпратена. Тази заглавка е "
-"задължителна от съображения за сигурност, за да се гарантира, че браузърът "
-"Ви не е превзет от недоброжелател."
+"Страницата използва HTTPS и съответно изисква заглавката „Referer“ да бъде "
+"изпратена от браузъра, но такава липсва. Заглавката е задължителна от "
+"съображения за сигурност, за да се гарантира, че браузърът не е превзет от "
+"недоброжелател."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -4070,18 +4070,17 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third-parties."
 msgstr ""
-"Този уеб сайт изисква бисквитка CSRF при изпращане на формуляри. Тази "
-"бисквитка е задължителна от съображения за сигурност, за да се гарантира, че "
-"вашият браузър не е превзет от недоброжелател."
+"Страницата изисква бисквитка CSRF при изпращане на формуляри. Тази бисквитка "
+"е задължителна от съображения за сигурност, за да се гарантира, че браузърът "
+"не е превзет от недоброжелател."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"Ако сте настроили браузъра си така, че да не запазва бисквитките, моля, "
-"включете това отново (поне за този уеб сайт или за заявки от вида „same-"
-"origin“)."
+"Ако сте настроили браузъра си така, че да не запазва бисквитките включете "
+"това отново (поне за този уеб сайт или за заявки от вида „same-origin“)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -4142,8 +4141,7 @@ msgstr "Хостинг на превода"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
-"Weblate предоставя възможност за превод на различни проекти с отворен код на "
-"своя уеб сайт."
+"Weblate предоставя възможност за превод на различни проекти с отворен код."
 
 #: weblate/templates/about/index.html:29
 msgid "Weblate can host your project as well, please get in touch."
@@ -4263,7 +4261,7 @@ msgid ""
 "report, check its website at %(weblate_link)s."
 msgstr ""
 "Ако търсите поддръжка за друг сървър, използващ Weblate, или искате да "
-"докладвате за грешка, използвайте уеб сайта: %(weblate_link)s."
+"докладвате за грешка, използвайте страницата: %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
 msgid "Contact server administrators"
@@ -4375,8 +4373,8 @@ msgid ""
 "Please check in advance whether your project is eligible for gratis project "
 "hosting on this site."
 msgstr ""
-"Моля, проверете предварително дали проектът Ви отговоря на изискванията за "
-"безплатен хостинг на този уеб сайт."
+"Проверете предварително дали проектът Ви отговоря на изискванията за "
+"безплатен хостинг на тази страница."
 
 #: weblate/templates/accounts/hosting.html:40
 msgid "You will have 14 days to set up your project."
@@ -5261,7 +5259,7 @@ msgstr "Превключване на навигацията"
 
 #: weblate/templates/base.html:134
 msgid "Manage watched projects"
-msgstr "Управление на следените проекти"
+msgstr "Наблюдавани проекти"
 
 #: weblate/templates/base.html:151
 msgid "Manage translated languages"
@@ -6104,7 +6102,7 @@ msgid ""
 "available translations for those languages in your watched projects."
 msgstr ""
 "Изберете кои езици искате в настройките и тук ще видите преглед на наличните "
-"преводи на тези езици в следените от Вас проекти."
+"преводи на тези езици в наблюдаваните проекти."
 
 #: weblate/templates/dashboard/user.html:74
 msgid ""
@@ -6161,7 +6159,7 @@ msgid ""
 "data in other websites or tools."
 msgstr ""
 "Статистиката за превода на всеки компонент във формата JSON позволява да "
-"използвате тези данни в други уеб сайтове или инструменти."
+"използвате тези данни в други страници или инструменти."
 
 #: weblate/templates/data.html:79
 msgid ""
@@ -6194,12 +6192,12 @@ msgstr ""
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
 msgstr ""
-"Weblate също така поддържа директни известия от няколко уеб сайта за "
+"Weblate също така поддържа директни известия от няколко страници за "
 "съхраняване на код:"
 
 #: weblate/templates/data.html:137
 msgid "Hosting site"
-msgstr "Уеб сайт за съхранение"
+msgstr "Страници за съхранение"
 
 #: weblate/templates/data.html:139
 msgid "Note"
@@ -6415,7 +6413,7 @@ msgstr "Редактиране на групата от шрифтове"
 #: weblate/templates/footer.html:5
 #, python-format
 msgid "Powered by %(weblate_version_link)s"
-msgstr "Уеб сайтът използва %(weblate_version_link)s"
+msgstr "Страницата използва %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:13
 msgid "Privacy policy"
@@ -8027,7 +8025,7 @@ msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
-msgstr "Получете известие, когато този проект бъде отключен отново"
+msgstr "Известяване при отключване на проекта"
 
 #: weblate/templates/snippets/component/lock.html:17
 msgid ""
@@ -8148,7 +8146,7 @@ msgstr "Множествени числа"
 
 #: weblate/templates/snippets/info.html:80 weblate/trans/models/project.py:103
 msgid "Project website"
-msgstr "Уеб сайт на проекта"
+msgstr "Страница на проекта"
 
 #: weblate/templates/snippets/info.html:87
 msgid "Instructions for translators"
@@ -8792,12 +8790,12 @@ msgstr "Няма намерен такъв потребител."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
-msgstr "Следен"
+msgstr "Наблюдаван"
 
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Премахване на %(project)s от следените проекти"
+msgstr "Премахване на %(project)s от наблюдаваните"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
@@ -8813,17 +8811,17 @@ msgstr "Заглушаване на известията за %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
 msgid "Not watching"
-msgstr "Неследен"
+msgstr "Не наблюдаван"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, python-format
 msgid "Watch project %(project)s"
-msgstr "Следене на проекта %(project)s"
+msgstr "Наблюдаване на %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
 #, python-format
 msgid "Watch component %(component)s"
-msgstr "Следене на компонента %(component)s"
+msgstr "Наблюдаване на %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script add-on."
@@ -8900,7 +8898,7 @@ msgstr "Този проект не е настроен правилно."
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to a non-existing location:"
 msgstr ""
-"Адресът на уеб сайта на проекта сочи към несъществуващо местоположение:"
+"Адресът на страницата на проекта сочи към несъществуващо местоположение:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -10969,7 +10967,7 @@ msgstr "Повреден адрес за разглеждане на храни�
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:363
 msgid "Broken project website URL"
-msgstr "Повреден адрес към уеб сайта"
+msgstr "Повреден адрес на страница"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:376
@@ -11438,9 +11436,9 @@ msgid ""
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Връзка към уеб сайт за разглеждане на хранилището. Можете да използвате "
+"Връзка към страница за разглеждане на хранилището. Можете да използвате "
 "стойностите {{branch}} (клон), {{filename}} (файл) и {{line}} (ред) като "
-"променливи, които да бъдат заместени. Може да трябва да премахнете "
+"променливи, които да бъдат заместени. Може да се наложи да махнете "
 "предхождащата папка като използвате {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:305
@@ -12030,7 +12028,7 @@ msgstr "Персонализиран"
 
 #: weblate/trans/models/project.py:105
 msgid "Main website of translated project."
-msgstr "Основен уеб сайт на превеждания проект."
+msgstr "Главна страница на превеждания проект."
 
 #: weblate/trans/models/project.py:108
 msgid "Translation instructions"
@@ -12693,8 +12691,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
-"Проектът „%(project)s“ е добавен към следените от Вас проекти. Можете да ги "
-"промените (както и този начин на добавяне) в настройките."
+"Проектът „%(project)s“ е добавен към наблюдаваните. Можете да ги промените в "
+"настройките."
 
 #: weblate/trans/views/edit.py:374
 #, python-brace-format
