@@ -44,7 +44,7 @@ class ProjectTokenTest(ViewTestCase):
         """Managers should be able to create new tokens."""
         token = self.create_token()
 
-        self.assertIsNotNont(token)
+        self.assertIsNotNone(token)
         self.assertGreaterEqual(len(token), 10)
 
     def test_use_token(self):
