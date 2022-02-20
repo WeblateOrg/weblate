@@ -1487,6 +1487,8 @@ class Translation(
         extra = {}
         if isinstance(source, str):
             source = [source]
+        if context:
+            self.component.file_format_cls.validate_context(context)
         if not self.component.has_template():
             extra["source"] = join_plural(source)
         if not auto_context and self.unit_set.filter(context=context, **extra).exists():

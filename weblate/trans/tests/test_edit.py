@@ -473,6 +473,18 @@ class EditJSONMonoTest(EditTest):
     def create_component(self):
         return self.create_json_mono()
 
+    def test_new_unit_validation(self):
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.file_format = "json-nested"
+        self.component.save()
+        response = self.add_unit("key")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New string has been added")
+        response = self.add_unit("key.['foo']")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Failed to parse the key:")
+
 
 class EditJavaTest(EditTest):
     has_plurals = False

@@ -25,7 +25,9 @@ import re
 import subprocess
 from typing import Callable, List, Optional, Tuple, Union
 
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from lxml import etree
 from lxml.etree import XMLSyntaxError
@@ -1318,7 +1320,18 @@ class AndroidFormat(TTKitFormat):
     check_flags = ("java-format",)
 
 
-class JSONFormat(TTKitFormat):
+class DictStoreMixin:
+    @classmethod
+    def validate_context(cls, context: str):
+        id_class = cls.get_class().UnitClass.IdClass
+
+        try:
+            id_class.from_string(context)
+        except Exception as error:
+            raise ValidationError(gettext("Failed to parse the key: %s") % error)
+
+
+class JSONFormat(DictStoreMixin, TTKitFormat):
     name = _("JSON file")
     format_id = "json"
     loader = JsonFile
@@ -1492,7 +1505,7 @@ class CSVSimpleFormatISO(CSVSimpleFormat):
     autoload = ()
 
 
-class YAMLFormat(TTKitFormat):
+class YAMLFormat(DictStoreMixin, TTKitFormat):
     name = _("YAML file")
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
@@ -1833,7 +1846,7 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     monolingual = True
 
 
-class StringsdictFormat(TTKitFormat):
+class StringsdictFormat(DictStoreMixin, TTKitFormat):
     name = _("Stringsdict file")
     format_id = "stringsdict"
     loader = ("stringsdict", "StringsDictFile")

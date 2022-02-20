@@ -605,6 +605,10 @@ class TranslationFormat:
             self.save()
         return result
 
+    @staticmethod
+    def validate_context(context: str):
+        return
+
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
