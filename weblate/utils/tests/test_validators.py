@@ -67,7 +67,7 @@ class FullNameCleanTest(SimpleTestCase):
         self.assertEqual("ahoj", clean_fullname(" ahoj "))
 
     def test_none(self):
-        self.assertEqual(None, clean_fullname(None))
+        self.assertIsNone(clean_fullname(None))
 
     def test_invalid(self):
         with self.assertRaises(ValidationError):

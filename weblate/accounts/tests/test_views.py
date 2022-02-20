@@ -566,7 +566,7 @@ class ProfileTest(FixtureTestCase):
                 self.assertNotContains(
                     response, "Please enable the password authentication"
                 )
-        self.assertEqual(self.user.has_usable_password(), True)
+        self.assertTrue(self.user.has_usable_password())
         response = self.client.get(reverse("profile"))
         self.assertNotContains(response, "Please enable the password authentication")
         load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)

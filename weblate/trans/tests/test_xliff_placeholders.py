@@ -41,8 +41,8 @@ class XliffPlaceholdersTest(TestCase):
 
         for string in cases:
             rich = xliff_string_to_rich(string)
-            self.assertTrue(isinstance(rich, list))
-            self.assertTrue(isinstance(rich[0], StringElem))
+            self.assertIsInstance(rich, list)
+            self.assertIsInstance(rich[0], StringElem)
 
             final_string = rich_to_xliff_string(rich)
             self.assertEqual(string, final_string)

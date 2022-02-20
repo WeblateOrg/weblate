@@ -52,19 +52,19 @@ class EnvTest(SimpleTestCase):
 
     def test_bool(self):
         os.environ["TEST_DATA"] = "1"
-        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        self.assertTrue(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "True"
-        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        self.assertTrue(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "true"
-        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        self.assertTrue(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "Yes"
-        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        self.assertTrue(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "no"
-        self.assertEqual(get_env_bool("TEST_DATA"), False)
+        self.assertFalse(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "0"
-        self.assertEqual(get_env_bool("TEST_DATA"), False)
+        self.assertFalse(get_env_bool("TEST_DATA"))
         del os.environ["TEST_DATA"]
-        self.assertEqual(get_env_bool("TEST_DATA"), False)
+        self.assertFalse(get_env_bool("TEST_DATA"))
 
     def test_int(self):
         os.environ["TEST_DATA"] = "1"

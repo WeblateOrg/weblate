@@ -213,7 +213,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             target="[Moje stránka]",
         )
 
-        self.assertEqual(self.check.get_fixup(unit), None)
+        self.assertIsNone(self.check.get_fixup(unit))
 
     def test_mutliple_ordered(self):
         self.do_test(

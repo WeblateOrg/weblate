@@ -150,7 +150,7 @@ class ImportTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
-        self.assertEqual(unit.fuzzy, True)
+        self.assertTrue(unit.fuzzy)
 
         # Verify stats
         translation = self.get_translation()
@@ -165,7 +165,7 @@ class ImportTest(ImportBaseTest):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEqual(unit.translated, False)
+        self.assertFalse(unit.translated)
 
         # Verify stats
         translation = self.get_translation()

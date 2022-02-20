@@ -216,9 +216,7 @@ class ViewTestCase(RepoTestCase):
 
         for unit in store.content_units:
             id_hash = unit.id_hash
-            self.assertFalse(
-                id_hash in messages, "Duplicate string in in backend file!"
-            )
+            self.assertNotIn(id_hash, messages, "Duplicate string in in backend file!")
             if unit.is_translated():
                 translated += 1
 
