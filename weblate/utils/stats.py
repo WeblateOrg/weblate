@@ -332,11 +332,15 @@ class TranslationStats(BaseStats):
             # Happens when deleting language from the admin interface
             pass
         if parents:
-            result.update(
-                self._object.component.stats.get_invalidate_keys(
-                    language=self._object.language
+            try:
+                result.update(
+                    self._object.component.stats.get_invalidate_keys(
+                        language=self._object.language
+                    )
                 )
-            )
+            except ObjectDoesNotExist:
+                # Happens when deleting language from the admin interface
+                pass
         return result
 
     @property
