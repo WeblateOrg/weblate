@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-09 19:45+0000\n"
-"PO-Revision-Date: 2022-02-18 12:04+0000\n"
+"PO-Revision-Date: 2022-02-24 17:56+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -156,7 +156,7 @@ msgstr "当前密码"
 
 #: weblate/accounts/forms.py:494
 msgid "Leave empty if you have not yet set a password."
-msgstr "如果尚未设定密码，无需填写此栏。"
+msgstr "如果还没有设置密码，留空即可。"
 
 #: weblate/accounts/forms.py:506
 msgid "You have entered an invalid password."
@@ -282,7 +282,7 @@ msgstr "用户名"
 
 #: weblate/accounts/forms.py:775 weblate/auth/models.py:341
 msgid "Date joined"
-msgstr "加入时间"
+msgstr "加入日期"
 
 #: weblate/accounts/forms.py:776
 msgid "Translations made"
@@ -352,12 +352,12 @@ msgstr "已移除使用 {method}（{name}）登录。"
 #: weblate/accounts/models.py:155
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "已使用 {method}（{name}）登录。"
+msgstr "使用 {method}（{name}）登录。"
 
 #: weblate/accounts/models.py:156
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "已使用 ({method}:{name}) 从新设备登录。"
+msgstr "使用 {method}（{name}）在新设备登录。"
 
 #: weblate/accounts/models.py:157
 msgid "Somebody attempted to register with your e-mail."
@@ -370,7 +370,7 @@ msgstr "有人试图使用您的电子邮箱地址进行注册。"
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "无法使用 {method} ({name}) 登录。"
+msgstr "无法使用 {method}（{name}）登录。"
 
 #: weblate/accounts/models.py:160
 msgid "Account locked due to many failed sign in attempts."
@@ -416,11 +416,11 @@ msgstr "已设置登录密码。"
 
 #: weblate/accounts/models.py:176
 msgid "Signed in using password."
-msgstr "已使用密码登录。"
+msgstr "使用密码登录。"
 
 #: weblate/accounts/models.py:177
 msgid "Signed in using password from a new device."
-msgstr "已使用密码从一台新设备登录。"
+msgstr "使用密码在新设备登录。"
 
 #: weblate/accounts/models.py:178
 msgid "Could not sign in using password."
@@ -2272,7 +2272,7 @@ msgstr "受限"
 
 #: weblate/billing/models.py:275
 msgid "Changes in last month"
-msgstr "最近一个月的变化"
+msgstr "上个月的更改"
 
 #: weblate/billing/models.py:281
 msgid "Number of changes"
@@ -2508,7 +2508,7 @@ msgstr "这个字符串在过去曾被翻译过"
 #: weblate/checks/consistency.py:157
 #, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "以前的翻译是\"%s\"。"
+msgstr "以前的翻译是“%s”。"
 
 #: weblate/checks/duplicate.py:47
 msgid "Consecutive duplicated words"
@@ -4674,7 +4674,7 @@ msgstr "一旦您启动支付，所有的配置将保留。"
 
 #: weblate/templates/accounts/trial.html:30
 msgid "Start the trial!"
-msgstr "开始试用 ！"
+msgstr "开始试用！"
 
 #: weblate/templates/accounts/user.html:12 weblate/templates/component.html:94
 #: weblate/templates/manage/users.html:9 weblate/templates/project.html:91
@@ -4690,12 +4690,12 @@ msgstr "用户"
 #: weblate/templates/accounts/user.html:26
 #, python-format
 msgid "Joined on %(date)s"
-msgstr "于 %(date)s 加入"
+msgstr "%(date)s加入"
 
 #: weblate/templates/accounts/user.html:30
 #, python-format
 msgid "Last sign-in on %(date)s"
-msgstr "上次登录日期 %(date)s"
+msgstr "最后一次登录是在 %(date)s"
 
 #: weblate/templates/accounts/user.html:32
 msgid "Never signed-in"
@@ -5690,7 +5690,7 @@ msgstr "已忽略"
 #: weblate/templates/component.html:157
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
-msgstr "出现于 %(first)s，上次见到是 %(last)s"
+msgstr "首次出现是在 %(first)s，最后一次出现是在 %(last)s"
 
 #: weblate/templates/component.html:161
 #: weblate/templates/manage/performance.html:42
@@ -7740,7 +7740,7 @@ msgstr "仓库分支"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
-msgstr "上一次远程提交"
+msgstr "最后一次远程提交"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:43
@@ -7751,7 +7751,7 @@ msgstr "由 %(author)s 著于 %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
 msgid "Last commit in Weblate"
-msgstr "Weblate 中的上一次提交"
+msgstr "Weblate 中的最后一次提交"
 
 #: weblate/templates/snippets/git-info.html:68
 msgid "Weblate repository"
@@ -9001,12 +9001,12 @@ msgstr "团队"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last login"
-msgstr "上次登录"
+msgstr "最后一次登录"
 
 #: weblate/templates/trans/project-access.html:61
 #: weblate/templates/trans/project-access.html:135
 msgid "Not yet signed in"
-msgstr "尚未登录"
+msgstr "尚未登录过"
 
 #: weblate/templates/trans/project-access.html:87
 #, python-format
@@ -10023,7 +10023,7 @@ msgstr "报告时间范围"
 
 #: weblate/trans/forms.py:1157
 msgid "Last 30 days"
-msgstr "最近 30 天的活动"
+msgstr "过去 30 天"
 
 #: weblate/trans/forms.py:1158
 msgid "This month"
@@ -10039,7 +10039,7 @@ msgstr "今年"
 
 #: weblate/trans/forms.py:1161
 msgid "Last year"
-msgstr "最近一年"
+msgstr "去年"
 
 #: weblate/trans/forms.py:1162
 msgid "As specified"
@@ -10921,7 +10921,7 @@ msgstr "源字符串缺陷报告地址"
 msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
-msgstr "用于报告源字符串中的错误的电子邮件地址。留空不发送电子邮件。"
+msgstr "用于报告源字符串中的错误的电子邮件地址。留空则不发送电子邮件。"
 
 #: weblate/trans/models/component.py:328
 msgid "Push branch"
@@ -10929,7 +10929,7 @@ msgstr "推送分支"
 
 #: weblate/trans/models/component.py:331
 msgid "Branch for pushing changes, leave empty to use repository branch"
-msgstr "用于推送更改的分支，留空以使用存储库分支"
+msgstr "用于推送更改的分支，留空则使用存储库分支"
 
 #: weblate/trans/models/component.py:341
 msgid ""
@@ -11887,9 +11887,7 @@ msgstr "极低"
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
-msgstr ""
-"{0} 已使用 Weblate 翻译成 {1} 种语言。加入这个译者团队，或者开始翻译您自己的"
-"项目吧。"
+msgstr "{0} 正在使用 Weblate 翻译成 {1} 种语言。加入这个译者团队，或者开始翻译您自己的项目吧。"
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
