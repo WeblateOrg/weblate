@@ -105,7 +105,6 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 """
-COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
 class MarkdownTextarea(forms.Textarea):
