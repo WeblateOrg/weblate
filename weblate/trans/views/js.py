@@ -151,7 +151,13 @@ def ignore_check_source(request, check_id):
         unit.save(same_content=True)
 
     # response for AJAX
-    return HttpResponse("ok")
+    return JsonResponse(
+        {
+            "extra_flags": unit.extra_flags,
+            "all_flags": unit.all_flags.format(),
+            "ignore_check": ignore,
+        }
+    )
 
 
 def git_status_shared(request, obj, repositories):

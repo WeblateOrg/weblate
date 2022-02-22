@@ -640,16 +640,18 @@
     </div>
     {% endif %}
     {% if unit.all_flags or user_can_edit_source %}
-    <div class="list-group-item">
+    <div class="list-group-item" id="info_all_flags">
     <h5>
     {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-focus="#id_extra_flags" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Flags" %}
     </h5>
+    <div id="unit_all_flags">
     {% if unit.all_flags %}
     {{ unit.all_flags.format }}
     {% else %}
     <em>{% trans "No flags currently set." %}</em>
     {% endif %}
+    </div>
     </div>
     {% endif %}
     {% if unit.location %}
