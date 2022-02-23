@@ -179,7 +179,7 @@ def supports_cleanup():
 def cleanup(location: str, passphrase: str, initial: bool) -> str:
     if not supports_cleanup():
         return ""
-    cmd = ["cleanup"]
+    cmd = ["compact"]
     if initial:
         cmd.append("--cleanup-commits")
     cmd.append(location)
