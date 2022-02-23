@@ -892,7 +892,7 @@ class EditComplexTest(ViewTestCase):
     def test_edit_locked(self):
         self.component.locked = True
         self.component.save()
-        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", follow=True)
         # We should get to second message
         self.assertContains(
             response,
