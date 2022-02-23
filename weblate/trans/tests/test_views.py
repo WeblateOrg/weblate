@@ -144,7 +144,7 @@ class ViewTestCase(RepoTestCase):
     def get_translation(self, language="cs"):
         return self.component.translation_set.get(language__code=language)
 
-    def get_unit(self, source="Hello, world!\n", language="cs"):
+    def get_unit(self, source: str = "Hello, world!\n", language: str = "cs"):
         translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
@@ -153,7 +153,14 @@ class ViewTestCase(RepoTestCase):
         unit.target = target
         unit.save_backend(user or self.user)
 
-    def edit_unit(self, source, target, language="cs", **kwargs):
+    def edit_unit(
+        self,
+        source: str,
+        target: str,
+        language: str = "cs",
+        follow: bool = False,
+        **kwargs,
+    ):
         """Do edit single unit using web interface."""
         unit = self.get_unit(source, language)
         params = {
@@ -165,7 +172,7 @@ class ViewTestCase(RepoTestCase):
         }
         params.update(kwargs)
         return self.client.post(
-            self.get_translation(language).get_translate_url(), params
+            self.get_translation(language).get_translate_url(), params, follow=follow
         )
 
     def assert_redirects_offset(self, response, exp_path, exp_offset):
