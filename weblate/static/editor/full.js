@@ -488,7 +488,7 @@
     }
 
     renderTranslation(el, service) {
-      var row = $("<tr/>").attr("class", "js-copy-machinery").data("raw", el);
+      var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
           .attr("class", "target machinery-text")
