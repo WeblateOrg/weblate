@@ -26,6 +26,7 @@ Not yet released.
 * Added documentation links to alerts.
 * Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
 * Added support for searching for resolved comments.
+* Added support for borgbackup 1.2.
 
 Weblate 4.10.1
 --------------
