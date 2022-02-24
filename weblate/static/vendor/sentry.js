@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.17.9 (4ef06bf) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.18.0 (70c1d77) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
     /*! *****************************************************************************
@@ -3040,7 +3040,7 @@ var Sentry = (function (exports) {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         Hub.prototype.captureException = function (exception, hint) {
-            var eventId = (this._lastEventId = uuid4());
+            var eventId = (this._lastEventId = hint && hint.event_id ? hint.event_id : uuid4());
             var finalHint = hint;
             // If there's no explicit hint provided, mimic the same thing that would happen
             // in the minimal itself to create a consistent behavior.
@@ -3066,7 +3066,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Hub.prototype.captureMessage = function (message, level, hint) {
-            var eventId = (this._lastEventId = uuid4());
+            var eventId = (this._lastEventId = hint && hint.event_id ? hint.event_id : uuid4());
             var finalHint = hint;
             // If there's no explicit hint provided, mimic the same thing that would happen
             // in the minimal itself to create a consistent behavior.
@@ -3092,7 +3092,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Hub.prototype.captureEvent = function (event, hint) {
-            var eventId = uuid4();
+            var eventId = hint && hint.event_id ? hint.event_id : uuid4();
             if (event.type !== 'transaction') {
                 this._lastEventId = eventId;
             }
@@ -4478,7 +4478,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.9';
+    var SDK_VERSION = '6.18.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4852,9 +4852,10 @@ var Sentry = (function (exports) {
             },
         };
         if (syntheticException) {
-            event.stacktrace = {
-                frames: parseStackFrames(syntheticException),
-            };
+            var frames_1 = parseStackFrames(syntheticException);
+            if (frames_1.length) {
+                event.stacktrace = { frames: frames_1 };
+            }
         }
         return event;
     }
@@ -5020,9 +5021,10 @@ var Sentry = (function (exports) {
             message: input,
         };
         if (options.attachStacktrace && syntheticException) {
-            event.stacktrace = {
-                frames: parseStackFrames(syntheticException),
-            };
+            var frames_1 = parseStackFrames(syntheticException);
+            if (frames_1.length) {
+                event.stacktrace = { frames: frames_1 };
+            }
         }
         return event;
     }
