@@ -224,8 +224,64 @@ class TranslationFormatTestCase(FixtureTestCase):
             """
             Hello
             <del>
-            <span class="space-space"><span class="sr-only"> </span></span>
+                <span class="hlspace">
+                    <span class="space-space"><span class="sr-only"> </span></span>
+                </span>
             </del>
+            world
+            """,
+        )
+
+    def test_diff_whitespace(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Helloworld",
+                self.component.source_language,
+                diff="Hello world",
+            )["items"][0]["content"],
+            """Hello
+            <del>
+                <span class="hlspace">
+                    <span class="space-space"><span class="sr-only"> </span></span>
+                </span>
+            </del>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                diff="Helloworld",
+            )["items"][0]["content"],
+            """Hello
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"><span class="sr-only"> </span></span>
+                </span>
+            </ins>
+            world
+            """,
+        )
+
+    def test_diff_newline(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                diff="Hello\nworld",
+            )["items"][0]["content"],
+            """Hello
+            <del>
+                <span class="hlspace">
+                    <span class="space-nl"><span class="sr-only"></span></span>
+                </span><br />
+            </del>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"><span class="sr-only"> </span></span>
+                </span>
+            </ins>
             world
             """,
         )
