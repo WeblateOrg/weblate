@@ -68,7 +68,9 @@ def report_error(
 
     error = sys.exc_info()[1]
 
-    if isinstance(error, JSONDecodeError) and not extra_log:
+    # Include JSON document if available. It might be missing
+    # when the error is raised from requests.
+    if isinstance(error, JSONDecodeError) and not extra_log and hasattr(error, "doc"):
         extra_log = repr(error.doc)
 
     log("%s: %s: %s", cause, error.__class__.__name__, error)
