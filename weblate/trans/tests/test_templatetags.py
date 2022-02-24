@@ -561,8 +561,18 @@ class DiffTestCase(SimpleTestCase):
         )
 
     def test_remove(self):
-        self.assertEqual(
-            self.html_diff("first old text", "first text"), "first <del>old </del>text"
+        self.assertHTMLEqual(
+            self.html_diff("first old text", "first text"),
+            """
+            first
+            <del>old
+             <span class="hlspace">
+             <span class="space-space">
+             <span class="sr-only">
+             </span>
+             </span>
+            </del>
+            text""",
         )
 
     def test_replace(self):
@@ -584,14 +594,14 @@ class DiffTestCase(SimpleTestCase):
 
     def test_format_diff_whitespace(self):
         unit = MockUnit(source="Hello world!")
-        self.assertEqual(
+        self.assertHTMLEqual(
             format_translation(
                 unit.source,
                 unit.translation.component.source_language,
                 diff="Hello world! ",
             )["items"][0]["content"],
-            'Hello world!<del><span class="space-space">'
-            '<span class="sr-only"> </span></span></del>',
+            'Hello world!<del><span class="hlspace"><span class="space-space">'
+            '<span class="sr-only"> </span></span></span></del>',
         )
 
     def test_format_entities(self):
