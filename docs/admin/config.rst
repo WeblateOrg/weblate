@@ -70,7 +70,7 @@ Defaults to 10.
 
 .. seealso::
 
-    :ref:`rate-limit`,
+    :ref:`rate-limit`
 
 .. setting:: AUTO_UPDATE
 
