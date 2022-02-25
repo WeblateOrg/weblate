@@ -1,7 +1,7 @@
 Weblate 4.11
 -------------
 
-Not yet released.
+Released on February 25th 2022.
 
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
