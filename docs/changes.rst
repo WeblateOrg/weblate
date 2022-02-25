@@ -10,6 +10,7 @@ Weblate 4.11
 
 Released on February 25th 2022.
 
+* Fixes stored XSS, see `GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more details.
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
