@@ -3,6 +3,8 @@ Weblate 4.11.1
 
 Not yet released.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
+
 Weblate 4.11
 -------------
 
@@ -34,6 +36,8 @@ Released on February 25th 2022.
 * Added support for borgbackup 1.2.
 * Fixed applying of :guilabel:`Automatically translated` label.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?closed=1>`__.
+
 Weblate 4.10.1
 --------------
 
@@ -46,6 +50,8 @@ Released on December 22nd 2021.
 * Fixed manually editing page when browsing changes.
 * Improved accuracy of :ref:`check-kashida`.
 * The Weblate Docker container now uses Python 3.10.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/76?closed=1>`__.
 
 Weblate 4.10
 ------------
