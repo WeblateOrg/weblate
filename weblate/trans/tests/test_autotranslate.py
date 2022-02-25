@@ -104,6 +104,30 @@ class AutoTranslationTest(ViewTestCase):
     def test_overwrite(self):
         self.perform_auto(overwrite="1")
 
+    def test_labeling(self):
+        self.perform_auto(overwrite="1")
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.filter(
+                labels__name="Automatically translated"
+            ).count(),
+            1,
+        )
+        self.edit_unit("Thank you for using Weblate.", "Díky za používání Weblate.")
+        self.assertEqual(
+            translation.unit_set.filter(
+                labels__name="Automatically translated"
+            ).count(),
+            1,
+        )
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation)
+        self.assertEqual(
+            translation.unit_set.filter(
+                labels__name="Automatically translated"
+            ).count(),
+            0,
+        )
+
     def test_command(self):
         call_command("auto_translate", "test", "test", "cs")
 

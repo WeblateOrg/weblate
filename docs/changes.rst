@@ -1,7 +1,7 @@
 Weblate 4.11
 -------------
 
-Not yet released.
+Released on February 25th 2022.
 
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
@@ -26,6 +26,8 @@ Not yet released.
 * Added documentation links to alerts.
 * Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
 * Added support for searching for resolved comments.
+* Added support for borgbackup 1.2.
+* Fixed applying of :guilabel:`Automatically translated` label.
 
 Weblate 4.10.1
 --------------

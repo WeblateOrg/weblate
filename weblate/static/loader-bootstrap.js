@@ -1131,7 +1131,9 @@ $(function () {
       return "";
     },
     menuItemTemplate: function (item) {
-      return `<a>${item.string}</a>`;
+      let link = document.createElement("a");
+      link.innerText = item.string;
+      return link.outerHTML;
     },
     values: (text, callback) => {
       $.ajax({

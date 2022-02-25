@@ -568,9 +568,6 @@ def translate(request, project, component, lang):  # noqa: C901
             messages.error(request, _("Invalid search string!"))
             return redirect(obj)
 
-    # Check locks
-    locked = unit.translation.component.locked
-
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
@@ -585,26 +582,25 @@ def translate(request, project, component, lang):  # noqa: C901
         return redirect(next_unit_url)
     if request.method == "POST" and "merge" not in request.POST:
         if (
-            not locked
-            and "accept" not in request.POST
-            and "accept_edit" not in request.POST
-            and "delete" not in request.POST
-            and "spam" not in request.POST
-            and "upvote" not in request.POST
-            and "downvote" not in request.POST
+            "accept" in request.POST
+            or "accept_edit" in request.POST
+            or "delete" in request.POST
+            or "spam" in request.POST
+            or "upvote" in request.POST
+            or "downvote" in request.POST
         ):
-            # Handle translation
-            response = handle_translate(request, unit, this_unit_url, next_unit_url)
-        elif not locked or "delete" in request.POST or "spam" in request.POST:
             # Handle accepting/deleting suggestions
             response = handle_suggestions(request, unit, this_unit_url, next_unit_url)
+        else:
+            # Handle translation
+            response = handle_translate(request, unit, this_unit_url, next_unit_url)
 
     # Handle translation merging
-    elif "merge" in request.POST and not locked:
+    elif "merge" in request.POST:
         response = handle_merge(unit, request, next_unit_url)
 
     # Handle reverting
-    elif "revert" in request.GET and not locked:
+    elif "revert" in request.GET:
         response = handle_revert(unit, request, this_unit_url)
 
     # Pass possible redirect further
@@ -659,7 +655,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "context_form": ContextForm(instance=unit.source_unit, user=user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
-            "locked": locked,
+            "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit),
             "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),

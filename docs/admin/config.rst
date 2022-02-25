@@ -61,9 +61,9 @@ Maximum number of failed authentication attempts before rate limiting is applied
 
 This is currently applied in the following locations:
 
-* Logins. Deletes the account password, preventing the user from signing in
+* Sign in. Deletes the account password, preventing the user from signing in
   without requesting a new password.
-* Password resets. Prevents new e-mails from being sent, avoiding spamming
+* Password reset. Prevents new e-mails from being sent, avoiding spamming
   users with too many password reset attempts.
 
 Defaults to 10.
