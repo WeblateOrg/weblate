@@ -4,7 +4,7 @@ After installation
 Congratulations, your Weblate server is now running and you can start using it.
 
 * You can now access Weblate on ``http://localhost:8000/``.
-* Login with admin credentials obtained during installation or register with new users.
+* Sign in with admin credentials obtained during installation or register with new users.
 * You can now run Weblate commands using :command:`weblate` command when
   Weblate virtualenv is active, see :ref:`manage`.
 * You can stop the test server with Ctrl+C.
