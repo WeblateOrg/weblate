@@ -270,7 +270,7 @@
                       <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
                     </div>
                     <div class="modal-body" id="delete_group_body_{{ group.id }}">
-                      {% blocktrans with group=group.name %}This will delete the project team <b>{{ group }}</b> from this project.{% endblocktrans %}
+                      {% blocktrans with group=group.name %}This will delete the team <b>{{ group }}</b> from this project.{% endblocktrans %}
                     </div>
                     <div class="modal-footer">
                       <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
