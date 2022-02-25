@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-25 10:41+0100\n"
-"PO-Revision-Date: 2022-02-24 19:16+0000\n"
+"PO-Revision-Date: 2022-02-25 21:56+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.11.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -32920,13 +32920,14 @@ msgstr ""
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
-msgstr ""
+msgstr "モノリンガル翻訳の場合、Weblate は以前の文字列を ID "
+"で検索するため、違いが自動的に表示されます。"
 
 #: ../../faq.rst:374
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
-msgstr ""
+msgstr "テンプレートを更新しても、Weblate に以前の翻訳文が表示されるのはなぜですか？"
 
 #: ../../faq.rst:376
 msgid ""
@@ -32936,47 +32937,57 @@ msgid ""
 "simply have to do this manually and push changes to the repository, Weblate "
 "will then pick up the changes automatically."
 msgstr ""
+"Weblate は、翻訳者に翻訳を許可する以外の方法では、翻訳ファイルを操作しません"
+"。したがって、テンプレートまたはソースコードを変更しても、翻訳可能なファイル"
+"は更新されません。変更を手動でリポジトリにプッシュするだけで、Weblate "
+"が変更を自動的に取得します。"
 
 #: ../../faq.rst:384
 msgid ""
 "It is usually a good idea to merge changes done in Weblate before updating "
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
-msgstr ""
+msgstr "通常は、翻訳ファイルを更新する前に、Weblate で行った変更をマージしてください"
+"。そうしなければ、通常、マージすると競合が発生します。"
 
 #: ../../faq.rst:388
 msgid ""
 "For example with gettext PO files, you can update the translation files "
 "using the :command:`msgmerge` tool:"
-msgstr ""
+msgstr ":command:`msgmerge` ツールを使用して、gettext PO "
+"ファイルの翻訳ファイルを更新する方法:"
 
 #: ../../faq.rst:395
 msgid ""
 "In case you want to do the update automatically, you can install add-on :ref:"
 "`addon-weblate.gettext.msgmerge`."
-msgstr ""
+msgstr "自動的に更新をさせたい場合は、:ref:`addon-weblate.gettext.msgmerge` "
+"アドオンをインストールしてください。"
 
 #: ../../faq.rst:404
 msgid "Troubleshooting"
-msgstr ""
+msgstr "問題解決方法"
 
 #: ../../faq.rst:407
 msgid "Requests sometimes fail with \"too many open files\" error"
-msgstr ""
+msgstr "リクエストが「開いているファイルが多すぎます」というエラーで失敗する"
 
 #: ../../faq.rst:409
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
+"これは、Git リポジトリが大きくなりすぎて、Git "
+"リポジトリの数が増えすぎた場合に発生することがあります。Git "
+"リポジトリを圧縮すると、この状況を改善できます。"
 
 #: ../../faq.rst:412
 msgid "The easiest way to do this is to run:"
-msgstr ""
+msgstr "簡単に Git リポジトリを圧縮する方法:"
 
 #: ../../faq.rst:431
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr ""
+msgstr "サイトにアクセスすると「Bad Request (400)」エラーが発生する"
 
 #: ../../faq.rst:433
 msgid ""
@@ -32984,6 +32995,9 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
+"これは、:setting:`ALLOWED_HOSTS` "
+"の設定が不適切である可能性が高いです。設定には、Weblate "
+"からアクセスするホスト名をすべて含めてください。設定例:"
 
 #: ../../faq.rst:442
 msgid ":ref:`production-hosts`"
@@ -32991,7 +33005,7 @@ msgstr ""
 
 #: ../../faq.rst:447
 msgid "What does mean \"There are more files for the single language (en)\"?"
-msgstr ""
+msgstr "「単一言語用（en）のファイルがさらにあります」 とはどういう意味ですか？"
 
 #: ../../faq.rst:449
 msgid ""
@@ -32999,6 +33013,9 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
+"これは通常、原文の言語の翻訳ファイルがある場合に発生します。Weblate は原文を"
+"追跡するために原文の言語を予約します。同じ言語の追加ファイルは処理されません"
+"。"
 
 #: ../../faq.rst:453
 msgid ""
@@ -33030,6 +33047,9 @@ msgid ""
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
+"他の言語でも、同様のエラー メッセージが表示されることがあります。その場合、原"
+"因として最も可能性があるのは、複数のファイルが Weblate "
+"で単一言語に配置されている場合です。"
 
 #: ../../faq.rst:463
 msgid ""
@@ -33038,6 +33058,10 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
+"これは、廃止した言語コードを新しい言語コード（日本語の場合は ``ja`` および "
+"``jp``）と一緒に使用したり、国別コードと汎用コード（``fr`` および "
+"``fr_FR``）の両方を含めると発生します。詳細は :ref:`language-parsing-codes` "
+"を確認してください。"
 
 #: ../../faq.rst:469
 msgid "Features"
@@ -33045,7 +33069,7 @@ msgstr "機能"
 
 #: ../../faq.rst:474
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
-msgstr ""
+msgstr "Weblate は Git および Mercurial 以外の VCS に対応していますか？"
 
 #: ../../faq.rst:476
 msgid ""
@@ -33054,14 +33078,18 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
+"現在、Weblate は、:ref:`vcs-git`（:ref:`vcs-github`、:ref:`vcs-gerrit` "
+"および :ref:`vcs-git-svn` に対する拡張対応付き）および :ref:`vcs-mercurial` "
+"以外のものは公式には対応していませんが、他の VCS "
+"用のバックエンドの作成は可能です。"
 
 #: ../../faq.rst:481
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
-msgstr ""
+msgstr "また、Git の :ref:`vcs-git-helpers` を使用して、他の VCS にも接続できます。"
 
 #: ../../faq.rst:483
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
-msgstr ""
+msgstr "また、Weblate は VCS を使用しない運用にも対応しています。"
 
 #: ../../faq.rst:487
 msgid ""
@@ -33069,10 +33097,13 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
+"他の VCS を公式対応するには、Weblate には分散 VCS が必要です。おそらく、Git "
+"と Mercurial 以外でも動作するように修正できますが、実現するには誰かが実装しな"
+"ければなりません。"
 
 #: ../../faq.rst:494
 msgid "How does Weblate credit translators?"
-msgstr ""
+msgstr "Weblate の翻訳者の署名はどうなっていますか？"
 
 #: ../../faq.rst:496
 msgid ""
@@ -33080,12 +33111,16 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Weblate で行われたすべての変更は、翻訳者名で VCS "
+"にコミットされます。このようにして、個々の変更には適切に署名が入り、"
+"コードに使用する標準の VCS ツールを使用して翻訳を調査します。"
 
 #: ../../faq.rst:500
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
-msgstr ""
+msgstr "また、翻訳ファイル形式で対応している場合は、ファイルヘッダを更新して翻訳者の"
+"名前が挿入されます。"
 
 #: ../../faq.rst:505
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
@@ -33093,7 +33128,8 @@ msgstr ":djadmin:`list_translators`、:doc:`../devel/reporting`"
 
 #: ../../faq.rst:509
 msgid "Why does Weblate force showing all PO files in a single tree?"
-msgstr ""
+msgstr "なぜ Weblate は、すべての PO "
+"ファイルを強制的に単一の階層に表示させるのですか？"
 
 #: ../../faq.rst:511
 msgid ""
@@ -33101,18 +33137,21 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
+"Weblate は、すべての PO ファイルを 1 つのコンポーネントに含めるように設計され"
+"ています。これは翻訳者にとって有益であり、実際にどの言語に翻訳しているか一目"
+"瞭然です。"
 
 #: ../../faq.rst:517
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
-msgstr ""
-"翻訳者は、プロジェクトのすべてのコンポーネントを、すべての言語に翻訳できま"
-"す。"
+msgstr "翻訳者は、プロジェクトのすべてのコンポーネントを、含まれているすべての言語に"
+"翻訳できます。"
 
 #: ../../faq.rst:523
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
-msgstr ""
+msgstr "なぜ。Weblate は sr_Latn もしくは zh_Hant "
+"などの言語コードを使用するのですか？"
 
 #: ../../faq.rst:525
 msgid ""
@@ -33120,6 +33159,10 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
+"これは、:rfc:`5646` "
+"によって定義された言語コードです。以前、誤って使用された修飾子（``@latin`` 表"
+"記）、もしくは国コード（中国語）の代わりに、実際とは異なる言語であることをよ"
+"り明確にするものです。"
 
 #: ../../faq.rst:529
 msgid ""
@@ -33127,12 +33170,18 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
+"Weblate は、従来の言語コードを判別し、それを現在の言語コードに置き換えます。"
+"例えば、``sr@latin`` は ``sr_Latn`` として扱い、``zh@CN`` は ``zh_Hans`` "
+"として扱います。"
 
 #: ../../faq.rst:535
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, see :ref:"
 "`languages` for more details."
 msgstr ""
+"Weblate のデフォルトの言語コードは、アンダースコア付きの POSIX "
+"スタイルの言語コードです。詳細については、 :ref:`languages` "
+"を確認してください。"
 
 #: ../../faq.rst:540
 msgid ""
@@ -33672,16 +33721,22 @@ msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
+"XML ベースのファイル形式は、翻訳ファイルを標準化するために作成されましたが、"
+"結果的には、この分野の多くの標準 <https://xkcd.com/927/>`_ の 1 "
+"つにしかすぎません。"
 
 #: ../../formats.rst:277
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`XML Localization Interchange File Format (XLIFF)` "
+"は、通常はバイリンガルとして使用しますが、Weblate "
+"ではモノリンガルとしても対応しています。"
 
 #: ../../formats.rst:281
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
-msgstr ""
+msgstr "`XML Localization Interchange File Format (XLIFF)` 仕様"
 
 #: ../../formats.rst:287 ../../workflows.rst:28
 msgid "Translation states"
