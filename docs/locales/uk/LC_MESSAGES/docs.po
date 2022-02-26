@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-25 10:41+0100\n"
-"PO-Revision-Date: 2022-02-10 13:49+0000\n"
+"PO-Revision-Date: 2022-02-25 14:56+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -6328,27 +6328,19 @@ msgid "This is currently applied in the following locations:"
 msgstr "У поточній версії застосовується у таких місцях:"
 
 #: ../../admin/config.rst:64
-#, fuzzy
-#| msgid ""
-#| "Logins. Deletes the account password, preventing the user from signing in "
-#| "without requesting a new password."
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
-"Облікові записи. Вилучає пароль до облікового запису, забороняючи "
-"користувачеві входити до системи без запиту щодо введення нового пароля."
+"Вхід. Вилучає пароль до облікового запису, забороняючи користувачеві входити "
+"до системи без запиту щодо введення нового пароля."
 
 #: ../../admin/config.rst:66
-#, fuzzy
-#| msgid ""
-#| "Password resets. Prevents new e-mails from being sent, avoiding spamming "
-#| "users with too many password reset attempts."
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
 msgstr ""
-"Скидання паролів. Забороняє надсилання нових повідомлень електронної пошти, "
+"Скидання пароля. Забороняє надсилання нових повідомлень електронної пошти, "
 "не набридаючи користувачам надто великою кількістю повідомлень щодо скидання "
 "пароля."
 
@@ -7214,6 +7206,7 @@ msgstr "DEFAULT_PULL_MESSAGE"
 #: ../../admin/config.rst:656
 msgid "Configures the default title and message for pull requests."
 msgstr ""
+"Налаштовує типовий заголовок та повідомлення для запитів щодо об'єднання."
 
 #: ../../admin/config.rst:661
 msgid "ENABLE_AVATARS"
@@ -13749,17 +13742,13 @@ msgstr ""
 "`PAGURE_TOKEN`"
 
 #: ../../admin/install/docker.rst:698
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub personal access token for GitHub pull-requests via API "
-#| "by changing :setting:`GITHUB_TOKEN`."
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
-"Налаштовує особистий жетон доступу GitHub для запитів щодо об'єднання на "
-"GitHub з використанням програмного інтерфейсу шляхом зміни :setting:"
-"`GITHUB_TOKEN`."
+"Налаштовує типовий заголовок та повідомлення для запитів щодо об'єднання, "
+"які створено за допомогою програмного інтерфейсу за допомогою зміни "
+":setting:`DEFAULT_PULL_MESSAGE`"
 
 #: ../../admin/install/docker.rst:703
 #, fuzzy
@@ -15385,10 +15374,6 @@ msgstr ""
 "Ви можете отримувати доступ до Weblate за адресою ``http://localhost:8000/``."
 
 #: ../../admin/install/steps/install-after.rst:7
-#, fuzzy
-#| msgid ""
-#| "Login with admin credentials obtained during installation or register "
-#| "with new users."
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
@@ -18455,11 +18440,6 @@ msgid "``PROJECT``"
 msgstr ""
 
 #: ../../admin/optionals.rst:281
-#, fuzzy
-#| msgid ""
-#| "If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password "
-#| "authentication will be turned off on the account until having gone "
-#| "through the process of having its password reset."
 msgid ""
 "If a user fails to sign in :setting:`AUTH_LOCK_ATTEMPTS` times, password "
 "authentication will be turned off on the account until having gone through "
@@ -19894,15 +19874,11 @@ msgstr ""
 "див. :ref:`variants`."
 
 #: ../../admin/projects.rst:780
-#, fuzzy
-#| msgid ""
-#| "Most of the fields can be edited by project owners or managers, in the "
-#| "Weblate interface."
 msgid ""
 "Most of the fields can be edited by project owners or administrators, in the "
 "Weblate interface."
 msgstr ""
-"Більшість полів можуть редагувати власники або керівники проєкту за "
+"Більшість полів можуть редагувати власники або адміністратори проєкту за "
 "допомогою інтерфейсу Weblate."
 
 #: ../../admin/projects.rst:785
@@ -21393,6 +21369,8 @@ msgid ""
 "Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for "
 "character set detection."
 msgstr ""
+"У новій версії Weblate для виявлення набору символів використано модуль "
+"``charset-normalizer`` замість модуля ``chardet``."
 
 #: ../../admin/upgrade.rst:307
 msgid "Upgrading from Python 2 to Python 3"
@@ -23984,12 +23962,12 @@ msgid "For instruction on setting up GitHub integration"
 msgstr "Настанови щодо налаштовування інтеграції із GitHub"
 
 #: ../../api.rst:2449
-#, fuzzy
-#| msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
 msgid ""
 "https://docs.github.com/en/get-started/customizing-your-github-workflow/"
 "exploring-integrations/about-webhooks"
-msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
+msgstr ""
+"https://docs.github.com/en/get-started/customizing-your-github-workflow/"
+"exploring-integrations/about-webhooks"
 
 #: ../../api.rst:2450
 msgid "Generic information about GitHub Webhooks"
@@ -24213,10 +24191,8 @@ msgid "Weblate 4.11"
 msgstr "Weblate 4.11"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on February 20th 2020."
 msgid "Released on February 25th 2022."
-msgstr "Випущено 20 лютого 2020 року."
+msgstr "Випущено 25 лютого 2022 року."
 
 #: ../../changes.rst:6
 msgid "Fixed add-on installation using API."
@@ -24315,8 +24291,6 @@ msgstr ""
 "для нових доданих рядків."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved punctionation checks for Burmese."
 msgid "Improved punctuation checks for Burmese."
 msgstr "Удосконалено перевірки пунктуації бірманською мовою."
 
@@ -24345,16 +24319,12 @@ msgid "Added support for searching for resolved comments."
 msgstr "Додано підтримку пошуку вирішених коментарів щодо помилок."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Added support for Python 3.9."
 msgid "Added support for borgbackup 1.2."
-msgstr "Додано підтримку Python 3.9."
+msgstr "Додано підтримку borgbackup 1.2."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Fixed displaying of :guilabel:`Automatically translated` label."
 msgid "Fixed applying of :guilabel:`Automatically translated` label."
-msgstr "Виправлено показ мітки :guilabel:`Перекладено автоматично`."
+msgstr "Виправлено застосування мітки :guilabel:`Перекладено автоматично`."
 
 #: ../../changes.rst:33
 msgid "Weblate 4.10.1"
@@ -25057,8 +25027,6 @@ msgid "Added trends and metrics for all objects."
 msgstr "Додано тенденції та метрику для усіх об'єктів."
 
 #: ../../changes.rst:232
-#, fuzzy
-#| msgid "Added support for direct copying text from secondary languages."
 msgid "Added support for directly copying text from secondary languages."
 msgstr ""
 "Додано підтримку для безпосереднього копіювання тексту із вторинних мов."
@@ -35346,13 +35314,6 @@ msgid "Managing translations"
 msgstr "Керування перекладами"
 
 #: ../../devel/translations.rst:9
-#, fuzzy
-#| msgid ""
-#| "New strings can be made available for translation when they appear in the "
-#| "base file, called :guilabel:`Template for new translations` (see :ref:"
-#| "`component`). If your file format doesn't require such a file, as is the "
-#| "case with most monolingual translation flows, you can start with blank "
-#| "files)."
 msgid ""
 "New strings can be made available for translation when they appear in the "
 "base file, called :guilabel:`Template for new translations` (see :ref:"
@@ -35361,8 +35322,8 @@ msgid ""
 "files)."
 msgstr ""
 "Нові рядки можна зробити доступними для перекладу, коли вони з'являються в "
-"основному файлі, який називається :guilabel:`Шаблоном для нових перекладів` "
-"(див. :ref:`component`). Якщо ваш формат файлів не потребує такого файла, як "
+"основному файлі, який називається :guilabel:`Шаблоном для нових перекладів` ("
+"див. :ref:`component`). Якщо ваш формат файлів не потребує такого файла, як "
 "у випадку більшості одномовних процедур перекладу, ви можете почати з "
 "порожніх файлів)."
 
