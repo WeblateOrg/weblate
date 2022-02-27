@@ -1,12 +1,12 @@
 Weblate 4.11.1
--------------
+--------------
 
 Not yet released.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
 
 Weblate 4.11
--------------
+------------
 
 Released on February 25th 2022.
 
