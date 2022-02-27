@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-25 09:40+0000\n"
-"PO-Revision-Date: 2022-02-27 06:57+0000\n"
+"PO-Revision-Date: 2022-02-28 20:58+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1056,9 +1056,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"すべての翻訳ファイルを、モノリンガルの基準ファイルと合致するように更新しま"
-"す。ほとんどのファイル形式で、基準ファイルに存在しない、無効な翻訳キーが削除"
-"されます。"
+"すべての翻訳ファイルを、モノリンガル用の基礎となる翻訳ファイルと一致するよう"
+"に更新します。ほとんどのファイル形式で、基礎となる翻訳ファイルに存在しない、"
+"無効な翻訳キーは削除されます。"
 
 #: weblate/addons/cleanup.py:63
 msgid "Remove blank strings"
@@ -1347,7 +1347,7 @@ msgstr "コンポーネント名のカスタマイズ"
 
 #: weblate/addons/forms.py:265
 msgid "Define the monolingual base filename"
-msgstr "モノリンガルの基準ファイル名の定義"
+msgstr "モノリンガル用の、基礎となる翻訳ファイル名の設定"
 
 #: weblate/addons/forms.py:268
 msgid "Leave empty for bilingual translation files."
@@ -1355,7 +1355,7 @@ msgstr "バイリンガル翻訳の場合は、何も設定しないでくださ
 
 #: weblate/addons/forms.py:271
 msgid "Define the base file for new translations"
-msgstr "新しい翻訳に対する基本ファイルの定義"
+msgstr "新しい翻訳用の、基礎となる翻訳ファイルの設定"
 
 #: weblate/addons/forms.py:275 weblate/trans/models/component.py:386
 msgid ""
@@ -1600,9 +1600,9 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"すべての翻訳ファイルを、アップストリームのモノリンガルの基準ファイルと合致す"
-"るように更新します。未使用の文字列は削除され、新しい文字列は原文をコピーして"
-"追加されます。"
+"すべての翻訳ファイルを、アップストリームのモノリンガル用の、基礎となる翻訳フ"
+"ァイルと一致するように更新します。未使用の文字列は削除され、新しい文字列は原"
+"文をコピーして追加されます。"
 
 #: weblate/addons/views.py:84
 msgid "Invalid add-on name specified!"
@@ -3189,15 +3189,15 @@ msgstr "RC ファイル"
 
 #: weblate/formats/convert.py:447
 msgid "Plain text file"
-msgstr "プレーンテキストファイル"
+msgstr "プレーン テキスト ファイル"
 
 #: weblate/formats/convert.py:490
 msgid "DokuWiki text file"
-msgstr "DokuWiki テキストファイル"
+msgstr "DokuWiki テキスト ファイル"
 
 #: weblate/formats/convert.py:497
 msgid "MediaWiki text file"
-msgstr "MediaWiki テキストファイル"
+msgstr "MediaWiki テキスト ファイル"
 
 #: weblate/formats/exporters.py:204
 msgid "gettext PO"
@@ -3318,7 +3318,7 @@ msgstr "JSON ファイル"
 
 #: weblate/formats/ttkit.py:1355
 msgid "JSON nested structure file"
-msgstr "JSON ネスト型構造ファイル"
+msgstr "JSON ネスト構造ファイル"
 
 #: weblate/formats/ttkit.py:1362
 msgid "WebExtension JSON file"
@@ -3406,7 +3406,7 @@ msgstr "Fluent ファイル"
 
 #: weblate/formats/txt.py:188
 msgid "App store metadata files"
-msgstr "アプリ ストア メタデータ ファイル"
+msgstr "アプリ ストアのメタデータ ファイル"
 
 #: weblate/glossary/apps.py:27
 msgid "Glossaries"
@@ -5081,9 +5081,8 @@ msgstr "複数のファイルに分割された Android リソース文字列の
 msgid ""
 "You can use Django template markup in both component name and the "
 "monolingual base filename, for example:"
-msgstr ""
-"Django のテンプレートのマークアップは、コンポーネント名とモノリンガルの基準"
-"ファイル名の両方に使用できます。例:"
+msgstr "Django のテンプレートのマークアップは、コンポーネント名とモノリンガルの原文を"
+"定義する言語ファイル名の両方に使用できます。記述例:"
 
 #: weblate/templates/addons/discovery_help.html:71
 msgid "Component filename match"
@@ -8109,7 +8108,7 @@ msgstr "ファイルマスク"
 #: weblate/templates/trans/alert/inexistantfiles.html:11
 #: weblate/trans/models/component.py:351
 msgid "Monolingual base language file"
-msgstr "モノリンガル用の基準の言語ファイル"
+msgstr "モノリンガル用の、基礎となる言語ファイル"
 
 #: weblate/templates/snippets/info.html:220
 #: weblate/templates/translate.html:679
@@ -11304,20 +11303,19 @@ msgstr ""
 msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
-msgstr ""
-"すべての文字列とその原文を含む翻訳の基準ファイルのファイル名。モノリンガル翻"
-"訳のファイル形式に適しています。"
+msgstr "すべての文字列とその原文を含む翻訳の、基礎となる翻訳ファイルのファイル名。モ"
+"ノリンガル翻訳のファイル形式に適しています。"
 
 #: weblate/trans/models/component.py:362
 msgid "Edit base file"
-msgstr "基本ファイルの編集"
+msgstr "基礎となる翻訳ファイルの編集"
 
 #: weblate/trans/models/component.py:365
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
-msgstr ""
-"ユーザーがモノリンガル翻訳の基準ファイルを編集できるようにするかどうか。"
+msgstr "ユーザーが、モノリンガル翻訳用の基礎となる翻訳ファイルを編集できるようにする"
+"かどうか。"
 
 #: weblate/trans/models/component.py:374
 msgid ""
@@ -11655,22 +11653,21 @@ msgstr[0] "%d 個の一致ファイルを解析できません。"
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
-msgstr ""
-"Weblate に新しい翻訳ファイルを追加する設定をしましたが、基本ファイルがありま"
-"せん。"
+msgstr "Weblate に新しい翻訳ファイルを追加する設定をしましたが、基礎となる翻訳ファイ"
+"ルがありません。"
 
 #: weblate/trans/models/component.py:2340
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "新しい翻訳の基本ファイルの解析に失敗しました: %s"
+msgstr "解析に失敗した、新しい翻訳の基礎となる翻訳ファイル: %s"
 
 #: weblate/trans/models/component.py:2344
 msgid "Unrecognized base file for new translations."
-msgstr "新しい翻訳用の、未使用の基本ファイル。"
+msgstr "新しい翻訳用の、未使用の基礎となる翻訳ファイル。"
 
 #: weblate/trans/models/component.py:2355
 msgid "You can not use a base file for bilingual translation."
-msgstr "バイリンガル翻訳では基本ファイルを使用できません。"
+msgstr "バイリンガル翻訳では、基礎となる翻訳ファイルは使用できません。"
 
 #: weblate/trans/models/component.py:2361
 #: weblate/trans/models/component.py:2377
@@ -11682,18 +11679,17 @@ msgstr "編集テンプレートなしでは、中間言語ファイルを使用
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
-msgstr ""
-"中間言語ファイルは、モノリンガル用の基準の言語ファイルと同一にしないでくださ"
-"い。中間言語ファイルの中身は、空でもかまいません。"
+msgstr "中間言語ファイルは、モノリンガル用の基礎となる言語ファイルと同一にしないでく"
+"ださい。中間言語ファイルの中身は、空でもかまいません。"
 
 #: weblate/trans/models/component.py:2384
 msgid "Using a .pot file as base file is unsupported."
-msgstr ".pot ファイルを基本ファイルにすることは未対応です。"
+msgstr ".pot ファイルを基礎となる翻訳ファイルにすることは未対応です。"
 
 #: weblate/trans/models/component.py:2400
 #, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "翻訳ファイルを解析できません: %s"
+msgstr "解析できない、基礎となる翻訳ファイル: %s"
 
 #: weblate/trans/models/component.py:2410
 #, python-brace-format
@@ -11702,7 +11698,7 @@ msgstr "ひな形となる言語 ({0}) が原文の言語 ({1}) と一致して�
 
 #: weblate/trans/models/component.py:2415
 msgid "You can not use a monolingual translation without a base file."
-msgstr "基準ファイルがないと、モノリンガル翻訳はできません。"
+msgstr "基礎となる翻訳ファイルがないと、モノリンガル翻訳はできません。"
 
 #: weblate/trans/models/component.py:2441
 #, python-format
