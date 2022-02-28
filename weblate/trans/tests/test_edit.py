@@ -22,7 +22,6 @@
 import time
 from unittest import SkipTest
 
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
 from weblate.checks.models import Check
