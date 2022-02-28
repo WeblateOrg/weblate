@@ -838,7 +838,7 @@ class EditComplexTest(ViewTestCase):
 
         # Should have one less check
         unit = self.get_unit()
-        obj = get_object_or_404(Check, pk=int(check_id))
+        obj = Check.objects.get(pk=int(check_id))
         ignore = obj.check_obj.ignore_string
         self.assertJSONEqual(
             response.content.decode("utf-8"),
