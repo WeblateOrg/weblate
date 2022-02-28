@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-02-25 09:40+0000\n"
-"PO-Revision-Date: 2022-02-25 14:56+0000\n"
+"PO-Revision-Date: 2022-02-25 21:56+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -278,7 +278,7 @@ msgstr "Gebruikersnaam"
 
 #: weblate/accounts/forms.py:799 weblate/auth/models.py:341
 msgid "Date joined"
-msgstr "Datum lid geworden"
+msgstr "Lid sinds"
 
 #: weblate/accounts/forms.py:800
 msgid "Translations made"
@@ -348,12 +348,12 @@ msgstr "Inlogmethode {method} ({name}) verwijderd."
 #: weblate/accounts/models.py:155
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Ingelogd met {method} ({name})."
+msgstr "U bent ingelogd met {method} ({name})."
 
 #: weblate/accounts/models.py:156
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Ingelogd met {method} ({name}) op een nieuw apparaat."
+msgstr "U bent ingelogd met {method} ({name}) op een nieuw apparaat."
 
 #: weblate/accounts/models.py:157
 msgid "Somebody attempted to register with your e-mail."
@@ -371,7 +371,7 @@ msgstr "Het inloggen met {method} ({name}) is mislukt."
 
 #: weblate/accounts/models.py:160
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Uw account is geblokkeerd door te veel mislukte inlogpogingen."
+msgstr "Uw account is geblokkeerd vanwege teveel mislukte inlogpogingen."
 
 #: weblate/accounts/models.py:161
 msgid "Account and all private data removed."
@@ -535,12 +535,12 @@ msgstr ""
 
 #: weblate/accounts/models.py:446
 msgid "Number of nearby strings"
-msgstr "Aantal tekenreeksen in de buurt"
+msgstr "Aantal andere tekenreeksen"
 
 #: weblate/accounts/models.py:450
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
-"Het aantal weer te geven tekenreeksen in de buurt in elke richting in de "
+"Het aantal te tonen tekenreeksen in de buurt in elke richting in de "
 "volledige bewerker."
 
 #: weblate/accounts/models.py:454
@@ -886,7 +886,7 @@ msgstr "Uw account is verwijderd."
 
 #: weblate/accounts/views.py:469
 msgid "Too many messages sent, please try again later."
-msgstr "Te veel berichten verzonden; probeer het later opnieuw."
+msgstr "Teveel berichten verzonden; probeer het later opnieuw."
 
 #: weblate/accounts/views.py:497 weblate/templates/accounts/contact.html:6
 #: weblate/templates/base.html:272 weblate/templates/footer.html:16
@@ -3555,7 +3555,7 @@ msgstr "Taalcode"
 
 #: weblate/lang/models.py:477 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
-msgstr "Naam taal"
+msgstr "Taalnaam"
 
 #: weblate/lang/models.py:480 weblate/templates/snippets/info.html:34
 msgid "Text direction"
@@ -3563,11 +3563,11 @@ msgstr "Leesrichting"
 
 #: weblate/lang/models.py:485
 msgid "Left to right"
-msgstr "Links naar rechts"
+msgstr "Van links naar rechts"
 
 #: weblate/lang/models.py:486
 msgid "Right to left"
-msgstr "Rechts naar links"
+msgstr "Van rechts naar links"
 
 #: weblate/lang/models.py:566
 msgctxt "Plural type"
@@ -3647,27 +3647,27 @@ msgstr "Nul/één/twee/enkele/vele/andere"
 #: weblate/lang/models.py:626
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Nul/Andere"
+msgstr "Nul/andere"
 
 #: weblate/lang/models.py:630
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Nul/Eén/Enkele/Andere"
+msgstr "Nul/één/enkele/andere"
 
 #: weblate/lang/models.py:634
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Nul/Eén/Twee/Enkele/Vele/Andere"
+msgstr "Nul/één/twee/enkele/vele/andere"
 
 #: weblate/lang/models.py:638
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Nul/Eén/Twee/Andere"
+msgstr "Nul/één/twee/andere"
 
 #: weblate/lang/models.py:642
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Nul/Eén/Enkele/Vele/Andere"
+msgstr "Nul/één/enkele/vele/andere"
 
 #: weblate/lang/models.py:646
 msgctxt "Plural type"
@@ -3733,7 +3733,7 @@ msgstr "Verwijder eerst alle vertalingen die deze taal gebruiken."
 #: weblate/lang/views.py:86
 #, python-format
 msgid "Language %s removed."
-msgstr "Taal %s verwijderd."
+msgstr "%s is verwijderd."
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
@@ -7874,7 +7874,7 @@ msgid ""
 "Your request was rejected because you have performed too many operations "
 "recently."
 msgstr ""
-"Uw verzoek is afgewezen omdat u onlangs te veel handelingen hebt verricht."
+"Uw verzoek is afgewezen omdat u onlangs teveel handelingen hebt verricht."
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been signed out, please sign in and try again later."
@@ -9414,8 +9414,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:33
 msgid "Check the FAQ for info on how to resolve this."
-msgstr ""
-"Bekijk de veelgestelde vragen voor meer informatie om dit op te lossen."
+msgstr "Bekijk de veelgestelde vragen om te zien hoe u dit oplost."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -9690,7 +9689,7 @@ msgstr "Berichten die zich rond dit bericht bevinden"
 
 #: weblate/templates/translate.html:241
 msgid "Nearby strings"
-msgstr "Tekenreeksen in de buurt"
+msgstr "Andere tekenreeksen"
 
 #: weblate/templates/translate.html:243
 msgid "Strings with similar keys"
@@ -9726,7 +9725,7 @@ msgstr "Vertalingen van deze tekenreeks in andere talen"
 
 #: weblate/templates/translate.html:260
 msgid "Other languages"
-msgstr "Andere talen"
+msgstr "In andere talen"
 
 #: weblate/templates/translate.html:261
 msgid "List of recent changes done in Weblate"
@@ -9735,7 +9734,7 @@ msgstr "Lijst met recente wijzigingen op Weblate"
 #: weblate/templates/translate.html:296
 msgid "Showing only subset of the strings as there were too many matches."
 msgstr ""
-"Er wordt slechts een deel van de tekenreeksen getoond omdat er te veel "
+"Er wordt slechts een deel van de tekenreeksen getoond omdat er teveel "
 "overeenkomsten waren."
 
 #: weblate/templates/translate.html:306
