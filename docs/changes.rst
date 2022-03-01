@@ -3,6 +3,8 @@ Weblate 4.11.1
 
 Not yet released.
 
+* Fixed loading fuzzy strings from CSV files.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
 
 Weblate 4.11
