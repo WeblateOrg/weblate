@@ -1493,6 +1493,7 @@ class ComponentSettingsForm(
         vcses = (
             "git",
             "gerrit",
+            "gitea",
             "github",
             "gitlab",
             "pagure",

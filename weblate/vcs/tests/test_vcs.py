@@ -42,6 +42,7 @@ from weblate.vcs.git import (
     LocalRepository,
     PagureRepository,
     SubversionRepository,
+    GiteaRepository,
 )
 from weblate.vcs.mercurial import HgRepository
 
@@ -52,6 +53,11 @@ class GithubFakeRepository(GithubRepository):
 
 
 class GitLabFakeRepository(GitLabRepository):
+    _is_supported = None
+    _version = None
+
+
+class GiteaFakeRepository(GiteaRepository):
     _is_supported = None
     _version = None
 
@@ -499,6 +505,13 @@ class VCSGitUpstreamTest(VCSGitTest):
             super().add_remote_commit(conflict, rename)
         finally:
             self._class = backup
+
+
+@override_settings(GITLAB_USERNAME="test")
+class VCSGiteaTest(VCSGitTest):
+    _class = GiteaFakeRepository
+    _vcs = 'git'
+    _sets_push = False
 
 
 @override_settings(GITHUB_USERNAME="test", GITHUB_TOKEN="token")

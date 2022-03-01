@@ -29,6 +29,7 @@ class VCSConf(AppConf):
         "weblate.vcs.git.GitWithGerritRepository",
         "weblate.vcs.git.SubversionRepository",
         "weblate.vcs.git.GithubRepository",
+        "weblate.vcs.git.GiteaRepository",
         "weblate.vcs.git.GitLabRepository",
         "weblate.vcs.git.PagureRepository",
         "weblate.vcs.git.LocalRepository",
@@ -47,10 +48,15 @@ class VCSConf(AppConf):
     GITLAB_TOKEN = None
     GITLAB_CREDENTIALS = {}
 
-    # GitLab username for sending merge requests
+    # Pagure username for sending merge requests
     PAGURE_USERNAME = None
     PAGURE_TOKEN = None
     PAGURE_CREDENTIALS = {}
+
+    # Gitea username for sending pull requests
+    GITEA_USERNAME = None
+    GITEA_TOKEN = None
+    GITEA_CREDENTIALS = {}
 
     SSH_EXTRA_ARGS = ""
 
