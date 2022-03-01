@@ -1007,12 +1007,12 @@ class GiteaRepository(GitMergeRequestBase):
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
 
     def create_pull_request(
-            self,
-            credentials: Dict,
-            origin_branch: str,
-            fork_remote: str,
-            fork_branch: str,
-            retry_fork: bool = True,
+        self,
+        credentials: Dict,
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
+        retry_fork: bool = True,
     ):
         """Create pull request.
 
@@ -1038,9 +1038,7 @@ class GiteaRepository(GitMergeRequestBase):
         # compared to other errors, checking message seems to be the only option
         if "url" not in response:
             # Gracefully handle pull request already exists
-            if (
-                    "pull request already exists for these targets" in error_message
-            ):
+            if "pull request already exists for these targets" in error_message:
                 return
 
             raise RepositoryException(0, f"Pull request failed: {error_message}")

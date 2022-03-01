@@ -34,6 +34,7 @@ from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import remove_tree
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
+    GiteaRepository,
     GitForcePushRepository,
     GithubRepository,
     GitLabRepository,
@@ -42,7 +43,6 @@ from weblate.vcs.git import (
     LocalRepository,
     PagureRepository,
     SubversionRepository,
-    GiteaRepository,
 )
 from weblate.vcs.mercurial import HgRepository
 
@@ -510,7 +510,7 @@ class VCSGitUpstreamTest(VCSGitTest):
 @override_settings(GITLAB_USERNAME="test")
 class VCSGiteaTest(VCSGitTest):
     _class = GiteaFakeRepository
-    _vcs = 'git'
+    _vcs = "git"
     _sets_push = False
 
 
