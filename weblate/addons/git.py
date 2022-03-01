@@ -43,6 +43,7 @@ class GitSquashAddon(BaseAddon):
             "pagure",
             "gitlab",
             "git-force-push",
+            "gitea",
         }
     }
     events = (EVENT_POST_COMMIT,)
