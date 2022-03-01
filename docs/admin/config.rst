@@ -725,6 +725,65 @@ GET_HELP_URL
 
 URL where support for your Weblate instance can be found.
 
+.. setting:: GITEA_CREDENTIALS
+
+GITEA_CREDENTIALS
+-----------------
+
+.. versionadded:: 4.12
+
+List for credentials for Gitea servers.
+
+.. hint::
+
+    Use this in case you want Weblate to interact with more of them, for single
+    Gitea endpoint stick with :setting:`GITEA_USERNAME` and :setting:`GITEA_TOKEN`.
+
+.. code-block:: python
+
+    GITEA_CREDENTIALS = {
+        "try.gitea.io": {
+            "username": "weblate",
+            "token": "your-api-token",
+        },
+        "gitea.example.com": {
+            "username": "weblate",
+            "token": "another-api-token",
+        },
+    }
+
+.. setting:: GITEA_USERNAME
+
+GITEA_USERNAME
+--------------
+
+.. versionadded:: 4.12
+
+Gitea username used to send pull requests for translation updates.
+
+.. seealso::
+
+   :setting:`GITEA_CREDENTIALS`,
+   :ref:`vcs-gitea`
+
+.. setting:: GITEA_TOKEN
+
+GITEA_TOKEN
+-----------
+
+.. versionadded:: 4.12
+
+Gitea personal access token used to make API calls to send pull requests for
+translation updates.
+
+.. seealso::
+
+   :setting:`GITEA_CREDENTIALS`,
+   :ref:`vcs-gitea`,
+   `Creating a Gitea personal access token`_
+
+.. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
+
 .. setting:: GITLAB_CREDENTIALS
 
 GITLAB_CREDENTIALS

@@ -296,6 +296,7 @@ IGNORE_WORDS = {
     "ghz",
     "gib",
     "git",
+    "gitea",
     "github",
     "gitlab",
     "gpl",

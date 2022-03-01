@@ -963,6 +963,89 @@ class GithubRepository(GitMergeRequestBase):
             raise RepositoryException(0, f"Pull request failed: {error_message}")
 
 
+class GiteaRepository(GitMergeRequestBase):
+    name = gettext_lazy("Gitea pull request")
+    identifier = "gitea"
+    _version = None
+    API_TEMPLATE = "https://{host}/api/v1/repos/{owner}/{slug}"
+
+    def request(self, method: str, credentials: Dict, url: str, json: Dict):
+        try:
+            response = requests.request(
+                method,
+                url,
+                headers={
+                    "Authorization": "token {}".format(credentials["token"]),
+                },
+                json=json,
+            )
+        except OSError as error:
+            report_error(cause="request")
+            raise RepositoryException(0, str(error))
+        try:
+            data = response.json()
+        except JSONDecodeError as error:
+            report_error(cause="request json decoding")
+            response.raise_for_status()
+            raise RepositoryException(0, str(error))
+
+        # Log and parse all errors.
+        error_message = ""
+        if "message" in data:
+            error_message = data["message"]
+            self.log(data["message"], level=logging.INFO)
+
+        return data, error_message
+
+    def create_fork(self, credentials: Dict):
+        fork_url = "{}/forks".format(credentials["url"])
+
+        response, error = self.request("post", credentials, fork_url, {})
+        if "message" in response and "repository is already forked by user" in error:
+            # we have to get the repository again if it is already forked
+            response, error = self.request("get", credentials, credentials["url"], {})
+        if "ssh_url" not in response:
+            raise RepositoryException(0, f"Fork creation failed: {error}")
+        self.configure_fork_remote(response["ssh_url"], credentials["username"])
+
+    def create_pull_request(
+        self,
+        credentials: Dict,
+        origin_branch: str,
+        fork_remote: str,
+        fork_branch: str,
+        retry_fork: bool = True,
+    ):
+        """Create pull request.
+
+        Use to merge branch in forked repository into branch of remote repository.
+        """
+        if fork_remote == "origin":
+            head = fork_branch
+        else:
+            head = f"{fork_remote}:{fork_branch}"
+        pr_url = "{}/pulls".format(credentials["url"])
+        title, description = self.get_merge_message()
+        request = {
+            "head": head,
+            "base": origin_branch,
+            "title": title,
+            "body": description,
+        }
+        response, error_message = self.request("post", credentials, pr_url, request)
+
+        # Check for an error. If the error has a message saying pull request already
+        # exists, then we ignore that, else raise an error. Currently, since the API
+        # doesn't return any other separate indication for a pull request existing
+        # compared to other errors, checking message seems to be the only option
+        if "url" not in response:
+            # Gracefully handle pull request already exists
+            if "pull request already exists for these targets" in error_message:
+                return
+
+            raise RepositoryException(0, f"Pull request failed: {error_message}")
+
+
 class LocalRepository(GitRepository):
     """Local filesystem driver with no upstream repo."""
 
