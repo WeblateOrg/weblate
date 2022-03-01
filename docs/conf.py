@@ -264,6 +264,8 @@ linkcheck_ignore = [
     "https://api.deepl.com/v2/translate",
     # Anchors are used to specify channel name here
     "https://web.libera.chat/#",
+    # Site is unreliable
+    "https://docwiki.embarcadero.com/",
 ]
 
 # HTTP docs
