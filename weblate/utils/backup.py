@@ -21,8 +21,10 @@ import os
 import string
 import subprocess
 from random import SystemRandom
+from typing import Dict, List
 from urllib.parse import urlparse
 
+import borg
 from django.conf import settings
 
 from weblate.trans.util import get_clean_env
@@ -56,7 +58,7 @@ class BackupError(Exception):
     pass
 
 
-def make_password(length=50):
+def make_password(length: int = 50):
     generator = SystemRandom()
     chars = string.ascii_letters + string.digits + "!@#$%^&*()"
     return "".join(generator.choice(chars) for i in range(length))
@@ -83,7 +85,7 @@ def tag_cache_dirs():
                 handle.write(CACHEDIR)
 
 
-def borg(cmd, env=None):
+def run_borg(cmd: List[str], env: Dict[str, str] = None) -> str:
     """Wrapper to execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
@@ -105,23 +107,23 @@ def borg(cmd, env=None):
             raise BackupError(error.stdout)
 
 
-def initialize(location, passphrase):
+def initialize(location: str, passphrase: str) -> str:
     """Initialize repository."""
     parsed = urlparse(location)
     if parsed.hostname:
         add_host_key(None, parsed.hostname, parsed.port)
-    return borg(
+    return run_borg(
         ["init", "--encryption", "repokey-blake2", location],
         {"BORG_NEW_PASSPHRASE": passphrase},
     )
 
 
-def get_paper_key(location):
+def get_paper_key(location: str) -> str:
     """Get paper key for recovery."""
-    return borg(["key", "export", "--paper", location])
+    return run_borg(["key", "export", "--paper", location])
 
 
-def backup(location, passphrase):
+def backup(location: str, passphrase: str) -> str:
     """Perform DATA_DIR backup."""
     tag_cache_dirs()
     command = [
@@ -145,15 +147,15 @@ def backup(location, passphrase):
             settings.DATA_DIR,
         ],
     )
-    return borg(
+    return run_borg(
         command,
         {"BORG_PASSPHRASE": passphrase},
     )
 
 
-def prune(location, passphrase):
+def prune(location: str, passphrase: str) -> str:
     """Prune past backups."""
-    return borg(
+    return run_borg(
         [
             "prune",
             "--list",
@@ -167,3 +169,18 @@ def prune(location, passphrase):
         ],
         {"BORG_PASSPHRASE": passphrase},
     )
+
+
+def supports_cleanup():
+    """Cleanup is supported since borg 1.2."""
+    return borg.__version_tuple__ >= (1, 2)
+
+
+def cleanup(location: str, passphrase: str, initial: bool) -> str:
+    if not supports_cleanup():
+        return ""
+    cmd = ["compact"]
+    if initial:
+        cmd.append("--cleanup-commits")
+    cmd.append(location)
+    return run_borg(cmd, {"BORG_PASSPHRASE": passphrase})

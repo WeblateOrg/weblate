@@ -254,7 +254,7 @@
             {% if group.defining_project %}
               <th>{{ group.defining_project }}</th>
             {% else %}
-              <td><em>{% trans "None" %}</em></td>
+              <td><em>{% trans "None" context "None project associated with group" %}</em></td>
             {% endif %}
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user_set.count }}</td>

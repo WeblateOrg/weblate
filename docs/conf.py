@@ -42,7 +42,7 @@ copyright = "2012–2022 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.11"
+release = "4.11.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -264,6 +264,8 @@ linkcheck_ignore = [
     "https://api.deepl.com/v2/translate",
     # Anchors are used to specify channel name here
     "https://web.libera.chat/#",
+    # Site is unreliable
+    "https://docwiki.embarcadero.com/",
 ]
 
 # HTTP docs

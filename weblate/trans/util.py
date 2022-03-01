@@ -222,7 +222,7 @@ def get_project_description(project):
         count = project.stats.languages
         cache.set(cache_key, count, 6 * 3600)
     return _(
-        "{0} is translated into {1} languages using Weblate. "
+        "{0} is being translated into {1} languages using Weblate. "
         "Join the translation or start translating your own project."
     ).format(project, count)
 

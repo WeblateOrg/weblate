@@ -29,7 +29,7 @@ Things to check prior to release:
 
 1. Check newly translated languages by :command:`./scripts/list-translated-languages`.
 2. Set final version by :command:`./scripts/prepare-release`.
-3. Make sure screenshots are up to date :command:`make -C docs update-screenshots`.
+3. Make sure screenshots are up to date :command:`make -j 12 -C docs update-screenshots`.
 4. Merge any possibly pending translations :command:`wlc push; git remote update; git merge origin/weblate`
 
 Perform the release:

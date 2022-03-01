@@ -40,7 +40,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python 3.7
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: 3.7
     - name: Install pip dependencies
@@ -72,6 +72,8 @@ jobs:
       run: ./ci/run-migrate 4.9
     - name: Migrate from 4.10
       run: ./ci/run-migrate 4.10
+    - name: Migrate from 4.11
+      run: ./ci/run-migrate 4.11
     - name: Coverage
       run: |
         coverage combine

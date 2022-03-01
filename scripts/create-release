@@ -52,6 +52,12 @@ zcat dist/$tarver.tar.gz | bzip2 > dist/$tarver.tar.bz2
 
 # Upload release
 if [ "$DO_TAG" -eq 1 ] ; then
+    # Git tags
+    git push --tags
+    cd ~/weblate/test
+    git push --tags
+    cd ~/weblate/weblate
+
     # PyPi archive upload
     twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.gz
     twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver*.whl
@@ -62,12 +68,6 @@ if [ "$DO_TAG" -eq 1 ] ; then
 
     # Download server
     scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
-
-    # Git tags
-    git push --tags
-    cd ~/weblate/test
-    git push --tags
-    cd ~/weblate/weblate
 
     # Update stable branch
     git checkout stable

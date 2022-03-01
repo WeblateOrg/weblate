@@ -37,6 +37,7 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
@@ -105,7 +106,6 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 """
-COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
 class MarkdownTextarea(forms.Textarea):
@@ -319,7 +319,7 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = str(unit.translation.language)
+            label = escape(unit.translation.language)
             if len(values) != 1:
                 label = f"{label}, {plural.get_plural_label(idx)}"
             ret.append(

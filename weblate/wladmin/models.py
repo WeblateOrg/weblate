@@ -32,10 +32,12 @@ from weblate.trans.models import Component, Project
 from weblate.utils.backup import (
     BackupError,
     backup,
+    cleanup,
     get_paper_key,
     initialize,
     make_password,
     prune,
+    supports_cleanup,
 )
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
@@ -204,6 +206,16 @@ class BackupService(models.Model):
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
+    def cleanup(self):
+        if not supports_cleanup():
+            return
+        initial = self.backuplog_set.filter(event="cleanup").exists()
+        try:
+            log = cleanup(self.repository, self.passphrase, initial=initial)
+            self.backuplog_set.create(event="cleanup", log=log)
+        except BackupError as error:
+            self.backuplog_set.create(event="error", log=str(error))
+
 
 class BackupLog(models.Model):
     service = models.ForeignKey(BackupService, on_delete=models.deletion.CASCADE)
@@ -214,8 +226,10 @@ class BackupLog(models.Model):
             ("backup", gettext_lazy("Backup performed")),
             ("error", gettext_lazy("Backup failed")),
             ("prune", gettext_lazy("Deleted the oldest backups")),
+            ("cleanup", gettext_lazy("Cleaned up backup storage")),
             ("init", gettext_lazy("Repository initialization")),
         ),
+        db_index=True,
     )
     log = models.TextField()
 

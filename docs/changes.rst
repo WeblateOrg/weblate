@@ -1,8 +1,18 @@
-Weblate 4.11
--------------
+Weblate 4.11.1
+--------------
 
 Not yet released.
 
+* Fixed loading fuzzy strings from CSV files.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
+
+Weblate 4.11
+------------
+
+Released on February 25th 2022.
+
+* Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more details.
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
@@ -26,6 +36,10 @@ Not yet released.
 * Added documentation links to alerts.
 * Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
 * Added support for searching for resolved comments.
+* Added support for borgbackup 1.2.
+* Fixed applying of :guilabel:`Automatically translated` label.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?closed=1>`__.
 
 Weblate 4.10.1
 --------------
@@ -39,6 +53,8 @@ Released on December 22nd 2021.
 * Fixed manually editing page when browsing changes.
 * Improved accuracy of :ref:`check-kashida`.
 * The Weblate Docker container now uses Python 3.10.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/76?closed=1>`__.
 
 Weblate 4.10
 ------------

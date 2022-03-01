@@ -1369,7 +1369,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.labels.add(label)
         else:
             self.labels.through.objects.filter(
-                label__name="Automatically translated"
+                unit=self, label__name="Automatically translated"
             ).delete()
 
         return saved

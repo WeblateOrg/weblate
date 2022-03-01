@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import date
 
 from celery.schedules import crontab
 
@@ -45,6 +46,9 @@ def backup_service(pk):
     service.ensure_init()
     service.backup()
     service.prune()
+    today = date.today()
+    if today.weekday() == 3:
+        service.cleanup()
 
 
 @app.on_after_finalize.connect

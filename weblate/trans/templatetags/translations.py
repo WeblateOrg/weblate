@@ -63,6 +63,9 @@ HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
 SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
 SPACE_SPACE = SPACE_TEMPLATE.format("space-space", " ")
 SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />")
+SPACE_START = '<span class="hlspace"><span class="space-space"><span class="sr-only">'
+SPACE_MIDDLE = '</span></span><span class="space-space"><span class="sr-only">'
+SPACE_END = "</span></span></span>"
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
@@ -123,19 +126,14 @@ class Formatter:
         offset = 0
         for op, data in diff:
             if op == dmp.DIFF_DELETE:
-                self.tags[offset].append(
-                    "<del>{}</del>".format(SPACE_SPACE if data == " " else escape(data))
+                formatter = Formatter(
+                    0, data, self.unit, self.terms, None, self.search_match, self.match
                 )
+                formatter.parse()
+                self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == dmp.DIFF_INSERT:
                 self.tags[offset].append("<ins>")
-                if data == " ":
-                    # This matches SPACE_SPACE
-                    self.tags[offset].append(
-                        '<span class="space-space"><span class="sr-only">'
-                    )
                 offset += len(data)
-                if data == " ":
-                    self.tags[offset].insert(0, "</span></span>")
                 self.tags[offset].insert(0, "</ins>")
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
@@ -208,14 +206,10 @@ class Formatter:
     def parse_whitespace(self):
         """Highlight whitespaces."""
         for match in MULTISPACE_RE.finditer(self.value):
-            self.tags[match.start()].append(
-                '<span class="hlspace"><span class="space-space"><span class="sr-only">'
-            )
+            self.tags[match.start()].append(SPACE_START)
             for i in range(match.start() + 1, match.end()):
-                self.tags[i].insert(
-                    0, '</span></span><span class="space-space"><span class="sr-only">'
-                )
-            self.tags[match.end()].insert(0, "</span></span></span>")
+                self.tags[i].insert(0, SPACE_MIDDLE)
+            self.tags[match.end()].insert(0, SPACE_END)
 
         for match in WHITESPACE_RE.finditer(self.value):
             whitespace = match.group(0)
@@ -239,6 +233,11 @@ class Formatter:
         was_cr = False
         newlines = {"\r", "\n"}
         for pos, char in enumerate(value):
+            # Special case for single whitespace char in diff
+            if char == " " and "<ins>" in tags[pos] and "</ins>" in tags[pos + 1]:
+                tags[pos].append(SPACE_START)
+                tags[pos + 1].insert(0, SPACE_END)
+
             output.append("".join(tags[pos]))
             if char in newlines:
                 is_cr = char == "\r"

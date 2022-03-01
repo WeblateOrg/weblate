@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.17.9 (4ef06bf) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.18.1 (cb18c43) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
     /*! *****************************************************************************
@@ -2378,6 +2378,48 @@ var Sentry = (function (exports) {
     }))();
 
     /**
+     * Creates an envelope.
+     * Make sure to always explicitly provide the generic to this function
+     * so that the envelope types resolve correctly.
+     */
+    function createEnvelope(headers, items) {
+        if (items === void 0) { items = []; }
+        return [headers, items];
+    }
+    /**
+     * Serializes an envelope into a string.
+     */
+    function serializeEnvelope(envelope) {
+        var _a = __read(envelope, 2), headers = _a[0], items = _a[1];
+        var serializedHeaders = JSON.stringify(headers);
+        // Have to cast items to any here since Envelope is a union type
+        // Fixed in Typescript 4.2
+        // TODO: Remove any[] cast when we upgrade to TS 4.2
+        // https://github.com/microsoft/TypeScript/issues/36390
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return items.reduce(function (acc, item) {
+            var _a = __read(item, 2), itemHeaders = _a[0], payload = _a[1];
+            return acc + "\n" + JSON.stringify(itemHeaders) + "\n" + JSON.stringify(payload);
+        }, serializedHeaders);
+    }
+
+    /**
+     * Creates client report envelope
+     * @param discarded_events An array of discard events
+     * @param dsn A DSN that can be set on the header. Optional.
+     */
+    function createClientReportEnvelope(discarded_events, dsn, timestamp) {
+        var clientReportItem = [
+            { type: 'client_report' },
+            {
+                timestamp: timestamp || dateTimestampInSeconds(),
+                discarded_events: discarded_events,
+            },
+        ];
+        return createEnvelope(dsn ? { dsn: dsn } : {}, [clientReportItem]);
+    }
+
+    /**
      * Absolute maximum number of breadcrumbs added to an event.
      * The `maxBreadcrumbs` option cannot be higher than this value.
      */
@@ -3040,7 +3082,7 @@ var Sentry = (function (exports) {
          */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         Hub.prototype.captureException = function (exception, hint) {
-            var eventId = (this._lastEventId = uuid4());
+            var eventId = (this._lastEventId = hint && hint.event_id ? hint.event_id : uuid4());
             var finalHint = hint;
             // If there's no explicit hint provided, mimic the same thing that would happen
             // in the minimal itself to create a consistent behavior.
@@ -3066,7 +3108,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Hub.prototype.captureMessage = function (message, level, hint) {
-            var eventId = (this._lastEventId = uuid4());
+            var eventId = (this._lastEventId = hint && hint.event_id ? hint.event_id : uuid4());
             var finalHint = hint;
             // If there's no explicit hint provided, mimic the same thing that would happen
             // in the minimal itself to create a consistent behavior.
@@ -3092,7 +3134,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Hub.prototype.captureEvent = function (event, hint) {
-            var eventId = uuid4();
+            var eventId = hint && hint.event_id ? hint.event_id : uuid4();
             if (event.type !== 'transaction') {
                 this._lastEventId = eventId;
             }
@@ -4478,7 +4520,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.17.9';
+    var SDK_VERSION = '6.18.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4852,9 +4894,10 @@ var Sentry = (function (exports) {
             },
         };
         if (syntheticException) {
-            event.stacktrace = {
-                frames: parseStackFrames(syntheticException),
-            };
+            var frames_1 = parseStackFrames(syntheticException);
+            if (frames_1.length) {
+                event.stacktrace = { frames: frames_1 };
+            }
         }
         return event;
     }
@@ -5020,9 +5063,10 @@ var Sentry = (function (exports) {
             message: input,
         };
         if (options.attachStacktrace && syntheticException) {
-            event.stacktrace = {
-                frames: parseStackFrames(syntheticException),
-            };
+            var frames_1 = parseStackFrames(syntheticException);
+            if (frames_1.length) {
+                event.stacktrace = { frames: frames_1 };
+            }
         }
         return event;
     }
@@ -5201,25 +5245,18 @@ var Sentry = (function (exports) {
             }
             logger.log("Flushing outcomes:\n" + JSON.stringify(outcomes, null, 2));
             var url = getEnvelopeEndpointWithUrlEncodedAuth(this._api.dsn, this._api.tunnel);
-            // Envelope header is required to be at least an empty object
-            var envelopeHeader = JSON.stringify(__assign({}, (this._api.tunnel && { dsn: dsnToString(this._api.dsn) })));
-            var itemHeaders = JSON.stringify({
-                type: 'client_report',
+            var discardedEvents = Object.keys(outcomes).map(function (key) {
+                var _a = __read(key.split(':'), 2), category = _a[0], reason = _a[1];
+                return {
+                    reason: reason,
+                    category: category,
+                    quantity: outcomes[key],
+                };
+                // TODO: Improve types on discarded_events to get rid of cast
             });
-            var item = JSON.stringify({
-                timestamp: dateTimestampInSeconds(),
-                discarded_events: Object.keys(outcomes).map(function (key) {
-                    var _a = __read(key.split(':'), 2), category = _a[0], reason = _a[1];
-                    return {
-                        reason: reason,
-                        category: category,
-                        quantity: outcomes[key],
-                    };
-                }),
-            });
-            var envelope = envelopeHeader + "\n" + itemHeaders + "\n" + item;
+            var envelope = createClientReportEnvelope(discardedEvents, this._api.tunnel && dsnToString(this._api.dsn));
             try {
-                sendReport(url, envelope);
+                sendReport(url, serializeEnvelope(envelope));
             }
             catch (e) {
                 logger.error(e);

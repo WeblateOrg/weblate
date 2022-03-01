@@ -173,6 +173,12 @@ LICENSES = (
         True,
     ),
     (
+        "Arphic-1999",
+        "Arphic Public License",
+        "https://spdx.org/licenses/Arphic-1999.html",
+        False,
+    ),
+    (
         "Artistic-1.0",
         "Artistic License 1.0",
         "https://spdx.org/licenses/Artistic-1.0.html",

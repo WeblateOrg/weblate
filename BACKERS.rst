@@ -1,5 +1,5 @@
-Backers who have funded Weblate
-+++++++++++++++++++++++++++++++
+Supporters who have funded Weblate
+++++++++++++++++++++++++++++++++++
 
 List of Weblate supporters:
 
