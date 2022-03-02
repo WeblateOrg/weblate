@@ -1324,6 +1324,7 @@ class AndroidFormat(TTKitFormat):
     autoload = ("strings*.xml", "values*.xml")
     language_format = "android"
     check_flags = ("java-format",)
+    autoaddon = {"weblate.cleanup.blank": {}}
 
 
 class DictStoreMixin:
