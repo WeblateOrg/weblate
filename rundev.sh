@@ -43,6 +43,11 @@ case $1 in
     build)
         build
         ;;
+    wait)
+        while ! docker-compose ps | grep healthy ; do
+            sleep 1
+        done
+        ;;
     start|restart|"")
         build
 
