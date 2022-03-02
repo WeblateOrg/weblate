@@ -458,6 +458,7 @@ Groups
 
         {
             "name": "Guests",
+            "defining_project": null,
             "project_selection": 3,
             "language_selection": 1,
             "url": "http://example.com/api/groups/1/",
