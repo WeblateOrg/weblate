@@ -33,10 +33,6 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: weblate.settings_docker
       WEBLATE_SITE_DOMAIN: ${WEBLATE_HOST}
-      WEBLATE_GITHUB_USERNAME: qwerty287
-      WEBLATE_GITHUB_TOKEN: 95a2a068275ced3452db6d57aed5fa0ade82a50f
-      WEBLATE_GITEA_USERNAME: qwerty287
-      WEBLATE_GITEA_TOKEN: 95a2a068275ced3452db6d57aed5fa0ade82a50f
     env_file:
     - ./environment
   database:
