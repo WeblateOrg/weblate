@@ -34,11 +34,11 @@ case $1 in
         ;;
     test)
         shift
-        docker-compose exec -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate test --noinput "$@"
+        docker-compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate test --noinput "$@"
         ;;
     check)
         shift
-        docker-compose exec weblate weblate check "$@"
+        docker-compose exec -T weblate weblate check "$@"
         ;;
     build)
         build
