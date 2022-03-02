@@ -45,7 +45,9 @@ case $1 in
         ;;
     wait)
         while ! docker-compose ps | grep healthy ; do
+            echo "Waiting for the container startup..."
             sleep 1
+            docker-compose ps
         done
         ;;
     start|restart|"")
