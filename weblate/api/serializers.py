@@ -338,7 +338,7 @@ class GroupSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
-        self.fields["defining_project"].queryset = user.allowed_projects
+        self.fields["defining_project"].queryset = user.managed_projects
 
 
 class ProjectSerializer(serializers.ModelSerializer):
