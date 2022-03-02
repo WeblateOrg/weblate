@@ -17,6 +17,13 @@ export GROUP_ID
 
 cd dev-docker/
 
+build() {
+    # Build single requirements file
+    sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
+    # Build the container
+    docker-compose build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)
+}
+
 case $1 in
     stop)
         docker-compose down
@@ -29,11 +36,15 @@ case $1 in
         shift
         docker-compose exec -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate test --noinput "$@"
         ;;
+    check)
+        shift
+        docker-compose exec weblate weblate check "$@"
+        ;;
+    build)
+        build
+        ;;
     start|restart|"")
-        # Build single requirements file
-        sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
-        # Build the container
-        docker-compose build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)
+        build
 
         # Start it up
         docker-compose up -d --force-recreate
