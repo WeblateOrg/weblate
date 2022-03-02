@@ -326,26 +326,9 @@
         },
         success: function (data) {
           if (dismiss_all) {
-            const { extra_flags, all_flags, ignore_check } = data;
+            const { extra_flags, all_flags } = data;
             $("#id_extra_flags").val(extra_flags);
-            $("#unit_all_flags").html(all_flags).css({
-              "background-color": "#ffa500ff",
-              display: "inline-block",
-              padding: "0px 6px",
-              "border-radius": "6px",
-            });
-            let transparency = 255;
-            let animation = setInterval(function () {
-              if (transparency === 0) {
-                clearInterval(animation);
-              } else {
-                let transpVal = transparency.toString(16).padStart(2, "0");
-                $("#unit_all_flags").css({
-                  "background-color": "#ffa500" + transpVal,
-                });
-                transparency--;
-              }
-            }, 15);
+            $("#unit_all_flags").html(all_flags).addClass("flags-updated");
           }
         },
       });
