@@ -513,6 +513,108 @@ class VCSGiteaTest(VCSGitTest):
     _vcs = "git"
     _sets_push = False
 
+    def mock_responses(self, pr_response, pr_status=200):
+        """Mock response helper function.
+
+        This function will mock request responses for both fork and PRs
+        """
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
+            json={"ssh_url": "git@github.com:test/test.git"},
+        )
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls",
+            json=pr_response,
+            status=pr_status,
+        )
+
+    def test_api_url_github_com(self):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test"
+        self.assertEqual(
+            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test/"
+        self.assertEqual(
+            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "git@try.gitea.io:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "try.gitea.io:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "try.gitea.io:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test.github.io",
+        )
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_responses(
+            pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_error(self, branch=""):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock PR to return error
+        self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
+
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_exists(self, branch=""):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Check that it doesn't raise error when pull request already exists
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
 
 @override_settings(GITHUB_USERNAME="test", GITHUB_TOKEN="token")
 class VCSGitHubTest(VCSGitUpstreamTest):
