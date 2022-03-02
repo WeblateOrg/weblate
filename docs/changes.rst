@@ -3,6 +3,9 @@ Weblate 4.11.1
 
 Not yet released.
 
+* Fixed loading fuzzy strings from CSV files.
+* Added support for creating teams using the API.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
 
 Weblate 4.11

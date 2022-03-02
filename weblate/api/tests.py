@@ -399,6 +399,26 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.count(), 7)
 
+    def test_create_project(self):
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(Group.objects.count(), 7)
+        group = Group.objects.get(name="Group")
+        self.assertEqual(group.defining_project, self.component.project)
+
     def test_add_role(self):
         role = Role.objects.get(pk=1)
         self.do_request(

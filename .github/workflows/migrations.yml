@@ -29,7 +29,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Cache pip
@@ -40,7 +40,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python 3.7
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: 3.7
     - name: Install pip dependencies

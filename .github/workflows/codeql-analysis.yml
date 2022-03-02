@@ -21,7 +21,7 @@ jobs:
         - '3.10'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2.4.0
+      uses: actions/checkout@v3.0.0
     - name: Cache pip
       uses: actions/cache@v2.1.7
       with:
@@ -30,7 +30,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Used versions

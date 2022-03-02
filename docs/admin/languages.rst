@@ -75,7 +75,7 @@ enforce updating the database to match Weblate built-in data using
 
 .. seealso::
 
-   :ref:`extending-lanugages`
+   :ref:`extending-languages`
 
 .. _ambiguous-languages:
 

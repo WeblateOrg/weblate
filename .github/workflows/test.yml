@@ -60,7 +60,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Cache pip
@@ -71,7 +71,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Used versions

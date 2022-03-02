@@ -18,7 +18,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Cache pip
       uses: actions/cache@v2.1.7
       with:
@@ -27,7 +27,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.10'
     - name: Used versions
@@ -55,7 +55,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Cache pip
       uses: actions/cache@v2.1.7
       with:
@@ -64,7 +64,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.10'
     - name: Used versions
@@ -83,7 +83,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pip
@@ -91,7 +91,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Setup Python
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.10'
     - name: Install pip dependencies

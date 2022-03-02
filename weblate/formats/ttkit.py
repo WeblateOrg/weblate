@@ -35,7 +35,7 @@ from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
-from translate.storage.csvl10n import csv
+from translate.storage.csvl10n import csv, csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
@@ -65,7 +65,7 @@ from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
-SUPPORTS_FUZZY = (pounit, tsunit)
+SUPPORTS_FUZZY = (pounit, tsunit, csvunit)
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 
 
@@ -911,6 +911,12 @@ class CSVUnit(MonolingualSimpleUnit):
     def target(self):
         return self.unescape_csv(super().target)
 
+    def is_fuzzy(self, fallback=False):
+        # Report fuzzy state only if present in the fields
+        if "fuzzy" not in self.parent.store.fieldnames:
+            return fallback
+        return super().is_fuzzy()
+
 
 class RESXUnit(TTKitUnit):
     @cached_property
@@ -1318,6 +1324,7 @@ class AndroidFormat(TTKitFormat):
     autoload = ("strings*.xml", "values*.xml")
     language_format = "android"
     check_flags = ("java-format",)
+    autoaddon = {"weblate.cleanup.blank": {}}
 
 
 class DictStoreMixin:
