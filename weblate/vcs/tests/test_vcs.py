@@ -507,7 +507,7 @@ class VCSGitUpstreamTest(VCSGitTest):
             self._class = backup
 
 
-@override_settings(GITLAB_USERNAME="test")
+@override_settings(GITEA_USERNAME="test")
 class VCSGiteaTest(VCSGitTest):
     _class = GiteaFakeRepository
     _vcs = "git"

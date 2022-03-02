@@ -730,7 +730,7 @@ URL where support for your Weblate instance can be found.
 GITEA_CREDENTIALS
 ------------------
 
-.. versionadded:: 4.3
+.. versionadded:: 4.12
 
 List for credentials for Gitea servers.
 
@@ -741,12 +741,12 @@ List for credentials for Gitea servers.
 
 .. code-block:: python
 
-    GITHUB_CREDENTIALS = {
-        "api.github.com": {
+    GITEA_CREDENTIALS = {
+        "try.gitea.io": {
             "username": "weblate",
             "token": "your-api-token",
         },
-        "github.example.com": {
+        "gitea.example.com": {
             "username": "weblate",
             "token": "another-api-token",
         },
@@ -756,6 +756,8 @@ List for credentials for Gitea servers.
 
 GITEA_USERNAME
 ---------------
+
+.. versionadded:: 4.12
 
 Gitea username used to send pull requests for translation updates.
 
@@ -769,7 +771,7 @@ Gitea username used to send pull requests for translation updates.
 GITEA_TOKEN
 ------------
 
-.. versionadded:: 4.3
+.. versionadded:: 4.12
 
 Gitea personal access token used to make API calls to send pull requests for
 translation updates.

@@ -318,6 +318,36 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. _GitLab API: https://docs.gitlab.com/ee/api/
 
+.. _vcs-gitea:
+.. _gitea-push:
+
+Gitea pull requests
+---------------------
+
+.. versionadded:: 4.12
+
+This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to allow
+pushing translation changes as pull requests instead of
+pushing directly to the repository.
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-gitea` creates pull requests.
+
+You need to configure API credentials (:setting:`GITEA_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Gitea` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   :ref:`push-changes`,
+   :setting:`GITEA_USERNAME`,
+   :setting:`GITEA_TOKEN`,
+   :setting:`GITEA_CREDENTIALS`
+
+.. _Gitea API: https://docs.gitea.io/en-us/api-usage/
+
 .. _vcs-pagure:
 .. _pagure-push:
 
