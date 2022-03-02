@@ -533,23 +533,28 @@ class VCSGiteaTest(VCSGitTest):
     def test_api_url_github_com(self):
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test/"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "git@try.gitea.io:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "try.gitea.io:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://try.gitea.io/api/v1/repos/WeblateOrg/test"
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "try.gitea.io:WeblateOrg/test.github.io"
         self.assertEqual(
