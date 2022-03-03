@@ -85,7 +85,7 @@ class GitRepository(Repository):
         if not repo:
             return super().get_remote_branch(repo)
         try:
-            result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+            result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
         except RepositoryException:
             report_error(cause="Listing remote branch")
             return super().get_remote_branch(repo)
@@ -149,7 +149,9 @@ class GitRepository(Repository):
     @classmethod
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        cls._popen(["clone"] + cls.get_depth() + ["--branch", branch, source, target])
+        cls._popen(
+            ["clone"] + cls.get_depth() + ["--branch", branch, "--", source, target]
+        )
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -572,7 +574,7 @@ class SubversionRepository(GitRepository):
 
     @classmethod
     def get_remote_args(cls, source, target):
-        result = ["--prefix=origin/", source, target]
+        result = ["--prefix=origin/", "--", source, target]
         if cls.is_stdlayout(source):
             result.insert(0, "--stdlayout")
             revision = cls.get_last_repo_revision(source + "/trunk/")
