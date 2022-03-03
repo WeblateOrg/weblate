@@ -91,11 +91,11 @@ class BaseAddon:
         return result
 
     @classmethod
-    def create(cls, component, **kwargs):
+    def create(cls, component, run: bool = True, **kwargs):
         storage = cls.create_object(component, **kwargs)
         storage.save(force_insert=True)
         result = cls(storage)
-        result.post_configure()
+        result.post_configure(run=run)
         return result
 
     @classmethod
@@ -126,12 +126,15 @@ class BaseAddon:
         self.instance.save()
         self.post_configure()
 
-    def post_configure(self):
+    def post_configure(self, run: bool = True):
         component = self.instance.component
 
         # Configure events to current status
         component.log_debug("configuring events for %s add-on", self.name)
         self.instance.configure_events(self.events)
+
+        if not run:
+            return
 
         # Trigger post events to ensure direct processing
         if self.repo_scope and component.linked_component:

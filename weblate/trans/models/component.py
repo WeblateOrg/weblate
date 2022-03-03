@@ -730,7 +730,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying
-        # the newsly created component
+        # the newly created component
         bool(self.source_translation)
 
         args = {
@@ -825,7 +825,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 continue
 
             self.log_info("enabling addon %s", name)
-            addon.create(self, configuration=configuration)
+            # Running is disabled now, it is triggered in after_save
+            addon.create(self, run=False, configuration=configuration)
 
     def create_glossary(self):
         project = self.project
@@ -2635,7 +2636,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.schedule_sync_terminology()
 
             # Run automatically installed addons. They are run upon installation,
-            # but there are no translations created at that point.
+            # but there are no translations created at that point. This complements
+            # installation in install_autoaddon.
             previous = self.repository.last_remote_revision
             for addon in self.addons_cache["__all__"]:
                 # Skip addons installed elsewhere (repo/project wide)
