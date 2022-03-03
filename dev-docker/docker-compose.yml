@@ -22,7 +22,7 @@ services:
     user: $USER_ID:$GROUP_ID
     userns_mode: host
     tmpfs:
-    - /app/cache
+    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
     volumes:
       # Local data directory
     - $PWD/data:/app/data
