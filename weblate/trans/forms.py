@@ -1556,17 +1556,18 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
 
 class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
     name = forms.CharField(
-        label=_("Component name"),
+        label=Component.name.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=_("Display name"),
+        help_text=Component.name.field.help_text,
     )
     slug = forms.SlugField(
-        label=_("URL slug"),
+        label=Component.slug.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=_("Name used in URLs and filenames."),
+        help_text=Component.slug.field.help_text,
     )
     is_glossary = forms.BooleanField(
-        label=_("Use as a glossary"),
+        label=Component.is_glossary.field.verbose_name,
+        help_text=Component.is_glossary.field.help_text,
         required=False,
     )
 
@@ -1640,8 +1641,8 @@ class ComponentProjectForm(ComponentNameForm):
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
-        label=_("Source language"),
-        help_text=_("Language used for source strings in all components"),
+        label=Component.source_language.field.verbose_name,
+        help_text=Component.source_language.field.help_text,
         queryset=Language.objects.all(),
     )
 
@@ -1724,26 +1725,20 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         queryset=Project.objects.none(), label=_("Project")
     )
     vcs = forms.ChoiceField(
-        label=_("Version control system"),
-        help_text=_(
-            "Version control system to use to access your "
-            "repository with translations."
-        ),
+        label=Component.vcs.field.verbose_name,
+        help_text=Component.vcs.field.help_text,
         choices=VCS_REGISTRY.get_choices(exclude={"local"}),
         initial=settings.DEFAULT_VCS,
     )
     repo = forms.CharField(
-        label=_("Source code repository"),
+        label=Component.repo.field.verbose_name,
         max_length=REPO_LENGTH,
-        help_text=_(
-            "URL of a repository, use weblate://project/component "
-            "for sharing with other component."
-        ),
+        help_text=Component.repo.field.help_text,
     )
     branch = forms.CharField(
-        label=_("Repository branch"),
+        label=Component.branch.field.verbose_name,
         max_length=REPO_LENGTH,
-        help_text=_("Repository branch to translate"),
+        help_text=Component.branch.field.help_text,
         required=False,
     )
 
