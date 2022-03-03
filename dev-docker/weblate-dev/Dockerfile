@@ -26,7 +26,6 @@ RUN if ! getent group "${GROUP_ID}"; then \
         fi
 # Following are removed during cleanup of weblate/weblate
 RUN apt-get update && apt-get install -y \
-    python3-dev \
     pkg-config \
     libleptonica-dev \
     libtesseract-dev \
