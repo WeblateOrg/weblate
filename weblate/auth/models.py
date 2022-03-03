@@ -338,6 +338,14 @@ class User(AbstractBaseUser):
         default=True,
         help_text=_("Mark user as inactive instead of removing."),
     )
+    is_bot = models.BooleanField(
+        "Robot user",
+        default=False,
+        db_index=True,
+    )
+    date_expires = models.DateTimeField(
+        _("Expires"), null=True, blank=True, default=None
+    )
     date_joined = models.DateTimeField(_("Date joined"), default=timezone.now)
     groups = GroupManyToManyField(
         Group,
@@ -416,10 +424,6 @@ class User(AbstractBaseUser):
     @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
-
-    @cached_property
-    def is_bot(self):
-        return not self.is_active and self.username.startswith("bot-")
 
     @cached_property
     def is_authenticated(self):

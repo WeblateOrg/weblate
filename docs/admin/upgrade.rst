@@ -298,6 +298,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * The implementation of :ref:`manage-acl` has changed, removing the project
   prefix from the group names. This affects API users.
 * Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for character set detection.
+* **Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting (removal of one backends in ``DEFAULT_AUTHENTICATION_CLASSES``).
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -21,6 +21,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
@@ -66,18 +67,21 @@ def remove_user(user, request):
     user.memory_set.all().delete()
 
     # Cleanup profile
-    profile = user.profile
-    profile.website = ""
-    profile.liberapay = ""
-    profile.fediverse = ""
-    profile.codesite = ""
-    profile.github = ""
-    profile.twitter = ""
-    profile.linkedin = ""
-    profile.location = ""
-    profile.company = ""
-    profile.public_email = ""
-    profile.save()
+    try:
+        profile = user.profile
+        profile.website = ""
+        profile.liberapay = ""
+        profile.fediverse = ""
+        profile.codesite = ""
+        profile.github = ""
+        profile.twitter = ""
+        profile.linkedin = ""
+        profile.location = ""
+        profile.company = ""
+        profile.public_email = ""
+        profile.save()
+    except ObjectDoesNotExist:
+        pass
 
     # Delete API tokens
     Token.objects.filter(user=user).delete()

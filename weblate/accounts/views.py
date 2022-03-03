@@ -1348,7 +1348,7 @@ class UserList(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        users = User.objects.filter(is_active=True)
+        users = User.objects.filter(is_active=True, is_bot=False)
         form = self.form
         if form.is_valid():
             search = form.cleaned_data.get("q", "").strip()
@@ -1357,7 +1357,7 @@ class UserList(ListView):
                     Q(username__icontains=search) | Q(full_name__icontains=search)
                 )
         else:
-            users = User.objects.order()
+            users = users.order()
 
         return users.order_by(self.sort_query)
 

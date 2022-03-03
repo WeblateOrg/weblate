@@ -17,10 +17,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from rest_framework.authentication import TokenAuthentication
+from django.utils import timezone
+
+from weblate.auth.models import User
+from weblate.utils.celery import app
 
 
-class BearerAuthentication(TokenAuthentication):
-    """RFC 6750 compatible Bearer authentication."""
+@app.task(trail=False)
+def disable_expired():
+    User.objects.filter(expires__lte=timezone.now(), is_active=True).update(
+        is_active=False
+    )
 
-    keyword = "Bearer"
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(3600, disable_expired.s(), name="disable-expired")

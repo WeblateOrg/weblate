@@ -6,6 +6,7 @@ Not yet released.
 * Fixed loading fuzzy strings from CSV files.
 * Added support for creating teams using the API.
 * Fixed user mention suggestions display.
+* The project tokens access can now be customized.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
 

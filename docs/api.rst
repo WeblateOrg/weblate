@@ -263,6 +263,8 @@ Users
     :type is_superuser: boolean
     :param is_active: Is user active? (optional)
     :type is_active: boolean
+    :param is_bot: Is user bot? (optional) (used for project scoped tokens)
+    :type is_bot: boolean
 
 .. http:get:: /api/users/(str:username)/
 
@@ -275,6 +277,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
 
@@ -292,6 +295,7 @@ Users
             ],
             "is_superuser": true,
             "is_active": true,
+            "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
@@ -308,6 +312,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
 
 .. http:patch:: /api/users/(str:username)/
@@ -321,6 +326,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
 
 .. http:delete:: /api/users/(str:username)/

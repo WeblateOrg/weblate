@@ -18,6 +18,7 @@
 #
 
 from datetime import timedelta
+from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -29,13 +30,13 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.accounts.models import AuditLog
+from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import InviteUserForm, SimpleGroupForm, send_invitation
 from weblate.auth.models import Group, User
 from weblate.trans.forms import (
     ProjectGroupDeleteForm,
     ProjectTokenCreateForm,
-    ProjectTokenDeleteForm,
     ProjectUserGroupForm,
     UserBlockForm,
     UserManageForm,
@@ -107,7 +108,9 @@ def set_groups(request, project):
                 details={"username": user.username, "group": group.name},
             )
 
-    return redirect("manage-access", project=obj.slug)
+    return redirect_param(
+        "manage-access", "#api" if user.is_bot else "", project=obj.slug
+    )
 
 
 @require_POST
@@ -226,22 +229,32 @@ def delete_user(request, project):
         request,
         project,
     )
+    redirect_url = ""
 
     if form is not None:
         user = form.cleaned_data["user"]
         if request.user == user:
             messages.error(request, _("You can not remove yourself!"))
         else:
-            obj.remove_user(user)
+            if user.is_bot:
+                redirect_url = "#api"
+                remove_user(user, request)
+            else:
+                obj.remove_user(user)
             Change.objects.create(
                 project=obj,
                 action=Change.ACTION_REMOVE_USER,
                 user=request.user,
                 details={"username": user.username},
             )
-            messages.success(request, _("User has been removed from this project."))
+            if user.is_bot:
+                messages.success(
+                    request, _("Token has been removed from this project.")
+                )
+            else:
+                messages.success(request, _("User has been removed from this project."))
 
-    return redirect("manage-access", project=obj.slug)
+    return redirect_param("manage-access", redirect_url, project=obj.slug)
 
 
 @login_required
@@ -258,7 +271,19 @@ def manage_access(request, project):
             instance=group, auto_id=f"id_group_{group.id}_%s"
         )
     users = (
-        User.objects.filter(groups__in=groups)
+        User.objects.filter(groups__in=groups, is_bot=False)
+        .distinct()
+        .order()
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="project_groups",
+            ),
+        )
+    )
+    project_tokens = (
+        User.objects.filter(groups__in=groups, is_bot=True)
         .distinct()
         .order()
         .prefetch_related(
@@ -270,7 +295,7 @@ def manage_access(request, project):
         )
     )
 
-    for user in users:
+    for user in chain(users, project_tokens):
         user.group_edit_form = ProjectUserGroupForm(
             obj,
             initial={"user": user.username, "groups": user.project_groups},
@@ -283,7 +308,7 @@ def manage_access(request, project):
         {
             "object": obj,
             "project": obj,
-            "project_tokens": obj.projecttoken_set.all(),
+            "project_tokens": project_tokens,
             "groups": groups,
             "all_users": users,
             "blocked_users": obj.userblock_set.select_related("user"),
@@ -303,25 +328,6 @@ def manage_access(request, project):
 
 @require_POST
 @login_required
-def delete_token(request, project):
-    """Delete project token."""
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
-
-    form = ProjectTokenDeleteForm(obj, request.POST)
-
-    if form.is_valid():
-        form.cleaned_data["token"].delete()
-    else:
-        show_form_errors(request, form)
-
-    return redirect_param("manage-access", "#api", project=obj.slug)
-
-
-@require_POST
-@login_required
 def create_token(request, project):
     """Create project token."""
     obj = get_project(request, project)
@@ -335,7 +341,9 @@ def create_token(request, project):
         token = form.save()
         messages.info(
             request,
-            render_to_string("trans/projecttoken-created.html", {"token": token}),
+            render_to_string(
+                "trans/projecttoken-created.html", {"token": token.auth_token.key}
+            ),
         )
     else:
         show_form_errors(request, form)
