@@ -1127,6 +1127,10 @@ $(function () {
     trigger: "@",
     requireLeadingSpace: true,
     menuShowMinLength: 2,
+    searchOpts: {
+      pre: "​",
+      post: "​",
+    },
     noMatchTemplate: function () {
       return "";
     },
