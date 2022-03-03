@@ -269,6 +269,8 @@ class BaseAddon:
             )
             files += self.extra_files
         repository = component.repository
+        if not files or not repository.needs_commit(files):
+            return
         with repository.lock:
             component.commit_files(
                 template=component.addon_message,
