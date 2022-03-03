@@ -18,6 +18,7 @@ export GROUP_ID
 cd dev-docker/
 
 build() {
+    mkdir -p ../data
     # Build single requirements file
     sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
     # Build the container
