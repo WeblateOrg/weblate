@@ -434,11 +434,14 @@ class Billing(models.Model):
         return users.exclude(is_superuser=True)
 
     def _get_libre_checklist(self):
-        yield LibreCheck(
-            self.count_projects == 1,
-            ngettext("Contains %d project", "Contains %d projects", self.count_projects)
-            % self.count_projects,
+        message = ngettext(
+            "Contains %d project", "Contains %d projects", self.count_projects
         )
+        try:
+            message = message % self.count_projects
+        except TypeError:
+            pass
+        yield LibreCheck(self.count_projects == 1, message)
         for project in self.all_projects:
             yield LibreCheck(
                 bool(project.web),
