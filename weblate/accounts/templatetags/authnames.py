@@ -48,6 +48,7 @@ SOCIALS = {
     "amazon": {"name": "Amazon", "image": "amazon.svg"},
     "twitter": {"name": "Twitter", "image": "twitter.svg"},
     "stackoverflow": {"name": "Stack Overflow", "image": "stackoverflow.svg"},
+    "musicbrainz": {"name": "MusicBrainz", "image": "musicbrainz.svg"},
 }
 
 IMAGE_SOCIAL_TEMPLATE = """
