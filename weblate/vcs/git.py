@@ -85,7 +85,7 @@ class GitRepository(Repository):
         if not repo:
             return super().get_remote_branch(repo)
         try:
-            result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+            result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
         except RepositoryException:
             report_error(cause="Listing remote branch")
             return super().get_remote_branch(repo)
@@ -149,7 +149,9 @@ class GitRepository(Repository):
     @classmethod
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        cls._popen(["clone"] + cls.get_depth() + ["--branch", branch, source, target])
+        cls._popen(
+            ["clone"] + cls.get_depth() + ["--branch", branch, "--", source, target]
+        )
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -572,7 +574,7 @@ class SubversionRepository(GitRepository):
 
     @classmethod
     def get_remote_args(cls, source, target):
-        result = ["--prefix=origin/", source, target]
+        result = ["--prefix=origin/", "--", source, target]
         if cls.is_stdlayout(source):
             result.insert(0, "--stdlayout")
             revision = cls.get_last_repo_revision(source + "/trunk/")
@@ -1084,17 +1086,21 @@ class LocalRepository(GitRepository):
         return cls.default_branch
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
-        if not os.path.exists(target):
-            os.makedirs(target)
-        cls._init(target)
-        with open(os.path.join(target, "README.md"), "w") as handle:
+    def _init(cls, path: str):
+        super()._init(path)
+        with open(os.path.join(path, "README.md"), "w") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
             handle.write("\n")
             handle.write("See https://weblate.org/ for more info.\n")
-        cls._popen(["add", "README.md"], target)
-        cls._popen(["commit", "--message", "Repository created by Weblate"], target)
+        cls._popen(["add", "README.md"], path)
+        cls._popen(["commit", "--message", "Repository created by Weblate"], path)
+
+    @classmethod
+    def _clone(cls, source: str, target: str, branch: str):
+        if not os.path.exists(target):
+            os.makedirs(target)
+        cls._init(target)
 
     @cached_property
     def last_remote_revision(self):

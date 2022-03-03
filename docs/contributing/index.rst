@@ -55,7 +55,7 @@ Please respect these guidelines while writing:
     You can `translate the docs <https://hosted.weblate.org/projects/weblate/documentation/>`_.
 
 
-.. _extending-lanugages:
+.. _extending-languages:
 
 Extending built-in language definitions
 ---------------------------------------

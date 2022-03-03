@@ -315,7 +315,8 @@ class GroupSerializer(serializers.ModelSerializer):
     defining_project = serializers.HyperlinkedRelatedField(
         view_name="api:project-detail",
         lookup_field="slug",
-        read_only=True,
+        queryset=Project.objects.none(),
+        required=False,
     )
 
     class Meta:
@@ -333,6 +334,11 @@ class GroupSerializer(serializers.ModelSerializer):
             "components",
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        user = self.context["request"].user
+        self.fields["defining_project"].queryset = user.managed_projects
 
 
 class ProjectSerializer(serializers.ModelSerializer):

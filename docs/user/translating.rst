@@ -185,8 +185,8 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Submit current form, while editing translation this is same as        |
-|                                           | pressing :guilabel:`Save and continue`.                               |
+| :kbd:`Alt+Enter` or                       | Submit current form; this is same as                                  |
+|                                           | pressing :guilabel:`Save and continue` while editing translation.     |
 | :kbd:`Ctrl+Enter` or                      |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+Enter`                          |                                                                       |
@@ -231,7 +231,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+O`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` flag.                            |
+| :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` checkbox.                        |
 |                                           |                                                                       |
 | :kbd:`Cmd+Y`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+

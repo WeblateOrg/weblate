@@ -434,6 +434,8 @@ Groups
     :type project_selection: int
     :param language_selection: Group of languages selected from given options
     :type language_selection: int
+    :param defining_project: link to defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
+    :type defining_project: str
 
 .. http:get:: /api/groups/(int:id)/
 
@@ -448,7 +450,7 @@ Groups
     :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json array componentlists: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
-    :>json str defining_project: likn to defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
+    :>json str defining_project: link to defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
 
     **Example JSON data:**
 
@@ -456,6 +458,7 @@ Groups
 
         {
             "name": "Guests",
+            "defining_project": null,
             "project_selection": 3,
             "language_selection": 1,
             "url": "http://example.com/api/groups/1/",
