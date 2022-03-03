@@ -244,7 +244,7 @@ def search(base, project, unit_set, request, blank: bool = False):
 
     # Check empty search results
     if not unit_ids and not blank:
-        messages.warning(request, _("No string matched your search!"))
+        messages.warning(request, _("No string found."))
         return redirect(base)
 
     # Remove old search results
@@ -550,7 +550,7 @@ def translate(request, project, component, lang):  # noqa: C901
         else:
             offset = None
         if offset is None:
-            messages.warning(request, _("No string matched your search!"))
+            messages.warning(request, _("No string found."))
             return redirect(obj)
     else:
         # Check boundaries
