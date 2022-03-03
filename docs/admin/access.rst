@@ -82,9 +82,9 @@ Managing per-project access control
 
 Users with the :guilabel:`Manage project access` privilege (see
 :ref:`privileges`) can manage users in projects via adding them to the teams.
-The initial set of teams is provided by Weblate, but additional ones can be
-defined providing more fine-grained access control. You can limit teams to
-languages and assign them design access roles (see :ref:`privileges`).
+The initial collection of teams is provided by Weblate, but additional ones can
+be defined providing more fine-grained access control. You can limit teams to
+languages and assign them designated access roles (see :ref:`privileges`).
 
 The following teams are automatically created for every project:
 
@@ -184,7 +184,7 @@ additional custom settings for individual component as described in :ref:`custom
 One of the main benefits of managing permissions through the Weblate
 user interface is that you can delegate it to other users without giving them
 the superuser privilege. In order to do so, add them to the `Administration`
-group of the project.
+team of the project.
 
 .. _custom-acl:
 
