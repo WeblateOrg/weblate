@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-01 16:49+0100\n"
-"PO-Revision-Date: 2022-03-03 16:55+0000\n"
+"PO-Revision-Date: 2022-03-04 07:43+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -19564,7 +19564,7 @@ msgstr "相应内容的类型取决于 :http:header:`Accept` 标头"
 
 #: ../../api.rst:40
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
-msgstr "验证为 ``Authorization: Token YOUR-TOKEN``的可选令牌"
+msgstr "验证为 ``Authorization: Token YOUR-TOKEN`` 的可选令牌"
 
 #: ../../api.rst:0
 msgid "Response Headers"
@@ -19733,8 +19733,8 @@ msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgstr ""
-"在 Docker 容器中可使用 :envvar:`WEBLATE_API_RATELIMIT_ANON` 和 :envvar:"
-"`WEBLATE_API_RATELIMIT_USER`对此进行配置。"
+"在 Docker 容器中可使用 :envvar:`WEBLATE_API_RATELIMIT_ANON` 和 "
+":envvar:`WEBLATE_API_RATELIMIT_USER` 对此进行配置。"
 
 #: ../../api.rst:179
 msgid "The status of rate limiting is reported in following headers:"
@@ -20429,8 +20429,8 @@ msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``"
 msgstr ""
-"要执行的操作: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, "
-"``file-sync``"
+"要执行的操作：``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-"
+"sync`` 之一"
 
 #: ../../api.rst:889 ../../api.rst:1485 ../../api.rst:1948
 msgid "result of the operation"
@@ -20826,9 +20826,8 @@ msgstr "删除部件。"
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
-msgstr ""
-"返回部件更改的列表。这本质是一个部件范围的 :http:get:`/api/changes/`接受相同"
-"的参数。"
+msgstr "返回部件更改的列表。这本质是一个部件范围的 :http:get:`/api/changes/` "
+"接受相同的参数。"
 
 #: ../../api.rst:1368
 msgid ""
@@ -20887,7 +20886,7 @@ msgstr "返回版本控制系统（VCS）仓库状态的信息。"
 msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
-msgstr "响应与 :http:get:`/api/projects/(string:project)/repository/` 的相同。"
+msgstr "响应与 :http:get:`/api/projects/(string:project)/repository/` 相同。"
 
 #: ../../api.rst:1470
 msgid "Remote commit information"
@@ -20915,8 +20914,7 @@ msgstr "文档请参见 :http:post:`/api/projects/(string:project)/repository/`�
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
-msgstr ""
-"执行的操作： ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``之一"
+msgstr "执行的操作： ``push``, ``pull``, ``commit``, ``reset``, ``cleanup`` 之一"
 
 #: ../../api.rst:1526
 msgid "Downloads base file for monolingual translations."
@@ -21111,9 +21109,8 @@ msgstr "删除翻译。"
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
-msgstr ""
-"返回翻译更改的列表。这本质上是一个翻译范围的 :http:get:`/api/changes/`接受相"
-"同的参数。"
+msgstr "返回翻译更改的列表。这本质上是一个翻译范围的 :http:get:`/api/changes/` "
+"接受相同的参数。"
 
 #: ../../api.rst:1828
 msgid "Returns a list of translation units."
@@ -21165,9 +21162,8 @@ msgstr "为项目打开对共享翻译记忆库的贡献，以访问其他部件
 msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
-msgstr ""
-"下载存储在 VCS 中的当前翻译文件（不带 ``format``参数）或将其转换为另一格式"
-"（见 :ref:`download`）。"
+msgstr "下载存储在 VCS 中的当前翻译文件（不带 ``format`` 参数）或将其转换为另一格式（"
+"见 :ref:`download`）。"
 
 #: ../../api.rst:1882
 msgid ""
@@ -21176,9 +21172,9 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
-"这个 API 端点使用了不同于API其余的逻辑来输出，它在整个文件而不是在数据上操"
-"作。接受的``format``参数组不同，没有这个参数会将翻译文件存储在版本控制系统"
-"（VCS）中。"
+"这个 API 端点使用了不同于 API "
+"其余的逻辑来输出，它在整个文件而不是在数据上操作。接受的 ``format`` "
+"参数组不同，没有这个参数会将翻译文件存储在版本控制系统（VCS）中。"
 
 #: ../../api.rst:1887
 msgid ""
@@ -21198,8 +21194,7 @@ msgstr "上传带有翻译的新文件。"
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``)"
-msgstr ""
-"如何处理冲突（``ignore``, ``replace-translated`` or ``replace-approved``）"
+msgstr "如何处理冲突（``ignore``、``replace-translated`` 或 ``replace-approved``）"
 
 #: ../../api.rst:1907 ../../api.rst:2145 ../../api.rst:2181
 msgid "Uploaded file"
@@ -21234,7 +21229,7 @@ msgid ""
 "(string:component)/repository/`."
 msgstr ""
 "响应与 :http:get:`/api/components/(string:project)/(string:component)/"
-"repository/`的相同。"
+"repository/` 相同。"
 
 #: ../../api.rst:1952
 msgid "Returns detailed translation statistics."
@@ -37395,7 +37390,7 @@ msgstr "Android 字符串资源（仅对单语翻译可用）"
 
 #: ../../user/files.rst:40
 msgid "iOS strings (only available for monolingual translations)"
-msgstr "iOS 字符串 (仅对单语翻译可用）"
+msgstr "iOS 字符串（仅对单语翻译可用）"
 
 #: ../../user/files.rst:44
 msgid ""
@@ -37442,7 +37437,7 @@ msgstr ""
 
 #: ../../user/files.rst:87
 msgid "Add as translation (``translate``)"
-msgstr "添加为翻译 (``translate``)"
+msgstr "添加为翻译（``translate``）"
 
 #: ../../user/files.rst:85
 msgid ""
@@ -37457,7 +37452,7 @@ msgstr ""
 
 #: ../../user/files.rst:92
 msgid "Add as suggestion (``suggest``)"
-msgstr "添加为建议(``suggest``)"
+msgstr "添加为建议（``suggest``）"
 
 #: ../../user/files.rst:90
 msgid ""
@@ -37467,7 +37462,7 @@ msgstr ""
 
 #: ../../user/files.rst:97
 msgid "Add as translation needing edit (``fuzzy``)"
-msgstr "添加为需要编辑的翻译(``fuzzy``)"
+msgstr "添加为需要编辑的翻译（``fuzzy``）"
 
 #: ../../user/files.rst:95
 msgid ""
@@ -37477,7 +37472,7 @@ msgstr ""
 
 #: ../../user/files.rst:100
 msgid "Replace existing translation file (``replace``)"
-msgstr "替换现有翻译文件(``replace``)"
+msgstr "替换现有翻译文件（``replace``）"
 
 #: ../../user/files.rst:100
 msgid ""
@@ -37487,7 +37482,7 @@ msgstr ""
 
 #: ../../user/files.rst:105
 msgid "Update source strings (``source``)"
-msgstr "更新源字符串(``source``)"
+msgstr "更新源字符串（``source``）"
 
 #: ../../user/files.rst:103
 msgid ""
@@ -37501,7 +37496,7 @@ msgstr "此选项仅支持某些文件格式。"
 
 #: ../../user/files.rst:115
 msgid "Add new strings (``add``)"
-msgstr "添加新字符串 (``add``)"
+msgstr "添加新字符串（``add``）"
 
 #: ../../user/files.rst:108
 msgid ""
@@ -39890,7 +39885,7 @@ msgstr "重置 Weblate 对象中的更改以匹配远程存储库（翻译，部
 
 #: ../../wlc.rst:194 ../../wlc.rst:259
 msgid "Supported since wlc 0.9."
-msgstr "从 wlc 0.9 开始受支持。"
+msgstr "从 wlc 0.9 开始支持。"
 
 #: ../../wlc.rst:196
 msgid ""
@@ -39929,7 +39924,7 @@ msgstr "解锁 Weblate 部件的翻译。"
 
 #: ../../wlc.rst:234
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr "从 wlc 0.7 和 Weblate 2.10 开始受支持。"
+msgstr "从 wlc 0.7 和 Weblate 2.10 开始支持。"
 
 #: ../../wlc.rst:236
 msgid "Displays changes for a given object."
