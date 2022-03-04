@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-02-14 21:48+0000\n"
+"PO-Revision-Date: 2022-03-04 08:46+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -3331,10 +3331,9 @@ msgid ".NET resource file"
 msgstr ".NET-resursfil"
 
 #: weblate/formats/ttkit.py:1338
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to parse the key: %s"
-msgstr "Misslyckades med att skapa nyckel: %s"
+msgstr "Det gick inte att tolka nyckeln: %s"
 
 #: weblate/formats/ttkit.py:1342
 msgid "JSON file"
@@ -4947,8 +4946,6 @@ msgid "Members"
 msgstr "Medlemmar"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgid "None"
 msgctxt "None project associated with group"
 msgid "None"
 msgstr "Ingen"
@@ -7901,20 +7898,14 @@ msgid "No matching strings found."
 msgstr "Inga matchande strängar hittades."
 
 #: weblate/templates/snippets/about.html:3
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features a simple and clean user interface, propagation "
-#| "of translations across components, quality checks and automatic linking "
-#| "to source files."
 msgid ""
 "Weblate is a web-based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate är ett webbaserat översättningsverktyg med "
-"versionskontrollintegrering. Det har ett enkelt och rent användargränssnitt, "
+"Weblate är ett webbaserat översättningsverktyg med tät integrering till "
+"versionskontrollsystemet. Det har ett enkelt och rent användargränssnitt, "
 "propagering av översättningar mellan komponenter, kvalitetskontroll och "
 "automatisk länkning till källkodsfiler."
 
@@ -9413,8 +9404,6 @@ msgid "Teams"
 msgstr "Teams"
 
 #: weblate/templates/trans/project-access.html:40
-#, fuzzy
-#| msgid "Last login"
 msgid "Last sign in"
 msgstr "Senaste inloggning"
 
@@ -9447,11 +9436,9 @@ msgid "Access only"
 msgstr "Endast åtkomst"
 
 #: weblate/templates/trans/project-access.html:192
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "Detta tar bort projekttoken <b>%(token)s</b> från detta projekt."
+msgstr "Detta tar bort teamet <b>%(name)s</b> från det här projektet."
 
 #: weblate/templates/trans/project-access.html:232
 msgid "Create new team"
@@ -9945,6 +9932,8 @@ msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
 msgstr ""
+"Välj det från rullgardinsmenyn om du vill skriva över redan översatta "
+"strängar."
 
 #: weblate/templates/translation.html:408
 msgid ""
@@ -12133,10 +12122,9 @@ msgid "Forbidden translation: %s"
 msgstr "Förbjuden översättning: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Not-translatable: %s"
+#, python-format
 msgid "Non translatable: %s"
-msgstr "Ej översättbar: %s"
+msgstr "Inte översättningsbar: %s"
 
 #: weblate/trans/templatetags/translations.py:177
 #, python-format
@@ -12388,16 +12376,13 @@ msgid "Very low"
 msgstr "Mycket låg"
 
 #: weblate/trans/util.py:225
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "{0} is translated into {1} languages using Weblate. Join the translation "
-#| "or start translating your own project."
+#, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
 "translation or start translating your own project."
 msgstr ""
-"{0} är översatt till {1} språk med hjälp av Weblate. Bidra till "
-"översättningen eller börja översätta ditt eget projekt."
+"{0} översätts till {1} språk med hjälp av Weblate. Bidra till översättningen "
+"eller börja översätta ditt eget projekt."
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
@@ -12453,10 +12438,8 @@ msgid "User has been invited to this project."
 msgstr "Användaren har blivit inbjuden till detta projekt."
 
 #: weblate/trans/views/acl.py:252
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Token has been removed from this project."
-msgstr "Användaren har tagits bort från detta projekt."
+msgstr "Token har tagits bort från detta projekt."
 
 #: weblate/trans/views/acl.py:255
 msgid "User has been removed from this project."
@@ -12544,10 +12527,8 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr "Ange ditt fullständiga namn och e-postadress i din profil."
 
 #: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:553
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No string found."
-msgstr "Inga strängar hittades!"
+msgstr "Ingen sträng hittades."
 
 #: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
@@ -13247,7 +13228,7 @@ msgstr "Raderade de äldsta säkerhetskopiorna"
 
 #: weblate/wladmin/models.py:229
 msgid "Cleaned up backup storage"
-msgstr ""
+msgstr "Rensat upp lagringsutrymmet för säkerhetskopior"
 
 #: weblate/wladmin/models.py:230
 msgid "Repository initialization"
