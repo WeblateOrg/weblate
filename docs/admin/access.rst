@@ -142,7 +142,7 @@ new ones. Any new user will be created immediately, but the account will
 remain inactive until signing in with a link in the invitation sent via an e-mail.
 It is not required to have any site-wide privileges in order to do so, access management
 permission on the project’s scope (e.g. a membership in the `Administration`
-group) would be sufficient.
+team) would be sufficient.
 
 .. hint::
 
