@@ -1,7 +1,7 @@
 Weblate 4.11.1
 --------------
 
-Not yet released.
+Released on March 4th 2022.
 
 * Fixed loading fuzzy strings from CSV files.
 * Added support for creating teams using the API.
