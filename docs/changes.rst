@@ -3,6 +3,7 @@ Weblate 4.11.1
 
 Released on March 4th 2022.
 
+* Fixed missing sanitizing of arguments to Git and Mercurial - CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details.
 * Fixed loading fuzzy strings from CSV files.
 * Added support for creating teams using the API.
 * Fixed user mention suggestions display.
