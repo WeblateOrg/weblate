@@ -1,7 +1,7 @@
 Weblate 4.11.2
 --------------
 
-Not yet released.
+Released on March 4th 2022.
 
 * Fixed corrupted MO files in the binary release.
 
