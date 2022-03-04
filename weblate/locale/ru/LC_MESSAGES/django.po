@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-02-18 08:06+0000\n"
+"PO-Revision-Date: 2022-03-04 21:48+0000\n"
 "Last-Translator: S3aBreeze <paperwork@evilcorp.ltd>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -53,7 +53,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -3388,10 +3388,9 @@ msgid ".NET resource file"
 msgstr "Файл ресурсов .NET"
 
 #: weblate/formats/ttkit.py:1338
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to parse the key: %s"
-msgstr "Ошибка при генерировании ключа: %s"
+msgstr "Ошибка при разборе ключа: %s"
 
 #: weblate/formats/ttkit.py:1342
 msgid "JSON file"
@@ -5018,8 +5017,6 @@ msgid "Members"
 msgstr "Участники"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgid "None"
 msgctxt "None project associated with group"
 msgid "None"
 msgstr "Нет"
@@ -7998,12 +7995,6 @@ msgid "No matching strings found."
 msgstr "Соответствующих строк не найдено."
 
 #: weblate/templates/snippets/about.html:3
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features a simple and clean user interface, propagation "
-#| "of translations across components, quality checks and automatic linking "
-#| "to source files."
 msgid ""
 "Weblate is a web-based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
@@ -9534,8 +9525,6 @@ msgid "Teams"
 msgstr "Команды"
 
 #: weblate/templates/trans/project-access.html:40
-#, fuzzy
-#| msgid "Last login"
 msgid "Last sign in"
 msgstr "Последний вход"
 
@@ -9568,11 +9557,9 @@ msgid "Access only"
 msgstr "Только доступ"
 
 #: weblate/templates/trans/project-access.html:192
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "Это действие удалит токен <b>%(token)s</b> из этого проекта."
+msgstr "Это действие удалит команду <b>%(name)s</b> из этого проекта."
 
 #: weblate/templates/trans/project-access.html:232
 msgid "Create new team"
@@ -10072,6 +10059,8 @@ msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
 msgstr ""
+"Выберите это из выпадающего меню, если вы хотите перезаписать уже "
+"переведённые строки."
 
 #: weblate/templates/translation.html:408
 msgid ""
@@ -12291,8 +12280,7 @@ msgid "Forbidden translation: %s"
 msgstr "Нежелательный перевод: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Not-translatable: %s"
+#, python-format
 msgid "Non translatable: %s"
 msgstr "Непереводимый термин: %s"
 
@@ -12561,16 +12549,13 @@ msgid "Very low"
 msgstr "Очень низкий"
 
 #: weblate/trans/util.py:225
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "{0} is translated into {1} languages using Weblate. Join the translation "
-#| "or start translating your own project."
+#, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
 "translation or start translating your own project."
 msgstr ""
-"{0} переведен на {1} языков, используя Weblate. Присоединяйтесь к переводу "
-"или начните переводить свой собственный проект."
+"{0} является переведённым на {1} языков, используя Weblate. Присоединяйтесь "
+"к переводу или начните переводить свой собственный проект."
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
@@ -12626,10 +12611,8 @@ msgid "User has been invited to this project."
 msgstr "Пользователь был приглашен в этот проект."
 
 #: weblate/trans/views/acl.py:252
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Token has been removed from this project."
-msgstr "Пользователь был удален из этого проекта."
+msgstr "Токен был удалён из этого проекта."
 
 #: weblate/trans/views/acl.py:255
 msgid "User has been removed from this project."
@@ -12718,10 +12701,8 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr "Укажите в профиле ваше полное имя и эл. почту."
 
 #: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:553
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No string found."
-msgstr "Строки не найдены!"
+msgstr "Строка не найдена."
 
 #: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
@@ -13433,7 +13414,7 @@ msgstr "Старые резервные копии удалены"
 
 #: weblate/wladmin/models.py:229
 msgid "Cleaned up backup storage"
-msgstr ""
+msgstr "Хранилище резервных копий очищено"
 
 #: weblate/wladmin/models.py:230
 msgid "Repository initialization"
