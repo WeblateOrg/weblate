@@ -1,3 +1,10 @@
+Weblate 4.11.2
+--------------
+
+Not yet released.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?closed=1>`__.
+
 Weblate 4.12
 ------------
 
