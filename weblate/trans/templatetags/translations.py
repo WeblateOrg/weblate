@@ -172,7 +172,7 @@ class Formatter:
         if forbidden:
             output.append(gettext("Forbidden translation: %s") % ", ".join(forbidden))
         if nontranslatable:
-            output.append(gettext("Non translatable: %s") % ", ".join(nontranslatable))
+            output.append(gettext("Untranslatable: %s") % ", ".join(nontranslatable))
         if translations:
             output.append(gettext("Glossary translation: %s") % ", ".join(translations))
         return "; ".join(output)
