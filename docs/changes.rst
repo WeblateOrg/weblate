@@ -3,14 +3,9 @@ Weblate 4.11.2
 
 Not yet released.
 
+* Fixed corrupted MO files in the binary release.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?closed=1>`__.
-
-Weblate 4.12
-------------
-
-Not yet released.
-
-`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
 Weblate 4.11.1
 --------------
