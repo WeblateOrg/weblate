@@ -3,6 +3,8 @@ Weblate 4.12
 
 Not yet released.
 
+* Added support for Amharic in :ref:`check-end-stop`.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
 Weblate 4.11.2
