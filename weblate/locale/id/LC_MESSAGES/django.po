@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-03-04 13:55+0000\n"
+"PO-Revision-Date: 2022-03-04 14:30+0000\n"
 "Last-Translator: Taufik <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11.1-dev\n"
+"X-Generator: Weblate 4.11.1\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -1478,10 +1478,9 @@ msgstr ""
 "diuraikan untuk string yang dapat diterjemahkan."
 
 #: weblate/addons/forms.py:480
-#, fuzzy, python-format
-#| msgid "Failed to update git: %s"
+#, python-format
 msgid "Failed to parse CSS selector: %s"
-msgstr "Gagal memutakhirkan git: %s"
+msgstr "Gagal untuk mengurai CSS selector: %s"
 
 #: weblate/addons/forms.py:485 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:14
@@ -1534,12 +1533,8 @@ msgid "Prefill translation with source"
 msgstr "Sumber terjemahan otomatis"
 
 #: weblate/addons/generate.py:160
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "Fills in translation strings with source string."
-msgstr ""
-"Terjemahan ini sedang digunakan sebagai string sumber dalam komponen ini."
+msgstr "Mengisi string terjemahan dengan string sumber."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2272,10 +2267,8 @@ msgid "Mark user as inactive instead of removing."
 msgstr "Tandai pengguna sebagai tidak aktif alih-alih menghapusnya."
 
 #: weblate/auth/models.py:347 weblate/templates/trans/project-access.html:257
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "Kedaluwarsa"
+msgstr "Berakhir"
 
 #: weblate/auth/models.py:352 weblate/templates/accounts/user.html:152
 msgid "Groups"
@@ -2590,8 +2583,6 @@ msgid "Missing plurals"
 msgstr "Bentuk jamak tidak ada"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "Beberapa bentuk jamak tidak diterjemahkan"
 
@@ -2608,16 +2599,12 @@ msgid "Inconsistent"
 msgstr "Tidak konsisten"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
-"String ini memiliki lebih dari satu terjemahan dalam proyek ini atau tidak "
-"diterjemahkan di beberapa komponen."
+"String ini memiliki lebih dari satu terjemahan dalam proyek ini atau "
+"beberapa komponennya tidak diterjemahkan."
 
 #: weblate/checks/consistency.py:147
 msgid "Has been translated"
@@ -2995,20 +2982,17 @@ msgstr ""
 "Satu atau lebih tag XML mempunyai konten yang tidak terduga di terjemahan: %s"
 
 #: weblate/checks/icu.py:508
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Parameter yang hilang pada terjemahan: \"%s\""
+msgstr "Satu atau beberapa tag XML tidak memiliki konten dalam terjemahan: %s"
 
 #: weblate/checks/markup.py:94
-#, fuzzy
-#| msgid "BBCode"
 msgid "BBCode markup"
-msgstr "Kode BB"
+msgstr "BBCode markup"
 
 #: weblate/checks/markup.py:95
 msgid "BBCode in translation does not match source"
-msgstr "BBCode didalam terjemahan tidak cocok dengan sumber"
+msgstr "BBCode di dalam terjemahan tidak cocok dengan sumber"
 
 #: weblate/checks/markup.py:164
 msgid "XML syntax"
@@ -3016,7 +3000,7 @@ msgstr "Sintaks XML"
 
 #: weblate/checks/markup.py:165
 msgid "The translation is not valid XML"
-msgstr "Terjemahan tidak valid XML"
+msgstr "Terjemahan bukan XML yang valid"
 
 #: weblate/checks/markup.py:189
 msgid "XML markup"
@@ -3059,10 +3043,8 @@ msgid "Unsafe HTML"
 msgstr "HTML Tidak Aman"
 
 #: weblate/checks/markup.py:349
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation uses unsafe HTML markup"
-msgstr "Terjemahan tidak valid XML"
+msgstr "Terjemahan menggunakan HTML markup yang tidak aman"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
@@ -3078,64 +3060,45 @@ msgid "Regular expression"
 msgstr "Ekspresi reguler"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "Terjemahan tidak cocok dengan ekspresi reguler:"
+msgstr "Terjemahan tidak cocok dengan ekspresi reguler"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "Terjemahan tidak cocok dengan ekspresi reguler:"
+msgstr "Tidak cocok dengan ekspresi reguler %s."
 
 #: weblate/checks/qt.py:49
-#, fuzzy
-#| msgid "C format"
 msgid "Qt format"
-msgstr "Format C"
+msgstr "Format Qt"
 
 #: weblate/checks/qt.py:50
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Qt format string does not match source"
-msgstr "String format C tidak cocok dengan sumber"
+msgstr "String format Qt tidak cocok dengan sumber"
 
 #: weblate/checks/qt.py:62
-#, fuzzy
-#| msgid "Plural form"
 msgid "Qt plural format"
-msgstr "Bentuk jamak"
+msgstr "Format jamak Qt"
 
 #: weblate/checks/qt.py:63
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Qt plural format string does not match source"
-msgstr "String format Perl tidak cocok dengan sumber"
+msgstr "String format jamak Qt tidak cocok dengan sumber"
 
 #: weblate/checks/render.py:45
-#, fuzzy
-#| msgid "Maximum length of translation"
 msgid "Maximum size of translation"
-msgstr "Panjang maksimal terjemahan"
+msgstr "Panjang terjemahan maksimal"
 
 #: weblate/checks/render.py:46
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation rendered text should not exceed given size"
-msgstr "Terjemahan tidak boleh melebihi panjang yang diberikan"
+msgstr "Teks terjemahan tidak boleh melebihi ukuran yang ditentukan"
 
 #: weblate/checks/ruby.py:68
-#, fuzzy
-#| msgid "C format"
 msgid "Ruby format"
-msgstr "Format C"
+msgstr "Format Ruby"
 
 #: weblate/checks/ruby.py:69
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Ruby format string does not match source"
-msgstr "String format C tidak cocok dengan sumber"
+msgstr "String format Ruby tidak cocok dengan sumber"
 
 #: weblate/checks/same.py:157
 msgid "Unchanged translation"
@@ -3149,7 +3112,7 @@ msgstr "Sumber dan terjemahan adalah identik"
 #, fuzzy
 #| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Jamak"
+msgstr "Tidak ada bentuk jamak"
 
 #: weblate/checks/source.py:43
 #, fuzzy
@@ -3185,10 +3148,8 @@ msgid "Long untranslated"
 msgstr "Tidak diterjemahkan"
 
 #: weblate/checks/source.py:110
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The string has not been translated for a long time"
-msgstr "String ini telah diterjemahkan di masa lalu"
+msgstr "String ini sudah lama tidak diterjemahkan"
 
 #: weblate/checks/views.py:85 weblate/templates/component.html:71
 #: weblate/templates/language-project.html:47
@@ -3198,10 +3159,8 @@ msgid "Failing checks"
 msgstr "Pemeriksaan gagal"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Konfigurasi dimungkinkan"
+msgstr "Konfigurasi Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
