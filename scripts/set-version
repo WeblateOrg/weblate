@@ -47,7 +47,7 @@ for milestone in response.json():
         milestone_url = milestone["html_url"]
 
 if milestone_url is None:
-    response = requests.post(milestones_api, headers=headers, data={"title": version})
+    response = requests.post(milestones_api, headers=headers, json={"title": version})
     milestone_url = response.json()["html_url"]
 
 # Set version in the files
