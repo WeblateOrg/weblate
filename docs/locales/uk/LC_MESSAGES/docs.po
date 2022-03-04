@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-01 22:29+0000\n"
+"PO-Revision-Date: 2022-03-04 13:56+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -186,14 +186,6 @@ msgid "Managing per-project access control"
 msgstr "Керування правами доступу на рівні проєкту"
 
 #: ../../admin/access.rst:83
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Manage project access` privilege (see :ref:"
-#| "`privileges`) can manage users in projects via adding them to the teams. "
-#| "The initial set of teams is provided by Weblate, but additional ones can "
-#| "be defined providing more fine-grained access control. You can limit "
-#| "teams to languages and assign them design access roles (see :ref:"
-#| "`privileges`)."
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can manage users in projects via adding them to the teams. The "
@@ -201,8 +193,8 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
-"Користувачі з правами доступу :guilabel:`Керування доступом до проєкту` "
-"(див. :ref:`privileges`) можуть керувати записами користувачів у проєктах "
+"Користувачі з правами доступу :guilabel:`Керування доступом до проєкту` ("
+"див. :ref:`privileges`) можуть керувати записами користувачів у проєктах "
 "додаванням цих записів до команд. Початковий набір команд надається самим "
 "Weblate, а додаткові можна визначити коригуванням керування доступом. Ви "
 "можете обмежити команди певними мовами і призначити їм створені вами ролі "
@@ -433,12 +425,6 @@ msgstr ""
 "`custom-acl`."
 
 #: ../../admin/access.rst:184
-#, fuzzy
-#| msgid ""
-#| "One of the main benefits of managing permissions through the Weblate user "
-#| "interface is that you can delegate it to other users without giving them "
-#| "the superuser privilege. In order to do so, add them to the "
-#| "`Administration` group of the project."
 msgid ""
 "One of the main benefits of managing permissions through the Weblate user "
 "interface is that you can delegate it to other users without giving them the "
@@ -447,7 +433,7 @@ msgid ""
 msgstr ""
 "Однією з головних переваг керування правами доступу з інтерфейсу користувача "
 "Weblate є те, що ви можете делегувати його іншим користувачам без надання їм "
-"прав доступу надкористувача. Для цього додайте користувачів до групи "
+"прав доступу надкористувача. Для цього додайте користувачів до команди "
 "`Administration` проєкту."
 
 #: ../../admin/access.rst:192
@@ -2844,17 +2830,12 @@ msgstr ""
 "не налаштовано на його включення."
 
 #: ../../admin/addons.rst:609
-#, fuzzy
-#| msgid ""
-#| "The original commit messages can optionally be overridden with a custom "
-#| "commit message. See :ref:`markup` for the message options."
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
 "Початкові повідомлення про внески можна, якщо хочеться, перевизначити "
-"нетиповим повідомленням про внесок. Параметри повідомлення наведено у "
-"розділі :ref:`markup`."
+"нетиповим повідомленням про внесок."
 
 #: ../../admin/addons.rst:611
 msgid ""
@@ -4988,23 +4969,16 @@ msgid "Customizing behavior using flags"
 msgstr "Налаштовування поведінки за допомогою прапорців"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune the behavior of Weblate (mostly checks) for each source "
-#| "string (in source strings review, see :ref:`additional`) or in the :ref:"
-#| "`component` (:ref:`component-check_flags`). Some file formats also allow "
-#| "to specify flags directly in the format (see :ref:`formats`)."
 msgid ""
 "You can fine-tune the Weblate behavior by using flags. This can be done on "
 "the source string level (see :ref:`additional`), or in the :ref:`component` "
 "(:ref:`component-check_flags`). Some file formats also allow to specify "
 "flags directly in the format (see :ref:`formats`)."
 msgstr ""
-"Ви можете скоригувати поведінку Weblate (здебільшого, перевірок) для кожного "
-"початкового рядка (під час рецензування початкових рядків, див. :ref:"
-"`additional`) або на рівні :ref:`component` (:ref:`component-check_flags`). "
-"Для деяких форматів файлів можна вказати прапорці безпосередньо у записі "
-"формату (див. :ref:`formats`)."
+"Ви можете скоригувати поведінку Weblate за допомогою прапорців. Зробити це "
+"можна на рівні початкових рядків (див. :ref:`additional`) або на рівні "
+":ref:`component` (:ref:`component-check_flags`). Для деяких форматів файлів "
+"можна вказати прапорці безпосередньо у записі формату (див. :ref:`formats`)."
 
 #: ../../admin/checks.rst:34
 msgid ""
@@ -13278,10 +13252,8 @@ msgid "Stop the database container:"
 msgstr "Зупинення контейнера бази даних:"
 
 #: ../../admin/install/docker.rst:260
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume"
 msgid "Remove the PostgreSQL volume:"
-msgstr "Вилучення тому PostgreSQL"
+msgstr "Вилучення тому PostgreSQL:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
@@ -21407,6 +21379,8 @@ msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
+"**Змінено у 4.11.1:** зміни у параметрі ``REST_FRAMEWORK`` (вилучення одно з "
+"модулів у ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: ../../admin/upgrade.rst:308
 msgid "Upgrading from Python 2 to Python 3"
@@ -21896,6 +21870,8 @@ msgstr "Чи є користувач активним? (необов'язков�
 #: ../../api.rst:266
 msgid "Is user bot? (optional) (used for project scoped tokens)"
 msgstr ""
+"Чи є користувач ботом? (необов'язкове) (використовується для жетонів області "
+"проєкту)"
 
 #: ../../api.rst:271
 msgid "Returns information about users."
@@ -21928,10 +21904,8 @@ msgid "whether the user is active"
 msgstr "чи є користувач активним"
 
 #: ../../api.rst:280 ../../api.rst:315 ../../api.rst:329
-#, fuzzy
-#| msgid "whether the user is a super user"
 msgid "whether the user is bot (used for project scoped tokens)"
-msgstr "чи є користувач надкористувачем"
+msgstr "чи є користувач ботом (використовується для жетонів рівня проєкту)"
 
 #: ../../api.rst:281 ../../api.rst:316 ../../api.rst:330
 msgid "date the user is created"
@@ -22070,10 +22044,6 @@ msgid "Group of languages selected from given options"
 msgstr "Група мов, яку вибрано за вказаними параметрами"
 
 #: ../../api.rst:443 ../../api.rst:459
-#, fuzzy
-#| msgid ""
-#| "likn to defining project, used for :ref:`manage-acl`; see :http:get:`/api/"
-#| "projects/(string:project)/`"
 msgid ""
 "link to the defining project, used for :ref:`manage-acl`; see :http:get:`/"
 "api/projects/(string:project)/`"
@@ -24241,34 +24211,24 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 5th 2021."
 msgid "Released on March 4th 2022."
-msgstr "Випущено 5 березня 2021 року."
+msgstr "Випущено 4 березня 2022 року."
 
 #: ../../changes.rst:6
 msgid "Fixed loading fuzzy strings from CSV files."
 msgstr "Виправлено завантаження неточно перекладених рядків з файлів CSV."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for creating teams using the API."
-msgstr "Додано підтримку вилучення рядків."
+msgstr "Додано підтримку створення команд за допомогою програмного інтерфейсу."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed user mention suggestions display."
-msgstr "Виправлено показ пропозицій."
+msgstr "Виправлено показ пропозицій із згадуванням користувача."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Downloaded translations can now be customized."
 msgid "The project tokens access can now be customized."
-msgstr ""
-"У новій версії передбачено налаштовування параметрів отриманих файлів "
-"перекладів."
+msgstr "Уможливлено налаштовування доступу до жетонів проєкту."
 
 #: ../../changes.rst:11
 msgid ""
@@ -36030,6 +35990,8 @@ msgid ""
 "This is the default committer name, configured by :setting:"
 "`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
+"Типове ім'я автора внеску, визначається :setting:`DEFAULT_COMMITER_EMAIL` і "
+":setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../faq.rst:255
 msgid ""
@@ -36047,6 +36009,10 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
+"Для внесків із невідомим авторством (наприклад, анонімних пропозицій або "
+"результатів комп'ютерного перекладу) авторство належатиме анонімному "
+"користувачеві (див. :setting:`ANONYMOUS_USER_NAME`). Ви можете змінити ім'я "
+"та адресу електронної пошти за допомогою інтерфейсу керування."
 
 #: ../../faq.rst:268
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -42933,10 +42899,6 @@ msgid ":kbd:`Cmd+Enter`"
 msgstr ":kbd:`Cmd+Enter`"
 
 #: ../../user/translating.rst:188
-#, fuzzy
-#| msgid ""
-#| "Submit current form, while editing translation this is same as pressing :"
-#| "guilabel:`Save and continue`."
 msgid ""
 "Submit current form; this is same as pressing :guilabel:`Save and continue` "
 "while editing translation."
@@ -43079,8 +43041,6 @@ msgid ":kbd:`Cmd+Y`"
 msgstr ":kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:234
-#, fuzzy
-#| msgid "Toggle the :guilabel:`Needs editing` flag."
 msgid "Toggle the :guilabel:`Needs editing` checkbox."
 msgstr "Перемкнути прапорець :guilabel:`Потребує редагування`."
 
