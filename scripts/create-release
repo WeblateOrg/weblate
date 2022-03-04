@@ -20,6 +20,7 @@ fi
 
 # Start with clean build environment
 ./setup.py clean
+find weblate/locale/ docs/locales/ -name '*.mo' -delete
 rm -rf build
 
 # Grab version
