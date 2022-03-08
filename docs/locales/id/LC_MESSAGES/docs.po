@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-07 14:59+0000\n"
+"PO-Revision-Date: 2022-03-08 06:06+0000\n"
 "Last-Translator: Taufik A. Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -128,13 +128,12 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-":guilabel:`Access control` dapat diubah di tab :guilabel:`Access` pada "
-"konfigurasi (:guilabel:`Manage` :guilabel:`Settings`) dari masing-masing "
-"proyek."
+":guilabel:`Kontrol akses` dapat diubah di tab :guilabel:`Akses` konfigurasi "
+"(:guilabel:`Kelola` ↓ :guilabel:`Pengaturan`) dari masing-masing proyek."
 
 #: ../../admin/access.rst:52
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr "Nilai default dapat diubah dengan :setting:'DEFAULT_ACCESS_CONTROL'."
+msgstr "Nilai bawaan dapat diubah dengan :pengaturan:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -156,8 +155,8 @@ msgid ""
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
 "Kumpulan izin aktual yang tersedia untuk pengguna secara bawaan di proyek "
-"`Public`, `Protected`, dan `Private` dapat didefinisikan ulang oleh "
-"administrator Weblate menggunakan :ref:`custom settings <custom-acl>`."
+"`Publik`, `Dilindungi`, dan `Privat` dapat didefinisikan ulang oleh "
+"administrator Weblate menggunakan :ref:`pengaturan khusus <custom-acl>`."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -166,10 +165,10 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
-"Dengan menyalakan kontrol akses `Kostum`, Weblate akan menghapus semua :ref:`"
-"special groups <manage-acl>` yang telah dibuat untuk proyek yang dipilih. "
-"Jika Anda melakukan ini tanpa izin administrator untuk sebuah peladen "
-"Weblate, Anda akan langsung kehilangan akses untuk mengatur proyek tersebut."
+"Dengan menyalakan kontrol akses `Khusus`, Weblate akan menghapus semua :ref:`"
+"grup spesial <manage-acl>` yang telah dibuat untuk proyek yang dipilih. Jika "
+"Anda melakukan ini tanpa izin administrator untuk keseluruhan Weblate, Anda "
+"akan langsung kehilangan akses untuk mengatur proyek tersebut."
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -189,14 +188,20 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
+"Pengguna dengan hak istimewa :guilabel:`Kelola akses proyek` (lihat :ref:`"
+"hak isimewa`) dapat mengelola pengguna dalam proyek dengan menambahkan "
+"mereka ke dalam tim. Kumpulan awal tim disediakan oleh Weblate, tetapi tim "
+"tambahan dapat ditentukan dengan menyediakan kontrol akses yang lebih halus. "
+"Anda dapat membatasi tim ke bahasa dan menentukan peran akses mereka (lihat "
+":ref:`hak istimewa`)."
 
 #: ../../admin/access.rst:89
 msgid "The following teams are automatically created for every project:"
-msgstr ""
+msgstr "Tim berikut ini dibuat secara otomatis untuk setiap proyek:"
 
 #: ../../admin/access.rst:91
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Untuk proyek `Publik`, `Dilindungi`, dan `Privat`:"
 
 #: ../../admin/access.rst:94
 msgid "Administration"
@@ -204,19 +209,20 @@ msgstr "Administrasi"
 
 #: ../../admin/access.rst:94
 msgid "Includes all permissions available for the project."
-msgstr ""
+msgstr "Mencakup semua izin yang tersedia untuk proyek."
 
 #: ../../admin/access.rst:97
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr ""
+msgstr "Tinjau (hanya jika :ref:`tinjau alur kerja <reviews>` diaktifkan)"
 
 #: ../../admin/access.rst:97
 msgid "Can approve translations during review."
 msgstr ""
+"Dapat menyetujui terjemahan selama proses peninjauan sedang berlangsung."
 
 #: ../../admin/access.rst:99
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Untuk proyek `Dilindungi` dan `Privat` saja:"
 
 #: ../../admin/access.rst:102
 msgid "Translate"
@@ -225,6 +231,8 @@ msgstr "Terjemahkan"
 #: ../../admin/access.rst:102
 msgid "Can translate the project and upload translations made offline."
 msgstr ""
+"Dapat menerjemahkan proyek dan mengunggah terjemahan yang dibuat secara "
+"luring."
 
 #: ../../admin/access.rst:106 ../../devel/community.rst:41
 msgid "Sources"
@@ -235,6 +243,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
+"Dapat mengedit string sumber (jika diizinkan di :ref:`pengaturan proyek "
+"<component-manage_units>`) dan info string sumber."
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:266
 #: ../../admin/access.rst:282 ../../admin/access.rst:393 ../../api.rst:663
@@ -272,15 +282,12 @@ msgid "Screenshots"
 msgstr "Tangkapan layar"
 
 #: ../../admin/access.rst:118
-#, fuzzy
-#| msgid ""
-#| "Deleting screenshot will remove it from all associated source strings."
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
-"Menghapus tangkapan layar akan menghapusnya dari semua string sumber yang "
-"terkait."
+"Dapat mengelola tangkapan layar (menambahkan atau menghapusnya, dan "
+"mengaitkannya dengan string sumber)."
 
 #: ../../admin/access.rst:122 ../../admin/addons.rst:26
 #: ../../admin/continuous.rst:418 ../../user/translating.rst:326
@@ -297,7 +304,7 @@ msgstr "VCS"
 
 #: ../../admin/access.rst:125
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Dapat mengelola VCS dan mengakses repositori yang diekspor."
 
 #: ../../admin/access.rst:128 ../../admin/optionals.rst:63
 msgid "Billing"
@@ -305,7 +312,7 @@ msgstr "Penagihan"
 
 #: ../../admin/access.rst:128
 msgid "Can access billing info and settings (see :ref:`billing`)."
-msgstr ""
+msgstr "Dapat mengakses info dan pengaturan penagihan (lihat :ref:`penagihan`)."
 
 #: ../../admin/access.rst:132
 msgid ""
@@ -313,12 +320,12 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Fitur-fitur ini tersedia di halaman :guilabel:`Kontrol akses`, yang dapat "
+"diakses dari menu proyek :guilabel:`Kelola` ↓ :guilabel:`Pengguna`."
 
 #: ../../admin/access.rst:138
-#, fuzzy
-#| msgid "Administration"
 msgid "New user invitation"
-msgstr "Administrasi"
+msgstr "Undangan bagi pengguna baru"
 
 #: ../../admin/access.rst:140
 msgid ""
@@ -329,6 +336,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"Selain menambahkan pengguna yang sudah ada ke proyek, dimungkinkan untuk "
+"mengundang pengguna baru. Setiap pengguna baru akan segera dibuat, tetapi "
+"akun akan tetap tidak aktif sampai pengguna masuk dengan tautan yang ada "
+"dalam undangan yang dikirim melalui surel. Tidak diharuskan memiliki hak "
+"istimewa di seluruh situs untuk melakukannya, izin manajemen akses pada "
+"ruang lingkup proyek (misalnya keanggotaan dalam kelompok `Administrasi`) "
+"sudah cukup."
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -336,24 +350,29 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"Jika pengguna yang diundang melewatkan validitas undangan, mereka dapat "
+"mengatur kata sandi mereka menggunakan alamat surel undangan yang ada dalam "
+"formulir pengaturan ulang kata sandi karena akun sudah dibuat."
 
 #: ../../admin/access.rst:155
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
 msgstr ""
+"Dimungkinkan untuk mengirim ulang surel untuk undangan pengguna (membatalkan "
+"undangan yang dikirim sebelumnya)."
 
 #: ../../admin/access.rst:158
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"Jenis undangan yang sama tersedia di seluruh situs dari :ref:`antarmuka "
+"manajemen <management-interface>` pada tab :guilabel:`Pengguna`."
 
 #: ../../admin/access.rst:164
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocking users"
-msgstr "Pengguna yang dihapus"
+msgstr "Memblokir pengguna"
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -361,16 +380,22 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Jika beberapa pengguna berperilaku buruk dalam proyek, Anda memiliki opsi "
+"untuk memblokir mereka agar tidak bisa berkontribusi. Pengguna yang diblokir "
+"masih akan dapat melihat proyek jika dia memiliki izin untuk itu, tetapi dia "
+"tidak akan dapat berkontribusi."
 
 #: ../../admin/access.rst:173
 msgid "Per-project permission management"
-msgstr ""
+msgstr "Manajemen izin tiap proyek"
 
 #: ../../admin/access.rst:175
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
+"Anda dapat menyetel proyek Anda ke `Dilindungi` atau `Privat`, dan :ref:`"
+"kelola pengguna <manage-acl>` tiap proyek di antarmuka pengguna Weblate."
 
 #: ../../admin/access.rst:178
 msgid ""
@@ -381,6 +406,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"Secara bawaan, ini mencegah Weblate untuk memberikan akses yang disediakan "
+"oleh `Pengguna` dan `Pemirsa` :ref:`grup asali <default-groups>` karena "
+"konfigurasi grup ini sendiri. Ini tidak menghalangi Anda untuk memberikan "
+"izin kepada proyek tersebut di seluruh situs dengan mengubah grup asali, "
+"membuat grup baru, atau membuat pengaturan khusus tambahan untuk masing-"
+"masing komponen seperti yang dijelaskan dalam :ref:`custom-acl` di bawah ini."
 
 #: ../../admin/access.rst:184
 msgid ""
@@ -389,10 +420,14 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
+"Salah satu manfaat utama mengelola izin melalui antarmuka pengguna Weblate "
+"adalah Anda dapat mendelegasikannya kepada pengguna lain tanpa memberi "
+"mereka hak istimewa superuser. Untuk melakukannya, tambahkan mereka ke tim "
+"`Administrasi` proyek."
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
-msgstr ""
+msgstr "Kontrol akses khusus"
 
 #: ../../admin/access.rst:196
 msgid ""
@@ -400,6 +435,9 @@ msgid ""
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"Sistem izin didasarkan atas grup dan peran, di mana peran menentukan "
+"sekumpulan izin, dan grup menautkannya ke pengguna dan terjemahan, lihat :ref"
+":`auth-model` untuk detail selengkapnya."
 
 #: ../../admin/access.rst:200
 msgid ""
@@ -409,6 +447,11 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Fitur paling canggih dari sistem kontrol akses Weblate untuk saat ini hanya "
+"tersedia melalui :ref:`antarmuka admin Django <admin-interface>`. Anda dapat "
+"menggunakannya untuk mengelola izin proyek apa pun. Anda tidak perlu "
+"mengubahnya ke `Khusus` :ref:`kontrol akses <acl>` untuk menggunakannya. "
+"Namun Anda harus memiliki hak superuser untuk menggunakannya."
 
 #: ../../admin/access.rst:206
 msgid ""
@@ -418,46 +461,59 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Jika Anda tidak tertarik dengan detail dari implementasi, dan hanya ingin "
+"membuat konfigurasi yang cukup sederhana berdasarkan konfigurasi bawaan, "
+"atau tidak memiliki akses penuh situs ke seluruh penginstalan Weblate ("
+"seperti di `Hosted Weblate <https:/ /hosted.weblate.org/>`_), silakan "
+"merujuk ke bagian :ref:`akses-sederhana`."
 
 #: ../../admin/access.rst:212
 msgid "Common setups"
-msgstr ""
+msgstr "Pengaturan umum"
 
 #: ../../admin/access.rst:214
 msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Bagian ini berisi ikhtisar beberapa konfigurasi umum yang mungkin Anda "
+"minati."
 
 #: ../../admin/access.rst:218
-#, fuzzy
-#| msgid "Filtered permissions"
 msgid "Site-wide permission management"
-msgstr "Izin terfilter"
+msgstr "Manajemen izin keseluruhan situs"
 
 #: ../../admin/access.rst:220
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Untuk mengelola izin seluruh hal sekaligus, tambahkan pengguna ke :ref:`grup "
+"asali <default-groups>`: yang sesuai:"
 
 #: ../../admin/access.rst:223
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Pengguna` (ini dilakukan secara bawaan oleh :ref:`penugasan kelompol "
+"otomatis <autogroup>`)."
 
 #: ../../admin/access.rst:225
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Peninjau` (jika Anda menggunakan :ref:`alur kerja peninjau <reviews>` "
+"dengan peninjau khusus)."
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Manajer` (jika Anda ingin mendelegasikan sebagian besar operasi manajemen "
+"kepada orang lain)."
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -465,6 +521,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Anda harus tetap mengonfigurasi semua proyek sebagai `Publik` (lihat "
+":ref:`acl`), jika tidak, izin seluruh situs yang diberikan oleh keanggotaan "
+"dalam grup `Pengguna` dan `Peninjau` tidak akan berpengaruh apa pun."
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -472,6 +531,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Anda juga dapat memberikan beberapa izin tambahan pilihan Anda ke grup "
+"asali. Misalnya, Anda mungkin ingin memberikan izin untuk mengelola "
+"tangkapan layar ke semua `Pengguna`."
 
 #: ../../admin/access.rst:238
 msgid ""
@@ -480,6 +542,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Anda juga dapat menentukan beberapa grup khusus yang baru. Jika Anda ingin "
+"tetap mengelola izin di seluruh situs untuk grup ini, pilihlah nilai yang "
+"sesuai untuk :guilabel:`Pemilihan proyek` (mis. :guilabel:`Semua proyek` "
+"atau :guilabel:`Semua proyek publik`)."
 
 #: ../../admin/access.rst:244
 msgid "Custom permissions for languages, components or projects"
@@ -492,6 +558,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Anda dapat membuat grup khusus Anda sendiri untuk mengelola izin untuk objek "
+"yang berbeda seperti bahasa, komponen, dan proyek. Meskipun grup ini hanya "
+"dapat memberikan hak istimewa tambahan, Anda tidak dapat mencabut izin apa "
+"pun yang diberikan oleh grup di seluruh situs atau di setiap proyek dengan "
+"menambahkan grup khusus lainnya."
 
 #: ../../admin/access.rst:251 ../../admin/access.rst:381
 #: ../../admin/config.rst:249 ../../admin/config.rst:268
@@ -512,6 +583,10 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Jika Anda ingin (untuk alasan apa pun) mengizinkan terjemahan ke bahasa "
+"tertentu (misalkan `Ceko`) hanya untuk sekelompok penerjemah tepercaya "
+"secara tertutup sambil menjaga terjemahan ke bahasa lain secara publik, Anda "
+"harus:"
 
 #: ../../admin/access.rst:257
 msgid ""
@@ -519,48 +594,42 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"Hapus izin untuk menerjemahkan `Ceko` dari semua pengguna. Dalam konfigurasi "
+"bawaan, ini dapat dilakukan dengan mengubah `Pengguna` :ref:`grup asali "
+"<default-groups>`."
 
 #: ../../admin/access.rst:261
-#, fuzzy
-#| msgid "Groups"
 msgid "Group `Users`"
-msgstr "Grup"
+msgstr "Grup `Pengguna`"
 
 #: ../../admin/access.rst:264 ../../admin/access.rst:280
 msgid "Language selection"
 msgstr "Pemilihan bahasa"
 
 #: ../../admin/access.rst:265 ../../admin/access.rst:281
-#, fuzzy
-#| msgid "As defined"
 msgid "`As defined`"
-msgstr "Sebagaimana ditetapkan"
+msgstr "`Seperti yang didefinisikan`"
 
 #: ../../admin/access.rst:267
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Semua kecuali `Ceko`"
 
 #: ../../admin/access.rst:271
 msgid "Add a dedicated group for `Czech` translators."
-msgstr ""
+msgstr "Tambahkan grup khusus untuk penerjemah `Ceko`."
 
 #: ../../admin/access.rst:273
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "Penerjemah paling aktif"
+msgstr "Grup `penerjemah Ceko`"
 
 #: ../../admin/access.rst:276 ../../admin/access.rst:389
 #: ../../admin/access.rst:454 ../../api.rst:594
 msgid "Roles"
-msgstr "Role"
+msgstr "Peran"
 
 #: ../../admin/access.rst:277
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "Pengguna mahir"
+msgstr "`Power users`"
 
 #: ../../admin/access.rst:278
 msgid "Project selection"
@@ -573,10 +642,8 @@ msgid "`All public projects`"
 msgstr "Semua proyek publik"
 
 #: ../../admin/access.rst:283
-#, fuzzy
-#| msgid "Czech"
 msgid "`Czech`"
-msgstr "Ceko"
+msgstr "`Ceko`"
 
 #: ../../admin/access.rst:287
 msgid "Add users you wish to give the permissions to into this group."
@@ -627,7 +694,7 @@ msgstr ""
 
 #: ../../admin/access.rst:310
 msgid "`Group`"
-msgstr "`Kumpulan`"
+msgstr "`Grup`"
 
 #: ../../admin/access.rst:309
 msgid ""
@@ -734,11 +801,8 @@ msgid "Group `Spanish Admin-Reviewers`"
 msgstr ""
 
 #: ../../admin/access.rst:390
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
-msgstr "Kelola repositori"
+msgstr "`Tinjau String`, `Kelola repositori`"
 
 #: ../../admin/access.rst:391 ../../admin/addons.rst:60 ../../api.rst:1138
 msgid "Components"
@@ -749,10 +813,8 @@ msgid "foo/bar"
 msgstr "foo/ bar"
 
 #: ../../admin/access.rst:394
-#, fuzzy
-#| msgid "Spanish"
 msgid "`Spanish`"
-msgstr "Spanyol"
+msgstr "`Spanyol`"
 
 #: ../../admin/access.rst:398
 msgid ""
@@ -854,10 +916,8 @@ msgid "View billing info"
 msgstr "Lihat info penagihan"
 
 #: ../../admin/access.rst:456
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`, `Billing`"
-msgstr "Administrasi"
+msgstr "`Administrasi`, `Penagihan`"
 
 #: ../../admin/access.rst:458 ../../api.rst:2079
 msgid "Changes"
@@ -872,10 +932,8 @@ msgstr "Unduh perubahan"
 #: ../../admin/access.rst:482 ../../admin/access.rst:484
 #: ../../admin/access.rst:486 ../../admin/access.rst:496
 #: ../../admin/access.rst:498 ../../admin/access.rst:528
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`"
-msgstr "Administrasi"
+msgstr "`Administrasi`"
 
 #: ../../admin/access.rst:460 ../../user/translating.rst:62
 msgid "Comments"
@@ -883,17 +941,16 @@ msgstr "Komentar"
 
 #: ../../admin/access.rst:460
 msgid "Post comment"
-msgstr "Pos komentar"
+msgstr "Posting komentar"
 
 #: ../../admin/access.rst:460 ../../admin/access.rst:476
 #: ../../admin/access.rst:500 ../../admin/access.rst:502
 #: ../../admin/access.rst:510 ../../admin/access.rst:516
 #: ../../admin/access.rst:530 ../../admin/access.rst:532
-#, fuzzy
-#| msgid "Start new translation"
 msgid ""
 "`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
-msgstr "Mulai penerjemahan baru"
+msgstr ""
+"`Administrasi`, `Edit sumber`, `Power user`, `Tinjau string`, `Terjemahkan`"
 
 #: ../../admin/access.rst:462
 msgid "Delete comment"
@@ -917,10 +974,8 @@ msgstr "Tambah entri glosarium"
 
 #: ../../admin/access.rst:468 ../../admin/access.rst:470
 #: ../../admin/access.rst:472 ../../admin/access.rst:474
-#, fuzzy
-#| msgid "Start new translation"
 msgid "`Administration`, `Manage glossary`, `Power user`"
-msgstr "Mulai penerjemahan baru"
+msgstr "`Administrasi`, `Kelola glosarium`, `Power user`"
 
 #: ../../admin/access.rst:470
 msgid "Edit glossary entry"
@@ -951,10 +1006,8 @@ msgid "Edit translation memory"
 msgstr "Sunting memori penerjemahan"
 
 #: ../../admin/access.rst:478 ../../admin/access.rst:480
-#, fuzzy
-#| msgid "Start new translation"
 msgid "`Administration`, `Manage translation memory`"
-msgstr "Mulai penerjemahan baru"
+msgstr "`Administrasi`, `Kelola memori terjemahan`"
 
 #: ../../admin/access.rst:480
 msgid "Delete translation memory"
@@ -986,10 +1039,8 @@ msgstr "Tambah tangkapan layar"
 
 #: ../../admin/access.rst:488 ../../admin/access.rst:490
 #: ../../admin/access.rst:492
-#, fuzzy
-#| msgid "Manage screenshots"
 msgid "`Administration`, `Manage screenshots`"
-msgstr "Kelola tangkapan layar"
+msgstr "`Administrasi`, `Kelola tangkapan layar`"
 
 #: ../../admin/access.rst:490
 msgid "Edit screenshot"
@@ -1008,10 +1059,8 @@ msgid "Edit additional string info"
 msgstr "Sunting info string tambahan"
 
 #: ../../admin/access.rst:494
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "`Administration`, `Edit source`"
-msgstr "String dengan saran (%d)"
+msgstr "`Administrasi`, `Edit sumber`"
 
 #: ../../admin/access.rst:496
 msgid "Strings"
@@ -1038,10 +1087,8 @@ msgid "Review strings"
 msgstr "Tinjau string"
 
 #: ../../admin/access.rst:504 ../../admin/access.rst:506
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "`Administration`, `Review strings`"
-msgstr "String dengan saran (%d)"
+msgstr "`Administrasi`, `Tinjau string`"
 
 #: ../../admin/access.rst:506
 msgid "Edit string when suggestions are enforced"
@@ -1052,10 +1099,8 @@ msgid "Edit source strings"
 msgstr "Sunting string sumber"
 
 #: ../../admin/access.rst:508
-#, fuzzy
-#| msgid "Start new translation"
 msgid "`Administration`, `Edit source`, `Power user`"
-msgstr "Mulai penerjemahan baru"
+msgstr "`Administrasi`, `Edit sumber`, `Power user`"
 
 #: ../../admin/access.rst:510 ../../user/translating.rst:46
 #: ../../workflows.rst:47
@@ -1071,22 +1116,20 @@ msgid "Add suggestion"
 msgstr "Tambahkan saran"
 
 #: ../../admin/access.rst:512
-#, fuzzy
-#| msgid "Start new translation"
 msgid ""
 "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
 "strings`, `Translate`"
-msgstr "Mulai penerjemahan baru"
+msgstr ""
+"`Administrasi`, `Edit sumber`, `Tambahkan saran`, `Power user`, `Tinjau "
+"string`, `Terjemahkan`"
 
 #: ../../admin/access.rst:514
 msgid "Delete suggestion"
 msgstr "Hapus saran"
 
 #: ../../admin/access.rst:514
-#, fuzzy
-#| msgid "Start new translation"
 msgid "`Administration`, `Power user`"
-msgstr "Mulai penerjemahan baru"
+msgstr "`Administrasi`, `Power user`"
 
 #: ../../admin/access.rst:516
 msgid "Vote on suggestion"
@@ -1101,58 +1144,52 @@ msgid "Add language for translation"
 msgstr "Tambahkan bahasa untuk terjemahan"
 
 #: ../../admin/access.rst:518
-#, fuzzy
-#| msgid "Start new translation"
 msgid "`Administration`, `Power user`, `Manage languages`"
-msgstr "Mulai penerjemahan baru"
+msgstr "`Administrasi`, `Power user`, `Kelola bahasa`"
 
 #: ../../admin/access.rst:520
 msgid "Perform automatic translation"
 msgstr "Lakukan penerjemahan otomatis"
 
 #: ../../admin/access.rst:520
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "`Administration`, `Automatic translation`"
-msgstr "Lakukan penerjemahan otomatis"
+msgstr "`Administrasi`, `Penerjemahan otomatis`"
 
 #: ../../admin/access.rst:522
 msgid "Delete existing translation"
 msgstr "Hapus terjemahan yang ada"
 
 #: ../../admin/access.rst:522 ../../admin/access.rst:526
-#, fuzzy
-#| msgid "Start new translation"
 msgid "`Administration`, `Manage languages`"
-msgstr "Mulai penerjemahan baru"
+msgstr "`Administrasi`, `Kelola bahasa`"
 
 #: ../../admin/access.rst:524
 msgid "Download translation file"
-msgstr "Unduh file terjemahan"
+msgstr "Unduh berkas terjemahan"
 
 #: ../../admin/access.rst:524
-#, fuzzy
-#| msgid "Start new translation"
 msgid ""
 "`Administration`, `Edit source`, `Access repository`, `Power user`, `Review "
 "strings`, `Translate`, `Manage languages`"
-msgstr "Mulai penerjemahan baru"
+msgstr ""
+"`Administrasi`, `Edit sumber`, `Akses repositori`, `Power user`, `Tinjau "
+"string`, `Terjemahkan`, `Kelola bahasa`"
 
 #: ../../admin/access.rst:526
 msgid "Add several languages for translation"
-msgstr "Tambahkan beberapa bahasa untuk terjemahan"
+msgstr "Tambahkan beberapa bahasa untuk penerjemahan"
 
 #: ../../admin/access.rst:528
 msgid "Uploads"
-msgstr ""
+msgstr "Unggah"
 
 #: ../../admin/access.rst:528
 msgid "Define author of uploaded translation"
-msgstr "Tentukan penulis terjemahan yang diunggah"
+msgstr "Tentukan penulis dari terjemahan yang diunggah"
 
 #: ../../admin/access.rst:530
 msgid "Overwrite existing strings with upload"
-msgstr "Timpa string yang ada dengan unggahan"
+msgstr "Timpa string yang ada dengan string yang diunggah"
 
 #: ../../admin/access.rst:532
 msgid "Upload translations"
@@ -1163,27 +1200,22 @@ msgid "Access the internal repository"
 msgstr "Mengakses repositori internal"
 
 #: ../../admin/access.rst:534 ../../admin/access.rst:542
-#, fuzzy
-#| msgid "Update the internal repository"
 msgid ""
 "`Administration`, `Access repository`, `Power user`, `Manage repository`"
-msgstr "Perbarui repositori internal"
+msgstr "`Administrasi`, `Akses repositori`, `Power user`, `Kelola repositori`"
 
 #: ../../admin/access.rst:536
 msgid "Commit changes to the internal repository"
-msgstr "Komit perubahan ke repositori lokal"
+msgstr "Commit perubahan ke repositori lokal"
 
 #: ../../admin/access.rst:536 ../../admin/access.rst:538
 #: ../../admin/access.rst:540 ../../admin/access.rst:544
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Administration`, `Manage repository`"
-msgstr "Kelola repositori"
+msgstr "`Administrasi`, `Kelola repositori`"
 
 #: ../../admin/access.rst:538
 msgid "Push change from the internal repository"
-msgstr "Dorong perubahan dari repositori internal"
+msgstr "Push perubahan dari repositori internal"
 
 #: ../../admin/access.rst:540
 msgid "Reset changes in the internal repository"
@@ -1250,7 +1282,7 @@ msgstr ""
 
 #: ../../admin/access.rst:577
 msgid "List of groups"
-msgstr ""
+msgstr "Daftar grup"
 
 #: ../../admin/access.rst:579
 msgid ""
@@ -1258,6 +1290,9 @@ msgid ""
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
+"Grup berikut ini dibuat setelah instalasi (atau setelah menjalankan "
+":djadmin:`aturgrup`) dan Anda bebas untuk memodifikasinya. Namun, proses "
+"migrasi akan membuat ulang grup jika Anda menghapus atau mengganti namanya."
 
 #: ../../admin/access.rst:591
 msgid "`Guests`"
@@ -1306,7 +1341,7 @@ msgstr ""
 #: ../../admin/access.rst:608 ../../workflows.rst:84 ../../workflows.rst:116
 #: ../../workflows.rst:153
 msgid "`Users`"
-msgstr ""
+msgstr "`Pengguna`"
 
 #: ../../admin/access.rst:603
 msgid "Default group for all users."
@@ -1318,7 +1353,7 @@ msgstr ""
 
 #: ../../admin/access.rst:613 ../../workflows.rst:157
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Peninjau`"
 
 #: ../../admin/access.rst:611
 msgid "Group for reviewers (see :ref:`workflows`)."
@@ -11837,7 +11872,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:838
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
-msgstr "Mengonfigurasi :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
+msgstr "Mengonfigurasi :pengaturan:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 
 #: ../../admin/install/docker.rst:844
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
@@ -21024,7 +21059,7 @@ msgid ""
 "Added support for customizing SSH invocation via :setting:`SSH_EXTRA_ARGS`."
 msgstr ""
 "Menambahkan dukungan untuk menyesuaikan permohonan SSH melalui "
-":setting:'SSH_EXTRA_ARGS'."
+":pengaturan:'SSH_EXTRA_ARGS'."
 
 #: ../../changes.rst:109
 #, fuzzy
@@ -21051,7 +21086,7 @@ msgid ""
 "Added support for customizing Borg invocation via :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
 "Menambahkan dukungan untuk menyesuaikan permintaan Borg melalui "
-":setting:`BORG_EXTRA_ARGS`."
+":pengaturan:`BORG_EXTRA_ARGS`."
 
 #: ../../changes.rst:114
 #, fuzzy
@@ -28508,10 +28543,8 @@ msgid "0"
 msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default font"
 msgid "default"
-msgstr "Fonta baku"
+msgstr "bawaan, asali"
 
 #: ../../contributing/schemas.rst:9
 #, fuzzy
