@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.18.1 (cb18c43) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.18.2 (22f518e) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
     /*! *****************************************************************************
@@ -588,7 +588,8 @@ var Sentry = (function (exports) {
                 return;
             }
             consoleSandbox(function () {
-                global$6.console.log(PREFIX + "[Log]: " + args.join(' '));
+                var _a;
+                (_a = global$6.console).log.apply(_a, __spread([PREFIX + "[Log]:"], args));
             });
         };
         /** JSDoc */
@@ -601,7 +602,8 @@ var Sentry = (function (exports) {
                 return;
             }
             consoleSandbox(function () {
-                global$6.console.warn(PREFIX + "[Warn]: " + args.join(' '));
+                var _a;
+                (_a = global$6.console).warn.apply(_a, __spread([PREFIX + "[Warn]:"], args));
             });
         };
         /** JSDoc */
@@ -614,7 +616,8 @@ var Sentry = (function (exports) {
                 return;
             }
             consoleSandbox(function () {
-                global$6.console.error(PREFIX + "[Error]: " + args.join(' '));
+                var _a;
+                (_a = global$6.console).error.apply(_a, __spread([PREFIX + "[Error]:"], args));
             });
         };
         return Logger;
@@ -672,12 +675,13 @@ var Sentry = (function (exports) {
      * StackFrames are returned in the correct order for Sentry Exception
      * frames and with Sentry SDK internal frames removed from the top and bottom
      *
-     * */
+     */
     function createStackParser() {
         var parsers = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             parsers[_i] = arguments[_i];
         }
+        var sortedParsers = parsers.sort(function (a, b) { return a[0] - b[0]; }).map(function (p) { return p[1]; });
         return function (stack, skipFirst) {
             var e_1, _a, e_2, _b;
             if (skipFirst === void 0) { skipFirst = 0; }
@@ -686,8 +690,8 @@ var Sentry = (function (exports) {
                 for (var _c = __values(stack.split('\n').slice(skipFirst)), _d = _c.next(); !_d.done; _d = _c.next()) {
                     var line = _d.value;
                     try {
-                        for (var parsers_1 = (e_2 = void 0, __values(parsers)), parsers_1_1 = parsers_1.next(); !parsers_1_1.done; parsers_1_1 = parsers_1.next()) {
-                            var parser = parsers_1_1.value;
+                        for (var sortedParsers_1 = (e_2 = void 0, __values(sortedParsers)), sortedParsers_1_1 = sortedParsers_1.next(); !sortedParsers_1_1.done; sortedParsers_1_1 = sortedParsers_1.next()) {
+                            var parser = sortedParsers_1_1.value;
                             var frame = parser(line);
                             if (frame) {
                                 frames.push(frame);
@@ -698,7 +702,7 @@ var Sentry = (function (exports) {
                     catch (e_2_1) { e_2 = { error: e_2_1 }; }
                     finally {
                         try {
-                            if (parsers_1_1 && !parsers_1_1.done && (_b = parsers_1.return)) _b.call(parsers_1);
+                            if (sortedParsers_1_1 && !sortedParsers_1_1.done && (_b = sortedParsers_1.return)) _b.call(sortedParsers_1);
                         }
                         finally { if (e_2) throw e_2.error; }
                     }
@@ -990,19 +994,19 @@ var Sentry = (function (exports) {
         if (type === '[object Array]') {
             return '[Array]';
         }
-        var normalized = normalizeValue(value);
-        return isPrimitive(normalized) ? normalized : type;
+        // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
+        // pass-through.
+        var serializable = makeSerializable(value);
+        return isPrimitive(serializable) ? serializable : type;
     }
     /**
-     * normalizeValue()
+     * makeSerializable()
      *
-     * Takes unserializable input and make it serializable friendly
+     * Takes unserializable input and make it serializer-friendly.
      *
-     * - translates undefined/NaN values to "[undefined]"/"[NaN]" respectively,
-     * - serializes Error objects
-     * - filter global objects
+     * Handles globals, functions, `undefined`, `NaN`, and other non-serializable values.
      */
-    function normalizeValue(value, key) {
+    function makeSerializable(value, key) {
         if (key === 'domain' && value && typeof value === 'object' && value._events) {
             return '[Domain]';
         }
@@ -1056,6 +1060,7 @@ var Sentry = (function (exports) {
     function walk(key, value, depth, memo) {
         if (depth === void 0) { depth = +Infinity; }
         if (memo === void 0) { memo = memoBuilder(); }
+        var _a = __read(memo, 2), memoize = _a[0], unmemoize = _a[1];
         // If we reach the maximum depth, serialize whatever is left
         if (depth === 0) {
             return serializeValue(value);
@@ -1066,10 +1071,12 @@ var Sentry = (function (exports) {
             return value.toJSON();
         }
         /* eslint-enable @typescript-eslint/no-unsafe-member-access */
-        // If normalized value is a primitive, there are no branches left to walk, so bail out
-        var normalized = normalizeValue(value, key);
-        if (isPrimitive(normalized)) {
-            return normalized;
+        // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
+        // pass-through. If what comes back is a primitive (either because it's been stringified or because it was primitive
+        // all along), we're done.
+        var serializable = makeSerializable(value, key);
+        if (isPrimitive(serializable)) {
+            return serializable;
         }
         // Create source that we will use for the next iteration. It will either be an objectified error object (`Error` type
         // with extracted key:value pairs) or the input itself.
@@ -1077,7 +1084,7 @@ var Sentry = (function (exports) {
         // Create an accumulator that will act as a parent for all future itterations of that branch
         var acc = Array.isArray(value) ? [] : {};
         // If we already walked that branch, bail out, as it's circular reference
-        if (memo[0](value)) {
+        if (memoize(value)) {
             return '[Circular ~]';
         }
         // Walk all keys of the source
@@ -1087,10 +1094,11 @@ var Sentry = (function (exports) {
                 continue;
             }
             // Recursively walk through all the child nodes
-            acc[innerKey] = walk(innerKey, source[innerKey], depth - 1, memo);
+            var innerValue = source[innerKey];
+            acc[innerKey] = walk(innerKey, innerValue, depth - 1, memo);
         }
         // Once walked through all the branches, remove the parent from memo storage
-        memo[1](value);
+        unmemoize(value);
         // Return accumulated values
         return acc;
     }
@@ -1109,7 +1117,8 @@ var Sentry = (function (exports) {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     function normalize(input, depth) {
         try {
-            return JSON.parse(JSON.stringify(input, function (key, value) { return walk(key, value, depth); }));
+            // since we're at the outermost level, there is no key
+            return walk('', input, depth);
         }
         catch (_oO) {
             return '**non-serializable**';
@@ -1223,7 +1232,7 @@ var Sentry = (function (exports) {
         var result = false;
         var doc = global.document;
         // eslint-disable-next-line deprecation/deprecation
-        if (doc && typeof doc.createElement === "function") {
+        if (doc && typeof doc.createElement === 'function') {
             try {
                 var sandbox = doc.createElement('iframe');
                 sandbox.hidden = true;
@@ -1355,7 +1364,7 @@ var Sentry = (function (exports) {
                 }
                 catch (e) {
                     if (isDebugBuild()) {
-                        logger.error("Error while triggering instrumentation handler.\nType: " + type + "\nName: " + getFunctionName(handler) + "\nError: " + e);
+                        logger.error("Error while triggering instrumentation handler.\nType: " + type + "\nName: " + getFunctionName(handler) + "\nError:", e);
                     }
                 }
             }
@@ -1922,26 +1931,6 @@ var Sentry = (function (exports) {
             firstException.mechanism.data = mergedData;
         }
     }
-    var defaultRetryAfter = 60 * 1000; // 60 seconds
-    /**
-     * Extracts Retry-After value from the request header or returns default value
-     * @param now current unix timestamp
-     * @param header string representation of 'Retry-After' header
-     */
-    function parseRetryAfterHeader(now, header) {
-        if (!header) {
-            return defaultRetryAfter;
-        }
-        var headerDelay = parseInt("" + header, 10);
-        if (!isNaN(headerDelay)) {
-            return headerDelay * 1000;
-        }
-        var headerDate = Date.parse("" + header);
-        if (!isNaN(headerDate)) {
-            return headerDate - now;
-        }
-        return defaultRetryAfter;
-    }
     /**
      * Checks whether or not we've already captured the given exception (note: not an identical exception - the very object
      * in question), and marks it captured if not.
@@ -2399,7 +2388,9 @@ var Sentry = (function (exports) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return items.reduce(function (acc, item) {
             var _a = __read(item, 2), itemHeaders = _a[0], payload = _a[1];
-            return acc + "\n" + JSON.stringify(itemHeaders) + "\n" + JSON.stringify(payload);
+            // We do not serialize payloads that are primitives
+            var serializedPayload = isPrimitive(payload) ? String(payload) : JSON.stringify(payload);
+            return acc + "\n" + JSON.stringify(itemHeaders) + "\n" + serializedPayload;
         }, serializedHeaders);
     }
 
@@ -2417,6 +2408,26 @@ var Sentry = (function (exports) {
             },
         ];
         return createEnvelope(dsn ? { dsn: dsn } : {}, [clientReportItem]);
+    }
+
+    var DEFAULT_RETRY_AFTER = 60 * 1000; // 60 seconds
+    /**
+     * Extracts Retry-After value from the request header or returns default value
+     * @param header string representation of 'Retry-After' header
+     * @param now current unix timestamp
+     *
+     */
+    function parseRetryAfterHeader(header, now) {
+        if (now === void 0) { now = Date.now(); }
+        var headerDelay = parseInt("" + header, 10);
+        if (!isNaN(headerDelay)) {
+            return headerDelay * 1000;
+        }
+        var headerDate = Date.parse("" + header);
+        if (!isNaN(headerDate)) {
+            return headerDate - now;
+        }
+        return DEFAULT_RETRY_AFTER;
     }
 
     /**
@@ -4292,7 +4303,7 @@ var Sentry = (function (exports) {
          */
         NoopTransport.prototype.sendEvent = function (_) {
             return resolvedSyncPromise({
-                reason: "NoopTransport: Event has been skipped because no Dsn is configured.",
+                reason: 'NoopTransport: Event has been skipped because no Dsn is configured.',
                 status: 'skipped',
             });
         };
@@ -4337,7 +4348,7 @@ var Sentry = (function (exports) {
         BaseBackend.prototype.sendEvent = function (event) {
             void this._transport.sendEvent(event).then(null, function (reason) {
                 if (isDebugBuild()) {
-                    logger.error("Error while sending event: " + reason);
+                    logger.error('Error while sending event:', reason);
                 }
             });
         };
@@ -4353,7 +4364,7 @@ var Sentry = (function (exports) {
             }
             void this._transport.sendSession(session).then(null, function (reason) {
                 if (isDebugBuild()) {
-                    logger.error("Error while sending session: " + reason);
+                    logger.error('Error while sending session:', reason);
                 }
             });
         };
@@ -4398,14 +4409,14 @@ var Sentry = (function (exports) {
     /** Creates a SentryRequest from a Session. */
     function sessionToSentryRequest(session, api) {
         var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
-        var envelopeHeaders = JSON.stringify(__assign(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) })));
-        // I know this is hacky but we don't want to add `session` to request type since it's never rate limited
+        var envelopeHeaders = __assign(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) }));
+        // I know this is hacky but we don't want to add `sessions` to request type since it's never rate limited
         var type = 'aggregates' in session ? 'sessions' : 'session';
-        var itemHeaders = JSON.stringify({
-            type: type,
-        });
+        // TODO (v7) Have to cast type because envelope items do not accept a `SentryRequestType`
+        var envelopeItem = [{ type: type }, session];
+        var envelope = createEnvelope(envelopeHeaders, [envelopeItem]);
         return {
-            body: envelopeHeaders + "\n" + itemHeaders + "\n" + JSON.stringify(session),
+            body: serializeEnvelope(envelope),
             type: type,
             url: getEnvelopeEndpointWithUrlEncodedAuth(api.dsn, api.tunnel),
         };
@@ -4483,19 +4494,16 @@ var Sentry = (function (exports) {
         // deserialization. Instead, we only implement a minimal subset of the spec to
         // serialize events inline here.
         if (useEnvelope) {
-            var envelopeHeaders = JSON.stringify(__assign(__assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) })));
-            var itemHeaders = JSON.stringify({
-                type: eventType,
-                // TODO: Right now, sampleRate may or may not be defined (it won't be in the cases of inheritance and
-                // explicitly-set sampling decisions). Are we good with that?
-                sample_rates: [{ id: samplingMethod, rate: sampleRate }],
-            });
-            // The trailing newline is optional. We intentionally don't send it to avoid
-            // sending unnecessary bytes.
-            //
-            // const envelope = `${envelopeHeaders}\n${itemHeaders}\n${req.body}\n`;
-            var envelope = envelopeHeaders + "\n" + itemHeaders + "\n" + req.body;
-            req.body = envelope;
+            var envelopeHeaders = __assign(__assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) }));
+            var eventItem = [
+                {
+                    type: eventType,
+                    sample_rates: [{ id: samplingMethod, rate: sampleRate }],
+                },
+                req.body,
+            ];
+            var envelope = createEnvelope(envelopeHeaders, [eventItem]);
+            req.body = serializeEnvelope(envelope);
         }
         return req;
     }
@@ -4520,7 +4528,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.18.1';
+    var SDK_VERSION = '6.18.2';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4743,6 +4751,11 @@ var Sentry = (function (exports) {
 
     // global reference to slice
     var UNKNOWN_FUNCTION = '?';
+    var OPERA10_PRIORITY = 10;
+    var OPERA11_PRIORITY = 20;
+    var CHROME_PRIORITY = 30;
+    var WINJS_PRIORITY = 40;
+    var GECKO_PRIORITY = 50;
     function createFrame(filename, func, lineno, colno) {
         var frame = {
             filename: filename,
@@ -4781,6 +4794,7 @@ var Sentry = (function (exports) {
         }
         return;
     };
+    var chromeStackParser = [CHROME_PRIORITY, chrome];
     // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
     // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
     // We need this specific case for now because we want no other regex to match.
@@ -4795,7 +4809,7 @@ var Sentry = (function (exports) {
                 var subMatch = geckoEvalRegex.exec(parts[3]);
                 if (subMatch) {
                     // throw out eval line/column and use top-most line number
-                    parts[1] = parts[1] || "eval";
+                    parts[1] = parts[1] || 'eval';
                     parts[3] = subMatch[1];
                     parts[4] = subMatch[2];
                     parts[5] = ''; // no column when eval
@@ -4808,6 +4822,7 @@ var Sentry = (function (exports) {
         }
         return;
     };
+    var geckoStackParser = [GECKO_PRIORITY, gecko];
     var winjsRegex = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
     var winjs = function (line) {
         var parts = winjsRegex.exec(line);
@@ -4815,16 +4830,19 @@ var Sentry = (function (exports) {
             ? createFrame(parts[2], parts[1] || UNKNOWN_FUNCTION, +parts[3], parts[4] ? +parts[4] : undefined)
             : undefined;
     };
+    var winjsStackParser = [WINJS_PRIORITY, winjs];
     var opera10Regex = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
     var opera10 = function (line) {
         var parts = opera10Regex.exec(line);
         return parts ? createFrame(parts[2], parts[3] || UNKNOWN_FUNCTION, +parts[1]) : undefined;
     };
+    var opera10StackParser = [OPERA10_PRIORITY, opera10];
     var opera11Regex = / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
     var opera11 = function (line) {
         var parts = opera11Regex.exec(line);
         return parts ? createFrame(parts[5], parts[3] || parts[4] || UNKNOWN_FUNCTION, +parts[1], +parts[2]) : undefined;
     };
+    var opera11StackParser = [OPERA11_PRIORITY, opera11];
     /**
      * Safari web extensions, starting version unknown, can produce "frames-only" stacktraces.
      * What it means, is that instead of format like:
@@ -4868,7 +4886,7 @@ var Sentry = (function (exports) {
             type: ex && ex.name,
             value: extractMessage(ex),
         };
-        if (frames && frames.length) {
+        if (frames.length) {
             exception.stacktrace = { frames: frames };
         }
         if (exception.type === undefined && exception.value === '') {
@@ -4879,13 +4897,13 @@ var Sentry = (function (exports) {
     /**
      * @hidden
      */
-    function eventFromPlainObject(exception, syntheticException, rejection) {
+    function eventFromPlainObject(exception, syntheticException, isUnhandledRejection) {
         var event = {
             exception: {
                 values: [
                     {
-                        type: isEvent(exception) ? exception.constructor.name : rejection ? 'UnhandledRejection' : 'Error',
-                        value: "Non-Error " + (rejection ? 'promise rejection' : 'exception') + " captured with keys: " + extractExceptionKeysForMessage(exception),
+                        type: isEvent(exception) ? exception.constructor.name : isUnhandledRejection ? 'UnhandledRejection' : 'Error',
+                        value: "Non-Error " + (isUnhandledRejection ? 'promise rejection' : 'exception') + " captured with keys: " + extractExceptionKeysForMessage(exception),
                     },
                 ],
             },
@@ -4919,8 +4937,7 @@ var Sentry = (function (exports) {
         var stacktrace = ex.stacktrace || ex.stack || '';
         var popSize = getPopSize(ex);
         try {
-            // The order of the parsers in important
-            return createStackParser(opera10, opera11, chrome, winjs, gecko)(stacktrace, popSize);
+            return createStackParser(opera10StackParser, opera11StackParser, chromeStackParser, winjsStackParser, geckoStackParser)(stacktrace, popSize);
         }
         catch (e) {
             // no-empty
@@ -4945,7 +4962,6 @@ var Sentry = (function (exports) {
      * https://github.com/getsentry/sentry-javascript/issues/1949
      * In this specific case we try to extract stacktrace.message.error.message
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function extractMessage(ex) {
         var message = ex && ex.message;
         if (!message) {
@@ -4956,16 +4972,13 @@ var Sentry = (function (exports) {
         }
         return message;
     }
-
     /**
      * Creates an {@link Event} from all inputs to `captureException` and non-primitive inputs to `captureMessage`.
      * @hidden
      */
-    function eventFromException(options, exception, hint) {
+    function eventFromException(exception, hint, attachStacktrace) {
         var syntheticException = (hint && hint.syntheticException) || undefined;
-        var event = eventFromUnknownInput(exception, syntheticException, {
-            attachStacktrace: options.attachStacktrace,
-        });
+        var event = eventFromUnknownInput(exception, syntheticException, attachStacktrace);
         addExceptionMechanism(event); // defaults to { type: 'generic', handled: true }
         event.level = exports.Severity.Error;
         if (hint && hint.event_id) {
@@ -4977,12 +4990,10 @@ var Sentry = (function (exports) {
      * Builds and Event from a Message
      * @hidden
      */
-    function eventFromMessage(options, message, level, hint) {
+    function eventFromMessage(message, level, hint, attachStacktrace) {
         if (level === void 0) { level = exports.Severity.Info; }
         var syntheticException = (hint && hint.syntheticException) || undefined;
-        var event = eventFromString(message, syntheticException, {
-            attachStacktrace: options.attachStacktrace,
-        });
+        var event = eventFromString(message, syntheticException, attachStacktrace);
         event.level = level;
         if (hint && hint.event_id) {
             event.event_id = hint.event_id;
@@ -4992,8 +5003,7 @@ var Sentry = (function (exports) {
     /**
      * @hidden
      */
-    function eventFromUnknownInput(exception, syntheticException, options) {
-        if (options === void 0) { options = {}; }
+    function eventFromUnknownInput(exception, syntheticException, attachStacktrace, isUnhandledRejection) {
         var event;
         if (isErrorEvent(exception) && exception.error) {
             // If it is an ErrorEvent with `error` property, extract it to get actual Error
@@ -5015,7 +5025,7 @@ var Sentry = (function (exports) {
             else {
                 var name_1 = domException.name || (isDOMError(domException) ? 'DOMError' : 'DOMException');
                 var message = domException.message ? name_1 + ": " + domException.message : name_1;
-                event = eventFromString(message, syntheticException, options);
+                event = eventFromString(message, syntheticException, attachStacktrace);
                 addExceptionTypeValue(event, message);
             }
             if ('code' in domException) {
@@ -5032,7 +5042,7 @@ var Sentry = (function (exports) {
             // it manually. This will allow us to group events based on top-level keys which is much better than creating a new
             // group on any key/value change.
             var objectException = exception;
-            event = eventFromPlainObject(objectException, syntheticException, options.isRejection);
+            event = eventFromPlainObject(objectException, syntheticException, isUnhandledRejection);
             addExceptionMechanism(event, {
                 synthetic: true,
             });
@@ -5047,7 +5057,7 @@ var Sentry = (function (exports) {
         // - a plain Object
         //
         // So bail out and capture it as a simple message:
-        event = eventFromString(exception, syntheticException, options);
+        event = eventFromString(exception, syntheticException, attachStacktrace);
         addExceptionTypeValue(event, "" + exception, undefined);
         addExceptionMechanism(event, {
             synthetic: true,
@@ -5057,15 +5067,14 @@ var Sentry = (function (exports) {
     /**
      * @hidden
      */
-    function eventFromString(input, syntheticException, options) {
-        if (options === void 0) { options = {}; }
+    function eventFromString(input, syntheticException, attachStacktrace) {
         var event = {
             message: input,
         };
-        if (options.attachStacktrace && syntheticException) {
-            var frames_1 = parseStackFrames(syntheticException);
-            if (frames_1.length) {
-                event.stacktrace = { frames: frames_1 };
+        if (attachStacktrace && syntheticException) {
+            var frames_2 = parseStackFrames(syntheticException);
+            if (frames_2.length) {
+                event.stacktrace = { frames: frames_2 };
             }
         }
         return event;
@@ -5123,7 +5132,7 @@ var Sentry = (function (exports) {
         var document = global$4.document;
         var fetchImpl = global$4.fetch;
         // eslint-disable-next-line deprecation/deprecation
-        if (document && typeof document.createElement === "function") {
+        if (document && typeof document.createElement === 'function') {
             try {
                 var sandbox = document.createElement('iframe');
                 sandbox.hidden = true;
@@ -5345,7 +5354,7 @@ var Sentry = (function (exports) {
                 return true;
             }
             else if (raHeader) {
-                this._rateLimits.all = new Date(now + parseRetryAfterHeader(now, raHeader));
+                this._rateLimits.all = new Date(now + parseRetryAfterHeader(raHeader, now));
                 return true;
             }
             return false;
@@ -5503,14 +5512,14 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BrowserBackend.prototype.eventFromException = function (exception, hint) {
-            return eventFromException(this._options, exception, hint);
+            return eventFromException(exception, hint, this._options.attachStacktrace);
         };
         /**
          * @inheritDoc
          */
         BrowserBackend.prototype.eventFromMessage = function (message, level, hint) {
             if (level === void 0) { level = exports.Severity.Info; }
-            return eventFromMessage(this._options, message, level, hint);
+            return eventFromMessage(message, level, hint, this._options.attachStacktrace);
         };
         /**
          * @inheritDoc
@@ -5660,13 +5669,13 @@ var Sentry = (function (exports) {
         }
         if (!options.eventId) {
             if (isDebugBuild()) {
-                logger.error("Missing eventId option in showReportDialog call");
+                logger.error('Missing eventId option in showReportDialog call');
             }
             return;
         }
         if (!options.dsn) {
             if (isDebugBuild()) {
-                logger.error("Missing dsn option in showReportDialog call");
+                logger.error('Missing dsn option in showReportDialog call');
             }
             return;
         }
@@ -5740,10 +5749,7 @@ var Sentry = (function (exports) {
             }
             var event = error === undefined && isString(msg)
                 ? _eventFromIncompleteOnError(msg, url, line, column)
-                : _enhanceEventWithInitialFrame(eventFromUnknownInput(error || msg, undefined, {
-                    attachStacktrace: attachStacktrace,
-                    isRejection: false,
-                }), url, line, column);
+                : _enhanceEventWithInitialFrame(eventFromUnknownInput(error || msg, undefined, attachStacktrace, false), url, line, column);
             event.level = exports.Severity.Error;
             addMechanismAndCapture(hub, error, event, 'onerror');
         });
@@ -5782,10 +5788,7 @@ var Sentry = (function (exports) {
             }
             var event = isPrimitive(error)
                 ? _eventFromRejectionWithPrimitive(error)
-                : eventFromUnknownInput(error, undefined, {
-                    attachStacktrace: attachStacktrace,
-                    isRejection: true,
-                });
+                : eventFromUnknownInput(error, undefined, attachStacktrace, true);
             event.level = exports.Severity.Error;
             addMechanismAndCapture(hub, error, event, 'onunhandledrejection');
             return;
@@ -6441,7 +6444,7 @@ var Sentry = (function (exports) {
                     // Juuust in case something goes wrong
                     try {
                         if (_shouldDropEvent(currentEvent, self._previousEvent)) {
-                            logger.warn("Event dropped due to being a duplicate of previously captured event.");
+                            logger.warn('Event dropped due to being a duplicate of previously captured event.');
                             return null;
                         }
                     }
