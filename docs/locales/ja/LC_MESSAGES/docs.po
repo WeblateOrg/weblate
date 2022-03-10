@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-07 14:59+0000\n"
+"PO-Revision-Date: 2022-03-10 17:15+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -9735,7 +9735,7 @@ msgstr "メール送信用の SMTP サーバー。参照: :ref:`out-mail`。"
 
 #: ../../admin/install.rst:66
 msgid "Python dependencies"
-msgstr "Python の依存関係"
+msgstr "Python が必要なプログラム"
 
 #: ../../admin/install.rst:68
 msgid ""
@@ -9743,14 +9743,14 @@ msgid ""
 "Python 3.6 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblateは、`Python <https://www.python.org/>`_ で書かれており、Python 3.6 以"
-"降に対応しています。依存関係は pip を使ってのインストールも、ディストリビュー"
-"ションのパッケージからのインストールもできます。完全な一覧は :file:"
-"`requirements.txt` にあります。"
+"Weblateは、`Python <https://www.python.org/>`_ で書かれており、Python 3.6 "
+"以降に対応しています。動作に必要なプログラムは、pip を使ってのインストールす"
+"ることも、ディストリビューションのパッケージからもインストールできます。:file"
+":`requirements.txt` は、必要なプログラムの完全なリストです。"
 
 #: ../../admin/install.rst:72
 msgid "Most notable dependencies:"
-msgstr "最も重要な依存関係:"
+msgstr "必須のプログラム:"
 
 #: ../../admin/install.rst:74
 msgid "Django"
@@ -9809,8 +9809,8 @@ msgid ""
 "Following modules are necessary for some Weblate features. You can find all "
 "of them in :file:`requirements-optional.txt`."
 msgstr ""
-"Weblate の機能には、以下のモジュールが必要なものがあります。すべては、:file:"
-"`requirements-optional.txt` で確認できます。"
+"一部の Weblate の機能には、以下のモジュールが必要です。:file:`requirements-"
+"optional.txt` ですべてを確認できます。"
 
 #: ../../admin/install.rst:95
 msgid "``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)"
@@ -9881,27 +9881,29 @@ msgstr "https://projectfluent.org/"
 msgid ""
 "When installing using pip, you can directly specify desired features when "
 "installing:"
-msgstr ""
+msgstr "pip を使用してインストールする場合には、特定の機能を選択してインストールでき"
+"ます。インストール時の指定方法:"
 
 #: ../../admin/install.rst:120
 msgid "Or you can install Weblate with all optional features:"
-msgstr "または、すべてのオプション機能を使用して Weblate をインストールする方法:"
+msgstr "または、すべてのオプション機能を追加して Weblate をインストールする方法:"
 
 #: ../../admin/install.rst:126
 msgid "Or you can install Weblate without any optional features:"
-msgstr "もしくは、オプション機能を使用せずに Weblate をインストールする方法:"
+msgstr "もしくは、どのようなオプション機能も追加せずに Weblate "
+"をインストールする方法:"
 
 #: ../../admin/install.rst:133
 msgid "Database backend dependencies"
-msgstr "バックエンドのデータベースの依存関係"
+msgstr "バックエンドのデータベースが必要なプログラム"
 
 #: ../../admin/install.rst:135
 msgid ""
 "Weblate supports PostgreSQL, MySQL and MariaDB, see :ref:`database-setup` "
 "and backends documentation for more details."
 msgstr ""
-"Weblate は、PostgreSQL、MySQL および MariaDB に対応しています。詳細は :ref:"
-"`database-setup` およびバックエンドのドキュメントを確認してください。"
+"Weblate は、PostgreSQL、MySQL および MariaDB に対応しています。詳細は、:ref"
+":`database-setup` およびバックエンドのドキュメントを確認してください。"
 
 #: ../../admin/install.rst:139
 msgid "Other system requirements"
@@ -9909,7 +9911,7 @@ msgstr "その他のシステム要件"
 
 #: ../../admin/install.rst:141
 msgid "The following dependencies have to be installed on the system:"
-msgstr "システムにインストールする必要がある依存関係:"
+msgstr "システムにインストールが必要なプログラム:"
 
 #: ../../admin/install.rst:143
 msgid "``Git``"
@@ -9965,7 +9967,7 @@ msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:157
 msgid "Build-time dependencies"
-msgstr "ビルド時の依存関係"
+msgstr "ビルド時に必要なプログラム"
 
 #: ../../admin/install.rst:159
 msgid ""
@@ -9975,11 +9977,11 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
-":ref:`python-deps` の一部をビルドするには、それらの依存関係をインストールする"
-"ことが必要な場合があります。これはインストール方法によって異なりますので、"
-"個々のパッケージに関するドキュメントを確認してください。 ``pip`` を使用してイ"
-"ンストールするときにビルド済みの ``Wheels`` を使用する場合、または配布パッ"
-"ケージを使用する場合には必要ありません。"
+":ref:`python-deps` の一部をビルドするには、必須のプログラムのインストールが必"
+"要なことがあります。これは、インストールの方法により異るので、個別のパッケー"
+"ジについてのドキュメントを確認してください。 しかし、``pip`` "
+"を使用してインストールする場合、ビルド済みの ``Wheels`` "
+"を使用する場合、または配布パッケージを使用する場合には必要ありません。"
 
 #: ../../admin/install.rst:167
 msgid "Pango and Cairo"
@@ -9993,12 +9995,12 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"Weblateは、ビットマップ ウィジェットの表示（参照: :ref:`promotion`）と、検査"
-"結果の表示（参照: :ref:`fonts`）に Pango と Cairo を使用します。それらの "
-"Python バインディングを適切にインストールするには、最初にシステム ライブラリ"
-"のインストールが必要です。Cairo と Pango の両方が必要であり、次に GLib が必要"
-"です。これらはすべて、開発ファイルと GObject イントロスペクション データとと"
-"もにインストールが必要です。"
+"Weblate は、ビットマップ ウィジェットの表示（参照: "
+":ref:`promotion`）と、検査結果の表示（参照: :ref:`fonts`）に、Pango と Cairo "
+"を使用します。この Python バインディングを適切にインストールするには、"
+"最初にシステム ライブラリのインストールをしてください。Cairo と Pango "
+"の両方が必要であり、次に GLib が必要です。これはすべて、開発ファイルと "
+"GObject イントロスペクション データとともにインストールしてください。"
 
 #: ../../admin/install.rst:180
 msgid "Verifying release signatures"
@@ -10016,8 +10018,7 @@ msgstr ""
 msgid ""
 "and you can get more identification information from <https://keybase.io/"
 "nijel>."
-msgstr ""
-"さらに、<https://keybase.io/nijel> からより多くの身元情報を得られます。"
+msgstr "さらに、<https://keybase.io/nijel> から、より多くの身元情報を得られます。"
 
 #: ../../admin/install.rst:191
 msgid ""
@@ -10026,26 +10027,25 @@ msgid ""
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
 msgstr ""
-"署名がダウンロードしたアーカイブと一致するかどうかの確認が必要です。これによ"
-"り、リリースされたものと同じコードを使用していることを確認できます。また、署"
-"名の日付を確認して、最新バージョンをダウンロードしたかどうかも確認が必要で"
-"す。"
+"署名が、ダウンロードしたアーカイブと一致するかどうかの確認をしてください。こ"
+"れにより、リリースされたものと同じコードを使用していることを確認できます。ま"
+"た、署名の日付を確認して、最新バージョンをダウンロードしたかどうかの確認も必"
+"要です。"
 
 #: ../../admin/install.rst:196
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
-msgstr ""
-"各アーカイブには、PGP 署名を含む ``.asc`` ファイルが付属しています。両方を同"
-"じフォルダに入れることで署名を確認できます。"
+msgstr "各アーカイブには、PGP 署名を含む ``.asc`` ファイルが付属しています。両方とも"
+"同じフォルダに入れてから署名を確認します。確認方法:"
 
 #: ../../admin/install.rst:207
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
-msgstr "ご覧のとおり、GPG は公開鍵が見つからないと苦情を返答しています。この時点で、"
-"いずれかの実行が必要な操作:"
+msgstr "ご覧のとおり、公開鍵が見つからないと GPG "
+"が文句を言ってきてます。この時点で、必要となる操作を、次から一つ選択:"
 
 #: ../../admin/install.rst:210
 msgid "Use `wkd` to download the key:"
@@ -10069,8 +10069,8 @@ msgid ""
 "This will improve the situation a bit - at this point you can verify that "
 "the signature from the given key is correct but you still can not trust the "
 "name used in the key:"
-msgstr "実行すると状況を少し改善できる ー この時点で、指定した鍵からの署名が正しいこ"
-"とを確認できるが、鍵で使用されている名前は信頼できない:"
+msgstr "実行すると状況を少し改善できる操作（この時点で、指定した鍵からの署名が正しい"
+"ことを確認できるが、鍵で使用されている名前は信頼できない）:"
 
 #: ../../admin/install.rst:258
 msgid ""
@@ -10082,7 +10082,7 @@ msgid ""
 "web of trust. This way you can trust the key transitively through signatures "
 "of others, who have met the developer in person."
 msgstr ""
-"ここで問題なのは、誰でもこの名前で鍵を発行できてしまうことです。その鍵が、そ"
+"ここで問題なのは、誰もがこの名前で鍵を発行できてしまうことです。その鍵が、そ"
 "の人物が実際に所有しているかどうかの確認が必要となります。GNU プライバシー "
 "ハンドブックでは、`Validating other keys on your public keyring`_ の章でこの"
 "話題を扱っています。最も信頼できる方法は、開発者と直接会って鍵の指紋を交換す"
@@ -10091,15 +10091,14 @@ msgstr ""
 
 #: ../../admin/install.rst:266
 msgid "Once the key is trusted, the warning will not occur:"
-msgstr "鍵が信頼されると、警告は発生しなくなる:"
+msgstr "鍵が信頼されると、警告は発生しません。鍵が信頼された場合:"
 
 #: ../../admin/install.rst:280
 msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
-msgstr ""
-"署名が無効な場合（アーカイブ改ざん時）、鍵が信頼できるかどうかにかかわらず、"
-"表示される明確なエラー:"
+msgstr "署名が無効な場合（アーカイブ改ざん時）、鍵の信頼にかかわらず、明確なエラーが"
+"発生します。署名が無効な場合:"
 
 #: ../../admin/install.rst:296
 msgid "Filesystem permissions"
@@ -10113,10 +10112,9 @@ msgid ""
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
 "Weblate プロセスは、データを保持するディレクトリ (:setting:`DATA_DIR` ) "
-"に対して読み書き権限が必要です。このディレクトリ内のすべてのファイルは、"
-"すべての Weblat プロセス（通常は WSGI と Celery、参照: :ref:`server` および :"
-"ref:`celery`）を実行しているユーザーが所有し、書き込み可能でなければなりませ"
-"ん。"
+"に対して、読み書き権限が必要です。このディレクトリ内のすべてのファイルは、"
+"すべての Weblat プロセス（通常は WSGI と Celery、参照: :ref:`server` および "
+":ref:`celery`）を実行しているユーザーが所有し、書き込み権限が必要です。"
 
 #: ../../admin/install.rst:302
 msgid ""
@@ -10126,14 +10124,14 @@ msgid ""
 msgstr ""
 "デフォルトの設定では、これらは Weblate "
 "のソースと同じ階層に配置されますが、:file:`/var/lib/weblate` "
-"などのより適切な場所に移動させてください。"
+"などへの、より適切な場所に移動させてください。"
 
 #: ../../admin/install.rst:306
 msgid ""
 "Weblate tries to create these directories automatically, but it will fail "
 "when it does not have permissions to do so."
-msgstr "Weblate は、これらのディレクトリを自動的に作成を試みます。しかし、アクセス権"
-"がなければ失敗します。"
+msgstr "Weblate は、これらのディレクトリを自動的に作成しようとします。しかし、アクセ"
+"ス権がなければ作成できません。"
 
 #: ../../admin/install.rst:309
 msgid ""
@@ -10143,7 +10141,7 @@ msgid ""
 msgstr ""
 "また、:ref:`manage` の実行には注意が必要です。これは、Weblate 自体の実行と同"
 "じユーザーで実行することが必要なためです。実行できなければ、アクセス権の設定"
-"を間違えてたファイルがあります。"
+"を間違えたファイルがあるということです。"
 
 #: ../../admin/install.rst:313
 msgid ""
@@ -10151,7 +10149,7 @@ msgid ""
 "be owned by the ``weblate`` user inside the container (UID 1000)."
 msgstr ""
 "Docker コンテナでは、:file:`/app/data` ボリューム内のすべてのファイルは、"
-"コンテナ内の ``weblate`` ユーザーが所有者でなければなりません（UID 1000）。"
+"コンテナ内の ``weblate`` ユーザーは所有者でなければなりません（UID 1000）。"
 
 #: ../../admin/install.rst:318
 msgid ":ref:`static-files`"
@@ -10183,8 +10181,8 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
-"通常、PostgreSQL は Django ベースのサイトに最適です。これは、Django データ"
-"ベース層の実装に使用する参照データベースです。"
+"通常、Django ベースのサイトには PostgreSQL が最適です。これは、Django "
+"データベース層の実装に使用する参照データベースです。"
 
 #: ../../admin/install.rst:343
 msgid ""
@@ -10207,8 +10205,10 @@ msgstr "PostgreSQL でデータベースの作成"
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
-msgstr "通常は、データベースを分けて Weblate を実行することを推奨します。そして、"
-"別々のユーザー アカウントで使用します。作成方法:"
+msgstr ""
+"通常、Weblate サーバーと、データベース サーバーを分けて、"
+"さらに別々のユーザー "
+"アカウントを使用して実行してください。実現するための方法:"
 
 #: ../../admin/install.rst:370
 msgid ""
@@ -10216,18 +10216,18 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
-"Weblate ユーザーを PostgreSQL "
+"Weblate ユーザーを、PostgreSQL "
 "のスーパーユーザーにしたくない場合は、省略できます。その場合、Weblate "
 "が使用するスキーマの PostgreSQL スーパーユーザーとして、移行手順のいくつかは"
-"手動で実行してください。移行コマンド:"
+"手動で実行することになります。実行する移行コマンド:"
 
 #: ../../admin/install.rst:381
 msgid "Configuring Weblate to use PostgreSQL"
-msgstr "PostgreSQL を使用するための Webrate の設定"
+msgstr "Weblate で PostgreSQL を使用するための設定"
 
 #: ../../admin/install.rst:383
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr ":file:`settings.py` PostgreSQL 用のスニペット:"
+msgstr ":file:`settings.py` に必要な PostgreSQL 用の設定:"
 
 #: ../../admin/install.rst:407
 msgid ""
@@ -10241,15 +10241,15 @@ msgid ""
 "set ``ALTER_ROLE`` to change name of the role Weblate should alter during "
 "the database migration."
 msgstr ""
-"データベースの移行では、Weblate が使用するデータベースのロールには `ALTER "
-"ROLE <https://www.postgresql.org/docs/12/sql-alterrole.html>`_ "
+"データベースの移行時には、Weblate が使用するデータベースのロールに対して `"
+"ALTER ROLE <https://www.postgresql.org/docs/12/sql-alterrole.html>`_ "
 "を実行します。ほとんどの場合、ロールの名前は username と一致します。より複雑"
 "な設定では、ロール名がユーザー名と異なり、データベース移行中に存在しないロー"
-"ルに関するエラーが発生します（``psycopg2.errors.UndefinedObject: role "
+"ルについてのエラーが発生します（``psycopg2.errors.UndefinedObject: role "
 "\"weblate@hostname\" does not exist``）。これは Azure Database for "
-"PostgreSQL で発生することが判明していますが、この環境に限定されません。"
-"データベースの移行中に Weblate "
-"で変更するロールの名前を変更するには、``ALTER_ROLE`` と設定してください。"
+"PostgreSQL で発生することは判明していますが、この環境に限定されていません。デ"
+"ータベース移行時に、Weblate が変更することが必要なロール名を ``ALTER_ROLE`` "
+"に設定してください。"
 
 #: ../../admin/install.rst:420
 msgid "MySQL and MariaDB"
@@ -10272,10 +10272,10 @@ msgid ""
 "those. Because of the limitations it is recommended to use :ref:`postgresql` "
 "for new installations."
 msgstr ""
-"Weblate は MySQL や MariaDB でも使用できます。Django を使用する際の注意事項に"
-"ついては、:ref:`django:mysql-notes` および :ref:`django:mariadb-notes` を確認"
-"してください。制限があるため、新規インストールには :ref:`postgresql` の使用を"
-"推奨します。"
+"Weblate は、MySQL や MariaDB でも使用できます。Django "
+"を使用する際の注意事項については、:ref:`django:mysql-notes` および "
+":ref:`django:mariadb-notes` を確認してください。制限があるため、"
+"新規インストールには :ref:`postgresql` の使用を推奨します。"
 
 #: ../../admin/install.rst:433
 msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
@@ -10307,7 +10307,7 @@ msgstr "分離レベルを ``READ COMMITTED`` に設定する。"
 
 #: ../../admin/install.rst:440
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
-msgstr "SQL モードは ``STRICT_TRANS_TABLES`` に設定が必要。"
+msgstr "SQL モードを ``STRICT_TRANS_TABLES`` に必ず設定すること。"
 
 #: ../../admin/install.rst:442
 msgid ""
@@ -10315,8 +10315,8 @@ msgid ""
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
 msgstr ""
-"MySQL 8.x、MariaDB 10.5.x 以降では、適切なデフォルト設定があるため、サーバー"
-"の調整は必要なく、必要なものはすべてクライアント側から設定できます。"
+"MySQL 8.x、MariaDB 10.5.x 以降では、適切なデフォルト設定があり、そのためサー"
+"バーの調整は必要なく、必要なものはすべてクライアント側から設定できます。"
 
 #: ../../admin/install.rst:446
 msgid ""
@@ -10327,10 +10327,10 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
-"以下は、8 GB の RAM を搭載したサーバーの例 :file:`/etc/my.cnf.d/server.cnf` "
-"です。ほとんどのインストールでは、この設定で十分です。MySQL と MariaDB には、"
-"サーバーの性能を向上させる調整機能があります。これは、システムに多数のユー"
-"ザーが同時接続することを計画していない限り、不要となります。これらの詳細につ"
+"以下の設定ファイル :file:`/etc/my.cnf.d/server.cnf` は、8 GB の RAM "
+"を搭載したサーバーの例です。ほとんどのインストールは、この設定で十分です。"
+"MySQL と MariaDB には、サーバーの性能を向上させる調整機能がありますが、システ"
+"ムに多数のユーザーが同時接続することを計画していない限り、不要です。詳細につ"
 "いては、さまざまなベンダーのドキュメントを確認してください。"
 
 #: ../../admin/install.rst:453
@@ -10339,9 +10339,9 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
-"Weblate のインストールを開始する前に MySQL/MariaDB が再起動されるため、"
-"``innodb_file_per_table`` を適切に設定してインストール時の問題を減らすことが"
-"非常に重要です。"
+"Weblate のインストール時の問題を減らすため、事前に ``innodb_file_per_table`` "
+"を適切に設定して、そのあと MySQL/MariaDB を再起動したのちに、Weblate "
+"をインストールすることが非常に重要です。"
 
 #: ../../admin/install.rst:476
 msgid ""
@@ -10349,30 +10349,34 @@ msgid ""
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
-"``#1071 - Specified key was too long; max key length is 767 bytes`` という"
-"メッセージが表示された場合、上記の ``innodb`` 設定を含むように構成を更新し、"
-"インストールを再開してください。"
+"``#1071 - Specified key was too long; max key length is 767 bytes`` "
+"というメッセージが表示された場合、上記の ``innodb`` "
+"の設定を含むように設定ファイルを上書きし、インストールを再開してください。"
 
 #: ../../admin/install.rst:482
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
+"``#2006 - MySQL server has gone away`` "
+"というエラーが発生する場合は、:setting:`django:CONN_MAX_AGE` "
+"と設定してみてください。"
 
 #: ../../admin/install.rst:486
 msgid "Configuring Weblate to use MySQL/MariaDB"
-msgstr "MySQL および MariaDB を使用するための Weblate の設定"
+msgstr "Weblate で MySQL または MariaDB を使用するための設定"
 
 #: ../../admin/install.rst:488
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
-msgstr "MySQL と MariaDB 用の :file:`settings.py` スニペット:"
+msgstr ":file:`settings.py` に必要な MySQL と MariaDB 用の設定:"
 
 #: ../../admin/install.rst:512
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
-msgstr "インストールを開始する前に必要な、MySQL または MariaDB の ``weblate`` "
-"ユーザー アカウントの作成コマンド:"
+msgstr ""
+"インストールを開始する前に、MySQL または MariaDB で ``weblate`` ユーザー "
+"アカウントを作成してください。アカウント作成コマンド例:"
 
 #: ../../admin/install.rst:521
 msgid "Other configurations"
@@ -10388,8 +10392,9 @@ msgid ""
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
 msgstr ""
-"Weblate は、さまざまなタイミングでメールを送信します - アカウントの有効化や"
-"ユーザーが設定した通知など。そのためには、SMTP サーバーへの接続が必要です。"
+"Weblate は、さまざまなタイミングでメールを送信します。ー "
+"アカウントの有効化やユーザーが設定した通知など。そのためには、SMTP "
+"サーバーへの接続が必要です。"
 
 #: ../../admin/install.rst:532
 msgid ""
@@ -10399,11 +10404,11 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
-"メール サーバーのセットアップは、次の設定を使用して設定する: :setting:"
-"`django:EMAIL_HOST`、:setting:`django:EMAIL_HOST_PASSWORD`、:setting:`django:"
-"EMAIL_USE_TLS`、:setting:`django:EMAIL_USE_SSL`、:setting:`django:"
-"EMAIL_HOST_USER` および :setting:`django:EMAIL_PORT`。 名前は一目瞭然ですが、"
-"詳細については Django の資料を確認してください。"
+"メール サーバーの初期設定に使用する設定項目: :setting:`django:EMAIL_HOST`、:s"
+"etting:`django:EMAIL_HOST_PASSWORD`、:setting:`django:EMAIL_USE_TLS`、:settin"
+"g:`django:EMAIL_USE_SSL`、:setting:`django:EMAIL_HOST_USER` および "
+":setting:`django:EMAIL_PORT`。 名前は明確ですが、詳細については Django "
+"の資料を確認してください。"
 
 #: ../../admin/install.rst:541
 msgid ""
@@ -10413,9 +10418,9 @@ msgid ""
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
 "対応していない認証方法でエラーが発生した場合（例: ``SMTP AUTH extension not "
-"supported by server``）、安全でない接続を使用していることが原因である可能性が"
-"高いです。サーバーは、そのような方法による認証を拒否します。その場合は、:sett"
-"ing:`django:EMAIL_USE_TLS` を有効にしてみてください。"
+"supported by server``）は、安全でない接続を使用していることが原因である可能性"
+"が高いです。サーバーは、そのような方法による認証を拒否します。その場合は、:se"
+"tting:`django:EMAIL_USE_TLS` を有効にしてみてください。"
 
 #: ../../admin/install.rst:548
 msgid ""
@@ -10442,9 +10447,8 @@ msgstr ""
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
-msgstr ""
-"デフォルト構成では、WEBlate は WSGI ハンドラーによって設定された "
-"``REMOTE_ADDR`` から IP アドレスを解析します。"
+msgstr "デフォルト構成では、Weblate は WSGI ハンドラーが設定した ``REMOTE_ADDR`` "
+"から IP アドレスを解析します。"
 
 #: ../../admin/install.rst:562
 msgid ""
@@ -10456,13 +10460,14 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
-"リバース プロキシーを実行している場合、このフィールドには通常、そのアドレスが"
-"含まれます。追加の HTTP ヘッダーを信頼し、これらから IP アドレスを解析するよ"
-"うに Webrate を設定することが必要です。リバース プロキシを使用しないインス"
-"トールでは IP アドレスのスプーフィングが許可されるため、デフォルトでは有効に"
-"できません。:setting:`IP_BEHIND_REVERSE_PROXY` を有効化するだけで通常の設定で"
-"は十分ですが、:setting:`IP_PROXY_HEADER` および :setting:`IP_PROXY_OFFSET` の"
-"設定も調整が必要です。"
+"リバース "
+"プロキシーを実行している場合、通常このフィールドにはアドレスが含まれます。"
+"追加の HTTP ヘッダーを信頼し、そこから IP アドレスを解析するように Webrate "
+"を設定してください。リバース プロキシを使用しないインストールでは、 IP アドレ"
+"スのスプーフィングが可能になるため、デフォルトでは有効にできません。通常は、:"
+"setting:`IP_BEHIND_REVERSE_PROXY` "
+"を有効化する設定だけで十分ですが、:setting:`IP_PROXY_HEADER` および "
+":setting:`IP_PROXY_OFFSET` の設定も調整が必要です。"
 
 #: ../../admin/install.rst:570
 msgid ""
@@ -10472,10 +10477,10 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
-"もう一つ気をつけなければならないのは、:http:header:`Host` "
-"ヘッダーです。これは、:setting:`SITE_DOMAIN` の設定と一致させることが必要です"
-"。リバースプロキシに追加の設定が必要となるかもしれません（例えば、Apache "
-"では ``ProxyPreserveHost On`` を、nginxでは ``proxy_set_header Host $host;`` "
+"もう一つ注意すべきは、:http:header:`Host` "
+"ヘッダーです。これは、:setting:`SITE_DOMAIN` の設定と一致させてください。リバ"
+"ースプロキシに追加の設定が必要となるかもしれません（例えば、Apache では ``"
+"ProxyPreserveHost On`` を、nginxでは ``proxy_set_header Host $host;`` "
 "が必要です）。"
 
 #: ../../admin/install.rst:577
@@ -10498,8 +10503,8 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
-"Weblate は VCS コマンドを実行しますが、これは環境からプロキシ設定を受け入れま"
-"す。:file:`settings.py` にプロキシを設定してください。設定内容:"
+"Weblate は VCS コマンドを実行しますが、これは環境変数のプロキシ設定を取り込ん"
+"でいます。:file:`settings.py` にプロキシを設定してください。設定内容:"
 
 #: ../../admin/install.rst:601
 msgid ""
@@ -10522,8 +10527,8 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
-":file:`weblate/settings_example.py` を :file:`weblate/settings.py` にコピー"
-"し、設定に合わせて変更します。変更した方がいいオプション:"
+":file:`weblate/settings_example.py` を :file:`weblate/settings.py` "
+"にコピーし、設定に合わせて変更します。詳細設定すべきオプション:"
 
 #: ../../admin/install.rst:618
 msgid "``ADMINS``"
@@ -10549,13 +10554,11 @@ msgstr "``ALLOWED_HOSTS``"
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
-msgstr ""
-"これを設定して、サイトでサービスを提供する予定のホストを一覧表示することが必"
-"要です。設定例:"
+msgstr "サイトでサービスを提供する予定のホスト一覧を設定してください。設定例:"
 
 #: ../../admin/install.rst:639
 msgid "Alternatively you can include wildcard:"
-msgstr "ワイルドカードを含めることも可能:"
+msgstr "ワイルドカードの使用例:"
 
 #: ../../admin/install.rst:647
 msgid ""
@@ -10575,9 +10578,10 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
-"セッションの保存方法を設定します。デフォルトのデータベース バックエンド エン"
-"ジンを使用している場合は、次のスケジュールが必要: :command:`weblate "
-"clearsessions` で、古いセッション データをデータベースから削除する。"
+"セッションの保存方法を設定します。デフォルトのデータベース バックエンド "
+"エンジンを使用している場合に必要なスケジュール:　:command:`weblate "
+"clearsessions` を使用して、古いセッション "
+"データをデータベースから削除します。"
 
 #: ../../admin/install.rst:660
 msgid ""
@@ -10585,7 +10589,7 @@ msgid ""
 "recommended to use it for sessions as well:"
 msgstr ""
 "Redis をキャッシュとして使用している場合（参照: :ref:`production-cache`）、"
-"セッションにも Redis を使用すべき:"
+"セッションにも Redis を使用してください。設定方法:"
 
 #: ../../admin/install.rst:669
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
@@ -10599,9 +10603,8 @@ msgstr "``DATABASES``"
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
-msgstr ""
-"データベース サーバーへの接続。詳細については、Django のドキュメントを確認し"
-"てください。"
+msgstr "データベース サーバーへの接続設定。詳細については、Django "
+"のドキュメントを確認してください。"
 
 #: ../../admin/install.rst:681
 msgid ""
@@ -10621,17 +10624,17 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"すべての本番環境サーバーでこの機能を無効にします。デバッグ モードを有効にする"
-"と、Django はユーザーにエラーが発生した場合にバックトレースを表示します。無効"
-"にすると、エラーはメールごとに ``ADMINS`` （上記参照）に送信されます。"
+"すべての本番環境サーバーで無効化します。デバッグ モードを有効にすると、"
+"Django "
+"はユーザーにエラーが発生した場合にバックトレースを表示します。無効にすると、"
+"エラーはメールごとに ``ADMINS`` （上記参照）に送信されます。"
 
 #: ../../admin/install.rst:693
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
-msgstr ""
-"デバッグ モードでは、Django がこの場合でより多くの情報を内部に保存するため、"
-"Weblate の速度が低下します。"
+msgstr "この場合、Django はより多くの情報を内部に格納するので、デバッグ モードは "
+"Weblate の速度を低下させます。"
 
 #: ../../admin/install.rst:698
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
@@ -10693,8 +10696,7 @@ msgid ""
 "projects using the admin interface."
 msgstr ""
 "設定の準備ができたら、:samp:`weblate migrate` を実行してデータベース構造を作"
-"成します。これで、管理インタフェースを使用して翻訳プロジェクトを作成できま"
-"す。"
+"成します。これで、管理画面を使用して翻訳プロジェクトを作成できます。"
 
 #: ../../admin/install.rst:742
 msgid ""
@@ -10702,9 +10704,9 @@ msgid ""
 "`weblate migrate --noinput`, and then create an admin user using :djadmin:"
 "`createadmin` command."
 msgstr ""
-"非対話式でインストールを実行する場合は、:samp:`weblate migrate --noinput` を"
-"使用してから、:djadmin:`createadmin` コマンドを使用して admin ユーザーを作成"
-"します。"
+"コマンドでインストールをするには、:samp:`weblate migrate --noinput` "
+"を使用してから、:djadmin:`createadmin` コマンドを使用して admin "
+"ユーザーを作成します。"
 
 #: ../../admin/install.rst:746
 msgid ""
@@ -10730,23 +10732,22 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
-"本番環境のセットアップでは、以下のセクションで説明する設定が必要です。最重要"
-"の設定では警告が発生します。スーパーユーザーとしてサインインしている場合、上"
-"部バーに感嘆符で警告:"
+"本番環境のセットアップでは、次のセクションで説明する設定の調整が必要です。最"
+"重要の設定時に、スーパーユーザーとしてサインインしている場合、上部バーに感嘆"
+"符で警告が表示されます。警告表示例:"
 
 #: ../../admin/install.rst:766
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
-msgstr ""
-"また、Django によって起動された検査項目を確認することも推奨します（すべてを修"
-"正する必要はないかもしれない）:"
+msgstr "また、Django により実行された検査項目の確認も推奨します（すべての修正は必要は"
+"ないかもしれない）。検査を確認するコマンド:"
 
 #: ../../admin/install.rst:773
 msgid ""
 "You can also review the very same checklist from the :ref:`management-"
 "interface`."
-msgstr ":ref:`management-interface` からも、ほぼ同じな検査項目を確認できます。"
+msgstr ":ref:`management-interface` からも、ほぼ同じ検査項目を確認できます。"
 
 #: ../../admin/install.rst:777
 msgid ":doc:`django:howto/deployment/checklist`"
@@ -10754,7 +10755,7 @@ msgstr ":doc:`django:howto/deployment/checklist`"
 
 #: ../../admin/install.rst:782
 msgid "Disable debug mode"
-msgstr "デバッグ モードの無効"
+msgstr "デバッグ モードの無効化"
 
 #: ../../admin/install.rst:784
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
@@ -10775,7 +10776,7 @@ msgstr ":ref:`configuration`"
 
 #: ../../admin/install.rst:800
 msgid "Properly configure admins"
-msgstr "管理者の適切な設定"
+msgstr "適切な管理者の設定"
 
 #: ../../admin/install.rst:802
 msgid ""
@@ -10784,11 +10785,11 @@ msgid ""
 "example:"
 msgstr ""
 "適切な管理者のメールアドレスを :setting:`ADMINS` に設定します。サーバーで問題"
-"が発生した場合に誰がメールを受信するかを設定します。次のように:"
+"が発生した場合に誰がメールを受信するかを設定します。設定例:"
 
 #: ../../admin/install.rst:816
 msgid "Set correct site domain"
-msgstr "正確なサイトのドメイン設定"
+msgstr "サイトの正確なドメイン設定"
 
 #: ../../admin/install.rst:818
 msgid ""
@@ -10796,9 +10797,9 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
-"管理画面からサイト名とドメインを設定してください。設定がされていなければ、"
-"RSS のリンクまたは登録したメールは機能しません。これは、サイトのドメイン名を"
-"含めて :setting:`SITE_DOMAIN` から設定します。"
+"管理画面からサイト名とドメインを設定してください。未設定の場合は、RSS "
+"のリンクまたは登録したメールは機能しません。これは、"
+"サイトのドメイン名を含めて :setting:`SITE_DOMAIN` から設定します。"
 
 #: ../../admin/install.rst:824
 msgid ""
@@ -10818,7 +10819,7 @@ msgstr ""
 
 #: ../../admin/install.rst:838
 msgid "Correctly configure HTTPS"
-msgstr "HTTPS を正確に構成する"
+msgstr "HTTPS の正しい設定"
 
 #: ../../admin/install.rst:840
 msgid ""
@@ -10826,16 +10827,17 @@ msgid ""
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
-"暗号化された HTTPS プロトコルを使用して Webrate を実行することを強く推奨しま"
-"す。有効にした後に :setting:`ENABLE_HTTPS` に設定が必要:"
+"暗号化された HTTPS プロトコルを使用して Webrate "
+"を実行することを強く推奨します。有効にしたら、設定画面から "
+":setting:`ENABLE_HTTPS` を設定してください。設定例:"
 
 #: ../../admin/install.rst:849
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
-"HSTS も設定すべきです。詳細については、:ref:`django:security-recommendation-"
-"ssl` を確認してください。"
+"HSTS も設定してください。詳細については、:ref:`django:security-"
+"recommendation-ssl` を確認してください。"
 
 #: ../../admin/install.rst:854
 msgid ""
@@ -10845,7 +10847,7 @@ msgstr ""
 
 #: ../../admin/install.rst:860
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr "SECURE_HSTS_SECONDS を適切に設定"
+msgstr "SECURE_HSTS_SECONDS の適切な設定"
 
 #: ../../admin/install.rst:862
 msgid ""
@@ -10853,9 +10855,10 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
-"サイトを SSL で提供している場合、HTTP Strict Transport Security を有効にする"
-"には、:file:`settings.py` 内の :setting:`django:SECURE_HSTS_SECONDS` の値を設"
-"定する検討が必要です。以下のように、デフォルトでは 0 に設定されています。"
+"サイトを SSL で提供している場合、HTTP Strict Transport Security "
+"を有効にするには、:file:`settings.py` 内の "
+":setting:`django:SECURE_HSTS_SECONDS` "
+"の値を設定してください。デフォルトでは以下のように、 0 に設定されています。"
 
 #: ../../admin/install.rst:870
 msgid ""
@@ -10864,8 +10867,8 @@ msgid ""
 "security` header on all responses that do not already have it."
 msgstr ""
 "ゼロ以外の整数値に設定すると、:class:`django:django.middleware.security."
-"SecurityMiddleware` は、:ref:`django:http-strict-transport-security` ヘッダー"
-"をまだ持たないすべてのレスポンスに設定します。"
+"SecurityMiddleware` は、:ref:`django:http-strict-transport-security` "
+"ヘッダーがまだないすべてのレスポンスに設定します。"
 
 #: ../../admin/install.rst:875
 msgid ""
@@ -10884,8 +10887,7 @@ msgstr "強力なデータベース エンジンの使用"
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
-msgstr ""
-"本番環境では PostgreSQL を使用してください。詳しいことは、:ref:`database-"
+msgstr "本番環境では PostgreSQL を使用してください。詳細については、:ref:`database-"
 "setup` を確認してください。"
 
 #: ../../admin/install.rst:886
@@ -10893,8 +10895,8 @@ msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
-"データベース サーバーは、隣接するロケーションに設置してください。そうしなけれ"
-"ば、ネットワークのパフォーマンスや信頼性が原因で、Weblate "
+"データベース サーバーは、近くのロケーションに設置してください。そうしなければ"
+"、ネットワークのパフォーマンスや信頼性が原因で、Weblate "
 "が使用できなくなることがあります。"
 
 #: ../../admin/install.rst:888
@@ -10903,7 +10905,7 @@ msgid ""
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
 "例えば `PGTune <https://pgtune.leopard.in.ua/>`_ を使用して、データベース "
-"サーバーのパフォーマンスをチェックしたり、設定を調整してください。"
+"サーバーの性能の検査をしたり、設定を調整してください。"
 
 #: ../../admin/install.rst:893
 msgid ""
