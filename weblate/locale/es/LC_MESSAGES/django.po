@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-03-10 09:57+0000\n"
+"PO-Revision-Date: 2022-03-10 17:15+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -7205,23 +7205,25 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"No es posible restablecer la contraseña porque en %(site_title)s no hay "
+"ninguna cuenta registrada con esta dirección de correo."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Cerciórese de que esta instalación de Weblate es la que ha utilizado. Revise "
+"asimismo la dirección de correo que ha utilizado al darse de alta."
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
-#| "a>"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"Puede traducir en <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+"Puede que se haya registrado en <a href=\"%(registration_hint)s\""
+">%(registration_hint)s</a>."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7254,6 +7256,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Para compartir ideas e inquietudes, utilice el %(link_start)ssistema de "
+"seguimiento de problemas de Weblate%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:24
 msgid "Report"
@@ -8793,6 +8797,9 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
+"No se preocupe de estropear las cadenas. Este proceso consta de dos etapas y "
+"obtendrá una previsualización de las cadenas modificadas antes de confirmar "
+"el cambio en sí."
 
 #: weblate/templates/snippets/sort-field.html:10
 #: weblate/templates/snippets/sort-field.html:14
@@ -9208,7 +9215,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "You might want to use following URL instead:"
-msgstr ""
+msgstr "Tal vez prefiera utilizar este URL:"
 
 #: weblate/templates/trans/alert/pushfailure.html:18
 msgid ""
@@ -9560,7 +9567,7 @@ msgstr "Esto quitará el acceso de <b>%(user)s</b> a este proyecto."
 #: weblate/templates/trans/project-access-row.html:69
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr ""
+msgstr "Editar membresía en equipos de %(username)s"
 
 #: weblate/templates/trans/project-access-row.html:87
 msgid "Resend invitation"
@@ -10890,7 +10897,7 @@ msgstr "Nombre de usuario del autor"
 
 #: weblate/trans/forms.py:2433
 msgid "Expiry cannot be in the past!"
-msgstr ""
+msgstr "La caducidad no puede haber ocurrido ya."
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
