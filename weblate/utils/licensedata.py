@@ -208,6 +208,7 @@ LICENSES = (
         "https://spdx.org/licenses/AAL.html",
         True,
     ),
+    ("Baekmuk", "Baekmuk License", "https://spdx.org/licenses/Baekmuk.html", False),
     ("Bahyph", "Bahyph License", "https://spdx.org/licenses/Bahyph.html", False),
     ("Barr", "Barr License", "https://spdx.org/licenses/Barr.html", False),
     ("Beerware", "Beerware License", "https://spdx.org/licenses/Beerware.html", True),
