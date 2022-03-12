@@ -236,7 +236,7 @@ GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN")
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME")
 GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN")
 
-# GitLab username and token for sending merge requests.
+# Gitea username and token for sending pull requests.
 # Please see the documentation for more details.
 GITEA_USERNAME = os.environ.get("WEBLATE_GITEA_USERNAME")
 GITEA_TOKEN = os.environ.get("WEBLATE_GITEA_TOKEN")
