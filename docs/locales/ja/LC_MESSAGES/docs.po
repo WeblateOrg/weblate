@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-11 20:38+0000\n"
+"PO-Revision-Date: 2022-03-14 13:58+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -3016,8 +3016,8 @@ msgid ""
 msgstr ""
 "VCS のアップストリーム ソースが変更されたときに翻訳ファイルを更新するために使"
 "用できます。これを実現するには、 Weblate は VCS にコミットされたファイルだけ"
-"を確認するので、スクリプトの一部として変更をコミットする必要があることに注意"
-"してください。"
+"を確認するので、スクリプトの一部として変更をコミットすることが必要であること"
+"に注意してください。"
 
 #: ../../admin/addons.rst:879
 msgid "For example with Gulp you can do it using following code:"
@@ -3430,9 +3430,8 @@ msgstr "GitHub 認証"
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
-msgstr ""
-"GitHub 上で OAuth アプリケーションの登録が必要です。Weblate にすべての秘密鍵"
-"を設定する方法:"
+msgstr "GitHub 上で OAuthアプリケーションを登録し、Weblate "
+"にすべての秘密鍵を設定することが必要です。秘密鍵の設定例:"
 
 #: ../../admin/auth.rst:112
 msgid ""
@@ -3464,9 +3463,8 @@ msgstr "Bitbucket 認証"
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
-msgstr ""
-"アプリケーションを Bitbucket に登録することが必要です。Weblate にすべての秘密"
-"鍵を設定する方法:"
+msgstr "アプリケーションを Bitbucket に登録し、Weblate "
+"にすべての秘密鍵を設定することが必要です。秘密鍵の設定例:"
 
 #: ../../admin/auth.rst:146
 msgid ":doc:`psa:backends/bitbucket`"
@@ -3506,7 +3504,8 @@ msgid ""
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
 "一般的な OAuth 2 サービスと同じように、Facebook にアプリケーションを登録する"
-"ことが必要です。そのあとに必要な、Webrate の設定方法:"
+"ことが必要です。登録後に、Weblateを設定して使用できます。Facebook "
+"への登録例と Weblate の設定例:"
 
 #: ../../admin/auth.rst:185
 msgid ""
@@ -3528,8 +3527,8 @@ msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
-"GitLab OAuth 2 を使用するには、<https://gitlab.com/profile/applications> にア"
-"プリケーションを登録することが必要です。"
+"GitLab OAuth 2 を使用するには、<https://gitlab.com/profile/applications> "
+"にアプリケーションを必ず登録してください。"
 
 #: ../../admin/auth.rst:216
 msgid ""
@@ -3576,8 +3575,8 @@ msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
-"Slack OAuth 2 を使用するには、<https://api.slack.com/apps> にアプリケーション"
-"を登録することが必要です。"
+"Slack OAuth 2 を使用するには、<https://api.slack.com/apps> "
+"にアプリケーションを必ず登録してください。"
 
 #: ../../admin/auth.rst:299
 msgid ""
@@ -3844,12 +3843,12 @@ msgid ""
 "djadmin:`createadmin`)."
 msgstr ""
 ":setting:`django:AUTHENTICATION_BACKENDS` の設定から ``'social_core.backends."
-"email.EmailAuth'`` を削除することが必要です。そうしないと、ユーザーは "
-"Weblate でパスワードを設定して使用すると認証できてしまいます。匿名ユーザーが"
-"簡単にログインできるアクセス権を作成するには、``'weblate.accounts.auth."
-"WeblateUserBackend'`` の設定を維持することが必要です。ローカル管理者アカウン"
-"トが作成されている場合は、ローカル管理者アカウントを使用してサインインするこ"
-"ともできます（例: :djadmin:`createadmin`）。"
+"email.EmailAuth'`` を削除してください。削除しなければ、ユーザーは Weblate で"
+"パスワードを設定すると認証できてしまいます。匿名ユーザーが簡単にログインでき"
+"るアクセス権を作成するには、``'weblate.accounts.auth.WeblateUserBackend'`` の"
+"設定を維持することが必要です。ローカル管理者アカウントが作成されている場合は"
+"、ローカル管理者アカウントを使用してサインインすることもできます（例: "
+":djadmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:541
 msgid "Using bind password"
@@ -3859,9 +3858,8 @@ msgstr "バインド パスワードの使用"
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
-msgstr ""
-"認証に直接バインドを使用できない場合は、検索を使用し、検索にバインドするユー"
-"ザーを指定してください。設定例:"
+msgstr "認証に直接バインドを使用できない場合は、検索を使用し、検索にバインドするユー"
+"ザーを指定してください。ユーザーを指定する設定例:"
 
 #: ../../admin/auth.rst:558
 msgid "Active Directory integration"
@@ -4058,9 +4056,9 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"Weblate のインスタンスをバックアップする最も簡単な方法は、`weblate.org のバッ"
-"クアップサービス <https://weblate.org/support/#backup>`_ を購入することです。"
-"導入方法:"
+"Weblate のインスタンスをバックアップする最も簡単な方法は、`weblate.org "
+"のバックアップサービス <https://weblate.org/support/#backup>`_ "
+"を購入することです。購入してバックアップをする方法:"
 
 #: ../../admin/backup.rst:59
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
@@ -4112,9 +4110,9 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
-"バックアップには、独自のストレージも使用できます。SSH を使用してリモート接続"
-"先にバックアップを保存できます。対象のサーバーには `BorgBackup`_ のインストー"
-"ルが必要です。"
+"バックアップには、独自のストレージも使用できます。SSH "
+"を使用してリモート接続先にバックアップを保存できます。対象のサーバーには "
+"`BorgBackup`_ がインストールされていることが必要となります。"
 
 #: ../../admin/backup.rst:82
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -4131,10 +4129,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
-"ローカルバックアップの絶対パスを、例えば `/path/to/backup` のように指定するこ"
-"とを推奨します。このディレクトリは、Weblate を実行しているユーザーが書き込み"
-"可能であることが必要です（参照: :ref:`file-permissions`）。存在しない場合は、"
-"Weblate が作成を試みますが、そのためには適切なアクセス権が必要です。"
+"ローカルバックアップの絶対パスを、例えば `/path/to/backup` "
+"のように指定することが望ましいです。このディレクトリは、Weblate "
+"を実行しているユーザーに書き込み権限が必要です（参照: :ref:`file-"
+"permissions`）。存在しない場合は、Weblate "
+"が作成を試みますが、そのためには適切なアクセス権が必要です。"
 
 #: ../../admin/backup.rst:94
 msgid ""
@@ -5833,17 +5832,16 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"大規模な導入時に、コンポーネント リストを管理する場合、または導入済みの "
-"Weblate のすべてのコンポーネントを 1 つのコンポーネント リストに統合する場合"
-"に便利です。"
+"大規模なインストール時に、コンポーネント リストを管理する場合、"
+"またはインストール済みの Weblate のすべてのコンポーネントを 1 "
+"つのコンポーネント リストに統合する場合に便利です。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr ""
-"導入済みの Weblate のすべてのコンポーネントを、統合したコンポーネント リスト"
-"を作成します。"
+msgstr "インストール済みの Weblate のすべてのコンポーネントを、"
+"統合したコンポーネント リストを作成します。"
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -7513,9 +7511,9 @@ msgid ""
 "was only possible to configure the API version using "
 "``MT_DEEPL_API_VERSION``."
 msgstr ""
-"無料プランを使用するために、API の完全な URL が設定できるようになりました。以"
-"前は、``MT_DEEPL_API_VERSION`` を使用して API のバージョンを設定することしか"
-"できませんでした。"
+"無料プランを使用するために、API の完全な URL "
+"が設定できるように変更されました。以前は、``MT_DEEPL_API_VERSION`` "
+"を使用して API のバージョンを設定することしかできませんでした。"
 
 #: ../../admin/config.rst:1296
 msgid ""
@@ -8469,9 +8467,8 @@ msgstr ""
 msgid ""
 "The setting now also accepts a project slug, to force displaying that single "
 "project."
-msgstr ""
-"この設定では、単一のプロジェクトを強制的に表示するために、プロジェクトのス"
-"ラッグも受け付けるようになりました。"
+msgstr "この設定では、単一のプロジェクトを強制的に表示するために、プロジェクトのスラ"
+"ッグも受け付けるように変更されました。"
 
 #: ../../admin/config.rst:2022
 msgid "SSH_EXTRA_ARGS"
@@ -8557,8 +8554,8 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
-"この設定を使用するには、この接頭辞を削除してサーバーを設定してください。例え"
-"ば WSGI では、``WSGIScriptAlias`` を設定して実行できます。"
+"この設定を使用するには、この接頭辞を削除してサーバーを設定することが必要です"
+"。例えば WSGI では、``WSGIScriptAlias`` を設定して実行できます。"
 
 #: ../../admin/config.rst:2092
 msgid "The prefix should start with a ``/``."
@@ -9549,9 +9546,8 @@ msgstr "Weblate の構築"
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
-msgstr ""
-"Weblate はクラウドに簡単にインストールできます。使用するプラットフォームの詳"
-"細なガイドを参照する:"
+msgstr "Weblate はクラウドに簡単にインストールできます。使用するプラットフォームの詳"
+"細なガイドを確認してください。詳細なガイド一覧:"
 
 #: ../../admin/deployments.rst:8
 msgid ":doc:`install/docker`"
@@ -9663,11 +9659,11 @@ msgstr "セットアップと経験に応じて、適切なインストール方
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ":doc:`install/docker`、本番環境として推奨。"
+msgstr ":doc:`install/docker`、運用環境として推奨。"
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Virtualenv のインストール、推奨する本番環境:"
+msgstr "Virtualenv のインストール、推奨する運用環境:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -9803,7 +9799,7 @@ msgstr "https://www.django-rest-framework.org/"
 
 #: ../../admin/install.rst:90
 msgid "Optional dependencies"
-msgstr "オプションの依存関係"
+msgstr "オプションとして必要なプログラム"
 
 #: ../../admin/install.rst:92
 msgid ""
@@ -9912,7 +9908,7 @@ msgstr "その他のシステム要件"
 
 #: ../../admin/install.rst:141
 msgid "The following dependencies have to be installed on the system:"
-msgstr "システムにインストールが必要なプログラム:"
+msgstr "システムにインストールされていることが必要なプログラム:"
 
 #: ../../admin/install.rst:143
 msgid "``Git``"
@@ -9979,8 +9975,8 @@ msgid ""
 "distribution packages."
 msgstr ""
 ":ref:`python-deps` の一部をビルドするには、必須のプログラムのインストールが必"
-"要なことがあります。これは、インストールの方法により異るので、個別のパッケー"
-"ジについてのドキュメントを確認してください。 しかし、``pip`` "
+"要となることがあります。これは、インストールの方法により異るので、個別のパッ"
+"ケージについてのドキュメントを確認してください。 しかし、``pip`` "
 "を使用してインストールする場合、ビルド済みの ``Wheels`` "
 "を使用する場合、または配布パッケージを使用する場合には必要ありません。"
 
@@ -9999,7 +9995,7 @@ msgstr ""
 "Weblate は、ビットマップ ウィジェットの表示（参照: "
 ":ref:`promotion`）と、検査結果の表示（参照: :ref:`fonts`）に、Pango と Cairo "
 "を使用します。この Python バインディングを適切にインストールするには、"
-"最初にシステム ライブラリのインストールをしてください。Cairo と Pango "
+"先にシステム ライブラリのインストールをしてください。Cairo と Pango "
 "の両方が必要であり、次に GLib が必要です。これはすべて、開発ファイルと "
 "GObject イントロスペクション データとともにインストールしてください。"
 
@@ -10219,8 +10215,8 @@ msgid ""
 msgstr ""
 "Weblate ユーザーを、PostgreSQL "
 "のスーパーユーザーにしたくない場合は、省略できます。その場合、Weblate "
-"が使用するスキーマの PostgreSQL スーパーユーザーとして、移行手順のいくつかは"
-"手動で実行することになります。実行する移行コマンド:"
+"が使用するスキーマの PostgreSQL スーパーユーザーとして、移行手順の一部を手動"
+"で実行することになります。実行する移行コマンド:"
 
 #: ../../admin/install.rst:381
 msgid "Configuring Weblate to use PostgreSQL"
@@ -10395,7 +10391,7 @@ msgid ""
 msgstr ""
 "Weblate は、さまざまなタイミングでメールを送信します。ー "
 "アカウントの有効化やユーザーが設定した通知など。そのためには、SMTP "
-"サーバーへの接続が必要です。"
+"サーバーへの接続が必要となります。"
 
 #: ../../admin/install.rst:532
 msgid ""
@@ -10625,7 +10621,7 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"すべての本番環境サーバーで無効化します。デバッグ モードを有効にすると、"
+"すべての運用環境サーバーで無効化します。デバッグ モードを有効にすると、"
 "Django "
 "はユーザーにエラーが発生した場合にバックトレースを表示します。無効にすると、"
 "エラーはメールごとに ``ADMINS`` （上記参照）に送信されます。"
@@ -10724,7 +10720,7 @@ msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:758
 msgid "Production setup"
-msgstr "本番環境の設定"
+msgstr "運用環境の設定"
 
 #: ../../admin/install.rst:760
 msgid ""
@@ -10733,9 +10729,9 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
-"本番環境のセットアップでは、次のセクションで説明する設定の調整が必要です。最"
-"重要の設定時に、スーパーユーザーとしてサインインしている場合、上部バーに感嘆"
-"符で警告が表示されます。警告表示例:"
+"運用環境の初期設定では、次のセクションで説明する設定の調整が必要です。最重要"
+"の設定時に、スーパーユーザーとしてサインインしている場合、上部バーに感嘆符で"
+"警告が表示されます。警告表示例:"
 
 #: ../../admin/install.rst:766
 msgid ""
@@ -10768,8 +10764,8 @@ msgid ""
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
 "デバッグ モードを有効にすると、Django は実行したすべてのクエリーを保管し、"
-"ユーザーにエラーのバック トレースを表示しますが、これは本番環境では望ましくあ"
-"りません。"
+"ユーザーにエラーのバック "
+"トレースを表示しますが、これは運用環境では望ましくありません。"
 
 #: ../../admin/install.rst:795 ../../admin/install.rst:811
 msgid ":ref:`configuration`"
@@ -10888,7 +10884,7 @@ msgstr "強力なデータベース エンジンの使用"
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
-msgstr "本番環境では PostgreSQL を使用してください。詳細については、:ref:`database-"
+msgstr "運用環境では PostgreSQL を使用してください。詳細については、:ref:`database-"
 "setup` を確認してください。"
 
 #: ../../admin/install.rst:886
@@ -11361,7 +11357,7 @@ msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
-"サービス間には、いくつかの依存関係があります。例えば、Celery または uwsgi "
+"サービス間には、依存関係があります。例えば、Celery または uwsgi "
 "プロセスの起動時には、キャッシュとデータベース "
 "サーバーが実行されていることが必要です。"
 
@@ -11416,7 +11412,7 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
-"Django の内蔵 Web サーバーは、本番環境では使用しないでください。セキュリティ"
+"Django の内蔵 Web サーバーは、運用環境では使用しないでください。セキュリティ"
 "監査や性能試験を受けていません。 :djadmin:`django:runserver` の Django "
 "ドキュメントも確認してください。"
 
@@ -11428,7 +11424,7 @@ msgid ""
 "ref:`static-files`."
 msgstr ""
 "Django に内蔵された Web サーバーは、開発専用であるため、:setting:`DEBUG` が有"
-"効な場合にのみ静的ファイルが提供されます。本番環境で使用するには、:ref:`uwsgi"
+"効な場合にのみ静的ファイルが提供されます。運用環境で使用するには、:ref:`uwsgi"
 "`、:ref:`apache`、:ref:`apache-gunicorn`、および :ref:`static-files` "
 "の設定を確認してください。"
 
@@ -11451,19 +11447,19 @@ msgid ""
 "files into a directory specified by the :setting:`django:STATIC_ROOT` "
 "setting (this defaults to a ``static`` directory inside :setting:`DATA_DIR`)."
 msgstr ""
-"Django は、静的ファイルを 1 つのディレクトリーに集約することが必要です。実現"
-"には、:samp:`weblate collectstatic --noinput` を実行します。これにより、:"
-"setting:`django:STATIC_ROOT` 設定に指定したディレクトリに静的ファイルがコピー"
-"されます（デフォルトでは、 :setting:`DATA_DIR` 内の ``static`` ディレクト"
-"リ）。"
+"Django では、静的ファイルを 1 "
+"つのディレクトリーに必ず集約してください。実現するには、:samp:`weblate "
+"collectstatic --noinput` "
+"を実行します。これにより、:setting:`django:STATIC_ROOT` "
+"設定に指定したディレクトリに静的ファイルがコピーされます（デフォルトでは、 "
+":setting:`DATA_DIR` 内の ``static`` ディレクトリ）。"
 
 #: ../../admin/install.rst:1306
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
-msgstr ""
-"静的ファイルは、Web サーバーから直接提供することを推奨します。静的ファイルが"
-"必要なパス:"
+msgstr "静的ファイルは、Web "
+"サーバーから直接提供することが望ましいです。静的ファイルが必要となるパス:"
 
 #: ../../admin/install.rst:1310
 msgid ":file:`/static/`"
@@ -11492,8 +11488,7 @@ msgstr ":file:`/favicon.ico`"
 #: ../../admin/install.rst:1315
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
-msgstr ""
-":file:`/static/favicon.ico` を提供するようにルールを書き直すことが必要。"
+msgstr ":file:`/static/favicon.ico` を提供するようにルールを変更してください。"
 
 #: ../../admin/install.rst:1319
 msgid ""
@@ -11543,11 +11538,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"本番環境の WEB サーバーを実行するには、Weblate とセットでインストールされた "
+"運用環境の WEB サーバーを実行するには、Weblate とセットでインストールされた "
 "wsgi ラッパーを使用します（virtual env の場合、:file:`~/weblate-env/lib/"
 "python3.7/site-packages/weblate/wsgi.py` としてインストールされる）。 Python "
-"検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で "
-"``virtualenv = /home/user/weblate-env`` の使用）。"
+"検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で ``"
+"virtualenv = /home/user/weblate-env`` の使用）。"
 
 #: ../../admin/install.rst:1356
 msgid ""
@@ -11579,15 +11574,15 @@ msgstr "Apache の設定例"
 
 #: ../../admin/install.rst:1377 ../../admin/install.rst:1417
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr "Weblate で WSGI を使用する場合は、prefork MPM の使用を推奨します。"
+msgstr "Weblate で WSGI を使用する場合は、prefork MPM を使用することが望ましいです。"
 
 #: ../../admin/install.rst:1379
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
-"次は、Weblate を WSGI として実行する設定方法。``mod_wsgi`` を有効にすること"
-"（:file:`weblate/examples/apache.conf` にて設定可能）:"
+"Weblate を WSGI として実行する設定例。``mod_wsgi`` の有効化が必須（:file:`"
+"weblate/examples/apache.conf` にて設定可能）:"
 
 #: ../../admin/install.rst:1387
 msgid ""
@@ -11595,9 +11590,9 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
-"Weblate には Python3 が必要なので、modwsgi で Python 3 variant が実行されてい"
-"ることを確認してください。通常、``libapache2-mod-wsgi-py3`` のように、個別の"
-"パッケージとして入手できます。"
+"Weblate には Python3 が必要なので、modwsgi で Python 3 variant "
+"が実行されていることを確認してください。通常は、``libapache2-mod-wsgi-py3`` "
+"のように、別のパッケージとして提供されています。"
 
 #: ../../admin/install.rst:1393
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
@@ -11613,8 +11608,8 @@ msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
-"次の設定は、Gunicorn および Apache 2.4 で Weblate を実行する方法（:file:"
-"`weblate/examples/apache.gunicorn.conf` に設定可能）:"
+"Gunicorn および Apache 2.4 で Weblate を実行する設定例（:file:`weblate/"
+"examples/apache.gunicorn.conf` に設定可能）:"
 
 #: ../../admin/install.rst:1409
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -11649,9 +11644,8 @@ msgid ""
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
 "Weblate は Celery を使用して、通常のタスクとバックグラウンド "
-"タスクを実行します。タスクを実行する Celery "
-"サービスを実行することが必要です。 Celery "
-"で動作する処理（このリストは完全ではありません）:"
+"タスクを実行します。タスクを実行する Celery サービスを実行してください。 "
+"Celery で動作する処理の例（このリストは完全ではありません）:"
 
 #: ../../admin/install.rst:1442
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
@@ -11676,7 +11670,7 @@ msgstr "ダイジェスト通知の送信。"
 
 #: ../../admin/install.rst:1447
 msgid "Offloading expensive operations from the wsgi process."
-msgstr "wsgi プロセスから負荷の高い操作をオフロードします。"
+msgstr "wsgi プロセスから負荷の高い操作をオフロードさせる。"
 
 #: ../../admin/install.rst:1448
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -11710,9 +11704,9 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
-"Celery プロセスは、WSGI プロセスと同じユーザーとして実行することが必要です。"
-"異なると、:setting:`DATA_DIR` 内のファイルの所有権は混在した状態で保存され、"
-"実行時に問題が発生します。"
+"Celery プロセスは、WSGI プロセスと同じユーザーとして実行させてください。もし"
+"異なると、:setting:`DATA_DIR` "
+"内のファイルの所有権は混在した状態で保存され、実行時に問題が発生します。"
 
 #: ../../admin/install.rst:1477
 msgid "See also :ref:`file-permissions` and :ref:`server`."
@@ -11736,7 +11730,8 @@ msgstr ""
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
-msgstr "開発で使用できる、すべてのタスクを適切に処理する Eager の設定例:"
+msgstr "開発時には、すべてのタスクを適切に処理する Eager を設定してください。Eager "
+"設定例:"
 
 #: ../../admin/install.rst:1498
 msgid "Running Celery as system service"
@@ -11749,10 +11744,10 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
-"多くの場合、Celery をデーモンとして実行しますが、これは :doc:`celery:"
-"userguide/daemonizing` でカバーされます。systemd を使用した最も一般的な "
-"Linux の設定では、次に示す :file:`examples` フォルダに付属のサンプル ファイル"
-"を使用できます。"
+"多くの場合、Celery をデーモンとして実行したいですが、これは :doc:`celery:"
+"userguide/daemonizing` に含まれます。systemd を使用した最も一般的な Linux "
+"の設定では、次に示す :file:`examples` フォルダに付属にあるサンプル "
+"ファイルを使用できます。"
 
 #: ../../admin/install.rst:1505
 msgid ""
@@ -11766,15 +11761,15 @@ msgstr ""
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
-msgstr ":file:`/etc/default/celery-weblate` に記述する環境の設定方法:"
+msgstr ":file:`/etc/default/celery-weblate` に記述する環境設定の記述例:"
 
 #: ../../admin/install.rst:1515
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
-":file:`/etc/logrotate.d/celery` にある Celery ログを :command:`logrotate` を"
-"使用してローテーションするための追加の設定方法:"
+":file:`/etc/logrotate.d/celery` にある Celery ログを :command:`logrotate` "
+"を使用してローテーションするための追加設定の記述例:"
 
 #: ../../admin/install.rst:1522
 msgid "Periodic tasks using Celery beat"
@@ -11822,8 +11817,8 @@ msgid ""
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
 "デフォルトでは、Celery エラーは Celery ログにのみ記録され、ユーザーには表示さ"
-"れません。このような障害の概要を知りたいときは、:ref:`collecting-errors` の設"
-"定を推奨します。"
+"れません。このような障害の概要を知りたいときは、:ref:`collecting-errors` "
+"の設定をしてください。"
 
 #: ../../admin/install.rst:1547
 msgid ""
@@ -11872,11 +11867,11 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
-"Weblate は、他のソフトウェアと同じように失敗することがあります。有用な障害状"
-"態を収集するには、サードパーティのサービスを使用して、そのような情報を収集す"
-"ることを推奨します。これは、Celery タスクが失敗した場合にとても便利です。失敗"
-"した場合、ログにエラーが報告されるだけで、ログには通知されません。Weblate が"
-"対応するサービス:"
+"Weblate は、他のソフトウェアと同じようにエラーが発生することがあります。有用"
+"な障害状態を収集するには、サードパーティのサービスを使用して、そのような情報"
+"を収集してください。これは、Celery タスクが失敗した場合にとても便利です。失敗"
+"した場合、ログにエラーが報告されるだけで、メールで通知はされません。Weblate "
+"が対応するログ サービス:"
 
 #: ../../admin/install.rst:1578
 msgid "Sentry"
@@ -11907,14 +11902,13 @@ msgstr ""
 
 #: ../../admin/install.rst:1593
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr "つまり、:file:`settings.py` に設定が必要:"
+msgstr "つまり、:file:`settings.py` に必要な設定:"
 
 #: ../../admin/install.rst:1612
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
-msgstr ""
-"他のすべてが自動的に統合して、サーバー側とクライアント側の両方のエラーを収集"
+msgstr "他のすべてを自動的に統合して、サーバー側とクライアント側の両方のエラーを収集"
 "します。"
 
 #: ../../admin/install.rst:1621
@@ -11927,9 +11921,9 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
-"Weblate を別のサーバーに移行するのは非常に簡単ですが、慎重に移行することが必"
-"要な少数の場所にデータが保存されています。最適な方法は、移行のために Weblate "
-"を停止することです。"
+"Weblate を別のサーバーに移行するのは非常に簡単です。しかし、複数の場所にデー"
+"タを保存しているので、慎重に移行してください。最良の方法は、移行のために "
+"Weblate を停止することです。"
 
 #: ../../admin/install.rst:1628
 msgid "Migrating database"
@@ -11954,10 +11948,11 @@ msgid ""
 "want to migrate between different databases, the only option might be to use "
 "Django management to dump and import the database:"
 msgstr ""
-"最良の方法は、データベースの標準機能を使用することです。これらは通常、最も効"
-"果的です（例: :command:`mysqldump`もしくは :command:`pg_dump`）。異なるデータ"
-"ベース間で移行する場合の、Django 管理を使用してデータベースのダンプとインポー"
-"トを行う唯一の方法:"
+"最良の方法は、データベースの標準機能を使用することです。通常、これは最も効果"
+"的です（例: :command:`mysqldump`もしくは "
+":command:`pg_dump`）。異なるデータベース間で移行する場合は、Django 管理からデ"
+"ータベースをダンプおよびインポートすることが唯一の方法です。ダンプとインポー"
+"トするコマンド例:"
 
 #: ../../admin/install.rst:1648
 msgid "Migrating VCS repositories"
@@ -11969,9 +11964,9 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
-":setting:`DATA_DIR` に保存されている VCS リポジトリーも移行することが必要で"
-"す。これをコピーするか、または :command:`rsync` コマンドを使用して、より効率"
-"的に移行できます。"
+":setting:`DATA_DIR` に保存されている VCS "
+"リポジトリーも必ず移行してください。単純にコピーすることも、:command:`rsync` "
+"コマンドを使用して、より効率的に移行することもできます。"
 
 #: ../../admin/install.rst:1655
 msgid "Other notes"
@@ -11987,7 +11982,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
-msgstr "Docker を使用したインストール"
+msgstr "Docker を使用するインストール"
 
 #: ../../admin/install/docker.rst:4
 msgid ""
@@ -11997,7 +11992,7 @@ msgid ""
 msgstr ""
 "Docker 化された Weblate デプロイでは、数秒で個人の Weblate "
 "インスタンスを起動して実行できます。Weblate "
-"の依存関係はすべて含まれています。PostgreSQL が、デフォルト "
+"が必要なプログラムすべて含まれています。PostgreSQL が、デフォルト "
 "データベースとして設定されています。"
 
 #: ../../admin/install/steps/hw.rst:2
@@ -12012,11 +12007,11 @@ msgid ""
 msgstr ""
 "Weblate は、最新のハードウェアであれば問題なく動作します。以下は、Weblate "
 "を単一のホスト（Weblate、データベース、Web "
-"サーバー）で動作させるために必要な最小限の構成です。"
+"サーバー）で動作させるために必要な最小限の構成:"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
-msgstr "2GBのRAM"
+msgstr "2 GB の RAM"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -12041,7 +12036,7 @@ msgid ""
 msgstr ""
 "同時使用者が多い場合、必要な CPU "
 "コアの数が増えます。数百の翻訳コンポーネントを使用する場合は、少なくとも 4 "
-"GBの RAM が必要です。"
+"GB の RAM が必要です。"
 
 #: ../../admin/install/steps/hw.rst:19
 msgid ""
@@ -12049,9 +12044,10 @@ msgid ""
 "words. Storage space needed for cloned repositories varies, but Weblate "
 "tries to keep their size minimal by doing shallow clones."
 msgstr ""
-"データベース ストレージの一般的な使用量は、100 万語のホスト ワードあたり約 "
-"300 MB です。クローン リポジトリに必要なストレージ スペースはさまざまですが、"
-"Weblate は、シャロー クローンを実行してサイズを最小限に抑えようとします。"
+"一般的なデータベース ストレージの使用量は、ホストサーバーで管理する 100 "
+"万語の単語につき約 300 MB 必要です。リポジトリのクローンに必要なストレージ "
+"スペースはさまざまですが、Weblate は、シャロー "
+"クローンを実行してサイズを最小限に抑える努力をします。"
 
 #: ../../admin/install/steps/hw.rst:25
 msgid ""
@@ -12067,7 +12063,7 @@ msgstr "実際に必要な Weblate のインストールの要件は、Weblate "
 #: ../../admin/optionals.rst:134 ../../../README.rst:46 ../../python.rst:11
 #: ../../wlc.rst:18
 msgid "Installation"
-msgstr "導入"
+msgstr "インストール"
 
 #: ../../admin/install/docker.rst:15
 msgid ""
@@ -12075,32 +12071,43 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"次の例は、``docker-compose`` がインストール済みの Docker "
+"環境が動作していることを前提としています。手順については、Docker "
+"のドキュメントを確認してください。"
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "weblate-docker リポジトリのクローンの作成:"
 
 #: ../../admin/install/docker.rst:25
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"設定した内容で :file:`docker-compose.override.yml` "
+"ファイルを作成する（環境変数の完全なリストについては、:ref:'docker-"
+"environment' を確認すること）:"
 
 #: ../../admin/install/docker.rst:47
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD` が設定されていない場合は、最初の起動時に表示"
+"されるランダムなパスワードで、管理者ユーザーのアカウントが作成されます。"
 
 #: ../../admin/install/docker.rst:50
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"この例では、ポート 80 で Weblate をリッスンします。変更する場合は、:file"
+":`docker-compose.override.yml` ファイルのポート "
+"マッピングを編集してください。"
 
 #: ../../admin/install/docker.rst:53
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Weblate コンテナを起動する:"
 
 #: ../../admin/install/docker.rst:59
 msgid ""
@@ -13794,13 +13801,14 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
-msgstr ""
+msgstr "Kubernetes へのインストール"
 
 #: ../../admin/install/kubernetes.rst:6
 msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
-msgstr ""
+msgstr "このガイドでは、Kubernetes "
+"の経験豊富な貢献者を募集して、初期設定の詳細を説明します。"
 
 #: ../../admin/install/kubernetes.rst:9
 msgid ""
@@ -13809,22 +13817,30 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Kubernetes Helm グラフを使用すると、数秒で個人用 Weblate "
+"インスタンスを起動して実行できます。Weblate "
+"に必要なプログラムは、すべて含まれています。PostgreSQL "
+"がデフォルトのデータベースとして設定され、PERSISTENT VOLUME "
+"CLAIM（永続ボリューム要求、PVC）が使用されます。"
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
 "You can find the chart at <https://github.com/WeblateOrg/helm/> and it can "
 "be displayed at <https://artifacthub.io/packages/helm/weblate/weblate>."
 msgstr ""
+"チャートは <https://github.com/WeblateOrg/helm/> にあり、<https://artifacthub"
+".io/packages/helm/weblate/weblate> で表示できます。"
 
 #: ../../admin/install/kubernetes.rst:28
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
-msgstr ""
+msgstr "その他の設定オプションについては、環境変数の完全なリスト :ref:`docker-"
+"environment` を確認してください。"
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "OpenShift へのインストール"
 
 #: ../../admin/install/openshift.rst:4
 msgid ""
@@ -13833,11 +13849,16 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"OpenShift 用の Weblate テンプレートを使用すると、数秒で個人用 Weblate "
+"インスタンスを起動して実行できます。Weblate "
+"に必要なプログラムは、すでにすべて含まれています。PostgreSQL "
+"がデフォルトのデータベースとして設定され、PERSISTENT VOLUME "
+"CLAIM（永続ボリューム要求、PVC）が使用されます。"
 
 #: ../../admin/install/openshift.rst:9
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
-msgstr ""
+msgstr "テンプレートは <https://github.com/WeblateOrg/openshift/> にあります。"
 
 #: ../../admin/install/openshift.rst:14
 msgid ""
@@ -13845,6 +13866,9 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"以下の例は、``oc`` クライアント ツールをインストールした OpenShift v3.x "
+"環境が動作していることを前提としています。手順については、OpenShift "
+"のマニュアルを参照してください。"
 
 #: ../../admin/install/openshift.rst:18
 msgid ""
@@ -13852,10 +13876,14 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+":file:`template.yml` は、OpenShift "
+"ですべてのコンポーネントを実行することに適しています。また、PostgreSQL "
+"サーバーを起動させず、外部 PostgreSQL サーバーを設定できる :file:`template-"
+"external-postgresql.yml` もあります。"
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
-msgstr ""
+msgstr "Web コンソール"
 
 #: ../../admin/install/openshift.rst:25
 msgid ""
@@ -13865,21 +13893,30 @@ msgid ""
 "application. The web console will prompt you for the values for all of the "
 "parameters used by the template."
 msgstr ""
+"`template.yml <https://github.com/WeblateOrg/openshift/blob/main/template."
+"yml>`_ から、生の情報をコピーし、プロジェクトにインポートしてから、OpenShift "
+"の Web コンソールの ``作成`` ボタンを押してアプリケーションを作成します。Web "
+"コンソールは、テンプレートで使用する、すべてのパラメーターの値を設定するよう"
+"に要求してきます。"
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../../admin/install/openshift.rst:34
 msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Weblate テンプレートを、現在のプロジェクトのテンプレート "
+"ライブラリにアップロードします。 :file:`template.yml` "
+"ファイルをアップロードするコマンド:"
 
 #: ../../admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
-msgstr ""
+msgstr "これで、Web コンソールまたは CLI "
+"を使用して、テンプレートを選択できるように変更されました。"
 
 #: ../../admin/install/openshift.rst:46 ../../api.rst:0
 #: ../../../weblate/addons/base.py:docstring of
@@ -13893,6 +13930,9 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
+"上書きされるパラメータは、テンプレートの parameters "
+"セクションに記載されています。CLI "
+"で以下のコマンドを実行して、使用するファイルを指定して一覧表示させます。"
 
 #: ../../admin/install/openshift.rst:60
 msgid "Provisioning"
@@ -13902,13 +13942,15 @@ msgstr "プロビジョニング"
 msgid ""
 "You can also use the CLI to process templates and use the configuration that "
 "is generated to create objects immediately."
-msgstr ""
+msgstr "また、CLI を使用してテンプレートを処理し、生成された設定を使用してオブジェク"
+"トをすぐに作成できます。"
 
 #: ../../admin/install/openshift.rst:75
 msgid ""
 "The Weblate instance should be available after successful migration and "
 "deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
-msgstr ""
+msgstr "Weblate インスタンスは、指定した WebLATE_SITE_DOMAIN "
+"パラメータで、移行とデプロイを成功させた後に使用可能です。"
 
 #: ../../admin/install/openshift.rst:78
 msgid ""
@@ -13916,16 +13958,21 @@ msgid ""
 "provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
 "first start if that was not set."
 msgstr ""
+"コンテナの設定後、``WEBLATE_ADMIN_PASSWORD`` に入力したパスワードを使用して "
+"`管理者` ユーザーとしてサインインするか、設定していない場合は、最初の起動時に"
+"ランダムなパスワードを生成できます。"
 
 #: ../../admin/install/openshift.rst:82
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
 msgstr ""
+"`管理者` パスワードを初期化するには、``WEBLATE_ADMIN_PASSWORD`` がそれぞれの "
+"``Secret`` で新しいパスワードに設定したコンテナを再起動します。"
 
 #: ../../admin/install/openshift.rst:86
 msgid "Eliminate"
-msgstr "削除方法"
+msgstr "削除"
 
 #: ../../admin/install/openshift.rst:104
 msgid ""
@@ -13935,6 +13982,11 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
+"テンプレートを処理することにより、それぞれの ``ConfigMap`` が作成され、"
+"Weblate イメージのカスタマイズするために使用できます。``ConfigMap`` は環境変"
+"数として直接マウントされ、変更するたびに新しいデプロイが起動されます。その他"
+"の設定オプションについては、環境変数の完全なリスト :ref:`docker-environment` "
+"を確認してください。"
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
@@ -13960,9 +14012,8 @@ msgstr ":doc:`venv-redhat`"
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
-msgstr ""
-"Git で最新の Weblate のソースを取得（または tarball をダウンロードして解凍）"
-"する方法:"
+msgstr "Git で最新の Weblate のソースを取得（または tarball "
+"をダウンロードして解凍）する:"
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -13970,13 +14021,13 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
-"または、リリースしたアーカイブも使用できます。Web サイト <https://weblate."
-"org/> からダウンロードできます。ダウンロード ファイルは暗号化し署名されていま"
-"す。:ref:`verify` を確認してください。"
+"あるいは、リリースしたアーカイブを使用します。Web サイト <https://weblate."
+"org/> からダウンロードできます。ダウンロード "
+"ファイルは暗号化し署名されています。:ref:`verify` を確認してください。"
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr "現在の Weblate コードを virtualenv にインストールする方法:"
+msgstr "現在の Weblate コードを virtualenv にインストールする:"
 
 #: ../../admin/install/source.rst:28
 msgid ""
@@ -13992,22 +14043,21 @@ msgid ""
 "key, but you will want more changes for production setup, see :ref:"
 "`configuration`."
 msgstr ""
-"新しい :file:`settings.py` ファイルの値を、必要に応じて変更してください。少な"
-"くともデータベースの資格情報と Django 秘密鍵の設定が必要ですが、本番環境の"
-"セットアップには、さらに多くの変更が必要です。参照: :ref:`configuration`。"
+"新しい :file:`settings.py` ファイルの設定値を、必要に応じて変更する。"
+"少なくともデータベースの資格情報と Django 秘密鍵の設定が必要ですが、運用環境"
+"の初期設定には、さらに多くの変更が必要です。参照: :ref:`configuration`。"
 
 #: ../../admin/install/source.rst:33
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
-msgstr ""
-"Weblate が使用するデータベースを作成します。参照: :ref:`database-setup`。"
+msgstr "Weblate が使用するデータベースを作成する。参照: :ref:`database-setup`。"
 
 #: ../../admin/install/source.rst:35
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
-"Django テーブル、静的ファイル、初期データのビルド（参照: :ref:`tables-setup` "
-"および :ref:`static-files`）の方法:"
+"Django テーブル、静的ファイル、初期データをビルドする（参照: :ref:`tables-"
+"setup` および :ref:`static-files`）。実行コマンド例:"
 
 #: ../../admin/install/source.rst:46
 msgid "This step should be repeated whenever you update the repository."
@@ -14015,23 +14065,25 @@ msgstr "この手順は、リポジトリを更新するたびに繰り返すこ
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "Debian と Ubuntu にインストール"
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "システム要件"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
 msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
-msgstr ""
+msgstr "Python モジュールのビルドに必要なプログラムをインストールする（参照: "
+":ref:`requirements`）:"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`optional-deps`):"
-msgstr ""
+msgstr "使用する機能に応じて、必要なオプションに必須のプログラムをインストールする（"
+"参照: :ref:`optional-deps`）:"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -14039,14 +14091,18 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
+"必要に応じて、運用サーバーを実行するためのソフトウェアをインストールします（"
+"参照: :ref:`server`、:ref:`database-setup`、:ref:`celery`）。インストールの規"
+"模によっては、これらのコンポーネントを専用サーバーで実行することが必要となり"
+"ます。"
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "ローカルへのインストール手順:"
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Python モジュール"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -14054,23 +14110,27 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"Weblate を、現在とは別のシステム環境にインストールするために、virtualenv "
+"を使用します。使い慣れていない場合は、virtualenv "
+":doc:`venv:user_guide`を確認してください。"
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Weblate 用の virtualenv を作成する:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Weblate 用 の virtualenv を有効にする:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
+msgstr "オプションの必要なプログラムも含めて Weblate をインストールする:"
 
 #: ../../admin/install/steps/install-python.rst:28
 msgid ""
 "Please check :ref:`optional-deps` for fine-tuning of optional dependencies."
-msgstr ""
+msgstr "オプションが必要とするプログラムの詳細設定については、:ref:`optional-deps` "
+"を確認してください。"
 
 #: ../../admin/install/steps/install-python.rst:32
 msgid "On some Linux distributions running Weblate fails with libffi error:"
@@ -14090,7 +14150,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Weblate の設定"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -14099,6 +14159,10 @@ msgid ""
 "will have to specify full path to :command:`weblate` command as ``~/weblate-"
 "env/bin/weblate``."
 msgstr ""
+"以下の手順は、Weblate で使用する virtualenv "
+"が有効であることを前提としています（``. ~/weblate-env/bin/activate`` "
+"可能な操作 ）。無効の場合は、:command:`weblate` コマンドへのフルパス"
+"（``~/weblate-env/bin/weblate``）を指定することが必要となります。"
 
 #: ../../admin/install/steps/install-configure.rst:11
 msgid ""
@@ -14106,70 +14170,85 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.7/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+":file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`"
+" を :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py` "
+"にコピーする。"
 
 #: ../../admin/install/steps/install-configure.rst:17
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgstr ""
+"Weblate 用のデータベースと構造を作成する（設定例では、PostgreSQL "
+"を使用する。:ref:`database-setup` で運用環境に対応した初期設定を確認する）:"
 
 #: ../../admin/install/steps/install-configure.rst:24
 msgid ""
 "Create the administrator user account and copy the password it outputs to "
 "the clipboard, and also save it for later use:"
-msgstr ""
+msgstr "管理者ユーザー アカウントを作成し、生成されたパスワードをクリップボードにコピ"
+"ーし、後で使用するために保存する:"
 
 #: ../../admin/install/steps/install-configure.rst:31
 msgid ""
 "Collect static files for web server (see :ref:`server` and :ref:`static-"
 "files`):"
-msgstr ""
+msgstr "Web サーバー用の静的ファイルを収集する（ref:`server および ref:`static-"
+"files）:"
 
 #: ../../admin/install/steps/install-configure.rst:37
 #: ../../admin/upgrade.rst:83
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
-msgstr ""
+msgstr "JavaScript ファイルと CSS ファイルを圧縮する（省略可能、参照: :ref"
+":`production-compress`）:"
 
 #: ../../admin/install/steps/install-configure.rst:43
 msgid ""
 "Start Celery workers. This is not necessary for development purposes, but "
 "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgstr ""
+"Celery ワーカーを起動する。開発目的であれば必要ないが、運用サーバーであれば必"
+"ず起動すること。詳細については、 :ref:`celery` を確認:"
 
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
-msgstr ""
+msgstr "開発サーバーを起動する（運用サーバーの初期設定については、:ref:`server` "
+"を確認）:"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "インストール後"
 
 #: ../../admin/install/steps/install-after.rst:4
 msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
-msgstr ""
+msgstr "おめでとうございます。Weblate "
+"サーバーは稼働したので、使用を開始してください。"
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "``http://localhost:8000/`` から、Weblate にアクセスできます。"
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
-msgstr ""
+msgstr "インストール時に取得した管理者としてサインインするか、新規ユーザーとして登録"
+"します。"
 
 #: ../../admin/install/steps/install-after.rst:8
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
 msgstr ""
+"Weblate virtualenv が有効な場合は、:command:`weblate` コマンドを使用して "
+"Weblate コマンドを実行できるように変更されました。"
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with Ctrl+C."
-msgstr ""
+msgstr "Ctrl+C を使用してテストサーバーを停止できます。"
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -14177,10 +14256,14 @@ msgid ""
 "performance/`` URL (see :ref:`management-interface`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
+"``/manage/performance/`` URL（参照: :ref:`management-interface`）または "
+":command:`weblate check --deploy` "
+"を使用して、インストールの潜在的な問題を確認してください。参照: "
+":ref:`production`。"
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
-msgstr ""
+msgstr "翻訳を追加する"
 
 #: ../../admin/install/steps/install-after.rst:16
 msgid ""
@@ -14188,10 +14271,13 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"管理画面（``http://localhost:8000/create/project/"
+"``）から、翻訳するプロジェクトを作成します。詳細についは :ref:`project` "
+"を確認してください。"
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
-msgstr ""
+msgstr "ここで必要な指定は、プロジェクト名とその Web サイトだけです。"
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -14199,6 +14285,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
+"実際の翻訳用のオブジェクトであるコンポーネントを作成します。コンポーネントは "
+"VCS リポジトリの場所を特定し、翻訳するファイルを選択します。詳細は、:ref:`com"
+"ponent` を確認してください。"
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -14208,36 +14297,41 @@ msgid ""
 "`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` or :ref:"
 "`fluent`, see :ref:`formats` for more details."
 msgstr ""
-"ここで重要な項目:　:ref:`component-name`、:ref:`component-repo`、および翻訳可"
-"能なファイルを検索するための :ref:`component-filemask` です。Weblate は、ref:"
-"`gettext`、:ref:`aresource`、:ref:`apple`、:ref:`javaprop`、:ref:"
-"`stringsdict`、:ref:`fluent` など、幅広い形式に対応しています。詳細について"
-"は、:ref:`formats` を確認してください。"
+"ここで重要な項目:　:ref:`component-name`、:ref:`component-repo`、"
+"および翻訳可能なファイルを検索するための :ref:`component-filemask`。Weblate "
+"は、ref:`gettext`、:ref:`aresource`、:ref:`apple`、:ref:`javaprop`、:ref:`str"
+"ingsdict`、:ref:`fluent` "
+"など、幅広い形式に対応しています。詳細については、:ref:`formats` "
+"を確認してください。"
 
 #: ../../admin/install/steps/install-after.rst:31
 msgid ""
 "Once the above is completed (it can be lengthy process depending on the size "
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
-msgstr ""
+msgstr "上記の作業が完了したら（VCS リポジトリのサイズや翻訳するメッセージの数により"
+"、処理に時間がかかります)、翻訳を開始できます。"
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "macOS にインストール"
 
 #: ../../admin/install/venv-macos.rst:13
 msgid ""
 "Make sure pip will be able to find the ``libffi`` version provided by "
 "homebrew — this will be needed during the installation build step."
 msgstr ""
+"pip が、homebrew が提供する ``libffi`` "
+"バージョンを見つけられることを確認してください — これはインストール ビルド "
+"ステップ中に必要となります。"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "RedHat、Fedora、CentOS にインストール"
 
 #: ../../admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "SUSE および openSUSE にインストール"
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:97
 msgid "Language definitions"
@@ -15344,9 +15438,9 @@ msgid ""
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either the sandbox or the production API."
 msgstr ""
-"``weblate.machinery.saptranslationhub.SAPTranslationHub`` を :setting:"
-"`MT_SERVICES` に追加してこのサービスを有効にし、サンドボックスまたはプロダク"
-"ション API に適切なアクセス権を設定します。"
+"``weblate.machinery.saptranslationhub.SAPTranslationHub`` を "
+":setting:`MT_SERVICES` に追加してこのサービスを有効にし、"
+"サンドボックスまたは運用環境 API に適切なアクセス権を設定します。"
 
 #: ../../admin/machine.rst:421
 msgid ""
@@ -18396,9 +18490,8 @@ msgstr "インポート速度"
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
-msgstr ""
-"VCS リポジトリの取得と Weblate への翻訳のインポートは、翻訳のサイズにもよりま"
-"すが、時間のかかる処理になります。解決のヒント:"
+msgstr "VCS リポジトリの取得と Weblate への翻訳のインポートは、翻訳のサイズにもよりま"
+"すが、処理に時間がかかります。解決のヒント:"
 
 #: ../../admin/projects.rst:967
 msgid "Optimize configuration"
@@ -18411,10 +18504,9 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
-"デフォルトの設定は、Weblate のテストとデバッグには便利ですが、本番環境のセッ"
-"トアップでは、いくつかの調整が必要です。その多くは、パフォーマンスに大きな影"
-"響を与えます。詳細については、ref:`production` を確認してください。特に確認が"
-"必要なもの:"
+"デフォルトの設定は、Weblate のテストとデバッグには便利ですが、運用環境の初期"
+"設定には調整が不可欠です。設定により、性能は大きく左右されます。詳細について"
+"は、ref:`production` を確認してください。特に確認が必要なもの:"
 
 #: ../../admin/projects.rst:974
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
@@ -18471,9 +18563,9 @@ msgid ""
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
-"一部の品質検査は非常にコストがかかる場合があり、不要な場合は省略するとイン"
-"ポート中の時間を短縮できます。 設定の詳細については :setting:`CHECK_LIST` を"
-"確認してください。"
+"一部の品質検査には、非常にコストがかかります。不要な場合は省略するとインポー"
+"ト中の時間を短縮できます。 設定の詳細については :setting:`CHECK_LIST` "
+"を確認してください。"
 
 #: ../../admin/projects.rst:999
 msgid "Automatic creation of components"
@@ -18780,9 +18872,8 @@ msgid ""
 "be added by editing the additional string info:"
 msgstr ""
 "文字列の優先順位、品質検査結果、画像情報などを文字列に情報を追加して、翻訳作"
-"業をしやすくします。\n"
-"情報の一部は、翻訳ファイルから抽出されます。また、文字列の追加情報を編集して"
-"追加できます。追加情報の編集画面例:"
+"業をしやすくします。情報の一部は、翻訳ファイルから抽出されます。また、文字列"
+"の追加情報を編集して追加できます。追加情報の編集画面例:"
 
 #: ../../admin/translating.rst:51
 msgid ""
@@ -18880,9 +18971,9 @@ msgid ""
 "upgrade steps integrated. There are typically no manual steps needed besides "
 "pulling latest version."
 msgstr ""
-"公式の Docker イメージ（参照: :doc:`install/docker`）には、Weblate のアップグ"
-"レードの方法がすべて統合されています。通常、最新バージョンを入手するだけで問"
-"題なく他に必要な操作はありません。"
+"公式の Docker イメージ（参照: :doc:`install/docker`）には、Weblate をアップグ"
+"レードする手順がすべて組み込まれています。通常、最新バージョンを入手するだけ"
+"です。他に必要な操作はありません。"
 
 #: ../../admin/upgrade.rst:12
 #, fuzzy
@@ -18901,10 +18992,10 @@ msgid ""
 "your :file:`settings.py` to match changes in the configuration (consult :"
 "file:`settings_example.py` for correct values)."
 msgstr ""
-"アップグレードをする前に、現在の :ref:`requirements` を確認してください。変更"
-"があるかもしれません。すべての要件がインストールまたは更新されたあと、設定の"
-"変更に合わせて :file:`settings.py` を設定してください（正しい値については :"
-"file:`settings_example.py` を確認してください）。"
+"アップグレードをする前に、現在の :ref:`requirements` に変更があるかもしれない"
+"ので確認してください。すべての要件がインストールまたは更新されたあと、"
+"設定の変更に合わせて :file:`settings.py` を設定してください（"
+"正しい値については :file:`settings_example.py` を確認）。"
 
 #: ../../admin/upgrade.rst:24
 msgid ""
@@ -18914,12 +19005,21 @@ msgid ""
 "intermediate version to ensure a smooth migration. Upgrading across multiple "
 "releases should work, but is not as well tested as single version upgrades."
 msgstr ""
+"アップグレードする前に、必ず :ref:`version-specific-instructions` を確認して"
+"ください。バージョンをスキップする場合は、アップグレードでスキップしたすべて"
+"のバージョンの指示に従ってください。スムーズな移行を確実にするために、中間バ"
+"ージョンにアップグレードする方が良い場合があります。複数のリリース間でのアッ"
+"プグレードは機能するはずですが、単一バージョンのアップグレードほど十分なテス"
+"トされていません。"
 
 #: ../../admin/upgrade.rst:32
 msgid ""
 "It is recommended to perform a full database backup prior to upgrade so that "
 "you can roll back the database in case upgrade fails, see :doc:`backup`."
 msgstr ""
+"アップグレードが失敗した場合、データベースをロールバックできるように、"
+"アップグレードの前に完全なデータベース バックアップを実行してください（ 参照:"
+" :doc:`backup`）。"
 
 #: ../../admin/upgrade.rst:35
 msgid ""
@@ -18927,69 +19027,79 @@ msgid ""
 "in the database, so it is always safer to avoid old processes running while "
 "upgrading."
 msgstr ""
+"wsgi および Celery プロセスを停止します。アップグレードは、データベースで互換"
+"性のない変更を実行することがあるため、、アップグレード中に古いプロセスが実行"
+"されないようにする方が常に安全です。"
 
 #: ../../admin/upgrade.rst:38
 msgid "Upgrade Weblate code."
-msgstr ""
+msgstr "Weblate のコードをアップグレードする。"
 
 #: ../../admin/upgrade.rst:40
 msgid "For pip installs it can be achieved by:"
-msgstr ""
+msgstr "pip によるインストール方法:"
 
 #: ../../admin/upgrade.rst:46
 msgid "If you don't want to install all of the optional dependencies do:"
-msgstr ""
+msgstr "すべてのオプションが必要とするプログラムをインストールせずに、インストールす"
+"る方法:"
 
 #: ../../admin/upgrade.rst:52
 msgid ""
 "With Git checkout you need to fetch new source code and update your "
 "installation:"
-msgstr ""
+msgstr "Gitチェックアウトでは、新しいソースコードを取得して、インストールを更新するこ"
+"とが必要です。取得と更新方法:"
 
 #: ../../admin/upgrade.rst:65
 msgid ""
 "New Weblate release might have new :ref:`optional-deps`, please check if "
 "they cover features you want."
 msgstr ""
+"新しい Weblate のリリースには、新しい :ref:`optional-deps` "
+"が含まれていることがあります。欲しい機能が含まれたかどうか確認する。"
 
 #: ../../admin/upgrade.rst:68
 msgid ""
 "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
 "`version-specific-instructions` for needed steps."
 msgstr ""
+"設定ファイルをアップグレードするための、必要な手順については、 "
+":file:`settings_example.py` または :ref:`version-specific-instructions` "
+"を確認してください。"
 
 #: ../../admin/upgrade.rst:71
 msgid "Upgrade database structure:"
-msgstr ""
+msgstr "データベース構造をアップグレードする:"
 
 #: ../../admin/upgrade.rst:77
 msgid ""
 "Collect updated static files (see :ref:`server` and :ref:`static-files`):"
-msgstr ""
+msgstr "更新された静的ファイルを収集する（参照: :ref:`server` および :ref:`static-"
+"files`）:"
 
 #: ../../admin/upgrade.rst:89
 msgid ""
 "If you are running version from Git, you should also regenerate locale files "
 "every time you are upgrading. You can do this by invoking:"
-msgstr ""
-"Git のバージョンを実行している場合は、アップグレードするたびに言語ファイルを"
-"再生成することが必要です。これを実行するメソッドの呼び出し:"
+msgstr "Git のバージョンを実行している場合は、アップグレードするたびに言語ファイルを"
+"再生成してください。再生成させるコマンド:"
 
 #: ../../admin/upgrade.rst:96
 msgid "Verify that your setup is sane (see also :ref:`production`):"
-msgstr ""
+msgstr "設定が正常であるかを確認する（参照: :ref:`production`）:"
 
 #: ../../admin/upgrade.rst:102
 msgid "Restart Celery worker (see :ref:`celery`)."
-msgstr "Celery ワーカーの再起動 (参照 :ref:`celery`)。"
+msgstr "Celery ワーカーを再起動する（参照: :ref:`celery`）。"
 
 #: ../../admin/upgrade.rst:108
 msgid "Version specific instructions"
-msgstr ""
+msgstr "バージョン固有の手順"
 
 #: ../../admin/upgrade.rst:111
 msgid "Upgrade from 2.x"
-msgstr ""
+msgstr "2.x からアップグレード"
 
 #: ../../admin/upgrade.rst:113
 msgid ""
@@ -18997,16 +19107,21 @@ msgid ""
 "then continue upgrading in the 3.x series. Upgrades skipping this step are "
 "not supported and will break."
 msgstr ""
+"2.x リリースからアップグレードする場合は、必ず先に 3.0.1 "
+"にアップグレードしてから、3.x シリーズのアップグレードを続行してください。こ"
+"の手順を省いたアップグレードには対応していませんので、中断します。"
 
 #: ../../admin/upgrade.rst:119
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
 "org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgstr ""
+"`Weblate 3.0 のドキュメント、2.20 から 3.0 にアップグレード <https://docs."
+"weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 
 #: ../../admin/upgrade.rst:122
 msgid "Upgrade from 3.x"
-msgstr ""
+msgstr "3.x からアップグレード"
 
 #: ../../admin/upgrade.rst:124
 msgid ""
@@ -19014,16 +19129,21 @@ msgid ""
 "4.1.1 and then continue upgrading in the 4.x series. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
+"3.x リリースからアップグレードする場合は、必ず最初に 4.0.4 または 4.1.1 "
+"にアップグレードしてから、4.x シリーズのアップグレードを続行してください。こ"
+"の手順を省いたアップグレードには対応していませんので、中断します。"
 
 #: ../../admin/upgrade.rst:130
 msgid ""
 "`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate."
 "org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgstr ""
+"`Weblate 4.0 のドキュメント、3.11 から 4.0 にアップグレード <https://docs."
+"weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 
 #: ../../admin/upgrade.rst:133
 msgid "Upgrade from 4.0 to 4.1"
-msgstr ""
+msgstr "4.0 から 4.1 にアップグレード"
 
 #: ../../admin/upgrade.rst:135 ../../admin/upgrade.rst:152
 #: ../../admin/upgrade.rst:169 ../../admin/upgrade.rst:193
@@ -19033,48 +19153,52 @@ msgstr ""
 #: ../../admin/upgrade.rst:295
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr ""
+msgstr "更新するには、:ref:`generic-upgrade-instructions` に従ってください。"
 
 #: ../../admin/upgrade.rst:137 ../../admin/upgrade.rst:154
 #: ../../admin/upgrade.rst:171 ../../admin/upgrade.rst:195
 #: ../../admin/upgrade.rst:213 ../../admin/upgrade.rst:231
 #: ../../admin/upgrade.rst:244
 msgid "Notable configuration or dependencies changes:"
-msgstr ""
+msgstr "構成または必要なプログラムの重要な変更:"
 
 #: ../../admin/upgrade.rst:139
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable "
 "middleware changes, please adjust your settings accordingly."
 msgstr ""
+":file:`settings_example.py` に変更があります。重要なのはミドルウェアの変更で"
+"す。変更に合わせて設定を修正してください。"
 
 #: ../../admin/upgrade.rst:140 ../../admin/upgrade.rst:233
 msgid ""
 "There are new file formats, you might want to include them in case you "
 "modified the :setting:`WEBLATE_FORMATS`."
 msgstr ""
+"新しいファイル形式が追加されました。:setting:`WEBLATE_FORMATS` "
+"を変更する場合は、新しいファイル形式を含めてください。"
 
 #: ../../admin/upgrade.rst:141
 msgid ""
 "There are new quality checks, you might want to include them in case you "
 "modified the :setting:`CHECK_LIST`."
-msgstr ""
+msgstr "新しい品質チェックが付かされました。:setting:`CHECK_LIST` "
+"を変更する場合は、新しい品質チェックを含めてください。"
 
 #: ../../admin/upgrade.rst:142
 msgid ""
 "There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting "
 "of rate limiting in the API."
-msgstr ""
-"``DEFAULT_THROTTLE_CLASSES`` の設定を変更し、API で接続制限のレポート作成を可"
-"能とした。"
+msgstr "``DEFAULT_THROTTLE_CLASSES`` の設定を変更し、API "
+"で接続制限のレポート作成が可能となりました。"
 
 #: ../../admin/upgrade.rst:143 ../../admin/upgrade.rst:157
 msgid "There are some new and updated requirements."
-msgstr ""
+msgstr "新しい要件と、更新された要件が複数あります。"
 
 #: ../../admin/upgrade.rst:144 ../../admin/upgrade.rst:176
 msgid "There is a change in :setting:`django:INSTALLED_APPS`."
-msgstr ""
+msgstr ":setting:`django:INSTALLED_APPS` が変更されました。"
 
 #: ../../admin/upgrade.rst:145
 msgid ""
@@ -19083,6 +19207,10 @@ msgid ""
 "instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your "
 "subscription."
 msgstr ""
+"``MT_DEEPL_API_VERSION`` の設定は、バージョン 4.7 "
+"で削除されました。:ref:`deepl` の機械翻訳では、代わりに新しい "
+":setting:`MT_DEEPL_API_URL` を使用するように変更されました。サブスクリプショ"
+"ンに合わせて:setting:`MT_DEEPL_API_URL` の修正が必要になることがあります。"
 
 #: ../../admin/upgrade.rst:147 ../../admin/upgrade.rst:164
 #: ../../admin/upgrade.rst:188 ../../admin/upgrade.rst:206
@@ -19095,19 +19223,22 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:150
 msgid "Upgrade from 4.1 to 4.2"
-msgstr ""
+msgstr "4.1 から 4.2 にアップグレード"
 
 #: ../../admin/upgrade.rst:156
 msgid ""
 "Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or "
 "4.1 first."
-msgstr ""
+msgstr "3.x リリースからのアップグレードには未対応となりました。先に 4.0.4 または "
+"4.1.1 にアップグレードしてください。"
 
 #: ../../admin/upgrade.rst:158
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable new "
 "middleware and changed application ordering."
 msgstr ""
+":file:`settings_example.py` には複数の変更があります。重要なのは、新しいミド"
+"ルウェアと変更されたアプリケーションの順序です。"
 
 #: ../../admin/upgrade.rst:159
 msgid ""
@@ -19115,35 +19246,46 @@ msgid ""
 "are adjusted during the database migration, but external components might "
 "need adjustment in case you rely on keys in exports or API."
 msgstr ""
+"JSON を基にしたフォーマットのキーには、先行するドットが含まれなくなりました。"
+"文字列はデータベースの移行中に調整されますが。しかし、エクスポートまたは API "
+"のキーに依存する場合に備え、外部コンポーネントの修正が必要となることがありま"
+"す。"
 
 #: ../../admin/upgrade.rst:160
 msgid ""
 "The Celery configuration was changed to no longer use ``memory`` queue. "
 "Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting."
 msgstr ""
+"Celery の構成は、``memory`` キューを使用しないように変更されました。"
+"起動スクリプトと ``CELERY_TASK_ROUTES`` 設定を修正してください。"
 
 #: ../../admin/upgrade.rst:161
 msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure "
 "it before running Weblate."
-msgstr ""
+msgstr "Weblate ドメインは、設定ファイルに設定するように変更されました。Weblate "
+"を実行する前に、設定を変更することが必要です。"
 
 #: ../../admin/upgrade.rst:162
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
 msgstr ""
+"ユーザー データベースのユーザー名フィールドとメールアドレスのフィールドは、大"
+"文字と小文字を区別しない一意のフィールドにすることが必要です。PostgreSQL "
+"では、ミスにより強制されていませんでした。"
 
 #: ../../admin/upgrade.rst:167
 msgid "Upgrade from 4.2 to 4.3"
-msgstr ""
+msgstr "4.2 から 4.3 にアップグレード"
 
 #: ../../admin/upgrade.rst:173
 msgid ""
 "There are some changes in quality checks, you might want to include them in "
 "case you modified the :setting:`CHECK_LIST`."
-msgstr ""
+msgstr "品質検査には複数の変更があります。:setting:`CHECK_LIST` "
+"を変更した場合は、それを含めてください。"
 
 #: ../../admin/upgrade.rst:174
 msgid ""
@@ -19151,6 +19293,9 @@ msgid ""
 "exposed in the API. You will need to update :ref:`wlc` in case you are using "
 "it."
 msgstr ""
+"原文の言語属性は、プロジェクトから API "
+"で公開しているコンポーネントに移動しました。使用する場合は、:ref:`wlc` "
+"の更新が必要です。"
 
 #: ../../admin/upgrade.rst:175
 msgid ""
@@ -19158,12 +19303,16 @@ msgid ""
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
 msgstr ""
+"4.3 のデータベースへの移行時間は、翻訳する文字列の数によって長くなることがあ"
+"ります（100,000 原文あたり約 1 時間の移行時間が必要）。"
 
 #: ../../admin/upgrade.rst:177
 msgid ""
 "There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which "
 "complements :setting:`django:SESSION_COOKIE_AGE`."
 msgstr ""
+":setting:`SESSION_COOKIE_AGE_AUTHENTICATED` を補完する、新しい設定 "
+":setting:`django:SESSION_COOKIE_AGE` が追加されました。"
 
 #: ../../admin/upgrade.rst:178
 msgid ""
@@ -19171,38 +19320,46 @@ msgid ""
 "GitHub or GitLab, you will need to reconfigure this, see :setting:"
 "`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+":command:`hub` または :command:`lab`を使用して、GitHub または GitLab "
+"と統合していた場合は、再設定が必要です。参照: :setting:`GITHUB_CREDENTIALS` "
+"および :setting:`GITLAB_CREDENTIALS`。"
 
 #: ../../admin/upgrade.rst:182
 msgid ""
 "The Celery configuration was changed to add ``memory`` queue. Please adjust "
 "your startup scripts and ``CELERY_TASK_ROUTES`` setting."
 msgstr ""
+"Celery の設定に ``memory`` キューが追加されました。スタートアップ "
+"スクリプトおよび ``CELERY_TASK_ROUTES`` の設定を修正してください。"
 
 #: ../../admin/upgrade.rst:186
 msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
-msgstr ""
+msgstr "アドオンの ``post_update`` メソッドは、追加の ``skip_push`` "
+"パラメータを受け取ることになりました。"
 
 #: ../../admin/upgrade.rst:191
 msgid "Upgrade from 4.3 to 4.4"
-msgstr ""
+msgstr "4.3 から 4.4 にアップグレード"
 
 #: ../../admin/upgrade.rst:197
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
 "configuration`` has to be added there."
 msgstr ""
+":setting:`django:INSTALLED_APPS` に変更がされ、そこに ``weblate."
+"configuration`` の追加が必要となりました。"
 
 #: ../../admin/upgrade.rst:198
 msgid "Django 3.1 is now required."
-msgstr ""
+msgstr "Django 3.1 が必須となりました。"
 
 #: ../../admin/upgrade.rst:199
 msgid ""
 "In case you are using MySQL or MariaDB, the minimal required versions have "
 "increased, see :ref:`mysql`."
-msgstr ""
+msgstr "MySQL または MariaDB を使用している場合、最低限必要なバージョンを上げました。"
 
 #: ../../admin/upgrade.rst:203
 msgid ""
@@ -19213,63 +19370,75 @@ msgid ""
 "upgrading and it is recommeded to force loading of affected component using :"
 "djadmin:`loadpo`."
 msgstr ""
+":ref:`mono_gettext` は、 ``msgid`` と ``msgid`` の両方を使用するように変更さ"
+"れました。ファイル内の翻訳文字列の識別が変更されたことで、"
+"スクリーンショットや査読状態などの Weblate 翻訳情報へのリンクが壊れなくなりま"
+"す。アップグレードの前に、このようなファイルの保留中の変更は、コミットを完了"
+"させておいてください。:djadmin:`loadpo` を使用して、影響を受けるコンポーネン"
+"トを強制的にロードすることが望ましいです。"
 
 #: ../../admin/upgrade.rst:204
 msgid ""
 "Increased minimal required version of translate-toolkit to address several "
 "file format issues."
-msgstr ""
+msgstr "ファイル形式の問題に対処するため、翻訳ツールキットの最低限必要なバージョンを"
+"上げました。"
 
 #: ../../admin/upgrade.rst:209
 msgid "Upgrade from 4.4 to 4.5"
-msgstr ""
+msgstr "4.4 から 4.5 にアップグレード"
 
 #: ../../admin/upgrade.rst:215
 msgid "The migration might take considerable time if you had big glossaries."
-msgstr ""
+msgstr "容量の大きい用語集がある場合、移行時間が長くなることがあります。"
 
 #: ../../admin/upgrade.rst:216 ../../changes.rst:337
 msgid "Glossaries are now stored as regular components."
-msgstr ""
+msgstr "用語集は、通常のコンポーネントとして保存するように変更されました。"
 
 #: ../../admin/upgrade.rst:217
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
-msgstr ""
+msgstr "用語集の API を削除しました。通常の翻訳 API "
+"を使用して用語集にアクセスしてください。"
 
 #: ../../admin/upgrade.rst:218
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "should be added."
 msgstr ""
+":setting:`django:INSTALLED_APPS` は変更されました — ``weblate.metrics`` "
+"の追加が必要です。"
 
 #: ../../admin/upgrade.rst:222
 msgid "There is a new dependency on the `pyahocorasick` module."
-msgstr ""
+msgstr "`pyahocorasick` モジュールには、新しく必要となるプログラムがあります。"
 
 #: ../../admin/upgrade.rst:227
 msgid "Upgrade from 4.5 to 4.6"
-msgstr ""
+msgstr "4.5 から 4.6 にアップグレード"
 
 #: ../../admin/upgrade.rst:234
 msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
-"コンポーネントを作成するための API は、自動的に :ref:`internal-urls` を使用す"
-"るようになりました。参照: :http:post:`/api/projects/(string:project)/"
-"components/`。"
+"コンポーネントを作成するための API は、自動的に :ref:`internal-urls` "
+"を使用するように変更されました。参照: :http:post:`/api/projects/"
+"(string:project)/components/`。"
 
 #: ../../admin/upgrade.rst:235
 msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
+"動作に必要なプログラムと :setting:`django:PASSWORD_HASHERS` が変更され、"
+"パスワードのハッシュ化には Argon2 を優先するように変更されました。"
 
 #: ../../admin/upgrade.rst:240
 msgid "Upgrade from 4.6 to 4.7"
-msgstr ""
+msgstr "4.6 から 4.7 にアップグレード"
 
 #: ../../admin/upgrade.rst:246
 msgid ""
@@ -19277,6 +19446,8 @@ msgid ""
 "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
 "settings accordingly."
 msgstr ""
+":file:`settings_example.py` に変更があり、重要なのはミドルウェアの変更（:sett"
+"ing:`django:MIDDLEWARE`）です。変更に合わせて設定を修正してください。"
 
 #: ../../admin/upgrade.rst:247
 msgid ""
@@ -19284,38 +19455,43 @@ msgid ""
 "`MT_DEEPL_API_URL` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
+":ref:`deepl` 機械翻訳には、汎用的な :setting:`MT_DEEPL_API_URL` 設定が追加さ"
+"れ、異なるサブスクリプションに対して適切に対応できるように変更されました。。`"
+"`MT_DEEPL_API_VERSION`` の設定は未対応となりました。"
 
 #: ../../admin/upgrade.rst:249
 msgid "Django 3.2 is now required."
-msgstr ""
+msgstr "Django 3.2 が必須となりました。"
 
 #: ../../admin/upgrade.rst:254
 msgid "Upgrade from 4.7 to 4.8"
-msgstr ""
+msgstr "4.7 から 4.8 にアップグレード"
 
 #: ../../admin/upgrade.rst:258
 msgid "There are no additional upgrade steps needed in this release."
-msgstr "このリリースでは、追加のアップグレード手順は必要ありません。"
+msgstr "このリリースでは、追加のアップグレード作業は必要ありません。"
 
 #: ../../admin/upgrade.rst:263
 msgid "Upgrade from 4.8 to 4.9"
-msgstr ""
+msgstr "4.8 から 4.9 にアップグレード"
 
 #: ../../admin/upgrade.rst:267
 msgid ""
 "There is a change in storing metrics, the upgrade can take long time on "
 "larger sites."
-msgstr ""
+msgstr "保存する評価基準に変更があり、大規模なサイトではアップグレードに時間がかかる"
+"ことがあります。"
 
 #: ../../admin/upgrade.rst:274
 msgid "Upgrade from 4.9 to 4.10"
-msgstr ""
+msgstr "4.9 から 4.10 にアップグレード"
 
 #: ../../admin/upgrade.rst:278
 msgid ""
 "There is a change in per-project groups, the upgrade can take long time on "
 "sites with thousands of projects."
-msgstr ""
+msgstr "プロジェクト単位のグループに変更があり、数千のプロジェクトがあるサイトでは、"
+"アップグレードに時間がかかります。"
 
 #: ../../admin/upgrade.rst:280
 msgid ""
@@ -19323,42 +19499,48 @@ msgid ""
 "incompatible-4.0`. Weblate still supports Django 3.2 for now, in case any of "
 "these are problematic. Most notable changes which might affect Weblate:"
 msgstr ""
+"Django 4.0 では、互換性のない変更が行われました。問題が発生した場合に備えて、"
+" Weblate は、今はまだ Django 3.2 に対応しています。Weblate "
+"が影響を受ける可能性がある重要な変更項目:"
 
 #: ../../admin/upgrade.rst:285
 msgid ""
 "Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and "
 "higher."
-msgstr ""
+msgstr "PostgreSQL 9.6 への対応は取り消し。Django 4.0 は、PostgreSQL 10 "
+"以降に対応する。"
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr ":setting:`django:CSRF_TRUSTED_ORIGINS` のファイル形式の変更。"
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
-msgstr ""
+msgstr "Docker コンテナは、Django 4.0 の使用に変更。変更点は上記を確認。"
 
 #: ../../admin/upgrade.rst:293
 msgid "Upgrade from 4.10 to 4.11"
-msgstr ""
+msgstr "4.10 から 4.11 にアップグレード"
 
 #: ../../admin/upgrade.rst:297 ../../changes.rst:27
 msgid "Weblate now requires Python 3.7 or newer."
-msgstr "Weblate には Python 3.7 以降が必要になりました。"
+msgstr "Weblate は、Python 3.7 以降が必須となりました。"
 
 #: ../../admin/upgrade.rst:298
 msgid ""
 "The implementation of :ref:`manage-acl` has changed, removing the project "
 "prefix from the group names. This affects API users."
 msgstr ""
-":ref:`manage-acl` の実装が変更されました。グループ名からプロジェクト接頭辞を"
-"削除しました。これにより、API ユーザに影響を与えます。"
+":ref:`manage-acl` の実装が変更されました。グループ名からプロジェクト接頭辞が"
+"削除されました。これにより、API ユーザが影響を受けます。"
 
 #: ../../admin/upgrade.rst:300
 msgid ""
 "Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for "
 "character set detection."
 msgstr ""
+"Weblate は、文字セット検出に ``chardet`` モジュールの代わりに ``charset-"
+"normalizer`` を使用するよう変更されました。"
 
 #: ../../admin/upgrade.rst:301
 msgid ""
@@ -19371,7 +19553,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:308
 msgid "Upgrading from Python 2 to Python 3"
-msgstr ""
+msgstr "Python 2 から Python 3 にアップグレード"
 
 #: ../../admin/upgrade.rst:310
 msgid ""
@@ -19381,10 +19563,17 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
+"Weblate は、Python 3.6 "
+"未満の対応は取り消されました。まだ古いバージョンで実行している場合は、"
+"先に既存のバージョンで Python 3 "
+"に移行を完了させて、後でアップグレードしてください。参照: `Python 2 から "
+"Python 3 にアップデート — Weblate 3.11.1 ドキュメント <https://docs.weblate."
+"org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
+"python-3>`_ 。"
 
 #: ../../admin/upgrade.rst:319
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "他のデータベースから PostgreSQL に移行"
 
 #: ../../admin/upgrade.rst:321
 msgid ""
@@ -19394,10 +19583,16 @@ msgid ""
 "Please remember to stop both web and Celery servers prior to the migration, "
 "otherwise you might end up with inconsistent data."
 msgstr ""
+"PostgreSQL 以外のデータベースで Weblate を実行している場合は、Weblate "
+"が最適に動作できるように PostgreSQL "
+"への移行を検討してください。次の手順に従って、"
+"データベース間でデータを移行します 。移行前に Web サーバと Celery サーバの両"
+"方を停止させてください。停止していない場合は、データの不整合が発生することが"
+"あります。"
 
 #: ../../admin/upgrade.rst:344
 msgid "Migrating using Django JSON dumps"
-msgstr ""
+msgstr "Django JSON ダンプを使用する移行"
 
 #: ../../admin/upgrade.rst:346
 msgid ""
@@ -19405,47 +19600,56 @@ msgid ""
 "works well for smaller installations. On bigger sites you might want to use "
 "pgloader instead, see :ref:`pgloader-migration`."
 msgstr ""
+"最も簡単な移行の方法は、Django JSON ダンプを使用することです。これは、小規模"
+"なインストールに適しています。より大きなサイトでは、代わりに pgloader "
+"が良いかもしれません。"
 
 #: ../../admin/upgrade.rst:348
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
-msgstr ""
+msgstr "追加のデータベース接続として PostgreSQL を、:file:`settings.py` に追加する:"
 
 #: ../../admin/upgrade.rst:394
 msgid "Run migrations and drop any data inserted into the tables:"
-msgstr ""
+msgstr "移行を実行し、テーブルに挿入されたデータを削除する:"
 
 #: ../../admin/upgrade.rst:401
 msgid "Dump legacy database and import to PostgreSQL"
-msgstr ""
+msgstr "古いデータベースをダンプし、PostgreSQL にインポートする:"
 
 #: ../../admin/upgrade.rst:408
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
+"デフォルトで、PostgreSQL データベースのみを使用するように "
+":setting:`django:DATABASES` を修正し、古い接続を削除する。"
 
 #: ../../admin/upgrade.rst:411
 msgid "Weblate should be now ready to run from the PostgreSQL database."
-msgstr ""
+msgstr "これで、Weblate を PostgreSQL データベースで実行する準備が整いました。"
 
 #: ../../admin/upgrade.rst:416
 msgid "Migrating to PostgreSQL using pgloader"
-msgstr ""
+msgstr "pgloader を使用した PostgreSQL への移行"
 
 #: ../../admin/upgrade.rst:418
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
 msgstr ""
+"`pgloader`_ は、PostgreSQL "
+"にデータを移行するための一般的な移行ツールです。この機能を使用して、Weblate "
+"データベースを移行します。"
 
 #: ../../admin/upgrade.rst:420
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
-msgstr ""
+msgstr "PostgreSQL をデータベースとして使用するように :file:`settings.py` "
+"を調整する。"
 
 #: ../../admin/upgrade.rst:422
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr ""
+msgstr "PostgreSQL データベース内のスキーマを移行する:"
 
 #: ../../admin/upgrade.rst:429
 msgid ""
@@ -19453,10 +19657,13 @@ msgid ""
 "migrate the database, but you might want to learn more about `pgloader`_ to "
 "understand what it does and tweak it to match your setup:"
 msgstr ""
+"pgloader を実行してデータを転送します。以下のスクリプトを使用してデータベース"
+"を移行する（できれば、`pgloader`_ "
+"の機能を理解し、設定に合わせて修正してください）:"
 
 #: ../../admin/upgrade.rst:448
 msgid "Migrating from Pootle"
-msgstr ""
+msgstr "Pootle から移行"
 
 #: ../../admin/upgrade.rst:450
 msgid ""
@@ -19464,6 +19671,10 @@ msgid ""
 "supported to migrate user accounts from Pootle. You can dump the users from "
 "Pootle and import them using :djadmin:`importusers`."
 msgstr ""
+"Weblate は、そもそも Pootle を置き換えるために開発されたので、Pootle "
+"からのユーザー アカウントの移行にも対応しています。Pootle "
+"からユーザーをダンプして、 :djadmin:`importusers` "
+"を使用してインポートします。"
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
@@ -20468,8 +20679,9 @@ msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
-"``zipfile`` および ``docfile`` パラメータは、VCS なしのコンポーネントでも使用"
-"できるようになりました。参照: :ref:`vcs-local`。"
+"``zipfile`` および ``docfile`` パラメータは、VCS "
+"なしのコンポーネントでも使用できるように変更されました。参照: :ref:`vcs-"
+"local`。"
 
 #: ../../api.rst:956
 msgid ""
@@ -20477,8 +20689,8 @@ msgid ""
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
 "複製されたリポジトリは、:ref:`internal-urls` を使用してプロジェクト内で自動的"
-"に共有されるようになりました。``disable_autoshare`` を使用すると無効にできま"
-"す。"
+"に共有するように変更されました。``disable_autoshare`` "
+"を使用すると無効にできます。"
 
 #: ../../api.rst:958
 msgid "Creates translation components in the given project."
@@ -21734,9 +21946,8 @@ msgstr "コンポーネント リストからコンポーネントの関連付�
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
-msgstr ""
-"現在、用語集は普通のコンポーネントとして、翻訳と文字列を保存するようになりま"
-"した。代わりに該当の API を使用してください。"
+msgstr "現在、用語集は普通のコンポーネントとして、翻訳と文字列を保存するように変更さ"
+"れました。代わりに該当の API を使用してください。"
 
 #: ../../api.rst:2371
 msgid "Tasks"
@@ -21772,11 +21983,11 @@ msgstr "タスクの履歴"
 
 #: ../../api.rst:2391
 msgid "Metrics"
-msgstr "メトリック"
+msgstr "評価基準"
 
 #: ../../api.rst:2395
 msgid "Returns server metrics."
-msgstr "サーバー メトリックを返します。"
+msgstr "サーバーの統計情報を返します。"
 
 #: ../../api.rst:2397
 msgid "Number of units"
@@ -22864,7 +23075,7 @@ msgstr "Git で無視する翻訳ファイルの扱いの修正。"
 
 #: ../../changes.rst:219
 msgid "Improved metrics performance."
-msgstr "メトリックスの性能向上。"
+msgstr "統計の改善。"
 
 #: ../../changes.rst:220
 msgid "Fixed possible bug in saving glossaries."
@@ -22953,7 +23164,7 @@ msgstr ":ref:`txt` に対応しました。"
 
 #: ../../changes.rst:248
 msgid "Added trends and metrics for all objects."
-msgstr "すべてのオブジェクトの傾向と指標の追加。"
+msgstr "すべてのオブジェクトの傾向と評価基準の追加。"
 
 #: ../../changes.rst:249
 msgid "Added support for directly copying text from secondary languages."
@@ -23035,7 +23246,7 @@ msgstr ""
 
 #: ../../changes.rst:273
 msgid "Fixed metrics collection."
-msgstr "メトリクス収集の修正。"
+msgstr "評価基準の収集方法の修正。"
 
 #: ../../changes.rst:274
 msgid "Fixed possible crash when adding strings."
@@ -23123,7 +23334,7 @@ msgstr ""
 
 #: ../../changes.rst:303
 msgid "Extend metrics usage to improve performance of several pages."
-msgstr ""
+msgstr "評価基準を拡張し、複数のページの性能の改善。"
 
 #: ../../changes.rst:304
 msgid "Store correct source language in TMX files."
@@ -30328,8 +30539,8 @@ msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
 msgstr ""
-"Weblate のインストール（そのためには複数のシステム依存関係が必要。参照: :doc:"
-"`../admin/install/source`）:"
+"Weblate のインストール（そのためには多くの必須のプログラムが必要となる。参照:"
+" :doc:`../admin/install/source`）:"
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
@@ -30422,8 +30633,7 @@ msgstr ""
 msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
-msgstr ""
-"これは本番環境には適していません。安全ではないが開発を楽にする複数のハックが"
+msgstr "これは運用環境には適していません。安全ではないが開発を楽にする複数のハックが"
 "含まれています。"
 
 #: ../../contributing/start.rst:122
@@ -30734,14 +30944,14 @@ msgid ""
 "In most cases the `browser-plugin of languageTool <https://languagetool.org/"
 "#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
-"この推奨事項を満すことで、多言語による完全な機械翻訳後編集に対応できます。良"
-"い翻訳は、文脈的に正しい翻訳を目指す House "
+"下記の機能を適切に設定することにより、多言語による完全な機械翻訳後編集に対応"
+"できます。良い翻訳は、文脈的に正しい翻訳を目指す House "
 "のシステム機能モデルにより定義されます。独自の `機械翻訳後編集のガイドライン "
 "<https://www.taus.net/academy/best-practices/postedit-best-practices/machine-"
 "translation-post-editing-guidelines>`_ "
 "を作成し、独自の定義に合わせてこれらの推奨事項を変更します。多くの場合、`"
-"ブラウザ プラグインの言語ツール <https://languagetool.org/#firefox_chrome>`"
-"_  は、機械翻訳後編集の校正ツールとして便利です。"
+"ブラウザ プラグインの言語ツール <https://languagetool.org/#firefox_chrome>`_ "
+"は、機械翻訳後編集の校正ツールとして使用できます。"
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -30753,9 +30963,9 @@ msgid ""
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
-"各コンポーネントのメニューに記載されている :guilabel:`現地化コミュニティの"
-"チェックリスト` を使用すると、現地語化の作業をコミュニティの翻訳者が簡単に行"
-"えるようになります。"
+"各コンポーネントのメニューに記載されている "
+":guilabel:`現地化コミュニティのチェックリスト` を使用すると、現地語化の作業を"
+"コミュニティの翻訳者が簡単に行うためのガイダンスを提供します。"
 
 #: ../../devel/community.rst:18
 msgid "Terminology management"
@@ -30774,13 +30984,13 @@ msgid ""
 "the field."
 msgstr ""
 "用語の割り当てを使用した機械翻訳後の編集は、翻訳プロセスの各レベルに影響を与"
-"えます。機械翻訳システムは、継続的なトレーニングまたは `ニューラル ファジー修"
-"復 <https://aclanthology.org/P19-1175.pdf>`_ を使用して、特定の語彙とスタイル"
-"に適合させることができます。既存の翻訳メモリを weblate に `インポート "
-"<https://docs.weblate.org/en/latest/admin/memory.html#imported-translation-"
-"memory>`_ するか、基本的な用語を含む初期の用語集を作成します。最終的には、そ"
-"の分野における必要な知識と翻訳結果を保証するために、専門家に追加の用語集の作"
-"成をお願いすることが必要です。"
+"えます。機械翻訳システムは、継続的なトレーニングまたは `ニューラル "
+"ファジー修復 <https://aclanthology.org/P19-1175.pdf>`_ "
+"を使用して、特定の語彙と文例に適合させます。既存の翻訳メモリを weblate に `"
+"インポート <https://docs.weblate.org/en/latest/admin/memory.html#imported-"
+"translation-memory>`_ するか、基本的な用語を含む初期の用語集を作成します。最"
+"終的には、その分野における経験と知識に基づく結果を保証するために、専門家に頼"
+"んで追加の用語集を作成してください。"
 
 #: ../../devel/community.rst:24
 msgid ""
@@ -30789,10 +30999,10 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
-"自動翻訳（多くの場合、BLEU スコアで測定）の品質は、翻訳時間と相関関係がありま"
-"す [1] 。必要な言語とドメインに対応するマシンのバックエンドを選択します。翻訳"
-"バックエンドがどのように機能するか確認し、ポスト エディタが必要とする品質を明"
-"確にします。"
+"自動翻訳（多くの場合、BLEU スコアで測定）の品質は、"
+"翻訳時間と相関関係があります [1] 。必要な言語とドメインに対応するマシンのバッ"
+"クエンドを選択します。翻訳バックエンドの仕組みを理解し、機械翻訳後の人間によ"
+"る編集者が必要とする品質を明確にします。"
 
 #: ../../devel/community.rst:27
 msgid "Review translations"
@@ -30804,8 +31014,9 @@ msgid ""
 "editing. With an impartial and competent revisor, the two man rule reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
-"翻訳は、編集後に 2 人目が査読することが必要です。公平で有能な校閲者がいること"
-"により、2 人体制のもとで、誤訳が減少し、翻訳の品質と一貫性が向上します。"
+"翻訳は、機械翻訳後の編集を誰かがしたあとに、別の人が査読することが重要です。"
+"公平で有能な校閲者がいることにより、2 "
+"人体制のもとで、誤訳が減少し、翻訳の品質と一貫性を保てます。"
 
 #: ../../devel/community.rst:31
 msgid "Structured feedback"
@@ -30834,12 +31045,12 @@ msgid ""
 "meaning of a text equivalent when crossing from one linguistic code to "
 "another."
 msgstr ""
-"大幅な削減を可能にする精神的および基本的な効果の定義に加えて、テキストベース"
-"の言語的アプローチは、組み込みの翻訳手法として最適です。翻訳評価のため十分に"
-"定式化された理論は、オリジナルと翻訳の関係に焦点を当てた House の体系的機能モ"
-"デルです。このモデルでは、翻訳とは、ある言語コードから別の言語コードに移行す"
-"るときに、テキストの意味、語用論、およびテキストの意味を同等に保つ試みである"
-"と想定しています。"
+"テキストに基づく言語的アプローチは、精神的および効果に基づく定義を大幅に削減"
+"する可能性だけでなく、組み込みの翻訳手法として最適です。翻訳評価のための十分"
+"に定式化された理論は、オリジナルと翻訳の関係に焦点を当てた House の体系的機能"
+"モデルです。このモデルでは、翻訳とは、ある言語コードから別の言語コードに移行"
+"するときに、テキストの意味、語用論、およびテキストの意味を同等に保つ試みであ"
+"ると想定しています。"
 
 #: ../../devel/community.rst:38
 msgid ""
@@ -30852,10 +31063,10 @@ msgid ""
 "micro-context consisting of field, tenor and mode."
 msgstr ""
 "翻訳の品質は、機械翻訳が文字列情報をどの程度理解できるかにかかっています。結"
-"果は予測できないため、機会が正確に理解できるように人間が十分な情報を与えるこ"
-"とが必要です。機械翻訳の理解に必要な 2 つの主要なパラメータは、マクロ情報（全"
-"体の関連性と具体的な意味の内包が必要）および、分野、趣旨、手段からなる細かい"
-"状況説明です。"
+"果は予測できないため、機械が正確に理解できるように人間が十分な情報を与えるこ"
+"とが必要です。機械翻訳が理解するために主に必要な 2 つのパラメータは、マクロ情"
+"報（全体の関連性と具体的な意味の内包が必要）および、分野、趣旨、手段からなる"
+"細かい状況説明です。"
 
 #: ../../devel/community.rst:42
 msgid ""
@@ -31775,7 +31986,7 @@ msgstr "以前に翻訳した文字列の合計。"
 
 #: ../../devel/reporting.rst:65
 msgid "The following metrics are available for each:"
-msgstr "分類で使用可能な詳細項目:"
+msgstr "使用可能な評価基準:"
 
 #: ../../devel/reporting.rst:67
 msgid "`Count`"
@@ -37767,7 +37978,7 @@ msgstr "長期間未翻訳"
 
 #: ../../user/checks.rst:1280
 msgid "The string has not been translated for a long time"
-msgstr "長い間翻訳されていない文字列"
+msgstr "翻訳が放置された文字列"
 
 #: ../../user/checks.rst:1282
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
@@ -38192,8 +38403,9 @@ msgid ""
 "Weblate features on them — commenting, storing in a remote repository, or "
 "adding explanations."
 msgstr ""
-"用語集は、通常の翻訳コンポーネントになり、Weblate のすべての機能を使用できる"
-"ようになりました（コメント、リモート リポジトリへの保存、説明の追加など）。"
+"用語集は、通常の翻訳コンポーネントになり、Weblate "
+"のすべての機能を使用できるように変更されました（コメント、リモート "
+"リポジトリへの保存、説明の追加など）。"
 
 #: ../../user/glossary.rst:24
 msgid ""
@@ -39877,8 +40089,9 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
-"文字列が崩れる心配は必要ありません。これは、実際の変更を確認する前に、編集し"
-"た文字列のプレビューを表示する 2 段階のプロセスです。"
+"安心してください。文字列は、すぐには変更されません。はじめに、文字列の変更を"
+"プレビュー画面で確認し、次に変更するものを選択して実行します。変更は、2 "
+"段階で処理します。"
 
 #: ../../user/translating.rst:390
 msgid ""
