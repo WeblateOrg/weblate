@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-11 20:38+0000\n"
+"PO-Revision-Date: 2022-03-14 13:58+0000\n"
 "Last-Translator: Victor K <ktrace@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -207,7 +207,7 @@ msgstr ""
 #, fuzzy
 #| msgid "The following metrics are available for each:"
 msgid "The following teams are automatically created for every project:"
-msgstr "Для каждого из этих вариантов доступны следующие метрики:"
+msgstr "Для каждого проекта автоматически создаются следующие команды:"
 
 #: ../../admin/access.rst:91
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -302,10 +302,8 @@ msgid "Automatic translation"
 msgstr "Автоматический перевод"
 
 #: ../../admin/access.rst:122
-#, fuzzy
-#| msgid "Trigger automatic translation."
 msgid "Can use automatic translation."
-msgstr "Запускает автоматический перевод."
+msgstr "Возможно использовать автоматический перевод."
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:534
 msgid "VCS"
@@ -994,10 +992,8 @@ msgstr ""
 "вы хотите определить свой собственный набор разрешений."
 
 #: ../../admin/access.rst:448
-#, fuzzy
-#| msgid "List of privileges"
 msgid "List of privileges and built-in roles"
-msgstr "Список привилегий"
+msgstr "Список привилегий и встроенных ролей"
 
 #: ../../admin/access.rst:454 ../../admin/optionals.rst:261
 #: ../../user/checks.rst:0
@@ -1020,7 +1016,7 @@ msgstr "Просмотр платёжной информации"
 #, fuzzy
 #| msgid "View billing info [`Administration`, `Billing`]"
 msgid "`Administration`, `Billing`"
-msgstr "Просмотр платёжной информации [`Администрирование`, `Тарифный план`]"
+msgstr "`Administration`, `Billing`"
 
 #: ../../admin/access.rst:458 ../../api.rst:2079
 msgid "Changes"
@@ -7437,6 +7433,7 @@ msgstr ""
 "включает перенаправление на HTTPS-адрес."
 
 #: ../../admin/config.rst:697
+#, fuzzy
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "issue with infinite redirection in case you are using a reverse proxy doing "
@@ -7445,14 +7442,14 @@ msgid ""
 "or ``Forwarded`` headers or configure :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgstr ""
-"С перенаправления на HTTPS в некоторых случаях могут быть проблемы: "
-"например, если вы используете обратный прокси, который выполняет SSL-"
-"терминацию из-за чего заголовки протокола не передаются Django в корректном "
-"виде, то вы можете столкнуться с бесконечным перенаправлением. В таком "
-"случае подкрутите настройки своего обратного прокси, дабы он добавлял "
-"заголовки ``X-Forwarded-Proto`` или ``Forwarded``, или настройте :setting:"
-"`django:SECURE_PROXY_SSL_HEADER`, чтобы Django мог корректно определять "
-"статус SSL."
+"Иногда возникают проблемы с перенаправлением HTTPS: например, если вы "
+"используете обратный прокси, который выполняет SSL-терминацию из-за чего "
+"заголовки протокола не передаются Django в корректном виде, то вы можете "
+"столкнуться с бесконечным перенаправлением. В таком случае исправьте "
+"настройки своего обратного прокси, дабы он добавлял заголовки ``X-Forwarded-"
+"Proto`` или ``Forwarded``, или настройте "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, чтобы Django мог корректно "
+"определять статус SSL."
 
 #: ../../admin/config.rst:706
 msgid ""
@@ -8219,7 +8216,7 @@ msgstr "``https://libretranslate.com/`` (официальный публичны
 
 #: ../../admin/config.rst:1344
 msgid "Requires an API key to use outside of the website."
-msgstr "Для использования вне сайта нужен ключ API"
+msgstr "Для использования вне сайта нужен ключ API."
 
 #: ../../admin/config.rst:1346
 msgid ""
@@ -13488,7 +13485,7 @@ msgstr "Запустите контейнеры Weblate:"
 #, fuzzy
 #| msgid "Filling up the database"
 msgid "Backup the database:"
-msgstr "Наполнение базы данных"
+msgstr "Резервное копирование базы данных:"
 
 #: ../../admin/install/docker.rst:254
 #, fuzzy
@@ -13500,7 +13497,7 @@ msgstr "Запустите контейнеры Weblate:"
 #, fuzzy
 #| msgid "Remove the project"
 msgid "Remove the PostgreSQL volume:"
-msgstr "Удалить проект"
+msgstr "Удалите том PostgreSQL:"
 
 #: ../../admin/install/docker.rst:267
 #, fuzzy
@@ -13517,10 +13514,8 @@ msgid "Start the database container:"
 msgstr "Запустите контейнеры Weblate:"
 
 #: ../../admin/install/docker.rst:275
-#, fuzzy
-#| msgid "Restore all data you have backed up."
 msgid "Restore the database from the backup:"
-msgstr "Восстановите все данные, сохранённые вами в резервной копии."
+msgstr "Восстановите данные из резервной копии:"
 
 #: ../../admin/install/docker.rst:281
 #, fuzzy
@@ -14008,8 +14003,8 @@ msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
-"Настраивает GitHub’овский токен персонального доступа для GitHub’овских "
-"запросов на извлечение через API, изменяя параметр :setting:`GITHUB_TOKEN`."
+"Настройте заголовок и сообщение по умолчанию для пулл-реквестов через API, "
+"изменяя :setting:`DEFAULT_PULL_MESSAGE`"
 
 #: ../../admin/install/docker.rst:703
 #, fuzzy
@@ -24750,13 +24745,13 @@ msgstr ""
 #| msgid "File in original format as translated in the repository"
 msgid "Fixed string state tracking when the strings changes in the repository."
 msgstr ""
-"Файл в оригинальном формате, в том виде, в котором он хранится в репозитории"
+"Исправлено отслеживание состояния строк при изменении строк в репозитории."
 
 #: ../../changes.rst:30
 #, fuzzy
 #| msgid "Update with changes from the remote repository"
 msgid "Track string changes from the repository."
-msgstr "Получить изменения из дистанционного репозитория"
+msgstr "Отслеживание изменений строк из репозитория."
 
 #: ../../changes.rst:31
 msgid "Sticky header on translations listing to improve navigation."
@@ -24777,14 +24772,16 @@ msgstr "Исправлена работа Git с именами веток, от
 #, fuzzy
 #| msgid ":ref:`addon-weblate.generate.generate`"
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
-msgstr ":ref:`addon-weblate.generate.generate`"
+msgstr "Новое дополнение :ref:`addon-weblate.generate.prefill`."
 
 #: ../../changes.rst:35
 #, fuzzy
 #| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ""
 "Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`."
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr ""
+"Добавлены :guilabel:`Merge without fast-forward` :ref:`component-"
+"merge_style`."
 
 #: ../../changes.rst:36
 #, fuzzy
@@ -24792,7 +24789,9 @@ msgstr ":ref:`component`, :ref:`component-merge_style`"
 msgid ""
 "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
 "newly added strings."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate.autotranslate` addon"
+msgstr ""
+"Исправлен триггер дополнения :ref:`addon-weblate.autotranslate.autotranslate`"
+"для вновь добавленных строк."
 
 #: ../../changes.rst:37
 #, fuzzy
@@ -24817,6 +24816,8 @@ msgid ""
 "Docker container automatically enables TLS/SSL for outgoing e-mail when "
 "needed."
 msgstr ""
+"При необходимости контейнер Docker автоматически включает TLS/SSL для "
+"исходящей электронной почты."
 
 #: ../../changes.rst:41
 #, fuzzy
@@ -34185,6 +34186,9 @@ msgid ""
 "editing. With an impartial and competent revisor, the two man rule reduces "
 "the errors and improves the quality and consistency of the content."
 msgstr ""
+"После публикации переводы должны быть проверены вторым человеком. С "
+"беспристрастным и компетентным ревизором правило двух человек снижает ошибки "
+"и улучшает качество и согласованность контента."
 
 #: ../../devel/community.rst:31
 #, fuzzy
@@ -34228,11 +34232,15 @@ msgid ""
 msgstr ""
 
 #: ../../devel/community.rst:42
+#, fuzzy
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Марина Санчес-Торрон и Филипп Кён в книге \"Качество машинного перевода и "
+"производительность после редактора\", рисунок 1: https://www.cs.jhu.edu/~phi/"
+"publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:43
 msgid ""
@@ -35202,13 +35210,15 @@ msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 #, fuzzy
 #| msgid "Localization updates."
 msgid "Localization libraries and packages"
-msgstr "Обновления локализации."
+msgstr "Библиотеки и пакеты локализации"
 
 #: ../../devel/libraries.rst:4
 msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
+"Weblate можно интегрировать в ваш фреймворк с помощью :doc:`/api`. На этой "
+"странице перечислены сторонние библиотеки, которые интегрируют Weblate."
 
 #: ../../devel/libraries.rst:7
 #, fuzzy
@@ -36546,12 +36556,17 @@ msgstr ""
 "система контроля версий)."
 
 #: ../../faq.rst:258
+#, fuzzy
 msgid ""
 "For commits where no authorship is known (for example anonymous suggestions "
 "or machine translation results), the authorship is credited to the anonymous "
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
+"Для коммитов, авторство которых неизвестно (например, анонимные предложения "
+"или результаты машинного перевода), авторство приписывается анонимному "
+"пользователю (см. :setting:`ANONYMOUS_USER_NAME`). Вы можете изменить имя и "
+"e-mail в интерфейсе управления."
 
 #: ../../faq.rst:268
 #, fuzzy
@@ -36567,10 +36582,19 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Чтобы сохранить историю, комментарии или снимки экрана, связанные со "
+"строками после изменения расположения файлов, необходимо убедиться, что эти "
+"строки никогда не удаляются в Weblate. Такие удаления могут произойти в "
+"случае, когда репозиторий Weblate обновился, но конфигурация компонента по-"
+"прежнему указывает на старые файлы. Это заставляет Weblate предположить, что "
+"он должен удалить все переводы."
 
 #: ../../faq.rst:276
+#, fuzzy
 msgid "The solution to this is to perform the operation in sync with Weblate:"
 msgstr ""
+"Решением этой проблемы является выполнение операции в синхронизации с "
+"Weblate:"
 
 #: ../../faq.rst:278
 #, fuzzy
@@ -36591,10 +36615,13 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:281
+#, fuzzy
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Внесите необходимые изменения в репозиторий (например, используя :command:"
+"'git mv'), отправьте их в вышестоящий репозиторий."
 
 #: ../../faq.rst:282
 msgid ""
@@ -43052,10 +43079,8 @@ msgid "``label:TEXT``"
 msgstr "``state:ТЕКСТ``"
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid "String labels"
 msgid "Search in labels."
-msgstr "Метки строк"
+msgstr "Поиск в метках."
 
 #: ../../user/search.rst:89
 #, fuzzy
@@ -43378,7 +43403,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Optionally used by Weblate"
 msgid "Following labels are used by Weblate:"
-msgstr "Используется Weblate в качестве опции"
+msgstr "Weblate использует следующие метки:"
 
 #: ../../user/translating.rst:100
 msgid "Automatically translated"
@@ -45345,10 +45370,8 @@ msgid "List all projects:"
 msgstr "Список всех проектов:"
 
 #: ../../wlc.rst:373
-#, fuzzy
-#| msgid "Upload translations files"
 msgid "Upload translation file:"
-msgstr "Загрузить файлы перевода"
+msgstr "Загрузить файл перевода:"
 
 #: ../../wlc.rst:379
 msgid "You can also designate what project wlc should work on:"
