@@ -73,6 +73,7 @@ class UniqueEmailMixin:
         users = User.objects.filter(
             Q(social_auth__verifiedemail__email__iexact=mail) | Q(email=mail),
             is_active=True,
+            is_bot=False,
         )
         if users.exists():
             self.cleaned_data["email_user"] = users[0]
@@ -581,7 +582,7 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages["invalid_login"], code="invalid_login"
                 )
-            if not self.user_cache.is_active:
+            if not self.user_cache.is_active or self.user_cache.is_bot:
                 raise forms.ValidationError(
                     self.error_messages["inactive"], code="inactive"
                 )

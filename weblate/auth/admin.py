@@ -136,6 +136,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         "full_name",
         "user_groups",
         "is_active",
+        "is_bot",
         "is_superuser",
     )
     search_fields = ("username", "full_name", "email")
@@ -149,10 +150,13 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("full_name", "email")}),
-        (_("Permissions"), {"fields": ("is_active", "is_superuser", "groups")}),
+        (
+            _("Permissions"),
+            {"fields": ("is_active", "is_bot", "is_superuser", "groups")},
+        ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_filter = ("is_superuser", "is_active", "groups")
+    list_filter = ("is_superuser", "is_active", "is_bot", "groups")
     filter_horizontal = ("groups",)
 
     def user_groups(self, obj):

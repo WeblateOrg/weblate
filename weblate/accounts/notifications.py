@@ -198,6 +198,7 @@ class Notification:
                 or (change is not None and user == change.user)
                 # Inactive users
                 or (not user.is_active)
+                or user.is_bot
                 # Admin for not admin projects
                 or (
                     subscription.scope == SCOPE_ADMIN

@@ -21,6 +21,7 @@ import copy
 import json
 import re
 from datetime import date, datetime, timedelta
+from secrets import token_hex
 from typing import Dict, List
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -40,6 +41,7 @@ from django.utils import timezone
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
@@ -55,15 +57,7 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import (
-    Announcement,
-    Change,
-    Component,
-    Label,
-    Project,
-    ProjectToken,
-    Unit,
-)
+from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
@@ -2408,37 +2402,30 @@ class LabelForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class ProjectTokenDeleteForm(forms.Form):
-    token = forms.ModelChoiceField(
-        ProjectToken.objects.none(),
-        widget=forms.HiddenInput,
-        required=True,
-    )
-
-    def __init__(self, project, *args, **kwargs):
-        self.project = project
-        super().__init__(*args, **kwargs)
-        self.fields["token"].queryset = project.projecttoken_set.all()
-
-
 class ProjectTokenCreateForm(forms.ModelForm):
     class Meta:
-        model = ProjectToken
-        fields = ["name", "expires", "project"]
+        model = User
+        fields = ["full_name", "date_expires"]
         widgets = {
-            "expires": WeblateDateInput(),
-            "project": forms.HiddenInput,
+            "date_expires": WeblateDateInput(),
         }
 
     def __init__(self, project, *args, **kwargs):
         self.project = project
-        kwargs["initial"] = {"project": project}
         super().__init__(*args, **kwargs)
 
-    def clean_project(self):
-        if self.project != self.cleaned_data["project"]:
-            raise ValidationError("Invalid project!")
-        return self.cleaned_data["project"]
+    def save(self, *args, **kwargs):
+        self.instance.is_bot = True
+        base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
+        while User.objects.filter(
+            Q(username=name) | Q(email=f"{name}@bots.noreply.weblate.org")
+        ).exists():
+            name = f"{base_name}-{token_hex(2)}"
+        self.instance.username = name
+        self.instance.email = f"{name}@bots.noreply.weblate.org"
+        result = super().save(*args, **kwargs)
+        self.project.add_user(self.instance, "Administration")
+        return result
 
     def clean_expires(self):
         expires = self.cleaned_data["expires"]

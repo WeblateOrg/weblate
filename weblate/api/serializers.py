@@ -209,6 +209,7 @@ class FullUserSerializer(serializers.ModelSerializer):
             "notifications",
             "is_superuser",
             "is_active",
+            "is_bot",
             "date_joined",
             "url",
             "statistics_url",
