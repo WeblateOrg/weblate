@@ -314,7 +314,11 @@ class AuditLog(models.Model):
         return None
 
     def should_notify(self):
-        return self.user.is_active and self.activity in NOTIFY_ACTIVITY
+        return (
+            not self.user.is_bot
+            and self.user.is_active
+            and self.activity in NOTIFY_ACTIVITY
+        )
 
     def check_rate_limit(self, request):
         """Check whether the activity should be rate limited."""
@@ -816,9 +820,11 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     """Automatically create token and profile for user."""
     if created:
         # Create API token
-        Token.objects.create(user=instance, key=get_token("wlu"))
+        instance.auth_token = Token.objects.create(
+            user=instance, key=get_token("wlp" if instance.is_bot else "wlu")
+        )
         # Create profile
-        Profile.objects.create(user=instance)
+        instance.profile = Profile.objects.create(user=instance)
         # Create subscriptions
         if not instance.is_anonymous:
             create_default_notifications(instance)

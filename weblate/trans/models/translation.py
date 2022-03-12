@@ -522,13 +522,12 @@ class Translation(
 
         if component.has_template():
             # Include template
-            filenames.append(component.template)
+            filenames.append(component.get_template_filename())
 
-            if component.intermediate and os.path.exists(
-                component.get_intermediate_filename()
-            ):
+            filename = component.get_intermediate_filename()
+            if component.intermediate and os.path.exists(filename):
                 # Include intermediate language as it might add new strings
-                filenames.append(component.intermediate)
+                filenames.append(filename)
 
         return filenames
 

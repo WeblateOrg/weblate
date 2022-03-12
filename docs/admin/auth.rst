@@ -112,6 +112,13 @@ You need to register an OAuth application on GitHub and then tell Weblate all it
 The GitHub should be configured to have callback URL as
 ``https://example.com/accounts/complete/github/``.
 
+There are similar authentication backends for GitHub for Organizations and
+GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and
+``SOCIAL_AUTH_GITHUB_TEAM_*``, and they require additional setting of the scope
+- ``SOCIAL_AUTH_GITHUB_ORG_NAME`` or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their
+callback URLs are ``https://example.com/accounts/complete/github-org/`` and
+``https://example.com/accounts/complete/github-teams/``.
+
 .. include:: /snippets/oauth-site.rst
 
 .. seealso::

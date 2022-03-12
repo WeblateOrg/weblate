@@ -23,6 +23,7 @@ from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.db.models import Count, Value
 from django.db.models.functions import Replace
@@ -257,15 +258,23 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     def add_user(self, user, group: Optional[str] = None):
         """Add user based on username or email address."""
+        implicit_group = False
         if group is None:
+            implicit_group = True
             if self.access_control != self.ACCESS_PUBLIC:
                 group = "Translate"
             elif self.source_review or self.translation_review:
                 group = "Review"
             else:
                 group = "Administration"
-        group_obj = self.defined_groups.get(name=group)
-        user.groups.add(group_obj)
+        try:
+            group_objs = [self.defined_groups.get(name=group)]
+        except ObjectDoesNotExist:
+            if group == "Administration" or implicit_group:
+                group_objs = self.defined_groups.all()
+            else:
+                raise
+        user.groups.add(*group_objs)
         user.profile.watched.add(self)
 
     def remove_user(self, user):

@@ -21,6 +21,7 @@ import copy
 import json
 import re
 from datetime import date, datetime, timedelta
+from secrets import token_hex
 from typing import Dict, List
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -40,6 +41,7 @@ from django.utils import timezone
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
@@ -55,15 +57,7 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import (
-    Announcement,
-    Change,
-    Component,
-    Label,
-    Project,
-    ProjectToken,
-    Unit,
-)
+from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
@@ -1556,17 +1550,18 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
 
 class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
     name = forms.CharField(
-        label=_("Component name"),
+        label=Component.name.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=_("Display name"),
+        help_text=Component.name.field.help_text,
     )
     slug = forms.SlugField(
-        label=_("URL slug"),
+        label=Component.slug.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=_("Name used in URLs and filenames."),
+        help_text=Component.slug.field.help_text,
     )
     is_glossary = forms.BooleanField(
-        label=_("Use as a glossary"),
+        label=Component.is_glossary.field.verbose_name,
+        help_text=Component.is_glossary.field.help_text,
         required=False,
     )
 
@@ -1640,8 +1635,8 @@ class ComponentProjectForm(ComponentNameForm):
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
-        label=_("Source language"),
-        help_text=_("Language used for source strings in all components"),
+        label=Component.source_language.field.verbose_name,
+        help_text=Component.source_language.field.help_text,
         queryset=Language.objects.all(),
     )
 
@@ -1724,26 +1719,20 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         queryset=Project.objects.none(), label=_("Project")
     )
     vcs = forms.ChoiceField(
-        label=_("Version control system"),
-        help_text=_(
-            "Version control system to use to access your "
-            "repository with translations."
-        ),
+        label=Component.vcs.field.verbose_name,
+        help_text=Component.vcs.field.help_text,
         choices=VCS_REGISTRY.get_choices(exclude={"local"}),
         initial=settings.DEFAULT_VCS,
     )
     repo = forms.CharField(
-        label=_("Source code repository"),
+        label=Component.repo.field.verbose_name,
         max_length=REPO_LENGTH,
-        help_text=_(
-            "URL of a repository, use weblate://project/component "
-            "for sharing with other component."
-        ),
+        help_text=Component.repo.field.help_text,
     )
     branch = forms.CharField(
-        label=_("Repository branch"),
+        label=Component.branch.field.verbose_name,
         max_length=REPO_LENGTH,
-        help_text=_("Repository branch to translate"),
+        help_text=Component.branch.field.help_text,
         required=False,
     )
 
@@ -2412,37 +2401,30 @@ class LabelForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class ProjectTokenDeleteForm(forms.Form):
-    token = forms.ModelChoiceField(
-        ProjectToken.objects.none(),
-        widget=forms.HiddenInput,
-        required=True,
-    )
-
-    def __init__(self, project, *args, **kwargs):
-        self.project = project
-        super().__init__(*args, **kwargs)
-        self.fields["token"].queryset = project.projecttoken_set.all()
-
-
 class ProjectTokenCreateForm(forms.ModelForm):
     class Meta:
-        model = ProjectToken
-        fields = ["name", "expires", "project"]
+        model = User
+        fields = ["full_name", "date_expires"]
         widgets = {
-            "expires": WeblateDateInput(),
-            "project": forms.HiddenInput,
+            "date_expires": WeblateDateInput(),
         }
 
     def __init__(self, project, *args, **kwargs):
         self.project = project
-        kwargs["initial"] = {"project": project}
         super().__init__(*args, **kwargs)
 
-    def clean_project(self):
-        if self.project != self.cleaned_data["project"]:
-            raise ValidationError("Invalid project!")
-        return self.cleaned_data["project"]
+    def save(self, *args, **kwargs):
+        self.instance.is_bot = True
+        base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
+        while User.objects.filter(
+            Q(username=name) | Q(email=f"{name}@bots.noreply.weblate.org")
+        ).exists():
+            name = f"{base_name}-{token_hex(2)}"
+        self.instance.username = name
+        self.instance.email = f"{name}@bots.noreply.weblate.org"
+        result = super().save(*args, **kwargs)
+        self.project.add_user(self.instance, "Administration")
+        return result
 
     def clean_expires(self):
         expires = self.cleaned_data["expires"]

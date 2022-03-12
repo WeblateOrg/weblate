@@ -1,10 +1,31 @@
-Weblate 4.11.1
---------------
+Weblate 4.12
+------------
 
 Not yet released.
 
+* Added support for Amharic in :ref:`check-end-stop`.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
+
+Weblate 4.11.2
+--------------
+
+Released on March 4th 2022.
+
+* Fixed corrupted MO files in the binary release.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?closed=1>`__.
+
+Weblate 4.11.1
+--------------
+
+Released on March 4th 2022.
+
+* Fixed missing sanitizing of arguments to Git and Mercurial - CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details.
 * Fixed loading fuzzy strings from CSV files.
 * Added support for creating teams using the API.
+* Fixed user mention suggestions display.
+* The project tokens access can now be customized.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
 

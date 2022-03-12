@@ -191,7 +191,7 @@ class EndStopCheck(TargetCheck):
         if self.is_language(unit, ("my",)):
             return self.check_chars(source, target, -1, (".", "။"))
         return self.check_chars(
-            source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។")
+            source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។", "።")
         )
 
 

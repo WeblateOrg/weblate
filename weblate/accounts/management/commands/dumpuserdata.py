@@ -42,7 +42,7 @@ class Command(BaseCommand):
         )
 
         for profile in profiles:
-            if not profile.user.is_active:
+            if not profile.user.is_active or profile.user.is_bot:
                 continue
             data.append(profile.dump_data())
 

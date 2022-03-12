@@ -257,7 +257,7 @@ of upgrading.
 
       docker-compose stop database
 
-4. Remove the PostgreSQL volume
+4. Remove the PostgreSQL volume:
 
    .. code-block:: shell
 

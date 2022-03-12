@@ -13,8 +13,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  rundev:
     runs-on: ubuntu-20.04
+    name: Test development Docker
     env:
       PYTHONUNBUFFERED: 1
     steps:

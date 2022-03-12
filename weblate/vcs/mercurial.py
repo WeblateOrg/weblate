@@ -70,7 +70,7 @@ class HgRepository(Repository):
     @classmethod
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        cls._popen(["clone", "--branch", branch, source, target])
+        cls._popen(["clone", f"--branch={branch}", "--", source, target])
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -323,7 +323,7 @@ class HgRepository(Repository):
     def configure_branch(self, branch):
         """Configure repository branch."""
         if not self.on_branch(branch):
-            self.execute(["update", branch])
+            self.execute(["update", "--", branch])
         self.branch = branch
 
     def describe(self):
@@ -343,7 +343,7 @@ class HgRepository(Repository):
     def push(self, branch):
         """Push given branch to remote repository."""
         try:
-            self.execute(["push", "-b", self.branch])
+            self.execute(["push", f"--branch={self.branch}"])
         except RepositoryException as error:
             if error.retcode == 1:
                 # No changes found
@@ -363,7 +363,7 @@ class HgRepository(Repository):
 
     def update_remote(self):
         """Update remote repository."""
-        self.execute(["pull", "--branch", self.branch])
+        self.execute(["pull", f"--branch={self.branch}"])
         self.clean_revision_cache()
 
     def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
