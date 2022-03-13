@@ -25,7 +25,7 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def disable_expired():
-    User.objects.filter(expires__lte=timezone.now(), is_active=True).update(
+    User.objects.filter(date_expires__lte=timezone.now(), is_active=True).update(
         is_active=False
     )
 
