@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-03-07 14:59+0000\n"
+"PO-Revision-Date: 2022-03-14 13:58+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -3078,7 +3078,7 @@ msgstr "長期間未翻訳"
 
 #: weblate/checks/source.py:110
 msgid "The string has not been translated for a long time"
-msgstr "長い間翻訳されていない文字列"
+msgstr "翻訳が放置された文字列"
 
 #: weblate/checks/views.py:85 weblate/templates/component.html:71
 #: weblate/templates/language-project.html:47
@@ -4046,19 +4046,18 @@ msgstr "指定のプロジェクトは存在していないか、一般に公開
 
 #: weblate/templates/500.html:7 weblate/trans/views/error.py:80
 msgid "Internal Server Error"
-msgstr "サーバ内部エラー"
+msgstr "サーバー内部エラー"
 
 #: weblate/templates/500.html:11
 msgid "Server Error"
-msgstr "サーバエラー"
+msgstr "サーバー エラー"
 
 #: weblate/templates/500.html:16
 #, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
-msgstr ""
-"リクエストの処理中に、サーバ上で深刻な問題が発生しました。このエラーは "
+msgstr "リクエストの処理中に、サーバー上で深刻な問題が発生しました。このエラーは "
 "%(error_id)s として記録しました。"
 
 #: weblate/templates/500.html:36
@@ -4936,7 +4935,7 @@ msgstr "永久にブロック"
 #: weblate/templates/accounts/user.html:279
 #: weblate/templates/trans/project-access.html:68
 msgid "Unblock user"
-msgstr "ブロック解除"
+msgstr "ユーザーのブロック解除"
 
 #: weblate/templates/accounts/user.html:295
 #: weblate/templates/fonts/font_detail.html:31
@@ -6109,9 +6108,7 @@ msgstr "次のように、リモート リポジトリから Weblate に変更�
 #: weblate/templates/data.html:132
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
-msgstr ""
-"Weblate では、いくつかのコードホスティングサイトからの直接通知にも対応してい"
-"ます:"
+msgstr "Weblate で通知に対応している、コード ホスティング サイト:"
 
 #: weblate/templates/data.html:137
 msgid "Hosting site"
@@ -6337,7 +6334,7 @@ msgstr ""
 
 #: weblate/templates/i18n.html:23
 msgid "Use a few words, avoid common phrases."
-msgstr "一般的な語句を避け、いくつかの英単語から構成してください。"
+msgstr "複数の単語を使用し、一般的な慣用句などは避けてください。"
 
 #: weblate/templates/i18n.html:24
 msgid "No need for symbols, digits, or uppercase letters."
@@ -7614,9 +7611,8 @@ msgstr "翻訳したい言語を選択してください。"
 msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
-msgstr ""
-"翻訳ファイルは、<code>%(new_base)s</code> を基に、文字列はすべて未翻訳として"
-"作成されます。"
+msgstr "翻訳ファイルは、<code>%(new_base)s</code> "
+"を基に、すべての文字列は未翻訳の状態として作成されます。"
 
 #: weblate/templates/new-language.html:36
 msgid ""
@@ -7633,8 +7629,8 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
-"翻訳ファイルは、<code>%(new_base)s</code> をコピーして文字列にすべて「要編"
-"集」のマークが付けて作成され、翻訳時に置き換えられます。"
+"翻訳ファイルは、<code>%(new_base)s</code> を複製し、すべての文字列に「要編集"
+"」が設定された状態で生成されます。翻訳すると「要編集」が解除されます。"
 
 #: weblate/templates/new-language.html:48
 msgid ""
@@ -8575,8 +8571,9 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
-"文字列が崩れる心配は必要ありません。これは、実際の変更を確認する前に、編集し"
-"た文字列のプレビューを表示する 2 段階のプロセスです。"
+"安心してください。文字列は、すぐには変更されません。はじめに、文字列の変更を"
+"プレビュー画面で確認し、次に変更するものを選択して実行します。変更は、2 "
+"段階で処理します。"
 
 #: weblate/templates/snippets/sort-field.html:10
 #: weblate/templates/snippets/sort-field.html:14
@@ -9013,9 +9010,8 @@ msgstr "バージョン管理システム"
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
-msgstr ""
-"この現象は、この機能のサポートを無効にした後、もしくは依存関係がないために発"
-"生することがあります。"
+msgstr "この現象は、この機能のサポートを無効にした後、もしくは必要なプログラムがない"
+"ために発生することがあります。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -13064,15 +13060,15 @@ msgstr "ホスティング サービス"
 
 #: weblate/wladmin/models.py:80
 msgid "Basic self-hosted support"
-msgstr "基本サポート（お客様のサーバ対象）"
+msgstr "基本サポート（お客様のサーバー対象）"
 
 #: weblate/wladmin/models.py:81
 msgid "Extended self-hosted support"
-msgstr "拡張サポート（お客様のサーバ対象）"
+msgstr "拡張サポート（お客様のサーバー対象）"
 
 #: weblate/wladmin/models.py:82
 msgid "Premium self-hosted support"
-msgstr "プレミアム サポート（お客様のサーバ対象）"
+msgstr "プレミアム サポート（お客様のサーバー対象）"
 
 #: weblate/wladmin/models.py:163
 msgid "Backup repository URL"
