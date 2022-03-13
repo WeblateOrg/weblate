@@ -247,7 +247,7 @@ otherwise hard to type handy.
 
 The shown symbols factor into three categories:
 
-* User configured characters defined in the :ref:`user-profile`
+* User configured :ref:`profile-specialchars` defined in the :ref:`user-profile`
 * Per-language characters provided by Weblate (e.g. quotes or RTL specific characters)
 * Characters configured using :setting:`SPECIAL_CHARS`
 
