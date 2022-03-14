@@ -611,6 +611,12 @@ class ComponentSerializer(RemovableSerializer):
                 )
 
         # Handle uploaded files
+        if self.instance:
+            for field in ("docfile", "zipfile"):
+                if field in attrs:
+                    raise serializers.ValidationError(
+                        {field: "This field is for creation only, use /file/ instead."}
+                    )
         if "docfile" in attrs:
             fake = create_component_from_doc(attrs)
             attrs["template"] = fake.template
