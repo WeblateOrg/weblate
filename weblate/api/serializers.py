@@ -919,6 +919,8 @@ class UnitSerializer(serializers.ModelSerializer):
     )
     source = PluralField()
     target = PluralField()
+    timestamp = serializers.DateTimeField(read_only=True)
+    pending = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Unit
@@ -949,6 +951,8 @@ class UnitSerializer(serializers.ModelSerializer):
             "url",
             "explanation",
             "extra_flags",
+            "pending",
+            "timestamp",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
