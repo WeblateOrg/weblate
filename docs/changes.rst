@@ -4,6 +4,7 @@ Weblate 4.12
 Not yet released.
 
 * Added support for Amharic in :ref:`check-end-stop`.
+* Added support for Burmese in :ref:`check-end-question`.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
