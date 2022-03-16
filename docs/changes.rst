@@ -6,6 +6,7 @@ Not yet released.
 * Added support for Amharic in :ref:`check-end-stop`.
 * Added support for Burmese in :ref:`check-end-question`.
 * Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on.
+* Added ``ignore-all-checks`` flag to ignore all quality checks on a string.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
