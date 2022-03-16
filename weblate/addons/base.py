@@ -157,6 +157,9 @@ class BaseAddon:
             component.log_debug("running daily add-on: %s", self.name)
             self.daily(component)
 
+    def post_uninstall(self):
+        pass
+
     def save_state(self):
         """Save add-on state information."""
         self.instance.save(update_fields=["state"])

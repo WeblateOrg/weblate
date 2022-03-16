@@ -21,7 +21,7 @@ from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -354,3 +354,8 @@ def store_post_load_handler(sender, translation, store, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, translation.component)
+
+
+@receiver(post_delete, sender=Addon)
+def addon_post_delete(sender, instance, **kwargs):
+    instance.addon.post_uninstall()
