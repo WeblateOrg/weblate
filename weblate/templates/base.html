@@ -227,7 +227,7 @@ var _rollbarConfig = {
               {% if payment_enabled %}
                 <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
               {% endif %}
-              <li><a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for libre project hosting" %}</a></li>
+              <li><a href="{% url 'hosting' %}">{% trans "Ask for libre project hosting" %}</a></li>
             {% endif %}
           </ul>
         </li>
