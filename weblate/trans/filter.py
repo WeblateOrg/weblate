@@ -85,7 +85,7 @@ class FilterRegistry:
         try:
             return self.search_name[query.strip()]
         except KeyError:
-            return query
+            return _("Custom search")
 
     @cached_property
     def id_name(self):
