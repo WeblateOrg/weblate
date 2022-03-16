@@ -322,7 +322,7 @@ Weblate settings to make this work. Once configured, you will see a
 .. _gitea-push:
 
 Gitea pull requests
----------------------
+-------------------
 
 .. versionadded:: 4.12
 

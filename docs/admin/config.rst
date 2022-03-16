@@ -728,7 +728,7 @@ URL where support for your Weblate instance can be found.
 .. setting:: GITEA_CREDENTIALS
 
 GITEA_CREDENTIALS
-------------------
+-----------------
 
 .. versionadded:: 4.12
 
@@ -755,7 +755,7 @@ List for credentials for Gitea servers.
 .. setting:: GITEA_USERNAME
 
 GITEA_USERNAME
----------------
+--------------
 
 .. versionadded:: 4.12
 
@@ -769,7 +769,7 @@ Gitea username used to send pull requests for translation updates.
 .. setting:: GITEA_TOKEN
 
 GITEA_TOKEN
-------------
+-----------
 
 .. versionadded:: 4.12
 
