@@ -14,5 +14,6 @@
     contributing/schemas
     contributing/release
     contributing/security
+    contributing/modules
     contributing/about
     contributing/license

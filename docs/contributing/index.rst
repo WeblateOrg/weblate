@@ -9,6 +9,7 @@ coding, graphics design, documentation, sponsorship, or an idea:
 
 * :doc:`issues`
 * :doc:`start`
+* :doc:`modules`
 * :ref:`translating-weblate`
 * :ref:`contributing-docs`
 * :ref:`discussions`
