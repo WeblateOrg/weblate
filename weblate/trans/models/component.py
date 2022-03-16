@@ -2423,6 +2423,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.repo is None:
             return
 
+        if self.vcs != "local" and self.repo == "local:":
+            raise ValidationError({"vcs": "Use local VCS for local: URL."})
+
         # Validate VCS repo
         try:
             self.set_default_branch()

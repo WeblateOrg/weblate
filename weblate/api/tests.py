@@ -1347,6 +1347,23 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
+    def test_create_component_local_url(self):
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "filemask": "*.xliff",
+                "file_format": "xliff",
+                "new_lang": "none",
+            },
+        )
+
     def test_patch(self):
         self.do_request(
             "api:project-detail", self.project_kwargs, method="patch", code=403
