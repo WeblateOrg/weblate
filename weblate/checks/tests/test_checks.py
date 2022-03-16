@@ -140,7 +140,7 @@ class CheckTestCase(SimpleTestCase):
         # Verify skip logic
         should_skip = self.check.should_skip(unit)
         if expected:
-            self.assertFalse(should_skip, f"Check should not skip for {params}")
+            self.assertFalse(should_skip, msg=f"Check should not skip for {params}")
         elif should_skip:
             # There is nothing to test here
             return
@@ -148,9 +148,9 @@ class CheckTestCase(SimpleTestCase):
         # Verify check logic
         result = self.check.check_single(data[0], data[1], unit)
         if expected:
-            self.assertTrue(result, f"Check did not fire for {params}")
+            self.assertTrue(result, msg=f"Check did not fire for {params}")
         else:
-            self.assertFalse(result, f"Check did fire for {params}")
+            self.assertFalse(result, msg=f"Check did fire for {params}")
 
     def test_single_good_matching(self):
         self.do_test(False, self.test_good_matching)

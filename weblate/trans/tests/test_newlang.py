@@ -196,7 +196,7 @@ class NewLangTest(ViewTestCase):
 
             self.assertFalse(
                 self.component.translation_set.filter(language__code=code).exists(),
-                f"Translation with code {code} already exists",
+                msg=f"Translation with code {code} already exists",
             )
             self.reset_rate()
             self.client.post(

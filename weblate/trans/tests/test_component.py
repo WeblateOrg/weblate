@@ -61,7 +61,7 @@ class ComponentTest(RepoTestCase):
             if units:
                 self.assertTrue(
                     translation.unit_set.filter(source=unit).exists(),
-                    "Unit not found, all units: {}".format(
+                    msg="Unit not found, all units: {}".format(
                         "\n".join(translation.unit_set.values_list("source", flat=True))
                     ),
                 )
