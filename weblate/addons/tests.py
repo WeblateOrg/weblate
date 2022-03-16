@@ -314,12 +314,16 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         translation = self.component.translation_set.get(language_code="de")
+        self.assertEqual(translation.check_flags, "ignore-all-checks")
         self.assertEqual(translation.stats.translated, translation.stats.all)
         for unit in translation.unit_set.all():
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@_"))
                 # We need to deal with automated fixups
                 self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
+        self.component.addon_set.all().delete()
+        translation = self.component.translation_set.get(language_code="de")
+        self.assertEqual(translation.check_flags, "")
 
     def test_prefill(self):
         self.assertTrue(PrefillAddon.can_install(self.component, None))

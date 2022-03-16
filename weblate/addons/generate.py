@@ -23,6 +23,7 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
+from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Translation
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
@@ -140,14 +141,15 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         # Update only untranslated strings
         self.do_update(component, Q(state__lt=STATE_TRANSLATED))
 
+    def get_target_translation(self, component):
+        return component.translation_set.get(pk=self.instance.configuration["target"])
+
     def do_update(self, component, query):
         try:
             source_translation = component.translation_set.get(
                 pk=self.instance.configuration["source"]
             )
-            target_translation = component.translation_set.get(
-                pk=self.instance.configuration["target"]
-            )
+            target_translation = self.get_target_translation(component)
         except Translation.DoesNotExist:
             # Uninstall misconfigured add-on
             report_error(cause="add-on error")
@@ -163,6 +165,28 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             var_multiplier=self.instance.configuration.get("var_multiplier", 0.1),
             query=query,
         )
+
+    def post_uninstall(self):
+        try:
+            target_translation = self.get_target_translation(self.instance.component)
+            flags = Flags(target_translation.check_flags)
+            flags.remove("ignore-all-checks")
+            target_translation.check_flags = flags.format()
+            target_translation.save(update_fields=["check_flags"])
+        except Translation.DoesNotExist:
+            pass
+        super().post_uninstall()
+
+    def post_configure(self, run: bool = True):
+        try:
+            target_translation = self.get_target_translation(self.instance.component)
+            flags = Flags(target_translation.check_flags)
+            flags.merge("ignore-all-checks")
+            target_translation.check_flags = flags.format()
+            target_translation.save(update_fields=["check_flags"])
+        except Translation.DoesNotExist:
+            pass
+        super().post_configure(run=run)
 
 
 class PrefillAddon(LocaleGenerateAddonBase):
