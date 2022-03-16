@@ -413,15 +413,21 @@ Pseudolocale generation
 .. versionadded:: 4.5
 
 :Add-on ID: ``weblate.generate.pseudolocale``
-:Configuration: +------------+--------------------+--+
-                | ``source`` | Source strings     |  |
-                +------------+--------------------+--+
-                | ``target`` | Target translation |  |
-                +------------+--------------------+--+
-                | ``prefix`` | String prefix      |  |
-                +------------+--------------------+--+
-                | ``suffix`` | String suffix      |  |
-                +------------+--------------------+--+
+:Configuration: +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``source``         | Source strings           |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``target``         | Target translation       | All strings in this translation will be overwritten                                      |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``prefix``         | Fixed string prefix      |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``var_prefix``     | Variable string prefix   |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``suffix``         | Fixed string suffix      |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``var_suffix``     | Variable string suffix   |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``var_multiplier`` | Variable part multiplier | How many times to repeat the variable part depending on the length of the source string. |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
 :Triggers: component update, daily
 
 Generates a translation by adding prefix and suffix to source strings
@@ -434,6 +440,21 @@ in the pseudolocale language.
 
 Finding strings whose localized counterparts might not fit the layout
 is also possible.
+
+Using the variable parts makes it possible to look for strings which might not
+fit into the user interface after the localization - it extends the text based
+on the source string length. The variable parts are repeated by length of the
+text multiplied by the multiplier. For example ``Hello world`` with variable
+suffix ``_`` and variable multiplier of 1 becomes ``Hello world___________`` -
+the suffix is repeated once for each character in the source string.
+
+The strings will be generated using following pattern:
+
+:guilabel:`Fixed string prefix`
+:guilabel:`Variable string prefix`
+:guilabel:`Source string`
+:guilabel:`Variable string suffix`
+:guilabel:`Fixed string suffix`
 
 .. hint::
 

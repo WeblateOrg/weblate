@@ -77,6 +77,9 @@ class LocaleGenerateAddonBase(BaseAddon):
         query,
         prefix: str = "",
         suffix: str = "",
+        var_prefix: str = "",
+        var_suffix: str = "",
+        var_multiplier: float = 0.0,
         target_state: int = STATE_TRANSLATED,
     ):
         updated = 0
@@ -94,7 +97,12 @@ class LocaleGenerateAddonBase(BaseAddon):
                     last_string = source_string
                 else:
                     source_strings[i] = last_string
-            new_strings = [f"{prefix}{source}{suffix}" for source in source_strings]
+            new_strings = []
+            for source in source_strings:
+                multi = int(var_multiplier * len(source))
+                new_strings.append(
+                    f"{prefix}{var_prefix*multi}{source}{var_suffix*multi}{suffix}"
+                )
             target_strings = unit.get_target_plurals()
             if new_strings != target_strings or unit.state < STATE_TRANSLATED:
                 unit.translate(
@@ -150,6 +158,9 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation,
             prefix=self.instance.configuration["prefix"],
             suffix=self.instance.configuration["suffix"],
+            var_prefix=self.instance.configuration.get("var_prefix", ""),
+            var_suffix=self.instance.configuration.get("var_suffix", ""),
+            var_multiplier=self.instance.configuration.get("var_multiplier", 0.1),
             query=query,
         )
 

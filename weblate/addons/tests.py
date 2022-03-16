@@ -299,6 +299,28 @@ class GettextAddonTest(ViewTestCase):
                 # We need to deal with automated fixups
                 self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
 
+    def test_pseudolocale_variable(self):
+        self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
+        PseudolocaleAddon.create(
+            self.component,
+            configuration={
+                "source": self.component.translation_set.get(language_code="en").pk,
+                "target": self.component.translation_set.get(language_code="de").pk,
+                "prefix": "@@@",
+                "suffix": "!!!",
+                "var_prefix": "_",
+                "var_suffix": "_",
+                "var_multiplier": 1,
+            },
+        )
+        translation = self.component.translation_set.get(language_code="de")
+        self.assertEqual(translation.stats.translated, translation.stats.all)
+        for unit in translation.unit_set.all():
+            for text in unit.get_target_plurals():
+                self.assertTrue(text.startswith("@@@_"))
+                # We need to deal with automated fixups
+                self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
+
     def test_prefill(self):
         self.assertTrue(PrefillAddon.can_install(self.component, None))
         PrefillAddon.create(self.component)

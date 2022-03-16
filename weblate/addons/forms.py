@@ -483,16 +483,38 @@ class CDNJSForm(BaseAddonForm):
 
 class PseudolocaleAddonForm(BaseAddonForm):
     source = forms.ChoiceField(label=_("Source strings"), required=True)
-    target = forms.ChoiceField(label=_("Target translation"), required=True)
+    target = forms.ChoiceField(
+        label=_("Target translation"),
+        required=True,
+        help_text=_("All strings in this translation will be overwritten"),
+    )
     prefix = forms.CharField(
-        label=_("String prefix"),
+        label=_("Fixed string prefix"),
+        required=False,
+        initial="",
+    )
+    var_prefix = forms.CharField(
+        label=_("Variable string prefix"),
         required=False,
         initial="",
     )
     suffix = forms.CharField(
-        label=_("String suffix"),
+        label=_("Fixed string suffix"),
         required=False,
         initial="",
+    )
+    var_suffix = forms.CharField(
+        label=_("Variable string suffix"),
+        required=False,
+        initial="",
+    )
+    var_multiplier = forms.FloatField(
+        label=_("Variable part multiplier"),
+        initial=0.1,
+        help_text=_(
+            "How many times to repeat the variable part depending on "
+            "the length of the source string."
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -503,6 +525,19 @@ class PseudolocaleAddonForm(BaseAddonForm):
         ]
         self.fields["source"].choices = choices
         self.fields["target"].choices = choices
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field("source"),
+            Field("target"),
+            Field("prefix"),
+            Field("var_prefix"),
+            Field("suffix"),
+            Field("var_suffix"),
+            Field("var_multiplier"),
+            ContextDiv(
+                template="addons/pseudolocale.html",
+            ),
+        )
 
     def clean(self):
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
