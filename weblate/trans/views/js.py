@@ -154,7 +154,7 @@ def ignore_check_source(request, check_id):
     return JsonResponse(
         {
             "extra_flags": unit.extra_flags,
-            "all_flags": unit.all_flags.format(),
+            "all_flags": obj.unit.all_flags.format(),
             "ignore_check": ignore,
         }
     )
