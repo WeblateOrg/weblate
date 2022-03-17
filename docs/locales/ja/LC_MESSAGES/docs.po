@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-15 14:59+0000\n"
+"PO-Revision-Date: 2022-03-18 14:06+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -3974,10 +3974,10 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
-"Weblate は `BorgBackup`_ を使用して、サービスのバックアップを作成する機能が付"
-"属しています。Borg はスペース効率の高い暗号化されたバックアップを作成し、クラ"
-"ウドに安全に保存します。バックアップは、管理画面の :guilabel:`バックアップ` "
-"タブからコントロールします。"
+"Weblate には、`BorgBackup`_ "
+"を使用してサービスのバックアップを作成する機能が付属しています。Borg はスペー"
+"ス効率の高い暗号化されたバックアップを作成し、クラウドに安全に保存します。バ"
+"ックアップは、管理画面の :guilabel:`バックアップ` タブから管理します。"
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -4017,9 +4017,9 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"`BorgBackup`_ は暗号化したバックアップを作成するので、パスフレーズがないと復"
-"元できません。パスフレーズは、新しいバックアップ サービスを追加するときに生成"
-"されるので、コピーして安全な場所に保管しておくことが必要です。"
+"`BorgBackup`_ は、暗号化したバックアップを作成するので、パスフレーズがないと"
+"復元できません。パスフレーズは、新しいバックアップ サービスを追加するときに生"
+"成されるので、コピーして安全な場所に保管しておくことが必要です。"
 
 #: ../../admin/backup.rst:37
 msgid ""
@@ -4044,7 +4044,8 @@ msgstr ""
 
 #: ../../admin/backup.rst:48
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
-msgstr ""
+msgstr "バックアップの作成は、:setting:`BORG_EXTRA_ARGS` "
+"を使用してカスタマイズできます。"
 
 #: ../../admin/backup.rst:53
 msgid "Weblate provisioned backup storage"
@@ -4111,8 +4112,8 @@ msgid ""
 "`BorgBackup`_ installed."
 msgstr ""
 "バックアップには、独自のストレージも使用できます。SSH "
-"を使用してリモート接続先にバックアップを保存できます。対象のサーバーには "
-"`BorgBackup`_ がインストールされていることが必要となります。"
+"を使用してリモート接続先にバックアップを保存します。対象のサーバーには "
+"`BorgBackup`_ のインストールが必要です。"
 
 #: ../../admin/backup.rst:82
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -4129,11 +4130,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
-"ローカルバックアップの絶対パスを、例えば `/path/to/backup` "
-"のように指定することが望ましいです。このディレクトリは、Weblate "
-"を実行しているユーザーに書き込み権限が必要です（参照: :ref:`file-"
-"permissions`）。存在しない場合は、Weblate "
-"が作成を試みますが、そのためには適切なアクセス権が必要です。"
+"ローカルバックアップの絶対パスを、`/path/to/backup` "
+"のように指定してください。このディレクトリは、Weblate "
+"を実行しているユーザーの書き込み権限が必要です（参照: :ref:`file-"
+"permissions`）。ディレクトリが存在しない場合は、Weblate "
+"が作成を試みますが、そのためには書き込み権限が必要です。"
 
 #: ../../admin/backup.rst:94
 msgid ""
@@ -4180,45 +4181,53 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
-"リモート バックアップを作成ためには、Weblate の SSH 鍵を使用して SSH でアクセ"
-"ス可能な展開した Weblate のとは別のサーバーに `BorgBackup`_ をインストールす"
-"ることが必要であり、その方法:"
+"リモート バックアップを作成するには、Weblate の SSH 鍵を使用して SSH "
+"でアクセス可能な展開した Weblate のとは別のサーバーに `BorgBackup`_ "
+"をインストールすることが必要です。、その方法:\n"
+"Weblate を導入したサーバーとは別に、Weblate の SSH 鍵を使用して SSH "
+"で接続できるサーバーが必要です。バックアップ サーバーの準備方法:"
 
 #: ../../admin/backup.rst:122
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "バックアップを保存するサーバーを準備する。"
 
 #: ../../admin/backup.rst:123
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
-msgstr ""
+msgstr "SSH サーバーをインストールする（ほとんどの Linux "
+"ディストリビューションではデフォルトで提供されている）。"
 
 #: ../../admin/backup.rst:124
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"準備したサーバーに、`BorgBackup`_ をインストールする。ほとんどの Linux "
+"ディストリビューションにはパッケージが用意されている（参照: "
+":doc:`borg:installation`）。"
 
 #: ../../admin/backup.rst:125
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
-msgstr ""
+msgstr "既存のユーザーを選択するか、バックアップ用の新しいユーザーを作成する。"
 
 #: ../../admin/backup.rst:126
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Weblate がパスワードを使用せずに、サーバーに SSH で接続できるように、Weblate "
+"SSH 鍵をユーザーに追加する（参照: :ref:`weblate-ssh-key`）。"
 
 #: ../../admin/backup.rst:127
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
 msgstr ""
-"Weblate のバックアップ先を ``user@host:/path/to/backups`` または ``ssh://"
-"user@host:port/path/to/backups`` に設定します。"
+"Weblate のバックアップ先を、``user@host:/path/to/backups`` または "
+"``ssh://user@host:port/path/to/backups`` に設定する。"
 
 #: ../../admin/backup.rst:131
 msgid ""
@@ -4233,36 +4242,33 @@ msgstr ":ref:`weblate-ssh-key`、:doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:138
 msgid "Restoring from BorgBackup"
-msgstr "BorgBackup からの復元"
+msgstr "BorgBackup から復元"
 
 #: ../../admin/backup.rst:140
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
-msgstr ""
-"バックアップ リポジトリへのアクセスを復元し、バックアップ パスフレーズを準備"
-"します。"
+msgstr "バックアップ リポジトリへのアクセスを復元し、バックアップ "
+"パスフレーズを準備する。"
 
 #: ../../admin/backup.rst:142
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
-msgstr ""
-"``borg list REPOSITORY`` を使用して、サーバー上のすべてのバックアップを一覧表"
-"示します。"
+msgstr "``borg list REPOSITORY`` "
+"を使用して、サーバー上のすべてのバックアップを一覧表示する。"
 
 #: ../../admin/backup.rst:144
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
-msgstr ""
-"``borg extract REPOSITORY::ARCHIVE`` を使用して、目的のバックアップを現在の"
-"ディレクトリに復元します。"
+msgstr "``borg extract REPOSITORY::ARCHIVE`` "
+"を使用して、目的のバックアップを現在のディレクトリに復元する。"
 
 #: ../../admin/backup.rst:146
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
-"Weblate データ ディレクトリーの ``backup`` ディレクトリーに置かれた SQL ダン"
-"プからデータベースを復元します（参照: :ref:`backup-dumps`）。"
+"Weblate データ ディレクトリーの ``backup`` ディレクトリーに置かれた SQL "
+"ダンプから、データベースを復元する（参照: :ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:148
 msgid ""
@@ -4270,7 +4276,7 @@ msgid ""
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "Weblate の設定ファイル（:file:`backups/settings.py`、参照: :ref:`backup-"
-"dumps`）を正しい場所にコピーしてください。"
+"dumps`）を正しい場所にコピーする。"
 
 #: ../../admin/backup.rst:151
 msgid ""
@@ -4279,26 +4285,30 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Docker コンテナを使用する場合、設定ファイルは既にコンテナに含まれているため、"
+"元の環境変数の復元が必要です。:file:`environment.yml` "
+"ファイルは復元に便利かも（参照: :ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:155
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
-msgstr ""
-"復元したデータ ディレクトリ全体を、:setting:`DATA_DIR` に設定した場所にコピー"
-"します。"
+msgstr "復元したデータ ディレクトリ全体を、:setting:`DATA_DIR` "
+"に設定した場所にコピーする。"
 
 #: ../../admin/backup.rst:158
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
-msgstr ""
+msgstr "Docker コンテナを使用する場合は、データーをデータ ボリュームに配置する（参照:"
+" :ref:`docker-volume`）。"
 
 #: ../../admin/backup.rst:161
 msgid ""
 "Please make sure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
-msgstr ""
+msgstr "ファイルの所有権とアクセス権限が正しいかどうか確認する（参照: :ref:`file-"
+"permissions`）。"
 
 #: ../../admin/backup.rst:163
 msgid "The Borg session might look like this:"
@@ -4327,6 +4337,10 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"手動でバックアップしている場合、Weblate "
+"のバックアップ不足の警告を黙らせるには、:file:`settings.py` ファイルの "
+":setting:`django:SILENCED_SYSTEM_CHECKS` に ``weblate.I028`` を追加する。"
+"Docker の場合は :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` を追加してください。"
 
 #: ../../admin/backup.rst:199
 msgid "Database"
@@ -4342,7 +4356,7 @@ msgid ""
 "database. Without the database, all the translations are gone."
 msgstr ""
 "データベースは最も重要なストレージです。データベースの定期的なバックアップを"
-"設定してください。データベースがなくなると、すべての翻訳が消失します。"
+"設定してください。データベースがなくなれば、すべての翻訳が消失します。"
 
 #: ../../admin/backup.rst:209
 msgid "Native database backup"
@@ -4356,9 +4370,9 @@ msgid ""
 "their data."
 msgstr ""
 "推奨する方法は、:program:`pg_dump` や :program:`mysqldump` などのデータベース"
-"に搭載しているツールを使用して、データベースのダンプを保存することです。これ"
-"は通常 Django のバックアップよりも性能が良く、テーブルをすべてのデータと共に"
-"完全に復元します。"
+"に搭載しているツールを使用して、データベースのダンプを保存することです。"
+"これは通常 Django のバックアップよりも性能が良く、テーブルをすべてのデータと"
+"共に完全に復元できます。"
 
 #: ../../admin/backup.rst:215
 msgid ""
@@ -4367,10 +4381,14 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"バックアップしたものは、新しくリリースされた Weblate で復元可能です。 "
+":djadmin:`django:migrate` と実行すると、すべての必要なマイグレーションが実行"
+"されます。バージョン間のアップグレードの方法についてのより詳細な情報は、:doc:"
+"`upgrade` を確認してください。"
 
 #: ../../admin/backup.rst:220
 msgid "Django database backup"
-msgstr "Django データベースバックアップ"
+msgstr "Django データベースのバックアップ"
 
 #: ../../admin/backup.rst:222
 msgid ""
@@ -4378,6 +4396,9 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
+"または、Django の :djadmin:`django:dumpdata` コマンドを使用して、データベース"
+"をバックアップできます。これにより、データベースに依存しないバックアップがで"
+"きます。データベースのバックエンドを変更したい場合に使用します。"
 
 #: ../../admin/backup.rst:226
 msgid ""
@@ -4387,6 +4408,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
+"データベースを復元する前に、バックアップを実行した時と完全に同じバージョンの "
+"Weblate を実行してください。 データベース構造がリリース間で変化して、何らかの"
+"方法でデータを破損させる場合があるためです。 "
+"同じバージョンをインストールした後、:djadmin:`django:migrate` "
+"を使用して、すべてのデータベースのマイグレーションを実行します。"
 
 #: ../../admin/backup.rst:232
 msgid ""
@@ -4395,6 +4421,9 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"その後、一部のエントリは既にデータベースに作成され、データベースのバックアッ"
+"プにも作成されます。できれば、管理シェルを使用して、このようなエントリを手動"
+"で削除してください（参照: :ref:`invoke-manage`）。"
 
 #: ../../admin/backup.rst:243
 msgid "Files"
@@ -4407,20 +4436,25 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
+"バックアップ領域に余裕がある場合は、単純に :setting:`DATA_DIR` 全体をバックア"
+"ップしてください。これは、不要なファイルが含まれている場合でも安全な方法です"
+"。次のセクションでは、バックアップすべきものと除外できるものについて詳しく説"
+"明します。"
 
 #: ../../admin/backup.rst:253
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "バックアップ用にダンプしたデータ"
 
 #: ../../admin/backup.rst:257
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
-msgstr ""
+msgstr "環境ダンプは、Docker 環境での復元を支援するために 、:file:`environment.yml` "
+"として追加されました。"
 
 #: ../../admin/backup.rst:260
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "保存先: :setting:`DATA_DIR` ``/backups``。"
 
 #: ../../admin/backup.rst:262
 msgid ""
@@ -4428,12 +4462,18 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate は、さまざまなデータをここにダンプします。これらのファイルを含めて、"
+"より完全なバックアップを取ることができます。ファイルは毎日更新されます（"
+"実行中の Celery beats サーバーが必要。参照: "
+":ref:`celery`）。現在、ダンプに含まれる項目:"
 
 #: ../../admin/backup.rst:266
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Weblate の設定ファイル :file:`settings.py`（拡張版として :file:`settings-"
+"expanded.py` も存在する）。"
 
 #: ../../admin/backup.rst:267
 msgid "PostgreSQL database backup as :file:`database.sql`."
@@ -4442,25 +4482,29 @@ msgstr ""
 
 #: ../../admin/backup.rst:268
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "環境ダンプ ファイル :file:`environment.yml`。"
 
 #: ../../admin/backup.rst:270
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"データベースのバックアップは、デフォルトではプレーン "
+"テキストとして保存されます。しかし、:setting:`DATABASE_BACKUP` "
+"を使用して、圧縮したり、何も実行しないかを選択できます。"
 
 #: ../../admin/backup.rst:273
 msgid "To restore the database backup load it using dabase tools, for example:"
-msgstr ""
+msgstr "データベースのバックアップを復元するには、データベース "
+"ツールを使用して読み込みます。読み込み例:"
 
 #: ../../admin/backup.rst:280
 msgid "Version control repositories"
-msgstr ""
+msgstr "バージョン管理レポジトリ"
 
 #: ../../admin/backup.rst:282
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "保存先: :setting:`DATA_DIR` ``/vcs``。"
 
 #: ../../admin/backup.rst:284
 msgid ""
@@ -4471,15 +4515,24 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
+"バージョン管理リポジトリには、Weblate "
+"の変更を含む上流リポジトリのコピーが含まれます。"
+"すべての翻訳コンポーネントに対して :ref:`component-push_on_commit` "
+"が有効になっている場合、Weblate "
+"で変更したものはすべて、上流リポジトリに反映済みです。Weblate 側のリポジトリ"
+"は、データ損失のない上流リポジトリから再度クローンを作成できるため、バックア"
+"ップする必要はありません。Weblate 側で、リポジトリのバックアップを取る必要は"
+"ありません。上流リポジトリから再びクローンすれば、データを失うことはありませ"
+"ん。"
 
 #: ../../admin/backup.rst:291
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "SSH 鍵および GPG 鍵"
 
 #: ../../admin/backup.rst:293
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
-msgstr ""
+msgstr "保存先: :setting:`DATA_DIR` ``/ssh`` および :setting:`DATA_DIR` ``/home``。"
 
 #: ../../admin/backup.rst:295
 msgid ""
@@ -4487,24 +4540,26 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Weblateで生成したSSH 鍵および GPG 鍵を使用している場合は、保存場所をバックア"
+"ップしてください。バックアップしなければ、秘密鍵を消失し、新しい鍵の再生成が"
+"必要となります。"
 
 #: ../../admin/backup.rst:300
 msgid "User uploaded files"
-msgstr ""
+msgstr "ユーザーがアップロードしたファイル"
 
 #: ../../admin/backup.rst:302
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "保存先: :setting:`DATA_DIR` ``/media``。"
 
 #: ../../admin/backup.rst:304
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
-msgstr ""
-"ユーザーがアップロードしたすべてのファイルのバックアップが必要です（例: :ref:"
-"`screenshots`）。"
+msgstr "ユーザーがアップロードしたファイルは、すべてバックアップしてください（例: "
+":ref:`screenshots`）。"
 
 #: ../../admin/backup.rst:307
 msgid "Celery tasks"
-msgstr ""
+msgstr "Celery タスク"
 
 #: ../../admin/backup.rst:309
 msgid ""
@@ -4513,6 +4568,10 @@ msgid ""
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
+"Celery タスク キューには、何かの情報が含まれていることがありますが、通常はバ"
+"ックアップする必要はありません。翻訳メモリで未処理の更新が、失われるだけです"
+"。どちらにしても、復元時にフル "
+"テキストまたはリポジトリの更新を実行をすれば、消失しても問題はありません。"
 
 #: ../../admin/backup.rst:316
 msgid ":ref:`celery`"
@@ -4520,13 +4579,14 @@ msgstr ":ref:`celery`"
 
 #: ../../admin/backup.rst:319
 msgid "Command-line for manual backup"
-msgstr ""
+msgstr "手動バックアップのコマンド ライン"
 
 #: ../../admin/backup.rst:321
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
-msgstr ""
+msgstr "cron job を使用すると、毎日実行する Bash "
+"コマンドを設定できます。コマンド設定例:"
 
 #: ../../admin/backup.rst:327
 msgid ""
@@ -4534,34 +4594,39 @@ msgid ""
 "options, for instance the amount of memory used for compression; see https://"
 "linux.die.net/man/1/xz"
 msgstr ""
+"`XZ_OPT` の後の引用符で囲まれた文字列を使用すると、"
+"圧縮に使用するメモリー量などの xz オプションを指定できます。参照: "
+"https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:329
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
-msgstr ""
+msgstr "必要に応じて、フォルダとファイルの一覧を修正できます。（バックアップ "
+"フォルダ内の）翻訳メモリを保存しないようにするコマンド:"
 
 #: ../../admin/backup.rst:336
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "手動バックアップの復元"
 
 #: ../../admin/backup.rst:338
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "バックアップしたデータをすべて復元する。"
 
 #: ../../admin/backup.rst:340
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr ":djadmin:`updategit` を使用して、すべてのリポジトリを更新する。"
 
 #: ../../admin/backup.rst:347
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Weblate 設置場所の移動"
 
 #: ../../admin/backup.rst:349
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
-msgstr ""
+msgstr "上記のバックアップと復元の手順に従い、インストールした Weblate "
+"を、他のシステムに移動します。"
 
 #: ../../admin/backup.rst:354
 msgid ":ref:`py3`, :ref:`database-migration`"
@@ -6573,9 +6638,8 @@ msgstr "DATABASE_BACKUP"
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
-msgstr ""
-"データベースのバックアップをプレーン テキストとして保存するか、圧縮するか、ス"
-"キップするかを指定します。許可する値:"
+msgstr "データベースのバックアップをプレーン テキストとして保存するか、圧縮するか、何"
+"も実行しないかを指定します。設定できる値:"
 
 #: ../../admin/config.rst:451
 msgid "``\"plain\"``"
