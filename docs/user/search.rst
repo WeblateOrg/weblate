@@ -8,8 +8,7 @@ Searching
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
 find the strings you want.
 
-When no field is defined, the lookup happens on :guilabel:`Source`,
-:guilabel:`Translate` and :guilabel:`Context` fields.
+When no field is defined, the lookup happens source, target, and context strings.
 
 .. image:: /screenshots/search.png
 
