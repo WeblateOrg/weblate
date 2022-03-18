@@ -23,6 +23,9 @@ Python modules
 
    .. code-block:: sh
 
+        # pkgconfig is needed to install borgbackup 1.2
+        pip install pkgconfig
+        # Install Weblate with all optional dependencies
         pip install "Weblate[all]"
 
    Please check :ref:`optional-deps` for fine-tuning of optional dependencies.
