@@ -1327,7 +1327,7 @@ LICENSES = (
     ),
     ("IPA", "IPA Font License", "https://spdx.org/licenses/IPA.html", True),
     ("ISC", "ISC License", "https://spdx.org/licenses/ISC.html", True),
-    ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", False),
+    ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", True),
     (
         "JPNIC",
         "Japan Network Information Center License",
@@ -1517,6 +1517,7 @@ LICENSES = (
         True,
     ),
     ("mpich2", "mpich2 License", "https://spdx.org/licenses/mpich2.html", False),
+    ("mplus", "mplus Font License", "https://spdx.org/licenses/mplus.html", False),
     (
         "MulanPSL-1.0",
         "Mulan Permissive Software License, Version 1",
