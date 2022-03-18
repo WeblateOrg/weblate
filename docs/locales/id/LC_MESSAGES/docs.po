@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-18 14:06+0000\n"
+"PO-Revision-Date: 2022-03-19 07:31+0000\n"
 "Last-Translator: Taufik A. Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -862,22 +862,30 @@ msgid ""
 "Members of that group will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
+"Anggota grup tersebut akan memiliki izin berikut ini (dengan asumsi "
+"pengaturan peran bawaan):"
 
 #: ../../admin/access.rst:400
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Akses umum (menjelajah) ke seluruh proyek ``foo`` termasuk kedua komponen di "
+"dalamnya: ``foo/bar`` dan ``foo/baz``."
 
 #: ../../admin/access.rst:402
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Tinjau string dalam terjemahan bahasa Spanyol ``foo/bar`` (tidak di tempat "
+"lain)."
 
 #: ../../admin/access.rst:403
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Kelola VCS untuk seluruh repositori ``foo/bar`` misalnya, melakukan "
+"perubahan tertunda yang dibuat oleh penerjemah untuk semua bahasa."
 
 #: ../../admin/access.rst:409
 msgid "Automatic group assignments"
@@ -891,6 +899,11 @@ msgid ""
 "to automatically assign newly created users to a group based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
+"Di bagian bawah halaman pengeditan :guilabel:`Grup` di :ref:`Antarmuka admin "
+"Django admin <antarmuka-admin>`, Anda dapat menentukan :guilabel:`Penentuan "
+"grup otomatis`, yang merupakan daftar ekspresi reguler yang digunakan untuk "
+"menetapkan pengguna baru ke dalam grup berdasarkan alamat surel mereka "
+"secara otomatis. Penentuan ini hanya terjadi setelah pembuatan akun."
 
 #: ../../admin/access.rst:417
 msgid ""
@@ -902,6 +915,13 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
+"Kasus penggunaan paling umum untuk fitur ini adalah menetapkan semua "
+"pengguna baru ke beberapa grup bawaan. Untuk melakukannya, Anda mungkin "
+"ingin mempertahankan nilai bawaan (``^.*$``) di bidang ekspresi reguler. "
+"Kasus penggunaan lain untuk opsi ini mungkin memberikan beberapa hak "
+"istimewa tambahan kepada karyawan perusahaan Anda secara asali. Dengan "
+"asumsi, semuanya menggunakan alamat surel perusahaan di domain Anda. Hal ini "
+"dapat dilakukan dengan ekspresi seperti ``^.*@perusahaansaya.com``."
 
 #: ../../admin/access.rst:426
 msgid ""
@@ -909,6 +929,10 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Penetapan grup otomatis ke `Pengguna` dan `Pemirsa` selalu dibuat ulang saat "
+"memperbarui dari satu versi Weblate ke versi lain. Jika Anda ingin "
+"menonaktifkannya, setel ekspresi reguler ke ``^$`` (yang tidak akan cocok "
+"dengan apa pun)."
 
 #: ../../admin/access.rst:432
 msgid ""
@@ -916,10 +940,13 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"Untuk saat ini, tidak ada cara untuk menambahkan pengguna yang sudah ada ke "
+"beberapa grup secara massal melalui antarmuka pengguna. Untuk itu, Anda "
+"dapat menggunakan :ref:`REST API <api>`."
 
 #: ../../admin/access.rst:436
 msgid "Default groups and roles"
-msgstr ""
+msgstr "Grup dan peran asali"
 
 #: ../../admin/access.rst:438
 msgid ""
