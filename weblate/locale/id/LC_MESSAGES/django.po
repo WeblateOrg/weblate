@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-03-19 09:39+0000\n"
+"PO-Revision-Date: 2022-03-20 22:58+0000\n"
 "Last-Translator: Taufik A. Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -483,7 +483,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:401
 msgid "Hide completed translations on the dashboard"
-msgstr "Sembunyikan terjemahan yang selesai pada dasbor"
+msgstr "Sembunyikan terjemahan yang sudah selesai di dasbor"
 
 #: weblate/accounts/models.py:404
 msgid "Show secondary translations in the Zen mode"
@@ -509,7 +509,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:424
 msgid "Translation editor mode"
-msgstr "Mode penyunting terjemahan"
+msgstr "Mode penyuntingan terjemahan"
 
 #: weblate/accounts/models.py:425
 msgid "Full editor"
@@ -521,7 +521,7 @@ msgstr "Mode Zen"
 
 #: weblate/accounts/models.py:431
 msgid "Zen editor mode"
-msgstr "Mode penyunting Zen"
+msgstr "Mode penyuntingan Zen"
 
 #: weblate/accounts/models.py:433
 msgid "Top to bottom"
@@ -556,7 +556,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:458
 msgid "Automatically watch projects on contribution"
-msgstr "Secara otomatis memantau proyek saat kontribusi"
+msgstr "Secara otomatis memantau proyek saat ikut berkontribusi"
 
 #: weblate/accounts/models.py:461
 msgid ""
@@ -734,7 +734,7 @@ msgstr "Lisensi yang diubah"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:472 weblate/trans/models/change.py:294
 msgid "Parse error"
-msgstr "Kesalahan Mengurai"
+msgstr "Kesalahan penguraian"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:480
@@ -1076,14 +1076,14 @@ msgstr ""
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
-msgstr "Lokalisasi JavaScript CDN"
+msgstr "Pelokalan JavaScript CDN"
 
 #: weblate/addons/cdn.py:40
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Kirim terjemahan ke jaringan pengiriman konten untuk dipakai di lokalisasi "
+"Kirim terjemahan ke jaringan pengiriman konten untuk dipakai di pelokalan "
 "JavaScript atau HTML."
 
 #: weblate/addons/cleanup.py:37
@@ -1453,7 +1453,7 @@ msgstr "Pemilih CSS"
 
 #: weblate/addons/forms.py:440
 msgid "CSS selector to detect localizable elements."
-msgstr "Pemilih CSS untuk mendeteksi elemen yang dapat dilokalisasi."
+msgstr "Pemilih CSS untuk mendeteksi elemen yang dapat dilokalkan."
 
 #: weblate/addons/forms.py:443
 msgid "Language cookie name"
@@ -2237,7 +2237,7 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Nama pengguna hanya boleh mengandung huruf, angka dan karakter berikut: @ . "
+"Nama pengguna hanya boleh mengandung huruf, angka, dan karakter berikut: @ . "
 "+ - _"
 
 #: weblate/auth/models.py:317
@@ -2692,7 +2692,7 @@ msgstr "Tanda ICU MessageFormat"
 
 #: weblate/checks/flags.py:70
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Awalan Tag ICU MessageFormat"
+msgstr "Awalan Etiket ICU MessageFormat"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:608
 #: weblate/utils/views.py:135
@@ -2960,7 +2960,7 @@ msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
 msgstr ""
-"Satu atau lebih tempat penampung seharusnya mempunyai tag XML yang sama di "
+"Satu atau lebih placeholder harus memiliki etiket XML yang sesuai dalam "
 "terjemahan: %s"
 
 #: weblate/checks/icu.py:497
@@ -2968,19 +2968,21 @@ msgstr ""
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
 msgstr ""
-"Satu atau lebih tempat penampung seharusnya bukan sebuah tag XML di "
-"terjemahan: %s"
+"Satu atau lebih placeholder tidak boleh berupa etiket XML dalam terjemahan: "
+"%s"
 
 #: weblate/checks/icu.py:503
 #, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
 msgstr ""
-"Satu atau lebih tag XML mempunyai konten yang tidak terduga di terjemahan: %s"
+"Satu atau lebih etiket XML mempunyai konten yang tidak terduga di terjemahan:"
+" %s"
 
 #: weblate/checks/icu.py:508
 #, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Satu atau beberapa tag XML tidak memiliki konten dalam terjemahan: %s"
+msgstr ""
+"Satu atau beberapa etiket XML tidak memiliki konten dalam terjemahan: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBCode markup"
@@ -3004,7 +3006,7 @@ msgstr "Markup XML"
 
 #: weblate/checks/markup.py:190
 msgid "XML tags in translation do not match source"
-msgstr "Tag XML didalam terjemahan tidak cocok dengan sumber"
+msgstr "Etiket XML di dalam terjemahan tidak cocok dengan sumber"
 
 #: weblate/checks/markup.py:249
 msgid "Markdown references"
@@ -4270,7 +4272,7 @@ msgid ""
 "report, check its website at %(weblate_link)s."
 msgstr ""
 "Jika Anda mencari dukungan untuk pembuatan Weblate lain atau ingin "
-"mengajukan laporan bug, periksa situs webnya di %(weblate_link)s."
+"mengajukan laporan kesalahan, periksa situs webnya di %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
 msgid "Contact server administrators"
@@ -4357,9 +4359,9 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"Dengan mendaftar Anda setuju untuk menggunakan nama Anda dan surel Anda "
-"dalam commits dan memberikan kontribusi Anda di bawah lisensi yang "
-"didefinisikan oleh setiap proyek yang diterjemahkan."
+"Dengan mendaftar, Anda setuju untuk menggunakan nama dan surel Anda dalam "
+"commit dan memberikan kontribusi Anda di bawah lisensi yang didefinisikan "
+"oleh setiap proyek yang diterjemahkan."
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:46 weblate/templates/base.html:213
@@ -4550,7 +4552,7 @@ msgid ""
 "the dashboard."
 msgstr ""
 "Tambahkan semua proyek yang ingin Anda terjemahkan untuk melihatnya sebagai "
-"proyek yang diawasi di dasbor."
+"proyek yang dipantau di dasbor."
 
 #: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:103
@@ -4640,7 +4642,7 @@ msgstr "Avatar Anda"
 #: weblate/templates/accounts/profile.html:206
 #, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Avatar disediakan menggunakan %(avatar_url_prefix)s."
+msgstr "Avatar disediakan oleh %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:215
 #: weblate/templates/addons/discovery_help.html:10
@@ -4746,7 +4748,7 @@ msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
 msgstr ""
-"Harap perhatikan info lisensi, karena ini menentukan bagaimana terjemahan "
+"Harap perhatikan info lisensi karena ini menentukan bagaimana terjemahan "
 "dapat digunakan."
 
 #: weblate/templates/accounts/profile.html:318
@@ -4755,7 +4757,7 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Dengan mendaftar Anda setuju untuk menggunakan nama dan surel Anda sesuai "
+"Dengan mendaftar, Anda setuju untuk menggunakan nama dan surel Anda sesuai "
 "peraturan yang ada dan memberikan kontribusi Anda di bawah lisensi yang "
 "didefinisikan oleh setiap proyek terjemahan."
 
@@ -4974,7 +4976,7 @@ msgstr "Terjemahan"
 
 #: weblate/templates/accounts/user.html:185
 msgid "Browse all changes for user"
-msgstr "Jelajah semua perubahan untuk pengguna"
+msgstr "Jelajahi semua perubahan untuk pengguna"
 
 #: weblate/templates/accounts/user.html:246
 msgid "Group"
@@ -5107,7 +5109,7 @@ msgstr "Instruksi integrasi"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr "Sertakan cuplikan berikut untuk memuat lokalisasi dari CDN:"
+msgstr "Sertakan cuplikan berikut untuk memuat pelokalan dari CDN:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
@@ -5633,7 +5635,7 @@ msgstr "Cek status penagihan saat ini"
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:191
 msgid "Browse"
-msgstr "Jelajah"
+msgstr "Telusuri"
 
 #: weblate/templates/browse.html:49
 msgid "No strings found!"
@@ -7434,7 +7436,6 @@ msgid "Web server"
 msgstr "Server web"
 
 #: weblate/templates/manage/performance.html:128
-#, fuzzy
 msgid "Celery worker"
 msgstr "Celery worker"
 
@@ -8128,7 +8129,7 @@ msgstr "Situs web proyek"
 
 #: weblate/templates/snippets/info.html:87
 msgid "Instructions for translators"
-msgstr "Petunjuk untuk penerjemah"
+msgstr "Petunjuk bagi penerjemah"
 
 #: weblate/templates/snippets/info.html:111
 msgid "Project maintainers"
@@ -8457,9 +8458,9 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"Dengan mendaftar Anda setuju untuk menggunakan nama Anda dan surel Anda "
-"dalam commits sistem kontrol versi dan memberikan kontribusi Anda di bawah "
-"lisensi yang didefinisikan oleh setiap proyek yang diterjemahkan."
+"Dengan mendaftar, Anda setuju untuk menggunakan nama dan surel Anda dalam "
+"commit sistem kontrol versi dan memberikan kontribusi Anda di bawah lisensi "
+"yang didefinisikan oleh setiap proyek yang diterjemahkan."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -8981,7 +8982,7 @@ msgstr "Berkas berikut tidak lagi ada di repositori:"
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:370
 msgid "Intermediate language file"
-msgstr "Berkas bahasa antara"
+msgstr "Berkas bahasa intermediasi"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:15
 #: weblate/trans/models/component.py:382
@@ -11360,7 +11361,7 @@ msgstr "URL repositori di mana pengguna dapat mengambil perubahan dari Weblate"
 
 #: weblate/trans/models/component.py:317
 msgid "Source string bug reporting address"
-msgstr "Alamat pelaporan bug string sumber"
+msgstr "Alamat pelaporan kesalahan string sumber"
 
 #: weblate/trans/models/component.py:319
 msgid ""
