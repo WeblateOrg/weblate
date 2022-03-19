@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-19 07:31+0000\n"
+"PO-Revision-Date: 2022-03-20 22:58+0000\n"
 "Last-Translator: Taufik A. Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -719,10 +719,8 @@ msgstr ""
 "diasumsikan bahwa siapa pun dapat menelusuri proyek (lihat di bawah)."
 
 #: ../../admin/access.rst:331
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Access for browse to a project"
-msgstr "Jelajahi semua proyek"
+msgstr "Akses untuk menelusuri proyek"
 
 #: ../../admin/access.rst:333
 msgid ""
@@ -1661,7 +1659,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:83
 msgid "JavaScript localization CDN"
-msgstr "Lokalisasi JavaScript CDN"
+msgstr "Pelokalan JavaScript CDN"
 
 #: ../../admin/addons.rst:87
 msgid "``weblate.cdn.cdnjs``"
@@ -1685,7 +1683,7 @@ msgstr "Pemilih CSS"
 
 #: ../../admin/addons.rst:91
 msgid "CSS selector to detect localizable elements."
-msgstr "Pemilih CSS untuk mendeteksi elemen yang dapat dilokalisasi."
+msgstr "Pemilih CSS untuk mendeteksi elemen yang dapat dilokalkan."
 
 #: ../../admin/addons.rst:93
 #, fuzzy
@@ -1728,7 +1726,7 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Kirim terjemahan ke jaringan pengiriman konten untuk dipakai di lokalisasi "
+"Kirim terjemahan ke jaringan pengiriman konten untuk dipakai di pelokalan "
 "JavaScript atau HTML."
 
 #: ../../admin/addons.rst:102
@@ -4553,7 +4551,7 @@ msgid ""
 "Set a required prefix for XML tags for the :ref:`check-icu-message-format` "
 "quality check."
 msgstr ""
-"Atur awalan yang diperlukan untuk tag XML untuk pemeriksaan kualitas :ref"
+"Atur awalan yang diperlukan untuk etiket XML untuk pemeriksaan kualitas :ref"
 ":'check-icu-message-format'."
 
 #: ../../admin/checks.rst:69
@@ -6759,6 +6757,9 @@ msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
 msgstr ""
+"Pengaturan ini dapat memengaruhi keamanan instalasi, Anda harus "
+"mengonfigurasinya untuk menggunakan proksi tepercaya untuk menentukan alamat "
+"IP."
 
 #: ../../admin/config.rst:949
 msgid "Defaults to 0."
@@ -9411,13 +9412,16 @@ msgstr ""
 
 #: ../../admin/install.rst:266
 msgid "Once the key is trusted, the warning will not occur:"
-msgstr ""
+msgstr "Setelah kunci sudah dipercaya, peringatan tidak akan muncul:"
 
 #: ../../admin/install.rst:280
 msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
 msgstr ""
+"Jika tanda tangan tidak valid (arsip telah diubah), Anda akan mendapatkan "
+"pesan kesalahan yang jelas terlepas dari fakta bahwa kunci tersebut dapat "
+"dipercaya atau tidak:"
 
 #: ../../admin/install.rst:296
 msgid "Filesystem permissions"
@@ -10323,6 +10327,10 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
+"Weblate memang memverifikasi sertifikat SSL selama proses permintaan HTTP. "
+"Jika Anda menggunakan otoritas sertifikat khusus yang tidak dipercaya dalam "
+"bundel bawaan, Anda harus menambahkan sertifikatnya sebagai sertifikat "
+"tepercaya."
 
 #: ../../admin/install.rst:1175
 msgid ""
@@ -10690,6 +10698,9 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"Anda sebaiknya mulai menggunakan Celery worker untuk memproses tugas dan "
+"memulai tugas terjadwal, hal ini dapat dilakukan langsung pada baris "
+"perintah (yang sebagian besar berguna saat mengawakutu atau mengembangkan):"
 
 #: ../../admin/install.rst:1473
 msgid ""
@@ -10792,6 +10803,9 @@ msgid ""
 "`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:"
 "`celery_queues`"
 msgstr ""
+":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, "
+":doc:`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, "
+":djadmin:`celery_queues`"
 
 #: ../../admin/install.rst:1555
 msgid "Monitoring Weblate"
@@ -11344,12 +11358,18 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"Jumlah proses worker untuk uWSGI dan Celery ditentukan secara otomatis "
+"berdasarkan jumlah CPU. Ini berfungsi dengan baik untuk sebagian besar mesin "
+"virtual awan karena biasanya memiliki sedikit CPU dan jumlah memori yang "
+"baik."
 
 #: ../../admin/install/docker.rst:312
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
 msgstr ""
+"Jika Anda memiliki banyak inti CPU dan mengalami masalah memori, coba "
+"kurangi jumlah worker:"
 
 #: ../../admin/install/docker.rst:320
 msgid "You can also fine-tune individual worker categories:"
@@ -11362,6 +11382,10 @@ msgid ""
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgstr ""
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:344
 msgid "Scaling horizontally"
@@ -12523,7 +12547,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1602
 msgid "Translation memory Celery worker."
-msgstr "Pekerja memori terjemahan Celery."
+msgstr "Memori terjemahan Celery worker."
 
 #: ../../admin/install/docker.rst:1603
 msgid "``celery-notify``"
@@ -12531,7 +12555,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1604
 msgid "Notifications Celery worker."
-msgstr "Pemberitahuan pekerja Celery."
+msgstr "Pemberitahuan Celery worker."
 
 #: ../../admin/install/docker.rst:1605
 msgid "``celery-translate``"
@@ -12539,7 +12563,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1606
 msgid "Automatic translation Celery worker."
-msgstr "Terjemahan otomatis pekerja Celery."
+msgstr "Terjemahan otomatis Celery worker."
 
 #: ../../admin/install/docker.rst:1607
 msgid "``web``"
@@ -12991,6 +13015,9 @@ msgid ""
 "Start Celery workers. This is not necessary for development purposes, but "
 "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgstr ""
+"Memulai Celery worker. Ini tidak diperlukan untuk tujuan pengembangan, "
+"tetapi sangat disarankan sebaliknya. Lihat :ref:`celery` untuk info lebih "
+"lanjut:"
 
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
@@ -16117,7 +16144,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:439
 msgid "Intermediate language file"
-msgstr "Berkas bahasa antara"
+msgstr "Berkas bahasa intermediasi"
 
 #: ../../admin/projects.rst:441
 msgid ""
@@ -16178,7 +16205,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:487
 msgid "Source string bug reporting address"
-msgstr "Alamat pelaporan bug string sumber"
+msgstr "Alamat pelaporan kesalahan string sumber"
 
 #: ../../admin/projects.rst:489
 msgid ""
@@ -17466,7 +17493,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:102
 msgid "Restart Celery worker (see :ref:`celery`)."
-msgstr ""
+msgstr "Mulai ulang Celery worker (lihat :ref:`celery`)."
 
 #: ../../admin/upgrade.rst:108
 msgid "Version specific instructions"
@@ -17812,7 +17839,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr "Format :pengaturan:`django:CSRF_TRUSTED_ORIGINS` telah diubah."
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
@@ -23301,7 +23328,7 @@ msgstr ""
 
 #: ../../changes.rst:805
 msgid "Added support for read-only strings."
-msgstr "Menambahkan dukungan untuk string read-only."
+msgstr "Menambahkan dukungan untuk string hanya-baca."
 
 #: ../../changes.rst:806
 msgid "Added support for Markdown in comments."
@@ -24247,7 +24274,7 @@ msgstr ""
 
 #: ../../changes.rst:1093
 msgid "Correctly report Celery worker errors to Sentry."
-msgstr ""
+msgstr "Laporkan kesalahan Celery worker ke Sentry."
 
 #: ../../changes.rst:1094
 msgid "Fixed creating new translations with Qt Linguist."
@@ -27232,7 +27259,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
-msgstr "Mode Debug"
+msgstr "Mode Awakutu"
 
 #: ../../contributing/debugging.rst:11
 msgid ""
@@ -27294,6 +27321,9 @@ msgid ""
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
 msgstr ""
+"Banyak hal yang dilakukan di latar belakang oleh Celery worker. Jika hal-hal "
+"seperti mengirim surel atau penghapusan komponen terjadi kegagalan, mungkin "
+"ada masalah yang saling terkait."
 
 #: ../../contributing/debugging.rst:53
 msgid "Things to check in that case:"
@@ -28552,10 +28582,8 @@ msgid "**hide\\_completed**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "Sembunyikan terjemahan yang selesai pada dasbor"
+msgstr "*Sembunyikan terjemahan yang sudah selesai di dasbor*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
@@ -28604,20 +28632,16 @@ msgid "**translate\\_mode**"
 msgstr "Belum diterjemahkan"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "Mode penyunting terjemahan"
+msgstr "*Mode penyuntingan terjemahan*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Zen editor mode"
 msgid "*Zen editor mode*"
-msgstr "Mode penyunting Zen"
+msgstr "*Mode penyuntingan Zen*"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -28946,6 +28970,8 @@ msgstr ""
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
 msgstr ""
+"Tergantung pada konfigurasi Anda, mungkin Anda juga ingin mulai menggunakan "
+"Celery worker:"
 
 #: ../../contributing/start.rst:58
 msgid "To run a test (see :ref:`local-tests` for more details):"
@@ -29864,10 +29890,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Localization"
 msgid "Importing localization project into Weblate"
-msgstr "Pelokalan"
+msgstr "Mengimpor proyek pelokalan ke Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -35549,7 +35573,7 @@ msgstr "Markup XML"
 
 #: ../../user/checks.rst:1179
 msgid "XML tags in translation do not match source"
-msgstr "Tag XML didalam terjemahan tidak cocok dengan sumber"
+msgstr "Etiket XML di dalam terjemahan tidak cocok dengan sumber"
 
 #: ../../user/checks.rst:1181
 #, fuzzy
