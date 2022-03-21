@@ -231,8 +231,7 @@ intersphinx_mapping = {
     "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
     "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
-    # Temporarily disabled, see https://github.com/celery/celery/issues/7351
-    # "celery": ("https://docs.celeryproject.org/en/latest/", None),
+    "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
