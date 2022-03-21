@@ -8,6 +8,7 @@ Not yet released.
 * Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on.
 * Added ``ignore-all-checks`` flag to ignore all quality checks on a string.
 * Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing checks.
+* Added support for :ref:`vcs-gitea`.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
