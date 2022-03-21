@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-20 22:58+0000\n"
+"PO-Revision-Date: 2022-03-21 18:35+0000\n"
 "Last-Translator: Taufik A. Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -422,8 +422,8 @@ msgid ""
 msgstr ""
 "Salah satu manfaat utama mengelola izin melalui antarmuka pengguna Weblate "
 "adalah Anda dapat mendelegasikannya kepada pengguna lain tanpa memberi "
-"mereka hak istimewa superuser. Untuk melakukannya, tambahkan mereka ke tim "
-"`Administrasi` proyek."
+"mereka hak istimewa pengguna super. Untuk melakukannya, tambahkan mereka ke "
+"tim `Administrasi` proyek."
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
@@ -451,7 +451,7 @@ msgstr ""
 "tersedia melalui :ref:`antarmuka admin Django <admin-interface>`. Anda dapat "
 "menggunakannya untuk mengelola izin proyek apa pun. Anda tidak perlu "
 "mengubahnya ke `Khusus` :ref:`kontrol akses <acl>` untuk menggunakannya. "
-"Namun Anda harus memiliki hak superuser untuk menggunakannya."
+"Namun Anda harus memiliki hak pengguna super untuk menggunakannya."
 
 #: ../../admin/access.rst:206
 msgid ""
@@ -463,9 +463,9 @@ msgid ""
 msgstr ""
 "Jika Anda tidak tertarik dengan detail dari implementasi, dan hanya ingin "
 "membuat konfigurasi yang cukup sederhana berdasarkan konfigurasi bawaan, "
-"atau tidak memiliki akses penuh situs ke seluruh penginstalan Weblate ("
-"seperti di `Hosted Weblate <https:/ /hosted.weblate.org/>`_), silakan "
-"merujuk ke bagian :ref:`akses-sederhana`."
+"atau tidak memiliki akses penuh situs ke seluruh pemasangan Weblate (seperti "
+"di `Hosted Weblate <https:/ /hosted.weblate.org/>`_), silakan merujuk ke "
+"bagian :ref:`akses-sederhana`."
 
 #: ../../admin/access.rst:212
 msgid "Common setups"
@@ -655,7 +655,7 @@ msgid ""
 msgstr ""
 "Seperti yang Anda lihat, manajemen izin dengan cara ini sangatlah kuat, "
 "tetapi bisa menjadi pekerjaan yang cukup membosankan. Anda tidak dapat "
-"mendelegasikannya ke pengguna lain, kecuali memberikan izin superuser."
+"mendelegasikannya ke pengguna lain, kecuali memberikan izin pengguna super."
 
 #: ../../admin/access.rst:296
 msgid "Users, roles, groups, and permissions"
@@ -951,7 +951,8 @@ msgid ""
 "After installation, a default set of groups is created (see :ref:`default-"
 "groups`)."
 msgstr ""
-"Setelah diinstal, sekumpulan grup asali dibuat (lihat :ref:`grup-asali`)."
+"Setelah proses instalasi, sekumpulan grup asali dibuat (lihat :ref:`grup-"
+"asali`)."
 
 #: ../../admin/access.rst:440
 msgid ""
@@ -1346,6 +1347,9 @@ msgid ""
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Hak istimewa seluruh situs tidak diberikan ke peran bawaan apa pun. Ini "
+"sangat kuat dan cukup dekat dengan status pengguna super. Kebanyakan dari "
+"mereka memengaruhi semua proyek dalam instalasi Weblate Anda."
 
 #: ../../admin/access.rst:577
 msgid "List of groups"
@@ -9515,6 +9519,10 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
+"Jika Anda tidak ingin menjadikan pengguna Weblate sebagai pengguna super di "
+"PostgreSQL, Anda dapat menghilangkannya. Dalam hal ini, Anda harus melakukan "
+"beberapa langkah migrasi secara manual karena pengguna super PostgreSQL "
+"dalam skema Weblate akan menggunakan:"
 
 #: ../../admin/install.rst:381
 msgid "Configuring Weblate to use PostgreSQL"
@@ -9547,6 +9555,10 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
+"Beberapa fitur Weblate akan bekerja lebih baik dengan :ref:`postgresql`. Ini "
+"termasuk memori pencarian dan terjemahan, yang mana keduanya memanfaatkan "
+"fitur teks lengkap dalam basis data dan implementasi PostgreSQL yang lebih "
+"unggul."
 
 #: ../../admin/install.rst:428
 msgid ""
@@ -9927,6 +9939,10 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
+"Untuk pengaturan produksi, Anda harus melakukan penyesuaian yang dijelaskan "
+"di bagian berikut. Pengaturan paling kritis akan memicu peringatan yang "
+"ditunjukkan dengan tanda seru di bilah atas jika masuk sebagai pengguna "
+"super:"
 
 #: ../../admin/install.rst:766
 msgid ""
@@ -15152,6 +15168,9 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"Modul penagihan juga memungkinkan admin proyek untuk membuat proyek dan "
+"komponen baru tanpa menjadi pengguna super (lihat :ref:`menambahkan-proyek`)"
+". Hal ini dimungkinkan ketika kondisi berikut ini terpenuhi:"
 
 #: ../../admin/optionals.rst:97
 msgid ""
@@ -15362,7 +15381,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:252 ../../changes.rst:254
 msgid "The rate limiting no longer applies to superusers."
-msgstr ""
+msgstr "Pembatasan tarif tidak lagi berlaku untuk pengguna super."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -18268,7 +18287,7 @@ msgstr ""
 
 #: ../../api.rst:262
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "Apakah pengguna merupakan pengguna super? (opsional)"
 
 #: ../../api.rst:264
 msgid "Is user active? (optional)"
@@ -18302,7 +18321,7 @@ msgstr ""
 
 #: ../../api.rst:278 ../../api.rst:313 ../../api.rst:327
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "apakah pengguna adalah pengguna super"
 
 #: ../../api.rst:279 ../../api.rst:314 ../../api.rst:328
 msgid "whether the user is active"
@@ -18578,6 +18597,8 @@ msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
 msgstr ""
+"Mengembalikan daftar semua peran yang terkait dengan pengguna. Jika pengguna "
+"adalah pengguna super, maka daftar semua peran yang ada akan dikembalikan."
 
 #: ../../api.rst:603
 msgid ""
@@ -19841,10 +19862,8 @@ msgid "whether the unit is fuzzy or marked for review"
 msgstr "apakah unit tersebut adalah fuzzy atau ditandai untuk ditinjau"
 
 #: ../../api.rst:2029
-#, fuzzy
-#| msgid "Percents translated"
 msgid "whether the unit is translated"
-msgstr "Persen diterjemahkan"
+msgstr "apakah unit diterjemahkan"
 
 #: ../../api.rst:2030
 #, fuzzy
@@ -22753,7 +22772,7 @@ msgstr ""
 
 #: ../../changes.rst:614
 msgid "Fixed PostgreSQL migration for non superusers."
-msgstr ""
+msgstr "Memperbaiki migrasi PostgreSQL untuk bukan pengguna super."
 
 #: ../../changes.rst:615
 msgid "Fixed changing the repository URL while creating component."
@@ -34505,11 +34524,11 @@ msgstr ""
 
 #: ../../user/checks.rst:405
 msgid "Percent placeholders"
-msgstr "Tempat penampung persen"
+msgstr "Persentase placeholder"
 
 #: ../../user/checks.rst:409
 msgid "The percent placeholders do not match source"
-msgstr "Tempat penampung persen tidak cocok dengan sumber"
+msgstr "Persentase placeholder tidak cocok dengan sumber"
 
 #: ../../user/checks.rst:411
 msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
@@ -38260,7 +38279,7 @@ msgstr ""
 
 #: ../../wlc.rst:36
 msgid "Installing:"
-msgstr "Menginstal:"
+msgstr "Memasang:"
 
 #: ../../wlc.rst:42
 msgid ""
