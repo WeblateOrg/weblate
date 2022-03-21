@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-20 22:58+0000\n"
+"PO-Revision-Date: 2022-03-21 18:35+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -367,6 +367,9 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"プロジェクトで悪事を働くユーザーがいる場合、そのユーザーの投稿をブロックでき"
+"ます。ブロックされたユーザーは、書き込み権限があれば、引き続きプロジェクトの"
+"閲覧はできますが、投稿はできなくなります。"
 
 #: ../../admin/access.rst:173
 msgid "Per-project permission management"
@@ -389,6 +392,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"デフォルトでは、`ユーザー` および `閲覧者` :ref:`default groups <default-"
+"groups>` のグループに設定された個々のアクセス権は、Weblate "
+"全体では許可されません。これにより、以下の :ref:`custom-acl` の説明にあるよう"
+"に、デフォルトのグループを変更したり、新しいグループを作成したり、個々のコン"
+"ポーネントの追加のカスタム設定を作成したりして、サイト全体でこれらのプロジェ"
+"クトにアクセス権を付与します。"
 
 #: ../../admin/access.rst:184
 msgid ""
@@ -397,6 +406,9 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
+"アクセス権を、Weblate ユーザー管理画面から管理する主な利点の 1 つは、スーパー"
+"ユーザー権限を付与せずにアクセス権を他のユーザーに委任できることです。そのた"
+"めには、プロジェクトの` 管理`チームに追加します。"
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
@@ -420,6 +432,11 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"現時点では、Weblate のアクセス制御システムの最も強力な機能は、:ref:`Django "
+"管理画面 <admin-interface>` からのみ操作できます。Django 管理画面から、すべて"
+"のプロジェクトのアクセス権を管理できます。使用するために、`カスタム` :ref:`"
+"access control` に切り替える必要はありません。ただし、使用するにはスーパーユ"
+"ーザー権限が必要です。"
 
 #: ../../admin/access.rst:206
 msgid ""
@@ -429,6 +446,10 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"実装の詳細には関心がなく、条件を満たす簡素なデフォルトの設定を作成するだけの"
+"場合、またはサイト全体のアクセス権で、インストールされた Weblate 全体（`"
+"Hosted Weblate <https://hosted.weblate.org/"
+">`_）にアクセスできない場合は、:ref:`access-simple` を参照してください。"
 
 #: ../../admin/access.rst:212
 msgid "Common setups"
@@ -438,7 +459,7 @@ msgstr "共通設定"
 msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
-msgstr ""
+msgstr "このセクションでは、一般的な設定の概要が含まれています。"
 
 #: ../../admin/access.rst:218
 msgid "Site-wide permission management"
@@ -449,24 +470,29 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"一度にインスタンス全体のアクセス許可を管理して、ユーザーを適切な :ref:`"
+"default groups <default-groups>` に追加する方法:"
 
 #: ../../admin/access.rst:223
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`ユーザー`（これはデフォルトで、:ref:`automatic group assignment <autogroup>`"
+" により行われる）。"
 
 #: ../../admin/access.rst:225
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr ""
+msgstr "`査読者`（ 専門の査読者による :ref:`review workflow <reviews>` "
+"を使用している場合）。"
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
-msgstr ""
+msgstr "`管理者`（管理操作の大部分を他のユーザーに委任する場合）。"
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -474,9 +500,10 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
-"すべてのプロジェクトを `公開` （参照: :ref:`acl`）として設定してください。公"
-"開と設定されていない場合は、 `ユーザー` および `査読` グループの登録者に与え"
-"られるサイト全体のアクセス権は無効になります。"
+"すべてのプロジェクトを `公開` （参照: "
+":ref:`acl`）として設定してください。公開と設定されていない場合は、 `ユーザー`"
+" および `査読` "
+"グループの登録者に与えられたサイト全体のアクセス権は無効になります。"
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -484,6 +511,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"また、既定のグループに対して選択したアクセス権を追加できます。たとえば、"
+"すべての `ユーザー` "
+"にスクリーンショットを管理する権限を与えることができます。"
 
 #: ../../admin/access.rst:238
 msgid ""
@@ -492,6 +522,9 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"新しいカスタム グループも定義できます。このグループの権限をサイト全体で管理す"
+"るには、適切な値をプロジェクトの選択（:guilabel:`すべてのプロジェクト` "
+"または :guilabel:`すべての公開プロジェクト` など）で指定します。"
 
 #: ../../admin/access.rst:244
 msgid "Custom permissions for languages, components or projects"
@@ -504,6 +537,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"独自の専用グループを作成して、言語、コンポーネント、プロジェクトなどの個別の"
+"オブジェクトのアクセス権を管理できます。これらのグループには、アクセス権を追"
+"加することしかできません。別のカスタム グループを追加して、サイト全体またはプ"
+"ロジェクトごとのグループにより付与されたアクセス権を取り消すことはできません"
+"。"
 
 #: ../../admin/access.rst:251 ../../admin/access.rst:381
 #: ../../admin/config.rst:249 ../../admin/config.rst:268
@@ -523,7 +561,8 @@ msgid ""
 "If you want (for whatever reason) to allow translation to a specific "
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
-msgstr ""
+msgstr "（何らかの理由で）特定の言語（`チェコ語` など）への翻訳を、信頼できる限られた"
+"翻訳者にのみ許可し、他の言語への翻訳を公開する方法:"
 
 #: ../../admin/access.rst:257
 msgid ""
@@ -531,10 +570,13 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"すべてのユーザーから `チェコ語` "
+"を翻訳するアクセス権を削除する。デフォルトの設定では、これは `ユーザー` "
+":ref:`default group <default-groups>`を変更することで可能となる。"
 
 #: ../../admin/access.rst:261
 msgid "Group `Users`"
-msgstr "グループ `ユーザー`"
+msgstr "`ユーザー` グループ"
 
 #: ../../admin/access.rst:264 ../../admin/access.rst:280
 msgid "Language selection"
@@ -542,19 +584,19 @@ msgstr "言語の選択"
 
 #: ../../admin/access.rst:265 ../../admin/access.rst:281
 msgid "`As defined`"
-msgstr "`設定に沿う`"
+msgstr "`設定を引き継ぐ`"
 
 #: ../../admin/access.rst:267
 msgid "All but `Czech`"
-msgstr ""
+msgstr "`チェコ語` 以外のすべて"
 
 #: ../../admin/access.rst:271
 msgid "Add a dedicated group for `Czech` translators."
-msgstr ""
+msgstr "`チェコ語` 翻訳者専用のグループを追加する。"
 
 #: ../../admin/access.rst:273
 msgid "Group `Czech translators`"
-msgstr "グループ `チェコ語翻訳者`"
+msgstr "`チェコ語翻訳者` グループ"
 
 #: ../../admin/access.rst:276 ../../admin/access.rst:389
 #: ../../admin/access.rst:454 ../../api.rst:594
@@ -579,7 +621,7 @@ msgstr "`チェコ語`"
 
 #: ../../admin/access.rst:287
 msgid "Add users you wish to give the permissions to into this group."
-msgstr ""
+msgstr "アクセス権を付与するユーザーを、このグループに追加する。"
 
 #: ../../admin/access.rst:289
 msgid ""
@@ -587,6 +629,9 @@ msgid ""
 "quite a tedious job. You can’t delegate it to another user, unless granting "
 "superuser permissions."
 msgstr ""
+"ご覧のとおり、この方法でのアクセス権の管理は強力ですが、非常に面倒な作業にな"
+"ることがあります。スーパーユーザーにアクセス権を付与しない限り、別のユーザー"
+"には委任できません。"
 
 #: ../../admin/access.rst:296
 msgid "Users, roles, groups, and permissions"
@@ -644,7 +689,8 @@ msgstr ""
 msgid ""
 "A group can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
-msgstr ""
+msgstr "グループに、ロールを割り当てることはできません。割り当てるとすると、誰でもプ"
+"ロジェクトを閲覧するアクセス権が想定されます（下記参照）。"
 
 #: ../../admin/access.rst:331
 msgid "Access for browse to a project"
