@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.19.0 (b93e8d4) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.19.1 (9268185) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
   /**
@@ -4328,7 +4328,7 @@ var Sentry = (function (exports) {
       hub.bindClient(client);
   }
 
-  const SDK_VERSION = '6.19.0';
+  const SDK_VERSION = '6.19.1';
 
   let originalFunctionToString;
   /** Patch toString calls to return proper name for wrapped functions */
