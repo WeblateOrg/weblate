@@ -1473,6 +1473,30 @@ class HookBackendTestCase(SimpleTestCase):
         self.assertEqual(expected, result)
 
 
+class GitHubBackendTest(HookBackendTestCase):
+    hook = "github"
+
+    def test_git(self):
+        self.assert_hook(
+            GITHUB_NEW_PAYLOAD.replace("defunkt/github", "defunkt/git.hub"),
+            {
+                "branch": "main",
+                "full_name": "defunkt/github.git",
+                "repo_url": "http://github.com/defunkt/git.hub",
+                "repos": [
+                    "git://github.com/defunkt/git.hub.git",
+                    "git://github.com/defunkt/git.hub",
+                    "git@github.com:defunkt/git.hub.git",
+                    "git@github.com:defunkt/git.hub",
+                    "http://github.com/defunkt/git.hub",
+                    "https://github.com/defunkt/git.hub",
+                    "https://github.com/defunkt/git.hub.git",
+                ],
+                "service_long_name": "GitHub",
+            },
+        )
+
+
 class BitbucketBackendTest(HookBackendTestCase):
     hook = "bitbucket"
 
