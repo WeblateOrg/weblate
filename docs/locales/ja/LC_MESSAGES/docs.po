@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
 "PO-Revision-Date: 2022-03-26 23:29+0000\n"
-"Last-Translator: Hiroyuki <jelly_beans@mac.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -880,6 +880,12 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
+"この機能の最も一般的な使用例は、すべての新規ユーザーをデフォルトのグループに"
+"割り当てることです。そのためには、正規表現フィールドのデフォルト値（``^.*$``"
+"） をそのまま使用します。このオプションの別の使用例としては、デフォルトで会社"
+"の従業員に、アクセス権を追加で付与する場合です。従業員全員が、会社のドメイン"
+"でメールアドレスを使用していると仮定した場合、``^.*@mycompany.com`` "
+"のような正規表現で実現できます。"
 
 #: ../../admin/access.rst:426
 msgid ""
@@ -888,8 +894,9 @@ msgid ""
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 "ある Weblate バージョンから別のバージョンにアップグレードすると、`ユーザー` "
-"と `閲覧者` へのグループの自動割り当てが常に再作成されます。これを無効にする"
-"ときは、正規表現を ``^$`` （何にも一致しない）に設定してください。"
+"と `閲覧者` "
+"へのグループの自動割り当てが常に再作成されます。これを無効にするには、"
+"正規表現を ``^$`` （何にも一致しない）に設定してください。"
 
 #: ../../admin/access.rst:432
 msgid ""
@@ -897,6 +904,9 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"現在のところ、ユーザー画面から既存のユーザーをグループに一括で追加する方法は"
+"ありません。一括で追加するには、:ref:'REST API "
+"<api>'を使用することをお勧めします。"
 
 #: ../../admin/access.rst:436
 msgid "Default groups and roles"
@@ -906,7 +916,8 @@ msgstr "デフォルトのグループとロール"
 msgid ""
 "After installation, a default set of groups is created (see :ref:`default-"
 "groups`)."
-msgstr ""
+msgstr "インストール後、デフォルトのグループ セットが生成されます（参照: :ref"
+":`default-groups`）。"
 
 #: ../../admin/access.rst:440
 msgid ""
@@ -915,23 +926,23 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"このロールとグループは、インストール時に作成されます。組み込みのロールは、"
-"アップグレード時にはデータベースを移行して常に最新の状態に保たれます。実際に"
-"変更することはできませんが、独自のアクセス権のセットを設定したい場合は、新し"
-"いロールを設定してください。"
+"このロールとグループは、インストール時に生成されます。組み込みのロールは、ア"
+"ップグレード時にはデータベースを移行して常に最新の状態に保たれます。実際に変"
+"更することはできませんが、独自のアクセス権のセットを設定したい場合は、新しい"
+"ロールを作成してください。"
 
 #: ../../admin/access.rst:448
 msgid "List of privileges and built-in roles"
-msgstr "特権と自動生成されるアクセス権の一覧"
+msgstr "アクセス権および組込みロールの一覧"
 
 #: ../../admin/access.rst:454 ../../admin/optionals.rst:261
 #: ../../user/checks.rst:0
 msgid "Scope"
-msgstr "アクセス範囲"
+msgstr "対象範囲"
 
 #: ../../admin/access.rst:454
 msgid "Permission"
-msgstr "パーミッション"
+msgstr "アクセス権"
 
 #: ../../admin/access.rst:456
 msgid "Billing (see :ref:`billing`)"
@@ -1208,7 +1219,7 @@ msgstr "アップロード"
 
 #: ../../admin/access.rst:528
 msgid "Define author of uploaded translation"
-msgstr "アップロードした翻訳に、翻訳者の登録"
+msgstr "アップロードした翻訳に署名"
 
 #: ../../admin/access.rst:530
 msgid "Overwrite existing strings with upload"
@@ -1247,7 +1258,7 @@ msgstr "内部リポジトリの変更点のリセット"
 
 #: ../../admin/access.rst:542
 msgid "View upstream repository location"
-msgstr "アップストリーム リポジトリの場所の表示"
+msgstr "上流リポジトリの場所の表示"
 
 #: ../../admin/access.rst:544
 msgid "Update the internal repository"
@@ -1303,9 +1314,9 @@ msgid ""
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
-"サイト全体の特権は、デフォルトのどのロールにも与えられません。これらは強力"
-"で、スーパーユーザーの状態と変わりません。ほとんどの場合、インストールした "
-"Weblate のすべてのプロジェクトに影響します。"
+"サイト全体のアクセス権は、デフォルトのどのロールにも付与されません。これは強"
+"力で、スーパーユーザーの状態と変わりません。ほとんどのアクセス権は、"
+"インストールした Weblate のプロジェクトすべてに影響します。"
 
 #: ../../admin/access.rst:577
 msgid "List of groups"
@@ -1317,9 +1328,9 @@ msgid ""
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"インストール時（または :djadmin:`setupgroups` の実行後 ）に、以下のグループが"
-"作成され、自由に変更できます。ただし、移行によって、削除または名前の変更を行"
-"うと、移行によって再作成されます。"
+"以下のグループは、インストール時（または :djadmin:`setupgroups` の実行後 ）に"
+"生成され、自由に変更できます。ただし、移行した場合、削除または名前が変更され"
+"ていると、グループが再生成されます。"
 
 #: ../../admin/access.rst:591
 msgid "`Guests`"
@@ -1432,10 +1443,19 @@ msgid ""
 "to require logging-in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"インストールした Weblate "
+"を、非公開で使用したい場合、つまり新規ユーザーを招待制でのみ許可するには、"
+"既知のユーザーのみがアクセスできるように Weblate "
+"を設定します。方法は、:setting:`REGISTRATION_OPEN` を ``False`` "
+"に設定して新規ユーザーの登録を禁止し、:setting:`REQUIRE_LOGIN` を ``/.*`` "
+"に設定して、すべてのサイト "
+"ページにアクセスするためにログインを要求できます。これは、インストールした "
+"Weblate をロックする基本的な方法です。"
 
 #: ../../admin/access.rst:638
 msgid "You can use built-in :ref:`invitations <manage-acl>` to add new users."
-msgstr ""
+msgstr "組み込まれた :ref:`invitations <manage-acl>` "
+"を使用して、新しいユーザーを追加できます。"
 
 #: ../../admin/addons.rst:4 ../../api.rst:2232
 msgid "Add-ons"
@@ -17156,13 +17176,14 @@ msgstr "翻訳プロジェクト"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "翻訳データの構造"
 
 #: ../../admin/projects.rst:7
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
-msgstr ""
+msgstr "Weblate は、プロジェクト / コンポーネントの翻訳可能な VCS "
+"コンテンツを、ツリー状の構造に構成します。"
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -17170,6 +17191,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"最下位レベルのオブジェクトは :ref:`project` であり、すべての翻訳をまとめて保"
+"持することが必要です（たとえば、複数のバージョンのアプリケーションの翻訳およ"
+"び付属のドキュメントなど）。"
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -17177,6 +17201,8 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"その上のレベルである :ref:`component`（実際に翻訳するコンポーネント）では、"
+"使用する VCS リポジトリと翻訳するファイルのマスクを定義します。"
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -17184,13 +17210,16 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+":ref:`component` の上には個々の翻訳があり、翻訳ファイル（:ref:`component`"
+"で定義した :ref:`component-filemask` と一致する）が VCS "
+"リポジトリに反映されると Weblate によって自動的に処理されます。"
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
-"Weblate は、Translate Toolkit で対応している幅広い翻訳ファイル形式（バイリン"
+"Weblate は、Translate Toolkit が対応している幅広い翻訳ファイル形式（バイリン"
 "ガルとモノリンガルの両方）に対応しています。参照: :ref:`formats`。"
 
 #: ../../admin/projects.rst:25
@@ -17199,22 +17228,27 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"クローンした VCS リポジトリは、:ref:`internal-urls` を使用して共有できます。"
+"同じ VCS を共有する多くのコンポーネントがある場合、必ずこの機能を使用してくだ"
+"さい。これにより、性能が向上し、必要なディスク容量が減少します。"
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "翻訳プロジェクトとコンポーネントの追加"
 
 #: ../../admin/projects.rst:37
 msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
-msgstr ""
+msgstr "プロジェクトやコンポーネントを追加するための画面があり、:ref:`admin-"
+"interface` を使用する必要がなくなりました。"
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
-msgstr ""
+msgstr "コンポーネントを追加する処理が多段階化され、ほとんどのパラメータは自動検出さ"
+"れるようになりました。"
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -17224,10 +17258,15 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"アクセス権があれば、新しい翻訳プロジェクトおよびコンポーネントを作成できます"
+"。これは、:guilabel:`新しいプロジェクトの追加` 権限を持つユーザーには常に許可"
+"されています。有料のインスタンスを使用している場合（例: https://hosted."
+"weblate.org/ 参照: :ref:`billing`）、課金を管理するユーザー "
+"アカウントから、プランの割り当て基づいて作成することもできます。"
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "別のページで、現在の請求プランを表示した例:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -17235,10 +17274,13 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"ここからプロジェクトの作成を開始できます。また、ナビゲーション バーのメニュー"
+"から、翻訳プロジェクトに関する基本情報を入力し、プロジェクトを追加できます。"
+"プロジェクト作成画面:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
-msgstr ""
+msgstr "プロジェクトを作成すると、プロジェクト ページに直接移動します。移動画面:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -17247,6 +17289,9 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"新しい翻訳コンポーネントの作成は、そこをクリックするだけで開始できます。コン"
+"ポーネントの作成は複数の段階に分かれ、ほとんどの翻訳パラメータは自動的に検出"
+"されます。コンポーネントを作成する複数の方法:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -17254,7 +17299,7 @@ msgstr "バージョン管理から"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr ""
+msgstr "リモート バージョン管理リポジトリからコンポーネントを作成します。"
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -17263,16 +17308,17 @@ msgstr "既存のコンポーネントから"
 #: ../../admin/projects.rst:71
 msgid ""
 "Creates additional component to existing one by choosing different files."
-msgstr ""
+msgstr "別のファイルを選択して、既存のコンポーネントに新しいコンポーネントを追加しま"
+"す。"
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
-msgstr "追加ブランチ"
+msgstr "ブランチの追加"
 
 #: ../../admin/projects.rst:73
 msgid ""
 "Creates additional component to existing one, just for different branch."
-msgstr ""
+msgstr "別のブランチ用に、既存のコンポーネントに新しいコンポーネントを追加します。"
 
 #: ../../admin/projects.rst:76
 msgid "Upload translations files"
@@ -17284,6 +17330,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"バージョン管理をしていない、または Weblate と統合したくない場合に、"
+"翻訳ファイルを Weblate にアップロードします。あとから Web "
+"画面または、:ref:`api` を使用してコンテンツを更新できます。"
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -17291,7 +17340,7 @@ msgstr "ドキュメントの翻訳"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document or translation file and translate that."
-msgstr ""
+msgstr "1 つの文書または翻訳ファイルをアップロードして翻訳します。"
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
@@ -17299,29 +17348,32 @@ msgstr "ゼロから始める"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "空の翻訳プロジェクトを作成し、文字列を手動で追加します。"
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
-msgstr ""
+msgstr "既存の翻訳コンポーネントがあれば、同じリポジトリを使用して追加のファイルやブ"
+"ランチに新しいコンポーネントを簡単に追加できます。"
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "まず、名前とリポジトリの場所の入力が必要です。入力画面:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
-msgstr ""
+msgstr "次のページでは、検出された翻訳可能なリソースの一覧が表示されます。翻訳可能な"
+"リソース一覧:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
-msgstr ""
+msgstr "最後のステップとして、翻訳コンポーネント情報を確認し、オプションの詳細を入力"
+"します。入力画面:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -17329,7 +17381,7 @@ msgstr ":ref:`admin-interface`、:ref:`project`、:ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr ""
+msgstr "プロジェクトの設定"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -17342,9 +17394,9 @@ msgid ""
 msgstr ""
 "翻訳プロジェクトを作成し、プロジェクトに翻訳用の新しいコンポーネントを追加し"
 "ます。プロジェクトは、実際の翻訳が積み重ねられた棚のようなものです。同じプロ"
-"ジェクト内のすべてのコンポーネントは、提案と辞書を共有します；翻訳は、単一プ"
-"ロジェクト内のすべてのコンポーネント（コンポーネントの設定で無効していない限"
-"り）にも自動的に反映されます。参照: :ref:`memory`。"
+"ジェクト内のすべてのコンポーネントは、提案と辞書を共有します；　翻訳は、単一"
+"プロジェクト内のすべてのコンポーネント（コンポーネントの設定で無効していない"
+"限り）にも自動的に反映されます。参照: :ref:`memory`。"
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:257
 msgid ":doc:`/devel/integration`"
@@ -17352,7 +17404,7 @@ msgstr ":doc:`/devel/integration`"
 
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
-msgstr ""
+msgstr "次はプロジェクトを設定し、翻訳者に通知する基本属性:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:886 ../../api.rst:791
 #: ../../contributing/about.rst:11
@@ -17361,7 +17413,7 @@ msgstr "プロジェクト名"
 
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "プロジェクト名を表示するために使用する、詳細なプロジェクト名。"
 
 #: ../../admin/projects.rst:131
 msgid "URL slug"
@@ -17369,7 +17421,7 @@ msgstr "URL スラッグ"
 
 #: ../../admin/projects.rst:133
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "URL に適したプロジェクト名。"
 
 #: ../../admin/projects.rst:138 ../../api.rst:795
 #: ../../contributing/about.rst:16
@@ -17378,13 +17430,14 @@ msgstr "プロジェクトの Web サイト"
 
 #: ../../admin/projects.rst:140
 msgid "URL where translators can find more info about the project."
-msgstr ""
+msgstr "翻訳者がプロジェクトの詳細情報を確認できる URL。"
 
 #: ../../admin/projects.rst:142
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
-msgstr ""
+msgstr "これは、:setting:`WEBSITE_REQUIRED` "
+"で無効にしない限り、必須のパラメーターです。"
 
 #: ../../admin/projects.rst:147
 msgid "Translation instructions"
@@ -17395,7 +17448,8 @@ msgid ""
 "Text describing localization process in the project, and any other "
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
-msgstr ""
+msgstr "プロジェクトの現地語化の手順を解説する文章、および翻訳者に役立つその他の情報"
+"。マークダウンは、テキストの書式設定やリンクの挿入に使用します。"
 
 #: ../../admin/projects.rst:155
 msgid "Set \"Language-Team\" header"
@@ -17406,20 +17460,23 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Weblateが ``Language-Team`` ヘッダーを管理する必要があるかどうか（これは現在 "
+":ref:`gettext` のみの機能）。"
 
 #: ../../admin/projects.rst:163
 msgid "Use shared translation memory"
-msgstr "共有翻訳メモリを使用する"
+msgstr "共有翻訳メモリの使用"
 
 #: ../../admin/projects.rst:165
 msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
-msgstr ""
+msgstr "共有翻訳メモリを使用するかどうか、詳細については、:ref:`shared-tm` "
+"を確認してください。"
 
 #: ../../admin/projects.rst:167 ../../admin/projects.rst:176
 msgid "Default value is determined by :setting:`DEFAULT_SHARED_TM`."
-msgstr "デフォルト値は :setting:`DEFAULT_SHARED_TM` により決定します。"
+msgstr "デフォルト値は :setting:`DEFAULT_SHARED_TM` に設定します。"
 
 #: ../../admin/projects.rst:172
 msgid "Contribute to shared translation memory"
@@ -17429,15 +17486,17 @@ msgstr "共有翻訳メモリに貢献する"
 msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
-msgstr ""
+msgstr "共有翻訳メモリに貢献するかどうか、詳細については、:ref:`shared-tm` "
+"を確認してください。"
 
 #: ../../admin/projects.rst:183
 msgid "Configure per project access control, see :ref:`acl` for more details."
-msgstr ""
+msgstr "プロジェクトごとにアクセス制御を設定します。詳細については、:ref:`acl` "
+"を確認してください。"
 
 #: ../../admin/projects.rst:185
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
+msgstr "デフォルト値は、:setting:`DEFAULT_ACCESS_CONTROL` で変更します。"
 
 #: ../../admin/projects.rst:190 ../../workflows.rst:75 ../../workflows.rst:107
 #: ../../workflows.rst:144
@@ -17446,7 +17505,7 @@ msgstr "査読の有効化"
 
 #: ../../admin/projects.rst:192
 msgid "Enable review workflow for translations, see :ref:`reviews`."
-msgstr ""
+msgstr "翻訳の査読処理を有効にします。参照: :ref:`reviews`。"
 
 #: ../../admin/projects.rst:197
 msgid "Enable source reviews"
