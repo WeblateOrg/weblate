@@ -850,7 +850,7 @@ def indicate_alerts(context, obj):
                         "%(count)s strings are not being translated here.",
                         count,
                     )
-                    % {"count": count},
+                    % {"count": intcomma(count)},
                     None,
                 )
             )
