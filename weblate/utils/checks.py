@@ -127,7 +127,7 @@ def weblate_check(id, message, cls=Critical):
 def check_mail_connection(app_configs, **kwargs):
     errors = []
     try:
-        connection = get_connection()
+        connection = get_connection(timeout=5)
         connection.open()
         connection.close()
     except Exception as error:
