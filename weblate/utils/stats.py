@@ -285,6 +285,38 @@ class BaseStats:
             completed = {"translated", "translated_words", "translated_chars"}
         return translation_percent(getattr(self, base), total, base in completed)
 
+    @property
+    def waiting_review_percent(self):
+        return self.translated_percent - self.approved_percent - self.readonly_percent
+
+    @property
+    def waiting_review(self):
+        return self.translated - self.approved - self.readonly
+
+    @property
+    def waiting_review_words_percent(self):
+        return (
+            self.translated_words_percent
+            - self.approved_words_percent
+            - self.readonly_words_percent
+        )
+
+    @property
+    def waiting_review_words(self):
+        return self.translated_words - self.approved_words - self.readonly_words
+
+    @property
+    def waiting_review_chars_percent(self):
+        return (
+            self.translated_chars_percent
+            - self.approved_chars_percent
+            - self.readonly_chars_percent
+        )
+
+    @property
+    def waiting_review_chars(self):
+        return self.translated_chars - self.approved_chars - self.readonly_chars
+
 
 class DummyTranslationStats(BaseStats):
     """Dummy stats to report 0 in all cases.
