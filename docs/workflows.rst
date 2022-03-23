@@ -43,6 +43,8 @@ Approved
     Translation has been approved in the review. It can no longer be changed by
     translators, but only by reviewers. Translators can only add suggestions to
     it.
+
+    This state is only available when reviews are enabled.
 Suggestions
     Suggestions are stored in Weblate only and not in the translation file.
 
