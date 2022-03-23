@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.19.1 (9268185) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.19.2 (f49c509) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
   /**
@@ -525,114 +525,6 @@ var Sentry = (function (exports) {
       global$6.__SENTRY__ = sentryGlobal;
   }
 
-  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  /**
-   * Helper to decycle json objects
-   */
-  function memoBuilder() {
-      const hasWeakSet = typeof WeakSet === 'function';
-      const inner = hasWeakSet ? new WeakSet() : [];
-      function memoize(obj) {
-          if (hasWeakSet) {
-              if (inner.has(obj)) {
-                  return true;
-              }
-              inner.add(obj);
-              return false;
-          }
-          // eslint-disable-next-line @typescript-eslint/prefer-for-of
-          for (let i = 0; i < inner.length; i++) {
-              const value = inner[i];
-              if (value === obj) {
-                  return true;
-              }
-          }
-          inner.push(obj);
-          return false;
-      }
-      function unmemoize(obj) {
-          if (hasWeakSet) {
-              inner.delete(obj);
-          }
-          else {
-              for (let i = 0; i < inner.length; i++) {
-                  if (inner[i] === obj) {
-                      inner.splice(i, 1);
-                      break;
-                  }
-              }
-          }
-      }
-      return [memoize, unmemoize];
-  }
-
-  const STACKTRACE_LIMIT = 50;
-  /**
-   * Creates a stack parser with the supplied line parsers
-   *
-   * StackFrames are returned in the correct order for Sentry Exception
-   * frames and with Sentry SDK internal frames removed from the top and bottom
-   *
-   */
-  function createStackParser(...parsers) {
-      const sortedParsers = parsers.sort((a, b) => a[0] - b[0]).map(p => p[1]);
-      return (stack, skipFirst = 0) => {
-          const frames = [];
-          for (const line of stack.split('\n').slice(skipFirst)) {
-              for (const parser of sortedParsers) {
-                  const frame = parser(line);
-                  if (frame) {
-                      frames.push(frame);
-                      break;
-                  }
-              }
-          }
-          return stripSentryFramesAndReverse(frames);
-      };
-  }
-  /**
-   * @hidden
-   */
-  function stripSentryFramesAndReverse(stack) {
-      if (!stack.length) {
-          return [];
-      }
-      let localStack = stack;
-      const firstFrameFunction = localStack[0].function || '';
-      const lastFrameFunction = localStack[localStack.length - 1].function || '';
-      // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
-      if (firstFrameFunction.indexOf('captureMessage') !== -1 || firstFrameFunction.indexOf('captureException') !== -1) {
-          localStack = localStack.slice(1);
-      }
-      // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
-      if (lastFrameFunction.indexOf('sentryWrapped') !== -1) {
-          localStack = localStack.slice(0, -1);
-      }
-      // The frame where the crash happened, should be the last entry in the array
-      return localStack
-          .slice(0, STACKTRACE_LIMIT)
-          .map(frame => (Object.assign(Object.assign({}, frame), { filename: frame.filename || localStack[0].filename, function: frame.function || '?' })))
-          .reverse();
-  }
-  const defaultFunctionName = '<anonymous>';
-  /**
-   * Safely extract function name from itself
-   */
-  function getFunctionName(fn) {
-      try {
-          if (!fn || typeof fn !== 'function') {
-              return defaultFunctionName;
-          }
-          return fn.name || defaultFunctionName;
-      }
-      catch (e) {
-          // Just accessing custom props in some Selenium environments
-          // can cause a "Permission denied" exception (see raven-js#495).
-          return defaultFunctionName;
-      }
-  }
-
   /**
    * Truncates given string to the maximum characters count
    *
@@ -822,186 +714,6 @@ var Sentry = (function (exports) {
       }
       return value;
   }
-  /** Calculates bytes size of input string */
-  function utf8Length(value) {
-      // eslint-disable-next-line no-bitwise
-      return ~-encodeURI(value).split(/%..|./).length;
-  }
-  /** Calculates bytes size of input object */
-  function jsonSize(value) {
-      return utf8Length(JSON.stringify(value));
-  }
-  /** JSDoc */
-  function normalizeToSize(object, 
-  // Default Node.js REPL depth
-  depth = 3, 
-  // 100kB, as 200kB is max payload size, so half sounds reasonable
-  maxSize = 100 * 1024) {
-      const serialized = normalize(object, depth);
-      if (jsonSize(serialized) > maxSize) {
-          return normalizeToSize(object, depth - 1, maxSize);
-      }
-      return serialized;
-  }
-  /**
-   * Transform any non-primitive, BigInt, or Symbol-type value into a string. Acts as a no-op on strings, numbers,
-   * booleans, null, and undefined.
-   *
-   * @param value The value to stringify
-   * @returns For non-primitive, BigInt, and Symbol-type values, a string denoting the value's type, type and value, or
-   *  type and `description` property, respectively. For non-BigInt, non-Symbol primitives, returns the original value,
-   *  unchanged.
-   */
-  function serializeValue(value) {
-      // Node.js REPL notation
-      if (typeof value === 'string') {
-          return value;
-      }
-      const type = Object.prototype.toString.call(value);
-      if (type === '[object Object]') {
-          return '[Object]';
-      }
-      if (type === '[object Array]') {
-          return '[Array]';
-      }
-      // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
-      // pass-through.
-      const serializable = makeSerializable(value);
-      return isPrimitive(serializable) ? serializable : type;
-  }
-  /**
-   * makeSerializable()
-   *
-   * Takes unserializable input and make it serializer-friendly.
-   *
-   * Handles globals, functions, `undefined`, `NaN`, and other non-serializable values.
-   */
-  function makeSerializable(value, key) {
-      if (key === 'domain' && value && typeof value === 'object' && value._events) {
-          return '[Domain]';
-      }
-      if (key === 'domainEmitter') {
-          return '[DomainEmitter]';
-      }
-      if (typeof global !== 'undefined' && value === global) {
-          return '[Global]';
-      }
-      // It's safe to use `window` and `document` here in this manner, as we are asserting using `typeof` first
-      // which won't throw if they are not present.
-      // eslint-disable-next-line no-restricted-globals
-      if (typeof window !== 'undefined' && value === window) {
-          return '[Window]';
-      }
-      // eslint-disable-next-line no-restricted-globals
-      if (typeof document !== 'undefined' && value === document) {
-          return '[Document]';
-      }
-      // React's SyntheticEvent thingy
-      if (isSyntheticEvent(value)) {
-          return '[SyntheticEvent]';
-      }
-      if (typeof value === 'number' && value !== value) {
-          return '[NaN]';
-      }
-      if (value === void 0) {
-          return '[undefined]';
-      }
-      if (typeof value === 'function') {
-          return `[Function: ${getFunctionName(value)}]`;
-      }
-      // symbols and bigints are considered primitives by TS, but aren't natively JSON-serilaizable
-      if (typeof value === 'symbol') {
-          return `[${String(value)}]`;
-      }
-      if (typeof value === 'bigint') {
-          return `[BigInt: ${String(value)}]`;
-      }
-      return value;
-  }
-  /**
-   * Walks an object to perform a normalization on it
-   *
-   * @param key of object that's walked in current iteration
-   * @param value object to be walked
-   * @param depth Optional number indicating how deep should walking be performed
-   * @param maxProperties Optional maximum  number of properties/elements included in any single object/array
-   * @param memo Optional Memo class handling decycling
-   */
-  function walk(key, value, depth = +Infinity, maxProperties = +Infinity, memo = memoBuilder()) {
-      const [memoize, unmemoize] = memo;
-      // If we reach the maximum depth, serialize whatever is left
-      if (depth === 0) {
-          return serializeValue(value);
-      }
-      // If value implements `toJSON` method, call it and return early
-      if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
-          return value.toJSON();
-      }
-      // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
-      // pass-through. If what comes back is a primitive (either because it's been stringified or because it was primitive
-      // all along), we're done.
-      const serializable = makeSerializable(value, key);
-      if (isPrimitive(serializable)) {
-          return serializable;
-      }
-      // Create source that we will use for the next iteration. It will either be an objectified error object (`Error` type
-      // with extracted key:value pairs) or the input itself.
-      const source = getWalkSource(value);
-      // Create an accumulator that will act as a parent for all future itterations of that branch
-      const acc = Array.isArray(value) ? [] : {};
-      // If we already walked that branch, bail out, as it's circular reference
-      if (memoize(value)) {
-          return '[Circular ~]';
-      }
-      let propertyCount = 0;
-      // Walk all keys of the source
-      for (const innerKey in source) {
-          // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
-          if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
-              continue;
-          }
-          if (propertyCount >= maxProperties) {
-              acc[innerKey] = '[MaxProperties ~]';
-              break;
-          }
-          propertyCount += 1;
-          // Recursively walk through all the child nodes
-          const innerValue = source[innerKey];
-          acc[innerKey] = walk(innerKey, innerValue, depth - 1, maxProperties, memo);
-      }
-      // Once walked through all the branches, remove the parent from memo storage
-      unmemoize(value);
-      // Return accumulated values
-      return acc;
-  }
-  /**
-   * Recursively normalizes the given object.
-   *
-   * - Creates a copy to prevent original input mutation
-   * - Skips non-enumerable properties
-   * - When stringifying, calls `toJSON` if implemented
-   * - Removes circular references
-   * - Translates non-serializable values (`undefined`/`NaN`/functions) to serializable format
-   * - Translates known global objects/classes to a string representations
-   * - Takes care of `Error` object serialization
-   * - Optionally limits depth of final output
-   * - Optionally limits number of properties/elements included in any single object/array
-   *
-   * @param input The object to be normalized.
-   * @param depth The max depth to which to normalize the object. (Anything deeper stringified whole.)
-   * @param maxProperties The max number of elements or properties to be included in any single array or
-   * object in the normallized output..
-   * @returns A normalized version of the object, or `"**non-serializable**"` if any errors are thrown during normalization.
-   */
-  function normalize(input, depth = +Infinity, maxProperties = +Infinity) {
-      try {
-          // since we're at the outermost level, there is no key
-          return walk('', input, depth, maxProperties);
-      }
-      catch (_oO) {
-          return '**non-serializable**';
-      }
-  }
   /**
    * Given any captured exception, extract its keys and create a sorted
    * and truncated list that will be used inside the event message.
@@ -1048,6 +760,72 @@ var Sentry = (function (exports) {
           return val.map(dropUndefinedKeys);
       }
       return val;
+  }
+
+  const STACKTRACE_LIMIT = 50;
+  /**
+   * Creates a stack parser with the supplied line parsers
+   *
+   * StackFrames are returned in the correct order for Sentry Exception
+   * frames and with Sentry SDK internal frames removed from the top and bottom
+   *
+   */
+  function createStackParser(...parsers) {
+      const sortedParsers = parsers.sort((a, b) => a[0] - b[0]).map(p => p[1]);
+      return (stack, skipFirst = 0) => {
+          const frames = [];
+          for (const line of stack.split('\n').slice(skipFirst)) {
+              for (const parser of sortedParsers) {
+                  const frame = parser(line);
+                  if (frame) {
+                      frames.push(frame);
+                      break;
+                  }
+              }
+          }
+          return stripSentryFramesAndReverse(frames);
+      };
+  }
+  /**
+   * @hidden
+   */
+  function stripSentryFramesAndReverse(stack) {
+      if (!stack.length) {
+          return [];
+      }
+      let localStack = stack;
+      const firstFrameFunction = localStack[0].function || '';
+      const lastFrameFunction = localStack[localStack.length - 1].function || '';
+      // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
+      if (firstFrameFunction.indexOf('captureMessage') !== -1 || firstFrameFunction.indexOf('captureException') !== -1) {
+          localStack = localStack.slice(1);
+      }
+      // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
+      if (lastFrameFunction.indexOf('sentryWrapped') !== -1) {
+          localStack = localStack.slice(0, -1);
+      }
+      // The frame where the crash happened, should be the last entry in the array
+      return localStack
+          .slice(0, STACKTRACE_LIMIT)
+          .map(frame => (Object.assign(Object.assign({}, frame), { filename: frame.filename || localStack[0].filename, function: frame.function || '?' })))
+          .reverse();
+  }
+  const defaultFunctionName = '<anonymous>';
+  /**
+   * Safely extract function name from itself
+   */
+  function getFunctionName(fn) {
+      try {
+          if (!fn || typeof fn !== 'function') {
+              return defaultFunctionName;
+          }
+          return fn.name || defaultFunctionName;
+      }
+      catch (e) {
+          // Just accessing custom props in some Selenium environments
+          // can cause a "Permission denied" exception (see raven-js#495).
+          return defaultFunctionName;
+      }
   }
 
   /**
@@ -1632,6 +1410,48 @@ var Sentry = (function (exports) {
       };
   }
 
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /**
+   * Helper to decycle json objects
+   */
+  function memoBuilder() {
+      const hasWeakSet = typeof WeakSet === 'function';
+      const inner = hasWeakSet ? new WeakSet() : [];
+      function memoize(obj) {
+          if (hasWeakSet) {
+              if (inner.has(obj)) {
+                  return true;
+              }
+              inner.add(obj);
+              return false;
+          }
+          // eslint-disable-next-line @typescript-eslint/prefer-for-of
+          for (let i = 0; i < inner.length; i++) {
+              const value = inner[i];
+              if (value === obj) {
+                  return true;
+              }
+          }
+          inner.push(obj);
+          return false;
+      }
+      function unmemoize(obj) {
+          if (hasWeakSet) {
+              inner.delete(obj);
+          }
+          else {
+              for (let i = 0; i < inner.length; i++) {
+                  if (inner[i] === obj) {
+                      inner.splice(i, 1);
+                      break;
+                  }
+              }
+          }
+      }
+      return [memoize, unmemoize];
+  }
+
   /**
    * UUID4 generator
    *
@@ -1787,6 +1607,187 @@ var Sentry = (function (exports) {
           // `exception` is a primitive, so we can't mark it seen
       }
       return false;
+  }
+
+  /**
+   * Recursively normalizes the given object.
+   *
+   * - Creates a copy to prevent original input mutation
+   * - Skips non-enumerable properties
+   * - When stringifying, calls `toJSON` if implemented
+   * - Removes circular references
+   * - Translates non-serializable values (`undefined`/`NaN`/functions) to serializable format
+   * - Translates known global objects/classes to a string representations
+   * - Takes care of `Error` object serialization
+   * - Optionally limits depth of final output
+   * - Optionally limits number of properties/elements included in any single object/array
+   *
+   * @param input The object to be normalized.
+   * @param depth The max depth to which to normalize the object. (Anything deeper stringified whole.)
+   * @param maxProperties The max number of elements or properties to be included in any single array or
+   * object in the normallized output..
+   * @returns A normalized version of the object, or `"**non-serializable**"` if any errors are thrown during normalization.
+   */
+  function normalize(input, depth = +Infinity, maxProperties = +Infinity) {
+      try {
+          // since we're at the outermost level, there is no key
+          return walk('', input, depth, maxProperties);
+      }
+      catch (_oO) {
+          return '**non-serializable**';
+      }
+  }
+  /** JSDoc */
+  function normalizeToSize(object, 
+  // Default Node.js REPL depth
+  depth = 3, 
+  // 100kB, as 200kB is max payload size, so half sounds reasonable
+  maxSize = 100 * 1024) {
+      const serialized = normalize(object, depth);
+      if (jsonSize(serialized) > maxSize) {
+          return normalizeToSize(object, depth - 1, maxSize);
+      }
+      return serialized;
+  }
+  /**
+   * Walks an object to perform a normalization on it
+   *
+   * @param key of object that's walked in current iteration
+   * @param value object to be walked
+   * @param depth Optional number indicating how deep should walking be performed
+   * @param maxProperties Optional maximum  number of properties/elements included in any single object/array
+   * @param memo Optional Memo class handling decycling
+   */
+  function walk(key, value, depth = +Infinity, maxProperties = +Infinity, memo = memoBuilder()) {
+      const [memoize, unmemoize] = memo;
+      // If we reach the maximum depth, serialize whatever is left
+      if (depth === 0) {
+          return serializeValue(value);
+      }
+      // If value implements `toJSON` method, call it and return early
+      if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
+          return value.toJSON();
+      }
+      // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
+      // pass-through. If what comes back is a primitive (either because it's been stringified or because it was primitive
+      // all along), we're done.
+      const serializable = makeSerializable(value, key);
+      if (isPrimitive(serializable)) {
+          return serializable;
+      }
+      // Create source that we will use for the next iteration. It will either be an objectified error object (`Error` type
+      // with extracted key:value pairs) or the input itself.
+      const source = getWalkSource(value);
+      // Create an accumulator that will act as a parent for all future itterations of that branch
+      const acc = Array.isArray(value) ? [] : {};
+      // If we already walked that branch, bail out, as it's circular reference
+      if (memoize(value)) {
+          return '[Circular ~]';
+      }
+      let propertyCount = 0;
+      // Walk all keys of the source
+      for (const innerKey in source) {
+          // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
+          if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
+              continue;
+          }
+          if (propertyCount >= maxProperties) {
+              acc[innerKey] = '[MaxProperties ~]';
+              break;
+          }
+          propertyCount += 1;
+          // Recursively walk through all the child nodes
+          const innerValue = source[innerKey];
+          acc[innerKey] = walk(innerKey, innerValue, depth - 1, maxProperties, memo);
+      }
+      // Once walked through all the branches, remove the parent from memo storage
+      unmemoize(value);
+      // Return accumulated values
+      return acc;
+  }
+  /**
+   * Transform any non-primitive, BigInt, or Symbol-type value into a string. Acts as a no-op on strings, numbers,
+   * booleans, null, and undefined.
+   *
+   * @param value The value to stringify
+   * @returns For non-primitive, BigInt, and Symbol-type values, a string denoting the value's type, type and value, or
+   *  type and `description` property, respectively. For non-BigInt, non-Symbol primitives, returns the original value,
+   *  unchanged.
+   */
+  function serializeValue(value) {
+      // Node.js REPL notation
+      if (typeof value === 'string') {
+          return value;
+      }
+      const type = Object.prototype.toString.call(value);
+      if (type === '[object Object]') {
+          return '[Object]';
+      }
+      if (type === '[object Array]') {
+          return '[Array]';
+      }
+      // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
+      // pass-through.
+      const serializable = makeSerializable(value);
+      return isPrimitive(serializable) ? serializable : type;
+  }
+  /**
+   * makeSerializable()
+   *
+   * Takes unserializable input and make it serializer-friendly.
+   *
+   * Handles globals, functions, `undefined`, `NaN`, and other non-serializable values.
+   */
+  function makeSerializable(value, key) {
+      if (key === 'domain' && value && typeof value === 'object' && value._events) {
+          return '[Domain]';
+      }
+      if (key === 'domainEmitter') {
+          return '[DomainEmitter]';
+      }
+      if (typeof global !== 'undefined' && value === global) {
+          return '[Global]';
+      }
+      // It's safe to use `window` and `document` here in this manner, as we are asserting using `typeof` first
+      // which won't throw if they are not present.
+      // eslint-disable-next-line no-restricted-globals
+      if (typeof window !== 'undefined' && value === window) {
+          return '[Window]';
+      }
+      // eslint-disable-next-line no-restricted-globals
+      if (typeof document !== 'undefined' && value === document) {
+          return '[Document]';
+      }
+      // React's SyntheticEvent thingy
+      if (isSyntheticEvent(value)) {
+          return '[SyntheticEvent]';
+      }
+      if (typeof value === 'number' && value !== value) {
+          return '[NaN]';
+      }
+      if (value === void 0) {
+          return '[undefined]';
+      }
+      if (typeof value === 'function') {
+          return `[Function: ${getFunctionName(value)}]`;
+      }
+      // symbols and bigints are considered primitives by TS, but aren't natively JSON-serilaizable
+      if (typeof value === 'symbol') {
+          return `[${String(value)}]`;
+      }
+      if (typeof value === 'bigint') {
+          return `[BigInt: ${String(value)}]`;
+      }
+      return value;
+  }
+  /** Calculates bytes size of input string */
+  function utf8Length(value) {
+      // eslint-disable-next-line no-bitwise
+      return ~-encodeURI(value).split(/%..|./).length;
+  }
+  /** Calculates bytes size of input object */
+  function jsonSize(value) {
+      return utf8Length(JSON.stringify(value));
   }
 
   /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -4102,85 +4103,6 @@ var Sentry = (function (exports) {
       return rv;
   }
 
-  /** Noop transport */
-  class NoopTransport {
-      /**
-       * @inheritDoc
-       */
-      sendEvent(_) {
-          return resolvedSyncPromise({
-              reason: 'NoopTransport: Event has been skipped because no Dsn is configured.',
-              status: 'skipped',
-          });
-      }
-      /**
-       * @inheritDoc
-       */
-      close(_) {
-          return resolvedSyncPromise(true);
-      }
-  }
-
-  /**
-   * This is the base implemention of a Backend.
-   * @hidden
-   */
-  class BaseBackend {
-      /** Creates a new backend instance. */
-      constructor(options) {
-          this._options = options;
-          if (!this._options.dsn) {
-              logger.warn('No DSN provided, backend will not do anything.');
-          }
-          this._transport = this._setupTransport();
-      }
-      /**
-       * @inheritDoc
-       */
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-      eventFromException(_exception, _hint) {
-          throw new SentryError('Backend has to implement `eventFromException` method');
-      }
-      /**
-       * @inheritDoc
-       */
-      eventFromMessage(_message, _level, _hint) {
-          throw new SentryError('Backend has to implement `eventFromMessage` method');
-      }
-      /**
-       * @inheritDoc
-       */
-      sendEvent(event) {
-          void this._transport.sendEvent(event).then(null, reason => {
-              logger.error('Error while sending event:', reason);
-          });
-      }
-      /**
-       * @inheritDoc
-       */
-      sendSession(session) {
-          if (!this._transport.sendSession) {
-              logger.warn("Dropping session because custom transport doesn't implement sendSession");
-              return;
-          }
-          void this._transport.sendSession(session).then(null, reason => {
-              logger.error('Error while sending session:', reason);
-          });
-      }
-      /**
-       * @inheritDoc
-       */
-      getTransport() {
-          return this._transport;
-      }
-      /**
-       * Sets up the transport so it can be used later to send requests.
-       */
-      _setupTransport() {
-          return new NoopTransport();
-      }
-  }
-
   /** Extract sdk info from from the API metadata */
   function getSdkMetadataForEnvelopeHeader(api) {
       if (!api.metadata || !api.metadata.sdk) {
@@ -4204,8 +4126,8 @@ var Sentry = (function (exports) {
       event.sdk.packages = [...(event.sdk.packages || []), ...(sdkInfo.packages || [])];
       return event;
   }
-  /** Creates a SentryRequest from a Session. */
-  function sessionToSentryRequest(session, api) {
+  /** Creates an envelope from a Session */
+  function createSessionEnvelope(session, api) {
       const sdkInfo = getSdkMetadataForEnvelopeHeader(api);
       const envelopeHeaders = Object.assign(Object.assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) }));
       // I know this is hacky but we don't want to add `sessions` to request type since it's never rate limited
@@ -4213,11 +4135,35 @@ var Sentry = (function (exports) {
       // TODO (v7) Have to cast type because envelope items do not accept a `SentryRequestType`
       const envelopeItem = [{ type }, session];
       const envelope = createEnvelope(envelopeHeaders, [envelopeItem]);
+      return [envelope, type];
+  }
+  /** Creates a SentryRequest from a Session. */
+  function sessionToSentryRequest(session, api) {
+      const [envelope, type] = createSessionEnvelope(session, api);
       return {
           body: serializeEnvelope(envelope),
           type,
           url: getEnvelopeEndpointWithUrlEncodedAuth(api.dsn, api.tunnel),
       };
+  }
+  /**
+   * Create an Envelope from an event. Note that this is duplicated from below,
+   * but on purpose as this will be refactored in v7.
+   */
+  function createEventEnvelope(event, api) {
+      const sdkInfo = getSdkMetadataForEnvelopeHeader(api);
+      const eventType = event.type || 'event';
+      const { transactionSampling } = event.sdkProcessingMetadata || {};
+      const { method: samplingMethod, rate: sampleRate } = transactionSampling || {};
+      const envelopeHeaders = Object.assign(Object.assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) }));
+      const eventItem = [
+          {
+              type: eventType,
+              sample_rates: [{ id: samplingMethod, rate: sampleRate }],
+          },
+          event,
+      ];
+      return createEnvelope(envelopeHeaders, [eventItem]);
   }
   /** Creates a SentryRequest from an event. */
   function eventToSentryRequest(event, api) {
@@ -4306,6 +4252,111 @@ var Sentry = (function (exports) {
       return req;
   }
 
+  /** Noop transport */
+  class NoopTransport {
+      /**
+       * @inheritDoc
+       */
+      sendEvent(_) {
+          return resolvedSyncPromise({
+              reason: 'NoopTransport: Event has been skipped because no Dsn is configured.',
+              status: 'skipped',
+          });
+      }
+      /**
+       * @inheritDoc
+       */
+      close(_) {
+          return resolvedSyncPromise(true);
+      }
+  }
+
+  /**
+   * This is the base implemention of a Backend.
+   * @hidden
+   */
+  class BaseBackend {
+      /** Creates a new backend instance. */
+      constructor(options) {
+          this._options = options;
+          if (!this._options.dsn) {
+              logger.warn('No DSN provided, backend will not do anything.');
+          }
+          this._transport = this._setupTransport();
+      }
+      /**
+       * @inheritDoc
+       */
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+      eventFromException(_exception, _hint) {
+          throw new SentryError('Backend has to implement `eventFromException` method');
+      }
+      /**
+       * @inheritDoc
+       */
+      eventFromMessage(_message, _level, _hint) {
+          throw new SentryError('Backend has to implement `eventFromMessage` method');
+      }
+      /**
+       * @inheritDoc
+       */
+      sendEvent(event) {
+          // TODO(v7): Remove the if-else
+          if (this._newTransport &&
+              this._options.dsn &&
+              this._options._experiments &&
+              this._options._experiments.newTransport) {
+              const api = initAPIDetails(this._options.dsn, this._options._metadata, this._options.tunnel);
+              const env = createEventEnvelope(event, api);
+              void this._newTransport.send(env).then(null, reason => {
+                  logger.error('Error while sending event:', reason);
+              });
+          }
+          else {
+              void this._transport.sendEvent(event).then(null, reason => {
+                  logger.error('Error while sending event:', reason);
+              });
+          }
+      }
+      /**
+       * @inheritDoc
+       */
+      sendSession(session) {
+          if (!this._transport.sendSession) {
+              logger.warn("Dropping session because custom transport doesn't implement sendSession");
+              return;
+          }
+          // TODO(v7): Remove the if-else
+          if (this._newTransport &&
+              this._options.dsn &&
+              this._options._experiments &&
+              this._options._experiments.newTransport) {
+              const api = initAPIDetails(this._options.dsn, this._options._metadata, this._options.tunnel);
+              const [env] = createSessionEnvelope(session, api);
+              void this._newTransport.send(env).then(null, reason => {
+                  logger.error('Error while sending session:', reason);
+              });
+          }
+          else {
+              void this._transport.sendSession(session).then(null, reason => {
+                  logger.error('Error while sending session:', reason);
+              });
+          }
+      }
+      /**
+       * @inheritDoc
+       */
+      getTransport() {
+          return this._transport;
+      }
+      /**
+       * Sets up the transport so it can be used later to send requests.
+       */
+      _setupTransport() {
+          return new NoopTransport();
+      }
+  }
+
   /**
    * Internal function to create a new SDK client instance. The client is
    * installed and then bound to the current scope.
@@ -4328,7 +4379,7 @@ var Sentry = (function (exports) {
       hub.bindClient(client);
   }
 
-  const SDK_VERSION = '6.19.1';
+  const SDK_VERSION = '6.19.2';
 
   let originalFunctionToString;
   /** Patch toString calls to return proper name for wrapped functions */
@@ -4372,172 +4423,151 @@ var Sentry = (function (exports) {
       /**
        * @inheritDoc
        */
-      setupOnce() {
+      setupOnce(addGlobalEventProcessor, getCurrentHub) {
           addGlobalEventProcessor((event) => {
               const hub = getCurrentHub();
-              if (!hub) {
-                  return event;
-              }
-              const self = hub.getIntegration(InboundFilters);
-              if (self) {
-                  const client = hub.getClient();
-                  const clientOptions = client ? client.getOptions() : {};
-                  // This checks prevents most of the occurrences of the bug linked below:
-                  // https://github.com/getsentry/sentry-javascript/issues/2622
-                  // The bug is caused by multiple SDK instances, where one is minified and one is using non-mangled code.
-                  // Unfortunatelly we cannot fix it reliably (thus reserved property in rollup's terser config),
-                  // as we cannot force people using multiple instances in their apps to sync SDK versions.
-                  const options = typeof self._mergeOptions === 'function' ? self._mergeOptions(clientOptions) : {};
-                  if (typeof self._shouldDropEvent !== 'function') {
-                      return event;
+              if (hub) {
+                  const self = hub.getIntegration(InboundFilters);
+                  if (self) {
+                      const client = hub.getClient();
+                      const clientOptions = client ? client.getOptions() : {};
+                      const options = _mergeOptions(self._options, clientOptions);
+                      return _shouldDropEvent$1(event, options) ? null : event;
                   }
-                  return self._shouldDropEvent(event, options) ? null : event;
               }
               return event;
           });
-      }
-      /** JSDoc */
-      _shouldDropEvent(event, options) {
-          if (this._isSentryError(event, options)) {
-              logger.warn(`Event dropped due to being internal Sentry Error.\nEvent: ${getEventDescription(event)}`);
-              return true;
-          }
-          if (this._isIgnoredError(event, options)) {
-              logger.warn(`Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${getEventDescription(event)}`);
-              return true;
-          }
-          if (this._isDeniedUrl(event, options)) {
-              logger.warn(`Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${this._getEventFilterUrl(event)}`);
-              return true;
-          }
-          if (!this._isAllowedUrl(event, options)) {
-              logger.warn(`Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${this._getEventFilterUrl(event)}`);
-              return true;
-          }
-          return false;
-      }
-      /** JSDoc */
-      _isSentryError(event, options) {
-          if (!options.ignoreInternal) {
-              return false;
-          }
-          try {
-              // @ts-ignore can't be a sentry error if undefined
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              return event.exception.values[0].type === 'SentryError';
-          }
-          catch (e) {
-              // ignore
-          }
-          return false;
-      }
-      /** JSDoc */
-      _isIgnoredError(event, options) {
-          if (!options.ignoreErrors || !options.ignoreErrors.length) {
-              return false;
-          }
-          return this._getPossibleEventMessages(event).some(message => 
-          // Not sure why TypeScript complains here...
-          options.ignoreErrors.some(pattern => isMatchingPattern(message, pattern)));
-      }
-      /** JSDoc */
-      _isDeniedUrl(event, options) {
-          // TODO: Use Glob instead?
-          if (!options.denyUrls || !options.denyUrls.length) {
-              return false;
-          }
-          const url = this._getEventFilterUrl(event);
-          return !url ? false : options.denyUrls.some(pattern => isMatchingPattern(url, pattern));
-      }
-      /** JSDoc */
-      _isAllowedUrl(event, options) {
-          // TODO: Use Glob instead?
-          if (!options.allowUrls || !options.allowUrls.length) {
-              return true;
-          }
-          const url = this._getEventFilterUrl(event);
-          return !url ? true : options.allowUrls.some(pattern => isMatchingPattern(url, pattern));
-      }
-      /** JSDoc */
-      _mergeOptions(clientOptions = {}) {
-          return {
-              allowUrls: [
-                  // eslint-disable-next-line deprecation/deprecation
-                  ...(this._options.whitelistUrls || []),
-                  ...(this._options.allowUrls || []),
-                  // eslint-disable-next-line deprecation/deprecation
-                  ...(clientOptions.whitelistUrls || []),
-                  ...(clientOptions.allowUrls || []),
-              ],
-              denyUrls: [
-                  // eslint-disable-next-line deprecation/deprecation
-                  ...(this._options.blacklistUrls || []),
-                  ...(this._options.denyUrls || []),
-                  // eslint-disable-next-line deprecation/deprecation
-                  ...(clientOptions.blacklistUrls || []),
-                  ...(clientOptions.denyUrls || []),
-              ],
-              ignoreErrors: [
-                  ...(this._options.ignoreErrors || []),
-                  ...(clientOptions.ignoreErrors || []),
-                  ...DEFAULT_IGNORE_ERRORS,
-              ],
-              ignoreInternal: typeof this._options.ignoreInternal !== 'undefined' ? this._options.ignoreInternal : true,
-          };
-      }
-      /** JSDoc */
-      _getPossibleEventMessages(event) {
-          if (event.message) {
-              return [event.message];
-          }
-          if (event.exception) {
-              try {
-                  const { type = '', value = '' } = (event.exception.values && event.exception.values[0]) || {};
-                  return [`${value}`, `${type}: ${value}`];
-              }
-              catch (oO) {
-                  logger.error(`Cannot extract message for event ${getEventDescription(event)}`);
-                  return [];
-              }
-          }
-          return [];
-      }
-      /** JSDoc */
-      _getLastValidUrl(frames = []) {
-          for (let i = frames.length - 1; i >= 0; i--) {
-              const frame = frames[i];
-              if (frame && frame.filename !== '<anonymous>' && frame.filename !== '[native code]') {
-                  return frame.filename || null;
-              }
-          }
-          return null;
-      }
-      /** JSDoc */
-      _getEventFilterUrl(event) {
-          try {
-              if (event.stacktrace) {
-                  return this._getLastValidUrl(event.stacktrace.frames);
-              }
-              let frames;
-              try {
-                  // @ts-ignore we only care about frames if the whole thing here is defined
-                  frames = event.exception.values[0].stacktrace.frames;
-              }
-              catch (e) {
-                  // ignore
-              }
-              return frames ? this._getLastValidUrl(frames) : null;
-          }
-          catch (oO) {
-              logger.error(`Cannot extract url for event ${getEventDescription(event)}`);
-              return null;
-          }
       }
   }
   /**
    * @inheritDoc
    */
   InboundFilters.id = 'InboundFilters';
+  /** JSDoc */
+  function _mergeOptions(internalOptions = {}, clientOptions = {}) {
+      return {
+          allowUrls: [
+              // eslint-disable-next-line deprecation/deprecation
+              ...(internalOptions.whitelistUrls || []),
+              ...(internalOptions.allowUrls || []),
+              // eslint-disable-next-line deprecation/deprecation
+              ...(clientOptions.whitelistUrls || []),
+              ...(clientOptions.allowUrls || []),
+          ],
+          denyUrls: [
+              // eslint-disable-next-line deprecation/deprecation
+              ...(internalOptions.blacklistUrls || []),
+              ...(internalOptions.denyUrls || []),
+              // eslint-disable-next-line deprecation/deprecation
+              ...(clientOptions.blacklistUrls || []),
+              ...(clientOptions.denyUrls || []),
+          ],
+          ignoreErrors: [
+              ...(internalOptions.ignoreErrors || []),
+              ...(clientOptions.ignoreErrors || []),
+              ...DEFAULT_IGNORE_ERRORS,
+          ],
+          ignoreInternal: internalOptions.ignoreInternal !== undefined ? internalOptions.ignoreInternal : true,
+      };
+  }
+  /** JSDoc */
+  function _shouldDropEvent$1(event, options) {
+      if (options.ignoreInternal && _isSentryError(event)) {
+          logger.warn(`Event dropped due to being internal Sentry Error.\nEvent: ${getEventDescription(event)}`);
+          return true;
+      }
+      if (_isIgnoredError(event, options.ignoreErrors)) {
+          logger.warn(`Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${getEventDescription(event)}`);
+          return true;
+      }
+      if (_isDeniedUrl(event, options.denyUrls)) {
+          logger.warn(`Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${_getEventFilterUrl(event)}`);
+          return true;
+      }
+      if (!_isAllowedUrl(event, options.allowUrls)) {
+          logger.warn(`Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${_getEventFilterUrl(event)}`);
+          return true;
+      }
+      return false;
+  }
+  function _isIgnoredError(event, ignoreErrors) {
+      if (!ignoreErrors || !ignoreErrors.length) {
+          return false;
+      }
+      return _getPossibleEventMessages(event).some(message => ignoreErrors.some(pattern => isMatchingPattern(message, pattern)));
+  }
+  function _isDeniedUrl(event, denyUrls) {
+      // TODO: Use Glob instead?
+      if (!denyUrls || !denyUrls.length) {
+          return false;
+      }
+      const url = _getEventFilterUrl(event);
+      return !url ? false : denyUrls.some(pattern => isMatchingPattern(url, pattern));
+  }
+  function _isAllowedUrl(event, allowUrls) {
+      // TODO: Use Glob instead?
+      if (!allowUrls || !allowUrls.length) {
+          return true;
+      }
+      const url = _getEventFilterUrl(event);
+      return !url ? true : allowUrls.some(pattern => isMatchingPattern(url, pattern));
+  }
+  function _getPossibleEventMessages(event) {
+      if (event.message) {
+          return [event.message];
+      }
+      if (event.exception) {
+          try {
+              const { type = '', value = '' } = (event.exception.values && event.exception.values[0]) || {};
+              return [`${value}`, `${type}: ${value}`];
+          }
+          catch (oO) {
+              logger.error(`Cannot extract message for event ${getEventDescription(event)}`);
+              return [];
+          }
+      }
+      return [];
+  }
+  function _isSentryError(event) {
+      try {
+          // @ts-ignore can't be a sentry error if undefined
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          return event.exception.values[0].type === 'SentryError';
+      }
+      catch (e) {
+          // ignore
+      }
+      return false;
+  }
+  function _getLastValidUrl(frames = []) {
+      for (let i = frames.length - 1; i >= 0; i--) {
+          const frame = frames[i];
+          if (frame && frame.filename !== '<anonymous>' && frame.filename !== '[native code]') {
+              return frame.filename || null;
+          }
+      }
+      return null;
+  }
+  function _getEventFilterUrl(event) {
+      try {
+          if (event.stacktrace) {
+              return _getLastValidUrl(event.stacktrace.frames);
+          }
+          let frames;
+          try {
+              // @ts-ignore we only care about frames if the whole thing here is defined
+              frames = event.exception.values[0].stacktrace.frames;
+          }
+          catch (e) {
+              // ignore
+          }
+          return frames ? _getLastValidUrl(frames) : null;
+      }
+      catch (oO) {
+          logger.error(`Cannot extract url for event ${getEventDescription(event)}`);
+          return null;
+      }
+  }
 
   var CoreIntegrations = /*#__PURE__*/Object.freeze({
     __proto__: null,
