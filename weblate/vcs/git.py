@@ -296,7 +296,7 @@ class GitRepository(Repository):
                 message.append(line.strip())
 
         result["message"] = "\n".join(message)
-        result["summary"] = message[0]
+        result["summary"] = message[0] if message else ""
 
         return result
 
