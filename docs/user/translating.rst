@@ -14,7 +14,7 @@ Please see :ref:`workflows` for more info on translation workflow.
 
 Options for translation project visibility:
 
-* Publicly visible and anybody can contribute
+* Publicly visible
 * Visible only to a certain group of translators
 
 .. seealso::
