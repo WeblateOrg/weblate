@@ -58,7 +58,7 @@ class PoExporterTest(BaseTestCase):
             language=lang,
             source_language=Language.objects.get(code="en"),
             project=Project(slug="test", name="TEST"),
-            **kwargs
+            **kwargs,
         )
 
     def check_export(self, exporter):

@@ -343,7 +343,7 @@ class DiscoveryForm(BaseAddonForm):
     def discovery(self):
         return ComponentDiscovery(
             self._addon.instance.component,
-            **ComponentDiscovery.extract_kwargs(self.cleaned_data)
+            **ComponentDiscovery.extract_kwargs(self.cleaned_data),
         )
 
     def clean(self):

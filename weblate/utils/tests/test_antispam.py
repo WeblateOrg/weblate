@@ -44,13 +44,13 @@ class SpamTest(TestCase):
             responses.POST,
             "https://key.rest.akismet.com/1.1/comment-check",
             body=body,
-            **kwargs
+            **kwargs,
         )
         responses.add(
             responses.POST,
             "https://key.rest.akismet.com/1.1/submit-spam",
             body=body,
-            **kwargs
+            **kwargs,
         )
         responses.add(
             responses.POST, "https://rest.akismet.com/1.1/verify-key", body="valid"

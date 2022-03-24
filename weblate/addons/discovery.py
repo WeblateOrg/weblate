@@ -60,5 +60,5 @@ class DiscoveryAddon(BaseAddon):
             self.instance.configuration["new_base_template"] = ""
         return ComponentDiscovery(
             self.instance.component,
-            **ComponentDiscovery.extract_kwargs(self.instance.configuration)
+            **ComponentDiscovery.extract_kwargs(self.instance.configuration),
         )

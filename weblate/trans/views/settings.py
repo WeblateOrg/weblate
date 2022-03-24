@@ -277,7 +277,7 @@ def announcement_translation(request, project, component, lang):
         project=obj.component.project,
         component=obj.component,
         language=obj.language,
-        **form.cleaned_data
+        **form.cleaned_data,
     )
 
     return redirect(obj)
