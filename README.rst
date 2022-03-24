@@ -37,7 +37,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 Support
 -------
 
-Weblate is a libre software with optional professional support and cloud
+Weblate is libre software with optional professional support and cloud
 hosting offerings. Check out https://weblate.org/hosting/ for more information.
 
 Documentation
