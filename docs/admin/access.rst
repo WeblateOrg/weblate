@@ -33,7 +33,7 @@ You can limit user’s access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
 
 Public
-    Publicly visible, translatable for all logged-in users.
+    Publicly visible, translatable for all signed-in users.
 Protected
     Publicly visible, but translatable only for selected users.
 Private
