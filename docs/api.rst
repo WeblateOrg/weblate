@@ -2573,7 +2573,7 @@ Weblate provides various exports to allow you to further process the data.
 
     Retrieves statistics for given component in given format.
 
-    **Example request**:
+    **Example request:**
 
     .. sourcecode:: http
 
@@ -2581,7 +2581,7 @@ Weblate provides various exports to allow you to further process the data.
         Host: example.com
         Accept: application/json, text/javascript
 
-    **Example response**:
+    **Example response:**
 
     .. sourcecode:: http
 
