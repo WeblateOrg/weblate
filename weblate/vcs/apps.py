@@ -27,7 +27,7 @@ from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.base import RepositoryException
-from weblate.vcs.git import GitRepository
+from weblate.vcs.git import GitRepository, SubversionRepository
 
 GIT_ERRORS = []
 
@@ -88,6 +88,11 @@ class VCSConfig(AppConfig):
                 GitRepository.global_setup()
             except RepositoryException as error:
                 GIT_ERRORS.append(str(error))
+            if SubversionRepository.is_supported():
+                try:
+                    SubversionRepository.global_setup()
+                except RepositoryException as error:
+                    GIT_ERRORS.append(str(error))
 
         # Use it for *.po by default
         configdir = os.path.join(home, ".config", "git")

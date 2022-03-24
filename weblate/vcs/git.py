@@ -23,7 +23,7 @@ import os
 import os.path
 import random
 import urllib.parse
-from configparser import NoOptionError, NoSectionError
+from configparser import NoOptionError, NoSectionError, RawConfigParser
 from datetime import datetime
 from json import JSONDecodeError, dumps
 from time import sleep
@@ -547,6 +547,26 @@ class SubversionRepository(GitRepository):
     _fetch_revision = None
 
     needs_push_url = False
+
+    @classmethod
+    def global_setup(cls):
+        """Perform global settings."""
+        dirname = os.path.join(data_dir("home"), ".subversion")
+        filename = os.path.join(dirname, "config")
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+        config = RawConfigParser()
+        config.read(filename)
+        section = "auth"
+        option = "password-stores"
+        value = ""
+        if not config.has_section(section):
+            config.add_section(section)
+        if config.has_option(section, option) and config.get(section, option) == value:
+            return
+        config.set(section, option, value)
+        with open(filename, "w") as handle:
+            config.write(handle)
 
     @classmethod
     def _get_version(cls):
