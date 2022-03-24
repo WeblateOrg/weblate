@@ -827,6 +827,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 0)
 
         # Ignore check for all languages
+        ignore_flag = Check.objects.get(pk=int(check_id)).ignore_string
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
@@ -837,17 +838,12 @@ class EditComplexTest(ViewTestCase):
 
         # Should have one less check
         unit = self.get_unit()
-        try:
-            obj = Check.objects.get(pk=int(check_id))
-        except Check.DoesNotExist:
-            obj = Check(name=check_id)
-        ignore = obj.check_obj.ignore_string
         self.assertJSONEqual(
             response.content.decode("utf-8"),
             {
                 "extra_flags": unit.extra_flags.format(),
                 "all_flags": unit.all_flags.format(),
-                "ignore_check": ignore,
+                "ignore_check": ignore_flag,
             },
         )
         self.assertFalse(unit.has_failing_check)
