@@ -22,7 +22,6 @@ from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
-from django.db.models import Q
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
@@ -71,11 +70,17 @@ class UniqueEmailMixin:
         self.cleaned_data["email_user"] = None
         mail = self.cleaned_data["email"]
         users = User.objects.filter(
-            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email=mail),
+            email=mail,
             is_active=True,
             is_bot=False,
         )
-        if users.exists():
+        if not users:
+            users = User.objects.filter(
+                social_auth__verifiedemail__email__iexact=mail,
+                is_active=True,
+                is_bot=False,
+            )
+        if users:
             self.cleaned_data["email_user"] = users[0]
             if self.validate_unique_mail:
                 raise forms.ValidationError(
