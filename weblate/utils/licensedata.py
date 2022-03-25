@@ -1342,6 +1342,12 @@ LICENSES = (
     ),
     ("JSON", "JSON License", "https://spdx.org/licenses/JSON.html", False),
     (
+        "KiCad-libraries-exception",
+        "KiCad Libraries Exception",
+        "https://spdx.org/licenses/KiCad-libraries-exception.html",
+        False,
+    ),
+    (
         "LPPL-1.0",
         "LaTeX Project Public License v1.0",
         "https://spdx.org/licenses/LPPL-1.0.html",
