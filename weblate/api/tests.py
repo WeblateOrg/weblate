@@ -2763,6 +2763,18 @@ class UnitAPITest(APIBaseTest):
         )
         unit = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit.explanation, "This is good explanation")
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Actual update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            superuser=True,
+            request={"explanation": "This is rejected explanation"},
+        )
 
     def test_unit_flags(self):
         unit = Unit.objects.get(

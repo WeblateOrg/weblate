@@ -1218,7 +1218,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         do_source = "extra_flags" in data or "explanation" in data
         unit = serializer.instance
         translation = unit.translation
-        user = self.request.user
+        request = self.request
+        user = request.user
 
         new_target = data.get("target", [])
         new_state = data.get("state", None)
@@ -1227,11 +1228,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if do_source and (
             not unit.is_source or not user.has_perm("source.edit", translation)
         ):
-            raise PermissionDenied()
+            self.permission_denied(
+                request, "Source strings properties can be set only on source strings"
+            )
 
         if do_translate:
             if unit.readonly:
-                raise PermissionDenied()
+                self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:
                 raise ValidationError(
                     "Please provide both state and target for a partial update"
@@ -1261,7 +1264,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if new_state == STATE_APPROVED and not user.has_perm(
                 "unit.review", translation
             ):
-                raise PermissionDenied()
+                self.permission_denied(
+                    request, "You do not have permission to edit approved strings."
+                )
 
         # Update attributes
         if do_source:
