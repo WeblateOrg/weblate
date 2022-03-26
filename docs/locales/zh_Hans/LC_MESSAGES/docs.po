@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-23 13:22+0000\n"
+"PO-Revision-Date: 2022-03-26 23:29+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -870,8 +870,8 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"这些角色和组是在安装时创建的。 升级时，内置角色始终通过数据库迁移保持最新状"
-"态。你实际上无法更改它们，如果要定义自己的权限组合，请定义一个新角色。"
+"这些角色和群组是在安装时创建的。升级时，内置角色始终通过数据库迁移保持最新状"
+"态。实际上你无法更改它们，如果要定义自己的权限组合，请定义一个新角色。"
 
 #: ../../admin/access.rst:448
 msgid "List of privileges and built-in roles"
@@ -1597,11 +1597,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:91 ../../devel/html.rst:52
 msgid "CSS selector"
-msgstr "CSS选择器"
+msgstr "CSS 选择器"
 
 #: ../../admin/addons.rst:91
 msgid "CSS selector to detect localizable elements."
-msgstr "检测可本地化元素的CSS选择器。"
+msgstr "检测可本地化元素的 CSS 选择器。"
 
 #: ../../admin/addons.rst:93
 #, fuzzy
@@ -1611,11 +1611,11 @@ msgstr "``{{ component_name }}``"
 
 #: ../../admin/addons.rst:93 ../../devel/html.rst:55
 msgid "Language cookie name"
-msgstr "语言cookie名称"
+msgstr "语言 cookie 名称"
 
 #: ../../admin/addons.rst:93
 msgid "Name of cookie which stores language preference."
-msgstr "存储语言选项的cookie的名称。"
+msgstr "存储语言偏好的 cookie 的名称。"
 
 #: ../../admin/addons.rst:95
 #, fuzzy
@@ -1631,7 +1631,7 @@ msgstr "从 HTML 文件中提取字符串"
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
-msgstr "用于解析可翻译字符串的当前存储库中的文件名或远程URLs的列表。"
+msgstr "当前存储库或远程 URL 中要解析可翻译字符串的文件名列表。"
 
 #: ../../admin/addons.rst:97
 msgid "daily, repository post-commit, repository post-update"
@@ -1641,7 +1641,7 @@ msgstr "每日，代码库提交后，代码库更新后"
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "将译文发布到内容分发网络，以便在 JavaScript或 HTML 本地化中使用。"
+msgstr "将译文发布到 JavaScript 或 HTML 本地化中使用的内容分发网络。"
 
 #: ../../admin/addons.rst:102
 msgid ""
@@ -3288,7 +3288,7 @@ msgstr ""
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
-msgstr "也可以另外新建 Django，相对于其他方式进行身份验证。"
+msgstr "Django 还可以通过其他方式进行身份验证。"
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -6673,7 +6673,7 @@ msgstr "ENABLE_AVATARS"
 #: ../../admin/config.rst:663
 msgid ""
 "Whether to turn on Gravatar-based avatars for users. By default this is on."
-msgstr "是否为用户打开基于 Gravatar 的头像。默认打开。"
+msgstr "是否为用户开启基于 Gravatar 的头像。默认开启。"
 
 #: ../../admin/config.rst:665
 msgid ""
@@ -6717,8 +6717,8 @@ msgid ""
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
-"在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置 — 启用安全cookie、切换 "
-"HSTS 或允许重定向到 HTTPS URL。"
+"在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置 —— 启用安全 Cookie、"
+"切换 HSTS 或允许重定向到 HTTPS URL。"
 
 #: ../../admin/config.rst:697
 msgid ""
@@ -7110,11 +7110,12 @@ msgstr "给定翻译的长度是否应被限制。限制为源字符串的长度
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
-msgstr "将其设置为 ``False`` 来允许更长的翻译，而不管源字符串的长度。"
+msgstr "将其设置为 ``False`` 即可允许更长的翻译（最多 10000 "
+"个字符），而不管源字符串的长度。"
 
 #: ../../admin/config.rst:1063
 msgid "Defaults to ``True``."
-msgstr "默认为 ``True`` 。"
+msgstr "默认为 ``True``。"
 
 #: ../../admin/config.rst:1069
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
@@ -7127,10 +7128,10 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"这些设置配置 :ref:`addon-weblate.cdn.cdnjs` 附加组件。 :setting:"
-"`LOCALIZE_CDN_URL` 定义了可获得本地化 CDN 的根 URL ，而 :setting:"
-"`LOCALIZE_CDN_PATH` 定义了 Weblate 应把 :setting:`LOCALIZE_CDN_URL`将提供的生"
-"成文件存储在哪个路径。"
+"这些设置配置 :ref:`addon-weblate.cdn.cdnjs` "
+"附加组件。:setting:`LOCALIZE_CDN_URL` 定义了本地化 CDN 可用的根 URL，而 "
+":setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应把 :setting:`LOCALIZE_CDN_URL` "
+"将提供的生成文件存储在哪个路径。"
 
 #: ../../admin/config.rst:1078
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -17712,22 +17713,20 @@ msgid ""
 "User can select desired language and the project maintainers will receive a "
 "notification about this. It is up to them to add (or not) the language to "
 "the repository."
-msgstr ""
-"用户可以选择所需的语言，项目维护者将收到有关该语言的通知。由他们决定是否向仓"
-"库添加（或不添加）语言。"
+msgstr "用户可以选择所需的语言，项目维护者将收到相关通知。由项目维护者来决定是否将该"
+"语言添加到存储库中。"
 
 #: ../../admin/projects.rst:579
 msgid "Point to translation instructions URL"
-msgstr "显示翻译介绍"
+msgstr "指向翻译指引 URL"
 
 #: ../../admin/projects.rst:578
 msgid ""
 "User is presented a link to page which describes process of starting new "
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
-msgstr ""
-"向用户显示的页面链接描述了开始新翻译的过程。如果需要更正式的过程（例如，在开"
-"始实际翻译之前组成人员团队），请使用此选项。"
+msgstr "用户会看到一个链接，该链接指向的页面描述了开始新翻译的过程。如果需要更正式的"
+"过程（例如在开始实际翻译之前组建一个团队），请使用此选项。"
 
 #: ../../admin/projects.rst:582
 msgid "Create new language file"
@@ -17737,7 +17736,7 @@ msgstr "创建新语言文件"
 msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
-msgstr "用户可以选择语言，然后 Weblate 会自动为其新建文件并开始翻译。"
+msgstr "用户可以选择语言，Weblate 会自动为其创建文件，然后就可以开始翻译了。"
 
 #: ../../admin/projects.rst:585
 msgid "Disable adding new translations"
@@ -17745,7 +17744,7 @@ msgstr "禁用添加新翻译"
 
 #: ../../admin/projects.rst:585
 msgid "There will be no option for user to start new translation."
-msgstr "用户将无法选择开始新的翻译。"
+msgstr "用户将无法开始新的翻译。"
 
 #: ../../admin/projects.rst:589
 msgid ""
@@ -19001,7 +19000,7 @@ msgid ""
 "`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate."
 "org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgstr ""
-"`Weblate 4.0 文档中关于从3.11 升级到 4.0 <https://docs.weblate.org/en/"
+"`Weblate 4.0 文档中关于从 3.11 升级到 4.0 <https://docs.weblate.org/en/"
 "weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 
 #: ../../admin/upgrade.rst:133
@@ -23752,7 +23751,7 @@ msgstr "添加了项目或部件重命名后重定向的兼容性。"
 msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
-msgstr "为字符串的统一、部件的锁定和许可的更改添加了通知。"
+msgstr "新增了字符串核准、部件锁定和许可证变更的通知。"
 
 #: ../../changes.rst:520
 msgid "Added support for ModernMT."
@@ -25272,7 +25271,7 @@ msgstr "当添加新语言时可配置的语言代码语法。"
 #: ../../changes.rst:985
 msgid ""
 "Warn about using Python 2 with planned termination of support in April 2020."
-msgstr "警告 Python 2 的使用计划于 2020 年 04 月终止支持。"
+msgstr "警告 Python 2 的使用计划于 2020 年 4 月终止支持。"
 
 #: ../../changes.rst:986
 msgid "Extract special characters from the source string for visual keyboard."
@@ -28346,8 +28345,8 @@ msgid ""
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
-"基于 Web 的、具有紧密的 :ref:`vcs` 的持续本地化工具，支持多种 :ref:`文件格式 "
-"<formats>`，让翻译者可以轻松作贡献。"
+"基于 Web、与 :ref:`版本控制紧密集成 <vcs>` 的持续本地化工具，支持多种 :ref:`"
+"文件格式 <formats>`，让翻译者可以轻松地作贡献。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -31237,10 +31236,10 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
-"在 Weblate 中， 翻译组织成为项目和部件。每个项目可以包含几个部件，并且部件包"
-"含各个语言的翻译。部件相应于一个翻译文件（例如 :ref:`gettext` 或 :ref:"
-"`aresource`）。项目帮助您将部件组织为逻辑的组（例如，将一个应用中使用的所有翻"
-"译分组）。"
+"在 Weblate 中，翻译被组织成项目和部件。每个项目可以包含多个部件，这些部件又包"
+"含各个语言的翻译。部件对应的是一个可翻译的文件（例如 :ref:`gettext` 或 :ref:`"
+"aresource`）。项目可以帮助您将部件组织成逻辑集合（例如，将一个应用中用到的所"
+"有翻译集合在一起）。"
 
 #: ../../snippets/basics.rst:14
 msgid ""
@@ -32189,9 +32188,9 @@ msgid ""
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
-"当用户在 Weblatte 中提出请求时，可立即添加新语言，或发送通知给项目管理员以获"
-"取批准并手动添加。这可以通过在 :ref:`component` 中 :ref:`component-new_lang` "
-"来完成。"
+"当用户在 Weblate "
+"中提出请求时，可立即添加新语言，或发送通知给项目管理员以获取批准并手动添加。"
+"这可以通过在 :ref:`component` 中 :ref:`component-new_lang` 来完成。"
 
 #: ../../devel/translations.rst:20
 msgid ""
@@ -36559,7 +36558,7 @@ msgstr "``max-length:N``"
 msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
-msgstr "检查翻译的长度是否可匹配可用的空间。这只检查翻译字符的长度。"
+msgstr "检查翻译的长度是否符合可用空间的要求。这只会检查翻译字符的长度。"
 
 #: ../../user/checks.rst:736
 msgid ""
@@ -39165,8 +39164,8 @@ msgid ""
 "`vcs-github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and :ref:`vcs-"
 "mercurial` as version control back-ends."
 msgstr ""
-"Weblate 当前支持 :ref:`vcs-git`（扩展支持 :ref:`vcs-github`、:ref:`vcs-"
-"gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 为版本控制后端。"
+"Weblate 当前支持 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref:`vcs-"
+"gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 作为版本控制后端。"
 
 #: ../../vcs.rst:13
 msgid "Accessing repositories"
@@ -40315,9 +40314,7 @@ msgstr "同行评审"
 msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
-msgstr ""
-"使用此工作流程，任何人都可以添加建议，并且需要其他成员的同意才能被接受为翻"
-"译。"
+msgstr "使用此流程，任何人都可以添加建议，并且需要其他成员的核准才能被接受为翻译。"
 
 #: ../../workflows.rst:100
 msgid "*Any user* can add suggestions."
