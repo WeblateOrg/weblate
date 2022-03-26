@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-23 12:57+0000\n"
-"Last-Translator: Taufik A. Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
+"PO-Revision-Date: 2022-03-26 07:35+0000\n"
+"Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
 "Language: id\n"
@@ -279,7 +279,7 @@ msgstr "Dapat mengelola memori terjemahan."
 #: ../../admin/access.rst:119 ../../admin/access.rst:488 ../../api.rst:2118
 #: ../../user/translating.rst:266
 msgid "Screenshots"
-msgstr "Tangkapan layar"
+msgstr "Tangkapan Layar"
 
 #: ../../admin/access.rst:118
 msgid ""
@@ -1067,7 +1067,7 @@ msgstr "Gunakan saran otomatis"
 
 #: ../../admin/access.rst:478 ../../user/translating.rst:275
 msgid "Translation memory"
-msgstr "Memori terjemahan"
+msgstr "Memori Terjemahan"
 
 #: ../../admin/access.rst:478
 msgid "Edit translation memory"
@@ -2009,6 +2009,13 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"Add-on penemuan komponen menggunakan :ref:`internal-urls`. Ini adalah cara "
+"yang nyaman untuk berbagi pengaturan VCS di antara beberapa komponen. "
+"Komponen yang ditautkan menggunakan repositori lokal dari komponen utama "
+"yang disiapkan dengan mengisi ``weblate://project/main-component`` ke dalam "
+"kolom :ref:`component-repo` (dalam :guilabel:`Kelola` :guilabel: `Pengaturan`"
+" :guilabel:`Sistem kontrol versi`) dari masing-masing komponen. Hal ini "
+"dapat menghemat sumber daya sistem dan waktu untuk mengonfigurasi."
 
 #: ../../admin/addons.rst:230 ../../admin/addons.rst:389
 msgid ":ref:`markup`"
@@ -14520,6 +14527,9 @@ msgid ""
 "discovery` add-on, leading to some changes in behavior and what parameters "
 "are accepted."
 msgstr ""
+"Perintah impor_proyek sekarang didasarkan pada add-on :ref:`addon-weblate."
+"discovery.discovery`, yang mana menyebabkan beberapa perubahan perilaku dan "
+"jenis parameter yang diterima."
 
 #: ../../admin/management.rst:394
 msgid "Batch imports components into project based on the file mask."
@@ -17078,6 +17088,11 @@ msgid ""
 "djadmin:`import_project` or :djadmin:`import_json`, or by installing the :"
 "ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
+"Jika proyek Anda memiliki lusinan berkas terjemahan (misalnya untuk domain "
+"gettext yang berbeda atau bagian dari aplikasi Android), Anda mungkin ingin "
+"mengimpornya secara otomatis. Ini bisa dilakukan di baris perintah dengan "
+"menggunakan :djadmin:`import_project` atau :djadmin:`import_json`, atau "
+"dengan memasang add-on :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1007
 msgid ""
@@ -17095,7 +17110,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:1017
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`kelola`, :ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
@@ -17159,7 +17174,7 @@ msgstr ""
 
 #: ../../admin/support.rst:35
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
-msgstr ""
+msgstr "Selain itu, saat :ref:`discover-weblate` diaktifkan:"
 
 #: ../../admin/support.rst:37
 msgid "List of public projects (name, URL and website)"
@@ -17209,6 +17224,10 @@ msgid ""
 "Weblate servers and communities. Users can browse registered services on "
 "<https://weblate.org/discover/>, and find there projects to contribute."
 msgstr ""
+"Jelajahi Weblate adalah layanan keikutsertaan yang memudahkan pengguna dalam "
+"menemukan server dan komunitas Weblate. Pengguna dapat menelusuri layanan "
+"terdaftar di <https://weblate.org/discover/> dan menemukan proyek untuk ikut "
+"berkontribusi."
 
 #: ../../admin/support.rst:68
 #, fuzzy
@@ -17221,6 +17240,8 @@ msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
 msgstr ""
+"Berpartisipasi dalam Jelajahi Weblate membuat Weblate mengirimkan beberapa "
+"informasi tentang server Anda, silakan lihat :ref:`support-data`."
 
 #: ../../admin/support.rst:76
 msgid ""
@@ -17228,10 +17249,15 @@ msgid ""
 "support`) in Discover Weblate all you need to do is turn this on in the "
 "management panel:"
 msgstr ""
+"Untuk mendaftarkan server Anda dengan langganan dukungan aktif (lihat :ref"
+":`activate-support`) di Jelajahi Weblate, yang perlu Anda lakukan hanyalah "
+"mengaktifkannya di panel manajemen:"
 
 #: ../../admin/support.rst:82
 msgid "Listing your server without a support subscription in Discover Weblate:"
 msgstr ""
+"Cara untuk mencantumkan server Anda tanpa langganan dukungan di Jelajahi "
+"Weblate:"
 
 #: ../../admin/support.rst:84
 #, fuzzy
@@ -17240,12 +17266,12 @@ msgid "Register yourself at <https://weblate.org/user/>"
 msgstr "Donasi ke Weblate"
 
 #: ../../admin/support.rst:85
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid ""
 "Register your Weblate server in the discovery database at <https://weblate."
 "org/subscription/discovery/>"
-msgstr "Donasi ke Weblate"
+msgstr ""
+"Daftarkan server Weblate Anda di basis data penemuan di <https://weblate.org/"
+"subscription/discovery/>"
 
 #: ../../admin/support.rst:86
 msgid ""
@@ -17253,6 +17279,9 @@ msgid ""
 "listing in your Weblate management page using :guilabel:`Enable discovery` "
 "button:"
 msgstr ""
+"Konfirmasikan aktivasi layanan di Weblate Anda dan aktifkan daftar penemuan "
+"di halaman pengelolaan Weblate Anda menggunakan tombol :guilabel:`Aktifkan "
+"penemuan`:"
 
 #: ../../admin/support.rst:93
 #, fuzzy
@@ -30500,6 +30529,13 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` add-on "
 "to automatically discover all others."
 msgstr ""
+"Sekarang yang Anda butuhkan hanyalah menerjemahkan konten dokumentasi. "
+"Sphinx menghasilkan berkas PO untuk setiap direktori atau berkas tingkat "
+"atas, yang mana dapat menghasilkan cukup banyak berkas untuk diterjemahkan ("
+"tergantung pada pengaturan :confval:`sphinx:gettext_compact`). Anda dapat "
+"mengimpor :berkas:`index.po` ke Weblate sebagai komponen awal dan kemudian "
+"mengonfigurasi add-on :ref:`addon-weblate.discovery.discovery` untuk "
+"menemukan yang lainnya secara otomatis."
 
 #: ../../devel/sphinx.rst:33
 #, fuzzy
@@ -38182,7 +38218,7 @@ msgstr ""
 
 #: ../../vcs.rst:390
 msgid "Subversion"
-msgstr ""
+msgstr "Subversion"
 
 #: ../../vcs.rst:394
 msgid ""
