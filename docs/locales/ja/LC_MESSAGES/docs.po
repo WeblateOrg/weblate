@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-27 11:20+0000\n"
-"Last-Translator: Hiroyuki <jelly_beans@mac.com>\n"
+"PO-Revision-Date: 2022-03-27 14:43+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2030,6 +2030,14 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"コンポーネントを検出するアドオンは、:ref:`internal-urls` "
+"を使用します。これは、複数のコンポーネント間で VCS "
+"設定を共有するのに便利です。リンクされたコンポーネントは、各コンポーネントの "
+":ref:`component-repo` フィールド（:guilabel:`管理` ↓ :guilabel:`設定` ↓ "
+":guilabel:`バージョン管理システム` の中）に ``weblate://project/main-"
+"component`` を入力して、設定したメイン コンポーネントのローカル "
+"リポジトリを使用します。これにより、設定およびシステム "
+"リソースの時間をも節約できます。"
 
 #: ../../admin/addons.rst:230 ../../admin/addons.rst:389
 msgid ":ref:`markup`"
@@ -2318,6 +2326,9 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"コンポーネント内の未翻訳の文字列は、すべて原文に置き換えられ、要編集がチェッ"
+"クされます。これは、翻訳ファイルに空の文字列を含めることができない場合に使用"
+"します。"
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -2372,24 +2383,22 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
-"擬似言語は、翻訳の準備ができていない文字列を検索するのに便利です。これは、す"
-"べての翻訳可能な原文を変更したあと、アプリケーションを擬似言語で実行して、変"
-"更していない文字列を簡単に見つけ出します。"
+"擬似言語は、翻訳の準備ができていない文字列を検索するのに便利です。これにより"
+"、すべての翻訳可能な原文を変更したあと、アプリケーションを擬似言語で実行した"
+"ときに、未翻訳の文字列を簡単に見つけることができます。"
 
 #: ../../admin/addons.rst:435
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
-msgstr ""
-"現地語化された文字列が、正常に表示されない可能性がある文字列も発見できます。"
+msgstr "表示時にレイアウトが崩れるかもしれない、現地語化した文字列も発見できます。"
 
 #: ../../admin/addons.rst:440
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
-msgstr ""
-"テストには実際の言語を使用できますが、 Weblate には専用の疑似言語（ `en_XA` "
-"と `ar_XB` ）があります。"
+msgstr "テストには実際の言語を使用できますが、 Weblate には専用の疑似言語（ `en_XA` "
+"と `ar_XB` ）が用意されています。"
 
 #: ../../admin/addons.rst:445
 msgid ""
@@ -2399,12 +2408,17 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"このアドオンを使用して、既存の言語または類似の言語の新しい言語への翻訳を開始"
+"できます。コンポーネントに翻訳を追加したら、アドオンに従います。*例:* `fr` "
+"があり、`fr_CA` の翻訳を開始する場合、ソースに `fr`、ターゲットには `fr_CA` "
+"を設定し、接頭辞と接尾辞を空白にするだけです。"
 
 #: ../../admin/addons.rst:451
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
-msgstr ""
+msgstr "コピー後に作成した翻訳を Weblate に変更されないように、新しい翻訳が入力された"
+"らアドオンをアンインストールしてください。"
 
 #: ../../admin/addons.rst:458
 msgid "Contributors in comment"
@@ -2954,14 +2968,12 @@ msgid "``dos`` -- DOS (\\\\r\\\\n)"
 msgstr "``dos`` -- DOS (\\\\r\\\\n)"
 
 #: ../../admin/addons.rst:738
-#, fuzzy
 msgid "``unix`` -- UNIX (\\\\n)"
 msgstr ""
 "``unix`` -- UNIX (\\\\n"
 ")"
 
 #: ../../admin/addons.rst:740
-#, fuzzy
 msgid "``mac`` -- MAC (\\\\r)"
 msgstr "``mac`` -- MAC (\\\\r)"
 
@@ -4918,7 +4930,6 @@ msgstr ""
 "グを定義します。"
 
 #: ../../admin/checks.rst:67
-#, fuzzy
 msgid "``icu-tag-prefix:PREFIX``"
 msgstr "``icu-tag-prefix:PREFIX``"
 
@@ -8939,7 +8950,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/continuous.rst:50
-#, fuzzy
 msgid "Updating repositories"
 msgstr "リポジトリの更新"
 
@@ -17517,7 +17527,7 @@ msgstr "原文の査読の有効化"
 
 #: ../../admin/projects.rst:199
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
-msgstr ""
+msgstr "原文の査読ワークフローを有効にします。参照: :ref:`source-reviews`。"
 
 #: ../../admin/projects.rst:203 ../../faq.rst:309
 msgid ":ref:`report-source`, :ref:`user-comments`"
@@ -17530,7 +17540,7 @@ msgstr "フックの有効化"
 #: ../../admin/projects.rst:211
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
-msgstr ""
+msgstr "このリポジトリで、認証していない :ref:`hooks` を使用するかどうか。"
 
 #: ../../admin/projects.rst:215
 msgid ""
@@ -17551,20 +17561,23 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
+"翻訳を Weblate にインポートするときに、言語コードのマッピングを定義します。こ"
+"れは、リポジトリで言語コードに一貫性がなく、Weblate で一貫性のある表示をする"
+"場合、または翻訳ファイルに非標準の名前を付ける場合に使用します。"
 
 #: ../../admin/projects.rst:230
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
-msgstr ""
+msgstr "アメリカ英語を英語にマッピングする、典型的な使用例: ``en_US:en``"
 
 #: ../../admin/projects.rst:232
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
-msgstr ""
+msgstr "カンマで区切る、複数のマッピング例: ``en_GB:en, en_US:en``"
 
 #: ../../admin/projects.rst:234
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "非標準コードの使用例: ``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:238
 msgid ""
@@ -17579,7 +17592,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:249 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr ""
+msgstr "コンポーネント構成"
 
 #: ../../admin/projects.rst:251
 msgid ""
@@ -17588,11 +17601,14 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"コンポーネントとは、翻訳対象をグループ化したものです。翻訳するファイルの VCS "
+"リポジトリの場所とファイル マスクを入力すると、Weblate は VCS "
+"から自動的に取得し、一致するすべての翻訳可能ファイルを検索します。"
 
 #: ../../admin/projects.rst:259
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
-msgstr ""
+msgstr "一般的な設定例については、:ref:`formats` を確認してください。"
 
 #: ../../admin/projects.rst:263
 msgid ""
@@ -17600,6 +17616,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
+"翻訳コンポーネントは適切なサイズを維持してください — "
+"翻訳を意味のあるもの（個々のアプリやアドオン、本の章や Web "
+"サイト）に分割してください。"
 
 #: ../../admin/projects.rst:267
 msgid ""
@@ -17607,6 +17626,8 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate は、1 万個の文字列の翻訳を簡単に処理できますが、大きな翻訳コンポーネ"
+"ントを使用する翻訳者間で作業を分割して調整することは困難です。"
 
 #: ../../admin/projects.rst:270
 msgid ""
@@ -17615,12 +17636,16 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"翻訳したい言語の定義がない場合は、空の定義が作成され、\"cs_CZ (generated) \" "
+"という名前が付けられます。この定義を編集して Weblate "
+"の作成者に報告すると、次のリリースで足りない言語が含まれます。"
 
 #: ../../admin/projects.rst:275
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
-msgstr ""
+msgstr "コンポーネントには、VCS を操作したり、VCS "
+"から翻訳を取得するために必要な重要なパラメータはすべて含まれています。"
 
 #: ../../admin/projects.rst:281 ../../admin/projects.rst:882
 msgid "Component name"
@@ -17628,7 +17653,7 @@ msgstr "コンポーネント名"
 
 #: ../../admin/projects.rst:283
 msgid "Verbose component name, used to display the component name."
-msgstr ""
+msgstr "コンポーネント名を表示するために使用する、詳細なコンポーネント名。"
 
 #: ../../admin/projects.rst:288 ../../admin/projects.rst:884 ../../api.rst:2193
 #: ../../api.rst:2263 ../../api.rst:2359
@@ -17637,15 +17662,15 @@ msgstr "コンポーネント スラッグ"
 
 #: ../../admin/projects.rst:290
 msgid "Component name suitable for URLs."
-msgstr ""
+msgstr "URL 用のコンポーネント名。"
 
 #: ../../admin/projects.rst:295
 msgid "Component project"
-msgstr ""
+msgstr "コンポーネント プロジェクト"
 
 #: ../../admin/projects.rst:297
 msgid ":ref:`project` where the component belongs."
-msgstr ""
+msgstr "コンポーネントが所属する :ref:`project`。"
 
 #: ../../admin/projects.rst:302
 msgid "Version control system"
@@ -17653,7 +17678,7 @@ msgstr "バージョン管理システム"
 
 #: ../../admin/projects.rst:304
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
+msgstr "使用する VCS。詳細については、:ref:`vcs` を確認してください。"
 
 #: ../../admin/projects.rst:308 ../../admin/projects.rst:394
 msgid ":ref:`push-changes`"
@@ -17665,11 +17690,11 @@ msgstr "ソースコードのリポジトリ"
 
 #: ../../admin/projects.rst:315
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "変更のプルに使用する VCS リポジトリ。"
 
 #: ../../admin/projects.rst:319
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
-msgstr ""
+msgstr "URL の指定方法の詳細については、:ref:`vcs-repos` を確認してください。"
 
 #: ../../admin/projects.rst:323
 msgid ""
@@ -17677,6 +17702,10 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"これは、実際の VCS の URL か、"
+"リポジトリを別のコンポーネントと共有する必要があることを示す ``weblate://"
+"project/component`` のいずれかです。詳細については、:ref:`internal-urls` "
+"を確認してください。"
 
 #: ../../admin/projects.rst:330
 msgid "Repository push URL"
@@ -17688,19 +17717,26 @@ msgid ""
 "git` and :ref:`vcs-mercurial` and push support is turned off for these when "
 "this is empty."
 msgstr ""
+"プッシュに使用するリポジトリの URL。この設定は、:ref:`vcs-git` および :ref"
+":`vcs-mercurial` に対してのみ使用します。URL が空の場合、これらのプッシュ "
+"サポートは無効になります。"
 
 #: ../../admin/projects.rst:336 ../../admin/projects.rst:376
 #: ../../admin/projects.rst:385
 msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
-msgstr ""
+msgstr "リンクされたリポジトリの場合、これは使用されません。リンクされたコンポーネン"
+"トの設定が適用されます。"
 
 #: ../../admin/projects.rst:340
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"リポジトリの URL の指定方法の詳細については :ref:`vcs-repos` を、Weblate "
+"から変更をプッシュする方法の詳細については、ref:`push-changes` "
+"を確認してください。"
 
 #: ../../admin/projects.rst:346
 msgid "Repository browser"
@@ -35900,7 +35936,7 @@ msgstr "変更履歴"
 
 #: ../../legal.rst:2
 msgid "Legal documents"
-msgstr "法的文書"
+msgstr "法的留意事項"
 
 #: ../../legal.rst:6
 msgid ""
