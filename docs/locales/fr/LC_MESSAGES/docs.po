@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-26 23:29+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2022-03-28 00:28+0000\n"
+"Last-Translator: Jérôme <jerbring@hotmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -496,6 +496,8 @@ msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Gestionnaires` (si vous souhaitez déléguer la plupart des opérations de "
+"gestion à une autre personne)."
 
 #: ../../admin/access.rst:230
 msgid ""
@@ -557,6 +559,10 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Si vous souhaitez (peu importe la raison) autoriser la traduction vers une "
+"langue spécifique (par exemple \"tchèque\") à un groupe restreint de "
+"traducteurs fiables tout en gardant publiques les traductions vers d'autres "
+"langues, vous devrez :"
 
 #: ../../admin/access.rst:257
 msgid ""
@@ -564,6 +570,9 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"Retirer le droit de traduction en `tchèque` pour tous les utilisateurs. Dans "
+"la configuration par défaut, cela peut être fait en modifiant `Users` :ref:`"
+"default group <default-groups>`."
 
 #: ../../admin/access.rst:261
 msgid "Group `Users`"
@@ -579,11 +588,11 @@ msgstr "`Tel que défini`"
 
 #: ../../admin/access.rst:267
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Toutes sauf le `Tchèque`"
 
 #: ../../admin/access.rst:271
 msgid "Add a dedicated group for `Czech` translators."
-msgstr ""
+msgstr "Ajouter un groupe spécifique pour les traducteurs en `Tchèque`."
 
 #: ../../admin/access.rst:273
 msgid "Group `Czech translators`"
@@ -786,6 +795,8 @@ msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following group:"
 msgstr ""
+"Prenons l'exemple d'un projet ``foo`` avec les composants: ``foo/bar`` et``"
+"foo/baz`` et le groupe suivant :"
 
 #: ../../admin/access.rst:386
 msgid "Group `Spanish Admin-Reviewers`"
@@ -801,7 +812,7 @@ msgstr "Composants"
 
 #: ../../admin/access.rst:392
 msgid "foo/bar"
-msgstr ""
+msgstr "foo/bar"
 
 #: ../../admin/access.rst:394
 msgid "`Spanish`"
@@ -820,10 +831,13 @@ msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Accès général (navigation) à l’ensemble du projet ``foo`` incluant les deux "
+"composants : ``foo/bar`` et``foo/baz``."
 
 #: ../../admin/access.rst:402
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Vérifier la traduction espagnole des chaînes de ``foo/bar`` (pas ailleurs)."
 
 #: ../../admin/access.rst:403
 msgid ""
@@ -872,6 +886,9 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"Actuellement, il n'est pas possible d'ajouter en bloc des utilisateurs "
+"existants à un groupe via l'interface utilisateur. Pour cela, vous pouvez "
+"utiliser :ref:`REST API <api>`."
 
 #: ../../admin/access.rst:436
 msgid "Default groups and roles"
@@ -882,6 +899,8 @@ msgid ""
 "After installation, a default set of groups is created (see :ref:`default-"
 "groups`)."
 msgstr ""
+"Après l'installation, un ensemble de groupes par défaut est créé (voir :ref"
+":`default-groups`)."
 
 #: ../../admin/access.rst:440
 msgid ""
@@ -1416,6 +1435,8 @@ msgstr ""
 #: ../../admin/access.rst:638
 msgid "You can use built-in :ref:`invitations <manage-acl>` to add new users."
 msgstr ""
+"Vous pouvez utiliser la fonction intégrée :ref:`invitations <manage-acl>` "
+"pour ajouter de nouveaux utilisateurs."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2232
 msgid "Add-ons"
@@ -1437,6 +1458,8 @@ msgid ""
 "You can also configure add-ons using :ref:`API <addons-api>`, :setting:"
 "`DEFAULT_ADDONS`, or :djadmin:`install_addon`."
 msgstr ""
+"Vous pouvez également configurer les greffons en utilisant :ref:`API <addons-"
+"api>`, :setting:`DEFAULT_ADDONS`, ou :djadmin:`install_addon`."
 
 #: ../../admin/addons.rst:20
 msgid "Built-in add-ons"
@@ -1523,7 +1546,7 @@ msgstr "``fuzzy`` -- Chaînes marquées A vérifier"
 
 #: ../../admin/addons.rst:52
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
-msgstr ""
+msgstr "``check:inconsistent`` -- Échec de la vérification : Incohérence"
 
 #: ../../admin/addons.rst:54
 #, fuzzy
@@ -1579,7 +1602,7 @@ msgstr "Seuil de score"
 
 #: ../../admin/addons.rst:0
 msgid "Triggers"
-msgstr ""
+msgstr "Déclencheurs"
 
 #: ../../admin/addons.rst:66 ../../admin/addons.rst:400
 #: ../../admin/addons.rst:425
@@ -1607,6 +1630,8 @@ msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
 msgstr ""
+"Une fois par mois pour chaque composant, ceci peut être configuré en "
+"utilisant :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:77
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -2203,7 +2228,7 @@ msgstr "Marquer les nouvelles chaînes sources comme « À vérifier »"
 
 #: ../../admin/addons.rst:324
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:328
 msgid ""
@@ -2327,6 +2352,10 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Toutes les chaînes non traduites dans le composant seront renseignées avec "
+"la chaîne source, et marquées comme devant être modifiées. Utilisez ceci "
+"lorsque vous ne pouvez pas avoir de chaînes vides dans les fichiers de "
+"traduction."
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -2414,6 +2443,8 @@ msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
+"Désinstallez le greffon une fois la nouvelle traduction remplie pour "
+"empêcher Weblate de modifier les traductions effectuées après la copie."
 
 #: ../../admin/addons.rst:458
 msgid "Contributors in comment"
@@ -2445,7 +2476,7 @@ msgstr "Mettre à jour la variable ALL_LINGUAS dans le fichier « configure 
 
 #: ../../admin/addons.rst:481
 msgid "``weblate.gettext.configure``"
-msgstr ""
+msgstr "``weblate.gettext.configure``"
 
 #: ../../admin/addons.rst:483 ../../admin/addons.rst:528
 #, fuzzy
@@ -2468,7 +2499,7 @@ msgstr "Personnaliser la sortie gettext"
 
 #: ../../admin/addons.rst:493
 msgid "``weblate.gettext.customize``"
-msgstr ""
+msgstr "``weblate.gettext.customize``"
 
 #: ../../admin/addons.rst:495 ../../admin/addons.rst:722
 #, fuzzy
@@ -2509,8 +2540,9 @@ msgstr "Aucun retour à la ligne automatique"
 
 #: ../../admin/addons.rst:505 ../../admin/addons.rst:633
 #: ../../admin/addons.rst:742
+#, fuzzy
 msgid "storage post-load"
-msgstr ""
+msgstr "stockage après chargement"
 
 #: ../../admin/addons.rst:507
 msgid ""
@@ -2607,7 +2639,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:552
 msgid "``weblate.gettext.msgmerge``"
-msgstr ""
+msgstr "``weblate.gettext.msgmerge``"
 
 #: ../../admin/addons.rst:554
 #, fuzzy
@@ -2698,11 +2730,11 @@ msgstr "Gérer les langues"
 
 #: ../../admin/addons.rst:586
 msgid "``file`` -- Per file"
-msgstr ""
+msgstr "``file`` -- Par fichier"
 
 #: ../../admin/addons.rst:588
 msgid "``author`` -- Per author"
-msgstr ""
+msgstr "``author`` -- Par auteur"
 
 #: ../../admin/addons.rst:590
 msgid "``append_trailers``"
@@ -2847,11 +2879,11 @@ msgstr "Style d’indentation JSON"
 
 #: ../../admin/addons.rst:629
 msgid "``spaces`` -- Spaces"
-msgstr ""
+msgstr "``spaces`` -- Espaces"
 
 #: ../../admin/addons.rst:631
 msgid "``tabs`` -- Tabs"
-msgstr ""
+msgstr "``tabs`` -- Onglets"
 
 #: ../../admin/addons.rst:635
 msgid ""
@@ -2880,7 +2912,7 @@ msgstr "Purge automatique des commentaires"
 
 #: ../../admin/addons.rst:655
 msgid "``weblate.removal.comments``"
-msgstr ""
+msgstr "``weblate.removal.comments``"
 
 #: ../../admin/addons.rst:657 ../../admin/addons.rst:676
 msgid "``age``"
@@ -3049,10 +3081,12 @@ msgstr "DOS (\\r\\n)"
 #: ../../admin/addons.rst:738
 msgid "``unix`` -- UNIX (\\\\n)"
 msgstr ""
+"``unix`` -- UNIX (\\\\n"
+")"
 
 #: ../../admin/addons.rst:740
 msgid "``mac`` -- MAC (\\\\r)"
-msgstr ""
+msgstr "``mac`` -- MAC (\\\\r)"
 
 #: ../../admin/addons.rst:744
 msgid ""
@@ -4034,7 +4068,7 @@ msgstr "Nom complet"
 
 #: ../../admin/auth.rst:446
 msgid "``urn:oid:2.5.4.3``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.3``"
 
 #: ../../admin/auth.rst:448
 msgid "First name"
@@ -4042,7 +4076,7 @@ msgstr "Prénom"
 
 #: ../../admin/auth.rst:448
 msgid "``urn:oid:2.5.4.42``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.42``"
 
 #: ../../admin/auth.rst:450
 #, fuzzy
@@ -4052,7 +4086,7 @@ msgstr "Prénom"
 
 #: ../../admin/auth.rst:450
 msgid "``urn:oid:2.5.4.4``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.4``"
 
 #: ../../admin/auth.rst:452
 msgid "E-mail"
@@ -4060,7 +4094,7 @@ msgstr "Adresse courriel"
 
 #: ../../admin/auth.rst:452
 msgid "``urn:oid:0.9.2342.19200300.100.1.3``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.3``"
 
 #: ../../admin/auth.rst:454 ../../api.rst:256
 msgid "Username"
@@ -4068,13 +4102,16 @@ msgstr "Nom d’utilisateur"
 
 #: ../../admin/auth.rst:454
 msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:459
 msgid ""
 "The example above and the Docker image define an IDP labelled ``weblate``. "
 "You might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
+"L’exemple ci-dessus et l’image Docker définissent un IDP intitulé ``weblate``"
+". Vous devrez peut-être configurer cette chaîne en tant que :guilabel:`Relay`"
+" dans votre IDP (fournisseur d’identité)."
 
 #: ../../admin/auth.rst:464
 msgid ""
@@ -4099,6 +4136,8 @@ msgid ""
 "This package is included in the Docker container, see :doc:`/admin/install/"
 "docker`."
 msgstr ""
+"Ce package est inclus dans le conteneur Docker, voir :doc:`/admin/install/"
+"docker`."
 
 #: ../../admin/auth.rst:489
 msgid ""
@@ -4346,6 +4385,8 @@ msgstr ""
 #: ../../admin/backup.rst:48
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
+"La création de la sauvegarde peut être personnalisée en utilisant "
+":setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/backup.rst:53
 msgid "Weblate provisioned backup storage"
@@ -4512,16 +4553,21 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"Pour créer des sauvegardes distantes, vous devrez installer `BorgBackup`_ "
+"sur un autre serveur accessible par votre déploiement Weblate via SSH en "
+"utilisant la clé SSH de Weblate :"
 
 #: ../../admin/backup.rst:122
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Préparez un serveur où seront stockées vos sauvegardes."
 
 #: ../../admin/backup.rst:123
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Installez le serveur SSH dessus (vous l'aurez par défaut avec la plupart des "
+"distributions Linux)."
 
 #: ../../admin/backup.rst:124
 msgid ""
@@ -4532,16 +4578,21 @@ msgstr ""
 "disposent des paquets nécessaires (voir :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:125
+#, fuzzy
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Sélectionnez un utilisateur existant ou créez en un nouveau qui sera utilisé "
+"pour les sauvegardes."
 
 #: ../../admin/backup.rst:126
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Ajoutez la clé SSH de Weblate à l'utilisateur pour que Weblate puisse se "
+"connecter en SSH au serveur sans mot de passe (voir :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:127
 #, fuzzy
@@ -4625,6 +4676,10 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Lorsque vous utilisez un conteneur Docker, le fichier de paramètres est déjà "
+"inclus dans le conteneur et vous devez restaurer les variables "
+"d'environnement d'origine. Le fichier :file:`environment.yml` peut vous y "
+"aider (voir :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:155
 #, fuzzy
@@ -4643,12 +4698,16 @@ msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
+"Lorsque vous utilisez le conteneur Docker, placez les données dans le volume "
+"de données, voir :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:161
 msgid ""
 "Please make sure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
+"Assurez-vous que le propriétaire et les permissions des fichiers sont "
+"corrects, voir :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:163
 #, fuzzy
@@ -4898,6 +4957,8 @@ msgstr ""
 #: ../../admin/backup.rst:273
 msgid "To restore the database backup load it using dabase tools, for example:"
 msgstr ""
+"Pour restaurer la sauvegarde de la base de données, chargez-la en utilisant "
+"les outils de la base de données, par exemple :"
 
 #: ../../admin/backup.rst:280
 msgid "Version control repositories"
@@ -5265,7 +5326,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:65
 msgid "``icu-flags:FLAGS``"
-msgstr ""
+msgstr "``icu-flags:FLAGS``"
 
 #: ../../admin/checks.rst:66
 #, fuzzy
@@ -5277,7 +5338,7 @@ msgstr "Ignorer le contrôle de qualité « Java MessageFormat »."
 
 #: ../../admin/checks.rst:67
 msgid "``icu-tag-prefix:PREFIX``"
-msgstr ""
+msgstr "``icu-tag-prefix:PREFIX``"
 
 #: ../../admin/checks.rst:68
 #, fuzzy
@@ -5347,6 +5408,8 @@ msgstr "``fonts``"
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
 msgstr ""
+"Indique une traduction interdite dans un glossaire, voir :ref:`glossary-"
+"forbidden`."
 
 #: ../../admin/checks.rst:82
 msgid "``strict-same``"
@@ -6342,6 +6405,9 @@ msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"Les polices téléchargées dans Weblate sont utilisées uniquement pour la "
+"vérification :ref:`check-max-size`, elles n'ont pas d'effet sur l'interface "
+"utilisateur de Weblate."
 
 #: ../../admin/checks.rst:294
 msgid ""
@@ -6395,10 +6461,14 @@ msgid "You can have a number of fonts loaded into Weblate:"
 msgstr "Vous pouvez charger plusieurs polices dans Weblate :"
 
 #: ../../admin/checks.rst:321
+#, fuzzy
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Pour utiliser les polices afin de vérifier la longueur des chaînes, passez-"
+"lui les drapeaux appropriés (voir :ref:`custom-checks`). Vous aurez "
+"probablement besoin des drapeaux suivants :"
 
 #: ../../admin/checks.rst:324
 msgid "``max-size:500``"
@@ -6406,7 +6476,7 @@ msgstr "``max-size:500``"
 
 #: ../../admin/checks.rst:325
 msgid "Defines maximal width in pixels."
-msgstr ""
+msgstr "Définit la largeur maximale en pixels."
 
 #: ../../admin/checks.rst:326
 msgid "``font-family:ubuntu``"
@@ -6414,7 +6484,7 @@ msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:327
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "Définit le groupe de polices à utiliser en spécifiant son identifiant."
 
 #: ../../admin/checks.rst:330
 msgid "``font-size:22``"
@@ -6422,11 +6492,11 @@ msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:329
 msgid "Defines font size in pixels."
-msgstr ""
+msgstr "Définit la taille de la police en pixels."
 
 #: ../../admin/checks.rst:335
 msgid "Writing own checks"
-msgstr ""
+msgstr "Rédiger ses propres contrôles"
 
 #: ../../admin/checks.rst:337
 msgid ""
@@ -6441,8 +6511,9 @@ msgid "Subclass the `weblate.checks.Check`"
 msgstr ""
 
 #: ../../admin/checks.rst:342
+#, fuzzy
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Définir quelques attributs."
 
 #: ../../admin/checks.rst:343
 msgid ""
