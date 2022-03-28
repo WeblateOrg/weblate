@@ -1692,3 +1692,14 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
+
+Configuring PostgreSQL server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The PostgtreSQL container uses default PostgreSQL configuration and it won't
+effectively utilize your CPU cores or memory. It is recommended to customize
+the configuration to improve the performace.
+
+The configuration can be adjusted as described in `Database Configuration` at
+https://hub.docker.com/_/postgres. The configuration matching your environment
+can be generated using https://pgtune.leopard.in.ua/.
