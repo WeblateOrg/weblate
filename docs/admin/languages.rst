@@ -82,11 +82,11 @@ enforce updating the database to match Weblate built-in data using
 Ambiguous language codes and macrolanguages
 -------------------------------------------
 
-In many cases it is not a good idea to use macro language code for a
+In many cases it is not a good idea to use macrolanguage code for a
 translation. The typical problematic case might be Kurdish language, which
 might be written in Arabic or Latin script, depending on actual variant. To get
 correct behavior in Weblate, it is recommended to use individual language codes
-only and avoid macro languages.
+only and avoid macrolanguages.
 
 .. seealso::
 
