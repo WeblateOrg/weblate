@@ -1100,7 +1100,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Return latest locally known remote commit."""
         if self.vcs == "local" or not self.remote_revision:
             return None
-        return self.repository.get_revision_info(self.remote_revision)
+        try:
+            return self.repository.get_revision_info(self.remote_revision)
+        except RepositoryException:
+            return None
 
     def get_last_commit(self):
         """Return latest locally known remote commit."""
