@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-03-01 15:48+0000\n"
+"PO-Revision-Date: 2022-03-29 17:09+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11.1-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -4788,8 +4788,6 @@ msgid "Members"
 msgstr "成員"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgid "None"
 msgctxt "None project associated with group"
 msgid "None"
 msgstr "無"
@@ -7612,20 +7610,14 @@ msgid "No matching strings found."
 msgstr "找不到符合的字串。"
 
 #: weblate/templates/snippets/about.html:3
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features a simple and clean user interface, propagation "
-#| "of translations across components, quality checks and automatic linking "
-#| "to source files."
 msgid ""
 "Weblate is a web-based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate 是款緊密版本控制整合的網頁型翻譯工具。它具備簡潔且清爽的使用介面、跨"
-"組件翻譯再用、品質查核，還能自動連結來源檔。"
+"Weblate 是款緊密版本控制整合，以網頁技術為基礎打造的翻譯工具。它具備簡潔且清"
+"爽的使用介面、跨組件翻譯再用、品質查核，還能自動連結來源檔。"
 
 #: weblate/templates/snippets/about.html:5
 #, python-format
@@ -9051,11 +9043,9 @@ msgid "Access only"
 msgstr "僅供存取"
 
 #: weblate/templates/trans/project-access.html:192
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "這會從本專案刪除 <b>%(token)s</b> 專案代符。"
+msgstr "這會從本專案刪除 <b>%(name)s</b> 團隊。"
 
 #: weblate/templates/trans/project-access.html:232
 msgid "Create new team"
@@ -9521,7 +9511,7 @@ msgstr "上傳的檔案會與目前的翻譯合併。"
 msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
-msgstr ""
+msgstr "如果您想覆蓋已經翻譯的字串，請在下拉選單中選擇對應選項。"
 
 #: weblate/templates/translation.html:408
 msgid ""
@@ -11617,8 +11607,7 @@ msgid "Forbidden translation: %s"
 msgstr "禁止的翻譯：%s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Not-translatable: %s"
+#, python-format
 msgid "Non translatable: %s"
 msgstr "不能翻譯：%s"
 
@@ -11857,16 +11846,12 @@ msgid "Very low"
 msgstr "非常低"
 
 #: weblate/trans/util.py:225
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "{0} is translated into {1} languages using Weblate. Join the translation "
-#| "or start translating your own project."
+#, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
 "translation or start translating your own project."
-msgstr ""
-"{0} 正透過 Weblate 翻譯成 {1} 種語言。請加入翻譯的行列，或是開始翻譯您的專案"
-"吧。"
+msgstr "{0} 正透過 Weblate 翻譯成 {1} "
+"種語言。加入翻譯的行列，或是開始翻譯您自己的專案吧。"
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
@@ -11920,10 +11905,8 @@ msgid "User has been invited to this project."
 msgstr "使用者已邀進此專案。"
 
 #: weblate/trans/views/acl.py:252
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Token has been removed from this project."
-msgstr "使用者已從這個專案中移除。"
+msgstr "已從本專案移除代符。"
 
 #: weblate/trans/views/acl.py:255
 msgid "User has been removed from this project."
@@ -12007,10 +11990,8 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr "請設定您個人檔案中的全名與電子郵件。"
 
 #: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:553
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No string found."
-msgstr "找不到字串！"
+msgstr "找不到字串。"
 
 #: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
