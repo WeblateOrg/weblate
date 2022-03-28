@@ -345,10 +345,6 @@ Scaling horizontally
 
 .. versionadded:: 4.6
 
-.. warning::
-
-   This feature is a technology preview.
-
 You can run multiple Weblate containers to scale the service horizontally. The
 :file:`/app/data` volume has to be shared by all containers, it is recommended
 to use cluster filesystem such as GlusterFS for this. The :file:`/app/cache`
