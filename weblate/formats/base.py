@@ -403,7 +403,7 @@ class TranslationFormat:
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
-        return cls.get_language_posix_long(code).replace("_", "-")
+        return cls.get_language_code_bcp(cls.get_language_posix_long(code))
 
     @staticmethod
     def get_language_android(code: str) -> str:
