@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-29 17:09+0000\n"
-"Last-Translator: Hiroyuki <jelly_beans@mac.com>\n"
+"PO-Revision-Date: 2022-03-30 04:13+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -7417,13 +7417,12 @@ msgstr "これを空の値に設定すると、ライセンス警告が無効に
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
-msgstr ""
-"表示するライセンスのフィルタ リスト。これにより、空に設定した場合のライセンス"
-"警告も無効になります。"
+msgstr "表示するライセンスのフィルター "
+"リスト。これにより、空に設定した場合のライセンス警告も無効になります。"
 
 #: ../../admin/config.rst:1020
 msgid "This filter uses the short license names."
-msgstr "このフィルタは、短いライセンス名を使用します。"
+msgstr "このフィルターは、短いライセンス名を使用します。"
 
 #: ../../admin/config.rst:1028
 msgid "Following disables the license alert:"
@@ -8426,7 +8425,7 @@ msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1835
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr "登録できるメール アドレスをフィルタ処理できます。"
+msgstr "登録できるメール アドレスをフィルター処理できます。"
 
 #: ../../admin/config.rst:1837
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
@@ -8650,7 +8649,6 @@ msgstr "この設定では、単一のプロジェクトを強制的に表示す
 "ッグも受け付けるように変更されました。"
 
 #: ../../admin/config.rst:2022
-#, fuzzy
 msgid "SSH_EXTRA_ARGS"
 msgstr "SSH_EXTRA_ARGS"
 
@@ -8660,6 +8658,9 @@ msgid ""
 "when connecting to servers using legacy encryption or other non-standard "
 "features."
 msgstr ""
+"Weblate が SSH 接続するときに、カスタム パラメータを追加できます。これは、従"
+"来の暗号化またはその他の非標準機能を使用してサーバーに接続する場合に便利です"
+"。"
 
 #: ../../admin/config.rst:2029
 msgid ""
@@ -8667,12 +8668,15 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can enable that using:"
 msgstr ""
+"例えば、Weblate が SSH 接続を試みて、`Unable to negotiate with legacyhost: "
+"no matching key exchange method found. Their offer: diffie-hellman-"
+"group1-sha1` と警告が出て失敗した場合の対処方法:"
 
 #: ../../admin/config.rst:2038
 msgid ""
 "The string is evaluated by shell, so make sure to quote any whitespace and "
 "special characters."
-msgstr "文字列はシェルによって評価されるため、空白や特殊文字は必ず引用符で囲んでくだ"
+msgstr "文字列はシェルによって評価されるので、空白や特殊文字は必ず引用符で囲んでくだ"
 "さい。"
 
 #: ../../admin/config.rst:2043
@@ -17749,12 +17753,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
 msgstr ""
+"ソース ファイル（使用した原文の位置）の表示に使用する、リポジトリ "
+"ブラウザーの URL。空の場合、位置表示のリンクは生成されません。:ref:`markup` "
+"が使用できます。"
 
 #: ../../admin/projects.rst:351
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"GitHub での使用例: ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:354
 msgid ""
@@ -17763,10 +17772,14 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
+"パスが別のフォルダ（``..`` を含むパス）への相対パスである場合、"
+"先頭のディレクトリを ``parentdir`` フィルター（参照: "
+":ref:`markup:`）を使用して取り除く例: ``https://github.com/WeblateOrg/hello/"
+"blob/{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:362
 msgid "Exported repository URL"
-msgstr "エクスポートされたリポジトリ URL"
+msgstr "エクスポートするリポジトリ URL"
 
 #: ../../admin/projects.rst:364
 msgid ""
@@ -17775,29 +17788,35 @@ msgid ""
 "merge changes. You can use :ref:`git-exporter` to automate this for Git "
 "repositories."
 msgstr ""
+"Weblate で行われた変更をエクスポートする URL。これは、:ref:`continuous-"
+"translation` を使用していない場合、または変更を手動でマージすることが必要な場"
+"合に重要となります。Git リポジトリの場合は、:ref:`git-exporter` "
+"を使用してエクスポートを自動化できます。"
 
 #: ../../admin/projects.rst:372
 msgid "Repository branch"
-msgstr "リポジトリブランチ"
+msgstr "リポジトリ ブランチ"
 
 #: ../../admin/projects.rst:374
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
-msgstr ""
+msgstr "VCS からチェックアウトするブランチと、翻訳を検索する場所です。"
 
 #: ../../admin/projects.rst:381
 msgid "Push branch"
-msgstr "ブランチに push"
+msgstr "ブランチにプッシュ"
 
 #: ../../admin/projects.rst:383
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
-msgstr ""
+msgstr "変更をプッシュするためのブランチは、空のままにして :ref:`component-branch` "
+"を使用します。"
 
 #: ../../admin/projects.rst:389
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
-msgstr ""
+msgstr "現在、Git、GitLab、および GitHub にのみ対応しており、他の VCS "
+"統合では無効となります。"
 
 #: ../../admin/projects.rst:399 ../../devel/gettext.rst:226
 #: ../../formats.rst:191 ../../formats.rst:257 ../../formats.rst:378
@@ -17812,7 +17831,7 @@ msgstr ""
 #: ../../formats.rst:1304 ../../formats.rst:1335 ../../formats.rst:1367
 #: ../../formats.rst:1480 ../../formats.rst:1511 ../../formats.rst:1546
 msgid "File mask"
-msgstr "ファイルマスク"
+msgstr "ファイル マスク"
 
 #: ../../admin/projects.rst:401
 msgid ""
@@ -17821,6 +17840,10 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
+"パスを含む、翻訳するファイルのマスク。言語コード（処理方法、参照: "
+"ref:`languages`）を置き換えるために \"*\" を 1 "
+"つ含めてください。リポジトリに複数の翻訳ファイル（多数の gettext ドメインなど"
+"）が含まれている場合は、それぞれにコンポーネントを作成してください。"
 
 #: ../../admin/projects.rst:407
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
@@ -17831,6 +17854,8 @@ msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
+"ファイル名に ``[``, ``]`` などの特殊文字が含まれている場合、``[[]`` または "
+"``[]]`` としてエスケープすることが必要です。"
 
 #: ../../admin/projects.rst:414 ../../admin/projects.rst:426
 msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
@@ -17909,7 +17934,8 @@ msgstr "新しい翻訳のテンプレート"
 #: ../../admin/projects.rst:461
 msgid ""
 "Base file used to generate new translations, e.g. ``.pot`` file with gettext."
-msgstr ""
+msgstr "新しい翻訳を生成するために使用する基礎となる翻訳ファイル。例えば、gettext の "
+"``.pot`` ファイル。"
 
 #: ../../admin/projects.rst:465
 msgid ""
@@ -17931,7 +17957,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:482
 msgid "Translation file format, see also :ref:`formats`."
-msgstr ""
+msgstr "翻訳ファイル形式、 参照: :ref:`formats`。"
 
 #: ../../admin/projects.rst:487
 msgid "Source string bug reporting address"
@@ -17941,9 +17967,8 @@ msgstr "原文ミスの報告先アドレス"
 msgid ""
 "Email address used for reporting upstream bugs. This address will also "
 "receive notification about any source string comments made in Weblate."
-msgstr ""
-"アップストリームのバグの報告に使用するメール アドレス。このアドレスは、"
-"Weblate で作成された原文へのコメントについての通知も受け取ります。"
+msgstr "上流のバグの報告に使用するメール アドレス。このアドレスは、Weblate "
+"が作成した原文へのコメントについての通知も受け取ります。"
 
 #: ../../admin/projects.rst:495
 msgid "Allow translation propagation"
@@ -17956,17 +17981,21 @@ msgid ""
 "translating, sometimes it's desirable to have make use of a translation more "
 "than once."
 msgstr ""
+"同じプロジェクト内の他のコンポーネントから、このコンポーネントへの翻訳の自動"
+"反映を無効にできます。これは何を翻訳しているかによりますが、翻訳を個別に行う"
+"方が望ましい場合もあります。"
 
 #: ../../admin/projects.rst:501
 msgid ""
 "It's usually a good idea to turn this off for monolingual translations, "
 "unless you are using the same IDs across the whole project."
-msgstr ""
+msgstr "通常、プロジェクト全体で同じ ID "
+"を使用していない限り、モノリンガル翻訳ではこれを無効にしてください。"
 
 #: ../../admin/projects.rst:504
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
-msgstr ""
+msgstr "デフォルト値は、:setting:`DEFAULT_TRANSLATION_PROPAGATION`で変更します。"
 
 #: ../../admin/projects.rst:508 ../../faq.rst:167 ../../faq.rst:182
 #: ../../user/checks.rst:641 ../../user/translating.rst:357
@@ -17980,7 +18009,7 @@ msgstr "提案の有効化"
 
 #: ../../admin/projects.rst:515
 msgid "Whether translation suggestions are accepted for this component."
-msgstr ""
+msgstr "このコンポーネントの翻訳の提案を採用するかどうか。"
 
 #: ../../admin/projects.rst:520 ../../admin/translating.rst:7
 #: ../../workflows.rst:80 ../../workflows.rst:111 ../../workflows.rst:149
@@ -17989,7 +18018,7 @@ msgstr "提案への投票"
 
 #: ../../admin/projects.rst:522
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
-msgstr ""
+msgstr "提案に対する投票の有効化。参照: :ref:`voting`。"
 
 #: ../../admin/projects.rst:527 ../../workflows.rst:82 ../../workflows.rst:113
 #: ../../workflows.rst:151
@@ -17998,7 +18027,7 @@ msgstr "提案の自動採用"
 
 #: ../../admin/projects.rst:529
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
-msgstr ""
+msgstr "提案の投票結果の自動承認。参照: :ref:`voting`。"
 
 #: ../../admin/projects.rst:534 ../../admin/translating.rst:73
 msgid "Translation flags"
@@ -18017,7 +18046,7 @@ msgstr "検査の強制"
 
 #: ../../admin/projects.rst:543
 msgid "List of checks which can not be ignored, see :ref:`enforcing-checks`."
-msgstr ""
+msgstr "除外できない検査一覧。参照: :ref:`enforcing-checks`。"
 
 #: ../../admin/projects.rst:547
 msgid ""
@@ -18025,6 +18054,9 @@ msgid ""
 "enabled it using :ref:`custom-checks` in :ref:`component-check_flags` or :"
 "ref:`additional`."
 msgstr ""
+"検査を強制しても自動的に有効化されません。 :ref:`component-check_flags` "
+"または :ref:`additional` の :ref:`custom-checks` "
+"を使用して有効化してください。"
 
 #: ../../admin/projects.rst:554
 msgid "Translation license"
@@ -18034,7 +18066,7 @@ msgstr "翻訳のライセンス"
 msgid ""
 "License of the translation (does not need to be the same as the source code "
 "license)."
-msgstr ""
+msgstr "翻訳のライセンス（ソース コードのライセンスと同一である必要はありません） 。"
 
 #: ../../admin/projects.rst:563
 msgid ""
@@ -18050,6 +18082,8 @@ msgstr "新しい翻訳の追加"
 msgid ""
 "How to handle requests for creation of new languages. Available options:"
 msgstr ""
+"新しい言語の作成依頼の取り扱い方法 。\n"
+"使用可能なオプション:"
 
 #: ../../admin/projects.rst:575
 msgid "Contact maintainers"
@@ -18061,10 +18095,12 @@ msgid ""
 "notification about this. It is up to them to add (or not) the language to "
 "the repository."
 msgstr ""
+"ユーザーは希望する言語を選択して、プロジェクトの保守担当者は言語についての通"
+"知を受け取ります。言語をリポジトリに追加するかどうかは、担当者次第です。"
 
 #: ../../admin/projects.rst:579
 msgid "Point to translation instructions URL"
-msgstr "翻訳案内の URL を指定"
+msgstr "翻訳案内の URL の指定"
 
 #: ../../admin/projects.rst:578
 msgid ""
@@ -18072,6 +18108,9 @@ msgid ""
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
 msgstr ""
+"ユーザーには、新しい翻訳を開始する過程の説明ページへのリンクを表示します。こ"
+"れは、より正式な過程を必要とする場合（たとえば、実際の翻訳を開始する前にチー"
+"ムを結成する場合など）に使用します。"
 
 #: ../../admin/projects.rst:582
 msgid "Create new language file"
@@ -18081,15 +18120,16 @@ msgstr "新しい言語ファイルの作成"
 msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
-msgstr ""
+msgstr "ユーザーが言語を選択すると、Weblate "
+"が自動的に必要なファイルを自動生成し、翻訳を開始できます。"
 
 #: ../../admin/projects.rst:585
 msgid "Disable adding new translations"
-msgstr "新しい翻訳の追加を無効にする"
+msgstr "新しい翻訳の追加の無効化"
 
 #: ../../admin/projects.rst:585
 msgid "There will be no option for user to start new translation."
-msgstr ""
+msgstr "ユーザーが新しい翻訳を開始するためのオプションはありません。"
 
 #: ../../admin/projects.rst:589
 msgid ""
@@ -18097,6 +18137,9 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"プロジェクト管理者は、ここで無効化されている場合でも、対応（:ref:`component-"
+"new_base` またはファイル形式が空のファイルからの開始に対応している場合）して"
+"いれば新しい翻訳を追加できます。"
 
 #: ../../admin/projects.rst:595
 msgid ":ref:`adding-translation`, :ref:`new-translations`"
@@ -18675,7 +18718,7 @@ msgstr ""
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
-msgstr "リポジトリのブラウザまたはエディタのテンプレートで使用できる変数:"
+msgstr "リポジトリのブラウザーまたはエディタのテンプレートで使用できる変数:"
 
 #: ../../admin/projects.rst:916
 msgid "``{{branch}}``"
@@ -18702,12 +18745,13 @@ msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
-"ファイル名、``parentdir`` フィルタを使用して、先頭の部分の削除もできます。"
-"例: ``{{filename|parentdir}}``"
+"ファイル名、``parentdir`` "
+"フィルターを使用して、先頭の部分の削除もできます。例: "
+"``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:923
 msgid "You can combine them with filters:"
-msgstr "フィルタと組み合わせる方法:"
+msgstr "フィルターと組み合わせる方法:"
 
 #: ../../admin/projects.rst:929
 msgid "You can use conditions:"
@@ -20047,7 +20091,7 @@ msgstr "このリソースへの API を使用したアクセス用の URL"
 
 #: ../../api.rst:51
 msgid "URL to access this resource using web browser"
-msgstr "このリソースへの Web ブラウザを使用したアクセス用の URL"
+msgstr "このリソースへの Web ブラウザーを使用したアクセス用の URL"
 
 #: ../../api.rst:0
 msgid "Status Codes"
@@ -21946,11 +21990,11 @@ msgstr ""
 
 #: ../../api.rst:2095
 msgid "Username of user to filters"
-msgstr "フィルタするユーザーのユーザー名"
+msgstr "フィルターするユーザーのユーザー名"
 
 #: ../../api.rst:2096
 msgid "Action to filter, can be used several times"
-msgstr "フィルタするアクション、複数回使用可能"
+msgstr "フィルターするアクション、複数回使用可能"
 
 #: ../../api.rst:2097
 msgid "ISO 8601 formatted timestamp to list changes after"
@@ -29316,7 +29360,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
-msgstr "対応ブラウザ"
+msgstr "対応ブラウザー"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
@@ -31203,8 +31247,8 @@ msgstr ""
 "<https://www.taus.net/academy/best-practices/postedit-best-practices/machine-"
 "translation-post-editing-guidelines>`_ "
 "を作成し、独自の定義に合わせてこれらの推奨事項を変更します。多くの場合、`"
-"ブラウザ プラグインの言語ツール <https://languagetool.org/#firefox_chrome>`_ "
-"は、機械翻訳後編集の校正ツールとして使用できます。"
+"ブラウザー プラグインの言語ツール <https://languagetool.org/#firefox_chrome>`"
+"_ は、機械翻訳後編集の校正ツールとして使用できます。"
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -39001,9 +39045,8 @@ msgstr "エディタ リンク"
 msgid ""
 "A source code link is shown in the web-browser configured in the :ref:"
 "`component` by default."
-msgstr ""
-"ソースコードのリンクは、デフォルトでは :ref:`component` で設定した Web ブラウ"
-"ザに表示します。"
+msgstr "ソースコードのリンクは、デフォルトでは :ref:`component` で設定した Web "
+"ブラウザーに表示します。"
 
 #: ../../user/profile.rst:130
 msgid ""
@@ -39148,8 +39191,8 @@ msgid ""
 "critical actions also trigger a notification to a primary e-mail address."
 msgstr ""
 "監査ログは、アカウントで実行された操作を記録します。重要な操作ごとに、IP アド"
-"レスとブラウザをアカウントに記録します。特に重要な操作では、デフォルトのメー"
-"ルアドレスへの通知も行います。"
+"レスとブラウザーをアカウントに記録します。特に重要な操作では、デフォルトのメ"
+"ールアドレスへの通知も行います。"
 
 #: ../../user/profile.rst:212
 msgid ":ref:`reverse-proxy`"
@@ -39852,9 +39895,8 @@ msgstr "キーボードショートカット"
 msgid ""
 "The keyboard shortcuts have been revamped in 2.18 to less likely collide "
 "with browser or system defaults."
-msgstr ""
-"キーボード ショートカットは 2.18 で刷新し、ブラウザやシステムのデフォルトと衝"
-"突する可能性が低くなりました。"
+msgstr "キーボード ショートカットは 2.18 "
+"で刷新し、ブラウザーやシステムのデフォルトと衝突する可能性が低くなりました。"
 
 #: ../../user/translating.rst:163
 msgid "The following keyboard shortcuts can be utilized during translation:"
