@@ -827,7 +827,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 0)
 
         # Ignore check for all languages
-        ignore_flag = Check.objects.get(pk=int(check_id)).ignore_string
+        ignore_flag = Check.objects.get(pk=int(check_id)).check_obj.ignore_string
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
