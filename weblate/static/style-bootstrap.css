@@ -1811,3 +1811,41 @@ a.language:hover {
   margin-bottom: inherit;
   font-weight: inherit;
 }
+
+.info-tooltip {
+  display: inline-block;
+  height: 24px;
+  vertical-align: super;
+  margin-left: 6px;
+}
+
+#unit_all_flags {
+  background-color: transparent;
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 6px;
+}
+
+#unit_all_flags.flags-updated {
+  animation: flags-updated ease-out 3000ms;
+}
+
+@-webkit-keyframes flags-updated {
+  0% {
+    background-color: rgba(255, 165, 0, 255);
+  }
+
+  100% {
+    background-color: rgba(255, 165, 0, 0);
+  }
+}
+
+@keyframes flags-updated {
+  0% {
+    background-color: rgba(255, 165, 0, 255);
+  }
+
+  100% {
+    background-color: rgba(255, 165, 0, 0);
+  }
+}

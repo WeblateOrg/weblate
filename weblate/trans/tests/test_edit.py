@@ -24,6 +24,7 @@ from unittest import SkipTest
 
 from django.urls import reverse
 
+from weblate.checks.models import Check
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
@@ -817,22 +818,34 @@ class EditComplexTest(ViewTestCase):
             reverse("js-ignore-check", kwargs={"check_id": check_id})
         )
         self.assertContains(response, "ok")
+
         # Should have one less failing check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 1)
         self.assertEqual(len(unit.active_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
+
         # Ignore check for all languages
+        ignore_flag = Check.objects.get(pk=int(check_id)).ignore_string
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(ignore_url)
-        self.assertContains(response, "ok")
+        self.assertEqual(response.headers["Content-Type"], "application/json")
+
         # Should have one less check
         unit = self.get_unit()
+        self.assertJSONEqual(
+            response.content.decode("utf-8"),
+            {
+                "extra_flags": unit.extra_flags.format(),
+                "all_flags": unit.all_flags.format(),
+                "ignore_check": ignore_flag,
+            },
+        )
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(len(unit.active_checks), 0)

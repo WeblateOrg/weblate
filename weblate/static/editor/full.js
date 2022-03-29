@@ -324,6 +324,13 @@
         error: function (jqXHR, textStatus, errorThrown) {
           addAlert(errorThrown);
         },
+        success: function (data) {
+          if (dismiss_all) {
+            const { extra_flags, all_flags } = data;
+            $("#id_extra_flags").val(extra_flags);
+            $("#unit_all_flags").html(all_flags).addClass("flags-updated");
+          }
+        },
       });
       if (dismiss_all) {
         $check.remove();
