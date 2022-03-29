@@ -34,12 +34,15 @@ from weblate.utils.state import STATE_TRANSLATED
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
 ANDROID_CODES = {
-    "zh_Hans": "zh-rCN",
-    "zh_Hant": "zh-rTW",
-    "zh_Hant_HK": "zh-rHK",
     "he": "iw",
     "id": "in",
     "yi": "ji",
+}
+LEGACY_CODES = {
+    "zh_Hans": "zh_CN",
+    "zh_Hant": "zh_TW",
+    "zh_Hans_SG": "zh_SG",
+    "zh_Hant_HK": "zh_HK",
 }
 
 
@@ -397,36 +400,38 @@ class TranslationFormat:
 
     @staticmethod
     def get_language_posix_long(code: str) -> str:
-        if code in EXPAND_LANGS:
-            return EXPAND_LANGS[code]
-        return code
+        return EXPAND_LANGS.get(code, code)
+
+    @staticmethod
+    def get_language_linux(code: str) -> str:
+        """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
+        return LEGACY_CODES.get(code, code)
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
         return cls.get_language_code_bcp(cls.get_language_posix_long(code))
 
-    @staticmethod
-    def get_language_android(code: str) -> str:
-        # Android doesn't use Hans/Hant, but rather TW/CN variants
+    @classmethod
+    def get_language_android(cls, code: str) -> str:
+        """Android doesn't use Hans/Hant, but rather TW/CN variants."""
+        # Exceptions
         if code in ANDROID_CODES:
             return ANDROID_CODES[code]
-        sanitized = code.replace("-", "_")
+
+        # Base on Java
+        sanitized = cls.get_language_java(code)
+
+        # Handle variants
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
             return "b+{}".format(sanitized.replace("_", "+"))
+
+        # Handle countries
         return sanitized.replace("_", "-r")
 
     @classmethod
     def get_language_java(cls, code: str) -> str:
-        # Java doesn't use Hans/Hant, but rather TW/CN variants
-        if code == "zh_Hans":
-            return "zh-CN"
-        if code == "zh_Hant":
-            return "zh-TW"
-        if code == "zh_Hans_SG":
-            return "zh-SG"
-        if code == "zh_Hant_HK":
-            return "zh-HK"
-        return cls.get_language_bcp(code)
+        """Java doesn't use Hans/Hant, but rather TW/CN variants."""
+        return cls.get_language_bcp(cls.get_language_linux(code))
 
     @classmethod
     def get_language_filename(cls, mask: str, code: str) -> str:

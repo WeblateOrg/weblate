@@ -204,6 +204,8 @@ Android style
    ``pt-rBR``.
 Java style
    Used by Java—mostly BCP with legacy codes for Chinese.
+Linux style
+   Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
 
 Additionally, any mappings defined in :ref:`project-language_aliases` are
 applied in reverse.

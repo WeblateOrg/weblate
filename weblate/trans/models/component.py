@@ -139,6 +139,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ),
     ("android", gettext_lazy("Android style")),
     ("java", gettext_lazy("Java style")),
+    ("linux", gettext_lazy("Linux style")),
 )
 
 MERGE_CHOICES = (
