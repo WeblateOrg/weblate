@@ -409,7 +409,7 @@ class TranslationFormat:
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
-        return cls.get_language_code_bcp(cls.get_language_posix_long(code))
+        return cls.get_language_bcp(cls.get_language_posix_long(code))
 
     @classmethod
     def get_language_android(cls, code: str) -> str:
@@ -419,7 +419,7 @@ class TranslationFormat:
             return ANDROID_CODES[code]
 
         # Base on Java
-        sanitized = cls.get_language_java(code)
+        sanitized = cls.get_language_linux(code)
 
         # Handle variants
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
