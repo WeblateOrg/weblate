@@ -841,7 +841,7 @@ class EditComplexTest(ViewTestCase):
         self.assertJSONEqual(
             response.content.decode("utf-8"),
             {
-                "extra_flags": unit.extra_flags.format(),
+                "extra_flags": ignore_flag,
                 "all_flags": unit.all_flags.format(),
                 "ignore_check": ignore_flag,
             },
