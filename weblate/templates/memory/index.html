@@ -29,28 +29,6 @@
   </h4>
 </div>
   <table class="table table-condensed table-striped">
-  {% if project %}
-  <tr>
-  <th>{% trans "Shared translation memory" %}</th>
-  <td></td>
-  <td>
-  {% if project.use_shared_tm %}
-    {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
-    {% trans "on" %}
-  {% else %}
-    {% comment %}Translators: Shared translation memory is disabled{% endcomment %}
-    {% trans "off" %}
-  {% endif %}
-  </td>
-  <td>
-    {% perm 'project.edit' project as user_can_edit_project %}
-    {% if user_can_edit_project %}
-    <a href="{% url 'settings' project=project.slug %}#workflow" class="btn btn-primary">{% trans "Configure" %}</a>
-    {% endif %}
-
-  </td>
-  </tr>
-  {% endif %}
   <tr>
   <th>
     {% if project %}
@@ -126,6 +104,28 @@
     </td>
   </tr>
   {% endfor %}
+  {% if project %}
+  <tr>
+  <th>{% trans "Shared translation memory" %}</th>
+  <td></td>
+  <td>
+  {% if project.use_shared_tm %}
+    {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
+    {% trans "on" %}
+  {% else %}
+    {% comment %}Translators: Shared translation memory is disabled{% endcomment %}
+    {% trans "off" %}
+  {% endif %}
+  </td>
+  <td>
+    {% perm 'project.edit' project as user_can_edit_project %}
+    {% if user_can_edit_project %}
+    <a href="{% url 'settings' project=project.slug %}#workflow" class="btn btn-primary">{% trans "Configure" %}</a>
+    {% endif %}
+
+  </td>
+  </tr>
+  {% endif %}
   {% if shared_entries %}
   <tr>
   <th>{% trans "Number of shared entries" %}</th>
