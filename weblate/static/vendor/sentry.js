@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.19.2 (f49c509) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.19.3 (fe6f7b3) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
   /**
@@ -200,6 +200,16 @@ var Sentry = (function (exports) {
    */
   function isSyntheticEvent(wat) {
       return isPlainObject(wat) && 'nativeEvent' in wat && 'preventDefault' in wat && 'stopPropagation' in wat;
+  }
+  /**
+   * Checks whether given value is NaN
+   * {@link isNaN}.
+   *
+   * @param wat A value to be checked.
+   * @returns A boolean representing the result.
+   */
+  function isNaN$1(wat) {
+      return typeof wat === 'number' && wat !== wat;
   }
   /**
    * Checks whether given value's type is an instance of provided constructor.
@@ -664,55 +674,38 @@ var Sentry = (function (exports) {
    *
    * @param value Initial source that we have to transform in order for it to be usable by the serializer
    */
-  function getWalkSource(value) {
+  function convertToPlainObject(value) {
+      let newObj = value;
       if (isError(value)) {
-          const error = value;
-          const err = {
-              message: error.message,
-              name: error.name,
-              stack: error.stack,
-          };
-          for (const i in error) {
-              if (Object.prototype.hasOwnProperty.call(error, i)) {
-                  err[i] = error[i];
-              }
-          }
-          return err;
+          newObj = Object.assign({ message: value.message, name: value.name, stack: value.stack }, getOwnProperties(value));
       }
-      if (isEvent(value)) {
+      else if (isEvent(value)) {
           const event = value;
-          const source = {};
-          // Accessing event attributes can throw (see https://github.com/getsentry/sentry-javascript/issues/768 and
-          // https://github.com/getsentry/sentry-javascript/issues/838), but accessing `type` hasn't been wrapped in a
-          // try-catch in at least two years and no one's complained, so that's likely not an issue anymore
-          source.type = event.type;
-          try {
-              source.target = isElement(event.target)
-                  ? htmlTreeAsString(event.target)
-                  : Object.prototype.toString.call(event.target);
-          }
-          catch (_oO) {
-              source.target = '<unknown>';
-          }
-          try {
-              source.currentTarget = isElement(event.currentTarget)
-                  ? htmlTreeAsString(event.currentTarget)
-                  : Object.prototype.toString.call(event.currentTarget);
-          }
-          catch (_oO) {
-              source.currentTarget = '<unknown>';
-          }
+          newObj = Object.assign({ type: event.type, target: serializeEventTarget(event.target), currentTarget: serializeEventTarget(event.currentTarget) }, getOwnProperties(event));
           if (typeof CustomEvent !== 'undefined' && isInstanceOf(value, CustomEvent)) {
-              source.detail = event.detail;
+              newObj.detail = event.detail;
           }
-          for (const attr in event) {
-              if (Object.prototype.hasOwnProperty.call(event, attr)) {
-                  source[attr] = event[attr];
-              }
-          }
-          return source;
       }
-      return value;
+      return newObj;
+  }
+  /** Creates a string representation of the target of an `Event` object */
+  function serializeEventTarget(target) {
+      try {
+          return isElement(target) ? htmlTreeAsString(target) : Object.prototype.toString.call(target);
+      }
+      catch (_oO) {
+          return '<unknown>';
+      }
+  }
+  /** Filters out all but an object's own properties */
+  function getOwnProperties(obj) {
+      const extractedProps = {};
+      for (const property in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, property)) {
+              extractedProps[property] = obj[property];
+          }
+      }
+      return extractedProps;
   }
   /**
    * Given any captured exception, extract its keys and create a sorted
@@ -721,7 +714,7 @@ var Sentry = (function (exports) {
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   function extractExceptionKeysForMessage(exception, maxLength = 40) {
-      const keys = Object.keys(getWalkSource(exception));
+      const keys = Object.keys(convertToPlainObject(exception));
       keys.sort();
       if (!keys.length) {
           return '[object has no keys]';
@@ -747,11 +740,10 @@ var Sentry = (function (exports) {
    */
   function dropUndefinedKeys(val) {
       if (isPlainObject(val)) {
-          const obj = val;
           const rv = {};
-          for (const key of Object.keys(obj)) {
-              if (typeof obj[key] !== 'undefined') {
-                  rv[key] = dropUndefinedKeys(obj[key]);
+          for (const key of Object.keys(val)) {
+              if (typeof val[key] !== 'undefined') {
+                  rv[key] = dropUndefinedKeys(val[key]);
               }
           }
           return rv;
@@ -1631,10 +1623,10 @@ var Sentry = (function (exports) {
   function normalize(input, depth = +Infinity, maxProperties = +Infinity) {
       try {
           // since we're at the outermost level, there is no key
-          return walk('', input, depth, maxProperties);
+          return visit('', input, depth, maxProperties);
       }
-      catch (_oO) {
-          return '**non-serializable**';
+      catch (err) {
+          return { ERROR: `**non-serializable** (${err})` };
       }
   }
   /** JSDoc */
@@ -1643,142 +1635,142 @@ var Sentry = (function (exports) {
   depth = 3, 
   // 100kB, as 200kB is max payload size, so half sounds reasonable
   maxSize = 100 * 1024) {
-      const serialized = normalize(object, depth);
-      if (jsonSize(serialized) > maxSize) {
+      const normalized = normalize(object, depth);
+      if (jsonSize(normalized) > maxSize) {
           return normalizeToSize(object, depth - 1, maxSize);
       }
-      return serialized;
+      return normalized;
   }
   /**
-   * Walks an object to perform a normalization on it
+   * Visits a node to perform normalization on it
    *
-   * @param key of object that's walked in current iteration
-   * @param value object to be walked
-   * @param depth Optional number indicating how deep should walking be performed
-   * @param maxProperties Optional maximum  number of properties/elements included in any single object/array
+   * @param key The key corresponding to the given node
+   * @param value The node to be visited
+   * @param depth Optional number indicating the maximum recursion depth
+   * @param maxProperties Optional maximum number of properties/elements included in any single object/array
    * @param memo Optional Memo class handling decycling
    */
-  function walk(key, value, depth = +Infinity, maxProperties = +Infinity, memo = memoBuilder()) {
+  function visit(key, value, depth = +Infinity, maxProperties = +Infinity, memo = memoBuilder()) {
       const [memoize, unmemoize] = memo;
-      // If we reach the maximum depth, serialize whatever is left
+      // If the value has a `toJSON` method, see if we can bail and let it do the work
+      const valueWithToJSON = value;
+      if (valueWithToJSON && typeof valueWithToJSON.toJSON === 'function') {
+          try {
+              return valueWithToJSON.toJSON();
+          }
+          catch (err) {
+              // pass (The built-in `toJSON` failed, but we can still try to do it ourselves)
+          }
+      }
+      // Get the simple cases out of the way first
+      if (value === null || (['number', 'boolean', 'string'].includes(typeof value) && !isNaN$1(value))) {
+          return value;
+      }
+      const stringified = stringifyValue(key, value);
+      // Anything we could potentially dig into more (objects or arrays) will have come back as `"[object XXXX]"`.
+      // Everything else will have already been serialized, so if we don't see that pattern, we're done.
+      if (!stringified.startsWith('[object ')) {
+          return stringified;
+      }
+      // We're also done if we've reached the max depth
       if (depth === 0) {
-          return serializeValue(value);
+          // At this point we know `serialized` is a string of the form `"[object XXXX]"`. Clean it up so it's just `"[XXXX]"`.
+          return stringified.replace('object ', '');
       }
-      // If value implements `toJSON` method, call it and return early
-      if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
-          return value.toJSON();
-      }
-      // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
-      // pass-through. If what comes back is a primitive (either because it's been stringified or because it was primitive
-      // all along), we're done.
-      const serializable = makeSerializable(value, key);
-      if (isPrimitive(serializable)) {
-          return serializable;
-      }
-      // Create source that we will use for the next iteration. It will either be an objectified error object (`Error` type
-      // with extracted key:value pairs) or the input itself.
-      const source = getWalkSource(value);
-      // Create an accumulator that will act as a parent for all future itterations of that branch
-      const acc = Array.isArray(value) ? [] : {};
-      // If we already walked that branch, bail out, as it's circular reference
+      // If we've already visited this branch, bail out, as it's circular reference. If not, note that we're seeing it now.
       if (memoize(value)) {
           return '[Circular ~]';
       }
-      let propertyCount = 0;
-      // Walk all keys of the source
-      for (const innerKey in source) {
+      // At this point we know we either have an object or an array, we haven't seen it before, and we're going to recurse
+      // because we haven't yet reached the max depth. Create an accumulator to hold the results of visiting each
+      // property/entry, and keep track of the number of items we add to it.
+      const normalized = (Array.isArray(value) ? [] : {});
+      let numAdded = 0;
+      // Before we begin, convert`Error` and`Event` instances into plain objects, since some of each of their relevant
+      // properties are non-enumerable and otherwise would get missed.
+      const visitable = (isError(value) || isEvent(value) ? convertToPlainObject(value) : value);
+      for (const visitKey in visitable) {
           // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
-          if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
+          if (!Object.prototype.hasOwnProperty.call(visitable, visitKey)) {
               continue;
           }
-          if (propertyCount >= maxProperties) {
-              acc[innerKey] = '[MaxProperties ~]';
+          if (numAdded >= maxProperties) {
+              normalized[visitKey] = '[MaxProperties ~]';
               break;
           }
-          propertyCount += 1;
-          // Recursively walk through all the child nodes
-          const innerValue = source[innerKey];
-          acc[innerKey] = walk(innerKey, innerValue, depth - 1, maxProperties, memo);
+          // Recursively visit all the child nodes
+          const visitValue = visitable[visitKey];
+          normalized[visitKey] = visit(visitKey, visitValue, depth - 1, maxProperties, memo);
+          numAdded += 1;
       }
-      // Once walked through all the branches, remove the parent from memo storage
+      // Once we've visited all the branches, remove the parent from memo storage
       unmemoize(value);
       // Return accumulated values
-      return acc;
+      return normalized;
   }
   /**
-   * Transform any non-primitive, BigInt, or Symbol-type value into a string. Acts as a no-op on strings, numbers,
-   * booleans, null, and undefined.
+   * Stringify the given value. Handles various known special values and types.
+   *
+   * Not meant to be used on simple primitives which already have a string representation, as it will, for example, turn
+   * the number 1231 into "[Object Number]", nor on `null`, as it will throw.
    *
    * @param value The value to stringify
-   * @returns For non-primitive, BigInt, and Symbol-type values, a string denoting the value's type, type and value, or
-   *  type and `description` property, respectively. For non-BigInt, non-Symbol primitives, returns the original value,
-   *  unchanged.
+   * @returns A stringified representation of the given value
    */
-  function serializeValue(value) {
-      // Node.js REPL notation
-      if (typeof value === 'string') {
-          return value;
+  function stringifyValue(key, 
+  // this type is a tiny bit of a cheat, since this function does handle NaN (which is technically a number), but for
+  // our internal use, it'll do
+  value) {
+      try {
+          if (key === 'domain' && value && typeof value === 'object' && value._events) {
+              return '[Domain]';
+          }
+          if (key === 'domainEmitter') {
+              return '[DomainEmitter]';
+          }
+          // It's safe to use `global`, `window`, and `document` here in this manner, as we are asserting using `typeof` first
+          // which won't throw if they are not present.
+          if (typeof global !== 'undefined' && value === global) {
+              return '[Global]';
+          }
+          // eslint-disable-next-line no-restricted-globals
+          if (typeof window !== 'undefined' && value === window) {
+              return '[Window]';
+          }
+          // eslint-disable-next-line no-restricted-globals
+          if (typeof document !== 'undefined' && value === document) {
+              return '[Document]';
+          }
+          // React's SyntheticEvent thingy
+          if (isSyntheticEvent(value)) {
+              return '[SyntheticEvent]';
+          }
+          if (typeof value === 'number' && value !== value) {
+              return '[NaN]';
+          }
+          // this catches `undefined` (but not `null`, which is a primitive and can be serialized on its own)
+          if (value === void 0) {
+              return '[undefined]';
+          }
+          if (typeof value === 'function') {
+              return `[Function: ${getFunctionName(value)}]`;
+          }
+          if (typeof value === 'symbol') {
+              return `[${String(value)}]`;
+          }
+          // stringified BigInts are indistinguishable from regular numbers, so we need to label them to avoid confusion
+          if (typeof value === 'bigint') {
+              return `[BigInt: ${String(value)}]`;
+          }
+          // Now that we've knocked out all the special cases and the primitives, all we have left are objects. Simply casting
+          // them to strings means that instances of classes which haven't defined their `toStringTag` will just come out as
+          // `"[object Object]"`. If we instead look at the constructor's name (which is the same as the name of the class),
+          // we can make sure that only plain objects come out that way.
+          return `[object ${Object.getPrototypeOf(value).constructor.name}]`;
       }
-      const type = Object.prototype.toString.call(value);
-      if (type === '[object Object]') {
-          return '[Object]';
+      catch (err) {
+          return `**non-serializable** (${err})`;
       }
-      if (type === '[object Array]') {
-          return '[Array]';
-      }
-      // `makeSerializable` provides a string representation of certain non-serializable values. For all others, it's a
-      // pass-through.
-      const serializable = makeSerializable(value);
-      return isPrimitive(serializable) ? serializable : type;
-  }
-  /**
-   * makeSerializable()
-   *
-   * Takes unserializable input and make it serializer-friendly.
-   *
-   * Handles globals, functions, `undefined`, `NaN`, and other non-serializable values.
-   */
-  function makeSerializable(value, key) {
-      if (key === 'domain' && value && typeof value === 'object' && value._events) {
-          return '[Domain]';
-      }
-      if (key === 'domainEmitter') {
-          return '[DomainEmitter]';
-      }
-      if (typeof global !== 'undefined' && value === global) {
-          return '[Global]';
-      }
-      // It's safe to use `window` and `document` here in this manner, as we are asserting using `typeof` first
-      // which won't throw if they are not present.
-      // eslint-disable-next-line no-restricted-globals
-      if (typeof window !== 'undefined' && value === window) {
-          return '[Window]';
-      }
-      // eslint-disable-next-line no-restricted-globals
-      if (typeof document !== 'undefined' && value === document) {
-          return '[Document]';
-      }
-      // React's SyntheticEvent thingy
-      if (isSyntheticEvent(value)) {
-          return '[SyntheticEvent]';
-      }
-      if (typeof value === 'number' && value !== value) {
-          return '[NaN]';
-      }
-      if (value === void 0) {
-          return '[undefined]';
-      }
-      if (typeof value === 'function') {
-          return `[Function: ${getFunctionName(value)}]`;
-      }
-      // symbols and bigints are considered primitives by TS, but aren't natively JSON-serilaizable
-      if (typeof value === 'symbol') {
-          return `[${String(value)}]`;
-      }
-      if (typeof value === 'bigint') {
-          return `[BigInt: ${String(value)}]`;
-      }
-      return value;
   }
   /** Calculates bytes size of input string */
   function utf8Length(value) {
@@ -2189,6 +2181,13 @@ var Sentry = (function (exports) {
    */
   function createEnvelope(headers, items = []) {
       return [headers, items];
+  }
+  /**
+   * Get the type of the envelope. Grabs the type from the first envelope item.
+   */
+  function getEnvelopeType(envelope) {
+      const [, [[firstItemHeader]]] = envelope;
+      return firstItemHeader.type;
   }
   /**
    * Serializes an envelope into a string.
@@ -3932,7 +3931,7 @@ var Sentry = (function (exports) {
               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
               normalized.contexts.trace = event.contexts.trace;
           }
-          event.sdkProcessingMetadata = Object.assign(Object.assign({}, event.sdkProcessingMetadata), { baseClientNormalized: true });
+          normalized.sdkProcessingMetadata = Object.assign(Object.assign({}, normalized.sdkProcessingMetadata), { baseClientNormalized: true });
           return normalized;
       }
       /**
@@ -4155,6 +4154,32 @@ var Sentry = (function (exports) {
       const eventType = event.type || 'event';
       const { transactionSampling } = event.sdkProcessingMetadata || {};
       const { method: samplingMethod, rate: sampleRate } = transactionSampling || {};
+      // TODO: Below is a temporary hack in order to debug a serialization error - see
+      // https://github.com/getsentry/sentry-javascript/issues/2809,
+      // https://github.com/getsentry/sentry-javascript/pull/4425, and
+      // https://github.com/getsentry/sentry-javascript/pull/4574.
+      //
+      // TL; DR: even though we normalize all events (which should prevent this), something is causing `JSON.stringify` to
+      // throw a circular reference error.
+      //
+      // When it's time to remove it:
+      // 1. Delete everything between here and where the request object `req` is created, EXCEPT the line deleting
+      //    `sdkProcessingMetadata`
+      // 2. Restore the original version of the request body, which is commented out
+      // 3. Search for either of the PR URLs above and pull out the companion hacks in the browser playwright tests and the
+      //    baseClient tests in this package
+      enhanceEventWithSdkInfo(event, api.metadata.sdk);
+      event.tags = event.tags || {};
+      event.extra = event.extra || {};
+      // In theory, all events should be marked as having gone through normalization and so
+      // we should never set this tag/extra data
+      if (!(event.sdkProcessingMetadata && event.sdkProcessingMetadata.baseClientNormalized)) {
+          event.tags.skippedNormalization = true;
+          event.extra.normalizeDepth = event.sdkProcessingMetadata ? event.sdkProcessingMetadata.normalizeDepth : 'unset';
+      }
+      // prevent this data from being sent to sentry
+      // TODO: This is NOT part of the hack - DO NOT DELETE
+      delete event.sdkProcessingMetadata;
       const envelopeHeaders = Object.assign(Object.assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (!!api.tunnel && { dsn: dsnToString(api.dsn) }));
       const eventItem = [
           {
@@ -4379,7 +4404,57 @@ var Sentry = (function (exports) {
       hub.bindClient(client);
   }
 
-  const SDK_VERSION = '6.19.2';
+  const DEFAULT_TRANSPORT_BUFFER_SIZE = 30;
+  /**
+   * Creates a `NewTransport`
+   *
+   * @param options
+   * @param makeRequest
+   */
+  function createTransport(options, makeRequest, buffer = makePromiseBuffer(options.bufferSize || DEFAULT_TRANSPORT_BUFFER_SIZE)) {
+      let rateLimits = {};
+      const flush = (timeout) => buffer.drain(timeout);
+      function send(envelope) {
+          const envCategory = getEnvelopeType(envelope);
+          const category = envCategory === 'event' ? 'error' : envCategory;
+          const request = {
+              category,
+              body: serializeEnvelope(envelope),
+          };
+          // Don't add to buffer if transport is already rate-limited
+          if (isRateLimited(rateLimits, category)) {
+              return rejectedSyncPromise({
+                  status: 'rate_limit',
+                  reason: getRateLimitReason(rateLimits, category),
+              });
+          }
+          const requestTask = () => makeRequest(request).then(({ body, headers, reason, statusCode }) => {
+              const status = eventStatusFromHttpCode(statusCode);
+              if (headers) {
+                  rateLimits = updateRateLimits(rateLimits, headers);
+              }
+              if (status === 'success') {
+                  return resolvedSyncPromise({ status, reason });
+              }
+              return rejectedSyncPromise({
+                  status,
+                  reason: reason ||
+                      body ||
+                      (status === 'rate_limit' ? getRateLimitReason(rateLimits, category) : 'Unknown transport error'),
+              });
+          });
+          return buffer.add(requestTask);
+      }
+      return {
+          send,
+          flush,
+      };
+  }
+  function getRateLimitReason(rateLimits, category) {
+      return `Too many ${category} requests, backing off until: ${new Date(disabledUntil(rateLimits, category)).toISOString()}`;
+  }
+
+  const SDK_VERSION = '6.19.3';
 
   let originalFunctionToString;
   /** Patch toString calls to return proper name for wrapped functions */
@@ -5248,11 +5323,76 @@ var Sentry = (function (exports) {
       }
   }
 
+  /**
+   * Creates a Transport that uses the Fetch API to send events to Sentry.
+   */
+  function makeNewFetchTransport(options, nativeFetch = getNativeFetchImplementation()) {
+      function makeRequest(request) {
+          const requestOptions = Object.assign({ body: request.body, method: 'POST', referrerPolicy: 'origin' }, options.requestOptions);
+          return nativeFetch(options.url, requestOptions).then(response => {
+              return response.text().then(body => ({
+                  body,
+                  headers: {
+                      'x-sentry-rate-limits': response.headers.get('X-Sentry-Rate-Limits'),
+                      'retry-after': response.headers.get('Retry-After'),
+                  },
+                  reason: response.statusText,
+                  statusCode: response.status,
+              }));
+          });
+      }
+      return createTransport({ bufferSize: options.bufferSize }, makeRequest);
+  }
+
+  /**
+   * The DONE ready state for XmlHttpRequest
+   *
+   * Defining it here as a constant b/c XMLHttpRequest.DONE is not always defined
+   * (e.g. during testing, it is `undefined`)
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState}
+   */
+  const XHR_READYSTATE_DONE = 4;
+  /**
+   * Creates a Transport that uses the XMLHttpRequest API to send events to Sentry.
+   */
+  function makeNewXHRTransport(options) {
+      function makeRequest(request) {
+          return new SyncPromise((resolve, _reject) => {
+              const xhr = new XMLHttpRequest();
+              xhr.onreadystatechange = () => {
+                  if (xhr.readyState === XHR_READYSTATE_DONE) {
+                      const response = {
+                          body: xhr.response,
+                          headers: {
+                              'x-sentry-rate-limits': xhr.getResponseHeader('X-Sentry-Rate-Limits'),
+                              'retry-after': xhr.getResponseHeader('Retry-After'),
+                          },
+                          reason: xhr.statusText,
+                          statusCode: xhr.status,
+                      };
+                      resolve(response);
+                  }
+              };
+              xhr.open('POST', options.url);
+              for (const header in options.headers) {
+                  if (Object.prototype.hasOwnProperty.call(options.headers, header)) {
+                      xhr.setRequestHeader(header, options.headers[header]);
+                  }
+              }
+              xhr.send(request.body);
+          });
+      }
+      return createTransport({ bufferSize: options.bufferSize }, makeRequest);
+  }
+
   var index = /*#__PURE__*/Object.freeze({
     __proto__: null,
     BaseTransport: BaseTransport,
     FetchTransport: FetchTransport,
-    XHRTransport: XHRTransport
+    XHRTransport: XHRTransport,
+    makeNewFetchTransport: makeNewFetchTransport,
+    makeNewXHRTransport: makeNewXHRTransport
   });
 
   /**
@@ -5281,12 +5421,20 @@ var Sentry = (function (exports) {
               return super._setupTransport();
           }
           const transportOptions = Object.assign(Object.assign({}, this._options.transportOptions), { dsn: this._options.dsn, tunnel: this._options.tunnel, sendClientReports: this._options.sendClientReports, _metadata: this._options._metadata });
+          const api = initAPIDetails(transportOptions.dsn, transportOptions._metadata, transportOptions.tunnel);
+          const url = getEnvelopeEndpointWithUrlEncodedAuth(api.dsn, api.tunnel);
           if (this._options.transport) {
               return new this._options.transport(transportOptions);
           }
           if (supportsFetch()) {
+              const requestOptions = Object.assign({}, transportOptions.fetchParameters);
+              this._newTransport = makeNewFetchTransport({ requestOptions, url });
               return new FetchTransport(transportOptions);
           }
+          this._newTransport = makeNewXHRTransport({
+              url,
+              headers: transportOptions.headers,
+          });
           return new XHRTransport(transportOptions);
       }
   }
