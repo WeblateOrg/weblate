@@ -1093,7 +1093,7 @@ class Translation(
         return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
-    def merge_upload(
+    def handle_upload(
         self,
         request,
         fileobj: BinaryIO,

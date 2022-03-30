@@ -49,7 +49,7 @@ class Command(WeblateTranslationCommand):
 
         # Process import
         try:
-            translation.merge_upload(
+            translation.handle_upload(
                 request,
                 options["file"],
                 False,

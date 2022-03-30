@@ -181,7 +181,7 @@ def upload_translation(request, project, component, lang):
 
     # Do actual import
     try:
-        not_found, skipped, accepted, total = obj.merge_upload(
+        not_found, skipped, accepted, total = obj.handle_upload(
             request,
             request.FILES["file"],
             conflicts,

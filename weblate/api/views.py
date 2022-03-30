@@ -1035,7 +1035,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             author_email = data.get("author_email")
 
         try:
-            not_found, skipped, accepted, total = obj.merge_upload(
+            not_found, skipped, accepted, total = obj.handle_upload(
                 request,
                 data["file"],
                 data["conflicts"],
