@@ -530,12 +530,15 @@ class TranslationForm(UnitForm):
             )
 
         if self.cleaned_data["translationsum"] != unit.get_target_hash():
-            raise ValidationError(
-                _(
-                    "Translation of the string has been changed meanwhile. "
-                    "Please check your changes."
+            # Allow repeated edits by the same author
+            last_author = unit.get_last_content_change()[0]
+            if last_author != self.user:
+                raise ValidationError(
+                    _(
+                        "Translation of the string has been changed meanwhile. "
+                        "Please check your changes."
+                    )
                 )
-            )
 
         max_length = unit.get_max_length()
         for text in self.cleaned_data["target"]:
