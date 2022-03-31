@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-03-31 20:07+0000\n"
-"Last-Translator: Hiroyuki <jelly_beans@mac.com>\n"
+"PO-Revision-Date: 2022-04-01 16:11+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -16537,9 +16537,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/memory.rst:39
-#, fuzzy
 msgid "Imported translation memory"
-msgstr "インポートされた翻訳メモリ"
+msgstr "インポートした翻訳メモリ"
 
 #: ../../admin/memory.rst:41
 msgid ""
@@ -16593,14 +16592,12 @@ msgid "This might lead to disclosing secret information."
 msgstr ""
 
 #: ../../admin/memory.rst:70
-#, fuzzy
 msgid "Managing translation memory"
 msgstr "翻訳メモリの管理"
 
 #: ../../admin/memory.rst:75
-#, fuzzy
 msgid "User interface"
-msgstr "ユーザーインターフェイス"
+msgstr "ユーザー インターフェイス"
 
 #: ../../admin/memory.rst:79
 msgid ""
@@ -16613,8 +16610,8 @@ msgstr ""
 msgid ""
 "Translation memory in JSON can be imported into Weblate, TMX is provided for "
 "interoperability with other tools."
-msgstr "JSON形式の翻訳メモリはWeblateに取り込むことができ、TMXは他のツールとの相互運"
-"用のために提供されます。"
+msgstr "JSON 形式の翻訳メモリは、Weblate にインポートでき、TMX "
+"は他のツールとの相互運用のために提供されます。"
 
 #: ../../admin/memory.rst:89
 msgid ":ref:`schema-memory`"
@@ -16633,7 +16630,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:101
 msgid "Exports the memory into JSON"
-msgstr "翻訳メモリをJSONにエクスポート"
+msgstr "翻訳メモリを JSON にエクスポート"
 
 #: ../../admin/memory.rst:103
 msgid "Imports TMX or JSON files into the translation memory"
@@ -18159,6 +18156,9 @@ msgid ""
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
 msgstr ""
+"Weblate のユーザーが新しい文字列を追加したり、既存の文字列を削除したりするこ"
+"とを許可するかどうかを設定します。現地語化ワークフロー（新しい文字列の導入方"
+"法）に合わせて調整します。"
 
 #: ../../admin/projects.rst:609
 msgid ""
@@ -18168,13 +18168,19 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"バイリンガル形式の場合、文字列は通常、ソースコードから抽出（例: "
+":program:`xgettext`）されるので、Weblate での新しい文字列の追加は、無効にする"
+"ことが必要です（次回、翻訳ファイルを更新したときに破棄される） 。Weblate では"
+"、すべての翻訳の文字列を管理できますが、すべての翻訳の文字列の一貫性を強制す"
+"るわけではありません。"
 
 #: ../../admin/projects.rst:615
 msgid ""
 "For monolingual formats, the strings are managed only on source language and "
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
-msgstr ""
+msgstr "モノリンガル形式の場合、文字列は原文言語でのみ管理され、翻訳で自動的に追加ま"
+"たは削除されます。文字列は、翻訳すると翻訳ファイルに反映されます。"
 
 #: ../../admin/projects.rst:621
 msgid ""
@@ -18209,9 +18215,8 @@ msgstr "マージ スタイル"
 msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
-msgstr ""
-"アップストリーム リポジトリからの更新の処理方法を設定できます。実際の実装は"
-"VCSに依存します。参照: :doc:`/vcs`。"
+msgstr "上流リポジトリからの更新の処理方法を設定できます。実際の実装は VCS "
+"に依存します。参照: :doc:`/vcs`。"
 
 #: ../../admin/projects.rst:655
 msgid "Rebase"
@@ -18221,21 +18226,23 @@ msgstr "リベース"
 msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
-msgstr ""
-"更新時にアップストリーム リポジトリ上の Weblate コミットをリベースします。こ"
-"れにより、追加のマージ コミットをせずにクリーンな履歴を提供できます。"
+msgstr "更新時に上流リポジトリ上の Weblate コミットをリベースします。これにより、"
+"追加のマージ コミットをせずにクリーンな履歴を提供できます。"
 
 #: ../../admin/projects.rst:651
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
-msgstr ""
+msgstr "リベースは、複雑なマージの場合には問題が発生することがあります。そのため、有"
+"効にするかどうかは慎重に検討してください。"
 
 #: ../../admin/projects.rst:654
 msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"特に別のブランチにプッシュする場合は、:ref:`vcs-git-force-push` を :ref"
+":`component-vcs` として選択してから、強制プッシュを有効にしてください。"
 
 #: ../../admin/projects.rst:660
 msgid "Merge"
@@ -18247,6 +18254,9 @@ msgid ""
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
 msgstr ""
+"上流リポジトリの変更は、Weblate リポジトリにマージされます。この設定では、"
+"可能な場合は fast-forward を使用します。これは最も安全な方法ですが、"
+"多くのマージ コミットが生成されることがあります。"
 
 #: ../../admin/projects.rst:665
 msgid "Merge without fast-forward"
@@ -18258,10 +18268,13 @@ msgid ""
 "commit every time (even when fast-forward would be possible). Every Weblate "
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
+"上流リポジトリの変更は、（fast-forward が可能な場合でも）毎回マージ "
+"コミットを実行して Weblate にマージされます。すべての Weblate の変更は、"
+"Weblate リポジトリではマージ コミットとして表示されます。"
 
 #: ../../admin/projects.rst:667
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr ""
+msgstr "デフォルト値は、:setting:`DEFAULT_MERGE_STYLE` で変更できます。"
 
 #: ../../admin/projects.rst:676
 msgid "Commit, add, delete, merge and add-on messages"
@@ -18269,7 +18282,7 @@ msgstr "メッセージのコミット、追加、削除、マージ、アドオ
 
 #: ../../admin/projects.rst:678
 msgid "Message used when committing a translation, see :ref:`markup`."
-msgstr ""
+msgstr "翻訳のコミット時に使用するメッセージ。参照: :ref:`markup`。"
 
 #: ../../admin/projects.rst:680
 msgid ""
@@ -18292,6 +18305,10 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"コミットされた変更を上流リポジトリに自動的にプッシュするかどうか。有効にする"
+"と、Weblate が基になるリポジトリ（参照: :ref:`lazy-commit`）に変更をコミット"
+"した時点でプッシュが開始されます。実際にプッシュを有効にするには、:guilabel:`"
+"リポジトリのプッシュ URL` の設定も必要です。"
 
 #: ../../admin/projects.rst:698
 msgid "Age of changes to commit"
