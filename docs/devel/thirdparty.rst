@@ -6,8 +6,8 @@ lists third-party libraries which integrate Weblate.
 
 * `Weblate Translation Provider for Symfony Translation <https://github.com/m2mtech/weblate-translation-provider/>`_
 * `Weblate plugin for Figma <https://www.figma.com/community/plugin/1053050985172660071/weblate-integration>`_
-* `WLFX, a JavaFX-based Weblate desktop client <https://github.com/javierllorente/wlfx/>`_
-* `jwl, a Java-based Weblate library <https://github.com/javierllorente/jwl>`_
+* `WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/javierllorente/weblatefx>`_
+* `JWeblate, a Java-based Weblate library <https://github.com/javierllorente/jweblate>`_
 
 .. hint::
 
