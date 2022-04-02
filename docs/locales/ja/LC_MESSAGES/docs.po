@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-01 16:11+0000\n"
+"PO-Revision-Date: 2022-04-02 18:43+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -18321,20 +18321,24 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
+"変更が、バックグラウンド タスクまたは :djadmin:`commit_pending` "
+"管理コマンドによりコミットされるまでの経過時間（時間単位）を設定します。"
+"設定した経過時間より古い変更が 1 "
+"つでもあれば、コンポーネントのすべての変更はコミットされます。"
 
 #: ../../admin/projects.rst:705
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr ""
+msgstr "デフォルト値は、:setting:`COMMIT_PENDING_HOURS` を変更します。"
 
 #: ../../admin/projects.rst:709
 msgid ""
 "There are other situations where pending changes might be committed, see :"
 "ref:`lazy-commit`."
-msgstr ""
+msgstr "保留中の変更がコミットされる状況は他にもあります。参照: :ref:`lazy-commit`。"
 
 #: ../../admin/projects.rst:715
 msgid "Lock on error"
-msgstr "エラー時にロック"
+msgstr "エラー時のロック"
 
 #: ../../admin/projects.rst:717
 msgid ""
@@ -18343,12 +18347,17 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
+"上流リポジトリへの最初のプッシュまたはマージ、あるいは上流リポジトリからのプ"
+"ルに失敗した場合に、そのコンポーネント（およびリンクされたコンポーネント、参"
+"照: :ref:`internal-urls`）をロックします。これにより、手動での解決が必要な別"
+"の競合の追加を回避します。"
 
 #: ../../admin/projects.rst:721
 msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
-msgstr ""
+msgstr "コンポーネントは、リポジトリのエラーがなくなると自動的にロックが解除されます"
+"。"
 
 #: ../../admin/projects.rst:727
 msgid "Source language"
@@ -18358,7 +18367,7 @@ msgstr "原文の言語"
 msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
-msgstr ""
+msgstr "原文に使用する言語。英語以外から翻訳する場合は、これを変更してください。"
 
 #: ../../admin/projects.rst:734
 msgid ""
@@ -18367,32 +18376,35 @@ msgid ""
 "`English (Developer)` as a source language to avoid conflict between the "
 "name of the source language and the existing translation."
 msgstr ""
+"英語から翻訳してバイリンガルのファイルを作成しているが、英語への翻訳でも修正"
+"を行えるようにする場合、:guilabel:`English (Developer)` "
+"を選択して、原文の言語の名前と、既存の翻訳の名前との競合を避けます。"
 
 #: ../../admin/projects.rst:739
 msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
-msgstr ""
+msgstr "この場合、モノリンガル翻訳では、中間翻訳を使用します。参照: :ref:`component-"
+"intermediate`。"
 
 #: ../../admin/projects.rst:748
 msgid ""
 "Regular expression used to filter the translation when scanning for file "
 "mask. It can be used to limit the list of languages managed by Weblate."
-msgstr ""
-"ファイル マスクをスキャンするときに翻訳ファイルをフィルター処理する正規表現。"
+msgstr "ファイル マスクのスキャン時に、翻訳ファイルをフィルター処理する正規表現。"
 "Weblate が管理する言語のリストを制限するために使用します。"
 
 #: ../../admin/projects.rst:753
 msgid "You need to list language codes as they appear in the filename."
-msgstr ""
+msgstr "ファイル名に付加する言語コードのリストが必要です。"
 
 #: ../../admin/projects.rst:755
 msgid "Some examples of filtering:"
-msgstr ""
+msgstr "フィルター処理の例:"
 
 #: ../../admin/projects.rst:758
 msgid "Filter description"
-msgstr ""
+msgstr "フィルターの説明"
 
 #: ../../admin/projects.rst:758 ../../user/checks.rst:1007
 msgid "Regular expression"
@@ -18400,7 +18412,7 @@ msgstr "正規表現"
 
 #: ../../admin/projects.rst:760
 msgid "Selected languages only"
-msgstr ""
+msgstr "使用言語の選択"
 
 #: ../../admin/projects.rst:760
 msgid "``^(cs|de|es)$``"
@@ -18408,7 +18420,7 @@ msgstr "``^(cs|de|es)$``"
 
 #: ../../admin/projects.rst:762
 msgid "Exclude languages"
-msgstr ""
+msgstr "除外する言語"
 
 #: ../../admin/projects.rst:762
 msgid "``^(?!(it|fr)$).+$``"
@@ -18416,7 +18428,7 @@ msgstr "``^(?!(it|fr)$).+$``"
 
 #: ../../admin/projects.rst:764
 msgid "Filter two letter codes only"
-msgstr ""
+msgstr "2 文字のコードのみ"
 
 #: ../../admin/projects.rst:764
 msgid "``^..$``"
@@ -18424,7 +18436,7 @@ msgstr "``^..$``"
 
 #: ../../admin/projects.rst:766
 msgid "Exclude non language files"
-msgstr ""
+msgstr "言語以外のファイルを除外する"
 
 #: ../../admin/projects.rst:766
 msgid "``^(?!(blank)$).+$``"
@@ -18432,7 +18444,7 @@ msgstr "``^(?!(blank)$).+$``"
 
 #: ../../admin/projects.rst:768
 msgid "Include all files (default)"
-msgstr ""
+msgstr "すべてのファイルを含める（既定）"
 
 #: ../../admin/projects.rst:768
 msgid "``^[^.]+$``"
@@ -18467,7 +18479,7 @@ msgstr "優先度"
 
 #: ../../admin/projects.rst:793
 msgid "Components with higher priority are offered first to translators."
-msgstr "翻訳者に対しては、高い優先度を設定したコンポーネントを先に提示します。"
+msgstr "優先順位の高いコンポーネントから順に翻訳者に提供されます。"
 
 #: ../../admin/projects.rst:798
 msgid "Restricted access"
@@ -18480,8 +18492,8 @@ msgid ""
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
 "デフォルトでは、コンポーネントに変更を加えることができない場合でも、プロジェ"
-"クトにアクセスできるすべてのユーザーにコンポーネントが表示されます。これによ"
-"り、プロジェクト内での翻訳の一貫性が維持しやすくなります。"
+"クトにアクセスできるすべてのユーザーにコンポーネントを表示します。これにより"
+"、プロジェクト内での翻訳の一貫性が維持しやすくなります。"
 
 #: ../../admin/projects.rst:804
 msgid ""
@@ -18491,6 +18503,12 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"コンポーネントまたはコンポーネント リストにアクセス制限をかけると、プロジェク"
+"トに付加されたアクセス権に関係なく、コンポーネントへのアクセス権が引き継がれ"
+"ます。明示的にアクセスを許可してください。これを行うには、新しいユーザー "
+"グループへのアクセスを許可し、そのグループにユーザーを登録するか、"
+"デフォルトの `custom` または `private` "
+"アクセス制御グループを使用して設定します。"
 
 #: ../../admin/projects.rst:810
 msgid ""
@@ -18525,8 +18543,8 @@ msgid ""
 "component to browse or translate it."
 msgstr ""
 "コンポーネントを共有しても、そのアクセス制御は変更されません。他のプロジェク"
-"トを表示するときにのみ表示します。ユーザーが実際のコンポーネントを参照または"
-"翻訳するには、そのコンポーネントにアクセスすることが必要です。"
+"トを表示するときにのみ表示されます。ユーザーが実際のコンポーネントを参照また"
+"は翻訳するには、そのコンポーネントにアクセスすることが必要です。"
 
 #: ../../admin/projects.rst:835
 msgid "Use as a glossary"
@@ -18544,13 +18562,15 @@ msgstr ""
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
-msgstr ""
+msgstr "用語集は、:ref:`component-links` "
+"に定義したすべてのプロジェクトからアクセスできます。"
 
 #: ../../admin/projects.rst:844
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
-msgstr ""
+msgstr "用語集に新しい単語を追加できるようにするには、用語集で :ref:`component-"
+"manage_units` を有効にしてください。"
 
 #: ../../admin/projects.rst:849
 msgid ":ref:`glossary`"
@@ -18562,7 +18582,7 @@ msgstr "用語集の色"
 
 #: ../../admin/projects.rst:856
 msgid "Display color for a glossary used when showing word matches."
-msgstr ""
+msgstr "一致した単語を表示するときに使用する用語集の表示色。"
 
 #: ../../admin/projects.rst:861
 msgid "Template markup"
