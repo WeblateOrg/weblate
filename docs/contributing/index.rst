@@ -41,7 +41,7 @@ Please respect these guidelines while writing:
  1. Don’t remove part of the documentation if it’s valid.
  2. Use clear and easily-understandable language. You are writing tech docs, not a poem.
     Not all docs readers are native speakers, be thoughtful.
- 3. Don’t be affraid to ask if you are not certain.
+ 3. Don’t be afraid to ask if you are not certain.
     If you have to ask about some feature while editing, don’t change its docs before you have the answer.
     This means: You change or ask. Don’t do both at the same time.
  4. Verify your changes by performing described actions while following the docs.
