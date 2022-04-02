@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Translate Toolkit convertor based file format wrappers."""
+"""Translate Toolkit converter based file format wrappers."""
 
 import codecs
 import os
@@ -67,7 +67,7 @@ class ConvertUnit(TTKitUnit):
         return fallback
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         return fallback
 
     @cached_property
@@ -86,7 +86,7 @@ class ConvertXliffUnit(XliffUnit):
         return fallback
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         return fallback
 
     def is_translated(self):
@@ -118,7 +118,7 @@ class ConvertFormat(TranslationFormat):
         raise NotImplementedError()
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
     @staticmethod
@@ -221,7 +221,7 @@ class HTMLFormat(ConvertFormat):
         for htmlunit in htmlparser.units:
             locations = htmlunit.getlocations()
             if template_store:
-                # Transalation
+                # Translation
                 template = template_store.find_unit_mono("".join(locations))
                 if template is None:
                     # Skip locations not present in the source HTML file
@@ -240,12 +240,12 @@ class HTMLFormat(ConvertFormat):
 
     def save_content(self, handle):
         """Store content to file."""
-        convertor = po2html()
+        converter = po2html()
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
         with open(templatename, "rb") as templatefile:
-            outputstring = convertor.mergestore(
+            outputstring = converter.mergestore(
                 self.store, templatefile, includefuzzy=False
             )
         handle.write(outputstring.encode("utf-8"))
@@ -399,11 +399,11 @@ class WindowsRCFormat(ConvertFormat):
     def convertfile(storefile, template_store):
         input_store = rcfile()
         input_store.parse(storefile.read())
-        convertor = rc2po()
+        converter = rc2po()
         if template_store:
-            store = convertor.merge_store(template_store.store.rcfile, input_store)
+            store = converter.merge_store(template_store.store.rcfile, input_store)
         else:
-            store = convertor.convert_store(input_store)
+            store = converter.convert_store(input_store)
         store.rcfile = input_store
         return store
 
@@ -429,13 +429,13 @@ class WindowsRCFormat(ConvertFormat):
             if bom == codecs.BOM_UTF16_LE or b"\000" in bom:
                 encoding = "utf-16-le"
             templatefile.seek(0)
-            convertor = rerc(
+            converter = rerc(
                 templatefile,
                 lang=lang,
                 sublang=sublang,
                 charset=encoding,
             )
-            outputrclines = convertor.convertstore(self.store)
+            outputrclines = converter.convertstore(self.store)
             try:
                 handle.write(outputrclines.encode(encoding))
             except UnicodeEncodeError:

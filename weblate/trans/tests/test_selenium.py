@@ -720,7 +720,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Access control")
         self.screenshot("manage-users.png")
-        # Access control setings
+        # Access control settings
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
@@ -800,7 +800,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Insights")
         self.screenshot("reporting.png")
 
-        # Contributor agreeement
+        # Contributor agreement
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Settings")

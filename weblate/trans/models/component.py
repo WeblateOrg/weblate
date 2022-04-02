@@ -1004,7 +1004,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # We are not supposed to create new one
                 raise Unit.DoesNotExist("Could not find source unit")
             else:
-                # Create in case of parsing tranlations
+                # Create in case of parsing translations
                 # Set correct state depending on template editing
                 if self.template and self.edit_template:
                     create["state"] = STATE_TRANSLATED
@@ -1067,7 +1067,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         )
 
     def get_share_url(self):
-        """Return absolute sharable URL."""
+        """Return absolute shareable URL."""
         return get_site_url(reverse("engage", kwargs={"project": self.project.slug}))
 
     @perform_on_link
@@ -1168,7 +1168,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def add_ssh_host_key(self):
         """Add SSH key for current repo as trusted.
 
-        This is essentailly a TOFU appproach.
+        This is essentially a TOFU approach.
         """
 
         def add(repo):
@@ -1502,7 +1502,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     @perform_on_link
     def do_reset(self, request=None):
-        """Wrapper for reseting repo to same sources as remote."""
+        """Wrapper for resetting repo to same sources as remote."""
         with self.repository.lock:
             # First check we're up to date
             self.update_remote_branch()
@@ -1733,7 +1733,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # Report error
                 report_error(cause=f"Failed {method}")
 
-                # In case merge has failer recover
+                # In case merge has failure recover
                 error = self.error_text(error)
                 status = self.repository.status()
 
@@ -1780,7 +1780,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     self.delete_alert("PushFailure")
 
                 # Run post update hook, this should be done with repo lock held
-                # to avoid posssible race with another update
+                # to avoid possible race with another update
                 self.trigger_post_update(previous_head, skip_push)
         return True
 
@@ -1976,7 +1976,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 and self.new_base.endswith(".pot")
                 and os.path.exists(self.get_new_base_filename())
             ):
-                # Process pot file as source to include additiona metadata
+                # Process pot file as source to include additional metadata
                 matches = [self.new_base] + matches
                 source_file = self.new_base
             else:

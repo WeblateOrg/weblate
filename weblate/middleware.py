@@ -37,7 +37,7 @@ CSP_TEMPLATE = (
     "frame-src 'none'; frame-ancestors 'none';"
 )
 
-# URLs requiring inline javascipt
+# URLs requiring inline javascript
 INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process"}
 
 

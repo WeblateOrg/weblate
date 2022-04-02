@@ -1648,7 +1648,7 @@ class ComponentProjectForm(ComponentNameForm):
         if "instance" in kwargs:
             kwargs.pop("instance")
         super().__init__(request, *args, **kwargs)
-        # It might be overriden based on preset project
+        # It might be overridden based on preset project
         self.fields["source_language"].initial = Language.objects.default_language
         self.request = request
         self.helper = FormHelper()

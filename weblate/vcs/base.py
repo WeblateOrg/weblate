@@ -394,7 +394,7 @@ class Repository:
         return cls._popen(["--version"], merge_err=False)
 
     def set_committer(self, name, mail):
-        """Configure commiter name."""
+        """Configure committer name."""
         raise NotImplementedError()
 
     def commit(

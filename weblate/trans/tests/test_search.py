@@ -278,7 +278,7 @@ class ReplaceTest(ViewTestCase):
 
 
 class BulkEditTest(ViewTestCase):
-    """Test for buld edit functionality."""
+    """Test for build edit functionality."""
 
     def setUp(self):
         super().setUp()

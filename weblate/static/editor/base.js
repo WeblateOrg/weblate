@@ -13,14 +13,14 @@ WLT.Utils = (function () {
     },
 
     markFuzzy: function ($el) {
-      /* Standard worflow */
+      /* Standard workflow */
       $el.find('input[name="fuzzy"]').prop("checked", true);
       /* Review workflow */
       $el.find('input[name="review"][value="10"]').prop("checked", true);
     },
 
     markTranslated: function ($el) {
-      /* Standard worflow */
+      /* Standard workflow */
       $el.find('input[name="fuzzy"]').prop("checked", false);
       /* Review workflow */
       $el.find('input[name="review"][value="20"]').prop("checked", true);
@@ -205,7 +205,7 @@ WLT.Editor = (function () {
   function insertEditor(text, element) {
     var root;
 
-    /* Find withing root element */
+    /* Find within root element */
     if (typeof element !== "undefined") {
       root = element.closest(".zen-unit");
       if (root.length === 0) {

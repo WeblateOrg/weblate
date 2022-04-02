@@ -154,7 +154,7 @@ def get_clean_env(extra: Dict = None, extra_path: str = None):
         "https_proxy",
         "HTTPS_PROXY",
         "NO_PROXY",
-        # below two are nedded for openshift3 deployment,
+        # below two are needed for openshift3 deployment,
         # where nss_wrapper is used
         # more on the topic on below link:
         # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
@@ -237,7 +237,7 @@ def render(request, template, context=None, status=None):
 
 
 def path_separator(path):
-    """Alway use / as path separator for consistency."""
+    """Always use / as path separator for consistency."""
     if os.path.sep != "/":
         return path.replace(os.path.sep, "/")
     return path

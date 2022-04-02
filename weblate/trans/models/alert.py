@@ -422,7 +422,7 @@ class NoMaskMatches(BaseAlert):
 
 @register
 class InexistantFiles(BaseAlert):
-    verbose = _("Inexistant files.")
+    verbose = _("Inexistent files.")
     doc_page = "admin/projects"
     doc_anchor = "component-template"
 

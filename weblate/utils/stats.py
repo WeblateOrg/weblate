@@ -104,7 +104,7 @@ def prefetch_stats(queryset):
     # This function can either accept queryset, in which case it is
     # returned with prefetched stats, or iterator, in which case new list
     # is returned.
-    # This is needed to allow using such querysets futher and to support
+    # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
     result = objects if isinstance(queryset, GeneratorType) else queryset
 

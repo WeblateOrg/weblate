@@ -460,23 +460,23 @@ def billing(request):
     # We will list all billings anyway, so fetch  them at once
     billings = Billing.objects.prefetch().order_by("expiry", "removal", "id")
 
-    for currrent in billings:
-        if currrent.removal:
-            removal.append(currrent)
-        elif currrent.state == Billing.STATE_TRIAL:
+    for current in billings:
+        if current.removal:
+            removal.append(current)
+        elif current.state == Billing.STATE_TRIAL:
             if (
-                currrent.plan
-                and currrent.plan.price == 0
-                and currrent.payment.get("libre_request")
+                current.plan
+                and current.plan.price == 0
+                and current.payment.get("libre_request")
             ):
-                pending.append(currrent)
-            trial.append(currrent)
-        elif currrent.state == Billing.STATE_TERMINATED:
-            terminated.append(currrent)
-        elif currrent.plan.price:
-            paid.append(currrent)
+                pending.append(current)
+            trial.append(current)
+        elif current.state == Billing.STATE_TERMINATED:
+            terminated.append(current)
+        elif current.plan.price:
+            paid.append(current)
         else:
-            free.append(currrent)
+            free.append(current)
 
     return render(
         request,

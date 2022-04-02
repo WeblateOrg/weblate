@@ -298,7 +298,7 @@ class TTKitFormat(TranslationFormat):
         return store
 
     def add_unit(self, ttkit_unit):
-        """Add new unit to underlaying store."""
+        """Add new unit to underlying store."""
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
             self.store.addunit(ttkit_unit, new=True)
@@ -310,7 +310,7 @@ class TTKitFormat(TranslationFormat):
         self.store.serialize(handle)
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
     @classmethod
@@ -724,7 +724,7 @@ class XliffUnit(TTKitUnit):
                 self.xliff_node.set("state", "new")
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         if self.unit is None:
             return fallback
         if hasattr(self.unit, "isapproved"):
@@ -778,7 +778,7 @@ class TSUnit(MonolingualIDUnit):
     def source(self):
         if self.template is None and self.mainunit.hasplural():
             # Need to apply special magic for plurals here
-            # as there is no singlular/plural in the source string
+            # as there is no singular/plural in the source string
             source = self.unit.source
             return get_string([source.replace("(s)", ""), source.replace("(s)", "s")])
         return super().source
@@ -1189,7 +1189,7 @@ class PropertiesBaseFormat(TTKitFormat):
         if not result:
             return False
 
-        # Accept emty file, but reject file without a delimiter.
+        # Accept empty file, but reject file without a delimiter.
         # Translate Toolkit happily parses anything into a property
         # even if there is no delimiter used in the line.
         return not self.store.units or self.store.units[0].delimiter

@@ -376,7 +376,7 @@ class PoFormatTest(AutoFormatTest):
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
-        # Test warning in ouput (used Unicode POT file without charset specified)
+        # Test warning in output (used Unicode POT file without charset specified)
         with self.assertRaises(UpdateError):
             self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
         with open(test_file) as handle:

@@ -158,7 +158,7 @@ class GitRepository(Repository):
         return self.execute(["config", path], needs_lock=False, merge_err=False).strip()
 
     def set_committer(self, name, mail):
-        """Configure commiter name."""
+        """Configure committer name."""
         self.config_update(("user", "name", name), ("user", "email", mail))
 
     def reset(self):
@@ -712,7 +712,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """Merge remote branch or reverts the merge."""
         # This reverts merge behavior of pure git backend
         # as we're expecting there will be an additional merge
-        # commmit created from the merge request.
+        # commit created from the merge request.
         if abort:
             self.execute(["merge", "--abort"])
             # Needed for compatibility with original merge code
@@ -969,7 +969,7 @@ class GithubRepository(GitMergeRequestBase):
                 for error in response["errors"]:
                     if error.get("field") == "head" and retry_fork:
                         # This most likely indicates that Weblate repository has moved
-                        # and we should createa a fresh fork.
+                        # and we should create a fresh fork.
                         self.create_fork(credentials)
                         self.create_pull_request(
                             credentials,
@@ -1141,7 +1141,7 @@ class LocalRepository(GitRepository):
         with repo.lock:
             repo.execute(["add", target])
             if repo.needs_commit():
-                repo.commit("ZIP file upladed into Weblate")
+                repo.commit("ZIP file uploaded into Weblate")
         return repo
 
     @classmethod

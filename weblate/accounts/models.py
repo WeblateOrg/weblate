@@ -233,7 +233,7 @@ class AuditLogManager(models.Manager):
 
 class AuditLogQuerySet(models.QuerySet):
     def get_after(self, user, after, activity):
-        """Get user activites of given type after another activity.
+        """Get user activities of given type after another activity.
 
         This is mostly used for rate limiting, as it can return the number of failed
         authentication attempts since last login.

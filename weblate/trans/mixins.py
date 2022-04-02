@@ -118,7 +118,7 @@ class PathMixin(LoggerMixin):
             del self.__dict__["full_path"]
 
     def check_rename(self, old, validate=False):
-        """Detect slug changes and possibly renames underlaying directory."""
+        """Detect slug changes and possibly renames underlying directory."""
         # No moving for links
         if getattr(self, "is_repo_link", False) or getattr(old, "is_repo_link", False):
             return

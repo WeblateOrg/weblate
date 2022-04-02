@@ -1014,7 +1014,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         return True
 
     def update_source_units(self, previous_source, user, author):
-        """Update source for units withing same component.
+        """Update source for units within same component.
 
         This is needed when editing template translation for monolingual formats.
         """
@@ -1396,7 +1396,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @cached_property
     def edit_mode(self):
-        """Returns syntax higlighting mode for Prismjs."""
+        """Returns syntax highlighting mode for Prismjs."""
         flags = self.all_flags
         if "icu-message-format" in flags:
             return "icu-message-format"

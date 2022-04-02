@@ -609,7 +609,7 @@ class ComponentChangeTest(RepoTestCase):
         self.assertNotEqual(old_path, new_path)
 
     def test_change_to_mono(self):
-        """Test swtiching to monolingual format on the fly."""
+        """Test switching to monolingual format on the fly."""
         component = self._create_component("po", "po-mono/*.po")
         self.assertEqual(component.translation_set.count(), 4)
         component.file_format = "po-mono"
