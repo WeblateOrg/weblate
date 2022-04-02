@@ -142,7 +142,7 @@ The following dependencies have to be installed on the system:
 
 ``Git``
     https://git-scm.com/
-Pango, Cairo and related header files and gir introspection data
+Pango, Cairo and related header files and git introspection data
     https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`
 ``git-review`` (optional for Gerrit support)
     https://pypi.org/project/git-review/
