@@ -47,7 +47,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
 
 
 def perform_commit(request, obj):
-    """Helper function to do the repository commmit."""
+    """Helper function to do the repository commit."""
     if not request.user.has_perm("vcs.commit", obj):
         raise PermissionDenied()
 

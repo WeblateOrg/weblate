@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Base classses for file formats."""
+"""Base classes for file formats."""
 
 import os
 import tempfile
@@ -135,7 +135,7 @@ class TranslationUnit:
         return bool(self.target)
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         return fallback
 
     def is_fuzzy(self, fallback=False):
@@ -311,7 +311,7 @@ class TranslationFormat:
         return self._find_unit_bilingual(context, source)
 
     def add_unit(self, ttkit_unit):
-        """Add new unit to underlaying store."""
+        """Add new unit to underlying store."""
         raise NotImplementedError()
 
     def update_header(self, **kwargs):
@@ -332,7 +332,7 @@ class TranslationFormat:
                 os.unlink(temp.name)
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         raise NotImplementedError()
 
     @property

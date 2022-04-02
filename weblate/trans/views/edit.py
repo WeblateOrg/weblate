@@ -531,7 +531,7 @@ def translate(request, project, component, lang):  # noqa: C901
     if isinstance(search_result, HttpResponse):
         return search_result
 
-    # Get numer of results
+    # Get number of results
     num_results = len(search_result["ids"])
 
     # Search offset

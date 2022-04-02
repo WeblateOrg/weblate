@@ -59,7 +59,7 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         self.assertTrue(User.objects.filter(username="testuser").exists())
 
     def test_removal_nopass(self):
-        # Set unusuable password for test user.
+        # Set unusable password for test user.
         self.user.set_unusable_password()
         self.user.save()
         # Need to force login as user has no password now.

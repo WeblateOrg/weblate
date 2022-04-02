@@ -59,7 +59,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "json-file",
             type=argparse.FileType("r"),
-            help="JSON file containing component defintion",
+            help="JSON file containing component definition",
         )
 
     def handle(self, *args, **options):  # noqa: C901

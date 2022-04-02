@@ -1167,7 +1167,7 @@ $(function () {
     });
   });
 
-  /* Textarea higlighting */
+  /* Textarea highlighting */
   Prism.languages.none = {};
   initHighlight(document);
 

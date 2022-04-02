@@ -217,11 +217,11 @@ class AppStoreFormat(TranslationFormat):
         os.makedirs(filename)
 
     def add_unit(self, ttkit_unit):
-        """Add new unit to underlaying store."""
+        """Add new unit to underlying store."""
         self.store.units.append(ttkit_unit)
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         for unit in self.store.units:
             filename = self.store.get_filename(unit.filename)
             if not unit.text:

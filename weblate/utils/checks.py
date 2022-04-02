@@ -297,7 +297,7 @@ def check_database(app_configs, **kwargs):
             errors.append(
                 weblate_check(
                     "weblate.C038",
-                    f"The database seems slow, the query took {delta} miliseconds",
+                    f"The database seems slow, the query took {delta} milliseconds",
                 )
             )
 
@@ -550,7 +550,7 @@ def check_version(app_configs=None, **kwargs):
     except (ValueError, OSError):
         return []
     if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
-        # With release every two months, this get's triggered after three releases
+        # With release every two months, this gets triggered after three releases
         if latest.timestamp + timedelta(days=180) < datetime.now():
             return [
                 weblate_check(

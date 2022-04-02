@@ -48,7 +48,7 @@ class MachineTranslationError(Exception):
 
 
 class MissingConfiguration(ImproperlyConfigured):
-    """Exception raised when configuraiton is wrong."""
+    """Exception raised when configuration is wrong."""
 
 
 class MachineryRateLimit(MachineTranslationError):

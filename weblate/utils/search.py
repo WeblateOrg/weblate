@@ -116,7 +116,7 @@ NOT = CaselessKeyword("NOT")
 # Search operator
 OPERATOR = one_of(OPERATOR_MAP.keys())
 
-# Field name, explicitely exlude URL like patters
+# Field name, explicitly exlude URL like patters
 FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
 
 # Match token

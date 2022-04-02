@@ -236,7 +236,7 @@ class TranslationTest(RepoTestCase):
         for unit in translation.unit_set.iterator():
             unit.translate(user, "test4", STATE_TRANSLATED)
         self.assertEqual(start_rev, component.repository.last_revision)
-        # Translation from other author should trigger commmit
+        # Translation from other author should trigger commit
         for i, unit in enumerate(translation.unit_set.iterator()):
             user = User.objects.create(
                 full_name=f"User {unit.pk}",

@@ -464,7 +464,7 @@ class BenchmarkCommandTest(RepoTestCase):
 
 
 class SuggestionCommandTest(RepoTestCase):
-    """Test suggestion addding."""
+    """Test suggestion adding."""
 
     def setUp(self):
         super().setUp()

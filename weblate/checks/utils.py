@@ -26,7 +26,7 @@ def highlight_pygments(source: str, unit):
     """
     Highlight syntax characters using pygments.
 
-    This is not reeally a full syntax hightlighting, we're only interested in
+    This is not really a full syntax highlighting, we're only interested in
     non-translatable strings.
     """
     if "rst-text" in unit.all_flags:

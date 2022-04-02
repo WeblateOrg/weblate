@@ -542,7 +542,7 @@ class Change(models.Model, UserDisplayMixin):
             self.fixup_refereces()
 
     def fixup_refereces(self):
-        """Updates refereces based to least specific one."""
+        """Updates references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:
@@ -657,7 +657,7 @@ class Change(models.Model, UserDisplayMixin):
             for number, name in Project.ACCESS_CHOICES:
                 if number == details["access_control"]:
                     return name
-            return "Unknonwn {}".format(details["access_control"])
+            return "Unknown {}".format(details["access_control"])
         if self.action in user_actions:
             if "group" in details:
                 return "{username} ({group})".format(**details)

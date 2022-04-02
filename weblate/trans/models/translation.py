@@ -545,7 +545,7 @@ class Translation(
         self.save(update_fields=["revision"])
 
     def get_last_author(self, email=False):
-        """Return last autor of change done in Weblate."""
+        """Return last author of change done in Weblate."""
         if not self.stats.last_author:
             return None
         from weblate.auth.models import User
@@ -708,7 +708,7 @@ class Translation(
                     # Bail out if we have not found anything
                     report_error(cause="String disappeared")
                     self.log_error(
-                        "string %s dissappeared from the file, removing", unit
+                        "string %s disappeared from the file, removing", unit
                     )
                     unit.delete()
                     continue
@@ -763,7 +763,7 @@ class Translation(
         if report_source_bugs:
             headers["report_msgid_bugs_to"] = report_source_bugs
 
-        # Update genric headers
+        # Update generic headers
         store.update_header(**headers)
 
         # save translation changes
@@ -1185,7 +1185,7 @@ class Translation(
                 with component.lock:
                     return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
-            # Add as sugestions
+            # Add as suggestions
             return self.merge_suggestions(request, store, fuzzy)
         finally:
             if orig_user:

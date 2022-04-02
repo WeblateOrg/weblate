@@ -220,7 +220,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             False,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von [Webspät](#weblate)",
                 "md-text",
@@ -231,7 +231,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             True,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von [Webspät](#Webspät)",
                 "md-text",
@@ -241,7 +241,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             True,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von Webspät",
                 "md-text",

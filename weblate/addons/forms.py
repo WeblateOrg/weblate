@@ -292,7 +292,7 @@ class DiscoveryForm(BaseAddonForm):
         initial=True,
     )
     remove = forms.BooleanField(
-        label=_("Remove components for inexistant files"), required=False
+        label=_("Remove components for inexistent files"), required=False
     )
     confirm = forms.BooleanField(
         label=_("I confirm the above matches look correct"),

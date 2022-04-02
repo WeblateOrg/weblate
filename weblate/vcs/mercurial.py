@@ -100,7 +100,7 @@ class HgRepository(Repository):
             config.write(handle)
 
     def set_committer(self, name, mail):
-        """Configure commiter name."""
+        """Configure committer name."""
         self.set_config("ui.username", f"{name} <{mail}>")
 
     def reset(self):
