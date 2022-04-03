@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-02 18:43+0000\n"
-"Last-Translator: Hiroyuki <jelly_beans@mac.com>\n"
+"PO-Revision-Date: 2022-04-04 12:03+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -6782,7 +6782,7 @@ msgstr "``0``"
 
 #: ../../admin/config.rst:469
 msgid ":guilabel:`Public`"
-msgstr ":guilabel:`パブリック`"
+msgstr ":guilabel:`公開`"
 
 #: ../../admin/config.rst:470
 msgid "``1``"
@@ -8894,6 +8894,8 @@ msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. Turned on by default as that suits public server setups."
 msgstr ""
+"プロジェクトの作成時に、:ref:`project-web` の指定を必須とするかしないかを設定"
+"します。公開サーバには適しているので初期設定では、デフォルトで有効です。"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -15124,7 +15126,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:66
 msgid "Baidu API machine translation"
-msgstr ""
+msgstr "Baidu API machine translation"
 
 #: ../../admin/machine.rst:70
 msgid "Machine translation service provided by Baidu."
@@ -15134,7 +15136,8 @@ msgstr "Baidu が提供する機械翻訳サービス。"
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
-msgstr ""
+msgstr "このサービスは API を使用しています。使用するには、Baidu から ID と API "
+"キーを取得してください。"
 
 #: ../../admin/machine.rst:74
 msgid ""
@@ -15142,6 +15145,9 @@ msgid ""
 "to :setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and :setting:"
 "`MT_BAIDU_SECRET`."
 msgstr ""
+":setting:`MT_SERVICES` に ``weblate.machinery.baidu.BaiduTranslation`` "
+"を追加し、:setting:`MT_BAIDU_ID` と :setting:`MT_BAIDU_SECRET` "
+"を設定して、このサービスを有効化します。"
 
 #: ../../admin/machine.rst:80
 msgid ""
@@ -15161,12 +15167,17 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL は有料サービスであり、複数の言語向けに優れた機械翻訳を提供しています。:"
+"guilabel:`DeepL API` サブスクリプションを購入するか、:guilabel:`DeepL Pro "
+"(classic)` プランを使用してください。"
 
 #: ../../admin/machine.rst:95
 msgid ""
 "Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.deepl.DeepLTranslation`` "
+"を :setting:`MT_SERVICES` に追加し、:setting:`MT_DEEPL_KEY` を設定します。"
 
 #: ../../admin/machine.rst:100
 msgid ""
@@ -15176,6 +15187,11 @@ msgid ""
 "have to use ``https://api-free.deepl.com/`` instead of ``https://api.deepl."
 "com/`` You can adjust both parameters by :setting:`MT_DEEPL_API_URL`."
 msgstr ""
+"CAT ツールのサブスクリプションがある場合、Weblate で使用するデフォルトの 「v "
+"2」 の代わりに 「v 1 API」 を使用します（これは API のバージョンではない） "
+"。有料プランではなく、無料プランの場合は、``https://api-free.deepl.com/`` "
+"の代わりに ``https://api.deepl.com/`` を使用してください。両方のパラメータを"
+"調整するには、:setting:`MT_DEEPL_API_URL` を設定します。"
 
 #: ../../admin/machine.rst:109
 msgid ""
@@ -15197,6 +15213,10 @@ msgid ""
 "The public instance requires an API key, but LibreTranslate can be self-"
 "hosted and there are several mirrors available to use the API for free."
 msgstr ""
+"LibreTranslate は、無料のオープンソースの機械翻訳サービスです。"
+"公開するインスタンスには API キーが必要ですが、LibreTranslate "
+"は自分のサーバーにインストールできます。また、API "
+"を無料開放しているミラーサイトもあります。"
 
 #: ../../admin/machine.rst:126
 msgid ""
@@ -15218,6 +15238,11 @@ msgid ""
 "`LibreTranslate mirrors <https://github.com/LibreTranslate/"
 "LibreTranslate#user-content-mirrors>`_"
 msgstr ""
+":setting:`MT_LIBRETRANSLATE_KEY`、:setting:`MT_LIBRETRANSLATE_API_URL`、`"
+"LibreTranslate website <https://libretranslate.com/>`_、`LibreTranslate "
+"repository <https://github.com/LibreTranslate/LibreTranslate>`_、`"
+"LibreTranslate mirrors <https://github.com/LibreTranslate/LibreTranslate"
+"#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:141
 msgid "Glosbe"
@@ -17221,7 +17246,7 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
-"その上のレベルである :ref:`component`（実際に翻訳するコンポーネント）では、"
+"その上のレベルである :ref:`component` （実際に翻訳するコンポーネント）では、"
 "使用する VCS リポジトリと翻訳するファイルのマスクを定義します。"
 
 #: ../../admin/projects.rst:17
@@ -17230,7 +17255,7 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
-":ref:`component` の上には個々の翻訳があり、翻訳ファイル（:ref:`component`"
+":ref:`component` の上には個々の翻訳があり、翻訳ファイル（:ref:`component` "
 "で定義した :ref:`component-filemask` と一致する）が VCS "
 "リポジトリに反映されると Weblate によって自動的に処理されます。"
 
@@ -17591,6 +17616,8 @@ msgid ""
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
 msgstr ""
+"言語コードは、翻訳ファイルの照合時に大文字と小文字を区別して関連付けられます"
+"。そのため、原文の言語コードはファイル名と同じ形式で使用してください。。"
 
 #: ../../admin/projects.rst:244
 msgid ":ref:`language-parsing-codes`"
@@ -17910,6 +17937,10 @@ msgid ""
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
+"設定すると、原文はこのファイルに基づきますが、他のすべての言語は :ref"
+":`component-template` に基づきます。文字列が原文の言語に翻訳されていない場合"
+"、他の言語への翻訳は禁止されます。これにより、 :ref:`source-quality-gateway` "
+"が提供されます。"
 
 #: ../../admin/projects.rst:452
 msgid ""
@@ -19116,6 +19147,9 @@ msgid ""
 "listing in your Weblate management page using :guilabel:`Enable discovery` "
 "button:"
 msgstr ""
+"Weblate でサービスが有効化されていることを確認し、:guilabel:`Enable "
+"discovery` ボタンを使用して、Weblate "
+"管理ページで検出リストを有効化する。設定画面:"
 
 #: ../../admin/support.rst:93
 msgid "Customizing listing"
@@ -19126,6 +19160,8 @@ msgid ""
 "You can customize the listing by providing a text and image (570 x 260 "
 "pixels) at <https://weblate.org/user/>."
 msgstr ""
+"テキストと画像（570 × 260 ピクセル）を用意して、カスタマイズしたリストを "
+"<https://weblate.org/user/> に表示できます。"
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -19194,7 +19230,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:42
 msgid "Additional info on source strings"
-msgstr ""
+msgstr "原文の追加情報"
 
 #: ../../admin/translating.rst:44
 msgid ""
@@ -19217,17 +19253,18 @@ msgstr ""
 
 #: ../../admin/translating.rst:57
 msgid "Strings prioritization"
-msgstr ""
+msgstr "文字列の優先順位付け"
 
 #: ../../admin/translating.rst:61
 msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
-msgstr ""
+msgstr "翻訳の優先順位は、``priority`` "
+"フラグを使用して、優先度の高い文字列から先に翻訳するようにできます。"
 
 #: ../../admin/translating.rst:66
 msgid "This can be used to order the flow of translation in a logical manner."
-msgstr ""
+msgstr "これは、論理的な方法で翻訳の流れを順序付けるために使用します。"
 
 #: ../../admin/translating.rst:68
 msgid ":ref:`checks`"
@@ -19237,7 +19274,8 @@ msgstr ""
 msgid ""
 "Previously called :guilabel:`Quality checks flags`, it no longer configures "
 "only checks."
-msgstr ""
+msgstr "以前は、:guilabel:`品質検査フラグ` "
+"と呼ばれていましたが、現在の設定は検査だけではありません。"
 
 #: ../../admin/translating.rst:85
 msgid ""
@@ -19245,24 +19283,28 @@ msgid ""
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
+"文字列フラグは、:ref:`component` の :ref:`component-check_flags` "
+"および翻訳ファイルのフラグからも継承されます（参照: :doc:`/formats`） 。"
 
 #: ../../admin/translating.rst:97
 msgid "Explanation"
-msgstr "説明"
+msgstr "解説"
 
 #: ../../admin/translating.rst:101
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr ""
+msgstr "以前のバージョンでは、これは :guilabel:`追加の文字列情報` "
+"と呼ばれていました。"
 
 #: ../../admin/translating.rst:103
 msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
-msgstr ""
+msgstr "説明を使用して、翻訳の範囲または使用方法を明確にします。Markdown "
+"を使用すると、リンクやその他のマークアップを含めることができます。"
 
 #: ../../admin/translating.rst:109
 msgid "Visual context for strings"
-msgstr ""
+msgstr "文字列の視覚情報"
 
 #: ../../admin/translating.rst:113
 msgid ""
@@ -19270,6 +19312,8 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
+"プログラム内で使用する、特定の原文を示すスクリーンショットをアップロードでき"
+"ます。これにより、翻訳者は、使用されている場所と翻訳方法を把握できます。"
 
 #: ../../admin/translating.rst:117
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
@@ -19282,12 +19326,16 @@ msgid ""
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
+":ref:`additional` に加えて、スクリーンショットには :guilabel:`Tools` メニュー"
+"の下に別の管理画面があります。スクリーンショットをアップロードするか、手動で"
+"原文に割り当てるか、光学式文字認識を使用して割り当てます。"
 
 #: ../../admin/translating.rst:126
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
-msgstr ""
+msgstr "スクリーンショットをアップロードすると、この管理画面から原文の関連付けを処理"
+"します。関連付け設定画面:"
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -26299,7 +26347,7 @@ msgstr ""
 
 #: ../../changes.rst:1112
 msgid "Added support for Baidu API machine translation."
-msgstr ""
+msgstr "Baidu API の機械翻訳に対応しました。"
 
 #: ../../changes.rst:1113
 msgid "Integrated maintenance and cleanup tasks using Celery."
@@ -36140,10 +36188,9 @@ msgid "In excess of 56 bits for a symmetric algorithm"
 msgstr ""
 
 #: ../../legal.rst:54
-#, fuzzy
 msgid ""
 "Factorisation of integers in excess of 512 bits for an asymmetric algorithm"
-msgstr "非対称アルゴリズムにおける512ビットを超える整数の因数分解"
+msgstr "非対称アルゴリズムで 512 ビットを超える整数の因数分解"
 
 #: ../../legal.rst:55
 msgid ""
