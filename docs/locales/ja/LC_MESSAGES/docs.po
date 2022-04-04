@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-04 12:03+0000\n"
+"PO-Revision-Date: 2022-04-04 22:31+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -15251,7 +15251,7 @@ msgstr "Glosbe"
 #: ../../admin/machine.rst:143
 msgid ""
 "Free dictionary and translation memory for almost every living language."
-msgstr ""
+msgstr "ほぼすべての使用している言語の、無料の辞書と翻訳メモリ。"
 
 #: ../../admin/machine.rst:145
 msgid ""
@@ -15259,20 +15259,25 @@ msgid ""
 "is a limit of calls that may be done from one IP in a set period of time, to "
 "prevent abuse."
 msgstr ""
+"API は無料で使用できますが、使用するデータ "
+"ソースのライセンスに従います。不正使用を防止するために、設定時間内に 1 つの "
+"IP から呼び出せる回数には制限があります。"
 
 #: ../../admin/machine.rst:149
 msgid ""
 "Turn on this service by adding ``weblate.machinery.glosbe."
 "GlosbeTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.glosbe.GlosbeTranslation`` "
+"を :setting:`MT_SERVICES`に追加してください。"
 
 #: ../../admin/machine.rst:154
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Glosbe Web サイト <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:159
 msgid "Google Translate"
-msgstr ""
+msgstr "Google 翻訳"
 
 #: ../../admin/machine.rst:161
 msgid "Machine translation service provided by Google."
@@ -15283,12 +15288,16 @@ msgid ""
 "This service uses the Google Translation API, and you need to obtain an API "
 "key and turn on billing in the Google API console."
 msgstr ""
+"このサービスは、Google Translation API を使用するので、API キーの取得と "
+"Google API コンソールでの課金の有効化が必要です。"
 
 #: ../../admin/machine.rst:166
 msgid ""
 "To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
 msgstr ""
+"このサービスを有効にするには、:setting:`MT_SERVICES` に ``weblate.machinery."
+"google.GoogleTranslation`` を追加し、:setting:`MT_GOOGLE_KEY` を設定します。"
 
 #: ../../admin/machine.rst:171
 msgid ""
@@ -15300,7 +15309,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:177
 msgid "Google Translate API V3 (Advanced)"
-msgstr ""
+msgstr "Google Translate API V3（Advanced）"
 
 #: ../../admin/machine.rst:179
 msgid "Machine translation service provided by Google Cloud services."
@@ -15312,6 +15321,9 @@ msgid ""
 "service, add ``weblate.machinery.googlev3.GoogleV3Translation`` to :setting:"
 "`MT_SERVICES` and set"
 msgstr ""
+"このサービスは、認証方法が以前とは異なります。サービスを有効にするには、``web"
+"late.machinery.googlev3.GoogleV3Translation`` を ``weblate.machinery.googlev3"
+".GoogleV3Translation`` に追加し、次の項目を設定します"
 
 #: ../../admin/machine.rst:185
 msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
@@ -15325,7 +15337,8 @@ msgstr ":setting:`MT_GOOGLE_PROJECT`"
 msgid ""
 "If `location` fails, you may also need to specify :setting:"
 "`MT_GOOGLE_LOCATION`."
-msgstr ""
+msgstr "`ロケーション` の設定に失敗した場合は、:setting:`MT_GOOGLE_LOCATION` "
+"も指定してください。"
 
 #: ../../admin/machine.rst:192
 msgid ""
@@ -15339,7 +15352,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:198
 msgid "Microsoft Cognitive Services Translator"
-msgstr ""
+msgstr "Microsoft Cognitive Services Translator"
 
 #: ../../admin/machine.rst:202
 msgid ""
@@ -15351,7 +15364,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:205
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate は Translator API V3 を実装しています。"
 
 #: ../../admin/machine.rst:207
 msgid ""
@@ -15359,18 +15372,21 @@ msgid ""
 "MicrosoftCognitiveTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.microsoft."
+"MicrosoftCognitiveTranslation`` を :setting:`MT_SERVICES` "
+"に追加し、:setting:`MT_MICROSOFT_COGNITIVE_KEY` を設定します。"
 
 #: ../../admin/machine.rst:211
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Translator Text API V2"
 
 #: ../../admin/machine.rst:212
 msgid "The key you use with Translator API V2 can be used with API 3."
-msgstr ""
+msgstr "Translator API V2 で使用するキーは、API 3 にも使用できます。"
 
 #: ../../admin/machine.rst:215
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Translator Text API V3"
 
 #: ../../admin/machine.rst:216
 msgid ""
@@ -15378,9 +15394,9 @@ msgid ""
 "new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` to "
 "locale of your service."
 msgstr ""
-"Azure ポータルに登録して、そこで取得したキーの使用が必要です。新しい Azure "
+"Azure ポータルに登録して、そこで取得したキーを使用します。新しい Azure "
 "キーを使用する場合は、サービスの言語に対して :setting:`MT_MICROSOFT_REGION` "
-"を設定することも必要です。"
+"の設定も必要です。"
 
 #: ../../admin/machine.rst:221
 msgid ""
@@ -15434,12 +15450,17 @@ msgid ""
 "ModernMTTranslation`` to :setting:`MT_SERVICES` and configure :setting:"
 "`MT_MODERNMT_KEY`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.modernmt."
+"ModernMTTranslation`` を:setting:`MT_SERVICES` "
+"に追加し、:setting:`MT_MODERNMT_KEY` を設定します。"
 
 #: ../../admin/machine.rst:256
 msgid ""
 "`ModernMT API <https://www.modernmt.com/api/#translation>`_, :setting:"
 "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgstr ""
+"`ModernMT API <https://www.modernmt.com/api/"
+"#translation>`_、:setting:`MT_MODERNMT_KEY`、:setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/machine.rst:263 ../../changes.rst:1952
 msgid "MyMemory"
@@ -15447,7 +15468,7 @@ msgstr "MyMemory"
 
 #: ../../admin/machine.rst:265
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "大量の翻訳メモリと機械翻訳。"
 
 #: ../../admin/machine.rst:267
 msgid ""
@@ -15455,6 +15476,10 @@ msgid ""
 "requests/day when you provide a contact e-mail address in :setting:"
 "`MT_MYMEMORY_EMAIL`. You can also ask them for more."
 msgstr ""
+"現在、無料の匿名使用での制限は、100 リクエスト / "
+"日。:setting:`MT_MYMEMORY_EMAIL` "
+"に連絡先のメールアドレスを指定した場合の制限は、1000 リクエスト / "
+"日。追加は、応相談。"
 
 #: ../../admin/machine.rst:271
 msgid ""
@@ -15462,6 +15487,9 @@ msgid ""
 "MyMemoryTranslation`` to :setting:`MT_SERVICES` and  set :setting:"
 "`MT_MYMEMORY_EMAIL`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.mymemory."
+"MyMemoryTranslation`` を :setting:`MT_SERVICES` "
+"に追加し、:setting:`MT_SERVICES` を設定します。"
 
 #: ../../admin/machine.rst:276
 msgid ""
@@ -15473,7 +15501,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:284
 msgid "NetEase Sight API machine translation"
-msgstr ""
+msgstr "NetEase Sight API machine translation"
 
 #: ../../admin/machine.rst:288
 msgid "Machine translation service provided by NetEase."
@@ -15482,7 +15510,8 @@ msgstr "NetEase が提供する機械翻訳サービス。"
 #: ../../admin/machine.rst:290
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
-msgstr ""
+msgstr "このサービスは API を使用するので、NetEase "
+"からキーとシークレットの取得が必要です。"
 
 #: ../../admin/machine.rst:292
 msgid ""
@@ -15490,6 +15519,9 @@ msgid ""
 "NeteaseSightTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_NETEASE_KEY` and :setting:`MT_NETEASE_SECRET`."
 msgstr ""
+"このサービスを有効にするには、:setting:`MT_SERVICES` に ``weblate.machinery."
+"youdao.NeteaseSightTranslation`` を追加し、:setting:`MT_NETEASE_KEY` と "
+":setting:`MT_NETEASE_SECRET` を設定します。"
 
 #: ../../admin/machine.rst:298
 msgid ""
@@ -15509,24 +15541,29 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Translate-toolkit に付属したサーバーを使用して、独自の翻訳メモリ "
+"サーバーを実行し、Weblate とやり取りできます。また、tmserver の拡張版である "
+"amaGama サーバーでも使用できます。"
 
 #: ../../admin/machine.rst:311
 msgid "First you will want to import some data to the translation memory:"
-msgstr ""
+msgstr "まず、翻訳メモリにデータをインポートする:"
 
 #: ../../admin/machine.rst:313
 msgid ""
 "2. Turn on this service by adding ``weblate.machinery.tmserver."
 "TMServerTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"2. このサービスを有効にするには、 ``weblate.machinery.tmserver."
+"TMServerTranslation`` を :setting:`MT_SERVICES` に追加します。"
 
 #: ../../admin/machine.rst:322
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "tmserver を起動して、要求をリッスンする:"
 
 #: ../../admin/machine.rst:328
 msgid "Configure Weblate to talk to it:"
-msgstr ""
+msgstr "Weblate と通信するように設定する:"
 
 #: ../../admin/machine.rst:336
 msgid ""
@@ -15540,7 +15577,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:346
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Yandex 翻訳"
 
 #: ../../admin/machine.rst:348
 msgid "Machine translation service provided by Yandex."
@@ -15550,7 +15587,8 @@ msgstr "Yandex が提供する機械翻訳サービス。"
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
-msgstr ""
+msgstr "このサービスは Translation API を使用するので、Yandex から API "
+"キーの取得が必要です。"
 
 #: ../../admin/machine.rst:352
 msgid ""
@@ -15558,6 +15596,8 @@ msgid ""
 "YandexTranslation`` to :setting:`MT_SERVICES`, and set :setting:"
 "`MT_YANDEX_KEY`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.yandex.YandexTranslation`` "
+"を :setting:`MT_SERVICES` に追加し、:setting:`MT_YANDEX_KEY` を設定します。"
 
 #: ../../admin/machine.rst:357
 msgid ""
@@ -15570,7 +15610,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:364
 msgid "Youdao Zhiyun API machine translation"
-msgstr ""
+msgstr "Youdao Zhiyun API 機械翻訳"
 
 #: ../../admin/machine.rst:368
 msgid "Machine translation service provided by Youdao."
@@ -15580,7 +15620,8 @@ msgstr "Youdao が提供する機械翻訳サービス。"
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
-msgstr ""
+msgstr "このサービスは API を使用するので、Youdao から ID と API "
+"キーの取得が必要です。"
 
 #: ../../admin/machine.rst:372
 msgid ""
@@ -15588,6 +15629,9 @@ msgid ""
 "YoudaoTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_YOUDAO_ID` and :setting:`MT_YOUDAO_SECRET`."
 msgstr ""
+"このサービスを有効にするには、:setting:`MT_SERVICES` に ``weblate.machinery."
+"youdao.YoudaoTranslation`` を追加し、:setting:`MT_YOUDAO_ID` と "
+":setting:`MT_YOUDAO_SECRET` を設定します。"
 
 #: ../../admin/machine.rst:378
 msgid ""
@@ -15606,32 +15650,38 @@ msgid ""
 "Weblate can be the source of machine translations as well. It is based on "
 "the Woosh fulltext engine, and provides both exact and inexact matches."
 msgstr ""
+"Weblate は、機械翻訳のソースにもなります。これは Woosh フル テキスト "
+"エンジンに基づき、完全一致と不完全一致の両方を提供します。"
 
 #: ../../admin/machine.rst:388
 msgid ""
 "Turn on these services by adding ``weblate.machinery.weblatetm."
 "WeblateTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"このサービスを有効にするには、``weblate.machinery.weblatetm."
+"WeblateTranslation`` を :setting:`MT_SERVICES` に追加します。"
 
 #: ../../admin/machine.rst:394
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Weblate 翻訳メモリ"
 
 #: ../../admin/machine.rst:398
 msgid ""
 "The :ref:`translation-memory` can be used as a source for machine "
 "translation suggestions as well."
-msgstr ""
+msgstr ":ref:`translation-memory` は、機械翻訳の候補のソースとしても使用できます。"
 
 #: ../../admin/machine.rst:401
 msgid ""
 "Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to "
 "the :setting:`MT_SERVICES`. This service is turned on by default."
 msgstr ""
+"このサービスを有効にするには、``weblate.memory.machine.WeblateMemory`` を "
+":setting:`MT_SERVICES` に追加します。このサービスは、デフォルトで有効です。"
 
 #: ../../admin/machine.rst:408
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:410
 msgid "Machine translation service provided by SAP."
@@ -15642,6 +15692,8 @@ msgid ""
 "You need to have a SAP account (and the SAP Translation Hub enabled in the "
 "SAP Cloud Platform) to use this service."
 msgstr ""
+"このサービスを使用するには、SAP アカウント（および SAP Cloud Platform "
+"で有効な SAP Translation Hub）が必要です。"
 
 #: ../../admin/machine.rst:415
 msgid ""
@@ -15649,8 +15701,8 @@ msgid ""
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either the sandbox or the production API."
 msgstr ""
-"``weblate.machinery.saptranslationhub.SAPTranslationHub`` を "
-":setting:`MT_SERVICES` に追加してこのサービスを有効にし、"
+"このサービスを有効にするには、``weblate.machinery.saptranslationhub."
+"SAPTranslationHub`` を :setting:`MT_SERVICES` に追加して、"
 "サンドボックスまたは運用環境 API に適切なアクセス権を設定します。"
 
 #: ../../admin/machine.rst:421
@@ -15658,12 +15710,17 @@ msgid ""
 "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` and :"
 "setting:`MT_SAP_SANDBOX_APIKEY`."
 msgstr ""
+"サンドボックス API にアクセスするには、:setting:`MT_SAP_BASE_URL` および "
+":setting:`MT_SAP_SANDBOX_APIKEY` の設定が必要です。"
 
 #: ../../admin/machine.rst:424
 msgid ""
 "To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`, :"
 "setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_PASSWORD`."
 msgstr ""
+"productive API "
+"にアクセスするには、:setting:`MT_SAP_BASE_URL`、:setting:`MT_SAP_USERNAME`、 "
+":setting:`MT_SAP_PASSWORD` の設定が必要です。"
 
 #: ../../admin/machine.rst:429
 msgid ""
@@ -15679,7 +15736,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:437
 msgid "Custom machine translation"
-msgstr ""
+msgstr "カスタム機械翻訳"
 
 #: ../../admin/machine.rst:439
 msgid ""
@@ -15687,6 +15744,9 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"また、数行の Python コードを使用して、独自の機械翻訳サービスを実装できます。"
+"Python モジュール ``dictionary`` "
+"を使用して、言語の固定リストでの機械翻訳を実装する例:"
 
 #: ../../admin/machine.rst:446
 msgid ""
@@ -36216,9 +36276,8 @@ msgid "Accessing remote servers using secure protocols (HTTPS)"
 msgstr "安全なプロトコル（HTTPS）を使用したリモート サーバーへの接続"
 
 #: ../../legal.rst:63
-#, fuzzy
 msgid "Generating signatures for code commits (PGP)"
-msgstr "コードコミット（PGP）の署名の生成"
+msgstr "コード コミット用の署名の生成（PGP）"
 
 #: ../../legal.rst:67
 msgid ""
