@@ -7,13 +7,14 @@
 # Anonymous <noreply@weblate.org>, 2020.
 # นายสุชัย วรรณกิจวรกุล <wonsuchai@gmail.com>, 2021.
 # ทรงพล คำผุย <songpon.ming@gmail.com>, 2022.
+# TopTheWorst <topbkk57@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-03-04 07:43+0000\n"
-"Last-Translator: ทรงพล คำผุย <songpon.ming@gmail.com>\n"
+"PO-Revision-Date: 2022-04-04 12:02+0000\n"
+"Last-Translator: TopTheWorst <topbkk57@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11.1-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -354,10 +355,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "การยินยอมกับเงื่อนไขการใช้บริการเมื่อ {date}"
 
 #: weblate/accounts/models.py:163
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "ถูกเชิญไปยัง Weblate โดย {username}"
+msgstr "ได้รับคำเชิญไปยัง {site_title} โดย {username}"
 
 #: weblate/accounts/models.py:164
 msgid "Started trial period."
@@ -614,11 +614,12 @@ msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "การเลือกรายชื่อคอมโพเนนต์จะไม่มีผลใดๆ เมื่อไม่ได้ถูกแสดงบนแดชบอร์ด"
 
 #: weblate/accounts/models.py:747 weblate/trans/views/edit.py:345
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
-msgstr "เพิ่ม % (ภาษา) ในภาษาที่แปลแล้ว  คุณสามารถปรับเปลี่ยนได้ในการตั้งค่า"
+msgstr ""
+"เพิ่ม %(language)s ในภาษาที่คุณแปลแล้ว คุณสามารถปรับเปลี่ยนได้ในการตั้งค่า"
 
 #: weblate/accounts/models.py:808
 msgid ""
@@ -1560,8 +1561,6 @@ msgstr ""
 "และสตริงใหม่จะถูกเพิ่มเป็นสำเนาของสตริงต้นฉบับ"
 
 #: weblate/addons/views.py:84
-#, fuzzy
-#| msgid "Invalid addon name specified!"
 msgid "Invalid add-on name specified!"
 msgstr "ชื่อส่วนเสริมที่ระบุไม่ถูกต้อง!"
 
@@ -1778,10 +1777,8 @@ msgstr "ลบคำแปลที่มีอยู่"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "ดาวน์โหลดการแปล"
+msgstr "ดาวน์โหลดไฟล์การแปล"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
@@ -2044,10 +2041,8 @@ msgid "Send e-mail invitation to the user"
 msgstr "ส่งคำเชิญทางอีเมลไปยังผู้ใช้"
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Resend e-mail invitation to the user"
-msgstr "ส่งคำเชิญซ้ำ"
+msgstr "ส่งอีเมลคำเชิญไปยังผู้ใช้ซ้ำ"
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -2176,8 +2171,6 @@ msgid "Mark user as inactive instead of removing."
 msgstr "ทำเครื่องหมายผู้ใช้ว่าไม่ได้ใช้งานแทนการเอาออก"
 
 #: weblate/auth/models.py:347 weblate/templates/trans/project-access.html:257
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
 msgstr "หมดอายุ"
 
@@ -2487,8 +2480,6 @@ msgid "Missing plurals"
 msgstr "รูปแบบพหูพจน์ขาดหายไป"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "มีรูปแบบพหูพจน์บางส่วนที่ไม่ได้แปล"
 
@@ -2505,14 +2496,11 @@ msgid "Inconsistent"
 msgstr "ไม่สม่ำเสมอ"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
-msgstr "สตริงนี้มีคำแปลมากกว่าหนึ่งคำในโครงการนี้ หรือไม่มีการแปลในบางคอมโพเนนต์"
+msgstr ""
+"สตริงนี้มีคำแปลมากกว่าหนึ่งคำในโครงการนี้ หรือไม่มีการแปลในบางคอมโพเนนต์"
 
 #: weblate/checks/consistency.py:147
 msgid "Has been translated"
