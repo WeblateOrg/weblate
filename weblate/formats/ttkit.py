@@ -209,7 +209,8 @@ class KeyValueUnit(TTKitUnit):
         """Set translation unit target."""
         super().set_target(target)
         # Propagate to value so that searializing of empty values works correctly
-        self.unit.value = self.unit.target
+        if not target:
+            self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
