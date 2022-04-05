@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.19.3 (fe6f7b3) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.19.4 (261f2e4) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
   /**
@@ -33,22 +33,6 @@ var Sentry = (function (exports) {
           // eslint-disable-next-line no-console
           console.error(e);
       });
-  }
-
-  /**
-   * This module exists for optimizations in the build process through rollup and terser.  We define some global
-   * constants, which can be overridden during build. By guarding certain pieces of code with functions that return these
-   * constants, we can control whether or not they appear in the final bundle. (Any code guarded by a false condition will
-   * never run, and will hence be dropped during treeshaking.) The two primary uses for this are stripping out calls to
-   * `logger` and preventing node-related code from appearing in browser bundles.
-   */
-  /**
-   * Figures out if we're building with debug functionality.
-   *
-   * @returns true if this is a debug build
-   */
-  function isDebugBuild() {
-      return true;
   }
 
   /**
@@ -4454,7 +4438,7 @@ var Sentry = (function (exports) {
       return `Too many ${category} requests, backing off until: ${new Date(disabledUntil(rateLimits, category)).toISOString()}`;
   }
 
-  const SDK_VERSION = '6.19.3';
+  const SDK_VERSION = '6.19.4';
 
   let originalFunctionToString;
   /** Patch toString calls to return proper name for wrapped functions */
@@ -5174,7 +5158,7 @@ var Sentry = (function (exports) {
           const status = eventStatusFromHttpCode(response.status);
           this._rateLimits = updateRateLimits(this._rateLimits, headers);
           // eslint-disable-next-line deprecation/deprecation
-          if (this._isRateLimited(requestType) && isDebugBuild()) {
+          if (this._isRateLimited(requestType)) {
               // eslint-disable-next-line deprecation/deprecation
                   logger.warn(`Too many ${requestType} requests, backing off until: ${this._disabledUntil(requestType)}`);
           }
