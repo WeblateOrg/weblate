@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-06 12:40+0000\n"
+"PO-Revision-Date: 2022-04-07 16:07+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -2745,21 +2745,20 @@ msgstr ""
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
-msgstr "元々のコミット メッセージは、オプションで独自のコミット "
-"メッセージに上書きできます。"
+msgstr "元々のコミット メッセージは、オプションを使用すると独自のコミット "
+"メッセージに書き換えられます。"
 
 #: ../../admin/addons.rst:611
-#, fuzzy
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"オプションで、元のコミット メッセージから翻訳者情報（ ``Co-authored-by: …`` "
-"のようなコミット行）を削除し、簡略化したコミット "
-"メッセージの最後に追加できます。これにより、すべての翻訳者に適切な ``Co-"
-"authored-by:`` の署名が生成されます。"
+"オプションを使用して、元のコミット メッセージから（ コミットされた ``Co-"
+"authored-by: …`` のような記述）を削除し、簡略化されたコミット "
+"メッセージの末尾に追加します。これにより、すべての共同翻訳者が自動生成されて "
+"``Co-authored-by:`` に署名されます。"
 
 #: ../../admin/addons.rst:619
 msgid "Customize JSON output"
@@ -6037,7 +6036,7 @@ msgstr ""
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
-msgstr ""
+msgstr "上記の設定を行った Weblate の管理画面。"
 
 #: ../../admin/config.rst:6
 msgid ""
@@ -6601,7 +6600,8 @@ msgstr "CONTACT_FORM"
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
-msgstr ""
+msgstr "問い合わせフォームから、メールを送信する方法を設定します。メール "
+"サーバーの設定と一致する設定を選択します。"
 
 #: ../../admin/config.rst:387
 msgid "``\"reply-to\"``"
@@ -6611,7 +6611,7 @@ msgstr "``\"reply-to\"``"
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
-msgstr ""
+msgstr "送信者は :mailheader:`Reply-To` に使用します。デフォルトの動作。"
 
 #: ../../admin/config.rst:391
 msgid "``\"from\"``"
@@ -6621,7 +6621,8 @@ msgstr "``\"from\"``"
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
-msgstr ""
+msgstr "送信者は :mailheader:`From` に使用します。メール サーバーは、このメール "
+"アドレスの送信の許可が必要です。"
 
 #: ../../admin/config.rst:396
 msgid "DATA_DIR"
@@ -6722,15 +6723,15 @@ msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:420
 msgid "User-uploaded  fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "ユーザーがアップロードしたフォント。参照: :ref:`fonts`。"
 
 #: ../../admin/config.rst:424
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"このディレクトリは、Weblate が書き込み可能であることが必要です。uWSGI として"
-"実行するには、``www-data`` ユーザーに書き込み権限が必要です。"
+"このディレクトリは、Weblate の書き込み権限が必要です。uWSGI "
+"として実行するには、``www-data`` ユーザーに書き込み権限が必要です。"
 
 #: ../../admin/config.rst:427
 msgid ""
@@ -6968,6 +6969,8 @@ msgid ""
 "Configures default value of :ref:`project-use_shared_tm` and :ref:`project-"
 "contribute_shared_tm`."
 msgstr ""
+":ref:`project-use_shared_tm` および :ref:`project-contribute_shared_tm` "
+"のデフォルト値を設定します。"
 
 #: ../../admin/config.rst:638
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
@@ -7596,6 +7599,8 @@ msgid ""
 "When using Docker container, this configuration is automatically generated "
 "based on provided API keys, see :ref:`docker-machine`."
 msgstr ""
+"Docker コンテナを使用する場合、この設定は提供された API "
+"キーを基に自動生成されます。参照: :ref:`docker-machine`。"
 
 #: ../../admin/config.rst:1217
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -7789,17 +7794,18 @@ msgstr "使用する LibreTranslate インスタンスの API URL。"
 
 #: ../../admin/config.rst:1344
 msgid "``https://libretranslate.com/`` (official public instance)"
-msgstr ""
+msgstr "``https://libretranslate.com/`` （公式に公開されたインスタンス）"
 
 #: ../../admin/config.rst:1344
 msgid "Requires an API key to use outside of the website."
-msgstr "Web サイトの外部からの接続には API キーが必要です。"
+msgstr "外部から Web サイトに接続するには API キーが必要です。"
 
 #: ../../admin/config.rst:1346
 msgid ""
 "Mirrors are documented on the LibreTranslate GitHub repository, some of "
 "which can be used without authentication:"
-msgstr ""
+msgstr "LibreTranslate GitHub リポジトリは、文書化されたものが完全複製されていて、認"
+"証なしで使用できるものもあります。"
 
 #: ../../admin/config.rst:1349
 msgid "https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors"
@@ -7821,7 +7827,8 @@ msgstr "MT_LIBRETRANSLATE_KEY"
 msgid ""
 "API key for the LibreTranslate instance specified in "
 "`MT_LIBRETRANSLATE_API_URL`."
-msgstr ""
+msgstr "`MT_LIBRETRANSLATE_API_URL` に設定した LibreTranslate インスタンスの API "
+"キー。"
 
 #: ../../admin/config.rst:1371
 msgid "MT_GOOGLE_KEY"
@@ -8418,7 +8425,7 @@ msgstr "アカウントへのメールアドレスの追加。"
 
 #: ../../admin/config.rst:1826
 msgid "Contact form for users that are not signed in."
-msgstr "サイン インしていないユーザーへの連絡フォーム。"
+msgstr "サイン インしていないユーザーへの問い合わせフォーム。"
 
 #: ../../admin/config.rst:1831
 msgid "REGISTRATION_EMAIL_MATCH"
@@ -8922,7 +8929,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
-msgstr ""
+msgstr "処理の流れ:"
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
@@ -12803,7 +12810,7 @@ msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`、:ref:`production-email`"
 
 #: ../../admin/install/docker.rst:484
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
-msgstr "連絡先フォームの動作を設定します。参照: :setting:`CONTACT_FORM`。"
+msgstr "問い合わせフォームの動作を設定します。参照: :setting:`CONTACT_FORM`。"
 
 #: ../../admin/install/docker.rst:488
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
@@ -15753,7 +15760,8 @@ msgstr ""
 msgid ""
 "You can list your own class in :setting:`MT_SERVICES` and Weblate will start "
 "using that."
-msgstr ""
+msgstr "独自のクラス一覧を :setting:`MT_SERVICES` に設定すると、Weblate "
+"は設定したクラスの使用を開始します。"
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -16568,29 +16576,29 @@ msgstr "翻訳メモリ"
 #: ../../admin/memory.rst:9
 msgid ""
 "Weblate comes with a built-in translation memory consisting of the following:"
-msgstr ""
+msgstr "Weblate に組み込まれている、翻訳メモリの構成項目:"
 
 #: ../../admin/memory.rst:11
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
-msgstr ""
+msgstr "手動でインポートした翻訳メモリ（参照: :ref:`memory-user`）。"
 
 #: ../../admin/memory.rst:12
 msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
-msgstr ""
+msgstr "Weblate で自動的に保存した翻訳（:ref:`memory-scopes` による）。"
 
 #: ../../admin/memory.rst:13
 msgid "Automatically imported past translations."
-msgstr ""
+msgstr "自動的にインポートした過去の翻訳。"
 
 #: ../../admin/memory.rst:15
 msgid "Content in the translation memory can be applied one of two ways:"
-msgstr ""
+msgstr "翻訳メモリ内の語彙を適用する 2 つの方法:"
 
 #: ../../admin/memory.rst:17
 msgid "Manually, :ref:`machine-translation` view while translating."
-msgstr ""
+msgstr "翻訳中に :ref:`machine-translation` を手動で表示する。"
 
 #: ../../admin/memory.rst:18
 msgid ""
@@ -16598,29 +16606,33 @@ msgid ""
 "`addon-weblate.autotranslate.autotranslate` add-on."
 msgstr ""
 ":ref:`auto-translation` または :ref:`addon-weblate.autotranslate."
-"autotranslate` アドオンを使用して文字列を自動翻訳します。"
+"autotranslate` アドオンを使用して文字列を自動翻訳する。"
 
 #: ../../admin/memory.rst:21
 msgid ""
 "For installation tips, see :ref:`weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
+"インストール時の設定は、:ref:`weblate-translation-memory` "
+"を参照してください。翻訳メモリはデフォルトで有効です。"
 
 #: ../../admin/memory.rst:28
 msgid "Translation memory scopes"
-msgstr ""
+msgstr "翻訳メモリの使用範囲"
 
 #: ../../admin/memory.rst:32
 msgid ""
 "In earlier versions translation memory could be only loaded from a file "
 "corresponding to the current imported translation memory scope."
-msgstr ""
+msgstr "以前のバージョンでは、現在インポートしている翻訳メモリの使用範囲内のファイル"
+"からのみ翻訳メモリをインポートできました。"
 
 #: ../../admin/memory.rst:35
 msgid ""
 "The translation memory scopes are there to allow both privacy and sharing of "
 "translations, to suit the desired behavior."
-msgstr ""
+msgstr "翻訳メモリの使用範囲は、翻訳のプライバシーと共有の両方を適切に実現にするため"
+"に用意しています。"
 
 #: ../../admin/memory.rst:39
 msgid "Imported translation memory"
@@ -16632,26 +16644,30 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
+":djadmin:`import_memory` コマンドを使用して、必要な翻訳メモリのデータをインポ"
+"ートすると、すべてのユーザーとプロジェクトがメモリの情報を使用できるようにな"
+"ります。"
 
 #: ../../admin/memory.rst:45
 msgid "Per user translation memory"
-msgstr ""
+msgstr "ユーザーごとの翻訳メモリ"
 
 #: ../../admin/memory.rst:47
 msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
-msgstr ""
+msgstr "すべてのユーザーがした翻訳を、各ユーザーの個人翻訳メモリに自動保存します。"
 
 #: ../../admin/memory.rst:50
 msgid "Per project translation memory"
-msgstr ""
+msgstr "プロジェクトごとの翻訳メモリ"
 
 #: ../../admin/memory.rst:52
 msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
-msgstr ""
+msgstr "プロジェクト内のすべての翻訳を、このプロジェクトでのみ使用可能なプロジェクト"
+"翻訳メモリに自動保存します。"
 
 #: ../../admin/memory.rst:58
 msgid "Shared translation memory"
@@ -16661,21 +16677,23 @@ msgstr "共有翻訳メモリ"
 msgid ""
 "All translation within projects with shared translation memory turned on are "
 "stored in a shared translation memory available to all projects."
-msgstr ""
+msgstr "共有翻訳メモリを有効にしたプロジェクト内のすべての翻訳を、すべてのプロジェク"
+"トで使用できる共有翻訳メモリに保存します。"
 
 #: ../../admin/memory.rst:63
 msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
-msgstr ""
+msgstr "Weblate のインストールを共有する場合は、この機能を有効にするかどうかは慎重に"
+"検討してください。重大な影響を及ぼすことがあります。"
 
 #: ../../admin/memory.rst:66
 msgid "The translations can be used by anybody else."
-msgstr ""
+msgstr "翻訳したものは、他の誰でも使用できます。"
 
 #: ../../admin/memory.rst:67
 msgid "This might lead to disclosing secret information."
-msgstr ""
+msgstr "秘密情報が漏洩するかもしれません。"
 
 #: ../../admin/memory.rst:70
 msgid "Managing translation memory"
@@ -16691,6 +16709,8 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"基本的なユーザー管理画面では、ユーザー単位およびプロジェクト単位で翻訳メモリ"
+"を管理できます。翻訳メモリのダウンロード、消去、またはインポートができます。"
 
 #: ../../admin/memory.rst:84
 msgid ""
@@ -16709,6 +16729,9 @@ msgid ""
 "content. These operate on the translation memory as whole, unfiltered by "
 "scopes (unless requested by parameters):"
 msgstr ""
+"翻訳メモリの内容を操作するための管理コマンドは複数あります。管理コマンドは翻"
+"訳メモリ全体を操作し、使用範囲は制限されません（パラメータで指定しない限り) "
+"。"
 
 #: ../../admin/memory.rst:100
 msgid ":djadmin:`dump_memory`"
@@ -23622,7 +23645,7 @@ msgstr ""
 
 #: ../../changes.rst:252
 msgid "Sender for contact form e-mails can now be configured."
-msgstr ""
+msgstr "問い合わせフォームのメールの送信者を設定の追加。"
 
 #: ../../changes.rst:253
 msgid "Improved parameters validation in component creation API."
@@ -40515,9 +40538,9 @@ msgid ""
 "by it, you are blocked for a certain period until you can perform the "
 "operation again."
 msgstr ""
-"インターフェイスの不正使用を避けるため、検索、連絡先フォームの送信、翻訳など"
-"の一部の操作に接続制限を適用しています。制限の影響を受けた場合、操作を再開で"
-"きるまで、一定期間接続を遮断します。"
+"インターフェイスの不正使用を避けるため、検索、問い合わせフォームの送信、翻訳"
+"などの一部の操作に接続制限を適用しています。制限の影響を受けた場合、操作を再"
+"開できるまで、一定期間接続を遮断します。"
 
 #: ../../user/translating.rst:369
 msgid ""
