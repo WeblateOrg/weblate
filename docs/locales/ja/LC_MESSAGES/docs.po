@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-07 16:07+0000\n"
+"PO-Revision-Date: 2022-04-08 05:49+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -8933,29 +8933,31 @@ msgstr "処理の流れ:"
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
-msgstr ""
+msgstr "開発者は変更を行い、VCS リポジトリにプッシュする。"
 
 #: ../../admin/continuous.rst:18
 msgid ""
 "Optionally the translation files are updated (this depends on the file "
 "format, see :ref:`translations-update`)."
-msgstr ""
+msgstr "オプションで、翻訳ファイルを更新する（これはファイル形式によって異なる。参照:"
+" :ref:`translations-update`）。"
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
-msgstr ""
+msgstr "Weblate が、VCS リポジトリから変更をプルする。参照: :ref:`update-vcs`。"
 
 #: ../../admin/continuous.rst:20
 msgid ""
 "Once Weblate detects changes in translations, translators are notified based "
 "on their subscription settings."
-msgstr ""
+msgstr "Weblate が翻訳の変更を検出すると、登録者の設定に基づいて翻訳者に通知する。"
 
 #: ../../admin/continuous.rst:21
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
-msgstr ""
+msgstr "翻訳者は、Weblate の管理画面を使用して翻訳を送信するか、オフラインでの変更を"
+"アップロードします。"
 
 #: ../../admin/continuous.rst:22
 msgid ""
@@ -8963,6 +8965,10 @@ msgid ""
 "repository (see :ref:`lazy-commit`) and pushes them back if it has "
 "permissions to do so (see :ref:`push-changes`)."
 msgstr ""
+"翻訳者が作業を終えると、Weblate は変更をローカル "
+"リポジトリにコミットし（参照: :ref:`lazy-"
+"commit`）、権限があればプッシュしたコミットを元に戻せます（参照: :ref:`push-"
+"changes`）。"
 
 #: ../../admin/continuous.rst:50
 msgid "Updating repositories"
@@ -8972,7 +8978,7 @@ msgstr "リポジトリの更新"
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
-msgstr ""
+msgstr "ソースからバックエンド リポジトリを更新する方法を何か設定することが必要です。"
 
 #: ../../admin/continuous.rst:55
 msgid ""
@@ -9042,6 +9048,10 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"Weblate によるマージ競合は、同じファイルが Weblate "
+"内と外部の両方で変更された場合に発生します。対処方法は 2 つあります。　—　"
+"Weblate 外部での編集を避けるか、Weblate を更新プロセスに統合して、Weblate "
+"外部でファイルを更新する前に変更を消去します。"
 
 #: ../../admin/continuous.rst:82
 msgid ""
@@ -9055,6 +9065,17 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
+"最初の方法は、モノリンガル ファイルで簡単です。　—　Weblate "
+"内に新しい文字列を追加し、編集したファイルの全体をそこに保存できます。"
+"バイリンガル ファイルの場合、通常、ソース コードから翻訳可能なファイルを生成"
+"するため、何らかのメッセージ抽出プロセスがあります。場合によっては、これを 2 "
+"つの処理に分割できます。1 "
+"番目の方法は、抽出時にテンプレートを生成し（例えば、gettext POT は "
+":program:`xgettext` "
+"を使用して生成します）、次の処理で、テンプレートを実際の翻訳にマージします（"
+"gettext PO ファイルは :program:`msgmerge` を使用して生成します）。Weblate で "
+"2 番目の処理を実行すると、この処理の前に、保留中の変更がすべて含まれているか"
+"どうかを確認できます。"
 
 #: ../../admin/continuous.rst:92
 msgid ""
@@ -9062,16 +9083,19 @@ msgid ""
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
 msgstr ""
+"2 番目の方法は、:ref:`api` を使用して、保留中の変更をすべて強制的にプッシュし"
+"、自分で変更を行っている間に翻訳をロックして実現します。"
 
 #: ../../admin/continuous.rst:96
 msgid "The script for doing updates can look like this:"
-msgstr ""
+msgstr "更新を実行するスクリプトの例:"
 
 #: ../../admin/continuous.rst:117
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
-msgstr ""
+msgstr "複数のコンポーネントが同じリポジトリを共有している場合、コンポーネントすべて"
+"を個別にロックすることが必要です。すべてロックする例:"
 
 #: ../../admin/continuous.rst:128
 msgid ""
@@ -9079,6 +9103,10 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of wlc, e.g. curl, see :ref:`api`."
 msgstr ""
+"この例では、:ref:`wlc` を使用します。これには、Weblate "
+"をリモートで制御するための設定（API キー）が必要です。wlc "
+"の代わりにどのような HTTP クライアントを使用しても実現できます（curl など） "
+"。参照: :ref:`api`。"
 
 #: ../../admin/continuous.rst:134
 #, fuzzy
@@ -9088,11 +9116,11 @@ msgstr ":ref:`acl`"
 
 #: ../../admin/continuous.rst:139
 msgid "Automatically receiving changes from GitHub"
-msgstr ""
+msgstr "変更を GitHub から自動受信"
 
 #: ../../admin/continuous.rst:141
 msgid "Weblate comes with native support for GitHub."
-msgstr ""
+msgstr "Weblate は、GitHub に正式に対応しています。"
 
 #: ../../admin/continuous.rst:143
 msgid ""
@@ -9101,6 +9129,9 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"Hosted Weblate を使用している場合は、`Weblate app <https://github.com/apps/"
+"weblate>`_ をインストールしてください。そうすれば、簡単に正しい初期設定ができ"
+"ます。変更を元に戻すためにも使用できます。"
 
 #: ../../admin/continuous.rst:148
 msgid ""
@@ -9108,6 +9139,9 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"通知を、GitHub リポジトリへプッシュするたびに受け取るには、リポジトリの設定画"
+"面（:guilabel:`Webhook`）から Weblate の Web フックを追加します。Web "
+"フックの設定画面:"
 
 #: ../../admin/continuous.rst:154
 msgid ""
@@ -9115,12 +9149,16 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"独自 URL の場合、Weblate URL に ``/hooks/github/`` を追加します。たとえば、"
+"Hosted Weblate サービスの場合、``https://hosted.weblate.org/hooks/github/`` "
+"となります。"
 
 #: ../../admin/continuous.rst:157
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
-msgstr ""
+msgstr "その他の値は、既定の設定に従えます（Weblate "
+"は両方の種類のコンテンツを処理でき、`プッシュ` イベントのみを使用する）。"
 
 #: ../../admin/continuous.rst:162
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
@@ -33901,15 +33939,14 @@ msgid "How does Weblate credit translators?"
 msgstr "Weblate の翻訳者のクレジットはどうなっていますか？"
 
 #: ../../faq.rst:501
-#, fuzzy
 msgid ""
 "Every change made in Weblate is committed into VCS under the translators "
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
-"Weblate で行われたすべての変更は、翻訳者名で VCS "
-"にコミットされます。このようにして、個々の変更には適切に署名が入り、"
-"コードに使用する標準の VCS ツールを使用して翻訳を調査します。"
+"Weblate で行ったすべての変更は、翻訳者名で VCS "
+"にコミットされます。このようにして、個々の変更には適切に署名が入り、一般的な "
+"VCS ツールを使用して足跡をたどれます。"
 
 #: ../../faq.rst:505
 msgid ""
