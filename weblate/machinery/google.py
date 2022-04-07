@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import json
-
 from django.conf import settings
+from requests.eceptions import RequestException
 
 from weblate.machinery.base import (
     MachineTranslation,
@@ -105,12 +104,11 @@ class GoogleTranslation(GoogleBaseTranslation):
         }
 
     def get_error_message(self, exc):
-        if hasattr(exc, "read"):
-            content = exc.read()
+        if isinstance(exc, RequestException) and exc.response is not None:
+            data = exc.response.json()
             try:
-                data = json.loads(content)
                 return data["error"]["message"]
-            except Exception:
+            except KeyError:
                 pass
 
         return super().get_error_message(exc)
