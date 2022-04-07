@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.19.4 (261f2e4) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.19.6 (20eb6d0) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
   /**
@@ -51,6 +51,23 @@ var Sentry = (function (exports) {
               : typeof self !== 'undefined'
                   ? self
                   : fallbackGlobalObject);
+  }
+  /**
+   * Returns a global singleton contained in the global `__SENTRY__` object.
+   *
+   * If the singleton doesn't already exist in `__SENTRY__`, it will be created using the given factory
+   * function and added to the `__SENTRY__` object.
+   *
+   * @param name name of the global singleton on __SENTRY__
+   * @param creator creator Factory function to create the singleton if it doesn't already exist on `__SENTRY__`
+   * @param obj (Optional) The global object on which to look for `__SENTRY__`, if not `getGlobalObject`'s return value
+   * @returns the singleton
+   */
+  function getGlobalSingleton(name, creator, obj) {
+      const global = (obj || getGlobalObject());
+      const __SENTRY__ = (global.__SENTRY__ = global.__SENTRY__ || {});
+      const singleton = __SENTRY__[name] || (__SENTRY__[name] = creator());
+      return singleton;
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -349,6 +366,22 @@ var Sentry = (function (exports) {
       }
   }
 
+  /*
+   * This file defines flags and constants that can be modified during compile time in order to facilitate tree shaking
+   * for users.
+   *
+   * Debug flags need to be declared in each package individually and must not be imported across package boundaries,
+   * because some build tools have trouble tree-shaking imported guards.
+   *
+   * As a convention, we define debug flags in a `flags.ts` file in the root of a package's `src` folder.
+   *
+   * Debug flag files will contain "magic strings" like `true` that may get replaced with actual values during
+   * our, or the user's build process. Take care when introducing new flags - they must not throw if they are not
+   * replaced.
+   */
+  /** Flag that is true for debug builds, false otherwise. */
+  const IS_DEBUG_BUILD$3 = true;
+
   /** Regular expression used to parse a Dsn. */
   const DSN_REGEX = /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+))?@)([\w.-]+)(?::(\d+))?\/(.+)/;
   function isValidProtocol(protocol) {
@@ -406,6 +439,9 @@ var Sentry = (function (exports) {
       };
   }
   function validateDsn(dsn) {
+      if (!IS_DEBUG_BUILD$3) {
+          return;
+      }
       const { port, projectId, protocol } = dsn;
       const requiredComponents = ['protocol', 'publicKey', 'host', 'projectId'];
       requiredComponents.forEach(component => {
@@ -439,8 +475,7 @@ var Sentry = (function (exports) {
   const PREFIX = 'Sentry Logger ';
   const CONSOLE_LEVELS = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
   /**
-   * Temporarily unwrap `console.log` and friends in order to perform the given callback using the original methods.
-   * Restores wrapping after the callback completes.
+   * Temporarily disable sentry console instrumentations.
    *
    * @param callback The function to run against the original `console` messages
    * @returns The results of the callback
@@ -450,73 +485,63 @@ var Sentry = (function (exports) {
       if (!('console' in global)) {
           return callback();
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const originalConsole = global.console;
       const wrappedLevels = {};
       // Restore all wrapped console methods
       CONSOLE_LEVELS.forEach(level => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (level in global.console && originalConsole[level].__sentry_original__) {
+          // TODO(v7): Remove this check as it's only needed for Node 6
+          const originalWrappedFunc = originalConsole[level] && originalConsole[level].__sentry_original__;
+          if (level in global.console && originalWrappedFunc) {
               wrappedLevels[level] = originalConsole[level];
-              originalConsole[level] = originalConsole[level].__sentry_original__;
+              originalConsole[level] = originalWrappedFunc;
           }
       });
-      // Perform callback manipulations
-      const result = callback();
-      // Revert restoration to wrapped state
-      Object.keys(wrappedLevels).forEach(level => {
-          originalConsole[level] = wrappedLevels[level];
-      });
-      return result;
-  }
-  /** JSDoc */
-  class Logger {
-      /** JSDoc */
-      constructor() {
-          this._enabled = false;
+      try {
+          return callback();
       }
-      /** JSDoc */
-      disable() {
-          this._enabled = false;
-      }
-      /** JSDoc */
-      enable() {
-          this._enabled = true;
-      }
-      /** JSDoc */
-      log(...args) {
-          if (!this._enabled) {
-              return;
-          }
-          consoleSandbox(() => {
-              global$6.console.log(`${PREFIX}[Log]:`, ...args);
-          });
-      }
-      /** JSDoc */
-      warn(...args) {
-          if (!this._enabled) {
-              return;
-          }
-          consoleSandbox(() => {
-              global$6.console.warn(`${PREFIX}[Warn]:`, ...args);
-          });
-      }
-      /** JSDoc */
-      error(...args) {
-          if (!this._enabled) {
-              return;
-          }
-          consoleSandbox(() => {
-              global$6.console.error(`${PREFIX}[Error]:`, ...args);
+      finally {
+          // Revert restoration to wrapped state
+          Object.keys(wrappedLevels).forEach(level => {
+              originalConsole[level] = wrappedLevels[level];
           });
       }
   }
-  const sentryGlobal = global$6.__SENTRY__ || {};
-  const logger = sentryGlobal.logger || new Logger();
-  {
-      // Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
-      sentryGlobal.logger = logger;
-      global$6.__SENTRY__ = sentryGlobal;
+  function makeLogger() {
+      let enabled = false;
+      const logger = {
+          enable: () => {
+              enabled = true;
+          },
+          disable: () => {
+              enabled = false;
+          },
+      };
+      if (IS_DEBUG_BUILD$3) {
+          CONSOLE_LEVELS.forEach(name => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              logger[name] = (...args) => {
+                  if (enabled) {
+                      consoleSandbox(() => {
+                          global$6.console[name](`${PREFIX}[${name}]:`, ...args);
+                      });
+                  }
+              };
+          });
+      }
+      else {
+          CONSOLE_LEVELS.forEach(name => {
+              logger[name] = () => undefined;
+          });
+      }
+      return logger;
+  }
+  // Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
+  let logger;
+  if (IS_DEBUG_BUILD$3) {
+      logger = getGlobalSingleton('logger', makeLogger);
+  }
+  else {
+      logger = makeLogger();
   }
 
   /**
@@ -2702,12 +2727,7 @@ var Sentry = (function (exports) {
    * Returns the global event processors.
    */
   function getGlobalEventProcessors() {
-      /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access  */
-      const global = getGlobalObject();
-      global.__SENTRY__ = global.__SENTRY__ || {};
-      global.__SENTRY__.globalEventProcessors = global.__SENTRY__.globalEventProcessors || [];
-      return global.__SENTRY__.globalEventProcessors;
-      /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
+      return getGlobalSingleton('globalEventProcessors', () => []);
   }
   /**
    * Add a EventProcessor to be kept globally.
@@ -2826,6 +2846,22 @@ var Sentry = (function (exports) {
           });
       }
   }
+
+  /*
+   * This file defines flags and constants that can be modified during compile time in order to facilitate tree shaking
+   * for users.
+   *
+   * Debug flags need to be declared in each package individually and must not be imported across package boundaries,
+   * because some build tools have trouble tree-shaking imported guards.
+   *
+   * As a convention, we define debug flags in a `flags.ts` file in the root of a package's `src` folder.
+   *
+   * Debug flag files will contain "magic strings" like `true` that may get replaced with actual values during
+   * our, or the user's build process. Take care when introducing new flags - they must not throw if they are not
+   * replaced.
+   */
+  /** Flag that is true for debug builds, false otherwise. */
+  const IS_DEBUG_BUILD$2 = true;
 
   /**
    * API compatibility version of this hub.
@@ -3099,7 +3135,7 @@ var Sentry = (function (exports) {
               return client.getIntegration(integration);
           }
           catch (_oO) {
-              logger.warn(`Cannot retrieve integration ${integration.id} from the current Hub`);
+              IS_DEBUG_BUILD$2 && logger.warn(`Cannot retrieve integration ${integration.id} from the current Hub`);
               return null;
           }
       }
@@ -3210,7 +3246,7 @@ var Sentry = (function (exports) {
           if (sentry && sentry.extensions && typeof sentry.extensions[method] === 'function') {
               return sentry.extensions[method].apply(this, args);
           }
-          logger.warn(`Extension method ${method} couldn't be found, doing nothing.`);
+          IS_DEBUG_BUILD$2 && logger.warn(`Extension method ${method} couldn't be found, doing nothing.`);
       }
   }
   /**
@@ -3270,11 +3306,7 @@ var Sentry = (function (exports) {
    * @hidden
    */
   function getHubFromCarrier(carrier) {
-      if (carrier && carrier.__SENTRY__ && carrier.__SENTRY__.hub)
-          return carrier.__SENTRY__.hub;
-      carrier.__SENTRY__ = carrier.__SENTRY__ || {};
-      carrier.__SENTRY__.hub = new Hub();
-      return carrier.__SENTRY__.hub;
+      return getGlobalSingleton('hub', () => new Hub(), carrier);
   }
   /**
    * This will set passed {@link Hub} on the passed object's __SENTRY__.hub attribute
@@ -3285,8 +3317,8 @@ var Sentry = (function (exports) {
   function setHubOnCarrier(carrier, hub) {
       if (!carrier)
           return false;
-      carrier.__SENTRY__ = carrier.__SENTRY__ || {};
-      carrier.__SENTRY__.hub = hub;
+      const __SENTRY__ = (carrier.__SENTRY__ = carrier.__SENTRY__ || {});
+      __SENTRY__.hub = hub;
       return true;
   }
 
@@ -3527,6 +3559,22 @@ var Sentry = (function (exports) {
       }
       return `${endpoint}?${encodedOptions}`;
   }
+
+  /*
+   * This file defines flags and constants that can be modified during compile time in order to facilitate tree shaking
+   * for users.
+   *
+   * Debug flags need to be declared in each package individually and must not be imported across package boundaries,
+   * because some build tools have trouble tree-shaking imported guards.
+   *
+   * As a convention, we define debug flags in a `flags.ts` file in the root of a package's `src` folder.
+   *
+   * Debug flag files will contain "magic strings" like `true` that may get replaced with actual values during
+   * our, or the user's build process. Take care when introducing new flags - they must not throw if they are not
+   * replaced.
+   */
+  /** Flag that is true for debug builds, false otherwise. */
+  const IS_DEBUG_BUILD$1 = true;
 
   const installedIntegrations = [];
   /**
@@ -3871,7 +3919,7 @@ var Sentry = (function (exports) {
               if (evt) {
                   // TODO this is more of the hack trying to solve https://github.com/getsentry/sentry-javascript/issues/2809
                   // it is only attached as extra data to the event if the event somehow skips being normalized
-                  evt.sdkProcessingMetadata = Object.assign(Object.assign({}, evt.sdkProcessingMetadata), { normalizeDepth: normalize(normalizeDepth) });
+                  evt.sdkProcessingMetadata = Object.assign(Object.assign({}, evt.sdkProcessingMetadata), { normalizeDepth: `${normalize(normalizeDepth)} (${typeof normalizeDepth})` });
               }
               if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
                   return this._normalizeEvent(evt, normalizeDepth, normalizeMaxBreadth);
@@ -4375,8 +4423,13 @@ var Sentry = (function (exports) {
    */
   function initAndBind(clientClass, options) {
       if (options.debug === true) {
-          {
+          if (IS_DEBUG_BUILD$1) {
               logger.enable();
+          }
+          else {
+              // use `console.warn` rather than `logger.warn` since by non-debug bundles have all `logger.x` statements stripped
+              // eslint-disable-next-line no-console
+              console.warn('[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.');
           }
       }
       const hub = getCurrentHub();
@@ -4438,7 +4491,7 @@ var Sentry = (function (exports) {
       return `Too many ${category} requests, backing off until: ${new Date(disabledUntil(rateLimits, category)).toISOString()}`;
   }
 
-  const SDK_VERSION = '6.19.4';
+  const SDK_VERSION = '6.19.6';
 
   let originalFunctionToString;
   /** Patch toString calls to return proper name for wrapped functions */
@@ -4532,19 +4585,23 @@ var Sentry = (function (exports) {
   /** JSDoc */
   function _shouldDropEvent$1(event, options) {
       if (options.ignoreInternal && _isSentryError(event)) {
-          logger.warn(`Event dropped due to being internal Sentry Error.\nEvent: ${getEventDescription(event)}`);
+          IS_DEBUG_BUILD$1 &&
+              logger.warn(`Event dropped due to being internal Sentry Error.\nEvent: ${getEventDescription(event)}`);
           return true;
       }
       if (_isIgnoredError(event, options.ignoreErrors)) {
-          logger.warn(`Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${getEventDescription(event)}`);
+          IS_DEBUG_BUILD$1 &&
+              logger.warn(`Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${getEventDescription(event)}`);
           return true;
       }
       if (_isDeniedUrl(event, options.denyUrls)) {
-          logger.warn(`Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${_getEventFilterUrl(event)}`);
+          IS_DEBUG_BUILD$1 &&
+              logger.warn(`Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${_getEventFilterUrl(event)}`);
           return true;
       }
       if (!_isAllowedUrl(event, options.allowUrls)) {
-          logger.warn(`Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${_getEventFilterUrl(event)}`);
+          IS_DEBUG_BUILD$1 &&
+              logger.warn(`Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${getEventDescription(event)}.\nUrl: ${_getEventFilterUrl(event)}`);
           return true;
       }
       return false;
@@ -4581,7 +4638,7 @@ var Sentry = (function (exports) {
               return [`${value}`, `${type}: ${value}`];
           }
           catch (oO) {
-              logger.error(`Cannot extract message for event ${getEventDescription(event)}`);
+              IS_DEBUG_BUILD$1 && logger.error(`Cannot extract message for event ${getEventDescription(event)}`);
               return [];
           }
       }
@@ -4623,7 +4680,7 @@ var Sentry = (function (exports) {
           return frames ? _getLastValidUrl(frames) : null;
       }
       catch (oO) {
-          logger.error(`Cannot extract url for event ${getEventDescription(event)}`);
+          IS_DEBUG_BUILD$1 && logger.error(`Cannot extract url for event ${getEventDescription(event)}`);
           return null;
       }
   }
@@ -4963,6 +5020,22 @@ var Sentry = (function (exports) {
       return event;
   }
 
+  /*
+   * This file defines flags and constants that can be modified during compile time in order to facilitate tree shaking
+   * for users.
+   *
+   * Debug flags need to be declared in each package individually and must not be imported across package boundaries,
+   * because some build tools have trouble tree-shaking imported guards.
+   *
+   * As a convention, we define debug flags in a `flags.ts` file in the root of a package's `src` folder.
+   *
+   * Debug flag files will contain "magic strings" like `true` that may get replaced with actual values during
+   * our, or the user's build process. Take care when introducing new flags - they must not throw if they are not
+   * replaced.
+   */
+  /** Flag that is true for debug builds, false otherwise. */
+  const IS_DEBUG_BUILD = true;
+
   const global$4 = getGlobalObject();
   let cachedFetchImpl;
   /**
@@ -5115,7 +5188,7 @@ var Sentry = (function (exports) {
           // A correct type for map-based implementation if we want to go that route
           // would be `Partial<Record<SentryRequestType, Partial<Record<Outcome, number>>>>`
           const key = `${requestTypeToCategory(category)}:${reason}`;
-          logger.log(`Adding outcome: ${key}`);
+          IS_DEBUG_BUILD && logger.log(`Adding outcome: ${key}`);
           this._outcomes[key] = (_a = this._outcomes[key], (_a !== null && _a !== void 0 ? _a : 0)) + 1;
       }
       /**
@@ -5129,10 +5202,10 @@ var Sentry = (function (exports) {
           this._outcomes = {};
           // Nothing to send
           if (!Object.keys(outcomes).length) {
-              logger.log('No outcomes to flush');
+              IS_DEBUG_BUILD && logger.log('No outcomes to flush');
               return;
           }
-          logger.log(`Flushing outcomes:\n${JSON.stringify(outcomes, null, 2)}`);
+          IS_DEBUG_BUILD && logger.log(`Flushing outcomes:\n${JSON.stringify(outcomes, null, 2)}`);
           const url = getEnvelopeEndpointWithUrlEncodedAuth(this._api.dsn, this._api.tunnel);
           const discardedEvents = Object.keys(outcomes).map(key => {
               const [category, reason] = key.split(':');
@@ -5148,7 +5221,7 @@ var Sentry = (function (exports) {
               sendReport(url, serializeEnvelope(envelope));
           }
           catch (e) {
-              logger.error(e);
+              IS_DEBUG_BUILD && logger.error(e);
           }
       }
       /**
@@ -5159,7 +5232,8 @@ var Sentry = (function (exports) {
           this._rateLimits = updateRateLimits(this._rateLimits, headers);
           // eslint-disable-next-line deprecation/deprecation
           if (this._isRateLimited(requestType)) {
-              // eslint-disable-next-line deprecation/deprecation
+              IS_DEBUG_BUILD &&
+                  // eslint-disable-next-line deprecation/deprecation
                   logger.warn(`Too many ${requestType} requests, backing off until: ${this._disabledUntil(requestType)}`);
           }
           if (status === 'success') {
@@ -5548,11 +5622,11 @@ var Sentry = (function (exports) {
           return;
       }
       if (!options.eventId) {
-          logger.error('Missing eventId option in showReportDialog call');
+          IS_DEBUG_BUILD && logger.error('Missing eventId option in showReportDialog call');
           return;
       }
       if (!options.dsn) {
-          logger.error('Missing dsn option in showReportDialog call');
+          IS_DEBUG_BUILD && logger.error('Missing dsn option in showReportDialog call');
           return;
       }
       const script = global$2.document.createElement('script');
@@ -5744,7 +5818,7 @@ var Sentry = (function (exports) {
       return event;
   }
   function globalHandlerLog(type) {
-      logger.log(`Global Handler attached: ${type}`);
+      IS_DEBUG_BUILD && logger.log(`Global Handler attached: ${type}`);
   }
   function addMechanismAndCapture(hub, error, event, type) {
       addExceptionMechanism(event, {
@@ -6310,7 +6384,7 @@ var Sentry = (function (exports) {
                   // Juuust in case something goes wrong
                   try {
                       if (_shouldDropEvent(currentEvent, self._previousEvent)) {
-                          logger.warn('Event dropped due to being a duplicate of previously captured event.');
+                          IS_DEBUG_BUILD && logger.warn('Event dropped due to being a duplicate of previously captured event.');
                           return null;
                       }
                   }
@@ -6504,7 +6578,7 @@ var Sentry = (function (exports) {
               return;
           }
           if (!this._isEnabled()) {
-              logger.error('Trying to call showReportDialog with Sentry Client disabled');
+              IS_DEBUG_BUILD && logger.error('Trying to call showReportDialog with Sentry Client disabled');
               return;
           }
           injectReportDialog(Object.assign(Object.assign({}, options), { dsn: options.dsn || this.getDsn() }));
@@ -6671,7 +6745,7 @@ var Sentry = (function (exports) {
       if (client) {
           return client.flush(timeout);
       }
-      logger.warn('Cannot flush events. No client defined.');
+      IS_DEBUG_BUILD && logger.warn('Cannot flush events. No client defined.');
       return resolvedSyncPromise(false);
   }
   /**
@@ -6687,7 +6761,7 @@ var Sentry = (function (exports) {
       if (client) {
           return client.close(timeout);
       }
-      logger.warn('Cannot flush events and disable SDK. No client defined.');
+      IS_DEBUG_BUILD && logger.warn('Cannot flush events and disable SDK. No client defined.');
       return resolvedSyncPromise(false);
   }
   /**
@@ -6712,7 +6786,7 @@ var Sentry = (function (exports) {
       const window = getGlobalObject();
       const document = window.document;
       if (typeof document === 'undefined') {
-          logger.warn('Session tracking in non-browser environment with @sentry/browser is not supported.');
+          IS_DEBUG_BUILD && logger.warn('Session tracking in non-browser environment with @sentry/browser is not supported.');
           return;
       }
       const hub = getCurrentHub();
