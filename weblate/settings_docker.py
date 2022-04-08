@@ -750,10 +750,10 @@ LOGGING = {
             "propagate": False,
         },
         # Logging database queries
-        # "django.db.backends": {
-        #     "handlers": [DEFAULT_LOG],
-        #     "level": "DEBUG",
-        # },
+        "django.db.backends": {
+            "handlers": [DEFAULT_LOG],
+            "level": os.environ.get("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
+        },
         "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},

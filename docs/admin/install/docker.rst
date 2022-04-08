@@ -388,6 +388,9 @@ Generic settings
 
     Configures the logging verbosity.
 
+.. envvar:: WEBLATE_LOGLEVEL_DATABASE
+
+    Configures the logging of the database queries verbosity.
 
 .. envvar:: WEBLATE_SITE_TITLE
 
