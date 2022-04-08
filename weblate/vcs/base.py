@@ -118,6 +118,7 @@ class Repository:
     @classmethod
     def add_response_breadcrumb(cls, response):
         cls.add_breadcrumb(
+            "http.response",
             status_code=response.status_code,
             text=response.text,
         )
