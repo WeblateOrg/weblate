@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-08 05:49+0000\n"
+"PO-Revision-Date: 2022-04-10 01:14+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -4774,9 +4774,7 @@ msgstr ""
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
-msgstr ""
-"例えば、次の自動修正は、翻訳内のすべての文字列 ``foo`` を ``bar`` に置き換え"
-"る:"
+msgstr "翻訳内のすべての文字列 ``foo`` を ``bar`` に置き換える自動修正の例:"
 
 #: ../../admin/checks.rst:21
 msgid ""
@@ -6831,6 +6829,8 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"新規ユーザーに対して、:guilabel:`貢献したプロジェクトを自動的に監視する` "
+"を有効にするかどうかを設定します。デフォルトは ``True`` です。"
 
 #: ../../admin/config.rst:497
 msgid ":ref:`subscriptions`"
@@ -9166,7 +9166,7 @@ msgstr ":http:post:`/hooks/github/`、:ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:167
 msgid "Automatically receiving changes from Bitbucket"
-msgstr ""
+msgstr "変更を Bitbucket から自動受信"
 
 #: ../../admin/continuous.rst:169
 msgid ""
@@ -9175,6 +9175,10 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate は、Bitbucket の Web フックに対応しています。"
+"リポジトリのプッシュ時に起動する Web フックを、インストールした Weblate の "
+"URL に ``/hooks/bitbucket/`` を追加して、宛先（例: ``https://hosted.weblate."
+"org/hooks/bitbucket/``）を指定します。"
 
 #: ../../admin/continuous.rst:178
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -9182,7 +9186,7 @@ msgstr ":http:post:`/hooks/bitbucket/`、:ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:183
 msgid "Automatically receiving changes from GitLab"
-msgstr ""
+msgstr "変更を GitLab から自動受信"
 
 #: ../../admin/continuous.rst:185
 msgid ""
@@ -9190,6 +9194,10 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate は、GitLab のフックに対応しています。プロジェクトの Web フックを、"
+"インストールした Weblate の URL に ``/hooks/gitlab/`` "
+"を追加して、宛先を指定します（例: ``https://hosted.weblate.org/hooks/gitlab/"
+"``）。"
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -9197,7 +9205,7 @@ msgstr ":http:post:`/hooks/gitlab/`、:ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:196
 msgid "Automatically receiving changes from Pagure"
-msgstr "Pagure からの変更を自動的に受信"
+msgstr "変更を Pagure から自動受信"
 
 #: ../../admin/continuous.rst:200
 msgid ""
@@ -9206,10 +9214,10 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"Weblate は、Pagure フックに対応しているので、あなたの Weblate のインストール"
-"上の ``/hooks/pagure/`` URL に宛先がある WEB フックを追加します（例: "
+"Weblate は、Pagure のフックに対応しています。Web フックを、インストールした "
+"Weblate の URL に ``/hooks/pagure/`` を追加して、宛先を指定します（例: "
 "``https://hosted.weblate.org/hooks/pagure/``）。:guilabel:`Project options` "
-"の中の :guilabel:`Activate Web-hooks` に設定する方法:"
+"の中で :guilabel:`Activate Web-hooks` を設定する方法:"
 
 #: ../../admin/continuous.rst:209
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -9217,7 +9225,7 @@ msgstr ":http:post:`/hooks/pagure/`、:ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:214
 msgid "Automatically receiving changes from Azure Repos"
-msgstr ""
+msgstr "変更を Azure リポジトリから自動受信"
 
 #: ../../admin/continuous.rst:218
 msgid ""
@@ -9227,6 +9235,11 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"Weblate は、Azure リポジトリの Web フックに対応しています。:guilabel:`コード "
+"プッシュ` イベントの Web フックを、インストールした Weblate の URL に ``/"
+"hooks/azure/`` を追加して、宛先を指定します（例: ``https://hosted.weblate."
+"org/hooks/azure/``）。これは、:guilabel:`プロジェクトの設定` の中にある "
+":guilabel:`フック サービス` で指定します。"
 
 #: ../../admin/continuous.rst:227
 msgid ""
@@ -9240,7 +9253,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:233
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr ""
+msgstr "変更を Gitea リポジトリから自動受信"
 
 #: ../../admin/continuous.rst:237
 msgid ""
@@ -9250,6 +9263,11 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate は、Gitea の Web フックに対応しています。:guilabel:`プッシュ "
+"イベント` 用の :guilabel:`Gitea の Web フック` を、インストールした Weblate "
+"の URL に ``/hooks/gitea/`` を追加して、宛先を指定します（例: "
+"``https://hosted.weblate.org/hooks/gitea/``）。これは、:guilabel:`Web フック`"
+" リポジトリの中にある :guilabel:`設定` で指定します。"
 
 #: ../../admin/continuous.rst:244
 msgid ""
@@ -9261,7 +9279,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:250
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr ""
+msgstr "変更を Gitee リポジトリから自動受信"
 
 #: ../../admin/continuous.rst:254
 msgid ""
@@ -9271,6 +9289,11 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"Weblate は、Gitee の Web フックに対応しています。:guilabel:`プッシュ` "
+"イベント用の :guilabel:`Web フック` を、インストールした Weblate の URL に "
+"``/hooks/gitee/`` を追加して、宛先を指定します（例: ``https://hosted.weblate."
+"org/hooks/gitee/``）。これは、:guilabel:`管理` リポジトリの中にある "
+":guilabel:`Web フック` で指定します。"
 
 #: ../../admin/continuous.rst:261
 msgid ""
@@ -9282,7 +9305,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:265
 msgid "Automatically updating repositories nightly"
-msgstr ""
+msgstr "リポジトリを毎晩自動更新"
 
 #: ../../admin/continuous.rst:267
 msgid ""
@@ -9290,10 +9313,13 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate は、リモート リポジトリを夜間に自動的に取得し、後で変更をマージする性"
+"能を向上させます。オプションで、:setting:`自動更新` "
+"の設定を有効にすると、これを夜間のマージの実行に変更できます。"
 
 #: ../../admin/continuous.rst:274
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "変更点を Weblate からプッシュ"
 
 #: ../../admin/continuous.rst:276
 msgid ""
@@ -9304,12 +9330,20 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
+"各翻訳コンポーネントは、プッシュ URL を指定できます（参照: :ref: `component-"
+"push`）、その場合、Weblate は変更を、リモート リポジトリにプッシュします。 "
+"Weblate は、"
+"変更をコミットのたびに自動的にプッシュする設定にすることもできます "
+"（これはデフォルトです、参照: :ref:`component-push_on_commit`）。変更を自動的"
+"にプッシュさせない場合は、:guilabel:`リポジトリのメンテナンス` "
+"から手動で操作するか、:option:`wlc push` 経由で API を使用して操作できます。"
 
 #: ../../admin/continuous.rst:283
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
-msgstr ""
+msgstr "プッシュのオプションは、使用する :ref:`vcs` "
+"によって異なります。詳細については、その章を確認してください。"
 
 #: ../../admin/continuous.rst:285
 msgid ""
@@ -9319,19 +9353,20 @@ msgid ""
 "`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or :guilabel:`Pagure` as :"
 "ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Weblate による直接プッシュが不要な場合は、:ref:`vcs-github`、:ref:`vcs-"
-"gitlab`、:ref:`vcs-pagure` のプル型リクエストまたは :ref:`vcs-gerrit` 査読に"
-"対応しています。これを有効にするには、:ref:`component` で :ref:`component-"
-"vcs` として :guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gerrit` また"
-"は :guilabel:`Pagure` を選択します。"
+"Weblate による直接のプッシュが不要な場合は、:ref:`vcs-github`、:ref:`vcs-"
+"gitlab`、:ref:`vcs-pagure` のプル型リクエストまたは :ref:`vcs-gerrit` "
+"査読に対応しています。これを有効にするには、:ref:`component` で :ref"
+":`component-vcs` として "
+":guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gerrit` または "
+":guilabel:`Pagure` を選択します。"
 
 #: ../../admin/continuous.rst:291
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
-msgstr "全体として、Git、GitHub、GitLab ではつぎのオプションが利用できます:"
+msgstr "全体で使用できる、Git、GitHub、GitLab のオプション:"
 
 #: ../../admin/continuous.rst:294
 msgid "Desired setup"
-msgstr ""
+msgstr "理想的な初期設定"
 
 #: ../../admin/continuous.rst:294 ../../api.rst:1163
 msgid ":ref:`component-vcs`"
@@ -9347,7 +9382,7 @@ msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:296
 msgid "No push"
-msgstr ""
+msgstr "プッシュしない"
 
 #: ../../admin/continuous.rst:296 ../../admin/continuous.rst:298
 #: ../../admin/continuous.rst:300
@@ -9358,15 +9393,15 @@ msgstr ""
 #: ../../admin/continuous.rst:302 ../../admin/continuous.rst:306
 #: ../../admin/continuous.rst:310
 msgid "`empty`"
-msgstr ""
+msgstr "`空`"
 
 #: ../../admin/continuous.rst:298
 msgid "Push directly"
-msgstr ""
+msgstr "直接プッシュ"
 
 #: ../../admin/continuous.rst:298 ../../admin/continuous.rst:300
 msgid "SSH URL"
-msgstr ""
+msgstr "SSH URL"
 
 #: ../../admin/continuous.rst:300
 msgid "Push to separate branch"
@@ -9375,11 +9410,11 @@ msgstr "別のブランチに push"
 #: ../../admin/continuous.rst:300 ../../admin/continuous.rst:304
 #: ../../admin/continuous.rst:308 ../../admin/continuous.rst:312
 msgid "Branch name"
-msgstr ""
+msgstr "ブランチ名"
 
 #: ../../admin/continuous.rst:302
 msgid "GitHub pull request from fork"
-msgstr ""
+msgstr "フォークの GitHub プル リクエスト"
 
 #: ../../admin/continuous.rst:302 ../../admin/continuous.rst:304
 #: ../../admin/install/docker.rst:647 ../../admin/install/docker.rst:658
@@ -9388,16 +9423,16 @@ msgstr ""
 
 #: ../../admin/continuous.rst:304
 msgid "GitHub pull request from branch"
-msgstr ""
+msgstr "ブランチの GitHub プル リクエスト"
 
 #: ../../admin/continuous.rst:304 ../../admin/continuous.rst:308
 #: ../../admin/continuous.rst:312
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "SSH URL [#empty]_"
 
 #: ../../admin/continuous.rst:306
 msgid "GitLab merge request from fork"
-msgstr ""
+msgstr "フォークの GitLab マージ リクエスト"
 
 #: ../../admin/continuous.rst:306 ../../admin/continuous.rst:308
 #: ../../admin/install/docker.rst:667 ../../admin/install/docker.rst:676
@@ -9406,11 +9441,11 @@ msgstr ""
 
 #: ../../admin/continuous.rst:308
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "ブランチの GitLab マージ リクエスト"
 
 #: ../../admin/continuous.rst:310
 msgid "Pagure merge request from fork"
-msgstr "フォークからの Pagure マージ型リクエスト"
+msgstr "フォークの Pagure マージ リクエスト"
 
 #: ../../admin/continuous.rst:310 ../../admin/continuous.rst:312
 #: ../../admin/install/docker.rst:685 ../../admin/install/docker.rst:694
@@ -9419,27 +9454,32 @@ msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/continuous.rst:312
 msgid "Pagure merge request from branch"
-msgstr "ブランチからの Pagure マージ型リクエスト"
+msgstr "ブランチの Pagure マージ リクエスト"
 
 #: ../../admin/continuous.rst:315
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
+msgstr ":ref:`component-repo` がプッシュに対応している場合は、空にできます。"
 
 #: ../../admin/continuous.rst:320
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
+"Weblate "
+"コミット後の、変更の自動プッシュを有効にすることもできます。これは、:ref"
+":`component-push_on_commit` で設定します。"
 
 #: ../../admin/continuous.rst:325
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
+"SSH キーの設定は :ref:`vcs-repos` を、Weblate "
+"の変更をコミットするタイミングは :ref:`lazy-commit` を参照してください。"
 
 #: ../../admin/continuous.rst:329
 msgid "Protected branches"
-msgstr ""
+msgstr "保護されたブランチ"
 
 #: ../../admin/continuous.rst:331
 msgid ""
@@ -9448,18 +9488,22 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"保護されたブランチで Weblate を使用している場合は、プル リクエストを使用し、"
+"翻訳の実際の査読をするように設定できます（知らない言語では問題になることがあ"
+"る）。その他の方法は、Weblate プッシュ "
+"ユーザーに対してこの制限を放棄することです。"
 
 #: ../../admin/continuous.rst:336
 msgid "For example on GitHub this can be done in the repository configuration:"
-msgstr ""
+msgstr "GitHub で、リポジトリの設定から指定する例:"
 
 #: ../../admin/continuous.rst:341
 msgid "Interacting with others"
-msgstr ""
+msgstr "他のユーザーとの対話"
 
 #: ../../admin/continuous.rst:343
 msgid "Weblate makes it easy to interact with others using its API."
-msgstr ""
+msgstr "Weblate は、API を使用して他の人と簡単に対話できます。"
 
 #: ../../admin/continuous.rst:347
 msgid ":ref:`api`"
@@ -9467,7 +9511,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:352
 msgid "Lazy commits"
-msgstr ""
+msgstr "遅延コミット"
 
 #: ../../admin/continuous.rst:354
 msgid ""
@@ -9477,30 +9521,37 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
+"Weblate は、可能であれば、同じ著者のコミットを 1 "
+"つのコミットにグループ化します。これによりコミット数が大幅に削減されますが、"
+"VCS リポジトリを同期させる場合（これは、デフォルトで :guilabel:`管理者` "
+"グループに許可されます。参照: :ref:`privileges`）に備えて、コミットを実行する"
+"ように直接指定することが必要になります。"
 
 #: ../../admin/continuous.rst:360
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
-msgstr ""
+msgstr "このモードで、変更がコミットされる条件:"
 
 #: ../../admin/continuous.rst:363
 msgid "Somebody else changes an already changed string."
-msgstr ""
+msgstr "他の誰かがすでに変更した文字列を変更する。"
 
 #: ../../admin/continuous.rst:364
 msgid "A merge from upstream occurs."
-msgstr "アップストリームからのマージが発生します。"
+msgstr "上流からのマージが発生した。"
 
 #: ../../admin/continuous.rst:365
 msgid "An explicit commit is requested."
-msgstr ""
+msgstr "直接コミットが要求される。"
 
 #: ../../admin/continuous.rst:366
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
+"変更が、:ref:`component` で :ref:`component-commit_pending_age` "
+"として設定した期間を超えている。"
 
 #: ../../admin/continuous.rst:370
 msgid ""
@@ -9508,16 +9559,20 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` add-on in that case."
 msgstr ""
+"コミットは、すべてのコンポーネントに対して作成されます。そのため、多くのコン"
+"ポーネントがある場合も、多くのコミットが表示されます。その場合は、:ref"
+":`addon-weblate.git.squash` アドオンを使用できます。"
 
 #: ../../admin/continuous.rst:374
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit:"
-msgstr ""
+msgstr "経過時間を検査せずに、変更をより頻繁にコミットする場合は、コミットを実行する"
+"通常のタスクをスケジュールできます。"
 
 #: ../../admin/continuous.rst:383
 msgid "Processing repository with scripts"
-msgstr ""
+msgstr "スクリプトを使用するリポジトリの処理"
 
 #: ../../admin/continuous.rst:385
 msgid ""
@@ -9525,21 +9580,25 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
+"Weblate がリポジトリとのやり取りをカスタマイズするには、:ref:`addons` "
+"を使用します。アドオンを使用して外部スクリプトを実行する方法については、:ref"
+":`addon-script` を確認してください。"
 
 #: ../../admin/continuous.rst:392
 msgid "Keeping translations same across components"
-msgstr ""
+msgstr "コンポーネント間で翻訳を同じ状態に維持"
 
 #: ../../admin/continuous.rst:394
 msgid ""
 "Once you have multiple translation components, you might want to ensure that "
 "the same strings have same translation. This can be achieved at several "
 "levels."
-msgstr ""
+msgstr "複数の翻訳コンポーネントを作成したら、同じ文字列は同じ翻訳になるようにしてく"
+"ださい。これはどの段階でも実現できます。"
 
 #: ../../admin/continuous.rst:398
 msgid "Translation propagation"
-msgstr ""
+msgstr "翻訳の反映"
 
 #: ../../admin/continuous.rst:400
 msgid ""
@@ -9548,16 +9607,22 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
+":ref:`component-allow_translation_propagation` "
+"を有効にすると（デフォルトについては、参照: :ref:`component`）、一致する文字"
+"列を持つすべてのコンポーネントで、すべての新しい翻訳が自動的に実行されます。"
+"このような翻訳は、すべてのコンポーネントの現在の翻訳ユーザーに適切に署名され"
+"ます。"
 
 #: ../../admin/continuous.rst:407
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
-msgstr ""
+msgstr "翻訳の反映は、キーがモノリンガルの翻訳形式と一致する必要があるため、翻訳キー"
+"の作成時には注意してください。"
 
 #: ../../admin/continuous.rst:411
 msgid "Consistency check"
-msgstr ""
+msgstr "整合性検査"
 
 #: ../../admin/continuous.rst:413
 msgid ""
@@ -9565,6 +9630,8 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+":ref:`check-inconsistent` 検査は、文字列が一致しないたびに起動します。これを"
+"利用して、このような違いを手動で確認し、適切な翻訳を選択できます。"
 
 #: ../../admin/continuous.rst:420
 msgid ""
@@ -9574,10 +9641,14 @@ msgid ""
 "repository update using add-on (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
+"異なるコンポーネントに基づく自動翻訳は、コンポーネント間で翻訳を同期する方法"
+"です。手動で起動する（参照: :ref:`自動翻訳`）ことも、アドオンを使用してリポジ"
+"トリの更新時に自動的に実行する（参照:ref:`addon-weblate.auttranslate."
+"auttranslate`）こともできます。"
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "Weblate のカスタマイズ"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -15821,20 +15892,25 @@ msgid ""
 "the Django sources, or as an extended set in a script called :command:"
 "`weblate` installable atop Weblate)."
 msgstr ""
+"基本的な管理コマンドがあります（Django ソースでは、:file:`./manage.py` "
+"として、または Weblate にインストール可能な :command:`weblate` "
+"というスクリプトの拡張セットとして使用できます）。"
 
 #: ../../admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "管理コマンドの起動"
 
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
-msgstr ""
+msgstr "前述のように、起動方法は Weblate のインストール方法によ方法はなります。"
 
 #: ../../admin/management.rst:22
 msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"Weblate に virtualenv を使用する場合は、:command:`weblate` へのフル "
+"パスを指定するか、呼び出す前に virtualenv を有効化します。"
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -15842,6 +15918,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"ソースコードを直接（tarball または Git チェックアウトから）使用している場合、"
+"管理スクリプトは Weblate ソースで使用可能な :file:`./manage.py` "
+"です。実行方法:"
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -16614,7 +16693,7 @@ msgstr "翻訳メモリ"
 #: ../../admin/memory.rst:9
 msgid ""
 "Weblate comes with a built-in translation memory consisting of the following:"
-msgstr "Weblate に組み込まれている、翻訳メモリの構成項目:"
+msgstr "Weblate に組み込まれた、翻訳メモリの構成項目:"
 
 #: ../../admin/memory.rst:11
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
@@ -16624,11 +16703,11 @@ msgstr "手動でインポートした翻訳メモリ（参照: :ref:`memory-use
 msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
-msgstr "Weblate で自動的に保存した翻訳（:ref:`memory-scopes` による）。"
+msgstr "Weblate が自動的に保存した翻訳（:ref:`memory-scopes` による）。"
 
 #: ../../admin/memory.rst:13
 msgid "Automatically imported past translations."
-msgstr "自動的にインポートした過去の翻訳。"
+msgstr "自動的にインポートされた過去の翻訳。"
 
 #: ../../admin/memory.rst:15
 msgid "Content in the translation memory can be applied one of two ways:"
@@ -32261,8 +32340,8 @@ msgid ""
 "`Repository maintenance` lets you manipulate with the repository."
 msgstr ""
 "Weblate は、すべての翻訳をバージョン コントロール リポジトリに格納します。リ"
-"ポジトリは上流に接続でき、また内部だけに接続することもできます。:guilabel:"
-"`Repository maintenance` からリポジトリを操作します。"
+"ポジトリは上流に接続でき、また内部だけに接続することもできます。:guilabel:`リ"
+"ポジトリのメンテナンス` からリポジトリを操作します。"
 
 #: ../../devel/integration.rst:120
 msgid ""
