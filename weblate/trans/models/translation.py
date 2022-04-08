@@ -386,6 +386,7 @@ class Translation(
         details["reason"] = self.reason
 
         self.log_info("processing %s, %s", self.filename, self.reason)
+        self.component.check_template_valid()
 
         # List of updated units (used for cleanup and duplicates detection)
         updated = {}

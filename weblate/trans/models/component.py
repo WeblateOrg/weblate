@@ -55,7 +55,7 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import FileParseError
+from weblate.trans.exceptions import FileParseError, InvalidTemplate
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
@@ -770,6 +770,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.batched_checks = set()
         self.needs_variants_update = False
         self._invalidate_scheduled = False
+        self._template_check_done = False
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -1932,6 +1933,17 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             )
             return False
 
+    def check_template_valid(self):
+        if self._template_check_done:
+            return
+        if self.has_template():
+            # Avoid parsing if template is invalid
+            try:
+                self.template_store.check_valid()
+            except (FileParseError, ValueError) as exc:
+                raise InvalidTemplate(exc)
+        self._template_check_done = True
+
     def _create_translations(  # noqa: C901
         self,
         force: bool = False,
@@ -1957,17 +1969,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         source_file = self.template
 
-        if self.has_template():
-            # Avoid parsing if template is invalid
-            try:
-                self.template_store.check_valid()
-            except (FileParseError, ValueError) as exc:
-                self.log_warning(
-                    "skipping update due to error in parsing template: %s", exc
-                )
-                self.update_import_alerts()
-                raise
-        else:
+        if not self.has_template():
             # This creates the translation when necessary
             translation = self.source_translation
 
@@ -2025,9 +2027,17 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         "DuplicateLanguage", codes=codes, language_code=lang.code
                     )
                     continue
-                translation = Translation.objects.check_sync(
-                    self, lang, code, path, force, request=request
-                )
+                try:
+                    translation = Translation.objects.check_sync(
+                        self, lang, code, path, force, request=request
+                    )
+                except InvalidTemplate as error:
+                    self.log_warning(
+                        "skipping update due to error in parsing template: %s",
+                        error.nested,
+                    )
+                    self.update_import_alerts()
+                    raise error.nested
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = code
