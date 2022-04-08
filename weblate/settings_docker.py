@@ -248,7 +248,8 @@ PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN")
 
 # Default pull request message.
 # Please see the documentation for more details.
-DEFAULT_PULL_MESSAGE = os.environ.get("WEBLATE_DEFAULT_PULL_MESSAGE")
+if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
+    DEFAULT_PULL_MESSAGE = os.environ["WEBLATE_DEFAULT_PULL_MESSAGE"]
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
