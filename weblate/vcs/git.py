@@ -890,6 +890,7 @@ class GithubRepository(GitMergeRequestBase):
         except OSError as error:
             report_error(cause="request")
             raise RepositoryException(0, str(error))
+        self.add_response_breadcrumb(response)
         try:
             data = response.json()
         except JSONDecodeError as error:
@@ -1002,6 +1003,7 @@ class GiteaRepository(GitMergeRequestBase):
         except OSError as error:
             report_error(cause="request")
             raise RepositoryException(0, str(error))
+        self.add_response_breadcrumb(response)
         try:
             data = response.json()
         except JSONDecodeError as error:
@@ -1200,6 +1202,7 @@ class GitLabRepository(GitMergeRequestBase):
             headers={"Authorization": "Bearer {}".format(credentials["token"])},
             json=json,
         )
+        self.add_response_breadcrumb(response)
         data = response.json()
         error_message = ""
         if "error" in data:
@@ -1339,6 +1342,7 @@ class PagureRepository(GitMergeRequestBase):
             data=data,
             params=params,
         )
+        self.add_response_breadcrumb(response)
         response_data = response.json()
 
         # Log and parase all errors. Sometimes GitHub returns the error

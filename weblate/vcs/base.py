@@ -116,6 +116,13 @@ class Repository:
         add_breadcrumb(category="vcs", message=message, **data)
 
     @classmethod
+    def add_response_breadcrumb(cls, response):
+        cls.add_breadcrumb(
+            status_code=response.status_code,
+            text=response.text,
+        )
+
+    @classmethod
     def log(cls, message, level: int = logging.DEBUG):
         return LOGGER.log(level, "%s: %s", cls._cmd, message)
 
