@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-07 16:07+0000\n"
+"PO-Revision-Date: 2022-04-08 05:49+0000\n"
 "Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -9612,7 +9612,7 @@ msgstr ""
 
 #: ../../admin/install.rst:486
 msgid "Configuring Weblate to use MySQL/MariaDB"
-msgstr "Mengonfigurasi Weblate untuk menggunakan MySQL/ MariaDB"
+msgstr "Mengonfigurasi Weblate untuk menggunakan MySQL/MariaDB"
 
 #: ../../admin/install.rst:488
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
@@ -9721,6 +9721,8 @@ msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr ""
+"`Variabel Lingkungan Proksi <https://everything.curl.dev/usingcurl/proxies/"
+"env>`_"
 
 #: ../../admin/install.rst:606
 msgid "Adjusting configuration"
@@ -9736,6 +9738,9 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
+"Salin :file:`weblate/settings_example.py` ke :file:`weblate/settings.py` dan "
+"sesuaikan agar sesuai dengan pengaturan Anda. Mungkin Anda ingin "
+"menyesuaikan opsi berikut:"
 
 #: ../../admin/install.rst:618
 msgid "``ADMINS``"
@@ -9807,6 +9812,8 @@ msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:687
 msgid "``DEBUG``"
@@ -9976,6 +9983,8 @@ msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
+"Sebelum rilis 4.2 kerangka kerja situs Django digunakan sebagai gantinya, "
+"silakan lihat :doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:829
 msgid ""
@@ -10050,12 +10059,16 @@ msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
+"Periksa kinerja server basis data atau ubah konfigurasinya, misalnya "
+"menggunakan `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:893
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:901
 msgid "Enable caching"
@@ -10075,7 +10088,7 @@ msgstr ""
 
 #: ../../admin/install.rst:929
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ""
+msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:935
 msgid "Avatar caching"
@@ -10092,6 +10105,8 @@ msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:973
 msgid "Configure e-mail sending"
@@ -10167,6 +10182,8 @@ msgid ""
 "You can generate a new key using :file:`weblate/examples/generate-secret-"
 "key` shipped with Weblate."
 msgstr ""
+"Anda dapat membuat kunci baru menggunakan :file:`weblate/examples/generate-"
+"secret-key` yang dikirimkan bersama Weblate."
 
 #: ../../admin/install.rst:1037
 msgid ":setting:`SECRET_KEY`"
@@ -10286,6 +10303,8 @@ msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there ``LANG="
 "\"C.UTF-8\"``."
 msgstr ""
+"Misalnya dengan mengedit :file:`/etc/default/locale` dan mengaturnya ``LANG="
+"\"C.UTF-8\"``."
 
 #: ../../admin/install.rst:1148
 msgid ""
@@ -10296,13 +10315,15 @@ msgstr ""
 
 #: ../../admin/install.rst:1152
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "Apache di Ubuntu menggunakan :file:`/etc/Apache2/envvars`:"
 
 #: ../../admin/install.rst:1159
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"Apache di CentOS menggunakan :file:`/etc/sysconfig/httpd` (atau :file:`/opt/"
+"rh/httpd24/root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1169
 msgid "Using custom certificate authority"
@@ -10326,6 +10347,11 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
+"Pendekatan yang lebih disukai adalah melakukan ini di tingkat sistem, "
+"silakan periksa dokumentasi distro Anda untuk detail lebih lanjut (misalnya "
+"pada Debian dapat dilakukan dengan menempatkan sertifikat CA ke dalam "
+":file:`/usr/local/share/ca-certificates/` dan menjalankan :command:`update-"
+"ca-certificates`)."
 
 #: ../../admin/install.rst:1180
 msgid ""
@@ -10383,6 +10409,8 @@ msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
+"Jika Anda tidak berpengalaman dengan layanan yang dijelaskan di bawah ini, "
+"Anda mungkin ingin mencoba :doc:`install/docker`."
 
 #: ../../admin/install.rst:1239
 msgid ""
@@ -28670,7 +28698,7 @@ msgstr "Agen pengguna"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
-msgstr "PC / Linux / Firefox 70.0"
+msgstr "PC/Linux/Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19
 msgid "**timestamp**"
@@ -28725,17 +28753,14 @@ msgstr ""
 "lingkungan yang menghargai keamanan dan privasi pengguna kami."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows The Linux Foundation Core Infrastructure "
-#| "Initiative Best Practices."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://bestpractices."
 "coreinfrastructure.org/projects/552>`_."
 msgstr ""
-"Pengembangan Weblate mengikuti Best Practices dari The Linux Foundation Core "
-"Infrastructure Initiative."
+"Pengembangan Weblate mematuhi `Best Practices of the Linux Foundation's Core "
+"Infrastructure Initiative <https://bestpractices.coreinfrastructure.org/"
+"projects/552>`_."
 
 #: ../../contributing/security.rst:12
 #, fuzzy
@@ -29539,7 +29564,7 @@ msgstr "``po/*.po``"
 
 #: ../../devel/gettext.rst:228
 msgid "``po/hello.pot``"
-msgstr "``po/assalamualaikum.pot``"
+msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 #, fuzzy
@@ -29750,10 +29775,8 @@ msgid "Weblate basics"
 msgstr ""
 
 #: ../../snippets/basics.rst:5
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Project and component structure"
-msgstr "Proyek / Komponen"
+msgstr "Struktur proyek dan komponen"
 
 #: ../../snippets/basics.rst:7
 msgid ""
@@ -29824,6 +29847,8 @@ msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
 msgstr ""
+"Atau, Anda dapat menggunakan :doc:`/api` untuk memperbarui terjemahan agar "
+"sesuai dengan versi terbarunya."
 
 #: ../../devel/integration.rst:38
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -38705,7 +38730,7 @@ msgstr "Grup Peninjau"
 
 #: ../../workflows.rst:88 ../../workflows.rst:120
 msgid "N/A"
-msgstr "Tidak Ada"
+msgstr "—"
 
 #: ../../workflows.rst:88
 msgid "Not used."
@@ -38762,12 +38787,8 @@ msgid "*Any user* can edit unapproved translations."
 msgstr ""
 
 #: ../../workflows.rst:137
-#, fuzzy
-#| msgid ""
-#| "Enable this if you intend for dedicated reviewers to approve translations."
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr ""
-"Aktifkan ini jika Anda ingin agar pemeriksa khusus menyetujui terjemahan."
+msgstr "*Peninjau* dapat menyetujui/tidak menyetujui string."
 
 #: ../../workflows.rst:138
 msgid "*Reviewer* can edit all translations (including approved ones)."
