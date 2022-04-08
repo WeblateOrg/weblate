@@ -18,7 +18,7 @@
 #
 
 from django.conf import settings
-from requests.eceptions import RequestException
+from requests.exceptions import RequestException
 
 from weblate.machinery.base import (
     MachineTranslation,
