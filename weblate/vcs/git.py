@@ -1205,12 +1205,13 @@ class GitLabRepository(GitMergeRequestBase):
         if "error" in data:
             error_message = str(data["error"])
             self.log(error_message, level=logging.INFO)
-        if "message" in data:
-            if error_message:
-                error_message += ": "
-            message = str(data["message"])
-            error_message += message
-            self.log(message, level=logging.INFO)
+        for extra in ("message", "error_description"):
+            if extra in data:
+                if error_message:
+                    error_message += ": "
+                message = str(data[extra])
+                error_message += message
+                self.log(message, level=logging.INFO)
         return data, error_message
 
     def get_target_project_id(self, credentials: Dict):
