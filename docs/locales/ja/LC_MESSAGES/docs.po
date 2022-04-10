@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-10 01:14+0000\n"
+"PO-Revision-Date: 2022-04-12 11:59+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1218,6 +1218,7 @@ msgid "Uploads"
 msgstr "アップロード"
 
 #: ../../admin/access.rst:528
+#, fuzzy
 msgid "Define author of uploaded translation"
 msgstr "アップロードする翻訳には署名をする"
 
@@ -6437,8 +6438,8 @@ msgid ""
 "but without country specific variants."
 msgstr ""
 "新しい翻訳を開始するためにユーザーに提供する言語の一覧。指定しない場合は、一"
-"般的に使用されているすべての言語を含む組み込みリストを使用しますが、国別の固"
-"有の別表記は含みません。"
+"般的に使用されているすべての言語を含む組み込みリストを使用しますが、国の指定"
+"がついた言語コードは含みません。"
 
 #: ../../admin/config.rst:241
 msgid ""
@@ -7121,9 +7122,8 @@ msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:761
 msgid "GitLab username used to send merge requests for translation updates."
-msgstr ""
-"GitLab のユーザー名は、翻訳の更新のためのマージ型リクエストを送信するために使"
-"用します。"
+msgstr "GitLab のユーザー名は、翻訳の更新のためのマージリクエストを送信するために使用"
+"します。"
 
 #: ../../admin/config.rst:765
 msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
@@ -7170,9 +7170,8 @@ msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:815
 msgid "GitHub username used to send pull requests for translation updates."
-msgstr ""
-"GitHub のユーザー名は、翻訳の更新のためのマージ型リクエストを送信するために使"
-"用されます。"
+msgstr "GitHub のユーザー名は、翻訳の更新のためのマージリクエストを送信するために使用"
+"されます。"
 
 #: ../../admin/config.rst:819
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
@@ -7186,9 +7185,8 @@ msgstr "GITHUB_TOKEN"
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
-msgstr ""
-"GitHub の個人アクセス トークンは、翻訳更新のためのプル型リクエストを送信する"
-"ための API コールに使用されます。"
+msgstr "GitHub の個人アクセス トークンは、"
+"翻訳更新のためのプルリクエストを送信するための API コールに使用されます。"
 
 #: ../../admin/config.rst:834
 msgid ""
@@ -8263,9 +8261,7 @@ msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1684
 msgid "Pagure username used to send merge requests for translation updates."
-msgstr ""
-"翻訳を更新するマージ型リクエストを送信するために使用する Pagure のユーザー"
-"名。"
+msgstr "翻訳を更新するマージリクエストを送信するために使用する Pagure のユーザー名。"
 
 #: ../../admin/config.rst:1688
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
@@ -8565,7 +8561,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1935
 msgid "Turn this off if you want to different translations for each variant."
-msgstr "別表記ごとに異なる翻訳を行う場合は、この機能を無効にします。"
+msgstr "国や地域ごとに異なる翻訳を行う場合は、この機能を無効にします。"
 
 #: ../../admin/config.rst:1940
 msgid "SITE_DOMAIN"
@@ -9354,7 +9350,7 @@ msgid ""
 "ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "Weblate による直接のプッシュが不要な場合は、:ref:`vcs-github`、:ref:`vcs-"
-"gitlab`、:ref:`vcs-pagure` のプル型リクエストまたは :ref:`vcs-gerrit` "
+"gitlab`、:ref:`vcs-pagure` のプルリクエストまたは :ref:`vcs-gerrit` "
 "査読に対応しています。これを有効にするには、:ref:`component` で :ref"
 ":`component-vcs` として "
 ":guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gerrit` または "
@@ -11894,7 +11890,7 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
-"Weblate には Python3 が必要なので、modwsgi で Python 3 variant "
+"Weblate には Python 3 が必要なので、Python 3 版の modwsgi "
 "が実行されていることを確認してください。通常は、``libapache2-mod-wsgi-py3`` "
 "のように、別のパッケージとして提供されています。"
 
@@ -13090,16 +13086,16 @@ msgid ""
 "Configures Pagure personal access token for Pagure merge-requests via API by "
 "changing :setting:`PAGURE_TOKEN`"
 msgstr ""
-":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure のマージ型リクエストに"
-"対して、Pagure の個人用アクセス トークンを構成する"
+":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure "
+"のマージリクエストに対して、Pagure の個人用アクセス トークンを構成する"
 
 #: ../../admin/install/docker.rst:698
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
-":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure のプル型リクエストに対"
-"して、Pagure の個人用アクセス トークンを構成する"
+":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure "
+"のプルリクエストに対して、Pagure の個人用アクセス トークンを構成する"
 
 #: ../../admin/install/docker.rst:703
 #, fuzzy
@@ -17253,7 +17249,7 @@ msgstr "接続制限が対象の操作:"
 
 #: ../../admin/optionals.rst:261
 msgid "Name"
-msgstr "操作内容"
+msgstr "名前"
 
 #: ../../admin/optionals.rst:261
 msgid "Allowed attempts"
@@ -23698,11 +23694,11 @@ msgstr ""
 
 #: ../../changes.rst:233
 msgid "Improved error messages when creating pull requests."
-msgstr "プル型リクエスト作成時のエラー メッセージの改善。"
+msgstr "プルリクエスト作成時のエラー メッセージの改善。"
 
 #: ../../changes.rst:234
 msgid "Fixed creating pull requests on Pagure."
-msgstr "Pagure でのプル型リクエストの作成の修正。"
+msgstr "Pagure でのプルリクエストの作成の修正。"
 
 #: ../../changes.rst:235
 msgid "Fixed triggering automatically installed add-ons."
@@ -24295,7 +24291,7 @@ msgstr "連続重複語検査の精度向上。"
 
 #: ../../changes.rst:416
 msgid "Added support for Pagure pull requests."
-msgstr "Pagure のプル型リクエストの対応の追加。"
+msgstr "Pagure のプルリクエストの対応の追加。"
 
 #: ../../changes.rst:417
 msgid "Improved error messages for failed registrations."
@@ -29414,8 +29410,8 @@ msgid ""
 "other form are welcome too."
 msgstr ""
 "Weblateは `GitHub <https://github.com/WeblateOrg/weblate>`_ 上で開発していま"
-"す。コードをフォークしてプル型リクエストを開くことができます。他の形式のパッ"
-"チも歓迎します。"
+"す。コードをフォークしてプルリクエストを開くことができます。他の形式のパッチ"
+"も歓迎します。"
 
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
@@ -32470,8 +32466,8 @@ msgid ""
 "care@weblate.org to get listed."
 msgstr ""
 "ご使用のフレームワークに Weblate を組み込む手段がありますか？ここに掲載されま"
-"す！変更点を記載したプル型リクエストを直接提出するか、 care@weblate.org まで"
-"連絡ください。"
+"す！変更点を記載したプルリクエストを直接提出するか、 care@weblate.org "
+"まで連絡ください。"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -35027,8 +35023,7 @@ msgstr "`Inno Setup INI ファイル`"
 msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
-msgstr ""
-"現在、Unicode ファイル （``.islu``）のみに対応しており、ANSI バリアント（``."
+msgstr "現在、Unicode ファイル （``.islu``）のみに対応しており、ANSI 版（``."
 "isl``）には対応していません。"
 
 #: ../../formats.rst:596
@@ -38187,7 +38182,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1011
 msgid "Translation does not match regular expression"
-msgstr "翻訳文には正規表現に合致するものはありません"
+msgstr "翻訳文が正規表現にマッチしない"
 
 #: ../../user/checks.rst:1013
 msgid "``weblate.checks.placeholders.RegexCheck``"
@@ -38477,7 +38472,7 @@ msgstr "ゼロ幅スペース"
 
 #: ../../user/checks.rst:1218
 msgid "Translation contains extra zero-width space character"
-msgstr "ゼロ幅のスペース文字を含む翻訳"
+msgstr "ゼロ幅スペース文字を含む翻訳文"
 
 #: ../../user/checks.rst:1220
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
@@ -38650,26 +38645,29 @@ msgstr ""
 "ください。"
 
 #: ../../user/checks.rst:1327
+#, fuzzy
 msgid "Unpluralised"
-msgstr "複数形の型と異なる"
+msgstr "複数形になっていない"
 
 #: ../../user/checks.rst:1329
+#, fuzzy
 msgid "The string is used as plural, but not using plural forms"
-msgstr "文字列は、複数形の型（つづり）と異なるが、複数形として解釈させる"
+msgstr "文字列は複数形だが、複数形として区別されていない"
 
 #: ../../user/checks.rst:1331
 msgid "``weblate.checks.source.OptionalPluralCheck``"
 msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1334
+#, fuzzy
 msgid ""
 "The string is used as a plural, but does not use plural forms. In case your "
 "translation system supports this, you should use the plural aware variant of "
 "it."
 msgstr ""
 "文字列は、複数形の型（つづり）とは異なっているが、複数形として解釈させる。翻"
-"訳システムがこれに対応していない場合は、判明している単語を複数形の型（つづ"
-"り）として個別に登録してください。"
+"訳システムがこれに対応していない場合は、判明している単語を複数形の型（つづり"
+"）として個別に登録してください。"
 
 #: ../../user/checks.rst:1338
 msgid "For example with Gettext in Python it could be:"
@@ -41230,7 +41228,7 @@ msgstr ""
 
 #: ../../vcs.rst:267
 msgid "GitHub pull requests"
-msgstr "GitHub プル型リクエスト"
+msgstr "GitHub プルリクエスト"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -41238,9 +41236,9 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、変更された翻訳をプル型リクエス"
-"トとしてプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_ "
+"を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、変更された翻訳をプルリ"
+"クエストとしてプッシュできるようになります。"
 
 #: ../../vcs.rst:274
 msgid ""
@@ -41248,9 +41246,9 @@ msgid ""
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
 msgstr ""
-":ref:`vcs-git` は変更を直接リポジトリにプッシュしますが、:ref:`vcs-github` は"
-"プル型リクエストを作成します。後者は Git リポジトリに接続する場合には必要あり"
-"ません。"
+":ref:`vcs-git` は変更を直接リポジトリにプッシュしますが、:ref:`vcs-github` "
+"はプルリクエストを作成します。後者は Git "
+"リポジトリに接続する場合には必要ありません。"
 
 #: ../../vcs.rst:278
 msgid ""
@@ -41272,7 +41270,7 @@ msgstr ""
 
 #: ../../vcs.rst:295
 msgid "GitLab merge requests"
-msgstr "GitLab マージ型リクエスト"
+msgstr "GitLab マージリクエスト"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -41280,9 +41278,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GitLab API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、変更された翻訳をプル型リクエス"
-"トとしてプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`GitLab API`_ を使用して "
+"、薄いレイヤーを :ref:`vcs-git` に追加して、変更された翻訳をプルリクエストと"
+"してプッシュできるようになります。"
 
 #: ../../vcs.rst:303
 msgid ""
@@ -41292,9 +41290,9 @@ msgid ""
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
 "Gitリポジトリにアクセスするためにこれを使う必要はありません。通常 :ref:`vcs-"
-"git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い方で"
-"す。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref:`vcs-"
-"gitlab` ではマージ型リクエストが作成されます。"
+"git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い方です"
+"。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref:`vcs-"
+"gitlab` ではマージリクエストが作成されます。"
 
 #: ../../vcs.rst:308
 msgid ""
@@ -41316,7 +41314,7 @@ msgstr ""
 
 #: ../../vcs.rst:325
 msgid "Pagure merge requests"
-msgstr "Pagure マージ型リクエスト"
+msgstr "Pagure マージリクエスト"
 
 #: ../../vcs.rst:329
 msgid ""
@@ -41324,9 +41322,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加するだけで、変更された翻訳をプル型リ"
-"クエストとしてプッシュできます。"
+"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用して "
+"、薄いレイヤーを :ref:`vcs-git` "
+"に追加するだけで、変更された翻訳をプルリクエストとしてプッシュできます。"
 
 #: ../../vcs.rst:333
 msgid ""
@@ -41335,10 +41333,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Git リポジトリにアクセスするために、これを使う必要はありません。通常 :ref:"
-"`vcs-git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い"
-"方です。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref:"
-"`vcs-pagure` ではマージ型リクエストが作成されます。"
+"Git リポジトリにアクセスするために、これを使う必要はありません。通常 :ref"
+":`vcs-git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い"
+"方です。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref"
+":`vcs-pagure` ではマージリクエストが作成されます。"
 
 #: ../../vcs.rst:338
 msgid ""
