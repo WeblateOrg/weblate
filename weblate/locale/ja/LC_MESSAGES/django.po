@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
 "PO-Revision-Date: 2022-04-10 15:24+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1525,7 +1525,7 @@ msgid ""
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
 "msgmerge を使用して、すべての PO ファイル（「ファイルマスク」の設定内容）を、"
-"POT ファイル（「新しい翻訳用テンプレート」の設定内容）と一致するように更新し"
+"POT ファイル（「新しい翻訳用テンプレート」の設定内容）と整合するように更新し"
 "ます。"
 
 #: weblate/addons/gettext.py:313
@@ -1828,6 +1828,7 @@ msgstr "翻訳用に複数言語の追加"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
+#, fuzzy
 msgid "Define author of uploaded translation"
 msgstr "アップロードする翻訳には署名をする"
 
@@ -2095,7 +2096,7 @@ msgstr "%s（サイト全体での権限）"
 #: weblate/templates/trans/project-access.html:146
 #: weblate/templates/trans/project-access.html:256 weblate/trans/forms.py:1390
 msgid "Name"
-msgstr "操作内容"
+msgstr "名前"
 
 #: weblate/auth/models.py:88
 msgid "Choose permissions granted to this role."
@@ -2489,7 +2490,7 @@ msgstr "ゼロ幅スペース"
 
 #: weblate/checks/chars.py:329
 msgid "Translation contains extra zero-width space character"
-msgstr "ゼロ幅のスペース文字を含む翻訳"
+msgstr "ゼロ幅スペース文字を含む翻訳文"
 
 #: weblate/checks/chars.py:346 weblate/checks/flags.py:74
 msgid "Maximum length of translation"
@@ -2906,7 +2907,7 @@ msgid ""
 msgstr "対応する XML タグが欠損しているプレースホルダーを含む翻訳: %s"
 
 #: weblate/checks/icu.py:497
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
 msgstr "XML タグに変換できないプレースホルダーを含む翻訳: %s"
@@ -2996,7 +2997,7 @@ msgstr "正規表現"
 
 #: weblate/checks/placeholders.py:112
 msgid "Translation does not match regular expression"
-msgstr "翻訳文には正規表現に合致するものはありません"
+msgstr "翻訳文が正規表現にマッチしない"
 
 #: weblate/checks/placeholders.py:141
 #, python-format
@@ -3044,12 +3045,14 @@ msgid "Source and translation are identical"
 msgstr "原文と翻訳文が同一"
 
 #: weblate/checks/source.py:42
+#, fuzzy
 msgid "Unpluralised"
-msgstr "複数形の型と異なる"
+msgstr "複数形になっていない"
 
 #: weblate/checks/source.py:43
+#, fuzzy
 msgid "The string is used as plural, but not using plural forms"
-msgstr "文字列は、複数形の型（つづり）と異なるが、複数形として解釈させる"
+msgstr "文字列は複数形だが、複数形として区別されていない"
 
 #: weblate/checks/source.py:55
 msgid "Ellipsis"
@@ -7780,9 +7783,8 @@ msgstr "検索結果を確認してから置換してください。"
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
-msgstr ""
-"最初の 250 個の一致のみを表示して置換します。さらに置換するには、再度置換を実"
-"行します。"
+msgstr "最初に見つかった 250 "
+"個のみを表示して置換します。さらに置換するには、再度置換を実行してください。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
@@ -8431,8 +8433,8 @@ msgid ""
 "until you finish the setup."
 msgstr ""
 "このプロジェクトは試用期間中であり、公開されてだれでもアクセスできます。設定"
-"が完了するまで関与させたくない場合は、作業にともなうお知らせの通知を停止でき"
-"ます。"
+"が完了するまで翻訳されたくない場合は、プロジェクトをロックしてお知らせを出す"
+"ことができます。"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -9405,8 +9407,7 @@ msgstr "トークンをクリップボードにコピー"
 #, python-format
 msgid ""
 "Token created. Please save it now, as it won't be displayed again: %(token)s"
-msgstr ""
-"トークンを作成しました。2 度と表示されることはありません。今すぐ保存してくだ"
+msgstr "トークンを作成しました。二度と表示されることはありません。今すぐ保存してくだ"
 "さい: %(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
@@ -11052,7 +11053,7 @@ msgstr "スクリーンショット アップロード"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
 msgid "String updated in the repository"
-msgstr "リポジトリで更新された文字列"
+msgstr "リポジトリでの文字列の更新"
 
 #: weblate/trans/models/change.py:436
 msgid "New string to translate"
@@ -11181,8 +11182,8 @@ msgid ""
 "providers to submit merge requests."
 msgstr ""
 "翻訳時に使用するリポジトリに、アクセスするためのバージョン管理システム。マー"
-"ジ型リクエストの送信のために、サードパーティ プロバイダとの統合の追加も選択で"
-"きます。"
+"ジリクエストの送信のために、サードパーティ "
+"プロバイダとの統合の追加も選択できます。"
 
 #: weblate/trans/models/component.py:279
 msgid ""
@@ -12439,7 +12440,7 @@ msgstr "翻訳の保存後に、新しく発生した検査不合格項目: {0}"
 
 #: weblate/trans/views/edit.py:416
 msgid "Invalid merge request!"
-msgstr "マージ型リクエストが正しくありません！"
+msgstr "マージリクエストが正しくありません！"
 
 #: weblate/trans/views/edit.py:434
 msgid "Invalid revert request!"
@@ -12769,7 +12770,7 @@ msgstr "銀"
 
 #: weblate/utils/fields.py:92
 msgid "A user with this e-mail already exists."
-msgstr "指定したメールアドレスはすでに存在しています。"
+msgstr "指定したメールアドレスはすでに登録されています。"
 
 #: weblate/utils/render.py:45
 #, python-format
@@ -12939,7 +12940,7 @@ msgstr "Git に強制プッシュ"
 
 #: weblate/vcs/git.py:845
 msgid "GitHub pull request"
-msgstr "GitHub プル型リクエスト"
+msgstr "GitHub プルリクエスト"
 
 #: weblate/vcs/git.py:969
 msgid "No remote repository"
@@ -12947,11 +12948,11 @@ msgstr "リモート リポジトリなし"
 
 #: weblate/vcs/git.py:1069
 msgid "GitLab merge request"
-msgstr "GitLab マージ型リクエスト"
+msgstr "GitLab マージリクエスト"
 
 #: weblate/vcs/git.py:1215
 msgid "Pagure merge request"
-msgstr "Pagure マージ型リクエスト"
+msgstr "Pagure マージリクエスト"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:69
