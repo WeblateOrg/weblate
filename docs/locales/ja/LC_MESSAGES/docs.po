@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
 "PO-Revision-Date: 2022-04-12 11:59+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -15915,8 +15915,7 @@ msgid ""
 "Weblate sources. To run it:"
 msgstr ""
 "ソースコードを直接（tarball または Git チェックアウトから）使用している場合、"
-"管理スクリプトは Weblate ソースで使用可能な :file:`./manage.py` "
-"です。実行方法:"
+"Weblate から管理スクリプト :file:`./manage.py` を実行します。実行例:"
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -15924,22 +15923,29 @@ msgid ""
 "the :file:`./setup.py` script, the :command:`weblate` is installed to your "
 "path (or virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"pip または pip3 インストーラを使用して Weblate をインストールした場合、"
+"または :file:`./setup.py` "
+"スクリプトを使用してインストールした場合、:command:`weblate` がパス（または "
+"virtualenv パス）にインストールされます。パスから Weblate を管理する方法:"
 
 #: ../../admin/management.rst:50
 msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
-msgstr ""
+msgstr "Docker イメージの場合、スクリプトは上記のようにインストールします。:command:`"
+"docker exec` を使用した実行例:"
 
 #: ../../admin/management.rst:57
 msgid ""
 "For :program:`docker-compose` the process is similar, you just have to use :"
 "command:`docker-compose exec`:"
 msgstr ""
+":program:`docker-compose` の場合、作業は似ていますが、:command:`docker-"
+"compose exec` を使用します。実行例:"
 
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
-msgstr ""
+msgstr "ファイルを渡すことが必要な場合に、一時的にボリュームを追加する方法:"
 
 #: ../../admin/management.rst:72
 msgid ""
@@ -15957,13 +15963,16 @@ msgstr "add_suggestions"
 msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
-msgstr ""
+msgstr "指定された翻訳の候補として、使用する翻訳をファイルからインポートします。重複"
+"した翻訳は除外し、異なる翻訳のみ追加します。"
 
 #: ../../admin/management.rst:91
 msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
 msgstr ""
+"提案に必要な著者のメールアドレス。著者のアカウントは、インポートする前に登録"
+"されていることが必要です（必要に応じて、管理画面から作成できます）。"
 
 #: ../../admin/management.rst:102
 msgid "auto_translate"
@@ -15975,48 +15984,52 @@ msgstr "翻訳モードのパラメータを追加しました。"
 
 #: ../../admin/management.rst:112
 msgid "Performs automatic translation based on other component translations."
-msgstr ""
+msgstr "他のコンポーネントの翻訳に基づいて自動翻訳します。"
 
 #: ../../admin/management.rst:116
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
-msgstr ""
+msgstr "翻訳の参考に使用する基のコンポーネントを指定します。指定しない場合、プロジェ"
+"クト内のすべてのコンポーネントを使用します。"
 
 #: ../../admin/management.rst:121
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
-msgstr ""
+msgstr "翻訳の著者として登録しているユーザー名を指定します。指定しない場合は、 "
+"「匿名ユーザー」 となります。"
 
 #: ../../admin/management.rst:126
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "既存の翻訳を上書きするかどうか。"
 
 #: ../../admin/management.rst:130
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
-msgstr ""
+msgstr "一貫性のない既存の翻訳を上書きするかどうか（参照: :ref:`check-"
+"inconsistent`）。"
 
 #: ../../admin/management.rst:135
 msgid "Automatically add language if a given translation does not exist."
-msgstr ""
+msgstr "指定した言語の翻訳が存在しない場合は、自動的に言語を追加します。"
 
 #: ../../admin/management.rst:139
 msgid ""
 "Use machine translation instead of other components as machine translations."
-msgstr ""
+msgstr "自動翻訳用に、他のコンポーネントの代わりに機械翻訳を使用します。"
 
 #: ../../admin/management.rst:143
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "機械翻訳の類似性のしきい値。デフォルトは 80。"
 
 #: ../../admin/management.rst:147
 msgid ""
 "Specify translation mode, default is ``translate`` but ``fuzzy`` or "
 "``suggest`` can be used."
-msgstr ""
+msgstr "翻訳モードの指定。デフォルトは ``translate`` ですが、``fuzzy`` や ``suggest``"
+" にもできます。"
 
 #: ../../admin/management.rst:158
 msgid ":ref:`auto-translation`"
@@ -16028,7 +16041,7 @@ msgstr "celery_queues"
 
 #: ../../admin/management.rst:167
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Celery タスク キューの長さを表示します。"
 
 #: ../../admin/management.rst:170
 msgid "checkgit"
@@ -16036,7 +16049,7 @@ msgstr "checkgit"
 
 #: ../../admin/management.rst:174
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "バックエンド Git リポジトリの現在の状態を出力します。"
 
 #: ../../admin/management.rst:176 ../../admin/management.rst:186
 #: ../../admin/management.rst:196 ../../admin/management.rst:650
@@ -16047,6 +16060,9 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"更新するプロジェクトまたはコンポーネント（例: ``weblate/"
+"application``）を設定するか、``--all`` "
+"を使用して既存のすべてのコンポーネントを更新します。"
 
 #: ../../admin/management.rst:180
 msgid "commitgit"
@@ -16054,7 +16070,7 @@ msgstr "commitgit"
 
 #: ../../admin/management.rst:184
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr ""
+msgstr "保留中の可能性がある変更を、バックエンド Git リポジトリにコミットします。"
 
 #: ../../admin/management.rst:190
 msgid "commit_pending"
@@ -16062,13 +16078,14 @@ msgstr "commit_pending"
 
 #: ../../admin/management.rst:194
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "指定された経過時間より古い保留中の変更をコミットします。"
 
 #: ../../admin/management.rst:201
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
-msgstr ""
+msgstr "コミットするための時間単位の経過時間。指定しない場合、ref:`component` "
+"に設定した値を使用します。"
 
 #: ../../admin/management.rst:206
 msgid ""
@@ -16076,6 +16093,10 @@ msgid ""
 "real need to invoke this manually, besides forcing an earlier commit than "
 "specified by :ref:`component`."
 msgstr ""
+"これは、Weblate "
+"が自動でバックグラウンドで実行しています。そのため、:ref:`component` で指定し"
+"た時間よりも早い段階でコミットを強制する以外は、これを手動で実行する必要はあ"
+"りません。"
 
 #: ../../admin/management.rst:212
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
@@ -16091,6 +16112,8 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
+"個別の検査結果と翻訳の提案をクリーンアップします。クリーンアップはバックグラ"
+"ウンドで自動的に行われるため、通常はこれを手動で実行する必要はありません。"
 
 #: ../../admin/management.rst:225
 msgid ":ref:`production-cron`"
@@ -16102,17 +16125,18 @@ msgstr ""
 
 #: ../../admin/management.rst:234
 msgid "Performs cleanup of stored SSH host keys:"
-msgstr ""
+msgstr "保存している SSH ホスト鍵をクリーンアップします。"
 
 #: ../../admin/management.rst:236
 msgid ""
 "Removes deprecated RSA keys for GitHub which might cause issues connecting "
 "to GitHub."
-msgstr ""
+msgstr "GitHub への接続で問題が発生することがある GitHub の非推奨の RSA "
+"鍵を削除します。"
 
 #: ../../admin/management.rst:237
 msgid "Removes duplicate entries in host keys."
-msgstr ""
+msgstr "ホスト鍵内の重複するエントリーを削除します。"
 
 #: ../../admin/management.rst:241
 #, fuzzy
@@ -16127,31 +16151,32 @@ msgstr "createadmin"
 #: ../../admin/management.rst:248
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
-msgstr ""
+msgstr "指定がなければ、ランダムなパスワードで ``admin`` アカウントを作成します。"
 
 #: ../../admin/management.rst:252
 msgid "Provides a password on the command-line, to not generate a random one."
-msgstr ""
+msgstr "ランダムなパスワードが生成されないように、コマンドラインでパスワードを指定し"
+"ます。"
 
 #: ../../admin/management.rst:256
 msgid "Do not set password, this can be useful with `--update`."
-msgstr ""
+msgstr "パスワードを設定しない。これは `--update` と合わせて使用すると便利です。"
 
 #: ../../admin/management.rst:260
 msgid "Use the given name instead of ``admin``."
-msgstr ""
+msgstr "``admin`` の代わりに、名前を指定します。"
 
 #: ../../admin/management.rst:264
 msgid "Specify the admin e-mail address."
-msgstr ""
+msgstr "管理者のメール アドレスを指定します。"
 
 #: ../../admin/management.rst:268
 msgid "Specify the admin name (visible)."
-msgstr ""
+msgstr "管理者名を指定します（表示用）。"
 
 #: ../../admin/management.rst:272
 msgid "Update the existing user (you can use this to change passwords)."
-msgstr ""
+msgstr "既存のユーザーを更新します（これを使用してパスワードを変更できます）。"
 
 #: ../../admin/management.rst:276
 msgid ""
@@ -16164,7 +16189,7 @@ msgstr "dump_memory"
 
 #: ../../admin/management.rst:285
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr ""
+msgstr "Weblate 翻訳メモリのコンテンツを含む JSON ファイルをエクスポートします。"
 
 #: ../../admin/management.rst:289 ../../admin/management.rst:380
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
@@ -16176,11 +16201,12 @@ msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:297
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
-msgstr ""
+msgstr ":djadmin:`importuserdata` を後で使用するために userdata "
+"をファイルにダンプします。"
 
 #: ../../admin/management.rst:301
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr ""
+msgstr "これは、Weblate インスタンスを移行またはマージするときに便利です。"
 
 #: ../../admin/management.rst:304
 msgid "import_demo"
@@ -16190,11 +16216,12 @@ msgstr "import_demo"
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>."
-msgstr ""
+msgstr "<https://github.com/WeblateOrg/demo> に基づくコンポーネント使用して、デモ "
+"プロジェクトを作成します。"
 
 #: ../../admin/management.rst:312
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "これは Weblate の開発時に便利です。"
 
 #: ../../admin/management.rst:316
 msgid "import_json"
@@ -16202,7 +16229,7 @@ msgstr "import_json"
 
 #: ../../admin/management.rst:322
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "JSON データに基づくコンポーネントの一括インポート。"
 
 #: ../../admin/management.rst:324
 msgid ""
@@ -16210,32 +16237,37 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
+"インポートした JSON ファイル構造は、コンポーネント "
+"オブジェクトにほぼ対応しています （参照: :http:get:`/api/components/"
+"(string:project)/(string:component)/`）。``name`` フィールドと "
+"``filemask``フィールドを必ず含めてください。"
 
 #: ../../admin/management.rst:330
 msgid "Specifies where the components will be imported from."
-msgstr ""
+msgstr "コンポーネントのインポート元を指定します。"
 
 #: ../../admin/management.rst:334
 msgid "Use the given VCS repository from this component for all of them."
-msgstr ""
+msgstr "このコンポーネントから取得した VCS リポジトリを、すべての VCS に使用します。"
 
 #: ../../admin/management.rst:338
 msgid "Skip (already) imported components."
-msgstr ""
+msgstr "（既に）インポートしたコンポーネントをスキップします。"
 
 #: ../../admin/management.rst:342
 msgid "Update (already) imported components."
-msgstr ""
+msgstr "（既に）インポートしたコンポーネントを更新します。"
 
 #: ../../admin/management.rst:346
 msgid ""
 "The parameters ``--ignore`` and ``--update`` are there to deal with already "
 "imported components."
-msgstr ""
+msgstr "既にインポートされたコンポーネントを処理するため、パラメータ ``--ignore`` "
+"および ``--update`` はあります。"
 
 #: ../../admin/management.rst:349
 msgid "Example of JSON file:"
-msgstr ""
+msgstr "JSON ファイルの例:"
 
 #: ../../admin/management.rst:356 ../../admin/memory.rst:102
 msgid ":djadmin:`import_memory`"
