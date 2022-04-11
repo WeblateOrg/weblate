@@ -238,7 +238,7 @@ class BaseAddon:
                 env=get_clean_env(env),
                 cwd=component.full_path,
                 stderr=subprocess.STDOUT,
-                universal_newlines=True,
+                text=True,
             )
             component.log_debug("exec result: %s", output)
         except (OSError, subprocess.CalledProcessError) as err:
