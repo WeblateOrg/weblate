@@ -136,15 +136,15 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        "social_core.backends.bitbucket.BitbucketOAuth",
+        "social_core.backends.bitbucket.BitbucketOAuth2",
         "social_core.backends.email.EmailAuth",
         "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_BITBUCKET_KEY = "Bitbucket Client ID"
-    SOCIAL_AUTH_BITBUCKET_SECRET = "Bitbucket Client Secret"
-    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = "Bitbucket Client ID"
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET = "Bitbucket Client Secret"
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_VERIFIED_EMAILS_ONLY = True
 
 .. include:: /snippets/oauth-site.rst
 
