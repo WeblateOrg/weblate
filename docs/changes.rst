@@ -10,6 +10,7 @@ Not yet released.
 * Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing checks.
 * Added support for :ref:`vcs-gitea`.
 * Added Linux style language code to :ref:`component-language_code_style`.
+* Added support for rebuilding project translation memory.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 

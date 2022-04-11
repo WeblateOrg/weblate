@@ -663,6 +663,11 @@ real_patterns = [
         name="memory-delete",
     ),
     path(
+        "memory/rebuild/",
+        weblate.memory.views.RebuildView.as_view(),
+        name="memory-rebuild",
+    ),
+    path(
         "memory/upload/",
         weblate.memory.views.UploadView.as_view(),
         name="memory-upload",
@@ -691,6 +696,12 @@ real_patterns = [
         name="manage-memory-delete",
     ),
     path(
+        "manage/memory/rebuild/",
+        management_access(weblate.memory.views.RebuildView.as_view()),
+        kwargs={"manage": 1},
+        name="manage-memory-rebuild",
+    ),
+    path(
         "manage/memory/download/",
         management_access(weblate.memory.views.DownloadView.as_view()),
         kwargs={"manage": 1},
@@ -705,6 +716,11 @@ real_patterns = [
         "memory/project/<name:project>/delete/",
         weblate.memory.views.DeleteView.as_view(),
         name="memory-delete",
+    ),
+    path(
+        "memory/project/<name:project>/rebuild/",
+        weblate.memory.views.RebuildView.as_view(),
+        name="memory-rebuild",
     ),
     path(
         "memory/project/<name:project>/upload/",

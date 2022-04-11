@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -30,6 +29,7 @@ from django.views.generic.base import TemplateView
 
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
+from weblate.memory.tasks import import_memory
 from weblate.metrics.models import Metric
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
@@ -84,6 +84,46 @@ class DeleteView(MemoryFormView):
         return super().form_valid(form)
 
 
+class RebuildView(MemoryFormView):
+
+    form_class = DeleteForm
+
+    def form_valid(self, form):
+        if (
+            not check_perm(self.request.user, "memory.delete", self.objects)
+            or "project" not in self.objects
+        ):
+            raise PermissionDenied()
+        origin = self.request.POST.get("origin")
+        project = self.objects["project"]
+        component_id = None
+        if origin:
+            try:
+                component_id = project.component_set.get(
+                    slug=origin.split("/", 1)[-1]
+                ).id
+            except ObjectDoesNotExist:
+                raise PermissionDenied()
+        # Delete private entries
+        entries = Memory.objects.filter_type(**self.objects)
+        if origin:
+            entries = entries.filter(origin=origin)
+        entries.delete()
+        # Delete possible shared entries
+        if origin:
+            slugs = [origin]
+        else:
+            slugs = [component.full_slug for component in project.component_set.all()]
+        Memory.objects.filter(origin__in=slugs, shared=True).delete()
+        # Rebuild memory in background
+        import_memory.delay(project_id=project.id, component_id=component_id)
+        messages.success(
+            self.request,
+            _("Entries deleted and memory will be rebuilt in the background."),
+        )
+        return super().form_valid(form)
+
+
 class UploadView(MemoryFormView):
     form_class = UploadForm
 
@@ -131,6 +171,8 @@ class MemoryView(TemplateView):
         user = self.request.user
         if check_perm(user, "memory.delete", self.objects):
             context["delete_url"] = self.get_url("memory-delete")
+            if "project" in self.objects:
+                context["rebuild_url"] = self.get_url("memory-rebuild")
         if check_perm(user, "memory.edit", self.objects):
             context["upload_form"] = UploadForm()
         if "from_file" in self.objects:

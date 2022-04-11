@@ -170,6 +170,11 @@ class MemoryViewTest(FixtureTestCase):
         response = self.client.post(reverse(f"{prefix}memory-delete", **kwargs))
         self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
 
+        # Test rebuild without confirmation
+        if "project" in kwargs:
+            response = self.client.get(reverse(f"{prefix}memory-rebuild", **kwargs))
+            self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
+
         # Test list
         response = self.client.get(reverse(f"{prefix}memory", **kwargs))
         self.assertContains(response, match)
@@ -219,6 +224,33 @@ class MemoryViewTest(FixtureTestCase):
             )
             self.assertContains(response, "Entries deleted")
             self.assertGreater(count, Memory.objects.count())
+
+        # Test rebuild
+        if "project" in kwargs:
+            count = Memory.objects.count()
+            response = self.client.post(
+                reverse(f"{prefix}memory-rebuild", **kwargs),
+                {"confirm": "1", "origin": "invalid"},
+                follow=True,
+            )
+            self.assertContains(response, "Permission Denied", status_code=403)
+            response = self.client.post(
+                reverse(f"{prefix}memory-rebuild", **kwargs),
+                {"confirm": "1", "origin": self.component.full_slug},
+                follow=True,
+            )
+            if fail:
+                self.assertContains(response, "Permission Denied", status_code=403)
+            else:
+                self.assertContains(response, "Entries deleted and memory")
+                self.assertEqual(count, Memory.objects.count())
+                response = self.client.post(
+                    reverse(f"{prefix}memory-rebuild", **kwargs),
+                    {"confirm": "1"},
+                    follow=True,
+                )
+                self.assertContains(response, "Entries deleted and memory")
+                self.assertGreater(count, Memory.objects.count())
 
         # Test invalid upload
         response = self.upload_file("cs.json", **kwargs)

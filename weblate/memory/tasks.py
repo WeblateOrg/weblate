@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from typing import Optional
+
 from django.db import transaction
 
 from weblate.machinery.base import get_machinery_language
@@ -26,7 +28,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def import_memory(project_id):
+def import_memory(project_id: int, component_id: Optional[int] = None):
     from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)
