@@ -94,7 +94,7 @@ def run_borg(cmd: List[str], env: Dict[str, str] = None) -> str:
                 ["borg", "--rsh", SSH_WRAPPER.filename] + cmd,
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(env),
-                universal_newlines=True,
+                text=True,
             )
         except OSError as error:
             report_error()
