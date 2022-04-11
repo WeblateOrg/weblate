@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-04-10 01:14+0000\n"
+"PO-Revision-Date: 2022-04-12 11:58+0000\n"
 "Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -354,22 +354,22 @@ msgstr ""
 #: weblate/accounts/models.py:153
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Terkonfigurasi masuk menggunakan ({method}:({name})."
+msgstr "Log masuk terkonfigurasi menggunakan ({method}:({name})."
 
 #: weblate/accounts/models.py:154
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Dihapus masuk menggunakan ({method}:({name})."
+msgstr "Log masuk dihapus menggunakan ({method}:({name})."
 
 #: weblate/accounts/models.py:155
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Masuk menggunakan ({method}:({name})."
+msgstr "Log masuk menggunakan ({method}:({name})."
 
 #: weblate/accounts/models.py:156
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Masuk menggunakan ({method}:{name}) dari perangkat baru."
+msgstr "Log masuk menggunakan ({method}:{name}) dari perangkat baru."
 
 #: weblate/accounts/models.py:157
 msgid "Somebody attempted to register with your e-mail."
@@ -382,11 +382,11 @@ msgstr "Seseorang mencoba mendaftarkan diri dengan surel Anda."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Tidak bisa masuk menggunakan ({method}:({name})."
+msgstr "Tidak bisa log masuk menggunakan ({method}:({name})."
 
 #: weblate/accounts/models.py:160
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Akun dikunci karena banyak percobaan masuk yang gagal."
+msgstr "Akun dikunci karena banyak upaya log masuk yang gagal."
 
 #: weblate/accounts/models.py:161
 msgid "Account and all private data removed."
@@ -430,15 +430,15 @@ msgstr "Kata sandi terkonfigurasi untuk masuk."
 
 #: weblate/accounts/models.py:176
 msgid "Signed in using password."
-msgstr "Masuk menggunakan kata sandi."
+msgstr "Log masuk menggunakan kata sandi."
 
 #: weblate/accounts/models.py:177
 msgid "Signed in using password from a new device."
-msgstr "Masuk menggunakan kata sandi dari perangkat baru."
+msgstr "Log masuk menggunakan kata sandi dari perangkat baru."
 
 #: weblate/accounts/models.py:178
 msgid "Could not sign in using password."
-msgstr "Tidak bisa masuk memakai kata sandi."
+msgstr "Tidak bisa log masuk memakai kata sandi."
 
 #: weblate/accounts/models.py:183
 msgid "To restore access to your account, please reset your password."
@@ -844,8 +844,7 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:315
 msgid "You can not complete password reset while signed in."
-msgstr ""
-"Anda tidak dapat melakukan atur ulang kata sandi selagi Anda sedang masuk."
+msgstr "Anda tidak dapat menyelesaikan reset kata sandi saat sedang log masuk."
 
 #: weblate/accounts/pipeline.py:318 weblate/accounts/pipeline.py:341
 msgid "The registration link has been invalidated."
@@ -853,11 +852,11 @@ msgstr "Tautan pendaftaran telah tidak berlaku lagi."
 
 #: weblate/accounts/pipeline.py:333
 msgid "You can not complete registration while signed in."
-msgstr "Anda tidak dapat melakukan pendaftaran saat sedang masuk."
+msgstr "Anda tidak dapat melakukan pendaftaran saat sedang log masuk."
 
 #: weblate/accounts/pipeline.py:338
 msgid "You can confirm your registration only while signed in."
-msgstr "Anda dapat mengonfirmasi pendaftaran Anda hanya saat sedang masuk."
+msgstr "Anda hanya dapat mengonfirmasi pendaftaran Anda saat sedang masuk."
 
 #: weblate/accounts/pipeline.py:484
 #, python-brace-format
@@ -945,7 +944,7 @@ msgstr "Percobaan Gratis"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:215
 msgid "Sign in"
-msgstr "Masuk"
+msgstr "Log masuk"
 
 #: weblate/accounts/views.py:728 weblate/wladmin/sites.py:188
 msgid "Thank you for using Weblate."
@@ -1031,7 +1030,7 @@ msgstr "Server tidak mengizinkan autentikasi."
 
 #: weblate/accounts/views.py:1261
 msgid "The supplied e-mail address is already in use for another account."
-msgstr "Alamat surel yang dimasukkan sudah dipakai akun lain."
+msgstr "Alamat surel yang dimasukkan sudah dipakai oleh akun lain."
 
 #: weblate/accounts/views.py:1265
 msgid "The supplied username is already in use for another account."
@@ -1039,7 +1038,7 @@ msgstr "Nama pengguna ini sudah digunakan akun lain."
 
 #: weblate/accounts/views.py:1270
 msgid "The supplied user identity is already in use for another account."
-msgstr "Identitas pengguna yang dimasukkan sudah digunakan akun lain."
+msgstr "Identitas pengguna yang dimasukkan sudah digunakan oleh akun lain."
 
 #: weblate/accounts/views.py:1294 weblate/accounts/views.py:1307
 msgid "Notification settings adjusted."
@@ -1050,8 +1049,8 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
-"Tautan perubahan pemberitahuan tidak lagi valid lagi, silahkan masuk untuk "
-"mengonfigurasi pemberitahuan."
+"Tautan perubahan notifikasi tidak lagi valid, harap log masuk untuk "
+"mengonfigurasi notifikasi."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:74
@@ -4334,8 +4333,8 @@ msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
-"Klik tautan konfirmasi yang dikirim ke kotak masuk surel Anda dan mulailah "
-"menggunakan akun Anda."
+"Klik pada tautan konfirmasi yang dikirimkan ke kotak masuk surel Anda dan "
+"mulailah menggunakan akun Anda."
 
 #: weblate/templates/accounts/email-sent.html:37
 msgid "Register again if the confirmation link expires."
@@ -4430,7 +4429,7 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr "Masuk dengan:"
+msgstr "Log masuk dengan:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
@@ -4825,7 +4824,7 @@ msgid ""
 "instructions for setting a new one."
 msgstr ""
 "Lupa kata sandi Anda? Masukkan alamat surel Anda di bawah ini, kami akan "
-"kirim surel petunjuk untuk membuatnya yang baru."
+"mengirimkan surel berisi petunjuk untuk mengatur kata sandi yang baru."
 
 #: weblate/templates/accounts/reset.html:46
 msgid "Set my password"
@@ -4887,7 +4886,7 @@ msgstr "Bergabung pada %(date)s"
 #: weblate/templates/accounts/user.html:30
 #, python-format
 msgid "Last sign-in on %(date)s"
-msgstr "Masuk terakhir pada %(date)s"
+msgstr "Log masuk terakhir pada %(date)s"
 
 #: weblate/templates/accounts/user.html:32
 msgid "Never signed-in"
@@ -5893,7 +5892,7 @@ msgstr "Anda tidak memiliki hak untuk memulai suatu terjemahan baru"
 
 #: weblate/templates/component.html:135
 msgid "Please sign in to start new translation"
-msgstr "Silakan masuk untuk memulai terjemahan baru"
+msgstr "Silakan log masuk untuk memulai terjemahan baru"
 
 #: weblate/templates/component.html:150 weblate/templates/manage/alerts.html:22
 msgid "dismissed"
@@ -5913,7 +5912,7 @@ msgstr "Buang"
 
 #: weblate/templates/component.html:169
 msgid "Please sign in to see the alerts."
-msgstr "Silakan masuk untuk melihat peringatan."
+msgstr "Silakan log masuk untuk melihat peringatan."
 
 #: weblate/templates/component.html:199
 #: weblate/templates/language-project.html:96
@@ -6073,8 +6072,8 @@ msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
 msgstr ""
-"Anda harus masuk untuk menerjemahkan, jika tidak, Anda hanya dapat membuat "
-"saran."
+"Anda harus log masuk untuk menerjemahkan, jika tidak, Anda hanya dapat "
+"membuat saran."
 
 #: weblate/templates/dashboard/anonymous.html:17
 #, python-format
@@ -7566,8 +7565,8 @@ msgid ""
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
 "Untuk mengakses host SSH, kunci host perlu diverifikasi. Anda dapat "
-"memperoleh kunci host dengan memasukan nama domain atau alamat IP untuk host "
-"pada kolom di bawah ini."
+"memperoleh kunci host dengan memasukkan nama domain atau alamat IP untuk "
+"host pada kolom di bawah ini."
 
 #: weblate/templates/manage/tools.html:35
 #: weblate/templates/manage/tools.html:42
@@ -8453,7 +8452,7 @@ msgstr "Pelokalan <strong>berkelanjutan</strong> berbasis web"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr "Dengan mendaftar dan masuk ke layanan ini, Anda menerima:"
+msgstr "Dengan mendaftar dan log masuk ke layanan ini, Anda menerima:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -9411,7 +9410,7 @@ msgstr "Terkunci"
 #: weblate/templates/trans/project-access-row.html:25
 #: weblate/templates/trans/project-access.html:54
 msgid "Not yet signed in"
-msgstr "Belum masuk"
+msgstr "Belum log masuk"
 
 #: weblate/templates/trans/project-access-row.html:52
 #, python-format
@@ -9441,7 +9440,7 @@ msgstr "Tim"
 
 #: weblate/templates/trans/project-access.html:40
 msgid "Last sign in"
-msgstr "Masuk terakhir"
+msgstr "Log masuk terakhir"
 
 #: weblate/templates/trans/project-access.html:78
 msgid ""
@@ -9591,7 +9590,7 @@ msgstr "Terjemahan ini tengah dikunci."
 
 #: weblate/templates/translate.html:202
 msgid "Please sign in to save translations."
-msgstr "Silakan masuk untuk menyimpan terjemahan."
+msgstr "Silakan log masuk untuk menyimpan terjemahan."
 
 #: weblate/templates/translate.html:204
 msgid ""
@@ -13160,7 +13159,7 @@ msgstr "Token aktivasi"
 msgid ""
 "Please enter the activation token obtained when making the subscription."
 msgstr ""
-"Silakan masukkan token aktivasi yang diperoleh saat melakukan langganan."
+"Silakan masukkan token aktivasi yang diperoleh saat memulai berlangganan."
 
 #: weblate/wladmin/forms.py:42
 msgid "Port"
