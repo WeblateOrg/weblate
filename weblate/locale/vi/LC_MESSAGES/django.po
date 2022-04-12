@@ -12,13 +12,14 @@
 # Xuân Hải Trần <xuanhaivptthn@gmail.com>, 2021.
 # Nguyen Cong Minh <kongxanh@gmail.com>, 2021.
 # Ngô Quốc Đạt <datlechin@gmail.com>, 2021, 2022.
+# DatTran MLL <tranthanhdat1142003@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-03-04 07:44+0000\n"
-"PO-Revision-Date: 2022-02-10 13:48+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-04-12 11:59+0000\n"
+"Last-Translator: DatTran MLL <tranthanhdat1142003@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -298,11 +299,11 @@ msgstr "Kiểu sắp xếp đã chọn không được hỗ trợ."
 
 #: weblate/accounts/forms.py:839
 msgid "Add user to a group"
-msgstr ""
+msgstr "Thêm người dùng vào nhóm"
 
 #: weblate/accounts/forms.py:849
 msgid "Add group"
-msgstr ""
+msgstr "Thêm nhóm"
 
 #: weblate/accounts/models.py:147
 msgid "Password changed."
@@ -378,10 +379,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Đồng ý với Điều khoản dịch vụ {date}."
 
 #: weblate/accounts/models.py:163
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Được {username} mời đến Weblate."
+msgstr "Được mời đến {site_title} qua {username}."
 
 #: weblate/accounts/models.py:164
 msgid "Started trial period."
@@ -397,11 +397,13 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Hệ thống đã tạo một tài khoản để theo dõi quyền tác giả của các bản dịch do "
+"người dùng khác tải lên."
 
 #: weblate/accounts/models.py:170
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Truy cập vào dự án {project} đã bị chặn"
 
 #: weblate/accounts/models.py:175
 msgid "Configured password to sign in."
@@ -427,6 +429,8 @@ msgstr ""
 #: weblate/accounts/models.py:185
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Vui lòng liên hệ với những người duy trì dự án nếu bạn cảm thấy điều này "
+"không phù hợp."
 
 #: weblate/accounts/models.py:309 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -521,6 +525,9 @@ msgid ""
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
+"Bạn có thể chỉ định các ký tự bổ sung của bàn phím trực quan đặc biệt sẽ "
+"được hiển thị trong khi dịch. Nó có thể hữu ích cho các ký tự bạn sử dụng "
+"thường xuyên nhưng khó gõ trên bàn phím của bạn."
 
 #: weblate/accounts/models.py:450
 msgid "Number of nearby strings"
@@ -654,6 +661,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Đã thêm %(language)s vào các ngôn ngữ đã dịch của bạn. Bạn có thể tùy chỉnh "
+"chúng ở trong phần cài đặt."
 
 #: weblate/accounts/models.py:808
 msgid ""
@@ -671,15 +680,15 @@ msgstr "Thông báo ngay lập tức"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr ""
+msgstr "Thông báo hàng ngày"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr ""
+msgstr "Thông báo hàng tuần"
 
 #: weblate/accounts/notifications.py:57
 msgid "Monthly digest"
-msgstr ""
+msgstr "Thông báo hàng tháng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:417
@@ -785,10 +794,8 @@ msgstr "Đề xuất đang chờ"
 #: weblate/accounts/notifications.py:756
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Unfinished strings"
-msgstr "PHP strings"
+msgstr "Xâu chưa được hoàn thiện"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -823,11 +830,11 @@ msgstr "Liên kết đăng ký đã bị mất hiệu lực."
 
 #: weblate/accounts/pipeline.py:333
 msgid "You can not complete registration while signed in."
-msgstr ""
+msgstr "Bạn không thể hoàn tất đăng ký khi đã đăng nhập."
 
 #: weblate/accounts/pipeline.py:338
 msgid "You can confirm your registration only while signed in."
-msgstr ""
+msgstr "Bạn chỉ có thể xác nhận đăng ký của mình khi đã đăng nhập."
 
 #: weblate/accounts/pipeline.py:484
 #, python-brace-format
@@ -890,12 +897,17 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Có vẻ như bạn đã yêu cầu một khoảng thời gian thử nghiệm gần đây rồi. Hãy "
+"liên hệ với chúng tôi về yêu cầu của bạn để chúng tôi có thể tìm giải pháp "
+"tốt nhất cho bạn."
 
 #: weblate/accounts/views.py:562
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Khoảng thời gian thử nghiệm của bạn hiện đang hoạt động; tạo dự án dịch "
+"thuật của bạn và bắt đầu Weblate!"
 
 #: weblate/accounts/views.py:568 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
@@ -948,20 +960,25 @@ msgstr "Không thể hoàn thành đăng ký."
 #: weblate/accounts/views.py:1155
 msgid "Please check if you have already registered an account."
 msgstr ""
+"Vui lòng kiểm tra xem nếu bạn đã tạo một tài khoảng trước đó rồi hay chưa."
 
 #: weblate/accounts/views.py:1157
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
+"Bạn cũng có thể yêu cầu một mật khẩu mới, nếu bạn đã để mất thông tin đăng "
+"nhập của bạn."
 
 #: weblate/accounts/views.py:1167
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
+"Thử đăng ký lại sau để xác định danh tính của bạn, mã xác minh có thể đã hết "
+"hiệu lực."
 
 #: weblate/accounts/views.py:1174
 msgid "Could not authenticate due to invalid session state."
-msgstr ""
+msgstr "Không thể xác thức do trạng thái phiên không hợp lệ."
 
 #: weblate/accounts/views.py:1181
 msgid "Got no e-mail address from third party authentication service."
@@ -969,7 +986,7 @@ msgstr "Không nhận được địa chỉ e-mail nào từ dịch vụ xác th
 
 #: weblate/accounts/views.py:1183
 msgid "Please register using e-mail instead."
-msgstr ""
+msgstr "Vui lòng thay thế sang đăng ký sử dụng e-mail."
 
 #: weblate/accounts/views.py:1190
 msgid "New registrations are turned off."
@@ -979,6 +996,7 @@ msgstr "Các lượt đăng ký mới đã bị tắt."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
+"Không thể xác thức, có thể là do một mã đã hết hiệu lực hoặc lỗi kết nối."
 
 #: weblate/accounts/views.py:1254
 msgid "Authentication cancelled."
@@ -1009,6 +1027,8 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
+"Liên kết thay đổi thông báo không còn hợp lệ, vui lòng đăng nhập để tùy "
+"chỉnh thông báo."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:74
@@ -1028,16 +1048,20 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Kho lưu trữ đã bị chậm cập nhật, bạn có thể sẽ không nhận được kết quả mong "
+"muốn trừ khi bạn cập nhật nó."
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
-msgstr ""
+msgstr "JavaScript cục bộ hóa CDN"
 
 #: weblate/addons/cdn.py:40
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"Xuất bản dịch vào trong mạng phân phối nội dung để sử dụng trong JavaScript "
+"hoặc cục bộ hóa HTML."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -1049,6 +1073,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"Cập nhật tất cả tệp dịch thuật để hợp với tệp cơ sở đơn ngữ. Cho hầu hết các "
+"định dạng tệp, điều này có nghĩa là khi loại bỏ các từ khóa dịch thuật cũ sẽ "
+"không còn hiện trên các tệp cơ sở nữa."
 
 #: weblate/addons/cleanup.py:63
 msgid "Remove blank strings"
@@ -1067,6 +1094,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Đảm bảo một bộ ngôn ngữ nhất quán được sử dụng cho tất cả các thành phần "
+"trong một dự án."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1077,6 +1106,8 @@ msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
+"Tự động thêm hoặc bỏ đi các thành phần dự án dựa trên các sự điểu chỉnh của "
+"tệp trong một phiên bản hệ thống điều khiển."
 
 #: weblate/addons/example.py:36
 msgid "Example add-on"
