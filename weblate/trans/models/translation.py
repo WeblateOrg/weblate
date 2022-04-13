@@ -1066,6 +1066,7 @@ class Translation(
         has_template = component.has_template()
         skipped = 0
         accepted = 0
+        component.start_batched_checks()
         if has_template:
             existing = set(self.unit_set.values_list("context", flat=True))
         else:
