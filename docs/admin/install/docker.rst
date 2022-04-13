@@ -218,10 +218,10 @@ should be no need for additional manual actions.
 
 .. note::
 
-    Upgrades across 3.0 are not supported by Weblate. If you are on 2.x series
-    and want to upgrade to 3.x, first upgrade to the latest 3.0.1-x (at time of
-    writing this it is the ``3.0.1-7``) image, which will do the migration and then
-    continue upgrading to newer versions.
+    Upgrades across major versions are not supported by Weblate. For example,
+    if you are on 3.x series and want to upgrade to 4.x, first upgrade to the
+    latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which
+    will do the migration and then continue upgrading to newer versions.
 
 You might also want to update the ``docker-compose`` repository, though it's
 not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
