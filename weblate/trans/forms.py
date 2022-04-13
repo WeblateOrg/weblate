@@ -62,7 +62,6 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
-from weblate.utils.errors import report_error
 from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
@@ -183,7 +182,6 @@ class QueryField(forms.CharField):
             parse_query(value)
             return value
         except Exception as error:
-            report_error()
             raise ValidationError(_("Could not parse query string: {}").format(error))
 
 
