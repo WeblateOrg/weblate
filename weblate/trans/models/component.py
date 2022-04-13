@@ -1960,8 +1960,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
-        self.batch_checks = True
-        self.batched_checks = set()
+        self.start_batched_checks()
         was_change = False
         translations = {}
         languages = {}
@@ -2110,6 +2109,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         self.log_info("updating completed")
         return was_change
+
+    def start_batched_checks(self):
+        self.batch_checks = True
+        self.batched_checks = set()
 
     def run_batched_checks(self):
         # Batch checks
