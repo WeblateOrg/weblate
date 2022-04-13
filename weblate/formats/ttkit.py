@@ -1460,7 +1460,7 @@ class CSVFormat(TTKitFormat):
 
         # Parse file
         store = storeclass()
-        store.parse(content, sample_length=None)
+        store.parse(content, sample_length=40000)
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
             return store
