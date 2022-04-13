@@ -99,7 +99,8 @@ want to install `dogslow <https://pypi.org/project/dogslow/>`_ along with
 the error collection tool.
 
 In case the slow performance is linked to the database, you can also enable
-logging of all database queries using following configuration:
+logging of all database queries using following configuration after enabling
+:setting:`DEBUG`:
 
 .. code-block:: python
 
