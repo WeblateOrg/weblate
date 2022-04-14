@@ -503,7 +503,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             # the updates below
             for unit in self.unit_set.prefetch().prefetch_bulk():
                 # Share component instance for locking and possible bulk updates
-                unit.translation.component = self.unit.translation.component
+                unit.translation.component = self.translation.component
                 unit.update_state()
                 unit.update_priority()
                 unit.run_checks()
