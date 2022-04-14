@@ -12,6 +12,7 @@ Not yet released.
 * Added Linux style language code to :ref:`component-language_code_style`.
 * Added support for rebuilding project translation memory.
 * Improved API for creating components from a file.
+* Add copy and clone buttons to other translations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 

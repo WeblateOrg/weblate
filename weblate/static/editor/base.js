@@ -72,14 +72,17 @@ WLT.Editor = (function () {
     /* Copy source text */
     this.$editor.on("click", "[data-clone-text]", function (e) {
       var $this = $(this);
+      var $document = $(document);
       var cloneText = this.getAttribute("data-clone-text");
 
       var row = $this.closest(".zen-unit");
       if (row.length === 0) {
         row = $this.closest(".translator");
       }
+      if (row.length === 0) {
+        row = $document.find(".translator");
+      }
       var editors = row.find(".translation-editor");
-      var $document = $(document);
       if (editors.length == 1) {
         editors.replaceValue(cloneText);
       } else {
