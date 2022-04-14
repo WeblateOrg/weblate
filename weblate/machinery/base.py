@@ -19,6 +19,7 @@
 """Base code for machine translation services."""
 
 import random
+import time
 from hashlib import md5
 from typing import Dict, List
 
@@ -85,6 +86,7 @@ class MachineTranslation:
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error = None
+        self.supported_languages_error_age = 0
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -194,6 +196,7 @@ class MachineTranslation:
             languages = set(self.download_languages())
         except Exception as exc:
             self.supported_languages_error = exc
+            self.supported_languages_error_age = time.time()
             self.report_error("Failed to fetch languages from %s, using defaults")
             return set()
 
@@ -306,7 +309,10 @@ class MachineTranslation:
                     return source, target
 
         if self.supported_languages_error:
-            raise MachineTranslationError(repr(self.supported_languages_error))
+            if self.supported_languages_error_age + 3600 > time.time():
+                raise MachineTranslationError(repr(self.supported_languages_error))
+            self.supported_languages_error = None
+            self.supported_languages_error_age = 0
 
         raise UnsupportedLanguage("Not supported")
 
