@@ -552,6 +552,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         validators=[validate_render_addon],
         default=settings.DEFAULT_ADDON_MESSAGE,
     )
+    pull_message = models.TextField(
+        verbose_name=gettext_lazy("Merge request message"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_PULL_MESSAGE,
+    )
     push_on_commit = models.BooleanField(
         verbose_name=gettext_lazy("Push on commit"),
         default=settings.DEFAULT_PUSH_ON_COMMIT,

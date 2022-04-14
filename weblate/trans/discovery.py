@@ -53,6 +53,7 @@ COPY_ATTRIBUTES = (
     "delete_message",
     "merge_message",
     "addon_message",
+    "pull_message",
     "push_on_commit",
     "commit_pending_age",
     "edit_template",

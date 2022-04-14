@@ -1189,6 +1189,7 @@ Components
     :>json string delete_message: :ref:`component-delete_message`
     :>json string merge_message: :ref:`component-merge_message`
     :>json string addon_message: :ref:`component-addon_message`
+    :>json string pull_message: :ref:`component-pull_message`
     :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`

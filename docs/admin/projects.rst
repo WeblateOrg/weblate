@@ -671,15 +671,17 @@ Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 .. _component-delete_message:
 .. _component-merge_message:
 .. _component-addon_message:
+.. _component-pull_message:
 
-Commit, add, delete, merge and add-on messages
-++++++++++++++++++++++++++++++++++++++++++++++
+Commit, add, delete, merge, add-on, and merge request messages
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Message used when committing a translation, see :ref:`markup`.
 
 Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
-:setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`.
+:setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
+:setting:`DEFAULT_PULL_MESSAGE`.
 
 .. _component-push_on_commit:
 

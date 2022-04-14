@@ -13,6 +13,7 @@ Not yet released.
 * Added support for rebuilding project translation memory.
 * Improved API for creating components from a file.
 * Add copy and clone buttons to other translations.
+* Make merge request message configurable at component level.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
