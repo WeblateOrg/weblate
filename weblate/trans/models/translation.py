@@ -1461,9 +1461,12 @@ class Translation(
     def sync_terminology(self):
         if not self.is_source or not self.component.manage_units:
             return
+        expected_count = self.component.translation_set.count()
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
+                continue
+            if source.unit_set.count() == expected_count:
                 continue
             # Add unit
             self.add_unit(
