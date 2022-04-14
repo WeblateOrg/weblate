@@ -850,7 +850,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_merge_message(self):
         parts = render_template(
-            settings.DEFAULT_PULL_MESSAGE, component=self.component
+            self.component.pull_message, component=self.component
         ).split("\n\n", 1)
         if len(parts) == 1:
             parts.append("")

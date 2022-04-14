@@ -514,6 +514,7 @@ class ComponentSerializer(RemovableSerializer):
             "delete_message",
             "merge_message",
             "addon_message",
+            "pull_message",
             "allow_translation_propagation",
             "manage_units",
             "enable_suggestions",
