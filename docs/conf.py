@@ -266,6 +266,8 @@ linkcheck_ignore = [
     "https://web.libera.chat/#",
     # Site is unreliable
     "https://docwiki.embarcadero.com/",
+    # 403 for linkcheck
+    "https://docs.github.com/",
 ]
 
 # HTTP docs
