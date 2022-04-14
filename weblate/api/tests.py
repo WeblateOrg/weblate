@@ -1415,7 +1415,48 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "local-project/*.html")
         self.assertEqual(Component.objects.count(), 3)
+
+    def test_create_component_docfile_mask(self):
+        with open(TEST_DOC, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "filemask": "doc/*.html",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "doc/*.html")
+        self.assertEqual(Component.objects.count(), 3)
+
+    def test_create_component_docfile_mask_outside(self):
+        with open(TEST_DOC, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "filemask": "../doc/*.html",
+                },
+            )
+        self.assertEqual(Component.objects.count(), 2)
 
     def test_create_component_docfile_missing(self):
         with open(TEST_DOC, "rb") as handle:

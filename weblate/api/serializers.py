@@ -45,6 +45,7 @@ from weblate.utils.views import (
     create_component_from_doc,
     create_component_from_zip,
     get_form_errors,
+    guess_filemask_from_doc,
 )
 
 
@@ -573,8 +574,8 @@ class ComponentSerializer(RemovableSerializer):
 
             # Provide a filemask so that it is not listed as an
             # error. The validation of docfile will fail later
-            if "docfile" in data:
-                data["filemask"] = "fake.*"
+            if "docfile" in data and "filemask" not in data:
+                guess_filemask_from_doc(data)
 
         # DRF processing
         result = super().to_internal_value(data)

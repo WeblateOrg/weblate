@@ -34,7 +34,7 @@ from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.edit import FormView
 
-from weblate.formats.models import EXPORTERS
+from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -218,11 +218,25 @@ def get_project_translation(request, project=None, component=None, lang=None):
     return project or None, component or None, translation or None
 
 
+def guess_filemask_from_doc(data):
+    if "filemask" in data:
+        return
+
+    ext = ""
+    if "docfile" in data and hasattr(data["docfile"], "name"):
+        ext = os.path.splitext(os.path.basename(data["docfile"].name))[1]
+
+    if not ext and "file_format" in data and data["file_format"] in FILE_FORMATS:
+        ext = FILE_FORMATS[data["file_format"]].extension()
+
+    data["filemask"] = "{}/{}{}".format(data.get("slug", "translations"), "*", ext)
+
+
 def create_component_from_doc(data):
     # Calculate filename
     uploaded = data["docfile"]
-    ext = os.path.splitext(os.path.basename(uploaded.name))[1]
-    filemask = "{}/{}{}".format(data["slug"], "*", ext)
+    guess_filemask_from_doc(data)
+    filemask = data["filemask"]
     filename = filemask.replace(
         "*",
         data["source_language"].code
