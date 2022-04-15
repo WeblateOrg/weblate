@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-14 16:10+0000\n"
+"PO-Revision-Date: 2022-04-15 21:21+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -16324,7 +16324,8 @@ msgstr "バッチは、ファイル "
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
-msgstr ""
+msgstr "`<project>` "
+"に、コンポーネントをインポートする既存のプロジェクトを指定します。"
 
 #: ../../admin/management.rst:399
 msgid ""
@@ -16333,6 +16334,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"`<gitrepo>` に、使用する Git リポジトリの URL を設定し、`<branch>` に Git "
+"ブランチを指定します。既存の Weblate "
+"コンポーネントから追加の翻訳コンポーネントをインポートするには、`<gitrepo>` "
+"に `weblate://<project>/<component>` URL を設定します。"
 
 #: ../../admin/management.rst:404
 msgid ""
@@ -16340,32 +16345,39 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"`<filemask>` はリポジトリのファイル検出を設定します。ワイルドカードを使用して"
+"単純にすることも、正規表現を全面的に使用することもできます。"
 
 #: ../../admin/management.rst:407
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
-msgstr ""
+msgstr "単純なマッチングでは、コンポーネント名に ``**`` を使用し、言語に ``*`` "
+"を使用します。例: ``**/*.po``"
 
 #: ../../admin/management.rst:410
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
+"正規表現には、`component` と `language` "
+"という名前のグループを両方とも含めてください。例: "
+"``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 
 #: ../../admin/management.rst:413
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
-msgstr ""
+msgstr "インポートは、ファイルに基づいて既存のコンポーネントを照合し、存在しないコン"
+"ポーネントを追加します。既存のものは変更されません。"
 
 #: ../../admin/management.rst:418
 msgid "Customize the name of a component using Django template syntax."
-msgstr ""
+msgstr "Django テンプレート構文を使用して、コンポーネントの名前をカスタマイズします。"
 
 #: ../../admin/management.rst:420
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr "例：``Documentation: {{ component }}``"
+msgstr "例: ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:424
 msgid "Customize the base file for monolingual translations."
@@ -16373,7 +16385,7 @@ msgstr "モノリンガル用の、基礎となる翻訳ファイルをカスタ
 
 #: ../../admin/management.rst:426
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr "例：``{{ component }}/res/values/string.xml``"
+msgstr "例: ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:430
 msgid "Customize the base file for addition of new translations."
@@ -16381,49 +16393,54 @@ msgstr "新しい翻訳の追加用の、基礎となる翻訳ファイルをカ
 
 #: ../../admin/management.rst:432
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr "例：``{{ component }}/ts/en.ts``"
+msgstr "例: ``{{ component }}/ts/en.ts``"
 
 #: ../../admin/management.rst:436
 msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
-msgstr ""
+msgstr "使用するファイル形式も指定できます（参照: "
+":ref:`formats`）。デフォルトは自動検出。"
 
 #: ../../admin/management.rst:441
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
-msgstr ""
+msgstr "このパラメータを使用して、言語フィルタリング（参照: "
+":ref:`component`）を指定します。有効な正規表現であることが必要。"
 
 #: ../../admin/management.rst:446
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
-msgstr ""
+msgstr "メインのコンポーネントとして選択するコンポーネント、つまり VCS "
+"リポジトリを実際に含むコンポーネントを指定します。"
 
 #: ../../admin/management.rst:451
 msgid "Specify the overall, project or component translation license."
-msgstr ""
+msgstr "全体、プロジェクト、またはコンポーネントの翻訳ライセンスを指定します。"
 
 #: ../../admin/management.rst:455
 msgid "Specify the URL where the translation license is to be found."
-msgstr ""
+msgstr "翻訳ライセンスを取得する URL を指定します。"
 
 #: ../../admin/management.rst:459
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
-msgstr ""
+msgstr "使用するバージョン管理システムの指定が必要な場合は、ここで設定します。"
+"既定のバージョン管理は Git。"
 
 #: ../../admin/management.rst:462
 msgid "To give you some examples, let's try importing two projects."
-msgstr ""
+msgstr "例として、2 つのプロジェクトをインポートします。"
 
 #: ../../admin/management.rst:464
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
-msgstr ""
+msgstr "はじめは、Debian "
+"ハンドブックの翻訳です。言語ごとに存在する、各章の翻訳が入ったフォルダ:"
 
 #: ../../admin/management.rst:475
 msgid ""
@@ -16431,6 +16448,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
+"次に、Tanaguru ツールを使用します。このツールで、ファイル形式と基本ファイル "
+"テンプレートを指定して、すべてのコンポーネントと翻訳を単一のフォルダに配置す"
+"る方法:"
 
 #: ../../admin/management.rst:489
 msgid ""
@@ -16438,24 +16458,30 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
+"ファイル名を解析して、``src/security/Numerous_security_holes_in_0.10.1.de."
+"po`` のようなファイル名から、正しいコンポーネントと言語を取得する複雑な例:"
 
 #: ../../admin/management.rst:500
 msgid "Filtering only translations in a chosen language:"
-msgstr ""
+msgstr "選択した言語の翻訳のみをフィルタする方法:"
 
 #: ../../admin/management.rst:510
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "Sphinx ドキュメントを、複数のファイルに分割してインポートする方法:"
 
 #: ../../admin/management.rst:519
 msgid "Importing Sphinx documentation split to multiple files and directories:"
-msgstr ""
+msgstr "Sphinx "
+"ドキュメントを、複数のファイルおよびディレクトリに分割してインポートする方法:"
 
 #: ../../admin/management.rst:534
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :djadmin:`import_json`."
 msgstr ""
+"詳細な例については、 :ref:`starting` "
+"の章を確認してください。または、:djadmin:`import_json` "
+"を代わりに使用できます。"
 
 #: ../../admin/management.rst:538
 msgid "importuserdata"
@@ -16463,7 +16489,8 @@ msgstr "importuserdata"
 
 #: ../../admin/management.rst:542
 msgid "Imports user data from a file created by :djadmin:`dumpuserdata`"
-msgstr ""
+msgstr "ユーザー データを、:djadmin:`dumpuserdata` "
+"によって作成されたファイルからインポートします。"
 
 #: ../../admin/management.rst:545
 msgid "importusers"
@@ -16471,17 +16498,19 @@ msgstr "importusers"
 
 #: ../../admin/management.rst:549
 msgid "Imports users from JSON dump of the Django auth_users database."
-msgstr ""
+msgstr "Django auth_users データベースの JSON ダンプからユーザーをインポートします。"
 
 #: ../../admin/management.rst:554
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
+"このオプションを指定すると、指定したファイルがインポート可能かどうかを検査し"
+"、ユーザー名やメール アドレスが原因で発生する競合の可能性を報告します。"
 
 #: ../../admin/management.rst:557
 msgid "You can dump users from the existing Django installation using:"
-msgstr ""
+msgstr "既存のインストールした Django でユーザーをダンプする方法:"
 
 #: ../../admin/management.rst:564
 msgid "install_addon"
@@ -16494,7 +16523,7 @@ msgstr "アドオンをコンポーネントのセットにインストールし
 #: ../../admin/management.rst:574
 msgid ""
 "Name of the add-on to install. For example ``weblate.gettext.customize``."
-msgstr ""
+msgstr "インストールするアドオンの名前。例: ``weblate.gettext.customize``。"
 
 #: ../../admin/management.rst:578
 msgid "JSON encoded configuration of an add-on."
@@ -16510,10 +16539,14 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
+"アドオンをインストールするプロジェクトまたはコンポーネント（例: ``weblate/"
+"application``）を設定するか、``--all`` "
+"を使用して既存のすべてのコンポーネントを含めることができます。"
 
 #: ../../admin/management.rst:587
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
-msgstr ""
+msgstr "すべてのコンポーネントに :ref:`addon-weblate.gettext.customize` "
+"をインストールする方法:"
 
 #: ../../admin/management.rst:595
 #, fuzzy
@@ -16529,13 +16562,16 @@ msgstr "list_languages"
 msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
-msgstr ""
+msgstr "MediaWiki マークアップで対応している言語（言語コード、英語名、現地語化された"
+"名前）を一覧表示します。"
 
 #: ../../admin/management.rst:605
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
 "%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
+"これは、<https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF> "
+"を生成するために使用します。"
 
 #: ../../admin/management.rst:608
 msgid "list_translators"
@@ -16543,11 +16579,11 @@ msgstr "list_translators"
 
 #: ../../admin/management.rst:612
 msgid "Lists translators by contributed language for the given project::"
-msgstr ""
+msgstr "指定したプロジェクトの提供言語別に、翻訳者を一覧表示する方法:"
 
 #: ../../admin/management.rst:621
 msgid "List names by language code instead of language name."
-msgstr ""
+msgstr "言語名ではなく言語コードで名前を一覧表示します。"
 
 #: ../../admin/management.rst:623
 msgid ""
@@ -16555,6 +16591,9 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
+"使用するプロジェクトまたはコンポーネント（例: ``weblate/"
+"application``）を設定するか、``--all`` "
+"を使用して既存のすべてのコンポーネントから一覧表示できます。"
 
 #: ../../admin/management.rst:628
 msgid "list_versions"
@@ -16562,7 +16601,7 @@ msgstr "list_versions"
 
 #: ../../admin/management.rst:632
 msgid "Lists all Weblate dependencies and their versions."
-msgstr ""
+msgstr "すべての Weblate に必要なプログラムとそのバージョンを一覧表示します。"
 
 #: ../../admin/management.rst:635
 msgid "loadpo"
@@ -16572,15 +16611,16 @@ msgstr "loadpo"
 msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
-msgstr ""
+msgstr "ディスクから翻訳を再読み込みします（たとえば、VCS "
+"リポジトリで更新を行った場合）。"
 
 #: ../../admin/management.rst:644
 msgid "Force update, even if the files should be up-to-date."
-msgstr ""
+msgstr "ファイルがアップグレード済みであっても、強制的にアップグレードさせる。"
 
 #: ../../admin/management.rst:648
 msgid "Limit processing to a single language."
-msgstr ""
+msgstr "処理を 1 つの言語に制限します。"
 
 #: ../../admin/management.rst:655
 msgid ""
@@ -16589,6 +16629,10 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
+"これを実行する必要性はほとんどありませんが、Weblate は VCS "
+"の更新ごとに変更されたファイルを自動的にロードします。これは、基礎となる "
+"Weblate VCS "
+"リポジトリを手動で変更した場合や、アップグレード後の特別な場合に必要です。"
 
 #: ../../admin/management.rst:660
 msgid "lock_translation"
