@@ -3,24 +3,24 @@
 Translation workflows
 =====================
 
-Using Weblate is a process that brings your users closer to you, by bringing
-you closer to your translators.  It is up to you to decide how many of its
+Using Weblate is a process bringing your users closer to you, where you are
+closer to your translators. It is up to you to decide how many of its
 features you want to make use of.
 
 The following is not a complete list of ways to configure Weblate.
-You can base other workflows on the most usual examples listed here.
+You can base other workflows on the most examples listed here.
 
 Translation access
 ------------------
 
 The :ref:`access control <access-control>` is not discussed in detail as a whole in
-the workflows, as most of its options can be applied to any workflow. Please
-consult the respective documentation on how to manage access to
+the workflows, as most of its options can be applied to any workflow.
+Please consult the respective documentation on how to manage access to
 translations.
 
 In the following chapters, *any user* means a user who has access to the
 translation. It can be any authenticated user if the project is public, or a user
-that has a :guilabel:`Translate` permission for the project.
+with :guilabel:`Translate` permission to the project.
 
 .. _states:
 
@@ -35,7 +35,7 @@ Untranslated
 Needs editing
     Translation needs editing, this is usually the result of a source string change, fuzzy matching or translator action.
     The translation is stored in the file, depending on the file format it might
-    be marked as needing edit (for example as it gets a ``fuzzy`` flag in the Gettext file).
+    be marked as needing edit (for example as it gets a ``fuzzy`` flag in the gettext file).
 Waiting for review
     Translation is made, but not reviewed. It is stored in the file as a valid
     translation.
@@ -52,8 +52,8 @@ The states are represented in the translation files when possible.
 
 .. hint::
 
-   In case file format you use does not support storing states, you might want
-   to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
+   In case the file format you use does not support storing states, you might want
+   to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
    as needing editing.
 
 .. seealso::
@@ -64,7 +64,7 @@ The states are represented in the translation files when possible.
 
 Direct translation
 ------------------
-This is most usual setup for smaller teams, anybody can directly translate.
+The most common setup for smaller teams, where anybody can translate directly.
 This is also the default setup in Weblate.
 
 * *Any user* can edit translations.
@@ -76,7 +76,7 @@ This is also the default setup in Weblate.
 +========================+=============+====================================+
 | Enable reviews         | off         | Configured at project level.       |
 +------------------------+-------------+------------------------------------+
-| Enable suggestions     | on          | It is useful for users to be able  |
+| Enable suggestions     | on          | Useful for users to be able        |
 |                        |             | to suggest when they are not sure. |
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
@@ -112,7 +112,7 @@ from additional member(s) before it is accepted as a translation.
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
 +------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 1           | You can set higher value to        |
+| Auto-accept suggestions| 1           | You can set higher value to        |
 |                        |             | require more peer reviews.         |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
@@ -129,7 +129,7 @@ Dedicated reviewers
 
 .. versionadded:: 2.18
 
-    The proper review workflow is supported since Weblate 2.18.
+    Proper review workflow is supported since Weblate 2.18.
 
 With dedicated reviewers you have two groups of users, one able to submit
 translations, and one able to review them to ensure translations are
@@ -145,7 +145,7 @@ consistent and that the quality is good.
 +========================+=============+====================================+
 | Enable reviews         | on          | Configured at project level.       |
 +------------------------+-------------+------------------------------------+
-| Enable suggestions     | off         | It is useful for users to be able  |
+| Enable suggestions     | off         | Useful for users to be able        |
 |                        |             | to suggest when they are not sure. |
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
@@ -172,8 +172,8 @@ Reviews can be turned on in the project configuration, from the
 
 .. note::
 
-    Depending on Weblate configuration, the setting might not be available to
-    you. For example on Hosted Weblate this is not available for projects hosted
+    Depending on your Weblate configuration, the setting might not be available.
+    For example on Hosted Weblate this is not available for projects hosted
     for free.
 
 .. _source-quality-gateway:
@@ -181,16 +181,16 @@ Reviews can be turned on in the project configuration, from the
 Quality gateway for the source strings
 --------------------------------------
 
-In many cases the original source language strings are coming from developers,
-because they write the code and provide initial strings. However developers are
-often not a native speakers in the source language and do not provide desired
-quality of the source strings. The intermediate translation can help you in
-addressing this - there is additional quality gateway for the strings between
-developers and translators and users.
+In many cases the original source language strings come from developers,
+as they write the code and provide initial strings. However developers are
+often not native speakers of the source language, and may not be capable of
+attaining the desired source string quality. Intermediate translation can help you
+in addressing this — because it makes for an additional quality gateway for
+strings between developers and translators.
 
-By setting :ref:`component-intermediate`, this file will be used as source for
-the strings, but it will be edited to source language to polish it.  Once the
-string is ready in the source language, it will be also available for
+By setting :ref:`component-intermediate`, this file will be used as the source for
+strings, but instead edited in the source language to polish it.
+Once the string is ready in the source language, it will be made available for
 translators to translate into additional languages.
 
 .. graphviz::
@@ -241,20 +241,19 @@ translators to translate into additional languages.
 Source strings reviews
 ----------------------
 
-With :ref:`project-source_review` enabled, the review process can be applied on
-the source strings. Once enabled, users can report issues in the source
-strings.  The actual process depends on whether you use bilingual or
-monolingual formats.
+With :ref:`project-source_review` enabled, the review process can be applied for
+source strings. Once enabled, users can report issues with source strings.
+The actual process depends on whether bilingual or monolingual formats are in use.
 
-For monolingual formats, the source string review behaves similarly as with
-:ref:`reviews` - once issue is reported on the source string, it is marked as
+For monolingual formats, source string review functions similarly to
+:ref:`reviews` — once an issue with a source string is reported, it is marked as
 :guilabel:`Needs editing`.
 
-The bilingual formats do not allow direct editing of the source strings (these
-are typically extracted directly from the source code). In this case
+The bilingual formats do not allow direct editing of source strings (these
+are typically extracted directly from the source code). In this case a
 :guilabel:`Source needs review` label is attached to strings reported by
 translators. You should review such strings and either edit them in the source
-or remove the label.
+code, or remove the label.
 
 .. seealso::
 
