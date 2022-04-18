@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-15 21:21+0000\n"
+"PO-Revision-Date: 2022-04-20 10:14+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -9650,6 +9650,10 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
+"Django と Python を使用して拡張およびカスタマイズします。変更を上流に投稿して"
+"、誰もが恩恵を受けられるようにします。これにより、保守コストが削減されます。"
+"Weblate "
+"のコードは、内部インターフェイスの変更やコードの再構築時に処理されます。"
 
 #: ../../admin/customize.rst:11
 msgid ""
@@ -9657,6 +9661,9 @@ msgid ""
 "Please review your own customizations for every upgrade, the interfaces or "
 "their semantics might change without notice."
 msgstr ""
+"内部インターフェイスもテンプレートも、安定した API と判断できません。アップグ"
+"レードごとに独自のカスタマイズを調査してください、インターフェイスまたはその"
+"セマンティクスは予告なく変更されます。"
 
 #: ../../admin/customize.rst:17
 msgid ":ref:`contributing`"
@@ -9664,7 +9671,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Python モジュールの作成"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -9672,6 +9679,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Python に慣れていない場合は、`Python For Beginners <https://www.python.org/"
+"about/gettingstarted/>`_ "
+"を調べて、基本の説明とチュートリアルを参考にしてください。"
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -9680,68 +9690,84 @@ msgid ""
 "python3.7/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
+"（モジュールと呼ばれる）Python のカスタム "
+"コードを書くには、それを格納する場所が必要です。システム パス（通常は "
+":file:`/usr/lib/python3.7/site-packages/` など）か、"
+"インタプリタ検索パスに追加された Weblate ディレクトリのどちらかになります。"
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr ""
+msgstr "カスタマイズしたものを適切な Python "
+"パッケージに変更すると、さらに良くなります。"
 
 #: ../../admin/customize.rst:35
 msgid "Create a folder for your package (we will use `weblate_customization`)."
-msgstr ""
+msgstr "パッケージ用のフォルダを作成する（`weblate_customization` を使用する）。"
 
 #: ../../admin/customize.rst:36
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
+msgstr "その中に、パッケージを記述するための :file:`setup.py` "
+"ファイルを作成する。作成方法:"
 
 #: ../../admin/customize.rst:53
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
-msgstr ""
+msgstr "カスタマイズ コード用の Python "
+"モジュール（``weblate_customization``とも呼ばれる）用のフォルダーを作成する。"
 
 #: ../../admin/customize.rst:55
 msgid ""
 "Within it, create a :file:`__init__.py` file to make sure Python can import "
 "the module."
-msgstr ""
+msgstr "その中に :file:`__init__.py` ファイルを作成し、Python "
+"がモジュールをインポートできることを確認する。"
 
 #: ../../admin/customize.rst:56
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
+"このパッケージは、:command:`pip install -e` "
+"を使用してインストールできるようになりました。詳細については、:ref:`pip"
+":editable-installs` を確認してください。"
 
 #: ../../admin/customize.rst:57
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"インストールが完了すると、モジュールは Weblate "
+"の設定から使用できるようになります（``weblate_customization.checks.FooCheck``"
+" など）。"
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
-msgstr ""
+msgstr "完成したモジュール構造:"
 
 #: ../../admin/customize.rst:71
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"Weblate のカスタマイズ例は、<https://github.com/WeblateOrg/customize-"
+"example> にあります。ここでは、次に説明するすべてのトピックについて説明します"
+"。カスタマイズ例は、以下に説明するトピックをすべて網羅しています。"
 
 #: ../../admin/customize.rst:76
 msgid "Changing the logo"
-msgstr ""
+msgstr "ロゴの変更"
 
 #: ../../admin/customize.rst:78
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
-msgstr ""
-"上書きしたい静的ファイルを含む単純な Django アプリケーションを作成します（参"
-"照::ref:`custom-module`）。"
+msgstr "上書きしたい静的ファイルを含む単純な Django "
+"アプリケーションを作成します（参照: :ref:`custom-module`）。"
 
 #: ../../admin/customize.rst:81
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "表示するロゴのファイル:"
 
 #: ../../admin/customize.rst:83
 msgid ":file:`icons/weblate.svg`"
@@ -9749,7 +9775,7 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:84
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "ナビゲーション バーに表示するロゴ。"
 
 #: ../../admin/customize.rst:85
 msgid ":file:`logo-*.png`"
@@ -9757,7 +9783,7 @@ msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:86
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "画面の解像度と Web ブラウザに応じた Web アイコン。"
 
 #: ../../admin/customize.rst:87
 msgid ":file:`favicon.ico`"
@@ -9765,7 +9791,7 @@ msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:88
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "従来のブラウザーで使用する Web アイコン。"
 
 #: ../../admin/customize.rst:89
 msgid ":file:`weblate-*.png`"
@@ -9775,7 +9801,8 @@ msgstr ":file:`weblate-*.png`"
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
-msgstr ""
+msgstr "ボットまたは匿名ユーザー用のアバター。一部の Web ブラウザでは、"
+"これをショートカット アイコンとして使用する。"
 
 #: ../../admin/customize.rst:92
 msgid ":file:`email-logo.png`"
@@ -9783,17 +9810,18 @@ msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:92
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "通知メールに使用する。"
 
 #: ../../admin/customize.rst:94
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr ""
+msgstr "これを、:setting:`django:INSTALLED_APPS` に追加する方法:"
 
 #: ../../admin/customize.rst:104
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
-msgstr ""
+msgstr ":samp:`weblate collectstatic --noinput` "
+"を実行し、クライアントに提供する静的ファイルをまとめます。"
 
 #: ../../admin/customize.rst:109
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
@@ -16640,12 +16668,12 @@ msgstr "lock_translation"
 
 #: ../../admin/management.rst:664
 msgid "Prevents further translation of a component."
-msgstr ""
+msgstr "今後、コンポーネントの翻訳を防ぎます。"
 
 #: ../../admin/management.rst:668 ../../admin/management.rst:727
 msgid ""
 "Useful in case you want to do some maintenance on the underlying repository."
-msgstr ""
+msgstr "基礎となるリポジトリをメンテナンスする場合に使用できます。"
 
 #: ../../admin/management.rst:675
 msgid ":djadmin:`unlock_translation`"
@@ -16662,6 +16690,10 @@ msgid ""
 "been created with the `(generated)` suffix. It moves all content from the "
 "`source` language to the `target` one."
 msgstr ""
+"言語コンテンツを統合します。これは、接尾辞 `(generated)` を使用して自動生成さ"
+"れた、いままでになかった言語のエイリアスを含む新しいバージョンに更新する場合"
+"に使用します。すべてのコンテンツを `ソース` 言語から `対象` "
+"言語に移動します。"
 
 #: ../../admin/management.rst:695
 msgid ""
@@ -16669,6 +16701,9 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the `(generated)` language."
 msgstr ""
+"コンテンツを移動した後、空であることを確認してください（残っているものがある"
+"と、誰かがリポジトリを更新したときに競合状態の影響を受けます）。また、`(gener"
+"ated)` 言語も削除してください。"
 
 #: ../../admin/management.rst:700
 msgid "pushgit"
@@ -16676,17 +16711,19 @@ msgstr "pushgit"
 
 #: ../../admin/management.rst:704
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr "コミットした変更をアップストリームの VCS リポジトリにプッシュします。"
+msgstr "コミットした変更を上流の VCS リポジトリにプッシュします。"
 
 #: ../../admin/management.rst:708
 msgid "Force commits any pending changes, prior to pushing."
-msgstr ""
+msgstr "プッシュする前に、保留中の変更を強制的にコミットします。"
 
 #: ../../admin/management.rst:715
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` in :"
 "ref:`component` is turned on, which is the default."
 msgstr ""
+"Weblate は、:ref:`component`の :ref:`component-push_on_commit` "
+"が有効（デフォルト）になっている場合、変更を自動的にプッシュします。"
 
 #: ../../admin/management.rst:719
 msgid "unlock_translation"
@@ -16694,7 +16731,7 @@ msgstr "unlock_translation"
 
 #: ../../admin/management.rst:723
 msgid "Unlocks a given component, making it available for translation."
-msgstr ""
+msgstr "指定したコンポーネントのロックを解除して、翻訳できるようにします。"
 
 #: ../../admin/management.rst:734
 msgid ":djadmin:`lock_translation`"
@@ -16708,17 +16745,22 @@ msgstr "setupgroups"
 msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
-msgstr ""
+msgstr "デフォルトのグループを設定し、必要であればすべてのユーザーをそのデフォルトの"
+"グループに割り当てます。"
 
 #: ../../admin/management.rst:745
 msgid "Turns off automatic updating of existing groups (only adds new ones)."
-msgstr ""
+msgstr "デフォルトのグループの自動更新を無効にします（新しいグループのみを追加します"
+"）。"
 
 #: ../../admin/management.rst:749
 msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
 msgstr ""
+"デフォルトのプロジェクトのグループが、自動的に更新されないようにします。これ"
+"により、新規に追加したグループを、デフォルトのプロジェクトに追加します。参照:"
+" :ref:`acl` 。"
 
 #: ../../admin/management.rst:754
 msgid ":ref:`privileges`"
@@ -16730,11 +16772,11 @@ msgstr "setuplang"
 
 #: ../../admin/management.rst:761
 msgid "Updates list of defined languages in Weblate."
-msgstr ""
+msgstr "Weblate で定義されている言語リストを更新します。"
 
 #: ../../admin/management.rst:765
 msgid "Turns off automatic updates of existing languages (only adds new ones)."
-msgstr ""
+msgstr "デフォルトの言語の自動更新を無効にします（新しい言語のみを追加します）。"
 
 #: ../../admin/management.rst:768
 msgid "updatechecks"
@@ -16742,11 +16784,11 @@ msgstr "updatechecks"
 
 #: ../../admin/management.rst:772
 msgid "Updates all checks for all strings."
-msgstr ""
+msgstr "すべての文字列のすべての検査結果を更新します。"
 
 #: ../../admin/management.rst:776
 msgid "Useful for upgrades which do major changes to checks."
-msgstr ""
+msgstr "検査に大きな変更を加えるようなアップグレードに使用すると便利です。"
 
 #: ../../admin/management.rst:782
 msgid "updategit"
@@ -16754,13 +16796,15 @@ msgstr "updategit"
 
 #: ../../admin/management.rst:786
 msgid "Fetches remote VCS repositories and updates the internal cache."
-msgstr ""
+msgstr "リモート VCS リポジトリを取得し、内部キャッシュを更新します。"
 
 #: ../../admin/management.rst:793
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular polling by :djadmin:`updategit`."
 msgstr ""
+"通常は、:djadmin:`updategit` による定期的なポーリングではなく、:ref:`hooks` "
+"を起動するようにリポジトリ内のフックを設定してください。"
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -31782,12 +31826,17 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
+"`GNU gettext`_ はフリー ソフトウェアの国際化のために最も広く使われているツー"
+"ルの一つです。ソフトウェアを現地語化するための簡単かつ柔軟な方法を提供します"
+"。複数形に対応しており、翻訳した文字列にさらに関連情報を追加でき、関連する非"
+"常に多くのツールが作成されています。もちろん、Weblate "
+"でも優れた対応をしています（参照: :ref:`gettext` ファイル形式の説明）。"
 
 #: ../../devel/gettext.rst:12
 msgid ""
 "If you are about to use it in proprietary software, please consult licensing "
 "first, it might not be suitable for you."
-msgstr ""
+msgstr "ソフトウェアを商用利用する場合は、まずはライセンスを確認してください。"
 
 #: ../../devel/gettext.rst:15
 msgid ""
@@ -31797,6 +31846,11 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
+"GNU gettext は、さまざまな言語（C、Python、PHP、Ruby、JavaScript、その他多数"
+"）で使用でき、通常、UI フレームワークにはすでに何らかのサポートが付属していま"
+"す。標準的な使用法は、`gettext()` "
+"関数呼び出しを使用します。これは、コードをより単純で読みやすくするために、"
+"多くの場合 `_()` にエイリアスされます。"
 
 #: ../../devel/gettext.rst:20
 msgid ""
@@ -31804,6 +31858,9 @@ msgid ""
 "translators and `ngettext()` which can handle plural types as defined for "
 "target language."
 msgstr ""
+"さらに、翻訳者に追加の関連情報を提供するための `pgettext()` 呼び出しと、"
+"ターゲット言語用に定義された複数の型を処理できる `ngettext()` "
+"を提供されています。"
 
 #: ../../devel/gettext.rst:24
 msgid ""
@@ -31811,6 +31868,9 @@ msgid ""
 "simple, instead of manual invoking of gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
+"広く普及しているツールとして、使用法を非常に簡単にする多くのラッパーがありま"
+"す。以下で説明する gettext を手動で呼び出す代わりに、 `intltool`_ "
+"などを試してみてください。"
 
 #: ../../devel/gettext.rst:29
 msgid "Workflow overview"
@@ -31818,7 +31878,7 @@ msgstr "ワークフローの概要"
 
 #: ../../devel/gettext.rst:31
 msgid "The GNU gettext uses several files to manage the localization:"
-msgstr ""
+msgstr "GNU gettext は、現地語化を管理するために複数のファイルを使用します。"
 
 #: ../../devel/gettext.rst:33
 msgid ""
@@ -32957,9 +33017,9 @@ msgid ""
 "will help you do so. Several typical situations are showcased, but most of "
 "the examples are generic and can be applied to other scenarios as well."
 msgstr ""
-"既にプロジェクトがあり、それを複数の言語に翻訳したいと考えてますか？このガイ"
-"ドは役に立つはずです。いくつかの特殊な例の説明がありますが、ほとんどの例は一"
-"般的なものであり、他の状況にも応用できます。"
+"既にプロジェクトがあり、それを複数の言語に翻訳することを考えてますか？このガ"
+"イドは役に立つはずです。特殊な例の説明もありますが、多くの例は一般的なもので"
+"あり、他の状況にも応用できます。"
 
 #: ../../devel/starting.rst:11
 msgid ""
@@ -32970,6 +33030,11 @@ msgid ""
 "handle plural forms because many languages have complex rules for that and "
 "the internationalization framework you end up using should support this."
 msgstr ""
+"ソフトウェアを翻訳する前に、世界中の言語が本当に異なっていることを理解し、自"
+"分の経験に基づいた推測を排除してください。ほとんどの言語では、翻訳された部分"
+"から文を連結しようとすると、おかしくなります。また、複数形を適切に処理するこ"
+"とが必要です。これは、多くの言語には複雑な規則があり、最終的に使用する国際化"
+"フレームワークがこれに対応しているためです。"
 
 #: ../../devel/starting.rst:18
 msgid ""
@@ -32978,6 +33043,10 @@ msgid ""
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
+"最後になりますが、翻訳された文字列に何らかのコンテキストを追加しなければなら"
+"ない場合があります。翻訳者が ``Sun`` という文字列を翻訳するとします。文脈がわ"
+"からなければ、ほとんどの人は太陽と解釈しますが、実際には日曜日の省略形として"
+"使用するかもしれません。"
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
@@ -32990,6 +33059,10 @@ msgid ""
 "supports most of the widely used frameworks, see :ref:`formats` for more "
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
+"プラットフォームで標準となるものを選択し、現地語化を処理する独自のフレームワ"
+"ークを作成して、車輪の再発明を避けてください。Weblate は、広く使用されている"
+"フレームワークのほとんどに対応していますが、詳細については、:ref:`formats` "
+"を確認してください（特に :ref:`fmt_capabs`）。"
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -33104,20 +33177,23 @@ msgid ""
 "builds, it is recommended to use third party library `motranslator <https://"
 "github.com/phpmyadmin/motranslator>`_ instead."
 msgstr ""
+"PHP 純正の Gettext 対応はバグが多く、Windows "
+"のビルド版は不完全です。代わりに、サードパーティのライブラリ `motranslator "
+"<https://github.com/phpmyadmin/motranslator>`_ を使用してください。"
 
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
-msgstr ""
+msgstr "複数形が必要ない場合、:ref:`javaprop` を使用してください。"
 
 #: ../../devel/starting.rst:75
 msgid "You can also use plain :ref:`json` if plurals are not needed."
-msgstr ""
+msgstr "複数形が必要ない場合、プレーンの :ref:`json` も使用できます。"
 
 #: ../../devel/starting.rst:77
 msgid ""
 "The more detailed workflow for some formats is described in following "
 "chapters:"
-msgstr ""
+msgstr "次の章で説明する、一部のファイル形式のより詳細なワークフロー:"
 
 #: ../../devel/starting.rst:79
 msgid ":doc:`gettext`"
@@ -36260,7 +36336,7 @@ msgstr "翻訳状況"
 
 #: ../../../README.rst:None
 msgid "CII Best Practices"
-msgstr ""
+msgstr "CII のベスト プラクティス"
 
 #: ../../../README.rst:34
 msgid "Support"
@@ -36369,6 +36445,11 @@ msgid ""
 "your responsibility to ensure that your use of Weblate complies with all "
 "applicable laws and regulations."
 msgstr ""
+"ここには、特定の法的管轄区域で Weblate を運営するために必要なさまざまな法的情"
+"報を記載しています。これはガイダンスの手段として提供され、正確性または正しさ"
+"を保証するものではありません。。Weblate の使用にあたり、適用されるすべての法"
+"律および規制に準拠しているかどうかの確認の責任は、最終的にはお客様にあります"
+"。"
 
 #: ../../legal.rst:13
 msgid "ITAR and other export controls"
@@ -36380,6 +36461,10 @@ msgid ""
 "such, it can be used to store ITAR or other export-controlled information, "
 "however, end users are responsible for ensuring such compliance."
 msgstr ""
+"Weblate は、お客様のデータセンターまたは仮想プライベート "
+"クラウド内で実行できます。そのため、ITAR またはその他の輸出管理情報を格納する"
+"ために使用できますが、このようなコンプライアンスを確保する責任はエンドユーザ"
+"ーにあります。"
 
 #: ../../legal.rst:19
 msgid ""
@@ -36387,6 +36472,9 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
+"Hosted Weblate サービスは、ITAR またはその他の輸出規制への準拠について監査し"
+"ていません。また、現在、翻訳サイトへの接続を国ごとに制限する機能も提供してい"
+"ません。"
 
 #: ../../legal.rst:24
 msgid "US encryption controls"
@@ -36398,6 +36486,9 @@ msgid ""
 "controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
+"Weblate には暗号化コードは含まれていませんが、認証、データの整合性、機密性に"
+"暗号化が必要なサードパーティのコンポーネントを使用しているため、輸出規制の対"
+"象になる可能性があります。"
 
 #: ../../legal.rst:30
 msgid ""
@@ -36406,12 +36497,18 @@ msgid ""
 "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index.php/"
 "policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
+"Weblate は,、ECCN 5D002 または 5D992 aに分類される可能性が高く、"
+"公開されている Libre ソフトウェアであるため、EAR "
+"の対象にはならないはずです（参照: `Encryption items NOT Subject to the EAR "
+"<https://www.bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-"
+"items-not-subject-to-the-ear>`_ ） 。"
 
 #: ../../legal.rst:35
 msgid ""
 "Software components used by Weblate (listing only components related to "
 "cryptographic function):"
-msgstr ""
+msgstr "Weblate が使用するソフトウェア "
+"コンポーネント（暗号機能に関連するもののみのリスト）。"
 
 #: ../../legal.rst:38
 msgid "`Python <https://www.python.org/>`_"
@@ -36459,10 +36556,13 @@ msgid ""
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
+"暗号鍵の強度は、Weblate の設定と、Weblate がやり取りするサードパーティのコン"
+"ポーネントによって異なりますが、適切な設定を使用した場合、すべての輸出制限付"
+"き暗号化機能が含まれます。"
 
 #: ../../legal.rst:53
 msgid "In excess of 56 bits for a symmetric algorithm"
-msgstr ""
+msgstr "対称アルゴリズムでは 56 ビットを超える"
 
 #: ../../legal.rst:54
 msgid ""
@@ -36473,20 +36573,23 @@ msgstr "非対称アルゴリズムで 512 ビットを超える整数の因数�
 msgid ""
 "Computation of discrete logarithms in a multiplicative group of a finite "
 "field of size greater than 512 bits for an asymmetric algorithm"
-msgstr ""
+msgstr "非対称アルゴリズムのための 512 "
+"ビットより大きいサイズの有限体における乗法群の離散対数の計算"
 
 #: ../../legal.rst:56
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
-msgstr ""
+msgstr "非対称アルゴリズムの場合、上記とは異なるグループ内の離散対数が 112 "
+"ビットを超える"
 
 #: ../../legal.rst:58
 msgid ""
 "Weblate doesn't have any cryptographic activation feature, but it can be "
 "configured in a way where no cryptography code would be involved. The "
 "cryptographic features include:"
-msgstr ""
+msgstr "Weblate には暗号化アクティベーション機能はありませんが、暗号化コードを含まな"
+"いように設定できます。暗号化機能を含むもの:"
 
 #: ../../legal.rst:62
 msgid "Accessing remote servers using secure protocols (HTTPS)"
