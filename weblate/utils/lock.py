@@ -79,15 +79,17 @@ class WeblateLock:
         if self.use_redis:
             try:
                 if not self._lock.acquire(timeout=self._timeout):
-                    raise WeblateLockTimeout()
+                    raise WeblateLockTimeout(
+                        f"Lock could not be acquired in {self._timeout}"
+                    )
             except AlreadyAcquired:
                 pass
         else:
             # Fall back to file based locking
             try:
                 self._lock.acquire()
-            except Timeout:
-                raise WeblateLockTimeout()
+            except Timeout as error:
+                raise WeblateLockTimeout(str(error))
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._depth -= 1
