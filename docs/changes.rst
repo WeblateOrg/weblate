@@ -15,6 +15,7 @@ Not yet released.
 * Add copy and clone buttons to other translations.
 * Make merge request message configurable at component level.
 * Improved maximal length restriction behavior with XML tags.
+* Fixed loading Fluent files with additional comments.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
