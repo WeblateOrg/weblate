@@ -538,7 +538,10 @@ class TranslationForm(UnitForm):
                     )
                 )
 
-        max_length = unit.get_max_length()
+        # Add extra margin to limit to allow XML tags which might
+        # be ignored for the length calculation. On the other side,
+        # we do not want to process arbitrarily long strings here.
+        max_length = 10 * (unit.get_max_length() + 100)
         for text in self.cleaned_data["target"]:
             if len(text) > max_length:
                 raise ValidationError(_("Translation text too long!"))

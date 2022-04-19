@@ -14,6 +14,7 @@ Not yet released.
 * Improved API for creating components from a file.
 * Add copy and clone buttons to other translations.
 * Make merge request message configurable at component level.
+* Improved maximal length restriction behavior with XML tags.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
