@@ -172,7 +172,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     BASE = TEST_POT
     MIME = "text/x-gettext-catalog"
     EXT = "po"
-    COUNT = 5
+    COUNT = 4
     MATCH = "msgid_plural"
     MASK = "po/*.po"
     EXPECTED_PATH = "po/cs_CZ.po"
@@ -386,7 +386,7 @@ class PoFormatTest(AutoFormatTest):
         # Test adding unit matching obsolete one
         storage = self.FORMAT(TEST_PO)
         # Remove duplicate entry
-        unit = storage.all_units[1]
+        unit = storage.all_units[0]
         self.assertEqual(unit.source, "Hello, world!\n")
         storage.delete_unit(unit.unit)
 
@@ -718,7 +718,7 @@ class PoXliffFormatTest2(PoXliffFormatTest):
         )
     )
     FIND_CONTEXT = "cs.po///2"
-    COUNT = 5
+    COUNT = 4
     MATCH = '<file original="cs.po"'
     FIND_MATCH = "Ahoj světe!\n"
 
