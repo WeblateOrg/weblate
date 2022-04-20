@@ -1,7 +1,7 @@
 Weblate 4.12
 ------------
 
-Not yet released.
+Released on April 20th 2022.
 
 * Added support for Amharic in :ref:`check-end-stop`.
 * Added support for Burmese in :ref:`check-end-question`.
