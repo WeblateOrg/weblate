@@ -889,6 +889,7 @@ if REQUIRE_LOGIN:
 #    rf"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
 #    rf"{URL_PREFIX}/contact/$",  # Optional for contact form
 #    rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
+#    rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
 # )
 
 # Silence some of the Django system checks
