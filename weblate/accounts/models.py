@@ -369,7 +369,6 @@ class Profile(models.Model):
     language = models.CharField(
         verbose_name=_("Interface Language"),
         max_length=10,
-        blank=True,
         choices=settings.LANGUAGES,
     )
     languages = models.ManyToManyField(
