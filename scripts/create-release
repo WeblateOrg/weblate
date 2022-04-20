@@ -78,7 +78,9 @@ if [ "$DO_TAG" -eq 1 ] ; then
 
     # Upload to GitHub
     ./scripts/extract-release-notes $version > dist/Weblate-$version.md
+    sleep 10
     hub release create --file=dist/Weblate-$version.md $namever
+    sleep 10
     hub release edit -m '' --attach=dist/$tarver.tar.gz $namever
     hub release edit -m '' --attach=dist/$tarver.tar.gz.asc $namever
     hub release edit -m '' --attach=dist/$tarver.tar.xz $namever
