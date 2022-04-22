@@ -107,6 +107,7 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
         r"{URL_PREFIX}/contact/$",  # Optional for contact form
         r"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
+        r"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
     )
 
     class Meta:
