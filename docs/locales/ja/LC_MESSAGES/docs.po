@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 08:44+0100\n"
-"PO-Revision-Date: 2022-04-20 10:14+0000\n"
-"Last-Translator: yajamon <yajamon.tatsuki@gmail.com>\n"
+"PO-Revision-Date: 2022-04-23 01:41+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -31885,6 +31885,8 @@ msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+":file:`PACKAGE.pot` には、ソースコードから抽出された文字列が含まれています。"
+"通常は `xgettext`_ または `intltool`_ などの高レベルのラッパーを使用します。"
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -31892,6 +31894,10 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+":file:`LANGUAGE.po` "
+"には、単一言語に翻訳された文字列が含まれています。:file:`PACKAGE.pot` "
+"の更新があれば、`msgmerge`_ による更新が必要です。新しい言語ファイルは "
+"`msginit`_ を使用する、Weblate 内で作成できます。"
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -31901,10 +31907,15 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` add-on."
 msgstr ""
+":file:`LANGUAGE.mo` には :file:`LANGUAGE.po` のバイナリ表現が含まれ、アプリケ"
+"ーションの実行時に使用されます。通常、バージョン管理下には置かれませんが、"
+"コンパイル時に `msgfmt`_ "
+"を使用して生成されます。バージョン管理に含める場合は、:ref:`addon-weblate."
+"gettext.mo` アドオンを使用して Weblate で生成できます。"
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
-msgstr ""
+msgstr "GNU gettext 処理の全体像:"
 
 #: ../../devel/gettext.rst:56
 msgid ""
@@ -31920,11 +31931,11 @@ msgstr "サンプル プログラム"
 
 #: ../../devel/gettext.rst:61
 msgid "The simple program in C using gettext might look like following:"
-msgstr ""
+msgstr "C言語による gettext を使用した簡単なプログラム:"
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
-msgstr ""
+msgstr "翻訳可能な文字列の抽出"
 
 #: ../../devel/gettext.rst:91
 msgid ""
@@ -31932,12 +31943,15 @@ msgid ""
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
+"gettext 呼び出しを使用するコードを作成したら、`xgettext`_ "
+"を使用してメッセージを抽出し、`.pot <https://www.gnu.org/software/gettext/"
+"manual/gettext.html#index-files_002c-_002epot>`_ に格納できます。使用方法:"
 
 #: ../../devel/gettext.rst:101
 msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
-msgstr ""
+msgstr "コードから文字列を抽出する別のプログラムもあります。例: `pybabel`_ 。"
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -31946,21 +31960,26 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
+"これによりテンプレート ファイルが作成され、新しい翻訳の開始（`msginit`_ "
+"の使用）や、コード変更後に既存の翻訳の更新（その場合は、 `msgmerge`_ "
+"の使用）に使用できます。単純に構造化されたテキスト "
+"ファイルによる結果ファイル:"
 
 #: ../../devel/gettext.rst:142
 msgid ""
 "Each ``msgid`` line defines a string to translate, the special empty string "
 "in the beginning is the file header containing metadata about the "
 "translation."
-msgstr ""
+msgstr "``msgid`` の各行は、翻訳する文字列を定義します。先頭の特別な空の文字列は、"
+"翻訳に関するメタデータを含むファイル ヘッダです。"
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
-msgstr ""
+msgstr "新しい翻訳の開始"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
-msgstr ""
+msgstr "テンプレートを用意して、最初の翻訳を開始する。開始方法:"
 
 #: ../../devel/gettext.rst:155
 msgid ""
@@ -31968,6 +31987,9 @@ msgid ""
 "importantly it got the proper plural forms definition for chosen language "
 "and you can see number of plurals have changed according to that:"
 msgstr ""
+":file:`cs.po` を作成すると、あらかじめ情報が入力されています。最も重要なのは"
+"、選択した言語の適切な複数形の定義を取得したことです。複数形の数が言語に従っ"
+"て変化したことも確認できます。"
 
 #: ../../devel/gettext.rst:193
 msgid ""
@@ -31975,22 +31997,30 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU gettext`_ functions at runtime."
 msgstr ""
+"このファイルは、最適化されたバイナリ形式（実行時に 'GNU gettext'_ "
+"関数が使用する `.mo <https://www.gnu.org/software/gettext/manual/gettext.html"
+"#MO-Files>`_ ）にコンパイルされます。"
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
-msgstr ""
+msgstr "文字列の更新"
 
 #: ../../devel/gettext.rst:200
 msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
+"プログラムに文字列を追加したり、文字列の変更を加えた場合、`xgettext`_ "
+"を再度実行してテンプレート ファイルを再生成してください。再生成の方法:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
 "Then you can update individual translation files to match newly created "
 "templates (this includes reordering the strings to match new template):"
 msgstr ""
+"次に、新しく作成されたテンプレートと一致するように個々の翻訳ファイルを更新し"
+"ます（これには、新しいテンプレートに一致するように文字列を並べ替えることも含"
+"みます） 。"
 
 #: ../../devel/gettext.rst:215
 msgid "Importing to Weblate"
@@ -32002,6 +32032,8 @@ msgid ""
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
 msgstr ""
+"翻訳を Weblate にインポートするために必要な、コンポーネント作成時の設定項目（"
+"項目の詳細については、:ref:`component` を確認してください）:"
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
@@ -32014,7 +32046,7 @@ msgstr "値"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr ""
+msgstr "プロジェクトを含む VCS リポジトリの URL"
 
 #: ../../devel/gettext.rst:226 ../../formats.rst:191 ../../formats.rst:257
 msgid "``po/*.po``"
@@ -32026,7 +32058,7 @@ msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`gettext PO file`"
-msgstr ":guilabel:`gettext PO file` の選択"
+msgstr ":guilabel:`gettext 用の PO ファイル` から選択する"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -32034,27 +32066,32 @@ msgstr "新しい言語"
 
 #: ../../devel/gettext.rst:232
 msgid "Choose :guilabel:`Create new language file`"
-msgstr ""
+msgstr ":guilabel:`新しい言語ファイルの作成` から選択する"
 
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
-msgstr ""
+msgstr "これで、ソフトウェアの翻訳を開始する準備が整いました！"
 
 #: ../../devel/gettext.rst:239
 msgid ""
 "You can find a gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
+"多くの言語を使用した gettext の例は、GitHub: <https://github.com/WeblateOrg/"
+"hello> の Weblate Hello プロジェクトにあります。"
 
 #: ../../devel/html.rst:4
 msgid "Translating HTML and JavaScript using Weblate CDN"
-msgstr ""
+msgstr "Weblate CDN を使用した HTML と JavaScript の翻訳"
 
 #: ../../devel/html.rst:6
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgstr ""
+"Weblate 4.2 以降では、:ref:`addon-weblate.cdn.cdnjs` "
+"アドオンを使用して現地語化したものを CDN "
+"にエクスポートできるようになりました。"
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -32062,6 +32099,9 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"この機能は、Hosted Weblate "
+"で設定します。インストール時に追加の設定が必要です。参照: "
+":setting:`LOCALIZE_CDN_URL` および :setting:`LOCALIZE_CDN_PATH`。"
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -32069,6 +32109,8 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
+"コンポーネントにインストールすると、コミットされた翻訳（参照: :ref:`lazy-"
+"commit`）が CDN にプッシュされ、Web ページに表示して翻訳できます。"
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
@@ -32079,6 +32121,8 @@ msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
 msgstr ""
+"まず、文字列を保持するモノリンガルのコンポーネントを作成してください。一般的"
+"な作成方法については、:ref:`adding-projects` を確認してください。"
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -32089,17 +32133,18 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an add-on configuration."
 msgstr ""
-"（例: HTML ファイルを含むファイル）で始まる既存のリポジトリがある場合、リポジ"
-"トリ内に原文の言語（参照: :ref:`component-source_language` ）用の空の JSON "
-"ファイルを作成します。内容は空のオブジェクトを示す ``{}`` とすることが必要で"
-"す。それができたら、リポジトリを Weblate にインポートして、アドオン設定から開"
-"始できます。"
+"開始する既存のリポジトリ（例: HTML "
+"ファイルを含むファイル）がある場合、リポジトリ内に原文の言語（参照: :ref"
+":`component-source_language` ）用の空の JSON ファイルを作成します。"
+"内容は空のオブジェクトを示す ``{}`` であることが必要です。それができたら、"
+"リポジトリを Weblate にインポートして、アドオン設定から開始できます。"
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
-msgstr ""
+msgstr "既存の翻訳がある場合は、翻訳を言語の JSON ファイルに配置すると、Weblate "
+"で使用されます。"
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -32108,6 +32153,10 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
+"既存のリポジトリを使用しない（または存在しない）場合は、"
+"コンポーネントの作成時に :guilabel:`ゼロから始める` を選択し、"
+"ファイル形式として `JSON ファイル` "
+"を選択します（この時点では、モノリンガル形式を選択しても問題ありません） 。"
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN add-on"
@@ -32116,24 +32165,27 @@ msgstr "Weblate CDN アドオンの設定"
 #: ../../devel/html.rst:47
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options."
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs` アドオンには、設定オプションがあります。"
 
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr ""
+msgstr "このしきい値を超えて翻訳した翻訳は、CDN に含まれます。"
 
 #: ../../devel/html.rst:52
 msgid ""
 "Configures which strings from the HTML documents are translatable, see :ref:"
 "`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"HTML 文書内のどの文字列を翻訳可能にするかを設定します。参照: :ref:`cdn-addon-"
+"extract` および :ref:`cdn-addon-html`。"
 
 #: ../../devel/html.rst:55
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
-msgstr ""
+msgstr "ユーザーが選択した言語を含むクッキーの名前。JavaScript スニペットの :ref"
+":`cdn-addon-html` で使用します。"
 
 #: ../../devel/html.rst:58
 msgid ""
@@ -32141,6 +32193,8 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
+"Weblate が、翻訳可能な文字列を検索して翻訳用に提供するリポジトリまたは URL "
+"内のファイルの一覧。参照: :ref:`cdn-addon-extract`。"
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
@@ -32154,6 +32208,11 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"翻訳文字列は、Weblate に存在することが必要です。これを手動で管理するか、API "
+"を使用して作成するか、:guilabel:`HTMLファイルから文字列を抽出` "
+"を使用してファイルまたは URL のリストを用意すると、Weblate "
+"は翻訳文字列を自動的に抽出します。ファイルはリポジトリに存在するか、Weblate "
+"が定期的にダウンロードして解析するリモート URL が含まれていることが必要です。"
 
 #: ../../devel/html.rst:73
 msgid ""
@@ -32161,18 +32220,22 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+":guilabel:`CSS セレクタ` のデフォルト設定では、CSS クラス ``l10n`` "
+"の要素を抽出します。次のスニペットから 2 つの文字列を抽出する例:"
 
 #: ../../devel/html.rst:90
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
-msgstr ""
+msgstr "既存のコードを変更したくない場合は、すべての要素を処理するセレクタとして "
+"``*`` を使用できます。"
 
 #: ../../devel/html.rst:95
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with childs."
-msgstr ""
+msgstr "現時点では、要素のテキストのみ抽出します。このアドオンは、要素属性または子を"
+"持つ要素の現地語化に対応していません。"
 
 #: ../../devel/html.rst:101
 msgid "HTML localization using Weblate CDN"
@@ -32181,7 +32244,8 @@ msgstr "Weblate CDN を使用した HTML の現地化"
 #: ../../devel/html.rst:103
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
-msgstr ""
+msgstr "HTML ドキュメントを現地語化するには、:file:`weblate.js` "
+"スクリプトの読み込みが必要です。読み込み方法:"
 
 #: ../../devel/html.rst:109
 msgid ""
@@ -32189,12 +32253,15 @@ msgid ""
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"読み込み時に、（:guilabel:`CSS セレクタ` 設定に基づき）翻訳可能な要素に一致す"
+"るものがすべて自動的に検索され、一致したテキストが翻訳に置き換えられます。"
 
 #: ../../devel/html.rst:113
 msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
-msgstr ""
+msgstr "ユーザー言語は、設定した Cookie "
+"から検出され、ブラウザーで設定したユーザーの優先言語に戻ります。"
 
 #: ../../devel/html.rst:116
 msgid ""
@@ -32202,6 +32269,9 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
+":guilabel:`言語 Cookie "
+"名`は、他のアプリケーションとの統合に役立ちます（たとえば、Django "
+"を使用する場合は ``django_language`` を選択する）。"
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -32211,11 +32281,12 @@ msgstr "JavaScript の現地語化"
 msgid ""
 "The individual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
-msgstr ""
+msgstr "個々の翻訳は、CDN の下でバイリンガル JSON ファイルとして公開されます。1 "
+"つを取得するためのコード例:"
 
 #: ../../devel/html.rst:131
 msgid "The actual localization logic needs to be implemented in this case."
-msgstr "この場合、実際の現地語化のロジックの実装が必要です。"
+msgstr "この場合、実際の現地語化のプログラムの実装が必要です。"
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
@@ -32894,12 +32965,19 @@ msgid ""
 "Additionally you can share information about translation using Facebook or "
 "Twitter. All these possibilities can be found on the :guilabel:`Share` tab:"
 msgstr ""
+"Weblate には、翻訳プロジェクトを推進するために、Web "
+"サイトやその他のソースで共有するウィジェットを用意しています。また、"
+"新しい貢献者が翻訳に関する基本的な情報を提供するための ウェルカム ページ "
+"も用意しています。さらに、Facebook や Twitter "
+"を使用して翻訳についての情報も共有できます。すべての可能性がある "
+":guilabel:`Share` タブの表示画面:。"
 
 #: ../../devel/share.rst:14
 msgid ""
 "All these badges are provided with the link to simple page which explains "
 "users how to translate using Weblate:"
-msgstr ""
+msgstr "すべてのバッジには、Weblate を使用して翻訳する方法をユーザーに示す簡単なペー"
+"ジへのリンクが用意されています。"
 
 #: ../../devel/sphinx.rst:2
 msgid "Translating documentation using Sphinx"
@@ -32913,6 +32991,12 @@ msgid ""
 "useful companion for using Sphinx is the `Read the Docs`_ service, which "
 "will build and publish your documentation for free."
 msgstr ""
+"`Sphinx`_ は美しいドキュメントを作成するためのツールです。単純な "
+"reStructuredText "
+"構文を使用し、多くのファイル形式で出力を生成できます。使用例を探さなくても、"
+"このドキュメントも Sphinx を使用して作成しています。Sphinx "
+"の使用に最適なサービスは `Read the Docs`_ "
+"サービスです。このサービスは、ドキュメントを無料で作成および公開できます。"
 
 #: ../../devel/sphinx.rst:10
 msgid ""
@@ -32923,6 +33007,11 @@ msgid ""
 "intl`.  It's matter of few configuration directives and invoking of the "
 "``sphinx-intl`` tool."
 msgstr ""
+"ドキュメントの作成自体には着目していません。作成方法に悩んでいる場合は、`Sphi"
+"nx`_ の Web サイトの指示に従ってください。ドキュメントの準備ができたら、翻訳"
+"はとても簡単です。Sphinx では、:ref:`sphinx:intl` "
+"で適切に処理され翻訳に対応しています。少数のディレクティブの設定と、 "
+"``sphinx-intl`` ツールを呼び出すことが重要です。"
 
 #: ../../devel/sphinx.rst:17
 msgid ""
@@ -32931,6 +33020,11 @@ msgid ""
 "pretty much everything you need - creating another project, set its language "
 "and link it from main project as a translation."
 msgstr ""
+"Read the Docs サービスを使用している場合は、Read the Docs "
+"から翻訳したドキュメントの作成を開始できます。Read the Docs の "
+":doc:`rtd:localization` は、必要とするものをほぼ包括しています。— "
+"別のプロジェクトを作成し、その言語を設定し、翻訳としてメイン "
+"プロジェクトからリンクします。"
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -32941,6 +33035,13 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` add-on "
 "to automatically discover all others."
 msgstr ""
+"あと必要なのは、ドキュメントの内容を翻訳することだけです。Sphinx は、"
+"各ディレクトリもしくはトップ レベルのファイルに対して PO ファイルを生成します"
+"。これは翻訳するファイルが非常に多くなることにつながります（ "
+":confval:`sphinx:gettext_compact` の設定による）。初期コンポーネントとして "
+":file:`index.po` を Weblate にインポートしてから、:ref:`addon-weblate."
+"discovery.discovery` "
+"アドオンを設定すると、他のすべてのコンポーネントを自動的に検出できます。"
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -32956,11 +33057,11 @@ msgstr "``docs/locales/index.pot``"
 
 #: ../../devel/sphinx.rst:39
 msgid "`gettext PO file`"
-msgstr "`gettext PO file`"
+msgstr "`gettext 用の PO ファイル`"
 
 #: ../../devel/sphinx.rst:43
 msgid "Component discovery configuration"
-msgstr "コンポーネント検出の設定"
+msgstr "コンポーネントの検出設定"
 
 #: ../../devel/sphinx.rst:46
 msgid ""
@@ -32970,7 +33071,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr ""
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:50
 msgid "``docs/locales/{{ component }}.pot``"
@@ -32987,25 +33088,25 @@ msgstr "Sphinx で PO ファイルを 1 つだけ生成するには？　Sphinx 
 msgid ""
 "You can find several documentation projects being translated using this "
 "approach:"
-msgstr ""
+msgstr "この方法を使用して翻訳されたプロジェクトのドキュメント:"
 
 #: ../../devel/sphinx.rst:64
 msgid ""
 "`Weblate documentation <https://docs.weblate.org/>`_ (you are reading that "
 "now)"
-msgstr ""
+msgstr "`Weblate ドキュメント <https://docs.weblate.org/>`_ （現在、閲覧中）"
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
-msgstr ""
+msgstr "`Godot エンジン ドキュメント <https://docs.godotengine.org/en/stable/>`_"
 
 #: ../../devel/sphinx.rst:66
 msgid "`Gallette documentation <https://doc.galette.eu/>`_"
-msgstr ""
+msgstr "`Gallette ドキュメント <https://doc.galette.eu/>`_"
 
 #: ../../devel/sphinx.rst:67
 msgid "`phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_"
-msgstr ""
+msgstr "`phpMyAdmin ドキュメント <https://docs.phpmyadmin.net/>`_"
 
 #: ../../devel/starting.rst:4
 msgid "Starting with internationalization"
