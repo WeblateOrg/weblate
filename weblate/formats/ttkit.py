@@ -1942,14 +1942,15 @@ class FluentFormat(TTKitFormat):
 
     def is_valid(self):
         """Check whether store seems to be valid."""
-        errors = self.store.geterrors()
-        if errors:
-            raise ValueError(
-                "Syntax error: {}".format(
-                    ", ".join(
-                        f"{errorname}: {errortext}"
-                        for errorname, errortext in errors.items()
+        for unit in self.store.units:
+            errors = unit.geterrors()
+            if errors:
+                raise ValueError(
+                    "Syntax error: {}".format(
+                        ", ".join(
+                            f"{errorname}: {errortext}"
+                            for errorname, errortext in errors.items()
+                        )
                     )
                 )
-            )
         return super().is_valid()
