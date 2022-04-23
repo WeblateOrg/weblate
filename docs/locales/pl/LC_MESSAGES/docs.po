@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-04-20 10:14+0000\n"
-"Last-Translator: WaldiS <sto@tutanota.de>\n"
+"PO-Revision-Date: 2022-04-23 11:59+0000\n"
+"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -89,8 +89,6 @@ msgid "Public"
 msgstr "Publiczny"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users."
 msgid "Publicly visible, translatable for all signed-in users."
 msgstr ""
 "Widoczne publicznie, możliwe do przetłumaczenia dla wszystkich zalogowanych "
@@ -339,15 +337,6 @@ msgid "New user invitation"
 msgstr "Zaproszenie nowego użytkownika"
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` group) would "
-#| "be sufficient."
 msgid ""
 "Also, besides adding an existing user to the project, it is possible to "
 "invite new ones. Any new user will be created immediately, but the account "
@@ -361,7 +350,7 @@ msgstr ""
 "ale konto pozostanie nieaktywne do czasu zalogowania się za pomocą linku w "
 "zaproszeniu wysłanym na e-mail. W tym celu nie jest wymagane posiadanie "
 "żadnych uprawnień w całej witrynie, wystarczające byłyby uprawnienia do "
-"zarządzania dostępem w zakresie projektu (np. członkostwo w grupie "
+"zarządzania dostępem w zakresie projektu (np. członkostwo w zespole "
 "„Administracja”)."
 
 #: ../../admin/access.rst:149
@@ -1938,8 +1927,6 @@ msgid "``remove``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:196
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Usuń komponenty dla nieistniejących plików"
 
@@ -2307,50 +2294,40 @@ msgid "Target translation"
 msgstr "Tłumaczenie docelowe"
 
 #: ../../admin/addons.rst:419
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Następujące tłumaczenia zostaną usunięte:"
+msgstr "Wszystkie ciągi w tym tłumaczeniu zostaną nadpisane"
 
 #: ../../admin/addons.rst:421
 msgid "``prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:421
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Prefiks ciągu"
+msgstr "Stały prefiks ciągu"
 
 #: ../../admin/addons.rst:423
 msgid "``var_prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:423
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Prefiks ciągu"
+msgstr "Zmienny prefiks ciągu"
 
 #: ../../admin/addons.rst:425
 msgid "``suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:425
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Sufiks ciągu"
+msgstr "Stały sufiks ciągu"
 
 #: ../../admin/addons.rst:427
 msgid "``var_suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:427
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Sufiks ciągu"
+msgstr "Zmienny sufiks ciągu"
 
 #: ../../admin/addons.rst:429
 #, fuzzy
@@ -2360,13 +2337,14 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/addons.rst:429
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Mnożnik części zmiennej"
 
 #: ../../admin/addons.rst:429
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Ile razy powtarzać część zmienną w zależności od długości ciągu źródłowego."
 
 #: ../../admin/addons.rst:433
 msgid ""
@@ -2402,10 +2380,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:451
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Ciąg nie był tłumaczony przez długi czas"
+msgstr "Ciągi zostaną wygenerowane według następującego wzorca:"
 
 #: ../../admin/addons.rst:453
 msgid ""
@@ -4962,10 +4938,8 @@ msgid "``ignore-all-checks``"
 msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:137
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all quality checks."
-msgstr "Zignorowane testy"
+msgstr "Ignoruj wszystkie kontrole jakości."
 
 #: ../../admin/checks.rst:138 ../../user/checks.rst:53
 msgid "``ignore-bbcode``"
@@ -6657,10 +6631,8 @@ msgid "URL where support for your Weblate instance can be found."
 msgstr ""
 
 #: ../../admin/config.rst:731
-#, fuzzy
-#| msgid "GITLAB_CREDENTIALS"
 msgid "GITEA_CREDENTIALS"
-msgstr "GITLAB_CREDENTIALS"
+msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:735
 msgid "List for credentials for Gitea servers."
@@ -6674,54 +6646,38 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:758
-#, fuzzy
-#| msgid "GITLAB_USERNAME"
 msgid "GITEA_USERNAME"
-msgstr "GITLAB_USERNAME"
+msgstr "GITEA_USERNAME"
 
 #: ../../admin/config.rst:762
-#, fuzzy
-#| msgid "Pagure username used to send merge requests for translation updates."
 msgid "Gitea username used to send pull requests for translation updates."
 msgstr ""
-"Nazwa użytkownika Pagure używana do wysyłania żądań scalenia w celu "
+"Nazwa użytkownika Gitea używana do wysyłania żądań wciągnięcia w celu "
 "aktualizacji tłumaczeń."
 
 #: ../../admin/config.rst:766
-#, fuzzy
-#| msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 msgid ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
-msgstr ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
+msgstr ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
 
 #: ../../admin/config.rst:772
-#, fuzzy
-#| msgid "GITLAB_TOKEN"
 msgid "GITEA_TOKEN"
-msgstr "GITLAB_TOKEN"
+msgstr "GITEA_TOKEN"
 
 #: ../../admin/config.rst:776
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Gitea personal access token used to make API calls to send pull requests for "
 "translation updates."
 msgstr ""
-"Osobisty token dostępu GitLab używany do wykonywania wywołań API w celu "
-"aktualizacji tłumaczeń."
+"Osobisty token dostępu Gitea używany do wykonywania wywołań interfejsu API w "
+"celu wysyłania żądań wciągnięcia aktualizacji tłumaczeń."
 
 #: ../../admin/config.rst:781
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ""
 ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea personal "
 "access token`_"
 msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Tworzenie osobistego "
-"tokena dostępu GitHub`_"
+":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Tworzenie osobistego tokena "
+"dostępu Gitea`_"
 
 #: ../../admin/config.rst:790
 msgid "GITLAB_CREDENTIALS"
@@ -9311,10 +9267,8 @@ msgid "Celery"
 msgstr "Celery"
 
 #: ../../admin/install.rst:77
-#, fuzzy
-#| msgid "https://docs.celeryproject.org/"
 msgid "https://docs.celeryq.dev/"
-msgstr "https://docs.celeryproject.org/"
+msgstr "https://docs.celeryq.dev/"
 
 #: ../../admin/install.rst:78
 msgid "Translate Toolkit"
@@ -11670,10 +11624,8 @@ msgid "Configures the logging verbosity."
 msgstr "Konfiguruje szczegółowość rejestrowania."
 
 #: ../../admin/install/docker.rst:393
-#, fuzzy
-#| msgid "Configures the logging verbosity."
 msgid "Configures the logging of the database queries verbosity."
-msgstr "Konfiguruje szczegółowość rejestrowania."
+msgstr "Konfiguruje rejestrowanie szczegółowości zapytań bazy danych."
 
 #: ../../admin/install/docker.rst:397
 msgid "Changes the site-title shown in the header of all pages."
@@ -12930,10 +12882,8 @@ msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1702
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring PostgreSQL server"
-msgstr "Konfigurowanie Weblate do korzystania z PostgreSQL"
+msgstr "Konfigurowanie serwera PostgreSQL"
 
 #: ../../admin/install/docker.rst:1704
 msgid ""
@@ -13694,10 +13644,8 @@ msgid "Used by Java—mostly BCP with legacy codes for Chinese."
 msgstr ""
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Styl czcionki"
+msgstr "Styl Linuksa"
 
 #: ../../admin/languages.rst:208
 msgid ""
@@ -16759,28 +16707,25 @@ msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr ""
 
 #: ../../admin/projects.rst:677
-#, fuzzy
-#| msgid "Commit, add, delete, merge and add-on messages"
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
-msgstr "Opisy commita, dodawania, usuwania, scalania i dodatku"
+msgstr ""
+"Commituj, dodawaj, usuwaj, scalaj, dodawaj i scalaj żądania z wiadomościami"
 
 #: ../../admin/projects.rst:679
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr ""
 
 #: ../../admin/projects.rst:681
-#, fuzzy
-#| msgid ""
-#| "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
-#| "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
-"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
+"Wartość domyślna może być zmieniona przez :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, "
+":setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:689
 msgid "Push on commit"
@@ -20086,16 +20031,12 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:2043
-#, fuzzy
-#| msgid "whether the unit is fuzzy or marked for review"
 msgid "whether the unit is pending for write"
-msgstr "czy jednostka jest rozmyta lub oznaczona do przeglądu"
+msgstr "czy jednostka oczekuje na zapis"
 
 #: ../../api.rst:2044
-#, fuzzy
-#| msgid "String age"
 msgid "string age"
-msgstr "Wiek ciągu"
+msgstr "wiek ciągu"
 
 #: ../../api.rst:2050
 msgid "Performs partial update on translation unit."
@@ -20723,75 +20664,54 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS w Wikipedii <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.12.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.12.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Jeszcze nie wydano."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed creating pull requests on Pagure."
 msgid "Fixed pull request message title."
-msgstr "Naprawiono tworzenie pull requestów na Pagure."
+msgstr "Naprawiono tytuł wiadomości żądania wciągnięcia."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved syntax error handling in Fluent format."
-msgstr "Ulepszona obsługa błędów przy usuwaniu ciągów."
+msgstr "Ulepszona obsługa błędów składniowych w formacie Fluent."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed links in notifications e-mails."
 msgid "Fixed avatar display in notification e-mails."
-msgstr "Poprawione linki w e-mailach z powiadomieniami."
+msgstr ""
+"Naprawiono wyświetlanie awatara w wiadomościach e-mail z powiadomieniami."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?"
 "closed=1>`__."
 msgstr ""
 "`Wszystkie zmiany w szczegółach <https://github.com/WeblateOrg/weblate/"
-"milestone/62?closed=1>`__."
+"milestone/82?closed=1>`__."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.12"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.12"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Released on April 27th 2020."
 msgid "Released on April 20th 2022."
-msgstr "Wydano 27 kwietnia 2020."
+msgstr "Wydano 20 kwietnia 2022."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for Amharic in :ref:`check-end-stop`."
-msgstr "Dodano wsparcie dla :ref:`txt`."
+msgstr "Dodano obsługę języka amharskiego w :ref:`check-end-stop`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Burmese in :ref:`check-end-question`."
-msgstr "Dodano obsługę pull requestów na Pagure."
+msgstr "Dodano obsługę języka birmańskiego w :ref:`check-end-question`."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid ""
 "Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on."
-msgstr "Nowy dodatek :ref:`addon-weblate.generate.prefill`."
+msgstr "Rozszerzono opcje dodatku :ref:`addon-weblate.generate.pseudolocale`."
 
 #: ../../changes.rst:20
 msgid ""
@@ -20799,47 +20719,34 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 "Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing "
 "checks."
 msgstr ""
-"Naprawiono :ref:`addon-weblate.autotranslate.autotranslate` wyzwalacz "
-"dodatku dla nowo dodanych ciągów."
+"Uniknięto wyzwalania nieudanych testów przez dodatek :ref:`addon-weblate."
+"generate.pseudolocale`."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for :ref:`vcs-gitea`."
-msgstr "Dodano wsparcie dla :ref:`txt`."
+msgstr "Dodano wsparcie dla :ref:`vcs-gitea`."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":ref:`component-language_code_style`"
 msgid ""
 "Added Linux style language code to :ref:`component-language_code_style`."
-msgstr ":ref:`component-language_code_style`"
+msgstr ""
+"Dodano kod języka w stylu Linuksa do :ref:`component-language_code_style`."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added built-in translation memory."
 msgid "Added support for rebuilding project translation memory."
-msgstr "Dodano wbudowaną pamięć tłumaczeń."
+msgstr "Dodano obsługę przebudowy pamięci tłumaczeniowej projektu."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Improved validation when creating a component."
 msgid "Improved API for creating components from a file."
-msgstr "Ulepszona walidacja podczas tworzenia komponentu."
+msgstr "Ulepszone API do tworzenia komponentów z pliku."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added automatic translation add-on to bootstrap translations."
 msgid "Add copy and clone buttons to other translations."
-msgstr "Dodano dodatek automatycznego tłumaczenia do rozpoczynania tłumaczeń."
+msgstr "Dodano przyciski kopiowania i klonowania do innych tłumaczeń."
 
 #: ../../changes.rst:27
 msgid "Make merge request message configurable at component level."
@@ -20850,28 +20757,20 @@ msgid "Improved maximal length restriction behavior with XML tags."
 msgstr ""
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Fixed generating XLSX files with special chars."
 msgid "Fixed loading Fluent files with additional comments."
-msgstr "Naprawiono generowanie plików XLSX ze znakami specjalnymi."
+msgstr "Naprawiono ładowanie plików Fluent z dodatkowymi komentarzami."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/78?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?"
 "closed=1>`__."
 msgstr ""
 "`Wszystkie zmiany w szczegółach <https://github.com/WeblateOrg/weblate/"
-"milestone/78?closed=1>`__."
+"milestone/77?closed=1>`__."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Weblate 4.11.1"
 msgid "Weblate 4.11.2"
-msgstr "Weblate 4.11.1"
+msgstr "Weblate 4.11.2"
 
 #: ../../changes.rst:36 ../../changes.rst:45
 msgid "Released on March 4th 2022."
@@ -20882,16 +20781,12 @@ msgid "Fixed corrupted MO files in the binary release."
 msgstr ""
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?"
 "closed=1>`__."
 msgstr ""
 "`Wszystkie zmiany w szczegółach <https://github.com/WeblateOrg/weblate/"
-"milestone/70?closed=1>`__."
+"milestone/80?closed=1>`__."
 
 #: ../../changes.rst:43
 msgid "Weblate 4.11.1"
@@ -27391,10 +27286,8 @@ msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr ""
 
 #: ../../contributing/snippets/code-guide.rst:2
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding guidelines"
-msgstr "Styl kodowania"
+msgstr "Wytyczne dotyczące kodowania"
 
 #: ../../contributing/snippets/code-guide.rst:4
 msgid ""
@@ -28267,10 +28160,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/modules.rst:2
-#, fuzzy
-#| msgid "Contributing to Weblate"
 msgid "Contributing to Weblate modules"
-msgstr "Przyczyń się do rozwoju Weblate"
+msgstr "Współtworzenie modułów Weblate"
 
 #: ../../contributing/modules.rst:4
 msgid ""
@@ -28279,10 +28170,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/modules.rst:7
-#, fuzzy
-#| msgid "For example:"
 msgid "For example, this covers:"
-msgstr "Na przykład:"
+msgstr "Na przykład obejmuje to:"
 
 #: ../../contributing/modules.rst:9
 msgid ""
@@ -28303,10 +28192,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/modules.rst:18
-#, fuzzy
-#| msgid "Unit tests"
 msgid "Running tests"
-msgstr "Testy jednostkowe"
+msgstr "Przeprowadzanie testów"
 
 #: ../../contributing/modules.rst:20
 msgid ""
@@ -30088,16 +29975,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:75
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "Programmatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"Programowo, używając API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:76
 msgid ""
@@ -32442,12 +32325,6 @@ msgid "`GWT Properties`"
 msgstr "`Właściwości GWT`"
 
 #: ../../formats.rst:512
-#, fuzzy
-#| msgid ""
-#| "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
-#| "properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:"
-#| "`gwt`, :ref:`updating-target-files`, :ref:`addon-weblate.properties."
-#| "sort`, :ref:`addon-weblate.cleanup.generic`"
 msgid ""
 "`GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_, `GWT Internationalization Tutorial <https://www.gwtproject.org/doc/"
@@ -32455,10 +32332,11 @@ msgid ""
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
-"`Właściwości Java w Wikipedii <https://en.wikipedia.org/wiki/."
-"properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :"
-"ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
-"`addon-weblate.cleanup.generic`"
+"`Przewodnik lokalizacji GWT <https://www.gwtproject.org/doc/latest/"
+"DevGuideI18n.html>`_, `Samouczek internacjonalizacji GWT <https://www."
+"gwtproject.org/doc/latest/tutorial/i18n.html>`_, :doc:`tt:formats/properties`"
+", :ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:522
 msgid "INI translations"
@@ -36898,10 +36776,8 @@ msgid "Options for translation project visibility:"
 msgstr ""
 
 #: ../../user/translating.rst:17
-#, fuzzy
-#| msgid "Public profile"
 msgid "Publicly visible"
-msgstr "Profil publiczny"
+msgstr "Widoczne publicznie"
 
 #: ../../user/translating.rst:18
 msgid "Visible only to a certain group of translators"
@@ -38031,10 +37907,8 @@ msgstr ""
 "setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull requests"
-msgstr "GitHub pull request"
+msgstr "Gitea pull requests"
 
 #: ../../vcs.rst:329
 msgid ""
@@ -38059,16 +37933,12 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:344
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
 "setting:`GITEA_CREDENTIALS`"
 msgstr ""
-":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
-"setting:`GITLAB_CREDENTIALS`"
+":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, "
+":setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:355
 msgid "Pagure merge requests"
