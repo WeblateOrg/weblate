@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-23 11:59+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-04-25 22:31+0000\n"
+"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -1420,8 +1420,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Clona els complements del component principal als nous components"
 
 #: weblate/addons/forms.py:295
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Suprimeix els components dels fitxers inexistents"
 
@@ -1490,44 +1488,36 @@ msgid "Target translation"
 msgstr "Traducció de destinació"
 
 #: weblate/addons/forms.py:489
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Se suprimiran les següents traduccions:"
+msgstr "Se sobreescriuran totes les cadenes d'aquesta traducció"
 
 #: weblate/addons/forms.py:492 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Prefix de la cadena"
+msgstr "Prefix de cadena fix"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Prefix de la cadena"
+msgstr "Prefix de cadena variable"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Sufix de la cadena"
+msgstr "Sufix de cadena fix"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Sufix de la cadena"
+msgstr "Sufix de cadena variable"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Multiplicador de la part variable"
 
 #: weblate/addons/forms.py:515
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Quantes vegades es repetirà la part variable depenent de la longitud de la "
+"cadena d'origen."
 
 #: weblate/addons/forms.py:545
 msgid "The source and target have to be different languages."
@@ -1700,7 +1690,7 @@ msgstr "Personalitza la sortida YAML"
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
-"Permet ajustar el comportament de la sortida YAML, per exemple, la llargada "
+"Permet ajustar el comportament de la sortida YAML, per exemple, la longitud "
 "de les línies o els salts de línia."
 
 #: weblate/auth/admin.py:147 weblate/auth/admin.py:152
@@ -2585,7 +2575,7 @@ msgstr "Longitud màxima de la traducció"
 
 #: weblate/checks/chars.py:354
 msgid "Translation should not exceed given length"
-msgstr "La traducció no hauria d'excedir la mida proporcionada"
+msgstr "La traducció no hauria d'excedir la longitud proporcionada"
 
 #: weblate/checks/chars.py:370
 msgid "Mismatched semicolon"
@@ -2706,10 +2696,8 @@ msgid "Terminology"
 msgstr "Terminologia"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "Comprovacions ignorades"
+msgstr "Ignora totes les comprovacions"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -3977,10 +3965,8 @@ msgid "Entries deleted."
 msgstr "S'han suprimit les entrades."
 
 #: weblate/memory/views.py:122
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "La traducció s'actualitzarà en segon pla."
+msgstr "Els elements s'han suprimit; la memòria es reconstruirà en segon pla."
 
 #: weblate/memory/views.py:138
 msgid "File processed, the entries will appear shortly."
@@ -4230,10 +4216,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:230
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Demana allotjament per a un projecte"
+msgstr "Demana allotjament de projectes lliures"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4437,10 +4421,8 @@ msgid "Trial subscriptions"
 msgstr "Subscripcions de període de prova"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy
-#| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "Traduïu el vostre projecte lliure"
+msgstr "Configureu el vostre projecte lliure"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4464,15 +4446,11 @@ msgid "Unapproved projects will be removed."
 msgstr "Els projectes que no s'aprovin se suprimiran."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
 msgstr ""
-"No hi ha garanties de disponibilitat o qualitat del servei per al pla "
-"gratuït."
+"No hi ha garanties de disponibilitat o qualitat del servei per a "
+"l'allotjament de projectes lliures."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -5320,16 +5298,12 @@ msgid "Project URL slug"
 msgstr "URL amigable del projecte"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "Cadenes sense traduir"
+msgstr "Cadenes generades"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Aquesta cadena no s'ha traduït de fa molt de temps"
+msgstr "Les cadenes es generaran fent servir el patró següent:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -5559,7 +5533,7 @@ msgstr "No s'ha trobat cap factura."
 
 #: weblate/templates/billing/detail.html:101
 msgid "Libre hosting"
-msgstr "Allotjament lliure"
+msgstr "Allotjament de projectes lliures"
 
 #: weblate/templates/billing/detail.html:103
 #: weblate/templates/billing/state-snippet.html:5
@@ -6876,11 +6850,9 @@ msgid "Mark as spam"
 msgstr "Marca com a brossa"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "The following activity has occured on your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
-msgstr "S'ha produït l'activitat següent al vostre de %(site_title)s:"
+msgstr "S'ha produït l'activitat següent al vostre compte de %(site_title)s:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6988,15 +6960,12 @@ msgstr ""
 "suprimiran el %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Si no s'aprova el vostre període de prova per a projectes lliures, tots els "
+"Si no s'aprova el vostre allotjament de projectes lliures, tots els "
 "projectes d'aquest pla de facturació se suprimiran el %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
@@ -7806,14 +7775,12 @@ msgstr[1] ""
 #: weblate/templates/memory/index.html:129
 #: weblate/templates/memory/index.html:146
 msgid "Rebuild"
-msgstr ""
+msgstr "Reconstrueix"
 
 #: weblate/templates/memory/index.html:84
 #: weblate/templates/memory/index.html:143
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Memory will be then populated with the current translations."
-msgstr "El fitxer que pugeu es fusionarà amb la traducció actual."
+msgstr "A continuació, la memòria s'omplirà amb les traduccions actuals."
 
 #: weblate/templates/memory/index.html:158
 msgid "Shared translation memory"
@@ -8471,8 +8438,6 @@ msgid "Needs editing"
 msgstr "Cal editar"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Read only"
 msgctxt "Number of strings"
 msgid "Read-only"
 msgstr "Només lectura"
@@ -8534,7 +8499,7 @@ msgid ""
 "recognized as libre by FSF."
 msgstr ""
 "Cal que el contingut traduït es publiqui amb una llicència aprovada per "
-"l'OSI o reconeguda com a llibre per la FSF."
+"l'OSI o reconeguda com a lliure per la FSF."
 
 #: weblate/templates/snippets/libre-basic.html:4
 msgid ""
@@ -9972,6 +9937,8 @@ msgstr "Per a totes les llengües"
 #: weblate/templates/translate.html:472
 msgid "Selecting this option will set the corresponding \"ignore check\" flag"
 msgstr ""
+"Si seleccioneu aquesta opció, es definirà la marca «ignora la comprovació» "
+"corresponent"
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -11114,8 +11081,6 @@ msgid "No file mask matches."
 msgstr "No hi ha cap coincidència per al filtre de fitxers."
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Fitxers inexistents."
 
@@ -11521,10 +11486,8 @@ msgid "Java style"
 msgstr "Estil Java"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Estil de lletra"
+msgstr "Estil Linux"
 
 #: weblate/trans/models/component.py:146
 msgid "Merge"
@@ -11810,7 +11773,7 @@ msgstr "Missatge de les comissions quan un complement fa un canvi"
 
 #: weblate/trans/models/component.py:556
 msgid "Merge request message"
-msgstr ""
+msgstr "Missatge de les peticions de fusió"
 
 #: weblate/trans/models/component.py:565
 msgid "Push on commit"
@@ -12419,8 +12382,7 @@ msgid "Forbidden translation: %s"
 msgstr "Traducció prohibida: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Non translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
 msgstr "No traduïble: %s"
 
@@ -13377,10 +13339,8 @@ msgid "GitHub pull request"
 msgstr "Sol·licitud de baixada a GitHub"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "Sol·licitud de baixada a GitHub"
+msgstr "Sol·licitud de baixada a Gitea"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
