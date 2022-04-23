@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-23 11:58+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-04-25 22:31+0000\n"
+"Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -1501,10 +1501,8 @@ msgid "Target translation"
 msgstr "Traducción de destino"
 
 #: weblate/addons/forms.py:489
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Desaparecerán las siguientes traducciones:"
+msgstr "Todas las cadenas de esta traducción serán sobrescritas"
 
 #: weblate/addons/forms.py:492 weblate/templates/addons/pseudolocale.html:11
 #, fuzzy
@@ -1532,7 +1530,7 @@ msgstr "Sufijo de cadena"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Multiplicador de partes variable"
 
 #: weblate/addons/forms.py:515
 msgid ""
@@ -3122,16 +3120,13 @@ msgid "Regular expression"
 msgstr "Expresión regular"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "La traducción no coincide con la expresión regular:"
+msgstr "La traducción no coincide con la expresión regular"
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "La traducción no coincide con la expresión regular:"
+msgstr "No coincide con la expresión regular «%s»."
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3872,7 +3867,7 @@ msgstr "Subcontratistas"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
-msgstr "«Cookies»"
+msgstr "Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:14
 msgid "Cookies Policy"
@@ -5357,10 +5352,8 @@ msgid "Generated strings"
 msgstr "Cadenas no traducidas"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Esta cadena no se tradujo por mucho tiempo"
+msgstr "Las cadenas se generarán utilizando el siguiente patrón:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -9724,11 +9717,9 @@ msgid "Access only"
 msgstr "Control de acceso"
 
 #: weblate/templates/trans/project-access.html:192
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "Esto eliminará la ficha de proyecto <b>%(token)s</b> de este proyecto."
+msgstr "Esto eliminará el equipo <b>%(name)s</b> de este proyecto."
 
 #: weblate/templates/trans/project-access.html:232
 msgid "Create new team"
@@ -11003,7 +10994,7 @@ msgstr "Nombre de usuario del autor"
 
 #: weblate/trans/forms.py:2440
 msgid "Expiry cannot be in the past!"
-msgstr "La caducidad no puede haber ocurrido ya."
+msgstr "¡La caducidad no puede haber ocurrido ya!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -11490,13 +11481,11 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
-msgstr[0] "Cadena nueva por traducir en %(translation)s"
-msgstr[1] "Cadenas nuevas por traducir en %(translation)s"
+msgstr[0] "Apareció en la traducción %d cadena nueva para traducir."
+msgstr[1] "Aparecieron en la traducción %d cadenas nuevas para traducir."
 
 #: weblate/trans/models/change.py:630
 #, python-format
@@ -11504,10 +11493,9 @@ msgid "The \"%s\" file was changed."
 msgstr "Se modificó el archivo «%s»."
 
 #: weblate/trans/models/change.py:632
-#, fuzzy, python-format
-#| msgid "Using a .pot file as base file is unsupported."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr "No se admite utilizar un archivo .pot como base."
+msgstr "Fue aplicado el análisis del archivo «%s»."
 
 #: weblate/trans/models/change.py:634
 #, python-format
@@ -12763,7 +12751,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "La máscara de archivos no contiene «*» como sustitutorio del idioma."
+msgstr "¡La máscara de archivos no contiene «*» como sustituto del idioma!"
 
 #: weblate/trans/validators.py:41
 msgid ""
@@ -12787,10 +12775,8 @@ msgid "Weblate statistics"
 msgstr "Estadísticas de Weblate"
 
 #: weblate/trans/views/acl.py:101 weblate/trans/views/acl.py:237
-#, fuzzy
-#| msgid "You can not remove last owner!"
 msgid "You can not remove yourself!"
-msgstr "No se puede quitar al último propietario."
+msgstr "¡No puedes quitarte!"
 
 #: weblate/trans/views/acl.py:135
 msgid "User has been added to this project."
@@ -13013,10 +12999,9 @@ msgid "New string has been added."
 msgstr "Se añadió una cadena nueva."
 
 #: weblate/trans/views/edit.py:970
-#, fuzzy, python-format
-#| msgid "Failed to parse new string"
+#, python-format
 msgid "Failed to remove the string: %s"
-msgstr "No se pudo analizar la cadena nueva"
+msgstr "Error al quitar la cadena: %s"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -13374,7 +13359,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:118
 msgid "Invalid image!"
-msgstr "Imagen no válida."
+msgstr "¡Imagen inválida!"
 
 #: weblate/utils/validators.py:127
 #, python-format
