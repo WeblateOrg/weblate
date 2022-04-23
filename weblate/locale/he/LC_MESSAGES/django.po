@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-03-04 13:55+0000\n"
+"PO-Revision-Date: 2022-04-23 11:59+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.11.1-dev\n"
+"X-Generator: Weblate 4.12.1-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -1341,8 +1341,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "שכפול תוספים מהרכיב הראשי לחדשים שנוצרו"
 
 #: weblate/addons/forms.py:295
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "הסרת רכיבים לקבצים שאינם קיימים"
 
@@ -1411,38 +1409,28 @@ msgid "Target translation"
 msgstr "תרגום יעד"
 
 #: weblate/addons/forms.py:489
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "התרגומים הבאים יוסרו:"
+msgstr "כל המחרוזות בתרגום הזה ישוכתבו"
 
 #: weblate/addons/forms.py:492 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "קידומת למחרוזת"
+msgstr "קידומת קבועה למחרוזת"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "קידומת למחרוזת"
+msgstr "קידומת משתנה למחרוזת"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "סיומת למחרוזת"
+msgstr "סיומת קבועה למחרוזת"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "סיומת למחרוזת"
+msgstr "סיומת משתנה למחרוזת"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "מכפיל החלק המשתנה"
 
 #: weblate/addons/forms.py:515
 msgid ""
@@ -2605,10 +2593,8 @@ msgid "Terminology"
 msgstr "מינוח"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "בדיקות שנדחו"
+msgstr "התעלמות מכל הבדיקות"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -3851,10 +3837,8 @@ msgid "Entries deleted."
 msgstr "רשומות נמחקו."
 
 #: weblate/memory/views.py:122
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "התרגום יעודכן ברקע."
+msgstr "רשומות שנמחקו והזיכרון ייבנו מחדש ברקע."
 
 #: weblate/memory/views.py:138
 msgid "File processed, the entries will appear shortly."
@@ -4092,10 +4076,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:230
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "בקשת אירוח מיזם"
+msgstr "בקשת אירוח חופשי"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4292,10 +4274,8 @@ msgid "Trial subscriptions"
 msgstr "מינויים ניסיוניים"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy
-#| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "תרגום המיזם החופשי שלך"
+msgstr "הקמת המיזם החופשי שלך"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4316,13 +4296,9 @@ msgid "Unapproved projects will be removed."
 msgstr "מיזמים שלא יאושרו יימחקו."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
-msgstr "אין אחריות לזמינות או לאיכות בתכנית השירות החינמית."
+msgstr "אין אחריות לזמינות או לאיכות באירוח החופשי."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -5144,10 +5120,8 @@ msgid "Project URL slug"
 msgstr "כתובת מופשטת של מיזם"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "מחרוזות שלא תורגמו"
+msgstr "מחרוזות שנוצרו"
 
 #: weblate/templates/addons/pseudolocale.html:7
 #, fuzzy
