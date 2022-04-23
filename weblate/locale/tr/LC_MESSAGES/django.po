@@ -16,13 +16,14 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # aniltirli <aniltirli@gmail.com>, 2020.
 # mahmut özcan <mahmutozcan65@yahoo.com>, 2021.
+# Oğuz Ersen <oguz@ersen.moe>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-03-07 14:58+0000\n"
-"Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
+"PO-Revision-Date: 2022-04-23 08:30+0000\n"
+"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -1396,8 +1397,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Ana bileşenden yeni oluşturulanlara ekleri çoğalt"
 
 #: weblate/addons/forms.py:295
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Varolmayan dosyalar için bileşenleri kaldır"
 
@@ -1466,44 +1465,36 @@ msgid "Target translation"
 msgstr "Hedef çeviri"
 
 #: weblate/addons/forms.py:489
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Aşağıdaki çeviriler kaldırılacaktır:"
+msgstr "Bu çevirideki tüm dizgilerin üzerine yazılacak"
 
 #: weblate/addons/forms.py:492 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Dizgi öneki"
+msgstr "Sabit dizgi öneki"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Dizgi öneki"
+msgstr "Değişken dizgi öneki"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Dizgi soneki"
+msgstr "Sabit dizgi soneki"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Dizgi soneki"
+msgstr "Değişken dizgi soneki"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Değişken kısım çarpanı"
 
 #: weblate/addons/forms.py:515
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Kaynak dizginin uzunluğuna bağlı olarak değişken kısmın kaç kez "
+"tekrarlanacağı."
 
 #: weblate/addons/forms.py:545
 msgid "The source and target have to be different languages."
@@ -2675,10 +2666,8 @@ msgid "Terminology"
 msgstr "Terminoloji"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "Yoksayılan denetimler"
+msgstr "Tüm denetimleri yoksay"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -3936,10 +3925,8 @@ msgid "Entries deleted."
 msgstr "Girdiler silindi."
 
 #: weblate/memory/views.py:122
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "Çeviri arka planda güncellenecektir."
+msgstr "Girdiler silindi ve bellek arka planda yeniden oluşturulacak."
 
 #: weblate/memory/views.py:138
 msgid "File processed, the entries will appear shortly."
@@ -4184,10 +4171,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:230
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Proje barındırmak için danışın"
+msgstr "Özgür barındırma için danışın"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4391,10 +4376,8 @@ msgid "Trial subscriptions"
 msgstr "Deneme abonelikleri"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy
-#| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "Özgür projenizi çevirin"
+msgstr "Özgür projenizi ayarlayın"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4417,15 +4400,11 @@ msgid "Unapproved projects will be removed."
 msgstr "Onaylanmayan projeler kaldırılacaktır."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
 msgstr ""
-"Ücretsiz hizmet planı için ne hizmet kullanılabilirliği ne de kalite "
-"garantisi yoktur."
+"Özgür barındırma için ne hizmet kullanılabilirliği ne de kalite garantisi "
+"yoktur."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -5256,16 +5235,12 @@ msgid "Project URL slug"
 msgstr "Proje URL'si kısaltması"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "Çevrilmemiş dizgiler"
+msgstr "Oluşturulan dizgiler"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Dizgi uzun zamandır çevrilmedi"
+msgstr "Dizgiler aşağıdaki desen kullanılarak oluşturulacaktır:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -6796,9 +6771,7 @@ msgid "Mark as spam"
 msgstr "İstenmeyen olarak işaretle"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "The following activity has occured on your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
 msgstr ""
 "%(site_title)s sitesindeki hesabınızda aşağıdaki etkinlik meydana geldi:"
@@ -6906,15 +6879,12 @@ msgstr ""
 "tarihinde kaldırılacaktır."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Eğer özgür deneme süreniz onaylanmayacaksa, bu faturalandırma planındaki tüm "
+"Eğer özgür barındırmanız onaylanmayacaksa, bu faturalandırma planındaki tüm "
 "projeler %(date)s tarihinde kaldırılacaktır."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
@@ -7715,14 +7685,12 @@ msgstr[1] "Bu, çeviri belleğinden %(count)s girişi kalıcı olarak silecek."
 #: weblate/templates/memory/index.html:129
 #: weblate/templates/memory/index.html:146
 msgid "Rebuild"
-msgstr ""
+msgstr "Yeniden oluştur"
 
 #: weblate/templates/memory/index.html:84
 #: weblate/templates/memory/index.html:143
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Memory will be then populated with the current translations."
-msgstr "Yüklenen dosya mevcut çeviri ile birleştirilecek."
+msgstr "Bellek daha sonra şu anki çevirilerle doldurulacaktır."
 
 #: weblate/templates/memory/index.html:158
 msgid "Shared translation memory"
@@ -8377,8 +8345,6 @@ msgid "Needs editing"
 msgstr "Düzenleme gerekli"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Read only"
 msgctxt "Number of strings"
 msgid "Read-only"
 msgstr "Salt okunur"
@@ -9852,6 +9818,7 @@ msgstr "Tüm diller için"
 #: weblate/templates/translate.html:472
 msgid "Selecting this option will set the corresponding \"ignore check\" flag"
 msgstr ""
+"Bu seçeneğin seçilmesi, ilgili \"denetimi yoksay\" bayrağını ayarlayacaktır"
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -10991,8 +10958,6 @@ msgid "No file mask matches."
 msgstr "Eşleşen dosya maskesi yok."
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Varolamayan dosyalar."
 
@@ -11397,10 +11362,8 @@ msgid "Java style"
 msgstr "Java tarzı"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Yazı tipi stili"
+msgstr "Linux stili"
 
 #: weblate/trans/models/component.py:146
 msgid "Merge"
@@ -11679,7 +11642,7 @@ msgstr "Eklenti değişiklik yaptığında ileti gönder"
 
 #: weblate/trans/models/component.py:556
 msgid "Merge request message"
-msgstr ""
+msgstr "Birleştirme isteği iletisi"
 
 #: weblate/trans/models/component.py:565
 msgid "Push on commit"
@@ -12267,8 +12230,7 @@ msgid "Forbidden translation: %s"
 msgstr "Yasaklanmış çeviri: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Non translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
 msgstr "Çevrilemez: %s"
 
@@ -13219,10 +13181,8 @@ msgid "GitHub pull request"
 msgstr "GitHub çekme isteği"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "GitHub çekme isteği"
+msgstr "Gitea çekme isteği"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
