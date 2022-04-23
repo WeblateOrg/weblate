@@ -3,6 +3,8 @@ Weblate 4.12.1
 
 Not yet released.
 
+* Fixed pull request message title.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?closed=1>`__.
 
 Weblate 4.12
