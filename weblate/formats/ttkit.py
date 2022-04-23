@@ -1942,6 +1942,7 @@ class FluentFormat(TTKitFormat):
 
     def is_valid(self):
         """Check whether store seems to be valid."""
+        # Workaround for https://github.com/translate/translate/issues/4615
         for unit in self.store.units:
             errors = unit.geterrors()
             if errors:
