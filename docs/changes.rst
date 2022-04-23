@@ -4,6 +4,8 @@ Weblate 4.12.1
 Not yet released.
 
 * Fixed pull request message title.
+* Improved syntax error handling in Fluent format.
+* Fixed avatar display in notification e-mails.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?closed=1>`__.
 
