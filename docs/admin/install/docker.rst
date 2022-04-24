@@ -568,6 +568,17 @@ Generic settings
       :ref:`production-site`,
       :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
+.. envvar:: WEBLATE_INTERLEDGER_PAYMENT_POINTERS
+
+    .. versionadded:: 4.12.1
+
+    Lets Weblate set the `meta[name=monetization]` field in the head of the
+    document. If multiple are specified, chooses one randomly.
+
+    .. seealso::
+
+        :setting:`INTERLEDGER_PAYMENT_POINTERS`
+
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
     Lets Weblate fetch the IP address from any given HTTP header. Use this when using
