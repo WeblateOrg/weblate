@@ -414,7 +414,7 @@ real_patterns = [
         weblate.trans.views.acl.create_token,
         name="create-project-token",
     ),
-    # Used by weblate.org to reder own activity chart on homepage
+    # Used by weblate.org to render own activity chart on homepage
     path(
         "activity/month.json",
         weblate.trans.views.charts.monthly_activity_json,
@@ -575,7 +575,7 @@ real_patterns = [
         weblate.trans.views.settings.remove_translation,
         name="remove_translation",
     ),
-    # Project renameing and moving
+    # Project renaming and moving
     path(
         "rename/<name:project>/",
         weblate.trans.views.settings.rename_project,
