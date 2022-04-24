@@ -147,6 +147,8 @@ def weblate_context(request):
             cache.set(has_support_cache_key, has_support, 86400)
         request._weblate_has_support = has_support
 
+    utcnow = datetime.utcnow()
+
     context = {
         "has_support": has_support,
         "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
@@ -166,9 +168,9 @@ def weblate_context(request):
         "donate_url": DONATE_URL,
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
-        "current_date": datetime.utcnow().strftime("%Y-%m-%d"),
-        "current_year": datetime.utcnow().strftime("%Y"),
-        "current_month": datetime.utcnow().strftime("%m"),
+        "current_date": utcnow.strftime("%Y-%m-%d"),
+        "current_year": utcnow.strftime("%Y"),
+        "current_month": utcnow.strftime("%m"),
         "login_redirect_url": login_redirect_url,
         "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
