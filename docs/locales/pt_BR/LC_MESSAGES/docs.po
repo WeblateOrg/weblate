@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-03-07 14:59+0000\n"
+"PO-Revision-Date: 2022-04-25 22:31+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -88,8 +88,6 @@ msgid "Public"
 msgstr "Público"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users."
 msgid "Publicly visible, translatable for all signed-in users."
 msgstr "Visível publicamente, traduzível para todos os usuários autenticados."
 
@@ -335,15 +333,6 @@ msgid "New user invitation"
 msgstr "Novo convite de usuário"
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` group) would "
-#| "be sufficient."
 msgid ""
 "Also, besides adding an existing user to the project, it is possible to "
 "invite new ones. Any new user will be created immediately, but the account "
@@ -357,7 +346,7 @@ msgstr ""
 "permanecerá inativa até que você entre com um link no convite enviado por e-"
 "mail. Não é necessário ter nenhum privilégio de todo o site para fazer isso, "
 "a permissão de gerenciamento de acesso no escopo do projeto (por exemplo, "
-"uma associação no grupo `Administração`) seria suficiente."
+"uma associação na equipe `Administração`) seria suficiente."
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -2030,8 +2019,6 @@ msgid "``remove``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:196
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Remova componentes para arquivos inexistentes"
 
@@ -2430,50 +2417,40 @@ msgid "Target translation"
 msgstr "Tradução alvo"
 
 #: ../../admin/addons.rst:419
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "As seguintes traduções serão removidas:"
+msgstr "Todos os textos nesta tradução serão substituídos"
 
 #: ../../admin/addons.rst:421
 msgid "``prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:421
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Prefixo do texto"
+msgstr "Prefixo de texto fixo"
 
 #: ../../admin/addons.rst:423
 msgid "``var_prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:423
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Prefixo do texto"
+msgstr "Prefixo de texto variável"
 
 #: ../../admin/addons.rst:425
 msgid "``suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:425
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Sufixo do texto"
+msgstr "Sufixo de texto fixo"
 
 #: ../../admin/addons.rst:427
 msgid "``var_suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:427
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Sufixo do texto"
+msgstr "Sufixo de texto variável"
 
 #: ../../admin/addons.rst:429
 #, fuzzy
@@ -2483,13 +2460,15 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/addons.rst:429
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Multiplicador de partes variável"
 
 #: ../../admin/addons.rst:429
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Quantas vezes repetir a parte variável dependendo do comprimento do texto "
+"fonte."
 
 #: ../../admin/addons.rst:433
 msgid ""
@@ -2529,12 +2508,17 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"O uso das partes variáveis torna possível procurar por textos que podem não "
+"caber na interface do usuário após a localização -- isso estende o texto com "
+"base no comprimento do texto fonte. As partes variáveis são repetidas pelo "
+"comprimento do texto multiplicado pelo multiplicador. Por exemplo ``Hello "
+"world`` com sufixo variável ``_`` e multiplicador variável de 1 se torna ``"
+"Hello world___________`` -- o sufixo é repetido uma vez para cada caractere "
+"no texto fonte."
 
 #: ../../admin/addons.rst:451
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Este texto não foi traduzido há muito tempo"
+msgstr "Os textos serão gerados usando o seguinte padrão:"
 
 #: ../../admin/addons.rst:453
 msgid ""
@@ -2542,6 +2526,9 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
+":guilabel:`Prefixo de texto fixo` :guilabel:`Prefixo de texto variável` "
+":guilabel:`Texto fonte` :guilabel:`Sufixo de texto variável` :guilabel:`"
+"Sufixo de texto fixo`"
 
 #: ../../admin/addons.rst:461
 msgid ""
@@ -3753,6 +3740,13 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"Existem backends de autenticação semelhantes para o GitHub para Organizações "
+"e o GitHub para Equipes. Suas configurações são denominadas "
+"``SOCIAL_AUTH_GITHUB_ORG_*`` e ``SOCIAL_AUTH_GITHUB_TEAM_*``, e requerem "
+"configuração adicional do escopo -- ``SOCIAL_AUTH_GITHUB_ORG_NAME`` ou "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``. Seus URLs de retorno de chamada são "
+"``https://example.com/accounts/complete/github-org/`` e ``https://example."
+"com/accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -4849,9 +4843,6 @@ msgstr ""
 "`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:273
-#, fuzzy
-#| msgid ""
-#| "To restore the database backup load it using dabase tools, for example:"
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr ""
@@ -5532,10 +5523,8 @@ msgid "``ignore-all-checks``"
 msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:137
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all quality checks."
-msgstr "Verificações ignoradas"
+msgstr "Ignora todas as verificações de qualidade."
 
 #: ../../admin/checks.rst:138 ../../user/checks.rst:53
 msgid "``ignore-bbcode``"
@@ -7425,81 +7414,56 @@ msgid "URL where support for your Weblate instance can be found."
 msgstr "URL onde o suporte para sua instância do Weblate pode ser encontrado."
 
 #: ../../admin/config.rst:731
-#, fuzzy
-#| msgid "GITLAB_CREDENTIALS"
 msgid "GITEA_CREDENTIALS"
-msgstr "GITLAB_CREDENTIALS"
+msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:735
-#, fuzzy
-#| msgid "List for credentials for GitLab servers."
 msgid "List for credentials for Gitea servers."
-msgstr "Lista para credenciais para servidores GitLab."
+msgstr "Lista para credenciais para servidores Gitea."
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "Gitea endpoint stick with :setting:`GITEA_USERNAME` and :setting:"
 "`GITEA_TOKEN`."
 msgstr ""
 "Use isso no caso de você querer que o Weblate interaja com mais deles, para "
-"um único ponto final do GitLab com :setting:`GITLAB_USERNAME` e :setting:"
-"`GITLAB_TOKEN`."
+"um único ponto final do Gitea com :setting:`GITEA_USERNAME` e "
+":setting:`GITEA_TOKEN`."
 
 #: ../../admin/config.rst:758
-#, fuzzy
-#| msgid "GITLAB_USERNAME"
 msgid "GITEA_USERNAME"
-msgstr "GITLAB_USERNAME"
+msgstr "GITEA_USERNAME"
 
 #: ../../admin/config.rst:762
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid "Gitea username used to send pull requests for translation updates."
 msgstr ""
-"O nome de usuário GitHub usado para enviar pull request para atualizações de "
+"O nome de usuário Gitea usado para enviar pull request para atualizações de "
 "tradução."
 
 #: ../../admin/config.rst:766
-#, fuzzy
-#| msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 msgid ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
-msgstr ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
+msgstr ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
 
 #: ../../admin/config.rst:772
-#, fuzzy
-#| msgid "GITLAB_TOKEN"
 msgid "GITEA_TOKEN"
-msgstr "GITLAB_TOKEN"
+msgstr "GITEA_TOKEN"
 
 #: ../../admin/config.rst:776
-#, fuzzy
-#| msgid ""
-#| "GitHub personal access token used to make API calls to send pull requests "
-#| "for translation updates."
 msgid ""
 "Gitea personal access token used to make API calls to send pull requests for "
 "translation updates."
 msgstr ""
-"O token de acesso pessoal GitHub usado para fazer chamadas de API para "
-"enviar pull requests para atualizações de tradução."
+"O token de acesso pessoal Gitea usado para fazer chamadas de API para enviar "
+"pull requests para atualizações de tradução."
 
 #: ../../admin/config.rst:781
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ""
 ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea personal "
 "access token`_"
 msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Criar um token de acesso "
-"pessoal`_"
+":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Criar um token de acesso "
+"pessoal Gitea`_"
 
 #: ../../admin/config.rst:790
 msgid "GITLAB_CREDENTIALS"
@@ -10595,10 +10559,8 @@ msgid "Celery"
 msgstr "Celery"
 
 #: ../../admin/install.rst:77
-#, fuzzy
-#| msgid "https://docs.celeryproject.org/"
 msgid "https://docs.celeryq.dev/"
-msgstr "https://docs.celeryproject.org/"
+msgstr "https://docs.celeryq.dev/"
 
 #: ../../admin/install.rst:78
 msgid "Translate Toolkit"
@@ -10754,11 +10716,10 @@ msgid "https://git-scm.com/"
 msgstr "https://git-scm.com/"
 
 #: ../../admin/install.rst:145
-#, fuzzy
-#| msgid "Pango, Cairo and related header files and gir introspection data"
 msgid "Pango, Cairo and related header files and GObject introspection data"
 msgstr ""
-"Pango, Cairo e arquivos de cabeçalho relacionados e dados de introspecção gir"
+"Pango, Cairo e arquivos de cabeçalho relacionados e dados de introspecção "
+"GObject"
 
 #: ../../admin/install.rst:146
 msgid ""
@@ -13295,23 +13256,17 @@ msgstr ""
 "inicialização e não deve haver necessidade de ações manuais adicionais."
 
 #: ../../admin/install/docker.rst:221
-#, fuzzy
-#| msgid ""
-#| "Upgrades across 3.0 are not supported by Weblate. If you are on 2.x "
-#| "series and want to upgrade to 3.x, first upgrade to the latest 3.0.1-x "
-#| "(at time of writing this it is the ``3.0.1-7``) image, which will do the "
-#| "migration and then continue upgrading to newer versions."
 msgid ""
 "Upgrades across major versions are not supported by Weblate. For example, if "
 "you are on 3.x series and want to upgrade to 4.x, first upgrade to the "
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
-"Atualizações na 3.0 não são suportadas pelo Weblate. Se você estiver na "
-"série 2.x e quiser atualizar para 3.x, primeiro atualize para a imagem 3.0.1-"
-"x mais recente (no momento em que escrevo esta é a imagem ``3.0.1-7``), que "
-"faça a migração e, em seguida, continue atualizando para as versões mais "
-"recentes."
+"Atualizações entre versões principais não são suportadas pelo Weblate. Se "
+"você estiver na série 3.x e quiser atualizar para 4.x, primeiro atualize "
+"para a imagem 4.0.x-y mais recente (no momento em que escrevo esta é a ``4.0."
+"4-5``), que faça a migração e, em seguida, continue atualizando para as "
+"versões mais recentes."
 
 #: ../../admin/install/docker.rst:226
 msgid ""
@@ -13511,10 +13466,8 @@ msgid "Configures the logging verbosity."
 msgstr "Configura o detalhamento do log."
 
 #: ../../admin/install/docker.rst:393
-#, fuzzy
-#| msgid "Configures the logging verbosity."
 msgid "Configures the logging of the database queries verbosity."
-msgstr "Configura o detalhamento do log."
+msgstr "Configura o log da verbosidade das consultas ao banco de dados."
 
 #: ../../admin/install/docker.rst:397
 msgid "Changes the site-title shown in the header of all pages."
@@ -14994,10 +14947,8 @@ msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1702
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring PostgreSQL server"
-msgstr "Configurando Weblate para usar PostgreSQL"
+msgstr "Configurando o servidor PostgreSQL"
 
 #: ../../admin/install/docker.rst:1704
 msgid ""
@@ -15005,6 +14956,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"O contêiner PostgtreSQL usa a configuração padrão do PostgreSQL e não "
+"utilizará efetivamente seus núcleos de CPU ou memória. Recomenda-se "
+"personalizar a configuração para melhorar o desempenho."
 
 #: ../../admin/install/docker.rst:1708
 msgid ""
@@ -15012,6 +14966,10 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"A configuração pode ser ajustada conforme descrito em `Database "
+"Configuration` em https://hub.docker.com/_/postgres. A configuração "
+"correspondente ao seu ambiente pode ser gerada usando https://pgtune.leopard."
+"in.ua/."
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -15719,13 +15677,6 @@ msgid "Ambiguous language codes and macrolanguages"
 msgstr "Códigos de idioma ambíguos e macroidiomas"
 
 #: ../../admin/languages.rst:85
-#, fuzzy
-#| msgid ""
-#| "In many cases it is not a good idea to use macro language code for a "
-#| "translation. The typical problematic case might be Kurdish language, "
-#| "which might be written in Arabic or Latin script, depending on actual "
-#| "variant. To get correct behavior in Weblate, it is recommended to use "
-#| "individual language codes only and avoid macro languages."
 msgid ""
 "In many cases it is not a good idea to use macrolanguage code for a "
 "translation. The typical problematic case might be Kurdish language, which "
@@ -15976,16 +15927,16 @@ msgid "Used by Java—mostly BCP with legacy codes for Chinese."
 msgstr "Usado por Java – principalmente BCP com códigos legados para chinês."
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Estilo da fonte"
+msgstr "Estilo Linux"
 
 #: ../../admin/languages.rst:208
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation."
 msgstr ""
+"Localidades como usado pelo Linux, usa códigos legados para notação de "
+"estilo chinês e POSIX."
 
 #: ../../admin/languages.rst:210
 msgid ""
@@ -19734,30 +19685,24 @@ msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr "Valor padrão pode ser alterado por :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:677
-#, fuzzy
-#| msgid "Commit, add, delete, merge and add-on messages"
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
-msgstr "Mensagens de commit, add, merge e extensão"
+msgstr "Mensagens de commit, add, merge, extensão e merge request"
 
 #: ../../admin/projects.rst:679
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr "Mensagem usada ao fazer commit uma tradução, veja :ref:`markup`."
 
 #: ../../admin/projects.rst:681
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
-#| "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-#| "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"O valor padrão pode ser alterado por :setting:`DEFAULT_ADD_MESSAGE`, :"
-"setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-"`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
+"O valor padrão pode ser alterado por :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, "
+":setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:689
 msgid "Push on commit"
@@ -21235,14 +21180,6 @@ msgstr ""
 "aumentaram, veja :ref:`mysql`."
 
 #: ../../admin/upgrade.rst:203
-#, fuzzy
-#| msgid ""
-#| ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
-#| "This will change identification of translation strings in such files "
-#| "breaking links to Weblate extended data such as screenshots or review "
-#| "states. Please make sure you commit pending changes in such files prior "
-#| "upgrading and it is recommeded to force loading of affected component "
-#| "using :djadmin:`loadpo`."
 msgid ""
 ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
 "This will change identification of translation strings in such files "
@@ -21432,16 +21369,12 @@ msgstr ""
 "detecção de conjunto de caracteres."
 
 #: ../../admin/upgrade.rst:301
-#, fuzzy
-#| msgid ""
-#| "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
-#| "(removal of one backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
-"**Alterado no 4.11.1:** Há uma alteração na configuração ``REST_FRAMEWORK`` "
-"(remoção de um dos backends em ``DEFAULT_AUTHENTICATION_CLASSES``)."
+"**Alterado no 4.11.1:** Há uma alteração na configuração ``REST_FRAMEWORK`` ("
+"remoção de um dos backends em ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: ../../admin/upgrade.rst:308
 msgid "Upgrading from Python 2 to Python 3"
@@ -23592,16 +23525,12 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr "Link da unidade fonte; veja :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2043
-#, fuzzy
-#| msgid "whether the unit is fuzzy or marked for review"
 msgid "whether the unit is pending for write"
-msgstr "se a unidade está marcada com \"fuzzy\" ou para revisão"
+msgstr "se a unidade está pendente para escrita"
 
 #: ../../api.rst:2044
-#, fuzzy
-#| msgid "String age"
 msgid "string age"
-msgstr "Idade do texto"
+msgstr "idade do texto"
 
 #: ../../api.rst:2050
 msgid "Performs partial update on translation unit."
@@ -24283,75 +24212,54 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.12.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.12.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed creating pull requests on Pagure."
 msgid "Fixed pull request message title."
-msgstr "Corrigida a criação de pull requests no Pagure."
+msgstr "Corrigido título da mensagem de pull requests."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved syntax error handling in Fluent format."
-msgstr "Melhorado o tratamento de erros na remoção de texto."
+msgstr "Melhorado o tratamento de erros de sintaxe no formato Fluent."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed links in notifications e-mails."
 msgid "Fixed avatar display in notification e-mails."
-msgstr "Corrigidos os links em e-mails de notificação."
+msgstr "Corrigida a exibição de avatares em e-mails de notificação."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/62?closed=1>`__."
+"milestone/82?closed=1>`__."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.12"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.12"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Released on April 20th 2019."
 msgid "Released on April 20th 2022."
-msgstr "Lançado em 20 de abril de 2019."
+msgstr "Lançado em 20 de abril de 2022."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for Amharic in :ref:`check-end-stop`."
-msgstr "Adicionado suporte para :ref:`txt`."
+msgstr "Adicionado suporte para Amárico em :ref:`check-end-stop`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Burmese in :ref:`check-end-question`."
-msgstr "Adicionado suporte a pull requests do Pagure."
+msgstr "Adicionado suporte para birmanês em :ref:`check-end-question`."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid ""
 "Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on."
-msgstr "Nova extensão :ref:`addon-weblate.generate.prefill`."
+msgstr ""
+"Extendidas as opções da extensão :ref:`addon-weblate.generate.pseudolocale`."
 
 #: ../../changes.rst:20
 msgid ""
