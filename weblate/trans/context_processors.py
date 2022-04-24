@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import random
 from datetime import datetime
 from urllib.parse import urlparse
 
@@ -117,6 +118,18 @@ def get_bread_image(path):
     return "project.svg"
 
 
+def get_interledger_payment_pointer():
+    if not hasattr(settings, "INTERLEDGER_PAYMENT_POINTERS"):
+        return None
+
+    interledger_payment_pointers = settings.INTERLEDGER_PAYMENT_POINTERS
+
+    if len(interledger_payment_pointers) == 0:
+        return None
+
+    return random.choice(interledger_payment_pointers)
+
+
 def weblate_context(request):
     """Context processor to inject various useful variables into context."""
     if url_has_allowed_host_and_scheme(request.GET.get("next", ""), allowed_hosts=None):
@@ -180,6 +193,7 @@ def weblate_context(request):
         ).order_by("-timestamp"),
         "preconnect_list": get_preconnect_list(),
         "custom_css_hash": CustomCSSView.get_hash(request),
+        "interledger_payment_pointer": get_interledger_payment_pointer(),
     }
 
     add_error_logging_context(context)
