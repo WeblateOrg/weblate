@@ -1067,6 +1067,11 @@ real_patterns = [
             )
         ),
     ),
+    # Redirects for .well-known
+    path(
+        ".well-known/change-password",
+        RedirectView.as_view(url="/accounts/password/", permanent=True)
+    ),
 ]
 
 # Billing integration
