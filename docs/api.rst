@@ -1857,8 +1857,8 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit
-    :<json array value: The translation unit value
+    :<json string key: Name of translation unit (used as key or context)
+    :<json array value: Source strings (use single string if not creating plural)
 
     .. seealso::
 
