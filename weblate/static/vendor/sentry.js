@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.19.6 (20eb6d0) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.19.7 (5b3a175) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
 
   /**
@@ -4491,7 +4491,7 @@ var Sentry = (function (exports) {
       return `Too many ${category} requests, backing off until: ${new Date(disabledUntil(rateLimits, category)).toISOString()}`;
   }
 
-  const SDK_VERSION = '6.19.6';
+  const SDK_VERSION = '6.19.7';
 
   let originalFunctionToString;
   /** Patch toString calls to return proper name for wrapped functions */
