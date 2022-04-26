@@ -1129,11 +1129,11 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 -----------------------------------------
 
 Whether the length of a given translation should be limited.
-The restriction is the length of the source string * 10 characters.
+The restriction is the length of the source string × 10 characters.
 
 .. hint::
 
-    Set this to ``False`` to allow longer translations (up to 10.000 characters) irrespective of source string length.
+    Set this to ``False`` to allow longer translations (up to 10,000 characters) irrespective of source string length.
 
 .. note::
 

@@ -57,7 +57,9 @@ to and from English across a breadth of supported languages.
 
 .. seealso::
 
-    :setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:`MT_AWS_SECRET_ACCESS_KEY`
+    :setting:`MT_AWS_REGION`,
+    :setting:`MT_AWS_ACCESS_KEY_ID`,
+    :setting:`MT_AWS_SECRET_ACCESS_KEY`,
     `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
 
 .. _baidu-translate:
@@ -142,9 +144,9 @@ Glosbe
 
 Free dictionary and translation memory for almost every living language.
 
-The API is gratis to use, but subject to the used data source license. There is a limit
-of calls that may be done from one IP in a set period of time, to prevent
-abuse.
+The API is gratis to use, but usage of the translations is subject to the
+license of the used data source. There is a limit of calls that may be done
+from one IP in a set period of time, to prevent abuse.
 
 Turn on this service by adding ``weblate.machinery.glosbe.GlosbeTranslation`` to
 :setting:`MT_SERVICES`.

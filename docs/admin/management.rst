@@ -294,7 +294,7 @@ dumpuserdata
 
 .. django-admin:: dumpuserdata <file.json>
 
-Dumps userdata to a file for later use by :djadmin:`importuserdata`
+Dumps userdata to a file for later use by :djadmin:`importuserdata`.
 
 .. hint::
 
