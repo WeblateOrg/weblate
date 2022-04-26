@@ -84,6 +84,8 @@ class WeblateConf(AppConf):
     CSP_STYLE_SRC = []
     CSP_FONT_SRC = []
 
+    INTERLEDGER_PAYMENT_POINTERS = ["$ilp.uphold.com/ENU7fREdeZi9"]
+
     class Meta:
         prefix = ""
 

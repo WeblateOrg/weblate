@@ -952,6 +952,10 @@ selecting one randomly.
 
 Please check <https://webmonetization.org/> for more details.
 
+.. hint::
+
+   The default value lets users fund Weblate itself.
+
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
 IP_BEHIND_REVERSE_PROXY

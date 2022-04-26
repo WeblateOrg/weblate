@@ -119,12 +119,9 @@ def get_bread_image(path):
 
 
 def get_interledger_payment_pointer():
-    if not hasattr(settings, "INTERLEDGER_PAYMENT_POINTERS"):
-        return None
-
     interledger_payment_pointers = settings.INTERLEDGER_PAYMENT_POINTERS
 
-    if len(interledger_payment_pointers) == 0:
+    if not interledger_payment_pointers:
         return None
 
     return random.choice(interledger_payment_pointers)
