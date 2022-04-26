@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-25 22:31+0000\n"
+"PO-Revision-Date: 2022-04-26 09:02+0000\n"
 "Last-Translator: jackfrost <jackfrost5446@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:114
 msgid "This username is already taken. Please choose another."
-msgstr "이미 존재하는 사용자 이름입니다. 다른 이름을 선택해주세요."
+msgstr "이미 존재하는 사용자 이름입니다. 다른 이름을 선택하십시오."
 
 #: weblate/accounts/forms.py:125 weblate/accounts/forms.py:804
 #: weblate/auth/models.py:320 weblate/templates/trans/project-access.html:36
@@ -423,7 +423,7 @@ msgstr "계정에 대한 접근을 복원하려면 비밀번호를 다시 설정
 
 #: weblate/accounts/models.py:186
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr "만약 이 것이 부적합하다고 느끼면, 프로젝트 유지관리자에게 연락하세요."
+msgstr "이것이 부적절하다고 생각되면 프로젝트 관리자에게 문의하십시오."
 
 #: weblate/accounts/models.py:310 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -635,7 +635,7 @@ msgstr "회사"
 #: weblate/accounts/models.py:612
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "참여 프로젝트에서 볼 프로젝트의 구성 요소를 선택하세요."
+msgstr "참여중인 프로젝트에 나타낼 구성 요소 목록을 선택하십시오."
 
 #: weblate/accounts/models.py:623
 msgid "Selecting component list has no effect when not shown on the dashboard."
@@ -887,8 +887,8 @@ msgstr ""
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
-msgstr ""
-"시험판을 사용 중입니다; 번역 프로젝트를 생성하고 웨블레이팅을 시작하세요!"
+msgstr "평가판 기간이 시작되어 실행 중입니다. 번역 프로젝트를 만들고 웨블레이트를 "
+"시작하십시오!"
 
 #: weblate/accounts/views.py:568 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
@@ -1439,19 +1439,15 @@ msgstr "고정 문자열 접두사"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
 msgid "Variable string prefix"
-msgstr "변수 문자열 접두사"
+msgstr "가변 문자열 접두사"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "문자열 접미사"
+msgstr "고정 문자열 접미사"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "문자열 접미사"
+msgstr "가변 문자열 접미사"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
@@ -1465,7 +1461,7 @@ msgstr "원본 문자열의 길이에 따라 변수 부분을 반복하는 횟�
 
 #: weblate/addons/forms.py:545
 msgid "The source and target have to be different languages."
-msgstr "원본과 대상은 다른 언어여야 합니다."
+msgstr "원문과 대상은 다른 언어여야 합니다."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2526,8 +2522,6 @@ msgid "Missing plurals"
 msgstr "복수형 누락"
 
 #: weblate/checks/consistency.py:34
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are untranslated"
 msgstr "일부 복수형은 번역되지 않았습니다"
 
@@ -2917,16 +2911,14 @@ msgid ""
 msgstr "하나 이상의 자리 표시자는 번역에서 XML 태그가 아니어야 함: %s"
 
 #: weblate/checks/icu.py:503
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "번역 플래그, 필요한 파라미터 없음: \"%s\""
+msgstr "하나 이상의 XML 태그에 예기치 않은 컨텐츠가 포함되어 있는 번역입니다: %s"
 
 #: weblate/checks/icu.py:508
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "번역 플래그, 필요한 파라미터 없음: \"%s\""
+msgstr "하나 이상의 XML 태그에 번역 내용이 없습니다: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBCode markup"
@@ -3002,16 +2994,13 @@ msgid "Regular expression"
 msgstr "정규 표현식"
 
 #: weblate/checks/placeholders.py:112
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "번역이 정규 표현식과 일치하지 않습니다:"
+msgstr "번역이 정규 표현식과 일치하지 않습니다."
 
 #: weblate/checks/placeholders.py:141
-#, fuzzy, python-format
-#| msgid "Translation does not match regular expression:"
+#, python-format
 msgid "Does not match regular expression %s."
-msgstr "번역이 정규 표현식과 일치하지 않습니다:"
+msgstr "정규 표현식 %s와 일치하지 않습니다."
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3103,19 +3092,19 @@ msgstr "웨블레이트 설정"
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
 msgid "Font style"
-msgstr "폰트 스타일"
+msgstr "글꼴 스타일"
 
 #: weblate/fonts/models.py:42
 msgid "Font file"
-msgstr "폰트 파일"
+msgstr "글꼴 파일"
 
 #: weblate/fonts/models.py:45
 msgid "OpenType and TrueType fonts are supported."
-msgstr "OpenType, TrueType 폰트를 지원하고 있습니다."
+msgstr "OpenType, TrueType 글꼴을 지원하고 있습니다."
 
 #: weblate/fonts/models.py:107
 msgid "Font group name"
-msgstr "폰트 계열 이름"
+msgstr "글꼴 그룹 이름"
 
 #: weblate/fonts/models.py:110
 msgid ""
@@ -3126,15 +3115,15 @@ msgstr "글꼴 목록에서 선택할 식별자입니다. 공백과 특수문자
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
 msgid "Default font"
-msgstr "기본 폰트"
+msgstr "기본 글꼴"
 
 #: weblate/fonts/models.py:118
 msgid "Default font is used unless per language override matches."
-msgstr "언어의 폰트를 설정하지 않는한, 기본 폰트가 적용될 것입니다."
+msgstr "언어의 글꼴을 설정하지 않는 한, 기본 글꼴이 적용될 것입니다."
 
 #: weblate/fonts/models.py:141 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
-msgstr "폰트"
+msgstr "글꼴"
 
 #: weblate/fonts/models.py:144 weblate/templates/component.html:130
 #: weblate/templates/languages.html:11 weblate/templates/project.html:160
@@ -3153,10 +3142,8 @@ msgid "Unsupported file format."
 msgstr "지원되지 않는 파일형식입니다."
 
 #: weblate/fonts/views.py:72
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font with the same name already exists."
-msgstr "이미 사용중인 이름입니다."
+msgstr "같은 이름의 글꼴이 이미 있습니다."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
@@ -3164,13 +3151,11 @@ msgstr "생성 실패, 아래의 오류를 확인해주시기 바랍니다."
 
 #: weblate/fonts/views.py:96
 msgid "Font deleted."
-msgstr "글꼴 삭제됨."
+msgstr "글꼴이 삭제되었습니다."
 
 #: weblate/fonts/views.py:135 weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Font group with the same name already exists."
-msgstr "이미 사용중인 이름입니다."
+msgstr "같은 이름의 글꼴 그룹이 이미 있습니다."
 
 #: weblate/fonts/views.py:159
 msgid "No override found."
@@ -3201,10 +3186,8 @@ msgid "RC file"
 msgstr "RC 파일"
 
 #: weblate/formats/convert.py:447
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "Plain text file"
-msgstr "i18next JSON 파일"
+msgstr "Plain text 파일"
 
 #: weblate/formats/convert.py:490
 msgid "DokuWiki text file"
@@ -3219,10 +3202,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "gettext 확장이 있는 XLIFF"
+msgstr "gettext 확장이 있는 XLIFF 1.1"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3305,16 +3286,12 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "자바 속성 (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1270
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
-msgstr "줌라(Joomla) 언어 파일"
+msgstr "Joomla 언어 파일"
 
 #: weblate/formats/ttkit.py:1279
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "GWT properties"
-msgstr "GWT 환경 설정"
+msgstr "GWT 속성"
 
 #: weblate/formats/ttkit.py:1287
 msgid "PHP strings"
@@ -3431,10 +3408,8 @@ msgid "Stringsdict file"
 msgstr "레이블이 있는 문자열"
 
 #: weblate/formats/ttkit.py:1916
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "폰트 파일"
+msgstr "Fluent 파일"
 
 #: weblate/formats/txt.py:188
 msgid "App store metadata files"
@@ -6386,7 +6361,7 @@ msgstr "프로젝트 언어 보기"
 #: weblate/templates/fonts/font_list.html:9
 #: weblate/templates/fonts/font_list.html:16 weblate/templates/project.html:95
 msgid "Fonts"
-msgstr "폰트"
+msgstr "글꼴"
 
 #: weblate/templates/fonts/font_detail.html:20
 msgid "File size"
@@ -6409,7 +6384,7 @@ msgstr "그룹에서 사용됨"
 #: weblate/templates/fonts/font_list.html:15
 #: weblate/templates/fonts/fontgroup_detail.html:9
 msgid "Font groups"
-msgstr "폰트 그룹"
+msgstr "글꼴 그룹"
 
 #: weblate/templates/fonts/font_list.html:25
 msgid "Group name"
@@ -6421,15 +6396,15 @@ msgstr "언어 오버라이드"
 
 #: weblate/templates/fonts/font_list.html:51
 msgid "Add font group"
-msgstr "폰트 그룹 추가하기"
+msgstr "글꼴 그룹 추가하기"
 
 #: weblate/templates/fonts/font_list.html:62
 msgid "Please upload fonts to be able to define font groups."
-msgstr "폰트 그룹을 명시하기 위해 폰트를 업로드 해주세요."
+msgstr "글꼴 그룹을 명시하기 위해 글꼴을 업로드하십시오."
 
 #: weblate/templates/fonts/font_list.html:92
 msgid "Add font"
-msgstr "폰트 추가"
+msgstr "글꼴 추가"
 
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/memory/index.html:214
@@ -6441,7 +6416,7 @@ msgstr "업로드"
 
 #: weblate/templates/fonts/fontgroup_detail.html:16
 msgid "Font group"
-msgstr "폰트 그룹"
+msgstr "글꼴 그룹"
 
 #: weblate/templates/fonts/fontgroup_detail.html:22
 msgid "language override"
@@ -6460,7 +6435,7 @@ msgstr "언어 오버라이드 추가"
 
 #: weblate/templates/fonts/fontgroup_detail.html:60
 msgid "Edit font group"
-msgstr "폰트 그룹 수정"
+msgstr "글꼴 그룹 수정"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -9824,7 +9799,7 @@ msgstr "번역을 저장할 권한이 부족합니다."
 
 #: weblate/templates/translate.html:217
 msgid "Save and continue"
-msgstr "저장 및 계속"
+msgstr "저장하고 넘어가기"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10167,7 +10142,7 @@ msgstr "업로드된 파일은 현재 번역과 병합됩니다."
 msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
-msgstr ""
+msgstr "이미 번역된 문자열을 덮어쓰려면 드롭다운 메뉴에서 이 선택사항을 선택합니다."
 
 #: weblate/templates/translation.html:408
 msgid ""
@@ -10857,7 +10832,7 @@ msgstr "검색 문자열"
 
 #: weblate/trans/forms.py:2029
 msgid "Case sensitive string to search for and replace."
-msgstr ""
+msgstr "이미 번역된 문자열을 덮어쓰려면 드롭다운 메뉴에서 이 선택 사항을 선택합니다."
 
 #: weblate/trans/forms.py:2032
 msgid "Replacement string"
@@ -10969,7 +10944,7 @@ msgstr "작성자 이름"
 
 #: weblate/trans/forms.py:2440
 msgid "Expiry cannot be in the past!"
-msgstr ""
+msgstr "만료가 과거에 있으면 안 됩니다!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -11452,7 +11427,7 @@ msgstr "다음의 경고로 인해 번역이 잠김:"
 
 #: weblate/trans/models/change.py:446
 msgid "Fixing an alert automatically unlocked the component."
-msgstr ""
+msgstr "경고를 수정하면 구성 요소가 자동으로 잠금 해제됩니다."
 
 #: weblate/trans/models/change.py:502
 #, python-format
@@ -11482,7 +11457,7 @@ msgstr ".pot 파일을 기본 파일로 사용하는 것은 지원되지 않습�
 #: weblate/trans/models/change.py:634
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "파일 %s이(가) 추가되었습니다."
 
 #: weblate/trans/models/change.py:638
 msgctxt "License information not available"
@@ -11550,10 +11525,8 @@ msgid "Java style"
 msgstr "자바 스타일"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "폰트 스타일"
+msgstr "리눅스 스타일"
 
 #: weblate/trans/models/component.py:146
 msgid "Merge"
@@ -11832,7 +11805,7 @@ msgstr "기능이 변경했을 때 커밋 메시지"
 
 #: weblate/trans/models/component.py:556
 msgid "Merge request message"
-msgstr ""
+msgstr "병합 요청 메시지"
 
 #: weblate/trans/models/component.py:565
 msgid "Push on commit"
@@ -13398,8 +13371,9 @@ msgid "Git with force push"
 msgstr "Git force push"
 
 #: weblate/vcs/git.py:863
+#, fuzzy
 msgid "GitHub pull request"
-msgstr ""
+msgstr "GitHub pull 요청"
 
 #: weblate/vcs/git.py:986
 #, fuzzy
@@ -13488,11 +13462,11 @@ msgstr "CSS에 적합한 글꼴 모음을 제공하십시오."
 
 #: weblate/wladmin/forms.py:84
 msgid "Page font"
-msgstr "페이지 폰트"
+msgstr "페이지 글꼴"
 
 #: weblate/wladmin/forms.py:85
 msgid "Header font"
-msgstr "헤더 폰트"
+msgstr "헤더 글꼴"
 
 #: weblate/wladmin/forms.py:95
 msgid "Focus color"
@@ -13568,7 +13542,7 @@ msgstr "오래된 백업을 삭제했습니다"
 
 #: weblate/wladmin/models.py:229
 msgid "Cleaned up backup storage"
-msgstr ""
+msgstr "백업 메모리 정리됨"
 
 #: weblate/wladmin/models.py:230
 msgid "Repository initialization"
