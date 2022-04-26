@@ -39,13 +39,14 @@
 # Ivan <goz9ae93qun@temp.mailbox.org>, 2021.
 # LyssaK <a.y.kurasova@gmail.com>, 2022.
 # Viktor <xasertop@gmail.com>, 2022.
+# WofWca <wofwca@protonmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-25 22:31+0000\n"
-"Last-Translator: Viktor <xasertop@gmail.com>\n"
+"PO-Revision-Date: 2022-04-26 20:54+0000\n"
+"Last-Translator: WofWca <wofwca@protonmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -1434,8 +1435,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Клонировать дополнения из основного компонента в новые"
 
 #: weblate/addons/forms.py:295
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Удалить компоненты для несуществующих файлов"
 
@@ -1513,35 +1512,38 @@ msgstr "Все строки в этом переводе будут переза
 #, fuzzy
 #| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Префикс строки"
+msgstr "Фиксированный префикс строки"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
 #, fuzzy
 #| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Префикс строки"
+msgstr "Переменный префикс строки"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
 #, fuzzy
 #| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Суффикс строки"
+msgstr "Фиксированный суффикс строки"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
 #, fuzzy
 #| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Суффикс строки"
+msgstr "Переменный суффикс строки"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Множитель переменной части"
 
 #: weblate/addons/forms.py:515
+#, fuzzy
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Сколько раз повторить переменную часть, в зависимости от длины исходной "
+"строки"
 
 #: weblate/addons/forms.py:545
 msgid "The source and target have to be different languages."
@@ -3987,7 +3989,7 @@ msgstr "Записи удалены."
 #, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "Перевод будет обновлён в фоновом режиме."
+msgstr "Записи удалены. Память будет перестроена в фоновом режиме."
 
 #: weblate/memory/views.py:138
 msgid "File processed, the entries will appear shortly."
@@ -4240,7 +4242,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Запросить хостинг проекта"
+msgstr "Запросить Свободный хостинг"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4447,7 +4449,7 @@ msgstr "Подписки на пробную версию"
 #, fuzzy
 #| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "Переведите свой свободный проект"
+msgstr "Настройте свой свободный проект"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4470,15 +4472,11 @@ msgid "Unapproved projects will be removed."
 msgstr "Неодобренные проекты будут удалены."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
 msgstr ""
-"При использовании бесплатного тарифа нет никаких гарантий доступности или "
-"качества сервиса."
+"При использовании свободного хостинга гарантия на доступность качество "
+"сервиса не предоставляется."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -6327,7 +6325,7 @@ msgstr "Подробная инструкция есть в документац
 #: weblate/templates/engage.html:14
 #, python-format
 msgid "Get involved in <strong>%(project)s</strong>"
-msgstr "Присоединяйтесь к проекту <strong>%(project)s</strong>"
+msgstr "Присоединяйтесь к <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
 msgid "Hello and thank you for your interest"
@@ -6339,9 +6337,8 @@ msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
 msgstr ""
-"%(project)s переводится, используя %(weblate_name_link)s — веб-инструмент, "
-"созданный для лёгкого перевода, как для разработчиков, так и для "
-"переводчиков."
+"%(project)s переводят с помощью %(weblate_name_link)s — веб-инструмента для "
+"упрощения жизни как разработчикам, так и переводчикам."
 
 #: weblate/templates/engage.html:25 weblate/trans/widgets.py:256
 msgctxt "Label on engage page"
@@ -6377,14 +6374,14 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
-"строку</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
+"Сейчас проект перевода %(project)s содержит <strong>%(count)s строку</"
+"strong> для перевода и <strong>готов на %(percent)s %%</strong>."
 msgstr[1] ""
-"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
-"строки</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
+"Сейчас проект перевода %(project)s содержит <strong>%(count)s строки</"
+"strong> для перевода и <strong>готов на %(percent)s %%</strong>."
 msgstr[2] ""
-"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
-"строк</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
+"Сейчас проект перевода %(project)s содержит <strong>%(count)s строк</strong> "
+"для перевода и <strong>готов на %(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -6395,14 +6392,14 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
-"строку</strong> для перевода."
+"Сейчас проект перевода %(project)s содержит <strong>%(count)s строку</"
+"strong> для перевода."
 msgstr[1] ""
-"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
-"строки</strong> для перевода."
+"Сейчас проект перевода %(project)s содержит <strong>%(count)s строки</"
+"strong> для перевода."
 msgstr[2] ""
-"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
-"строк</strong> для перевода."
+"Сейчас проект перевода %(project)s содержит <strong>%(count)s строк</strong> "
+"для перевода."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6425,8 +6422,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
 msgstr ""
-"Если вы хотите принять участие в переводе проекта %(project)s, вам "
-"необходимо зарегистрироваться на этом сервере."
+"Если хотите принять участие в переводе %(project)s, вам необходимо "
+"зарегистрироваться на этом сервере."
 
 #: weblate/templates/engage.html:53
 msgid ""
@@ -6913,8 +6910,7 @@ msgstr "Информация о проекте"
 
 #: weblate/templates/mail/base.html:99
 msgid "Weblate, the libre continuous localization system."
-msgstr ""
-"Weblate, свободное программное обеспечение системы непрерывной локализации."
+msgstr "Weblate — свободное ПО для непрерывной локализации."
 
 #: weblate/templates/mail/base.html:106
 msgid "Turn off this notification"
@@ -6980,16 +6976,13 @@ msgstr ""
 "удалены %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Если ваш пробный тарифный план для свободных проектов не будет одобрен, то "
-"все проекты, относящиеся к нему, будут удалены %(date)s."
+"Если ваш запрос на свободный хостинг не будет одобрен, то все проекты, "
+"относящиеся к нему, будут удалены %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -8524,8 +8517,8 @@ msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
 msgstr ""
-"Переведенное содержание должно быть выпущено под лицензией свободного "
-"программного обеспечения."
+"Переводы должны быть выпущены под лицензией, одобренной OSI или являющейся "
+"свободной по версии FSF."
 
 #: weblate/templates/snippets/libre-basic.html:4
 msgid ""
@@ -11104,8 +11097,6 @@ msgid "No file mask matches."
 msgstr "Нет соответствующей файловой маски."
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Несуществующие файлы."
 
@@ -12678,8 +12669,8 @@ msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
 "translation or start translating your own project."
 msgstr ""
-"{0} является переведённым на {1} языков, используя Weblate. Присоединяйтесь "
-"к переводу или начните переводить свой собственный проект."
+"{0} переводят на {1} языков с помощью Weblate. Присоединяйтесь к переводу, "
+"или начните переводить свой собственный проект."
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
@@ -13382,10 +13373,8 @@ msgid "GitHub pull request"
 msgstr "Запрос на принятие изменений в GitHub"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "Запрос на принятие изменений в GitHub"
+msgstr "Запрос на принятие изменений в Gitea"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
