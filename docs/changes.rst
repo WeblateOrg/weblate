@@ -7,6 +7,7 @@ Not yet released.
 * Improved syntax error handling in Fluent format.
 * Fixed avatar display in notification e-mails.
 * Add support for web monetization.
+* Fixed removal of stale source strings when removing translations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?closed=1>`__.
 

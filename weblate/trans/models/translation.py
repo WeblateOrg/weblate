@@ -1449,6 +1449,12 @@ class Translation(
                     translation.unit_set.filter(
                         position__gt=translation_unit.position
                     ).update(position=F("position") - 1)
+                # Delete stale source units
+                if not self.is_source and translation == self:
+                    source_unit = translation_unit.source_unit
+                    if source_unit.source_unit.unit_set.count() == 1:
+                        source_unit.delete()
+
             if self.is_source and unit.position and not component.has_template():
                 # Adjust position is source language
                 self.unit_set.filter(position__gt=unit.position).update(
