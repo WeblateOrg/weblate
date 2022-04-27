@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-04-27 16:06+0000\n"
+"PO-Revision-Date: 2022-04-28 12:48+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -86,10 +86,8 @@ msgid "Public"
 msgstr "公開"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users."
 msgid "Publicly visible, translatable for all signed-in users."
-msgstr "公開、ログインしたすべてのユーザーが翻訳できます。"
+msgstr "公開、サインインしたすべてのユーザーが翻訳できます。"
 
 #: ../../admin/access.rst:37
 msgid "Protected"
@@ -320,15 +318,6 @@ msgid "New user invitation"
 msgstr "新しいユーザーの招待"
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` group) would "
-#| "be sufficient."
 msgid ""
 "Also, besides adding an existing user to the project, it is possible to "
 "invite new ones. Any new user will be created immediately, but the account "
@@ -339,9 +328,9 @@ msgid ""
 msgstr ""
 "また、既存のユーザーをプロジェクトに追加する以外に、新しいユーザーを招待する"
 "こともできます。新しいユーザーは直ちに作成されますが、メールで送信された招待"
-"状のリンクを使用してサインインするまで、アカウントは無効の状態のままです。"
-"メールで招待するために、サイト全体のアクセス権は必要はありません、プロジェク"
-"ト全体に対するアクセス権（例: 「管理」グループへの登録）で十分です。"
+"状のリンクを使用してサインインするまで、アカウントは無効の状態のままです。メ"
+"ールで招待するために、サイト全体のアクセス権は必要はありません、プロジェクト"
+"全体に対するアクセス権（例: 「管理」チームへの登録）で十分です。"
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -2410,7 +2399,7 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/addons.rst:429
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "可変部分の係数"
 
 #: ../../admin/addons.rst:429
 msgid ""
@@ -4704,14 +4693,10 @@ msgstr ""
 "かを選択できます。"
 
 #: ../../admin/backup.rst:273
-#, fuzzy
-#| msgid ""
-#| "To restore the database backup load it using dabase tools, for example:"
 msgid ""
 "To restore the database backup load it using database tools, for example:"
-msgstr ""
-"データベースのバックアップを復元するには、データベース ツールを使用して読み込"
-"みます。読み込み例:"
+msgstr "データベースのバックアップを復元するには、データベース "
+"ツールを使用して読み込みます。読み込み例:"
 
 #: ../../admin/backup.rst:280
 msgid "Version control repositories"
@@ -5367,10 +5352,8 @@ msgid "``ignore-all-checks``"
 msgstr "``ignore-check-glossary``"
 
 #: ../../admin/checks.rst:137
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all quality checks."
-msgstr "検査除外数"
+msgstr "すべての品質検査を除外する。"
 
 #: ../../admin/checks.rst:138 ../../user/checks.rst:53
 msgid "``ignore-bbcode``"
@@ -7218,81 +7201,54 @@ msgid "URL where support for your Weblate instance can be found."
 msgstr "Weblate インスタンスのサポートを見つけられる URL。"
 
 #: ../../admin/config.rst:731
-#, fuzzy
-#| msgid "GITLAB_CREDENTIALS"
 msgid "GITEA_CREDENTIALS"
-msgstr "GITLAB_CREDENTIALS"
+msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:735
-#, fuzzy
-#| msgid "List for credentials for GitLab servers."
 msgid "List for credentials for Gitea servers."
-msgstr "GitLab サーバーの資格情報の一覧。"
+msgstr "Gitea サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "Gitea endpoint stick with :setting:`GITEA_USERNAME` and :setting:"
 "`GITEA_TOKEN`."
 msgstr ""
-"Weblate を多くの GitLab エンドポイントと相互作用させたい場合、単一の GitLab "
-"エンドポイントの :setting:`GITLAB_USERNAME` および :setting:`GITLAB_TOKEN` を"
-"貼り付けて使用します。"
+"Weblate を多くの GitLab エンドポイントと相互作用させたい場合、単一の Gitea "
+"エンドポイントの :setting:`GITEA_USERNAME` および :setting:`GITEA_TOKEN` "
+"を貼り付けて使用します。"
 
 #: ../../admin/config.rst:758
-#, fuzzy
-#| msgid "GITLAB_USERNAME"
 msgid "GITEA_USERNAME"
-msgstr "GITLAB_USERNAME"
+msgstr "GITEA_USERNAME"
 
 #: ../../admin/config.rst:762
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid "Gitea username used to send pull requests for translation updates."
-msgstr ""
-"GitHub のユーザー名は、翻訳の更新のためのマージリクエストを送信するために使用"
+msgstr "Gitea のユーザー名は、翻訳の更新のためのマージリクエストを送信するために使用"
 "されます。"
 
 #: ../../admin/config.rst:766
-#, fuzzy
-#| msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 msgid ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
-msgstr ":setting:`GITLAB_CREDENTIALS`、:ref:`vcs-gitlab`"
+msgstr ":setting:`GITEA_CREDENTIALS`、:ref:`vcs-gitea`"
 
 #: ../../admin/config.rst:772
-#, fuzzy
-#| msgid "GITLAB_TOKEN"
 msgid "GITEA_TOKEN"
-msgstr "GITLAB_TOKEN"
+msgstr "GITEA_TOKEN"
 
 #: ../../admin/config.rst:776
-#, fuzzy
-#| msgid ""
-#| "GitHub personal access token used to make API calls to send pull requests "
-#| "for translation updates."
 msgid ""
 "Gitea personal access token used to make API calls to send pull requests for "
 "translation updates."
-msgstr ""
-"GitHub の個人アクセス トークンは、翻訳更新のためのプルリクエストを送信するた"
-"めの API コールに使用されます。"
+msgstr "Gitea の個人アクセス トークンは、"
+"翻訳更新のためのプルリクエストを送信するための API コールに使用されます。"
 
 #: ../../admin/config.rst:781
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ""
 ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea personal "
 "access token`_"
 msgstr ""
-":setting:`GITHUB_CREDENTIALS`、:ref:`vcs-github`、`個人アクセストークンを使用"
-"する`_"
+":setting:`GITEA_CREDENTIALS`、:ref:`vcs-gitea`、`Creating a Gitea personal "
+"access token`_"
 
 #: ../../admin/config.rst:790
 msgid "GITLAB_CREDENTIALS"
@@ -10307,10 +10263,8 @@ msgid "Celery"
 msgstr "Celery"
 
 #: ../../admin/install.rst:77
-#, fuzzy
-#| msgid "https://docs.celeryproject.org/"
 msgid "https://docs.celeryq.dev/"
-msgstr "https://docs.celeryproject.org/"
+msgstr "https://docs.celeryq.dev/"
 
 #: ../../admin/install.rst:78
 msgid "Translate Toolkit"
@@ -10469,11 +10423,9 @@ msgid "https://git-scm.com/"
 msgstr "https://git-scm.com/"
 
 #: ../../admin/install.rst:145
-#, fuzzy
-#| msgid "Pango, Cairo and related header files and gir introspection data"
 msgid "Pango, Cairo and related header files and GObject introspection data"
-msgstr ""
-"Pango、Cairo および関連するヘッダ ファイルと gir イントロスペクション データ"
+msgstr "Pango、Cairo および関連するヘッダ ファイルと GObject イントロスペクション "
+"データ"
 
 #: ../../admin/install.rst:146
 msgid ""
@@ -14360,10 +14312,8 @@ msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1702
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring PostgreSQL server"
-msgstr "Weblate で PostgreSQL を使用するための設定"
+msgstr "PostgreSQL サーバーの設定"
 
 #: ../../admin/install/docker.rst:1704
 msgid ""
@@ -15075,13 +15025,6 @@ msgid "Ambiguous language codes and macrolanguages"
 msgstr "あいまいな言語コードとマクロ言語"
 
 #: ../../admin/languages.rst:85
-#, fuzzy
-#| msgid ""
-#| "In many cases it is not a good idea to use macro language code for a "
-#| "translation. The typical problematic case might be Kurdish language, "
-#| "which might be written in Arabic or Latin script, depending on actual "
-#| "variant. To get correct behavior in Weblate, it is recommended to use "
-#| "individual language codes only and avoid macro languages."
 msgid ""
 "In many cases it is not a good idea to use macrolanguage code for a "
 "translation. The typical problematic case might be Kurdish language, which "
@@ -15316,10 +15259,8 @@ msgid "Used by Java—mostly BCP with legacy codes for Chinese."
 msgstr "Java で使用—主に中国語用のレガシー コードを使用する BCP。"
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "フォントスタイル"
+msgstr "Linux 形式"
 
 #: ../../admin/languages.rst:208
 msgid ""
@@ -18979,30 +18920,24 @@ msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr "デフォルト値は、:setting:`DEFAULT_MERGE_STYLE` で変更できます。"
 
 #: ../../admin/projects.rst:677
-#, fuzzy
-#| msgid "Commit, add, delete, merge and add-on messages"
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
-msgstr "メッセージのコミット、追加、削除、マージ、アドオン"
+msgstr "コミット、追加、削除、マージ、アドオン、およびマージ リクエストのメッセージ"
 
 #: ../../admin/projects.rst:679
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr "翻訳のコミット時に使用するメッセージ。参照: :ref:`markup`。"
 
 #: ../../admin/projects.rst:681
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
-#| "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-#| "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"デフォルト値の変更は次の方法 :setting:`DEFAULT_ADD_MESSAGE`、:setting:"
-"`DEFAULT_ADDON_MESSAGE`、:setting:`DEFAULT_COMMIT_MESSAGE`、:setting:"
-"`DEFAULT_DELETE_MESSAGE`、:setting:`DEFAULT_MERGE_MESSAGE`。"
+"デフォルト値は、 :setting:`DEFAULT_ADD_MESSAGE`、:setting:`DEFAULT_ADDON_MESS"
+"AGE`、:setting:`DEFAULT_COMMIT_MESSAGE`、:setting:`DEFAULT_DELETE_MESSAGE`、:"
+"setting:`DEFAULT_MERGE_MESSAGE`、:setting:`DEFAULT_PULL_MESSAGE` "
+"で変更します。"
 
 #: ../../admin/projects.rst:689
 msgid "Push on commit"
@@ -20443,14 +20378,6 @@ msgstr ""
 "MySQL または MariaDB を使用している場合、最低限必要なバージョンを上げました。"
 
 #: ../../admin/upgrade.rst:203
-#, fuzzy
-#| msgid ""
-#| ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
-#| "This will change identification of translation strings in such files "
-#| "breaking links to Weblate extended data such as screenshots or review "
-#| "states. Please make sure you commit pending changes in such files prior "
-#| "upgrading and it is recommeded to force loading of affected component "
-#| "using :djadmin:`loadpo`."
 msgid ""
 ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
 "This will change identification of translation strings in such files "
@@ -20460,11 +20387,11 @@ msgid ""
 "using :djadmin:`loadpo`."
 msgstr ""
 ":ref:`mono_gettext` は、 ``msgid`` と ``msgid`` の両方を使用するように変更さ"
-"れました。ファイル内の翻訳文字列の識別が変更されたことで、スクリーンショット"
-"や査読状態などの Weblate 翻訳情報へのリンクが壊れなくなります。アップグレード"
-"の前に、このようなファイルの保留中の変更は、コミットを完了させておいてくださ"
-"い。:djadmin:`loadpo` を使用して、影響を受けるコンポーネントを強制的にロード"
-"することが望ましいです。"
+"れました。ファイル内の翻訳文字列の識別が変更されたことで、"
+"スクリーンショットや査読状態などの Weblate 翻訳情報へのリンクが壊れなくなりま"
+"す。アップグレードの前に、このようなファイルの保留中の変更は、コミットを完了"
+"させておいてください。:djadmin:`loadpo` を使用して、影響を受けるコンポーネン"
+"トを強制的にロードすることが望ましいです。"
 
 #: ../../admin/upgrade.rst:204
 msgid ""
@@ -20637,16 +20564,13 @@ msgstr ""
 "normalizer`` を使用するよう変更されました。"
 
 #: ../../admin/upgrade.rst:301
-#, fuzzy
-#| msgid ""
-#| "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
-#| "(removal of one backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
-"**4.11.1 で変更:** ``REST_FRAMEWORK`` 設定に変更があります"
-"（``DEFAULT_AUTHENTICATION_CLASSES`` からバックエンドが一つ削除されました）。"
+"**4.11.1 で変更:** ``REST_FRAMEWORK`` "
+"設定に変更があります（``DEFAULT_AUTHENTICATION_CLASSES`` のバックエンドの 1 "
+"つが削除されました）。"
 
 #: ../../admin/upgrade.rst:308
 msgid "Upgrading from Python 2 to Python 3"
@@ -22762,10 +22686,8 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr "原文ユニットのリンク。参照: :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2043
-#, fuzzy
-#| msgid "whether the unit is fuzzy or marked for review"
 msgid "whether the unit is pending for write"
-msgstr "ユニットが \"fuzzy\" もしは査読用にマークされているか"
+msgstr "ユニットが書き込み保留中かどうか"
 
 #: ../../api.rst:2044
 #, fuzzy
@@ -23449,56 +23371,40 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS Wikipedia 参照: <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.12.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.12.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "まだリリースしていません。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed creating pull requests on Pagure."
 msgid "Fixed pull request message title."
-msgstr "Pagure でのプルリクエストの作成の修正。"
+msgstr "プルリクエスト メッセージのタイトルの修正。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved syntax error handling in Fluent format."
-msgstr "文字列削除時のエラー処理の改善。"
+msgstr "Fluent 形式での構文エラー処理の改善。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Used in notifications e-mails."
 msgid "Fixed avatar display in notification e-mails."
-msgstr "通知メールに使用する。"
+msgstr "通知メールのアバター表示の修正。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/62?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"82?closed=1>`__。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.12"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.12"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Released on April 20th 2019."
 msgid "Released on April 20th 2022."
-msgstr "2019 年 4 月 20 日にリリース。"
+msgstr "2022 年 4 月 20 日にリリース。"
 
 #: ../../changes.rst:17
 #, fuzzy
@@ -23507,17 +23413,13 @@ msgid "Added support for Amharic in :ref:`check-end-stop`."
 msgstr ":ref:`txt` に対応しました。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Burmese in :ref:`check-end-question`."
-msgstr "Pagure のプルリクエストの対応の追加。"
+msgstr ":ref:`check-end-question` をビルマ語に対応。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid ""
 "Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on."
-msgstr "新しいアドオン :ref:`addon-weblate.generate.prefill`。"
+msgstr ":ref:`addon-weblate.generate.pseudolocale` アドオン オプションの拡張。"
 
 #: ../../changes.rst:20
 msgid ""
@@ -23525,47 +23427,31 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 "Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing "
 "checks."
-msgstr ""
-"新しい文字列を追加した時に起動する :ref:`addon-weblate.autotranslate."
-"autotranslate` アドオンの修正。"
+msgstr ":ref:`addon-weblate.generate.pseudolocale` アドオンによる検査の失敗を回避。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for :ref:`vcs-gitea`."
-msgstr ":ref:`txt` に対応しました。"
+msgstr ":ref:`vcs-gitea` に対応。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":ref:`component-language_code_style`"
 msgid ""
 "Added Linux style language code to :ref:`component-language_code_style`."
-msgstr ":ref:`component-language_code_style`"
+msgstr "Linux 形式の言語コードを :ref:`component-language_code_style` に追加。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added built-in translation memory."
 msgid "Added support for rebuilding project translation memory."
-msgstr "翻訳メモリを搭載。"
+msgstr "プロジェクトの翻訳メモリの再構築に対応。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Improved validation when creating a component."
 msgid "Improved API for creating components from a file."
-msgstr "コンポーネント作成時の検証の改善。"
+msgstr "ファイルからコンポーネントを作成する API の改善。"
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added automatic translation add-on to bootstrap translations."
 msgid "Add copy and clone buttons to other translations."
-msgstr "翻訳のブートストラップ用に自動翻訳アドオンを追加。"
+msgstr "コピー ボタンと複製ボタンを他の翻訳に追加。"
 
 #: ../../changes.rst:27
 msgid "Make merge request message configurable at component level."
@@ -23576,28 +23462,20 @@ msgid "Improved maximal length restriction behavior with XML tags."
 msgstr ""
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Fixed generating XLSX files with special chars."
 msgid "Fixed loading Fluent files with additional comments."
-msgstr "特殊文字を含む XLSX ファイルの生成を修正。"
+msgstr "追加のコメントを含む Fluent ファイルの読み込みの修正。"
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/78?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/78?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"77?closed=1>`__。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Weblate 4.11.1"
 msgid "Weblate 4.11.2"
-msgstr "Weblate 4.11.1"
+msgstr "Weblate 4.11.2"
 
 #: ../../changes.rst:36 ../../changes.rst:45
 msgid "Released on March 4th 2022."
@@ -23608,16 +23486,12 @@ msgid "Fixed corrupted MO files in the binary release."
 msgstr ""
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/70?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"80?closed=1>`__。"
 
 #: ../../changes.rst:43
 msgid "Weblate 4.11.1"
@@ -30123,10 +29997,8 @@ msgstr ""
 "い。"
 
 #: ../../contributing/snippets/code-guide.rst:2
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding guidelines"
-msgstr "コーディング スタイル"
+msgstr "コーディングのガイドライン"
 
 #: ../../contributing/snippets/code-guide.rst:4
 msgid ""
@@ -30171,13 +30043,6 @@ msgstr ""
 "ます。"
 
 #: ../../contributing/snippets/pre-commit.rst:11
-#, fuzzy
-#| msgid ""
-#| "The easiest approach to enforce all this is to install `pre-commit`_. "
-#| "Weblate repository contains configuration for it to verify the committed "
-#| "files are sane. After installing it (it is already included in the :file:"
-#| "`requirements-lint.txt`) turn it on by running ``pre-commit install`` in "
-#| "Weblate checkout. This way all your changes will be automatically checked."
 msgid ""
 "The easiest approach to enforce all this is to install `pre-commit`_. The "
 "repository contains configuration for it to verify the committed files are "
@@ -30185,11 +30050,11 @@ msgid ""
 "lint.txt`) turn it on by running ``pre-commit install`` in Weblate checkout. "
 "This way all your changes will be automatically checked."
 msgstr ""
-"これを実行する最も簡単な方法は、`pre-commit`_ インストールすることです。"
-"Webrate リポジトリには、コミットされたファイルが正常であることを確認するため"
-"の設定が含まれています。インストール後（すでに :file:`requirements-lint.txt` "
-"に含まれています）、Weblate のチェックアウトで ``pre-commit install`` を実行"
-"して有効にします。これにより、すべての変更が自動的に検査されます。"
+"これを実行する最も簡単な方法は、`pre-commit`_ をインストールすることです。リ"
+"ポジトリには、コミットされたファイルが正常であることを確認するための設定が含"
+"まれています。インストール後（すでに :file:`requirements-lint.txt` "
+"に含まれています）、Weblate のチェックアウトで ``pre-commit install`` "
+"を実行して有効にします。これにより、すべての変更が自動的に検査されます。"
 
 #: ../../contributing/snippets/pre-commit.rst:17
 msgid "You can also trigger check manually, to check all files run:"
@@ -31071,10 +30936,8 @@ msgstr ""
 "てください。"
 
 #: ../../contributing/modules.rst:2
-#, fuzzy
-#| msgid "Contributing to Weblate"
 msgid "Contributing to Weblate modules"
-msgstr "Weblate に貢献"
+msgstr "Weblate モジュールへの貢献"
 
 #: ../../contributing/modules.rst:4
 msgid ""
@@ -31083,10 +30946,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/modules.rst:7
-#, fuzzy
-#| msgid "For example:"
 msgid "For example, this covers:"
-msgstr "例:"
+msgstr "下記を含む例:"
 
 #: ../../contributing/modules.rst:9
 msgid ""
@@ -31101,22 +30962,16 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/modules.rst:11
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Weblate languages` holds language definitions, explained "
-#| "further in :ref:`languages`."
 msgid ""
 "`language-data <https://github.com/WeblateOrg/language-data/>`_, language "
 "definitions for Weblate, see :ref:`languages`"
 msgstr ""
-":guilabel:`Weblate languages` に言語設定を保管しています。詳細については、:"
-"ref:`languages` を確認してください。"
+"`language-data <https://github.com/WeblateOrg/language-data/>`_ 、Weblate "
+"の言語定義。参照: :ref:`languages`"
 
 #: ../../contributing/modules.rst:18
-#, fuzzy
-#| msgid "Unit tests"
 msgid "Running tests"
-msgstr "ユニット テスト"
+msgstr "テストの実行"
 
 #: ../../contributing/modules.rst:20
 msgid ""
@@ -32325,16 +32180,6 @@ msgid "Building translators community"
 msgstr "翻訳者コミュニティの構築"
 
 #: ../../devel/community.rst:4
-#, fuzzy
-#| msgid ""
-#| "Following these recommendations support the creation of a full, "
-#| "multilingual post-editing tool. Good translations are defined through the "
-#| "systemic-functional model of House which aims at a contextual correct "
-#| "translation. Write your own `post-editing guide <https://www.taus.net/"
-#| "academy/best-practices/postedit-best-practices/machine-translation-post-"
-#| "editing-guidelines>`_ and alter these recommendations to fit your own "
-#| "definitions. In most cases the `browser-plugin of languageTool <https://"
-#| "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgid ""
 "Following these recommendations supports the creation of a full, "
 "multilingual post-editing tool. Good translations are defined through the "
@@ -32346,12 +32191,13 @@ msgid ""
 "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
 "下記の機能を適切に設定することにより、多言語による完全な機械翻訳後編集に対応"
-"できます。良い翻訳は、文脈的に正しい翻訳を目指す House のシステム機能モデルに"
-"より定義されます。独自の `機械翻訳後編集のガイドライン <https://www.taus.net/"
-"academy/best-practices/postedit-best-practices/machine-translation-post-"
-"editing-guidelines>`_ を作成し、独自の定義に合わせてこれらの推奨事項を変更し"
-"ます。多くの場合、`ブラウザー プラグインの言語ツール <https://languagetool."
-"org/#firefox_chrome>`_ は、機械翻訳後編集の校正ツールとして使用できます。"
+"できます。良い翻訳は、文脈的に正しい翻訳を目指す House "
+"のシステム機能モデルにより定義されます。独自の `機械翻訳後編集のガイドライン "
+"<https://www.taus.net/academy/best-practices/postedit-best-practices/machine-"
+"translation-post-editing-guidelines>`_ "
+"を作成し、独自の定義に合わせてこれらの推奨事項を変更します。多くの場合、`"
+"ブラウザー プラグインの言語ツール <https://languagetool.org/#firefox_chrome>`"
+"_ は、機械翻訳後編集の校正ツールとして使用できます。"
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -32922,15 +32768,10 @@ msgstr ""
 "対象にできます。"
 
 #: ../../devel/html.rst:95
-#, fuzzy
-#| msgid ""
-#| "Right now, only text of the elements is extracted. This add-on doesn't "
-#| "support localization of element attributes or elements with childs."
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with children."
-msgstr ""
-"現時点では、要素のテキストのみ抽出します。このアドオンは、要素属性または子を"
+msgstr "現時点では、要素のテキストのみ抽出します。このアドオンは、要素属性または子を"
 "持つ要素の現地語化に対応していません。"
 
 #: ../../devel/html.rst:101
@@ -33165,16 +33006,12 @@ msgstr ""
 "追加` を行う。"
 
 #: ../../devel/integration.rst:75
-#, fuzzy
-#| msgid ""
-#| "Programatically, using API :http:post:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/units/`."
 msgid ""
 "Programmatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"プログラムのように、 API を使用します :http:post:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/units/`。"
+"プログラムのように、 API を使用します :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`。"
 
 #: ../../devel/integration.rst:76
 msgid ""
@@ -34043,6 +33880,10 @@ msgid ""
 "case with most monolingual translation flows, you can start with empty "
 "files)."
 msgstr ""
+"新しい文字列は、:guilabel:`新しい翻訳のテンプレート` "
+"という基礎となる翻訳ファイルがあれば、翻訳に使用できます（参照: :ref:`compone"
+"nt`）。多くのモノリンガル翻訳の場合のように、ファイル形式にこのようなファイル"
+"を必要としない場合は、空のファイルから始めることができます。"
 
 #: ../../devel/translations.rst:14
 msgid ""
@@ -34051,6 +33892,9 @@ msgid ""
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
+"新しい言語は、Weblate のユーザーから要望があればすぐに追加できます。もしくは"
+"、承認と手動で追加するため、プロジェクト管理者に通知が送信されます。これは、:"
+"ref:`component` 内の :ref:`component-new_lang`を使用して実行できます。"
 
 #: ../../devel/translations.rst:20
 msgid ""
@@ -34058,12 +33902,15 @@ msgid ""
 "translation will be added to the component when Weblate updates local "
 "repository."
 msgstr ""
+"接続しているリモート リポジトリに言語ファイルを追加すると、Weblate "
+"がローカル "
+"リポジトリを更新するときに、それぞれの翻訳がコンポーネントに追加されます。"
 
 #: ../../devel/translations.rst:23 ../../devel/translations.rst:58
 msgid ""
 "More info on the repository update settings can be found on the :ref:`update-"
 "vcs`."
-msgstr ""
+msgstr "リポジトリの更新設定の詳細については、:ref:`update-vcs` を確認してください。"
 
 #: ../../devel/translations.rst:27
 msgid ":ref:`component-new_lang`, :ref:`new-translations`"
@@ -34079,6 +33926,10 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
+"言語、コンポーネント、またはそれらが含まれているプロジェクトは、メニューから"
+"削除（使用中の場合は、Weblate "
+"とリモートリポジトリから削除）できます。:guilabel:`管理`↓ :guilabel:`削除` "
+"プロジェクト、コンポーネント、または言語ごとに削除します。"
 
 #: ../../devel/translations.rst:39
 msgid ""
@@ -34087,17 +33938,22 @@ msgid ""
 "`slug` is the project's, language's, or component's pathname as it can be "
 "seen in the URL."
 msgstr ""
+":guilabel:`削除` の操作を実行すると、削除するコンポーネントの一覧が表示されま"
+"す。削除を確認するには、オブジェクトの `スラッグ` "
+"を入力してください。`スラッグ` とは、URL "
+"に表示されるプロジェクト、言語、またはコンポーネントのパス名です。"
 
 #: ../../devel/translations.rst:43
 msgid ""
 "If you want to remove just some specific strings, there are following ways:"
-msgstr "特定の文字列だけを削除する場合の方法:"
+msgstr "特定の文字列だけを削除する方法:"
 
 #: ../../devel/translations.rst:45
 msgid ""
 "Manually in the source file. They will be removed from the translation "
 "project as well upon Weblate's repository update."
-msgstr ""
+msgstr "ソースファイルから手動で削除します。これは、Weblate "
+"のリポジトリの更新時に、翻訳プロジェクトからも削除されます。"
 
 #: ../../devel/translations.rst:50
 msgid ""
@@ -34105,6 +33961,9 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
+"Weblate の UI では、文字列の編集中に :guilabel:`ツール`↓ :guilabel:`削除`ボタ"
+"ンを使用します。これは、ファイル形式による違いがあります。参照: :ref"
+":`component-manage_units`"
 
 #: ../../devel/translations.rst:55
 msgid ""
@@ -34112,6 +33971,9 @@ msgid ""
 "translation will be removed from the component when Weblate updates local "
 "repository."
 msgstr ""
+"接続しているリモート リポジトリの言語ファイルを削除すると、Weblate "
+"がローカル "
+"リポジトリを更新するときに、それぞれの翻訳がコンポーネントから削除されます。"
 
 #: ../../devel/translations.rst:64
 msgid "String variants"
@@ -34128,7 +33990,7 @@ msgstr ""
 #: ../../devel/translations.rst:71
 msgid ""
 "Abbreviations (shortened forms, contractions) are a good example of variants."
-msgstr ""
+msgstr "略語（短縮形、簡略化）は別表記の良い例です。"
 
 #: ../../devel/translations.rst:74
 msgid "Automated key based variants"
@@ -34138,7 +34000,8 @@ msgstr "自動化されたキーを元にした別表記"
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
-msgstr ""
+msgstr ":ref:`component` に含まれるモノリンガル翻訳をキーとして、文字列をグループ化す"
+"るための正規表現の設定方法:"
 
 #: ../../devel/translations.rst:83
 msgid ""
@@ -34147,10 +34010,14 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
+":guilabel:`Key` が式に一致する場合は、一致する部分を削除して別表記のルート "
+"キーを生成します。その後、同じルート "
+"キーを持つすべての文字列が単一の別表記グループの一部になります。これには、"
+"ルート キーと完全に一致するキーを持つ文字列も含まれます。"
 
 #: ../../devel/translations.rst:88
 msgid "The following table lists some usage examples:"
-msgstr ""
+msgstr "しよう例の表:"
 
 #: ../../devel/translations.rst:91
 msgid "Regular expression variant"
@@ -34158,15 +34025,15 @@ msgstr "正規表現で示す別表記"
 
 #: ../../devel/translations.rst:91
 msgid "Matched translation keys"
-msgstr ""
+msgstr "一致する翻訳キー"
 
 #: ../../devel/translations.rst:93
 msgid "Suffix identification"
-msgstr ""
+msgstr "接尾辞の識別"
 
 #: ../../devel/translations.rst:93
 msgid "``(Short|Min)$``"
-msgstr ""
+msgstr "``(Short|Min)$``"
 
 #: ../../devel/translations.rst:93
 msgid "``monthShort``, ``monthMin``, ``month``"
@@ -34174,7 +34041,7 @@ msgstr "``monthShort``, ``monthMin``, ``month``"
 
 #: ../../devel/translations.rst:95
 msgid "Inline identification"
-msgstr ""
+msgstr "インライン識別"
 
 #: ../../devel/translations.rst:95
 msgid "``#[SML]``"
@@ -34195,18 +34062,25 @@ msgid ""
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
+"``variant:SOURCE`` フラグを使用して、特定の文字列を手動でリンクできます。これ"
+"は、文字列を自動的にグループ化するためのキーを持たないバイリンガル翻訳、また"
+"はキーが一致しないが翻訳時に一緒に考慮する必要がある文字列をグループ化する場"
+"合に便利です。"
 
 #: ../../devel/translations.rst:108
 msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
+"文字列の別表記の追加を、翻訳中に :guilabel:`ツール` "
+"を使用して追加する方法（:ref:`component-manage_units` が有効の場合）:"
 
 #: ../../devel/translations.rst:115
 msgid ""
 "There the variant source string has to at most 768 characters long. This is "
 "technical limitation due to compatibility with MySQL database."
-msgstr ""
+msgstr "別表記の原文は最大で 768 文字までです。これは、MySQL "
+"データベースとの互換性を保つための技術的な制約です。"
 
 #: ../../devel/translations.rst:120
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
@@ -34218,23 +34092,26 @@ msgstr "翻訳中の別表記"
 
 #: ../../devel/translations.rst:126
 msgid "The variant is later grouped when translating:"
-msgstr ""
+msgstr "別表記は、後で翻訳時にグループ化されます。グループ化の例:"
 
 #: ../../devel/translations.rst:133
 msgid "String labels"
-msgstr ""
+msgstr "文字列ラベル"
 
 #: ../../devel/translations.rst:135
 msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
-msgstr ""
+msgstr "プロジェクト設定で、コンポーネントの翻訳文字列をテキストと色でカテゴリーに分"
+"類します。"
 
 #: ../../devel/translations.rst:141
 msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` add-on."
 msgstr ""
+"ラベルは、一括編集によって、または :ref:`addon-weblate.flags.bulk` "
+"アドオンを使用して、:ref:`additional` のユニットに割り当てることができます。"
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -35911,13 +35788,6 @@ msgid "`GWT Properties`"
 msgstr "`GWT プロパティ`"
 
 #: ../../formats.rst:512
-#, fuzzy
-#| msgid ""
-#| "`GWT localization guide <http://www.gwtproject.org/doc/latest/"
-#| "DevGuideI18n.html>`_, `GWT Internationalization Tutorial <http://www."
-#| "gwtproject.org/doc/latest/tutorial/i18n.html>`_, :doc:`tt:formats/"
-#| "properties`, :ref:`updating-target-files`, :ref:`addon-weblate.properties."
-#| "sort`, :ref:`addon-weblate.cleanup.generic`"
 msgid ""
 "`GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_, `GWT Internationalization Tutorial <https://www.gwtproject.org/doc/"
@@ -35925,8 +35795,8 @@ msgid ""
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
-"`GWT 現地語化の案内 <http://www.gwtproject.org/doc/latest/DevGuideI18n."
-"html>`_、`GWT 国際化の初歩 <http://www.gwtproject.org/doc/latest/tutorial/"
+"`GWT 現地語化の案内 <https://www.gwtproject.org/doc/latest/DevGuideI18n."
+"html>`_、`GWT 国際化の初歩 <https://www.gwtproject.org/doc/latest/tutorial/"
 "i18n.html>`_、:doc:`tt:formats/properties`、:ref:`addon-weblate.properties."
 "sort`、:ref:`updating-target-files`、:ref:`addon-weblate.cleanup.generic`"
 
@@ -37676,7 +37546,7 @@ msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to ignore"
-msgstr "無視するためのフラグ"
+msgstr "除外フラグ"
 
 #: ../../user/checks.rst:55
 msgid ""
@@ -40380,12 +40250,8 @@ msgid "Special characters"
 msgstr "特殊記号"
 
 #: ../../user/profile.rst:145
-#, fuzzy
-#| msgid ""
-#| "Additional characters to include in the visual keyboard, :ref:`visual-"
-#| "keyboard`."
 msgid "Additional special characters to include in the :ref:`visual-keyboard`."
-msgstr "ビジュアル キーボードに含める追加の文字、:ref:`visual-keyboard`。"
+msgstr ":ref:`visual-keyboard` に含まれる追加の特殊文字。"
 
 #: ../../user/profile.rst:150
 msgid "Notifications"
@@ -40525,16 +40391,11 @@ msgstr ""
 "を使用して、必要な文字列を検索できます。"
 
 #: ../../user/search.rst:11
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens on :guilabel:`Source`, :"
-#| "guilabel:`Translate` and :guilabel:`Context` fields."
 msgid ""
 "When no field is defined, the lookup happens source, target, and context "
 "strings."
-msgstr ""
-"フィールドが定義されていない場合は、:guilabel:`原文`、:guilabel:`翻訳文` およ"
-"び :guilabel:`コンテキスト` フィールドで検索されます。"
+msgstr "フィールドが定義されていない場合は、原文、翻訳文およびコンテキスト文字列を検"
+"索します。"
 
 #: ../../user/search.rst:16
 msgid "Simple search"
@@ -40986,10 +40847,8 @@ msgid "Options for translation project visibility:"
 msgstr "翻訳プロジェクトの表示オプション:"
 
 #: ../../user/translating.rst:17
-#, fuzzy
-#| msgid "Public profile"
 msgid "Publicly visible"
-msgstr "公開するユーザー情報"
+msgstr "一般公開"
 
 #: ../../user/translating.rst:18
 msgid "Visible only to a certain group of translators"
@@ -41455,12 +41314,10 @@ msgid "The shown symbols factor into three categories:"
 msgstr "3 つのカテゴリに分類した表示記号:"
 
 #: ../../user/translating.rst:250
-#, fuzzy
-#| msgid "User configured characters defined in the :ref:`user-profile`"
 msgid ""
 "User configured :ref:`profile-specialchars` defined in the :ref:`user-"
 "profile`"
-msgstr ":ref:`user-profile` に設定した表示言語"
+msgstr "ユーザーが、:ref:`user-profile` に設定した :ref:`profile-specialchars`"
 
 #: ../../user/translating.rst:251
 msgid ""
@@ -42349,70 +42206,48 @@ msgstr ""
 "setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull requests"
-msgstr "GitHub プルリクエスト"
+msgstr "Gitea プルリクエスト"
 
 #: ../../vcs.rst:329
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to "
-#| "allow pushing translation changes as pull requests, instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
 "allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、変更された翻訳をプルリクエスト"
-"としてプッシュできるようになります。"
+"これは、`Gitea API`_ を使用して :ref:`vcs-git` の上に薄いレイヤーを追加するだ"
+"けで、リポジトリに直接プッシュするのではなく、翻訳の変更をプルリクエストとし"
+"てプッシュできます。"
 
 #: ../../vcs.rst:333
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitlab` creates merge request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
-"Gitリポジトリにアクセスするためにこれを使う必要はありません。通常 :ref:`vcs-"
-"git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い方で"
-"す。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref:`vcs-"
-"gitlab` ではマージリクエストが作成されます。"
+"Git リポジトリにアクセスするために、これを使用する必要はありません。通常 :ref"
+":`vcs-git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い"
+"方です。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref"
+":`vcs-gitea` ではプルリクエストが作成されます。"
 
 #: ../../vcs.rst:338
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:`GITLAB_CREDENTIALS`) in "
-#| "the Weblate settings to make this work. Once configured, you will see a :"
-#| "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:`GITEA_CREDENTIALS`) in the "
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
-"この機能を使用するには、Weblate の設定で API 資格情報（:setting:"
-"`GITLAB_CREDENTIALS`）の設定が必要です。設定すると、:ref:`component-vcs の選"
-"択時に、:guilabel:`GitLab` オプションが表示されます。"
+"この機能を使用するには、Weblate の設定で API "
+"資格情報（:setting:`GITEA_CREDENTIALS`）の設定が必要です。設定すると、:ref"
+":`component-vcs の選択時に、:guilabel:`Gitea` オプションが表示されます。"
 
 #: ../../vcs.rst:344
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
 "setting:`GITEA_CREDENTIALS`"
 msgstr ""
-":ref:`push-changes`、:setting:`GITLAB_USERNAME`、:setting:`GITLAB_TOKEN`、:"
-"setting:`GITLAB_CREDENTIALS`"
+":ref:`push-changes`、:setting:`GITEA_USERNAME`、:setting:`GITEA_TOKEN`、:sett"
+"ing:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:355
 msgid "Pagure merge requests"
