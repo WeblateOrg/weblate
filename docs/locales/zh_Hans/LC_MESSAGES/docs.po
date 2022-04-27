@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-04-26 20:54+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2022-04-28 15:10+0000\n"
+"Last-Translator: weekendsama <1317555846@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2331,6 +2331,10 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"使用可变部分可以寻找那些在本地化后可能不适合用户界面的字符串-它根据源字符串的"
+"长度来扩展文本。可变部分是以文本的长度乘以乘数来重复的。例如 ``Hello world`` "
+"带有可变后缀 ``_``和变量乘数1将变为``Hello world___________``- "
+"后缀在源字符串中的每个字符后都重复一次。"
 
 #: ../../admin/addons.rst:451
 msgid "The strings will be generated using following pattern:"
@@ -2342,6 +2346,8 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
+":guilabel:`固定字符串前缀` :guilabel:`可变字符串前缀` :guilabel:`源字符串` "
+":guilabel:`可变字符串后缀` :guilabel:`固定字符串后缀`"
 
 #: ../../admin/addons.rst:461
 msgid ""
@@ -3463,6 +3469,12 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"GitHub for Organizations 和 GitHub for Teams 也有类似的认证后端。他们的设置名"
+"为``SOCIAL_AUTH_GITHUB_ORG_*`和``SOCIAL_AUTH_GITHUB_TEAM_*``。"
+"它们需要额外设置范围 - ``SOCIAL_AUTH_GITHUB_ORG_NAME``或 "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``。  它们的回调URL是``https://example.com/"
+"accounts/complete/github-org/`和``https://example.com/accounts/complete/"
+"github-teams/``。"
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -7473,7 +7485,8 @@ msgstr ""
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
-msgstr ""
+msgstr "用于 DeepL 服务的 API "
+"URL。在撰写本文时，有v1版API以及v2版API的免费和付费版本。"
 
 #: ../../admin/config.rst:1358
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
@@ -7557,17 +7570,18 @@ msgstr "要用的 LibreTranslate 实例的 API URL。"
 
 #: ../../admin/config.rst:1403
 msgid "``https://libretranslate.com/`` (official public instance)"
-msgstr ""
+msgstr "``https://libretranslate.com/``（官方公开实例）"
 
 #: ../../admin/config.rst:1403
 msgid "Requires an API key to use outside of the website."
-msgstr ""
+msgstr "需要一个API密钥才能在该网站之外使用。"
 
 #: ../../admin/config.rst:1405
 msgid ""
 "Mirrors are documented on the LibreTranslate GitHub repository, some of "
 "which can be used without authentication:"
-msgstr ""
+msgstr "镜像在LibreTranslate的GitHub代码库中有记录，其中一些镜像可以在不经认证的情况"
+"下使用："
 
 #: ../../admin/config.rst:1408
 msgid "https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors"
@@ -7589,7 +7603,7 @@ msgstr "MT_LIBRETRANSLATE_KEY"
 msgid ""
 "API key for the LibreTranslate instance specified in "
 "`MT_LIBRETRANSLATE_API_URL`."
-msgstr ""
+msgstr "在`MT_LIBRETRANSLATE_API_URL`中指定的LibreTranslate实例的API密钥。"
 
 #: ../../admin/config.rst:1430
 msgid "MT_GOOGLE_KEY"
@@ -7985,7 +7999,7 @@ msgstr "DEFAULT_PAGE_LIMIT"
 
 #: ../../admin/config.rst:1707
 msgid "Default number of elements to display when pagination is active."
-msgstr ""
+msgstr "分页激活时显示的默认元素数量。"
 
 #: ../../admin/config.rst:1712
 msgid "PAGURE_CREDENTIALS"
@@ -8035,7 +8049,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1769
 msgid "PRIVACY_URL"
-msgstr ""
+msgstr "PRIVACY_URL"
 
 #: ../../admin/config.rst:1773
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -8387,14 +8401,15 @@ msgstr "设置只接受项目标识串，来强制显示那个单一项目。"
 
 #: ../../admin/config.rst:2081
 msgid "SSH_EXTRA_ARGS"
-msgstr ""
+msgstr "SSH_EXTRA_ARGS"
 
 #: ../../admin/config.rst:2085
 msgid ""
 "Allows to add custom parameters when Weblate is invoking SSH. This is useful "
 "when connecting to servers using legacy encryption or other non-standard "
 "features."
-msgstr ""
+msgstr "允许在Weblate调用SSH时添加自定义参数。这会在连接到使用传统加密或其他非标准功"
+"能的服务器时帮助巨大。"
 
 #: ../../admin/config.rst:2088
 msgid ""
@@ -8402,6 +8417,9 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can enable that using:"
 msgstr ""
+"例如，当Weblate的SSH连接失败并提示`Unable to negotiate with legacyhost: no "
+"matching key exchange method found. Their offer: diffie-hellman-"
+"group1-sha1`时，你可以用以下方式启用："
 
 #: ../../admin/config.rst:2097
 msgid ""
@@ -8613,7 +8631,8 @@ msgstr "WEBSITE_REQUIRED"
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. Turned on by default as that suits public server setups."
-msgstr ""
+msgstr "定义了在创建项目时是否需要指定 :ref:`project-"
+"web`。默认打开，因为这适合公共服务器的设置。"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -10270,7 +10289,8 @@ msgid ""
 "MySQL 8.x, MariaDB 10.5.x or newer have reasonable default configuration so "
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
-msgstr ""
+msgstr "MySQL 8.x、MariaDB 10.5.x 或更新版本具有合理的默认配置，因此无需调整服务器，"
+"所有需要的都可以在客户端进行配置。"
 
 #: ../../admin/install.rst:446
 msgid ""
@@ -10421,6 +10441,10 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"另一件需要注意的事情是 :http:header:`Host` header。它应该与 "
+":setting:`SITE_DOMAIN` 中的内容一致。在反向代理中可能需要其他配置（例如，在 "
+"Apache 使用``ProxyPreserveHost On``，或在 nginx 中使用 ``proxy_set_header "
+"Host $host;``）。"
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -10815,13 +10839,15 @@ msgstr ""
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
-msgstr ""
+msgstr "请在邻近的位置部署数据库服务器，否则网络性能或可靠性问题可能会破坏你的Weblate"
+"体验。"
 
 #: ../../admin/install.rst:888
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
-msgstr ""
+msgstr "检查数据库服务器性能或调整其配置，例如使用 `PGTune <https://pgtune.leopard.in"
+".ua/>`_.。"
 
 #: ../../admin/install.rst:893
 msgid ""
@@ -11117,13 +11143,15 @@ msgstr ""
 
 #: ../../admin/install.rst:1152
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "Ubuntu系统下的Apache使用 :file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1159
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"CentOS系统下的Apache使用 :file:`/etc/sysconfig/httpd`（或 :file:`/opt/rh/"
+"httpd24/root/etc/sysconfig/httpd`）:"
 
 #: ../../admin/install.rst:1169
 msgid "Using custom certificate authority"
@@ -11214,7 +11242,7 @@ msgstr "运行服务器"
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
-msgstr ""
+msgstr "如果你对下面描述的服务没有经验，你可以尝试 :doc:`install/docker`。"
 
 #: ../../admin/install.rst:1239
 msgid ""
@@ -11519,17 +11547,20 @@ msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
-msgstr ""
+msgstr "Weblate使用Celery来执行常规和后台任务。你应该运行一个Celery服务来执行这些任务"
+"。例如，它负责处理以下操作（此列表并不完整）："
 
 #: ../../admin/install.rst:1442
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr ""
+msgstr "接收来自外部服务的webhooks（请见 :ref:`hooks`）。"
 
 #: ../../admin/install.rst:1443
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"运行定期的维护任务，如备份、清理、日常附加组件或更新（请见 :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`）。"
 
 #: ../../admin/install.rst:1445
 msgid "Running :ref:`auto-translation`."
@@ -11541,7 +11572,7 @@ msgstr "发送摘要通知。"
 
 #: ../../admin/install.rst:1447
 msgid "Offloading expensive operations from the wsgi process."
-msgstr ""
+msgstr "从wsgi进程中卸载高负载操作。"
 
 #: ../../admin/install.rst:1448
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -11583,14 +11614,15 @@ msgstr "还请参见 :ref:`file-permissions` 和 :ref:`server`。"
 
 #: ../../admin/install.rst:1480
 msgid "Executing Celery tasks in the wsgi using eager mode"
-msgstr ""
+msgstr "在wsgi中使用eager模式执行Celery任务"
 
 #: ../../admin/install.rst:1484
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
-msgstr ""
+msgstr "这将对web界面的性能产生严重影响，并会破坏依赖于常规触发器的功能（例如提交挂起"
+"的更改、摘要通知或备份）。"
 
 #: ../../admin/install.rst:1488
 msgid ""
@@ -11708,7 +11740,7 @@ msgstr ""
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
-msgstr ""
+msgstr "为了检测Weblate的各项指标，你可以使用 :http:get:`/api/metrics/` API端点。"
 
 #: ../../admin/install.rst:1564
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
@@ -11975,13 +12007,15 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:75
 msgid "Choosing Docker hub tag"
-msgstr ""
+msgstr "选择Docker hub标签"
 
 #: ../../admin/install/docker.rst:77
 msgid ""
 "You can use following tags on Docker hub, see https://hub.docker.com/r/"
 "weblate/weblate/tags/ for full list of available ones."
 msgstr ""
+"你可以在Docker hub上使用以下标签，请参阅 https://hub.docker.com/r/weblate/"
+"weblate/tags/，以获得完整的可用标签列表。"
 
 #: ../../admin/install/docker.rst:80
 msgid "Tag name"
@@ -12004,15 +12038,15 @@ msgstr "``weblate``"
 
 #: ../../admin/install/docker.rst:82
 msgid "Weblate stable release, matches latest tagged release"
-msgstr ""
+msgstr "与最新的标签版本相匹配的Weblate 稳定发行版"
 
 #: ../../admin/install/docker.rst:82
 msgid "Rolling updates in a production environment"
-msgstr ""
+msgstr "在生产环境中滚动更新"
 
 #: ../../admin/install/docker.rst:84
 msgid "``<VERSION>-<PATCH>``"
-msgstr ""
+msgstr "``<VERSION>-<PATCH>``"
 
 #: ../../admin/install/docker.rst:84
 msgid "Weblate stable release"
@@ -12030,19 +12064,19 @@ msgstr ""
 msgid ""
 "Weblate stable release with development changes in the Docker container (for "
 "example updated dependencies)"
-msgstr ""
+msgstr "Weblate稳定发行版在Docker容器中的开发变化（例如依赖的更新）"
 
 #: ../../admin/install/docker.rst:86
 msgid "Rolling updates in a staging environment"
-msgstr ""
+msgstr "在准生产环境中进行滚动更新"
 
 #: ../../admin/install/docker.rst:88
 msgid "``edge-<DATE>-<SHA>``"
-msgstr ""
+msgstr "``edge-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:88
 msgid "Well defined deploy in a staging environment"
-msgstr ""
+msgstr "在准生产环境中定义完善部署"
 
 #: ../../admin/install/docker.rst:90
 #, fuzzy
@@ -12052,7 +12086,7 @@ msgstr "``billing``"
 
 #: ../../admin/install/docker.rst:90 ../../admin/install/docker.rst:92
 msgid "Development version Weblate from Git"
-msgstr ""
+msgstr "来自Git的Weblate开发版"
 
 #: ../../admin/install/docker.rst:90
 msgid "Rollling updates to test upcoming Weblate features"
