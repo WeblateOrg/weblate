@@ -46,7 +46,7 @@ services:
     - ./postgres-init:/docker-entrypoint-initdb.d
     restart: always
   cache:
-    image: redis:6-alpine
+    image: redis:7-alpine
     restart: always
     command: [redis-server, --save, '60', '1']
     volumes:
