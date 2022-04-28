@@ -577,9 +577,6 @@ def translate(request, project, component, lang):  # noqa: C901
 
     response = None
 
-    # Any form submitted?
-    if "skip" in request.POST:
-        return redirect(next_unit_url)
     if request.method == "POST" and "merge" not in request.POST:
         if (
             "accept" in request.POST
