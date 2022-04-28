@@ -19,6 +19,13 @@
   <meta name="description" content="{{ description }}" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  {% if next_unit_url %}
+  <link rel="next" href="{{ next_unit_url }}" />
+  {% endif %}
+  {% if prev_unit_url %}
+  <link rel="prev" href="{{ prev_unit_url }}" />
+  {% endif %}
+
   {% if object.slug and object.project.slug %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
   <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-component' project=object.project.slug component=object.slug %}" />
