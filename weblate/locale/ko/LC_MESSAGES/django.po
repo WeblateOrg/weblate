@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-26 09:02+0000\n"
+"PO-Revision-Date: 2022-04-28 15:10+0000\n"
 "Last-Translator: jackfrost <jackfrost5446@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -72,7 +72,7 @@ msgstr "공개 전자우편"
 #: weblate/accounts/forms.py:288
 #, python-format
 msgid "Component list: %s"
-msgstr "구성 요소 목록들: %s"
+msgstr "구성 요소 목록: %s"
 
 #: weblate/accounts/forms.py:314 weblate/accounts/forms.py:381
 #: weblate/accounts/templatetags/authnames.py:36 weblate/auth/models.py:326
@@ -464,7 +464,7 @@ msgstr "완료된 번역문을 참여 프로젝트에서 숨기기"
 
 #: weblate/accounts/models.py:404
 msgid "Show secondary translations in the Zen mode"
-msgstr "젠 모드에서 제2언어 번역 표시"
+msgstr "간략화 모드에서 다른 번역 표시"
 
 #: weblate/accounts/models.py:407
 msgid "Hide source if a secondary translation exists"
@@ -494,11 +494,11 @@ msgstr "전체 편집기"
 
 #: weblate/accounts/models.py:425
 msgid "Zen mode"
-msgstr "젠 모드"
+msgstr "간략화 모드"
 
 #: weblate/accounts/models.py:431
 msgid "Zen editor mode"
-msgstr "젠 편집기 모드"
+msgstr "간략화 편집기 모드"
 
 #: weblate/accounts/models.py:433
 msgid "Top to bottom"
@@ -2600,7 +2600,7 @@ msgstr "읽기 전용"
 
 #: weblate/checks/flags.py:56
 msgid "Strict unchanged check"
-msgstr "엄격하게 변경되지 않음 검사"
+msgstr "철저하게 검사"
 
 #: weblate/checks/flags.py:57 weblate/glossary/forms.py:51
 msgid "Forbidden translation"
@@ -3060,7 +3060,7 @@ msgstr "이 문자열들은 줄임표(…)를 대신하여 세 점(...)을 사�
 
 #: weblate/checks/source.py:68
 msgid "Multiple failing checks"
-msgstr "여러 검사 실패"
+msgstr "다중 검사 실패"
 
 #: weblate/checks/source.py:69
 msgid "The translations in several languages have failing checks"
@@ -3068,7 +3068,7 @@ msgstr "이 번역은 몇몇 언어에서 검사 실패했습니다"
 
 #: weblate/checks/source.py:92
 msgid "Following checks are failing:"
-msgstr "검사를 통과하지 못한 번역 :"
+msgstr "다음 검사에 실패했습니다:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -3306,10 +3306,9 @@ msgid ".NET resource file"
 msgstr "닷넷(.NET) 리소스 파일"
 
 #: weblate/formats/ttkit.py:1343
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to parse the key: %s"
-msgstr "키 생성에 실패하였습니다: %s"
+msgstr "키 분석에 실패하였습니다: %s"
 
 #: weblate/formats/ttkit.py:1347
 msgid "JSON file"
@@ -3324,10 +3323,8 @@ msgid "WebExtension JSON file"
 msgstr "웹확장 JSON 파일"
 
 #: weblate/formats/ttkit.py:1383
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "i18next JSON 파일"
+msgstr "i18next JSON 파일 v3"
 
 #: weblate/formats/ttkit.py:1391
 msgid "go-i18n JSON file"
@@ -3390,16 +3387,12 @@ msgid "Inno Setup INI file"
 msgstr "이노셋업(InnoSetup) INI 파일"
 
 #: weblate/formats/ttkit.py:1823
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
-msgstr "텀베이스 익스체인지 형식 (TBX)"
+msgstr "TermBase eXchange 파일"
 
 #: weblate/formats/ttkit.py:1853
-#, fuzzy
-#| msgid "Failing file"
 msgid "mi18n lang file"
-msgstr "실패한 파일"
+msgstr "mi18n 언어 파일"
 
 #: weblate/formats/ttkit.py:1862
 #, fuzzy
@@ -3424,17 +3417,12 @@ msgid "Invalid integer list!"
 msgstr "잘못된 정수 목록!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be part of the glossary in all languages"
-msgstr "문자열 대상 언어"
+msgstr "문자열은 모든 언어에서 용어집의 일부가 됨"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Not translated"
 msgid "Untranslatable term"
-msgstr "번역되지 않았음"
+msgstr "번역되지 않은 용어"
 
 #: weblate/glossary/forms.py:112 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -3608,44 +3596,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "0/1/2/몇개/많음/기타"
 
 #: weblate/lang/models.py:626
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "0/1/기타"
+msgstr "0/기타"
 
 #: weblate/lang/models.py:630
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "0/1/기타"
+msgstr "0/1/소수/기타"
 
 #: weblate/lang/models.py:634
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "0/1/2/몇개/많음/기타"
+msgstr "0/1/2/소수/기타"
 
 #: weblate/lang/models.py:638
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "0/1/기타"
+msgstr "0/1/2/기타"
 
 #: weblate/lang/models.py:642
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "0/1/2/몇개/많음/기타"
+msgstr "0/1/소수/다수/기타"
 
 #: weblate/lang/models.py:646
 msgctxt "Plural type"
@@ -3661,10 +3634,8 @@ msgid "Default plural"
 msgstr "복수 기본값"
 
 #: weblate/lang/models.py:658
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
-msgstr "Gettext 복수 공식"
+msgstr "gettext 복수형 판정식"
 
 #: weblate/lang/models.py:659
 #, fuzzy
@@ -3890,10 +3861,8 @@ msgid "Entries deleted."
 msgstr "항목 삭제됨."
 
 #: weblate/memory/views.py:122
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "번역이 끝났습니다."
+msgstr "항목이 삭제되고 메모리가 백그라운드에서 재구축됩니다."
 
 #: weblate/memory/views.py:138
 msgid "File processed, the entries will appear shortly."
@@ -4024,33 +3993,23 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF 검증에 실패했습니다. 요청을 중단하였습니다."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"이 HTTPS 사이트가 당신의 브라우저로부터 '참조 헤더'를 요구하지만, 아무것도 받"
-"기 못하였기 때문입니다. 이 헤더는 보안상의 문제로 필요하며, 제3자에 의해 당신"
-"의 브라우저가 해킹당하고 있지 않다는 것을 보장합니다."
+"이 HTTPS 사이트를 사용하려면 웹 브라우저에서 'Referer' 헤더를 보내야 하지만 "
+"아무 것도 보내지 않았습니다. 이 헤더는 보안상의 이유로 브라우저가 제3자에 "
+"의해 해킹되지 않도록 하기 위해 필요합니다."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"만약 브라우저 설정에서 '참조' 헤더를 보내지 않았다면, 적어도 이 사이트나 "
-"HTTPS 연결, '동일-출처' 요청에 대해 이를 활성화 시키십시오."
+"웹 브라우저가 'Referer' 헤더를 보내지 않도록 설정했다면 이 기능을 활성화해야 "
+"합니다 (적어도 이 사이트, 보안 HTTPS 연결 또는 'same-origin' 요청의 경우)."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -9699,7 +9658,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:57
 msgid "Edit in Zen mode"
-msgstr "젠 모드에서 수정"
+msgstr "간략화 모드에서 수정"
 
 #: weblate/templates/translate.html:57 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -9732,7 +9691,7 @@ msgstr "용어집 이름"
 
 #: weblate/templates/translate.html:113 weblate/templates/zen-units.html:64
 msgid "Source change"
-msgstr "원본 변경점"
+msgstr "원본과의 차이점"
 
 #: weblate/templates/translate.html:129
 msgid "Intermediate language"
@@ -9996,7 +9955,7 @@ msgstr "문자열 생성일"
 
 #: weblate/templates/translate.html:674
 msgid "Source string age"
-msgstr "원본 문자열이 변경되었던 시간"
+msgstr "원본 문자열 생성일"
 
 #: weblate/templates/translate.html:685
 #, python-format
