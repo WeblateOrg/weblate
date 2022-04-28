@@ -232,7 +232,7 @@
       {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
+    <a class="btn btn-warning btn-spaced" href="{{ next_unit_url }}" rel="next" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
   </div>
 </div>
 </form>
