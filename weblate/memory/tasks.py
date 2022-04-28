@@ -33,7 +33,12 @@ def import_memory(project_id: int, component_id: Optional[int] = None):
 
     project = Project.objects.get(pk=project_id)
 
-    for component in project.component_set.iterator():
+    components = project.component_set.all()
+    if component_id:
+        components = components.filter(id=component_id)
+
+    for component in components.iterator():
+        component.log_info("updating translation memory")
         with transaction.atomic():
             units = Unit.objects.filter(
                 translation__component=component, state__gte=STATE_TRANSLATED
