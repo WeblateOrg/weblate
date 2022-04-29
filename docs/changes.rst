@@ -1,7 +1,7 @@
 Weblate 4.12.1
 --------------
 
-Not yet released.
+Released on April 29th 2022.
 
 * Fixed pull request message title.
 * Improved syntax error handling in Fluent format.
