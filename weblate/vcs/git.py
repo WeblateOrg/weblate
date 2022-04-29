@@ -850,9 +850,9 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_merge_message(self):
         lines = render_template(
-            self.component.pull_message, component=self.component
+            self.component.pull_message.strip(), component=self.component
         ).splitlines()
-        return lines[0], "\n".join(lines[1:])
+        return lines[0], "\n".join(lines[1:]).strip()
 
     def format_api_host(self, host):
         return host

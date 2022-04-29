@@ -761,6 +761,18 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
+    def test_merge_message(self):
+        repo = self.repo
+        component = repo.component
+        component.pull_message = "Test message\n\nBody"
+        self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
+        component.pull_message = "Test message\r\n\r\nBody"
+        self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
+        component.pull_message = "Test message"
+        self.assertEqual(repo.get_merge_message(), ("Test message", ""))
+        component.pull_message = "\nTest message\n\n\nBody"
+        self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
+
 
 @override_settings(GITLAB_USERNAME="test", GITLAB_TOKEN="token")
 class VCSGitLabTest(VCSGitUpstreamTest):
