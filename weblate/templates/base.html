@@ -21,9 +21,15 @@
 
   {% if next_unit_url %}
   <link rel="next prefetch" href="{{ next_unit_url }}" />
+  {% elif page_obj.has_next %}
+  <!-- TODO refactor: the `page_obj` links' hrefs are copy-pasted from 'paginator.html'. Need to DRY. -->
+  <link rel="next prefetch" href=href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}">
   {% endif %}
+
   {% if prev_unit_url %}
   <link rel="prev" href="{{ prev_unit_url }}" />
+  {% elif page_obj.has_previous %}
+  <link rel="prev" href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}">
   {% endif %}
 
   {% if object.slug and object.project.slug %}
