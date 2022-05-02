@@ -831,7 +831,8 @@ GITLAB_TOKEN
 
 .. versionadded:: 4.3
 
-GitLab personal access token used to make API calls for translation updates.
+GitLab personal access token used to make API calls to send merge requests for
+translation updates.
 
 .. seealso::
 
@@ -1772,7 +1773,8 @@ PAGURE_TOKEN
 
 .. versionadded:: 4.3.2
 
-Pagure personal access token used to make API calls for translation updates.
+Pagure personal access token used to make API calls to send merge requests for
+translation updates.
 
 .. seealso::
 
