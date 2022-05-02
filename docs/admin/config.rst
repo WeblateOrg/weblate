@@ -2149,6 +2149,12 @@ Controls whether languages database should be updated when running database
 migration and is enabled by default. This setting has no effect on invocation
 of :djadmin:`setuplang`.
 
+.. warning::
+
+   The languages display might become inconsistent with this. Weblate language
+   definitions extend over time and it will not display language code for
+   the defined languages.
+
 .. seealso::
 
     :ref:`included-languages`
