@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-29 11:31+0000\n"
-"Last-Translator: David Leal <halfpacho@gmail.com>\n"
+"PO-Revision-Date: 2022-05-02 10:29+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -1500,7 +1500,7 @@ msgstr "Traducción de destino"
 
 #: weblate/addons/forms.py:489
 msgid "All strings in this translation will be overwritten"
-msgstr "Todas las cadenas de esta traducción serán sobrescritas"
+msgstr "Se sobrescribirán todas las cadenas de esta traducción"
 
 #: weblate/addons/forms.py:492 weblate/templates/addons/pseudolocale.html:11
 msgid "Fixed string prefix"
@@ -1508,19 +1508,15 @@ msgstr "Prefijo de cadena fijo"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
 msgid "Variable string prefix"
-msgstr "Prefijo de la cadena variable"
+msgstr "Prefijo de cadena variable"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Sufijo de cadena"
+msgstr "Sufijo de cadena fijo"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Sufijo de cadena"
+msgstr "Sufijo de cadena variable"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
@@ -1531,6 +1527,8 @@ msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"En cuántas ocasiones debe repetirse la parte de la variable, en función de "
+"la longitud de la cadena original."
 
 #: weblate/addons/forms.py:545
 msgid "The source and target have to be different languages."
@@ -2158,7 +2156,7 @@ msgstr "Facturación"
 
 #: weblate/auth/forms.py:104 weblate/trans/views/acl.py:219
 msgid "User invitation e-mail was sent."
-msgstr "El correo electrónico de invitación ha sido enviado."
+msgstr "Se envió un mensaje de invitación por correo."
 
 #: weblate/auth/forms.py:113
 msgid "Send e-mail invitation to the user"
@@ -2639,10 +2637,6 @@ msgid "Inconsistent"
 msgstr "Incoherente"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is not "
-#| "translated in some components."
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
@@ -2717,10 +2711,8 @@ msgid "Terminology"
 msgstr "Terminología"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "Comprobaciones ignoradas"
+msgstr "Ignorar todas las comprobaciones"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2978,6 +2970,8 @@ msgstr "MessageFormat de ICU"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Errores sintácticos o discrepancias en los sustitutorios en las cadenas "
+"MessageFormat de ICU."
 
 #: weblate/checks/icu.py:459
 #, python-format
@@ -3002,7 +2996,7 @@ msgstr "Uno o más tipos de sustitutorio son incorrectos: %s"
 #: weblate/checks/icu.py:477
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Falta otro submensaje para: %s"
 
 #: weblate/checks/icu.py:480
 #, python-format
@@ -4243,10 +4237,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:230
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Solicitar alojamiento para un proyecto"
+msgstr "Solicitar alojamiento Libre"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -5340,14 +5332,12 @@ msgid "Project URL slug"
 msgstr "URL semántico del proyecto"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "Cadenas no traducidas"
+msgstr "Cadenas generadas"
 
 #: weblate/templates/addons/pseudolocale.html:7
 msgid "The strings will be generated using following pattern:"
-msgstr "Las cadenas se generarán utilizando el siguiente patrón:"
+msgstr "Las cadenas se generarán acorde a la pauta siguiente:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -10988,7 +10978,7 @@ msgstr "Nombre de usuario del autor"
 
 #: weblate/trans/forms.py:2440
 msgid "Expiry cannot be in the past!"
-msgstr "¡La caducidad no puede haber ocurrido ya!"
+msgstr "La caducidad no puede haber ocurrido ya."
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -11155,8 +11145,6 @@ msgid "No file mask matches."
 msgstr "La máscara no produjo ningún resultado."
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Archivos inexistentes."
 
@@ -11562,10 +11550,8 @@ msgid "Java style"
 msgstr "Estilo Java"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Estilo de letra"
+msgstr "Estilo Linux"
 
 #: weblate/trans/models/component.py:146
 msgid "Merge"
@@ -12745,7 +12731,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "¡La máscara de archivos no contiene «*» como sustituto del idioma!"
+msgstr "La máscara de archivos no contiene «*» como sustitutorio del idioma."
 
 #: weblate/trans/validators.py:41
 msgid ""
@@ -12770,7 +12756,7 @@ msgstr "Estadísticas de Weblate"
 
 #: weblate/trans/views/acl.py:101 weblate/trans/views/acl.py:237
 msgid "You can not remove yourself!"
-msgstr "¡No puedes quitarte!"
+msgstr "No puede quitarse."
 
 #: weblate/trans/views/acl.py:135
 msgid "User has been added to this project."
@@ -12797,10 +12783,8 @@ msgid "User has been invited to this project."
 msgstr "Se ha invitado al usuario a este proyecto."
 
 #: weblate/trans/views/acl.py:252
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Token has been removed from this project."
-msgstr "Se ha eliminado al usuario de este proyecto."
+msgstr "Se quitó la ficha de este proyecto."
 
 #: weblate/trans/views/acl.py:255
 msgid "User has been removed from this project."
@@ -13353,7 +13337,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:118
 msgid "Invalid image!"
-msgstr "¡Imagen inválida!"
+msgstr "La imagen no es válida."
 
 #: weblate/utils/validators.py:127
 #, python-format
@@ -13445,10 +13429,8 @@ msgid "GitHub pull request"
 msgstr "Solicitud de incorporación de GitHub"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "Solicitud de incorporación de GitHub"
+msgstr "Solicitud de incorporación de Gitea"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
