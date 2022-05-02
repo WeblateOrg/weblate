@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
 "PO-Revision-Date: 2022-05-03 07:29+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -22689,8 +22689,6 @@ msgid "whether the unit is pending for write"
 msgstr "ユニットが書き込み保留中かどうか"
 
 #: ../../api.rst:2044
-#, fuzzy
-#| msgid "String age"
 msgid "string age"
 msgstr "翻訳開始日"
 
@@ -23406,10 +23404,8 @@ msgid "Released on April 20th 2022."
 msgstr "2022 年 4 月 20 日にリリース。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for Amharic in :ref:`check-end-stop`."
-msgstr ":ref:`txt` に対応しました。"
+msgstr ":ref:`check-end-stop` でアムハラ語に対応。"
 
 #: ../../changes.rst:18
 msgid "Added support for Burmese in :ref:`check-end-question`."
@@ -30003,33 +29999,36 @@ msgstr "コーディングのガイドライン"
 msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
-msgstr ""
-"Weblate のコードはすべて、 `セキュリティ設計原則`_ を念頭に記述しなければなり"
-"ません。"
+msgstr "Weblate のコードはすべて、 `セキュリティ設計原則`_ を念頭に記述してください。"
 
 #: ../../contributing/snippets/code-guide.rst:9
 msgid ""
 "Any code should come with documentation explaining the behavior. Don't "
 "forget documenting methods, complex code blocks, or user visible features."
 msgstr ""
+"すべてのコードには、動作を説明するドキュメントが付属しています。メソッド、複"
+"雑なコードブロック、またはユーザーに表示される機能は文書化することを忘れない"
+"でください。"
 
 #: ../../contributing/snippets/code-guide.rst:12
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We're not checking this "
 "in our CI yet as existing code does not yet include them."
 msgstr ""
+"新しいコードでは、:pep:`484` "
+"型のヒントを使用してください。既存のコードにはまだ含まれていないため、CI "
+"ではまだ調査できていません。"
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
-msgstr ""
+msgstr "コーディング規約と低品質コードの検出"
 
 #: ../../contributing/snippets/pre-commit.rst:4
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`black` code formatter."
-msgstr ""
-"コードは PEP-8 コーディング ガイドラインに従い、:program:`black` コード整形"
-"ツールを使用して書式設定することが必要です。"
+msgstr "コードは PEP-8 コーディング規約に従い、:program:`black` "
+"コード整形ツールを使用して書式設定してください。"
 
 #: ../../contributing/snippets/pre-commit.rst:7
 msgid ""
@@ -30061,7 +30060,7 @@ msgstr "手動で検査を実行し、すべてのファイルの実行を検査
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
-msgstr ""
+msgstr "Weblate のデバッグ"
 
 #: ../../contributing/debugging.rst:4
 msgid ""
@@ -30069,13 +30068,13 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
-"バグは、アプリケーションのクラッシュまたはさまざまな誤動作として現れることが"
-"あります。このような問題に関する情報を収集し、`課題解決ツール <https://"
-"github.com/WeblateOrg/weblate/issues>`_ で報告してください。"
+"バグは、アプリケーションのクラッシュまたはさまざまな誤動作として発生すること"
+"があります。このような問題に関する情報を収集し、`課題解決ツール "
+"<https://github.com/WeblateOrg/weblate/issues>`_ で報告してください。"
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
-msgstr "デバッグモード"
+msgstr "デバッグ モード"
 
 #: ../../contributing/debugging.rst:11
 msgid ""
@@ -30084,6 +30083,9 @@ msgid ""
 "production environment because it has performance consequences and might "
 "leak private data."
 msgstr ""
+"デバッグ モードを有効にすると、Web ブラウザーに例外が表示されます。これは、"
+"Web 画面の問題をデバッグする場合に便利ですが、性能に影響を与え、個人データが"
+"漏れる可能性があるため、運用環境には適していません。"
 
 #: ../../contributing/debugging.rst:15
 msgid ""
@@ -30091,6 +30093,9 @@ msgid ""
 "containing error reports, or configure error collection using a third-party "
 "service."
 msgstr ""
+"運用環境では、:setting:`ADMINS` を使用してエラー "
+"レポートを含むメールを受信するか、サード "
+"パーティのサービスを使用してエラー収集を設定します。"
 
 #: ../../contributing/debugging.rst:20
 msgid ""
@@ -30100,7 +30105,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:27
 msgid "Weblate logs"
-msgstr ""
+msgstr "Weblate の履歴"
 
 #: ../../contributing/debugging.rst:29
 msgid ""
@@ -30109,6 +30114,10 @@ msgid ""
 "either in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on "
 "your syslog daemon configuration)."
 msgstr ""
+"Weblate は、バックグラウンドで行われていることの詳細な履歴を生成できます。デ"
+"フォルトの設定では、syslog が使用され、その結果、履歴は、:file:`/var/log/"
+"messages` または :file:`/var/log/syslog`（syslog "
+"デーモンの設定によって異なる）のいずれかに出力されます。"
 
 #: ../../contributing/debugging.rst:34
 msgid ""
@@ -30116,21 +30125,27 @@ msgid ""
 "well. The example system-wide setups logs to several files under :file:`/var/"
 "log/celery/`."
 msgstr ""
+"Celery プロセス（参照: "
+":ref:`celery`）は、通常、独自の履歴も作成します。システム全体の設定の例では、"
+"履歴は :file:`/var/log/celery/` 以下に複数のファイルが記録されます。"
 
 #: ../../contributing/debugging.rst:37
 msgid ""
 "Docker containers log to their output (as per usual in the Docker world), so "
 "you can look at the logs using ``docker-compose logs``."
 msgstr ""
+"Docker コンテナは（Docker の世界では通常通り）その出力に履歴を記録するので、 "
+"``docker-compose logs`` を使用して履歴を見ることができます。"
 
 #: ../../contributing/debugging.rst:42
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
-msgstr ""
+msgstr ":ref:`sample-configuration` は、:setting:`django:LOGGING` "
+"の設定を含んでいます。"
 
 #: ../../contributing/debugging.rst:47
 msgid "Not processing background tasks"
-msgstr ""
+msgstr "バックグラウンド タスクを処理しない"
 
 #: ../../contributing/debugging.rst:49
 msgid ""
@@ -30138,6 +30153,9 @@ msgid ""
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
 msgstr ""
+"多くのことが Celery ワーカーによりバックグラウンドで行われています。メール送"
+"信やコンポーネントの削除などが機能しない場合、原因は Celery "
+"ワーカーによる可能性があります。"
 
 #: ../../contributing/debugging.rst:53
 msgid "Things to check in that case:"
@@ -30152,14 +30170,16 @@ msgid ""
 "Check the Celery queue status, either in :ref:`management-interface`, or "
 "using :djadmin:`celery_queues`"
 msgstr ""
+":ref:`management-interface` または :djadmin:`celery_queues` を使用して、"
+"Celery キューの状態を確認"
 
 #: ../../contributing/debugging.rst:57
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
-msgstr ""
+msgstr "Celery の履歴にエラーがないか調べる（参照: :ref:`weblate-logs`）"
 
 #: ../../contributing/debugging.rst:62
 msgid "Not receiving e-mails from Weblate"
-msgstr ""
+msgstr "Weblate からメールが届かない"
 
 #: ../../contributing/debugging.rst:64
 msgid ""
@@ -30168,6 +30188,10 @@ msgid ""
 "for instructions on how to invoke it in different environments) or by using :"
 "ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
+"送信メールが正常に動作しているかどうかを確認するには、:djadmin:`django:sendte"
+"stemail` 管理コマンド（異なる環境で起動する方法については、:ref:`invoke-"
+"manage` を確認）を使用するか、:guilabel:`ツール` タブから :ref:`management-"
+"interface` を使用します。"
 
 #: ../../contributing/debugging.rst:69
 msgid ""
@@ -30176,10 +30200,15 @@ msgid ""
 "however sent in the background and there might be some issues with Celery "
 "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
+"これはメールを直接送信するため、SMTP "
+"設定が正常化かどうかを確認できます（参照: :ref:`out-mail`）。ただし、Weblate "
+"からのメールの多くはバックグラウンドで送信されるため、Celery "
+"にも問題が発生することがあります。デバッグについては、:ref:`debug-tasks` "
+"を確認してください。"
 
 #: ../../contributing/debugging.rst:75
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "アプリケーション クラッシュの解析"
 
 #: ../../contributing/debugging.rst:77
 msgid ""
@@ -30188,10 +30217,14 @@ msgid ""
 "which can collect such info automatically. You can find info on how to set "
 "this up in :ref:`collecting-errors`."
 msgstr ""
+"アプリケーションがクラッシュした場合は、クラッシュの情報をできるだけ多く収集"
+"することが必要です。収集は、このような情報を自動的に収集できるサードパーティ"
+"のサービスを使用して行います。この設定方法については、:ref:`collecting-"
+"errors` を確認してください。"
 
 #: ../../contributing/debugging.rst:83
 msgid "Silent failures"
-msgstr ""
+msgstr "サイレント障害"
 
 #: ../../contributing/debugging.rst:85
 msgid ""
@@ -30200,6 +30233,10 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"多くのタスクが、Celery にオフロードされ、バックグラウンドで処理されます。エラ"
+"ーは、管理画面には表示されませんが、Celery の履歴には表示されます。:ref"
+":`collecting-errors` "
+"を設定すると、このようなエラーを簡単に見つけることができます。"
 
 #: ../../contributing/debugging.rst:90
 msgid "Performance issues"
@@ -30211,6 +30248,8 @@ msgid ""
 "logs showing the issue, and anything that might help figuring out where the "
 "code might be improved."
 msgstr ""
+"一部の事例で、Weblate の性能が低下した場合は、問題についての関連履歴と、コー"
+"ドを改善すべき可能性がある箇所を特定するのに必要な情報を収集してください。"
 
 #: ../../contributing/debugging.rst:96
 msgid ""
@@ -30219,6 +30258,9 @@ msgid ""
 "`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
+"何の兆候もなく要求に時間がかかりすぎる場合は、:ref:`collecting-errors` "
+"とともに `dogslow <https://pypi.org/project/dogslow/>`_ をインストールし、エ"
+"ラー収集ツールで特定した詳細なトレースバックを取得してください。"
 
 #: ../../contributing/debugging.rst:101
 msgid ""
@@ -30226,6 +30268,8 @@ msgid ""
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
 msgstr ""
+"性能の低下がデータベースに関連している場合、:setting:`DEBUG` "
+"を有効にし、すべてのデータベース問合せの履歴を有効にする設定方法:"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -30247,7 +30291,8 @@ msgstr "対応ブラウザー"
 msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
-msgstr ""
+msgstr "Weblate は、すべての主要なブラウザーとプラットフォームの最新の安定したリリー"
+"ス版に対応しています。"
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -30256,10 +30301,16 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"WebKit、Blink、または Gecko の最新版を使用する代替ブラウザーは、"
+"直接またはプラットフォームの Web ビュー API "
+"を使用しているかどうかにかかわらず、明示的に対応していません。ただし、"
+"Weblate "
+"は（多くの場合）これらのブラウザーでも正常に表示されて機能するはずです。"
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
-msgstr ""
+msgstr "古いブラウザは動作するかもしれませんが、一部の機能は制限されている場合があり"
+"ます。"
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
@@ -30285,11 +30336,11 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:30
 msgid "Adding new third-party library typically consists of:"
-msgstr ""
+msgstr "通常の新しいサード パーティ ライブラリの追加設定方法:"
 
 #: ../../contributing/frontend.rst:44
 msgid "Coding style"
-msgstr "コーディング スタイル"
+msgstr "コーディング規約"
 
 #: ../../contributing/frontend.rst:46
 msgid ""
@@ -30431,20 +30482,25 @@ msgid ""
 "easily by clicking the :guilabel:`Edit on GitHub` button in the top-right "
 "corner of the page."
 msgstr ""
+"ドキュメント ページを選んで改善してください。ページの右上隅にある :guilabel:`"
+"GitHub で編集` ボタンをクリックすると簡単に編集できます。"
 
 #: ../../contributing/index.rst:39
 msgid "Please respect these guidelines while writing:"
-msgstr ""
+msgstr "書き込みに際して従うべきガイドライン:"
 
 #: ../../contributing/index.rst:41
 msgid "Don’t remove part of the documentation if it’s valid."
-msgstr ""
+msgstr "妥当な翻訳のドキュメントの部分は削除しないでください。"
 
 #: ../../contributing/index.rst:42
 msgid ""
 "Use clear and easily-understandable language. You are writing tech docs, not "
 "a poem. Not all docs readers are native speakers, be thoughtful."
 msgstr ""
+"明確でわかりやすい語彙を使用してください。技術文書を記述しているのであって、"
+"詩を書いているのではありません。ドキュメントを読む人がすべて母国語なわけでは"
+"ありません。"
 
 #: ../../contributing/index.rst:44
 msgid ""
@@ -30452,59 +30508,70 @@ msgid ""
 "feature while editing, don’t change its docs before you have the answer. "
 "This means: You change or ask. Don’t do both at the same time."
 msgstr ""
+"確信が持てない場合は、遠慮なく質問してください。編集中に、特定の機能について"
+"質問をする必要がある場合は、回答を得られる前にそのドキュメントを変更しないで"
+"ください。つまり、変更するか質問するか、どちらかにしてください。両方を同時に"
+"実行しないでください。"
 
 #: ../../contributing/index.rst:47
 msgid ""
 "Verify your changes by performing described actions while following the docs."
-msgstr ""
+msgstr "ドキュメントに従って説明どおりの操作を行い、変更を確認してください。"
 
 #: ../../contributing/index.rst:48
 msgid ""
 "Send PR with changes in small chunks to make it easier and quicker to review "
 "and merge."
-msgstr ""
+msgstr "査読とマージを簡単かつ迅速に行えるように、変更を小さな単位で書き込んで公開く"
+"ださい。"
 
 #: ../../contributing/index.rst:49
 msgid ""
 "If you want to rewrite and change the structure of a big article, do it in "
 "two steps:"
-msgstr ""
+msgstr "大きな文章の構成を書き換えて変更する場合の手順:"
 
 #: ../../contributing/index.rst:51
 msgid "Rewrite"
-msgstr ""
+msgstr "書き換え"
 
 #: ../../contributing/index.rst:52
 msgid ""
 "Once the rewrite is reviewed, polished, and merged, change the structure of "
 "the paragraphs in another PR."
-msgstr ""
+msgstr "書き換えが査読され、洗練され、マージされたら、他の公開する段落構成を変更しま"
+"す。"
 
 #: ../../contributing/index.rst:56
 msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
+"`ドキュメントの翻訳 <https://hosted.weblate.org/projects/weblate/"
+"documentation/>`_ ができます。"
 
 #: ../../contributing/index.rst:62
 msgid "Extending built-in language definitions"
-msgstr "組み込み言語定義の拡張"
+msgstr "組み込まれた言語の定義の拡張"
 
 #: ../../contributing/index.rst:64
 msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
+"言語の定義は、`weblate-language-data repository <https://github.com/"
+"WeblateOrg/language-data/>`_ にあります。"
 
 #: ../../contributing/index.rst:67
 msgid ""
 "You are welcome to add missing language definitions to :file:`languages."
 "csv`, other files are generated from that file."
-msgstr ""
+msgstr "不足している言語は、:file:`languages.csv` "
+"に追加して定義すると。そのファイルから他のファイルを生成します。"
 
 #: ../../contributing/index.rst:73
 msgid "Weblate discussions"
-msgstr "Weblate の議論"
+msgstr "Weblate についての議論"
 
 #: ../../contributing/index.rst:75
 msgid ""
@@ -30512,9 +30579,9 @@ msgid ""
 "You can join the community in `GitHub discussions <https://github.com/"
 "WeblateOrg/weblate/discussions>`_."
 msgstr ""
-"アイデアがあり、それが issue に適しているかどうかわからない場合でも、心配はい"
-"りません。あなたは `GitHub discussions <https://github.com/WeblateOrg/"
-"weblate/discussions>`_ でコミュニティに参加できます。"
+"アイデアがあり、それが問題に適しているかどうかわからない場合でも、心配はいり"
+"ません。あなたは `GitHub discussions <https://github.com/WeblateOrg/weblate/"
+"discussions>`_ からコミュニティに参加できます。"
 
 #: ../../contributing/index.rst:82
 msgid "Funding Weblate development"
@@ -30578,11 +30645,11 @@ msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:15
 msgid "Richard Nespithal"
-msgstr ""
+msgstr "Richard Nespithal"
 
 #: ../../../BACKERS.rst:16
 msgid "MyExpenses.Mobi"
-msgstr ""
+msgstr "MyExpenses.Mobi"
 
 #: ../../../BACKERS.rst:18
 msgid ""
@@ -30843,7 +30910,8 @@ msgstr ""
 msgid ""
 "If you are not sure about your bug report or feature request, you can try :"
 "ref:`discussions`."
-msgstr ""
+msgstr "バグ レポートまたは機能要求についてよくわからない場合は、:ref:`discussions` "
+"を試してみてください。"
 
 #: ../../contributing/issues.rst:19
 msgid "Security issues"
@@ -30857,12 +30925,18 @@ msgid ""
 "hackerone.com/weblate>`_. Once you submit it there, community has limited "
 "but enough time to solve the incident."
 msgstr ""
+"コミュニティに対応とアップグレードの時間を与えるために、すべてのセキュリティ"
+"問題は必ず非公開で報告してください。HackerOne "
+"はセキュリティ問題の処理に使用され、`HackerOne <https://hackerone.com/"
+"weblate>`_ から直接報告できます。そこに提出すれば、コミュニティには限られた時"
+"間しかありませんが、事件を解決するのに十分な時間ができます。"
 
 #: ../../contributing/issues.rst:26
 msgid ""
 "Alternatively, report to security@weblate.org, which ends up on HackerOne as "
 "well."
-msgstr ""
+msgstr "もしくは、security@weblate.org に報告してください。これは最終的に HackerOne "
+"にも報告されます。"
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -30871,6 +30945,10 @@ msgid ""
 "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can "
 "also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"何らかの理由で HackerOne を使用したくない場合は、レポートをメールで michal@"
+"cihar.com に送信してください。この PGP キー `3CB 1DF1 EF12 CF2A C0EE  5A32 "
+"9C27 B313 42B7 511D` を使用して暗号化することもできます。`Keybase "
+"<https://keybase.io/nijel>`_ からも PGP 鍵を取得できます。"
 
 #: ../../contributing/issues.rst:36
 msgid ""
@@ -30878,10 +30956,13 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"Weblate は、多くの点でサード パーティのコンポーネントに依存しています。このコ"
+"ンポーネントで一般的に影響する脆弱性を発見した場合は、それぞれのプロジェクト"
+"に直接報告してください。"
 
 #: ../../contributing/issues.rst:40
 msgid "Some of these are:"
-msgstr ""
+msgstr "依存するプログラム例:"
 
 #: ../../contributing/issues.rst:42
 msgid ":doc:`Django <django:internals/security>`"
@@ -30891,6 +30972,8 @@ msgstr ":doc:`Django <django:internals/security>`"
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`Django REST フレームワーク <https://www.django-rest-framework.org/"
+"#security>`_"
 
 #: ../../contributing/issues.rst:44
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
@@ -31903,7 +31986,7 @@ msgstr ""
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
-msgstr "PyCharm で virtualenv を作成するか、または既存の仮想環境の選択方法："
+msgstr "PyCharm で virtualenv を作成するか、または既存の仮想環境を選択する方法:"
 
 #: ../../contributing/start.rst:138
 msgid ""
@@ -31957,6 +32040,10 @@ msgid ""
 "existing debugger breakpoints to persist, when they normally would be "
 "discarded upon reloading the server."
 msgstr ""
+":guilabel:`No reload` というプロパティに注意:　これは、ファイルを変更した場合"
+"にサーバーが、ただちに再読み込みされるのを防ぐことができます。これにより、通"
+"常はサーバーの再読み込み時に破棄される既存のデバッガーのブレークポイントが保"
+"持されます。"
 
 #: ../../contributing/start.rst:169
 msgid "Bootstrapping your devel instance"
