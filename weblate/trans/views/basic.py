@@ -75,7 +75,7 @@ def list_projects(request):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                prefetch_stats(request.user.allowed_projects)
+                get_paginator(request, prefetch_stats(request.user.allowed_projects))
             ),
             "title": _("Projects"),
         },

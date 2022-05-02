@@ -51,11 +51,10 @@ class ProjectQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
+        queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
         # Indicate alerts
-        for alert in (
-            projects.values("id")
-            .filter(component__alert__dismissed=False)
-            .annotate(Count("component__alert"))
+        for alert in queryset.filter(component__alert__dismissed=False).annotate(
+            Count("component__alert")
         ):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
@@ -65,8 +64,7 @@ def prefetch_project_flags(projects):
             project.__dict__["locked"] = True
         # Filter unlocked projects
         for locks in (
-            projects.filter(component__locked=False)
-            .values("id")
+            queryset.filter(component__locked=False)
             .distinct()
             .annotate(Count("component__id"))
         ):
