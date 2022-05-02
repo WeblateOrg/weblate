@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-05-01 09:07+0000\n"
+"PO-Revision-Date: 2022-05-03 07:29+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1622,9 +1622,9 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"すべての翻訳ファイルを、アップストリームのモノリンガル用の、基礎となる翻訳"
-"ファイルと一致するように更新します。未使用の文字列は削除され、新しい文字列は"
-"原文をコピーして追加されます。"
+"すべての翻訳ファイルを、上流にあるモノリンガル用の基礎となる翻訳ファイルと整"
+"合するように更新します。使われない文字列は削除され、新しい文字列は原文をコピ"
+"ーして追加されます。"
 
 #: weblate/addons/views.py:84
 msgid "Invalid add-on name specified!"
@@ -5886,7 +5886,7 @@ msgstr "除外"
 #: weblate/templates/component.html:157
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
-msgstr "%(first)s に翻訳、%(last)s に更新"
+msgstr "%(first)sから表示、%(last)sに更新"
 
 #: weblate/templates/component.html:161
 #: weblate/templates/manage/performance.html:42
@@ -6530,7 +6530,7 @@ msgstr "コミット"
 
 #: weblate/templates/js/git-status.html:43
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Weblate のリポジトリ内の送信コミット"
+msgstr "Weblate のリポジトリ内の未送信コミット"
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
@@ -6542,7 +6542,7 @@ msgstr "プッシュ"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Missing commits in the Weblate repository"
-msgstr "Weblate のリポジトリにコミットがありません"
+msgstr "Weblate のリポジトリにないコミット"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with changes from the remote repository"
@@ -8036,7 +8036,7 @@ msgstr "リポジトリの URL をクリップボードにコピーしました�
 #: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1598
 #: weblate/trans/models/component.py:326
 msgid "Repository branch"
-msgstr "リポジトリ ブランチ"
+msgstr "リポジトリのブランチ"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
@@ -8641,9 +8641,9 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
-"安心してください。文字列は、すぐには変更されません。はじめに、現在と変更後の"
-"文字列の比較プレビュー画面で違いを確認し、次に変更するものを選択して実行しま"
-"す。変更は、2 段階で処理します。"
+"安心してください。文字列はすぐには変更されず、2段階で処理されます。はじめに、"
+"現在と置換後の文字列の比較プレビュー画面で違いを確認し、次に変更するものを選"
+"択して実行します。"
 
 #: weblate/templates/snippets/sort-field.html:10
 #: weblate/templates/snippets/sort-field.html:14
@@ -9093,9 +9093,8 @@ msgstr "どこにも使用されていない強制した検査項目:"
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
-msgstr ""
-"%(check)s の品質検査を強制しますが、<code>%(flag)s</code> を使用して有効にし"
-"ていません。"
+msgstr "%(check)s の品質検査を強制していますが、<code>%(flag)s</code> "
+"を使用して有効にしていません。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -11207,7 +11206,7 @@ msgstr "新しい翻訳の追加の無効化"
 
 #: weblate/trans/models/component.py:127
 msgid "Default based on the file format"
-msgstr "デフォルトはファイル形式"
+msgstr "ファイル形式に応じたデフォルト"
 
 #: weblate/trans/models/component.py:128
 msgid "POSIX style using underscore as a separator"
