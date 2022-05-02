@@ -47,6 +47,7 @@ SORT_KEYS = {
     "untranslated": lambda x: x.stats.todo,
     "untranslated_words": lambda x: x.stats.todo_words,
     "untranslated_chars": lambda x: x.stats.todo_chars,
+    "nottranslated": lambda x: x.stats.nottranslated,
     "checks": lambda x: x.stats.allchecks,
     "suggestions": lambda x: x.stats.suggestions,
     "comments": lambda x: x.stats.comments,
