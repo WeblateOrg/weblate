@@ -264,7 +264,7 @@ enables XML support while disabling validation of plural sub-messages:
 
 .. code-block::text
 
-  icu-message-format, icu-flags:xml:-plural_selectors
+   icu-message-format, icu-flags:xml:-plural_selectors
 
 +---------------------------+------------------------------------------------------------+
 | ``xml``                   | Enable support for simple XML tags. By default, XML tags   |
