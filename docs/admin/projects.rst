@@ -164,7 +164,7 @@ Use shared translation memory
 
 Whether to use shared translation memory, see :ref:`shared-tm` for more details.
 
-Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
 .. _project-contribute_shared_tm:
 
@@ -173,7 +173,7 @@ Contribute to shared translation memory
 
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
 
-Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
 .. _project-access_control:
 
@@ -182,7 +182,7 @@ Access control
 
 Configure per project access control, see :ref:`acl` for more details.
 
-Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
+The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. _project-translation_review:
 
