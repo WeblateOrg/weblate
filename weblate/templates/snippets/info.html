@@ -22,7 +22,7 @@
         {{ language.code }}
         </td>
         </tr>
-        {% with language.get_aliases_names as aliases %}
+        {% with aliases=language.get_aliases_names %}
           {% if aliases %}
             <tr>
             <th>{% trans "Aliased language codes" %}</th>

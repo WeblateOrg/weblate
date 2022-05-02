@@ -30,7 +30,7 @@
 </td>
 </tr>
 
-{% with object.get_last_remote_commit as commit %}
+{% with commit=object.get_last_remote_commit %}
 {% if commit %}
 <tr>
 <th>{% trans "Last remote commit" %}</th>
@@ -46,7 +46,7 @@
 {% endif %}
 {% endwith %}
 
-{% with object.get_last_commit as commit %}
+{% with commit=object.get_last_commit %}
 {% if commit %}
 <tr>
 <th>{% trans "Last commit in Weblate" %}</th>
@@ -62,7 +62,7 @@
 {% endif %}
 {% endwith %}
 
-{% with object.get_export_url as export_url %}
+{% with export_url=object.get_export_url %}
 {% if export_url %}
 <tr>
 <th>{% trans "Weblate repository" %}</th>
