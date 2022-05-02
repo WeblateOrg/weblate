@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-05-02 07:59+0000\n"
+"PO-Revision-Date: 2022-05-02 10:30+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -2681,9 +2681,9 @@ msgid ""
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
-":program:`msgmerge` を使用して POT ファイル（ :ref:`component-filemask` で設"
-"定）に一致するように、すべての PO ファイル（ :ref:`component-new_base` で設"
-"定）を更新します。"
+":program:`msgmerge` を使用して POT ファイル（ :ref:`component-new_base` "
+"で設定）に整合するように、すべての PO ファイル（ :ref:`component-filemask` "
+"で設定）を更新します。"
 
 #: ../../admin/addons.rst:586
 msgid ""
@@ -2817,10 +2817,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"オプションを使用して、元のコミット メッセージから（ コミットされた ``Co-"
-"authored-by: …`` のような記述）を削除し、簡略化されたコミット メッセージの末"
-"尾に追加します。これにより、すべての共同翻訳者が自動生成されて ``Co-authored-"
-"by:`` に署名されます。"
+"オプションを使用して、元のコミット メッセージからトレーラー（ ``Co-authored-"
+"by: …`` のような行）を削除し、スカッシュしたコミット "
+"メッセージの末尾に追加できます。これにより、すべての共同翻訳者が適切に ``Co-"
+"authored-by:`` でクレジットされます。"
 
 #: ../../admin/addons.rst:640
 msgid "Customize JSON output"
@@ -34383,16 +34383,15 @@ msgstr "もちろん、これらすべてを自由に組み合わせてもかま
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
-msgstr ""
-"ソースコードを公開せずに、Weblate へのアクセスを翻訳のみに制限する方法は？"
+msgstr "Weblate "
+"からのアクセスを翻訳のみに制限し、ソースコードを見せないようにする方法は？"
 
 #: ../../faq.rst:219
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
-msgstr ""
-"`git submodule`_ を使用すると、バージョン管理下に置かれてソースコードから翻訳"
-"を分離できます。"
+msgstr "`git submodule`_ を使用すると、バージョン管理下に置いたままソースコードから翻"
+"訳を分離できます。"
 
 #: ../../faq.rst:222
 msgid "Create a repository with your translation files."
@@ -34449,9 +34448,8 @@ msgstr ""
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
-msgstr ""
-"すべてのコミットの作成者（基となる VCS が対応している場合）は、翻訳をしたユー"
-"ザーとして正しく記録されます。"
+msgstr "すべてのコミットの著者（使っている VCS "
+"が対応している場合）は、翻訳をしたユーザーとして正しく記録されます。"
 
 #: ../../faq.rst:258
 msgid ""
@@ -34460,6 +34458,9 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
+"翻訳者の情報がない場合（例えば匿名の提案や機械翻訳の結果）のコミットでは、著"
+"者は匿名ユーザーになります（参照: :setting:`ANONYMOUS_USER_NAME`）。管理画面"
+"で名前とメールアドレスを変更できます。"
 
 #: ../../faq.rst:268
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -34489,15 +34490,14 @@ msgstr "影響を受けるコンポーネントを Weblate でロックする。
 
 #: ../../faq.rst:279
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "保留中の変更をコミットし、アップストリーム リポジトリにマージする。"
+msgstr "保留中の変更をコミットし、上流リポジトリにマージする。"
 
 #: ../../faq.rst:280
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
-msgstr ""
-"受信側の Web フック :ref:`project` を無効にする;　これにより、リポジトリ内の"
-"変更がすぐに反映されなくなります。"
+msgstr ":ref:`project` で Web フックを無効にする。これにより、リポジトリ内の変更がす"
+"ぐに反映されなくなります。"
 
 #: ../../faq.rst:281
 msgid ""
@@ -34513,9 +34513,9 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
-"新しい設定に合わせて :ref:`component` を変更する;　設定を変更すると、Weblate "
-"は更新されたリポジトリを取得し、既存の文字列を維持しながら変更された場所を通"
-"知します。"
+"新しい設定に合わせて :ref:`component` を変更する。設定を変更すると、Weblate "
+"は更新されたリポジトリを取得し、移動した場所を認識して既存の文字列を維持しま"
+"す。"
 
 #: ../../faq.rst:283
 msgid "Unlock the component and re-enable hooks in the project configuration."
@@ -34565,8 +34565,8 @@ msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
-"翻訳の直下に、翻訳情報のタブが並んでいます。:guilabel:`Comments` タブの中で、"
-"原文についてフィードバックを提供したり、他の翻訳者と話し合ったりできます。"
+"翻訳の直下に、翻訳情報のタブが並んでいます。:guilabel:`コメント` タブの中で、"
+"原文についてフィードバックを送ったり、他の翻訳者と話し合ったりできます。"
 
 #: ../../faq.rst:313
 msgid "How can I use existing translations while translating?"
