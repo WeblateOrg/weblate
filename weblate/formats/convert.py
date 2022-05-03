@@ -52,12 +52,14 @@ from translate.storage.xml_extract.extract import (
 from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
-from weblate.formats.ttkit import TTKitUnit, XliffUnit
+from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
 
-class ConvertUnit(TTKitUnit):
+class ConvertPoUnit(PoUnit):
+    id_hash_with_source: bool = True
+
     def is_translated(self):
         """Check whether unit is translated."""
         return self.unit is not None
@@ -69,15 +71,6 @@ class ConvertUnit(TTKitUnit):
     def is_approved(self, fallback=False):
         """Check whether unit is approved."""
         return fallback
-
-    @cached_property
-    def locations(self):
-        return ""
-
-    @cached_property
-    def context(self):
-        """Return context of message."""
-        return "".join(self.mainunit.getlocations())
 
 
 class ConvertXliffUnit(XliffUnit):
@@ -109,7 +102,7 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
-    unit_class = ConvertUnit
+    unit_class = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
 
@@ -219,10 +212,11 @@ class HTMLFormat(ConvertFormat):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=BytesIOMode("", storefile.read()))
         for htmlunit in htmlparser.units:
-            locations = htmlunit.getlocations()
             if template_store:
                 # Translation
-                template = template_store.find_unit_mono("".join(locations))
+                template = template_store.find_unit_mono(
+                    htmlunit.getcontext(), htmlunit.source
+                )
                 if template is None:
                     # Skip locations not present in the source HTML file
                     continue
