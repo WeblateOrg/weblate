@@ -4,6 +4,8 @@ Weblate 4.13
 Not yet released.
 
 * Changed behavior of updating language names.
+* Added pagination to projects listing.
+* Improved translation memory rebuild in some corner cases.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
