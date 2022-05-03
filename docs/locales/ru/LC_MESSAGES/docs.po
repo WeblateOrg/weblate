@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-04-28 15:10+0000\n"
-"Last-Translator: Viktor <xasertop@gmail.com>\n"
+"PO-Revision-Date: 2022-05-04 06:53+0000\n"
+"Last-Translator: Victor K <ktrace@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.12.1-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -3835,6 +3835,7 @@ msgstr ""
 "example.com/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:115
+#, fuzzy
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -3843,6 +3844,13 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"Для GitHub for Organizations и GitHub for Teams существуют аналогичные "
+"бэкенды аутентификации. Их настройки называются ``SOCIAL_AUTH_GITHUB_ORG_*`` "
+"и ``SOCIAL_AUTH_GITHUB_TEAM_*``, и требуют дополнительной настройки области "
+"видимости - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` или "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Их URL обратного вызова: ``https://example."
+"com/accounts/complete/github-org/`` и ``https://example.com/accounts/"
+"complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -7464,8 +7472,10 @@ msgid "DEFAULT_PULL_MESSAGE"
 msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:656
+#, fuzzy
 msgid "Configures the default title and message for pull requests."
 msgstr ""
+"Настраивает заголовок и сообщение по умолчанию для запросов на извлечение."
 
 #: ../../admin/config.rst:661
 msgid "ENABLE_AVATARS"
@@ -14911,10 +14921,13 @@ msgstr ""
 "`WEBLATE_EMAIL_USE_TLS`."
 
 #: ../../admin/install/docker.rst:1376 ../../admin/install/docker.rst:1394
+#, fuzzy
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
+"Поддержка SSL/TLS включается автоматически на основе "
+":envvar:`WEBLATE_EMAIL_PORT`."
 
 #: ../../admin/install/docker.rst:1381
 msgid ""
@@ -15390,6 +15403,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"Контейнер PostgtreSQL использует конфигурацию PostgreSQL по умолчанию, "
+"которая неэффективно использует ядра процессора или память. Рекомендуется "
+"настроить конфигурацию для повышения производительности."
 
 #: ../../admin/install/docker.rst:1708
 msgid ""
@@ -15397,6 +15413,9 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"Конфигурацию можно изменить, как описано в разделе `Конфигурация базы данных`"
+" по адресу https://hub.docker.com/_/postgres. Конфигурацию, соответствующую "
+"вашей среде, можно сгенерировать с помощью https://pgtune.leopard.in.ua/."
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
