@@ -3,6 +3,8 @@ Weblate 4.13
 
 Not yet released.
 
+* Changed behavior of updating language names.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
 Weblate 4.12.1

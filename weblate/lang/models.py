@@ -464,7 +464,7 @@ def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
     if settings.UPDATE_LANGUAGES:
         with transaction.atomic():
-            Language.objects.setup(False)
+            Language.objects.setup(True)
 
 
 class Language(models.Model, CacheKeyMixin):
