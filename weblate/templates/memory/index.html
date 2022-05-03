@@ -125,7 +125,7 @@
         </div><!-- /.modal -->
         </form>
       {% endif %}
-      {% if rebuild_url %}
+      {% if rebuild_url and item.can_rebuild %}
       <a href="#" data-toggle="modal" data-target="#rebuild_memory_form_{{ item.origin|hash_text }}" class="btn btn-warning">{% trans "Rebuild" %}</a>
         <form action="{{ rebuild_url }}" method="POST" class="inlineform">
         {% csrf_token %}

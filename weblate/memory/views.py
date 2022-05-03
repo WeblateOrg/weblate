@@ -24,6 +24,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
@@ -155,14 +156,32 @@ class MemoryView(TemplateView):
             return reverse(f"manage-{name}")
         return reverse(name, kwargs=self.kwargs)
 
+    @cached_property
+    def entries(self):
+        return Memory.objects.filter_type(**self.objects)
+
+    def get_origins(self):
+        result = list(
+            self.entries.values("origin").order_by("origin").annotate(Count("id"))
+        )
+        if "project" in self.objects:
+            slugs = {
+                component.full_slug
+                for component in self.objects["project"].component_set.all()
+            }
+            existing = {entry["origin"] for entry in result}
+            for entry in result:
+                entry["can_rebuild"] = entry["origin"] in slugs
+            # Add missing ones
+            for missing in slugs - existing:
+                result.append({"origin": missing, "id__count": 0, "can_rebuild": True})
+        return result
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(self.objects)
-        entries = Memory.objects.filter_type(**self.objects)
-        context["num_entries"] = entries.count()
-        context["entries_origin"] = (
-            entries.values("origin").order_by("origin").annotate(Count("id"))
-        )
+        context["num_entries"] = self.entries.count()
+        context["entries_origin"] = self.get_origins()
         context["total_entries"] = Metric.objects.get_current(
             None, Metric.SCOPE_GLOBAL, 0, name="memory"
         )["memory"]
