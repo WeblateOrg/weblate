@@ -1481,9 +1481,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @cached_property
     def content_hash(self):
-        if self.translation.component.template:
-            return calculate_hash(self.source, self.context)
-        return self.id_hash
+        return calculate_hash(self.source, self.context)
 
     @cached_property
     def recent_content_changes(self):
