@@ -429,7 +429,10 @@ class Translation(
                     except UnitNotFound:
                         pass
 
-                id_hash = unit.id_hash
+                try:
+                    id_hash = unit.id_hash
+                except Exception as error:
+                    self.component.handle_parse_error(error, self)
 
                 # Check for possible duplicate units
                 if id_hash in updated:

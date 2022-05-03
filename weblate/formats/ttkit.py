@@ -330,6 +330,8 @@ class TTKitFormat(TranslationFormat):
         In some cases Translate Toolkit happily "parses" the file, even though it really
         did not do so (e.g. gettext parser on a random textfile).
         """
+        if not super().is_valid():
+            return False
         if self.store is None:
             return False
 

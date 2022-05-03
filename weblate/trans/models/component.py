@@ -1949,7 +1949,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # Avoid parsing if template is invalid
             try:
                 self.template_store.check_valid()
-            except (FileParseError, ValueError) as exc:
+            except ValueError as exc:
+                raise InvalidTemplate(FileParseError(str(exc)))
+            except FileParseError as exc:
                 raise InvalidTemplate(exc)
         self._template_check_done = True
 
