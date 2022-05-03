@@ -67,6 +67,8 @@ class TranslationUnit:
     It handles ID/template based translations and other API differences.
     """
 
+    id_hash_with_source: bool = False
+
     def __init__(self, parent, unit, template=None):
         """Create wrapper object."""
         self.unit = unit
@@ -120,15 +122,21 @@ class TranslationUnit:
         """Return previous message source if there was any."""
         return ""
 
-    @cached_property
-    def id_hash(self):
+    @classmethod
+    def calculate_id_hash(cls, has_template: bool, source: str, context: str):
         """Return hash of source string, used for quick lookup.
 
         We use siphash as it is fast and works well for our purpose.
         """
-        if self.template is None:
-            return calculate_hash(self.source, self.context)
-        return calculate_hash(self.context)
+        if not has_template or cls.id_hash_with_source:
+            return calculate_hash(source, context)
+        return calculate_hash(context)
+
+    @cached_property
+    def id_hash(self):
+        return self.calculate_id_hash(
+            self.template is not None, self.source, self.context
+        )
 
     def is_translated(self):
         """Check whether unit is translated."""

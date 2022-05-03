@@ -57,7 +57,6 @@ from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_hash
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GhostStats, TranslationStats
@@ -1333,10 +1332,9 @@ class Translation(
                 current_target = ""
             if isinstance(current_target, list):
                 current_target = join_plural(current_target)
-            if has_template:
-                id_hash = calculate_hash(context)
-            else:
-                id_hash = calculate_hash(source, context)
+            id_hash = component.file_format_cls.unit_class.calculate_id_hash(
+                has_template, source, context
+            )
             # When adding to a target the source string can already exist
             unit = None
             if (skip_existing or not self.is_source) and is_source:
