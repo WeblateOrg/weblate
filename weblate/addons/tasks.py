@@ -90,6 +90,7 @@ def language_consistency(project_id: int, language_ids: List[int]):
         missing = languages.exclude(translation__component=component)
         if not missing:
             continue
+        component.commit_pending("language consistency", None)
         for language in missing:
             component.add_new_language(
                 language,
