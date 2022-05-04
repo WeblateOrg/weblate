@@ -5,9 +5,19 @@ Not yet released.
 
 * Changed behavior of updating language names.
 * Added pagination to projects listing.
-* Improved translation memory rebuild in some corner cases.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
+
+Weblate 4.12.2
+--------------
+
+Not yet released.
+
+* Fixed rebuilding project translation memory for some components.
+* Fixed sorting components by untranslated strings.
+* Fixed possible loss of translations while adding new language.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?closed=1>`__.
 
 Weblate 4.12.1
 --------------
