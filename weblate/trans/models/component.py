@@ -3081,6 +3081,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             messages.error(request, _("Translation file already exists!"))
         else:
             with self.repository.lock:
+                if create_translations:
+                    self.commit_pending("add language", None)
                 file_format.add_language(
                     fullname,
                     language,
