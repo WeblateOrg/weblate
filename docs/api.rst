@@ -2511,15 +2511,20 @@ update individual repositories; see
 
     .. versionadded:: 3.8
 
-    Special hook for handling Azure Repos notifications and automatically
+    Special hook for handling Azure DevOps notifications and automatically
     updating matching components.
+
+    .. note::
+
+       Please make sure that :guilabel:`Resource details to send` is set to
+       *All*, otherwise Weblate will not be able to match your Azure repository.
 
     .. seealso::
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
         https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
-            Generic information about Azure Repos Web Hooks
+            Generic information about Azure DevOps Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
