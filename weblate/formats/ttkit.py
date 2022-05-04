@@ -1572,7 +1572,9 @@ class DTDFormat(TTKitFormat):
 class SubtitleUnit(MonolingualIDUnit):
     @cached_property
     def source(self):
-        return self.template.source
+        if self.template is not None:
+            return self.template.source
+        return self.unit.source
 
     @cached_property
     def target(self):
