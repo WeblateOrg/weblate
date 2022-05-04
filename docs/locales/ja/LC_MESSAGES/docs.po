@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-05-03 20:46+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-05-05 07:51+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -12623,19 +12623,25 @@ msgstr "Weblate コンテナを起動する:"
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
-msgstr ""
+msgstr "配置した Weblate をお楽しみください、それは ``weblate`` コンテナのポート 80 "
+"からアクセスできます。"
 
 #: ../../admin/install/docker.rst:63
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"最近、設定方法が変更され、Web サーバーのコンテナが分離されました。2.15-2 "
+"以降、Web サーバーは Weblate コンテナに組み込まれています。"
 
 #: ../../admin/install/docker.rst:69
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers are not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"2019 年 7 月（3.7.1-6 タグ以降）、コンテナは root "
+"ユーザーとしては実行されていません。これにより、公開ポートが 80 から 8080 "
+"に変更されました。"
 
 #: ../../admin/install/docker.rst:72
 msgid ":ref:`invoke-manage`"
@@ -12643,13 +12649,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:75
 msgid "Choosing Docker hub tag"
-msgstr ""
+msgstr "Docker ハブ タグの選択"
 
 #: ../../admin/install/docker.rst:77
 msgid ""
 "You can use following tags on Docker hub, see https://hub.docker.com/r/"
 "weblate/weblate/tags/ for full list of available ones."
 msgstr ""
+"Docker ハブでは、次のタグを使用できますが、使用可能なタグの完全なリストについ"
+"ては、https://hub.docker.com/r/weblate/weblate/tags/ を確認してください。"
 
 #: ../../admin/install/docker.rst:80
 msgid "Tag name"
@@ -30977,7 +30985,7 @@ msgstr ""
 
 #: ../../contributing/issues.rst:44
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
-msgstr ""
+msgstr "`Python SNS 認証 <https://github.com/python-social-auth>`_"
 
 #: ../../contributing/license.rst:2 ../../../README.rst:None
 #: ../../../README.rst:66
@@ -31029,23 +31037,28 @@ msgid ""
 "Besides the main repository, Weblate consists of several Python modules. All "
 "these follow same structure and this documentation covers them all."
 msgstr ""
+"メインのリポジトリに加えて、Weblate は複数の Python モジュールで構成されてい"
+"ます。これはすべて同じ構造をしており、このドキュメントではすべてを扱います。"
 
 #: ../../contributing/modules.rst:7
-#, fuzzy
 msgid "For example, this covers:"
-msgstr "下記を含む例:"
+msgstr "ドキュメントに含む範囲:"
 
 #: ../../contributing/modules.rst:9
 msgid ""
 "`wlc <https://github.com/WeblateOrg/wlc/>`_, Python client library, see :ref:"
 "`wlc`"
 msgstr ""
+"`wlc <https://github.com/WeblateOrg/wlc/>`_ 、Python クライアント "
+"ライブラリ、参照: :ref:`wlc`"
 
 #: ../../contributing/modules.rst:10
 msgid ""
 "`translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, "
 "used to discover translatable files in the repository"
 msgstr ""
+"`translation-finder <https://github.com/WeblateOrg/translation-finder/>`_ "
+"、リポジトリ内の翻訳可能なファイルを検出するために使用"
 
 #: ../../contributing/modules.rst:11
 msgid ""
@@ -31063,15 +31076,16 @@ msgstr "テストの実行"
 msgid ""
 "The tests are executed using :program:`py.test`. First you need to install "
 "test requirements:"
-msgstr ""
+msgstr "テストは、:program:`py.test` "
+"を使用して実行されます。まず必要な、テスト要件のインストール方法:"
 
 #: ../../contributing/modules.rst:26
 msgid "You can then execute the testsuite in the repository checkout:"
-msgstr ""
+msgstr "次に、リポジトリのチェックアウトでテストの構成を実行する方法:"
 
 #: ../../contributing/modules.rst:34
 msgid "The CI integration is very similar to :doc:`tests`."
-msgstr ""
+msgstr "CI 統合は、:doc:`tests` と非常によく似ています。"
 
 #: ../../contributing/modules.rst:40
 #, fuzzy
@@ -31363,7 +31377,7 @@ msgstr "Hello"
 
 #: ../../contributing/schemas.rst:9
 msgid "minLength"
-msgstr ""
+msgstr "最小の長さ"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
@@ -31769,7 +31783,7 @@ msgstr ":ref:`celery`"
 
 #: ../../contributing/security.rst:15
 msgid "Tracking dependencies for vulnerabilities"
-msgstr ""
+msgstr "脆弱性の依存関係の追跡"
 
 #: ../../contributing/security.rst:17
 msgid ""
@@ -31777,28 +31791,35 @@ msgid ""
 "covers the Python and JavaScript libraries, and the latest stable release "
 "has its dependencies updated to avoid vulnerabilities."
 msgstr ""
+"依存関係のセキュリティ問題は、`Dependabot`_ を使用して監視されます。これは "
+"Python と JavaScript ライブラリを含み、最新の安定版リリースでは脆弱性を避ける"
+"ために依存関係が更新されています。"
 
 #: ../../contributing/security.rst:23
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
 msgstr ""
+"サード パーティのライブラリには、Weblate "
+"に影響しない脆弱性がある可能性があるため、Weblate "
+"のバグ修正バージョンをリリースしても解決されません。"
 
 #: ../../contributing/security.rst:27
 msgid "Docker container security"
-msgstr "Docker コンテナのセキュリティー"
+msgstr "Docker コンテナのセキュリティ"
 
 #: ../../contributing/security.rst:29
 msgid ""
 "The Docker containers are regularly scanned using `Anchore`_ and `Trivy`_ "
 "security scanners."
-msgstr ""
+msgstr "Docker コンテナは、`Anchore`_ および `Trivy`_ のセキュリティ "
+"スキャナを使用して定期的にスキャンされます。"
 
 #: ../../contributing/security.rst:32
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
-msgstr ""
+msgstr "これにより、脆弱性を早期に検出し、改善点を迅速にリリースすることができます。"
 
 #: ../../contributing/security.rst:34
 msgid ""
@@ -31806,6 +31827,8 @@ msgid ""
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
 "Format)."
 msgstr ""
+"このスキャンの結果は GitHub から取得できます — これは SARIF "
+"形式（静的分析結果交換形式）で CI に成果物として保存されます。"
 
 #: ../../contributing/security.rst:39
 msgid ":ref:`ci-tests`"
@@ -32059,17 +32082,18 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Weblate テストの構成と継続的な統合"
 
 #: ../../contributing/tests.rst:4
 msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
-msgstr ""
+msgstr "現在、ほぼすべてのコードにテストの構成があります。新しい機能のテストケースを"
+"追加し、検査対象を増やして動作を検証します。"
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "継続的な統合"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -32077,18 +32101,21 @@ msgid ""
 "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
 "codecov.io/github/WeblateOrg/weblate>`_."
 msgstr ""
+"現在のテスト結果は `GitHub Actions <https://github.com/WeblateOrg/weblate/"
+"actions>`_ から確認でき、検証の対象は `Codecov <https://codecov.io/github/"
+"WeblateOrg/weblate>`_ において報告します。"
 
 #: ../../contributing/tests.rst:16
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "さまざまな側面を検証するためのジョブ:"
 
 #: ../../contributing/tests.rst:18
 msgid "Unit tests"
-msgstr "ユニット テスト"
+msgstr "単体テスト"
 
 #: ../../contributing/tests.rst:19
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "ドキュメントの作成と外部リンク"
 
 #: ../../contributing/tests.rst:20
 msgid "Migration testing from all supported releases"
@@ -32096,13 +32123,13 @@ msgstr "対応しているすべてのリリースからの移行テスト"
 
 #: ../../contributing/tests.rst:21
 msgid "Code linting"
-msgstr ""
+msgstr "低品質コードの検出"
 
 #: ../../contributing/tests.rst:22
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
-msgstr ""
+msgstr "設定の検証（生成された dist ファイルに間違いがなく、テスト済みを保証する）"
 
 #: ../../contributing/tests.rst:24
 msgid ""
@@ -32112,10 +32139,15 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database`:"
 msgstr ""
+"CI の構成は、:file:`.github/workflows` ディレクトリにあります。 :file:`ci` "
+"ディレクトリに格納されているヘルパー "
+"スクリプトを頻繁に使用します。スクリプトは手動でも実行できますが、使用する "
+"Django 設定ファイルとデータベース接続を設定するなど、環境変数の設定が必要です"
+"。:file:`scripts/test-database` に記述された設定例:"
 
 #: ../../contributing/tests.rst:33
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "単純な実行例:"
 
 #: ../../contributing/tests.rst:45
 msgid "Local testing"
@@ -32123,7 +32155,7 @@ msgstr "ローカル テスト"
 
 #: ../../contributing/tests.rst:47
 msgid "To run a testsuite locally, use:"
-msgstr ""
+msgstr "テストの構成をローカルで実行するコマンド:"
 
 #: ../../contributing/tests.rst:55
 msgid ""
@@ -32133,34 +32165,46 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"テストには、使用するデータベース（PostgreSQL）サーバーが必要です。デフォルト"
+"では、Django は接頭辞が ``test_`` のデータベースのテストを実行するために、別"
+"のデータベースを作成します。そのため、``weblate`` "
+"を使用するように設定している場合、テストには ``test_weblate`` "
+"データベースを使用します。設定方法については、:ref:`database-setup` "
+"を確認してください。"
 
 #: ../../contributing/tests.rst:61
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+":file:`weblate/settings_test.py` は CI 環境でも使用されます（参照: :ref:`ci-"
+"tests`）。環境変数を用いた設定方法:"
 
 #: ../../contributing/tests.rst:67
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
-msgstr ""
+msgstr "テストを実行する前に、静的ファイルの収集が必要です。テストによっては、静的フ"
+"ァイルの存在に依存しているためです。静的ファイルの収集方法:"
 
 #: ../../contributing/tests.rst:73
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "実行する個々のテストの指定方法:"
 
 #: ../../contributing/tests.rst:81
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
-msgstr ""
+msgstr "テストは、開発者の Docker コンテナ内でも実行できます。参照: :ref:`dev-"
+"docker`。"
 
 #: ../../contributing/tests.rst:85
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
+"Django の実行と書き込みテストの詳細については、:doc:`django:topics/testing/"
+"index` を確認してください。"
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -40476,7 +40520,7 @@ msgstr "検索"
 msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
-msgstr "ブール演算、かっこ、またはフィールド指定を使った高度なクエリで文字列を検索で"
+msgstr "ブール演算、かっこ、またはフィールドで選択できる高度なクエリで文字列を検索で"
 "きます。"
 
 #: ../../user/search.rst:11
@@ -40884,8 +40928,7 @@ msgstr "定義済みのクエリ"
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
-msgstr "検索ページで定義済みのクエリを選択して、よく使われる検索を素早く実行できます"
-"。"
+msgstr "検索ページで定義済みのクエリを選択して、よく使われる検索を素早く実行する方法:"
 
 #: ../../user/search.rst:149
 msgid "Ordering the results"
@@ -40893,7 +40936,7 @@ msgstr "結果の並び替え"
 
 #: ../../user/search.rst:151
 msgid "There are many options to order the strings according to your needs:"
-msgstr "文字列を並べ替える基準は多くの中から選べます。"
+msgstr "文字列を定義済みの基準で並べ替える方法:"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
