@@ -79,6 +79,13 @@ class VCSConfig(AppConfig):
         home = data_dir("home")
         if not os.path.exists(home):
             os.makedirs(home)
+
+        post_migrate.connect(self.post_migrate, sender=self)
+
+    def post_migrate(self, sender, **kwargs):
+        ensure_ssh_key()
+        home = data_dir("home")
+
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
@@ -104,8 +111,3 @@ class VCSConfig(AppConfig):
                 os.makedirs(configdir)
             with open(configfile, "w") as handle:
                 handle.write("*.po merge=weblate-merge-gettext-po\n")
-
-        post_migrate.connect(self.post_migrate, sender=self)
-
-    def post_migrate(self, sender, **kwargs):
-        ensure_ssh_key()
