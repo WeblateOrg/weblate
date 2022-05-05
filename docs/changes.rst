@@ -6,6 +6,7 @@ Not yet released.
 * Fixed rebuilding project translation memory for some components.
 * Fixed sorting components by untranslated strings.
 * Fixed possible loss of translations while adding new language.
+* Ensure Weblate SSH key is generated during migrations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?closed=1>`__.
 
