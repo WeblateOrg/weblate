@@ -76,8 +76,11 @@ if [ "$DO_TAG" -eq 1 ] ; then
     git push origin stable
     git checkout main
 
+    # Convert release notes to markdown
+    ./scripts/extract-release-notes $version > dist/Weblate-$version.rst
+    pandoc dist/Weblate-$version.rst dist/Weblate-$version.md
+
     # Upload to GitHub
-    ./scripts/extract-release-notes $version > dist/Weblate-$version.md
     sleep 10
     hub release create --file=dist/Weblate-$version.md $namever
     sleep 10
