@@ -116,7 +116,7 @@ def generate_ssh_key(request):
                 "-N",
                 "",
                 "-C",
-                "Weblate",
+                settings.SITE_TITLE,
                 "-t",
                 "rsa",
                 "-f",
