@@ -998,6 +998,12 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD_FILE
+
+    Path to the file containing the LDAP server bind password.
+
+    .. seealso:: :envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`
+
 .. envvar:: WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER
@@ -1300,6 +1306,12 @@ instance when running Weblate in Docker.
 .. envvar:: REDIS_PASSWORD
 
     The Redis server password, not used by default.
+
+.. envvar:: REDIS_PASSWORD_FILE
+
+    Path to the file containing the Redis server password.
+
+    .. seealso:: :envvar:`REDIS_PASSWORD`
 
 .. envvar:: REDIS_TLS
 
