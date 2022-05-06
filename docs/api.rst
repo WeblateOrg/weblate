@@ -1849,7 +1849,7 @@ Translations
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
-    Add new monolingual unit.
+    Add new unit.
 
     :param project: Project URL slug
     :type project: string
@@ -1859,6 +1859,7 @@ Translations
     :type language: string
     :<json string key: Name of translation unit (used as key or context)
     :<json array value: Source strings (use single string if not creating plural)
+    :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
     .. seealso::
 

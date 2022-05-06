@@ -5,6 +5,7 @@ Not yet released.
 
 * Changed behavior of updating language names.
 * Added pagination to projects listing.
+* API for creating new units now returns information about newly created unit.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
