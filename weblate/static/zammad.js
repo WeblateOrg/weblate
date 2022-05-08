@@ -1,3 +1,5 @@
+import $ from "../vendor/jquery.js";
+
 $(function () {
   $("#support-form").ZammadForm({
     messageTitle: gettext("Weblate feedback"),

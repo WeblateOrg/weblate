@@ -1,3 +1,10 @@
+import $ from "../vendor/jquery.js";
+import Cookies from "./vendor/js.cookie.js";
+import autosize from "./vendor/autosize.js";
+// TODO perf: import Mousetrap dynamically.
+import Mousetrap from "./vendor/mousetrap.js";
+import "./vendor/mousetrap-global-bind.js";
+
 (function () {
   var EditorBase = WLT.Editor.Base;
 

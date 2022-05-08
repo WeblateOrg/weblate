@@ -1,3 +1,18 @@
+import $ from "./vendor/jquery.js";
+const jQuery = $;
+import autosize from "./vendor/autosize.js";
+import Cookies from "./vendor/js.cookie.js";
+import slugify from "./vendor/slugify.js";
+import Modernizr from "./vendor/modernizr.js";
+// TODO use Prism as described here https://prismjs.com/#basic-usage-bundlers.
+// TODO load Prism asynchronously, and load languages on-demand, see `initHighlight` below.
+// import "./vendor/prism/prism-core.js";
+// import "./vendor/prism/prism-markup.js";
+// import "./vendor/prism/prism-rest.js";
+// import "./vendor/prism/prism-markdown.js";
+// import "./vendor/prism/prism-icu-message-format.js";
+import ClipboardJS from "./vendor/clipboard.js";
+
 var loading = [];
 
 // Remove some weird things from location hash
@@ -92,26 +107,7 @@ jQuery.fn.extend({
   },
 });
 
-function submitForm(evt) {
-  var $target = $(evt.target);
-  var $form = $target.closest("form");
-
-  if ($form.length === 0) {
-    $form = $(".translation-form");
-  }
-  if ($form.length > 0) {
-    let submits = $form.find('input[type="submit"]');
-
-    if (submits.length === 0) {
-      submits = $form.find('button[type="submit"]');
-    }
-    if (submits.length > 0) {
-      submits[0].click();
-    }
-  }
-  return false;
-}
-Mousetrap.bindGlobal(["alt+enter", "mod+enter"], submitForm);
+// TODO run `init-shortcuts.js`.
 
 function screenshotStart() {
   $("#search-results tbody.unit-listing-body").empty();
@@ -337,6 +333,7 @@ function quoteSearch(value) {
   return value;
 }
 
+// TODO do this asynchronously
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
@@ -612,6 +609,7 @@ $(function () {
   });
 
   /* Check if browser provides native datepicker */
+  // TODO don't import `bootstrap-datepicker` if this is the case.
   if (Modernizr.inputtypes.date) {
     $(document).off(".datepicker.data-api");
   }
@@ -807,6 +805,7 @@ $(function () {
   });
 
   /* Copy to clipboard */
+  // TODO perf: do this asynchronously?
   var clipboard = new ClipboardJS("[data-clipboard-text]");
   clipboard.on("success", function (e) {
     var text =
@@ -836,15 +835,10 @@ $(function () {
     select_auto_source.trigger("change");
   }
 
-  /* Override all multiple selects */
-  $("select[multiple]").multi({
-    enable_search: true,
-    search_placeholder: gettext("Search…"),
-    non_selected_header: gettext("Available:"),
-    selected_header: gettext("Chosen:"),
-  });
+  // TODO run `init-multi.js`.
 
   /* Slugify name */
+  // TODO perf: do this asynchronously?
   slugify.extend({ ".": "-" });
   $('input[name="slug"]').each(function () {
     var $slug = $(this);
@@ -1122,50 +1116,13 @@ $(function () {
     }
   );
 
-  /* Username autocompletion */
-  var tribute = new Tribute({
-    trigger: "@",
-    requireLeadingSpace: true,
-    menuShowMinLength: 2,
-    searchOpts: {
-      pre: "​",
-      post: "​",
-    },
-    noMatchTemplate: function () {
-      return "";
-    },
-    menuItemTemplate: function (item) {
-      let link = document.createElement("a");
-      link.innerText = item.string;
-      return link.outerHTML;
-    },
-    values: (text, callback) => {
-      $.ajax({
-        type: "GET",
-        url: `/api/users/?username=${text}`,
-        dataType: "json",
-        success: function (data) {
-          var userMentionList = data.results.map(function (user) {
-            return {
-              value: user.username,
-              key: `${user.full_name} (${user.username})`,
-            };
-          });
-          callback(userMentionList);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.error(errorThrown);
-        },
-      });
-    },
-  });
-  tribute.attach(document.querySelectorAll(".markdown-editor"));
-  document.querySelectorAll(".markdown-editor").forEach((editor) => {
-    editor.addEventListener("tribute-active-true", function (e) {
-      $(".tribute-container").addClass("open");
-      $(".tribute-container ul").addClass("dropdown-menu");
+  var markdownEditors = document.querySelectorAll(".markdown-editor");
+  if (markdownEditors.length >= 1) {
+    // TODO prefetch `attach-tribute-to`.
+    import('./attach-tribute-to.js').then(attachTributeTo => {
+      attachTributeTo(markdownEditors);
     });
-  });
+  }
 
   /* Textarea highlighting */
   Prism.languages.none = {};

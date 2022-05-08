@@ -1,3 +1,7 @@
+import $ from "../vendor/jquery.js";
+import Mousetrap from "./vendor/mousetrap.js";
+import "./vendor/mousetrap-global-bind.js";
+
 (function () {
   var EditorBase = WLT.Editor.Base;
 
