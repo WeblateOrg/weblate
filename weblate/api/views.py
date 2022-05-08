@@ -1212,6 +1212,39 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def get_queryset(self):
         return Unit.objects.filter_access(self.request.user).order_by("id")
 
+    @action(detail=True, methods=["post"])
+    def screenshots(self, request, **kwargs):
+        obj = self.get_object()
+
+        if not request.user.has_perm("unit.edit", obj.translation):
+            raise PermissionDenied()
+
+        if "screenshot_id" not in request.data:
+            raise ValidationError({"screenshot_id": "This field is required."})
+
+        try:
+            screenshot = obj.translation.screenshot_set.get(pk=int(request.data["screenshot_id"]))
+        except (Screenshot.DoesNotExist, ValueError) as error:
+            raise ValidationError({"screenshot_id": str(error)})
+
+        obj.units.add(screenshot)
+        serializer = self.get_serializer()(obj, context={"request": request})
+
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    @action(detail=True, methods=["delete"], url_path="screenshots/(?P<screenshot_id>[0-9]+)")
+    def delete_screenshots(self, request, pk, screenshot_id):
+        obj = self.get_object()
+        if not request.user.has_perm("unit.edit", obj.translation):
+            raise PermissionDenied()
+
+        try:
+            screenshot = obj.translation.unit_set.get(pk=screenshot_id)
+        except Screenshot.DoesNotExist as error:
+            raise Http404(str(error))
+        obj.screenshots.remove(screenshot)
+        return Response(status=HTTP_204_NO_CONTENT)
+
     def perform_update(self, serializer):
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data

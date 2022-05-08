@@ -916,6 +916,9 @@ class UnitSerializer(serializers.ModelSerializer):
         ),
         strip_parts=1,
     )
+    screenshots = serializers.HyperlinkedRelatedField(
+        many=True, read_only=True, view_name="api:screenshot-detail"
+    )
     source_unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
     )
@@ -955,6 +958,7 @@ class UnitSerializer(serializers.ModelSerializer):
             "extra_flags",
             "pending",
             "timestamp",
+            "screenshots",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
@@ -971,8 +975,8 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "state",
             "explanation",
             "extra_flags",
+            "screenshots",
         )
-
 
 class NewUnitSerializer(serializers.Serializer):
     def as_kwargs(self, data=None):
