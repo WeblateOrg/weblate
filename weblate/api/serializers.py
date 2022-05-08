@@ -978,6 +978,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "screenshots",
         )
 
+
 class NewUnitSerializer(serializers.Serializer):
     def as_kwargs(self, data=None):
         raise NotImplementedError()
