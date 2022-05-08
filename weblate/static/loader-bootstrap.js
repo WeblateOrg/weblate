@@ -1119,7 +1119,7 @@ $(function () {
   var markdownEditors = document.querySelectorAll(".markdown-editor");
   if (markdownEditors.length >= 1) {
     // TODO prefetch `attach-tribute-to`.
-    import('./attach-tribute-to.js').then(attachTributeTo => {
+    import("./attach-tribute-to.js").then((attachTributeTo) => {
       attachTributeTo(markdownEditors);
     });
   }
