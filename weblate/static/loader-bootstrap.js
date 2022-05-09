@@ -1122,50 +1122,13 @@ $(function () {
     }
   );
 
-  /* Username autocompletion */
-  var tribute = new Tribute({
-    trigger: "@",
-    requireLeadingSpace: true,
-    menuShowMinLength: 2,
-    searchOpts: {
-      pre: "​",
-      post: "​",
-    },
-    noMatchTemplate: function () {
-      return "";
-    },
-    menuItemTemplate: function (item) {
-      let link = document.createElement("a");
-      link.innerText = item.string;
-      return link.outerHTML;
-    },
-    values: (text, callback) => {
-      $.ajax({
-        type: "GET",
-        url: `/api/users/?username=${text}`,
-        dataType: "json",
-        success: function (data) {
-          var userMentionList = data.results.map(function (user) {
-            return {
-              value: user.username,
-              key: `${user.full_name} (${user.username})`,
-            };
-          });
-          callback(userMentionList);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.error(errorThrown);
-        },
-      });
-    },
-  });
-  tribute.attach(document.querySelectorAll(".markdown-editor"));
-  document.querySelectorAll(".markdown-editor").forEach((editor) => {
-    editor.addEventListener("tribute-active-true", function (e) {
-      $(".tribute-container").addClass("open");
-      $(".tribute-container ul").addClass("dropdown-menu");
+  var markdownEditors = document.querySelectorAll(".markdown-editor");
+  if (markdownEditors.length >= 1) {
+    // TODO prefetch `attach-tribute-to` and its dependencies?
+    import('./attach-tribute-to.js').then(({ default: attachTributeTo }) => {
+      attachTributeTo(markdownEditors);
     });
-  });
+  }
 
   /* Textarea highlighting */
   Prism.languages.none = {};
