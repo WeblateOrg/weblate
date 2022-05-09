@@ -1125,7 +1125,7 @@ $(function () {
   var markdownEditors = document.querySelectorAll(".markdown-editor");
   if (markdownEditors.length >= 1) {
     // TODO prefetch `attach-tribute-to` and its dependencies?
-    import('./attach-tribute-to.js').then(({ default: attachTributeTo }) => {
+    import("./attach-tribute-to.js").then(({ default: attachTributeTo }) => {
       attachTributeTo(markdownEditors);
     });
   }
