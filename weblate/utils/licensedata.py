@@ -213,6 +213,12 @@ LICENSES = (
     ("Barr", "Barr License", "https://spdx.org/licenses/Barr.html", False),
     ("Beerware", "Beerware License", "https://spdx.org/licenses/Beerware.html", True),
     (
+        "Bitstream-Vera",
+        "Bitstream Vera Font License",
+        "https://spdx.org/licenses/Bitstream-Vera.html",
+        False,
+    ),
+    (
         "BitTorrent-1.0",
         "BitTorrent Open Source License v1.0",
         "https://spdx.org/licenses/BitTorrent-1.0.html",
