@@ -107,6 +107,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             initial["terminology"] = True
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
             initial["translation"] = glossaries[0]
+        kwargs["auto_id"] = "id_add_term_%s"
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = _("Glossary")

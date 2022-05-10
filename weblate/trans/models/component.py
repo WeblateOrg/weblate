@@ -2737,6 +2737,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 Q(source=variant.key) | Q(id_hash__in=defining_units)
             ).update(variant=variant)
 
+        # Delete stale variant links
+        Variant.objects.annotate(unit_count=Count("defining_units")).filter(
+            component=self, variant_regex="", unit_count=0
+        ).delete()
+
     def update_link_alerts(self, noupdate: bool = False):
         base = self.linked_component if self.is_repo_link else self
         masks = [base.filemask]

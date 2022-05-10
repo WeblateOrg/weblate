@@ -162,9 +162,24 @@ def commit_pending(hours=None, pks=None, logger=None):
         perform_commit.delay(component.pk, "commit_pending", None)
 
 
-def cleanup_sources(project):
-    """Remove stale source Unit objects."""
+@app.task(trail=False)
+def cleanup_project(pk):
+    """
+    Perform cleanup of project models.
+
+    - Remove stale source Unit objects.
+    - Update variants.
+    """
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
+
     for component in project.component_set.filter(template="").iterator():
+        # Remove stale variants
+        with transaction.atomic():
+            component.update_variants()
+
         translation = component.source_translation
         # Skip translations with a filename (eg. when POT file is present)
         if translation.filename:
@@ -174,17 +189,6 @@ def cleanup_sources(project):
             translation.unit_set.annotate(Count("unit")).filter(
                 unit__count__lte=1
             ).delete()
-
-
-@app.task(trail=False)
-def cleanup_project(pk):
-    """Perform cleanup of project models."""
-    try:
-        project = Project.objects.get(pk=pk)
-    except Project.DoesNotExist:
-        return
-
-    cleanup_sources(project)
 
 
 @app.task(trail=False)
