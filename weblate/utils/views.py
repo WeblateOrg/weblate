@@ -327,7 +327,7 @@ def download_translation_file(
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
-            units = units.search(query_string).distinct()
+            units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
             "{{project}}-{0}-{{language}}.{{extension}}".format(
