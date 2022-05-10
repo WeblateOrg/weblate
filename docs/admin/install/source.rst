@@ -1,7 +1,7 @@
 Installing from sources
 =======================
 
-#. Please follow the installation instructions for your system first:
+#. Please follow the installation instructions for your system first up to installing Weblate:
 
    * :doc:`venv-debian`
    * :doc:`venv-suse`
