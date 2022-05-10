@@ -33,9 +33,12 @@ def main(argv=None, developer_mode: bool = False):
         utility = WeblateManagementUtility(argv=argv, developer_mode=developer_mode)
         utility.execute()
     except Exception:
-        from weblate.utils.errors import report_error
+        try:
+            from weblate.utils.errors import report_error
 
-        report_error()
+            report_error()
+        except ImportError:
+            pass
         raise
 
 
