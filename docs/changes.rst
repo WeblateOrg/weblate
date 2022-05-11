@@ -1,7 +1,7 @@
 Weblate 4.12.2
 --------------
 
-Not yet released.
+Released on May 11th 2022.
 
 * Fixed rebuilding project translation memory for some components.
 * Fixed sorting components by untranslated strings.
