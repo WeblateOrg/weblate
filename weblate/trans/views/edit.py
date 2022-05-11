@@ -235,7 +235,7 @@ def search(base, project, unit_set, request, blank: bool = False):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = unit_set.search(cleaned_data.get("q", ""), project=project).distinct()
+    allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
 
     # Grab unit IDs
     unit_ids = list(

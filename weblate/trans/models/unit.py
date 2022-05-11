@@ -147,9 +147,12 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             )
         )
 
-    def search(self, query, **context):
+    def search(self, query, distinct: bool = True, **context):
         """High level wrapper for searching."""
-        return self.filter(parse_query(query, **context))
+        result = self.filter(parse_query(query, **context))
+        if distinct:
+            result = result.distinct()
+        return result
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""

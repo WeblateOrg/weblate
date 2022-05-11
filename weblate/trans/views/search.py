@@ -209,7 +209,7 @@ def search(request, project=None, component=None, lang=None):
             units = units.filter_access(request.user)
         units = units.search(
             search_form.cleaned_data.get("q", ""), project=context.get("project")
-        ).distinct()
+        )
         if lang:
             units = units.filter(translation__language=context["language"])
 
