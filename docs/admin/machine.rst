@@ -384,8 +384,8 @@ Turn on this service by adding ``weblate.machinery.youdao.YoudaoTranslation`` to
 Weblate
 -------
 
-Weblate can be the source of machine translations as well.
-It is based on the Woosh fulltext engine, and provides both exact and inexact matches.
+Weblate can be the source of machine translations as well. It looks for exact matches
+in the existing strings.
 
 Turn on these services by adding ``weblate.machinery.weblatetm.WeblateTranslation`` to
 :setting:`MT_SERVICES`.
