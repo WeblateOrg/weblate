@@ -847,7 +847,9 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=_("Add user to a group"), queryset=Group.objects.order(), required=True
+        label=_("Add user to a group"),
+        queryset=Group.objects.prefetch_related("defining_project").order(),
+        required=True,
     )
 
     def __init__(self, *args, **kwargs):
