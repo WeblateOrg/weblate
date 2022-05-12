@@ -301,7 +301,7 @@ class TranslationFormat:
     @cached_property
     def _source_index(self):
         """Context and source based index for units."""
-        return {(unit.context, unit.source): unit for unit in self.all_units}
+        return {(unit.context, unit.source): unit for unit in self.content_units}
 
     def _find_unit_bilingual(self, context: str, source: str) -> Tuple[Any, bool]:
         try:
