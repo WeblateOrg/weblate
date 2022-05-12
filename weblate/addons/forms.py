@@ -276,6 +276,17 @@ class DiscoveryForm(BaseAddonForm):
             "For gettext choose .pot file."
         ),
     )
+    intermediate_template = forms.CharField(
+        label=_("Intermediate language file"),
+        initial="",
+        required=False,
+        help_text=_(
+            "Filename of intermediate translation file. In most cases "
+            "this is a translation file provided by developers and is "
+            "used when creating actual source strings."
+        ),
+    )
+
     language_regex = forms.CharField(
         label=_("Language filter"),
         max_length=200,
@@ -396,6 +407,9 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_new_base_template(self):
         return self.template_clean("new_base_template")
+
+    def clean_intermediate_template(self):
+        return self.template_clean("intermediate_template")
 
 
 class AutoAddonForm(AutoForm, AddonFormMixin):
