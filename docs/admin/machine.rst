@@ -384,8 +384,9 @@ Turn on this service by adding ``weblate.machinery.youdao.YoudaoTranslation`` to
 Weblate
 -------
 
-Weblate can be the source of machine translations as well. It looks for exact matches
-in the existing strings.
+Weblate machine translation service can provide translations for strings that
+are already translated inside Weblate. It looks for exact matches in the
+existing strings.
 
 Turn on these services by adding ``weblate.machinery.weblatetm.WeblateTranslation`` to
 :setting:`MT_SERVICES`.
@@ -397,8 +398,8 @@ Weblate Translation Memory
 
 .. versionadded:: 2.20
 
-The :ref:`translation-memory` can be used as a source for machine translation
-suggestions as well.
+Use :ref:`translation-memory` as a machine translation service. Any string that
+has been translated in past (or uploaded to the translation memory) can be translated thsi way.
 
 Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to
 the :setting:`MT_SERVICES`. This service is turned on by
