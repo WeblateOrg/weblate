@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-05-13 11:18+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2022-05-13 15:33+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2327,9 +2327,8 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
-"コンポーネント内の未翻訳の文字列は、すべて原文に置き換えられ、要編集がチェッ"
-"クされます。これは、翻訳ファイルに空の文字列を含めることができない場合に使用"
-"します。"
+"コンポーネント内の全ての未翻訳の文字列には原文が入り、要編集になります。これ"
+"は、翻訳ファイルに空の文字列を含めることができない場合に使用します。"
 
 #: ../../admin/addons.rst:411
 msgid "Pseudolocale generation"
@@ -2353,7 +2352,7 @@ msgstr "``target:TEXT``"
 
 #: ../../admin/addons.rst:419
 msgid "Target translation"
-msgstr "翻訳の対象"
+msgstr "翻訳先"
 
 #: ../../admin/addons.rst:419
 msgid "All strings in this translation will be overwritten"
@@ -2440,12 +2439,12 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
-"可変部分を使用すると、現地語化の後にユーザー "
-"インターフェイスに収まらないことがある文字列を探せます。　—　これにより、原文"
-"の長さに基づいてテキストが拡張します。可変部分は、テキストの長さに乗数を掛け"
-"て繰り返します。たとえば、変数の接尾辞が ``_`` で変数の乗数が 1 の ``Hello "
-"world`` は、``Hello world___________`` になります。　—　この接尾辞は、"
-"原文の文字ごとに 1 回繰り返します。"
+"可変部分を使用すると、原文の長さに基づいてテキストが拡張し、"
+"現地語化の後にユーザー インターフェイスに収まらないことがある文字列を探せます"
+"。可変部分は、テキストの長さに係数を掛けた回数繰り返します。たとえば、"
+"可変接尾辞が ``_`` で係数が 1 だと ``Hello world`` は、``Hello "
+"world___________`` になります。　—　この接尾辞は、原文の文字ごとに 1 "
+"回繰り返します。"
 
 #: ../../admin/addons.rst:451
 msgid "The strings will be generated using following pattern:"
@@ -2458,7 +2457,7 @@ msgid ""
 "suffix`"
 msgstr ""
 ":guilabel:`文字列の固定接頭辞` :guilabel:`文字列の可変接頭辞` "
-":guilabel:`原文` :guilabel:`\t文字列の可変接尾辞` "
+":guilabel:`原文` :guilabel:`文字列の可変接尾辞` "
 ":guilabel:`文字列の固定接尾辞`"
 
 #: ../../admin/addons.rst:461
@@ -9142,9 +9141,10 @@ msgid ""
 "repository (see :ref:`lazy-commit`) and pushes them back if it has "
 "permissions to do so (see :ref:`push-changes`)."
 msgstr ""
-"翻訳者が作業を終えると、Weblate は変更をローカル リポジトリにコミットし（参"
-"照: :ref:`lazy-commit`）、権限があればプッシュしたコミットを元に戻せます（参"
-"照: :ref:`push-changes`）。"
+"翻訳者が作業を終えると、Weblate は変更をローカル "
+"リポジトリにコミットし（参照: :ref:`lazy-"
+"commit`）、権限があれば元のリポジトリにプッシュします（参照: :ref:`push-"
+"changes`）。"
 
 #: ../../admin/continuous.rst:50
 msgid "Updating repositories"
@@ -9160,7 +9160,7 @@ msgstr ""
 #: ../../admin/continuous.rst:55
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
-msgstr ":ref:`hooks` を使用して統合する、一般的なコード ホスティング サービス:"
+msgstr ":ref:`hooks` を使用して一般的なコード ホスティング サービスと統合する"
 
 #: ../../admin/continuous.rst:57 ../../api.rst:2459
 msgid ":ref:`github-setup`"
@@ -9225,12 +9225,13 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
-"Weblate によるマージ競合は、同じファイルが Weblate 内と外部の両方で変更された"
-"場合に発生します。対処方法は 2 つあります。　—　Weblate 外部での編集を避ける"
-"か、Weblate を更新プロセスに統合して、Weblate 外部でファイルを更新する前に変"
-"更を消去します。"
+"Weblate によるマージ競合は、同じファイルが Weblate "
+"内と外部の両方で変更された場合に発生します。対処方法は 2 つあります。Weblate "
+"外部での編集を避けるか、Weblate を更新プロセスに統合して、Weblate "
+"外部でファイルを更新する前に Weblate での変更を反映させます。"
 
 #: ../../admin/continuous.rst:82
+#, fuzzy
 msgid ""
 "The first approach is easy with monolingual files - you can add new strings "
 "within Weblate and leave whole editing of the files there. For bilingual "
@@ -23440,7 +23441,7 @@ msgstr "Weblate インスタンスの最近の変更を含む RSS フィード�
 
 #: ../../api.rst:2676
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr "`RSS Wikipedia 参照: <https://ja.wikipedia.org/wiki/RSS>`_"
+msgstr "`RSS Wikipedia <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 4.12.1"
@@ -23494,7 +23495,7 @@ msgstr ":ref:`addon-weblate.generate.pseudolocale` アドオン オプション�
 #: ../../changes.rst:20
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
-msgstr ""
+msgstr "全ての品質検査を無視する ``ignore-all-checks`` フラグを追加。"
 
 #: ../../changes.rst:21
 msgid ""
@@ -23525,7 +23526,7 @@ msgstr "他の翻訳をクリップボードか翻訳にコピーするボタン
 
 #: ../../changes.rst:27
 msgid "Make merge request message configurable at component level."
-msgstr ""
+msgstr "マージリクエストのメッセージをコンポーネント単位で設定できるように。"
 
 #: ../../changes.rst:28
 msgid "Improved maximal length restriction behavior with XML tags."
@@ -34127,10 +34128,9 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
-"言語、コンポーネント、またはそれらが含まれているプロジェクトは、メニューから"
-"削除（使用中の場合は、Weblate "
-"とリモートリポジトリから削除）できます。:guilabel:`管理`↓ :guilabel:`削除` "
-"プロジェクト、コンポーネント、または言語ごとに削除します。"
+"言語、コンポーネント、またはそれらが含まれているプロジェクトは、"
+"それぞれのメニューにある :guilabel:`管理` ↓ :guilabel:`削除` から削除（"
+"Weblate と、使用中の場合はリモートリポジトリからも削除）できます。"
 
 #: ../../devel/translations.rst:39
 msgid ""
@@ -34162,8 +34162,8 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
-"Weblate の UI では、文字列の編集中に :guilabel:`ツール`↓ :guilabel:`削除`ボタ"
-"ンを使用します。これは、ファイル形式による違いがあります。参照: :ref"
+"Weblate の UI では、文字列の編集中に :guilabel:`ツール` ↓ :guilabel:`削除` "
+"ボタンを使用します。これは、ファイル形式による違いがあります。参照: :ref"
 ":`component-manage_units`"
 
 #: ../../devel/translations.rst:55
@@ -34201,8 +34201,8 @@ msgstr "キーに基づいて自動化された別表記"
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
-msgstr "コンポーネント内のモノリンガル翻訳のキーに基づき、文字列をグループ化するため"
-"に、正規表現を設定できます:"
+msgstr ":ref:`component` 内のモノリンガル翻訳のキーに基づき、文字列をグループ化するた"
+"めに、正規表現を設定できます:"
 
 #: ../../devel/translations.rst:83
 msgid ""
@@ -42555,12 +42555,12 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
-"Weblate は Subversion リポジトリ レイアウトを自動的に検出しようとします ー ブ"
-"ランチの直接の URL と標準レイアウトのリポジトリの両方をサポートします"
-"（branches/、tags/、および trunk/)。詳細は `git-svn documentation <https://"
-"git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_ を確認して"
-"ください。リポジトリに標準レイアウトがなく、エラーが発生した場合は、リポジト"
-"リ URL にブランチ名を含め、ブランチを空のままにします。"
+"Weblate は Subversion リポジトリ レイアウトを自動的に検出しようとします ー "
+"ブランチの直接の URL と標準レイアウトのリポジトリ（branches/、tags/、および "
+"trunk/）の両方をサポートします。詳細は `git-svn documentation <https://git-"
+"scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_ を確認してくだ"
+"さい。標準レイアウトではないリポジトリでエラーが発生した場合は、リポジトリ "
+"URL にブランチ名を含め、ブランチを空のままにしてください。"
 
 #: ../../vcs.rst:439
 msgid ""
