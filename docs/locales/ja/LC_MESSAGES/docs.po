@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-05-13 16:47+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2022-05-14 13:35+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2500,8 +2500,7 @@ msgstr "``weblate.gettext.authors``"
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
-msgstr ""
-"PO ファイルヘッダのコメントを更新し、貢献者名と貢献した西暦を追加します。"
+msgstr "PO ファイルヘッダーのコメントを更新し、貢献者名と貢献した西暦を追加します。"
 
 #: ../../admin/addons.rst:488
 msgid "The PO file header will look like this:"
@@ -2742,7 +2741,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:611
 msgid "Append trailers to squashed commit message"
-msgstr "簡略化したコミット メッセージに翻訳者情報を追加する"
+msgstr "スカッシュしたコミット メッセージに翻訳者情報を追加する"
 
 #: ../../admin/addons.rst:611
 msgid ""
@@ -2750,8 +2749,8 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"トレーラ行とは、RFC 822 のメール ヘッダに似た \"Co-authored-by: …\" のような"
-"行のことで、コミットメッセージの自由形式部分の末尾につきます。"
+"トレーラ行とは、RFC 822 のメール ヘッダーに似た \"Co-authored-by: …\" "
+"のような行のことで、コミットメッセージの自由形式部分の末尾につきます。"
 
 #: ../../admin/addons.rst:613
 #, fuzzy
@@ -2825,8 +2824,8 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"オプションを使用して、元のコミット メッセージからトレーラー(``Co-authored-by:"
-" …`` のような行)を除去し、簡略化されたコミット "
+"オプションを使用して、元のコミット メッセージからトレーラー（``Co-authored-"
+"by: …`` のような行）を除去し、簡略化されたコミット "
 "メッセージの末尾に追加できます。これにより、共同翻訳者全員が、``Co-authored-"
 "by:`` として、適切にクレジットされます。"
 
@@ -5083,7 +5082,7 @@ msgstr "``regex:REGEX``"
 
 #: ../../admin/checks.rst:79
 msgid "Regular expression to match translation, see :ref:`check-regex`."
-msgstr "翻訳文がマッチするべき正規表現。参照: :ref:`check-regex`。"
+msgstr "翻訳文が一致するべき正規表現。参照: :ref:`check-regex`。"
 
 #: ../../admin/checks.rst:80
 msgid "``forbidden``"
@@ -10443,7 +10442,7 @@ msgstr "https://git-scm.com/"
 
 #: ../../admin/install.rst:145
 msgid "Pango, Cairo and related header files and GObject introspection data"
-msgstr "Pango、Cairo および関連するヘッダ ファイルと GObject イントロスペクション "
+msgstr "Pango、Cairo および関連するヘッダー ファイルと GObject イントロスペクション "
 "データ"
 
 #: ../../admin/install.rst:146
@@ -13101,11 +13100,11 @@ msgstr "Weblate の :ref:`config` の多くは、環境変数を使用して Doc
 
 #: ../../admin/install/docker.rst:370
 msgid "Generic settings"
-msgstr ""
+msgstr "一般的な設定"
 
 #: ../../admin/install/docker.rst:374
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr ":setting:`DEBUG` を使用して Django デバッグ モードを設定します。"
 
 #: ../../admin/install/docker.rst:385 ../../admin/projects.rst:979
 msgid ":ref:`production-debug`"
@@ -13113,15 +13112,15 @@ msgstr ":ref:`production-debug`"
 
 #: ../../admin/install/docker.rst:389
 msgid "Configures the logging verbosity."
-msgstr ""
+msgstr "ログの冗長性を設定します。"
 
 #: ../../admin/install/docker.rst:393
 msgid "Configures the logging of the database queries verbosity."
-msgstr ""
+msgstr "データベース クエリーの冗長性のログの設定します。"
 
 #: ../../admin/install/docker.rst:397
 msgid "Changes the site-title shown in the header of all pages."
-msgstr ""
+msgstr "すべてのページのヘッダーに表示される、サイト タイトルを変更します。"
 
 #: ../../admin/install/docker.rst:401
 msgid "Configures the site domain. This parameter is required."
@@ -13137,6 +13136,9 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"サイト管理者の名前とメールアドレスを設定します。これは、:setting:`管理者` "
+"設定と、`管理者` ユーザーの作成の両方に使用されます（詳細については、:envvar:"
+"`WEBLATE_ADMIN_PASSWORD` を確認してください）。"
 
 #: ../../admin/install/docker.rst:425
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
@@ -13144,17 +13146,20 @@ msgstr ":ref:`docker-admin-login`、:ref:`production-admins`、:setting:`ADMINS`
 
 #: ../../admin/install/docker.rst:431
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "`管理者` ユーザーのパスワードを設定します。"
 
 #: ../../admin/install/docker.rst:433
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"`管理者` パスワードが設定されておらず、`管理者` ユーザーも存在しない場合は、"
+"最初のコンテナ起動時に表示されるランダムなパスワードで作成されます。"
 
 #: ../../admin/install/docker.rst:435
 msgid "If not set and `admin` user exists, no action is performed."
-msgstr ""
+msgstr "`管理者` パスワードが設定されておらず、`管理者` "
+"ユーザーが存在する場合、`管理者` パスワードは設定されません。"
 
 #: ../../admin/install/docker.rst:436
 msgid ""
@@ -13162,6 +13167,10 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"`管理者` パスワードが設定されている場合、`管理者` ユーザーは、"
+"コンテナが起動するたびに "
+":envvar:`WEBLATE_ADMIN_PASSWORD`、:envvar:`WEBLATE_ADMIN_NAME` および "
+":envvar:`WEBLATE_ADMIN_EMAIL` に設定されます。"
 
 #: ../../admin/install/docker.rst:442
 msgid ""
@@ -13169,6 +13178,9 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"設定ファイルにパスワードを格納すると、セキュリティ上のリスクがあります。この"
+"変数は、初期設定（または Weblate の初期起動時にランダム "
+"パスワードを生成させる）またはパスワードの回復にのみ使用してください。"
 
 #: ../../admin/install/docker.rst:449
 msgid ""
@@ -13182,7 +13194,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:457
 msgid "Sets the path to a file containing the password for the `admin` user."
-msgstr ""
+msgstr "`管理者` ユーザーのパスワードを含むファイルへのパスを設定します。"
 
 #: ../../admin/install/docker.rst:461
 msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
@@ -13190,7 +13202,7 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
 #: ../../admin/install/docker.rst:465
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "エラー メッセージ送信元のメールアドレス。"
 
 #: ../../admin/install/docker.rst:469
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
@@ -13228,40 +13240,52 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+":std:setting:`REGISTRATION_OPEN` を 0 か 1 "
+"に切り替えることによって、登録を公開するかどうかを設定します。"
 
 #: ../../admin/install/docker.rst:517
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+":setting:`REGISTRATION_ALLOW_BACKENDS` "
+"を使用して、新しいアカウントの作成に使用できる認証方式を設定します。"
 
 #: ../../admin/install/docker.rst:530
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
-msgstr ""
+msgstr "Weblate で使用するタイムゾーンを設定します。参照: "
+":std:setting:`django:TIME_ZONE`。"
 
 #: ../../admin/install/docker.rst:534
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
-msgstr ""
+msgstr "Docker コンテナー自体のタイム ゾーンを変更するには、環境変数 ``TZ`` "
+"を使用します。"
 
 #: ../../admin/install/docker.rst:546
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Weblate が、リバース HTTPS プロキシの背後で動作している前提で、メールや API "
+"リンクで HTTPS を使用したり、Cookie にセキュリティ フラグを設定します。"
 
 #: ../../admin/install/docker.rst:551
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
-msgstr ""
+msgstr "考えられる問題点については、:setting:`ENABLE_HTTPS` "
+"ドキュメントを確認してください。"
 
 #: ../../admin/install/docker.rst:555
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
+"これにより、Weblate コンテナが HTTPS 接続を受け入れるようにはなりません。 "
+"HTTPS 接続には設定が必要です。例については、:ref:`docker-ssl` "
+"確認してください。"
 
 #: ../../admin/install/docker.rst:567
 msgid ""
@@ -13276,12 +13300,17 @@ msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
+"Weblate が、どのような HTTP ヘッダーからも IP "
+"アドレスを取得できるようにします。これは、Weblate コンテナの前段階でリバース "
+"プロキシを使用する場合に使用します。"
 
 #: ../../admin/install/docker.rst:576
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
+":setting:`IP_BEHIND_REVERSE_PROXY` を有効にし、:setting:`IP_PROXY_HEADER` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:580
 msgid ""
@@ -13289,22 +13318,25 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
+"形式は Django に準拠させてください。Django が生の HTTP ヘッダー名を `"
+"transforms <https://docs.djangoproject.com/en/2.2/ref/request-response/"
+"#django.http.HttpRequest.META>`_ する例:"
 
 #: ../../admin/install/docker.rst:584
 msgid "converts all characters to uppercase"
-msgstr ""
+msgstr "すべての文字を大文字に変換する"
 
 #: ../../admin/install/docker.rst:585
 msgid "replaces any hyphens with underscores"
-msgstr ""
+msgstr "ハイフンをアンダースコアに置き換える"
 
 #: ../../admin/install/docker.rst:586
 msgid "prepends ``HTTP_`` prefix"
-msgstr ""
+msgstr "``HTTP_`` 接頭辞の追加"
 
 #: ../../admin/install/docker.rst:588
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "したがって、``X-Forwarded-For`` は ``HTTP_X_FORWARDED_FOR`` に配置されます。"
 
 #: ../../admin/install/docker.rst:600
 msgid ""
@@ -13312,6 +13344,10 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"リクエストが安全であることを示す、HTTP "
+"ヘッダーと値の組み合わせを表すタプル。これは、Weblate が標準の HTTPS "
+"ヘッダを通さない SSL "
+"終端を行うリバースプロキシの背後で動作している場合に必要です。"
 
 #: ../../admin/install/docker.rst:613
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
@@ -13320,73 +13356,83 @@ msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 #: ../../admin/install/docker.rst:617
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
-msgstr ""
+msgstr ":setting:`REQUIRE_LOGIN` を有効にして、Weblate 全体に認証を強制します。"
 
 #: ../../admin/install/docker.rst:630
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
+":setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` を使用して、インストールした "
+"Weblate 全体に必要となる認証の例外 URL を追加します。"
 
 #: ../../admin/install/docker.rst:633
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
-msgstr ""
+msgstr "設定全体を置き換えることも、 ``ADD`` と ``REMOVE`` "
+"変数を使用してデフォルト値を変更できます。"
 
 #: ../../admin/install/docker.rst:637
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
-msgstr ""
+msgstr ":setting:`GOOGLE_ANALYTICS_ID` を変更して、Google Analytics の ID "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:641
 msgid ""
 "Configures GitHub username for GitHub pull-requests by changing :setting:"
 "`GITHUB_USERNAME`."
-msgstr ""
+msgstr ":setting:`GITHUB_USERNAME` を変更して、GitHub プルリクエストの GitHub "
+"ユーザー名を設定します。"
 
 #: ../../admin/install/docker.rst:652
 msgid ""
 "Configures GitHub personal access token for GitHub pull-requests via API by "
 "changing :setting:`GITHUB_TOKEN`."
 msgstr ""
+":setting:`GITHUB_TOKEN` を変更して、API を介した GitHub プルリクエストの "
+"GitHub 個人用アクセス トークンを設定します。"
 
 #: ../../admin/install/docker.rst:661
 msgid ""
 "Configures GitLab username for GitLab merge-requests by changing :setting:"
 "`GITLAB_USERNAME`"
-msgstr ""
+msgstr ":setting:`GITLAB_USERNAME` "
+"を変更して、GitLabマージ要求のGitLabユーザー名を構成します。"
 
 #: ../../admin/install/docker.rst:670
 msgid ""
 "Configures GitLab personal access token for GitLab merge-requests via API by "
 "changing :setting:`GITLAB_TOKEN`"
 msgstr ""
+":setting:`GITLAB_TOKEN` を変更して、API を介した GitLab マージリクエストの "
+"GitLab 個人用アクセス トークンを設定します。"
 
 #: ../../admin/install/docker.rst:679
 msgid ""
 "Configures Pagure username for Pagure merge-requests by changing :setting:"
 "`PAGURE_USERNAME`"
 msgstr ""
-":setting:`PAGURE_USERNAME` を変更して、Pagure merge-requests 用の Pagure ユー"
-"ザー名を設定する"
+":setting:`PAGURE_USERNAME` を変更して、Pagure merge-requests 用の Pagure "
+"ユーザー名を設定する。"
 
 #: ../../admin/install/docker.rst:688
 msgid ""
 "Configures Pagure personal access token for Pagure merge-requests via API by "
 "changing :setting:`PAGURE_TOKEN`"
 msgstr ""
-":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure のマージリクエストに対"
-"して、Pagure の個人用アクセス トークンを構成する"
+":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure "
+"のマージリクエストに対して、Pagure の個人用アクセス トークンを設定する。"
 
 #: ../../admin/install/docker.rst:697
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
-":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure のプルリクエストに対し"
-"て、Pagure の個人用アクセス トークンを構成する"
+":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure "
+"のプルリクエストに対して、Pagure の個人用アクセス トークンを設定する。"
 
 #: ../../admin/install/docker.rst:702
 #, fuzzy
@@ -13398,19 +13444,23 @@ msgstr ":ref:`component-add_message`"
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
-msgstr ""
+msgstr "言語簡略化ポリシーを設定します。参照: :setting:`SIMPLIFY_LANGUAGES`。"
 
 #: ../../admin/install/docker.rst:710
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"新規プロジェクトのデフォルト :ref:`project-access_control` "
+"を設定します。参照: :ref:`project-access_control` 。"
 
 #: ../../admin/install/docker.rst:714
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"新しいコンポーネントの :ref:`component-restricted` "
+"のデフォルト値を設定します。参照: :setting:`DEFAULT_RESTRICTED_COMPONENT`。"
 
 #: ../../admin/install/docker.rst:718
 msgid ""
@@ -13418,41 +13468,47 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"新しいコンポーネントの :ref:`component-allow_translation_propagation` "
+"のデフォルト値を設定します。参照: "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`。"
 
 #: ../../admin/install/docker.rst:722
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL` を設定します。"
 
 #: ../../admin/install/docker.rst:726
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_NAME` を設定します。"
 
 #: ../../admin/install/docker.rst:730
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr ":setting:`DEFAULT_SHARED_TM` の設定。"
+msgstr ":setting:`DEFAULT_SHARED_TM` を設定します。"
 
 #: ../../admin/install/docker.rst:734
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
-msgstr ""
+msgstr "Akismet API キーを設定します。参照: :setting:`AKISMET_API_KEY`。"
 
 #: ../../admin/install/docker.rst:738
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
-msgstr ""
+msgstr "コミットの GPG 署名を設定します。参照: :setting:`WEBLATE_GPG_IDENTITY`。"
 
 #: ../../admin/install/docker.rst:746
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
-msgstr ""
+msgstr "Weblate が動作している URL の接頭辞を設定します。参照: "
+":setting:`URL_PREFIX`。"
 
 #: ../../admin/install/docker.rst:750
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"非表示にする検査項目を設定します。詳細については、:setting:`django:SILENCED_S"
+"YSTEM_CHECKS` を確認してください。"
 
 #: ../../admin/install/docker.rst:759
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
-msgstr ""
+msgstr "``Content-Security-Policy`` HTTP ヘッダーの変更を可能にします。"
 
 #: ../../admin/install/docker.rst:763
 msgid ""
@@ -13468,33 +13524,35 @@ msgstr ":setting:`LICENSE_FILTER` の設定。"
 
 #: ../../admin/install/docker.rst:776
 msgid "Configures :setting:`LICENSE_REQUIRED`"
-msgstr ":setting:`LICENSE_REQUIRED` の設定"
+msgstr ":setting:`LICENSE_REQUIRED` を設定します。"
 
 #: ../../admin/install/docker.rst:780
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
-msgstr ":setting:`WEBSITE_REQUIRED` の設定"
+msgstr ":setting:`WEBSITE_REQUIRED` を設定します。"
 
 #: ../../admin/install/docker.rst:784
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr ":setting:`HIDE_VERSION` の設定。"
+msgstr ":setting:`HIDE_VERSION` を設定します。"
 
 #: ../../admin/install/docker.rst:788
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr ":setting:`BASIC_LANGUAGES` の設定。"
+msgstr ":setting:`BASIC_LANGUAGES` を設定します。"
 
 #: ../../admin/install/docker.rst:792
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr ":setting:`DEFAULT_AUTO_WATCH` の設定。"
+msgstr ":setting:`DEFAULT_AUTO_WATCH` を設定します。"
 
 #: ../../admin/install/docker.rst:800
 msgid "Configures rate limiter."
-msgstr "接続制限を設定する。"
+msgstr "接続制限を設定します。"
 
 #: ../../admin/install/docker.rst:804
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"接続制限の範囲を設定できます。そのため、:ref:`rate-limit` "
+"に記載のある設定のいずれかに、``WEBLATE_`` 接頭辞を追加します。"
 
 #: ../../admin/install/docker.rst:809
 msgid ""
@@ -13521,44 +13579,46 @@ msgstr ":ref:`ci-tests`"
 
 #: ../../admin/install/docker.rst:831
 msgid "Configures :setting:`ENABLE_AVATARS`."
-msgstr ":setting:`ENABLE_AVATARS` の設定。"
+msgstr ":setting:`ENABLE_AVATARS` を設定します。"
 
 #: ../../admin/install/docker.rst:837
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
-msgstr "設定 :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`。"
+msgstr ":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` を設定します。"
 
 #: ../../admin/install/docker.rst:843
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
-msgstr ":setting:`SSH_EXTRA_ARGS` の設定。"
+msgstr ":setting:`SSH_EXTRA_ARGS` を設定します。"
 
 #: ../../admin/install/docker.rst:849
 msgid "Configures :setting:`BORG_EXTRA_ARGS`."
-msgstr ":setting:`BORG_EXTRA_ARGS` の設定。"
+msgstr ":setting:`BORG_EXTRA_ARGS` を設定します。"
 
 #: ../../admin/install/docker.rst:855
 msgid "Machine translation settings"
-msgstr ""
+msgstr "機械翻訳の設定"
 
 #: ../../admin/install/docker.rst:859
 msgid ""
 "Configuring API key for a service automatically configures it in :setting:"
 "`MT_SERVICES`."
-msgstr ""
+msgstr "サービスの API キーを設定すると、自動的に :setting:`MT_SERVICES` "
+"が設定されます。"
 
 #: ../../admin/install/docker.rst:863
 msgid ""
 "Enables :ref:`apertium` machine translation and sets :setting:"
 "`MT_APERTIUM_APY`"
-msgstr ""
+msgstr "機械翻訳の :ref:`apertium` を有効にして、:setting:`MT_APERTIUM_APY` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:869
 msgid "Configures :ref:`aws` machine translation."
-msgstr ""
+msgstr ":ref:`aws` の機械翻訳を設定します。"
 
 #: ../../admin/install/docker.rst:880
 msgid ""
 "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
-msgstr ""
+msgstr "機械翻訳の :ref:`deepl` を有効にして、:setting:`MT_DEEPL_KEY` を設定します。"
 
 #: ../../admin/install/docker.rst:884
 msgid ""
@@ -13572,6 +13632,8 @@ msgid ""
 "Enables :ref:`libretranslate` machine translation and sets :setting:"
 "`MT_LIBRETRANSLATE_KEY`"
 msgstr ""
+"機械翻訳の :ref:`libretranslate` "
+"を有効にして、:setting:`MT_LIBRETRANSLATE_KEY` を設定します。"
 
 #: ../../admin/install/docker.rst:892
 msgid ""
@@ -13583,69 +13645,82 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:896
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
-msgstr ""
+msgstr ":ref:`google-translate` を有効にして、 :setting:`MT_GOOGLE_KEY` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:900
 msgid ""
 "Enables :ref:`google-translate-api3` and sets :setting:"
 "`MT_GOOGLE_CREDENTIALS`"
 msgstr ""
+":ref:`google-translate-api3` を有効にして、:setting:`MT_GOOGLE_CREDENTIALS` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:904
 msgid ""
 "Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_PROJECT`"
 msgstr ""
+":ref:`google-translate-api3` を有効にして、:setting:`MT_GOOGLE_PROJECT` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:908
 msgid ""
 "Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_LOCATION`"
 msgstr ""
+":ref:`google-translate-api3` を有効にして、:setting:`MT_GOOGLE_LOCATION` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:912
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`"
 msgstr ""
+":ref:`ms-cognitive-translate` "
+"を有効にして、:setting:`MT_MICROSOFT_COGNITIVE_KEY` を設定します。"
 
 #: ../../admin/install/docker.rst:916
 msgid ""
 "Sets :setting:`MT_MICROSOFT_ENDPOINT_URL`, please note this is supposed to "
 "contain domain name only."
 msgstr ""
+":setting:`MT_MICROSOFT_ENDPOINT_URL` "
+"を設定します。これには、ドメイン名のみが含まれることに注意してください。"
 
 #: ../../admin/install/docker.rst:920
 msgid "Sets :setting:`MT_MICROSOFT_REGION`"
-msgstr ""
+msgstr ":setting:`MT_MICROSOFT_REGION` を設定します。"
 
 #: ../../admin/install/docker.rst:924
 msgid "Sets :setting:`MT_MICROSOFT_BASE_URL`"
-msgstr ""
+msgstr ":setting:`MT_MICROSOFT_BASE_URL` を設定します。"
 
 #: ../../admin/install/docker.rst:928
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
-msgstr ""
+msgstr ":ref:`modernmt` を有効にして、:setting:`MT_MODERNMT_KEY` を設定します。"
 
 #: ../../admin/install/docker.rst:932
 msgid ""
 "Enables :ref:`mymemory` machine translation and sets :setting:"
 "`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+":ref:`mymemory` による機械翻訳を有効にして、:setting:`MT_MYMEMORY_EMAIL` を "
+":envvar:`WEBLATE_ADMIN_EMAIL` に設定します。"
 
 #: ../../admin/install/docker.rst:944
 msgid "Enables :ref:`glosbe` machine translation."
-msgstr ":ref:`glosbe` 機械翻訳の有効化。"
+msgstr ":ref:`glosbe` 機械翻訳を有効にします。"
 
 #: ../../admin/install/docker.rst:953
 msgid "Enables :ref:`ms-terminology` machine translation."
-msgstr ":ref:`ms-terminology` 機械翻訳の有効化。"
+msgstr ":ref:`ms-terminology` 機械翻訳を有効にします。"
 
 #: ../../admin/install/docker.rst:966
 msgid "Configures :ref:`saptranslationhub` machine translation."
-msgstr ""
+msgstr ":ref:`saptranslationhub` の機械翻訳を設定します。"
 
 #: ../../admin/install/docker.rst:980
 msgid "Authentication settings"
-msgstr ""
+msgstr "認証設定"
 
 #: ../../admin/install/docker.rst:983
 msgid "LDAP"
@@ -13653,23 +13728,23 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:996
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "LDAP 認証の設定。"
 
 #: ../../admin/install/docker.rst:998
 msgid "**Example for direct bind:**"
-msgstr ""
+msgstr "**直接バインドの例:**"
 
 #: ../../admin/install/docker.rst:1009
 msgid "**Example for search and bind:**"
-msgstr ""
+msgstr "**検索とバインドの例:**"
 
 #: ../../admin/install/docker.rst:1021
 msgid "**Example for union search and bind:**"
-msgstr ""
+msgstr "**ユニオン検索とバインドの例:**"
 
 #: ../../admin/install/docker.rst:1033
 msgid "**Example with search and bind against Active Directory:**"
-msgstr ""
+msgstr "**Active Directory に対する検索とバインドの例:**"
 
 #: ../../admin/install/docker.rst:1048
 msgid ":ref:`ldap-auth`"
@@ -13681,7 +13756,7 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:1062
 msgid "Enables :ref:`github_auth`."
-msgstr ":ref:`github_auth` の有効化。"
+msgstr ":ref:`github_auth` を有効にします。"
 
 #: ../../admin/install/docker.rst:1065
 msgid "Bitbucket"
@@ -13689,7 +13764,7 @@ msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:1072
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ":ref:`bitbucket_auth` の有効化。"
+msgstr ":ref:`bitbucket_auth` を有効にします。"
 
 #: ../../admin/install/docker.rst:1075
 msgid "Facebook"
@@ -13697,7 +13772,7 @@ msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:1080
 msgid "Enables :ref:`facebook_auth`."
-msgstr ":ref:`facebook_auth` の有効化。"
+msgstr ":ref:`facebook_auth` を有効にします。"
 
 #: ../../admin/install/docker.rst:1083
 msgid "Google"
@@ -13705,7 +13780,7 @@ msgstr "Google"
 
 #: ../../admin/install/docker.rst:1090
 msgid "Enables :ref:`google_auth`."
-msgstr ":ref:`google_auth` の有効化。"
+msgstr ":ref:`google_auth` を有効にします。"
 
 #: ../../admin/install/docker.rst:1093
 msgid "GitLab"
@@ -13713,25 +13788,26 @@ msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:1099
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ":ref:`gitlab_auth` の有効化。"
+msgstr ":ref:`gitlab_auth` を有効にします。"
 
 #: ../../admin/install/docker.rst:1102
 msgid "Azure Active Directory"
-msgstr ""
+msgstr "Azure Active Directory"
 
 #: ../../admin/install/docker.rst:1107
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
-msgstr ""
+msgstr "Azure Active Directory 認証を有効にします。参照: :ref:`azure-auth`。"
 
 #: ../../admin/install/docker.rst:1110
 msgid "Azure Active Directory with Tenant support"
-msgstr ""
+msgstr "Azure Active Directory with Tenant support"
 
 #: ../../admin/install/docker.rst:1116
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
-msgstr ""
+msgstr "テナント サポート付きで Azure Active Directory 認証を有効にします。参照: :ref"
+":`azure-auth`。"
 
 #: ../../admin/install/docker.rst:1120
 msgid "Keycloak"
@@ -13743,20 +13819,24 @@ msgid ""
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 msgstr ""
+"Keycloak 認証を有効にします。参照: `ドキュメント <https://github.com/"
+"python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`"
+"_ 。"
 
 #: ../../admin/install/docker.rst:1133
 msgid "Linux vendors"
-msgstr ""
+msgstr "Linux ベンダー"
 
 #: ../../admin/install/docker.rst:1135
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
-msgstr ""
+msgstr "Linux ベンダー認証サービスを使用した認証を有効にするには、以下の変数を指定の"
+"値に設定します。"
 
 #: ../../admin/install/docker.rst:1148
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr ""
+msgstr "Slack 認証を有効にします。参照: :ref:`slack-auth`。"
 
 #: ../../admin/install/docker.rst:1153
 msgid "SAML"
@@ -13768,24 +13848,28 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"自己署名 SAML "
+"鍵は、最初のコンテナ起動時に自動的に生成されます。独自の鍵を使用するには、"
+"証明書と秘密鍵を :file:`/app/data/ssl/saml.crt` と :file:`/app/data/ssl/saml."
+"key` に配置します。"
 
 #: ../../admin/install/docker.rst:1163
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "SAML ID プロバイダーを設定します。参照: :ref:`saml-auth`。"
 
 #: ../../admin/install/docker.rst:1167
 msgid "Other authentication settings"
-msgstr ""
+msgstr "その他の認証設定"
 
 #: ../../admin/install/docker.rst:1171
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
-msgstr ""
+msgstr "値を設定すると、メール認証を無効にします。参照: :ref:`disable-email-auth`。"
 
 #: ../../admin/install/docker.rst:1176
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "PostgreSQL データベースの設定"
 
 #: ../../admin/install/docker.rst:1178
 msgid ""
@@ -13801,29 +13885,32 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1185
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "PostgreSQL のパスワード。"
 
 #: ../../admin/install/docker.rst:1189
 msgid ""
 "Path to the file containing the PostgreSQL password. Use as an alternative "
 "to POSTGRES_PASSWORD."
-msgstr ""
+msgstr "PostgreSQL パスワードを含むファイルへのパス。POSTGRES_PASSWORD "
+"の代わりに使用します。"
 
 #: ../../admin/install/docker.rst:1193
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "PostgreSQL ユーザー名。"
 
 #: ../../admin/install/docker.rst:1197
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "PostgreSQL データベース名。"
 
 #: ../../admin/install/docker.rst:1201
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
-msgstr ""
+msgstr "PostgreSQL サーバーのホスト名または IP アドレス。デフォルトは ``database`` "
+"です。"
 
 #: ../../admin/install/docker.rst:1205
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
-msgstr ""
+msgstr "PostgreSQL サーバーのポート。デフォルトは none "
+"です（デフォルト値を使用する）。"
 
 #: ../../admin/install/docker.rst:1209
 msgid ""
@@ -13831,12 +13918,16 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 msgstr ""
+"PostgreSQL がサーバーへの接続で SSL "
+"を処理する方法を設定します。可能な選択肢については、e `SSL Mode Descriptions "
+"<https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-"
+"STATEMENTS>`_ を確認してください。"
 
 #: ../../admin/install/docker.rst:1214
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
-msgstr ""
+msgstr "移行中に変更するロールの名前を設定します。参照: :ref:`config-postgresql`。"
 
 #: ../../admin/install/docker.rst:1220
 msgid ""
@@ -16706,9 +16797,8 @@ msgstr ""
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
-msgstr ""
-"単純なマッチングでは、コンポーネント名に ``**`` を使用し、言語に ``*`` を使用"
-"します。例: ``**/*.po``"
+msgstr "単純な一致では、コンポーネント名に ``**`` を使用し、言語に ``*`` "
+"を使用します。例: ``**/*.po``"
 
 #: ../../admin/management.rst:410
 msgid ""
@@ -18177,7 +18267,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:155
 msgid "Set \"Language-Team\" header"
-msgstr "\"Language-Team\" ヘッダの設定"
+msgstr "\"Language-Team\" ヘッダーの設定"
 
 #: ../../admin/projects.rst:157
 msgid ""
@@ -18482,10 +18572,11 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
-"パスが別のフォルダへの相対パス（``..`` を含むパス）である場合、"
+"パスが、別のフォルダへの相対パス（``..`` を含むパス）である場合、"
 "先頭のディレクトリを ``parentdir`` フィルター（参照: "
-":ref:`markup`）を使用して取り除く必要があるでしょう。 ``https://github.com/"
-"WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``"
+":ref:`markup`）を使用して取り除いてください。ディレクトリの除去方法: "
+"``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:362
 msgid "Exported repository URL"
@@ -20809,8 +20900,7 @@ msgstr ""
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
-msgstr ""
-"API に対する一般的なリクエストの動作であり、ヘッダ、ステータスコード、パラ"
+msgstr "API に対する一般的なリクエストの動作であり、ヘッダー、ステータスコード、パラ"
 "メータはすべてのエンドポイントにも適用します。"
 
 #: ../../api.rst:0
@@ -25190,7 +25280,7 @@ msgstr "自動翻訳の進行状況のレポートのクラッシュを修正し
 
 #: ../../changes.rst:531
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr "Git コミットの簡略化の有効化の修正。"
+msgstr "トレーラー有効時の Git コミットのスカッシュの修正。"
 
 #: ../../changes.rst:532
 msgid "Fixed creating local VCS components using API."
@@ -25257,7 +25347,7 @@ msgstr ""
 
 #: ../../changes.rst:556
 msgid "The Git squash add-on can generate ``Co-authored-by:`` trailers."
-msgstr ""
+msgstr "Git squash アドオンでの、``Co-authored-by:`` トレーラーの生成に対応。"
 
 #: ../../changes.rst:557
 msgid "Improved query search parser."
@@ -32708,9 +32798,8 @@ msgid ""
 "Each ``msgid`` line defines a string to translate, the special empty string "
 "in the beginning is the file header containing metadata about the "
 "translation."
-msgstr ""
-"``msgid`` の各行は、翻訳する文字列を定義します。先頭の特別な空の文字列は、翻"
-"訳に関するメタデータを含むファイル ヘッダです。"
+msgstr "``msgid`` の各行は、翻訳する文字列を定義します。先頭の特別な空の文字列は、"
+"翻訳に関するメタデータを含むファイル ヘッダーです。"
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
@@ -33678,10 +33767,10 @@ msgid ""
 "Twitter. All these possibilities can be found on the :guilabel:`Share` tab:"
 msgstr ""
 "Weblate には、翻訳プロジェクトを推進するために、Web サイトやその他のソースで"
-"共有するウィジェットを用意しています。また、新しい貢献者に翻訳に関する基本的"
-"な情報を提供するための、素晴らしい歓迎ページもあります。さらに、Facebook や "
-"Twitter を使用して翻訳についての情報も共有できます。これらは全て "
-":guilabel:`共有` タブから見つけられます。"
+"共有するウィジェットを用意しています。また、新しい貢献者には、翻訳開始ページ"
+"において翻訳についての基本的な情報が提供されます。さらに、Facebook や "
+"Twitter を使用して翻訳についての情報も共有できます。これらすべてが提供される "
+":guilabel:`共有` タブ画面:"
 
 #: ../../devel/share.rst:14
 msgid ""
@@ -35081,9 +35170,8 @@ msgstr ""
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
-msgstr ""
-"また、翻訳ファイル形式で対応している場合は、ファイルヘッダを更新して翻訳者の"
-"名前が挿入されます。"
+msgstr "また、翻訳ファイル形式で対応している場合は、ファイルヘッダーを更新して翻訳者"
+"の名前が挿入されます。"
 
 #: ../../faq.rst:510
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
@@ -36661,10 +36749,10 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
-"ヘッダ定義フィールドが存在するファイル（``location``、``source``、"
-"``target``、``ID``、``fuzzy``、``context``、``translator_comments``、"
-"``developer_comments``）。エラーが発生しにくいファイル形式として、:guilabel:"
-"`CSV file` を選択します。"
+"ヘッダー定義フィールドが存在するファイル（``location``、``source``、``target`"
+"`、``ID``、``fuzzy``、``context``、``translator_comments``、``developer_comme"
+"nts``）。エラーが発生しにくいファイル形式として、:guilabel:`CSV file` "
+"を選択します。"
 
 #: ../../formats.rst:1111
 msgid ""
@@ -37932,7 +38020,7 @@ msgstr "AngularJS 補間文字列"
 
 #: ../../user/checks.rst:160
 msgid "AngularJS interpolation strings do not match source"
-msgstr "原文と AngularJS 補間文字列が合致してないもの"
+msgstr "原文と AngularJS 補間文字列が一致してないもの"
 
 #: ../../user/checks.rst:162
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -39266,7 +39354,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1011
 msgid "Translation does not match regular expression"
-msgstr "翻訳文が正規表現にマッチしない"
+msgstr "翻訳文が正規表現に一致しない"
 
 #: ../../user/checks.rst:1013
 msgid "``weblate.checks.placeholders.RegexCheck``"
@@ -39283,7 +39371,7 @@ msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
-"翻訳文には正規表現に合致するものはありません。正規表現は、翻訳ファイルから抽"
+"翻訳文には正規表現に一致するものはありません。正規表現は、翻訳ファイルから抽"
 "出するか、``regex`` フラグを使用して手動で定義します。例:"
 
 #: ../../user/checks.rst:1029
