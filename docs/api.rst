@@ -2040,7 +2040,7 @@ and XLIFF.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
     :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
-    :>json string souce_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
 
