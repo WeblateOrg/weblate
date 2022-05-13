@@ -399,7 +399,8 @@ Weblate Translation Memory
 .. versionadded:: 2.20
 
 Use :ref:`translation-memory` as a machine translation service. Any string that
-has been translated in past (or uploaded to the translation memory) can be translated thsi way.
+has been translated in past (or uploaded to the translation memory) can be
+translated in this way.
 
 Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to
 the :setting:`MT_SERVICES`. This service is turned on by
