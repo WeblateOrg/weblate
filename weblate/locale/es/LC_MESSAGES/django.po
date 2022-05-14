@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-05-03 07:29+0000\n"
+"PO-Revision-Date: 2022-05-14 23:19+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -501,7 +501,7 @@ msgid ""
 msgstr ""
 "Proporcione un URL personalizado que utilizar como enlace al código fuente. "
 "Puede utilizar {{branch}} para las ramas, así como {{filename}} y {{line}} "
-"como sustitutorios para nombres de archivo y renglones respectivamente."
+"como sustitutivos para nombres de archivo y renglones respectivamente."
 
 #: weblate/accounts/models.py:424
 msgid "Translation editor mode"
@@ -2905,12 +2905,12 @@ msgstr ""
 
 #: weblate/checks/format.py:621
 msgid "Percent placeholders"
-msgstr "Sustitutorios con signo de porcentaje"
+msgstr "Sustitutivos con signo de porcentaje"
 
 #: weblate/checks/format.py:622
 msgid "The percent placeholders do not match source"
 msgstr ""
-"Los sustitutorios con signo de porcentaje no coinciden con aquellos en el "
+"Los sustitutivos con signo de porcentaje no coinciden con aquellos en el "
 "original"
 
 #: weblate/checks/format.py:628
@@ -2962,7 +2962,7 @@ msgstr "MessageFormat de ICU"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Errores sintácticos o discrepancias en los sustitutorios en las cadenas "
+"Errores sintácticos o discrepancias en los sustitutivos en las cadenas "
 "MessageFormat de ICU."
 
 #: weblate/checks/icu.py:459
@@ -2973,17 +2973,17 @@ msgstr "Error sintáctico: %s"
 #: weblate/checks/icu.py:463
 #, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Hay uno o más sustitutorios desconocidos en la traducción: %s"
+msgstr "Hay uno o más sustitutivos desconocidos en la traducción: %s"
 
 #: weblate/checks/icu.py:468
 #, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Faltan uno o más sustitutorios en la traducción: %s"
+msgstr "Faltan uno o más sustitutivos en la traducción: %s"
 
 #: weblate/checks/icu.py:472
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr "Uno o más tipos de sustitutorio son incorrectos: %s"
+msgstr "Uno o más tipos de sustitutivo son incorrectos: %s"
 
 #: weblate/checks/icu.py:477
 #, python-format
@@ -3006,7 +3006,7 @@ msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
 msgstr ""
-"Uno o varios sustitutorios deben tener su correspondiente etiqueta XML en la "
+"Uno o varios sustitutivos deben tener su correspondiente etiqueta XML en la "
 "traducción: %s"
 
 #: weblate/checks/icu.py:497
@@ -3014,7 +3014,7 @@ msgstr ""
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
 msgstr ""
-"Uno o más sustitutorios no deben ser una etiqueta XML en la traducción: %s"
+"Uno o más sustitutivos no deben ser una etiqueta XML en la traducción: %s"
 
 #: weblate/checks/icu.py:503
 #, python-format
@@ -3090,11 +3090,11 @@ msgstr "La traducción utiliza marcación HTML insegura"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
-msgstr "Sustitutorios"
+msgstr "Sustitutivos"
 
 #: weblate/checks/placeholders.py:42
 msgid "Translation is missing some placeholders"
-msgstr "A la traducción le faltan algunos sustitutorios"
+msgstr "A la traducción le faltan algunos sustitutivos"
 
 #: weblate/checks/placeholders.py:111
 #: weblate/templates/addons/discovery_help.html:8
@@ -6969,15 +6969,12 @@ msgstr ""
 "facturación serán borrados en %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Si no se aprobare su prueba libre, todos los proyectos de este plan de "
+"Si no se aprobare su alojamiento Libre, todos los proyectos de este plan de "
 "facturación se eliminarán el %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
@@ -8082,12 +8079,6 @@ msgid "No matching strings found."
 msgstr "No se encontraron cadenas que coincidan."
 
 #: weblate/templates/snippets/about.html:3
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features a simple and clean user interface, propagation "
-#| "of translations across components, quality checks and automatic linking "
-#| "to source files."
 msgid ""
 "Weblate is a web-based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
@@ -11572,7 +11563,7 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Enlace al navegador del repositorio; utilice {{branch}}, {{filename}} y "
-"{{line}} como sustitutorios para nombres de rama, nombres de archivo y "
+"{{line}} como sustitutivos para nombres de rama, nombres de archivo y "
 "números de renglón respectivamente. Puede que quiera quitar el directorio "
 "principal usando {{filename|parentdir}}."
 
@@ -11838,10 +11829,6 @@ msgid "Language used for source strings in all components"
 msgstr "Lenguaje utilizado para el código fuente en todos los componentes"
 
 #: weblate/trans/models/component.py:600
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -11966,37 +11953,30 @@ msgstr ""
 "componente."
 
 #: weblate/trans/models/component.py:2258
-#, fuzzy
-#| msgid "Option is not available for linked repositories."
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
-msgstr "La opción no está disponible para repositorios enlazados."
+msgstr ""
+"La opción no está disponible para repositorios enlazados. Se utilizará la "
+"configuración del componente enlazado."
 
 #: weblate/trans/models/component.py:2270
-#, fuzzy
-#| msgid "The filemask did not match any files."
 msgid "The file mask did not match any files."
 msgstr "La máscara de archivos no encontró ningún archivo."
 
 #: weblate/trans/models/component.py:2279
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the filemask."
+#, python-format
 msgid "The language code for %s was empty, please check the file mask."
 msgstr "El código de idioma de %s estaba vacío; revise la máscara de archivos."
 
 #: weblate/trans/models/component.py:2288
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the filemask."
+#, python-format
 msgid "The language code \"%s\" is too long, please check the file mask."
 msgstr ""
 "El código de idioma «%s» es demasiado extenso; revise la máscara de archivos."
 
 #: weblate/trans/models/component.py:2295
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the file mask and "
 "use components for translating different resources."
@@ -12005,8 +11985,6 @@ msgstr ""
 "componentes para traducir diferentes recursos."
 
 #: weblate/trans/models/component.py:2309
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "No se pudo encontrar ningún idioma que coincidiera; revise la máscara de "
@@ -12422,8 +12400,7 @@ msgid "Forbidden translation: %s"
 msgstr "Traducción prohibida: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Not-translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
 msgstr "No traducible: %s"
 
@@ -12687,7 +12664,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:32
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "La máscara de archivos no contiene «*» como sustitutorio del idioma."
+msgstr "La máscara de archivos no contiene «*» como sustitutivo del idioma."
 
 #: weblate/trans/validators.py:41
 msgid ""
