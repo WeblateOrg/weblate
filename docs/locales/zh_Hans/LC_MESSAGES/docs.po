@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-23 06:41+0200\n"
-"PO-Revision-Date: 2022-05-13 10:15+0000\n"
+"PO-Revision-Date: 2022-05-14 23:19+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -223,9 +223,8 @@ msgstr "原文"
 msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
-msgstr ""
-"可以编辑源字符串（如果 :ref:`project settings <component-manage_units>` 中允"
-"许的话）及源字符串信息。"
+msgstr "可以编辑源字符串（如果 :ref:`项目设置 <component-manage_units>` "
+"中允许）和源字符串信息。"
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:266
 #: ../../admin/access.rst:282 ../../admin/access.rst:393 ../../api.rst:663
@@ -3423,7 +3422,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
+msgstr ":doc:`Python Social Auth 后端 <psa:backends/index>`"
 
 #: ../../admin/auth.rst:71
 msgid "OpenID authentication"
@@ -3728,12 +3727,12 @@ msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
-"Weblate 支持单一 IDP ，在 ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` 中被称为 "
-"``weblate`` 。"
+"Weblate 支持单一 IDP，在 ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` 中必须称之为 "
+"``weblate``。"
 
 #: ../../admin/auth.rst:401
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr "SAML XML 元数据 URL 为 ``/accounts/metadata/saml/`` 。"
+msgstr "SAML XML 元数据 URL 为 ``/accounts/metadata/saml/``。"
 
 #: ../../admin/auth.rst:402
 msgid ""
@@ -3741,9 +3740,8 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
-"后面的设置自动填入： ``SOCIAL_AUTH_SAML_SP_ENTITY_ID`` 、 "
-"``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT`` 、 "
-"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
+"以下设置会自动填充：``SOCIAL_AUTH_SAML_SP_ENTITY_ID``、``SOCIAL_AUTH_SAML_TEC"
+"HNICAL_CONTACT``、``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:406 ../../admin/install/docker.rst:1227
 #: ../../admin/install/docker.rst:1245
@@ -3809,14 +3807,13 @@ msgid ""
 "The example above and the Docker image define an IDP labelled ``weblate``. "
 "You might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
-"上面的例子和 Docker 镜像定义了一个 IDP 并且标记为 ``weblate``。 您可能需要在 "
-"IDP 中将此字符串配置为 :guilabel:`Relay` 。"
+"上面的例子和 Docker 镜像定义了一个 IDP 并且标记为 ``weblate``。您可能需要在 "
+"IDP 中将此字符串配置为 :guilabel:`Relay`。"
 
 #: ../../admin/auth.rst:471
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
-msgstr ""
-":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
+msgstr ":ref:`在 Docker 中配置 SAML <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:477
 msgid "LDAP authentication"
@@ -4307,7 +4304,7 @@ msgstr "手动备份"
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
-msgstr "取决于你想保存什么， Weblate 存储的类型数据会备份在各自的位置。"
+msgstr "根据要保存的内容，备份 Weblate 在各个地方存储的数据类型。"
 
 #: ../../admin/backup.rst:189
 msgid ""
@@ -13111,9 +13108,9 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
-"在第一次启动容器时自动产生自签名的 SAML 密钥。在您想要使用自己的密钥的情况"
-"下，将证书和私钥放置在 :file:`/app/data/ssl/saml.crt` 和 :file:`/app/data/"
-"ssl/saml.key`中。"
+"在第一次启动容器时会自动生成自签名的 SAML 密钥。如果您想要使用自己的密钥，"
+"请将证书和私钥放在 :file:`/app/data/ssl/saml.crt` 和 :file:`/app/data/ssl/"
+"saml.key` 中。"
 
 #: ../../admin/install/docker.rst:1163
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
@@ -13548,12 +13545,11 @@ msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 msgstr ""
-":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
-"`celery`"
+":doc:`Celery worker 选项 <celery:reference/celery.bin.worker>`, :ref:`celery`"
 
 #: ../../admin/install/docker.rst:1577
 msgid "Configure how many uWSGI workers should be executed."
-msgstr "配置应该执行多少个 uWSGI workers 。"
+msgstr "配置应该执行多少个 uWSGI worker。"
 
 #: ../../admin/install/docker.rst:1579
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -14163,9 +14159,8 @@ msgstr ""
 msgid ""
 "Start Celery workers. This is not necessary for development purposes, but "
 "strongly recommended otherwise. See :ref:`celery` for more info:"
-msgstr ""
-"启动 Celery workers 。当用于开发目的是不需要这步，但仍然强烈推荐。更多信息请"
-"参见 :ref:`celery` ："
+msgstr "启动 Celery workers。这对开发来说是不必要的，但强烈建议在其他场景这样做。"
+"更多信息请参见 :ref:`celery`："
 
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
@@ -19143,7 +19138,7 @@ msgstr "验证您的设置合理（还请参见 :ref:`production`）："
 
 #: ../../admin/upgrade.rst:102
 msgid "Restart Celery worker (see :ref:`celery`)."
-msgstr "重新启动 Celery worker （请参见 :ref:`celery`）。"
+msgstr "重新启动 Celery worker（请参见 :ref:`celery`）。"
 
 #: ../../admin/upgrade.rst:108
 msgid "Version specific instructions"
@@ -29191,9 +29186,7 @@ msgstr ""
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
-msgstr ""
-":doc:`Translation topic in the Django documentation <django:topics/i18n/"
-"translation>`"
+msgstr ":doc:`Django 文档中的翻译主题<django:topics/i18n/translation>`"
 
 #: ../../contributing/frontend.rst:79
 msgid "Icons"
@@ -30638,11 +30631,11 @@ msgstr "启动一台开发服务器："
 #: ../../contributing/start.rst:52
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
-msgstr "取决于配置，你也许想启动 Celery workers："
+msgstr "你可能还想启动 Celery workers，这取决于你的配置："
 
 #: ../../contributing/start.rst:58
 msgid "To run a test (see :ref:`local-tests` for more details):"
-msgstr "要运行测试 （更多细节见 :ref:`local-tests`）："
+msgstr "若要运行测试（更多细节请参见 :ref:`local-tests`）："
 
 #: ../../contributing/start.rst:67
 msgid ":doc:`../admin/install/source`"
@@ -40752,7 +40745,7 @@ msgstr "用户可以在不确定时提出建议，这很有用。"
 
 #: ../../workflows.rst:86 ../../workflows.rst:118 ../../workflows.rst:155
 msgid "Translators group"
-msgstr "翻译组"
+msgstr "翻译者群组"
 
 #: ../../workflows.rst:86 ../../workflows.rst:118 ../../workflows.rst:155
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
@@ -40768,7 +40761,7 @@ msgstr "不可用"
 
 #: ../../workflows.rst:90
 msgid "Not used."
-msgstr "不曾用过。"
+msgstr "未使用。"
 
 #: ../../workflows.rst:97
 msgid "Peer review"
