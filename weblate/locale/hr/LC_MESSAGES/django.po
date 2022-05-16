@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-04-23 04:44+0000\n"
-"PO-Revision-Date: 2022-04-23 11:59+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-05-16 07:27+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.12.1-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: weblate/accounts/avatar.py:101
 msgctxt "No known user"
@@ -431,7 +431,7 @@ msgstr "Jezik korisničkog sučelja"
 
 #: weblate/accounts/models.py:377
 msgid "Translated languages"
-msgstr "Jezici prevođenja"
+msgstr "Prevedeni jezici"
 
 #: weblate/accounts/models.py:380
 msgid ""
@@ -1379,8 +1379,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Kloniraj dodatke iz glavne komponente u novo stvorene"
 
 #: weblate/addons/forms.py:295
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Ukloni komponente za nepostojeće datoteke"
 
@@ -1449,44 +1447,34 @@ msgid "Target translation"
 msgstr "Ciljani prijevod"
 
 #: weblate/addons/forms.py:489
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Uklonit će se sljedeći prijevodi:"
+msgstr "Svi izrazi u ovom prijevodu će se prepisati"
 
 #: weblate/addons/forms.py:492 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Prefiks izraza"
+msgstr "Fiksni prefiks izraza"
 
 #: weblate/addons/forms.py:497 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Prefiks izraza"
+msgstr "Varijabilni prefiks izraza"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Sufiks izraza"
+msgstr "Fiksni sufiks izraza"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Sufiks izraza"
+msgstr "Varijabilni sufiks izraza"
 
 #: weblate/addons/forms.py:512
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Multiplikator varijabilnog dijela"
 
 #: weblate/addons/forms.py:515
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
-msgstr ""
+msgstr "Koliko puta ponoviti varijabilni dio ovisno o duljini izvornog izraza."
 
 #: weblate/addons/forms.py:545
 msgid "The source and target have to be different languages."
@@ -2655,10 +2643,8 @@ msgid "Terminology"
 msgstr "Terminologija"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "Zanemarene provjere"
+msgstr "Zanemari sve provjere"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -3914,10 +3900,8 @@ msgid "Entries deleted."
 msgstr "Zapisi izbrisani."
 
 #: weblate/memory/views.py:122
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "Prijevod će se aktualizirati u pozadini."
+msgstr "Izbrisani unosi i memorija će se obnoviti u pozadini."
 
 #: weblate/memory/views.py:138
 msgid "File processed, the entries will appear shortly."
@@ -4160,10 +4144,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:230
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Pitaj za hosting projekta"
+msgstr "Zatraži slobodan hosting"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4363,10 +4345,8 @@ msgid "Trial subscriptions"
 msgstr "Probne pretplate"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy
-#| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "Prevedi tvoj slobodni projekt"
+msgstr "Postavi svoj slobodni projekt"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4389,13 +4369,10 @@ msgid "Unapproved projects will be removed."
 msgstr "Neodobreni projekti bit će uklonjeni."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
-msgstr "Besplatna tarifa ne jamči dostupnost niti kvalitetu usluge."
+msgstr ""
+"Za slobodni hosting ne postoji jamstvo dostupnosti usluge niti kvalitete."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -4982,11 +4959,9 @@ msgid "Members"
 msgstr "Članovi"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgid "None"
 msgctxt "None project associated with group"
 msgid "None"
-msgstr "Ništa"
+msgstr "Bez"
 
 #: weblate/templates/accounts/user.html:262
 msgid "Remove user from this group"
@@ -5234,16 +5209,12 @@ msgid "Project URL slug"
 msgstr "URL ime projekta"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "Neprevedeni izrazi"
+msgstr "Stvoreni izrazi"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Izraz odavno nije preveden"
+msgstr "Izrazi će se izraditi koristeći sljedeći uzorak:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -6777,11 +6748,9 @@ msgid "Mark as spam"
 msgstr "Označi kao nepoželjno"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "The following activity has occured on your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
-msgstr "Na tvom računu dogodila se sljedeća aktivnost na %(site_title)s:"
+msgstr "Na tvom se računu dogodila sljedeća aktivnost na %(site_title)s:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6883,15 +6852,12 @@ msgid ""
 msgstr "Ako ne platiš, svi projekti unutar ove tarife uklonit će se %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Ako se tvoja besplatna proba ne odobri, svi projekti unutar ove tarife "
+"Ako se tvoj slobodni hosting ne odobri, svi projekti unutar ove tarife "
 "uklonit će se %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
@@ -7693,14 +7659,12 @@ msgstr[2] ""
 #: weblate/templates/memory/index.html:129
 #: weblate/templates/memory/index.html:146
 msgid "Rebuild"
-msgstr ""
+msgstr "Izgradi ponovo"
 
 #: weblate/templates/memory/index.html:84
 #: weblate/templates/memory/index.html:143
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Memory will be then populated with the current translations."
-msgstr "Prenesena datoteka će se sjediniti s trenutačnim prijevodom."
+msgstr "Memorija će se tada popuniti s trenutačnim prijevodom."
 
 #: weblate/templates/memory/index.html:158
 msgid "Shared translation memory"
@@ -7982,12 +7946,6 @@ msgid "No matching strings found."
 msgstr "Nema poklapajućih izraza."
 
 #: weblate/templates/snippets/about.html:3
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features a simple and clean user interface, propagation "
-#| "of translations across components, quality checks and automatic linking "
-#| "to source files."
 msgid ""
 "Weblate is a web-based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
@@ -8358,11 +8316,9 @@ msgid "Needs editing"
 msgstr "Treba urediti"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Read only"
 msgctxt "Number of strings"
 msgid "Read-only"
-msgstr "Samo za čitanje"
+msgstr "Samo-za-čitanje"
 
 #: weblate/templates/snippets/info.html:352
 msgctxt "Number of strings"
@@ -9550,11 +9506,9 @@ msgid "Access only"
 msgstr "Samo pristup"
 
 #: weblate/templates/trans/project-access.html:192
-#, fuzzy, python-format
-#| msgid ""
-#| "This will delete the project token <b>%(token)s</b> from this project."
+#, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "Ovo će izbrisati token <b>%(token)s</b> projekta iz ovog projekta."
+msgstr "Ovo će izbrisati tim <b>%(name)s</b> iz ovog projekta."
 
 #: weblate/templates/trans/project-access.html:232
 msgid "Create new team"
@@ -9850,6 +9804,7 @@ msgstr "Za sve jezike"
 #: weblate/templates/translate.html:472
 msgid "Selecting this option will set the corresponding \"ignore check\" flag"
 msgstr ""
+"Odabirom ove opcije postavit će se odgovarajuća oznaka „zanemari provjeru”"
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -10054,6 +10009,7 @@ msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
 msgstr ""
+"Odaberi iz padajućeg izbornika ako želiš prepisati već prevedene izraze."
 
 #: weblate/templates/translation.html:408
 msgid ""
@@ -10977,8 +10933,6 @@ msgid "No file mask matches."
 msgstr "Nijedna maska datoteke se ne poklapa."
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Nepostojeće datoteke."
 
@@ -11383,10 +11337,8 @@ msgid "Java style"
 msgstr "Java stil"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Stil fonta"
+msgstr "Linux stil"
 
 #: weblate/trans/models/component.py:146
 msgid "Merge"
@@ -11665,7 +11617,7 @@ msgstr "Poruka izmjene kad dodatak nešto promijeni"
 
 #: weblate/trans/models/component.py:556
 msgid "Merge request message"
-msgstr ""
+msgstr "Poruka zahtjeva za sjedinjavanje"
 
 #: weblate/trans/models/component.py:565
 msgid "Push on commit"
@@ -12262,10 +12214,9 @@ msgid "Forbidden translation: %s"
 msgstr "Zabranjen prijevod: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Not-translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
-msgstr "Neprevodiv izraz: %s"
+msgstr "Neprevodivo: %s"
 
 #: weblate/trans/templatetags/translations.py:177
 #, python-format
@@ -12532,15 +12483,12 @@ msgid "Very low"
 msgstr "Vrlo nisko"
 
 #: weblate/trans/util.py:225
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "{0} is translated into {1} languages using Weblate. Join the translation "
-#| "or start translating your own project."
+#, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
 "translation or start translating your own project."
 msgstr ""
-"{0} je prevedeno u {1} jezika pomoću Weblatea. Uključi se u prijevod ili "
+"{0} se prevodi na {1} jezika pomoću Weblatea. Uključi se u prijevod ili "
 "započni prevoditi vlastiti projekt."
 
 #: weblate/trans/validators.py:32
@@ -12597,10 +12545,8 @@ msgid "User has been invited to this project."
 msgstr "Korisnik je pozvan u ovaj projekt."
 
 #: weblate/trans/views/acl.py:252
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Token has been removed from this project."
-msgstr "Korisnik je uklonjen iz ovog projekta."
+msgstr "Token je uklonjen iz ovog projekta."
 
 #: weblate/trans/views/acl.py:255
 msgid "User has been removed from this project."
@@ -13242,10 +13188,8 @@ msgid "GitHub pull request"
 msgstr "GitHub zahtjev za preuzimanje"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "GitHub zahtjev za preuzimanje"
+msgstr "Gitea zahtjev za preuzimanje"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
