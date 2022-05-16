@@ -105,7 +105,7 @@ def search_replace(request, project, component=None, lang=None):
 
     matching = unit_set.filter(target__contains=search_text)
     if query:
-        matching = matching.search(query)
+        matching = matching.search(query, distinct=False)
 
     updated = 0
     if matching.exists():
