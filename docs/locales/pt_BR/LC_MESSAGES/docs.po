@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-16 09:39+0200\n"
-"PO-Revision-Date: 2022-04-26 20:54+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2022-05-16 11:54+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12.1-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -7522,16 +7522,12 @@ msgid "GITLAB_TOKEN"
 msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:834
-#, fuzzy
-#| msgid ""
-#| "Gitea personal access token used to make API calls to send pull requests "
-#| "for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"O token de acesso pessoal Gitea usado para fazer chamadas de API para enviar "
-"pull requests para atualizações de tradução."
+"O token de acesso pessoal GitLab usado para fazer chamadas de API para "
+"enviar merge requests para atualizações de tradução."
 
 #: ../../admin/config.rst:839
 msgid ""
@@ -7660,32 +7656,28 @@ msgstr "Isso está desligado por padrão."
 
 #: ../../admin/config.rst:945
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:949
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
 msgstr ""
+"Lista de Indicadores de Pagamento Interledger (ILPs) para Monetização da Web."
 
 #: ../../admin/config.rst:951
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
+"Se vários forem especificados, o compartilhamento de receita probabilístico "
+"é obtido selecionando um aleatoriamente."
 
 #: ../../admin/config.rst:954
-#, fuzzy
-#| msgid ""
-#| "Please check https://cloud.google.com/appengine/docs/locations for more "
-#| "details"
 msgid "Please check <https://webmonetization.org/> for more details."
-msgstr ""
-"Consulte https://cloud.google.com/appengine/docs/locations para mais detalhes"
+msgstr "Consulte <https://webmonetization.org/> para mais detalhes."
 
 #: ../../admin/config.rst:958
-#, fuzzy
-#| msgid "Default value: Top level directory of Weblate sources."
 msgid "The default value lets users fund Weblate itself."
-msgstr "Valor padrão: Diretório de nível superior de fontes do Weblate."
+msgstr "O valor padrão permite que os usuários financiem o próprio Weblate."
 
 #: ../../admin/config.rst:963
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -7882,22 +7874,14 @@ msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:1132
-#, fuzzy
-#| msgid ""
-#| "Whether the length of a given translation should be limited. The "
-#| "restriction is the length of the source string * 10 characters."
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
 "Se o comprimento de uma determinada tradução deve ser limitado. A restrição "
-"é o comprimento do texto fonte * 10 caracteres."
+"é o comprimento do texto fonte × 10 caracteres."
 
 #: ../../admin/config.rst:1137
-#, fuzzy
-#| msgid ""
-#| "Set this to ``False`` to allow longer translations (up to 10.000 "
-#| "characters) irrespective of source string length."
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
@@ -8732,16 +8716,12 @@ msgid "PAGURE_TOKEN"
 msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1776
-#, fuzzy
-#| msgid ""
-#| "Gitea personal access token used to make API calls to send pull requests "
-#| "for translation updates."
 msgid ""
 "Pagure personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"O token de acesso pessoal Gitea usado para fazer chamadas de API para enviar "
-"pull requests para atualizações de tradução."
+"O token de acesso pessoal Pagure usado para fazer chamadas de API para "
+"enviar merge requests para atualizações de tradução."
 
 #: ../../admin/config.rst:1781
 msgid ""
@@ -9213,6 +9193,9 @@ msgid ""
 "definitions extend over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"A exibição de idiomas pode se tornar inconsistente com isso. As definições "
+"de idioma do Weblate se estendem ao longo do tempo e não exibirão o código "
+"de idioma para os idiomas definidos."
 
 #: ../../admin/config.rst:2160
 msgid ":ref:`included-languages`"
@@ -13731,12 +13714,12 @@ msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Permite que o Weblate defina o campo `meta[nome=monetização]` no cabeçalho "
+"do documento. Se vários forem especificados, escolhe um aleatoriamente."
 
 #: ../../admin/install/docker.rst:580
-#, fuzzy
-#| msgid ":setting:`REQUIRE_LOGIN`"
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
-msgstr ":setting:`REQUIRE_LOGIN`"
+msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
 #: ../../admin/install/docker.rst:584
 msgid ""
@@ -14179,16 +14162,12 @@ msgid "LDAP"
 msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:1003
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
-msgstr "Caminho para o arquivo contendo a senha da autenticação por e-mail."
+msgstr "Caminho para o arquivo que contém a senha de ligação do servidor LDAP."
 
 #: ../../admin/install/docker.rst:1005
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1013
 msgid "LDAP authentication configuration."
@@ -14492,16 +14471,12 @@ msgid "The Redis server password, not used by default."
 msgstr "A senha do servidor Redis, não usada por padrão."
 
 #: ../../admin/install/docker.rst:1312
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the Redis server password."
-msgstr "Caminho para o arquivo contendo a senha da autenticação por e-mail."
+msgstr "Caminho para o arquivo que contém a senha do servidor Redis."
 
 #: ../../admin/install/docker.rst:1314
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`REDIS_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`REDIS_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1318
 msgid "Enables using SSL for Redis connection."
@@ -15277,12 +15252,12 @@ msgid "Installing from sources"
 msgstr "Instalando a partir do código-fonte"
 
 #: ../../admin/install/source.rst:4
-#, fuzzy
-#| msgid "Please follow the installation instructions for your system first:"
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
-msgstr "Siga as instruções de instalação do seu sistema primeiro:"
+msgstr ""
+"Siga as instruções de instalação do seu sistema primeiro até a primeira "
+"instalação:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -16263,19 +16238,14 @@ msgid "Configure Weblate."
 msgstr "Configure o Weblate."
 
 #: ../../admin/machine.rst:60
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:"
-#| "`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation <https://docs."
-#| "aws.amazon.com/translate/>`_"
 msgid ""
 ":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:"
 "`MT_AWS_SECRET_ACCESS_KEY`, `Amazon Translate Documentation <https://docs."
 "aws.amazon.com/translate/>`_"
 msgstr ""
-":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:"
-"`MT_AWS_SECRET_ACCESS_KEY` `Documentação do Amazon Translate <https://docs."
-"aws.amazon.com/translate/>`_"
+":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, "
+":setting:`MT_AWS_SECRET_ACCESS_KEY`, `Documentação do Amazon Translate "
+"<https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:68
 msgid "Baidu API machine translation"
@@ -16410,19 +16380,14 @@ msgstr ""
 "Dicionário gratuito e memória de tradução para quase todos os idiomas vivos."
 
 #: ../../admin/machine.rst:147
-#, fuzzy
-#| msgid ""
-#| "The API is gratis to use, but subject to the used data source license. "
-#| "There is a limit of calls that may be done from one IP in a set period of "
-#| "time, to prevent abuse."
 msgid ""
 "The API is gratis to use, but usage of the translations is subject to the "
 "license of the used data source. There is a limit of calls that may be done "
 "from one IP in a set period of time, to prevent abuse."
 msgstr ""
-"O uso da API é gratuito, mas está sujeito à licença da fonte de dados usada. "
-"Existe um limite de chamadas que podem ser feitas de um IP em um determinado "
-"período de tempo, para evitar abusos."
+"O uso da API é gratuito, mas o uso das traduções está sujeito à licença da "
+"fonte de dados usada. Existe um limite de chamadas que podem ser feitas de "
+"um IP em um determinado período de tempo, para evitar abusos."
 
 #: ../../admin/machine.rst:151
 msgid ""
@@ -16820,6 +16785,9 @@ msgid ""
 "that are already translated inside Weblate. It looks for exact matches in "
 "the existing strings."
 msgstr ""
+"O serviço de tradução automática Weblate pode fornecer traduções para textos "
+"que já estão traduzidos dentro do Weblate. Ele procura correspondências "
+"exatas nos textos existentes."
 
 #: ../../admin/machine.rst:391
 msgid ""
@@ -16839,6 +16807,9 @@ msgid ""
 "that has been translated in past (or uploaded to the translation memory) can "
 "be translated in this way."
 msgstr ""
+"Use :ref:`translation-memory` como um serviço de tradução de máquina. "
+"Qualquer texto que tenha sido traduzido no passado (ou carregadalo na "
+"memória de tradução) pode ser traduzido dessa maneira."
 
 #: ../../admin/machine.rst:405
 msgid ""
@@ -17282,12 +17253,10 @@ msgid "dumpuserdata"
 msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:297
-#, fuzzy
-#| msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`."
 msgstr ""
-"Despeja dados de usuário em um arquivo para uso posterior por :djadmin:"
-"`importuserdata`"
+"Despeja dados de usuário em um arquivo para uso posterior por "
+":djadmin:`importuserdata`."
 
 #: ../../admin/management.rst:301
 msgid "This comes in handy when migrating or merging Weblate instances."
@@ -17298,17 +17267,14 @@ msgid "import_demo"
 msgstr "import_demo"
 
 #: ../../admin/management.rst:310
-#, fuzzy
-#| msgid ""
-#| "Creates a demo project with components based on <https://github.com/"
-#| "WeblateOrg/demo>."
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>. Make sure the celery tasks are running before running this "
 "command."
 msgstr ""
 "Cria um projeto de demonstração com componentes baseados em <https://github."
-"com/WeblateOrg/demo>."
+"com/WeblateOrg/demo>. Certifique-se de que as tarefas de Celery estejam em "
+"execução antes de executar este comando."
 
 #: ../../admin/management.rst:313
 msgid "This can be useful when developing Weblate."
@@ -18979,12 +18945,8 @@ msgstr ""
 "detalhes."
 
 #: ../../admin/projects.rst:167 ../../admin/projects.rst:176
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
-"O valor padrão pode ser alterado por :setting:`DEFAULT_ACCESS_CONTROL`."
+msgstr "O valor padrão pode ser alterado por :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/projects.rst:172
 msgid "Contribute to shared translation memory"
@@ -21502,28 +21464,24 @@ msgstr ""
 "(remoção de um dos backends em ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: ../../admin/upgrade.rst:306
-#, fuzzy
-#| msgid "Upgrade from 4.1 to 4.2"
 msgid "Upgrade from 4.11 to 4.12"
-msgstr "Atualizar da 4.1 para 4.2"
+msgstr "Atualizar da 4.11 para 4.12"
 
 #: ../../admin/upgrade.rst:310
-#, fuzzy
-#| msgid "There are some new and updated requirements."
 msgid "There are no special steps required."
-msgstr "Há alguns requisitos novos e atualizados."
+msgstr "Não há etapas especiais necessárias."
 
 #: ../../admin/upgrade.rst:315
-#, fuzzy
-#| msgid "Upgrade from 4.2 to 4.3"
 msgid "Upgrade from 4.12 to 4.13"
-msgstr "Atualizar da 4.2 para 4.3"
+msgstr "Atualizar da 4.12 para 4.13"
 
 #: ../../admin/upgrade.rst:319
 msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, use :setting:"
 "`UPDATE_LANGUAGES` to disable that."
 msgstr ""
+"Os :ref:`languages` agora são atualizados automaticamente na atualização, "
+"use :setting:`UPDATE_LANGUAGES` para desabilitar isso."
 
 #: ../../admin/upgrade.rst:326
 msgid "Upgrading from Python 2 to Python 3"
@@ -23381,26 +23339,20 @@ msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
 msgstr "texto de objetos de componente; veja :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1852
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new unit."
-msgstr "Adicionar novo usuário"
+msgstr "Adiciona nova unidade."
 
 #: ../../api.rst:1860
-#, fuzzy
-#| msgid "Name of translation unit"
 msgid "Name of translation unit (used as key or context)"
-msgstr "Nome da unidade de tradução"
+msgstr "Nome da unidade de tradução (usada como chave ou contexto)"
 
 #: ../../api.rst:1861
 msgid "Source strings (use single string if not creating plural)"
-msgstr ""
+msgstr "Textos fonte (use um único texto se não estiver criando plural)"
 
 #: ../../api.rst:1862
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr "Link da unidade fonte; veja :http:get:`/api/units/(int:id)/`"
+msgstr "unidade recém-criada; veja :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1866
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
@@ -24235,15 +24187,11 @@ msgid "Generic information about Pagure Webhooks"
 msgstr "Informações genéricas sobre Webhooks do Pagure"
 
 #: ../../api.rst:2515
-#, fuzzy
-#| msgid ""
-#| "Special hook for handling Azure Repos notifications and automatically "
-#| "updating matching components."
 msgid ""
 "Special hook for handling Azure DevOps notifications and automatically "
 "updating matching components."
 msgstr ""
-"Gancho especial para lidar com notificações do Azure Repos e atualizar "
+"Gancho especial para lidar com notificações do Azure DevOps e atualizar "
 "automaticamente os componentes correspondentes."
 
 #: ../../api.rst:2520
@@ -24251,6 +24199,9 @@ msgid ""
 "Please make sure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"Certifique-se de que :guilabel:`Resource details to send` esteja definido "
+"como *All*, caso contrário o Weblate não poderá corresponder ao seu "
+"repositório do Azure."
 
 #: ../../api.rst:2526
 msgid "For instruction on setting up Azure integration"
@@ -24265,10 +24216,8 @@ msgstr ""
 "webhooks?view=azure-devops"
 
 #: ../../api.rst:2528
-#, fuzzy
-#| msgid "Generic information about Azure Repos Web Hooks"
 msgid "Generic information about Azure DevOps Web Hooks"
-msgstr "Informações genéricas sobre Web Hooks do Azure Repos"
+msgstr "Informações genéricas sobre Web Hooks do Azure DevOps"
 
 #: ../../api.rst:2536
 msgid ""
@@ -24383,20 +24332,16 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.13"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.13"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Improved handling of long language names."
 msgid "Changed behavior of updating language names."
-msgstr "Tratamento aprimorado de nomes longos do idioma."
+msgstr "Alterado o comportamento de atualização de nomes de idiomas."
 
 #: ../../changes.rst:7
 #, fuzzy
