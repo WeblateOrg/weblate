@@ -169,10 +169,15 @@ class BaseExporter:
             self.store_flags(output, unit.all_flags)
 
         # Store fuzzy flag
-        if unit.fuzzy:
-            output.markfuzzy(True)
+        self.store_unit_state(output, unit)
 
         self.storage.addunit(output)
+
+    def store_unit_state(self, output, unit):
+        if unit.fuzzy:
+            output.markfuzzy(True)
+        if hasattr(output, "markapproved"):
+            output.markapproved(unit.approved)
 
     def get_response(self, filetemplate="{project}-{language}.{extension}"):
         filename = filetemplate.format(
