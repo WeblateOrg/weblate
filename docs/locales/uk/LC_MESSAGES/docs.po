@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-16 09:39+0200\n"
-"PO-Revision-Date: 2022-04-26 20:54+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2022-05-16 11:54+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.12.1-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -7523,15 +7523,11 @@ msgid "GITLAB_TOKEN"
 msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:834
-#, fuzzy
-#| msgid ""
-#| "Gitea personal access token used to make API calls to send pull requests "
-#| "for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"Особистий жетон доступу Gitea, який використовується для створення викликів "
+"Особистий жетон доступу Gitlab, який використовується для створення викликів "
 "програмного інтерфейсу для надсилання запитів щодо об'єднання для оновлень "
 "перекладу."
 
@@ -7667,33 +7663,28 @@ msgstr "Типово вимкнено."
 
 #: ../../admin/config.rst:945
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:949
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
-msgstr ""
+msgstr "Список Interledger Payment Pointers (ILPs) для вебмонетизації."
 
 #: ../../admin/config.rst:951
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
+"Якщо вказано декілька, ймовірнісний розподіл прибутку буде виконано "
+"випадковим вибором якогось."
 
 #: ../../admin/config.rst:954
-#, fuzzy
-#| msgid ""
-#| "Please check https://cloud.google.com/appengine/docs/locations for more "
-#| "details"
 msgid "Please check <https://webmonetization.org/> for more details."
-msgstr ""
-"Докладніші відомості можна знайти на https://cloud.google.com/appengine/docs/"
-"locations"
+msgstr "Докладніші відомості можна знайти на <https://webmonetization.org/>."
 
 #: ../../admin/config.rst:958
-#, fuzzy
-#| msgid "Default value: Top level directory of Weblate sources."
 msgid "The default value lets users fund Weblate itself."
-msgstr "Типове значення: каталог верхнього рівня для початкових кодів Weblate."
+msgstr ""
+"Типове значення уможливлює фінансову підтримку користувачами самого Weblate."
 
 #: ../../admin/config.rst:963
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -7892,22 +7883,14 @@ msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:1132
-#, fuzzy
-#| msgid ""
-#| "Whether the length of a given translation should be limited. The "
-#| "restriction is the length of the source string * 10 characters."
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
 "Визначає, чи має бути обмежено довжину вказаного перекладу. Обмеження "
-"довжини — довжина початкового рядка * 10 символів."
+"довжини — довжина початкового рядка × 10 символів."
 
 #: ../../admin/config.rst:1137
-#, fuzzy
-#| msgid ""
-#| "Set this to ``False`` to allow longer translations (up to 10.000 "
-#| "characters) irrespective of source string length."
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
@@ -8769,15 +8752,11 @@ msgid "PAGURE_TOKEN"
 msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1776
-#, fuzzy
-#| msgid ""
-#| "Gitea personal access token used to make API calls to send pull requests "
-#| "for translation updates."
 msgid ""
 "Pagure personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"Особистий жетон доступу Gitea, який використовується для створення викликів "
+"Особистий жетон доступу Pagure, який використовується для створення викликів "
 "програмного інтерфейсу для надсилання запитів щодо об'єднання для оновлень "
 "перекладу."
 
@@ -9260,6 +9239,8 @@ msgid ""
 "definitions extend over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"З цим параметром показ мов може стати неоднорідним. Визначення мов Weblate з "
+"часом розширюють, і код мови для визначених мов не буде показано."
 
 #: ../../admin/config.rst:2160
 msgid ":ref:`included-languages`"
@@ -13831,12 +13812,12 @@ msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Надає Weblate змогу встановлювати поле `meta[name=monetization]` у заголовку "
+"документа. Якщо вказано декілька, значення буде вибрано випадковим чином."
 
 #: ../../admin/install/docker.rst:580
-#, fuzzy
-#| msgid ":setting:`REQUIRE_LOGIN`"
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
-msgstr ":setting:`REQUIRE_LOGIN`"
+msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
 #: ../../admin/install/docker.rst:584
 msgid ""
@@ -14287,18 +14268,14 @@ msgid "LDAP"
 msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:1003
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
 msgstr ""
-"Шлях до файла, у якому міститься пароль для розпізнавання для доступу до "
-"електронної пошти."
+"Шлях до файла, у якому міститься пароль для розпізнавання до сервера "
+"прив'язки LDAP."
 
 #: ../../admin/install/docker.rst:1005
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1013
 msgid "LDAP authentication configuration."
@@ -14606,18 +14583,13 @@ msgid "The Redis server password, not used by default."
 msgstr "Пароль до сервера Redis. Типово, не використовується."
 
 #: ../../admin/install/docker.rst:1312
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the Redis server password."
 msgstr ""
-"Шлях до файла, у якому міститься пароль для розпізнавання для доступу до "
-"електронної пошти."
+"Шлях до файла, у якому міститься пароль для розпізнавання на сервері Redis."
 
 #: ../../admin/install/docker.rst:1314
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`REDIS_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`REDIS_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1318
 msgid "Enables using SSL for Redis connection."
@@ -15406,13 +15378,12 @@ msgid "Installing from sources"
 msgstr "Установлення з початкового коду"
 
 #: ../../admin/install/source.rst:4
-#, fuzzy
-#| msgid "Please follow the installation instructions for your system first:"
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
-"Будь ласка, спочатку виконайте настанові зі встановлення для вашої системи:"
+"Будь ласка, для встановлення Weblate спочатку виконайте настанови зі "
+"встановлення для вашої системи:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -16402,19 +16373,14 @@ msgid "Configure Weblate."
 msgstr "Налаштуйте Weblate."
 
 #: ../../admin/machine.rst:60
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:"
-#| "`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation <https://docs."
-#| "aws.amazon.com/translate/>`_"
 msgid ""
 ":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:"
 "`MT_AWS_SECRET_ACCESS_KEY`, `Amazon Translate Documentation <https://docs."
 "aws.amazon.com/translate/>`_"
 msgstr ""
-":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:"
-"`MT_AWS_SECRET_ACCESS_KEY` `Документація до Amazon Translate <https://docs."
-"aws.amazon.com/translate/>`_"
+":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, "
+":setting:`MT_AWS_SECRET_ACCESS_KEY`, `Документація до Amazon Translate "
+"<https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:68
 msgid "Baidu API machine translation"
@@ -16553,20 +16519,15 @@ msgstr ""
 "Вільний словник та пам'ять перекладів для майже будь-якої із актуальних мов."
 
 #: ../../admin/machine.rst:147
-#, fuzzy
-#| msgid ""
-#| "The API is gratis to use, but subject to the used data source license. "
-#| "There is a limit of calls that may be done from one IP in a set period of "
-#| "time, to prevent abuse."
 msgid ""
 "The API is gratis to use, but usage of the translations is subject to the "
 "license of the used data source. There is a limit of calls that may be done "
 "from one IP in a set period of time, to prevent abuse."
 msgstr ""
-"Доступ до програмного інтерфейсу є безплатним, але його прив'язано до "
-"використаного ліцензування початкових даних. Кількість викликів з однієї "
-"адреси IP обмежено протягом встановленого періоду часу для запобігання "
-"зловмисному використанню."
+"Доступ до програмного інтерфейсу є безплатним, але використання перекладів "
+"підлягає умовам ліцензування використаного джерела початкових даних. "
+"Кількість викликів з однієї адреси IP обмежено протягом встановленого "
+"періоду часу для запобігання зловмисному використанню."
 
 #: ../../admin/machine.rst:151
 msgid ""
@@ -16968,6 +16929,9 @@ msgid ""
 "that are already translated inside Weblate. It looks for exact matches in "
 "the existing strings."
 msgstr ""
+"Служба комп'ютерного перекладу Weblate може надавати переклади рядків, які "
+"вже перекладено у базах даних Weblate. Програма шукатиме точні відповідники "
+"у наявних рядках."
 
 #: ../../admin/machine.rst:391
 msgid ""
@@ -16987,6 +16951,9 @@ msgid ""
 "that has been translated in past (or uploaded to the translation memory) can "
 "be translated in this way."
 msgstr ""
+"Скористайтеся :ref:`пам'яттю перекладів <translation-memory>` як службою "
+"комп'ютерного перекладу. У цей спосіб можна перекласти усі рядки, які раніше "
+"було перекладено (або вивантажено до пам'яті перекладів)."
 
 #: ../../admin/machine.rst:405
 msgid ""
@@ -17429,12 +17396,10 @@ msgid "dumpuserdata"
 msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:297
-#, fuzzy
-#| msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`."
 msgstr ""
-"Створити дамп даних користувачів у файлі для наступного використання у :"
-"djadmin:`importuserdata`"
+"Створити дамп даних користувачів у файлі для наступного використання у "
+":djadmin:`importuserdata`."
 
 #: ../../admin/management.rst:301
 msgid "This comes in handy when migrating or merging Weblate instances."
@@ -17447,17 +17412,14 @@ msgid "import_demo"
 msgstr "import_demo"
 
 #: ../../admin/management.rst:310
-#, fuzzy
-#| msgid ""
-#| "Creates a demo project with components based on <https://github.com/"
-#| "WeblateOrg/demo>."
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>. Make sure the celery tasks are running before running this "
 "command."
 msgstr ""
 "Створює демонстраційний проєкт зі складниками на основі <https://github.com/"
-"WeblateOrg/demo>."
+"WeblateOrg/demo>. Перш ніж віддавати цю команду, переконайтеся, що завдання "
+"celery запущено."
 
 #: ../../admin/management.rst:313
 msgid "This can be useful when developing Weblate."
@@ -19144,12 +19106,9 @@ msgstr ""
 "більше, див. :ref:`shared-tm`."
 
 #: ../../admin/projects.rst:167 ../../admin/projects.rst:176
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
 msgstr ""
-"Типове значення можна змінити за допомогою :setting:`DEFAULT_ACCESS_CONTROL`."
+"Типове значення можна змінити за допомогою :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/projects.rst:172
 msgid "Contribute to shared translation memory"
@@ -21700,28 +21659,24 @@ msgstr ""
 "модулів у ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: ../../admin/upgrade.rst:306
-#, fuzzy
-#| msgid "Upgrade from 4.1 to 4.2"
 msgid "Upgrade from 4.11 to 4.12"
-msgstr "Оновлення з 4.1 до 4.2"
+msgstr "Оновлення з 4.11 до 4.12"
 
 #: ../../admin/upgrade.rst:310
-#, fuzzy
-#| msgid "There are some new and updated requirements."
 msgid "There are no special steps required."
-msgstr "Маємо деякі нові і оновлені вимоги щодо програмного забезпечення."
+msgstr "Ніяких особливих кроків робити не треба."
 
 #: ../../admin/upgrade.rst:315
-#, fuzzy
-#| msgid "Upgrade from 4.2 to 4.3"
 msgid "Upgrade from 4.12 to 4.13"
-msgstr "Оновлення з 4.2 до 4.3"
+msgstr "Оновлення з 4.12 до 4.13"
 
 #: ../../admin/upgrade.rst:319
 msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, use :setting:"
 "`UPDATE_LANGUAGES` to disable that."
 msgstr ""
+"При оновленні тепер буде автоматично оновлено :ref:`мови <languages>`; "
+"скористайтеся :setting:`UPDATE_LANGUAGES`, щоб вимкнути оновлення."
 
 #: ../../admin/upgrade.rst:326
 msgid "Upgrading from Python 2 to Python 3"
@@ -23572,27 +23527,20 @@ msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
 msgstr "масив об'єктів складників; див. :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1852
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new unit."
-msgstr "Додати нового користувача"
+msgstr "Додати новий модуль."
 
 #: ../../api.rst:1860
-#, fuzzy
-#| msgid "Name of translation unit"
 msgid "Name of translation unit (used as key or context)"
-msgstr "Назва модуля перекладу"
+msgstr "Назва модуля перекладу (використовують як ключ або контекст)"
 
 #: ../../api.rst:1861
 msgid "Source strings (use single string if not creating plural)"
-msgstr ""
+msgstr "Початкові рядки (один рядок, якщо не створено форм множини)"
 
 #: ../../api.rst:1862
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
-"Посилання на модуль початкового коду; див. :http:get:`/api/units/(int:id)/`"
+msgstr "новостворений модуль; див. :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1866
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
@@ -24430,22 +24378,21 @@ msgid "Generic information about Pagure Webhooks"
 msgstr "Загальні відомості щодо вебскриптів Pagure"
 
 #: ../../api.rst:2515
-#, fuzzy
-#| msgid ""
-#| "Special hook for handling Azure Repos notifications and automatically "
-#| "updating matching components."
 msgid ""
 "Special hook for handling Azure DevOps notifications and automatically "
 "updating matching components."
 msgstr ""
-"Особливий скрипт для обробки сповіщень Azure Repos і автоматичного оновлення "
-"відповідних складників."
+"Особливий скрипт для обробки сповіщень Azure DevOps і автоматичного "
+"оновлення відповідних складників."
 
 #: ../../api.rst:2520
 msgid ""
 "Please make sure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"Будь ласка, переконайтеся, що для параметра :guilabel:`Подробиці щодо "
+"ресурсу для надсилання` встановлено значення *Усі*, інакше Weblate не зможе "
+"встановити відповідність вашого сховища Azure."
 
 #: ../../api.rst:2526
 msgid "For instruction on setting up Azure integration"
@@ -24460,10 +24407,8 @@ msgstr ""
 "webhooks?view=azure-devops"
 
 #: ../../api.rst:2528
-#, fuzzy
-#| msgid "Generic information about Azure Repos Web Hooks"
 msgid "Generic information about Azure DevOps Web Hooks"
-msgstr "Загальні відомості щодо вебскриптів репозиторіїв Azure"
+msgstr "Загальні відомості щодо вебскриптів Azure DevOps"
 
 #: ../../api.rst:2536
 msgid ""
@@ -24577,106 +24522,83 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.13"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.13"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Improved handling of long language names."
 msgid "Changed behavior of updating language names."
-msgstr "Удосконалено обробку довгих назв мов."
+msgstr "Змінено поведінку при оновленні назв мов."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed lock indication on project listing."
 msgid "Added pagination to projects listing."
-msgstr "Виправлено індикатор блокування у списку проєктів."
+msgstr "Додано поділ на сторінки для списку проєктів."
 
 #: ../../changes.rst:8
 msgid ""
 "API for creating new units now returns information about newly created unit."
 msgstr ""
+"Програмний інтерфейс для створення модулів у новій версії повертає відомості "
+"щодо новоствореного модуля."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Component discovery configuration"
 msgid "Component discovery now supports configuring an intermediate language."
-msgstr "Налаштовування виявлення складників"
+msgstr ""
+"У виявленні складників у новій версії передбачено підтримку налаштовування "
+"проміжної мови."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/82?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/82?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"81?closed=1>`__."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Weblate 4.2.2"
 msgid "Weblate 4.12.2"
-msgstr "Weblate 4.2.2"
+msgstr "Weblate 4.12.2"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Released on May 10th 2012."
 msgid "Released on May 11th 2022."
-msgstr "Випущено 10 травня 2012 року."
+msgstr "Випущено 11 травня 2022 року."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for rebuilding project translation memory."
 msgid "Fixed rebuilding project translation memory for some components."
-msgstr "Додано підтримку для перебудови пам'яті перекладів проєкту."
+msgstr ""
+"Виправлено повторну побудову пам'яті перекладів проєкту для деяких "
+"складників."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Fixed sorting components by untranslated strings."
-msgstr "Виправлено упорядкування пропозицій комп'ютерного перекладу."
+msgstr "Виправлено упорядкування складників за кількістю неперекладених рядків."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Fixed possible loss of newly added strings on replace upload."
 msgid "Fixed possible loss of translations while adding new language."
-msgstr ""
-"Усунено можливу втрату щойно доданих рядків при вивантаженні із заміною."
+msgstr "Усунено можливу втрату перекладів під час додавання нової мови."
 
 #: ../../changes.rst:21
 msgid "Ensure Weblate SSH key is generated during migrations."
-msgstr ""
+msgstr "Забезпечено створення ключа SSH Weblate під час перенесення даних."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/82?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/82?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"83?closed=1>`__."
 
 #: ../../changes.rst:26
 msgid "Weblate 4.12.1"
 msgstr "Weblate 4.12.1"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Released on April 20th 2022."
 msgid "Released on April 29th 2022."
-msgstr "Випущено 20 квітня 2022 року."
+msgstr "Випущено 29 квітня 2022 року."
 
 #: ../../changes.rst:30
 msgid "Fixed pull request message title."
@@ -24692,20 +24614,13 @@ msgstr ""
 "Виправлено показ аватару у повідомленнях-сповіщеннях електронної пошти."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Added support for GitLab notifications."
 msgid "Add support for web monetization."
-msgstr "Додано підтримку сповіщень GitLab."
+msgstr "Додано підтримку вебмонетизації."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "Fixed race condition in editing source string for monolingual "
-#| "translations."
 msgid "Fixed removal of stale source strings when removing translations."
 msgstr ""
-"Виправлено конкуренцію при редагуванні початкового рядка для одномовних "
-"перекладів."
+"Усунено вилучення застарілих початкових рядків при вилученні перекладів."
 
 #: ../../changes.rst:36
 msgid ""
@@ -42860,10 +42775,6 @@ msgstr ""
 "використанням булевих операцій, дужок та фільтрів полів."
 
 #: ../../user/search.rst:11
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens source, target, and context "
-#| "strings."
 msgid ""
 "When no field is defined, the lookup happens on source, target, and context "
 "strings."
