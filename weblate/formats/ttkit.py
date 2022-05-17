@@ -219,6 +219,7 @@ class TTKitFormat(TranslationFormat):
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
     use_settarget = False
+    force_encoding = None
 
     def __init__(
         self,
@@ -250,6 +251,8 @@ class TTKitFormat(TranslationFormat):
 
     def fixup(self, store):
         """Perform optional fixups on store."""
+        if self.force_encoding is not None:
+            store.encoding = self.force_encoding
         return
 
     def load(self, storefile, template_store):
@@ -1242,13 +1245,8 @@ class PropertiesUtf16Format(PropertiesBaseFormat):
     loader = ("properties", "javafile")
     language_format = "java"
     new_translation = "\n"
-
-    def fixup(self, store):
-        """Force encoding.
-
-        Translate Toolkit autodetection might fail in some cases.
-        """
-        store.encoding = "utf-16"
+    # Translate Toolkit autodetection might fail in some cases.
+    force_encoding = "utf-16"
 
 
 class PropertiesFormat(PropertiesBaseFormat):
@@ -1258,14 +1256,9 @@ class PropertiesFormat(PropertiesBaseFormat):
     language_format = "java"
     new_translation = "\n"
     autoload = ("*.properties",)
-
-    def fixup(self, store):
-        """Force encoding.
-
-        Java properties need to be ISO 8859-1, but Translate Toolkit converts them to
-        UTF-8.
-        """
-        store.encoding = "iso-8859-1"
+    # Java properties need to be ISO 8859-1, but Translate Toolkit converts
+    # them to UTF-8.
+    force_encoding = "iso-8859-1"
 
 
 class JoomlaFormat(PropertiesBaseFormat):
@@ -1779,14 +1772,7 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     format_id = "xwiki-page-properties"
     loader = ("properties", "XWikiPageProperties")
     language_format = "java"
-
-    def fixup(self, store):
-        """Fix encoding.
-
-        Force encoding to UTF-8 since we inherit from XWikiProperties which force
-        for ISO-8859-1.
-        """
-        store.encoding = "utf-8"
+    force_encoding = "utf-8"
 
     def save_content(self, handle):
         if self.store.root is None:
