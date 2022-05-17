@@ -76,7 +76,7 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`aresource`    | mono             | yes           | yes [#x]_          | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
-| :ref:`apple`        | bilingual        | no            | yes                | no            | no             | no             |                         |
+| :ref:`apple`        | both             | no            | yes                | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`php`          | mono             | no [#lp]_     | yes                | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
@@ -743,7 +743,7 @@ File format typically used for translating Apple :index:`iOS <pair: iOS;
 translation>` applications, but also standardized by PWG 5100.13 and used on
 NeXTSTEP/OpenSTEP.
 
-Apple iOS strings are usually used as bilingual translations.
+Apple iOS strings are usually used as monolingual.
 
 +-------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                              |
