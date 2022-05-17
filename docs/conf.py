@@ -268,6 +268,8 @@ linkcheck_ignore = [
     "https://docwiki.embarcadero.com/",
     # 403 for linkcheck
     "https://docs.github.com/",
+    # These are PDF and fails with Unicode decode error
+    "http://ftp.pwg.org/",
 ]
 
 # HTTP docs
