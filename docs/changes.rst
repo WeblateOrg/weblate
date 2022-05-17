@@ -11,6 +11,7 @@ Not yet released.
 * Changed handling of context and location for some formats to better fit underlying implementation.
 * Added support for ResourceDictionary format.
 * Improved progress bar colors for color blind.
+* Fixed variants cleanup on string removal.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

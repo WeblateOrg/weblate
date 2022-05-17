@@ -1422,6 +1422,7 @@ class Translation(
         with component.repository.lock:
             component.commit_pending("delete unit", user)
             previous_revision = self.component.repository.last_revision
+            cleanup_variants = False
             for translation in self.get_store_change_translations():
                 # Does unit exist here?
                 try:
@@ -1429,6 +1430,7 @@ class Translation(
                 except ObjectDoesNotExist:
                     continue
                 # Delete the removed unit from the database
+                cleanup_variants |= translation_unit.variant_id
                 translation_unit.delete()
                 # Skip file processing on source language without a storage
                 if not self.filename:
@@ -1461,6 +1463,9 @@ class Translation(
                 self.unit_set.filter(position__gt=unit.position).update(
                     position=F("position") - 1
                 )
+
+            if cleanup_variants:
+                self.component.update_variants()
 
             self.handle_store_change(request, user, previous_revision)
 

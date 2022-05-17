@@ -119,9 +119,7 @@ class VariantTest(ViewTestCase):
         self.assertEqual(Variant.objects.count(), 1)
         self.assertEqual(Variant.objects.get().unit_set.count(), 4)
 
-        unit.delete()
-        self.assertEqual(Variant.objects.count(), 1)
-        translation.component.update_variants()
+        translation.delete_unit(None, unit)
         self.assertEqual(Variant.objects.count(), 0)
 
     def test_variants_flag_translation(self):
