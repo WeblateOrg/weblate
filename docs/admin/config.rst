@@ -1164,7 +1164,7 @@ store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
 LOGIN_REQUIRED_URLS
 -------------------
 
-A list of URLs you want to require logging into. (Besides the standard rules built into Weblate).
+A list of URLs you want to require signing in. (Besides the standard rules built into Weblate).
 
 .. hint::
 

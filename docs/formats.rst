@@ -474,7 +474,7 @@ File format used for JavaScript localization by `mi18n`_. Syntactically it match
 
 .. seealso::
 
-    `mi18n`_
+    `mi18n`_,
     :doc:`tt:formats/properties`,
     :ref:`javaprop`,
     :ref:`updating-target-files`,
