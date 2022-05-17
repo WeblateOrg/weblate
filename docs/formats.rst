@@ -739,8 +739,9 @@ Apple iOS strings
 .. index::
     pair: Apple strings; file format
 
-Apple specific file format for translating applications, used for both iOS
-and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
+File format typically used for translating Apple :index:`iOS <pair: iOS;
+translation>` applications, but also standardized by PWG 5100.13 and used on
+NeXTSTEP/OpenSTEP.
 
 Apple iOS strings are usually used as bilingual translations.
 
