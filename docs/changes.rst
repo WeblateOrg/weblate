@@ -9,6 +9,7 @@ Not yet released.
 * Component discovery now supports configuring an intermediate language.
 * Added fixed encoding variants to CSV formats.
 * Changed handling of context and location for some formats to better fit underlying implementation.
+* Added support for ResourceDictionary format.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

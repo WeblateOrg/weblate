@@ -1641,6 +1641,19 @@ class FlatXMLFormat(TTKitFormat):
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
 
 
+class ResourceDictionaryFormat(FlatXMLFormat):
+    name = _("ResourceDictionary file")
+    format_id = "resourcedictionary"
+    loader = ("resourcedictionary", "ResourceDictionaryFile")
+    check_flags = ("c-sharp-format",)
+    language_format = "java"
+    new_translation = """<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:system="clr-namespace:System;assembly=mscorlib">
+</ResourceDictionary>"""
+
+
 class INIFormat(TTKitFormat):
     name = _("INI file")
     format_id = "ini"

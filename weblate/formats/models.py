@@ -132,6 +132,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.SubStationAlphaFormat",
         "weblate.formats.ttkit.DTDFormat",
         "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.ttkit.ResourceDictionaryFormat",
         "weblate.formats.ttkit.INIFormat",
         "weblate.formats.ttkit.InnoSetupINIFormat",
         "weblate.formats.ttkit.PropertiesMi18nFormat",
