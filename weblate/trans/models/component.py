@@ -2933,6 +2933,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def file_format_create_style(self):
         return self.file_format_cls.create_style
 
+    @cached_property
+    def file_format_flags(self):
+        return Flags(self.file_format_cls.check_flags)
+
     @property
     def file_format_cls(self):
         """Return file format object."""
@@ -3001,15 +3005,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return Flags(self.format_flags, self.check_flags)
-
-    @cached_property
-    def format_flags(self):
-        return Flags(self.file_format_cls.check_flags)
-
-    @property
-    def format_name(self):
-        return self.file_format_cls.name
+        return Flags(self.file_format_flags, self.check_flags)
 
     def can_add_new_language(self, user, fast: bool = False):
         """Wrapper to check if a new language can be added.
