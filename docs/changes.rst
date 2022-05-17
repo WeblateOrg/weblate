@@ -7,6 +7,7 @@ Not yet released.
 * Added pagination to projects listing.
 * API for creating new units now returns information about newly created unit.
 * Component discovery now supports configuring an intermediate language.
+* Added fixed encoding variants to CSV formats.
 * Changed handling of context and location for some formats to better fit underlying implementation.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.

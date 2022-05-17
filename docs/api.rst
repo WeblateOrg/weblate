@@ -2679,4 +2679,4 @@ Changes in translations are exported in RSS feeds.
 
 .. seealso::
 
-   `RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_
+   `RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_
