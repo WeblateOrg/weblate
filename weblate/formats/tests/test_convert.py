@@ -39,9 +39,7 @@ TEST_TXT = get_test_file("cs.txt")
 class ConvertFormatTest(AutoFormatTest):
     NEW_UNIT_MATCH = None
     EXPECTED_FLAGS = ""
-
-    def parse_file(self, filename):
-        return self.FORMAT(filename, template_store=self.FORMAT(filename))
+    MONOLINGUAL = True
 
 
 class HTMLFormatTest(ConvertFormatTest):
@@ -52,7 +50,7 @@ class HTMLFormatTest(ConvertFormatTest):
     COUNT = 5
     MASK = "*/translations.html"
     EXPECTED_PATH = "cs_CZ/translations.html"
-    FIND_CONTEXT = "+html.body.p:5-1"
+    FIND = "Orangutan has five bananas."
     FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"<body>"
     NEW_UNIT_MATCH = None
@@ -100,10 +98,7 @@ class IDMLFormatTest(ConvertFormatTest):
     COUNT = 6
     MASK = "*/translations.idml"
     EXPECTED_PATH = "cs_CZ/translations.idml"
-    FIND_CONTEXT = (
-        "idPkg:Story[0]/{}Story[0]/{}XMLElement[0]/{}ParagraphStyleRange[0]"
-        "Stories/Story_mainmainmainmainmainmainmainmainmainmainmainu188.xml"
-    )
+    FIND = """<g id="0"><g id="1">THE HEADLINE HERE</g></g>"""
     FIND_MATCH = """<g id="0"><g id="1">THE HEADLINE HERE</g></g>"""
     MATCH = b"PK"
     NEW_UNIT_MATCH = None
@@ -134,7 +129,7 @@ class WindowsRCFormatTest(ConvertFormatTest):
     MASK = "rc/*.rc"
     EXPECTED_PATH = "rc/cs-CZ.rc"
     MATCH = "STRINGTABLE"
-    FIND_CONTEXT = "STRINGTABLE.IDS_MSG1"
+    FIND = "Hello, world!\n"
     FIND_MATCH = "Hello, world!\n"
     EDIT_OFFSET = 1
 
@@ -149,6 +144,6 @@ class PlainTextFormatTest(ConvertFormatTest):
     MASK = "txt/*.txt"
     EXPECTED_PATH = "txt/cs_CZ.txt"
     MATCH = "Hello"
-    FIND_CONTEXT = "cs.txt:2"
+    FIND = "Hello, world!"
     FIND_MATCH = "Hello, world!"
     EDIT_OFFSET = 1

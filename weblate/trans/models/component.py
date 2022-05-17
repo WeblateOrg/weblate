@@ -2987,6 +2987,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return self.file_format_cls.parse(
             fileobj or self.get_template_filename(),
             source_language=self.source_language.code,
+            is_template=True,
         )
 
     @cached_property

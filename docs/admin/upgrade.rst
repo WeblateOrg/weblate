@@ -317,6 +317,9 @@ Upgrade from 4.12 to 4.13
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The :ref:`languages` are now automatically updated on upgrade, use :setting:`UPDATE_LANGUAGES` to disable that.
+* Handling of context and location has been changed for :ref:`winrc`,
+  :ref:`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the
+  context is now shown as location.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

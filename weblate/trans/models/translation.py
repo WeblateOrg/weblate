@@ -419,7 +419,7 @@ class Translation(
                 if translation_store is not None:
                     try:
                         translated_unit, created = translation_store.find_unit(
-                            unit.context
+                            unit.context, unit.source
                         )
                         if translated_unit and not created:
                             unit = translated_unit
