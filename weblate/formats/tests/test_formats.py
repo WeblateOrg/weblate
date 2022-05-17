@@ -201,7 +201,9 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     def parse_file(self, filename):
         if self.MONOLINGUAL:
-            return self.FORMAT(filename, template_store=self.FORMAT(filename))
+            return self.FORMAT(
+                filename, template_store=self.FORMAT(filename, is_template=True)
+            )
         return self.FORMAT(filename)
 
     def test_parse(self):
@@ -259,7 +261,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertIn(unit, None)
+            self.assertIsNone(unit)
         else:
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
@@ -1028,7 +1030,9 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             translation_file, Language.objects.get(code="fr"), self.BASE
         )
         translation_data = self.FORMAT(
-            storefile=translation_file, template_store=storage, language_code="fr"
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="fr",
         )
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))
@@ -1076,6 +1080,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
     EDIT_TARGET = """= Titre=\n"
                 "\n"
                 "* [[Bac à sable>>Sandbox.TestPage1]]\n"
@@ -1149,7 +1154,9 @@ class XWikiFullPageFormatTest(AutoFormatTest):
             translation_file, Language.objects.get(code="it"), self.BASE
         )
         translation_data = self.FORMAT(
-            storefile=translation_file, template_store=storage, language_code="it"
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
         )
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))

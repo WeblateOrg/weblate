@@ -476,7 +476,7 @@ File format used for JavaScript localization by `mi18n`_. Syntactically it match
 
 .. seealso::
 
-    `mi18n`_
+    `mi18n`_,
     :doc:`tt:formats/properties`,
     :ref:`javaprop`,
     :ref:`updating-target-files`,
@@ -1153,6 +1153,13 @@ the following files:
   Choose :guilabel:`CSV file` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
+
+.. hint::
+
+   By default, the CSV format does autodetection of file encoding. This can be
+   unreliable in some corner cases and causes performance penalty. Please
+   choose file format variant with encoding to avoid this (for example
+   :guilabel:`CSV file (UTF-8)`).
 
 .. warning::
 
