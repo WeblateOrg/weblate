@@ -349,7 +349,7 @@ components (for example the application and its website) or when bootstrapping
 a translation for a new component using existing translations
 (translation memory).
 
-The automatically translated strings are labelled by :guilabel:`Automatically
+The automatically translated strings are labelled :guilabel:`Automatically
 translated`.
 
 .. seealso::
