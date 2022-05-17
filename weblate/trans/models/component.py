@@ -3001,7 +3001,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return Flags(self.file_format_cls.check_flags, self.check_flags)
+        return Flags(self.format_flags, self.check_flags)
+
+    @cached_property
+    def format_flags(self):
+        return Flags(self.file_format_cls.check_flags)
+
+    @property
+    def format_name(self):
+        return self.file_format_cls.name
 
     def can_add_new_language(self, user, fast: bool = False):
         """Wrapper to check if a new language can be added.
