@@ -282,12 +282,18 @@ class TTKitFormat(TranslationFormat):
     def get_class_kwargs():
         return {}
 
-    def parse_store(self, storefile):
-        """Parse the store."""
-        store = self.get_class()(**self.get_class_kwargs())
+    def get_store_instance(self, **kwargs):
+        kwargs.update(self.get_class_kwargs())
+        store = self.get_class()(**kwargs)
 
         # Apply possible fixups
         self.fixup(store)
+
+        return store
+
+    def parse_store(self, storefile):
+        """Parse the store."""
+        store = self.get_store_instance()
 
         # Read the content
         if isinstance(storefile, str):
@@ -1404,7 +1410,7 @@ class CSVFormat(TTKitFormat):
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
     autoload: Tuple[str, ...] = ("*.csv",)
-    encoding = "auto"
+    force_encoding = "auto"
 
     def __init__(
         self,
@@ -1453,12 +1459,10 @@ class CSVFormat(TTKitFormat):
 
     def parse_store(self, storefile):
         """Parse the store."""
-        storeclass = self.get_class()
-
         content, filename = self.get_content_and_filename(storefile)
 
         # Parse file
-        store = storeclass()
+        store = self.get_store_instance()
         store.parse(content, sample_length=40000)
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
@@ -1480,8 +1484,7 @@ class CSVFormat(TTKitFormat):
         return self.parse_simple_csv(content, filename)
 
     def parse_simple_csv(self, content, filename):
-        storeclass = self.get_class()
-        result = storeclass(fieldnames=["source", "target"], encoding=self.encoding)
+        result = self.get_store_instance(fieldnames=["source", "target"])
         result.parse(content, sample_length=None)
         result.filename = filename
         return result
@@ -1491,7 +1494,7 @@ class CSVSimpleFormat(CSVFormat):
     name = _("Simple CSV file")
     format_id = "csv-simple"
     autoload: Tuple[str, ...] = ("*.txt",)
-    encoding = "auto"
+    force_encoding = "auto"
 
     @staticmethod
     def extension():
@@ -1508,7 +1511,7 @@ class CSVSimpleFormat(CSVFormat):
 class CSVSimpleFormatISO(CSVSimpleFormat):
     name = _("Simple CSV file (ISO-8859-1)")
     format_id = "csv-simple-iso"
-    encoding = "iso-8859-1"
+    force_encoding = "iso-8859-1"
     autoload = ()
 
 
