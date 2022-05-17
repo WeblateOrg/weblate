@@ -1490,6 +1490,12 @@ class CSVFormat(TTKitFormat):
         return result
 
 
+class CSVUtf8Format(CSVFormat):
+    name = _("CSV file (UTF-8)")
+    format_id = "csv-utf-8"
+    force_encoding = "utf-8"
+
+
 class CSVSimpleFormat(CSVFormat):
     name = _("Simple CSV file")
     format_id = "csv-simple"
@@ -1512,6 +1518,13 @@ class CSVSimpleFormatISO(CSVSimpleFormat):
     name = _("Simple CSV file (ISO-8859-1)")
     format_id = "csv-simple-iso"
     force_encoding = "iso-8859-1"
+    autoload = ()
+
+
+class CSVUtf8SimpleFormat(CSVSimpleFormat):
+    name = _("Simple CSV file (UTF-8)")
+    format_id = "csv-simple-utf-8"
+    force_encoding = "utf-8"
     autoload = ()
 
 

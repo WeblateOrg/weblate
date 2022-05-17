@@ -1118,6 +1118,13 @@ the following files:
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
 
+.. hint::
+
+   By default, the CSV format does autodetection of file encoding. This can be
+   unreliable in some corner cases and causes performance penalty. Please
+   choose file format variant with encoding to avoid this (for example
+   :guilabel:`CSV file (UTF-8)`).
+
 .. warning::
 
    The CSV format currently automatically detects the dialect of the CSV file.
