@@ -47,6 +47,7 @@ from weblate.formats.ttkit import (
     PoFormat,
     PoXliffFormat,
     PropertiesFormat,
+    ResourceDictionaryFormat,
     RESXFormat,
     RubyYAMLFormat,
     StringsdictFormat,
@@ -69,6 +70,7 @@ TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
+TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
@@ -861,6 +863,24 @@ class FlatXMLFormatTest(AutoFormatTest):
     FIND_CONTEXT = "hello_world"
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
+    EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
+
+
+class ResourceDictionaryFormatTest(AutoFormatTest):
+    FORMAT = ResourceDictionaryFormat
+    FILE = TEST_RESOURCEDICTIONARY
+    MIME = "application/xaml+xml"
+    COUNT = 2
+    EXT = "xaml"
+    MASK = "Languages/*.xaml"
+    BASE = TEST_RESOURCEDICTIONARY
+    EXPECTED_PATH = "Languages/cs-CZ.xaml"
+    MATCH = "hello"
+    FIND = "Hello World!"
+    FIND_CONTEXT = "hello_world"
+    FIND_MATCH = "Hello World!"
+    NEW_UNIT_MATCH = b'<system:String x:Key="key">Source string</system:String>\n'
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
 

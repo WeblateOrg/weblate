@@ -92,6 +92,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`dotnet`       | mono             | no            | yes                | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
+| :ref:`resourcedict` | mono             | no            | no                 | no            | no             | yes [#xl]_     |                         |
++---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`csv`          | both             | no            | yes                | yes           | yes            | no             | needs editing           |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`yaml`         | mono             | no            | yes                | no            | no             | no             |                         |
@@ -1089,6 +1091,40 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 .. seealso::
 
     :doc:`tt:formats/resx`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.cleanup.generic`
+
+.. _resourcedict:
+
+ResourceDictionary files
+------------------------
+
+.. index::
+    pair: ResourceDictionary; file format
+    pair: WPF; file format
+
+.. versionadded:: 2.13
+
+ResourceDictionary is a monolingual  XML file format used to package
+localizable string resources for Windows Presentation Foundation (WPF)
+applications.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``Languages/*.xaml``             |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``Language/en.xaml``             |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `ResourceDictionary file`        |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/flatxml`,
+    :ref:`flatxml`,
     :ref:`updating-target-files`,
     :ref:`addon-weblate.cleanup.generic`
 

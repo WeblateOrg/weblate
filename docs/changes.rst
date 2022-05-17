@@ -7,6 +7,7 @@ Not yet released.
 * Added pagination to projects listing.
 * API for creating new units now returns information about newly created unit.
 * Component discovery now supports configuring an intermediate language.
+* Added support for ResourceDictionary format.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
