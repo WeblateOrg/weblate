@@ -209,8 +209,9 @@ class GroupChangeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        components = self.fields["components"]
-        components.queryset = components.queryset.select_related("project")
+        if "components" in self.fields:
+            components = self.fields["components"]
+            components.queryset = components.queryset.select_related("project")
 
     def clean(self):
         super().clean()
