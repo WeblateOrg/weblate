@@ -143,7 +143,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             path,
             self._remote_branch,
             component=Component(
-                slug="test", name="Test", project=Project(name="Test", slug="test")
+                slug="test",
+                name="Test",
+                project=Project(name="Test", slug="test", pk=-1),
+                pk=-1,
             ),
         )
 

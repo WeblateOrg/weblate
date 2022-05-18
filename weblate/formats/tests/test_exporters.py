@@ -88,7 +88,7 @@ class PoExporterTest(BaseTestCase):
         translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files
         translation.store = EmptyFormat(BytesIOMode("", b""))
-        unit = Unit(translation=translation, id_hash=-1, **kwargs)
+        unit = Unit(translation=translation, id_hash=-1, pk=-1, **kwargs)
         if source_info:
             for key, value in source_info.items():
                 setattr(unit, key, value)

@@ -94,9 +94,11 @@ class LocationLinksTest(TestCase):
                     source_language=Language(),
                     slug="c",
                     name="c",
+                    pk=-1,
                 ),
                 language=Language(),
-            )
+            ),
+            pk=-1,
         )
         self.unit.source_unit = self.unit
         self.profile = Profile()
