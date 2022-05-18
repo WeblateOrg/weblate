@@ -38,6 +38,12 @@ use quotes to include whitespace or special chars in the string. For example:
 
    placeholders:"special:value":"other value", regex:.*
 
+Both single and double quotes are accepted, special characters are being escaped using backslash:
+
+.. code-block:: text
+
+   placeholders:"quoted \"string\"":'single \'quoted\''
+
 Here is a list of flags currently accepted:
 
 ``rst-text``
