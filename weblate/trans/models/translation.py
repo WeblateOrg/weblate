@@ -1430,7 +1430,7 @@ class Translation(
                 except ObjectDoesNotExist:
                     continue
                 # Delete the removed unit from the database
-                cleanup_variants |= translation_unit.variant_id
+                cleanup_variants |= translation_unit.variant_id is not None
                 translation_unit.delete()
                 # Skip file processing on source language without a storage
                 if not self.filename:
