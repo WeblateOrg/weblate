@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-16 07:39+0000\n"
-"PO-Revision-Date: 2022-05-16 11:54+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-05-18 20:21+0000\n"
+"Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -1404,8 +1404,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Klona tillägg från huvudkomponenten till de nyligen skapade"
 
 #: weblate/addons/forms.py:306
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Ta bort komponenter för icke-existerande filer"
 
@@ -1474,44 +1472,36 @@ msgid "Target translation"
 msgstr "Målöversättning"
 
 #: weblate/addons/forms.py:503
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Följande översättningar kommer att tas bort:"
+msgstr "Alla strängar i denna översättning kommer att skrivas över"
 
 #: weblate/addons/forms.py:506 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Strängprefix"
+msgstr "Fast strängprefix"
 
 #: weblate/addons/forms.py:511 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Strängprefix"
+msgstr "Variabelt strängprefix"
 
 #: weblate/addons/forms.py:516 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Strängsuffix"
+msgstr "Fast strängsuffix"
 
 #: weblate/addons/forms.py:521 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Strängsuffix"
+msgstr "Variabelt strängsuffix"
 
 #: weblate/addons/forms.py:526
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Multiplikator för variabla delen"
 
 #: weblate/addons/forms.py:529
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Hur många gånger den variabla delen ska upprepas beroende på längden på "
+"källsträngen."
 
 #: weblate/addons/forms.py:559
 msgid "The source and target have to be different languages."
@@ -2403,7 +2393,7 @@ msgstr "N/A"
 
 #: weblate/billing/models.py:362 weblate/templates/billing/status.html:82
 msgid "Last invoice"
-msgstr "Sista faktura"
+msgstr "Senaste faktura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:384
@@ -2683,10 +2673,8 @@ msgid "Terminology"
 msgstr "Terminologi"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "Ignorerade kontroller"
+msgstr "Ignorera alla kontroller"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -3941,10 +3929,8 @@ msgid "Entries deleted."
 msgstr "Poster togs bort."
 
 #: weblate/memory/views.py:123
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Entries deleted and memory will be rebuilt in the background."
-msgstr "Översättningen kommer att uppdateras i bakgrunden."
+msgstr "Poster raderade, minnet kommer att byggas om i bakgrunden."
 
 #: weblate/memory/views.py:139
 msgid "File processed, the entries will appear shortly."
@@ -4190,10 +4176,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:237
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Fråga om projektlagring"
+msgstr "Fråga efter fri hosting"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4395,10 +4379,8 @@ msgid "Trial subscriptions"
 msgstr "Provprenumerationer"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy
-#| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "Översätt ditt libre-projekt"
+msgstr "Konfigurera ditt libre-projekt"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4421,14 +4403,11 @@ msgid "Unapproved projects will be removed."
 msgstr "Ej godkända projekt kommer att tas bort."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
 msgstr ""
-"Det finns ingen garanti för tillgänglighet eller kvalitet på gratistjänsten."
+"Det finns ingen garanti för tillgänglighet eller kvalitet för fri (libre) "
+"hosting."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -5263,16 +5242,12 @@ msgid "Project URL slug"
 msgstr "Projektets URL-slug"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "Oöversatta strängar"
+msgstr "Genererade strängar"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "Strängen har inte översatts på länge"
+msgstr "Strängarna genereras enligt följande mönster:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -6793,9 +6768,7 @@ msgid "Mark as spam"
 msgstr "Markera som spam"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "The following activity has occured on your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
 msgstr "Följande aktivitet har skett på ditt konto på %(site_title)s:"
 
@@ -6903,16 +6876,13 @@ msgstr ""
 "bort %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Om din fria utvärdering inte godkänns, tas alla projekt inom denna "
-"faktureringsplan bort %(date)s."
+"Om din fria (libre) hosting inte godkänns kommer alla projekt inom denna "
+"faktureringsplan att tas bort den %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -7462,7 +7432,7 @@ msgstr "Prestandarapport"
 
 #: weblate/templates/manage/performance.html:25
 msgid "Last occurrence"
-msgstr "Sista förekomsten"
+msgstr "Senaste förekomst"
 
 #: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
@@ -7716,15 +7686,12 @@ msgstr[1] ""
 #: weblate/templates/memory/index.html:129
 #: weblate/templates/memory/index.html:146
 msgid "Rebuild"
-msgstr ""
+msgstr "Bygg om"
 
 #: weblate/templates/memory/index.html:84
 #: weblate/templates/memory/index.html:143
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Memory will be then populated with the current translations."
-msgstr ""
-"Den uppladdade filen kommer att sammanfogas med nuvarande översättningen."
+msgstr "Minnet fylls sedan med nuvarande översättningar."
 
 #: weblate/templates/memory/index.html:158
 msgid "Shared translation memory"
@@ -8149,7 +8116,7 @@ msgstr "Arkivgren"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
-msgstr "Sista arkivering i fjärrarkivet"
+msgstr "Senaste arkivering i fjärrarkivet"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:43
@@ -8160,7 +8127,7 @@ msgstr "%(author)s författade för %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
 msgid "Last commit in Weblate"
-msgstr "Sista arkivering i Weblate"
+msgstr "Senaste arkivering i Weblate"
 
 #: weblate/templates/snippets/git-info.html:68
 msgid "Weblate repository"
@@ -8293,7 +8260,7 @@ msgstr "Hämta"
 
 #: weblate/templates/snippets/info.html:231
 msgid "Last change"
-msgstr "Sista ändring"
+msgstr "Senaste ändring"
 
 #: weblate/templates/snippets/info.html:235
 msgid "Last author"
@@ -8373,11 +8340,9 @@ msgid "Needs editing"
 msgstr "Behöver åtgärdas"
 
 #: weblate/templates/snippets/info.html:343
-#, fuzzy
-#| msgid "Read only"
 msgctxt "Number of strings"
 msgid "Read-only"
-msgstr "Endast läsbar"
+msgstr "Skrivskyddad"
 
 #: weblate/templates/snippets/info.html:352
 msgctxt "Number of strings"
@@ -8431,17 +8396,15 @@ msgid "Additional labels can be defined by project administrators."
 msgstr "Ytterligare etiketter kan definieras av projektadministratören."
 
 #: weblate/templates/snippets/libre-basic.html:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Translated content has to be released under a license approved by OSI or "
-#| "recognized as libre by FSF."
+#, python-format
 msgid ""
 "Translated content has to be released under a license "
 "%(link_osi_start)sapproved by OSI%(link_end)s or "
 "%(link_fsf_start)srecognized as libre by FSF%(link_end)s."
 msgstr ""
-"Översatt innehåll måste släppas under en licens som godkänts av OSI eller "
-"erkänts som fri av FSF."
+"Översatt innehåll måste släppas under en licens %(link_osi_start)s som "
+"godkänts av OSI%(link_end)s eller %(link_fsf_start)s som erkänts som libre "
+"av FSF%(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:4
 msgid ""
@@ -8607,7 +8570,7 @@ msgstr "Nästa"
 #: weblate/templates/snippets/position-field.html:31
 #: weblate/templates/snippets/position-field.html:34
 msgid "Last"
-msgstr "Sista"
+msgstr "Senaste"
 
 #: weblate/templates/snippets/progress.html:5 weblate/trans/forms.py:451
 msgid "Approved"
@@ -9861,6 +9824,7 @@ msgstr "För alla språk"
 #: weblate/templates/translate.html:472
 msgid "Selecting this option will set the corresponding \"ignore check\" flag"
 msgstr ""
+"Detta alternativ kommer sätta motsvarande flagga för \"ignorera kontroll\""
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -10993,8 +10957,6 @@ msgid "No file mask matches."
 msgstr "Ingen filmask matchar."
 
 #: weblate/trans/models/alert.py:425
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Icke-existerande filer."
 
@@ -11396,10 +11358,8 @@ msgid "Java style"
 msgstr "Java-stil"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Teckenstil"
+msgstr "Linux-stil"
 
 #: weblate/trans/models/component.py:146
 msgid "Merge"
@@ -11666,7 +11626,7 @@ msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
 
 #: weblate/trans/models/component.py:556
 msgid "Merge request message"
-msgstr ""
+msgstr "Meddelande för merge-begäran"
 
 #: weblate/trans/models/component.py:565
 msgid "Push on commit"
@@ -12255,10 +12215,9 @@ msgid "Forbidden translation: %s"
 msgstr "Förbjuden översättning: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Non translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
-msgstr "Inte översättningsbar: %s"
+msgstr "Oöversättbar: %s"
 
 #: weblate/trans/templatetags/translations.py:177
 #, python-format
@@ -13207,10 +13166,8 @@ msgid "GitHub pull request"
 msgstr "GitHub pull-begäran"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "GitHub pull-begäran"
+msgstr "Gitea pull-begäran"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
