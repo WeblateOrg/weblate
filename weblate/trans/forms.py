@@ -765,7 +765,7 @@ class SearchForm(forms.Form):
         return items
 
     def urlencode(self):
-        return urlencode(self.items())
+        return urlencode(sorted(self.items()))
 
     def reset_offset(self):
         """Reset offset to avoid using form as default for new search."""
