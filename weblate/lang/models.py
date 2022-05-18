@@ -26,7 +26,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
-from django.db.utils import OperationalError, ProgrammingError
+from django.db.utils import OperationalError
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
@@ -87,7 +87,7 @@ def get_default_lang():
     """Return object ID for English language."""
     try:
         return Language.objects.default_language.id
-    except (Language.DoesNotExist, OperationalError, ProgrammingError):
+    except (Language.DoesNotExist, OperationalError):
         return -1
 
 
