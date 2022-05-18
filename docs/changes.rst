@@ -12,6 +12,7 @@ Not yet released.
 * Added support for ResourceDictionary format.
 * Improved progress bar colors for color blind.
 * Fixed variants cleanup on string removal.
+* Compatibility with Django 4.1.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
