@@ -35,9 +35,7 @@ from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
-from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import EXTRAPLURALS
-from weblate_language_data.population import POPULATION
 from weblate_language_data.rtl import RTL_LANGS
 
 from weblate.lang import data
@@ -382,6 +380,9 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         It is based on languages defined in the languages-data repo.
         """
+        from weblate_language_data.languages import LANGUAGES
+        from weblate_language_data.population import POPULATION
+
         # Invalidate cache, we might change languages
         self.flush_object_cache()
         languages = {
