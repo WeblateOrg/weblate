@@ -718,15 +718,14 @@ class WeblateLoginView(LoginView):
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
 
+    next_page = "home"
+
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_next_page(self):
         messages.info(self.request, _("Thank you for using Weblate."))
-        return reverse("home")
+        return super().dispatch(request, *args, **kwargs)
 
 
 def fake_email_sent(request, reset=False):
