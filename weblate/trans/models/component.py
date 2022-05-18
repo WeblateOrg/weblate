@@ -2611,6 +2611,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         language_code=self.source_language.code,
                         language=self.source_language,
                         component=self,
+                        pk=-1,
                     )
                 },
                 files=[fullname],
