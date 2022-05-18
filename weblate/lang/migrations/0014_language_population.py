@@ -8,6 +8,10 @@ class Migration(migrations.Migration):
     dependencies = [
         ("lang", "0013_alter_plural_formula"),
     ]
+    run_before = [
+        ("glossary", "0004_glossary_source_language"),
+        ("trans", "0097_component_source_language"),
+    ]
 
     operations = [
         migrations.AddField(
