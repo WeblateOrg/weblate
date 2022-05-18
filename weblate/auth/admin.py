@@ -192,6 +192,11 @@ class GroupChangeForm(forms.ModelForm):
         model = Group
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        components = self.fields["components"]
+        components.queryset = components.queryset.select_related("project")
+
     def clean(self):
         super().clean()
         has_componentlist = bool(self.cleaned_data["componentlists"])
