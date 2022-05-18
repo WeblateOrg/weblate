@@ -373,7 +373,12 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     @cached_property
     def default_language(self):
         """Return English language object."""
-        return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
+        # Intentionally skip population field here as it
+        # might not yet be created during migrations.
+        # TODO: Drop this in Weblate 5.1
+        return self.only("name", "code", "direction").get(
+            code=settings.DEFAULT_LANGUAGE, skip_cache=True
+        )
 
     def setup(self, update, logger=lambda x: x):
         """Create basic set of languages.
