@@ -1142,6 +1142,8 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALGORITHM
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
     Enables Keycloak authentication, see
     `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
@@ -1176,6 +1178,8 @@ In case you want to use own keys, place the certificate and private key in
 .. envvar:: WEBLATE_SAML_IDP_ENTITY_ID
 .. envvar:: WEBLATE_SAML_IDP_URL
 .. envvar:: WEBLATE_SAML_IDP_X509CERT
+.. envvar:: WEBLATE_SAML_IDP_IMAGE
+.. envvar:: WEBLATE_SAML_IDP_TITLE
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 

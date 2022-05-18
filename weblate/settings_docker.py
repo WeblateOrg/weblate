@@ -391,6 +391,8 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "url": SITE_URL,
         }
     }
+    SOCIAL_AUTH_SAML_IMAGE = os.environ.get("WEBLATE_SAML_IDP_IMAGE", "")
+    SOCIAL_AUTH_SAML_TITLE = os.environ.get("WEBLATE_SAML_IDP_TITLE", "")
 
 # Azure
 if "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY" in os.environ:
@@ -437,6 +439,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
     )
     SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = os.environ.get(
         "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL", ""
+    )
+    SOCIAL_AUTH_KEYCLOAK_IMAGE = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE", ""
+    )
+    SOCIAL_AUTH_KEYCLOAK_TITLE = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE", ""
     )
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
 
