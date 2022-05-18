@@ -37,6 +37,7 @@ from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
 from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import EXTRAPLURALS
+from weblate_language_data.population import POPULATION
 from weblate_language_data.rtl import RTL_LANGS
 
 from weblate.lang import data
@@ -389,17 +390,26 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         plurals = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
+            population = POPULATION[code]
+
             if code in languages:
                 lang = languages[code]
             else:
-                languages[code] = lang = self.create(code=code, name=name)
+                languages[code] = lang = self.create(
+                    code=code, name=name, population=population
+                )
                 logger(f"Created language {code}")
 
             direction = lang.guess_direction()
             # Should we update existing?
-            if update and (lang.name != name or lang.direction != direction):
+            if update and (
+                lang.name != name
+                or lang.direction != direction
+                or lang.population != population
+            ):
                 lang.name = name
                 lang.direction = direction
+                lang.population = population
                 logger(f"Updated language {code}")
                 lang.save()
 
@@ -485,6 +495,11 @@ class Language(models.Model, CacheKeyMixin):
             ("ltr", gettext_lazy("Left to right")),
             ("rtl", gettext_lazy("Right to left")),
         ),
+    )
+    population = models.BigIntegerField(
+        gettext_lazy("Number of speakers"),
+        help_text=gettext_lazy("Number of people speaking this language."),
+        default=0,
     )
 
     objects = LanguageManager()

@@ -34,6 +34,12 @@
         <th>{% trans "Text direction" %}</th>
         <td colspan="2">{{ language.get_direction_display }}</td>
         </tr>
+        {% if language.population %}
+        <tr>
+        <th>{% trans "Number of speakers" %}</th>
+        <td colspan="2">{{ language.population|intcomma }}</td>
+        </tr>
+        {% endif %}
 
         {% for plural in language.plural_set.order %}
           <tr class="info">
