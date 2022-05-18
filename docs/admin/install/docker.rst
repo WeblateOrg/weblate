@@ -1178,6 +1178,8 @@ In case you want to use own keys, place the certificate and private key in
 .. envvar:: WEBLATE_SAML_IDP_ENTITY_ID
 .. envvar:: WEBLATE_SAML_IDP_URL
 .. envvar:: WEBLATE_SAML_IDP_X509CERT
+.. envvar:: WEBLATE_SAML_IDP_IMAGE
+.. envvar:: WEBLATE_SAML_IDP_TITLE
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
