@@ -1074,9 +1074,11 @@ class Translation(
         else:
             existing = set(self.unit_set.values_list("context", "source"))
         for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
-            if (has_template and unit.context in existing) or (
-                not has_template and (unit.context, unit.source) in existing
-            ):
+            if has_template:
+                idkey = unit.context
+            else:
+                idkey = (unit.context, unit.source)
+            if idkey in existing:
                 skipped += 1
                 continue
             self.add_unit(
@@ -1086,6 +1088,7 @@ class Translation(
                 split_plural(unit.target) if not self.is_source else [],
                 is_batch_update=True,
             )
+            existing.add(idkey)
             accepted += 1
         component.invalidate_cache()
         if component.needs_variants_update:
