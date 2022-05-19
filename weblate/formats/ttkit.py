@@ -705,6 +705,45 @@ class XliffUnit(TTKitUnit):
             and not self.mainunit.isobsolete()
         )
 
+    def set_target(self, target):
+        """Set translation unit target."""
+        self._invalidate_target()
+        if isinstance(target, list):
+            target = multistring(target)
+        if self.template is not None:
+            if self.parent.is_template:
+                # Use source for monolingual files if editing template
+                self.unit.source = target
+            elif self.unit.source:
+                # Update source to match current source
+                self.unit.source = self.template.source
+        # Always set target, even in monolingual template
+        self.unit.target = target
+
+    @cached_property
+    def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template is not None:
+            # Use target if set, otherwise fall back to source
+            if self.template.target:
+                return get_string(self.template.target)
+            return get_string(self.template.source)
+        return get_string(self.unit.source)
+
+    @cached_property
+    def target(self):
+        """Return target string from a Translate Toolkit unit."""
+        if self.unit is None:
+            return ""
+
+        # Use source for monolingual base if target is not set
+        if self.unit.target is None:
+            if self.parent.is_template:
+                return get_string(self.unit.source)
+            return ""
+
+        return get_string(self.unit.target)
+
 
 class RichXliffUnit(XliffUnit):
     """Wrapper unit for XLIFF with XML elements."""
