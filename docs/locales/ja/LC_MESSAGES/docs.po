@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-16 09:39+0200\n"
-"PO-Revision-Date: 2022-05-18 06:19+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-05-20 00:43+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -447,9 +447,9 @@ msgid ""
 "section."
 msgstr ""
 "実装の詳細には関心がなく、条件を満たす簡素なデフォルトの設定を作成するだけの"
-"場合、またはサイト全体のアクセス権で、インストールされた Weblate 全体"
-"（`Hosted Weblate <https://hosted.weblate.org/>`_）にアクセスできない場合"
-"は、:ref:`access-simple` を参照してください。"
+"場合、またはサイト全体のアクセス権で、インストールされた Weblate 全体（`"
+"Hosted Weblate <https://hosted.weblate.org/"
+">`_）にアクセスできない場合は、:ref:`access-simple` を確認してください。"
 
 #: ../../admin/access.rst:212
 msgid "Common setups"
@@ -7455,17 +7455,17 @@ msgstr "デフォルトで無効です。"
 
 #: ../../admin/config.rst:945
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:949
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
-msgstr ""
+msgstr "Web 収益化のための元帳支払ポインタ（ILP）のリスト。"
 
 #: ../../admin/config.rst:951
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
-msgstr ""
+msgstr "複数を指定した場合、1 つをランダムに選択して確率的な収益分配を実現します。"
 
 #: ../../admin/config.rst:954
 msgid "Please check <https://webmonetization.org/> for more details."
@@ -8950,6 +8950,8 @@ msgid ""
 "definitions extend over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"表示される言語は、これと一致しないことがあります。Weblate 言語の定義は時間の"
+"経過と共に拡張され、定義された言語の言語コードは表示されません。"
 
 #: ../../admin/config.rst:2160
 msgid ":ref:`included-languages`"
@@ -12974,6 +12976,11 @@ msgid ""
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
+"Weblate では、メジャー "
+"バージョン間のアップグレードには対応していません。たとえば、3.x "
+"シリーズを使用していて 4.x にアップグレードする場合は、まず最新の 4.0.x-y "
+"イメージにアップグレードします（この記事の執筆時点では ``4.0.4-5``） 。これに"
+"より移行が実行され、新しいバージョンへのアップグレードが続行されます。"
 
 #: ../../admin/install/docker.rst:226
 msgid ""
@@ -13359,6 +13366,8 @@ msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Weblate でドキュメントの先頭に `meta[name=monatezation] ` "
+"フィールドを設定します。複数指定した場合は、ランダムに 1 つが選択されます。"
 
 #: ../../admin/install/docker.rst:580
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -14117,28 +14126,28 @@ msgstr ":envvar:`REDIS_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1318
 msgid "Enables using SSL for Redis connection."
-msgstr ""
+msgstr "Redis 接続での SSL の使用を有効にします。"
 
 #: ../../admin/install/docker.rst:1322
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
-msgstr ""
+msgstr "Redis 接続の SSL 証明書の検証を無効にするために使用します。"
 
 #: ../../admin/install/docker.rst:1327
 msgid "Email server setup"
-msgstr ""
+msgstr "メールサーバーの設定"
 
 #: ../../admin/install/docker.rst:1329
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr ""
+msgstr "メール送信をするには、メールサーバーが必要です。"
 
 #: ../../admin/install/docker.rst:1331
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "TLS 設定の例:"
 
 #: ../../admin/install/docker.rst:1340
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "SSL 設定の例:"
 
 #: ../../admin/install/docker.rst:1353
 msgid ":ref:`out-mail`"
@@ -14146,7 +14155,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1357
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "メールサーバーのホスト名または IP アドレス。"
 
 #: ../../admin/install/docker.rst:1361
 msgid ""
@@ -14158,7 +14167,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1368
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "メールサーバーのポート。デフォルトは 25。"
 
 #: ../../admin/install/docker.rst:1370
 msgid ":setting:`django:EMAIL_PORT`"
@@ -14196,6 +14205,11 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"SMTP サーバと通信するときに、暗黙的な "
+"TLS（セキュア）接続を使用するかどうか。多くのメールのドキュメントでは、"
+"この種類の TLS 接続を SSL と呼びます。通常はポート 465 "
+"で使用されます。問題が発生した場合は、詳細な TLS 設定 "
+":envvar:`WEBLATE_EMAIL_USE_TLS` を確認してください。"
 
 #: ../../admin/install/docker.rst:1399 ../../admin/install/docker.rst:1417
 msgid ""
@@ -14220,6 +14234,10 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"SMTP サーバーと通信するときに TLS "
+"（セキュア）接続を使用するかどうか。これは、明示的な TLS 接続（通常はポート "
+"587 または 25）で使用します。接続が停止する場合は、暗黙的なTLS設定 "
+"(envvar:`WEBLATE_EMAIL_USE_SSL`）を確認してください。"
 
 #: ../../admin/install/docker.rst:1422
 msgid ""
@@ -14231,7 +14249,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1428
 msgid "Configures Django back-end to use for sending e-mails."
-msgstr ""
+msgstr "メール送信に使用する Django バックエンドを設定します。"
 
 #: ../../admin/install/docker.rst:1433
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
@@ -14248,7 +14266,7 @@ msgstr ":setting:`AUTO_UPDATE`"
 
 #: ../../admin/install/docker.rst:1444
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
-msgstr ""
+msgstr "これは論理値の設定です（``\"true\"`` または ``\"false\"`` を使用する）。"
 
 #: ../../admin/install/docker.rst:1447
 msgid "Site integration"
@@ -14272,37 +14290,38 @@ msgstr ":setting:`PRIVACY_URL` の設定。"
 
 #: ../../admin/install/docker.rst:1466
 msgid "Error reporting"
-msgstr ""
+msgstr "エラーの報告"
 
 #: ../../admin/install/docker.rst:1468
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
-msgstr ""
+msgstr "インストールから体系的にエラーを収集してください。参照: :ref:`collecting-"
+"errors`。"
 
 #: ../../admin/install/docker.rst:1471
 msgid "To enable support for Rollbar, set the following:"
-msgstr ""
+msgstr "Rollbar への対応を有効にする設定方法:"
 
 #: ../../admin/install/docker.rst:1475
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "Rollbar ポスト サーバーへのアクセス トークン。"
 
 #: ../../admin/install/docker.rst:1479
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Rollbar の環境設定。デフォルトは ``運用環境（production）``。"
 
 #: ../../admin/install/docker.rst:1481
 msgid "To enable support for Sentry, set following:"
-msgstr ""
+msgstr "Sentry への対応を有効にする設定方法:"
 
 #: ../../admin/install/docker.rst:1485
 msgid "Your Sentry DSN."
-msgstr ""
+msgstr "Sentry の DSN。"
 
 #: ../../admin/install/docker.rst:1489
 msgid "Your Sentry Environment (optional)."
-msgstr ""
+msgstr "Sentry の環境設定（オプション）。"
 
 #: ../../admin/install/docker.rst:1492
 msgid "Localization CDN"
@@ -14310,23 +14329,26 @@ msgstr "CDN の現地化"
 
 #: ../../admin/install/docker.rst:1499
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs` の設定。"
 
 #: ../../admin/install/docker.rst:1501
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
+":envvar:`WEBLATE_LOCALIZE_CDN_PATH` はコンテナ内のパスです。一時ストレージで"
+"はなく、永続ボリュームに格納することが必要です。"
 
 #: ../../admin/install/docker.rst:1504
 msgid "One of possibilities is storing that inside the Weblate data dir:"
-msgstr ""
+msgstr "可能性の 1 つとして、それを Weblate データー ディレクトリ内に保存する方法:"
 
 #: ../../admin/install/docker.rst:1514
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
-msgstr ""
+msgstr "Weblate によって生成されたファイルの保存先を設定することが必要です。Weblate "
+"は、ファイルを設定した場所に保存するだけです。"
 
 #: ../../admin/install/docker.rst:1519
 msgid ""
@@ -14342,7 +14364,7 @@ msgstr "有効なアプリ、検査、アドオン、または自動修正の変
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
-msgstr ""
+msgstr "組み込まれた有効な品質検査、アドオン、または自動修正を設定する変数:"
 
 #: ../../admin/install/docker.rst:1551
 msgid ""
@@ -14362,6 +14384,8 @@ msgid ""
 "determined automatically on container startup based on number of CPU cores "
 "available."
 msgstr ""
+"コンテナで実行されているワーカー プロセスの基本数。設定しない場合、"
+"使用可能な CPU コアの数に基づき、コンテナの起動時に自動的に決定されます。"
 
 #: ../../admin/install/docker.rst:1567
 msgid ""
@@ -14383,12 +14407,15 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
+"これらの変数を使用すると、Celery "
+"ワーカーのオプションを変更できます。同時実行性を変更したり（``---concurrency "
+"16``）、別のプールの実装を使用したり（``---pool=gevent``）するのに便利です。"
 
 #: ../../admin/install/docker.rst:1584
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "デフォルトでは、同時ワーカーの数は :envvar:`WEBLATE_WORKERS` に基づきます。"
 
 #: ../../admin/install/docker.rst:1595
 msgid ""
@@ -14400,17 +14427,18 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1600
 msgid "Configure how many uWSGI workers should be executed."
-msgstr ""
+msgstr "実行する uWSGI ワーカーの数を設定します。"
 
 #: ../../admin/install/docker.rst:1602
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "デフォルトは、:envvar:`WEBLATE_WORKERS` です。"
 
 #: ../../admin/install/docker.rst:1613
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
-msgstr ""
+msgstr "コンテナ内で実行するサービスを設定します。これは、:ref:`docker-scaling` "
+"に使用します。"
 
 #: ../../admin/install/docker.rst:1615
 msgid "Following services are defined:"
@@ -14426,6 +14454,9 @@ msgid ""
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
+"Celery タスク スケジューラでは、実行は、1 つのインスタンスのみにしてください"
+"。このコンテナは、データベース構造の移行も行うため、他のコンテナよりも先に起"
+"動させてください。"
 
 #: ../../admin/install/docker.rst:1621
 msgid "``celery-backup``"
@@ -14433,7 +14464,8 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1622
 msgid "Celery worker for backups, only one instance should be running."
-msgstr ""
+msgstr "バックアップ用の Celery ワーカー。実行は、1 "
+"つのインスタンスのみにしてください。"
 
 #: ../../admin/install/docker.rst:1623
 msgid "``celery-celery``"
@@ -14441,7 +14473,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1624
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "一般的な Celery ワーカー。"
 
 #: ../../admin/install/docker.rst:1625
 #, fuzzy
@@ -14483,7 +14515,7 @@ msgstr "Web サーバー。"
 
 #: ../../admin/install/docker.rst:1638
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Docker コンテナのボリューム"
 
 #: ../../admin/install/docker.rst:1640
 msgid ""
@@ -14491,12 +14523,19 @@ msgid ""
 "The other service containers (PostgreSQL or Redis) have their data volumes "
 "as well, but those are not covered by this document."
 msgstr ""
+"Weblate コンテナによってエクスポートされた 2 "
+"つのボリューム（データおよびキャッシュ）があります。他のサービス コンテナ（"
+"PostgreSQL または Redis）にもデーターボリュームがありますが、そのことについて"
+"はこのドキュメントでは説明しません。"
 
 #: ../../admin/install/docker.rst:1644
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
 msgstr ""
+"データー ボリュームは、複製したリポジトリなどの Weblate "
+"永続データを格納したり、Weblate "
+"のインストールをカスタマイズするために使用します。"
 
 #: ../../admin/install/docker.rst:1647
 msgid ""
@@ -14506,6 +14545,11 @@ msgid ""
 "compose directory, container, and volume names). In the container it is "
 "mounted as :file:`/app/data`."
 msgstr ""
+"ホストシステム上の Docker ボリュームの配置は Docker "
+"設定によって異なりますが、通常は次の場所に格納されます。:file:`/var/lib/"
+"docker/volumes/weblate-docker_weblate-data/_data/` （パスは、docker-compose "
+"ディレクトリの名前、コンテナ、およびボリューム名で構成される）。コンテナでは"
+"、:file:`/app/data` としてマウントされます。"
 
 #: ../../admin/install/docker.rst:1653
 msgid ""
@@ -14513,31 +14557,37 @@ msgid ""
 "static files. Its content is recreated on container startup and the volume "
 "can be mounted using ephemeral filesystem such as `tmpfs`."
 msgstr ""
+"キャッシュ ボリュームは、:file:`/app/cache` としてマウントされ、静的ファイル"
+"の格納に使用されます。その内容はコンテナの起動時に再作成され、`tmpfs` "
+"などの一時ファイルシステムを使用してボリュームをマウントできます。"
 
 #: ../../admin/install/docker.rst:1657
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"ボリュームを手動で作成する場合、ディレクトリの所有者は UID 1000 であることが"
+"必要です。これは、コンテナ内でユーザーが使用するディレクトリです。"
 
 #: ../../admin/install/docker.rst:1662
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
-msgstr ""
+msgstr "`Docker ボリューム ドキュメント <https://docs.docker.com/storage/volumes/>`_"
 
 #: ../../admin/install/docker.rst:1665
 msgid "Further configuration customization"
-msgstr ""
+msgstr "詳細な設定のカスタマイズ"
 
 #: ../../admin/install/docker.rst:1667
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
-msgstr ""
+msgstr "データー ボリュームでの Weblate "
+"インストールを詳細にカスタマイズできます。参照: :ref:`docker-volume`。"
 
 #: ../../admin/install/docker.rst:1673
 msgid "Custom configuration files"
-msgstr ""
+msgstr "カスタム設定ファイル"
 
 #: ../../admin/install/docker.rst:1675
 msgid ""
@@ -14546,10 +14596,13 @@ msgid ""
 "built-in settings, after all environment settings are loaded, and you can "
 "adjust or override them."
 msgstr ""
+":file:`/app/data/settings-override.py` 内の設定を追加で上書きできます（参照: "
+":ref:`docker-volume`）。これは、すべての環境設定が読み込まれた後、組み込み設"
+"定の最後に実行され、それらを変更または上書きできます。"
 
 #: ../../admin/install/docker.rst:1681
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "ロゴおよびその他の静的ファイルの変更"
 
 #: ../../admin/install/docker.rst:1685
 msgid ""
@@ -14558,12 +14611,17 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"Weblate に付属する静的ファイルは、:file:`/app/data/python/customize/static` "
+"（参照: :ref:`docker-"
+"volume`）に配置することで変更できます。たとえば、:file:`/app/data/python/"
+"customize/static/favicon.ico` を作成すると、favicon が変更されます。"
 
 #: ../../admin/install/docker.rst:1692
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
-msgstr ""
+msgstr "ファイルはコンテナの起動時に対応する場所にコピーされるため、"
+"ボリュームの内容を変更した後にWeblate を再起動させてください。"
 
 #: ../../admin/install/docker.rst:1695
 msgid ""
@@ -14571,16 +14629,21 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"この方法は、Weblate テンプレートの変更にも使用できます。例: "
+":ref:`legal`ドキュメントは、:file:`/app/data/python/customize/templates/"
+"legal/documents` に配置できます。"
 
 #: ../../admin/install/docker.rst:1699
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"あるいは、独自のモジュール（参照: :doc:`../ customize`）を含め、"
+"個別のボリュームとして Docker コンテナに追加できます。例:"
 
 #: ../../admin/install/docker.rst:1712
 msgid "Adding own Python modules"
-msgstr ""
+msgstr "独自の Python モジュールの追加"
 
 #: ../../admin/install/docker.rst:1716
 msgid ""
@@ -14588,6 +14651,9 @@ msgid ""
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
 "using :ref:`docker-custom-config`."
 msgstr ""
+"独自の Python モジュールを :file:`/app/data/python/`（参照: :ref:`docker-"
+"volume`）に配置し、Weblate から読み込めます。多くの場合、:ref:`docker-custom-"
+"config` を使用します。"
 
 #: ../../admin/install/docker.rst:1722
 msgid ":doc:`../customize`"
@@ -14603,6 +14669,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"PostgtreSQL コンテナは、デフォルトの PostgreSQL 設定を使用するため、CPU コア"
+"やメモリを効果的に使用できません。性能を向上させるために設定を変更してくださ"
+"い。"
 
 #: ../../admin/install/docker.rst:1731
 msgid ""
@@ -14610,6 +14679,9 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"設定は、https://hub.docker.com/_/postgres の `データベースの設定` "
+"の説明に従って変更できます。環境に一致する設定は、https://pgtune.leopard.in."
+"ua/ を使用して生成できます。"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -15551,7 +15623,8 @@ msgstr "Linux 形式"
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation."
-msgstr ""
+msgstr "Linux で使用するロケール。ロケールは、中国語や POSIX "
+"形式の表記にレガシーコードが使用されています。"
 
 #: ../../admin/languages.rst:210
 msgid ""
@@ -16299,7 +16372,8 @@ msgid ""
 "Weblate machine translation service can provide translations for strings "
 "that are already translated inside Weblate. It looks for exact matches in "
 "the existing strings."
-msgstr ""
+msgstr "Weblate 機械翻訳サービスは、Weblate 内で既に翻訳されている文字列の翻訳を提供"
+"できます。既存の文字列の完全一致を検索します。"
 
 #: ../../admin/machine.rst:391
 msgid ""
@@ -16319,6 +16393,8 @@ msgid ""
 "that has been translated in past (or uploaded to the translation memory) can "
 "be translated in this way."
 msgstr ""
+"機械翻訳サービスとして :ref:`translation-memory` を使用します。過去に翻訳され"
+"た（または翻訳メモリにアップロードされた）文字列は、この方法で翻訳できます。"
 
 #: ../../admin/machine.rst:405
 msgid ""
@@ -20868,6 +20944,8 @@ msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, use :setting:"
 "`UPDATE_LANGUAGES` to disable that."
 msgstr ""
+":ref:`languages`は、アップグレード時に自動的に更新されるようになりました。こ"
+"れを無効にするには、:setting:`UPDATE_LANGUAGES` を使用します。"
 
 #: ../../admin/upgrade.rst:326
 msgid "Upgrading from Python 2 to Python 3"
@@ -21337,7 +21415,8 @@ msgstr "ユーザーが有効かどうか？ （オプション）"
 
 #: ../../api.rst:266
 msgid "Is user bot? (optional) (used for project scoped tokens)"
-msgstr ""
+msgstr "ユーザー ボットですか？（オプション）（プロジェクトのスコープ "
+"トークンに使用）"
 
 #: ../../api.rst:271
 msgid "Returns information about users."
@@ -22074,11 +22153,11 @@ msgstr "**CURL JSON リクエスト例:**"
 
 #: ../../api.rst:1015
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**Git から新しいコンポーネントを作成する JSON リクエスト:**"
 
 #: ../../api.rst:1038
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**別のコンポーネントから新しいコンポーネントを作成する JSON リクエスト:**"
 
 #: ../../api.rst:1106
 msgid "Returns paginated statistics for all languages within a project."
@@ -22707,7 +22786,7 @@ msgstr "翻訳ユニットの名称（キーまたはコンテキストとして
 
 #: ../../api.rst:1861
 msgid "Source strings (use single string if not creating plural)"
-msgstr ""
+msgstr "原文（複数形を作成しない場合は単一の文字列を使用）"
 
 #: ../../api.rst:1862
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
