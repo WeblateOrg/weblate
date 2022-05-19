@@ -680,6 +680,8 @@ Languages
     :type name: string
     :param direction: Text direction
     :type direction: string
+    :param population: Number of speakers
+    :type population: int
     :param plural: Language plural formula and number
     :type plural: object
 
@@ -691,6 +693,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
+    :<json int population: Number of speakers
     :>json object plural: Object of language plural information
     :>json array aliases: Array of aliases for language
 
@@ -702,6 +705,7 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
+            "population": 159034349015,
             "plural": {
                 "id": 75,
                 "source": 0,
@@ -729,6 +733,7 @@ Languages
     :type language: string
     :<json string name: Language name
     :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:patch:: /api/languages/(string:language)/
@@ -739,6 +744,7 @@ Languages
     :type language: string
     :<json string name: Language name
     :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:delete:: /api/languages/(string:language)/
@@ -1085,6 +1091,7 @@ Projects
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1224,6 +1231,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1235,6 +1243,7 @@ Components
             "source_language": {
                 "code": "en",
                 "direction": "ltr",
+                "population": 159034349015,
                 "name": "English",
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
@@ -1314,6 +1323,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                    "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1620,6 +1630,7 @@ Components
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1758,6 +1769,7 @@ Translations
                     "source_language": {
                         "code": "en",
                         "direction": "ltr",
+                        "population": 159034349015,
                         "name": "English",
                         "url": "http://example.com/api/languages/en/",
                         "web_url": "http://example.com/languages/en/"
@@ -1786,6 +1798,7 @@ Translations
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"

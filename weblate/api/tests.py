@@ -2023,7 +2023,12 @@ class LanguageAPITest(APIBaseTest):
             superuser=True,
             code=400,
             format="json",
-            request={"code": "new_lang", "name": "New Language", "direction": "rtl"},
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+            },
         )
         response = self.do_request(
             "api:language-list",
@@ -2035,6 +2040,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -2069,6 +2075,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -2084,6 +2091,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -2114,6 +2122,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "cs",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
