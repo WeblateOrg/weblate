@@ -1103,7 +1103,7 @@ ResourceDictionary files
     pair: ResourceDictionary; file format
     pair: WPF; file format
 
-.. versionadded:: 2.13
+.. versionadded:: 4.13
 
 ResourceDictionary is a monolingual  XML file format used to package
 localizable string resources for Windows Presentation Foundation (WPF)
