@@ -101,6 +101,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PoMonoFormat",
         "weblate.formats.ttkit.TSFormat",
         "weblate.formats.ttkit.XliffFormat",
+        "weblate.formats.ttkit.RichXliffFormat",
         "weblate.formats.ttkit.PoXliffFormat",
         "weblate.formats.ttkit.StringsFormat",
         "weblate.formats.ttkit.StringsUtf8Format",

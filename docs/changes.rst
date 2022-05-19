@@ -13,6 +13,7 @@ Not yet released.
 * Improved progress bar colors for color blind.
 * Fixed variants cleanup on string removal.
 * Compatibility with Django 4.1.
+* Added support for storing escaped XML elements in XLIFF.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

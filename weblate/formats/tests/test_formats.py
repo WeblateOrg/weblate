@@ -49,6 +49,7 @@ from weblate.formats.ttkit import (
     PropertiesFormat,
     ResourceDictionaryFormat,
     RESXFormat,
+    RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
     TBXFormat,
@@ -140,7 +141,7 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_ANDROID, AndroidFormat)
 
     def test_xliff(self):
-        self.single_test(TEST_XLIFF, XliffFormat)
+        self.single_test(TEST_XLIFF, RichXliffFormat)
 
     def test_resx(self):
         if "resx" not in FILE_FORMATS:
@@ -590,7 +591,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS = "c-format, max-length:100"
 
     def test_set_state(self):
         # Read test content
@@ -613,7 +614,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
 
         # Verify the state is set
         with open(testfile) as handle:
-            self.assertIn("<target>test</target>", handle.read())
+            self.assertIn('<target state="translated">test</target>', handle.read())
 
         # Update first unit as fuzzy
         storage = self.parse_file(testfile)
@@ -629,7 +630,12 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
             )
 
 
-class XliffIdFormatTest(XliffFormatTest):
+class RichXliffFormatTest(XliffFormatTest):
+    FORMAT = RichXliffFormat
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+
+
+class XliffIdFormatTest(RichXliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
@@ -705,7 +711,7 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS = "c-format, max-length:100"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
@@ -718,7 +724,6 @@ class PoXliffFormatTest2(PoXliffFormatTest):
             "font-size:22",
             "font-weight:bold",
             "max-size:100",
-            "xml-text",
         )
     )
     FIND_CONTEXT = "cs.po///2"

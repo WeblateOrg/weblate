@@ -278,11 +278,23 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
 `XML Localization Interchange File Format (XLIFF)` is usually used as bilingual, but Weblate supports it as monolingual as well.
 
+Weblate supports XLIFF in several variants:
+
+`XLIFF translation file`
+   Simple XLIFF file where content of the elements is stored as plain text (all XML elements being escaped).
+`XLIFF with placeables support`
+   Standard XLIFF supporting placeables and other XML elements.
+`XLIFF with gettext extensions`
+   XLIFF enriched  by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
+
+
 .. seealso::
 
-    `XML Localization Interchange File Format (XLIFF)` specification
+    `XML Localization Interchange File Format (XLIFF)`_ specification,
+    `XLIFF 1.2 Representation Guide for Gettext PO`_
 
 .. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
+.. _XLIFF 1.2 Representation Guide for Gettext PO: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-po/xliff-profile-po-1.2-cd02.html
 
 
 Translation states

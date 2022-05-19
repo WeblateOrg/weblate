@@ -612,65 +612,11 @@ class XliffUnit(TTKitUnit):
     is context in other formats.
     """
 
-    @cached_property
-    def source(self):
-        """Return source string from a Translate Toolkit unit."""
-        if self.template is not None:
-            # Use target if set, otherwise fall back to source
-            if self.template.target:
-                return rich_to_xliff_string(self.template.rich_target)
-            return rich_to_xliff_string(self.template.rich_source)
-        return rich_to_xliff_string(self.unit.rich_source)
-
-    @cached_property
-    def target(self):
-        """Return target string from a Translate Toolkit unit."""
-        if self.unit is None:
-            return ""
-
-        # Use source for monolingual base if target is not set
-        if self.unit.target is None:
-            if self.parent.is_template:
-                return rich_to_xliff_string(self.unit.rich_source)
-            return ""
-
-        return rich_to_xliff_string(self.unit.rich_target)
-
-    @cached_property
-    def flags(self):
-        flags = Flags(super().flags)
-        flags.merge("xml-text")
-        return flags.format()
-
     def _invalidate_target(self):
         """Invalidate target cache."""
         super()._invalidate_target()
         if "xliff_node" in self.__dict__:
             del self.__dict__["xliff_node"]
-
-    def set_target(self, target):
-        """Set translation unit target."""
-        self._invalidate_target()
-        # Delete the empty target element
-        if not target:
-            xmlnode = self.get_xliff_node()
-            if xmlnode is not None:
-                xmlnode.getparent().remove(xmlnode)
-            return
-        try:
-            converted = xliff_string_to_rich(target)
-        except (XMLSyntaxError, TypeError, KeyError):
-            # KeyError happens on missing attribute
-            converted = [target]
-        if self.template is not None:
-            if self.parent.is_template:
-                # Use source for monolingual files if editing template
-                self.unit.rich_source = converted
-            elif self.unit.source:
-                # Update source to match current source
-                self.unit.rich_source = self.template.rich_source
-        # Always set target, even in monolingual template
-        self.unit.rich_target = converted
 
     def get_xliff_node(self):
         try:
@@ -730,14 +676,14 @@ class XliffUnit(TTKitUnit):
         if state == STATE_FUZZY:
             # Always set state for fuzzy
             self.xliff_node.set("state", "needs-translation")
+        elif state == STATE_TRANSLATED:
+            # Always set state for translated
+            self.xliff_node.set("state", "translated")
+        elif state == STATE_APPROVED:
+            self.xliff_node.set("state", "final")
         elif self.xliff_state:
             # Only update state if it exists
-            if state == STATE_APPROVED:
-                self.xliff_node.set("state", "final")
-            elif state == STATE_TRANSLATED:
-                self.xliff_node.set("state", "translated")
-            else:
-                self.xliff_node.set("state", "new")
+            self.xliff_node.set("state", "new")
 
     def is_approved(self, fallback=False):
         """Check whether unit is approved."""
@@ -755,9 +701,67 @@ class XliffUnit(TTKitUnit):
         """
         return (
             not self.mainunit.isheader()
-            and bool(rich_to_xliff_string(self.mainunit.rich_source))
+            and bool(self.source)
             and not self.mainunit.isobsolete()
         )
+
+
+class RichXliffUnit(XliffUnit):
+    """Wrapper unit for XLIFF with XML elements."""
+
+    @cached_property
+    def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template is not None:
+            # Use target if set, otherwise fall back to source
+            if self.template.target:
+                return rich_to_xliff_string(self.template.rich_target)
+            return rich_to_xliff_string(self.template.rich_source)
+        return rich_to_xliff_string(self.unit.rich_source)
+
+    @cached_property
+    def target(self):
+        """Return target string from a Translate Toolkit unit."""
+        if self.unit is None:
+            return ""
+
+        # Use source for monolingual base if target is not set
+        if self.unit.target is None:
+            if self.parent.is_template:
+                return rich_to_xliff_string(self.unit.rich_source)
+            return ""
+
+        return rich_to_xliff_string(self.unit.rich_target)
+
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+        flags.merge("xml-text")
+        return flags.format()
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        self._invalidate_target()
+        # Delete the empty target element
+        if not target:
+            xmlnode = self.get_xliff_node()
+            if xmlnode is not None:
+                xmlnode.getparent().remove(xmlnode)
+            return
+        try:
+            converted = xliff_string_to_rich(target)
+        except (XMLSyntaxError, TypeError, KeyError):
+            # KeyError happens on missing attribute
+            converted = [target]
+        if self.template is not None:
+            if self.parent.is_template:
+                # Use source for monolingual files if editing template
+                self.unit.rich_source = converted
+            elif self.unit.source:
+                # Update source to match current source
+                self.unit.rich_source = self.template.rich_source
+        # Always set target, even in monolingual template
+        self.unit.rich_target = converted
 
 
 class FlatXMLUnit(TTKitUnit):
@@ -1152,9 +1156,9 @@ class TSFormat(TTKitFormat):
 
 class XliffFormat(TTKitFormat):
     name = _("XLIFF translation file")
-    format_id = "xliff"
+    format_id = "plainxliff"
     loader = xlifffile
-    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    autoload = ()
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
@@ -1188,6 +1192,13 @@ class XliffFormat(TTKitFormat):
         unit.marktranslated()
         unit.markapproved(False)
         return unit
+
+
+class RichXliffFormat(XliffFormat):
+    name = _("XLIFF with placeables support")
+    format_id = "xliff"
+    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    unit_class = RichXliffUnit
 
 
 class PoXliffFormat(XliffFormat):
