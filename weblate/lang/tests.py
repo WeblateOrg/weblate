@@ -392,6 +392,7 @@ class LanguagesViewTest(FixtureTestCase):
                 "direction": "ltr",
                 "number": "2",
                 "formula": "n != 1",
+                "population": 10,
             },
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
@@ -412,7 +413,7 @@ class LanguagesViewTest(FixtureTestCase):
         self.user.save()
         response = self.client.post(
             reverse("edit-language", kwargs={"pk": language.pk}),
-            {"code": "xx", "name": "XX", "direction": "ltr"},
+            {"code": "xx", "name": "XX", "direction": "ltr", "population": 10},
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
 
