@@ -20,8 +20,7 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.views.decorators.cache import cache_control
 from django.views.decorators.vary import vary_on_cookie
 
@@ -59,8 +58,8 @@ def widgets(request, project):
     if lang is not None:
         kwargs["lang"] = lang
     engage_url = get_site_url(reverse("engage", kwargs=kwargs))
-    engage_link = mark_safe(
-        '<a href="{0}" id="engage-link">{0}</a>'.format(escape(engage_url))
+    engage_link = format_html(
+        '<a href="{0}" id="engage-link">{0}</a>', engage_url
     )
     widget_base_url = get_site_url(reverse("widgets", kwargs={"project": obj.slug}))
     widget_list = []

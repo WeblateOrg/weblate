@@ -23,7 +23,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
@@ -169,11 +169,10 @@ def weblate_context(request):
         "description": description,
         "weblate_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">weblate.org</a>'),
         "weblate_name_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">Weblate</a>'),
-        "weblate_version_link": mark_safe(
-            '<a href="{}">Weblate {}</a>'.format(
-                escape(WEBLATE_URL),
-                "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
-            )
+        "weblate_version_link": format_html(
+            '<a href="{}">Weblate {}</a>',
+            WEBLATE_URL,
+            mark_safe("" if settings.HIDE_VERSION else weblate.utils.version.VERSION),
         ),
         "donate_url": DONATE_URL,
         "site_url": get_site_url(),

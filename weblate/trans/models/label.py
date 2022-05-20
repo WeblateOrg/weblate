@@ -18,7 +18,7 @@
 #
 
 from django.db import models
-from django.utils.html import escape
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
@@ -46,10 +46,9 @@ class Label(models.Model):
         verbose_name_plural = "label"
 
     def __str__(self):
-        return mark_safe(
-            '<span class="label label-{}">{}</span>'.format(
-                self.color, escape(self.name)
-            )
+        return format_html(
+            '<span class="label label-{}">{}</span>',
+            mark_safe(self.color), self.name
         )
 
     @property
