@@ -58,9 +58,7 @@ def widgets(request, project):
     if lang is not None:
         kwargs["lang"] = lang
     engage_url = get_site_url(reverse("engage", kwargs=kwargs))
-    engage_link = format_html(
-        '<a href="{0}" id="engage-link">{0}</a>', engage_url
-    )
+    engage_link = format_html('<a href="{0}" id="engage-link">{0}</a>', engage_url)
     widget_base_url = get_site_url(reverse("widgets", kwargs={"project": obj.slug}))
     widget_list = []
     for widget_name in sorted(WIDGETS, key=widgets_sorter):

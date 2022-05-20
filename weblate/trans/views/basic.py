@@ -120,8 +120,7 @@ def show_engage(request, project, lang=None):
             "percent": stats_obj.translated_percent,
             "language": language,
             "project_link": format_html(
-                '<a href="{}">{}</a>',
-                obj.get_absolute_url(), obj.name
+                '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
             "title": _("Get involved in {0}!").format(obj),
         },

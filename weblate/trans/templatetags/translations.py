@@ -515,8 +515,7 @@ def naturaltime(value, now=None):
     else:
         text = naturaltime_future(value, now)
     return format_html(
-        '<span title="{}">{}</span>',
-        value.replace(microsecond=0).isoformat(), text
+        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
     )
 
 
@@ -942,7 +941,9 @@ def trend_format(number):
         return "—"
     return format_html(
         '{}{} <span class="{}"></span>',
-        mark_safe(prefix), percent_format(number), mark_safe(trend)
+        mark_safe(prefix),
+        percent_format(number),
+        mark_safe(trend),
     )
 
 
