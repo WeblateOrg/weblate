@@ -214,6 +214,9 @@ WLT.Editor = (function () {
       if (root.length === 0) {
         root = element.closest(".translation-form");
       }
+      if (root.length === 0) {
+        root = $(document);
+      }
     } else {
       root = $(document);
     }
