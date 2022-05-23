@@ -19,7 +19,6 @@
 
 from django.db import models
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.flags import Flags
@@ -47,7 +46,7 @@ class Label(models.Model):
 
     def __str__(self):
         return format_html(
-            '<span class="label label-{}">{}</span>', mark_safe(self.color), self.name
+            '<span class="label label-{}">{}</span>', self.color, self.name
         )
 
     @property

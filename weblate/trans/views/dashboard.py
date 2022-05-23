@@ -25,7 +25,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import translation
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
@@ -179,7 +178,7 @@ def home(request):
             request,
             format_html(
                 '<a href="{}">{}</a>',
-                mark_safe(reverse("profile") + "#account"),
+                reverse("profile") + "#account",
                 _("Please set your full name and e-mail in your profile."),
             ),
         )

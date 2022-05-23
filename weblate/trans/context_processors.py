@@ -172,7 +172,7 @@ def weblate_context(request):
         "weblate_version_link": format_html(
             '<a href="{}">Weblate {}</a>',
             WEBLATE_URL,
-            mark_safe("" if settings.HIDE_VERSION else weblate.utils.version.VERSION),
+            "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
         ),
         "donate_url": DONATE_URL,
         "site_url": get_site_url(),
