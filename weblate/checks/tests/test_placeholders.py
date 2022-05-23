@@ -56,7 +56,7 @@ class PlaceholdersTest(CheckTestCase):
             self.check.get_description(check),
             """
             Following format strings are missing:
-            <span class="hlcheck">$URL$</span>
+            <span class="hlcheck" data-value="$URL$">$URL$</span>
             """,
         )
 
@@ -68,10 +68,10 @@ class PlaceholdersTest(CheckTestCase):
             self.check.get_description(check),
             """
             Following format strings are missing:
-            <span class="hlcheck">$URL$</span>
+            <span class="hlcheck" data-value="$URL$">$URL$</span>
             <br />
             Following format strings are extra:
-            <span class="hlcheck">$FOO$</span>
+            <span class="hlcheck" data-value="$FOO$">$FOO$</span>
             """,
         )
 
@@ -83,7 +83,7 @@ class PlaceholdersTest(CheckTestCase):
             self.check.get_description(check),
             """
             Following format strings are missing:
-            <span class="hlcheck">
+            <span class="hlcheck" data-value=" {URL} ">
             <span class="hlspace"><span class="space-space"><span class="sr-only">
             </span></span></span>
             {URL}
@@ -92,7 +92,7 @@ class PlaceholdersTest(CheckTestCase):
             </span>
             <br />
             Following format strings are extra:
-            <span class="hlcheck">
+            <span class="hlcheck" data-value=" {URL}">
             <span class="hlspace"><span class="space-space"><span class="sr-only">
             </span></span></span>
             {URL}

@@ -146,11 +146,7 @@ WLT.Editor = (function () {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       var $this = $(this);
-      var text = $this.clone();
-
-      text.find(hlNumberSelector).remove();
-      text = text.text();
-      insertEditor(text, $this);
+      insertEditor($this.data("value"), $this);
       e.preventDefault();
     });
 

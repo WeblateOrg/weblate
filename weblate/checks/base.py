@@ -278,7 +278,9 @@ class TargetCheck(Check):
 
         fmt = Formatter(0, value, None, None, None, None, None)
         fmt.parse()
-        return format_html("""<span class="hlcheck">{}</span>""", fmt.format())
+        return format_html(
+            """<span class="hlcheck" data-value="{}">{}</span>""", value, fmt.format()
+        )
 
     def get_values_text(self, message: str, values: Iterable[str]):
         return mark_safe(
