@@ -67,6 +67,16 @@ class PlaceholdersTest(CheckTestCase):
             "<br />Following format strings are extra: $FOO$",
         )
 
+    def test_whitespace(self):
+        unit = Unit(source="string {URL} ", target="string {URL}")
+        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\s?{\w+}\s?" """)
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are missing:  {URL} "
+            "<br />Following format strings are extra:  {URL}",
+        )
+
 
 class RegexTest(CheckTestCase):
     check = RegexCheck()
