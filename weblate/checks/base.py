@@ -18,8 +18,8 @@
 #
 
 import re
-from collections.abc import Iterable
 from io import StringIO
+from typing import Iterable
 
 from django.http import Http404
 from django.utils.html import format_html
