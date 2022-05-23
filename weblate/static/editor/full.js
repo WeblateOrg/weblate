@@ -415,7 +415,7 @@
         text = target.find(".source").text();
       }
 
-      this.insertIntoTranslation(text);
+      this.insertIntoTranslation($.trim(text));
       e.preventDefault();
     });
 

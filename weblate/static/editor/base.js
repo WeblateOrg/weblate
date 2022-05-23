@@ -229,7 +229,7 @@ WLT.Editor = (function () {
       }
     }
 
-    editor.insertAtCaret($.trim(text));
+    editor.insertAtCaret(text);
   }
 
   return {
