@@ -14,6 +14,7 @@ Not yet released.
 * Fixed variants cleanup on string removal.
 * Compatibility with Django 4.1.
 * Added support for storing escaped XML elements in XLIFF.
+* Improved formatting of placeholder check errors.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

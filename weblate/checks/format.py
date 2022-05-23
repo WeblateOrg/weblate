@@ -391,13 +391,9 @@ class BaseFormatCheck(TargetCheck):
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
             if result["missing"]:
-                yield gettext("Following format strings are missing: %s") % ", ".join(
-                    self.format_string(x) for x in sorted(set(result["missing"]))
-                )
+                yield self.get_missing_text(set(result["missing"]))
             if result["extra"]:
-                yield gettext("Following format strings are extra: %s") % ", ".join(
-                    self.format_string(x) for x in sorted(set(result["extra"]))
-                )
+                yield self.get_extra_text(set(result["extra"]))
 
     def get_description(self, check_obj):
         unit = check_obj.unit
