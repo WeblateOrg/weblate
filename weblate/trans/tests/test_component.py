@@ -785,8 +785,8 @@ class ComponentValidationTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             "The language code for "
-            "Solution/Project/Resources.resx"
-            " was empty, please check the file mask.",
+            '"Solution/Project/Resources.resx"'
+            " is empty, please check the file mask.",
             component.clean_lang_codes,
             [
                 "Solution/Project/Resources.resx",
