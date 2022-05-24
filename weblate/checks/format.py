@@ -22,7 +22,7 @@ from collections import defaultdict
 from typing import Optional, Pattern
 
 from django.utils.functional import SimpleLazyObject
-from django.utils.html import escape
+from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -391,9 +391,13 @@ class BaseFormatCheck(TargetCheck):
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
             if result["missing"]:
-                yield self.get_missing_text(set(result["missing"]))
+                yield self.get_missing_text(
+                    self.format_string(x) for x in set(result["missing"])
+                )
             if result["extra"]:
-                yield self.get_extra_text(set(result["extra"]))
+                yield self.get_extra_text(
+                    self.format_string(x) for x in set(result["extra"])
+                )
 
     def get_description(self, check_obj):
         unit = check_obj.unit
@@ -411,7 +415,9 @@ class BaseFormatCheck(TargetCheck):
         if results:
             errors.extend(self.format_result(results))
         if errors:
-            return mark_safe("<br />".join(escape(error) for error in errors))
+            return mark_safe(
+                "<br />".join(conditional_escape(error) for error in errors)
+            )
         return super().get_description(check_obj)
 
 
