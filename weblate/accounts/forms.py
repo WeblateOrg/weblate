@@ -160,6 +160,12 @@ class LanguagesForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Remove empty choice from the form. We need it at the database level
+        # to initialize user profile, but it is filled in later based on
+        # languages configured in the browser.
+        self.fields["language"].choices = [
+            choice for choice in self.fields["language"].choices if choice[0]
+        ]
         # Limit languages to ones which have translation
         qs = Language.objects.have_translation()
         self.fields["languages"].queryset = qs
@@ -841,7 +847,9 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=_("Add user to a group"), queryset=Group.objects.order(), required=True
+        label=_("Add user to a group"),
+        queryset=Group.objects.prefetch_related("defining_project").order(),
+        required=True,
     )
 
     def __init__(self, *args, **kwargs):

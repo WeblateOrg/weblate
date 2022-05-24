@@ -44,4 +44,4 @@ class Setting(models.Model):
         verbose_name_plural = "Settings"
 
     def __str__(self):
-        return f"{self.name}:{self.value}"
+        return f"{self.get_category_display()}:{self.name}:{self.value}"

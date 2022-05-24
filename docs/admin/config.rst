@@ -831,7 +831,8 @@ GITLAB_TOKEN
 
 .. versionadded:: 4.3
 
-GitLab personal access token used to make API calls for translation updates.
+GitLab personal access token used to make API calls to send merge requests for
+translation updates.
 
 .. seealso::
 
@@ -937,6 +938,24 @@ doesn't prevent attacker to figure out version by probing the behavior.
 .. note::
 
     This is turned off by default.
+
+.. setting:: INTERLEDGER_PAYMENT_POINTERS
+
+INTERLEDGER_PAYMENT_POINTERS
+----------------------------
+
+.. versionadded:: 4.12.1
+
+List of Interledger Payment Pointers (ILPs) for Web Monetization.
+
+If multiple are specified, probabilistic revenue sharing is achieved by
+selecting one randomly.
+
+Please check <https://webmonetization.org/> for more details.
+
+.. hint::
+
+   The default value lets users fund Weblate itself.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
@@ -1111,11 +1130,11 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 -----------------------------------------
 
 Whether the length of a given translation should be limited.
-The restriction is the length of the source string * 10 characters.
+The restriction is the length of the source string × 10 characters.
 
 .. hint::
 
-    Set this to ``False`` to allow longer translations (up to 10.000 characters) irrespective of source string length.
+    Set this to ``False`` to allow longer translations (up to 10,000 characters) irrespective of source string length.
 
 .. note::
 
@@ -1145,7 +1164,7 @@ store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
 LOGIN_REQUIRED_URLS
 -------------------
 
-A list of URLs you want to require logging into. (Besides the standard rules built into Weblate).
+A list of URLs you want to require signing in. (Besides the standard rules built into Weblate).
 
 .. hint::
 
@@ -1754,7 +1773,8 @@ PAGURE_TOKEN
 
 .. versionadded:: 4.3.2
 
-Pagure personal access token used to make API calls for translation updates.
+Pagure personal access token used to make API calls to send merge requests for
+translation updates.
 
 .. seealso::
 
@@ -2128,6 +2148,12 @@ UPDATE_LANGUAGES
 Controls whether languages database should be updated when running database
 migration and is enabled by default. This setting has no effect on invocation
 of :djadmin:`setuplang`.
+
+.. warning::
+
+   The languages display might become inconsistent with this. Weblate language
+   definitions extend over time and it will not display language code for
+   the defined languages.
 
 .. seealso::
 

@@ -72,6 +72,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "po",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
                 "po-link/*.po": {
                     "files": {"po-link/cs.po", "po-link/de.po", "po-link/it.po"},
@@ -86,6 +87,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "po-link",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
                 "po-mono/*.po": {
                     "files": {
@@ -106,6 +108,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "po-mono",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
                 "second-po/*.po": {
                     "files": {"second-po/cs.po", "second-po/de.po"},
@@ -119,6 +122,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "second-po",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
             },
         )

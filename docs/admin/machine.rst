@@ -57,7 +57,9 @@ to and from English across a breadth of supported languages.
 
 .. seealso::
 
-    :setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:`MT_AWS_SECRET_ACCESS_KEY`
+    :setting:`MT_AWS_REGION`,
+    :setting:`MT_AWS_ACCESS_KEY_ID`,
+    :setting:`MT_AWS_SECRET_ACCESS_KEY`,
     `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
 
 .. _baidu-translate:
@@ -142,9 +144,9 @@ Glosbe
 
 Free dictionary and translation memory for almost every living language.
 
-The API is gratis to use, but subject to the used data source license. There is a limit
-of calls that may be done from one IP in a set period of time, to prevent
-abuse.
+The API is gratis to use, but usage of the translations is subject to the
+license of the used data source. There is a limit of calls that may be done
+from one IP in a set period of time, to prevent abuse.
 
 Turn on this service by adding ``weblate.machinery.glosbe.GlosbeTranslation`` to
 :setting:`MT_SERVICES`.
@@ -382,8 +384,9 @@ Turn on this service by adding ``weblate.machinery.youdao.YoudaoTranslation`` to
 Weblate
 -------
 
-Weblate can be the source of machine translations as well.
-It is based on the Woosh fulltext engine, and provides both exact and inexact matches.
+Weblate machine translation service can provide translations for strings that
+are already translated inside Weblate. It looks for exact matches in the
+existing strings.
 
 Turn on these services by adding ``weblate.machinery.weblatetm.WeblateTranslation`` to
 :setting:`MT_SERVICES`.
@@ -395,8 +398,9 @@ Weblate Translation Memory
 
 .. versionadded:: 2.20
 
-The :ref:`translation-memory` can be used as a source for machine translation
-suggestions as well.
+Use :ref:`translation-memory` as a machine translation service. Any string that
+has been translated in past (or uploaded to the translation memory) can be
+translated in this way.
 
 Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to
 the :setting:`MT_SERVICES`. This service is turned on by

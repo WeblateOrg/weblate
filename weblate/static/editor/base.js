@@ -146,11 +146,7 @@ WLT.Editor = (function () {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       var $this = $(this);
-      var text = $this.clone();
-
-      text.find(hlNumberSelector).remove();
-      text = text.text();
-      insertEditor(text, $this);
+      insertEditor($this.data("value"), $this);
       e.preventDefault();
     });
 
@@ -214,6 +210,9 @@ WLT.Editor = (function () {
       if (root.length === 0) {
         root = element.closest(".translation-form");
       }
+      if (root.length === 0) {
+        root = $(document);
+      }
     } else {
       root = $(document);
     }
@@ -226,7 +225,7 @@ WLT.Editor = (function () {
       }
     }
 
-    editor.insertAtCaret($.trim(text));
+    editor.insertAtCaret(text);
   }
 
   return {

@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-{% with billings=page_user.billing_set.all %}
+{% with billings=page_user.billing_set.prefetch %}
 
 {% perm 'user.edit' as can_edit_user %}
 

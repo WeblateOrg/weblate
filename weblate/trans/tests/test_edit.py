@@ -400,6 +400,7 @@ class EditPoMonoTest(EditTest):
 
     def test_remove_unit(self):
         self.assertEqual(self.component.stats.all, 16)
+        unit_count = Unit.objects.count()
         unit = self.get_unit()
         # Deleting translation unit
         response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
@@ -422,6 +423,7 @@ class EditPoMonoTest(EditTest):
         self.assertEqual(response.status_code, 302)
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
+        self.assertEqual(unit_count - 4, Unit.objects.count())
 
 
 class EditIphoneTest(EditTest):
@@ -947,3 +949,28 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
+
+    def test_remove_unit(self):
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit_count = Unit.objects.count()
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+        all_units = source_unit.unit_set.exclude(pk__in=[unit.pk, source_unit.pk])
+        # Delete all other units
+        for i, other in enumerate(all_units):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": other.pk})
+            )
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(unit_count - 1 - i, Unit.objects.count())
+        # Deleting translation unit
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 302)
+
+        # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())

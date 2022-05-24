@@ -294,7 +294,7 @@ dumpuserdata
 
 .. django-admin:: dumpuserdata <file.json>
 
-Dumps userdata to a file for later use by :djadmin:`importuserdata`
+Dumps userdata to a file for later use by :djadmin:`importuserdata`.
 
 .. hint::
 
@@ -308,6 +308,7 @@ import_demo
 .. versionadded:: 4.1
 
 Creates a demo project with components based on <https://github.com/WeblateOrg/demo>.
+Make sure the celery tasks are running before running this command.
 
 This can be useful when developing Weblate.
 

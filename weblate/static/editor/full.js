@@ -415,7 +415,7 @@
         text = target.find(".source").text();
       }
 
-      this.insertIntoTranslation(text);
+      this.insertIntoTranslation($.trim(text));
       e.preventDefault();
     });
 
@@ -435,8 +435,10 @@
       if (cloneElement !== null) {
         let source = cloneElement.getAttribute("data-clone-text");
         if (source.length < 200) {
-          document.getElementById("id_source").value = source;
-          document.getElementById("id_target").value = document.querySelector(
+          let term_source = document.getElementById("id_add_term_source");
+          let term_target = document.getElementById("id_add_term_target");
+          term_source.value = source;
+          term_target.value = document.querySelector(
             ".translation-editor"
           ).value;
         }

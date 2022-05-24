@@ -391,6 +391,8 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "url": SITE_URL,
         }
     }
+    SOCIAL_AUTH_SAML_IMAGE = os.environ.get("WEBLATE_SAML_IDP_IMAGE", "")
+    SOCIAL_AUTH_SAML_TITLE = os.environ.get("WEBLATE_SAML_IDP_TITLE", "")
 
 # Azure
 if "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY" in os.environ:
@@ -437,6 +439,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
     )
     SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = os.environ.get(
         "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL", ""
+    )
+    SOCIAL_AUTH_KEYCLOAK_IMAGE = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE", ""
+    )
+    SOCIAL_AUTH_KEYCLOAK_TITLE = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE", ""
     )
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
 
@@ -1354,6 +1362,11 @@ SENTRY_DSN = os.environ.get("SENTRY_DSN")
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT")
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY")
+
+# Web Monetization
+INTERLEDGER_PAYMENT_POINTERS = get_env_list(
+    "WEBLATE_INTERLEDGER_PAYMENT_POINTERS", ["$ilp.uphold.com/ENU7fREdeZi9"]
+)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):

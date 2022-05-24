@@ -37,5 +37,5 @@ class InvalidTemplate(WeblateError):
     """Template file can not be parsed."""
 
     def __init__(self, nested, message=None):
-        super().__init__(message or self.__doc__)
+        super().__init__(message or f"Template file can not be parsed: {nested}")
         self.nested = nested

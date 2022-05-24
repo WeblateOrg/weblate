@@ -35,7 +35,6 @@ from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
-from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import EXTRAPLURALS
 from weblate_language_data.rtl import RTL_LANGS
 
@@ -374,13 +373,21 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     @cached_property
     def default_language(self):
         """Return English language object."""
-        return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
+        # Intentionally skip population field here as it
+        # might not yet be created during migrations.
+        # TODO: Drop this in Weblate 5.1
+        return self.only("name", "code", "direction").get(
+            code=settings.DEFAULT_LANGUAGE, skip_cache=True
+        )
 
     def setup(self, update, logger=lambda x: x):
         """Create basic set of languages.
 
         It is based on languages defined in the languages-data repo.
         """
+        from weblate_language_data.languages import LANGUAGES
+        from weblate_language_data.population import POPULATION
+
         # Invalidate cache, we might change languages
         self.flush_object_cache()
         languages = {
@@ -389,17 +396,26 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         plurals = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
+            population = POPULATION[code]
+
             if code in languages:
                 lang = languages[code]
             else:
-                languages[code] = lang = self.create(code=code, name=name)
+                languages[code] = lang = self.create(
+                    code=code, name=name, population=population
+                )
                 logger(f"Created language {code}")
 
             direction = lang.guess_direction()
             # Should we update existing?
-            if update and (lang.name != name or lang.direction != direction):
+            if update and (
+                lang.name != name
+                or lang.direction != direction
+                or lang.population != population
+            ):
                 lang.name = name
                 lang.direction = direction
+                lang.population = population
                 logger(f"Updated language {code}")
                 lang.save()
 
@@ -464,7 +480,7 @@ def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
     if settings.UPDATE_LANGUAGES:
         with transaction.atomic():
-            Language.objects.setup(False)
+            Language.objects.setup(True)
 
 
 class Language(models.Model, CacheKeyMixin):
@@ -485,6 +501,11 @@ class Language(models.Model, CacheKeyMixin):
             ("ltr", gettext_lazy("Left to right")),
             ("rtl", gettext_lazy("Right to left")),
         ),
+    )
+    population = models.BigIntegerField(
+        gettext_lazy("Number of speakers"),
+        help_text=gettext_lazy("Number of people speaking this language."),
+        default=0,
     )
 
     objects = LanguageManager()

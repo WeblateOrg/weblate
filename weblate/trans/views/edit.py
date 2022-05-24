@@ -235,7 +235,7 @@ def search(base, project, unit_set, request, blank: bool = False):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = unit_set.search(cleaned_data.get("q", ""), project=project).distinct()
+    allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
 
     # Grab unit IDs
     unit_ids = list(
@@ -577,9 +577,6 @@ def translate(request, project, component, lang):  # noqa: C901
 
     response = None
 
-    # Any form submitted?
-    if "skip" in request.POST:
-        return redirect(next_unit_url)
     if request.method == "POST" and "merge" not in request.POST:
         if (
             "accept" in request.POST

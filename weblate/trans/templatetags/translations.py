@@ -29,7 +29,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape, urlize
+from django.utils.html import escape, format_html, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -91,6 +91,7 @@ SOURCE_LINK = """
 <a href="{0}" target="_blank" rel="noopener noreferrer"
     class="wrap-text" dir="ltr">{1}</a>
 """
+HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
 
 class Formatter:
@@ -142,10 +143,8 @@ class Formatter:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
-        for start, end, _content in highlights:
-            self.tags[start].append(
-                '<span class="hlcheck"><span class="highlight-number"></span>'
-            )
+        for start, end, content in highlights:
+            self.tags[start].append(format_html(HLCHECK, content))
             self.tags[end].insert(0, "</span>")
             cleaned_value[start:end] = [" "] * (end - start)
 
@@ -514,10 +513,8 @@ def naturaltime(value, now=None):
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
-    return mark_safe(
-        '<span title="{}">{}</span>'.format(
-            escape(value.replace(microsecond=0).isoformat()), escape(text)
-        )
+    return format_html(
+        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
     )
 
 
@@ -941,10 +938,11 @@ def trend_format(number):
     number = abs(number)
     if number < 0.1:
         return "—"
-    return mark_safe(
-        '{}{} <span class="{}"></span>'.format(
-            prefix, escape(percent_format(number)), trend
-        )
+    return format_html(
+        '{}{} <span class="{}"></span>',
+        mark_safe(prefix),
+        percent_format(number),
+        mark_safe(trend),
     )
 
 

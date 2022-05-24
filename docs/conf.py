@@ -42,7 +42,7 @@ copyright = "2012–2022 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.12.1"
+release = "4.13"
 
 
 # -- General configuration ---------------------------------------------------
@@ -268,6 +268,8 @@ linkcheck_ignore = [
     "https://docwiki.embarcadero.com/",
     # 403 for linkcheck
     "https://docs.github.com/",
+    # These are PDF and fails with Unicode decode error
+    "http://ftp.pwg.org/",
 ]
 
 # HTTP docs

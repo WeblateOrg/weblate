@@ -568,6 +568,17 @@ Generic settings
       :ref:`production-site`,
       :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
+.. envvar:: WEBLATE_INTERLEDGER_PAYMENT_POINTERS
+
+    .. versionadded:: 4.12.1
+
+    Lets Weblate set the `meta[name=monetization]` field in the head of the
+    document. If multiple are specified, chooses one randomly.
+
+    .. seealso::
+
+        :setting:`INTERLEDGER_PAYMENT_POINTERS`
+
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
     Lets Weblate fetch the IP address from any given HTTP header. Use this when using
@@ -987,6 +998,12 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD_FILE
+
+    Path to the file containing the LDAP server bind password.
+
+    .. seealso:: :envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`
+
 .. envvar:: WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER
@@ -1125,6 +1142,8 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALGORITHM
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
     Enables Keycloak authentication, see
     `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
@@ -1159,6 +1178,8 @@ In case you want to use own keys, place the certificate and private key in
 .. envvar:: WEBLATE_SAML_IDP_ENTITY_ID
 .. envvar:: WEBLATE_SAML_IDP_URL
 .. envvar:: WEBLATE_SAML_IDP_X509CERT
+.. envvar:: WEBLATE_SAML_IDP_IMAGE
+.. envvar:: WEBLATE_SAML_IDP_TITLE
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
@@ -1289,6 +1310,12 @@ instance when running Weblate in Docker.
 .. envvar:: REDIS_PASSWORD
 
     The Redis server password, not used by default.
+
+.. envvar:: REDIS_PASSWORD_FILE
+
+    Path to the file containing the Redis server password.
+
+    .. seealso:: :envvar:`REDIS_PASSWORD`
 
 .. envvar:: REDIS_TLS
 

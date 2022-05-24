@@ -108,6 +108,20 @@ class VariantTest(ViewTestCase):
         unit.save()
         self.assertEqual(Variant.objects.count(), 0)
 
+    def test_variants_flag_delete(self, code: str = "en"):
+        self.add_variants()
+        self.assertEqual(Variant.objects.count(), 0)
+        translation = self.component.translation_set.get(language_code=code)
+
+        unit = translation.unit_set.get(context="barMin")
+        unit.extra_flags = "variant:'Default string'"
+        unit.save()
+        self.assertEqual(Variant.objects.count(), 1)
+        self.assertEqual(Variant.objects.get().unit_set.count(), 4)
+
+        translation.delete_unit(None, unit)
+        self.assertEqual(Variant.objects.count(), 0)
+
     def test_variants_flag_translation(self):
         self.test_variants_flag("cs")
 

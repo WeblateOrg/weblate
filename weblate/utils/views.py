@@ -38,7 +38,6 @@ from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -47,6 +46,7 @@ SORT_KEYS = {
     "untranslated": lambda x: x.stats.todo,
     "untranslated_words": lambda x: x.stats.todo_words,
     "untranslated_chars": lambda x: x.stats.todo_chars,
+    "nottranslated": lambda x: x.stats.nottranslated,
     "checks": lambda x: x.stats.allchecks,
     "suggestions": lambda x: x.stats.suggestions,
     "comments": lambda x: x.stats.comments,
@@ -326,7 +326,7 @@ def download_translation_file(
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
-            units = units.search(query_string).distinct()
+            units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
             "{{project}}-{0}-{{language}}.{{extension}}".format(
@@ -337,7 +337,7 @@ def download_translation_file(
         # Force flushing pending units
         try:
             translation.commit_pending("download", None)
-        except WeblateLockTimeout:
+        except Exception:
             report_error(cause="Download commit")
 
         filenames = translation.filenames

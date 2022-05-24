@@ -101,6 +101,15 @@ def get_key_data():
     return None
 
 
+def ensure_ssh_key():
+    """Ensures SSH key is existing."""
+    ssh_key = get_key_data()
+    if not ssh_key:
+        generate_ssh_key(None)
+        ssh_key = get_key_data()
+    return ssh_key
+
+
 def generate_ssh_key(request):
     """Generate SSH key."""
     keyfile = ssh_file(RSA_KEY)
@@ -116,7 +125,7 @@ def generate_ssh_key(request):
                 "-N",
                 "",
                 "-C",
-                "Weblate",
+                settings.SITE_TITLE,
                 "-t",
                 "rsa",
                 "-f",
@@ -209,7 +218,7 @@ def cleanup_host_keys(*args, **kwargs):
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not os.path.exists(known_hosts_file):
         return
-    logger = kwargs.get("logger", print)  # noqa: T002
+    logger = kwargs.get("logger", print)  # noqa: T202
     keys = []
     with open(known_hosts_file) as handle:
         for line in handle:

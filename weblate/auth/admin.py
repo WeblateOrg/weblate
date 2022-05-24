@@ -43,8 +43,23 @@ def block_role_edit(obj):
     return obj and obj.name in BUILT_IN_ROLES
 
 
+class AutoGroupChangeForm(forms.ModelForm):
+    class Meta:
+        model = AutoGroup
+        fields = "__all__"
+
+    def has_changed(self):
+        """
+        Should returns True if data differs from initial.
+
+        By always returning true even unchanged inlines will get validated and saved.
+        """
+        return True
+
+
 class InlineAutoGroupAdmin(admin.TabularInline):
     model = AutoGroup
+    form = AutoGroupChangeForm
     extra = 0
 
     def has_add_permission(self, request, obj=None):
@@ -191,6 +206,12 @@ class GroupChangeForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if "components" in self.fields:
+            components = self.fields["components"]
+            components.queryset = components.queryset.select_related("project")
 
     def clean(self):
         super().clean()

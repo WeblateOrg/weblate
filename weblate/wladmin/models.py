@@ -42,7 +42,7 @@ from weblate.utils.backup import (
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
-from weblate.vcs.ssh import generate_ssh_key, get_key_data
+from weblate.vcs.ssh import ensure_ssh_key
 
 
 class WeblateConf(AppConf):
@@ -138,10 +138,7 @@ class SupportStatus(models.Model):
                     ).iterator()
                 ]
             )
-        ssh_key = get_key_data()
-        if not ssh_key:
-            generate_ssh_key(None)
-            ssh_key = get_key_data()
+        ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
         response = request("post", settings.SUPPORT_API_URL, data=data)

@@ -57,7 +57,6 @@ from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_hash
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GhostStats, TranslationStats
@@ -420,7 +419,7 @@ class Translation(
                 if translation_store is not None:
                     try:
                         translated_unit, created = translation_store.find_unit(
-                            unit.context
+                            unit.context, unit.source
                         )
                         if translated_unit and not created:
                             unit = translated_unit
@@ -430,7 +429,10 @@ class Translation(
                     except UnitNotFound:
                         pass
 
-                id_hash = unit.id_hash
+                try:
+                    id_hash = unit.id_hash
+                except Exception as error:
+                    self.component.handle_parse_error(error, self)
 
                 # Check for possible duplicate units
                 if id_hash in updated:
@@ -1072,9 +1074,11 @@ class Translation(
         else:
             existing = set(self.unit_set.values_list("context", "source"))
         for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
-            if (has_template and unit.context in existing) or (
-                not has_template and (unit.context, unit.source) in existing
-            ):
+            if has_template:
+                idkey = unit.context
+            else:
+                idkey = (unit.context, unit.source)
+            if idkey in existing:
                 skipped += 1
                 continue
             self.add_unit(
@@ -1084,6 +1088,7 @@ class Translation(
                 split_plural(unit.target) if not self.is_source else [],
                 is_batch_update=True,
             )
+            existing.add(idkey)
             accepted += 1
         component.invalidate_cache()
         if component.needs_variants_update:
@@ -1333,10 +1338,9 @@ class Translation(
                 current_target = ""
             if isinstance(current_target, list):
                 current_target = join_plural(current_target)
-            if has_template:
-                id_hash = calculate_hash(context)
-            else:
-                id_hash = calculate_hash(source, context)
+            id_hash = component.file_format_cls.unit_class.calculate_id_hash(
+                has_template, source, context
+            )
             # When adding to a target the source string can already exist
             unit = None
             if (skip_existing or not self.is_source) and is_source:
@@ -1421,6 +1425,7 @@ class Translation(
         with component.repository.lock:
             component.commit_pending("delete unit", user)
             previous_revision = self.component.repository.last_revision
+            cleanup_variants = False
             for translation in self.get_store_change_translations():
                 # Does unit exist here?
                 try:
@@ -1428,6 +1433,7 @@ class Translation(
                 except ObjectDoesNotExist:
                     continue
                 # Delete the removed unit from the database
+                cleanup_variants |= translation_unit.variant_id is not None
                 translation_unit.delete()
                 # Skip file processing on source language without a storage
                 if not self.filename:
@@ -1449,11 +1455,20 @@ class Translation(
                     translation.unit_set.filter(
                         position__gt=translation_unit.position
                     ).update(position=F("position") - 1)
+                # Delete stale source units
+                if not self.is_source and translation == self:
+                    source_unit = translation_unit.source_unit
+                    if source_unit.source_unit.unit_set.count() == 1:
+                        source_unit.delete()
+
             if self.is_source and unit.position and not component.has_template():
                 # Adjust position is source language
                 self.unit_set.filter(position__gt=unit.position).update(
                     position=F("position") - 1
                 )
+
+            if cleanup_variants:
+                self.component.update_variants()
 
             self.handle_store_change(request, user, previous_revision)
 

@@ -1,12 +1,46 @@
+Weblate 4.13
+------------
+
+Not yet released.
+
+* Changed behavior of updating language names.
+* Added pagination to projects listing.
+* API for creating new units now returns information about newly created unit.
+* Component discovery now supports configuring an intermediate language.
+* Added fixed encoding variants to CSV formats.
+* Changed handling of context and location for some formats to better fit underlying implementation.
+* Added support for ResourceDictionary format.
+* Improved progress bar colors for color blind.
+* Fixed variants cleanup on string removal.
+* Compatibility with Django 4.1.
+* Added support for storing escaped XML elements in XLIFF.
+* Improved formatting of placeholder check errors.
+* Redirect /.well-known/change-password to /accounts/password/.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
+
+Weblate 4.12.2
+--------------
+
+Released on May 11th 2022.
+
+* Fixed rebuilding project translation memory for some components.
+* Fixed sorting components by untranslated strings.
+* Fixed possible loss of translations while adding new language.
+* Ensure Weblate SSH key is generated during migrations.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?closed=1>`__.
+
 Weblate 4.12.1
 --------------
 
-Not yet released.
+Released on April 29th 2022.
 
 * Fixed pull request message title.
 * Improved syntax error handling in Fluent format.
 * Fixed avatar display in notification e-mails.
-* Redirect /.well-known/change-password to /accounts/password/.
+* Add support for web monetization.
+* Fixed removal of stale source strings when removing translations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?closed=1>`__.
 

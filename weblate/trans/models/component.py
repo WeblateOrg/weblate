@@ -51,7 +51,6 @@ from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
-    LANGUAGE_CODE_LENGTH,
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
@@ -83,6 +82,7 @@ from weblate.trans.validators import (
     validate_autoaccept,
     validate_check_flags,
     validate_filemask,
+    validate_language_code,
 )
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
@@ -1949,7 +1949,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # Avoid parsing if template is invalid
             try:
                 self.template_store.check_valid()
-            except (FileParseError, ValueError) as exc:
+            except ValueError as exc:
+                raise InvalidTemplate(FileParseError(str(exc)))
+            except FileParseError as exc:
                 raise InvalidTemplate(exc)
         self._template_check_done = True
 
@@ -2273,22 +2275,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         existing_langs = set()
 
         for match in matches:
-            code = self.get_lang_code(match)
-            if not code:
-                message = (
-                    _("The language code for %s was empty, please check the file mask.")
-                    % match
-                )
-                raise ValidationError({"filemask": message})
-            lang = Language.objects.auto_get_or_create(
-                self.get_language_alias(code), create=False
-            )
-            if len(code) > LANGUAGE_CODE_LENGTH:
-                message = (
-                    _('The language code "%s" is too long, please check the file mask.')
-                    % code
-                )
-                raise ValidationError({"filemask": message})
+            code = self.get_lang_code(match, validate=True)
+            lang = validate_language_code(self.get_language_alias(code), match, True)
             if lang.code in langs:
                 message = (
                     _(
@@ -2299,6 +2287,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     % lang
                 )
                 raise ValidationError({"filemask": message})
+
             langs.add(lang.code)
             if lang.id:
                 existing_langs.add(lang.code)
@@ -2428,14 +2417,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 raise ValidationError({"template": msg})
 
             code = self.get_lang_code(self.template, validate=True)
-            if code:
-                lang = Language.objects.auto_get_or_create(
-                    code=self.get_language_alias(code)
-                ).base_code
-                if lang != self.source_language.base_code:
+            lang = validate_language_code(
+                self.get_language_alias(code), self.template, required=False
+            )
+            if lang:
+                lang_code = lang.base_code
+                if lang_code != self.source_language.base_code:
                     msg = _(
                         "Template language ({0}) does not match source language ({1})!"
-                    ).format(code, self.source_language.code)
+                    ).format(lang_code, self.source_language.code)
                     raise ValidationError({"template": msg, "source_language": msg})
 
         elif self.file_format_cls.monolingual:
@@ -2609,6 +2599,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         language_code=self.source_language.code,
                         language=self.source_language,
                         component=self,
+                        pk=-1,
                     )
                 },
                 files=[fullname],
@@ -2734,6 +2725,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             component_units.filter(
                 Q(source=variant.key) | Q(id_hash__in=defining_units)
             ).update(variant=variant)
+
+        # Delete stale variant links
+        Variant.objects.annotate(unit_count=Count("defining_units")).filter(
+            component=self, variant_regex="", unit_count=0
+        ).delete()
 
     def update_link_alerts(self, noupdate: bool = False):
         base = self.linked_component if self.is_repo_link else self
@@ -2926,6 +2922,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def file_format_create_style(self):
         return self.file_format_cls.create_style
 
+    @cached_property
+    def file_format_flags(self):
+        return Flags(self.file_format_cls.check_flags)
+
     @property
     def file_format_cls(self):
         """Return file format object."""
@@ -2976,6 +2976,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return self.file_format_cls.parse(
             fileobj or self.get_template_filename(),
             source_language=self.source_language.code,
+            is_template=True,
         )
 
     @cached_property
@@ -2994,7 +2995,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return Flags(self.file_format_cls.check_flags, self.check_flags)
+        return Flags(self.file_format_flags, self.check_flags)
 
     def can_add_new_language(self, user, fast: bool = False):
         """Wrapper to check if a new language can be added.
@@ -3079,6 +3080,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             messages.error(request, _("Translation file already exists!"))
         else:
             with self.repository.lock:
+                if create_translations:
+                    self.commit_pending("add language", None)
                 file_format.add_language(
                     fullname,
                     language,

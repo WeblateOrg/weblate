@@ -51,11 +51,10 @@ class ProjectQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
+        queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
         # Indicate alerts
-        for alert in (
-            projects.values("id")
-            .filter(component__alert__dismissed=False)
-            .annotate(Count("component__alert"))
+        for alert in queryset.filter(component__alert__dismissed=False).annotate(
+            Count("component__alert")
         ):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
@@ -65,8 +64,7 @@ def prefetch_project_flags(projects):
             project.__dict__["locked"] = True
         # Filter unlocked projects
         for locks in (
-            projects.filter(component__locked=False)
-            .values("id")
+            queryset.filter(component__locked=False)
             .distinct()
             .annotate(Count("component__id"))
         ):
@@ -444,7 +442,14 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         return self.component_set.distinct() | self.shared_components.distinct()
 
     def scratch_create_component(
-        self, name, slug, source_language, file_format, has_template=None, **kwargs
+        self,
+        name: str,
+        slug: str,
+        source_language,
+        file_format: str,
+        has_template: Optional[bool] = None,
+        is_glossary: bool = False,
+        **kwargs,
     ):
         format_cls = FILE_FORMATS[file_format]
         if has_template is None:
@@ -453,19 +458,24 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             template = f"{source_language.code}.{format_cls.extension()}"
         else:
             template = ""
-        # Create component
-        return self.component_set.create(
-            file_format=file_format,
-            filemask=f"*.{format_cls.extension()}",
-            template=template,
-            vcs="local",
-            repo="local:",
-            source_language=source_language,
-            name=name,
-            slug=slug,
-            manage_units=True,
-            **kwargs,
+        kwargs.update(
+            {
+                "file_format": file_format,
+                "filemask": f"*.{format_cls.extension()}",
+                "template": template,
+                "vcs": "local",
+                "repo": "local:",
+                "source_language": source_language,
+                "manage_units": True,
+                "is_glossary": is_glossary,
+            }
         )
+        # Create component
+        if is_glossary:
+            return self.component_set.get_or_create(
+                name=name, slug=slug, defaults=kwargs
+            )[0]
+        return self.component_set.create(name=name, slug=slug, **kwargs)
 
     @cached_property
     def glossaries(self):

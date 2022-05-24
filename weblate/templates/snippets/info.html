@@ -22,7 +22,7 @@
         {{ language.code }}
         </td>
         </tr>
-        {% with language.get_aliases_names as aliases %}
+        {% with aliases=language.get_aliases_names %}
           {% if aliases %}
             <tr>
             <th>{% trans "Aliased language codes" %}</th>
@@ -34,6 +34,12 @@
         <th>{% trans "Text direction" %}</th>
         <td colspan="2">{{ language.get_direction_display }}</td>
         </tr>
+        {% if language.population %}
+        <tr>
+        <th>{% trans "Number of speakers" %}</th>
+        <td colspan="2">{{ language.population|intcomma }}</td>
+        </tr>
+        {% endif %}
 
         {% for plural in language.plural_set.order %}
           <tr class="info">

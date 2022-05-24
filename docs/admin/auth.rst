@@ -463,7 +463,7 @@ configure your IDP to provide them:
 
 .. hint::
 
-   The example above and the Docker image define an IDP labelled ``weblate``.
+   The example above and the Docker image define an IDP called ``weblate``.
    You might need to configure this string as :guilabel:`Relay` in your IDP.
 
 .. seealso::

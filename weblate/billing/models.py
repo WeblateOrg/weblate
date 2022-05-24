@@ -30,8 +30,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext
 
@@ -445,12 +444,11 @@ class Billing(models.Model):
         for project in self.all_projects:
             yield LibreCheck(
                 bool(project.web),
-                mark_safe(
-                    '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>'.format(
-                        escape(project.get_absolute_url()),
-                        escape(project),
-                        escape(project.web),
-                    )
+                format_html(
+                    '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>',
+                    project.get_absolute_url(),
+                    project,
+                    project.web,
                 ),
             )
         components = Component.objects.filter(
@@ -464,19 +462,18 @@ class Billing(models.Model):
         for component in components:
             yield LibreCheck(
                 component.libre_license,
-                mark_safe(
+                format_html(
                     """
                     <a href="{0}">{1}</a>,
                     <a href="{2}">{3}</a>,
                     <a href="{4}">{4}</a>,
-                    {5}""".format(
-                        escape(component.get_absolute_url()),
-                        escape(component.name),
-                        escape(component.license_url or "#"),
-                        escape(component.get_license_display() or _("Missing license")),
-                        escape(component.repo),
-                        escape(component.get_file_format_display()),
-                    )
+                    {5}""",
+                    component.get_absolute_url(),
+                    component.name,
+                    component.license_url or "#",
+                    component.get_license_display() or _("Missing license"),
+                    component.repo,
+                    component.get_file_format_display(),
                 ),
                 component=component,
             )

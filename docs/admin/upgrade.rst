@@ -302,6 +302,27 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.11 to 4.12
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are no special steps required.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.12 to 4.13
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The :ref:`languages` are now automatically updated on upgrade, use :setting:`UPDATE_LANGUAGES` to disable that.
+* Handling of context and location has been changed for :ref:`winrc`,
+  :ref:`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the
+  context is now shown as location.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3

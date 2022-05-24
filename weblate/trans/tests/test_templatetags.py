@@ -94,9 +94,11 @@ class LocationLinksTest(TestCase):
                     source_language=Language(),
                     slug="c",
                     name="c",
+                    pk=-1,
                 ),
                 language=Language(),
-            )
+            ),
+            pk=-1,
         )
         self.unit.source_unit = self.unit
         self.profile = Profile()
@@ -396,7 +398,7 @@ class TranslationFormatTestCase(FixtureTestCase):
                 unit=unit,
             )["items"][0]["content"],
             """
-            <span class="hlcheck">
+            <span class="hlcheck" data-value="%3$s">
             <span class="highlight-number"></span>
             %3$s
             </span>
@@ -412,7 +414,9 @@ class TranslationFormatTestCase(FixtureTestCase):
             ][0]["content"],
             """
             Orangutan has
-            <span class="hlcheck"><span class="highlight-number"></span>%d</span>
+            <span class="hlcheck" data-value="%d">
+                <span class="highlight-number"></span>%d
+            </span>
             banana.<span class="hlspace"><span class="space-nl"><span class="sr-only">
             </span>
             </span>

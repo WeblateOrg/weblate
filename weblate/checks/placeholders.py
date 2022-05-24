@@ -22,7 +22,6 @@ import re
 
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
@@ -92,17 +91,11 @@ class PlaceholderCheck(TargetCheckParametrized):
 
         errors = []
         if result["missing"]:
-            errors.append(
-                gettext("Following format strings are missing: %s")
-                % ", ".join(sorted(result["missing"]))
-            )
+            errors.append(self.get_missing_text(result["missing"]))
         if result["extra"]:
-            errors.append(
-                gettext("Following format strings are extra: %s")
-                % ", ".join(sorted(result["extra"]))
-            )
+            errors.append(self.get_extra_text(result["extra"]))
 
-        return mark_safe("<br />".join(escape(error) for error in errors))
+        return mark_safe("<br />".join(errors))
 
 
 class RegexCheck(TargetCheckParametrized):

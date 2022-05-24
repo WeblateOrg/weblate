@@ -680,6 +680,8 @@ Languages
     :type name: string
     :param direction: Text direction
     :type direction: string
+    :param population: Number of speakers
+    :type population: int
     :param plural: Language plural formula and number
     :type plural: object
 
@@ -691,6 +693,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
+    :<json int population: Number of speakers
     :>json object plural: Object of language plural information
     :>json array aliases: Array of aliases for language
 
@@ -702,6 +705,7 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
+            "population": 159034349015,
             "plural": {
                 "id": 75,
                 "source": 0,
@@ -729,6 +733,7 @@ Languages
     :type language: string
     :<json string name: Language name
     :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:patch:: /api/languages/(string:language)/
@@ -739,6 +744,7 @@ Languages
     :type language: string
     :<json string name: Language name
     :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:delete:: /api/languages/(string:language)/
@@ -1085,6 +1091,7 @@ Projects
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1224,6 +1231,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1235,6 +1243,7 @@ Components
             "source_language": {
                 "code": "en",
                 "direction": "ltr",
+                "population": 159034349015,
                 "name": "English",
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
@@ -1314,6 +1323,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                    "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1620,6 +1630,7 @@ Components
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1758,6 +1769,7 @@ Translations
                     "source_language": {
                         "code": "en",
                         "direction": "ltr",
+                        "population": 159034349015,
                         "name": "English",
                         "url": "http://example.com/api/languages/en/",
                         "web_url": "http://example.com/languages/en/"
@@ -1786,6 +1798,7 @@ Translations
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1849,7 +1862,7 @@ Translations
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
-    Add new monolingual unit.
+    Add new unit.
 
     :param project: Project URL slug
     :type project: string
@@ -1857,8 +1870,9 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit
-    :<json array value: The translation unit value
+    :<json string key: Name of translation unit (used as key or context)
+    :<json array value: Source strings (use single string if not creating plural)
+    :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
     .. seealso::
 
@@ -2039,7 +2053,7 @@ and XLIFF.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
     :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
-    :>json string souce_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
 
@@ -2511,15 +2525,20 @@ update individual repositories; see
 
     .. versionadded:: 3.8
 
-    Special hook for handling Azure Repos notifications and automatically
+    Special hook for handling Azure DevOps notifications and automatically
     updating matching components.
+
+    .. note::
+
+       Please make sure that :guilabel:`Resource details to send` is set to
+       *All*, otherwise Weblate will not be able to match your Azure repository.
 
     .. seealso::
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
         https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
-            Generic information about Azure Repos Web Hooks
+            Generic information about Azure DevOps Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
@@ -2673,4 +2692,4 @@ Changes in translations are exported in RSS feeds.
 
 .. seealso::
 
-   `RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_
+   `RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_

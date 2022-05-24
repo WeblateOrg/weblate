@@ -127,6 +127,7 @@ class LanguageSerializer(serializers.ModelSerializer):
             "plural",
             "aliases",
             "direction",
+            "population",
             "web_url",
             "url",
             "statistics_url",

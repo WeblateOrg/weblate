@@ -19,8 +19,12 @@
 
 import re
 from io import StringIO
+from typing import Iterable
 
 from django.http import Http404
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 from siphashc import siphash
@@ -269,6 +273,30 @@ class TargetCheck(Check):
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError()
 
+    def format_value(self, value: str):
+        from weblate.trans.templatetags.translations import Formatter
+
+        fmt = Formatter(0, value, None, None, None, None, None)
+        fmt.parse()
+        return format_html(
+            """<span class="hlcheck" data-value="{}">{}</span>""", value, fmt.format()
+        )
+
+    def get_values_text(self, message: str, values: Iterable[str]):
+        return mark_safe(
+            message % ", ".join(self.format_value(value) for value in sorted(values))
+        )
+
+    def get_missing_text(self, values: Iterable[str]):
+        return self.get_values_text(
+            gettext("Following format strings are missing: %s"), values
+        )
+
+    def get_extra_text(self, values: Iterable[str]):
+        return self.get_values_text(
+            gettext("Following format strings are extra: %s"), values
+        )
+
 
 class SourceCheck(Check):
     """Basic class for source checks."""
@@ -284,11 +312,10 @@ class SourceCheck(Check):
         raise NotImplementedError()
 
 
-class TargetCheckParametrized(Check):
+class TargetCheckParametrized(TargetCheck):
     """Basic class for target checks with flag value."""
 
     default_disabled = True
-    target = True
 
     def get_value(self, unit):
         return unit.all_flags.get_value(self.enable_string)
@@ -309,10 +336,6 @@ class TargetCheckParametrized(Check):
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""
-        return False
-
-    def check_source_unit(self, source, unit):
-        """We don't check source strings here."""
         return False
 
 
