@@ -82,6 +82,10 @@ handler500 = weblate.trans.views.error.server_error
 
 widget_pattern = "<word:widget>-<word:color>.<extension:extension>"
 
+URL_PREFIX = settings.URL_PREFIX
+if URL_PREFIX:
+    URL_PREFIX = URL_PREFIX.strip("/") + "/"
+
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
@@ -848,9 +852,21 @@ real_patterns = [
         weblate.trans.views.widgets.widgets,
         name="widgets",
     ),
-    path("widgets/", RedirectView.as_view(url="/projects/", permanent=True)),
+    path(
+        "widgets/",
+        RedirectView.as_view(
+            url=f"/{URL_PREFIX}projects/",
+            permanent=True,
+        ),
+    ),
     # Data exports pages
-    path("data/", RedirectView.as_view(url="/projects/", permanent=True)),
+    path(
+        "data/",
+        RedirectView.as_view(
+            url=f"/{URL_PREFIX}projects/",
+            permanent=True,
+        ),
+    ),
     path(
         "data/<name:project>/",
         weblate.trans.views.basic.data_project,
@@ -1032,18 +1048,23 @@ real_patterns = [
     re_path(
         r"^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-%(size)s.png", permanent=True
+            url=settings.STATIC_URL + "weblate-%(size)s.png",
+            permanent=True,
         ),
     ),
     path(
         "apple-touch-icon.png",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-180.png", permanent=True
+            url=settings.STATIC_URL + "weblate-180.png",
+            permanent=True,
         ),
     ),
     path(
         "favicon.ico",
-        RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico", permanent=True),
+        RedirectView.as_view(
+            url=settings.STATIC_URL + "favicon.ico",
+            permanent=True,
+        ),
     ),
     path(
         "robots.txt",
@@ -1095,7 +1116,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "projects/<name:project>/<name:component>/<gitpath:path>",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1103,7 +1124,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "projects/<name:project>/<name:component>.git/<gitpath:path>",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1112,7 +1133,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "git/<name:project>/<name:component>.git/<optionalpath:path>",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1121,7 +1142,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "projects/<name:project>/<name:component>/info/refs",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1184,7 +1205,7 @@ if "djangosaml2idp" in settings.INSTALLED_APPS:
     ]
 
 # Handle URL prefix configuration
-if not settings.URL_PREFIX:
+if not URL_PREFIX:
     urlpatterns = real_patterns
 else:
-    urlpatterns = [path(settings.URL_PREFIX.strip("/") + "/", include(real_patterns))]
+    urlpatterns = [path(URL_PREFIX, include(real_patterns))]
