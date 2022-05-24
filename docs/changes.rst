@@ -15,6 +15,7 @@ Not yet released.
 * Compatibility with Django 4.1.
 * Added support for storing escaped XML elements in XLIFF.
 * Improved formatting of placeholder check errors.
+* Redirect /.well-known/change-password to /accounts/password/.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
