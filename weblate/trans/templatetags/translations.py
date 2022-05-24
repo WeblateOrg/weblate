@@ -513,10 +513,8 @@ def naturaltime(value, now=None):
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
-    return mark_safe(
-        '<span title="{}">{}</span>'.format(
-            escape(value.replace(microsecond=0).isoformat()), escape(text)
-        )
+    return format_html(
+        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
     )
 
 
@@ -940,10 +938,11 @@ def trend_format(number):
     number = abs(number)
     if number < 0.1:
         return "—"
-    return mark_safe(
-        '{}{} <span class="{}"></span>'.format(
-            prefix, escape(percent_format(number)), trend
-        )
+    return format_html(
+        '{}{} <span class="{}"></span>',
+        mark_safe(prefix),
+        percent_format(number),
+        mark_safe(trend),
     )
 
 

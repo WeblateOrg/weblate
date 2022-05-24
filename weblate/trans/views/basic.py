@@ -21,9 +21,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.html import escape
+from django.utils.html import format_html
 from django.utils.http import urlencode
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
@@ -120,10 +119,8 @@ def show_engage(request, project, lang=None):
             "total": obj.stats.source_strings,
             "percent": stats_obj.translated_percent,
             "language": language,
-            "project_link": mark_safe(
-                '<a href="{}">{}</a>'.format(
-                    escape(obj.get_absolute_url()), escape(obj.name)
-                )
+            "project_link": format_html(
+                '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
             "title": _("Get involved in {0}!").format(obj),
         },
