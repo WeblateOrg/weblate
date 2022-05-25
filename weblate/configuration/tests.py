@@ -38,8 +38,8 @@ class SettingsTestCase(TestCase):
         )
         response = self.client.get(reverse("css-custom"))
         self.assertNotEqual(response.content.decode().strip(), "")
-        # Delete all settings
-        Setting.objects.all().delete()
+        # Delete all UI settings
+        Setting.objects.filter(category=Setting.CATEGORY_UI).delete()
         # The response should be cached
         response = self.client.get(reverse("css-custom"))
         self.assertNotEqual(response.content.decode().strip(), "")
