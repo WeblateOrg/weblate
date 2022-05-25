@@ -38,7 +38,7 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import escape
+from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -197,24 +197,31 @@ class PluralTextarea(forms.Textarea):
         super().__init__(*args, **kwargs)
 
     def get_rtl_toolbar(self, fieldname):
-        groups = []
-
         # Special chars
-        chars = []
-        for name, char, value in RTL_CHARS_DATA:
-            chars.append(
-                BUTTON_TEMPLATE.format(
+        chars = format_html_join(
+            "\n",
+            BUTTON_TEMPLATE,
+            (
+                (
                     "specialchar",
                     name,
-                    'data-value="{}"'.format(
-                        value.encode("ascii", "xmlcharrefreplace").decode("ascii")
+                    format_html(
+                        'data-value="{}"',
+                        mark_safe(
+                            value.encode("ascii", "xmlcharrefreplace").decode("ascii")
+                        ),
                     ),
                     char,
                 )
-            )
+                for name, char, value in RTL_CHARS_DATA
+            ),
+        )
 
-        groups.append(GROUP_TEMPLATE.format("", "\n".join(chars)))
-        return TOOLBAR_TEMPLATE.format("\n".join(groups))
+        groups = format_html_join(
+            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+        )
+
+        return format_html(TOOLBAR_TEMPLATE, groups)
 
     def get_rtl_toggle(self, language, fieldname):
         if language.direction != "rtl":
@@ -222,55 +229,71 @@ class PluralTextarea(forms.Textarea):
 
         # RTL/LTR switch
         rtl_name = f"rtl-{fieldname}"
-        rtl_switch = [
-            RADIO_TEMPLATE.format(
-                "direction-toggle active",
-                gettext("Toggle text direction"),
-                rtl_name,
-                "rtl",
-                'checked="checked"',
-                "RTL",
-            ),
-            RADIO_TEMPLATE.format(
-                "direction-toggle",
-                gettext("Toggle text direction"),
-                rtl_name,
-                "ltr",
-                "",
-                "LTR",
-            ),
-        ]
-        groups = [GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))]
-        return mark_safe(TOOLBAR_TEMPLATE.format("\n".join(groups)))
+        rtl_switch = format_html_join(
+            "\n",
+            RADIO_TEMPLATE,
+            [
+                (
+                    "direction-toggle active",
+                    gettext("Toggle text direction"),
+                    rtl_name,
+                    "rtl",
+                    format_html('checked="checked"'),
+                    "RTL",
+                ),
+                (
+                    "direction-toggle",
+                    gettext("Toggle text direction"),
+                    rtl_name,
+                    "ltr",
+                    format_html(""),
+                    "LTR",
+                ),
+            ],
+        )
+        groups = format_html_join(
+            "\n",
+            GROUP_TEMPLATE,
+            [(format_html('data-toggle="buttons"'), rtl_switch)],  # Only one group.
+        )
+        return format_html(TOOLBAR_TEMPLATE, groups)
 
     def get_toolbar(self, language, fieldname, unit, idx, source):
         """Return toolbar HTML code."""
         profile = self.profile
-        groups = []
 
         # Special chars
-        chars = [
-            BUTTON_TEMPLATE.format(
-                "specialchar",
-                name,
-                'data-value="{}"'.format(
-                    value.encode("ascii", "xmlcharrefreplace").decode("ascii")
-                ),
-                char,
-            )
-            for name, char, value in get_special_chars(
-                language, profile.special_chars, unit.source
-            )
-        ]
+        chars = format_html_join(
+            "\n",
+            BUTTON_TEMPLATE,
+            (
+                (
+                    "specialchar",
+                    name,
+                    format_html(
+                        'data-value="{}"',
+                        mark_safe(
+                            value.encode("ascii", "xmlcharrefreplace").decode("ascii")
+                        ),
+                    ),
+                    char,
+                )
+                for name, char, value in get_special_chars(
+                    language, profile.special_chars, unit.source
+                )
+            ),
+        )
 
-        groups.append(GROUP_TEMPLATE.format("", "\n".join(chars)))
+        groups = format_html_join(
+            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+        )
 
-        result = TOOLBAR_TEMPLATE.format("\n".join(groups))
+        result = format_html(TOOLBAR_TEMPLATE, groups)
 
         if language.direction == "rtl":
-            result = self.get_rtl_toolbar(fieldname) + result
+            result = format_html("{}{}", self.get_rtl_toolbar(fieldname), result)
 
-        return mark_safe(result)
+        return result
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
@@ -311,16 +334,16 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = escape(unit.translation.language)
+            label = unit.translation.language
             if len(values) != 1:
-                label = f"{label}, {plural.get_plural_label(idx)}"
+                label = format_html("{}, {}", label, plural.get_plural_label(idx))
             ret.append(
                 render_to_string(
                     "snippets/editor.html",
                     {
                         "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
                         "fieldid": fieldid,
-                        "label": mark_safe(label),
+                        "label": label,
                         "textarea": textarea,
                         "max_length": attrs["data-max"],
                         "length": len(val),
@@ -339,8 +362,7 @@ class PluralTextarea(forms.Textarea):
                 )
             )
 
-        # Join output
-        return mark_safe("".join(ret))
+        return format_html_join("", "{}", ((v,) for v in ret))
 
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
