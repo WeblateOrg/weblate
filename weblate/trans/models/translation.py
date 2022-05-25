@@ -147,7 +147,7 @@ class Translation(
 
     class Meta:
         app_label = "trans"
-        unique_together = ("component", "language")
+        unique_together = [("component", "language")]
         verbose_name = "translation"
         verbose_name_plural = "translations"
 

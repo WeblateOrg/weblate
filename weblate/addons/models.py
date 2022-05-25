@@ -152,7 +152,7 @@ class Event(models.Model):
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
-        unique_together = ("addon", "event")
+        unique_together = [("addon", "event")]
         verbose_name = "add-on event"
         verbose_name_plural = "add-on events"
 

@@ -354,7 +354,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     class Meta:
         app_label = "trans"
-        unique_together = ("translation", "id_hash")
+        unique_together = [("translation", "id_hash")]
         verbose_name = "string"
         verbose_name_plural = "strings"
 
