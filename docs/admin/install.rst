@@ -1528,6 +1528,8 @@ The tasks are supposed to be executed by Celery beats daemon. In case it is not
 working properly, it might not be running or its database was corrupted. Check
 the Celery startup logs in such case to figure out root cause.
 
+.. _monitoring-celery:
+
 Monitoring Celery status
 ++++++++++++++++++++++++
 
@@ -1544,12 +1546,15 @@ configuration error in the admin interface.
 
 .. seealso::
 
+   :ref:`monitoring`,
+   :ref:`faq-monitoring`,
    :doc:`celery:userguide/configuration`,
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
    :doc:`celery:userguide/monitoring`,
    :djadmin:`celery_queues`
 
+.. _monitoring:
 
 Monitoring Weblate
 ------------------
@@ -1561,6 +1566,8 @@ For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endp
 
 .. seealso::
 
+   :ref:`faq-monitoring`,
+   :ref:`monitoring-celery`,
    `Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_
 
 .. _collecting-errors:

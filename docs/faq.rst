@@ -238,12 +238,19 @@ Please consult the `git submodule`_ documentation for more details.
 
 .. _`git submodule`: https://git-scm.com/docs/git-submodule
 
+.. _faq-monitoring:
+
 How can I check whether my Weblate is set up properly?
 ------------------------------------------------------
 
 Weblate includes a set of configuration checks which you can see in the admin
 interface, just follow the :guilabel:`Performance report` link in the admin interface, or
 open the ``/manage/performance/`` URL directly.
+
+.. seealso::
+
+   :ref:`monitoring`,
+   :ref:`monitoring-celery`
 
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
