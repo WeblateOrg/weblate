@@ -22,6 +22,7 @@ from typing import Dict
 
 from django import template
 from django.conf import settings
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from weblate.utils.errors import report_error
@@ -56,10 +57,9 @@ def icon(name):
 
 @register.simple_tag()
 def loading_icon(name=None, hidden=True):
-    return mark_safe(
-        SPIN.format(
-            f'id="loading-{name}"' if name else "",
-            'style="display: none"' if hidden else "",
-            icon("loading.svg"),
-        )
+    return format_html(
+        SPIN,
+        format_html('id="loading-{}"', name) if name else "",
+        format_html('style="display: none"') if hidden else "",
+        icon("loading.svg"),
     )

@@ -20,8 +20,7 @@
 
 import re
 
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html, format_html_join
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
@@ -95,7 +94,9 @@ class PlaceholderCheck(TargetCheckParametrized):
         if result["extra"]:
             errors.append(self.get_extra_text(result["extra"]))
 
-        return mark_safe("<br />".join(errors))
+        return format_html_join(
+            format_html("<br />"), "{}", ((error,) for error in errors)
+        )
 
 
 class RegexCheck(TargetCheckParametrized):
@@ -130,7 +131,7 @@ class RegexCheck(TargetCheckParametrized):
         if not self.has_value(unit):
             return super().get_description(check_obj)
         regex = self.get_value(unit)
-        return mark_safe(
-            escape(_("Does not match regular expression %s."))
-            % f"<code>{escape(regex.pattern)}</code>"
+        return format_html(
+            escape(_("Does not match regular expression {}.")),
+            format_html("<code>{}</code>", regex.pattern),
         )

@@ -29,7 +29,7 @@ from django.db.models import Q
 from django.db.utils import OperationalError
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
@@ -558,7 +558,7 @@ class Language(models.Model, CacheKeyMixin):
 
         Includes language and direction HTML.
         """
-        return mark_safe(f'lang="{self.code}" dir="{self.direction}"')
+        return format_html('lang="{}" dir="{}"', self.code, self.direction)
 
     @cached_property
     def base_code(self):

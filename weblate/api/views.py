@@ -29,7 +29,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
@@ -146,8 +146,8 @@ def get_view_description(view, html=False):
         doc_url = get_doc_url("api", user=view.request.user)
 
     if html:
-        return formatting.markup_description(description) + mark_safe(
-            DOC_TEXT.format(doc_url)
+        return formatting.markup_description(description) + format_html(
+            DOC_TEXT, doc_url
         )
     return description
 

@@ -23,8 +23,7 @@ from collections import defaultdict
 from datetime import timedelta
 
 from django.utils import timezone
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
@@ -95,13 +94,12 @@ class MultipleFailingCheck(SourceCheck):
                 "{}: {}".format(
                     check_list[0].get_name(),
                     ", ".join(
-                        escape(str(check.unit.translation.language))
-                        for check in check_list
+                        str(check.unit.translation.language) for check in check_list
                     ),
                 )
             )
 
-        return mark_safe("<br>".join(output))
+        return format_html_join(format_html("<br>"), "{}", ((v,) for v in output))
 
 
 class LongUntranslatedCheck(SourceCheck):

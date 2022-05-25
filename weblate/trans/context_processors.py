@@ -23,9 +23,8 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.html import escape, format_html
+from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
 import weblate.screenshots.views
@@ -167,8 +166,8 @@ def weblate_context(request):
         "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
-        "weblate_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">weblate.org</a>'),
-        "weblate_name_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">Weblate</a>'),
+        "weblate_link": format_html('<a href="{}">weblate.org</a>', WEBLATE_URL),
+        "weblate_name_link": format_html('<a href="{}">Weblate</a>', WEBLATE_URL),
         "weblate_version_link": format_html(
             '<a href="{}">Weblate {}</a>',
             WEBLATE_URL,

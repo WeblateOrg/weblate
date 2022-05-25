@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
@@ -183,7 +183,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             return ""
         return super().action_checkbox(obj)
 
-    action_checkbox.short_description = mark_safe(
+    action_checkbox.short_description = format_html(
         '<input type="checkbox" id="action-toggle" />'
     )
 
@@ -261,7 +261,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
             return ""
         return super().action_checkbox(obj)
 
-    action_checkbox.short_description = mark_safe(
+    action_checkbox.short_description = format_html(
         '<input type="checkbox" id="action-toggle" />'
     )
 

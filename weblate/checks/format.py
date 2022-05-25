@@ -22,8 +22,7 @@ from collections import defaultdict
 from typing import Optional, Pattern
 
 from django.utils.functional import SimpleLazyObject
-from django.utils.html import conditional_escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
@@ -415,8 +414,8 @@ class BaseFormatCheck(TargetCheck):
         if results:
             errors.extend(self.format_result(results))
         if errors:
-            return mark_safe(
-                "<br />".join(conditional_escape(error) for error in errors)
+            return format_html_join(
+                format_html("<br />"), "{}", ((error,) for error in errors)
             )
         return super().get_description(check_obj)
 

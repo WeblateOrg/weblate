@@ -22,8 +22,7 @@ from io import StringIO
 from typing import Iterable
 
 from django.http import Http404
-from django.utils.html import format_html
-from django.utils.safestring import mark_safe
+from django.utils.html import conditional_escape, format_html, format_html_join
 from django.utils.translation import gettext
 from lxml import etree
 from lxml.etree import XMLSyntaxError
@@ -283,18 +282,20 @@ class TargetCheck(Check):
         )
 
     def get_values_text(self, message: str, values: Iterable[str]):
-        return mark_safe(
-            message % ", ".join(self.format_value(value) for value in sorted(values))
+        return format_html_join(
+            ", ",
+            conditional_escape(message),
+            ((self.format_value(value),) for value in sorted(values)),
         )
 
     def get_missing_text(self, values: Iterable[str]):
         return self.get_values_text(
-            gettext("Following format strings are missing: %s"), values
+            gettext("Following format strings are missing: {}"), values
         )
 
     def get_extra_text(self, values: Iterable[str]):
         return self.get_values_text(
-            gettext("Following format strings are extra: %s"), values
+            gettext("Following format strings are extra: {}"), values
         )
 
 

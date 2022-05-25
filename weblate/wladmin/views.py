@@ -29,8 +29,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
@@ -352,12 +351,13 @@ class AdminUserList(UserList):
                 user = invite_form.save(request)
                 messages.success(
                     request,
-                    mark_safe(
-                        escape(_("Created user account %s."))
-                        % '<a href="{}">{}</a>'.format(
-                            escape(user.get_absolute_url()),
-                            escape(user.username),
-                        )
+                    format_html(
+                        escape(_("Created user account {}.")),
+                        format_html(
+                            '<a href="{}">{}</a>',
+                            user.get_absolute_url(),
+                            user.username,
+                        ),
                     ),
                 )
                 return redirect("manage-users")

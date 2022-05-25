@@ -29,7 +29,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape, format_html, urlize
+from django.utils.html import escape, format_html, format_html_join, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -227,7 +227,7 @@ class Formatter:
     def format(self):
         tags = self.tags
         value = self.value
-        newline = SPACE_NL.format(gettext("New line"))
+        newline = format_html(SPACE_NL, gettext("New line"))
         output = []
         was_cr = False
         newlines = {"\r", "\n"}
@@ -624,10 +624,12 @@ def get_location_links(profile, unit):
                 filename, line, profile.editor_link
             )
         if link is None:
-            ret.append(escape(location))
+            ret.append(location)
         else:
-            ret.append(SOURCE_LINK.format(escape(link), escape(location)))
-    return mark_safe('\n<span class="divisor">•</span>\n'.join(ret))
+            ret.append(format_html(SOURCE_LINK, link, location))
+    return format_html_join(
+        format_html('\n<span class="divisor">•</span>\n'), "{}", ((v,) for v in ret)
+    )
 
 
 @register.simple_tag(takes_context=True)
@@ -652,19 +654,19 @@ def announcements(context, project=None, component=None, language=None):
             )
         )
 
-    return mark_safe("\n".join(ret))
+    return format_html_join("\n", "{}", ((v,) for v in ret))
 
 
 @register.simple_tag(takes_context=True)
 def active_tab(context, slug):
     active = "active" if slug == context["active_tab_slug"] else ""
-    return mark_safe(f'class="tab-pane {active}" id="{slug}"')
+    return format_html('class="tab-pane {}" id="{}"', active, slug)
 
 
 @register.simple_tag(takes_context=True)
 def active_link(context, slug):
     if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')
+        return format_html('class="active"')
     return ""
 
 
@@ -866,7 +868,7 @@ def indicate_alerts(context, obj):
 
 @register.filter(is_safe=True)
 def markdown(text):
-    return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
+    return format_html('<div class="markdown">{}</div>', render_markdown(text))
 
 
 @register.filter
@@ -940,9 +942,9 @@ def trend_format(number):
         return "—"
     return format_html(
         '{}{} <span class="{}"></span>',
-        mark_safe(prefix),
+        prefix,
         percent_format(number),
-        mark_safe(trend),
+        trend,
     )
 
 

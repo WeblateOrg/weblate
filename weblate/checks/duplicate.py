@@ -19,8 +19,7 @@
 
 import re
 
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
@@ -94,8 +93,4 @@ class DuplicateCheck(TargetCheck):
         source = unit.source_string
         for target in unit.get_target_plurals():
             duplicate.update(self.check_single(source, target, unit))
-        return mark_safe(
-            "{} {}".format(
-                escape(self.description), escape(", ".join(sorted(duplicate)))
-            )
-        )
+        return format_html("{} {}", self.description, ", ".join(sorted(duplicate)))

@@ -19,8 +19,7 @@
 
 import re
 
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html, format_html_join
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
@@ -79,7 +78,9 @@ class GlossaryCheck(TargetCheck):
         if not results:
             return super().get_description(check_obj)
 
-        return mark_safe(
-            gettext("Following terms are not translated according to glossary: %s")
-            % ", ".join(escape(term) for term in sorted(results))
+        return format_html(
+            escape(
+                gettext("Following terms are not translated according to glossary: {}")
+            ),
+            format_html_join(", ", "{}", ((term,) for term in sorted(results))),
         )
