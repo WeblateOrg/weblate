@@ -141,7 +141,7 @@ class TTKitUnit(TranslationUnit):
     def is_readonly(self):
         return not self.mainunit.istranslatable()
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         self._invalidate_target()
         if isinstance(target, list):
@@ -206,7 +206,7 @@ class KeyValueUnit(TTKitUnit):
             return not self.unit.isfuzzy() and self.unit.value != ""
         return self.unit.istranslated()
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         super().set_target(target)
         # Propagate to value so that searializing of empty values works correctly
@@ -597,7 +597,7 @@ class PoMonoUnit(PoUnit):
                 result.append(context)
         return "\n".join(result)
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         # Add blank msgid_plural to store plural
         if isinstance(target, (list, multistring)) and not self.unit.hasplural():
@@ -706,7 +706,7 @@ class XliffUnit(TTKitUnit):
             and not self.mainunit.isobsolete()
         )
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         self._invalidate_target()
         if isinstance(target, list):
@@ -779,7 +779,7 @@ class RichXliffUnit(XliffUnit):
         flags.merge("xml-text")
         return flags.format()
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         self._invalidate_target()
         # Delete the empty target element
@@ -1551,6 +1551,7 @@ class CSVFormat(TTKitFormat):
 class CSVUtf8Format(CSVFormat):
     name = _("CSV file (UTF-8)")
     format_id = "csv-utf-8"
+    autoload = ()
     force_encoding = "utf-8"
 
 
@@ -1984,7 +1985,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
 
 
 class FluentUnit(MonolingualSimpleUnit):
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         super().set_target(target)
         self.unit.source = target
 

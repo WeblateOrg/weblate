@@ -1209,6 +1209,15 @@ Example file:
 | File format                    | `Simple CSV file`                |
 +--------------------------------+----------------------------------+
 
+.. _multivalue-csv:
+
+Multivalue CSV file
++++++++++++++++++++
+
+.. versionadded:: 4.13
+
+This variant of the CSV files allows storing multiple translations per string.
+
 .. seealso:: :doc:`tt:formats/csv`
 
 .. _yaml:

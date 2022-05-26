@@ -33,6 +33,11 @@ class PluralsCheck(TargetCheck):
     name = _("Missing plurals")
     description = _("Some plural forms are untranslated")
 
+    def should_skip(self, unit):
+        if unit.translation.component.is_multivalue:
+            return True
+        return super().should_skip(unit)
+
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
         if len(sources) == 1:

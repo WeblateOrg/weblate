@@ -159,13 +159,19 @@ class TranslationUnit:
         """Check whether unit is read only."""
         return False
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         raise NotImplementedError()
 
     def set_state(self, state):
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError()
+
+    def has_unit(self) -> bool:
+        return self.unit is not None
+
+    def clone_template(self):
+        self.mainunit = self.unit = deepcopy(self.template)
 
 
 class TranslationFormat:
@@ -185,6 +191,7 @@ class TranslationFormat:
     create_empty_bilingual: bool = False
     bilingual_class = None
     create_style = "create"
+    has_multiple_strings: bool = False
 
     @classmethod
     def get_identifier(cls):
@@ -294,9 +301,9 @@ class TranslationFormat:
             raise UnitNotFound(context, source)
 
         add = False
-        if result.unit is None:
+        if not result.has_unit():
             # We always need copy of template unit to translate
-            result.mainunit = result.unit = deepcopy(result.template)
+            result.clone_template()
             add = True
         return result, add
 
@@ -361,19 +368,28 @@ class TranslationFormat:
     def template_units(self):
         return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
+    def _get_all_bilingual_units(self):
+        return [self.unit_class(self, unit) for unit in self.all_store_units]
+
+    def _build_monolingual_unit(self, unit):
+        return self.unit_class(
+            self,
+            self.find_unit_template(unit.context, unit.source, unit.id_hash),
+            unit.template,
+        )
+
+    def _get_all_monolingual_units(self):
+        return [
+            self._build_monolingual_unit(unit)
+            for unit in self.template_store.template_units
+        ]
+
     @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return [self.unit_class(self, unit) for unit in self.all_store_units]
-        return [
-            self.unit_class(
-                self,
-                self.find_unit_template(unit.context, unit.source, unit.id_hash),
-                unit.template,
-            )
-            for unit in self.template_store.template_units
-        ]
+            return self._get_all_bilingual_units()
+        return self._get_all_monolingual_units()
 
     @property
     def content_units(self):

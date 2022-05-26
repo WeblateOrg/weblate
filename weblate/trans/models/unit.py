@@ -765,7 +765,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return
 
         # Sanitize number of plurals
-        if self.is_plural:
+        if self.is_plural and not component.file_format_cls.has_multiple_strings:
             self.target = join_plural(self.get_target_plurals())
 
         if created:
@@ -876,20 +876,21 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Split plurals
         ret = split_plural(self.target)
 
-        if plurals is None:
-            plurals = self.translation.plural.number
+        if not self.translation.component.is_multivalue:
+            if plurals is None:
+                plurals = self.translation.plural.number
 
-        # Check if we have expected number of them
-        if len(ret) == plurals:
-            return ret
+            # Check if we have expected number of them
+            if len(ret) == plurals:
+                return ret
 
-        # Pad with empty translations
-        while len(ret) < plurals:
-            ret.append("")
+            # Pad with empty translations
+            while len(ret) < plurals:
+                ret.append("")
 
-        # Delete extra plurals
-        while len(ret) > plurals:
-            del ret[-1]
+            # Delete extra plurals
+            while len(ret) > plurals:
+                del ret[-1]
 
         return ret
 
@@ -1306,6 +1307,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         propagate: bool = True,
         author=None,
         request=None,
+        add_alternative: bool = False,
     ):
         """
         Store new translation of a unit.
@@ -1326,6 +1328,13 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if not self.translation.is_template:
             new_target, self.fixups = fix_target(new_target, self)
 
+        # Handle managing alternative translations
+        if add_alternative:
+            new_target.append("")
+        elif component.is_multivalue:
+            new_target = [target for target in new_target if target]
+            if not new_target:
+                new_target = [""]
         # Update unit and save it
         self.target = join_plural(new_target)
         not_empty = bool(max(new_target))

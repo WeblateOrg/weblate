@@ -299,10 +299,12 @@ class PluralTextarea(forms.Textarea):
         """Render all textareas with correct plural labels."""
         unit = value
         values = unit.get_target_plurals()
-        lang = unit.translation.language
-        plural = unit.translation.plural
+        translation = unit.translation
+        lang = translation.language
+        plural = translation.plural
         tabindex = self.attrs["tabindex"]
         placeables = [hl[2] for hl in highlight_string(unit.source_string, unit)]
+        show_plural_labels = len(values) > 1 and not translation.component.is_multivalue
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control highlight-editor"
@@ -334,9 +336,11 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = unit.translation.language
-            if len(values) != 1:
+            label = lang
+            if show_plural_labels:
                 label = format_html("{}, {}", label, plural.get_plural_label(idx))
+            elif translation.component.is_multivalue and idx > 0:
+                label = format_html("{}, {}", label, gettext("Alternative translation"))
             ret.append(
                 render_to_string(
                     "snippets/editor.html",
@@ -354,7 +358,7 @@ class PluralTextarea(forms.Textarea):
             )
 
         # Show plural formula for more strings
-        if len(values) > 1:
+        if show_plural_labels:
             ret.append(
                 render_to_string(
                     "snippets/plural-formula.html",

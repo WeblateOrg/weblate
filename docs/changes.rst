@@ -18,6 +18,7 @@ Not yet released.
 * Redirect /.well-known/change-password to /accounts/password/.
 * Machine translation services are now configurable per project.
 * Added separate permission for resolving comments and grant it to the :guilabel:`Review strings` role.
+* Added support for storing alternative translations in the CSV file.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

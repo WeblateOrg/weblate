@@ -56,6 +56,7 @@ class MockComponent:
         self.project = MockProject()
         self.name = "MockComponent"
         self.file_format = "auto"
+        self.is_multivalue = False
 
 
 class MockTranslation:
