@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-26 09:01+0200\n"
-"PO-Revision-Date: 2022-05-26 08:44+0000\n"
+"PO-Revision-Date: 2022-05-26 09:42+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1488,15 +1488,6 @@ msgid "Additional access restrictions"
 msgstr "Додаткові обмеження доступу"
 
 #: ../../admin/access.rst:629
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, i."
-#| "e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and set :setting:"
-#| "`REQUIRE_LOGIN` to ``/.*`` to require logging-in to access all the site "
-#| "pages. This is basically the way to lock your Weblate installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1509,19 +1500,17 @@ msgstr ""
 "Якщо ви хочете скористатися встановленим вами Weblate у менш відкритий "
 "спосіб, тобто дозволити нових користувачів лише на основі запрошень, зробити "
 "це можна налаштовуванням Weblate так, що до нього матимуть доступ лише "
-"відомі користувачі. Для цього ви можете встановити для параметра :setting:"
-"`REGISTRATION_OPEN` значення ``False`` для запобігання реєстрації будь-яких "
-"нових користувачів і встановити для :setting:`REQUIRE_LOGIN` значення ``/."
-"*``, щоб вимагати входу до системи для доступу до усіх сторінок сайта. Це, "
-"на базовому рівні, є способом блокування встановленого вами Weblate."
+"відомі користувачі. Для цього ви можете встановити для параметра "
+":setting:`REGISTRATION_OPEN` значення ``False`` для запобігання реєстрації "
+"будь-яких нових користувачів і встановити для :setting:`REQUIRE_LOGIN` "
+"значення ``/.*``, щоб вимагати входу до системи для доступу до усіх сторінок "
+"сайта. Це, на базовому рівні, є способом блокування встановленого вами "
+"Weblate."
 
 #: ../../admin/access.rst:638
-#, fuzzy
-#| msgid ""
-#| "You can use built-in :ref:`invitations <manage-acl>` to add new users."
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
-"Ви можете скористатися вбудованими :ref:`запрошеннями <manage-acl>` для "
+"Ви можете скористатися вбудованими :ref:`запрошеннями <invite-user>` для "
 "додавання нових користувачів."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2249
@@ -4147,16 +4136,11 @@ msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
 msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:466
-#, fuzzy
-#| msgid ""
-#| "The example above and the Docker image define an IDP labelled "
-#| "``weblate``. You might need to configure this string as :guilabel:`Relay` "
-#| "in your IDP."
 msgid ""
 "The example above and the Docker image define an IDP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
-"Наведений вище приклад і образ Docker визначають IDP із міткою ``weblate``. "
+"Наведений вище приклад і образ Docker визначають IDP із назвою ``weblate``. "
 "Можливо, вам слід налаштувати цей рядок як :guilabel:`Relay` у вашому IDP."
 
 #: ../../admin/auth.rst:471
@@ -5117,6 +5101,8 @@ msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Можна використовувати одинарні і подвійні лапки. Спеціальні символи слід "
+"екранувати символом зворотної похилої риски:"
 
 #: ../../admin/checks.rst:47
 msgid "Here is a list of flags currently accepted:"
@@ -7957,10 +7943,6 @@ msgid "LOGIN_REQUIRED_URLS"
 msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:1167
-#, fuzzy
-#| msgid ""
-#| "A list of URLs you want to require logging into. (Besides the standard "
-#| "rules built into Weblate)."
 msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
@@ -8743,22 +8725,16 @@ msgid "The default list already has the common formats."
 msgstr "У типовому списку вже є загальновживані формати."
 
 #: ../../admin/config.rst:1864
-#, fuzzy
-#| msgid "WEBLATE_ADDONS"
 msgid "WEBLATE_MACHINERY"
-msgstr "WEBLATE_ADDONS"
+msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:1868
-#, fuzzy
-#| msgid "List of file formats available for use."
 msgid "List of machinery services availabe for use."
-msgstr "Список форматів файлів, якими ви можете скористатися."
+msgstr "Список служб комп'ютерного перекладу, якими можна скористатися."
 
 #: ../../admin/config.rst:1872
-#, fuzzy
-#| msgid ":doc:`/admin/addons`"
 msgid ":doc:`/admin/machine`"
-msgstr ":doc:`/admin/addons`"
+msgstr ":doc:`/admin/machine`"
 
 #: ../../admin/config.rst:1877
 msgid "WEBLATE_GPG_IDENTITY"
@@ -10127,10 +10103,8 @@ msgid "https://pypi.org/project/ruamel.yaml/"
 msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:105
-#, fuzzy
-#| msgid "``Zeep`` (optional for :ref:`ms-terminology`)"
 msgid "``Zeep`` (optional for :ref:`mt-microsoft-terminology`)"
-msgstr "``Zeep`` (необов'язковий, для :ref:`ms-terminology`)"
+msgstr "``Zeep`` (необов'язковий, для :ref:`ms-microsoft-terminology`)"
 
 #: ../../admin/install.rst:106
 msgid "https://docs.python-zeep.org/"
@@ -12190,19 +12164,14 @@ msgstr ""
 "подібного типу, рекомендуємо вам налаштувати :ref:`collecting-errors`."
 
 #: ../../admin/install.rst:1549
-#, fuzzy
-#| msgid ""
-#| ":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, :"
-#| "doc:`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :"
-#| "djadmin:`celery_queues`"
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 msgstr ""
-":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, :doc:"
-"`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:"
-"`celery_queues`"
+":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
+"configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 
 #: ../../admin/install.rst:1560
 msgid "Monitoring Weblate"
@@ -12227,12 +12196,12 @@ msgstr ""
 "програмного інтерфейсу :http:get:`/api/metrics/`."
 
 #: ../../admin/install.rst:1569
-#, fuzzy
-#| msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
-msgstr "`Додаток Weblate для Munin <https://github.com/WeblateOrg/munin>`_"
+msgstr ""
+":ref:`faq-monitoring`, :ref:`monitoring-celery`, `додаток Weblate для Munin "
+"<https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1576
 msgid "Collecting error reports"
@@ -13515,6 +13484,9 @@ msgid ""
 "Machine translation services are now configured in the user interface. The "
 "existing environment variables are imported during the migration."
 msgstr ""
+"У новій версії служби комп'ютерного перекладу можна налаштувати з інтерфейсу "
+"користувача. Під час перенесення даних буде імпортовано наявні змінні "
+"середовища."
 
 #: ../../admin/install/docker.rst:876
 msgid "Authentication settings"
@@ -15519,15 +15491,15 @@ msgstr ""
 "профілю:"
 
 #: ../../admin/machine.rst:4
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configuring automatic suggestions"
-msgstr "Використовувати автоматичні пропозиції"
+msgstr "Налаштовування автоматичних пропозицій"
 
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
 msgstr ""
+"До Weblate 4.13 служби слід було налаштовувати у :ref:`налаштуваннях "
+"<config>`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -15535,24 +15507,25 @@ msgid ""
 "is built-in. Each service can be turned on by the administrator for whole "
 "site or at the project settings:"
 msgstr ""
+"Передбачено вбудовану підтримку декількох служб комп'ютерного перекладу. Цю "
+"підтримку може бути увімкнено адміністратором на рівні сайта або параметрів "
+"проєкту:"
 
 #: ../../admin/machine.rst:18
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Переклади регламентуються відповідними умовами використання, тому "
+"переконайтеся, що ви зможете використовувати їх у бажаний для вас спосіб."
 
 #: ../../admin/machine.rst:21
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the :ref:`component-source_language` in the component settings."
 msgid ""
 "The services translate from the source language as configured at :ref:"
 "`component`, see :ref:`component-source_language`."
 msgstr ""
-"Якщо переклад початковою мовою є бажаним, будь ласка, змініть :ref:"
-"`початкову мову <component-source_language>`у налаштуваннях складника."
+"Служби перекладу з початкової мови виконують переклад за налаштуваннями у "
+":ref:`component`, див. :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:26
 #, fuzzy
@@ -15562,13 +15535,11 @@ msgstr ":ref:`adding-translation`."
 
 #: ../../admin/machine.rst:31
 msgid "Amagama"
-msgstr ""
+msgstr "Amagama"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "Service status"
 msgid "Service ID"
-msgstr "Стан служби"
+msgstr "Ідентифікатор служби"
 
 #: ../../admin/machine.rst:33
 msgid "``amagama``"
@@ -15577,18 +15548,14 @@ msgstr ""
 #: ../../admin/machine.rst:34 ../../admin/machine.rst:165
 #: ../../admin/machine.rst:254 ../../admin/machine.rst:465
 #: ../../admin/machine.rst:480
-#, fuzzy
-#| msgid "`This add-on has no configuration.`"
 msgid "`This service has no configuration.`"
-msgstr "`Цей додаток не має налаштувань.`"
+msgstr "`Для цієї служби налаштувань не передбачено.`"
 
 #: ../../admin/machine.rst:36
-#, fuzzy
-#| msgid ""
-#| "Special installation of :ref:`tmserver` run by the authors of Virtaal."
 msgid ""
 "Special installation of :ref:`mt-tmserver` run by the authors of Virtaal."
-msgstr "Особливий екземпляр :ref:`tmserver`, яким керують розробники Virtaal."
+msgstr ""
+"Особливий екземпляр :ref:`mt-tmserver`, яким керують розробники Virtaal."
 
 #: ../../admin/machine.rst:40
 msgid ""
@@ -15599,10 +15566,8 @@ msgstr ""
 "amaGama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:48
-#, fuzzy
-#| msgid "Apertium"
 msgid "Apertium APy"
-msgstr "Apertium"
+msgstr "Apertium APy"
 
 #: ../../admin/machine.rst:50
 #, fuzzy
@@ -15632,17 +15597,12 @@ msgstr ""
 "сервера Apertium-APy."
 
 #: ../../admin/machine.rst:62
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/"
-#| ">`_, `Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-"
-#| "apy>`_"
 msgid ""
 "`Apertium website <https://www.apertium.org/>`_, `Apertium APy documentation "
 "<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
-":setting:`MT_APERTIUM_APY`, `сайт Apertium <https://www.apertium.org/>`_, "
-"`Документація з Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
+"`Сайт Apertium <https://www.apertium.org/>`_, `Документація з Apertium APy "
+"<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:70
 msgid "AWS"
@@ -15664,10 +15624,8 @@ msgid "``key``"
 msgstr "``key:ТЕКСТ``"
 
 #: ../../admin/machine.rst:76
-#, fuzzy
-#| msgid "Access only"
 msgid "Access key ID"
-msgstr "Лише доступ"
+msgstr "Ідентифікатор ключа доступу"
 
 #: ../../admin/machine.rst:78 ../../admin/machine.rst:101
 #: ../../admin/machine.rst:374 ../../admin/machine.rst:516
@@ -15677,10 +15635,8 @@ msgid "``secret``"
 msgstr "``target:ТЕКСТ``"
 
 #: ../../admin/machine.rst:78
-#, fuzzy
-#| msgid "Add host key"
 msgid "API secret key"
-msgstr "Додати ключ вузла"
+msgstr "Закритий ключ API"
 
 #: ../../admin/machine.rst:80 ../../admin/machine.rst:290
 #, fuzzy
@@ -15689,10 +15645,8 @@ msgid "``region``"
 msgstr "``regex:ФОРМАЛЬНИЙ_ВИРАЗ``"
 
 #: ../../admin/machine.rst:80
-#, fuzzy
-#| msgid "Rename"
 msgid "Region name"
-msgstr "Перейменувати"
+msgstr "Назва регіону"
 
 #: ../../admin/machine.rst:83
 msgid ""
@@ -15704,17 +15658,14 @@ msgstr ""
 "мов."
 
 #: ../../admin/machine.rst:88
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
 msgstr ""
-"`Документація з томів Docker <https://docs.docker.com/storage/volumes/>`_"
+"`Документація до Amazon Translate <https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:93
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: ../../admin/machine.rst:97
 msgid "``baidu``"
@@ -15743,15 +15694,11 @@ msgstr ""
 "ідентифікатор і ключ до програмного інтерфейсу, щоб скористатися нею."
 
 #: ../../admin/machine.rst:110
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
-#| "<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgid ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
-":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Програмний інтерфейс "
-"перекладу Baidu <https://api.fanyi.baidu.com/api/trans/product/index>`_"
+"`Програмний інтерфейс Baidu Translate <https://api.fanyi.baidu.com/api/trans/"
+"product/index>`_"
 
 #: ../../admin/machine.rst:115
 msgid "DeepL"
@@ -15859,19 +15806,13 @@ msgstr ""
 "Якщо отримано щось інше, спробуйте інші три варіанти."
 
 #: ../../admin/machine.rst:155
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-#| "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-#| "`DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgid ""
 "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl."
 "com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgstr ""
-":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-"<https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/pro>`_, "
-"`Документація з програмного інтерфейсу DeepL <https://www.deepl.com/docs-api."
-"html>`_"
+"`Сайт DeepL <https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/"
+"pro>`_, `Документація з програмного інтерфейсу DeepL <https://www.deepl.com/"
+"docs-api.html>`_"
 
 #: ../../admin/machine.rst:162
 msgid "Glosbe"
@@ -15928,21 +15869,14 @@ msgstr ""
 "програмного інтерфейсу Google."
 
 #: ../../admin/machine.rst:194
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
-#| "google.com/translate/docs>`_"
 msgid ""
 "`Google translate documentation <https://cloud.google.com/translate/docs>`_"
 msgstr ""
-":setting:`MT_GOOGLE_KEY`, `Документація з Перекладача Google <https://cloud."
-"google.com/translate/docs>`_"
+"Документація з Перекладача Google <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:199
-#, fuzzy
-#| msgid "Google Translate"
 msgid "Google Translate API v3"
-msgstr "Перекладач Google"
+msgstr "Програмний інтерфейс Google Перекладач v3"
 
 #: ../../admin/machine.rst:201
 #, fuzzy
@@ -15957,10 +15891,8 @@ msgid "``credentials``"
 msgstr "``utils``"
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Google Translate service account info"
-msgstr "Сповіщення з перекладу"
+msgstr "Дані службового облікового запису Google Перекладач"
 
 #: ../../admin/machine.rst:205
 #, fuzzy
@@ -15969,10 +15901,8 @@ msgid "``project``"
 msgstr "``project:ТЕКСТ``"
 
 #: ../../admin/machine.rst:205
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Google Translate project"
-msgstr "Сприяння перекладацьким проєктам"
+msgstr "Проєкт Google Перекладач"
 
 #: ../../admin/machine.rst:207
 #, fuzzy
@@ -15981,10 +15911,8 @@ msgid "``location``"
 msgstr "``location:ТЕКСТ``"
 
 #: ../../admin/machine.rst:207
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Google Translate location"
-msgstr "Сповіщення з перекладу"
+msgstr "Місце Google Перекладач"
 
 #: ../../admin/machine.rst:210
 msgid "Machine translation service provided by Google Cloud services."
@@ -16000,6 +15928,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
+"`Документація до Google Перекладач <https://cloud.google.com/translate/docs>`"
+"_, `Перші кроки із розпізнаванням у Google Cloud <https://cloud.google.com/"
+"docs/authentication/getting-started>`_, `Створення проєкту Google Перекладач "
+"<https://cloud.google.com/appengine/docs/standard/nodejs/building-app/"
+"creating-project>`_, `Місця рушія програм Google Cloud <https://cloud.google."
+"com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -16034,30 +15968,20 @@ msgstr ""
 "Потребує ключа до програмного інтерфейсу для використання поза межами сайта."
 
 #: ../../admin/machine.rst:242
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_LIBRETRANSLATE_KEY`, :setting:`MT_LIBRETRANSLATE_API_URL`, "
-#| "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
-#| "repository <https://github.com/LibreTranslate/LibreTranslate>`_, "
-#| "`LibreTranslate mirrors <https://github.com/LibreTranslate/"
-#| "LibreTranslate#user-content-mirrors>`_"
 msgid ""
 "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
 "repository <https://github.com/LibreTranslate/LibreTranslate>`_, "
 "`LibreTranslate mirrors <https://github.com/LibreTranslate/"
 "LibreTranslate#user-content-mirrors>`_"
 msgstr ""
-":setting:`MT_LIBRETRANSLATE_KEY`, :setting:`MT_LIBRETRANSLATE_API_URL`, "
-"`сайт LibreTranslate <https://libretranslate.com/>`_, `репозиторій "
-"LibreTranslate <https://github.com/LibreTranslate/LibreTranslate>`_, "
-"`дзеркала LibreTranslate <https://github.com/LibreTranslate/"
-"LibreTranslate#user-content-mirrors>`_"
+"`Сайт LibreTranslate <https://libretranslate.com/>`_, `репозиторій "
+"LibreTranslate <https://github.com/LibreTranslate/LibreTranslate>`_, `"
+"дзеркала LibreTranslate <https://github.com/LibreTranslate/LibreTranslate"
+"#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:249
-#, fuzzy
-#| msgid "Microsoft Terminology Service"
 msgid "Microsoft Terminology"
-msgstr "Служба термінології Microsoft"
+msgstr "Microsoft Terminology"
 
 #: ../../admin/machine.rst:253
 #, fuzzy
@@ -16101,7 +16025,7 @@ msgstr "``url``"
 
 #: ../../admin/machine.rst:276
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "Кінцева адреса програми"
 
 #: ../../admin/machine.rst:278
 #, fuzzy
@@ -16110,56 +16034,35 @@ msgid "``base_url``"
 msgstr "``url``"
 
 #: ../../admin/machine.rst:278
-#, fuzzy
-#| msgid "Analyzing application crashes"
 msgid "Application base URL"
-msgstr "Аналіз аварійних завершень програми"
+msgstr "Базова адреса програми"
 
 #: ../../admin/machine.rst:280
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
 msgstr ""
-"Типовим значенням є ``api.cognitive.microsofttranslator.com`` для Azure "
-"Global."
+"``api.cognitive.microsofttranslator.com`` -- загальносвітовий (всесвітній)"
 
 #: ../../admin/machine.rst:282
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific"
 msgstr ""
-"Типовим значенням є ``api.cognitive.microsofttranslator.com`` для Azure "
-"Global."
+"``api-apc.cognitive.microsofttranslator.com`` -- Азія та Тихоокеанський "
+"регіон"
 
 #: ../../admin/machine.rst:284
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
-msgstr ""
-"Типовим значенням є ``api.cognitive.microsofttranslator.com`` для Azure "
-"Global."
+msgstr "``api-eur.cognitive.microsofttranslator.com`` -- Європа"
 
 #: ../../admin/machine.rst:286
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api-nam.cognitive.microsofttranslator.com`` -- North America"
-msgstr ""
-"Типовим значенням є ``api.cognitive.microsofttranslator.com`` для Azure "
-"Global."
+msgstr "``api-nam.cognitive.microsofttranslator.com`` -- Північна Америка"
 
 #: ../../admin/machine.rst:288
 msgid "``api.translator.azure.cn`` -- China"
-msgstr ""
+msgstr "``api.translator.azure.cn`` -- Китай"
 
 #: ../../admin/machine.rst:290
-#, fuzzy
-#| msgid "Application developer guide"
 msgid "Application region"
-msgstr "Підручник розробника програм"
+msgstr "Регіон програми"
 
 #: ../../admin/machine.rst:293
 msgid ""
@@ -16188,18 +16091,13 @@ msgid "Translator Text API V3"
 msgstr "Текстовий програмний інтерфейс перекладача версії 3"
 
 #: ../../admin/machine.rst:304
-#, fuzzy
-#| msgid ""
-#| "You need to register at Azure portal and use the key you obtain there. "
-#| "With new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` "
-#| "to locale of your service."
 msgid ""
 "You need to register at Azure portal and use the key you obtain there. With "
 "new Azure keys, you also need to set ``region`` to locale of your service."
 msgstr ""
 "Вам слід зареєструватися на порталі Azure і скористатися отриманим там "
-"ключем. З новими ключами Azure вам також слід встановити :setting:"
-"`MT_MICROSOFT_REGION` у значення локалі вашої служби."
+"ключем. З новими ключами Azure вам також слід встановити ``region`` у "
+"значення локалі вашої служби."
 
 #: ../../admin/machine.rst:309
 msgid "For Azure China, please use your endpoint from the Azure Portal."
@@ -16220,6 +16118,16 @@ msgid ""
 "cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
 "an-access-token>`_`"
 msgstr ""
+"`Cognitive Services — програмний інтерфейс перекладу текстів <https://azure."
+"microsoft.com/en-us/services/cognitive-services/translator/>`_, `Портал "
+"Microsoft Azure <https://portal.azure.com/>`_, `Base URLs <https://docs."
+"microsoft.com/en-us/azure/cognitive-services/translator/reference/"
+"v3-0-reference#base-urls>`_, `\"Розпізнавання для ресурсу із багатьма "
+"службами\" <https://docs.microsoft.com/en-us/azure/cognitive-services/"
+"translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
+"resource>`_`, `Розділ «Розпізнавання за допомогою жетона доступу» "
+"<https://docs.microsoft.com/en-us/azure/cognitive-services/translator/"
+"reference/v3-0-reference#authenticating-with-an-access-token>`_`"
 
 #: ../../admin/machine.rst:322
 msgid "ModernMT"
@@ -16230,14 +16138,9 @@ msgid "``modernmt``"
 msgstr ""
 
 #: ../../admin/machine.rst:335
-#, fuzzy
-#| msgid ""
-#| "`ModernMT API <https://www.modernmt.com/api/#translation>`_, :setting:"
-#| "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_,"
 msgstr ""
-"`Програмний інтерфейс ModernMT <https://www.modernmt.com/api/"
-"#translation>`_, :setting:`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
+"`Програмний інтерфейс ModernMT <https://www.modernmt.com/api/#translation>`_,"
 
 #: ../../admin/machine.rst:340 ../../changes.rst:2030
 msgid "MyMemory"
@@ -16268,30 +16171,22 @@ msgid "Huge translation memory with machine translation."
 msgstr "Величезна пам'ять перекладів із комп'ютерним перекладом."
 
 #: ../../admin/machine.rst:354
-#, fuzzy
-#| msgid ""
-#| "Free, anonymous usage is currently limited to 100 requests/day, or to "
-#| "1000 requests/day when you provide a contact e-mail address in :setting:"
-#| "`MT_MYMEMORY_EMAIL`. You can also ask them for more."
 msgid ""
 "Free, anonymous usage is currently limited to 100 requests/day, or to 1000 "
 "requests/day when you provide a contact e-mail address in ``email``. You can "
 "also ask them for more."
 msgstr ""
 "Вільний анонімний доступ у поточній версії обмежено 100 запитами за день або "
-"1000 запитами за день, якщо ви надасте адресу електронної пошти у :setting:"
-"`MT_MYMEMORY_EMAIL`. Ви також можете попросити власників служби збільшити "
-"кількість запитів."
+"1000 запитами за день, якщо ви надасте адресу електронної пошти у ``email``. "
+"Ви також можете попросити власників служби збільшити кількість запитів."
 
 #: ../../admin/machine.rst:361
-#, fuzzy
-#| msgid "`Glosbe website <https://glosbe.com/>`_"
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
-msgstr "`Сайт Glosbe <https://glosbe.com/>`_"
+msgstr "`Сайт MyMemory <https://mymemory.translated.net/>`_"
 
 #: ../../admin/machine.rst:366
 msgid "Netease Sight"
-msgstr ""
+msgstr "Netease Sight"
 
 #: ../../admin/machine.rst:370
 msgid "``netease-sight``"
@@ -16309,14 +16204,8 @@ msgstr ""
 "пароль від NetEase."
 
 #: ../../admin/machine.rst:383
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
-#| "Translation Platform <https://sight.youdao.com/>`_"
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
-msgstr ""
-":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Платформа перекладу "
-"NetEase Sight <https://sight.youdao.com/>`_"
+msgstr "`Платформа перекладу NetEase Sight <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:388
 msgid "SAP Translation Hub"
@@ -16365,46 +16254,32 @@ msgstr ""
 "SAP на «хмарній» платформі SAP), щоб скористатися цією службою."
 
 #: ../../admin/machine.rst:408
-#, fuzzy
-#| msgid ""
-#| "Whether to also use machine translation services, in addition to the term "
-#| "database. Possible values: ``True`` or ``False``"
 msgid ""
 "You can also configure whether to also use machine translation services, in "
 "addition to the term database."
 msgstr ""
-"Визначає, чи слід також використовувати служби комп'ютерного перекладу на "
-"додачу до бази даних термінів. Можливі значення: ``True`` / ``False``"
+"Ви також можете налаштувати, чи слід також використовувати служби "
+"комп'ютерного перекладу на додачу до бази даних термінів."
 
 #: ../../admin/machine.rst:413
-#, fuzzy
-#| msgid ""
-#| "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` "
-#| "and :setting:`MT_SAP_SANDBOX_APIKEY`."
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
 msgstr ""
-"Щоб отримати доступ до програмного інтерфейсу пісочниці, вам слід "
-"встановити :setting:`MT_SAP_BASE_URL` і :setting:`MT_SAP_SANDBOX_APIKEY`."
+"Щоб отримати доступ до програмного інтерфейсу Sandbox, вам слід встановити "
+"``url`` і ``key``."
 
 #: ../../admin/machine.rst:416
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
+"Щоб отримати доступ до програмного інтерфейсу продукту, вам слід встановити "
+"значення ``url``, ``username`` і ``password``."
 
 #: ../../admin/machine.rst:420
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-#| "`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` "
-#| "`SAP Translation Hub API <https://api.sap.com/shell/discover/"
-#| "contentpackage/SAPTranslationHub/api/translationhub>`_"
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 msgstr ""
-":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-"`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` "
 "`Програмний інтерфейс вузла перекладу SAP <https://api.sap.com/shell/"
 "discover/contentpackage/SAPTranslationHub/api/translationhub>`_"
 
@@ -16442,20 +16317,17 @@ msgid ""
 "Configure Weblate to talk to it, the default URL is ``http://localhost:8888/"
 "tmserver/``."
 msgstr ""
+"Налаштуйте Weblate на обмін даними зі службою, типовою адресою є "
+"``http://localhost:8888/tmserver/``."
 
 #: ../../admin/machine.rst:454
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` :ref:`amagama:"
-#| "installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory "
-#| "<https://amagama.translatehouse.org/>`_"
 msgid ""
 ":doc:`tt:commands/tmserver` :ref:`amagama:installation`, :doc:`virtaal:"
 "amagama`, `Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
-":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` :ref:`amagama:"
-"installation`, :doc:`virtaal:amagama`, `пам'ять перекладів Amagama <https://"
-"amagama.translatehouse.org/>`_"
+":doc:`tt:commands/tmserver` :ref:`amagama:installation`, "
+":doc:`virtaal:amagama`, `пам'ять перекладів Amagama <https://amagama."
+"translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:462 ../../../README.rst:None
 msgid "Weblate"
@@ -16497,7 +16369,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:489
 msgid "Yandex"
-msgstr ""
+msgstr "Yandex"
 
 #: ../../admin/machine.rst:491
 #, fuzzy
@@ -16518,22 +16390,16 @@ msgstr ""
 "ключ до програмного інтерфейсу від Yandex."
 
 #: ../../admin/machine.rst:502
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
-#| "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/"
-#| ">`_"
 msgid ""
 "`Yandex Translate API <https://yandex.com/dev/translate/>`_, `Powered by "
 "Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
-":setting:`MT_YANDEX_KEY`, `Програмний інтерфейс перекладу Yandex <https://"
-"yandex.com/dev/translate/>`_, `Yandex.Translate <https://translate.yandex."
-"com/>`_"
+"`Програмний інтерфейс перекладу Yandex <https://yandex.com/dev/translate/>`"
+"_, `Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:508
 msgid "Youdao Zhiyun"
-msgstr ""
+msgstr "Youdao Zhiyun"
 
 #: ../../admin/machine.rst:512
 msgid "``youdao-zhiyun``"
@@ -16552,18 +16418,12 @@ msgstr ""
 "ідентифікатор і ключ до програмного інтерфейсу, щоб скористатися нею."
 
 #: ../../admin/machine.rst:525
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun "
-#| "Natural Language Translation Service <https://ai.youdao.com/product-fanyi-"
-#| "text.s>`_"
 msgid ""
 "`Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/"
 "product-fanyi-text.s>`_"
 msgstr ""
-":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Служба перекладу "
-"природними мовами Youdao Zhiyun <https://ai.youdao.com/product-fanyi-text."
-"s>`_"
+"`Служба перекладу природними мовами Youdao Zhiyun <https://ai.youdao.com/"
+"product-fanyi-text.s>`_"
 
 #: ../../admin/machine.rst:528
 msgid "Custom machine translation"
@@ -16581,15 +16441,11 @@ msgstr ""
 "``dictionary`` Python:"
 
 #: ../../admin/machine.rst:537
-#, fuzzy
-#| msgid ""
-#| "You can list your own class in :setting:`MT_SERVICES` and Weblate will "
-#| "start using that."
 msgid ""
 "You can list your own class in :setting:`WEBLATE_MACHINERY` and Weblate will "
 "start using that."
 msgstr ""
-"Ви можете додати ваш власний клас до :setting:`MT_SERVICES` і Weblate "
+"Ви можете додати ваш власний клас до :setting:`WEBLATE_MACHINERY` і Weblate "
 "розпочне використовувати його."
 
 #: ../../admin/management.rst:4
@@ -17609,15 +17465,11 @@ msgstr ""
 "додатка :ref:`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/memory.rst:21
-#, fuzzy
-#| msgid ""
-#| "For installation tips, see :ref:`weblate-translation-memory`, which is "
-#| "turned on by default."
 msgid ""
 "For installation tips, see :ref:`mt-weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
-"Для отримання підказок щодо встановлення, див. розділ :ref:`weblate-"
+"Для отримання підказок щодо встановлення, див. розділ :ref:`mt-weblate-"
 "translation-memory`, типово увімкнено."
 
 #: ../../admin/memory.rst:28
@@ -20839,12 +20691,6 @@ msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgstr "Змінено :setting:`django:INSTALLED_APPS`."
 
 #: ../../admin/upgrade.rst:145
-#, fuzzy
-#| msgid ""
-#| "The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. "
-#| "The :ref:`deepl` machine translation now uses the new :setting:"
-#| "`MT_DEEPL_API_URL` instead. You might need to adjust :setting:"
-#| "`MT_DEEPL_API_URL` to match your subscription."
 msgid ""
 "The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :"
 "ref:`mt-deepl` machine translation now uses the new ``MT_DEEPL_API_URL`` "
@@ -20852,9 +20698,9 @@ msgid ""
 "subscription."
 msgstr ""
 "Параметр ``MT_DEEPL_API_VERSION`` було вилучено у версії 4.7. Замість нього "
-"для рушія комп'ютерного перекладу :ref:`deepl` використано новий параметр :"
-"setting:`MT_DEEPL_API_URL`. Можливо, вам доведеться скоригувати :setting:"
-"`MT_DEEPL_API_URL` відповідно до параметрів вашої передплати."
+"для рушія комп'ютерного перекладу :ref:`mt-deepl` використано новий параметр "
+"``MT_DEEPL_API_URL``. Можливо, вам доведеться скоригувати "
+"``MT_DEEPL_API_URL`` відповідно до параметрів вашої передплати."
 
 #: ../../admin/upgrade.rst:147 ../../admin/upgrade.rst:164
 #: ../../admin/upgrade.rst:188 ../../admin/upgrade.rst:206
@@ -21111,20 +20957,15 @@ msgstr ""
 "ласка, скоригуйте параметри відповідним чином."
 
 #: ../../admin/upgrade.rst:247
-#, fuzzy
-#| msgid ""
-#| "The :ref:`deepl` machine translation now has a generic :setting:"
-#| "`MT_DEEPL_API_URL` setting to adapt to different subscription models more "
-#| "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgid ""
 "The :ref:`mt-deepl` machine translation now has a generic "
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
-"Для рушія комп'ютерного перекладу :ref:`deepl` тепер використовують "
-"загальний параметр :setting:`MT_DEEPL_API_URL` з метою гнучкішої адаптації "
-"до різних моделей передплати. Використання параметра "
-"``MT_DEEPL_API_VERSION`` припинено."
+"Для рушія комп'ютерного перекладу :ref:`mt-deepl` тепер використовують "
+"загальний параметр ``MT_DEEPL_API_URL`` з метою гнучкішої адаптації до "
+"різних моделей передплати. Використання параметра ``MT_DEEPL_API_VERSION`` "
+"припинено."
 
 #: ../../admin/upgrade.rst:249
 msgid "Django 3.2 is now required."
@@ -21252,6 +21093,9 @@ msgid ""
 "`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the context "
 "is now shown as location."
 msgstr ""
+"Обробку контексту і місця можна змінити для форматів файлів :ref:`winrc`, "
+":ref:`html`, :ref:`idml` і :ref:`txt`. У більшості випадків, у новій версії "
+"контекст буде показано як місце."
 
 #: ../../admin/upgrade.rst:323
 msgid ""
@@ -21259,6 +21103,9 @@ msgid ""
 "interface, settings from the configuration file will be imported during the "
 "database migration."
 msgstr ""
+"У новій версії служби комп'ютерного перекладу можна налаштувати з інтерфейсу "
+"користувача. Параметри з файла налаштувань буде імпортовано під час "
+"перенесення бази даних."
 
 #: ../../admin/upgrade.rst:332
 msgid "Upgrading from Python 2 to Python 3"
@@ -24104,8 +23951,6 @@ msgid "Retrieves RSS feed with recent changes for Weblate instance."
 msgstr "Отримує RSS-стрічку з останніми змінами в екземплярі Weblate."
 
 #: ../../api.rst:2695
-#, fuzzy
-#| msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
@@ -24140,60 +23985,50 @@ msgstr ""
 
 #: ../../changes.rst:10
 msgid "Added fixed encoding variants to CSV formats."
-msgstr ""
+msgstr "Додано варіанти фіксованого кодування для форматів CSV."
 
 #: ../../changes.rst:11
 msgid ""
 "Changed handling of context and location for some formats to better fit "
 "underlying implementation."
 msgstr ""
+"Змінено обробку контексту та місця для деяких форматів з метою удосконалення "
+"сумісності із базовою реалізацією."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added support for subtitle formats."
 msgid "Added support for ResourceDictionary format."
-msgstr "Додано підтримку форматів субтитрів."
+msgstr "Додано підтримку формату ResourceDictionary."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
 msgid "Improved progress bar colors for color blind."
-msgstr "Удосконалено швидкість пошуку у глосарії для великих рядків."
+msgstr "Удосконалено кольори смужки поступу для людей із вадами зору."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Fixed variants cleanup on string removal."
-msgstr "Удосконалено обробку помилок при вилученні рядка."
+msgstr "Виправлено чищення варіантів при вилученні рядка."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Compatibility with Django 2.1."
 msgid "Compatibility with Django 4.1."
-msgstr "Забезпечено сумісність із Django 2.1."
+msgstr "Забезпечено сумісність із Django 4.1."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Added support for searching for resolved comments."
 msgid "Added support for storing escaped XML elements in XLIFF."
-msgstr "Додано підтримку пошуку вирішених коментарів щодо помилок."
+msgstr "Додано підтримку зберігання екранованих елементів XML у XLIFF."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid "Improved formatting of placeholder check errors."
-msgstr "Удосконалено обробку замінників у комп'ютерних перекладах."
+msgstr ""
+"Удосконалено форматування повідомлень про помилки при перевірці замінників."
 
 #: ../../changes.rst:18
 msgid "Redirect /.well-known/change-password to /accounts/password/."
-msgstr ""
+msgstr "Переспрямовано /.well-known/change-password до /accounts/password/."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Machine translation services no longer block page loading."
 msgid "Machine translation services are now configurable per project."
 msgstr ""
-"Усунено блокування завантаження сторінок службами комп'ютерного перекладу."
+"Служби комп'ютерного перекладу у новій версії можна налаштовувати на рівні "
+"проєкту."
 
 #: ../../changes.rst:21
 msgid ""
@@ -36286,10 +36121,8 @@ msgstr ""
 "адресу, яка завершуватиметься ``/manage/performance/``, безпосередньо."
 
 #: ../../faq.rst:252
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
 
 #: ../../faq.rst:257
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
@@ -36462,18 +36295,13 @@ msgstr ""
 "компіляції або подібної бази даних перекладів."
 
 #: ../../faq.rst:327
-#, fuzzy
-#| msgid ""
-#| "You can set up :ref:`tmserver` with all databases you have and let "
-#| "Weblate use it. This is good when you want to use it several times during "
-#| "translation."
 msgid ""
 "You can set up :ref:`mt-tmserver` with all databases you have and let "
 "Weblate use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
-"Ви можете налаштувати :ref:`tmserver` із усіма базами даних перекладів, які "
-"у вас є, і надати змогу Weblate користуватися ними. Це корисно, якщо ви "
+"Ви можете налаштувати :ref:`mt-tmserver` із усіма базами даних перекладів, "
+"які у вас є, і надати змогу Weblate користуватися ними. Це корисно, якщо ви "
 "хочете скористатися ними декілька разів під час перекладу."
 
 #: ../../faq.rst:330
@@ -37415,52 +37243,48 @@ msgstr ""
 "як двомовний, але у Weblate передбачено підтримку і одномовних варіантів."
 
 #: ../../formats.rst:281
-#, fuzzy
-#| msgid "Weblate currently supports several variants of JSON translations:"
 msgid "Weblate supports XLIFF in several variants:"
-msgstr ""
-"У поточній версії Weblate передбачено підтримку декількох варіантів "
-"перекладів JSON:"
+msgstr "У Weblate передбачено підтримку декількох варіантів XLIFF:"
 
 #: ../../formats.rst:283
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "`XLIFF translation file`"
-msgstr "Файл перекладу XLIFF"
+msgstr "`файл перекладу XLIFF`"
 
 #: ../../formats.rst:284
 msgid ""
 "Simple XLIFF file where content of the elements is stored as plain text (all "
 "XML elements being escaped)."
 msgstr ""
+"Простий файл XLIFF, де вміст елементів зберігається у формі простого тексту ("
+"усі елементи XML екрановано)."
 
 #: ../../formats.rst:285
 msgid "`XLIFF with placeables support`"
-msgstr ""
+msgstr "`XLIFF із підтримкою замінників`"
 
 #: ../../formats.rst:286
 msgid "Standard XLIFF supporting placeables and other XML elements."
-msgstr ""
+msgstr "Стандартний XLIFF із підтримкою замінників та інших елементів XML."
 
 #: ../../formats.rst:289
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "`XLIFF with gettext extensions`"
-msgstr "XLIFF із розширеннями gettext"
+msgstr "`XLIFF із розширеннями gettext`"
 
 #: ../../formats.rst:288
 msgid ""
 "XLIFF enriched  by `XLIFF 1.2 Representation Guide for Gettext PO`_ to "
 "support plurals."
 msgstr ""
+"XLIFF, удосконалений за `XLIFF 1.2 Representation Guide for Gettext PO`_ з "
+"метою забезпечення підтримки форм множини."
 
 #: ../../formats.rst:293
-#, fuzzy
-#| msgid "`XML Localization Interchange File Format (XLIFF)` specification"
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
 "1.2 Representation Guide for Gettext PO`_"
-msgstr "Специфікація `XML Localization Interchange File Format (XLIFF)`"
+msgstr ""
+"Специфікація `XML Localization Interchange File Format (XLIFF)`, `Настанови "
+"щодо представлення XLIFF 1.2 для Gettext PO`_"
 
 #: ../../formats.rst:301 ../../workflows.rst:28
 msgid "Translation states"
@@ -37731,17 +37555,12 @@ msgid "`mi18n lang file`"
 msgstr "`мовний файл mi18n`"
 
 #: ../../formats.rst:491
-#, fuzzy
-#| msgid ""
-#| "`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
-#| "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 "`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
-"`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
+"`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 
@@ -38010,12 +37829,13 @@ msgid ""
 "translation>` applications, but also standardized by PWG 5100.13 and used on "
 "NeXTSTEP/OpenSTEP."
 msgstr ""
+"Формат файлів, який типово використовують для перекладу програм Apple "
+":index:`iOS <pair: iOS; translation>`, але також стандартизований PWG "
+"5100.13 і використаний у NeXTSTEP/OpenSTEP."
 
 #: ../../formats.rst:760
-#, fuzzy
-#| msgid "Apple iOS strings are usually used as bilingual translations."
 msgid "Apple iOS strings are usually used as monolingual."
-msgstr "Рядки Apple iOS, зазвичай, використовуються як двомовні переклади."
+msgstr "Рядки Apple iOS, зазвичай, використовуються як одномовні переклади."
 
 #: ../../formats.rst:765
 msgid "``Resources/*.lproj/Localizable.strings``"
@@ -38034,12 +37854,6 @@ msgid "`iOS Strings (UTF-8)`"
 msgstr "`рядки iOS (UTF-8)`"
 
 #: ../../formats.rst:777
-#, fuzzy
-#| msgid ""
-#| ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
-#| "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-#| "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
-#| "html>`_, :doc:`tt:formats/strings`"
 msgid ""
 ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
 "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
@@ -38048,10 +37862,12 @@ msgid ""
 "pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:"
 "`tt:formats/strings`"
 msgstr ""
-"`Документація із :ref:`stringsdict`, «рядкових файлів» Apple <https://"
-"developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
+"`Документація із :ref:`stringsdict`, «рядкових файлів» Apple "
+"<https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
 "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
-"html>`_, :doc:`tt:formats/strings`"
+"html>`_, `формат файлів каталогів повідомлень у PWG 5100.13 <http://ftp.pwg."
+"org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`"
+"_, :doc:`tt:formats/strings`"
 
 #: ../../formats.rst:785
 msgid "PHP strings"
@@ -38433,10 +38249,8 @@ msgstr ""
 "cleanup.generic`"
 
 #: ../../formats.rst:1112
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary files"
-msgstr "Збій репозиторію"
+msgstr "Файли ResourceDictionary"
 
 #: ../../formats.rst:1120
 msgid ""
@@ -38444,36 +38258,29 @@ msgid ""
 "localizable string resources for Windows Presentation Foundation (WPF) "
 "applications."
 msgstr ""
+"ResourceDictionary є форматом одномовних файлів XML, який використовують для "
+"пакування ресурсів придатних до перекладу рядків для програм Windows "
+"Presentation Foundation (WPF)."
 
 #: ../../formats.rst:1127
-#, fuzzy
-#| msgid "``language/*.islu``"
 msgid "``Languages/*.xaml``"
-msgstr "``language/*.islu``"
+msgstr "``Languages/*.xaml``"
 
 #: ../../formats.rst:1129
-#, fuzzy
-#| msgid "``language/en.islu``"
 msgid "``Language/en.xaml``"
-msgstr "``language/en.islu``"
+msgstr "``Language/en.xaml``"
 
 #: ../../formats.rst:1133
-#, fuzzy
-#| msgid "Repository failure"
 msgid "`ResourceDictionary file`"
-msgstr "Збій репозиторію"
+msgstr "`файл ResourceDictionary`"
 
 #: ../../formats.rst:1138
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 ":doc:`tt:formats/flatxml`, :ref:`flatxml`, :ref:`updating-target-files`, :"
 "ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
-"cleanup.generic`"
+":doc:`tt:formats/flatxml`, :ref:`flatxml`, :ref:`updating-target-files`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1146
 msgid "CSV files"
@@ -38534,6 +38341,10 @@ msgid ""
 "choose file format variant with encoding to avoid this (for example :"
 "guilabel:`CSV file (UTF-8)`)."
 msgstr ""
+"Типово, у форматі CSV не передбачено автоматичного виявлення кодування "
+"символів у файлі. Іноді таке автоматичне виявлення не спрацьовує і спричиняє "
+"проблеми зі швидкодією. Будь ласка, виберіть варіант форматування файла з "
+"кодуванням, щоб уникнути цього (приклад: :guilabel:`файл CSV (UTF-8)`)."
 
 #: ../../formats.rst:1178
 msgid ""
@@ -43751,16 +43562,12 @@ msgstr ""
 "перекладів)."
 
 #: ../../user/translating.rst:352
-#, fuzzy
-#| msgid ""
-#| "The automatically translated strings are labelled by :guilabel:"
-#| "`Automatically translated`."
 msgid ""
 "The automatically translated strings are labelled :guilabel:`Automatically "
 "translated`."
 msgstr ""
-"Для автоматично перекладених рядків програма встановлює мітку :guilabel:"
-"`Перекладено автоматично`."
+"Для автоматично перекладених рядків програма встановлює мітку :guilabel:`"
+"Перекладено автоматично`."
 
 #: ../../user/translating.rst:364
 msgid ""
