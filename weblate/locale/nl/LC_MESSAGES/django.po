@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-26 07:00+0000\n"
-"PO-Revision-Date: 2022-05-26 09:41+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-05-26 11:39+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -492,8 +492,8 @@ msgid ""
 "placeholders."
 msgstr ""
 "Voer een aangepaste url in om te gebruiken als link naar de broncode. U kunt "
-"{{branch}} gebruiken als plaatshouder voor tak, en {{filename}} en {{line}} "
-"als plaatshouders voor bestandsnamen en regels."
+"{{branch}} gebruiken als aanduiding voor tak, en {{filename}} en {{line}} "
+"als aanduidingen voor bestandsnamen en regels."
 
 #: weblate/accounts/models.py:424
 msgid "Translation editor mode"
@@ -1993,10 +1993,8 @@ msgstr "Vertaalgeheugen beheren"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:149
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "Machine-vertaling gebruiken"
+msgstr "Machinevertalingen beheren"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
@@ -2898,11 +2896,11 @@ msgstr "Het ECMAScript-sjabloon komt niet overeen met de bron"
 
 #: weblate/checks/format.py:623
 msgid "Percent placeholders"
-msgstr "Procentplaatshouders"
+msgstr "Procentaanduidingen"
 
 #: weblate/checks/format.py:624
 msgid "The percent placeholders do not match source"
-msgstr "De procentplaatshouders komen niet overeen met de bron"
+msgstr "De procentaanduidingen komen niet overeen met de bron"
 
 #: weblate/checks/format.py:630
 msgid "Vue I18n formatting"
@@ -2954,8 +2952,7 @@ msgstr "ICU MessageFormat"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Syntaxisfouten en/of onjuiste plaatshouders in ICU MessageFormat-"
-"tekenreeksen."
+"Syntaxisfouten en/of onjuiste aanduidingen in ICU MessageFormat-tekenreeksen."
 
 #: weblate/checks/icu.py:459
 #, python-format
@@ -2965,17 +2962,17 @@ msgstr "Syntaxisfout: %s"
 #: weblate/checks/icu.py:463
 #, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Eén of meer onbekende plaatshouder(s) in vertaling: %s"
+msgstr "Eén of meer onbekende aanduiding(en) in vertaling: %s"
 
 #: weblate/checks/icu.py:468
 #, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Eén of meer ontbrekende plaatshouder(s) in vertaling: %s"
+msgstr "Eén of meer ontbrekende aanduiding(en) in vertaling: %s"
 
 #: weblate/checks/icu.py:472
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr "Eén of meer plaatshouders zijn onjuist: %s"
+msgstr "Eén of meer aanduiding(en) zijn onjuist: %s"
 
 #: weblate/checks/icu.py:477
 #, python-format
@@ -2998,13 +2995,13 @@ msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
 msgstr ""
-"Eén of meer plaatshouders dienen voorzien te zijn van een xml-tag in %s"
+"Eén of meer aanduiding(en) dienen voorzien te zijn van een xml-tag in %s"
 
 #: weblate/checks/icu.py:497
 #, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Eén of meer plaatshouders dienen geen xml-tag te zijn in %s"
+msgstr "Eén of meer aanduiding(en) dienen geen xml-tag te zijn in %s"
 
 #: weblate/checks/icu.py:503
 #, python-format
@@ -3078,11 +3075,11 @@ msgstr "De vertaling gebruikt onveilige html-opmaak"
 
 #: weblate/checks/placeholders.py:40
 msgid "Placeholders"
-msgstr "Plaatshouders"
+msgstr "Tijdelijke aanduidingen"
 
 #: weblate/checks/placeholders.py:41
 msgid "Translation is missing some placeholders"
-msgstr "De vertaling mist een aantal plaatshouders"
+msgstr "Er ontbreekt een aantal aanduidingen in de vertaling"
 
 #: weblate/checks/placeholders.py:104
 #: weblate/templates/addons/discovery_help.html:8
@@ -3328,7 +3325,7 @@ msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:382
 msgid "CSV"
-msgstr "CSV"
+msgstr "Csv"
 
 #: weblate/formats/exporters.py:403
 msgid "XLSX"
@@ -3368,7 +3365,7 @@ msgstr "XLIFF-vertaalbestand"
 
 #: weblate/formats/ttkit.py:1237
 msgid "XLIFF with placeables support"
-msgstr ""
+msgstr "XLIFF met ondersteuning voor tijdelijke aanduidingen"
 
 #: weblate/formats/ttkit.py:1244
 msgid "XLIFF with gettext extensions"
@@ -3445,13 +3442,11 @@ msgstr "ARB-bestand"
 
 #: weblate/formats/ttkit.py:1458
 msgid "CSV file"
-msgstr "CSV-bestand"
+msgstr "Csv-bestand"
 
 #: weblate/formats/ttkit.py:1544
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "CSV-bestand"
+msgstr "Csv-bestand (UTF-8)"
 
 #: weblate/formats/ttkit.py:1550
 msgid "Simple CSV file"
@@ -3462,10 +3457,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Eenvoudig csv-bestand (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1575
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "Eenvoudig csv-bestand"
+msgstr "Eenvoudig csv-bestand (UTF-8)"
 
 #: weblate/formats/ttkit.py:1582
 msgid "YAML file"
@@ -3500,10 +3493,8 @@ msgid "Flat XML file"
 msgstr "Plat XML-bestand"
 
 #: weblate/formats/ttkit.py:1695
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "Opslagruimtefout"
+msgstr "ResourceDictionary-bestand"
 
 #: weblate/formats/ttkit.py:1708
 msgid "INI file"
@@ -3646,16 +3637,12 @@ msgid "Right to left"
 msgstr "Van rechts naar links"
 
 #: weblate/lang/models.py:506 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "Aantal tekenreeksen"
+msgstr "Aantal sprekers"
 
 #: weblate/lang/models.py:507
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "Aantal talen"
+msgstr "Het aantal personen dat deze taal spreekt."
 
 #: weblate/lang/models.py:587
 msgctxt "Plural type"
@@ -3942,49 +3929,41 @@ msgid "Overview"
 msgstr "Overzicht"
 
 #: weblate/machinery/base.py:103
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "Geen brontaal gevonden!"
+msgstr "De ondersteunde talen kunnen niet worden opgehaald: %s"
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "Vertaal-flags wijzigen mislukt!"
+msgstr "De vertaling kan niet worden opgehaald: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
-#, fuzzy
-#| msgid "Personal API key"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "Persoonlijke api-sleutel"
+msgstr "Api-sleutel"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "API-basis-url:"
+msgstr "Api-url"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "Client-id"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "Clientgeheim"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "E-mailadres committer"
+msgstr "Contactadres"
 
 #: weblate/machinery/forms.py:81
 msgctxt "Automatic suggestion service configuration"
@@ -3992,92 +3971,73 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "Gebruikersnaam van auteur"
+msgstr "SAP-gebruikersnaam"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "Wachtwoord instellen"
+msgstr "SAP-wachtwoord"
 
 #: weblate/machinery/forms.py:109
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Machinevertaling"
+msgstr "Machinevertaling gebruiken"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "Voer de juiste gebruikersnaam en wachtwoord in."
+msgstr "Voer de juiste sleutel of gebruikersnaam en wachtwoord in."
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "Endpoint-url van app"
 
 #: weblate/machinery/forms.py:136
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "Basis-url van app"
 
 #: weblate/machinery/forms.py:149
 msgctxt "Automatic suggestion service configuration"
 msgid "Application region"
-msgstr ""
+msgstr "Appregio"
 
 #: weblate/machinery/forms.py:159
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "Google Vertalen-accountinformatie"
 
 #: weblate/machinery/forms.py:165
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate project"
-msgstr "Promoot vertaalprojecten"
+msgstr "Google Vertalen-project"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate location"
-msgstr "Vertaalmeldingen"
+msgstr "Google Vertalen-locatie"
 
 #: weblate/machinery/forms.py:179
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON: %s"
-msgstr "Het json-bestand, {!s}, kan niet worden verwerkt"
+msgstr "Het json-bestand kan niet worden verwerkt: %s"
 
 #: weblate/machinery/forms.py:185
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "Alleen toegang"
+msgstr "Toegangssleutel"
 
 #: weblate/machinery/forms.py:188
-#, fuzzy
-#| msgid "Secret key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "Geheime sleutel"
+msgstr "Geheime api-sleutel"
 
 #: weblate/machinery/forms.py:191
-#, fuzzy
-#| msgid "Rename"
 msgctxt "AWS Translate configuration"
 msgid "Region name"
-msgstr "Naam wijzigen"
+msgstr "Regionaam"
 
 #: weblate/machinery/views.py:329
 msgid "Service is currently not available."
@@ -7010,17 +6970,15 @@ msgstr "Markeren als ongewenst"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "Deze dienst is op de gehele website geïnstalleerd."
 
 #: weblate/templates/machinery/detail.html:7
-#, fuzzy
-#| msgid "repository wide"
 msgid "site wide"
-msgstr "opslagruimte-breed"
+msgstr "gehele website"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
-msgstr ""
+msgstr "Deze dienst is op de gehele website geïnstalleerd, maar uitgeschakeld."
 
 #: weblate/templates/machinery/detail.html:10
 msgid "disabled"
@@ -7035,59 +6993,41 @@ msgid "Automatic suggestions"
 msgstr "Automatische vertalingen"
 
 #: weblate/templates/machinery/list.html:23
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configured automatic suggestion services"
-msgstr "Automatische vertalingen toestaan"
+msgstr "De automatische vertaalsuggesties zijn ingesteld"
 
 #: weblate/templates/machinery/list.html:34
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable"
-msgstr "uitgeschakeld"
+msgstr "Uitschakelen"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "ingeschakeld"
+msgstr "Inschakelen"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "Er zijn geen uitbreidingen geïnstalleerd."
+msgstr "Er zijn geen diensten geïnstalleerd."
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "Er is %(count)s uitbreiding geïnstalleerd."
-msgstr[1] "Er zijn %(count)s uitbreidingen geïnstalleerd."
+msgstr[0] "Er is %(count)s dienst geïnstalleerd."
+msgstr[1] "Er zijn %(count)s diensten geïnstalleerd."
 
 #: weblate/templates/machinery/list.html:61
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Available automatic suggestion services"
-msgstr "Automatische vertalingen toestaan"
+msgstr "Beschikbare automatische vertaalsuggesties"
 
 #: weblate/templates/machinery/list.html:79
-#, fuzzy
-#| msgid "Could not find any such user."
 msgid "Could not find any additional sercices."
-msgstr "De gebruiker is niet gevonden."
+msgstr "Er zijn geen aanvullende diensten aangetroffen."
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
-"Sommige uitbreidingen zullen tijdens de installatie vragen om extra "
-"instellingen."
+"Sommige diensten zullen tijdens de installatie vragen om extra instellingen."
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -10157,12 +10097,9 @@ msgid "For all languages"
 msgstr "Voor alle tonen"
 
 #: weblate/templates/translate.html:472
-#, fuzzy
-#| msgid ""
-#| "Selecting this option will set the corresponding \"ignore check\" flag"
 msgid "Selecting this option will set the corresponding ignore flag."
 msgstr ""
-"Schakel deze instelling in om de optie ‘Controle negeren’ in te schakelen"
+"Schakel deze instelling in om de optie ‘Controle negeren’ in te schakelen."
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -11770,7 +11707,7 @@ msgid ""
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Koppeling naar opslagruimteverkennen. Gebruik {{branch}}, {{filename}} en "
+"Koppeling naar opslagruimteverkenner. Gebruik {{branch}}, {{filename}} en "
 "{{line}} als plaatsvervangers voor tak, bestandsnaam en regelnummer. "
 "Wellicht wilt u de bovenliggende map uitsluiten met het patroon "
 "{{bestandsnaam|bovenliggende map}}."
@@ -12843,7 +12780,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:36
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "Bestandsmasker bevat geen * als een tijdelijke aanduiding van de taal!"
+msgstr "Het bestandsmasker bevat geen * als tijdelijke aanduiding van de taal!"
 
 #: weblate/trans/validators.py:45
 msgid ""
@@ -12859,19 +12796,20 @@ msgid "Failed to parse flags: %s"
 msgstr "Het verwerken van de aanmerkingen is mislukt: %s"
 
 #: weblate/trans/validators.py:65
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the file mask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "De taalcode van %s is blanco. Controleer het bestandsmasker."
+msgstr ""
+"De taalcode van ‘%(filename)s’ is blanco. Controleer het bestandsmasker."
 
 #: weblate/trans/validators.py:71
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the file mask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "De taalcode ‘%s’ is te lang - controleer het bestandsmasker."
+msgstr ""
+"De taalcode ‘%(code)s’ in ‘%(filename)s’ is te lang. Controleer het "
+"bestandsmasker."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
