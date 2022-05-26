@@ -1,14 +1,15 @@
 .. _machine-translation-setup:
 
-Machine translation
-===================
+Configuring automatic suggestions
+=================================
 
 .. versionchanged:: 4.13
 
    Prior to Weblate 4.13, the services were configured in the :ref:`config`.
 
-Built-in support for several machine translation services and can be turned on
-by the administrator for whole site or at project settings:
+The support for several machine translation and translation memory services is
+built-in. Each service can be turned on by the administrator for whole site or
+at the project settings:
 
 .. image:: /screenshots/project-machinery.png
 
@@ -17,7 +18,8 @@ by the administrator for whole site or at project settings:
    They come subject to their terms of use, so ensure you are allowed to use
    them how you want.
 
-The source language can be configured at :ref:`component`, see :ref:`component-source_language`.
+The services translate from the source language as configured at
+:ref:`component`, see :ref:`component-source_language`.
 
 .. seealso::
 
