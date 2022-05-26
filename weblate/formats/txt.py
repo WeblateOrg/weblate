@@ -174,7 +174,7 @@ class TextUnit(TranslationUnit):
             return self.mainunit.flags
         return ""
 
-    def set_target(self, target):
+    def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         self._invalidate_target()
         self.unit.text = target

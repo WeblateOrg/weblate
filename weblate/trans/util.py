@@ -20,6 +20,7 @@
 import locale
 import os
 import sys
+from types import GeneratorType
 from typing import Dict
 from urllib.parse import urlparse
 
@@ -78,7 +79,7 @@ def get_string(text):
         return ""
     if isinstance(text, multistring):
         return join_plural(get_string(str(item)) for item in text.strings)
-    if isinstance(text, list):
+    if isinstance(text, (list, GeneratorType)):
         return join_plural(get_string(str(item)) for item in text)
     if isinstance(text, str):
         # Remove possible surrogates in the string. There doesn't seem to be

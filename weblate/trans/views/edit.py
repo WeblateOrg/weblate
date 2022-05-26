@@ -309,6 +309,8 @@ def perform_translation(unit, form, request):
     project = unit.translation.component.project
     # Remember old checks
     oldchecks = unit.all_checks_names
+    # TODO
+    add_alternative = "add_alternative" in request.POST
 
     # Update explanation for glossary
     change_explanation = (
@@ -319,7 +321,11 @@ def perform_translation(unit, form, request):
         unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
-        user, form.cleaned_data["target"], form.cleaned_data["state"], request=request
+        user,
+        form.cleaned_data["target"],
+        form.cleaned_data["state"],
+        request=request,
+        add_alternative=add_alternative,
     )
     # Make sure explanation is saved
     if not saved and change_explanation:
@@ -381,7 +387,7 @@ def perform_translation(unit, form, request):
         # Stay on same entry
         return False
 
-    return True
+    return True and not add_alternative
 
 
 @session_ratelimit_post("translate")

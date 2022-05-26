@@ -111,6 +111,16 @@
       $("#id_comment").focus();
     });
 
+    this.$translationForm.on("click", ".add-alternative-post", function () {
+      var elm = $("<input>")
+        .attr("type", "hidden")
+        .attr("name", "add_alternative")
+        .attr("value", "1");
+      self.$translationForm.append(elm);
+      self.$translationForm.submit();
+      return false;
+    });
+
     /* Form persistence. Restores translation form upon comment submission */
     var restoreKey = "translation_autosave";
     var restoreValue = window.localStorage.getItem(restoreKey);

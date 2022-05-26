@@ -270,12 +270,13 @@ def format_translation(
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
+    is_multivalue = unit is not None and unit.translation.component.is_multivalue
 
     if plural is None:
         plural = language.plural
 
     # Show plurals?
-    if int(num_plurals) <= 1:
+    if int(num_plurals) <= 1 and not is_multivalue:
         plurals = plurals[-1:]
 
     # Split diff plurals
@@ -299,7 +300,7 @@ def format_translation(
 
         # Show label for plural (if there are any)
         title = ""
-        if len(plurals) > 1:
+        if len(plurals) > 1 and not is_multivalue:
             title = plural.get_plural_name(idx)
 
         # Join paragraphs

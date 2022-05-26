@@ -384,7 +384,7 @@ class TranslationFormatTestCase(FixtureTestCase):
         )
 
     def test_glossary_format(self):
-        unit = Unit()
+        unit = Unit(translation=self.translation)
         unit.all_flags = {"php-format"}
         self.assertHTMLEqual(
             format_translation(

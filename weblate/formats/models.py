@@ -152,6 +152,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.TBXFormat",
         "weblate.formats.ttkit.StringsdictFormat",
         "weblate.formats.ttkit.FluentFormat",
+        "weblate.formats.multi.MultiCSVUtf8Format",
     )
 
     class Meta:

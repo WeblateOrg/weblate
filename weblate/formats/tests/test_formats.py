@@ -214,7 +214,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         self.assertEqual(storage.mimetype(), self.MIME)
         self.assertEqual(storage.extension(), self.EXT)
 
-    def test_save(self, edit=False):
+    def test_save(self, edit=None):
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -231,7 +231,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
         if edit:
             units = storage.all_units
-            units[self.EDIT_OFFSET].set_target(self.EDIT_TARGET)
+            units[self.EDIT_OFFSET].set_target(edit)
 
         # Save test file
         storage.save()
@@ -246,9 +246,10 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
                 self.assert_same(newdata, testdata)
         else:
             self.assert_same(newdata, testdata)
+        return newdata
 
     def test_edit(self):
-        self.test_save(True)
+        return self.test_save(self.EDIT_TARGET)
 
     def assert_same(self, newdata, testdata):
         """Content aware comparison.
