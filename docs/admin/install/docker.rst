@@ -862,13 +862,16 @@ Generic settings
 
 .. _docker-machine:
 
-Machine translation settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Automatic suggestion settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionchanged:: 4.13
 
-   Machine translation services are now configured in the user interface.
-   The existing environment variables are imported during the migration.
+   Automatic suggestion services are now configured in the user interface,
+   see :ref:`machine-translation-setup`.
+
+   The existing environment variables are imported during the migration to
+   Weblate 4.13, but changing them will not have any further effect.
 
 .. _docker-auth:
 
