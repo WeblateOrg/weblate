@@ -362,10 +362,14 @@ class TranslationFormat:
         return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
     @cached_property
+    def bi_units(self):
+        return [self.unit_class(self, unit) for unit in self.all_store_units]
+
+    @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return [self.unit_class(self, unit) for unit in self.all_store_units]
+            return self.bi_units
         return [
             self.unit_class(
                 self, self.find_unit_mono(unit.context, unit.source), unit.template
@@ -555,6 +559,8 @@ class TranslationFormat:
         # Update cached lookups
         if "all_units" in self.__dict__:
             self.all_units.append(result)
+        if "bi_units" in self.__dict__:
+            self.bi_units.append(result)
         if "mono_units" in self.__dict__:
             self.mono_units.append(mono_unit)
         if "_source_index" in self.__dict__:
