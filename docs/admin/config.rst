@@ -1865,7 +1865,7 @@ WEBLATE_MACHINERY
 
 .. versionadded:: 4.13
 
-List of machinery services availabe for use.
+List of machinery services available for use.
 
 .. seealso::
 
