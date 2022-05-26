@@ -1,7 +1,7 @@
-var weblate_supported = ["{{ languages|safe }}"];
-var weblate_url = "{{ url }}";
-var weblate_selector = "{{ css_selector }}";
-var weblate_cookie_name = "{{ cookie_name }}";
+var weblate_supported = {{ languages }}
+var weblate_url = {{ url }};
+var weblate_selector = {{ css_selector }};
+var weblate_cookie_name = {{ cookie_name }};
 
 var ready = (callback) => {
   if (document.readyState != "loading") {
