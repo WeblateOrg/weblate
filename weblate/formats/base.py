@@ -283,19 +283,17 @@ class TranslationFormat:
             return None
 
     def _find_unit_monolingual(self, context: str, source: str) -> Tuple[Any, bool]:
-        # Need to create new unit based on template
-        template_ttkit_unit = self.template_store.find_unit_template(context, source)
-        if template_ttkit_unit is None:
-            raise UnitNotFound(context, source)
-
         # We search by ID when using template
         id_hash = self._calculate_string_hash(context, source)
+        try:
+            result = self._unit_index[id_hash]
+        except KeyError:
+            raise UnitNotFound(context, source)
 
-        result = self._unit_index[id_hash]
         add = False
         if result.unit is None:
             # We always need copy of template unit to translate
-            result.mainunit = result.unit = deepcopy(template_ttkit_unit)
+            result.mainunit = result.unit = deepcopy(result.template)
             add = True
         return result, add
 
