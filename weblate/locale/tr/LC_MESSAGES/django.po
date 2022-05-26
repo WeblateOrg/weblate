@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-26 07:00+0000\n"
-"PO-Revision-Date: 2022-05-16 11:54+0000\n"
+"PO-Revision-Date: 2022-05-26 09:41+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1981,10 +1981,8 @@ msgstr "Çeviri belleğini yönet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:149
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "Makineleri kullan"
+msgstr "Makineleri yönet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
@@ -3350,7 +3348,7 @@ msgstr "XLIFF çeviri dosyası"
 
 #: weblate/formats/ttkit.py:1237
 msgid "XLIFF with placeables support"
-msgstr ""
+msgstr "Yerleştirilebilir desteği olan XLIFF"
 
 #: weblate/formats/ttkit.py:1244
 msgid "XLIFF with gettext extensions"
@@ -3430,10 +3428,8 @@ msgid "CSV file"
 msgstr "CSV dosyası"
 
 #: weblate/formats/ttkit.py:1544
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "CSV dosyası"
+msgstr "CSV dosyası (UTF-8)"
 
 #: weblate/formats/ttkit.py:1550
 msgid "Simple CSV file"
@@ -3444,10 +3440,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Basit CSV dosyası (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1575
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "Basit CSV dosyası"
+msgstr "Basit CSV dosyası (UTF-8)"
 
 #: weblate/formats/ttkit.py:1582
 msgid "YAML file"
@@ -3482,10 +3476,8 @@ msgid "Flat XML file"
 msgstr "Düz XML dosyası"
 
 #: weblate/formats/ttkit.py:1695
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "Depo hatası"
+msgstr "ResourceDictionary dosyası"
 
 #: weblate/formats/ttkit.py:1708
 msgid "INI file"
@@ -3628,16 +3620,12 @@ msgid "Right to left"
 msgstr "Sağdan sola"
 
 #: weblate/lang/models.py:506 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "Dizgi sayısı"
+msgstr "Konuşmacı sayısı"
 
 #: weblate/lang/models.py:507
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "Dil sayısı"
+msgstr "Bu dili konuşan insan sayısı."
 
 #: weblate/lang/models.py:587
 msgctxt "Plural type"
@@ -3926,49 +3914,41 @@ msgid "Overview"
 msgstr "Genel Bakış"
 
 #: weblate/machinery/base.py:103
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "Kaynak dili bulma başarısız oldu!"
+msgstr "Desteklenen dilleri getirme başarısız oldu: %s"
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "Çeviri bayrakları değiştirilemedi!"
+msgstr "Çeviriyi getirme başarısız oldu: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
-#, fuzzy
-#| msgid "Personal API key"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "Kişisel API anahtarı"
+msgstr "API anahtarı"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "API kök URL'si:"
+msgstr "API URL'si"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "İstemci kimliği"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "İstemci gizli anahtarı"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "İşleyen e-postası"
+msgstr "İletişim e-postası"
 
 #: weblate/machinery/forms.py:81
 #, fuzzy
@@ -3978,92 +3958,73 @@ msgid "Username"
 msgstr "Kullanıcı adı"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "Hazırlayanın kullanıcı adı"
+msgstr "SAP kullanıcı adı"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "Parola ayarla"
+msgstr "SAP parolası"
 
 #: weblate/machinery/forms.py:109
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Makine çevirisi"
+msgstr "Makine çevirisini etkinleştir"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "Lütfen doğru kullanıcı adını ve parolayı girin."
+msgstr "Lütfen ya anahtar ya da kullanıcı adı ve parola girin."
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "Uygulama uç noktası URL'si"
 
 #: weblate/machinery/forms.py:136
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "Uygulama tabanlı URL"
 
 #: weblate/machinery/forms.py:149
 msgctxt "Automatic suggestion service configuration"
 msgid "Application region"
-msgstr ""
+msgstr "Uygulama bölgesi"
 
 #: weblate/machinery/forms.py:159
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "Google Çeviri hizmeti hesap bilgileri"
 
 #: weblate/machinery/forms.py:165
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate project"
-msgstr "Çeviri projeleri tanıtımı"
+msgstr "Google Çeviri projesi"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate location"
-msgstr "Çeviri bildirimleri"
+msgstr "Google Çeviri konumu"
 
 #: weblate/machinery/forms.py:179
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON: %s"
-msgstr "JSON dosyası ayrıştırma başarısız oldu: {!s}"
+msgstr "JSON ayrıştırma başarısız oldu: %s"
 
 #: weblate/machinery/forms.py:185
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "Yalnızca erişim"
+msgstr "Erişim anahtarı kimliği"
 
 #: weblate/machinery/forms.py:188
-#, fuzzy
-#| msgid "Secret key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "Gizli anahtar"
+msgstr "API gizli anahtarı"
 
 #: weblate/machinery/forms.py:191
-#, fuzzy
-#| msgid "Rename"
 msgctxt "AWS Translate configuration"
 msgid "Region name"
-msgstr "Yeniden adlandır"
+msgstr "Bölge adı"
 
 #: weblate/machinery/views.py:329
 msgid "Service is currently not available."
@@ -6976,17 +6937,15 @@ msgstr "İstenmeyen olarak işaretle"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "Bu hizmet site genelinde yüklenir."
 
 #: weblate/templates/machinery/detail.html:7
-#, fuzzy
-#| msgid "repository wide"
 msgid "site wide"
-msgstr "depo genişliği"
+msgstr "site çapında"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
-msgstr ""
+msgstr "Bu hizmet site genelinde yüklenir, ancak etkisizleştirilmiştir."
 
 #: weblate/templates/machinery/detail.html:10
 msgid "disabled"
@@ -7001,57 +6960,40 @@ msgid "Automatic suggestions"
 msgstr "Otomatik öneriler"
 
 #: weblate/templates/machinery/list.html:23
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configured automatic suggestion services"
-msgstr "Otomatik önerileri kullan"
+msgstr "Yapılandırılmış otomatik öneri hizmetleri"
 
 #: weblate/templates/machinery/list.html:34
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable"
-msgstr "devre dışı"
+msgstr "Etkisizleştir"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "etkin"
+msgstr "Etkinleştir"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "Şu anda yüklü eklentiler yok."
+msgstr "Şu anda yüklü hizmetler yok."
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "Şu anda yüklü %(count)s eklenti var."
-msgstr[1] "Şu anda yüklü %(count)s eklenti var."
+msgstr[0] "Şu anda yüklü %(count)s hizmet var."
+msgstr[1] "Şu anda yüklü %(count)s hizmet var."
 
 #: weblate/templates/machinery/list.html:61
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Available automatic suggestion services"
-msgstr "Otomatik önerileri kullan"
+msgstr "Kullanılabilir otomatik öneri hizmetleri"
 
 #: weblate/templates/machinery/list.html:79
-#, fuzzy
-#| msgid "Could not find any such user."
 msgid "Could not find any additional sercices."
-msgstr "Böyle bir kullanıcı bulunamadı."
+msgstr "Herhangi bir ek hizmet bulunamadı."
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
-msgstr "Bazı eklentiler kurulum sırasında ek yapılandırma isteyecektir."
+msgstr "Bazı hizmetler kurulum sırasında ek yapılandırma isteyecektir."
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -10097,12 +10039,8 @@ msgid "For all languages"
 msgstr "Tüm diller için"
 
 #: weblate/templates/translate.html:472
-#, fuzzy
-#| msgid ""
-#| "Selecting this option will set the corresponding \"ignore check\" flag"
 msgid "Selecting this option will set the corresponding ignore flag."
-msgstr ""
-"Bu seçeneğin seçilmesi, ilgili \"denetimi yoksay\" işaretini ayarlayacak"
+msgstr "Bu seçeneğin seçilmesi, ilgili yoksay işaretini ayarlayacak."
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -12775,19 +12713,20 @@ msgid "Failed to parse flags: %s"
 msgstr "İşaretleri ayrıştırma başarısız: %s"
 
 #: weblate/trans/validators.py:65
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the file mask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "%s dil kodu boştu, lütfen dosya maskesini gözden geçirin."
+msgstr ""
+"\"%(filename)s\" için dil kodu boş, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/validators.py:71
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the file mask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini gözden geçirin."
+msgstr ""
+"\"%(filename)s\" için \"%(code)s\" dil kodu çok uzun, lütfen dosya maskesini "
+"gözden geçirin."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
