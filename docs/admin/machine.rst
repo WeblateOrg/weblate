@@ -3,6 +3,10 @@
 Machine translation
 ===================
 
+.. versionchanged:: 4.13
+
+   Prior to Weblate 4.13, the services were configured in the :ref:`config`.
+
 Built-in support for several machine translation services and can be turned on
 by the administrator for whole site or at project settings:
 
