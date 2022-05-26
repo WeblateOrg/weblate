@@ -100,23 +100,32 @@ class CDNJSAddon(BaseAddon):
                     {
                         # `mark_safe(json.dumps(` is NOT safe in HTML files. Only JS.
                         # See `django.utils.html.json_script`
-                        "languages": mark_safe(json.dumps(
-                            sorted(
-                                translation.language.code
-                                for translation in translations
+                        "languages": mark_safe(
+                            json.dumps(
+                                sorted(
+                                    translation.language.code
+                                    for translation in translations
+                                )
                             )
-                        )),
-                        "url": mark_safe(json.dumps(
-                            os.path.join(
-                                settings.LOCALIZE_CDN_URL, self.instance.state["uuid"]
+                        ),
+                        "url": mark_safe(
+                            json.dumps(
+                                os.path.join(
+                                    settings.LOCALIZE_CDN_URL,
+                                    self.instance.state["uuid"],
+                                )
                             )
-                        )),
-                        "cookie_name": mark_safe(json.dumps(
-                            self.instance.configuration["cookie_name"],
-                        )),
-                        "css_selector": mark_safe(json.dumps(
-                            self.instance.configuration["css_selector"],
-                        )),
+                        ),
+                        "cookie_name": mark_safe(
+                            json.dumps(
+                                self.instance.configuration["cookie_name"],
+                            )
+                        ),
+                        "css_selector": mark_safe(
+                            json.dumps(
+                                self.instance.configuration["css_selector"],
+                            )
+                        ),
                     },
                 )
             )
