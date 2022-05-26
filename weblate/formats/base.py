@@ -270,38 +270,37 @@ class TranslationFormat:
         ) and self.template_store is not None
 
     @cached_property
-    def _mono_index(self):
+    def _template_index(self):
         """ID based index for units."""
-        return {unit.id_hash: unit for unit in self.mono_units}
+        return {unit.id_hash: unit for unit in self.template_units}
 
-    def find_unit_mono(self, context: str, source: str) -> Optional[Any]:
+    def find_unit_template(self, context: str, source: str) -> Optional[Any]:
         id_hash = self._calculate_string_hash(context, source)
         try:
             # The mono units always have only template set
-            return self._mono_index[id_hash].template
+            return self._template_index[id_hash].template
         except KeyError:
             return None
 
-    def _find_unit_template(self, context: str, source: str) -> Tuple[Any, bool]:
+    def _find_unit_monolingual(self, context: str, source: str) -> Tuple[Any, bool]:
         # Need to create new unit based on template
-        template_ttkit_unit = self.template_store.find_unit_mono(context, source)
+        template_ttkit_unit = self.template_store.find_unit_template(context, source)
         if template_ttkit_unit is None:
             raise UnitNotFound(context, source)
 
         # We search by ID when using template
-        ttkit_unit = self.find_unit_mono(context, source)
+        id_hash = self._calculate_string_hash(context, source)
 
-        # We always need new unit to translate
-        if ttkit_unit is None:
-            ttkit_unit = deepcopy(template_ttkit_unit)
+        result = self._unit_index[id_hash]
+        add = False
+        if result.unit is None:
+            # We always need copy of template unit to translate
+            result.mainunit = result.unit = deepcopy(template_ttkit_unit)
             add = True
-        else:
-            add = False
-
-        return (self.unit_class(self, ttkit_unit, template_ttkit_unit), add)
+        return result, add
 
     @cached_property
-    def _source_index(self):
+    def _unit_index(self):
         """Context and source based index for units."""
         return {unit.id_hash: unit for unit in self.content_units}
 
@@ -314,7 +313,7 @@ class TranslationFormat:
     def _find_unit_bilingual(self, context: str, source: str) -> Tuple[Any, bool]:
         id_hash = self._calculate_string_hash(context, source)
         try:
-            return (self._source_index[id_hash], False)
+            return (self._unit_index[id_hash], False)
         except KeyError:
             raise UnitNotFound(context, source)
 
@@ -324,7 +323,7 @@ class TranslationFormat:
         Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
         """
         if self.has_template:
-            return self._find_unit_template(context, source)
+            return self._find_unit_monolingual(context, source)
         return self._find_unit_bilingual(context, source)
 
     def add_unit(self, ttkit_unit):
@@ -358,7 +357,7 @@ class TranslationFormat:
         return self.store.units
 
     @cached_property
-    def mono_units(self):
+    def template_units(self):
         return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
     @cached_property
@@ -368,9 +367,9 @@ class TranslationFormat:
             return [self.unit_class(self, unit) for unit in self.all_store_units]
         return [
             self.unit_class(
-                self, self.find_unit_mono(unit.context, unit.source), unit.template
+                self, self.find_unit_template(unit.context, unit.source), unit.template
             )
-            for unit in self.template_store.mono_units
+            for unit in self.template_store.template_units
         ]
 
     @property
@@ -546,7 +545,7 @@ class TranslationFormat:
             if self.is_template:
                 template_unit = unit
             else:
-                template_unit = self._find_unit_template(key, source)
+                template_unit = self._find_unit_monolingual(key, source)
         else:
             template_unit = None
         result = self.unit_class(self, unit, template_unit)
@@ -555,12 +554,12 @@ class TranslationFormat:
         # Update cached lookups
         if "all_units" in self.__dict__:
             self.all_units.append(result)
-        if "mono_units" in self.__dict__:
-            self.mono_units.append(mono_unit)
-        if "_source_index" in self.__dict__:
-            self._source_index[result.id_hash] = result
-        if "_mono_index" in self.__dict__:
-            self._mono_index[mono_unit.id_hash] = mono_unit
+        if "template_units" in self.__dict__:
+            self.template_units.append(mono_unit)
+        if "_unit_index" in self.__dict__:
+            self._unit_index[result.id_hash] = result
+        if "_template_index" in self.__dict__:
+            self._template_index[mono_unit.id_hash] = mono_unit
 
         return result
 
@@ -579,7 +578,7 @@ class TranslationFormat:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
             return []
-        existing = {unit.context for unit in self.template_store.mono_units}
+        existing = {unit.context for unit in self.template_store.template_units}
         changed = False
 
         result = []

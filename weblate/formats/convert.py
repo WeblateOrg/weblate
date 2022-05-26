@@ -214,7 +214,7 @@ class HTMLFormat(ConvertFormat):
         for htmlunit in htmlparser.units:
             if template_store:
                 # Translation
-                template = template_store.find_unit_mono(
+                template = template_store.find_unit_template(
                     htmlunit.getcontext(), htmlunit.source
                 )
                 if template is None:
