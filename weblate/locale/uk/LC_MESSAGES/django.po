@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-26 07:00+0000\n"
-"PO-Revision-Date: 2022-05-16 11:54+0000\n"
+"PO-Revision-Date: 2022-05-26 08:44+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -2000,10 +2000,8 @@ msgstr "Керувати памʼяттю перекладів"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:149
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "Використовувати автоматизацію"
+msgstr "Керування автоматизацією"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
@@ -3370,7 +3368,7 @@ msgstr "Файл перекладу XLIFF"
 
 #: weblate/formats/ttkit.py:1237
 msgid "XLIFF with placeables support"
-msgstr ""
+msgstr "XLIFF із підтримкою замінників"
 
 #: weblate/formats/ttkit.py:1244
 msgid "XLIFF with gettext extensions"
@@ -3450,10 +3448,8 @@ msgid "CSV file"
 msgstr "Файл CSV"
 
 #: weblate/formats/ttkit.py:1544
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "Файл CSV"
+msgstr "файл CSV (UTF-8)"
 
 #: weblate/formats/ttkit.py:1550
 msgid "Simple CSV file"
@@ -3464,10 +3460,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Простий файл CSV (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1575
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "Простий файл CSV"
+msgstr "простий файл CSV (UTF-8)"
 
 #: weblate/formats/ttkit.py:1582
 msgid "YAML file"
@@ -3502,10 +3496,8 @@ msgid "Flat XML file"
 msgstr "Плоский XML-файл"
 
 #: weblate/formats/ttkit.py:1695
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "Збій репозиторію"
+msgstr "файл ResourceDictionary"
 
 #: weblate/formats/ttkit.py:1708
 msgid "INI file"
@@ -3648,16 +3640,12 @@ msgid "Right to left"
 msgstr "Справа наліво"
 
 #: weblate/lang/models.py:506 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "Число рядків"
+msgstr "Кількість мовців"
 
 #: weblate/lang/models.py:507
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "Число мов"
+msgstr "Кількість людей, які розмовляють цією мовою."
 
 #: weblate/lang/models.py:587
 msgctxt "Plural type"
@@ -3945,49 +3933,41 @@ msgid "Overview"
 msgstr "Огляд"
 
 #: weblate/machinery/base.py:103
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "Не вдалося знайти мову джерела!"
+msgstr "Не вдалося отримати список підтримуваних мов: %s"
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "Заборонений переклад: %s"
+msgstr "Не вдалося отримати переклад: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
-#, fuzzy
-#| msgid "Personal API key"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "Особистий ключ API"
+msgstr "Ключ до API"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "Коренева адреса API:"
+msgstr "Адреса API"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "Ідентифікатор клієнта"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "Пароль клієнта"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "Ел. пошта подавача"
+msgstr "Ел. пошта для зв'язку"
 
 #: weblate/machinery/forms.py:81
 #, fuzzy
@@ -3997,92 +3977,73 @@ msgid "Username"
 msgstr "Імʼя користувача"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "Ім’я користувача автора"
+msgstr "Ім'я користувача SAP"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "Установка паролю"
+msgstr "Пароль до SAP"
 
 #: weblate/machinery/forms.py:109
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Машинний переклад"
+msgstr "Увімкнути комп'ютерний переклад"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "Введіть правильне ім’я користувача та пароль."
+msgstr "Будь ласка, надайте або ключ, або ім’я користувача та пароль."
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "Кінцева адреса програми"
 
 #: weblate/machinery/forms.py:136
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "Базова адреса програми"
 
 #: weblate/machinery/forms.py:149
 msgctxt "Automatic suggestion service configuration"
 msgid "Application region"
-msgstr ""
+msgstr "Регіон програми"
 
 #: weblate/machinery/forms.py:159
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "Дані службового облікового запису Google Перекладач"
 
 #: weblate/machinery/forms.py:165
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate project"
-msgstr "Сприяння перекладацьким проєктам"
+msgstr "Проєкт Google Перекладач"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate location"
-msgstr "Сповіщення з перекладу"
+msgstr "Місце Google Перекладач"
 
 #: weblate/machinery/forms.py:179
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON: %s"
-msgstr "Не вдалося розібрати файл JSON: {!s}"
+msgstr "Не вдалося обробити JSON: %s"
 
 #: weblate/machinery/forms.py:185
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "Лише доступ"
+msgstr "Ідентифікатор ключа доступу"
 
 #: weblate/machinery/forms.py:188
-#, fuzzy
-#| msgid "Add host key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "Додати ключ вузла"
+msgstr "Закритий ключ API"
 
 #: weblate/machinery/forms.py:191
-#, fuzzy
-#| msgid "Rename"
 msgctxt "AWS Translate configuration"
 msgid "Region name"
-msgstr "Перейменувати"
+msgstr "Назва регіону"
 
 #: weblate/machinery/views.py:329
 msgid "Service is currently not available."
@@ -7041,23 +7002,19 @@ msgstr "Позначити як спам"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "Цю службу встановлено на рівні сайта."
 
 #: weblate/templates/machinery/detail.html:7
-#, fuzzy
-#| msgid "repository wide"
 msgid "site wide"
-msgstr "у межах репозиторію"
+msgstr "на рівні сайта"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
-msgstr ""
+msgstr "Цю службу встановлено на рівні сайта, але вимкнено."
 
 #: weblate/templates/machinery/detail.html:10
-#, fuzzy
-#| msgid "enabled"
 msgid "disabled"
-msgstr "увімкнено"
+msgstr "вимкнено"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -7068,58 +7025,43 @@ msgid "Automatic suggestions"
 msgstr "Автоматичні пропозиції"
 
 #: weblate/templates/machinery/list.html:23
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configured automatic suggestion services"
-msgstr "Використовувати автоматичні пропозиції"
+msgstr "Налаштовано служби автоматичних пропозицій"
 
 #: weblate/templates/machinery/list.html:34
 msgid "Disable"
-msgstr ""
+msgstr "Вимкнути"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "увімкнено"
+msgstr "Увімкнути"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "Немає встановлених додатків."
+msgstr "Зараз служб не встановлено."
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "Маємо %(count)s встановлений додаток."
-msgstr[1] "Маємо %(count)s встановлений додаток."
-msgstr[2] "Маємо %(count)s встановлених додатків."
-msgstr[3] "Маємо %(count)s встановлений додаток."
+msgstr[0] "Маємо %(count)s встановлену службу."
+msgstr[1] "Маємо %(count)s встановлені служби."
+msgstr[2] "Маємо %(count)s встановлених служб."
+msgstr[3] "Маємо %(count)s встановлену службу."
 
 #: weblate/templates/machinery/list.html:61
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Available automatic suggestion services"
-msgstr "Використовувати автоматичні пропозиції"
+msgstr "Доступні служби автоматичних пропозицій"
 
 #: weblate/templates/machinery/list.html:79
-#, fuzzy
-#| msgid "Could not find any such user."
 msgid "Could not find any additional sercices."
-msgstr "Не вдалося знайти такого користувача."
+msgstr "Не вдалося знайти жодної додаткової служби."
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
-"Деякі додатки вимагатимуть додаткового налаштування під час встановлення."
+"Деякі служби вимагатимуть додаткового налаштування під час встановлення."
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -10203,13 +10145,8 @@ msgid "For all languages"
 msgstr "Для усіх мов"
 
 #: weblate/templates/translate.html:472
-#, fuzzy
-#| msgid ""
-#| "Selecting this option will set the corresponding \"ignore check\" flag"
 msgid "Selecting this option will set the corresponding ignore flag."
-msgstr ""
-"Позначення цього пункту встановить відповідний прапорець «ігнорувати "
-"перевірку»"
+msgstr "Позначення цього пункту встановить відповідний прапорець «ігнорувати»."
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -12928,19 +12865,21 @@ msgid "Failed to parse flags: %s"
 msgstr "Не вдалося обробити прапорці: %s"
 
 #: weblate/trans/validators.py:65
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the file mask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "Не вдалося визначити мову для %s. Будь ласка, перевірте маску файлу."
+msgstr ""
+"Не вдалося визначити мову для «%(filename)s». Будь ласка, перевірте маску "
+"файла."
 
 #: weblate/trans/validators.py:71
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the file mask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "Код мови «%s» є надто довгим. Будь ласка, перевірте маску файлу."
+msgstr ""
+"Код мови «%(code)s» для «%(filename)s» є надто довгим. Будь ласка, перевірте "
+"маску файла."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
