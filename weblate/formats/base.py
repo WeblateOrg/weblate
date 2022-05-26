@@ -274,8 +274,11 @@ class TranslationFormat:
         """ID based index for units."""
         return {unit.id_hash: unit for unit in self.template_units}
 
-    def find_unit_template(self, context: str, source: str) -> Optional[Any]:
-        id_hash = self._calculate_string_hash(context, source)
+    def find_unit_template(
+        self, context: str, source: str, id_hash: Optional[int] = None
+    ) -> Optional[Any]:
+        if id_hash is None:
+            id_hash = self._calculate_string_hash(context, source)
         try:
             # The mono units always have only template set
             return self._template_index[id_hash].template
@@ -365,7 +368,9 @@ class TranslationFormat:
             return [self.unit_class(self, unit) for unit in self.all_store_units]
         return [
             self.unit_class(
-                self, self.find_unit_template(unit.context, unit.source), unit.template
+                self,
+                self.find_unit_template(unit.context, unit.source, unit.id_hash),
+                unit.template,
             )
             for unit in self.template_store.template_units
         ]
