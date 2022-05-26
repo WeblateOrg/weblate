@@ -742,7 +742,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = "resx/cs-CZ.resx"
     FIND = "Hello"
     FIND_CONTEXT = "Hello"
-    FIND_MATCH = ""
+    FIND_MATCH = "Hello, world!"
     MATCH = "text/microsoft-resx"
     BASE = ""
     NEW_UNIT_MATCH = (
