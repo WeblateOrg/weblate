@@ -87,10 +87,10 @@ NAME_MAPPING = {
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 
-SOURCE_LINK = """
-<a href="{0}" target="_blank" rel="noopener noreferrer"
-    class="wrap-text" dir="ltr">{1}</a>
-"""
+SOURCE_LINK = (
+    '<a href="{0}" target="_blank" rel="noopener noreferrer"'
+    ' class="{2}" dir="ltr">{1}</a>'
+)
 HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
 
@@ -599,6 +599,20 @@ def unit_state_title(unit) -> str:
     return "; ".join(state)
 
 
+def try_linkify_filename(
+    text, filename: str, line: str, unit, profile, link_class: str = ""
+):
+    """Attemp to convert `text` to a repo link to `filename:line`."""
+    link = None
+    if profile:
+        link = unit.translation.component.get_repoweb_link(
+            filename, line, profile.editor_link
+        )
+    if link:
+        return format_html(SOURCE_LINK, link, text, link_class)
+    return text
+
+
 @register.simple_tag
 def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
@@ -618,15 +632,9 @@ def get_location_links(profile, unit):
 
     # Go through all locations separated by comma
     for location, filename, line in unit.get_locations():
-        link = None
-        if profile:
-            link = unit.translation.component.get_repoweb_link(
-                filename, line, profile.editor_link
-            )
-        if link is None:
-            ret.append(location)
-        else:
-            ret.append(format_html(SOURCE_LINK, link, location))
+        ret.append(
+            try_linkify_filename(location, filename, line, unit, profile, "wrap-text")
+        )
     return format_html_join(
         format_html('\n<span class="divisor">•</span>\n'), "{}", ((v,) for v in ret)
     )

@@ -59,7 +59,11 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.templatetags.translations import unit_state_class, unit_state_title
+from weblate.trans.templatetags.translations import (
+    try_linkify_filename,
+    unit_state_class,
+    unit_state_title,
+)
 from weblate.trans.util import join_plural, redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
@@ -667,6 +671,16 @@ def translate(request, project, component, lang):  # noqa: C901
                 unit.translation, user, initial={"variant": unit.pk}
             ),
             "screenshot_form": screenshot_form,
+            "translation_file_link": lambda: try_linkify_filename(
+                unit.translation.filename,
+                unit.translation.filename,
+                # '1' as a placeholder, because `get_repoweb_link` can't currently
+                # generate links without line specified. Although it's ok to use
+                # '' or '0' on GitHub or GitLab, let's play it safe for now.
+                "1",
+                unit,
+                user.profile,
+            ),
         },
     )
 
