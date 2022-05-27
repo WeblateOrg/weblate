@@ -681,7 +681,7 @@
     </h5>
     <span>
     {% if unit.translation.filename %}
-      <span class="wrap-text">{% blocktrans with filename=unit.translation.filename position=unit.position %}{{ filename }}, string {{ position }}{% endblocktrans %}</span>
+      <span class="wrap-text">{% blocktrans with filename=translation_file_link position=unit.position %}{{ filename }}, string {{ position }}{% endblocktrans %}</span>
     {% else %}
       <span class="wrap-text">{% blocktrans with position=unit.position %}string {{ position }}{% endblocktrans %}</span>
     {% endif %}
