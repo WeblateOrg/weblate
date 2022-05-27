@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-26 09:01+0200\n"
+"POT-Creation-Date: 2022-05-27 08:01+0200\n"
 "PO-Revision-Date: 2022-05-27 05:57+0000\n"
 "Last-Translator: S3aBreeze <paperwork@evilcorp.ltd>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -597,8 +597,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:508 ../../admin/install/docker.rst:520
 #: ../../admin/install/docker.rst:537 ../../admin/install/docker.rst:558
 #: ../../admin/install/docker.rst:601 ../../admin/install/docker.rst:615
-#: ../../admin/install/docker.rst:630 ../../admin/install/docker.rst:1430
-#: ../../admin/install/docker.rst:1475 ../../admin/install/docker.rst:1493
+#: ../../admin/install/docker.rst:630 ../../admin/install/docker.rst:1433
+#: ../../admin/install/docker.rst:1478 ../../admin/install/docker.rst:1496
 msgid "**Example:**"
 msgstr "**Пример:**"
 
@@ -4000,7 +4000,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ":doc:`Microsoft Azure Active Directory <psa:backends/azuread>`"
 
-#: ../../admin/auth.rst:301 ../../admin/install/docker.rst:1047
+#: ../../admin/auth.rst:301 ../../admin/install/docker.rst:1050
 msgid "Slack"
 msgstr "Slack"
 
@@ -4169,8 +4169,8 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT`` и "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
-#: ../../admin/auth.rst:406 ../../admin/install/docker.rst:1133
-#: ../../admin/install/docker.rst:1151
+#: ../../admin/auth.rst:406 ../../admin/install/docker.rst:1136
+#: ../../admin/install/docker.rst:1154
 msgid "Example configuration:"
 msgstr "Пример настроек:"
 
@@ -8961,7 +8961,7 @@ msgstr "WEBLATE_ADDONS"
 #: ../../admin/config.rst:1868
 #, fuzzy
 #| msgid "List of file formats available for use."
-msgid "List of machinery services availabe for use."
+msgid "List of machinery services available for use."
 msgstr "Список доступных для использования форматов файлов."
 
 #: ../../admin/config.rst:1872
@@ -13837,114 +13837,128 @@ msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgstr "Настраивает параметр :setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:866
-msgid "Machine translation settings"
-msgstr "Параметры машинного перевода"
+#, fuzzy
+#| msgid "Automatic suggestions"
+msgid "Automatic suggestion settings"
+msgstr "Автоматические предложения"
 
 #: ../../admin/install/docker.rst:870
+#, fuzzy
+#| msgid ""
+#| "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-"
+#| "translation`."
 msgid ""
-"Machine translation services are now configured in the user interface. The "
-"existing environment variables are imported during the migration."
+"Automatic suggestion services are now configured in the user interface, see :"
+"ref:`machine-translation-setup`."
+msgstr ""
+"Показ вкладки :guilabel:`Автоматические предложения`, смотреть раздел :ref:"
+"`machine-translation`."
+
+#: ../../admin/install/docker.rst:873
+msgid ""
+"The existing environment variables are imported during the migration to "
+"Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
 
-#: ../../admin/install/docker.rst:876
+#: ../../admin/install/docker.rst:879
 msgid "Authentication settings"
 msgstr "Параметры аутентификации"
 
-#: ../../admin/install/docker.rst:879
+#: ../../admin/install/docker.rst:882
 msgid "LDAP"
 msgstr "LDAP"
 
-#: ../../admin/install/docker.rst:888
+#: ../../admin/install/docker.rst:891
 #, fuzzy
 #| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
 msgstr "Пароль для аутентификации по электронной почте."
 
-#: ../../admin/install/docker.rst:890
+#: ../../admin/install/docker.rst:893
 #, fuzzy
 #| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
 msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
-#: ../../admin/install/docker.rst:898
+#: ../../admin/install/docker.rst:901
 msgid "LDAP authentication configuration."
 msgstr "Настройка аутентификации через LDAP."
 
-#: ../../admin/install/docker.rst:900
+#: ../../admin/install/docker.rst:903
 msgid "**Example for direct bind:**"
 msgstr "**Пример прямой привязки:**"
 
-#: ../../admin/install/docker.rst:911
+#: ../../admin/install/docker.rst:914
 msgid "**Example for search and bind:**"
 msgstr "**Пример поиска и привязки:**"
 
-#: ../../admin/install/docker.rst:923
+#: ../../admin/install/docker.rst:926
 msgid "**Example for union search and bind:**"
 msgstr "**Пример объединения поиска и привязки:**"
 
-#: ../../admin/install/docker.rst:935
+#: ../../admin/install/docker.rst:938
 msgid "**Example with search and bind against Active Directory:**"
 msgstr "**Пример поиска и привязки в Active Directory:**"
 
-#: ../../admin/install/docker.rst:950
+#: ../../admin/install/docker.rst:953
 msgid ":ref:`ldap-auth`"
 msgstr ":ref:`ldap-auth`"
 
-#: ../../admin/install/docker.rst:953
+#: ../../admin/install/docker.rst:956
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ../../admin/install/docker.rst:964
+#: ../../admin/install/docker.rst:967
 msgid "Enables :ref:`github_auth`."
 msgstr "Включает :ref:`аутентификацию через GitHub <github_auth>`."
 
-#: ../../admin/install/docker.rst:967
+#: ../../admin/install/docker.rst:970
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
-#: ../../admin/install/docker.rst:974
+#: ../../admin/install/docker.rst:977
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr "Включает :ref:`аутентификацию через Bitbucket <bitbucket_auth>`."
 
-#: ../../admin/install/docker.rst:977
+#: ../../admin/install/docker.rst:980
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../../admin/install/docker.rst:982
+#: ../../admin/install/docker.rst:985
 msgid "Enables :ref:`facebook_auth`."
 msgstr "Включает :ref:`facebook_auth`."
 
-#: ../../admin/install/docker.rst:985
+#: ../../admin/install/docker.rst:988
 msgid "Google"
 msgstr "Google"
 
-#: ../../admin/install/docker.rst:992
+#: ../../admin/install/docker.rst:995
 msgid "Enables :ref:`google_auth`."
 msgstr "Включает :ref:`google_auth`."
 
-#: ../../admin/install/docker.rst:995
+#: ../../admin/install/docker.rst:998
 msgid "GitLab"
 msgstr "GitLab"
 
-#: ../../admin/install/docker.rst:1001
+#: ../../admin/install/docker.rst:1004
 msgid "Enables :ref:`gitlab_auth`."
 msgstr "Включает :ref:`gitlab_auth`."
 
-#: ../../admin/install/docker.rst:1004
+#: ../../admin/install/docker.rst:1007
 msgid "Azure Active Directory"
 msgstr "Azure Active Directory"
 
-#: ../../admin/install/docker.rst:1009
+#: ../../admin/install/docker.rst:1012
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
 "Включает аутентификацию через Azure Active Directory, смотрите раздел :ref:"
 "`azure-auth`."
 
-#: ../../admin/install/docker.rst:1012
+#: ../../admin/install/docker.rst:1015
 msgid "Azure Active Directory with Tenant support"
 msgstr "Azure Active Directory с поддержкой Tenant"
 
-#: ../../admin/install/docker.rst:1018
+#: ../../admin/install/docker.rst:1021
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
@@ -13952,11 +13966,11 @@ msgstr ""
 "Включает аутентификацию через Azure Active Directory с поддержкой Tenant, "
 "смотрите раздел :ref:`azure-auth`."
 
-#: ../../admin/install/docker.rst:1022
+#: ../../admin/install/docker.rst:1025
 msgid "Keycloak"
 msgstr "Keycloak"
 
-#: ../../admin/install/docker.rst:1033
+#: ../../admin/install/docker.rst:1036
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
@@ -13966,11 +13980,11 @@ msgstr ""
 "github.com/python-social-auth/social-core/blob/master/social_core/backends/"
 "keycloak.py>`_."
 
-#: ../../admin/install/docker.rst:1037
+#: ../../admin/install/docker.rst:1040
 msgid "Linux vendors"
 msgstr "Поставщики Linux"
 
-#: ../../admin/install/docker.rst:1039
+#: ../../admin/install/docker.rst:1042
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
@@ -13978,16 +13992,16 @@ msgstr ""
 "Вы можете включить аутентификацию с помощью сервисов аутентификации "
 "поставщиков Linux, установив следующие переменные в любое значение."
 
-#: ../../admin/install/docker.rst:1052
+#: ../../admin/install/docker.rst:1055
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr ""
 "Включает аутентификацию через Slack, смотрите раздел :ref:`slack-auth`."
 
-#: ../../admin/install/docker.rst:1057
+#: ../../admin/install/docker.rst:1060
 msgid "SAML"
 msgstr "SAML"
 
-#: ../../admin/install/docker.rst:1059
+#: ../../admin/install/docker.rst:1062
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
@@ -13998,17 +14012,17 @@ msgstr ""
 "сертификат и закрытый ключ в файлы :file:`/app/data/ssl/saml.crt` и :file:`/"
 "app/data/ssl/saml.key`."
 
-#: ../../admin/install/docker.rst:1069
+#: ../../admin/install/docker.rst:1072
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr ""
 "Настройки провайдера идентификационных данных SAML, смотрите раздел :ref:"
 "`saml-auth`."
 
-#: ../../admin/install/docker.rst:1073
+#: ../../admin/install/docker.rst:1076
 msgid "Other authentication settings"
 msgstr "Другие параметры аутентификации"
 
-#: ../../admin/install/docker.rst:1077
+#: ../../admin/install/docker.rst:1080
 #, fuzzy
 #| msgid "Disables e-mail authentication when set to any value."
 msgid ""
@@ -14018,11 +14032,11 @@ msgstr ""
 "При установке в любое значение отключает аутентификацию через электронную "
 "почту."
 
-#: ../../admin/install/docker.rst:1082
+#: ../../admin/install/docker.rst:1085
 msgid "PostgreSQL database setup"
 msgstr "Настройки базы данных PostgreSQL"
 
-#: ../../admin/install/docker.rst:1084
+#: ../../admin/install/docker.rst:1087
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
@@ -14030,15 +14044,15 @@ msgstr ""
 "База данных создается в файле :file:`docker-compose.yml`, поэтому эти "
 "настройки влияют как на контейнер Weblate, так и на контейнер PostgreSQL."
 
-#: ../../admin/install/docker.rst:1087
+#: ../../admin/install/docker.rst:1090
 msgid ":ref:`database-setup`"
 msgstr ":ref:`database-setup`"
 
-#: ../../admin/install/docker.rst:1091
+#: ../../admin/install/docker.rst:1094
 msgid "PostgreSQL password."
 msgstr "Пароль PostgreSQL."
 
-#: ../../admin/install/docker.rst:1095
+#: ../../admin/install/docker.rst:1098
 msgid ""
 "Path to the file containing the PostgreSQL password. Use as an alternative "
 "to POSTGRES_PASSWORD."
@@ -14046,26 +14060,26 @@ msgstr ""
 "Путь к файлу, содержащему пароль PostgreSQL. Используйте в качестве "
 "альтернативы POSTGRES_PASSWORD."
 
-#: ../../admin/install/docker.rst:1099
+#: ../../admin/install/docker.rst:1102
 msgid "PostgreSQL username."
 msgstr "Имя пользователя PostgreSQL."
 
-#: ../../admin/install/docker.rst:1103
+#: ../../admin/install/docker.rst:1106
 msgid "PostgreSQL database name."
 msgstr "Имя базы данных PostgreSQL."
 
-#: ../../admin/install/docker.rst:1107
+#: ../../admin/install/docker.rst:1110
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
 "Имя хоста или IP-адрес сервера PostgreSQL. По умолчанию равен ``database``."
 
-#: ../../admin/install/docker.rst:1111
+#: ../../admin/install/docker.rst:1114
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
 "Порт сервера PostgreSQL. По умолчанию не установлен (используется значение "
 "по умолчанию)."
 
-#: ../../admin/install/docker.rst:1115
+#: ../../admin/install/docker.rst:1118
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
@@ -14076,7 +14090,7 @@ msgstr ""
 "<https://postgrespro.ru/docs/postgresql/11/libpq-ssl#LIBPQ-SSL-SSLMODE-"
 "STATEMENTS>`_"
 
-#: ../../admin/install/docker.rst:1120
+#: ../../admin/install/docker.rst:1123
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
@@ -14084,7 +14098,7 @@ msgstr ""
 "Устанавливает имя роли, которую Weblate будет настраивать во время миграции, "
 "смотреть раздел :ref:`config-postgresql`."
 
-#: ../../admin/install/docker.rst:1126
+#: ../../admin/install/docker.rst:1129
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request (this is the default "
@@ -14094,7 +14108,7 @@ msgstr ""
 "чтобы закрывать соединения с базой данных в конце каждого запроса (это "
 "поведение по умолчанию)."
 
-#: ../../admin/install/docker.rst:1130
+#: ../../admin/install/docker.rst:1133
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
@@ -14103,13 +14117,13 @@ msgstr ""
 "открытых соединений с базой данных. Пожалуйста, настройте конфигурацию базы "
 "данных перед включением."
 
-#: ../../admin/install/docker.rst:1142
+#: ../../admin/install/docker.rst:1145
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
-#: ../../admin/install/docker.rst:1148
+#: ../../admin/install/docker.rst:1151
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
@@ -14117,7 +14131,7 @@ msgstr ""
 "Отключите курсоры на стороне сервера в базе данных. Это необходимо в "
 "некоторых настройках :command:`pgbouncer`."
 
-#: ../../admin/install/docker.rst:1160
+#: ../../admin/install/docker.rst:1163
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
@@ -14127,15 +14141,15 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursors`"
 
-#: ../../admin/install/docker.rst:1165
+#: ../../admin/install/docker.rst:1168
 msgid "Database backup settings"
 msgstr "Параметры резервного копирования базы данных"
 
-#: ../../admin/install/docker.rst:1168
+#: ../../admin/install/docker.rst:1171
 msgid ":ref:`backup-dumps`"
 msgstr ":ref:`backup-dumps`"
 
-#: ../../admin/install/docker.rst:1172
+#: ../../admin/install/docker.rst:1175
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
@@ -14143,11 +14157,11 @@ msgstr ""
 "Настраивает ежедневный дамп базы данных с помощью параметра :setting:"
 "`DATABASE_BACKUP`. По умолчанию установлен в ``plain``."
 
-#: ../../admin/install/docker.rst:1176
+#: ../../admin/install/docker.rst:1179
 msgid "Caching server setup"
 msgstr "Настройка сервера кэширования"
 
-#: ../../admin/install/docker.rst:1178
+#: ../../admin/install/docker.rst:1181
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
@@ -14155,77 +14169,77 @@ msgstr ""
 "Weblate настоятельно рекомендует использовать Redis и при запуске Weblate’а "
 "в Docker’е вы должны предоставить экземпляр Redis’а."
 
-#: ../../admin/install/docker.rst:1181 ../../admin/projects.rst:977
+#: ../../admin/install/docker.rst:1184 ../../admin/projects.rst:977
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
-#: ../../admin/install/docker.rst:1185
+#: ../../admin/install/docker.rst:1188
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr ""
 "Имя хоста или IP-адрес сервера Redis. По умолчанию установлен в ``cache``."
 
-#: ../../admin/install/docker.rst:1189
+#: ../../admin/install/docker.rst:1192
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr "Порт сервера Redis. По умолчанию установлен в ``6379``."
 
-#: ../../admin/install/docker.rst:1193
+#: ../../admin/install/docker.rst:1196
 msgid "The Redis database number, defaults to ``1``."
 msgstr "Номер базы данных Redis, по умолчанию установлен в ``1``."
 
-#: ../../admin/install/docker.rst:1197
+#: ../../admin/install/docker.rst:1200
 msgid "The Redis server password, not used by default."
 msgstr "Пароль сервера Redis, по умолчанию не используется."
 
-#: ../../admin/install/docker.rst:1201
+#: ../../admin/install/docker.rst:1204
 #, fuzzy
 #| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the Redis server password."
 msgstr "Пароль для аутентификации по электронной почте."
 
-#: ../../admin/install/docker.rst:1203
+#: ../../admin/install/docker.rst:1206
 #, fuzzy
 #| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`REDIS_PASSWORD`"
 msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1207
+#: ../../admin/install/docker.rst:1210
 msgid "Enables using SSL for Redis connection."
 msgstr "Включает использование SSL для соединения с Redis."
 
-#: ../../admin/install/docker.rst:1211
+#: ../../admin/install/docker.rst:1214
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
 "Может использоваться для отключения проверки SSL-сертификата для соединениий "
 "с Redis."
 
-#: ../../admin/install/docker.rst:1216
+#: ../../admin/install/docker.rst:1219
 msgid "Email server setup"
 msgstr "Настройка почтового сервера"
 
-#: ../../admin/install/docker.rst:1218
+#: ../../admin/install/docker.rst:1221
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
 "Чтобы работала отправка писем электронной почты, необходимо предоставить "
 "почтовый сервер."
 
-#: ../../admin/install/docker.rst:1220
+#: ../../admin/install/docker.rst:1223
 msgid "Example TLS configuration:"
 msgstr "Пример конфигурации TLS:"
 
-#: ../../admin/install/docker.rst:1229
+#: ../../admin/install/docker.rst:1232
 msgid "Example SSL configuration:"
 msgstr "Пример конфигурации SSL:"
 
-#: ../../admin/install/docker.rst:1242
+#: ../../admin/install/docker.rst:1245
 msgid ":ref:`out-mail`"
 msgstr ":ref:`out-mail`"
 
-#: ../../admin/install/docker.rst:1246
+#: ../../admin/install/docker.rst:1249
 msgid "Mail server hostname or IP address."
 msgstr "Имя хоста или IP-адрес почтового сервера."
 
-#: ../../admin/install/docker.rst:1250
+#: ../../admin/install/docker.rst:1253
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
@@ -14233,39 +14247,39 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
-#: ../../admin/install/docker.rst:1257
+#: ../../admin/install/docker.rst:1260
 msgid "Mail server port, defaults to 25."
 msgstr "Порт почтового сервера, по умолчанию установлен в 25."
 
-#: ../../admin/install/docker.rst:1259
+#: ../../admin/install/docker.rst:1262
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
-#: ../../admin/install/docker.rst:1263
+#: ../../admin/install/docker.rst:1266
 msgid "E-mail authentication user."
 msgstr "Пользователь для аутентификации по электронной почте."
 
-#: ../../admin/install/docker.rst:1265
+#: ../../admin/install/docker.rst:1268
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ":setting:`django:EMAIL_HOST_USER`"
 
-#: ../../admin/install/docker.rst:1269
+#: ../../admin/install/docker.rst:1272
 msgid "E-mail authentication password."
 msgstr "Пароль для аутентификации по электронной почте."
 
-#: ../../admin/install/docker.rst:1271
+#: ../../admin/install/docker.rst:1274
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1275
+#: ../../admin/install/docker.rst:1278
 msgid "Path to the file containing the e-mail authentication password."
 msgstr "Пароль для аутентификации по электронной почте."
 
-#: ../../admin/install/docker.rst:1277
+#: ../../admin/install/docker.rst:1280
 msgid ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
 msgstr ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1281
+#: ../../admin/install/docker.rst:1284
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -14279,7 +14293,7 @@ msgstr ""
 "возникли проблемы, попробуйте включить явный TLS параметром :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 
-#: ../../admin/install/docker.rst:1288 ../../admin/install/docker.rst:1306
+#: ../../admin/install/docker.rst:1291 ../../admin/install/docker.rst:1309
 #, fuzzy
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
@@ -14288,7 +14302,7 @@ msgstr ""
 "Поддержка SSL/TLS включается автоматически на основе :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 
-#: ../../admin/install/docker.rst:1293
+#: ../../admin/install/docker.rst:1296
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
@@ -14296,7 +14310,7 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 
-#: ../../admin/install/docker.rst:1299
+#: ../../admin/install/docker.rst:1302
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -14308,7 +14322,7 @@ msgstr ""
 "ваши соединения зависают, попробуйте включить неявный TLS параметром :envvar:"
 "`WEBLATE_EMAIL_USE_SSL`."
 
-#: ../../admin/install/docker.rst:1311
+#: ../../admin/install/docker.rst:1314
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
@@ -14316,55 +14330,55 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 
-#: ../../admin/install/docker.rst:1317
+#: ../../admin/install/docker.rst:1320
 msgid "Configures Django back-end to use for sending e-mails."
 msgstr ""
 "Настраивает бэкенд Django, используемый для отправки сообщений электронной "
 "почты."
 
-#: ../../admin/install/docker.rst:1322
+#: ../../admin/install/docker.rst:1325
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
-#: ../../admin/install/docker.rst:1327
+#: ../../admin/install/docker.rst:1330
 msgid "Configures if and how Weblate should update repositories."
 msgstr "Настраивает, должен ли Weblate обновлять репозитории и каким образом."
 
-#: ../../admin/install/docker.rst:1331
+#: ../../admin/install/docker.rst:1334
 msgid ":setting:`AUTO_UPDATE`"
 msgstr ":setting:`AUTO_UPDATE`"
 
-#: ../../admin/install/docker.rst:1333
+#: ../../admin/install/docker.rst:1336
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 "Это логическое значение параметра (используйте ``\"true\"`` или ``\"false"
 "\"``)."
 
-#: ../../admin/install/docker.rst:1336
+#: ../../admin/install/docker.rst:1339
 msgid "Site integration"
 msgstr "Интеграция с сайтом"
 
-#: ../../admin/install/docker.rst:1340
+#: ../../admin/install/docker.rst:1343
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr "Настраивает параметр :setting:`GET_HELP_URL`."
 
-#: ../../admin/install/docker.rst:1344
+#: ../../admin/install/docker.rst:1347
 msgid "Configures :setting:`STATUS_URL`."
 msgstr "Настраивает параметр :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1348
+#: ../../admin/install/docker.rst:1351
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr "Настраивает параметр :setting:`LEGAL_URL`."
 
-#: ../../admin/install/docker.rst:1352
+#: ../../admin/install/docker.rst:1355
 msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Настраивает параметр :setting:`PRIVACY_URL`."
 
-#: ../../admin/install/docker.rst:1355
+#: ../../admin/install/docker.rst:1358
 msgid "Error reporting"
 msgstr "Отчёты об ошибках"
 
-#: ../../admin/install/docker.rst:1357
+#: ../../admin/install/docker.rst:1360
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
@@ -14372,39 +14386,39 @@ msgstr ""
 "Рекомендуется систематически собирать ошибки от установки, смотрите раздел :"
 "ref:`collecting-errors`."
 
-#: ../../admin/install/docker.rst:1360
+#: ../../admin/install/docker.rst:1363
 msgid "To enable support for Rollbar, set the following:"
 msgstr "Для включения поддержки Rollbar установите следующие переменные:"
 
-#: ../../admin/install/docker.rst:1364
+#: ../../admin/install/docker.rst:1367
 msgid "Your Rollbar post server access token."
 msgstr "Ваш токен доступа к серверу Rollbar."
 
-#: ../../admin/install/docker.rst:1368
+#: ../../admin/install/docker.rst:1371
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr "Ваше окружение Rollbar, по умолчанию установлена в ``production``."
 
-#: ../../admin/install/docker.rst:1370
+#: ../../admin/install/docker.rst:1373
 msgid "To enable support for Sentry, set following:"
 msgstr "Для включения поддержки Sentry установите следующие переменные:"
 
-#: ../../admin/install/docker.rst:1374
+#: ../../admin/install/docker.rst:1377
 msgid "Your Sentry DSN."
 msgstr "Ваш DSN Sentry."
 
-#: ../../admin/install/docker.rst:1378
+#: ../../admin/install/docker.rst:1381
 msgid "Your Sentry Environment (optional)."
 msgstr "Ваше окружение Sentry (необязательная)."
 
-#: ../../admin/install/docker.rst:1381
+#: ../../admin/install/docker.rst:1384
 msgid "Localization CDN"
 msgstr "CDN локализации"
 
-#: ../../admin/install/docker.rst:1388
+#: ../../admin/install/docker.rst:1391
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgstr "Настройки для :ref:`addon-weblate.cdn.cdnjs`."
 
-#: ../../admin/install/docker.rst:1390
+#: ../../admin/install/docker.rst:1393
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
@@ -14413,13 +14427,13 @@ msgstr ""
 "контейнера. Он должен указывать на постоянный том, а не на временное "
 "хранилище."
 
-#: ../../admin/install/docker.rst:1393
+#: ../../admin/install/docker.rst:1396
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr ""
 "Одной из возможных настроек является направление пути внутрь каталога данных "
 "Weblate:"
 
-#: ../../admin/install/docker.rst:1403
+#: ../../admin/install/docker.rst:1406
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
@@ -14427,19 +14441,19 @@ msgstr ""
 "За раздачу файлов, генерируемых Weblate, отвечаете вы, эта переменная только "
 "указывает местоположение, куда их надо сохранять."
 
-#: ../../admin/install/docker.rst:1408
+#: ../../admin/install/docker.rst:1411
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
-#: ../../admin/install/docker.rst:1414
+#: ../../admin/install/docker.rst:1417
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
 "Изменение включённых приложений, проверок, надстроек или автоматических "
 "исправлений"
 
-#: ../../admin/install/docker.rst:1418
+#: ../../admin/install/docker.rst:1421
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
@@ -14447,7 +14461,7 @@ msgstr ""
 "Встроенную конфигурация включённых проверок, надстроек или автоматических "
 "исправлений можно изменить с помощью следующих переменных:"
 
-#: ../../admin/install/docker.rst:1440
+#: ../../admin/install/docker.rst:1443
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
@@ -14455,11 +14469,11 @@ msgstr ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 
-#: ../../admin/install/docker.rst:1446
+#: ../../admin/install/docker.rst:1449
 msgid "Container settings"
 msgstr "Параметры контейнера"
 
-#: ../../admin/install/docker.rst:1452
+#: ../../admin/install/docker.rst:1455
 msgid ""
 "Base number of worker processes running in the container. When not set it is "
 "determined automatically on container startup based on number of CPU cores "
@@ -14469,7 +14483,7 @@ msgstr ""
 "задано, то определяется автоматически при запуске контейнера на основе "
 "количества доступных ядер процессора."
 
-#: ../../admin/install/docker.rst:1456
+#: ../../admin/install/docker.rst:1459
 msgid ""
 "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -14483,7 +14497,7 @@ msgstr ""
 "`CELERY_BEAT_OPTIONS`, и :envvar:`WEB_WORKERS`. Вы можете использовать эти "
 "настройки для точной регулировки."
 
-#: ../../admin/install/docker.rst:1469
+#: ../../admin/install/docker.rst:1472
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
@@ -14493,7 +14507,7 @@ msgstr ""
 "полезно подправить степень параллелизма (``--concurrency 16``) или включить "
 "использование другой реализации пула (``--pool=gevent``)."
 
-#: ../../admin/install/docker.rst:1473
+#: ../../admin/install/docker.rst:1476
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
@@ -14501,7 +14515,7 @@ msgstr ""
 "По умолчанию количество одновременно обработчиков основано на :envvar:"
 "`WEBLATE_WORKERS`."
 
-#: ../../admin/install/docker.rst:1484
+#: ../../admin/install/docker.rst:1487
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
@@ -14509,15 +14523,15 @@ msgstr ""
 ":doc:`Параметры рабочих Celery <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 
-#: ../../admin/install/docker.rst:1489
+#: ../../admin/install/docker.rst:1492
 msgid "Configure how many uWSGI workers should be executed."
 msgstr "Настраивает количество выполняемых рабочих процессов uWSGI."
 
-#: ../../admin/install/docker.rst:1491
+#: ../../admin/install/docker.rst:1494
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgstr "По умолчанию это означает :envvar:`WEBLATE_WORKERS`."
 
-#: ../../admin/install/docker.rst:1502
+#: ../../admin/install/docker.rst:1505
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
@@ -14525,15 +14539,15 @@ msgstr ""
 "Определяет, какие службы должны выполняться внутри контейнера. Используйте "
 "это для :ref:`docker-scaling`."
 
-#: ../../admin/install/docker.rst:1504
+#: ../../admin/install/docker.rst:1507
 msgid "Following services are defined:"
 msgstr "Определены следующие услуги:"
 
-#: ../../admin/install/docker.rst:1508
+#: ../../admin/install/docker.rst:1511
 msgid "``celery-beat``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1507
+#: ../../admin/install/docker.rst:1510
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
@@ -14543,67 +14557,67 @@ msgstr ""
 "Этот контейнер также отвечает за миграцию структуры базы данных и должен "
 "быть запущен раньше других."
 
-#: ../../admin/install/docker.rst:1510
+#: ../../admin/install/docker.rst:1513
 msgid "``celery-backup``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1511
+#: ../../admin/install/docker.rst:1514
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
 "Обработчик Celery для резервного копирования, должен быть запущен только "
 "один."
 
-#: ../../admin/install/docker.rst:1512
+#: ../../admin/install/docker.rst:1515
 msgid "``celery-celery``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1513
+#: ../../admin/install/docker.rst:1516
 msgid "Generic Celery worker."
 msgstr "Общий обработчик Celery."
 
-#: ../../admin/install/docker.rst:1514
+#: ../../admin/install/docker.rst:1517
 #, fuzzy
 #| msgid "``memory``"
 msgid "``celery-memory``"
 msgstr "``memory``"
 
-#: ../../admin/install/docker.rst:1515
+#: ../../admin/install/docker.rst:1518
 msgid "Translation memory Celery worker."
 msgstr "Память переводов обработчиков Celery."
 
-#: ../../admin/install/docker.rst:1516
+#: ../../admin/install/docker.rst:1519
 msgid "``celery-notify``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1517
+#: ../../admin/install/docker.rst:1520
 msgid "Notifications Celery worker."
 msgstr "Обработчики уведомлений Celery."
 
-#: ../../admin/install/docker.rst:1518
+#: ../../admin/install/docker.rst:1521
 #, fuzzy
 #| msgid "``ignore-translated``"
 msgid "``celery-translate``"
 msgstr "``ignore-translated``"
 
-#: ../../admin/install/docker.rst:1519
+#: ../../admin/install/docker.rst:1522
 msgid "Automatic translation Celery worker."
 msgstr "Тип фильтра автоматического перевода обработчика Celery."
 
-#: ../../admin/install/docker.rst:1520
+#: ../../admin/install/docker.rst:1523
 #, fuzzy
 #| msgid "``weblate``"
 msgid "``web``"
 msgstr "``weblate``"
 
-#: ../../admin/install/docker.rst:1521
+#: ../../admin/install/docker.rst:1524
 msgid "Web server."
 msgstr "Веб-сервер."
 
-#: ../../admin/install/docker.rst:1527
+#: ../../admin/install/docker.rst:1530
 msgid "Docker container volumes"
 msgstr "Тома контейнеров Docker’а"
 
-#: ../../admin/install/docker.rst:1529
+#: ../../admin/install/docker.rst:1532
 msgid ""
 "There are two volumes (data and cache) exported by the Weblate container. "
 "The other service containers (PostgreSQL or Redis) have their data volumes "
@@ -14613,7 +14627,7 @@ msgstr ""
 "других сервисов (PostgreSQL или Redis) имеют свои собственные тома данных, "
 "которые в настоящем документе не рассматриваются."
 
-#: ../../admin/install/docker.rst:1533
+#: ../../admin/install/docker.rst:1536
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
@@ -14621,7 +14635,7 @@ msgstr ""
 "Том данных используется для хранения таких постоянных данных Weblate, как "
 "склонированные репозитории, или для настройки установки Weblate."
 
-#: ../../admin/install/docker.rst:1536
+#: ../../admin/install/docker.rst:1539
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -14635,7 +14649,7 @@ msgstr ""
 "каталога docker-compose, имён контейнеров и томов). В контейнере он "
 "монтируется под именем :file:`/app/data`."
 
-#: ../../admin/install/docker.rst:1542
+#: ../../admin/install/docker.rst:1545
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files. Its content is recreated on container startup and the volume "
@@ -14646,7 +14660,7 @@ msgstr ""
 "том может быть смонтирован с использованием эфемерной файловой системы, "
 "такой как `tmpfs`."
 
-#: ../../admin/install/docker.rst:1546
+#: ../../admin/install/docker.rst:1549
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
@@ -14654,17 +14668,17 @@ msgstr ""
 "При создании томов вручную, каталоги должны принадлежать UID 1000, так как "
 "именно этот пользователь используется внутри контейнера."
 
-#: ../../admin/install/docker.rst:1551
+#: ../../admin/install/docker.rst:1554
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr ""
 "`Документация по томам Docker’а <https://docs.docker.com/storage/volumes/>`_"
 
-#: ../../admin/install/docker.rst:1554
+#: ../../admin/install/docker.rst:1557
 msgid "Further configuration customization"
 msgstr "Дальнейшая настройка"
 
-#: ../../admin/install/docker.rst:1556
+#: ../../admin/install/docker.rst:1559
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
@@ -14672,11 +14686,11 @@ msgstr ""
 "Вы можете и дальше настраивать установку Weblate в томе данных, смотрите "
 "раздел :ref:`docker-volume`."
 
-#: ../../admin/install/docker.rst:1562
+#: ../../admin/install/docker.rst:1565
 msgid "Custom configuration files"
 msgstr "Пользовательские файлы конфигурации"
 
-#: ../../admin/install/docker.rst:1564
+#: ../../admin/install/docker.rst:1567
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed at the end of "
@@ -14688,11 +14702,11 @@ msgstr ""
 "выполняется в самом конце встроенных настроек, после загрузки всех настроек "
 "из переменных окружения, так что вы можете подстроить или переопределить их."
 
-#: ../../admin/install/docker.rst:1570
+#: ../../admin/install/docker.rst:1573
 msgid "Replacing logo and other static files"
 msgstr "Замена логотипа и других статических файлов"
 
-#: ../../admin/install/docker.rst:1574
+#: ../../admin/install/docker.rst:1577
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -14704,7 +14718,7 @@ msgstr ""
 "`docker-volume`). Например, создав файл :file:`/app/data/python/customize/"
 "static/favicon.ico`, вы замените им иконку сайта."
 
-#: ../../admin/install/docker.rst:1581
+#: ../../admin/install/docker.rst:1584
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
@@ -14712,7 +14726,7 @@ msgstr ""
 "При запуске контейнера файлы копируются в соответствующее место, поэтому "
 "после изменения содержимого тома Weblate требуется перезапустить."
 
-#: ../../admin/install/docker.rst:1584
+#: ../../admin/install/docker.rst:1587
 msgid ""
 "This approach can be also used to override Weblate templates. For example :"
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
@@ -14722,7 +14736,7 @@ msgstr ""
 "Например, документы :ref:`legal` могут быть помещены в :file:`/app/data/"
 "python/customize/templates/legal/documents`."
 
-#: ../../admin/install/docker.rst:1588
+#: ../../admin/install/docker.rst:1591
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
@@ -14731,11 +14745,11 @@ msgstr ""
 "(смотрите раздел :doc:`../customize`) и добавить его в контейнер Docker’а "
 "отдельным томом, например:"
 
-#: ../../admin/install/docker.rst:1601
+#: ../../admin/install/docker.rst:1604
 msgid "Adding own Python modules"
 msgstr "Добавление собственных модулей Python"
 
-#: ../../admin/install/docker.rst:1605
+#: ../../admin/install/docker.rst:1608
 msgid ""
 "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
@@ -14746,17 +14760,17 @@ msgstr ""
 "быть загружены в Weblate, скорее всего, через :ref:`пользовательские файлы "
 "настроек <docker-custom-config>`."
 
-#: ../../admin/install/docker.rst:1611
+#: ../../admin/install/docker.rst:1614
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1614
+#: ../../admin/install/docker.rst:1617
 #, fuzzy
 #| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring PostgreSQL server"
 msgstr "Настройка Weblate для использования PostgreSQL"
 
-#: ../../admin/install/docker.rst:1616
+#: ../../admin/install/docker.rst:1619
 msgid ""
 "The PostgtreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
@@ -14766,7 +14780,7 @@ msgstr ""
 "которая неэффективно использует ядра процессора или память. Рекомендуется "
 "настроить конфигурацию для повышения производительности."
 
-#: ../../admin/install/docker.rst:1620
+#: ../../admin/install/docker.rst:1623
 msgid ""
 "The configuration can be adjusted as described in `Database Configuration` "
 "at https://hub.docker.com/_/postgres. The configuration matching your "
@@ -16589,10 +16603,10 @@ msgid ""
 "azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_, `"
 "\"Authenticating with a Multi-service resource\" <https://docs.microsoft.com/"
 "en-us/azure/cognitive-services/translator/reference/v3-0-"
-"reference#authenticating-with-a-multi-service-resource>`_` `\"Authenticating "
+"reference#authenticating-with-a-multi-service-resource>`_ `\"Authenticating "
 "with an access token\" section <https://docs.microsoft.com/en-us/azure/"
 "cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
-"an-access-token>`_`"
+"an-access-token>`_"
 msgstr ""
 
 #: ../../admin/machine.rst:322
@@ -46505,6 +46519,9 @@ msgstr ""
 #: ../../workflows.rst:261
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid "Machine translation settings"
+#~ msgstr "Параметры машинного перевода"
 
 #~ msgid "MT_SERVICES"
 #~ msgstr "MT_SERVICES"

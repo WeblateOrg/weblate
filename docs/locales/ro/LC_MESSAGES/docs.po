@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-26 09:01+0200\n"
+"POT-Creation-Date: 2022-05-27 08:01+0200\n"
 "PO-Revision-Date: 2022-05-11 03:15+0000\n"
 "Last-Translator: CRISTIAN ANDREI <cristianvdr@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
@@ -593,8 +593,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:508 ../../admin/install/docker.rst:520
 #: ../../admin/install/docker.rst:537 ../../admin/install/docker.rst:558
 #: ../../admin/install/docker.rst:601 ../../admin/install/docker.rst:615
-#: ../../admin/install/docker.rst:630 ../../admin/install/docker.rst:1430
-#: ../../admin/install/docker.rst:1475 ../../admin/install/docker.rst:1493
+#: ../../admin/install/docker.rst:630 ../../admin/install/docker.rst:1433
+#: ../../admin/install/docker.rst:1478 ../../admin/install/docker.rst:1496
 msgid "**Example:**"
 msgstr "**Exemplu:**"
 
@@ -3898,7 +3898,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ":doc:`psa:backends/azuread`"
 
-#: ../../admin/auth.rst:301 ../../admin/install/docker.rst:1047
+#: ../../admin/auth.rst:301 ../../admin/install/docker.rst:1050
 msgid "Slack"
 msgstr "Slack"
 
@@ -4068,8 +4068,8 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``, ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
-#: ../../admin/auth.rst:406 ../../admin/install/docker.rst:1133
-#: ../../admin/install/docker.rst:1151
+#: ../../admin/auth.rst:406 ../../admin/install/docker.rst:1136
+#: ../../admin/install/docker.rst:1154
 msgid "Example configuration:"
 msgstr "Exemplu de configurare:"
 
@@ -8805,7 +8805,7 @@ msgstr "WEBLATE_ADDONS"
 #: ../../admin/config.rst:1868
 #, fuzzy
 #| msgid "List of file formats available for use."
-msgid "List of machinery services availabe for use."
+msgid "List of machinery services available for use."
 msgstr "Lista de formate de fișiere disponibile pentru utilizare."
 
 #: ../../admin/config.rst:1872
@@ -13582,115 +13582,128 @@ msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgstr "Configurează :setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:866
-msgid "Machine translation settings"
-msgstr "Setări de traducere automată"
+#, fuzzy
+#| msgid "Automatic suggestions"
+msgid "Automatic suggestion settings"
+msgstr "Sugestii automate"
 
 #: ../../admin/install/docker.rst:870
+#, fuzzy
+#| msgid ""
+#| "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-"
+#| "translation`."
 msgid ""
-"Machine translation services are now configured in the user interface. The "
-"existing environment variables are imported during the migration."
+"Automatic suggestion services are now configured in the user interface, see :"
+"ref:`machine-translation-setup`."
+msgstr ""
+"Afișează fila :guilabel:`Sugestii automate`, vezi :ref:`machine-translation`."
+
+#: ../../admin/install/docker.rst:873
+msgid ""
+"The existing environment variables are imported during the migration to "
+"Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
 
-#: ../../admin/install/docker.rst:876
+#: ../../admin/install/docker.rst:879
 msgid "Authentication settings"
 msgstr "Setări de autentificare"
 
-#: ../../admin/install/docker.rst:879
+#: ../../admin/install/docker.rst:882
 msgid "LDAP"
 msgstr "LDAP"
 
-#: ../../admin/install/docker.rst:888
+#: ../../admin/install/docker.rst:891
 #, fuzzy
 #| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
 msgstr ""
 "Calea către fișierul care conține parola de autentificare a e-mailului."
 
-#: ../../admin/install/docker.rst:890
+#: ../../admin/install/docker.rst:893
 #, fuzzy
 #| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
 msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
-#: ../../admin/install/docker.rst:898
+#: ../../admin/install/docker.rst:901
 msgid "LDAP authentication configuration."
 msgstr "Configurarea autentificării LDAP."
 
-#: ../../admin/install/docker.rst:900
+#: ../../admin/install/docker.rst:903
 msgid "**Example for direct bind:**"
 msgstr "**Exemplu pentru legarea directă:**"
 
-#: ../../admin/install/docker.rst:911
+#: ../../admin/install/docker.rst:914
 msgid "**Example for search and bind:**"
 msgstr "**Exemplu pentru căutare și legare:**"
 
-#: ../../admin/install/docker.rst:923
+#: ../../admin/install/docker.rst:926
 msgid "**Example for union search and bind:**"
 msgstr "**Exemplu pentru căutarea și legarea uniunii:**"
 
-#: ../../admin/install/docker.rst:935
+#: ../../admin/install/docker.rst:938
 msgid "**Example with search and bind against Active Directory:**"
 msgstr "**Exemplu cu căutare și legare în Active Directory:**"
 
-#: ../../admin/install/docker.rst:950
+#: ../../admin/install/docker.rst:953
 msgid ":ref:`ldap-auth`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:953
+#: ../../admin/install/docker.rst:956
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ../../admin/install/docker.rst:964
+#: ../../admin/install/docker.rst:967
 msgid "Enables :ref:`github_auth`."
 msgstr "Activează :ref:`github_auth`."
 
-#: ../../admin/install/docker.rst:967
+#: ../../admin/install/docker.rst:970
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
-#: ../../admin/install/docker.rst:974
+#: ../../admin/install/docker.rst:977
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr "Activează :ref:`bitbucket_auth`."
 
-#: ../../admin/install/docker.rst:977
+#: ../../admin/install/docker.rst:980
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../../admin/install/docker.rst:982
+#: ../../admin/install/docker.rst:985
 msgid "Enables :ref:`facebook_auth`."
 msgstr "Activează :ref:`facebook_auth`."
 
-#: ../../admin/install/docker.rst:985
+#: ../../admin/install/docker.rst:988
 msgid "Google"
 msgstr "Google"
 
-#: ../../admin/install/docker.rst:992
+#: ../../admin/install/docker.rst:995
 msgid "Enables :ref:`google_auth`."
 msgstr "Activează :ref:`google_auth`."
 
-#: ../../admin/install/docker.rst:995
+#: ../../admin/install/docker.rst:998
 msgid "GitLab"
 msgstr "GitLab"
 
-#: ../../admin/install/docker.rst:1001
+#: ../../admin/install/docker.rst:1004
 msgid "Enables :ref:`gitlab_auth`."
 msgstr "Activează :ref:`gitlab_auth`."
 
-#: ../../admin/install/docker.rst:1004
+#: ../../admin/install/docker.rst:1007
 msgid "Azure Active Directory"
 msgstr "Directorul Azure Activ"
 
-#: ../../admin/install/docker.rst:1009
+#: ../../admin/install/docker.rst:1012
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
 "Activează autentificarea Azure Active Directory, consultați :ref:`azure-"
 "auth`."
 
-#: ../../admin/install/docker.rst:1012
+#: ../../admin/install/docker.rst:1015
 msgid "Azure Active Directory with Tenant support"
 msgstr "Azure Active Directory cu suport Tenant"
 
-#: ../../admin/install/docker.rst:1018
+#: ../../admin/install/docker.rst:1021
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
@@ -13698,11 +13711,11 @@ msgstr ""
 "Activează autentificarea Azure Active Directory cu suport pentru Tenant, "
 "vezi :ref:`azure-auth`."
 
-#: ../../admin/install/docker.rst:1022
+#: ../../admin/install/docker.rst:1025
 msgid "Keycloak"
 msgstr "Keycloak"
 
-#: ../../admin/install/docker.rst:1033
+#: ../../admin/install/docker.rst:1036
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
@@ -13712,11 +13725,11 @@ msgstr ""
 "com/python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 
-#: ../../admin/install/docker.rst:1037
+#: ../../admin/install/docker.rst:1040
 msgid "Linux vendors"
 msgstr "Furnizori Linux"
 
-#: ../../admin/install/docker.rst:1039
+#: ../../admin/install/docker.rst:1042
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
@@ -13724,15 +13737,15 @@ msgstr ""
 "Puteți activa autentificarea utilizând serviciile de autentificare ale "
 "furnizorilor Linux prin setarea următoarelor variabile la orice valoare."
 
-#: ../../admin/install/docker.rst:1052
+#: ../../admin/install/docker.rst:1055
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr "Activează autentificarea Slack, vezi :ref:`slack-auth`."
 
-#: ../../admin/install/docker.rst:1057
+#: ../../admin/install/docker.rst:1060
 msgid "SAML"
 msgstr "SAML"
 
-#: ../../admin/install/docker.rst:1059
+#: ../../admin/install/docker.rst:1062
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
@@ -13743,15 +13756,15 @@ msgstr ""
 "certificatul și cheia privată în :file:`/app/data/ssl/saml.crt` și :file:`/"
 "app/data/ssl/saml.key`."
 
-#: ../../admin/install/docker.rst:1069
+#: ../../admin/install/docker.rst:1072
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr "Setările furnizorului de identitate SAML, consultați :ref:`saml-auth`."
 
-#: ../../admin/install/docker.rst:1073
+#: ../../admin/install/docker.rst:1076
 msgid "Other authentication settings"
 msgstr "Alte setări de autentificare"
 
-#: ../../admin/install/docker.rst:1077
+#: ../../admin/install/docker.rst:1080
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
@@ -13759,11 +13772,11 @@ msgstr ""
 "Dezactivează autentificarea e-mailurilor atunci când este setat la orice "
 "valoare. A se vedea :ref:`disable-email-auth`."
 
-#: ../../admin/install/docker.rst:1082
+#: ../../admin/install/docker.rst:1085
 msgid "PostgreSQL database setup"
 msgstr "Configurarea bazei de date PostgreSQL"
 
-#: ../../admin/install/docker.rst:1084
+#: ../../admin/install/docker.rst:1087
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
@@ -13771,15 +13784,15 @@ msgstr ""
 "Baza de date este creată de :file:`docker-compose.yml`, astfel încât aceste "
 "setări afectează atât containerele Weblate, cât și PostgreSQL."
 
-#: ../../admin/install/docker.rst:1087
+#: ../../admin/install/docker.rst:1090
 msgid ":ref:`database-setup`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1091
+#: ../../admin/install/docker.rst:1094
 msgid "PostgreSQL password."
 msgstr "Parola PostgreSQL."
 
-#: ../../admin/install/docker.rst:1095
+#: ../../admin/install/docker.rst:1098
 msgid ""
 "Path to the file containing the PostgreSQL password. Use as an alternative "
 "to POSTGRES_PASSWORD."
@@ -13787,27 +13800,27 @@ msgstr ""
 "Calea către fișierul care conține parola PostgreSQL. Se utilizează ca "
 "alternativă la POSTGRES_PASSWORD."
 
-#: ../../admin/install/docker.rst:1099
+#: ../../admin/install/docker.rst:1102
 msgid "PostgreSQL username."
 msgstr "Nume de utilizator PostgreSQL."
 
-#: ../../admin/install/docker.rst:1103
+#: ../../admin/install/docker.rst:1106
 msgid "PostgreSQL database name."
 msgstr "Numele bazei de date PostgreSQL."
 
-#: ../../admin/install/docker.rst:1107
+#: ../../admin/install/docker.rst:1110
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
 "Numele de gazdă sau adresa IP a serverului PostgreSQL. Valoarea implicită "
 "este ``database``."
 
-#: ../../admin/install/docker.rst:1111
+#: ../../admin/install/docker.rst:1114
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
 "Portul serverului PostgreSQL. Valoarea implicită este niciunul (utilizează "
 "valoarea implicită)."
 
-#: ../../admin/install/docker.rst:1115
+#: ../../admin/install/docker.rst:1118
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
@@ -13818,7 +13831,7 @@ msgstr ""
 "<https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-"
 "STATEMENTS>`_"
 
-#: ../../admin/install/docker.rst:1120
+#: ../../admin/install/docker.rst:1123
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
@@ -13826,7 +13839,7 @@ msgstr ""
 "Configurează numele rolului care trebuie modificat în timpul migrărilor, a "
 "se vedea :ref:`config-postgresql`."
 
-#: ../../admin/install/docker.rst:1126
+#: ../../admin/install/docker.rst:1129
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request (this is the default "
@@ -13836,7 +13849,7 @@ msgstr ""
 "secunde. Utilizați 0 pentru a închide conexiunile la baza de date la "
 "sfârșitul fiecărei cereri (acesta este comportamentul implicit)."
 
-#: ../../admin/install/docker.rst:1130
+#: ../../admin/install/docker.rst:1133
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
@@ -13845,13 +13858,13 @@ msgstr ""
 "conexiuni deschise la baza de date. Vă rugăm să ajustați configurația bazei "
 "de date înainte de activare."
 
-#: ../../admin/install/docker.rst:1142
+#: ../../admin/install/docker.rst:1145
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
-#: ../../admin/install/docker.rst:1148
+#: ../../admin/install/docker.rst:1151
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
@@ -13859,7 +13872,7 @@ msgstr ""
 "Dezactivați cursorii de pe server în baza de date. Acest lucru este necesar "
 "în unele configurații :command:`pgbouncer`."
 
-#: ../../admin/install/docker.rst:1160
+#: ../../admin/install/docker.rst:1163
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
@@ -13869,15 +13882,15 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursorsors`"
 
-#: ../../admin/install/docker.rst:1165
+#: ../../admin/install/docker.rst:1168
 msgid "Database backup settings"
 msgstr "Setări de salvare a bazei de date"
 
-#: ../../admin/install/docker.rst:1168
+#: ../../admin/install/docker.rst:1171
 msgid ":ref:`backup-dumps`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1172
+#: ../../admin/install/docker.rst:1175
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
@@ -13885,11 +13898,11 @@ msgstr ""
 "Configurează descărcarea zilnică a bazei de date folosind :setting:"
 "`DATABASE_BACKUP`. Valoarea implicită este ``plain``."
 
-#: ../../admin/install/docker.rst:1176
+#: ../../admin/install/docker.rst:1179
 msgid "Caching server setup"
 msgstr "Configurarea serverului Caching"
 
-#: ../../admin/install/docker.rst:1178
+#: ../../admin/install/docker.rst:1181
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
@@ -13897,79 +13910,79 @@ msgstr ""
 "Utilizarea Redis este puternic recomandată de Weblate și trebuie să "
 "furnizați o instanță Redis atunci când executați Weblate în Docker."
 
-#: ../../admin/install/docker.rst:1181 ../../admin/projects.rst:977
+#: ../../admin/install/docker.rst:1184 ../../admin/projects.rst:977
 msgid ":ref:`production-cache`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1185
+#: ../../admin/install/docker.rst:1188
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr ""
 "Numele de gazdă sau adresa IP a serverului Redis. Valoarea implicită este "
 "``cache``."
 
-#: ../../admin/install/docker.rst:1189
+#: ../../admin/install/docker.rst:1192
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr "Portul serverului Redis. Valoarea implicită este ``6379``."
 
-#: ../../admin/install/docker.rst:1193
+#: ../../admin/install/docker.rst:1196
 msgid "The Redis database number, defaults to ``1``."
 msgstr "Numărul bazei de date Redis, valoarea implicită este ``1``."
 
-#: ../../admin/install/docker.rst:1197
+#: ../../admin/install/docker.rst:1200
 msgid "The Redis server password, not used by default."
 msgstr "Parola serverului Redis, care nu este utilizată în mod implicit."
 
-#: ../../admin/install/docker.rst:1201
+#: ../../admin/install/docker.rst:1204
 #, fuzzy
 #| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the Redis server password."
 msgstr ""
 "Calea către fișierul care conține parola de autentificare a e-mailului."
 
-#: ../../admin/install/docker.rst:1203
+#: ../../admin/install/docker.rst:1206
 #, fuzzy
 #| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`REDIS_PASSWORD`"
 msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1207
+#: ../../admin/install/docker.rst:1210
 msgid "Enables using SSL for Redis connection."
 msgstr "Activează utilizarea SSL pentru conexiunea Redis."
 
-#: ../../admin/install/docker.rst:1211
+#: ../../admin/install/docker.rst:1214
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
 "Poate fi utilizat pentru a dezactiva verificarea certificatului SSL pentru "
 "conexiunea Redis."
 
-#: ../../admin/install/docker.rst:1216
+#: ../../admin/install/docker.rst:1219
 msgid "Email server setup"
 msgstr "Configurarea serverului de e-mail"
 
-#: ../../admin/install/docker.rst:1218
+#: ../../admin/install/docker.rst:1221
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
 "Pentru ca poșta electronică de ieșire să funcționeze, trebuie să furnizați "
 "un server de poștă electronică."
 
-#: ../../admin/install/docker.rst:1220
+#: ../../admin/install/docker.rst:1223
 msgid "Example TLS configuration:"
 msgstr "Exemplu de configurare TLS:"
 
-#: ../../admin/install/docker.rst:1229
+#: ../../admin/install/docker.rst:1232
 msgid "Example SSL configuration:"
 msgstr "Exemplu de configurare SSL:"
 
-#: ../../admin/install/docker.rst:1242
+#: ../../admin/install/docker.rst:1245
 msgid ":ref:`out-mail`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1246
+#: ../../admin/install/docker.rst:1249
 msgid "Mail server hostname or IP address."
 msgstr "Numele de gazdă sau adresa IP a serverului de poștă electronică."
 
-#: ../../admin/install/docker.rst:1250
+#: ../../admin/install/docker.rst:1253
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
@@ -13977,40 +13990,40 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
-#: ../../admin/install/docker.rst:1257
+#: ../../admin/install/docker.rst:1260
 msgid "Mail server port, defaults to 25."
 msgstr "Portul serverului de poștă electronică, valoarea implicită este 25."
 
-#: ../../admin/install/docker.rst:1259
+#: ../../admin/install/docker.rst:1262
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
-#: ../../admin/install/docker.rst:1263
+#: ../../admin/install/docker.rst:1266
 msgid "E-mail authentication user."
 msgstr "Utilizator de autentificare prin e-mail."
 
-#: ../../admin/install/docker.rst:1265
+#: ../../admin/install/docker.rst:1268
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ":setting:`django:EMAIL_HOST_USER`"
 
-#: ../../admin/install/docker.rst:1269
+#: ../../admin/install/docker.rst:1272
 msgid "E-mail authentication password."
 msgstr "Parola de autentificare a e-mailului."
 
-#: ../../admin/install/docker.rst:1271
+#: ../../admin/install/docker.rst:1274
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1275
+#: ../../admin/install/docker.rst:1278
 msgid "Path to the file containing the e-mail authentication password."
 msgstr ""
 "Calea către fișierul care conține parola de autentificare a e-mailului."
 
-#: ../../admin/install/docker.rst:1277
+#: ../../admin/install/docker.rst:1280
 msgid ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
 msgstr ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1281
+#: ../../admin/install/docker.rst:1284
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -14024,13 +14037,13 @@ msgstr ""
 "pe portul 465. Dacă întâmpinați probleme, consultați setarea TLS explicită :"
 "envvar:`WEBLATE_EMAIL_USE_TLS`."
 
-#: ../../admin/install/docker.rst:1288 ../../admin/install/docker.rst:1306
+#: ../../admin/install/docker.rst:1291 ../../admin/install/docker.rst:1309
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1293
+#: ../../admin/install/docker.rst:1296
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
@@ -14038,7 +14051,7 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 
-#: ../../admin/install/docker.rst:1299
+#: ../../admin/install/docker.rst:1302
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -14050,7 +14063,7 @@ msgstr ""
 "general pe portul 587 sau 25. Dacă vă confruntați cu conexiuni care se "
 "blochează, consultați setarea TLS implicită :envvar:`WEBLATE_EMAIL_USE_SSL`."
 
-#: ../../admin/install/docker.rst:1311
+#: ../../admin/install/docker.rst:1314
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
@@ -14058,54 +14071,54 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 
-#: ../../admin/install/docker.rst:1317
+#: ../../admin/install/docker.rst:1320
 msgid "Configures Django back-end to use for sending e-mails."
 msgstr ""
 "Configurează back-end-ul Django care va fi folosit pentru trimiterea de e-"
 "mailuri."
 
-#: ../../admin/install/docker.rst:1322
+#: ../../admin/install/docker.rst:1325
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
-#: ../../admin/install/docker.rst:1327
+#: ../../admin/install/docker.rst:1330
 msgid "Configures if and how Weblate should update repositories."
 msgstr "Configurează dacă și cum Weblate trebuie să actualizeze depozitele."
 
-#: ../../admin/install/docker.rst:1331
+#: ../../admin/install/docker.rst:1334
 msgid ":setting:`AUTO_UPDATE`"
 msgstr ":setare:`AUTO_UPDATE`"
 
-#: ../../admin/install/docker.rst:1333
+#: ../../admin/install/docker.rst:1336
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 "Aceasta este o setare booleană (utilizați ``\"true\"`` sau ``\"false\"``)."
 
-#: ../../admin/install/docker.rst:1336
+#: ../../admin/install/docker.rst:1339
 msgid "Site integration"
 msgstr "Integrare site"
 
-#: ../../admin/install/docker.rst:1340
+#: ../../admin/install/docker.rst:1343
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr "Configurează :setting:`GET_HELP_URL`."
 
-#: ../../admin/install/docker.rst:1344
+#: ../../admin/install/docker.rst:1347
 msgid "Configures :setting:`STATUS_URL`."
 msgstr "Configurează :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1348
+#: ../../admin/install/docker.rst:1351
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr "Configurează :setting:`LEGAL_URL`."
 
-#: ../../admin/install/docker.rst:1352
+#: ../../admin/install/docker.rst:1355
 msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Configurează :setting:`PRIVACY_URL`."
 
-#: ../../admin/install/docker.rst:1355
+#: ../../admin/install/docker.rst:1358
 msgid "Error reporting"
 msgstr "Raportarea erorilor"
 
-#: ../../admin/install/docker.rst:1357
+#: ../../admin/install/docker.rst:1360
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
@@ -14113,39 +14126,39 @@ msgstr ""
 "Se recomandă colectarea sistematică a erorilor de la instalare, a se vedea :"
 "ref:`collecting-errors`."
 
-#: ../../admin/install/docker.rst:1360
+#: ../../admin/install/docker.rst:1363
 msgid "To enable support for Rollbar, set the following:"
 msgstr "Pentru a activa suportul pentru Rollbar, setați următoarele:"
 
-#: ../../admin/install/docker.rst:1364
+#: ../../admin/install/docker.rst:1367
 msgid "Your Rollbar post server access token."
 msgstr "Tokenul tău de acces la serverul Rollbar post."
 
-#: ../../admin/install/docker.rst:1368
+#: ../../admin/install/docker.rst:1371
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr "Mediul dumneavoastră Rollbar, implicit ``production``."
 
-#: ../../admin/install/docker.rst:1370
+#: ../../admin/install/docker.rst:1373
 msgid "To enable support for Sentry, set following:"
 msgstr "Pentru a activa suportul pentru Sentry, setați următoarele:"
 
-#: ../../admin/install/docker.rst:1374
+#: ../../admin/install/docker.rst:1377
 msgid "Your Sentry DSN."
 msgstr "DSN-ul tău Sentry."
 
-#: ../../admin/install/docker.rst:1378
+#: ../../admin/install/docker.rst:1381
 msgid "Your Sentry Environment (optional)."
 msgstr "Mediul dumneavoastră Sentry (opțional)."
 
-#: ../../admin/install/docker.rst:1381
+#: ../../admin/install/docker.rst:1384
 msgid "Localization CDN"
 msgstr "Localizare CDN"
 
-#: ../../admin/install/docker.rst:1388
+#: ../../admin/install/docker.rst:1391
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgstr "Configurație pentru :ref:`addon-weblate.cdn.cdnjs`."
 
-#: ../../admin/install/docker.rst:1390
+#: ../../admin/install/docker.rst:1393
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
@@ -14153,12 +14166,12 @@ msgstr ""
 ":envvar:`WEBLATE_LOCALIZE_CDN_PATH` este calea din container. Acesta trebuie "
 "să fie stocat pe volumul persistent și nu în memoria tranzitorie."
 
-#: ../../admin/install/docker.rst:1393
+#: ../../admin/install/docker.rst:1396
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr ""
 "Una dintre posibilități este stocarea acestora în directorul de date Weblate:"
 
-#: ../../admin/install/docker.rst:1403
+#: ../../admin/install/docker.rst:1406
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
@@ -14166,18 +14179,18 @@ msgstr ""
 "Sunteți responsabil pentru configurarea serviciului de servire a fișierelor "
 "generate de Weblate, acesta doar stochează fișierele în locația configurată."
 
-#: ../../admin/install/docker.rst:1408
+#: ../../admin/install/docker.rst:1411
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
-#: ../../admin/install/docker.rst:1414
+#: ../../admin/install/docker.rst:1417
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
 "Schimbarea aplicațiilor, verificărilor, add-onurilor sau autofixelor activate"
 
-#: ../../admin/install/docker.rst:1418
+#: ../../admin/install/docker.rst:1421
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
@@ -14185,7 +14198,7 @@ msgstr ""
 "Configurația încorporată a verificărilor activate, a suplimentelor sau a "
 "corecțiilor automate poate fi ajustată cu ajutorul următoarelor variabile:"
 
-#: ../../admin/install/docker.rst:1440
+#: ../../admin/install/docker.rst:1443
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
@@ -14193,11 +14206,11 @@ msgstr ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 
-#: ../../admin/install/docker.rst:1446
+#: ../../admin/install/docker.rst:1449
 msgid "Container settings"
 msgstr "Setări container"
 
-#: ../../admin/install/docker.rst:1452
+#: ../../admin/install/docker.rst:1455
 msgid ""
 "Base number of worker processes running in the container. When not set it is "
 "determined automatically on container startup based on number of CPU cores "
@@ -14207,7 +14220,7 @@ msgstr ""
 "este setat, acesta este determinat automat la pornirea containerului pe baza "
 "numărului de nuclee CPU disponibile."
 
-#: ../../admin/install/docker.rst:1456
+#: ../../admin/install/docker.rst:1459
 msgid ""
 "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -14221,7 +14234,7 @@ msgstr ""
 "`CELERY_BEAT_OPTIONS` și :envvar:`WEB_WORKERS`. Puteți utiliza aceste setări "
 "pentru a regla cu precizie."
 
-#: ../../admin/install/docker.rst:1469
+#: ../../admin/install/docker.rst:1472
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
@@ -14231,7 +14244,7 @@ msgstr ""
 "fi utilă pentru a ajusta concurența (``--concurrency 16``) sau pentru a "
 "utiliza o implementare diferită a pool-ului (``--pool=gevent``)."
 
-#: ../../admin/install/docker.rst:1473
+#: ../../admin/install/docker.rst:1476
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
@@ -14239,7 +14252,7 @@ msgstr ""
 "În mod implicit, numărul de lucrători simultani se bazează pe :envvar:"
 "`WEBLATE_WORKERS`."
 
-#: ../../admin/install/docker.rst:1484
+#: ../../admin/install/docker.rst:1487
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
@@ -14247,15 +14260,15 @@ msgstr ""
 ":doc:`Opțiuni pentru lucrător <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 
-#: ../../admin/install/docker.rst:1489
+#: ../../admin/install/docker.rst:1492
 msgid "Configure how many uWSGI workers should be executed."
 msgstr "Configurați câți lucrători uWSGI trebuie să fie executați."
 
-#: ../../admin/install/docker.rst:1491
+#: ../../admin/install/docker.rst:1494
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgstr "Valoarea implicită este :envvar:`WEBLATE_WORKERS`."
 
-#: ../../admin/install/docker.rst:1502
+#: ../../admin/install/docker.rst:1505
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
@@ -14263,15 +14276,15 @@ msgstr ""
 "Definește ce servicii ar trebui să fie executate în interiorul "
 "containerului. Utilizați acest lucru pentru :ref:`docker-scaling`."
 
-#: ../../admin/install/docker.rst:1504
+#: ../../admin/install/docker.rst:1507
 msgid "Following services are defined:"
 msgstr "Sunt definite următoarele servicii:"
 
-#: ../../admin/install/docker.rst:1508
+#: ../../admin/install/docker.rst:1511
 msgid "``celery-beat``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1507
+#: ../../admin/install/docker.rst:1510
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
@@ -14281,60 +14294,60 @@ msgstr ""
 "container este, de asemenea, responsabil pentru migrarea structurii bazei de "
 "date și trebuie să fie pornit înaintea celorlalte."
 
-#: ../../admin/install/docker.rst:1510
+#: ../../admin/install/docker.rst:1513
 msgid "``celery-backup``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1511
+#: ../../admin/install/docker.rst:1514
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
 "Celery worker pentru copii de rezervă, o singură instanță trebuie să ruleze."
 
-#: ../../admin/install/docker.rst:1512
+#: ../../admin/install/docker.rst:1515
 msgid "``celery-celery``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1513
+#: ../../admin/install/docker.rst:1516
 msgid "Generic Celery worker."
 msgstr "Lucrător generic Celery."
 
-#: ../../admin/install/docker.rst:1514
+#: ../../admin/install/docker.rst:1517
 msgid "``celery-memory``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1515
+#: ../../admin/install/docker.rst:1518
 msgid "Translation memory Celery worker."
 msgstr "Memoria de traducere Celery worker."
 
-#: ../../admin/install/docker.rst:1516
+#: ../../admin/install/docker.rst:1519
 msgid "``celery-notify``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1517
+#: ../../admin/install/docker.rst:1520
 msgid "Notifications Celery worker."
 msgstr "Notificări Celery worker."
 
-#: ../../admin/install/docker.rst:1518
+#: ../../admin/install/docker.rst:1521
 msgid "``celery-translate``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1519
+#: ../../admin/install/docker.rst:1522
 msgid "Automatic translation Celery worker."
 msgstr "Traducere automată Celery worker."
 
-#: ../../admin/install/docker.rst:1520
+#: ../../admin/install/docker.rst:1523
 msgid "``web``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1521
+#: ../../admin/install/docker.rst:1524
 msgid "Web server."
 msgstr "Serverul web."
 
-#: ../../admin/install/docker.rst:1527
+#: ../../admin/install/docker.rst:1530
 msgid "Docker container volumes"
 msgstr "Volumele containerelor Docker"
 
-#: ../../admin/install/docker.rst:1529
+#: ../../admin/install/docker.rst:1532
 msgid ""
 "There are two volumes (data and cache) exported by the Weblate container. "
 "The other service containers (PostgreSQL or Redis) have their data volumes "
@@ -14344,7 +14357,7 @@ msgstr ""
 "Celelalte containere de servicii (PostgreSQL sau Redis) au, de asemenea, "
 "volumele lor de date, dar acestea nu sunt acoperite de acest document."
 
-#: ../../admin/install/docker.rst:1533
+#: ../../admin/install/docker.rst:1536
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
@@ -14352,7 +14365,7 @@ msgstr ""
 "Volumul de date este utilizat pentru a stoca date persistente Weblate, cum "
 "ar fi depozitele clonate sau pentru a personaliza instalarea Weblate."
 
-#: ../../admin/install/docker.rst:1536
+#: ../../admin/install/docker.rst:1539
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -14366,7 +14379,7 @@ msgstr ""
 "directorului docker-compose, containerul și numele volumului). În container, "
 "acesta este montat ca :file:`/app/data`."
 
-#: ../../admin/install/docker.rst:1542
+#: ../../admin/install/docker.rst:1545
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files. Its content is recreated on container startup and the volume "
@@ -14377,7 +14390,7 @@ msgstr ""
 "containerului, iar volumul poate fi montat utilizând un sistem de fișiere "
 "efemere, cum ar fi `tmpfs`."
 
-#: ../../admin/install/docker.rst:1546
+#: ../../admin/install/docker.rst:1549
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
@@ -14385,17 +14398,17 @@ msgstr ""
 "La crearea manuală a volumelor, directoarele trebuie să fie deținute de UID "
 "1000, deoarece acesta este utilizatorul utilizat în container."
 
-#: ../../admin/install/docker.rst:1551
+#: ../../admin/install/docker.rst:1554
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>``_"
 
-#: ../../admin/install/docker.rst:1554
+#: ../../admin/install/docker.rst:1557
 msgid "Further configuration customization"
 msgstr "Personalizare suplimentară a configurației"
 
-#: ../../admin/install/docker.rst:1556
+#: ../../admin/install/docker.rst:1559
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
@@ -14403,11 +14416,11 @@ msgstr ""
 "Puteți personaliza în continuare instalarea Weblate în volumul de date, "
 "consultați :ref:`docker-volume`."
 
-#: ../../admin/install/docker.rst:1562
+#: ../../admin/install/docker.rst:1565
 msgid "Custom configuration files"
 msgstr "Fișiere de configurare personalizate"
 
-#: ../../admin/install/docker.rst:1564
+#: ../../admin/install/docker.rst:1567
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed at the end of "
@@ -14419,11 +14432,11 @@ msgstr ""
 "setărilor încorporate, după ce toate setările de mediu sunt încărcate, și le "
 "puteți ajusta sau suprascrie."
 
-#: ../../admin/install/docker.rst:1570
+#: ../../admin/install/docker.rst:1573
 msgid "Replacing logo and other static files"
 msgstr "Înlocuirea logo-ului și a altor fișiere statice"
 
-#: ../../admin/install/docker.rst:1574
+#: ../../admin/install/docker.rst:1577
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -14435,7 +14448,7 @@ msgstr ""
 "De exemplu, crearea :file:`/app/data/python/customize/static/favicon.ico` va "
 "înlocui faviconul."
 
-#: ../../admin/install/docker.rst:1581
+#: ../../admin/install/docker.rst:1584
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
@@ -14444,7 +14457,7 @@ msgstr ""
 "astfel încât este necesară o repornire a Weblate după modificarea "
 "conținutului volumului."
 
-#: ../../admin/install/docker.rst:1584
+#: ../../admin/install/docker.rst:1587
 msgid ""
 "This approach can be also used to override Weblate templates. For example :"
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
@@ -14454,7 +14467,7 @@ msgstr ""
 "Weblate. De exemplu, documentele :ref:`legal` pot fi plasate în :file:`/app/"
 "data/python/customize/templates/legal/documents`."
 
-#: ../../admin/install/docker.rst:1588
+#: ../../admin/install/docker.rst:1591
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
@@ -14463,11 +14476,11 @@ msgstr ""
 "doc:`../customize`) și să îl adăugați ca volum separat la containerul "
 "Docker, de exemplu:"
 
-#: ../../admin/install/docker.rst:1601
+#: ../../admin/install/docker.rst:1604
 msgid "Adding own Python modules"
 msgstr "Adăugarea de module Python proprii"
 
-#: ../../admin/install/docker.rst:1605
+#: ../../admin/install/docker.rst:1608
 msgid ""
 "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
@@ -14477,22 +14490,22 @@ msgstr ""
 "vedea :ref:`docker-volume`) și acestea pot fi apoi încărcate de Weblate, cel "
 "mai probabil prin utilizarea :ref:`docker-custom-config`."
 
-#: ../../admin/install/docker.rst:1611
+#: ../../admin/install/docker.rst:1614
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1614
+#: ../../admin/install/docker.rst:1617
 msgid "Configuring PostgreSQL server"
 msgstr "Configurarea serverului PostgreSQL"
 
-#: ../../admin/install/docker.rst:1616
+#: ../../admin/install/docker.rst:1619
 msgid ""
 "The PostgtreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1620
+#: ../../admin/install/docker.rst:1623
 msgid ""
 "The configuration can be adjusted as described in `Database Configuration` "
 "at https://hub.docker.com/_/postgres. The configuration matching your "
@@ -16281,10 +16294,10 @@ msgid ""
 "azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_, `"
 "\"Authenticating with a Multi-service resource\" <https://docs.microsoft.com/"
 "en-us/azure/cognitive-services/translator/reference/v3-0-"
-"reference#authenticating-with-a-multi-service-resource>`_` `\"Authenticating "
+"reference#authenticating-with-a-multi-service-resource>`_ `\"Authenticating "
 "with an access token\" section <https://docs.microsoft.com/en-us/azure/"
 "cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
-"an-access-token>`_`"
+"an-access-token>`_"
 msgstr ""
 
 #: ../../admin/machine.rst:322
@@ -45981,6 +45994,9 @@ msgstr ""
 #: ../../workflows.rst:261
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid "Machine translation settings"
+#~ msgstr "Setări de traducere automată"
 
 #~ msgid "MT_SERVICES"
 #~ msgstr "MT_SERVICES"
