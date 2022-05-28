@@ -28,7 +28,7 @@ import cairo
 import gi
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.html import escape
+from django.utils.html import format_html
 from PIL import ImageFont
 
 from weblate.utils.checks import weblate_check
@@ -154,7 +154,13 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
 
     # This seems to be only way to set letter spacing
     # See https://stackoverflow.com/q/55533312/225718
-    layout.set_markup(f'<span letter_spacing="{spacing}">{escape(text)}</span>')
+    layout.set_markup(
+        format_html(
+            '<span letter_spacing="{}">{}</span>',
+            spacing,
+            text,
+        )
+    )
 
     # Set width and line wrapping
     layout.set_width(width * Pango.SCALE)
