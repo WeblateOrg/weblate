@@ -278,7 +278,7 @@
         }
         $(this)
           .find(".machinery-number")
-          .html($('<kbd/>').attr('title', title).text(key));
+          .html($("<kbd/>").attr("title", title).text(key));
         Mousetrap.bindGlobal(["mod+m " + key, "mod+m mod+" + key], function () {
           $translationRows.eq(idx).find(".js-copy-machinery").click();
           return false;
@@ -385,7 +385,7 @@
             [key]
           );
         }
-        $number.html($('<kbd/>').attr('title', title).text(key));
+        $number.html($("<kbd/>").attr("title", title).text(key));
 
         Mousetrap.bindGlobal(
           ["mod+i " + key, "mod+i mod+" + key],
