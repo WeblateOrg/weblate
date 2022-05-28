@@ -29,11 +29,8 @@ function decreaseLoading(sel) {
 
 function addAlert(message, kind = "danger", delay = 3000) {
   var alerts = $("#popup-alerts");
-  var e = $(
-    '<div class="alert alert-' +
-      kind +
-      ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
-  );
+  var e = $('<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+  e.addClass('alert-' + kind);
   e.append(new Text(message));
   e.hide();
   alerts.show().append(e);
@@ -146,7 +143,12 @@ function screenshotAddString() {
 
 function screnshotResultError(severity, message) {
   $("#search-results tbody.unit-listing-body").html(
-    '<tr class="' + severity + '"><td colspan="4">' + message + "</td></tr>"
+    $('<tr/>')
+      .addClass(severity)
+      .html(
+        $('<td colspan="4"></td>')
+          .text(message)
+      )
   );
 }
 

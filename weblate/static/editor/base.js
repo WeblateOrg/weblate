@@ -172,7 +172,7 @@ WLT.Editor = (function () {
             title = interpolate(gettext("Ctrl+%s"), [key]);
           }
           $this.attr("title", title);
-          $this.find(hlNumberSelector).html("<kbd>" + key + "</kbd>");
+          $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
           Mousetrap.bindGlobal("mod+" + key, function (e) {
             $this.click();
