@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-01-08 22:16+0000\n"
-"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
+"PO-Revision-Date: 2022-05-29 07:20+0000\n"
+"Last-Translator: Nizami <nizamismidov4@gmail.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
 "documentation/az/>\n"
 "Language: az\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -29,6 +29,8 @@ msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"Weblate bütün instansiya üçün və ya məhdud miqyasda istifadəçi icazələrini "
+"təyin etmək üçü ətraflı imtiyaz sistemi ilə gəlir."
 
 #: ../../admin/access.rst:11
 msgid ""
@@ -37,12 +39,14 @@ msgid ""
 "older, please consult the documentation for the specific version you are "
 "using."
 msgstr ""
+"Weblate 3.0-dan əvvəl imtiyaz sistemi yalnız Django imtiyaz sisteminə "
+"əsaslanırdı, lakin indi xüsusi olaraq Weblate üçün qurulub. Əgər daha köhnə "
+"bir şey istifadə edirsinizsə, istifadə etdiyiniz xüsusi versiya üçün "
+"sənədlərə baxın."
 
 #: ../../admin/access.rst:18
-#, fuzzy
-#| msgid "Version control"
 msgid "Simple access control"
-msgstr "Versiya nəzarəti"
+msgstr "Sadə giriş nəzarəti"
 
 #: ../../admin/access.rst:20
 msgid ""
@@ -52,34 +56,40 @@ msgid ""
 "following settings. If you don’t need any complex setup, those are "
 "sufficient for you."
 msgstr ""
+"Əgər siz bütün Weblate quraşdırmasını idarə etmirsinizsə və sadəcə müəyyən "
+"layihələri idarə etmək imkanınız varsa (məsələn, `Hosted "
+"Weblate-də)<https://hosted.weblate.org/> `_), girişə nəzarət idarəetmə "
+"seçimləriniz aşağıdakı tənzimləmələrlə məhdudlaşır. Hər hansı bir mürəkkəb "
+"quraşdırmaya ehtiyacınız yoxdursa, bunlar sizin üçün kifayətdir."
 
 #: ../../admin/access.rst:28
-#, fuzzy
-#| msgid "Version control"
 msgid "Project access control"
-msgstr "Versiya nəzarəti"
+msgstr "Layihəyə girişə nəzarəti"
 
 #: ../../snippets/not-hosted-libre.rst:3
 msgid ""
 "This feature is unavailable for projects running the Libre plan on Hosted "
 "Weblate."
 msgstr ""
+"Bu funksiya Hosted Weblate-də Pulsuz planı işlədən layihələr üçün əlçatan "
+"deyil."
 
 #: ../../admin/access.rst:32
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "guilabel:`Access control` setting. Available options are:"
 msgstr ""
+"Siz fərqli :guilabel:`Giriş nəzarəti` parametrini seçməklə istifadəçinin "
+"fərdi layihələrə girişini məhdudlaşdıra bilərsiniz. Mövcud variantlar "
+"bunlardır:"
 
 #: ../../admin/access.rst:35
-#, fuzzy
-#| msgid "Public SSH key"
 msgid "Public"
-msgstr "Açıq SSH açarı"
+msgstr "İctimai"
 
 #: ../../admin/access.rst:36
 msgid "Publicly visible, translatable for all signed-in users."
-msgstr ""
+msgstr "Hər kəs görə bilər, bütün daxil olan istifadəçilər tərcümə edə bilər."
 
 #: ../../admin/access.rst:37
 msgid "Protected"
@@ -1681,7 +1691,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:83
 msgid "JavaScript localization CDN"
-msgstr ""
+msgstr "JavaScript lokalizasiyası CDN"
 
 #: ../../admin/addons.rst:87
 msgid "``weblate.cdn.cdnjs``"
@@ -1748,6 +1758,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"JavaScript və ya HTML lokalizasiyasında istifadə üçün məzmun çatdırma "
+"şəbəkəsinə tərcümələri dərc edir."
 
 #: ../../admin/addons.rst:102
 msgid ""
@@ -1768,10 +1780,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:118
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Remove blank strings"
-msgstr "Sətirlər üzərinə yaz"
+msgstr "Boş sətirləri çıxarın"
 
 #: ../../admin/addons.rst:122
 msgid "``weblate.cleanup.blank``"
@@ -1793,10 +1803,8 @@ msgid "repository post-commit, repository post-update"
 msgstr ""
 
 #: ../../admin/addons.rst:126
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "%(translation)s içində çevirmək üçün yeni sətir"
+msgstr "Tərcümə fayllarından tərcüməsi olmayan sətirləri silir."
 
 #: ../../admin/addons.rst:128
 msgid ""
@@ -1835,10 +1843,8 @@ msgstr ""
 "silinməsi deməkdir."
 
 #: ../../admin/addons.rst:156
-#, fuzzy
-#| msgid "No adding of language"
 msgid "Add missing languages"
-msgstr "Dilin əlavəsi yoxdur"
+msgstr "Çatışmayan dilləri əlavə edin"
 
 #: ../../admin/addons.rst:158
 #, fuzzy
@@ -1855,6 +1861,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Layihə daxilində bütün komponentlər üçün ardıcıl dillər dəstinin istifadə "
+"olunmasını təmin edir."
 
 #: ../../admin/addons.rst:165
 msgid ""
@@ -1873,10 +1881,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:178
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Komponent siyahısı"
+msgstr "Komponent kəşfi"
 
 #: ../../admin/addons.rst:180
 #, fuzzy
@@ -2041,6 +2047,8 @@ msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
+"Versiya idarəetmə sistemindəki fayl dəyişiklikləri əsasında layihə "
+"komponentlərini avtomatik olaraq əlavə edir və ya silir."
 
 #: ../../admin/addons.rst:207
 msgid ""
@@ -2079,10 +2087,8 @@ msgid ":ref:`markup`"
 msgstr ""
 
 #: ../../admin/addons.rst:237 ../../user/translating.rst:388
-#, fuzzy
-#| msgid "Open in full editor"
 msgid "Bulk edit"
-msgstr "Tam editorda aç"
+msgstr "Toplu redaktə"
 
 #: ../../admin/addons.rst:241
 msgid "``weblate.flags.bulk``"
@@ -2186,7 +2192,7 @@ msgstr "Şərh əlavə olundu"
 
 #: ../../admin/addons.rst:265
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr ""
+msgstr "İşarələri, etiketləri və ya sətirlərin vəziyyətini toplu redaktə edin."
 
 #: ../../admin/addons.rst:267
 msgid ""
@@ -2238,10 +2244,8 @@ msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 msgstr "Şərh əlavə olundu"
 
 #: ../../admin/addons.rst:300
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Tərcümə olaraq əlavə et"
+msgstr "Dəyişdirilməmiş tərcümələri \"Redaktə olunmalıdır\" kimi qeyd edin"
 
 #: ../../admin/addons.rst:304
 msgid "``weblate.flags.same_edit``"
@@ -2258,6 +2262,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
+"VCS-dən yeni tərcümə edilə bilən sətir idxal edildikdə və o, mənbə sətriylə "
+"toqquşanda, Weblate-də redaktə ehtiyacı kimi qeyd olunur. Tərcümə edilməmiş "
+"sətirlər üçün mənbə sətirlərini ehtiva edən fayl formatları üçün xüsusilə "
+"faydalıdır."
 
 #: ../../admin/addons.rst:314
 msgid ""
@@ -2273,10 +2281,8 @@ msgid ":ref:`states`"
 msgstr "Şərh əlavə olundu"
 
 #: ../../admin/addons.rst:324
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "%s içindəki qaynaq ssətirləri gözdən keçir"
+msgstr "Yeni mənbə sətirlərini \"Redaktə olunmalıdır\" kimi nişanlayın"
 
 #: ../../admin/addons.rst:326
 msgid "``weblate.flags.source_edit``"
@@ -2288,12 +2294,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"VCS-dən yeni mənbə sətri idxal edildikdə, Weblate-də redaktə ehtiyacı kimi "
+"qeyd olunur. Bu yolla siz tərtibatçılar tərəfindən yazılmış mənbə "
+"sətirlərini asanlıqla süzgəcdən keçirə və redaktə edə bilərsiniz."
 
 #: ../../admin/addons.rst:341
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Tərcümə olaraq əlavə et"
+msgstr "Yeni tərcümələri \"Redaktə olunmalıdır\" kimi nişanlayın"
 
 #: ../../admin/addons.rst:343
 msgid "``weblate.flags.target_edit``"
@@ -2305,6 +2312,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"VCS-dən yeni tərcümə edilə bilən sətir idxal edildikdə, Weblate-də redaktə "
+"ehtiyacı kimi qeyd olunur. Bu yolla siz tərtibatçılar tərəfindən yaradılmış "
+"tərcümələri asanlıqla süzgəcdən keçirə və redaktə edə bilərsiniz."
 
 #: ../../admin/addons.rst:358
 #, fuzzy
@@ -2323,10 +2333,8 @@ msgid "``filename``"
 msgstr "Tam adınız"
 
 #: ../../admin/addons.rst:362 ../../admin/addons.rst:375
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Name of generated file"
-msgstr "Açar yaratma uğursuz oldu: %s"
+msgstr "Yaradılan faylın adı"
 
 #: ../../admin/addons.rst:364
 msgid "``template``"
@@ -2334,7 +2342,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:364
 msgid "Content of generated file"
-msgstr ""
+msgstr "Yaradılmış faylın məzmunu"
 
 #: ../../admin/addons.rst:366 ../../admin/addons.rst:485
 #: ../../admin/addons.rst:564 ../../admin/addons.rst:667
@@ -2593,7 +2601,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:518 ../../admin/addons.rst:745
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Uzun sətirləri sürüşdür"
 
 #: ../../admin/addons.rst:518
 msgid ""
@@ -2632,16 +2640,12 @@ msgid "It offers the following options:"
 msgstr ""
 
 #: ../../admin/addons.rst:534
-#, fuzzy
-#| msgid "Trailing newline"
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Sondakı yeni sətir"
+msgstr "Sətirləri 77 simvolda və yeni sətirlərdə sürüşdür"
 
 #: ../../admin/addons.rst:535
-#, fuzzy
-#| msgid "Trailing newline"
 msgid "Only wrap lines at newlines"
-msgstr "Sondakı yeni sətir"
+msgstr "Sətirləri yalnız yeni sətirlərdə sürüşdür"
 
 #: ../../admin/addons.rst:536
 msgid "No line wrapping"
@@ -2682,14 +2686,12 @@ msgid "``path``"
 msgstr ""
 
 #: ../../admin/addons.rst:562
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Path of generated MO file"
-msgstr "Açar yaratma uğursuz oldu: %s"
+msgstr "Yaradılmış MO faylının yolu"
 
 #: ../../admin/addons.rst:562
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Göstərilməsə, PO faylının yeri istifadə ediləcək."
 
 #: ../../admin/addons.rst:566
 msgid "Automatically generates a MO file for every changed PO file."
