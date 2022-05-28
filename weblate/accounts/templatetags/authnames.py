@@ -84,8 +84,11 @@ def get_auth_params(auth: str):
     return params
 
 
+auth_name_default_separator = format_html("<br />")
+
+
 @register.simple_tag
-def auth_name(auth: str, separator: str = "<br />"):
+def auth_name(auth: str, separator: str = auth_name_default_separator):
     """Create HTML markup for social authentication method."""
     params = get_auth_params(auth)
 
