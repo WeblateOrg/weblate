@@ -79,7 +79,7 @@ class NaturalTimeTest(SimpleTestCase):
             expected = format_html(
                 '<span title="{}">{}</span>',
                 testdate.replace(microsecond=0).isoformat(),
-                expected
+                expected,
             )
             self.assertEqual(
                 expected,

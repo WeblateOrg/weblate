@@ -255,7 +255,7 @@ class NormalWidget(BitmapWidget):
                     self.foot_template,
                     npgettext(
                         "Label on engage page", "String", "Strings", self.total
-                    ).upper()
+                    ).upper(),
                 ),
             ],
             [
@@ -264,7 +264,7 @@ class NormalWidget(BitmapWidget):
                     self.foot_template,
                     npgettext(
                         "Label on engage page", "Language", "Languages", self.languages
-                    ).upper()
+                    ).upper(),
                 ),
             ],
             [

@@ -19,8 +19,8 @@
 
 """Tests for unitdata models."""
 
-from django.utils.html import format_html
 from django.urls import reverse
+from django.utils.html import format_html
 
 from weblate.checks.models import Check
 from weblate.checks.tasks import batch_update_checks
