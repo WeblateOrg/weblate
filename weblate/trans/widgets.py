@@ -25,7 +25,7 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.html import escape, format_html
+from django.utils.html import format_html
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
@@ -319,7 +319,10 @@ class OpenGraphWidget(NormalWidget):
 
     def get_title(self, name: str, suffix: str = "") -> str:
         # Translators: Text on OpenGraph image
-        return _("Project %s") % f"<b>{escape(name)}</b>{suffix}"
+        return format_html(
+            _("Project {}"),
+            format_html("<b>{}</b>{}", name, suffix),
+        )
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
