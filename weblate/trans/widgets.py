@@ -25,7 +25,7 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
@@ -250,24 +250,26 @@ class NormalWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                self.head_template.format(number_format(self.total)),
-                self.foot_template.format(
+                format_html(self.head_template, number_format(self.total)),
+                format_html(
+                    self.foot_template,
                     npgettext(
                         "Label on engage page", "String", "Strings", self.total
                     ).upper()
                 ),
             ],
             [
-                self.head_template.format(number_format(self.languages)),
-                self.foot_template.format(
+                format_html(self.head_template, number_format(self.languages)),
+                format_html(
+                    self.foot_template,
                     npgettext(
                         "Label on engage page", "Language", "Languages", self.languages
                     ).upper()
                 ),
             ],
             [
-                self.head_template.format(self.get_percent_text()),
-                self.foot_template.format(_("Translated").upper()),
+                format_html(self.head_template, self.get_percent_text()),
+                format_html(self.foot_template, _("Translated").upper()),
             ],
         ]
 
@@ -284,8 +286,8 @@ class SmallWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                self.head_template.format(self.get_percent_text()),
-                self.foot_template.format(_("Translated").upper()),
+                format_html(self.head_template, self.get_percent_text()),
+                format_html(self.foot_template, _("Translated").upper()),
             ]
         ]
 
@@ -351,7 +353,7 @@ class SiteOpenGraphWidget(OpenGraphWidget):
         return settings.SITE_TITLE
 
     def get_title(self, name: str, suffix: str = "") -> str:
-        return f"<b>{escape(name)}</b>{suffix}"
+        return format_html("<b>{}</b>{}", name, suffix)
 
     def get_text_params(self):
         return {}

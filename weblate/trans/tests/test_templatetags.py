@@ -22,6 +22,7 @@ import datetime
 
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
+from django.utils.html import format_html
 
 from weblate.accounts.models import Profile
 from weblate.checks.tests.test_checks import MockLanguage, MockUnit
@@ -75,8 +76,10 @@ class NaturalTimeTest(SimpleTestCase):
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
             result = naturaltime(testdate, now)
-            expected = '<span title="{}">{}</span>'.format(
-                testdate.replace(microsecond=0).isoformat(), expected
+            expected = format_html(
+                '<span title="{}">{}</span>',
+                testdate.replace(microsecond=0).isoformat(),
+                expected
             )
             self.assertEqual(
                 expected,

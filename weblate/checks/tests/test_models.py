@@ -19,6 +19,7 @@
 
 """Tests for unitdata models."""
 
+from django.utils.html import format_html
 from django.urls import reverse
 
 from weblate.checks.models import Check
@@ -55,8 +56,11 @@ class CheckModelTestCase(FixtureTestCase):
         )
         self.assertEqual(
             str(check.get_description()),
-            '<a href="{0}?pos=0" class="thumbnail">'
-            '<img class="img-responsive" src="{0}?pos=0" /></a>'.format(url),
+            format_html(
+                '<a href="{0}?pos=0" class="thumbnail">'
+                '<img class="img-responsive" src="{0}?pos=0" /></a>',
+                url,
+            ),
         )
         self.assert_png(self.client.get(url))
 
