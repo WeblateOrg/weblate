@@ -122,6 +122,7 @@ def show_engage(request, project, lang=None):
             "project_link": format_html(
                 '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
+            "translate_button_url": obj.get_absolute_url() + "#languages",
             "title": _("Get involved in {0}!").format(obj),
         },
     )
