@@ -664,6 +664,7 @@ def translate(request, project, component, lang):  # noqa: C901
             ).order,
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
+            "comments_to_check": unit.unresolved_comments,
             "machinery_services": json.dumps(
                 list(project.get_machinery_settings().keys())
             ),
