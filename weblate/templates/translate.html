@@ -420,7 +420,7 @@
 
 <div class="col-sm-3 source-info">
 
-{% if unit.all_checks or unit.all_comments or unit.suggestions or variants or display_checks %}
+{% if unit.all_checks or comments_to_check or unit.suggestions or variants or display_checks %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
@@ -490,14 +490,14 @@
     </div>
     {% endfor %}
 
-  {% if unit.all_comments %}
+  {% if comments_to_check %}
     <div class="list-group-item check">
         <h5 class="list-group-item-heading">
             {% documentation_icon 'user/translating' 'comments' right=True %}
             {% icon "comment.svg" %}
             {% trans "Comments" %}
         </h5>
-        <p class="list-group-item-text">{% blocktrans count count=unit.all_comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text">{% blocktrans count count=comments_to_check|length %}There is {{ count }} unresolved comment for this string.{% plural %}There are {{ count }} unresolved comments for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#comments" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>
