@@ -207,6 +207,8 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_view_rst(self):
         response = self.get_counts("rst")
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "text/plain; charset=utf-8")
+        self.assertContains(response, "Weblate <b>Test</b>")
         self.assertContains(response, "weblate@example.org")
 
     def test_counts_view_html(self):
