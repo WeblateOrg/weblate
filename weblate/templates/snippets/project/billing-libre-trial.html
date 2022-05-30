@@ -8,10 +8,10 @@
   {% if user_can_view_billing %}
     {# project admin can request approval #}
     <a href="{{ object.billing.get_absolute_url }}" class="btn btn-primary pull-right flip">{% trans "Request approval for Libre hosting" %}</a>
-    {% trans "This trial project is publicly accessible. Post an announcement and/or lock it to avoid contributions until you finish the setup." %}
+    {% trans "This project in a trial period and is publicly accessible. Post an announcement and/or lock it if you don’t want contributions until you finish the setup." %}
   {% else %}
     {# users are warned that the setup is not yet completed #}
-    {% trans "Back up your translations till the project is fully set up and approved as libre." %}
+    {% trans "This project is in a trial period, be cautious while contributing. Setup can still change before being approved as a libre project." %}
   {% endif %}
   <div class="clearfix"></div>
 {% endblock %}
