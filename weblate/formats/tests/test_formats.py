@@ -1,5 +1,6 @@
 #
 # Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
+# Copyright © 2022 WofWca <wofwca@protonmail.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -323,11 +324,19 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
     def test_flags(self):
-        """Check flags on first translatable unit."""
-        storage = self.parse_file(self.FILE)
-        for unit in storage.content_units:
-            self.assertEqual(unit.flags, self.EXPECTED_FLAGS)
-            break
+        """
+        Check flags on corresponding translatable units.
+
+        If `EXPECTED_FLAGS` is a string instead of a list, check the first units.
+        """
+        units = self.parse_file(self.FILE).content_units
+        if type(self.EXPECTED_FLAGS) is list:
+            expected_list = self.EXPECTED_FLAGS
+        else:
+            expected_list = [self.EXPECTED_FLAGS]
+        for i, expected_flag in enumerate(expected_list):
+            unit = units[i]
+            self.assertEqual(unit.flags, expected_flag)
 
 
 class XMLMixin:
@@ -520,7 +529,7 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     EXPECTED_PATH = "webextension/_locales/cs_CZ/messages.json"
     FIND_CONTEXT = "hello"
     NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
-    EXPECTED_FLAGS = "placeholders:$URL$"
+    EXPECTED_FLAGS = ["placeholders:$URL$", "placeholders:$coUnT$"]
     MONOLINGUAL = True
 
 
