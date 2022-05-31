@@ -23,7 +23,9 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
-from weblate.trans.models import Change
+from weblate.checks.flags import Flags
+from weblate.trans.models import Change, Translation
+from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 
@@ -76,6 +78,9 @@ class LocaleGenerateAddonBase(BaseAddon):
         query,
         prefix: str = "",
         suffix: str = "",
+        var_prefix: str = "",
+        var_suffix: str = "",
+        var_multiplier: float = 0.0,
         target_state: int = STATE_TRANSLATED,
     ):
         updated = 0
@@ -93,7 +98,12 @@ class LocaleGenerateAddonBase(BaseAddon):
                     last_string = source_string
                 else:
                     source_strings[i] = last_string
-            new_strings = [f"{prefix}{source}{suffix}" for source in source_strings]
+            new_strings = []
+            for source in source_strings:
+                multi = int(var_multiplier * len(source))
+                new_strings.append(
+                    f"{prefix}{var_prefix*multi}{source}{var_suffix*multi}{suffix}"
+                )
             target_strings = unit.get_target_plurals()
             if new_strings != target_strings or unit.state < STATE_TRANSLATED:
                 unit.translate(
@@ -131,14 +141,52 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         # Update only untranslated strings
         self.do_update(component, Q(state__lt=STATE_TRANSLATED))
 
+    def get_target_translation(self, component):
+        return component.translation_set.get(pk=self.instance.configuration["target"])
+
     def do_update(self, component, query):
+        try:
+            source_translation = component.translation_set.get(
+                pk=self.instance.configuration["source"]
+            )
+            target_translation = self.get_target_translation(component)
+        except Translation.DoesNotExist:
+            # Uninstall misconfigured add-on
+            report_error(cause="add-on error")
+            self.instance.disable()
+            return
         self.generate_translation(
-            component.translation_set.get(pk=self.instance.configuration["source"]),
-            component.translation_set.get(pk=self.instance.configuration["target"]),
+            source_translation,
+            target_translation,
             prefix=self.instance.configuration["prefix"],
             suffix=self.instance.configuration["suffix"],
+            var_prefix=self.instance.configuration.get("var_prefix", ""),
+            var_suffix=self.instance.configuration.get("var_suffix", ""),
+            var_multiplier=self.instance.configuration.get("var_multiplier", 0.1),
             query=query,
         )
+
+    def post_uninstall(self):
+        try:
+            target_translation = self.get_target_translation(self.instance.component)
+            flags = Flags(target_translation.check_flags)
+            flags.remove("ignore-all-checks")
+            target_translation.check_flags = flags.format()
+            target_translation.save(update_fields=["check_flags"])
+        except Translation.DoesNotExist:
+            pass
+        super().post_uninstall()
+
+    def post_configure(self, run: bool = True):
+        try:
+            target_translation = self.get_target_translation(self.instance.component)
+            flags = Flags(target_translation.check_flags)
+            flags.merge("ignore-all-checks")
+            target_translation.check_flags = flags.format()
+            target_translation.save(update_fields=["check_flags"])
+        except Translation.DoesNotExist:
+            pass
+        super().post_configure(run=run)
 
 
 class PrefillAddon(LocaleGenerateAddonBase):

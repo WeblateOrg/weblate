@@ -276,6 +276,17 @@ class DiscoveryForm(BaseAddonForm):
             "For gettext choose .pot file."
         ),
     )
+    intermediate_template = forms.CharField(
+        label=_("Intermediate language file"),
+        initial="",
+        required=False,
+        help_text=_(
+            "Filename of intermediate translation file. In most cases "
+            "this is a translation file provided by developers and is "
+            "used when creating actual source strings."
+        ),
+    )
+
     language_regex = forms.CharField(
         label=_("Language filter"),
         max_length=200,
@@ -292,7 +303,7 @@ class DiscoveryForm(BaseAddonForm):
         initial=True,
     )
     remove = forms.BooleanField(
-        label=_("Remove components for inexistant files"), required=False
+        label=_("Remove components for inexistent files"), required=False
     )
     confirm = forms.BooleanField(
         label=_("I confirm the above matches look correct"),
@@ -343,7 +354,7 @@ class DiscoveryForm(BaseAddonForm):
     def discovery(self):
         return ComponentDiscovery(
             self._addon.instance.component,
-            **ComponentDiscovery.extract_kwargs(self.cleaned_data)
+            **ComponentDiscovery.extract_kwargs(self.cleaned_data),
         )
 
     def clean(self):
@@ -396,6 +407,9 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_new_base_template(self):
         return self.template_clean("new_base_template")
+
+    def clean_intermediate_template(self):
+        return self.template_clean("intermediate_template")
 
 
 class AutoAddonForm(AutoForm, AddonFormMixin):
@@ -483,16 +497,38 @@ class CDNJSForm(BaseAddonForm):
 
 class PseudolocaleAddonForm(BaseAddonForm):
     source = forms.ChoiceField(label=_("Source strings"), required=True)
-    target = forms.ChoiceField(label=_("Target translation"), required=True)
+    target = forms.ChoiceField(
+        label=_("Target translation"),
+        required=True,
+        help_text=_("All strings in this translation will be overwritten"),
+    )
     prefix = forms.CharField(
-        label=_("String prefix"),
+        label=_("Fixed string prefix"),
+        required=False,
+        initial="",
+    )
+    var_prefix = forms.CharField(
+        label=_("Variable string prefix"),
         required=False,
         initial="",
     )
     suffix = forms.CharField(
-        label=_("String suffix"),
+        label=_("Fixed string suffix"),
         required=False,
         initial="",
+    )
+    var_suffix = forms.CharField(
+        label=_("Variable string suffix"),
+        required=False,
+        initial="",
+    )
+    var_multiplier = forms.FloatField(
+        label=_("Variable part multiplier"),
+        initial=0.1,
+        help_text=_(
+            "How many times to repeat the variable part depending on "
+            "the length of the source string."
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -503,6 +539,19 @@ class PseudolocaleAddonForm(BaseAddonForm):
         ]
         self.fields["source"].choices = choices
         self.fields["target"].choices = choices
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field("source"),
+            Field("target"),
+            Field("prefix"),
+            Field("var_prefix"),
+            Field("suffix"),
+            Field("var_suffix"),
+            Field("var_multiplier"),
+            ContextDiv(
+                template="addons/pseudolocale.html",
+            ),
+        )
 
     def clean(self):
         if self.cleaned_data["source"] == self.cleaned_data["target"]:

@@ -1,8 +1,99 @@
-Weblate 4.11
--------------
+Weblate 4.13
+------------
 
 Not yet released.
 
+* Changed behavior of updating language names.
+* Added pagination to projects listing.
+* API for creating new units now returns information about newly created unit.
+* Component discovery now supports configuring an intermediate language.
+* Added fixed encoding variants to CSV formats.
+* Changed handling of context and location for some formats to better fit underlying implementation.
+* Added support for ResourceDictionary format.
+* Improved progress bar colors for color blind.
+* Fixed variants cleanup on string removal.
+* Compatibility with Django 4.1.
+* Added support for storing escaped XML elements in XLIFF.
+* Improved formatting of placeholder check errors.
+* Redirect /.well-known/change-password to /accounts/password/.
+* Machine translation services are now configurable per project.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
+
+Weblate 4.12.2
+--------------
+
+Released on May 11th 2022.
+
+* Fixed rebuilding project translation memory for some components.
+* Fixed sorting components by untranslated strings.
+* Fixed possible loss of translations while adding new language.
+* Ensure Weblate SSH key is generated during migrations.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?closed=1>`__.
+
+Weblate 4.12.1
+--------------
+
+Released on April 29th 2022.
+
+* Fixed pull request message title.
+* Improved syntax error handling in Fluent format.
+* Fixed avatar display in notification e-mails.
+* Add support for web monetization.
+* Fixed removal of stale source strings when removing translations.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?closed=1>`__.
+
+Weblate 4.12
+------------
+
+Released on April 20th 2022.
+
+* Added support for Amharic in :ref:`check-end-stop`.
+* Added support for Burmese in :ref:`check-end-question`.
+* Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on.
+* Added ``ignore-all-checks`` flag to ignore all quality checks on a string.
+* Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing checks.
+* Added support for :ref:`vcs-gitea`.
+* Added Linux style language code to :ref:`component-language_code_style`.
+* Added support for rebuilding project translation memory.
+* Improved API for creating components from a file.
+* Add copy and clone buttons to other translations.
+* Make merge request message configurable at component level.
+* Improved maximal length restriction behavior with XML tags.
+* Fixed loading Fluent files with additional comments.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
+
+Weblate 4.11.2
+--------------
+
+Released on March 4th 2022.
+
+* Fixed corrupted MO files in the binary release.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?closed=1>`__.
+
+Weblate 4.11.1
+--------------
+
+Released on March 4th 2022.
+
+* Fixed missing sanitizing of arguments to Git and Mercurial - CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details.
+* Fixed loading fuzzy strings from CSV files.
+* Added support for creating teams using the API.
+* Fixed user mention suggestions display.
+* The project tokens access can now be customized.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
+
+Weblate 4.11
+------------
+
+Released on February 25th 2022.
+
+* Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more details.
 * Fixed add-on installation using API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
@@ -21,10 +112,15 @@ Not yet released.
 * New add-on :ref:`addon-weblate.generate.prefill`.
 * Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
 * Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
-* Improved punctionation checks for Burmese.
+* Improved punctuation checks for Burmese.
 * Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
 * Added documentation links to alerts.
 * Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
+* Added support for searching for resolved comments.
+* Added support for borgbackup 1.2.
+* Fixed applying of :guilabel:`Automatically translated` label.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?closed=1>`__.
 
 Weblate 4.10.1
 --------------
@@ -38,6 +134,8 @@ Released on December 22nd 2021.
 * Fixed manually editing page when browsing changes.
 * Improved accuracy of :ref:`check-kashida`.
 * The Weblate Docker container now uses Python 3.10.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/76?closed=1>`__.
 
 Weblate 4.10
 ------------
@@ -226,7 +324,7 @@ Released on April 19th 2021.
 * The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
 * Added trends and metrics for all objects.
-* Added support for direct copying text from secondary languages.
+* Added support for directly copying text from secondary languages.
 * Added date filtering when browsing changes.
 * Improved activity charts.
 * Sender for contact form e-mails can now be configured.

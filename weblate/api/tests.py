@@ -130,7 +130,7 @@ class UserAPITest(APIBaseTest):
     def test_list(self):
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)
-        self.assertFalse("email" in response.data["results"][0])
+        self.assertNotIn("email", response.data["results"][0])
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)
@@ -398,6 +398,26 @@ class GroupAPITest(APIBaseTest):
             request={"name": "Group", "project_selection": 0, "language_selection": 0},
         )
         self.assertEqual(Group.objects.count(), 7)
+
+    def test_create_project(self):
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(Group.objects.count(), 7)
+        group = Group.objects.get(name="Group")
+        self.assertEqual(group.defining_project, self.component.project)
 
     def test_add_role(self):
         role = Role.objects.get(pk=1)
@@ -1327,6 +1347,42 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
+    def test_create_component_local_nonexisting(self):
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.xliff",
+                "template": "en.xliff",
+                "file_format": "xliff",
+                "new_lang": "none",
+            },
+        )
+
+    def test_create_component_local_url(self):
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "filemask": "*.xliff",
+                "file_format": "xliff",
+                "new_lang": "none",
+            },
+        )
+
     def test_patch(self):
         self.do_request(
             "api:project-detail", self.project_kwargs, method="patch", code=403
@@ -1359,7 +1415,48 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "local-project/*.html")
         self.assertEqual(Component.objects.count(), 3)
+
+    def test_create_component_docfile_mask(self):
+        with open(TEST_DOC, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "filemask": "doc/*.html",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "doc/*.html")
+        self.assertEqual(Component.objects.count(), 3)
+
+    def test_create_component_docfile_mask_outside(self):
+        with open(TEST_DOC, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "filemask": "../doc/*.html",
+                },
+            )
+        self.assertEqual(Component.objects.count(), 2)
 
     def test_create_component_docfile_missing(self):
         with open(TEST_DOC, "rb") as handle:
@@ -1926,7 +2023,12 @@ class LanguageAPITest(APIBaseTest):
             superuser=True,
             code=400,
             format="json",
-            request={"code": "new_lang", "name": "New Language", "direction": "rtl"},
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+            },
         )
         response = self.do_request(
             "api:language-list",
@@ -1938,6 +2040,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -1972,6 +2075,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -1987,6 +2091,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -2017,6 +2122,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "cs",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -2707,6 +2813,18 @@ class UnitAPITest(APIBaseTest):
         )
         unit = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit.explanation, "This is good explanation")
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Actual update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            superuser=True,
+            request={"explanation": "This is rejected explanation"},
+        )
 
     def test_unit_flags(self):
         unit = Unit.objects.get(

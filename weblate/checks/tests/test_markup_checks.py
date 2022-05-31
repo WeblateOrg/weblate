@@ -213,14 +213,14 @@ class MarkdownLinkCheckTest(CheckTestCase):
             target="[Moje stránka]",
         )
 
-        self.assertEqual(self.check.get_fixup(unit), None)
+        self.assertIsNone(self.check.get_fixup(unit))
 
     def test_mutliple_ordered(self):
         self.do_test(
             False,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von [Webspät](#weblate)",
                 "md-text",
@@ -231,7 +231,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             True,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von [Webspät](#Webspät)",
                 "md-text",
@@ -241,7 +241,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             True,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von Webspät",
                 "md-text",

@@ -52,19 +52,52 @@ class PlaceholdersTest(CheckTestCase):
         unit = Unit(source="string $URL$", target="string")
         unit.__dict__["all_flags"] = Flags("placeholders:$URL$")
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: $URL$",
+            """
+            Following format strings are missing:
+            <span class="hlcheck" data-value="$URL$">$URL$</span>
+            """,
         )
 
     def test_regexp(self):
         unit = Unit(source="string $URL$", target="string $FOO$")
         unit.__dict__["all_flags"] = Flags(r"""placeholders:r"(\$)([^$]*)(\$)" """)
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: $URL$"
-            "<br />Following format strings are extra: $FOO$",
+            """
+            Following format strings are missing:
+            <span class="hlcheck" data-value="$URL$">$URL$</span>
+            <br />
+            Following format strings are extra:
+            <span class="hlcheck" data-value="$FOO$">$FOO$</span>
+            """,
+        )
+
+    def test_whitespace(self):
+        unit = Unit(source="string {URL} ", target="string {URL}")
+        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\s?{\w+}\s?" """)
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            Following format strings are missing:
+            <span class="hlcheck" data-value=" {URL} ">
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            </span></span></span>
+            {URL}
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            </span></span></span>
+            </span>
+            <br />
+            Following format strings are extra:
+            <span class="hlcheck" data-value=" {URL}">
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            </span></span></span>
+            {URL}
+            </span>
+            """,
         )
 
 

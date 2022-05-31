@@ -258,7 +258,7 @@ def get_display_char(char):
             # Char now known to unicode data
             # This mostly happens for control characters < 0x20
             name = short = char.encode("unicode_escape").decode("ascii")
-    # Use display short name if avilable
+    # Use display short name if available
     short = DISPLAY_CHARS.get(char, short)
     return name, short
 
@@ -325,7 +325,7 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
 
 RTL_CHARS_DATA = [format_char(chr(c)) for c in RTL_CHARS]
 
-# Quotes data, geenrated using scripts/generate-specialchars
+# Quotes data, generated using scripts/generate-specialchars
 ALT_OPEN = {
     "ALL": "‘",
     "af": "‘",

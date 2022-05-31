@@ -17,12 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
+
 from django.conf import settings
+from django.utils.functional import cached_property
 from google.cloud.translate_v3 import TranslationServiceClient
 from google.oauth2 import service_account
 
-from weblate.machinery.base import MissingConfiguration
-from weblate.machinery.google import GoogleBaseTranslation
+from .forms import GoogleV3MachineryForm
+from .google import GoogleBaseTranslation
 
 
 class GoogleV3Translation(GoogleBaseTranslation):
@@ -31,21 +34,29 @@ class GoogleV3Translation(GoogleBaseTranslation):
     setup = None
     name = "Google Translate API v3"
     max_score = 90
+    settings_form = GoogleV3MachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        credentials = settings.MT_GOOGLE_CREDENTIALS
-        project = settings.MT_GOOGLE_PROJECT
-        location = settings.MT_GOOGLE_LOCATION
+    @cached_property
+    def client(self):
+        credentials = service_account.Credentials.from_service_account_info(
+            json.loads(self.settings["credentials"])
+        )
+        return TranslationServiceClient(credentials=credentials)
 
-        if credentials is None or project is None:
-            raise MissingConfiguration("Google Translate requires API key and project")
+    @cached_property
+    def parent(self):
+        project = self.settings["project"]
+        location = self.settings["location"]
+        return f"projects/{project}/locations/{location}"
 
-        credentials = service_account.Credentials.from_service_account_file(credentials)
-
-        self.client = TranslationServiceClient(credentials=credentials)
-        self.parent = f"projects/{project}/locations/{location}"
+    @staticmethod
+    def migrate_settings():
+        with open(settings.MT_GOOGLE_CREDENTIALS) as handle:
+            return {
+                "credentials": handle.read(),
+                "project": settings.MT_GOOGLE_PROJECT,
+                "location": settings.MT_GOOGLE_LOCATION,
+            }
 
     def download_languages(self):
         """List of supported languages."""

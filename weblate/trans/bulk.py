@@ -38,7 +38,7 @@ def bulk_perform(
     project,
     components=None,
 ):
-    matching = unit_set.search(query, project=project).prefetch()
+    matching = unit_set.search(query, distinct=False, project=project).prefetch()
     if components is None:
         components = Component.objects.filter(
             id__in=matching.values_list("translation__component_id", flat=True)

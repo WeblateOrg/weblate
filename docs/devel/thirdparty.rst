@@ -5,6 +5,9 @@ Weblate can be integrated into your framework using :doc:`/api`. This page
 lists third-party libraries which integrate Weblate.
 
 * `Weblate Translation Provider for Symfony Translation <https://github.com/m2mtech/weblate-translation-provider/>`_
+* `Weblate plugin for Figma <https://www.figma.com/community/plugin/1053050985172660071/weblate-integration>`_
+* `WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/javierllorente/weblatefx>`_
+* `JWeblate, a Java-based Weblate library <https://github.com/javierllorente/jweblate>`_
 
 .. hint::
 

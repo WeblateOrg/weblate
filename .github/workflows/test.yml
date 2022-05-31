@@ -60,18 +60,18 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Cache pip
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.2
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Used versions
@@ -98,7 +98,7 @@ jobs:
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: codecov/codecov-action@v3.1.0
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
@@ -110,7 +110,7 @@ jobs:
       run: |
         curl https://deepsource.io/cli | sh
         ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-    - uses: actions/upload-artifact@v2.3.1
+    - uses: actions/upload-artifact@v3.1.0
       if: always()
       with:
         name: Screenshots

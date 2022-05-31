@@ -172,6 +172,11 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_greek_wrong(self):
         self.do_test(True, ("Text?", "Texte", ""), "el")
 
+    def test_my(self):
+        self.do_test(False, ("Text?", "Texte՞", ""), "my")
+        self.do_test(False, ("Text", "Texte՞", ""), "my")
+        self.do_test(True, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+
 
 class EndExclamationCheckTest(CheckTestCase):
     check = EndExclamationCheck()

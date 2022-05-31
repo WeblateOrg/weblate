@@ -137,6 +137,13 @@ A source code link is shown in the web-browser configured in the
     You can find more info on registering custom URL protocols for the editor in
     the `Nette documentation <https://tracy.nette.org/en/open-files-in-ide>`_.
 
+.. _profile-specialchars:
+
+Special characters
+++++++++++++++++++
+
+Additional special characters to include in the :ref:`visual-keyboard`.
+
 .. _subscriptions:
 
 Notifications

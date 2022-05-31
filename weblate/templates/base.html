@@ -13,10 +13,18 @@
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
   {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
+  {% if interledger_payment_pointer %}<meta name="monetization" content="{{ interledger_payment_pointer }}" />{% endif %}
 
   <title>{% include "snippets/title.html" %}</title>
   <meta name="description" content="{{ description }}" />
   <meta name="twitter:card" content="summary_large_image" />
+
+  {% if next_unit_url %}
+  <link rel="next" href="{{ next_unit_url }}" />
+  {% endif %}
+  {% if prev_unit_url %}
+  <link rel="prev" href="{{ prev_unit_url }}" />
+  {% endif %}
 
   {% if object.slug and object.project.slug %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
@@ -90,7 +98,6 @@ var _rollbarConfig = {
   {% endif %}
   <meta name="theme-color" content="#144d3f">
 
-  <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:site_name" content="{{ site_title }}" />
   <meta property="og:title" content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
@@ -137,7 +144,7 @@ var _rollbarConfig = {
             <li><a href="{% url 'projects' %}">{% trans "Browse all projects" %}</a></li>
           </ul>
         </li>
-        {% with languages=user.profile.languages.order_translated %}
+        {% with languages=user.profile.all_languages.order_translated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="languages-menu">{% trans "Languages" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -222,9 +229,12 @@ var _rollbarConfig = {
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
-            {% if payment_enabled %}
-            <li role="separator" class="divider"></li>
-            <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
+            {% if offer_hosting %}
+              <li role="separator" class="divider"></li>
+              {% if payment_enabled %}
+                <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
+              {% endif %}
+              <li><a href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a></li>
             {% endif %}
           </ul>
         </li>

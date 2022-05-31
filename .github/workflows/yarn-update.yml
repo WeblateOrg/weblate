@@ -20,7 +20,7 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3
     - run: ./scripts/yarn-update --no-upgrade
     - name: Update branch
       if: github.ref != 'refs/heads/main'
@@ -29,7 +29,7 @@ jobs:
         commit_message: 'js: Update vendored libraries'
     - name: Create Pull Request
       if: github.ref == 'refs/heads/main'
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v4
       with:
         branch: create-pull-request/yarn-update
         title: 'js: Update vendored libraries'

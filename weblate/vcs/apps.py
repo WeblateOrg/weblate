@@ -21,13 +21,15 @@ import os
 
 from django.apps import AppConfig
 from django.core.checks import Warning, register
+from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.base import RepositoryException
-from weblate.vcs.git import GitRepository
+from weblate.vcs.git import GitRepository, SubversionRepository
+from weblate.vcs.ssh import ensure_ssh_key
 
 GIT_ERRORS = []
 
@@ -77,6 +79,13 @@ class VCSConfig(AppConfig):
         home = data_dir("home")
         if not os.path.exists(home):
             os.makedirs(home)
+
+        post_migrate.connect(self.post_migrate, sender=self)
+
+    def post_migrate(self, sender, **kwargs):
+        ensure_ssh_key()
+        home = data_dir("home")
+
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
@@ -88,6 +97,11 @@ class VCSConfig(AppConfig):
                 GitRepository.global_setup()
             except RepositoryException as error:
                 GIT_ERRORS.append(str(error))
+            if SubversionRepository.is_supported():
+                try:
+                    SubversionRepository.global_setup()
+                except RepositoryException as error:
+                    GIT_ERRORS.append(str(error))
 
         # Use it for *.po by default
         configdir = os.path.join(home, ".config", "git")

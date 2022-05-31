@@ -29,7 +29,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
@@ -146,8 +146,8 @@ def get_view_description(view, html=False):
         doc_url = get_doc_url("api", user=view.request.user)
 
     if html:
-        return formatting.markup_description(description) + mark_safe(
-            DOC_TEXT.format(doc_url)
+        return formatting.markup_description(description) + format_html(
+            DOC_TEXT, doc_url
         )
     return description
 
@@ -189,7 +189,8 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
         """Wrapper for file download."""
         if os.path.isdir(filename):
             response = zip_download(filename, filename)
-            filename = "{}.zip".format(component.slug if component else "weblate")
+            basename = component.slug if component else "weblate"
+            filename = f"{basename}.zip"
         else:
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
@@ -1034,7 +1035,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             author_email = data.get("author_email")
 
         try:
-            not_found, skipped, accepted, total = obj.merge_upload(
+            not_found, skipped, accepted, total = obj.handle_upload(
                 request,
                 data["file"],
                 data["conflicts"],
@@ -1096,8 +1097,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             )
             serializer.is_valid(raise_exception=True)
 
-            obj.add_unit(request, **serializer.as_kwargs())
-            serializer = self.serializer_class(obj, context={"request": request})
+            unit = obj.add_unit(request, **serializer.as_kwargs())
+            serializer = UnitSerializer(unit, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
@@ -1217,7 +1218,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         do_source = "extra_flags" in data or "explanation" in data
         unit = serializer.instance
         translation = unit.translation
-        user = self.request.user
+        request = self.request
+        user = request.user
 
         new_target = data.get("target", [])
         new_state = data.get("state", None)
@@ -1226,11 +1228,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if do_source and (
             not unit.is_source or not user.has_perm("source.edit", translation)
         ):
-            raise PermissionDenied()
+            self.permission_denied(
+                request, "Source strings properties can be set only on source strings"
+            )
 
         if do_translate:
             if unit.readonly:
-                raise PermissionDenied()
+                self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:
                 raise ValidationError(
                     "Please provide both state and target for a partial update"
@@ -1260,7 +1264,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if new_state == STATE_APPROVED and not user.has_perm(
                 "unit.review", translation
             ):
-                raise PermissionDenied()
+                self.permission_denied(
+                    request, "You do not have permission to edit approved strings."
+                )
 
         # Update attributes
         if do_source:
@@ -1285,7 +1291,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         except FileParseError as error:
             obj.translation.component.update_import_alerts(delete=False)
             return Response(
-                data={"error": "Failed to remove the string: %s" % error},
+                data={"error": f"Failed to remove the string: {error}"},
                 status=HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response(status=HTTP_204_NO_CONTENT)

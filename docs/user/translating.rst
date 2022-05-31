@@ -9,6 +9,10 @@ Sometimes suggestions are accepted by users without accounts.
 
 Projects or the components in them are either visible to everyone,
 or only a certain group of translators.
+Alternatively only suggestions are allowed, and possibly only
+accepted once a set number of votes is reached.
+
+:ref:`workflows` has more info on the translation workflow.
 
 .. seealso::
 
@@ -176,8 +180,8 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Submit current form, while editing translation this is same as        |
-|                                           | pressing :guilabel:`Save and continue`.                               |
+| :kbd:`Alt+Enter` or                       | Submit current form; this is same as                                  |
+|                                           | pressing :guilabel:`Save and continue` while editing translation.     |
 | :kbd:`Ctrl+Enter` or                      |                                                                       |
 |                                           |                                                                       |
 | :kbd:`Cmd+Enter`                          |                                                                       |
@@ -222,7 +226,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+O`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` flag.                            |
+| :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` checkbox.                        |
 |                                           |                                                                       |
 | :kbd:`Cmd+Y`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
@@ -238,7 +242,7 @@ or characters that are hard to type.
 
 The shown symbols factor into three categories:
 
-* User-configured characters defined in the :ref:`user-profile`
+* User configured :ref:`profile-specialchars` defined in the :ref:`user-profile`
 * Per-language characters provided by Weblate (e.g. quotes or RTL-specific characters)
 * Characters configured using :setting:`SPECIAL_CHARS`
 
@@ -341,7 +345,7 @@ components (for example the application and its website) or when bootstrapping
 a translation for a new component using existing translations
 (translation memory).
 
-The automatically translated strings are labelled by :guilabel:`Automatically
+The automatically translated strings are labelled :guilabel:`Automatically
 translated`.
 
 .. seealso::

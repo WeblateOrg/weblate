@@ -19,7 +19,8 @@
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation
+from .base import MachineTranslation
+from .forms import MyMemoryMachineryForm
 
 
 class MyMemoryTranslation(MachineTranslation):
@@ -27,6 +28,15 @@ class MyMemoryTranslation(MachineTranslation):
 
     name = "MyMemory"
     do_cleanup = False
+    settings_form = MyMemoryMachineryForm
+
+    @staticmethod
+    def migrate_settings():
+        return {
+            "email": settings.MT_MYMEMORY_EMAIL,
+            "username": settings.MT_MYMEMORY_USER,
+            "key": settings.MT_MYMEMORY_KEY,
+        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
@@ -86,12 +96,12 @@ class MyMemoryTranslation(MachineTranslation):
             "q": text.split(". ")[0][:500],
             "langpair": f"{source}|{language}",
         }
-        if settings.MT_MYMEMORY_EMAIL is not None:
-            args["de"] = settings.MT_MYMEMORY_EMAIL
-        if settings.MT_MYMEMORY_USER is not None:
-            args["user"] = settings.MT_MYMEMORY_USER
-        if settings.MT_MYMEMORY_KEY is not None:
-            args["key"] = settings.MT_MYMEMORY_KEY
+        if self.settings["email"]:
+            args["de"] = self.settings["email"]
+        if self.settings["username"]:
+            args["user"] = self.settings["username"]
+        if self.settings["key"]:
+            args["key"] = self.settings["key"]
 
         response = self.request_status(
             "get", "https://mymemory.translated.net/api/get", params=args

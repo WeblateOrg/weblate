@@ -287,7 +287,7 @@ class Command(BaseCommand):
             self.logger.info("Found %d languages", len(langs))
 
             # Do some basic sanity check on languages
-            if Language.objects.filter(code__in=langs).count() == 0:
+            if not Language.objects.filter(code__in=langs).exists():
                 raise CommandError(
                     "None of matched languages exists, maybe you have "
                     "mixed * and ** in the mask?"

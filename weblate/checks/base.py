@@ -19,8 +19,11 @@
 
 import re
 from io import StringIO
+from typing import Iterable
 
 from django.http import Http404
+from django.utils.html import conditional_escape, format_html, format_html_join
+from django.utils.translation import gettext
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 from siphashc import siphash
@@ -56,12 +59,13 @@ class Check:
 
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""
+        all_flags = unit.all_flags
         # Is this check ignored
-        if self.ignore_string in unit.all_flags:
+        if self.ignore_string in all_flags or "ignore-all-checks" in all_flags:
             return True
 
         # Is this disabled by default
-        if self.default_disabled and self.enable_string not in unit.all_flags:
+        if self.default_disabled and self.enable_string not in all_flags:
             return True
 
         return False
@@ -138,7 +142,7 @@ class Check:
         return get_doc_url("user/checks", self.doc_id, user=user)
 
     def check_highlight(self, source, unit):
-        """Return parts of the text that match to hightlight them.
+        """Return parts of the text that match to highlight them.
 
         Result is list that contains lists of two elements with start position of the
         match and the value of the match
@@ -268,6 +272,32 @@ class TargetCheck(Check):
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError()
 
+    def format_value(self, value: str):
+        from weblate.trans.templatetags.translations import Formatter
+
+        fmt = Formatter(0, value, None, None, None, None, None)
+        fmt.parse()
+        return format_html(
+            """<span class="hlcheck" data-value="{}">{}</span>""", value, fmt.format()
+        )
+
+    def get_values_text(self, message: str, values: Iterable[str]):
+        return format_html_join(
+            ", ",
+            conditional_escape(message),
+            ((self.format_value(value),) for value in sorted(values)),
+        )
+
+    def get_missing_text(self, values: Iterable[str]):
+        return self.get_values_text(
+            gettext("Following format strings are missing: {}"), values
+        )
+
+    def get_extra_text(self, values: Iterable[str]):
+        return self.get_values_text(
+            gettext("Following format strings are extra: {}"), values
+        )
+
 
 class SourceCheck(Check):
     """Basic class for source checks."""
@@ -283,11 +313,10 @@ class SourceCheck(Check):
         raise NotImplementedError()
 
 
-class TargetCheckParametrized(Check):
+class TargetCheckParametrized(TargetCheck):
     """Basic class for target checks with flag value."""
 
     default_disabled = True
-    target = True
 
     def get_value(self, unit):
         return unit.all_flags.get_value(self.enable_string)
@@ -308,10 +337,6 @@ class TargetCheckParametrized(Check):
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""
-        return False
-
-    def check_source_unit(self, source, unit):
-        """We don't check source strings here."""
         return False
 
 

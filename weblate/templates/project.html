@@ -94,6 +94,7 @@
         {% if user_can_edit_project %}
         <li><a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a></li>
         <li><a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a></li>
+        <li><a href="{% url 'machinery-list' project=object.slug %}">{% trans "Automatic suggestions" %}</a></li>
         <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
         {% endif %}
 
@@ -117,7 +118,7 @@
         {% trans "Share" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-    {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
+    {% with share_url=object.get_share_url widgets_url=object.get_widgets_url %}
         <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
         <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation" %}</a></li>
         <li><a href="{% url 'engage' project=object.slug %}">{% trans "Engage page" %}</a></li>

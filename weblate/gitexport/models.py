@@ -28,6 +28,7 @@ from weblate.utils.site import get_site_url
 SUPPORTED_VCS = {
     "git",
     "gerrit",
+    "gitea",
     "github",
     "gitlab",
     "pagure",

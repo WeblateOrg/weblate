@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Auto fixes implemeted for specific environments and not enabled by default."""
+"""Auto fixes implemented for specific environments and not enabled by default."""
 
 
 import re

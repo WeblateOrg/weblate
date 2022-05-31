@@ -25,7 +25,9 @@ import re
 import subprocess
 from typing import Callable, List, Optional, Tuple, Union
 
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from lxml import etree
 from lxml.etree import XMLSyntaxError
@@ -33,7 +35,7 @@ from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
-from translate.storage.csvl10n import csv
+from translate.storage.csvl10n import csv, csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
@@ -63,7 +65,7 @@ from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
-SUPPORTS_FUZZY = (pounit, tsunit)
+SUPPORTS_FUZZY = (pounit, tsunit, csvunit)
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 
 
@@ -207,7 +209,8 @@ class KeyValueUnit(TTKitUnit):
         """Set translation unit target."""
         super().set_target(target)
         # Propagate to value so that searializing of empty values works correctly
-        self.unit.value = self.unit.target
+        if not target:
+            self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
@@ -216,6 +219,7 @@ class TTKitFormat(TranslationFormat):
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
     use_settarget = False
+    force_encoding = None
 
     def __init__(
         self,
@@ -247,6 +251,8 @@ class TTKitFormat(TranslationFormat):
 
     def fixup(self, store):
         """Perform optional fixups on store."""
+        if self.force_encoding is not None:
+            store.encoding = self.force_encoding
         return
 
     def load(self, storefile, template_store):
@@ -276,12 +282,18 @@ class TTKitFormat(TranslationFormat):
     def get_class_kwargs():
         return {}
 
-    def parse_store(self, storefile):
-        """Parse the store."""
-        store = self.get_class()(**self.get_class_kwargs())
+    def get_store_instance(self, **kwargs):
+        kwargs.update(self.get_class_kwargs())
+        store = self.get_class()(**kwargs)
 
         # Apply possible fixups
         self.fixup(store)
+
+        return store
+
+    def parse_store(self, storefile):
+        """Parse the store."""
+        store = self.get_store_instance()
 
         # Read the content
         if isinstance(storefile, str):
@@ -296,7 +308,7 @@ class TTKitFormat(TranslationFormat):
         return store
 
     def add_unit(self, ttkit_unit):
-        """Add new unit to underlaying store."""
+        """Add new unit to underlying store."""
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
             self.store.addunit(ttkit_unit, new=True)
@@ -308,7 +320,7 @@ class TTKitFormat(TranslationFormat):
         self.store.serialize(handle)
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
     @classmethod
@@ -327,6 +339,8 @@ class TTKitFormat(TranslationFormat):
         In some cases Translate Toolkit happily "parses" the file, even though it really
         did not do so (e.g. gettext parser on a random textfile).
         """
+        if not super().is_valid():
+            return False
         if self.store is None:
             return False
 
@@ -481,7 +495,11 @@ class TTKitFormat(TranslationFormat):
     @property
     def all_store_units(self):
         """Wrapper for all store unit filtering out obsolete."""
-        return (unit for unit in self.store.units if not unit.isobsolete())
+        return (
+            unit
+            for unit in self.store.units
+            if not unit.isobsolete() and not unit.isheader()
+        )
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:
         self.store.removeunit(ttkit_unit)
@@ -594,65 +612,11 @@ class XliffUnit(TTKitUnit):
     is context in other formats.
     """
 
-    @cached_property
-    def source(self):
-        """Return source string from a Translate Toolkit unit."""
-        if self.template is not None:
-            # Use target if set, otherwise fall back to source
-            if self.template.target:
-                return rich_to_xliff_string(self.template.rich_target)
-            return rich_to_xliff_string(self.template.rich_source)
-        return rich_to_xliff_string(self.unit.rich_source)
-
-    @cached_property
-    def target(self):
-        """Return target string from a Translate Toolkit unit."""
-        if self.unit is None:
-            return ""
-
-        # Use source for monolingual base if target is not set
-        if self.unit.target is None:
-            if self.parent.is_template:
-                return rich_to_xliff_string(self.unit.rich_source)
-            return ""
-
-        return rich_to_xliff_string(self.unit.rich_target)
-
-    @cached_property
-    def flags(self):
-        flags = Flags(super().flags)
-        flags.merge("xml-text")
-        return flags.format()
-
     def _invalidate_target(self):
         """Invalidate target cache."""
         super()._invalidate_target()
         if "xliff_node" in self.__dict__:
             del self.__dict__["xliff_node"]
-
-    def set_target(self, target):
-        """Set translation unit target."""
-        self._invalidate_target()
-        # Delete the empty target element
-        if not target:
-            xmlnode = self.get_xliff_node()
-            if xmlnode is not None:
-                xmlnode.getparent().remove(xmlnode)
-            return
-        try:
-            converted = xliff_string_to_rich(target)
-        except (XMLSyntaxError, TypeError, KeyError):
-            # KeyError happens on missing attribute
-            converted = [target]
-        if self.template is not None:
-            if self.parent.is_template:
-                # Use source for monolingual files if editing template
-                self.unit.rich_source = converted
-            elif self.unit.source:
-                # Update source to match current source
-                self.unit.rich_source = self.template.rich_source
-        # Always set target, even in monolingual template
-        self.unit.rich_target = converted
 
     def get_xliff_node(self):
         try:
@@ -712,17 +676,17 @@ class XliffUnit(TTKitUnit):
         if state == STATE_FUZZY:
             # Always set state for fuzzy
             self.xliff_node.set("state", "needs-translation")
+        elif state == STATE_TRANSLATED:
+            # Always set state for translated
+            self.xliff_node.set("state", "translated")
+        elif state == STATE_APPROVED:
+            self.xliff_node.set("state", "final")
         elif self.xliff_state:
             # Only update state if it exists
-            if state == STATE_APPROVED:
-                self.xliff_node.set("state", "final")
-            elif state == STATE_TRANSLATED:
-                self.xliff_node.set("state", "translated")
-            else:
-                self.xliff_node.set("state", "new")
+            self.xliff_node.set("state", "new")
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         if self.unit is None:
             return fallback
         if hasattr(self.unit, "isapproved"):
@@ -737,9 +701,106 @@ class XliffUnit(TTKitUnit):
         """
         return (
             not self.mainunit.isheader()
-            and bool(rich_to_xliff_string(self.mainunit.rich_source))
+            and bool(self.source)
             and not self.mainunit.isobsolete()
         )
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        self._invalidate_target()
+        if isinstance(target, list):
+            target = multistring(target)
+        if self.template is not None:
+            if self.parent.is_template:
+                # Use source for monolingual files if editing template
+                self.unit.source = target
+            elif self.unit.source:
+                # Update source to match current source
+                self.unit.source = self.template.source
+        # Always set target, even in monolingual template
+        self.unit.target = target
+
+    @cached_property
+    def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template is not None:
+            # Use target if set, otherwise fall back to source
+            if self.template.target:
+                return get_string(self.template.target)
+            return get_string(self.template.source)
+        return get_string(self.unit.source)
+
+    @cached_property
+    def target(self):
+        """Return target string from a Translate Toolkit unit."""
+        if self.unit is None:
+            return ""
+
+        # Use source for monolingual base if target is not set
+        if self.unit.target is None:
+            if self.parent.is_template:
+                return get_string(self.unit.source)
+            return ""
+
+        return get_string(self.unit.target)
+
+
+class RichXliffUnit(XliffUnit):
+    """Wrapper unit for XLIFF with XML elements."""
+
+    @cached_property
+    def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template is not None:
+            # Use target if set, otherwise fall back to source
+            if self.template.target:
+                return rich_to_xliff_string(self.template.rich_target)
+            return rich_to_xliff_string(self.template.rich_source)
+        return rich_to_xliff_string(self.unit.rich_source)
+
+    @cached_property
+    def target(self):
+        """Return target string from a Translate Toolkit unit."""
+        if self.unit is None:
+            return ""
+
+        # Use source for monolingual base if target is not set
+        if self.unit.target is None:
+            if self.parent.is_template:
+                return rich_to_xliff_string(self.unit.rich_source)
+            return ""
+
+        return rich_to_xliff_string(self.unit.rich_target)
+
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+        flags.merge("xml-text")
+        return flags.format()
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        self._invalidate_target()
+        # Delete the empty target element
+        if not target:
+            xmlnode = self.get_xliff_node()
+            if xmlnode is not None:
+                xmlnode.getparent().remove(xmlnode)
+            return
+        try:
+            converted = xliff_string_to_rich(target)
+        except (XMLSyntaxError, TypeError, KeyError):
+            # KeyError happens on missing attribute
+            converted = [target]
+        if self.template is not None:
+            if self.parent.is_template:
+                # Use source for monolingual files if editing template
+                self.unit.rich_source = converted
+            elif self.unit.source:
+                # Update source to match current source
+                self.unit.rich_source = self.template.rich_source
+        # Always set target, even in monolingual template
+        self.unit.rich_target = converted
 
 
 class FlatXMLUnit(TTKitUnit):
@@ -776,7 +837,7 @@ class TSUnit(MonolingualIDUnit):
     def source(self):
         if self.template is None and self.mainunit.hasplural():
             # Need to apply special magic for plurals here
-            # as there is no singlular/plural in the source string
+            # as there is no singular/plural in the source string
             source = self.unit.source
             return get_string([source.replace("(s)", ""), source.replace("(s)", "s")])
         return super().source
@@ -908,6 +969,12 @@ class CSVUnit(MonolingualSimpleUnit):
     @cached_property
     def target(self):
         return self.unescape_csv(super().target)
+
+    def is_fuzzy(self, fallback=False):
+        # Report fuzzy state only if present in the fields
+        if "fuzzy" not in self.parent.store.fieldnames:
+            return fallback
+        return super().is_fuzzy()
 
 
 class RESXUnit(TTKitUnit):
@@ -1128,9 +1195,9 @@ class TSFormat(TTKitFormat):
 
 class XliffFormat(TTKitFormat):
     name = _("XLIFF translation file")
-    format_id = "xliff"
+    format_id = "plainxliff"
     loader = xlifffile
-    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    autoload = ()
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
@@ -1166,6 +1233,13 @@ class XliffFormat(TTKitFormat):
         return unit
 
 
+class RichXliffFormat(XliffFormat):
+    name = _("XLIFF with placeables support")
+    format_id = "xliff"
+    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    unit_class = RichXliffUnit
+
+
 class PoXliffFormat(XliffFormat):
     name = _("XLIFF with gettext extensions")
     format_id = "poxliff"
@@ -1181,7 +1255,7 @@ class PropertiesBaseFormat(TTKitFormat):
         if not result:
             return False
 
-        # Accept emty file, but reject file without a delimiter.
+        # Accept empty file, but reject file without a delimiter.
         # Translate Toolkit happily parses anything into a property
         # even if there is no delimiter used in the line.
         return not self.store.units or self.store.units[0].delimiter
@@ -1227,13 +1301,8 @@ class PropertiesUtf16Format(PropertiesBaseFormat):
     loader = ("properties", "javafile")
     language_format = "java"
     new_translation = "\n"
-
-    def fixup(self, store):
-        """Force encoding.
-
-        Translate Toolkit autodetection might fail in some cases.
-        """
-        store.encoding = "utf-16"
+    # Translate Toolkit autodetection might fail in some cases.
+    force_encoding = "utf-16"
 
 
 class PropertiesFormat(PropertiesBaseFormat):
@@ -1243,14 +1312,9 @@ class PropertiesFormat(PropertiesBaseFormat):
     language_format = "java"
     new_translation = "\n"
     autoload = ("*.properties",)
-
-    def fixup(self, store):
-        """Force encoding.
-
-        Java properties need to be ISO 8859-1, but Translate Toolkit converts them to
-        UTF-8.
-        """
-        store.encoding = "iso-8859-1"
+    # Java properties need to be ISO 8859-1, but Translate Toolkit converts
+    # them to UTF-8.
+    force_encoding = "iso-8859-1"
 
 
 class JoomlaFormat(PropertiesBaseFormat):
@@ -1316,9 +1380,21 @@ class AndroidFormat(TTKitFormat):
     autoload = ("strings*.xml", "values*.xml")
     language_format = "android"
     check_flags = ("java-format",)
+    autoaddon = {"weblate.cleanup.blank": {}}
 
 
-class JSONFormat(TTKitFormat):
+class DictStoreMixin:
+    @classmethod
+    def validate_context(cls, context: str):
+        id_class = cls.get_class().UnitClass.IdClass
+
+        try:
+            id_class.from_string(context)
+        except Exception as error:
+            raise ValidationError(gettext("Failed to parse the key: %s") % error)
+
+
+class JSONFormat(DictStoreMixin, TTKitFormat):
     name = _("JSON file")
     format_id = "json"
     loader = JsonFile
@@ -1384,7 +1460,7 @@ class CSVFormat(TTKitFormat):
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
     autoload: Tuple[str, ...] = ("*.csv",)
-    encoding = "auto"
+    force_encoding = "auto"
 
     def __init__(
         self,
@@ -1433,13 +1509,11 @@ class CSVFormat(TTKitFormat):
 
     def parse_store(self, storefile):
         """Parse the store."""
-        storeclass = self.get_class()
-
         content, filename = self.get_content_and_filename(storefile)
 
         # Parse file
-        store = storeclass()
-        store.parse(content, sample_length=None)
+        store = self.get_store_instance()
+        store.parse(content, sample_length=40000)
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
             return store
@@ -1460,18 +1534,23 @@ class CSVFormat(TTKitFormat):
         return self.parse_simple_csv(content, filename)
 
     def parse_simple_csv(self, content, filename):
-        storeclass = self.get_class()
-        result = storeclass(fieldnames=["source", "target"], encoding=self.encoding)
+        result = self.get_store_instance(fieldnames=["source", "target"])
         result.parse(content, sample_length=None)
         result.filename = filename
         return result
+
+
+class CSVUtf8Format(CSVFormat):
+    name = _("CSV file (UTF-8)")
+    format_id = "csv-utf-8"
+    force_encoding = "utf-8"
 
 
 class CSVSimpleFormat(CSVFormat):
     name = _("Simple CSV file")
     format_id = "csv-simple"
     autoload: Tuple[str, ...] = ("*.txt",)
-    encoding = "auto"
+    force_encoding = "auto"
 
     @staticmethod
     def extension():
@@ -1488,11 +1567,18 @@ class CSVSimpleFormat(CSVFormat):
 class CSVSimpleFormatISO(CSVSimpleFormat):
     name = _("Simple CSV file (ISO-8859-1)")
     format_id = "csv-simple-iso"
-    encoding = "iso-8859-1"
+    force_encoding = "iso-8859-1"
     autoload = ()
 
 
-class YAMLFormat(TTKitFormat):
+class CSVUtf8SimpleFormat(CSVSimpleFormat):
+    name = _("Simple CSV file (UTF-8)")
+    format_id = "csv-simple-utf-8"
+    force_encoding = "utf-8"
+    autoload = ()
+
+
+class YAMLFormat(DictStoreMixin, TTKitFormat):
     name = _("YAML file")
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
@@ -1545,7 +1631,9 @@ class DTDFormat(TTKitFormat):
 class SubtitleUnit(MonolingualIDUnit):
     @cached_property
     def source(self):
-        return self.template.source
+        if self.template is not None:
+            return self.template.source
+        return self.unit.source
 
     @cached_property
     def target(self):
@@ -1601,6 +1689,19 @@ class FlatXMLFormat(TTKitFormat):
     monolingual = True
     unit_class = FlatXMLUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+
+
+class ResourceDictionaryFormat(FlatXMLFormat):
+    name = _("ResourceDictionary file")
+    format_id = "resourcedictionary"
+    loader = ("resourcedictionary", "ResourceDictionaryFile")
+    check_flags = ("c-sharp-format",)
+    language_format = "java"
+    new_translation = """<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:system="clr-namespace:System;assembly=mscorlib">
+</ResourceDictionary>"""
 
 
 class INIFormat(TTKitFormat):
@@ -1750,14 +1851,7 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     format_id = "xwiki-page-properties"
     loader = ("properties", "XWikiPageProperties")
     language_format = "java"
-
-    def fixup(self, store):
-        """Fix encoding.
-
-        Force encoding to UTF-8 since we inherit from XWikiProperties which force
-        for ISO-8859-1.
-        """
-        store.encoding = "utf-8"
+    force_encoding = "utf-8"
 
     def save_content(self, handle):
         if self.store.root is None:
@@ -1833,7 +1927,7 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     monolingual = True
 
 
-class StringsdictFormat(TTKitFormat):
+class StringsdictFormat(DictStoreMixin, TTKitFormat):
     name = _("Stringsdict file")
     format_id = "stringsdict"
     loader = ("stringsdict", "StringsDictFile")
@@ -1914,3 +2008,19 @@ class FluentFormat(TTKitFormat):
         unit = super().create_unit(key, source, target)
         unit.source = unit.target
         return unit
+
+    def is_valid(self):
+        """Check whether store seems to be valid."""
+        # Workaround for https://github.com/translate/translate/issues/4615
+        for unit in self.store.units:
+            errors = unit.geterrors()
+            if errors:
+                raise ValueError(
+                    "Syntax error: {}".format(
+                        ", ".join(
+                            f"{errorname}: {errortext}"
+                            for errorname, errortext in errors.items()
+                        )
+                    )
+                )
+        return super().is_valid()

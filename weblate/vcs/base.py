@@ -24,12 +24,12 @@ import os
 import os.path
 import subprocess
 from datetime import datetime
-from distutils.version import LooseVersion
 from typing import Iterator, List, Optional
 
 from dateutil import parser
 from django.core.cache import cache
 from django.utils.functional import cached_property
+from packaging.version import Version
 
 from weblate.trans.util import get_clean_env, path_separator
 from weblate.utils.errors import add_breadcrumb
@@ -114,6 +114,14 @@ class Repository:
     @classmethod
     def add_breadcrumb(cls, message, **data):
         add_breadcrumb(category="vcs", message=message, **data)
+
+    @classmethod
+    def add_response_breadcrumb(cls, response):
+        cls.add_breadcrumb(
+            "http.response",
+            status_code=response.status_code,
+            text=response.text,
+        )
 
     @classmethod
     def log(cls, message, level: int = logging.DEBUG):
@@ -371,9 +379,7 @@ class Repository:
             version = cls.get_version()
         except Exception:
             return False
-        return cls.req_version is None or LooseVersion(version) >= LooseVersion(
-            cls.req_version
-        )
+        return cls.req_version is None or Version(version) >= Version(cls.req_version)
 
     @classmethod
     def get_version(cls):
@@ -394,7 +400,7 @@ class Repository:
         return cls._popen(["--version"], merge_err=False)
 
     def set_committer(self, name, mail):
-        """Configure commiter name."""
+        """Configure committer name."""
         raise NotImplementedError()
 
     def commit(

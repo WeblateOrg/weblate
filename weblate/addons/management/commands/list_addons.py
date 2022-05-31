@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """List installed add-ons."""
-        fake_addon = Addon(component=Component(project=Project()))
+        fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
         for _unused, obj in sorted(ADDONS.items()):
             self.stdout.write(f".. _addon-{obj.name}:")
             self.stdout.write("\n")

@@ -18,16 +18,16 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Cache pip
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.2
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.10'
     - name: Used versions
@@ -42,7 +42,7 @@ jobs:
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: codecov/codecov-action@v3.1.0
       with:
         flags: setup
         name: setup
@@ -55,16 +55,16 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Cache pip
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.2
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.10'
     - name: Used versions
@@ -83,15 +83,15 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2.1.7
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3.0.2
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Setup Python
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.10'
     - name: Install pip dependencies
@@ -114,7 +114,7 @@ jobs:
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: codecov/codecov-action@v3.1.0
       with:
         flags: setup
         name: dist

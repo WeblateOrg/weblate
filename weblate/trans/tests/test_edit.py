@@ -24,6 +24,7 @@ from unittest import SkipTest
 
 from django.urls import reverse
 
+from weblate.checks.models import Check
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
@@ -399,6 +400,7 @@ class EditPoMonoTest(EditTest):
 
     def test_remove_unit(self):
         self.assertEqual(self.component.stats.all, 16)
+        unit_count = Unit.objects.count()
         unit = self.get_unit()
         # Deleting translation unit
         response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
@@ -421,6 +423,7 @@ class EditPoMonoTest(EditTest):
         self.assertEqual(response.status_code, 302)
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
+        self.assertEqual(unit_count - 4, Unit.objects.count())
 
 
 class EditIphoneTest(EditTest):
@@ -472,6 +475,18 @@ class EditJSONMonoTest(EditTest):
 
     def create_component(self):
         return self.create_json_mono()
+
+    def test_new_unit_validation(self):
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.file_format = "json-nested"
+        self.component.save()
+        response = self.add_unit("key")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New string has been added")
+        response = self.add_unit("key.['foo']")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Failed to parse the key:")
 
 
 class EditJavaTest(EditTest):
@@ -805,22 +820,34 @@ class EditComplexTest(ViewTestCase):
             reverse("js-ignore-check", kwargs={"check_id": check_id})
         )
         self.assertContains(response, "ok")
+
         # Should have one less failing check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 1)
         self.assertEqual(len(unit.active_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
+
         # Ignore check for all languages
+        ignore_flag = Check.objects.get(pk=int(check_id)).check_obj.ignore_string
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(ignore_url)
-        self.assertContains(response, "ok")
+        self.assertEqual(response.headers["Content-Type"], "application/json")
+
         # Should have one less check
         unit = self.get_unit()
+        self.assertJSONEqual(
+            response.content.decode("utf-8"),
+            {
+                "extra_flags": ignore_flag,
+                "all_flags": unit.all_flags.format(),
+                "ignore_check": ignore_flag,
+            },
+        )
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(len(unit.active_checks), 0)
@@ -880,7 +907,7 @@ class EditComplexTest(ViewTestCase):
     def test_edit_locked(self):
         self.component.locked = True
         self.component.save()
-        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", follow=True)
         # We should get to second message
         self.assertContains(
             response,
@@ -922,3 +949,28 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
+
+    def test_remove_unit(self):
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit_count = Unit.objects.count()
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+        all_units = source_unit.unit_set.exclude(pk__in=[unit.pk, source_unit.pk])
+        # Delete all other units
+        for i, other in enumerate(all_units):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": other.pk})
+            )
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(unit_count - 1 - i, Unit.objects.count())
+        # Deleting translation unit
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 302)
+
+        # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())

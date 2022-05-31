@@ -150,10 +150,15 @@
 
     var form = $row.find("form");
     statusdiv.addClass("unit-state-saving");
+    var payload = form.serialize();
+    if (payload == statusdiv.data("last-payload")) {
+      return;
+    }
+    statusdiv.data("last-payload", payload);
     $.ajax({
       type: "POST",
       url: form.attr("action"),
-      data: form.serialize(),
+      data: payload,
       dataType: "json",
       error: function (jqXHR, textStatus, errorThrown) {
         addAlert(errorThrown);

@@ -173,6 +173,12 @@ LICENSES = (
         True,
     ),
     (
+        "Arphic-1999",
+        "Arphic Public License",
+        "https://spdx.org/licenses/Arphic-1999.html",
+        False,
+    ),
+    (
         "Artistic-1.0",
         "Artistic License 1.0",
         "https://spdx.org/licenses/Artistic-1.0.html",
@@ -202,9 +208,16 @@ LICENSES = (
         "https://spdx.org/licenses/AAL.html",
         True,
     ),
+    ("Baekmuk", "Baekmuk License", "https://spdx.org/licenses/Baekmuk.html", False),
     ("Bahyph", "Bahyph License", "https://spdx.org/licenses/Bahyph.html", False),
     ("Barr", "Barr License", "https://spdx.org/licenses/Barr.html", False),
     ("Beerware", "Beerware License", "https://spdx.org/licenses/Beerware.html", True),
+    (
+        "Bitstream-Vera",
+        "Bitstream Vera Font License",
+        "https://spdx.org/licenses/Bitstream-Vera.html",
+        False,
+    ),
     (
         "BitTorrent-1.0",
         "BitTorrent Open Source License v1.0",
@@ -1320,7 +1333,7 @@ LICENSES = (
     ),
     ("IPA", "IPA Font License", "https://spdx.org/licenses/IPA.html", True),
     ("ISC", "ISC License", "https://spdx.org/licenses/ISC.html", True),
-    ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", False),
+    ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", True),
     (
         "JPNIC",
         "Japan Network Information Center License",
@@ -1334,6 +1347,12 @@ LICENSES = (
         False,
     ),
     ("JSON", "JSON License", "https://spdx.org/licenses/JSON.html", False),
+    (
+        "KiCad-libraries-exception",
+        "KiCad Libraries Exception",
+        "https://spdx.org/licenses/KiCad-libraries-exception.html",
+        False,
+    ),
     (
         "LPPL-1.0",
         "LaTeX Project Public License v1.0",
@@ -1510,6 +1529,7 @@ LICENSES = (
         True,
     ),
     ("mpich2", "mpich2 License", "https://spdx.org/licenses/mpich2.html", False),
+    ("mplus", "mplus Font License", "https://spdx.org/licenses/mplus.html", False),
     (
         "MulanPSL-1.0",
         "Mulan Permissive Software License, Version 1",

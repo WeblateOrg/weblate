@@ -9,7 +9,7 @@ Adding new translations
 New strings can be made available for translation when they appear in the base file,
 called :guilabel:`Template for new translations` (see :ref:`component`).
 If your file format doesn't require such a file, as is the case with most monolingual
-translation flows, you can start with blank files).
+translation flows, you can start with empty files).
 
 New languages can be added right away when requested by a user in Weblate, or a
 notification will be sent to project admins for approval and manual addition.

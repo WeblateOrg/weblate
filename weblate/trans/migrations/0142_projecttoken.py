@@ -3,8 +3,6 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-from weblate.trans.models.projecttoken import generate_token
-
 
 class Migration(migrations.Migration):
 
@@ -29,7 +27,7 @@ class Migration(migrations.Migration):
                 (
                     "token",
                     models.CharField(
-                        default=generate_token,
+                        default="",
                         help_text="Token value to use in API",
                         max_length=100,
                         verbose_name="Token value",

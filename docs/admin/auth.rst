@@ -112,6 +112,13 @@ You need to register an OAuth application on GitHub and then tell Weblate all it
 The GitHub should be configured to have callback URL as
 ``https://example.com/accounts/complete/github/``.
 
+There are similar authentication backends for GitHub for Organizations and
+GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and
+``SOCIAL_AUTH_GITHUB_TEAM_*``, and they require additional setting of the scope
+- ``SOCIAL_AUTH_GITHUB_ORG_NAME`` or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their
+callback URLs are ``https://example.com/accounts/complete/github-org/`` and
+``https://example.com/accounts/complete/github-teams/``.
+
 .. include:: /snippets/oauth-site.rst
 
 .. seealso::
@@ -129,15 +136,15 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        "social_core.backends.bitbucket.BitbucketOAuth",
+        "social_core.backends.bitbucket.BitbucketOAuth2",
         "social_core.backends.email.EmailAuth",
         "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_BITBUCKET_KEY = "Bitbucket Client ID"
-    SOCIAL_AUTH_BITBUCKET_SECRET = "Bitbucket Client Secret"
-    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = "Bitbucket Client ID"
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET = "Bitbucket Client Secret"
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_VERIFIED_EMAILS_ONLY = True
 
 .. include:: /snippets/oauth-site.rst
 
@@ -456,7 +463,7 @@ configure your IDP to provide them:
 
 .. hint::
 
-   The example above and the Docker image define an IDP labelled ``weblate``.
+   The example above and the Docker image define an IDP called ``weblate``.
    You might need to configure this string as :guilabel:`Relay` in your IDP.
 
 .. seealso::

@@ -376,13 +376,17 @@ def github_hook_helper(data, request):
         repos = []
         keys = ["clone_url", "git_url", "ssh_url", "svn_url", "html_url", "url"]
         for key in keys:
-            if key in data["repository"]:
-                repos.append(data["repository"][key])
+            url = data["repository"].get(key)
+            if not url:
+                continue
+            repos.append(url)
+            if url.endswith(".git"):
+                repos.append(url[:-4])
 
     return {
         "service_long_name": "GitHub",
         "repo_url": data["repository"]["url"],
-        "repos": repos,
+        "repos": sorted(set(repos)),
         "branch": branch,
         "full_name": f"{owner}/{slug}.git",
     }

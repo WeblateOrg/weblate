@@ -43,7 +43,6 @@ from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.lang.models import Language
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
@@ -60,7 +59,11 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.templatetags.translations import unit_state_class, unit_state_title
+from weblate.trans.templatetags.translations import (
+    try_linkify_filename,
+    unit_state_class,
+    unit_state_title,
+)
 from weblate.trans.util import join_plural, redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
@@ -190,7 +193,7 @@ def get_other_units(unit):
 
 def cleanup_session(session):
     """Delete old search results from session storage."""
-    now = int(time.time())
+    now = int(time.monotonic())
     keys = list(session.keys())
     for key in keys:
         if not key.startswith("search_"):
@@ -235,7 +238,7 @@ def search(base, project, unit_set, request, blank: bool = False):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = unit_set.search(cleaned_data.get("q", ""), project=project).distinct()
+    allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
 
     # Grab unit IDs
     unit_ids = list(
@@ -244,7 +247,7 @@ def search(base, project, unit_set, request, blank: bool = False):
 
     # Check empty search results
     if not unit_ids and not blank:
-        messages.warning(request, _("No string matched your search!"))
+        messages.warning(request, _("No strings found!"))
         return redirect(base)
 
     # Remove old search results
@@ -257,7 +260,7 @@ def search(base, project, unit_set, request, blank: bool = False):
         "key": session_key,
         "name": str(name),
         "ids": unit_ids,
-        "ttl": int(time.time()) + 86400,
+        "ttl": int(time.monotonic()) + 86400,
     }
     request.session[session_key] = store_result
 
@@ -336,7 +339,7 @@ def perform_translation(unit, form, request):
         return True
 
     # Auto subscribe user
-    if not profile.languages.exists():
+    if not profile.all_languages:
         language = unit.translation.language
         profile.languages.add(language)
         messages.info(
@@ -531,7 +534,7 @@ def translate(request, project, component, lang):  # noqa: C901
     if isinstance(search_result, HttpResponse):
         return search_result
 
-    # Get numer of results
+    # Get number of results
     num_results = len(search_result["ids"])
 
     # Search offset
@@ -550,7 +553,7 @@ def translate(request, project, component, lang):  # noqa: C901
         else:
             offset = None
         if offset is None:
-            messages.warning(request, _("No string matched your search!"))
+            messages.warning(request, _("No strings found!"))
             return redirect(obj)
     else:
         # Check boundaries
@@ -568,9 +571,6 @@ def translate(request, project, component, lang):  # noqa: C901
             messages.error(request, _("Invalid search string!"))
             return redirect(obj)
 
-    # Check locks
-    locked = unit.translation.component.locked
-
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
@@ -580,31 +580,27 @@ def translate(request, project, component, lang):  # noqa: C901
 
     response = None
 
-    # Any form submitted?
-    if "skip" in request.POST:
-        return redirect(next_unit_url)
     if request.method == "POST" and "merge" not in request.POST:
         if (
-            not locked
-            and "accept" not in request.POST
-            and "accept_edit" not in request.POST
-            and "delete" not in request.POST
-            and "spam" not in request.POST
-            and "upvote" not in request.POST
-            and "downvote" not in request.POST
+            "accept" in request.POST
+            or "accept_edit" in request.POST
+            or "delete" in request.POST
+            or "spam" in request.POST
+            or "upvote" in request.POST
+            or "downvote" in request.POST
         ):
-            # Handle translation
-            response = handle_translate(request, unit, this_unit_url, next_unit_url)
-        elif not locked or "delete" in request.POST or "spam" in request.POST:
             # Handle accepting/deleting suggestions
             response = handle_suggestions(request, unit, this_unit_url, next_unit_url)
+        else:
+            # Handle translation
+            response = handle_translate(request, unit, this_unit_url, next_unit_url)
 
     # Handle translation merging
-    elif "merge" in request.POST and not locked:
+    elif "merge" in request.POST:
         response = handle_merge(unit, request, next_unit_url)
 
     # Handle reverting
-    elif "revert" in request.GET and not locked:
+    elif "revert" in request.GET:
         response = handle_revert(unit, request, this_unit_url)
 
     # Pass possible redirect further
@@ -659,7 +655,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "context_form": ContextForm(instance=unit.source_unit, user=user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
-            "locked": locked,
+            "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit),
             "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
@@ -668,11 +664,23 @@ def translate(request, project, component, lang):  # noqa: C901
             ).order,
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
-            "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
+            "machinery_services": json.dumps(
+                list(project.get_machinery_settings().keys())
+            ),
             "new_unit_form": get_new_unit_form(
                 unit.translation, user, initial={"variant": unit.pk}
             ),
             "screenshot_form": screenshot_form,
+            "translation_file_link": lambda: try_linkify_filename(
+                unit.translation.filename,
+                unit.translation.filename,
+                # '1' as a placeholder, because `get_repoweb_link` can't currently
+                # generate links without line specified. Although it's ok to use
+                # '' or '0' on GitHub or GitLab, let's play it safe for now.
+                "1",
+                unit,
+                user.profile,
+            ),
         },
     )
 

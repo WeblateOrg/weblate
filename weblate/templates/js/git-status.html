@@ -4,7 +4,7 @@
 {% load humanize %}
 {% load icons %}
 
-{% with object.needs_commit as needs_commit %}
+{% with needs_commit=object.needs_commit %}
 
 {% perm 'vcs.commit' object as user_can_commit_translation %}
 {% perm 'vcs.update' object as user_can_update_translation %}

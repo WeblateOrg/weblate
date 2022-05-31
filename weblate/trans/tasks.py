@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import os
+import time
 from datetime import date, timedelta
 from glob import glob
-from time import time
 from typing import List, Optional
 
 from celery import current_task
@@ -125,7 +125,7 @@ def update_component_stats(pk):
     for language in Language.objects.filter(
         translation__component=component
     ).iterator():
-        stats = project_stats.get_single_language_stats(language, prefetch=True)
+        stats = project_stats.get_single_language_stats(language)
         stats.ensure_basic()
 
 
@@ -162,9 +162,24 @@ def commit_pending(hours=None, pks=None, logger=None):
         perform_commit.delay(component.pk, "commit_pending", None)
 
 
-def cleanup_sources(project):
-    """Remove stale source Unit objects."""
+@app.task(trail=False)
+def cleanup_project(pk):
+    """
+    Perform cleanup of project models.
+
+    - Remove stale source Unit objects.
+    - Update variants.
+    """
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
+
     for component in project.component_set.filter(template="").iterator():
+        # Remove stale variants
+        with transaction.atomic():
+            component.update_variants()
+
         translation = component.source_translation
         # Skip translations with a filename (eg. when POT file is present)
         if translation.filename:
@@ -174,17 +189,6 @@ def cleanup_sources(project):
             translation.unit_set.annotate(Count("unit")).filter(
                 unit__count__lte=1
             ).delete()
-
-
-@app.task(trail=False)
-def cleanup_project(pk):
-    """Perform cleanup of project models."""
-    try:
-        project = Project.objects.get(pk=pk)
-    except Project.DoesNotExist:
-        return
-
-    cleanup_sources(project)
 
 
 @app.task(trail=False)
@@ -232,7 +236,7 @@ def cleanup_stale_repos():
     prefix = data_dir("vcs")
     vcs_mask = os.path.join(prefix, "*", "*")
 
-    yesterday = time() - 86400
+    yesterday = time.monotonic() - 86400
 
     for path in glob(vcs_mask):
         if not os.path.isdir(path):

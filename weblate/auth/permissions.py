@@ -19,7 +19,6 @@
 
 from django.conf import settings
 
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import (
     Component,
     ComponentList,
@@ -122,7 +121,7 @@ def check_can_edit(user, permission, obj, is_vote=False):
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
     else:
-        raise ValueError(f"Uknown object for permission check: {obj.__class__}")
+        raise ValueError(f"Unknown object for permission check: {obj.__class__}")
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
@@ -321,10 +320,6 @@ def check_contribute(user, permission, translation):
 
 @register_perm("machinery.view")
 def check_machinery(user, permission, obj):
-    # No permission in case there are no machinery services enabled
-    if not MACHINE_TRANSLATION_SERVICES.exists():
-        return False
-
     # No machinery for source without intermediate language
     if (
         isinstance(obj, Translation)

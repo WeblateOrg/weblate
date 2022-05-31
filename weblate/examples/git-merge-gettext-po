@@ -121,14 +121,14 @@ function strip_graveyard()
     msgattrib --no-obsolete
 }
 
-# Take stdin, keep only confict lines and emit the result to stdout
+# Take stdin, keep only conflict lines and emit the result to stdout
 function only_conflicts()
 {
     msggrep --msgstr -F -e '#-#-#-#-#' -
     # alternative slightly worse implementation: msgattrib --only-fuzzy
 }
 
-# Take stdin, discard confict lines and emit the result to stdout
+# Take stdin, discard conflict lines and emit the result to stdout
 function without_conflicts()
 {
     msggrep -v --msgstr -F -e '#-#-#-#-#' -
@@ -191,7 +191,7 @@ fi
 extract_header -o "${TEMP}/header" "$LOCAL"
 
 ##########################################################################
-# Following parts can be run partially parallel and "wait" is used to syncronize processing
+# Following parts can be run partially parallel and "wait" is used to synchronize processing
 
 
 # Clean input files and use logical filenames for possible conflict markers:

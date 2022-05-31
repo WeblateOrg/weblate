@@ -34,7 +34,7 @@ from ruamel.yaml import YAML
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery.models import MACHINERY
 from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
@@ -51,7 +51,7 @@ def ping():
         "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
-        "mt_services": sorted(MACHINE_TRANSLATION_SERVICES.keys()),
+        "mt_services": sorted(MACHINERY.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
         "uid": os.getuid(),
     }
@@ -59,8 +59,8 @@ def ping():
 
 @app.task(trail=False)
 def heartbeat():
-    cache.set("celery_loaded", time.time())
-    cache.set("celery_heartbeat", time.time())
+    cache.set("celery_loaded", time.monotonic())
+    cache.set("celery_heartbeat", time.monotonic())
     cache.set(
         "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
     )
@@ -163,7 +163,7 @@ def database_backup():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    cache.set("celery_loaded", time.time())
+    cache.set("celery_loaded", time.monotonic())
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )

@@ -85,6 +85,7 @@ class ImportTest(ImportBaseTest):
     """Testing of file imports."""
 
     test_file = TEST_PO
+    has_plurals = True
 
     def test_import_normal(self):
         """Test importing normally."""
@@ -150,7 +151,7 @@ class ImportTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
-        self.assertEqual(unit.fuzzy, True)
+        self.assertTrue(unit.fuzzy)
 
         # Verify stats
         translation = self.get_translation()
@@ -165,18 +166,22 @@ class ImportTest(ImportBaseTest):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEqual(unit.translated, False)
+        self.assertFalse(unit.translated)
 
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(translation.stats.suggestions, 1)
+        self.assertEqual(
+            translation.stats.suggestions, 2 if self.test_file == TEST_XLIFF else 1
+        )
 
     def test_import_xliff(self):
         response = self.do_import(test_file=TEST_XLIFF, follow=True)
-        self.assertContains(response, "updated: 1")
+        self.assertContains(
+            response, "updated: 2" if self.has_plurals else "updated: 1"
+        )
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
@@ -277,26 +282,36 @@ class ImportMoPoTest(ImportTest):
 
 
 class ImportJoomlaTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_joomla()
 
 
 class ImportJSONTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_json()
 
 
 class ImportJSONMonoTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_json_mono()
 
 
 class ImportPHPMonoTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_php_mono()
 
 
 class StringsImportTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_iphone()
 

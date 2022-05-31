@@ -107,6 +107,7 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
         r"{URL_PREFIX}/contact/$",  # Optional for contact form
         r"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
+        r"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
     )
 
     class Meta:
@@ -233,7 +234,7 @@ class AuditLogManager(models.Manager):
 
 class AuditLogQuerySet(models.QuerySet):
     def get_after(self, user, after, activity):
-        """Get user activites of given type after another activity.
+        """Get user activities of given type after another activity.
 
         This is mostly used for rate limiting, as it can return the number of failed
         authentication attempts since last login.
@@ -314,7 +315,11 @@ class AuditLog(models.Model):
         return None
 
     def should_notify(self):
-        return self.user.is_active and self.activity in NOTIFY_ACTIVITY
+        return (
+            not self.user.is_bot
+            and self.user.is_active
+            and self.activity in NOTIFY_ACTIVITY
+        )
 
     def check_rate_limit(self, request):
         """Check whether the activity should be rate limited."""
@@ -365,7 +370,6 @@ class Profile(models.Model):
     language = models.CharField(
         verbose_name=_("Interface Language"),
         max_length=10,
-        blank=True,
         choices=settings.LANGUAGES,
     )
     languages = models.ManyToManyField(
@@ -587,6 +591,10 @@ class Profile(models.Model):
         update = {item: F(item) + increase}
         Profile.objects.filter(pk=self.pk).update(**update)
 
+    @cached_property
+    def all_languages(self):
+        return self.languages.all()
+
     @property
     def full_name(self):
         """Return user's full name."""
@@ -666,7 +674,7 @@ class Profile(models.Model):
 
     @cached_property
     def primary_language_ids(self) -> Set[int]:
-        return set(self.languages.values_list("pk", flat=True))
+        return {language.pk for language in self.all_languages}
 
     @cached_property
     def allowed_dashboard_component_lists(self):
@@ -812,9 +820,11 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     """Automatically create token and profile for user."""
     if created:
         # Create API token
-        Token.objects.create(user=instance, key=get_token("wlu"))
+        instance.auth_token = Token.objects.create(
+            user=instance, key=get_token("wlp" if instance.is_bot else "wlu")
+        )
         # Create profile
-        Profile.objects.create(user=instance)
+        instance.profile = Profile.objects.create(user=instance)
         # Create subscriptions
         if not instance.is_anonymous:
             create_default_notifications(instance)

@@ -34,6 +34,7 @@ from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import remove_tree
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
+    GiteaRepository,
     GitForcePushRepository,
     GithubRepository,
     GitLabRepository,
@@ -52,6 +53,11 @@ class GithubFakeRepository(GithubRepository):
 
 
 class GitLabFakeRepository(GitLabRepository):
+    _is_supported = None
+    _version = None
+
+
+class GiteaFakeRepository(GiteaRepository):
     _is_supported = None
     _version = None
 
@@ -137,7 +143,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             path,
             self._remote_branch,
             component=Component(
-                slug="test", name="Test", project=Project(name="Test", slug="test")
+                slug="test",
+                name="Test",
+                project=Project(name="Test", slug="test", pk=-1),
+                pk=-1,
             ),
         )
 
@@ -501,6 +510,120 @@ class VCSGitUpstreamTest(VCSGitTest):
             self._class = backup
 
 
+@override_settings(GITEA_USERNAME="test", GITEA_TOKEN="token")
+class VCSGiteaTest(VCSGitUpstreamTest):
+    _class = GiteaFakeRepository
+    _vcs = "git"
+    _sets_push = False
+
+    def mock_responses(self, pr_response, pr_status=200):
+        """Mock response helper function.
+
+        This function will mock request responses for both fork and PRs
+        """
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
+            json={"ssh_url": "git@github.com:test/test.git"},
+        )
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls",
+            json=pr_response,
+            status=pr_status,
+        )
+
+    def test_api_url_github_com(self):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test/"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "git@try.gitea.io:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "try.gitea.io:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "try.gitea.io:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test.github.io",
+        )
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_responses(
+            pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_error(self, branch=""):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock PR to return error
+        self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
+
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_exists(self, branch=""):
+        self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Check that it doesn't raise error when pull request already exists
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"message": "pull request already exists for these targets"},
+        )
+
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+
 @override_settings(GITHUB_USERNAME="test", GITHUB_TOKEN="token")
 class VCSGitHubTest(VCSGitUpstreamTest):
     _class = GithubFakeRepository
@@ -640,6 +763,18 @@ class VCSGitHubTest(VCSGitUpstreamTest):
 
         super().test_push(branch)
         mock_push_to_fork.stop()
+
+    def test_merge_message(self):
+        repo = self.repo
+        component = repo.component
+        component.pull_message = "Test message\n\nBody"
+        self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
+        component.pull_message = "Test message\r\n\r\nBody"
+        self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
+        component.pull_message = "Test message"
+        self.assertEqual(repo.get_merge_message(), ("Test message", ""))
+        component.pull_message = "\nTest message\n\n\nBody"
+        self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
 
 
 @override_settings(GITLAB_USERNAME="test", GITLAB_TOKEN="token")

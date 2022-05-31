@@ -142,7 +142,7 @@ Notable configuration or dependencies changes:
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
 * There are some new and updated requirements.
 * There is a change in :setting:`django:INSTALLED_APPS`.
-* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`mt-deepl` machine translation now uses the new ``MT_DEEPL_API_URL`` instead. You might need to adjust ``MT_DEEPL_API_URL`` to match your subscription.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -200,7 +200,7 @@ Notable configuration or dependencies changes:
 
 .. versionchanged:: 4.4.1
 
-   * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change identification of translation strings in such files breaking links to Weblate extended data such as screenshots or review states. Please make sure you commit pending changes in such files prior upgrading and it is recommeded to force loading of affected component using :djadmin:`loadpo`.
+   * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change identification of translation strings in such files breaking links to Weblate extended data such as screenshots or review states. Please make sure you commit pending changes in such files prior upgrading and it is recommended to force loading of affected component using :djadmin:`loadpo`.
    * Increased minimal required version of translate-toolkit to address several file format issues.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
@@ -244,7 +244,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
-* The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt to different subscription models more flexibly.
+* The :ref:`mt-deepl` machine translation now has a generic ``MT_DEEPL_API_URL`` setting to adapt to different subscription models more flexibly.
   The ``MT_DEEPL_API_VERSION`` setting is no longer used.
 * Django 3.2 is now required.
 
@@ -297,6 +297,32 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * Weblate now requires Python 3.7 or newer.
 * The implementation of :ref:`manage-acl` has changed, removing the project
   prefix from the group names. This affects API users.
+* Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for character set detection.
+* **Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting (removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``).
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.11 to 4.12
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are no special steps required.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.12 to 4.13
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The :ref:`languages` are now automatically updated on upgrade, use :setting:`UPDATE_LANGUAGES` to disable that.
+* Handling of context and location has been changed for :ref:`winrc`,
+  :ref:`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the
+  context is now shown as location.
+* The machine translation services are now configured using the user interface,
+  settings from the configuration file will be imported during the database
+  migration.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

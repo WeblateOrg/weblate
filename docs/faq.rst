@@ -238,6 +238,8 @@ Please consult the `git submodule`_ documentation for more details.
 
 .. _`git submodule`: https://git-scm.com/docs/git-submodule
 
+.. _faq-monitoring:
+
 How can I check whether my Weblate is set up properly?
 ------------------------------------------------------
 
@@ -245,15 +247,25 @@ Weblate includes a set of configuration checks which you can see in the admin
 interface, just follow the :guilabel:`Performance report` link in the admin interface, or
 open the ``/manage/performance/`` URL directly.
 
+.. seealso::
+
+   :ref:`monitoring`,
+   :ref:`monitoring-celery`
+
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
 ---------------------------------------------------------------
 
-This is the default committer name, configured when you create a translation component.
-You can change it in the administration at any time.
+This is the default committer name, configured by
+:setting:`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`.
 
 The author of every commit (if the underlying VCS supports it) is still recorded
 correctly as the user that made the translation.
+
+For commits where no authorship is known (for example anonymous suggestions or
+machine translation results), the authorship is credited to the anonymous user
+(see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-mail in the
+management interface.
 
 .. seealso::
 
@@ -312,7 +324,7 @@ How can I use existing translations while translating?
 - Use the import functionality to load compendium as translations,
   suggestions or translations needing review. This is the best approach for a one-time
   translation using a compendium or a similar translation database.
-- You can set up :ref:`tmserver` with all databases you have and let Weblate use
+- You can set up :ref:`mt-tmserver` with all databases you have and let Weblate use
   it. This is good when you want to use it several times during
   translation.
 - Another option is to translate all related projects in a single Weblate

@@ -171,10 +171,15 @@ class PythonFormatCheckTest(CheckTestCase):
             extra_flags="python-format",
         )
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: %(count)d<br />"
-            "Following format strings are extra: %(languages)d",
+            """
+            Following format strings are missing:
+            <span class="hlcheck" data-value="%(count)d">%(count)d</span>
+            <br />
+            Following format strings are extra:
+            <span class="hlcheck" data-value="%(languages)d">%(languages)d</span>
+            """,
         )
 
     def test_description_nolocation(self):
@@ -1210,10 +1215,15 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             extra_flags="es-format",
         )
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: ${foo}<br />"
-            "Following format strings are extra: ${bar}",
+            """
+            Following format strings are missing:
+            <span class="hlcheck" data-value="${foo}">${foo}</span>
+            <br />
+            Following format strings are extra:
+            <span class="hlcheck" data-value="${bar}">${bar}</span>
+            """,
         )
 
 

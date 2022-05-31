@@ -26,10 +26,10 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`.
 Customizing behavior using flags
 --------------------------------
 
-You can fine-tune the behavior of Weblate (mostly checks) for each source
-string (in source strings review, see :ref:`additional`) or in the
-:ref:`component` (:ref:`component-check_flags`). Some file formats also allow
-to specify flags directly in the format (see :ref:`formats`).
+You can fine-tune the Weblate behavior by using flags. This can be done on
+the source string level (see :ref:`additional`), or in the :ref:`component`
+(:ref:`component-check_flags`). Some file formats also allow to specify flags
+directly in the format (see :ref:`formats`).
 
 The flags are comma-separated, the parameters are separated with colon. You can
 use quotes to include whitespace or special chars in the string. For example:
@@ -37,6 +37,12 @@ use quotes to include whitespace or special chars in the string. For example:
 .. code-block:: text
 
    placeholders:"special:value":"other value", regex:.*
+
+Both single and double quotes are accepted, special characters are being escaped using backslash:
+
+.. code-block:: text
+
+   placeholders:"quoted \"string\"":'single \'quoted\''
 
 Here is a list of flags currently accepted:
 
@@ -133,6 +139,8 @@ Here is a list of flags currently accepted:
 ``url``
     The string should consist of only a URL.
     Enable the :ref:`check-url` quality check.
+``ignore-all-checks``
+    Ignore all quality checks.
 ``ignore-bbcode``
     Skip the :ref:`check-bbcode` quality check.
 ``ignore-duplicate``

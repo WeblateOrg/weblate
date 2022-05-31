@@ -47,7 +47,9 @@ from weblate.formats.ttkit import (
     PoFormat,
     PoXliffFormat,
     PropertiesFormat,
+    ResourceDictionaryFormat,
     RESXFormat,
+    RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
     TBXFormat,
@@ -69,6 +71,7 @@ TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
+TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
@@ -138,7 +141,7 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_ANDROID, AndroidFormat)
 
     def test_xliff(self):
-        self.single_test(TEST_XLIFF, XliffFormat)
+        self.single_test(TEST_XLIFF, RichXliffFormat)
 
     def test_resx(self):
         if "resx" not in FILE_FORMATS:
@@ -172,7 +175,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     BASE = TEST_POT
     MIME = "text/x-gettext-catalog"
     EXT = "po"
-    COUNT = 5
+    COUNT = 4
     MATCH = "msgid_plural"
     MASK = "po/*.po"
     EXPECTED_PATH = "po/cs_CZ.po"
@@ -199,7 +202,9 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     def parse_file(self, filename):
         if self.MONOLINGUAL:
-            return self.FORMAT(filename, template_store=self.FORMAT(filename))
+            return self.FORMAT(
+                filename, template_store=self.FORMAT(filename, is_template=True)
+            )
         return self.FORMAT(filename)
 
     def test_parse(self):
@@ -257,7 +262,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertIn(unit, None)
+            self.assertIsNone(unit)
         else:
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
@@ -376,7 +381,7 @@ class PoFormatTest(AutoFormatTest):
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
-        # Test warning in ouput (used Unicode POT file without charset specified)
+        # Test warning in output (used Unicode POT file without charset specified)
         with self.assertRaises(UpdateError):
             self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
         with open(test_file) as handle:
@@ -386,7 +391,7 @@ class PoFormatTest(AutoFormatTest):
         # Test adding unit matching obsolete one
         storage = self.FORMAT(TEST_PO)
         # Remove duplicate entry
-        unit = storage.all_units[1]
+        unit = storage.all_units[0]
         self.assertEqual(unit.source, "Hello, world!\n")
         storage.delete_unit(unit.unit)
 
@@ -586,7 +591,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS = "c-format, max-length:100"
 
     def test_set_state(self):
         # Read test content
@@ -609,7 +614,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
 
         # Verify the state is set
         with open(testfile) as handle:
-            self.assertIn("<target>test</target>", handle.read())
+            self.assertIn('<target state="translated">test</target>', handle.read())
 
         # Update first unit as fuzzy
         storage = self.parse_file(testfile)
@@ -625,7 +630,12 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
             )
 
 
-class XliffIdFormatTest(XliffFormatTest):
+class RichXliffFormatTest(XliffFormatTest):
+    FORMAT = RichXliffFormat
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+
+
+class XliffIdFormatTest(RichXliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
@@ -701,7 +711,7 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS = "c-format, max-length:100"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
@@ -714,11 +724,10 @@ class PoXliffFormatTest2(PoXliffFormatTest):
             "font-size:22",
             "font-weight:bold",
             "max-size:100",
-            "xml-text",
         )
     )
     FIND_CONTEXT = "cs.po///2"
-    COUNT = 5
+    COUNT = 4
     MATCH = '<file original="cs.po"'
     FIND_MATCH = "Ahoj světe!\n"
 
@@ -733,7 +742,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = "resx/cs-CZ.resx"
     FIND = "Hello"
     FIND_CONTEXT = "Hello"
-    FIND_MATCH = ""
+    FIND_MATCH = "Hello, world!"
     MATCH = "text/microsoft-resx"
     BASE = ""
     NEW_UNIT_MATCH = (
@@ -861,6 +870,24 @@ class FlatXMLFormatTest(AutoFormatTest):
     FIND_CONTEXT = "hello_world"
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
+    EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
+
+
+class ResourceDictionaryFormatTest(AutoFormatTest):
+    FORMAT = ResourceDictionaryFormat
+    FILE = TEST_RESOURCEDICTIONARY
+    MIME = "application/xaml+xml"
+    COUNT = 2
+    EXT = "xaml"
+    MASK = "Languages/*.xaml"
+    BASE = TEST_RESOURCEDICTIONARY
+    EXPECTED_PATH = "Languages/cs-CZ.xaml"
+    MATCH = "hello"
+    FIND = "Hello World!"
+    FIND_CONTEXT = "hello_world"
+    FIND_MATCH = "Hello World!"
+    NEW_UNIT_MATCH = b'<system:String x:Key="key">Source string</system:String>\n'
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
 
@@ -1008,7 +1035,9 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             translation_file, Language.objects.get(code="fr"), self.BASE
         )
         translation_data = self.FORMAT(
-            storefile=translation_file, template_store=storage, language_code="fr"
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="fr",
         )
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))
@@ -1056,6 +1085,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
     EDIT_TARGET = """= Titre=\n"
                 "\n"
                 "* [[Bac à sable>>Sandbox.TestPage1]]\n"
@@ -1129,7 +1159,9 @@ class XWikiFullPageFormatTest(AutoFormatTest):
             translation_file, Language.objects.get(code="it"), self.BASE
         )
         translation_data = self.FORMAT(
-            storefile=translation_file, template_store=storage, language_code="it"
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
         )
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))

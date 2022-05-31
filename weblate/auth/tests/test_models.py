@@ -143,4 +143,4 @@ class ModelTest(FixtureTestCase):
             first_name="First", last_name="Last", is_staff=True, is_superuser=True
         )
         self.assertEqual(user.full_name, "First Last")
-        self.assertEqual(user.is_superuser, True)
+        self.assertTrue(user.is_superuser)

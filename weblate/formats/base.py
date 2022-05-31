@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Base classses for file formats."""
+"""Base classes for file formats."""
 
 import os
 import tempfile
@@ -27,6 +27,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from weblate_language_data.countries import DEFAULT_LANGS
 
+from weblate.trans.util import get_string
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
@@ -34,12 +35,15 @@ from weblate.utils.state import STATE_TRANSLATED
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
 ANDROID_CODES = {
-    "zh_Hans": "zh-rCN",
-    "zh_Hant": "zh-rTW",
-    "zh_Hant_HK": "zh-rHK",
     "he": "iw",
     "id": "in",
     "yi": "ji",
+}
+LEGACY_CODES = {
+    "zh_Hans": "zh_CN",
+    "zh_Hant": "zh_TW",
+    "zh_Hans_SG": "zh_SG",
+    "zh_Hant_HK": "zh_HK",
 }
 
 
@@ -63,6 +67,8 @@ class TranslationUnit:
 
     It handles ID/template based translations and other API differences.
     """
+
+    id_hash_with_source: bool = False
 
     def __init__(self, parent, unit, template=None):
         """Create wrapper object."""
@@ -117,22 +123,28 @@ class TranslationUnit:
         """Return previous message source if there was any."""
         return ""
 
-    @cached_property
-    def id_hash(self):
+    @classmethod
+    def calculate_id_hash(cls, has_template: bool, source: str, context: str):
         """Return hash of source string, used for quick lookup.
 
         We use siphash as it is fast and works well for our purpose.
         """
-        if self.template is None:
-            return calculate_hash(self.source, self.context)
-        return calculate_hash(self.context)
+        if not has_template or cls.id_hash_with_source:
+            return calculate_hash(source, context)
+        return calculate_hash(context)
+
+    @cached_property
+    def id_hash(self):
+        return self.calculate_id_hash(
+            self.template is not None, self.source, self.context
+        )
 
     def is_translated(self):
         """Check whether unit is translated."""
         return bool(self.target)
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         return fallback
 
     def is_fuzzy(self, fallback=False):
@@ -215,13 +227,13 @@ class TranslationFormat:
         self.storefile = storefile
         self.language_code = language_code
         self.source_language = source_language
+        # Remember template
+        self.template_store = template_store
+        self.is_template = is_template
 
         # Load store
         self.store = self.load(storefile, template_store)
 
-        # Remember template
-        self.template_store = template_store
-        self.is_template = is_template
         self.add_breadcrumb(
             "Loaded translation file {}".format(
                 getattr(storefile, "filename", storefile)
@@ -258,43 +270,51 @@ class TranslationFormat:
         ) and self.template_store is not None
 
     @cached_property
-    def _context_index(self):
+    def _template_index(self):
         """ID based index for units."""
-        return {unit.context: unit for unit in self.mono_units}
+        return {unit.id_hash: unit for unit in self.template_units}
 
-    def find_unit_mono(self, context: str) -> Optional[Any]:
+    def find_unit_template(
+        self, context: str, source: str, id_hash: Optional[int] = None
+    ) -> Optional[Any]:
+        if id_hash is None:
+            id_hash = self._calculate_string_hash(context, source)
         try:
             # The mono units always have only template set
-            return self._context_index[context].template
+            return self._template_index[id_hash].template
         except KeyError:
             return None
 
-    def _find_unit_template(self, context: str) -> Tuple[Any, bool]:
-        # Need to create new unit based on template
-        template_ttkit_unit = self.template_store.find_unit_mono(context)
-        if template_ttkit_unit is None:
-            raise UnitNotFound(context)
-
+    def _find_unit_monolingual(self, context: str, source: str) -> Tuple[Any, bool]:
         # We search by ID when using template
-        ttkit_unit = self.find_unit_mono(context)
+        id_hash = self._calculate_string_hash(context, source)
+        try:
+            result = self._unit_index[id_hash]
+        except KeyError:
+            raise UnitNotFound(context, source)
 
-        # We always need new unit to translate
-        if ttkit_unit is None:
-            ttkit_unit = deepcopy(template_ttkit_unit)
+        add = False
+        if result.unit is None:
+            # We always need copy of template unit to translate
+            result.mainunit = result.unit = deepcopy(result.template)
             add = True
-        else:
-            add = False
-
-        return (self.unit_class(self, ttkit_unit, template_ttkit_unit), add)
+        return result, add
 
     @cached_property
-    def _source_index(self):
+    def _unit_index(self):
         """Context and source based index for units."""
-        return {(unit.context, unit.source): unit for unit in self.all_units}
+        return {unit.id_hash: unit for unit in self.content_units}
+
+    def _calculate_string_hash(self, context: str, source: str) -> int:
+        """Calculates id hash for a string."""
+        return self.unit_class.calculate_id_hash(
+            self.has_template or self.is_template, get_string(source), context
+        )
 
     def _find_unit_bilingual(self, context: str, source: str) -> Tuple[Any, bool]:
+        id_hash = self._calculate_string_hash(context, source)
         try:
-            return (self._source_index[context, source], False)
+            return (self._unit_index[id_hash], False)
         except KeyError:
             raise UnitNotFound(context, source)
 
@@ -304,11 +324,11 @@ class TranslationFormat:
         Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
         """
         if self.has_template:
-            return self._find_unit_template(context)
+            return self._find_unit_monolingual(context, source)
         return self._find_unit_bilingual(context, source)
 
     def add_unit(self, ttkit_unit):
-        """Add new unit to underlaying store."""
+        """Add new unit to underlying store."""
         raise NotImplementedError()
 
     def update_header(self, **kwargs):
@@ -329,7 +349,7 @@ class TranslationFormat:
                 os.unlink(temp.name)
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         raise NotImplementedError()
 
     @property
@@ -338,7 +358,7 @@ class TranslationFormat:
         return self.store.units
 
     @cached_property
-    def mono_units(self):
+    def template_units(self):
         return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
     @cached_property
@@ -347,8 +367,12 @@ class TranslationFormat:
         if not self.has_template:
             return [self.unit_class(self, unit) for unit in self.all_store_units]
         return [
-            self.unit_class(self, self.find_unit_mono(unit.context), unit.template)
-            for unit in self.template_store.mono_units
+            self.unit_class(
+                self,
+                self.find_unit_template(unit.context, unit.source, unit.id_hash),
+                unit.template,
+            )
+            for unit in self.template_store.template_units
         ]
 
     @property
@@ -367,6 +391,12 @@ class TranslationFormat:
 
     def is_valid(self):
         """Check whether store seems to be valid."""
+        # Make sure we do not have a collision in id_hash
+        hashes = set()
+        for unit in self.content_units:
+            if unit.id_hash in hashes:
+                raise ValueError(f"Duplicate id_hash for unit {unit.unit}")
+            hashes.add(unit.id_hash)
         return True
 
     @classmethod
@@ -397,36 +427,38 @@ class TranslationFormat:
 
     @staticmethod
     def get_language_posix_long(code: str) -> str:
-        if code in EXPAND_LANGS:
-            return EXPAND_LANGS[code]
-        return code
+        return EXPAND_LANGS.get(code, code)
+
+    @staticmethod
+    def get_language_linux(code: str) -> str:
+        """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
+        return LEGACY_CODES.get(code, code)
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
-        return cls.get_language_posix_long(code).replace("_", "-")
+        return cls.get_language_bcp(cls.get_language_posix_long(code))
 
-    @staticmethod
-    def get_language_android(code: str) -> str:
-        # Android doesn't use Hans/Hant, but rather TW/CN variants
+    @classmethod
+    def get_language_android(cls, code: str) -> str:
+        """Android doesn't use Hans/Hant, but rather TW/CN variants."""
+        # Exceptions
         if code in ANDROID_CODES:
             return ANDROID_CODES[code]
-        sanitized = code.replace("-", "_")
+
+        # Base on Java
+        sanitized = cls.get_language_linux(code)
+
+        # Handle variants
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
             return "b+{}".format(sanitized.replace("_", "+"))
+
+        # Handle countries
         return sanitized.replace("_", "-r")
 
     @classmethod
     def get_language_java(cls, code: str) -> str:
-        # Java doesn't use Hans/Hant, but rather TW/CN variants
-        if code == "zh_Hans":
-            return "zh-CN"
-        if code == "zh_Hant":
-            return "zh-TW"
-        if code == "zh_Hans_SG":
-            return "zh-SG"
-        if code == "zh_Hant_HK":
-            return "zh-HK"
-        return cls.get_language_bcp(code)
+        """Java doesn't use Hans/Hant, but rather TW/CN variants."""
+        return cls.get_language_bcp(cls.get_language_linux(code))
 
     @classmethod
     def get_language_filename(cls, mask: str, code: str) -> str:
@@ -516,7 +548,7 @@ class TranslationFormat:
             if self.is_template:
                 template_unit = unit
             else:
-                template_unit = self._find_unit_template(key)
+                template_unit = self._find_unit_monolingual(key, source)
         else:
             template_unit = None
         result = self.unit_class(self, unit, template_unit)
@@ -525,12 +557,12 @@ class TranslationFormat:
         # Update cached lookups
         if "all_units" in self.__dict__:
             self.all_units.append(result)
-        if "mono_units" in self.__dict__:
-            self.mono_units.append(mono_unit)
-        if "_source_index" in self.__dict__:
-            self._source_index[(result.context, result.source)] = result
-        if "_context_index" in self.__dict__:
-            self._context_index[mono_unit.context] = mono_unit
+        if "template_units" in self.__dict__:
+            self.template_units.append(mono_unit)
+        if "_unit_index" in self.__dict__:
+            self._unit_index[result.id_hash] = result
+        if "_template_index" in self.__dict__:
+            self._template_index[mono_unit.id_hash] = mono_unit
 
         return result
 
@@ -549,7 +581,7 @@ class TranslationFormat:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
             return []
-        existing = {unit.context for unit in self.template_store.mono_units}
+        existing = {unit.context for unit in self.template_store.template_units}
         changed = False
 
         result = []
@@ -604,6 +636,10 @@ class TranslationFormat:
         if changed:
             self.save()
         return result
+
+    @staticmethod
+    def validate_context(context: str):
+        return
 
 
 class EmptyFormat(TranslationFormat):

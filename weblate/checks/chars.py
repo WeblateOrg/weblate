@@ -191,7 +191,7 @@ class EndStopCheck(TargetCheck):
         if self.is_language(unit, ("my",)):
             return self.check_chars(source, target, -1, (".", "။"))
         return self.check_chars(
-            source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។")
+            source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។", "።")
         )
 
 
@@ -244,6 +244,11 @@ class EndQuestionCheck(TargetCheck):
             return False
         return target[-1] not in self.question_el
 
+    def _check_my(self, source, target):
+        if source[-1] != "?":
+            return False
+        return target[-3:] == "ား။"
+
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
@@ -253,6 +258,8 @@ class EndQuestionCheck(TargetCheck):
             return self._check_hy(source, target)
         if self.is_language(unit, ("el",)):
             return self._check_el(source, target)
+        if self.is_language(unit, ("my",)):
+            return self._check_my(source, target)
 
         return self.check_chars(
             source, target, -1, ("?", "՞", "؟", "⸮", "？", "፧", "꘏", "⳺")

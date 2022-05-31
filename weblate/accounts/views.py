@@ -642,7 +642,7 @@ class UserPage(UpdateView):
                 user.watched_projects.filter(id__in=allowed_project_ids).order()
             )
         )
-        context["user_languages"] = user.profile.languages.all()[:7]
+        context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
         context["page_user_groups"] = user.groups.prefetch_related(
             "defining_project"
@@ -718,15 +718,14 @@ class WeblateLoginView(LoginView):
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
 
+    next_page = "home"
+
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_next_page(self):
         messages.info(self.request, _("Thank you for using Weblate."))
-        return reverse("home")
+        return super().dispatch(request, *args, **kwargs)
 
 
 def fake_email_sent(request, reset=False):
@@ -1348,7 +1347,7 @@ class UserList(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        users = User.objects.filter(is_active=True)
+        users = User.objects.filter(is_active=True, is_bot=False)
         form = self.form
         if form.is_valid():
             search = form.cleaned_data.get("q", "").strip()
@@ -1357,7 +1356,7 @@ class UserList(ListView):
                     Q(username__icontains=search) | Q(full_name__icontains=search)
                 )
         else:
-            users = User.objects.order()
+            users = users.order()
 
         return users.order_by(self.sort_query)
 

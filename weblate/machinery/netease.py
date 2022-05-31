@@ -23,11 +23,8 @@ from hashlib import sha1
 
 from django.conf import settings
 
-from weblate.machinery.base import (
-    MachineTranslation,
-    MachineTranslationError,
-    MissingConfiguration,
-)
+from .base import MachineTranslation, MachineTranslationError
+from .forms import KeySecretMachineryForm
 
 NETEASE_API_ROOT = "https://jianwai.netease.com/api/text/trans"
 
@@ -40,14 +37,14 @@ class NeteaseSightTranslation(MachineTranslation):
 
     # Map codes used by Netease Sight to codes used by Weblate
     language_map = {"zh_Hans": "zh"}
+    settings_form = KeySecretMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_NETEASE_KEY is None:
-            raise MissingConfiguration("Netease Sight Translate requires app key")
-        if settings.MT_NETEASE_SECRET is None:
-            raise MissingConfiguration("Netease Sight Translate requires app secret")
+    @staticmethod
+    def migrate_settings():
+        return {
+            "key": settings.MT_NETEASE_KEY,
+            "secret": settings.MT_NETEASE_SECRET,
+        }
 
     def download_languages(self):
         """List of supported languages."""
@@ -56,15 +53,15 @@ class NeteaseSightTranslation(MachineTranslation):
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
         nonce = str(random.randint(1000, 99999999))
-        timestamp = str(int(1000 * time.time()))
+        timestamp = str(int(1000 * time.monotonic()))
 
-        sign = settings.MT_NETEASE_SECRET + nonce + timestamp
+        sign = self.settings["secret"] + nonce + timestamp
         sign = sign.encode()
         sign = sha1(sign).hexdigest()  # nosec
 
         return {
             "Content-Type": "application/json",
-            "appkey": settings.MT_NETEASE_KEY,
+            "appkey": self.settings["key"],
             "nonce": nonce,
             "timestamp": timestamp,
             "signature": sign,

@@ -217,7 +217,7 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
         raise AuthMissingParameter(backend, "disabled")
 
     # Ensure it's still same user (if sessions was kept as this is to avoid
-    # completing authentication under diferent user than initiated it, with
+    # completing authentication under different user than initiated it, with
     # new session, it will complete as new user)
     current_user = strategy.request.user.pk
     init_user = strategy.request.session.get("social_auth_user")
@@ -258,7 +258,7 @@ def store_params(strategy, user, **kwargs):
     return {
         "weblate_action": action,
         "registering_user": registering_user,
-        "weblate_expires": int(time.time() + settings.AUTH_TOKEN_VALID),
+        "weblate_expires": int(time.monotonic() + settings.AUTH_TOKEN_VALID),
     }
 
 
@@ -304,7 +304,7 @@ def ensure_valid(
 ):
     """Ensure the activation link is still."""
     # Didn't the link expire?
-    if weblate_expires < time.time():
+    if weblate_expires < time.monotonic():
         raise AuthMissingParameter(backend, "expires")
 
     # We allow password reset for unauthenticated users
@@ -411,8 +411,8 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
         full_name = full_name.strip()
 
         if not full_name and ("first_name" in details or "last_name" in details):
-            first_name = details.get("first_name")
-            last_name = details.get("last_name")
+            first_name = details.get("first_name") or ""
+            last_name = details.get("last_name") or ""
 
             if first_name and first_name not in last_name:
                 full_name = f"{first_name} {last_name}"

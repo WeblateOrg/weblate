@@ -23,8 +23,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
 from django.utils.translation import (
     gettext_lazy,
@@ -542,7 +541,7 @@ class Change(models.Model, UserDisplayMixin):
             self.fixup_refereces()
 
     def fixup_refereces(self):
-        """Updates refereces based to least specific one."""
+        """Updates references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:
@@ -605,7 +604,7 @@ class Change(models.Model, UserDisplayMixin):
                 self.plural_count,
             )
             try:
-                return result % self.plural_coun
+                return result % self.plural_count
             except TypeError:
                 # The string does not contain %d
                 return result
@@ -618,20 +617,21 @@ class Change(models.Model, UserDisplayMixin):
 
         if self.action == self.ACTION_UPDATE:
             reason = details.get("reason", "content changed")
-            filename = "<code>{}</code>".format(
-                escape(
-                    details.get(
-                        "filename",
-                        self.translation.filename if self.translation else "",
-                    )
-                )
+            filename = format_html(
+                "<code>{}</code>",
+                details.get(
+                    "filename",
+                    self.translation.filename if self.translation else "",
+                ),
             )
             if reason == "content changed":
-                return mark_safe(_('The "%s" file was changed.') % filename)
+                return format_html(escape(_('The "{}" file was changed.')), filename)
             if reason == "check forced":
-                return mark_safe(_('Parsing of the "%s" file was enforced.') % filename)
+                return format_html(
+                    escape(_('Parsing of the "{}" file was enforced.')), filename
+                )
             if reason == "new file":
-                return mark_safe(_("File %s was added.") % filename)
+                return format_html(escape(_("File {} was added.")), filename)
             raise ValueError(f"Unknown reason: {reason}")
 
         if self.action == self.ACTION_LICENSE_CHANGE:
@@ -657,7 +657,7 @@ class Change(models.Model, UserDisplayMixin):
             for number, name in Project.ACCESS_CHOICES:
                 if number == details["access_control"]:
                     return name
-            return "Unknonwn {}".format(details["access_control"])
+            return "Unknown {}".format(details["access_control"])
         if self.action in user_actions:
             if "group" in details:
                 return "{username} ({group})".format(**details)

@@ -24,6 +24,7 @@ import json
 from django.urls import reverse
 
 from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.tasks import sync_terminology
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -360,6 +361,11 @@ class GlossaryTest(ViewTestCase):
         unit.save()
 
         # Verify it has been added to all languages
+        self.assertEqual(Unit.objects.count(), start + 4)
+        self.assertEqual(unit.unit_set.count(), 4)
+
+        # Terminology sync should be no-op now
+        sync_terminology(unit.translation.component.id, unit.translation.component)
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
 

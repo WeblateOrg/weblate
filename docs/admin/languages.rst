@@ -75,18 +75,18 @@ enforce updating the database to match Weblate built-in data using
 
 .. seealso::
 
-   :ref:`extending-lanugages`
+   :ref:`extending-languages`
 
 .. _ambiguous-languages:
 
 Ambiguous language codes and macrolanguages
 -------------------------------------------
 
-In many cases it is not a good idea to use macro language code for a
+In many cases it is not a good idea to use macrolanguage code for a
 translation. The typical problematic case might be Kurdish language, which
 might be written in Arabic or Latin script, depending on actual variant. To get
 correct behavior in Weblate, it is recommended to use individual language codes
-only and avoid macro languages.
+only and avoid macrolanguages.
 
 .. seealso::
 
@@ -204,6 +204,8 @@ Android style
    ``pt-rBR``.
 Java style
    Used by Java—mostly BCP with legacy codes for Chinese.
+Linux style
+   Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
 
 Additionally, any mappings defined in :ref:`project-language_aliases` are
 applied in reverse.

@@ -22,11 +22,10 @@ RUN if ! getent group "${GROUP_ID}"; then \
             groupadd --gid "${GROUP_ID}" developer; \
         fi \
     &&  if ! getent passwd "${USER_ID}"; then \
-            useradd --gid "${GROUP_ID}" --uid "${USER_ID}" --shell /bin/bash developer; \
+            useradd --gid "${GROUP_ID}" --uid "${USER_ID}" --groups root,tty,weblate --shell /bin/bash developer; \
         fi
 # Following are removed during cleanup of weblate/weblate
 RUN apt-get update && apt-get install -y \
-    python3-dev \
     pkg-config \
     libleptonica-dev \
     libtesseract-dev \
@@ -49,4 +48,4 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt
 # List should match weblate/weblate
-RUN chmod -R 777  /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d
+RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d

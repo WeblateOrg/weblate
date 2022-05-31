@@ -20,37 +20,43 @@
 from django.conf import settings
 from requests.auth import _basic_auth_str
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import SAPMachineryForm
 
 
 class SAPTranslationHub(MachineTranslation):
     # https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub
     name = "SAP Translation Hub"
+    settings_form = SAPMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_SAP_BASE_URL is None:
-            raise MissingConfiguration("missing SAP Translation Hub configuration")
+    @staticmethod
+    def migrate_settings():
+        return {
+            "url": settings.MT_SAP_BASE_URL,
+            "key": settings.MT_SAP_SANDBOX_APIKEY,
+            "username": settings.MT_SAP_USERNAME,
+            "password": settings.MT_SAP_PASSWORD,
+            "enable_mt": bool(settings.MT_SAP_USE_MT),
+        }
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
         # to access the sandbox
         result = {}
-        if settings.MT_SAP_SANDBOX_APIKEY:
-            result["APIKey"] = settings.MT_SAP_SANDBOX_APIKEY
+        if self.settings["key"]:
+            result["APIKey"] = self.settings["key"]
 
         # to access the productive API
-        if settings.MT_SAP_USERNAME and settings.MT_SAP_PASSWORD:
+        if self.settings["username"] and self.settings["password"]:
             result["Authorization"] = _basic_auth_str(
-                settings.MT_SAP_USERNAME, settings.MT_SAP_PASSWORD
+                self.settings["username"], self.settings["password"]
             )
         return result
 
     def download_languages(self):
         """Get all available languages from SAP Translation Hub."""
         # get all available languages
-        response = self.request("get", settings.MT_SAP_BASE_URL + "languages")
+        response = self.request("get", self.settings["url"] + "languages")
         payload = response.json()
 
         return [d["id"] for d in payload["languages"]]
@@ -68,7 +74,7 @@ class SAPTranslationHub(MachineTranslation):
         """Download list of possible translations from a service."""
         # should the machine translation service be used?
         # (rather than only the term database)
-        enable_mt = bool(settings.MT_SAP_USE_MT)
+        enable_mt = self.settings["enable_mt"]
 
         # build the json body
         data = {
@@ -80,9 +86,7 @@ class SAPTranslationHub(MachineTranslation):
         }
 
         # perform the request
-        response = self.request(
-            "post", settings.MT_SAP_BASE_URL + "translate", json=data
-        )
+        response = self.request("post", self.settings["url"] + "translate", json=data)
         payload = response.json()
 
         # prepare the translations for weblate

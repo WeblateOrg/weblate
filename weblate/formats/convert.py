@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Translate Toolkit convertor based file format wrappers."""
+"""Translate Toolkit converter based file format wrappers."""
 
 import codecs
 import os
@@ -52,12 +52,14 @@ from translate.storage.xml_extract.extract import (
 from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
-from weblate.formats.ttkit import TTKitUnit, XliffUnit
+from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
 
-class ConvertUnit(TTKitUnit):
+class ConvertPoUnit(PoUnit):
+    id_hash_with_source: bool = True
+
     def is_translated(self):
         """Check whether unit is translated."""
         return self.unit is not None
@@ -67,17 +69,8 @@ class ConvertUnit(TTKitUnit):
         return fallback
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         return fallback
-
-    @cached_property
-    def locations(self):
-        return ""
-
-    @cached_property
-    def context(self):
-        """Return context of message."""
-        return "".join(self.mainunit.getlocations())
 
 
 class ConvertXliffUnit(XliffUnit):
@@ -86,7 +79,7 @@ class ConvertXliffUnit(XliffUnit):
         return fallback
 
     def is_approved(self, fallback=False):
-        """Check whether unit is appoved."""
+        """Check whether unit is approved."""
         return fallback
 
     def is_translated(self):
@@ -109,7 +102,7 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
-    unit_class = ConvertUnit
+    unit_class = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
 
@@ -118,7 +111,7 @@ class ConvertFormat(TranslationFormat):
         raise NotImplementedError()
 
     def save(self):
-        """Save underlaying store to disk."""
+        """Save underlying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
     @staticmethod
@@ -219,10 +212,11 @@ class HTMLFormat(ConvertFormat):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=BytesIOMode("", storefile.read()))
         for htmlunit in htmlparser.units:
-            locations = htmlunit.getlocations()
             if template_store:
-                # Transalation
-                template = template_store.find_unit_mono("".join(locations))
+                # Translation
+                template = template_store.find_unit_template(
+                    htmlunit.getcontext(), htmlunit.source
+                )
                 if template is None:
                     # Skip locations not present in the source HTML file
                     continue
@@ -240,12 +234,12 @@ class HTMLFormat(ConvertFormat):
 
     def save_content(self, handle):
         """Store content to file."""
-        convertor = po2html()
+        converter = po2html()
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
         with open(templatename, "rb") as templatefile:
-            outputstring = convertor.mergestore(
+            outputstring = converter.mergestore(
                 self.store, templatefile, includefuzzy=False
             )
         handle.write(outputstring.encode("utf-8"))
@@ -399,11 +393,11 @@ class WindowsRCFormat(ConvertFormat):
     def convertfile(storefile, template_store):
         input_store = rcfile()
         input_store.parse(storefile.read())
-        convertor = rc2po()
+        converter = rc2po()
         if template_store:
-            store = convertor.merge_store(template_store.store.rcfile, input_store)
+            store = converter.merge_store(template_store.store.rcfile, input_store)
         else:
-            store = convertor.convert_store(input_store)
+            store = converter.convert_store(input_store)
         store.rcfile = input_store
         return store
 
@@ -429,13 +423,13 @@ class WindowsRCFormat(ConvertFormat):
             if bom == codecs.BOM_UTF16_LE or b"\000" in bom:
                 encoding = "utf-16-le"
             templatefile.seek(0)
-            convertor = rerc(
+            converter = rerc(
                 templatefile,
                 lang=lang,
                 sublang=sublang,
                 charset=encoding,
             )
-            outputrclines = convertor.convertstore(self.store)
+            outputrclines = converter.convertstore(self.store)
             try:
                 handle.write(outputrclines.encode(encoding))
             except UnicodeEncodeError:

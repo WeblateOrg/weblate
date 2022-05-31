@@ -17,14 +17,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import random
 from datetime import datetime
 from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.html import escape
+from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
 import weblate.screenshots.views
@@ -117,6 +117,15 @@ def get_bread_image(path):
     return "project.svg"
 
 
+def get_interledger_payment_pointer():
+    interledger_payment_pointers = settings.INTERLEDGER_PAYMENT_POINTERS
+
+    if not interledger_payment_pointers:
+        return None
+
+    return random.choice(interledger_payment_pointers)
+
+
 def weblate_context(request):
     """Context processor to inject various useful variables into context."""
     if url_has_allowed_host_and_scheme(request.GET.get("next", ""), allowed_hosts=None):
@@ -147,6 +156,8 @@ def weblate_context(request):
             cache.set(has_support_cache_key, has_support, 86400)
         request._weblate_has_support = has_support
 
+    utcnow = datetime.utcnow()
+
     context = {
         "has_support": has_support,
         "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
@@ -155,20 +166,19 @@ def weblate_context(request):
         "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
-        "weblate_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">weblate.org</a>'),
-        "weblate_name_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">Weblate</a>'),
-        "weblate_version_link": mark_safe(
-            '<a href="{}">Weblate {}</a>'.format(
-                escape(WEBLATE_URL),
-                "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
-            )
+        "weblate_link": format_html('<a href="{}">weblate.org</a>', WEBLATE_URL),
+        "weblate_name_link": format_html('<a href="{}">Weblate</a>', WEBLATE_URL),
+        "weblate_version_link": format_html(
+            '<a href="{}">Weblate {}</a>',
+            WEBLATE_URL,
+            "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
         ),
         "donate_url": DONATE_URL,
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
-        "current_date": datetime.utcnow().strftime("%Y-%m-%d"),
-        "current_year": datetime.utcnow().strftime("%Y"),
-        "current_month": datetime.utcnow().strftime("%m"),
+        "current_date": utcnow.strftime("%Y-%m-%d"),
+        "current_year": utcnow.strftime("%Y"),
+        "current_month": utcnow.strftime("%m"),
         "login_redirect_url": login_redirect_url,
         "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
@@ -180,6 +190,7 @@ def weblate_context(request):
         ).order_by("-timestamp"),
         "preconnect_list": get_preconnect_list(),
         "custom_css_hash": CustomCSSView.get_hash(request),
+        "interledger_payment_pointer": get_interledger_payment_pointer(),
     }
 
     add_error_logging_context(context)

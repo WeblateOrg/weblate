@@ -21,7 +21,7 @@
 from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
 register = template.Library()
@@ -48,6 +48,7 @@ SOCIALS = {
     "amazon": {"name": "Amazon", "image": "amazon.svg"},
     "twitter": {"name": "Twitter", "image": "twitter.svg"},
     "stackoverflow": {"name": "Stack Overflow", "image": "stackoverflow.svg"},
+    "musicbrainz": {"name": "MusicBrainz", "image": "musicbrainz.svg"},
 }
 
 IMAGE_SOCIAL_TEMPLATE = """
@@ -90,9 +91,9 @@ def auth_name(auth: str, separator: str = "<br />"):
 
     if not params["image"].startswith("http"):
         params["image"] = staticfiles_storage.url("auth/" + params["image"])
-    params["icon"] = IMAGE_SOCIAL_TEMPLATE.format(separator=separator, **params)
+    params["icon"] = format_html(IMAGE_SOCIAL_TEMPLATE, separator=separator, **params)
 
-    return mark_safe(SOCIAL_TEMPLATE.format(separator=separator, **params))
+    return format_html(SOCIAL_TEMPLATE, separator=separator, **params)
 
 
 def get_auth_name(auth: str):

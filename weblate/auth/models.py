@@ -338,6 +338,14 @@ class User(AbstractBaseUser):
         default=True,
         help_text=_("Mark user as inactive instead of removing."),
     )
+    is_bot = models.BooleanField(
+        "Robot user",
+        default=False,
+        db_index=True,
+    )
+    date_expires = models.DateTimeField(
+        _("Expires"), null=True, blank=True, default=None
+    )
     date_joined = models.DateTimeField(_("Date joined"), default=timezone.now)
     groups = GroupManyToManyField(
         Group,
@@ -363,9 +371,6 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.full_name
 
-    def get_absolute_url(self):
-        return reverse("user_page", kwargs={"user": self.username})
-
     def save(self, *args, **kwargs):
         if self.is_anonymous:
             self.is_active = False
@@ -382,6 +387,9 @@ class User(AbstractBaseUser):
             self.email = None
         super().save(*args, **kwargs)
         self.clear_cache()
+
+    def get_absolute_url(self):
+        return reverse("user_page", kwargs={"user": self.username})
 
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
@@ -416,10 +424,6 @@ class User(AbstractBaseUser):
     @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
-
-    @cached_property
-    def is_bot(self):
-        return not self.is_active and self.username.startswith("bot-")
 
     @cached_property
     def is_authenticated(self):
@@ -677,7 +681,7 @@ class UserBlock(models.Model):
     class Meta:
         verbose_name = "Blocked user"
         verbose_name_plural = "Blocked users"
-        unique_together = ("user", "project")
+        unique_together = [("user", "project")]
 
     def __str__(self):
         return f"{self.user} blocked for {self.project}"

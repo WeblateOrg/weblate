@@ -95,6 +95,7 @@ ZERO_ONE_OTHER_PLURALS = (
 ONE_TWO_OTHER_PLURALS = (
     "n==1 ? 0 : n==2 ? 1 : 2",
     "(n == 1) ? 0 : ((n == 2) ? 1 : 2)",
+    "n%100==1 ? 0 : n%100==2 ? 1 : 2",
 )
 ZERO_ONE_TWO_OTHER_PLURALS = (
     "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : 3",

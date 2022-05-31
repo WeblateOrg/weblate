@@ -61,10 +61,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
         self.assertTrue(result)
-        self.assertTrue("syntax" in result)
+        self.assertIn("syntax", result)
         syntax = result["syntax"]
         self.assertTrue(isinstance(syntax, list) and len(syntax) == 1)
-        self.assertTrue("Expected , or }" in syntax[0].msg)
+        self.assertIn("Expected , or }", syntax[0].msg)
 
     def test_malformed_source(self):
         # When dealing with a translation and not the source,
@@ -81,10 +81,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
         self.assertTrue(result)
-        self.assertTrue("syntax" in result)
+        self.assertIn("syntax", result)
         syntax = result["syntax"]
         self.assertTrue(isinstance(syntax, list) and len(syntax) == 1)
-        self.assertTrue("Expected , or }" in syntax[0].msg)
+        self.assertIn("Expected , or }", syntax[0].msg)
 
     def test_source(self):
         check = ICUSourceCheck()
@@ -404,7 +404,7 @@ class ICUXMLStrictFormatCheckTest(ICUXMLFormatCheckTest):
         )
 
         self.assertTrue(result)
-        self.assertTrue("syntax" in result)
+        self.assertIn("syntax", result)
         syntax = result["syntax"]
         self.assertTrue(isinstance(syntax, list) and len(syntax) == 1)
-        self.assertTrue("Expected > or />" in syntax[0].msg)
+        self.assertIn("Expected > or />", syntax[0].msg)

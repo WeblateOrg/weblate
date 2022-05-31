@@ -38,6 +38,6 @@ on our CI in the SARIF format (Static Analysis Results Interchange Format).
 
    :ref:`ci-tests`
 
-.. _Dependabot: https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/about-dependabot-version-updates
+.. _Dependabot: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/about-dependabot-version-updates
 .. _Anchore: https://anchore.com/
 .. _Trivy: https://github.com/aquasecurity/trivy

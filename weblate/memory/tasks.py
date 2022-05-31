@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from typing import Optional
+
 from django.db import transaction
 
 from weblate.machinery.base import get_machinery_language
@@ -26,12 +28,17 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def import_memory(project_id):
+def import_memory(project_id: int, component_id: Optional[int] = None):
     from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)
 
-    for component in project.component_set.iterator():
+    components = project.component_set.all()
+    if component_id:
+        components = components.filter(id=component_id)
+
+    for component in components.iterator():
+        component.log_info("updating translation memory")
         with transaction.atomic():
             units = Unit.objects.filter(
                 translation__component=component, state__gte=STATE_TRANSLATED

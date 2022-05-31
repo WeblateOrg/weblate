@@ -91,7 +91,7 @@ class WeblateComponentCommand(BaseCommand):
             else:
                 result = Component.objects.all()
         elif not options["component"]:
-            # no argumets to filter projects
+            # no arguments to filter projects
             self.stderr.write(
                 "Please specify either --all or at least one <project/component>"
             )
@@ -113,7 +113,7 @@ class WeblateComponentCommand(BaseCommand):
                     found = found.filter(slug=parts[1])
 
                 # warn on no match
-                if found.count() == 0:
+                if not found.exists():
                     self.stderr.write(f'"{arg}" did not match any components')
                     raise CommandError("Nothing to process!")
 

@@ -29,18 +29,18 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Cache pip
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.2
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python 3.7
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@v3
       with:
         python-version: 3.7
     - name: Install pip dependencies
@@ -72,11 +72,15 @@ jobs:
       run: ./ci/run-migrate 4.9
     - name: Migrate from 4.10
       run: ./ci/run-migrate 4.10
+    - name: Migrate from 4.11
+      run: ./ci/run-migrate 4.11
+    - name: Migrate from 4.12
+      run: ./ci/run-migrate 4.12
     - name: Coverage
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: codecov/codecov-action@v3.1.0
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations

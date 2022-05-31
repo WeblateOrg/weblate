@@ -89,7 +89,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertContains(response, "Browse all 0 projects")
         # Login
         self.client.login(username="testuser", password="testpassword")
-        # Chck that homepage redirects
+        # Check that homepage redirects
         response = self.client.get(reverse("home"), follow=True)
         self.assertTrue(
             response.redirect_chain[-1][0].startswith(reverse("legal:confirm"))

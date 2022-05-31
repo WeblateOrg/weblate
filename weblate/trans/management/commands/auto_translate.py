@@ -20,7 +20,7 @@
 from django.core.management.base import CommandError
 
 from weblate.auth.models import User
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery.models import MACHINERY
 from weblate.trans.management.commands import WeblateTranslationCommand
 from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate
@@ -95,7 +95,7 @@ class Command(WeblateTranslationCommand):
 
         if options["mt"]:
             for translator in options["mt"]:
-                if translator not in MACHINE_TRANSLATION_SERVICES.keys():
+                if translator not in MACHINERY.keys():
                     raise CommandError(
                         f"Machine translation {translator} is not available"
                     )

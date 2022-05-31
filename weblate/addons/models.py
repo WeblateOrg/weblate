@@ -21,7 +21,7 @@ from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -140,13 +140,19 @@ class Addon(models.Model):
             self.component.delete_alert(self.addon.alert)
         super().delete(*args, **kwargs)
 
+    def disable(self):
+        self.component.log_warning(
+            "disabling no longer compatible add-on: %s", self.name
+        )
+        self.delete()
+
 
 class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
-        unique_together = ("addon", "event")
+        unique_together = [("addon", "event")]
         verbose_name = "add-on event"
         verbose_name_plural = "add-on events"
 
@@ -193,10 +199,9 @@ class AddonsConf(AppConf):
 
 def handle_addon_error(addon, component):
     report_error(cause="add-on error")
-    # Uninstall no longer compatible addons
+    # Uninstall no longer compatible add-ons
     if not addon.addon.can_install(component, None):
-        component.log_warning("disabling no longer compatible add-on: %s", addon.name)
-        addon.delete()
+        addon.disable()
 
 
 @receiver(vcs_pre_push)
@@ -349,3 +354,8 @@ def store_post_load_handler(sender, translation, store, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, translation.component)
+
+
+@receiver(post_delete, sender=Addon)
+def addon_post_delete(sender, instance, **kwargs):
+    instance.addon.post_uninstall()

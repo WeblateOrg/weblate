@@ -22,7 +22,7 @@
         {{ language.code }}
         </td>
         </tr>
-        {% with language.get_aliases_names as aliases %}
+        {% with aliases=language.get_aliases_names %}
           {% if aliases %}
             <tr>
             <th>{% trans "Aliased language codes" %}</th>
@@ -34,6 +34,12 @@
         <th>{% trans "Text direction" %}</th>
         <td colspan="2">{{ language.get_direction_display }}</td>
         </tr>
+        {% if language.population %}
+        <tr>
+        <th>{% trans "Number of speakers" %}</th>
+        <td colspan="2">{{ language.population|intcomma }}</td>
+        </tr>
+        {% endif %}
 
         {% for plural in language.plural_set.order %}
           <tr class="info">
@@ -311,6 +317,15 @@
       <td class="number">{{ stats.approved_chars_percent|percent_format }}</td>
       <td class="number">{{ stats.approved_chars|intcomma }}</td>
       </tr>
+      <tr>
+      <th>{% trans "Waiting for review" context "Number of strings" %}</th>
+      <td class="number">{{ stats.waiting_review_percent|percent_format }}</td>
+      <td class="number">{{ stats.waiting_review|intcomma }}</td>
+      <td class="number">{{ stats.waiting_review_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.waiting_review_words|intcomma }}</td>
+      <td class="number">{{ stats.waiting_review_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.waiting_review_chars|intcomma }}</td>
+      </tr>
       {% endif %}
       <tr>
       <th>{% trans "Translated" context "Number of strings" %}</th>
@@ -329,6 +344,15 @@
       <td class="number">{{ stats.fuzzy_words|intcomma }}</td>
       <td class="number">{{ stats.fuzzy_chars_percent|percent_format }}</td>
       <td class="number">{{ stats.fuzzy_chars|intcomma }}</td>
+      </tr>
+      <tr>
+      <th>{% trans "Read-only" context "Number of strings" %}</th>
+      <td class="number">{{ stats.readonly_percent|percent_format }}</td>
+      <td class="number">{{ stats.readonly|intcomma }}</td>
+      <td class="number">{{ stats.readonly_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.readonly_words|intcomma }}</td>
+      <td class="number">{{ stats.readonly_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.readonly_chars|intcomma }}</td>
       </tr>
       <tr>
       <th>{% trans "Failing checks" context "Number of strings" %}</th>

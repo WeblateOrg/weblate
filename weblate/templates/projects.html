@@ -9,8 +9,12 @@
 
 {% include "list-projects.html" %}
 
+{% include "paginator.html" with page_obj=projects %}
+
 {% if payment_enabled %}
+<p>
 <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+</p>
 {% elif offer_hosting %}
 <p><a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a></p>
 {% endif %}

@@ -58,7 +58,9 @@ class DiscoveryAddon(BaseAddon):
         # Handle old settings which did not have this set
         if "new_base_template" not in self.instance.configuration:
             self.instance.configuration["new_base_template"] = ""
+        if "intermediate_template" not in self.instance.configuration:
+            self.instance.configuration["intermediate_template"] = ""
         return ComponentDiscovery(
             self.instance.component,
-            **ComponentDiscovery.extract_kwargs(self.instance.configuration)
+            **ComponentDiscovery.extract_kwargs(self.instance.configuration),
         )

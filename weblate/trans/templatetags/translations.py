@@ -29,7 +29,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape, urlize
+from django.utils.html import escape, format_html, format_html_join, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -63,6 +63,9 @@ HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
 SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
 SPACE_SPACE = SPACE_TEMPLATE.format("space-space", " ")
 SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />")
+SPACE_START = '<span class="hlspace"><span class="space-space"><span class="sr-only">'
+SPACE_MIDDLE = '</span></span><span class="space-space"><span class="sr-only">'
+SPACE_END = "</span></span></span>"
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
@@ -84,10 +87,11 @@ NAME_MAPPING = {
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 
-SOURCE_LINK = """
-<a href="{0}" target="_blank" rel="noopener noreferrer"
-    class="wrap-text" dir="ltr">{1}</a>
-"""
+SOURCE_LINK = (
+    '<a href="{0}" target="_blank" rel="noopener noreferrer"'
+    ' class="{2}" dir="ltr">{1}</a>'
+)
+HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
 
 class Formatter:
@@ -123,19 +127,14 @@ class Formatter:
         offset = 0
         for op, data in diff:
             if op == dmp.DIFF_DELETE:
-                self.tags[offset].append(
-                    "<del>{}</del>".format(SPACE_SPACE if data == " " else escape(data))
+                formatter = Formatter(
+                    0, data, self.unit, self.terms, None, self.search_match, self.match
                 )
+                formatter.parse()
+                self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == dmp.DIFF_INSERT:
                 self.tags[offset].append("<ins>")
-                if data == " ":
-                    # This matches SPACE_SPACE
-                    self.tags[offset].append(
-                        '<span class="space-space"><span class="sr-only">'
-                    )
                 offset += len(data)
-                if data == " ":
-                    self.tags[offset].insert(0, "</span></span>")
                 self.tags[offset].insert(0, "</ins>")
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
@@ -144,10 +143,8 @@ class Formatter:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
-        for start, end, _content in highlights:
-            self.tags[start].append(
-                '<span class="hlcheck"><span class="highlight-number"></span>'
-            )
+        for start, end, content in highlights:
+            self.tags[start].append(format_html(HLCHECK, content))
             self.tags[end].insert(0, "</span>")
             cleaned_value[start:end] = [" "] * (end - start)
 
@@ -174,7 +171,7 @@ class Formatter:
         if forbidden:
             output.append(gettext("Forbidden translation: %s") % ", ".join(forbidden))
         if nontranslatable:
-            output.append(gettext("Not-translatable: %s") % ", ".join(nontranslatable))
+            output.append(gettext("Untranslatable: %s") % ", ".join(nontranslatable))
         if translations:
             output.append(gettext("Glossary translation: %s") % ", ".join(translations))
         return "; ".join(output)
@@ -208,14 +205,10 @@ class Formatter:
     def parse_whitespace(self):
         """Highlight whitespaces."""
         for match in MULTISPACE_RE.finditer(self.value):
-            self.tags[match.start()].append(
-                '<span class="hlspace"><span class="space-space"><span class="sr-only">'
-            )
+            self.tags[match.start()].append(SPACE_START)
             for i in range(match.start() + 1, match.end()):
-                self.tags[i].insert(
-                    0, '</span></span><span class="space-space"><span class="sr-only">'
-                )
-            self.tags[match.end()].insert(0, "</span></span></span>")
+                self.tags[i].insert(0, SPACE_MIDDLE)
+            self.tags[match.end()].insert(0, SPACE_END)
 
         for match in WHITESPACE_RE.finditer(self.value):
             whitespace = match.group(0)
@@ -234,11 +227,16 @@ class Formatter:
     def format(self):
         tags = self.tags
         value = self.value
-        newline = SPACE_NL.format(gettext("New line"))
+        newline = format_html(SPACE_NL, gettext("New line"))
         output = []
         was_cr = False
         newlines = {"\r", "\n"}
         for pos, char in enumerate(value):
+            # Special case for single whitespace char in diff
+            if char == " " and "<ins>" in tags[pos] and "</ins>" in tags[pos + 1]:
+                tags[pos].append(SPACE_START)
+                tags[pos + 1].insert(0, SPACE_END)
+
             output.append("".join(tags[pos]))
             if char in newlines:
                 is_cr = char == "\r"
@@ -515,10 +513,8 @@ def naturaltime(value, now=None):
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
-    return mark_safe(
-        '<span title="{}">{}</span>'.format(
-            escape(value.replace(microsecond=0).isoformat()), escape(text)
-        )
+    return format_html(
+        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
     )
 
 
@@ -603,6 +599,20 @@ def unit_state_title(unit) -> str:
     return "; ".join(state)
 
 
+def try_linkify_filename(
+    text, filename: str, line: str, unit, profile, link_class: str = ""
+):
+    """Attemp to convert `text` to a repo link to `filename:line`."""
+    link = None
+    if profile:
+        link = unit.translation.component.get_repoweb_link(
+            filename, line, profile.editor_link
+        )
+    if link:
+        return format_html(SOURCE_LINK, link, text, link_class)
+    return text
+
+
 @register.simple_tag
 def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
@@ -622,16 +632,12 @@ def get_location_links(profile, unit):
 
     # Go through all locations separated by comma
     for location, filename, line in unit.get_locations():
-        link = None
-        if profile:
-            link = unit.translation.component.get_repoweb_link(
-                filename, line, profile.editor_link
-            )
-        if link is None:
-            ret.append(escape(location))
-        else:
-            ret.append(SOURCE_LINK.format(escape(link), escape(location)))
-    return mark_safe('\n<span class="divisor">•</span>\n'.join(ret))
+        ret.append(
+            try_linkify_filename(location, filename, line, unit, profile, "wrap-text")
+        )
+    return format_html_join(
+        format_html('\n<span class="divisor">•</span>\n'), "{}", ((v,) for v in ret)
+    )
 
 
 @register.simple_tag(takes_context=True)
@@ -656,19 +662,19 @@ def announcements(context, project=None, component=None, language=None):
             )
         )
 
-    return mark_safe("\n".join(ret))
+    return format_html_join("\n", "{}", ((v,) for v in ret))
 
 
 @register.simple_tag(takes_context=True)
 def active_tab(context, slug):
     active = "active" if slug == context["active_tab_slug"] else ""
-    return mark_safe(f'class="tab-pane {active}" id="{slug}"')
+    return format_html('class="tab-pane {}" id="{}"', active, slug)
 
 
 @register.simple_tag(takes_context=True)
 def active_link(context, slug):
     if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')
+        return format_html('class="active"')
     return ""
 
 
@@ -851,7 +857,7 @@ def indicate_alerts(context, obj):
                         "%(count)s strings are not being translated here.",
                         count,
                     )
-                    % {"count": count},
+                    % {"count": intcomma(count)},
                     None,
                 )
             )
@@ -870,7 +876,7 @@ def indicate_alerts(context, obj):
 
 @register.filter(is_safe=True)
 def markdown(text):
-    return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
+    return format_html('<div class="markdown">{}</div>', render_markdown(text))
 
 
 @register.filter
@@ -942,10 +948,11 @@ def trend_format(number):
     number = abs(number)
     if number < 0.1:
         return "—"
-    return mark_safe(
-        '{}{} <span class="{}"></span>'.format(
-            prefix, escape(percent_format(number)), trend
-        )
+    return format_html(
+        '{}{} <span class="{}"></span>',
+        prefix,
+        percent_format(number),
+        trend,
     )
 
 

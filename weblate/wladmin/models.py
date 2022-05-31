@@ -32,15 +32,17 @@ from weblate.trans.models import Component, Project
 from weblate.utils.backup import (
     BackupError,
     backup,
+    cleanup,
     get_paper_key,
     initialize,
     make_password,
     prune,
+    supports_cleanup,
 )
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
-from weblate.vcs.ssh import generate_ssh_key, get_key_data
+from weblate.vcs.ssh import ensure_ssh_key
 
 
 class WeblateConf(AppConf):
@@ -136,10 +138,7 @@ class SupportStatus(models.Model):
                     ).iterator()
                 ]
             )
-        ssh_key = get_key_data()
-        if not ssh_key:
-            generate_ssh_key(None)
-            ssh_key = get_key_data()
+        ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
         response = request("post", settings.SUPPORT_API_URL, data=data)
@@ -204,6 +203,16 @@ class BackupService(models.Model):
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
+    def cleanup(self):
+        if not supports_cleanup():
+            return
+        initial = self.backuplog_set.filter(event="cleanup").exists()
+        try:
+            log = cleanup(self.repository, self.passphrase, initial=initial)
+            self.backuplog_set.create(event="cleanup", log=log)
+        except BackupError as error:
+            self.backuplog_set.create(event="error", log=str(error))
+
 
 class BackupLog(models.Model):
     service = models.ForeignKey(BackupService, on_delete=models.deletion.CASCADE)
@@ -214,8 +223,10 @@ class BackupLog(models.Model):
             ("backup", gettext_lazy("Backup performed")),
             ("error", gettext_lazy("Backup failed")),
             ("prune", gettext_lazy("Deleted the oldest backups")),
+            ("cleanup", gettext_lazy("Cleaned up backup storage")),
             ("init", gettext_lazy("Repository initialization")),
         ),
+        db_index=True,
     )
     log = models.TextField()
 

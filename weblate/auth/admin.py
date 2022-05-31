@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
@@ -43,8 +43,23 @@ def block_role_edit(obj):
     return obj and obj.name in BUILT_IN_ROLES
 
 
+class AutoGroupChangeForm(forms.ModelForm):
+    class Meta:
+        model = AutoGroup
+        fields = "__all__"
+
+    def has_changed(self):
+        """
+        Should returns True if data differs from initial.
+
+        By always returning true even unchanged inlines will get validated and saved.
+        """
+        return True
+
+
 class InlineAutoGroupAdmin(admin.TabularInline):
     model = AutoGroup
+    form = AutoGroupChangeForm
     extra = 0
 
     def has_add_permission(self, request, obj=None):
@@ -136,6 +151,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         "full_name",
         "user_groups",
         "is_active",
+        "is_bot",
         "is_superuser",
     )
     search_fields = ("username", "full_name", "email")
@@ -149,10 +165,13 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("full_name", "email")}),
-        (_("Permissions"), {"fields": ("is_active", "is_superuser", "groups")}),
+        (
+            _("Permissions"),
+            {"fields": ("is_active", "is_bot", "is_superuser", "groups")},
+        ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_filter = ("is_superuser", "is_active", "groups")
+    list_filter = ("is_superuser", "is_active", "is_bot", "groups")
     filter_horizontal = ("groups",)
 
     def user_groups(self, obj):
@@ -164,7 +183,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             return ""
         return super().action_checkbox(obj)
 
-    action_checkbox.short_description = mark_safe(
+    action_checkbox.short_description = format_html(
         '<input type="checkbox" id="action-toggle" />'
     )
 
@@ -188,6 +207,12 @@ class GroupChangeForm(forms.ModelForm):
         model = Group
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if "components" in self.fields:
+            components = self.fields["components"]
+            components.queryset = components.queryset.select_related("project")
+
     def clean(self):
         super().clean()
         has_componentlist = bool(self.cleaned_data["componentlists"])
@@ -208,7 +233,7 @@ class GroupChangeForm(forms.ModelForm):
                 )
         elif has_component and has_project:
             raise ValidationError(
-                {"project": _("This is not used when a component is selected.")}
+                {"projects": _("This is not used when a component is selected.")}
             )
 
 
@@ -236,7 +261,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
             return ""
         return super().action_checkbox(obj)
 
-    action_checkbox.short_description = mark_safe(
+    action_checkbox.short_description = format_html(
         '<input type="checkbox" id="action-toggle" />'
     )
 

@@ -21,7 +21,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
 from django.urls import reverse
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html_join
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
@@ -105,11 +105,13 @@ class MaxSizeCheck(TargetCheckParametrized):
             "render-check",
             kwargs={"check_id": self.check_id, "unit_id": check_obj.unit_id},
         )
-        return mark_safe(
-            "\n".join(
-                IMAGE.format(f"{url}?pos={i}")
+        return format_html_join(
+            "\n",
+            IMAGE,
+            (
+                (f"{url}?pos={i}",)
                 for i in range(len(check_obj.unit.get_target_plurals()))
-            )
+            ),
         )
 
     def render(self, request, unit):

@@ -330,14 +330,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.get(url)
 
         # Check we got message
-        self.assertTrue(
-            "You have activated" in self.driver.find_element(By.TAG_NAME, "body").text
+        self.assertIn(
+            "You have activated", self.driver.find_element(By.TAG_NAME, "body").text
         )
 
         # Check we're signed in
         self.click(htmlid="user-dropdown")
-        self.assertTrue(
-            "Test Example" in self.driver.find_element(By.ID, "profile-name").text
+        self.assertIn(
+            "Test Example", self.driver.find_element(By.ID, "profile-name").text
         )
 
     def test_register_nocookie(self):
@@ -486,8 +486,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 presence_of_element_located(
                     (
                         By.XPATH,
-                        '//div[@id="search-results"]'
-                        '//tbody[@class="unit-listing-body"]//tr',
+                        (
+                            '//div[@id="search-results"]'
+                            '//tbody[@class="unit-listing-body"]//tr'
+                        ),
                     )
                 )
             )
@@ -718,7 +720,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Access control")
         self.screenshot("manage-users.png")
-        # Access control setings
+        # Automatic suggestions
+        self.click(htmlid="projects-menu")
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Automatic suggestions")
+        self.screenshot("project-machinery.png")
+        # Access control settings
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
@@ -798,7 +808,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Insights")
         self.screenshot("reporting.png")
 
-        # Contributor agreeement
+        # Contributor agreement
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Settings")

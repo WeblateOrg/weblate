@@ -104,7 +104,7 @@ def prefetch_stats(queryset):
     # This function can either accept queryset, in which case it is
     # returned with prefetched stats, or iterator, in which case new list
     # is returned.
-    # This is needed to allow using such querysets futher and to support
+    # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
     result = objects if isinstance(queryset, GeneratorType) else queryset
 
@@ -285,6 +285,38 @@ class BaseStats:
             completed = {"translated", "translated_words", "translated_chars"}
         return translation_percent(getattr(self, base), total, base in completed)
 
+    @property
+    def waiting_review_percent(self):
+        return self.translated_percent - self.approved_percent - self.readonly_percent
+
+    @property
+    def waiting_review(self):
+        return self.translated - self.approved - self.readonly
+
+    @property
+    def waiting_review_words_percent(self):
+        return (
+            self.translated_words_percent
+            - self.approved_words_percent
+            - self.readonly_words_percent
+        )
+
+    @property
+    def waiting_review_words(self):
+        return self.translated_words - self.approved_words - self.readonly_words
+
+    @property
+    def waiting_review_chars_percent(self):
+        return (
+            self.translated_chars_percent
+            - self.approved_chars_percent
+            - self.readonly_chars_percent
+        )
+
+    @property
+    def waiting_review_chars(self):
+        return self.translated_chars - self.approved_chars - self.readonly_chars
+
 
 class DummyTranslationStats(BaseStats):
     """Dummy stats to report 0 in all cases.
@@ -332,11 +364,15 @@ class TranslationStats(BaseStats):
             # Happens when deleting language from the admin interface
             pass
         if parents:
-            result.update(
-                self._object.component.stats.get_invalidate_keys(
-                    language=self._object.language
+            try:
+                result.update(
+                    self._object.component.stats.get_invalidate_keys(
+                        language=self._object.language
+                    )
                 )
-            )
+            except ObjectDoesNotExist:
+                # Happens when deleting language from the admin interface
+                pass
         return result
 
     @property
@@ -793,9 +829,10 @@ class ProjectLanguage:
 
 
 class ProjectLanguageStats(LanguageStats):
-    def __init__(self, obj: ProjectLanguage):
+    def __init__(self, obj: ProjectLanguage, project_stats=None):
         self.language = obj.language
         self.project = obj.project
+        self._project_stats = project_stats
         super().__init__(obj)
         obj.stats = self
 
@@ -805,6 +842,8 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def component_set(self):
+        if self._project_stats:
+            return self._project_stats.component_set
         return prefetch_stats(self.project.component_set.prefetch_source_stats())
 
     @cached_property
@@ -872,17 +911,15 @@ class ProjectStats(BaseStats):
     def component_set(self):
         return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
-    def get_single_language_stats(self, language, prefetch: bool = False):
-        result = ProjectLanguageStats(ProjectLanguage(self._object, language))
-        if prefetch:
-            # Share component set here
-            result.__dict__["component_set"] = self.component_set
-        return result
+    def get_single_language_stats(self, language):
+        return ProjectLanguageStats(
+            ProjectLanguage(self._object, language), project_stats=self
+        )
 
     def get_language_stats(self):
         result = []
         for language in self._object.languages:
-            result.append(self.get_single_language_stats(language, prefetch=True))
+            result.append(self.get_single_language_stats(language))
         return prefetch_stats(result)
 
     def _prefetch_basic(self):

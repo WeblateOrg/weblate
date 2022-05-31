@@ -42,7 +42,7 @@ copyright = "2012–2022 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.11"
+release = "4.13"
 
 
 # -- General configuration ---------------------------------------------------
@@ -231,7 +231,7 @@ intersphinx_mapping = {
     "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
     "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
-    "celery": ("https://docs.celeryproject.org/en/latest/", None),
+    "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
@@ -264,6 +264,12 @@ linkcheck_ignore = [
     "https://api.deepl.com/v2/translate",
     # Anchors are used to specify channel name here
     "https://web.libera.chat/#",
+    # Site is unreliable
+    "https://docwiki.embarcadero.com/",
+    # 403 for linkcheck
+    "https://docs.github.com/",
+    # These are PDF and fails with Unicode decode error
+    "http://ftp.pwg.org/",
 ]
 
 # HTTP docs
@@ -276,6 +282,7 @@ autodoc_mock_imports = [
     "celery",
     "sentry_sdk",
     "crispy_forms",
+    "weblate.utils.errors",
     "weblate.trans.discovery",
     "weblate.checks.models",
     "weblate.trans.forms",

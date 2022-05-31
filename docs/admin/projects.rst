@@ -164,7 +164,7 @@ Use shared translation memory
 
 Whether to use shared translation memory, see :ref:`shared-tm` for more details.
 
-Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
 .. _project-contribute_shared_tm:
 
@@ -173,7 +173,7 @@ Contribute to shared translation memory
 
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
 
-Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
 .. _project-access_control:
 
@@ -182,7 +182,7 @@ Access control
 
 Configure per project access control, see :ref:`acl` for more details.
 
-Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
+The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. _project-translation_review:
 
@@ -655,13 +655,14 @@ Rebase
    as :ref:`component-vcs`, especially when pushing to a different branch.
 
 Merge
-   Upstream repository changed are merged into Weblate one. The merge utilizes
+   Upstream repository changes are merged into Weblate one. This setting utilizes
    fast-forward when possible. This is the safest way, but might produce a lot
    of merge commits.
 
 Merge without fast-forward
-   Upstream repository changed are merged into Weblate one with doing a merge
-   commit every time (even when fast-forward would be possible).
+   Upstream repository changes are merged into Weblate one with doing a merge
+   commit every time (even when fast-forward would be possible). Every Weblate
+   change will appear as a merge commit in Weblate repository.
 
 Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 
@@ -670,15 +671,17 @@ Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 .. _component-delete_message:
 .. _component-merge_message:
 .. _component-addon_message:
+.. _component-pull_message:
 
-Commit, add, delete, merge and add-on messages
-++++++++++++++++++++++++++++++++++++++++++++++
+Commit, add, delete, merge, add-on, and merge request messages
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Message used when committing a translation, see :ref:`markup`.
 
 Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
-:setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`.
+:setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
+:setting:`DEFAULT_PULL_MESSAGE`.
 
 .. _component-push_on_commit:
 
@@ -777,7 +780,7 @@ Regular expression used to determine the variants of a string, see
 
 .. note::
 
-    Most of the fields can be edited by project owners or managers, in the
+    Most of the fields can be edited by project owners or administrators, in the
     Weblate interface.
 
 .. seealso::

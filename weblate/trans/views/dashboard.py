@@ -24,8 +24,7 @@ from django.db.models import Count
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import translation
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
@@ -120,7 +119,7 @@ def get_user_translations(request, user, user_has_languages):
     result = Translation.objects.prefetch().filter_access(user).order()
 
     if user_has_languages:
-        result = result.filter(language__in=user.profile.languages.all())
+        result = result.filter(language__in=user.profile.all_languages)
     else:
         # Filter based on session language
         tmp = result.filter(language=guess_user_language(request, result))
@@ -177,11 +176,10 @@ def home(request):
     if user.is_authenticated and (not user.full_name or not user.email):
         messages.warning(
             request,
-            mark_safe(
-                '<a href="{}">{}</a>'.format(
-                    reverse("profile") + "#account",
-                    escape(_("Please set your full name and e-mail in your profile.")),
-                )
+            format_html(
+                '<a href="{}">{}</a>',
+                reverse("profile") + "#account",
+                _("Please set your full name and e-mail in your profile."),
             ),
         )
 
@@ -218,7 +216,7 @@ def fetch_componentlists(user, user_translations):
             (translation.component.slug, translation.language.code)
             for translation in translations
         }
-        languages = user.profile.languages.all()
+        languages = user.profile.all_languages
         for component in components:
             for language in languages:
                 if (
@@ -239,7 +237,7 @@ def dashboard_user(request):
     """Home page of Weblate for authenticated user."""
     user = request.user
 
-    user_has_languages = user.is_authenticated and user.profile.languages.exists()
+    user_has_languages = user.is_authenticated and user.profile.all_languages
 
     user_translations = get_user_translations(request, user, user_has_languages)
 

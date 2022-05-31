@@ -96,7 +96,14 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("location:TEXT", Q(location__substring="TEXT"))
 
     def test_comment(self):
-        self.assert_query("comment:TEXT", Q(comment__comment__substring="TEXT"))
+        self.assert_query(
+            "comment:TEXT",
+            Q(comment__comment__substring="TEXT") & Q(comment__resolved=False),
+        )
+        self.assert_query(
+            "resolved_comment:TEXT",
+            Q(comment__comment__substring="TEXT") & Q(comment__resolved=True),
+        )
         self.assert_query(
             "comment_author:nijel", Q(comment__user__username__iexact="nijel")
         )

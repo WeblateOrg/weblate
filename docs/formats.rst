@@ -76,7 +76,7 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`aresource`    | mono             | yes           | yes [#x]_          | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
-| :ref:`apple`        | bilingual        | no            | yes                | no            | no             | no             |                         |
+| :ref:`apple`        | both             | no            | yes                | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`php`          | mono             | no [#lp]_     | yes                | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
@@ -91,6 +91,8 @@ Capabilities of all supported formats:
 | :ref:`webex`        | mono             | yes           | yes                | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`dotnet`       | mono             | no            | yes                | no            | no             | yes [#xl]_     |                         |
++---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
+| :ref:`resourcedict` | mono             | no            | no                 | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`csv`          | both             | no            | yes                | yes           | yes            | no             | needs editing           |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
@@ -276,11 +278,23 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
 `XML Localization Interchange File Format (XLIFF)` is usually used as bilingual, but Weblate supports it as monolingual as well.
 
+Weblate supports XLIFF in several variants:
+
+`XLIFF translation file`
+   Simple XLIFF file where content of the elements is stored as plain text (all XML elements being escaped).
+`XLIFF with placeables support`
+   Standard XLIFF supporting placeables and other XML elements.
+`XLIFF with gettext extensions`
+   XLIFF enriched  by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
+
+
 .. seealso::
 
-    `XML Localization Interchange File Format (XLIFF)` specification
+    `XML Localization Interchange File Format (XLIFF)`_ specification,
+    `XLIFF 1.2 Representation Guide for Gettext PO`_
 
 .. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
+.. _XLIFF 1.2 Representation Guide for Gettext PO: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-po/xliff-profile-po-1.2-cd02.html
 
 
 Translation states
@@ -474,7 +488,7 @@ File format used for JavaScript localization by `mi18n`_. Syntactically it match
 
 .. seealso::
 
-    `mi18n`_
+    `mi18n`_,
     :doc:`tt:formats/properties`,
     :ref:`javaprop`,
     :ref:`updating-target-files`,
@@ -509,8 +523,8 @@ GWT properties are usually used as monolingual translations.
 
 .. seealso::
 
-    `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
-    `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
+    `GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
+    `GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
     :doc:`tt:formats/properties`,
     :ref:`updating-target-files`,
     :ref:`addon-weblate.properties.sort`,
@@ -739,10 +753,11 @@ Apple iOS strings
 .. index::
     pair: Apple strings; file format
 
-Apple specific file format for translating applications, used for both iOS
-and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
+File format typically used for translating Apple :index:`iOS <pair: iOS;
+translation>` applications, but also standardized by PWG 5100.13 and used on
+NeXTSTEP/OpenSTEP.
 
-Apple iOS strings are usually used as bilingual translations.
+Apple iOS strings are usually used as monolingual.
 
 +-------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                              |
@@ -761,6 +776,7 @@ Apple iOS strings are usually used as bilingual translations.
 
     :ref:`stringsdict`,
     `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
+    `Message Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_,
     :doc:`tt:formats/strings`
 
 .. _php:
@@ -1090,6 +1106,40 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
     :ref:`updating-target-files`,
     :ref:`addon-weblate.cleanup.generic`
 
+.. _resourcedict:
+
+ResourceDictionary files
+------------------------
+
+.. index::
+    pair: ResourceDictionary; file format
+    pair: WPF; file format
+
+.. versionadded:: 4.13
+
+ResourceDictionary is a monolingual  XML file format used to package
+localizable string resources for Windows Presentation Foundation (WPF)
+applications.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``Languages/*.xaml``             |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``Language/en.xaml``             |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `ResourceDictionary file`        |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/flatxml`,
+    :ref:`flatxml`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.cleanup.generic`
+
 .. _csv:
 
 CSV files
@@ -1115,6 +1165,13 @@ the following files:
   Choose :guilabel:`CSV file` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
+
+.. hint::
+
+   By default, the CSV format does autodetection of file encoding. This can be
+   unreliable in some corner cases and causes performance penalty. Please
+   choose file format variant with encoding to avoid this (for example
+   :guilabel:`CSV file (UTF-8)`).
 
 .. warning::
 

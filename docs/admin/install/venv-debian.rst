@@ -9,14 +9,17 @@ Installing on Debian and Ubuntu
 
    apt install \
       libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev \
-      libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libacl1-dev libssl-dev \
-      build-essential python3-gdbm python3-dev python3-pip python3-virtualenv virtualenv git
+      libffi-dev libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev \
+      libacl1-dev libssl-dev libpq-dev libjpeg62-turbo-dev build-essential \
+      python3-gdbm python3-dev python3-pip python3-virtualenv virtualenv git
 
 .. include:: steps/install-system-optional.rst
 
 .. code-block:: sh
 
     apt install tesseract-ocr libtesseract-dev libleptonica-dev
+    apt install libldap2-dev libldap-common libsasl2-dev
+    apt install libxmlsec1-dev
 
 .. include:: steps/install-system-server.rst
 

@@ -1127,11 +1127,17 @@ $(function () {
     trigger: "@",
     requireLeadingSpace: true,
     menuShowMinLength: 2,
+    searchOpts: {
+      pre: "​",
+      post: "​",
+    },
     noMatchTemplate: function () {
       return "";
     },
     menuItemTemplate: function (item) {
-      return `<a>${item.string}</a>`;
+      let link = document.createElement("a");
+      link.innerText = item.string;
+      return link.outerHTML;
     },
     values: (text, callback) => {
       $.ajax({
@@ -1161,7 +1167,7 @@ $(function () {
     });
   });
 
-  /* Textarea higlighting */
+  /* Textarea highlighting */
   Prism.languages.none = {};
   initHighlight(document);
 

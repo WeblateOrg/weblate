@@ -21,14 +21,14 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.html import escape
+from django.utils.html import format_html
 from django.utils.http import urlencode
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AnnouncementForm,
     AutoForm,
@@ -74,7 +74,7 @@ def list_projects(request):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                prefetch_stats(request.user.allowed_projects)
+                get_paginator(request, prefetch_stats(request.user.allowed_projects))
             ),
             "title": _("Projects"),
         },
@@ -85,7 +85,7 @@ def add_ghost_translations(component, user, translations, generator, **kwargs):
     """Adds ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
         existing = {translation.language.code for translation in translations}
-        for language in user.profile.languages.all():
+        for language in user.profile.all_languages:
             if language.code in existing:
                 continue
             translations.append(generator(component, language, **kwargs))
@@ -119,10 +119,8 @@ def show_engage(request, project, lang=None):
             "total": obj.stats.source_strings,
             "percent": stats_obj.translated_percent,
             "language": language,
-            "project_link": mark_safe(
-                '<a href="{}">{}</a>'.format(
-                    escape(obj.get_absolute_url()), escape(obj.name)
-                )
+            "project_link": format_html(
+                '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
             "title": _("Get involved in {0}!").format(obj),
         },
@@ -427,10 +425,14 @@ def new_language(request, project, component):
                                 "sent to the project's maintainers."
                             ),
                         )
-                if not obj.create_translations(request=request):
-                    messages.warning(
-                        request, _("The translation will be updated in the background.")
-                    )
+                try:
+                    if not obj.create_translations(request=request):
+                        messages.warning(
+                            request,
+                            _("The translation will be updated in the background."),
+                        )
+                except FileParseError:
+                    pass
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
             return redirect(result)

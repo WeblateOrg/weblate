@@ -78,7 +78,7 @@ class StatsView(AboutView):
 
         context["top_users"] = top_users = (
             Profile.objects.order_by("-translated")
-            .filter(user__is_active=True)[:10]
+            .filter(user__is_bot=False, user__is_active=True)[:10]
             .select_related("user")
         )
         translated_max = max(user.translated for user in top_users)

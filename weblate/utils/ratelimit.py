@@ -90,7 +90,12 @@ def check_rate_limit(scope, request):
     if attempts > get_rate_setting(scope, "ATTEMPTS"):
         # Set key to longer expiry for lockout period
         cache.set(key, attempts, get_rate_setting(scope, "LOCKOUT"))
-        LOGGER.info("rate-limit lockout for %s in %s scope", key, scope)
+        LOGGER.info(
+            "rate-limit lockout for %s in %s scope from %s",
+            key,
+            scope,
+            get_ip_address(request),
+        )
         return False
 
     return True

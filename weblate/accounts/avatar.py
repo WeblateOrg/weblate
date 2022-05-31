@@ -27,8 +27,7 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.cache import InvalidCacheBackendError, caches
 from django.urls import reverse
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext, pgettext
 
 from weblate.utils.errors import report_error
@@ -113,10 +112,6 @@ def get_user_display(user, icon: bool = True, link: bool = False):
             # Use full name in case username matches e-mail
             username = full_name
 
-    # Escape HTML
-    full_name = escape(full_name)
-    username = escape(username)
-
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
         if email == "noreply@weblate.org":
@@ -124,11 +119,18 @@ def get_user_display(user, icon: bool = True, link: bool = False):
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
-        alt = escape(gettext("User avatar"))
-        username = f'<img src="{avatar}" class="avatar w32" alt="{alt}" /> {username}'
+        username = format_html(
+            '<img src="{}" class="avatar w32" alt="{}" /> {}',
+            avatar,
+            gettext("User avatar"),
+            username,
+        )
 
     if link and user is not None:
-        return mark_safe(
-            f'<a href="{user.get_absolute_url()}" title="{full_name}">{username}</a>'
+        return format_html(
+            '<a href="{}" title="{}">{}</a>',
+            user.get_absolute_url(),
+            full_name,
+            username,
         )
-    return mark_safe(f'<span title="{full_name}">{username}</span>')
+    return format_html('<span title="{}">{}</span>', full_name, username)

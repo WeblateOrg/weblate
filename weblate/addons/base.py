@@ -91,11 +91,11 @@ class BaseAddon:
         return result
 
     @classmethod
-    def create(cls, component, **kwargs):
+    def create(cls, component, run: bool = True, **kwargs):
         storage = cls.create_object(component, **kwargs)
         storage.save(force_insert=True)
         result = cls(storage)
-        result.post_configure()
+        result.post_configure(run=run)
         return result
 
     @classmethod
@@ -126,12 +126,15 @@ class BaseAddon:
         self.instance.save()
         self.post_configure()
 
-    def post_configure(self):
+    def post_configure(self, run: bool = True):
         component = self.instance.component
 
         # Configure events to current status
         component.log_debug("configuring events for %s add-on", self.name)
         self.instance.configure_events(self.events)
+
+        if not run:
+            return
 
         # Trigger post events to ensure direct processing
         if self.repo_scope and component.linked_component:
@@ -153,6 +156,9 @@ class BaseAddon:
         if EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
             self.daily(component)
+
+    def post_uninstall(self):
+        pass
 
     def save_state(self):
         """Save add-on state information."""
@@ -232,7 +238,7 @@ class BaseAddon:
                 env=get_clean_env(env),
                 cwd=component.full_path,
                 stderr=subprocess.STDOUT,
-                universal_newlines=True,
+                text=True,
             )
             component.log_debug("exec result: %s", output)
         except (OSError, subprocess.CalledProcessError) as err:
@@ -269,6 +275,8 @@ class BaseAddon:
             )
             files += self.extra_files
         repository = component.repository
+        if not files or not repository.needs_commit(files):
+            return
         with repository.lock:
             component.commit_files(
                 template=component.addon_message,

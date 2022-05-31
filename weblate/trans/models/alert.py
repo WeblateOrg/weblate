@@ -49,7 +49,7 @@ class Alert(models.Model):
     details = JSONField(default={})
 
     class Meta:
-        unique_together = ("component", "name")
+        unique_together = [("component", "name")]
         verbose_name = "component alert"
         verbose_name_plural = "component alerts"
 
@@ -422,7 +422,7 @@ class NoMaskMatches(BaseAlert):
 
 @register
 class InexistantFiles(BaseAlert):
-    verbose = _("Inexistant files.")
+    verbose = _("Inexistent files.")
     doc_page = "admin/projects"
     doc_anchor = "component-template"
 

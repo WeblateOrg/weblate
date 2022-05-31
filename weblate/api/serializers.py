@@ -45,6 +45,7 @@ from weblate.utils.views import (
     create_component_from_doc,
     create_component_from_zip,
     get_form_errors,
+    guess_filemask_from_doc,
 )
 
 
@@ -126,6 +127,7 @@ class LanguageSerializer(serializers.ModelSerializer):
             "plural",
             "aliases",
             "direction",
+            "population",
             "web_url",
             "url",
             "statistics_url",
@@ -209,6 +211,7 @@ class FullUserSerializer(serializers.ModelSerializer):
             "notifications",
             "is_superuser",
             "is_active",
+            "is_bot",
             "date_joined",
             "url",
             "statistics_url",
@@ -315,7 +318,8 @@ class GroupSerializer(serializers.ModelSerializer):
     defining_project = serializers.HyperlinkedRelatedField(
         view_name="api:project-detail",
         lookup_field="slug",
-        read_only=True,
+        queryset=Project.objects.none(),
+        required=False,
     )
 
     class Meta:
@@ -333,6 +337,11 @@ class GroupSerializer(serializers.ModelSerializer):
             "components",
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        user = self.context["request"].user
+        self.fields["defining_project"].queryset = user.managed_projects
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -506,6 +515,7 @@ class ComponentSerializer(RemovableSerializer):
             "delete_message",
             "merge_message",
             "addon_message",
+            "pull_message",
             "allow_translation_propagation",
             "manage_units",
             "enable_suggestions",
@@ -566,8 +576,8 @@ class ComponentSerializer(RemovableSerializer):
 
             # Provide a filemask so that it is not listed as an
             # error. The validation of docfile will fail later
-            if "docfile" in data:
-                data["filemask"] = "fake.*"
+            if "docfile" in data and "filemask" not in data:
+                guess_filemask_from_doc(data)
 
         # DRF processing
         result = super().to_internal_value(data)
@@ -604,6 +614,12 @@ class ComponentSerializer(RemovableSerializer):
                 )
 
         # Handle uploaded files
+        if self.instance:
+            for field in ("docfile", "zipfile"):
+                if field in attrs:
+                    raise serializers.ValidationError(
+                        {field: "This field is for creation only, use /file/ instead."}
+                    )
         if "docfile" in attrs:
             fake = create_component_from_doc(attrs)
             attrs["template"] = fake.template
@@ -906,6 +922,8 @@ class UnitSerializer(serializers.ModelSerializer):
     )
     source = PluralField()
     target = PluralField()
+    timestamp = serializers.DateTimeField(read_only=True)
+    pending = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Unit
@@ -936,6 +954,8 @@ class UnitSerializer(serializers.ModelSerializer):
             "url",
             "explanation",
             "extra_flags",
+            "pending",
+            "timestamp",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 

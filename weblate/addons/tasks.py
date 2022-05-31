@@ -20,11 +20,12 @@
 import os
 from typing import List
 
+from django.db import Error as DjangoDatabaseError
 from django.db import transaction
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
-from weblate.addons.models import Addon
+from weblate.addons.models import Addon, handle_addon_error
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
@@ -47,7 +48,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
         try:
             if filename.startswith("http://") or filename.startswith("https://"):
                 with request("get", filename) as handle:
-                    content = handle.read()
+                    content = handle.text
             else:
                 with open(os.path.join(component.full_path, filename)) as handle:
                     content = handle.read()
@@ -89,6 +90,7 @@ def language_consistency(project_id: int, language_ids: List[int]):
         missing = languages.exclude(translation__component=component)
         if not missing:
             continue
+        component.commit_pending("language consistency", None)
         for language in missing:
             component.add_new_language(
                 language,
@@ -106,7 +108,12 @@ def daily_addons():
     ):
         with transaction.atomic():
             addon.component.log_debug("running daily add-on: %s", addon.name)
-            addon.addon.daily(addon.component)
+            try:
+                addon.addon.daily(addon.component)
+            except DjangoDatabaseError:
+                raise
+            except Exception:
+                handle_addon_error(addon, addon.component)
 
 
 @app.on_after_finalize.connect

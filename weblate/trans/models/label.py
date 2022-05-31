@@ -18,8 +18,7 @@
 #
 
 from django.db import models
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.flags import Flags
@@ -41,15 +40,13 @@ class Label(models.Model):
 
     class Meta:
         app_label = "trans"
-        unique_together = ("project", "name")
+        unique_together = [("project", "name")]
         verbose_name = "label"
         verbose_name_plural = "label"
 
     def __str__(self):
-        return mark_safe(
-            '<span class="label label-{}">{}</span>'.format(
-                self.color, escape(self.name)
-            )
+        return format_html(
+            '<span class="label label-{}">{}</span>', self.color, self.name
         )
 
     @property

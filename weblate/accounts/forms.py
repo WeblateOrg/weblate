@@ -22,13 +22,12 @@ from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
-from django.db.models import Q
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
 from django.utils.translation import activate, gettext
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext
+from django.utils.translation import ngettext, pgettext
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
@@ -59,7 +58,7 @@ from weblate.utils.forms import (
     SortedSelectMultiple,
     UsernameField,
 )
-from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
+from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
 from weblate.utils.validators import validate_fullname
 
 
@@ -71,10 +70,17 @@ class UniqueEmailMixin:
         self.cleaned_data["email_user"] = None
         mail = self.cleaned_data["email"]
         users = User.objects.filter(
-            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email=mail),
+            email=mail,
             is_active=True,
+            is_bot=False,
         )
-        if users.exists():
+        if not users:
+            users = User.objects.filter(
+                social_auth__verifiedemail__email__iexact=mail,
+                is_active=True,
+                is_bot=False,
+            )
+        if users:
             self.cleaned_data["email_user"] = users[0]
             if self.validate_unique_mail:
                 raise forms.ValidationError(
@@ -154,6 +160,12 @@ class LanguagesForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Remove empty choice from the form. We need it at the database level
+        # to initialize user profile, but it is filled in later based on
+        # languages configured in the browser.
+        self.fields["language"].choices = [
+            choice for choice in self.fields["language"].choices if choice[0]
+        ]
         # Limit languages to ones which have translation
         qs = Language.objects.have_translation()
         self.fields["languages"].queryset = qs
@@ -395,8 +407,20 @@ class RegistrationForm(EmailForm):
 
     def clean(self):
         if not check_rate_limit("registration", self.request):
+            lockout_period = get_rate_setting("registration", "LOCKOUT") // 60
             raise forms.ValidationError(
-                _("Too many failed registration attempts from this location.")
+                ngettext(
+                    (
+                        "Too many failed registration attempts from this location. "
+                        "Please try again in %d minute."
+                    ),
+                    (
+                        "Too many failed registration attempts from this location. "
+                        "Please try again in %d minutes."
+                    ),
+                    lockout_period,
+                )
+                % lockout_period
             )
         return self.cleaned_data
 
@@ -537,8 +561,20 @@ class LoginForm(forms.Form):
 
         if username and password:
             if not check_rate_limit("login", self.request):
+                lockout_period = get_rate_setting("login", "LOCKOUT") // 60
                 raise forms.ValidationError(
-                    _("Too many authentication attempts from this location.")
+                    ngettext(
+                        (
+                            "Too many authentication attempts from this location. "
+                            "Please try again in %d minute."
+                        ),
+                        (
+                            "Too many authentication attempts from this location. "
+                            "Please try again in %d minutes."
+                        ),
+                        lockout_period,
+                    )
+                    % lockout_period
                 )
             self.user_cache = authenticate(
                 self.request, username=username, password=password
@@ -557,7 +593,7 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages["invalid_login"], code="invalid_login"
                 )
-            if not self.user_cache.is_active:
+            if not self.user_cache.is_active or self.user_cache.is_bot:
                 raise forms.ValidationError(
                     self.error_messages["inactive"], code="inactive"
                 )
@@ -811,7 +847,9 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=_("Add user to a group"), queryset=Group.objects.order(), required=True
+        label=_("Add user to a group"),
+        queryset=Group.objects.prefetch_related("defining_project").order(),
+        required=True,
     )
 
     def __init__(self, *args, **kwargs):

@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Tests for consisntency checks."""
+"""Tests for consistency checks."""
 
 from django.test import TestCase
 

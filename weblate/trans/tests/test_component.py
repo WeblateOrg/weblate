@@ -61,7 +61,7 @@ class ComponentTest(RepoTestCase):
             if units:
                 self.assertTrue(
                     translation.unit_set.filter(source=unit).exists(),
-                    "Unit not found, all units: {}".format(
+                    msg="Unit not found, all units: {}".format(
                         "\n".join(translation.unit_set.values_list("source", flat=True))
                     ),
                 )
@@ -202,8 +202,8 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 4)
 
     def test_create_android_broken(self):
-        component = self.create_android(suffix="-broken")
-        self.verify_component(component, 1, "en", 3)
+        with self.assertRaises(FileParseError):
+            self.create_android(suffix="-broken")
 
     def test_create_json(self):
         component = self.create_json()
@@ -487,6 +487,7 @@ class ComponentTest(RepoTestCase):
         }
     )
     def test_create_autoaddon(self):
+        self.configure_mt()
         component = self.create_idml()
         self.assertEqual(
             set(component.addon_set.values_list("name", flat=True)),
@@ -609,7 +610,7 @@ class ComponentChangeTest(RepoTestCase):
         self.assertNotEqual(old_path, new_path)
 
     def test_change_to_mono(self):
-        """Test swtiching to monolingual format on the fly."""
+        """Test switching to monolingual format on the fly."""
         component = self._create_component("po", "po-mono/*.po")
         self.assertEqual(component.translation_set.count(), 4)
         component.file_format = "po-mono"
@@ -785,8 +786,8 @@ class ComponentValidationTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             "The language code for "
-            "Solution/Project/Resources.resx"
-            " was empty, please check the file mask.",
+            '"Solution/Project/Resources.resx"'
+            " is empty, please check the file mask.",
             component.clean_lang_codes,
             [
                 "Solution/Project/Resources.resx",

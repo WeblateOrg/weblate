@@ -218,10 +218,10 @@ should be no need for additional manual actions.
 
 .. note::
 
-    Upgrades across 3.0 are not supported by Weblate. If you are on 2.x series
-    and want to upgrade to 3.x, first upgrade to the latest 3.0.1-x (at time of
-    writing this it is the ``3.0.1-7``) image, which will do the migration and then
-    continue upgrading to newer versions.
+    Upgrades across major versions are not supported by Weblate. For example,
+    if you are on 3.x series and want to upgrade to 4.x, first upgrade to the
+    latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which
+    will do the migration and then continue upgrading to newer versions.
 
 You might also want to update the ``docker-compose`` repository, though it's
 not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
@@ -257,7 +257,7 @@ of upgrading.
 
       docker-compose stop database
 
-4. Remove the PostgreSQL volume
+4. Remove the PostgreSQL volume:
 
    .. code-block:: shell
 
@@ -345,10 +345,6 @@ Scaling horizontally
 
 .. versionadded:: 4.6
 
-.. warning::
-
-   This feature is a technology preview.
-
 You can run multiple Weblate containers to scale the service horizontally. The
 :file:`/app/data` volume has to be shared by all containers, it is recommended
 to use cluster filesystem such as GlusterFS for this. The :file:`/app/cache`
@@ -392,6 +388,9 @@ Generic settings
 
     Configures the logging verbosity.
 
+.. envvar:: WEBLATE_LOGLEVEL_DATABASE
+
+    Configures the logging of the database queries verbosity.
 
 .. envvar:: WEBLATE_SITE_TITLE
 
@@ -569,6 +568,17 @@ Generic settings
       :ref:`production-site`,
       :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
+.. envvar:: WEBLATE_INTERLEDGER_PAYMENT_POINTERS
+
+    .. versionadded:: 4.12.1
+
+    Lets Weblate set the `meta[name=monetization]` field in the head of the
+    document. If multiple are specified, chooses one randomly.
+
+    .. seealso::
+
+        :setting:`INTERLEDGER_PAYMENT_POINTERS`
+
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
     Lets Weblate fetch the IP address from any given HTTP header. Use this when using
@@ -692,6 +702,15 @@ Generic settings
     .. seealso::
 
        :ref:`vcs-pagure`
+
+.. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
+
+    Configures the default title and message for pull requests via API by changing
+    :setting:`DEFAULT_PULL_MESSAGE`
+
+    .. seealso::
+
+       :ref:`config-pull-message`
 
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
@@ -843,128 +862,16 @@ Generic settings
 
 .. _docker-machine:
 
-Machine translation settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Automatic suggestion settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. hint::
+.. versionchanged:: 4.13
 
-   Configuring API key for a service automatically configures it in :setting:`MT_SERVICES`.
+   Automatic suggestion services are now configured in the user interface,
+   see :ref:`machine-translation-setup`.
 
-.. envvar:: WEBLATE_MT_APERTIUM_APY
-
-    Enables :ref:`apertium` machine translation and sets :setting:`MT_APERTIUM_APY`
-
-.. envvar:: WEBLATE_MT_AWS_REGION
-.. envvar:: WEBLATE_MT_AWS_ACCESS_KEY_ID
-.. envvar:: WEBLATE_MT_AWS_SECRET_ACCESS_KEY
-
-    Configures :ref:`aws` machine translation.
-
-    .. code-block:: yaml
-
-        environment:
-          WEBLATE_MT_AWS_REGION: us-east-1
-          WEBLATE_MT_AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
-          WEBLATE_MT_AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-
-.. envvar:: WEBLATE_MT_DEEPL_KEY
-
-    Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
-
-.. envvar:: WEBLATE_MT_DEEPL_API_URL
-
-   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`.
-
-.. envvar:: WEBLATE_MT_LIBRETRANSLATE_KEY
-
-    Enables :ref:`libretranslate` machine translation and sets :setting:`MT_LIBRETRANSLATE_KEY`
-
-.. envvar:: WEBLATE_MT_LIBRETRANSLATE_API_URL
-
-   Configures :ref:`libretranslate` API instance to use, see :setting:`MT_LIBRETRANSLATE_API_URL`.
-
-.. envvar:: WEBLATE_MT_GOOGLE_KEY
-
-    Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`
-
-.. envvar:: WEBLATE_MT_GOOGLE_CREDENTIALS
-
-    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_CREDENTIALS`
-
-.. envvar:: WEBLATE_MT_GOOGLE_PROJECT
-
-    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_PROJECT`
-
-.. envvar:: WEBLATE_MT_GOOGLE_LOCATION
-
-    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_LOCATION`
-
-.. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
-
-    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
-
-.. envvar:: WEBLATE_MT_MICROSOFT_ENDPOINT_URL
-
-    Sets :setting:`MT_MICROSOFT_ENDPOINT_URL`, please note this is supposed to contain domain name only.
-
-.. envvar:: WEBLATE_MT_MICROSOFT_REGION
-
-    Sets :setting:`MT_MICROSOFT_REGION`
-
-.. envvar:: WEBLATE_MT_MICROSOFT_BASE_URL
-
-    Sets :setting:`MT_MICROSOFT_BASE_URL`
-
-.. envvar:: WEBLATE_MT_MODERNMT_KEY
-
-    Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`.
-
-.. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
-
-    Enables :ref:`mymemory` machine translation and sets
-    :setting:`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`.
-
-   **Example:**
-
-    .. code-block:: yaml
-
-        environment:
-          WEBLATE_MT_MYMEMORY_ENABLED: 1
-
-.. envvar:: WEBLATE_MT_GLOSBE_ENABLED
-
-    Enables :ref:`glosbe` machine translation.
-
-    .. code-block:: yaml
-
-        environment:
-          WEBLATE_MT_GLOSBE_ENABLED: 1
-
-.. envvar:: WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED
-
-    Enables :ref:`ms-terminology` machine translation.
-
-    .. code-block:: yaml
-
-        environment:
-          WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED: 1
-
-.. envvar:: WEBLATE_MT_SAP_BASE_URL
-.. envvar:: WEBLATE_MT_SAP_SANDBOX_APIKEY
-.. envvar:: WEBLATE_MT_SAP_USERNAME
-.. envvar:: WEBLATE_MT_SAP_PASSWORD
-.. envvar:: WEBLATE_MT_SAP_USE_MT
-
-    Configures :ref:`saptranslationhub` machine translation.
-
-    .. code-block:: yaml
-
-        environment:
-            WEBLATE_MT_SAP_BASE_URL: "https://example.hana.ondemand.com/translationhub/api/v1/"
-            WEBLATE_MT_SAP_USERNAME: "user"
-            WEBLATE_MT_SAP_PASSWORD: "password"
-            WEBLATE_MT_SAP_USE_MT: 1
-
+   The existing environment variables are imported during the migration to
+   Weblate 4.13, but changing them will not have any further effect.
 
 .. _docker-auth:
 
@@ -979,6 +886,12 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD_FILE
+
+    Path to the file containing the LDAP server bind password.
+
+    .. seealso:: :envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`
+
 .. envvar:: WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER
@@ -1056,6 +969,8 @@ GitHub
 Bitbucket
 +++++++++
 
+.. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET
 
@@ -1115,6 +1030,8 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALGORITHM
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
     Enables Keycloak authentication, see
     `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
@@ -1149,6 +1066,8 @@ In case you want to use own keys, place the certificate and private key in
 .. envvar:: WEBLATE_SAML_IDP_ENTITY_ID
 .. envvar:: WEBLATE_SAML_IDP_URL
 .. envvar:: WEBLATE_SAML_IDP_X509CERT
+.. envvar:: WEBLATE_SAML_IDP_IMAGE
+.. envvar:: WEBLATE_SAML_IDP_TITLE
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
@@ -1279,6 +1198,12 @@ instance when running Weblate in Docker.
 .. envvar:: REDIS_PASSWORD
 
     The Redis server password, not used by default.
+
+.. envvar:: REDIS_PASSWORD_FILE
+
+    Path to the file containing the Redis server password.
+
+    .. seealso:: :envvar:`REDIS_PASSWORD`
 
 .. envvar:: REDIS_TLS
 
@@ -1687,3 +1612,14 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
+
+Configuring PostgreSQL server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The PostgtreSQL container uses default PostgreSQL configuration and it won't
+effectively utilize your CPU cores or memory. It is recommended to customize
+the configuration to improve the performance.
+
+The configuration can be adjusted as described in `Database Configuration` at
+https://hub.docker.com/_/postgres. The configuration matching your environment
+can be generated using https://pgtune.leopard.in.ua/.

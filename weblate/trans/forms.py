@@ -21,6 +21,7 @@ import copy
 import json
 import re
 from datetime import date, datetime, timedelta
+from secrets import token_hex
 from typing import Dict, List
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -37,8 +38,10 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
@@ -51,23 +54,14 @@ from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery.models import MACHINERY
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import (
-    Announcement,
-    Change,
-    Component,
-    Label,
-    Project,
-    ProjectToken,
-    Unit,
-)
+from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
-from weblate.utils.errors import report_error
 from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
@@ -105,7 +99,6 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 """
-COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
 class MarkdownTextarea(forms.Textarea):
@@ -189,7 +182,6 @@ class QueryField(forms.CharField):
             parse_query(value)
             return value
         except Exception as error:
-            report_error()
             raise ValidationError(_("Could not parse query string: {}").format(error))
 
 
@@ -205,24 +197,31 @@ class PluralTextarea(forms.Textarea):
         super().__init__(*args, **kwargs)
 
     def get_rtl_toolbar(self, fieldname):
-        groups = []
-
         # Special chars
-        chars = []
-        for name, char, value in RTL_CHARS_DATA:
-            chars.append(
-                BUTTON_TEMPLATE.format(
+        chars = format_html_join(
+            "\n",
+            BUTTON_TEMPLATE,
+            (
+                (
                     "specialchar",
                     name,
-                    'data-value="{}"'.format(
-                        value.encode("ascii", "xmlcharrefreplace").decode("ascii")
+                    format_html(
+                        'data-value="{}"',
+                        mark_safe(
+                            value.encode("ascii", "xmlcharrefreplace").decode("ascii")
+                        ),
                     ),
                     char,
                 )
-            )
+                for name, char, value in RTL_CHARS_DATA
+            ),
+        )
 
-        groups.append(GROUP_TEMPLATE.format("", "\n".join(chars)))
-        return TOOLBAR_TEMPLATE.format("\n".join(groups))
+        groups = format_html_join(
+            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+        )
+
+        return format_html(TOOLBAR_TEMPLATE, groups)
 
     def get_rtl_toggle(self, language, fieldname):
         if language.direction != "rtl":
@@ -230,55 +229,71 @@ class PluralTextarea(forms.Textarea):
 
         # RTL/LTR switch
         rtl_name = f"rtl-{fieldname}"
-        rtl_switch = [
-            RADIO_TEMPLATE.format(
-                "direction-toggle active",
-                gettext("Toggle text direction"),
-                rtl_name,
-                "rtl",
-                'checked="checked"',
-                "RTL",
-            ),
-            RADIO_TEMPLATE.format(
-                "direction-toggle",
-                gettext("Toggle text direction"),
-                rtl_name,
-                "ltr",
-                "",
-                "LTR",
-            ),
-        ]
-        groups = [GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))]
-        return mark_safe(TOOLBAR_TEMPLATE.format("\n".join(groups)))
+        rtl_switch = format_html_join(
+            "\n",
+            RADIO_TEMPLATE,
+            [
+                (
+                    "direction-toggle active",
+                    gettext("Toggle text direction"),
+                    rtl_name,
+                    "rtl",
+                    format_html('checked="checked"'),
+                    "RTL",
+                ),
+                (
+                    "direction-toggle",
+                    gettext("Toggle text direction"),
+                    rtl_name,
+                    "ltr",
+                    format_html(""),
+                    "LTR",
+                ),
+            ],
+        )
+        groups = format_html_join(
+            "\n",
+            GROUP_TEMPLATE,
+            [(format_html('data-toggle="buttons"'), rtl_switch)],  # Only one group.
+        )
+        return format_html(TOOLBAR_TEMPLATE, groups)
 
     def get_toolbar(self, language, fieldname, unit, idx, source):
         """Return toolbar HTML code."""
         profile = self.profile
-        groups = []
 
         # Special chars
-        chars = [
-            BUTTON_TEMPLATE.format(
-                "specialchar",
-                name,
-                'data-value="{}"'.format(
-                    value.encode("ascii", "xmlcharrefreplace").decode("ascii")
-                ),
-                char,
-            )
-            for name, char, value in get_special_chars(
-                language, profile.special_chars, unit.source
-            )
-        ]
+        chars = format_html_join(
+            "\n",
+            BUTTON_TEMPLATE,
+            (
+                (
+                    "specialchar",
+                    name,
+                    format_html(
+                        'data-value="{}"',
+                        mark_safe(
+                            value.encode("ascii", "xmlcharrefreplace").decode("ascii")
+                        ),
+                    ),
+                    char,
+                )
+                for name, char, value in get_special_chars(
+                    language, profile.special_chars, unit.source
+                )
+            ),
+        )
 
-        groups.append(GROUP_TEMPLATE.format("", "\n".join(chars)))
+        groups = format_html_join(
+            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+        )
 
-        result = TOOLBAR_TEMPLATE.format("\n".join(groups))
+        result = format_html(TOOLBAR_TEMPLATE, groups)
 
         if language.direction == "rtl":
-            result = self.get_rtl_toolbar(fieldname) + result
+            result = format_html("{}{}", self.get_rtl_toolbar(fieldname), result)
 
-        return mark_safe(result)
+        return result
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
@@ -319,16 +334,16 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = str(unit.translation.language)
+            label = unit.translation.language
             if len(values) != 1:
-                label = f"{label}, {plural.get_plural_label(idx)}"
+                label = format_html("{}, {}", label, plural.get_plural_label(idx))
             ret.append(
                 render_to_string(
                     "snippets/editor.html",
                     {
                         "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
                         "fieldid": fieldid,
-                        "label": mark_safe(label),
+                        "label": label,
                         "textarea": textarea,
                         "max_length": attrs["data-max"],
                         "length": len(val),
@@ -347,8 +362,7 @@ class PluralTextarea(forms.Textarea):
                 )
             )
 
-        # Join output
-        return mark_safe("".join(ret))
+        return format_html_join("", "{}", ((v,) for v in ret))
 
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
@@ -536,14 +550,20 @@ class TranslationForm(UnitForm):
             )
 
         if self.cleaned_data["translationsum"] != unit.get_target_hash():
-            raise ValidationError(
-                _(
-                    "Translation of the string has been changed meanwhile. "
-                    "Please check your changes."
+            # Allow repeated edits by the same author
+            last_author = unit.get_last_content_change()[0]
+            if last_author != self.user:
+                raise ValidationError(
+                    _(
+                        "Translation of the string has been changed meanwhile. "
+                        "Please check your changes."
+                    )
                 )
-            )
 
-        max_length = unit.get_max_length()
+        # Add extra margin to limit to allow XML tags which might
+        # be ignored for the length calculation. On the other side,
+        # we do not want to process arbitrarily long strings here.
+        max_length = 10 * (unit.get_max_length() + 100)
         for text in self.cleaned_data["target"]:
             if len(text) > max_length:
                 raise ValidationError(_("Translation text too long!"))
@@ -767,7 +787,7 @@ class SearchForm(forms.Form):
         return items
 
     def urlencode(self):
-        return urlencode(self.items())
+        return urlencode(sorted(self.items()))
 
     def reset_offset(self):
         """Reset offset to avoid using form as default for new search."""
@@ -907,10 +927,21 @@ class AutoForm(forms.Form):
                 ("", _("All components in current project"))
             ] + choices
 
+        machinery_settings = obj.project.get_machinery_settings()
+
+        engines = sorted(
+            (
+                MACHINERY[engine](setting)
+                for engine, setting in machinery_settings.items()
+                if engine in MACHINERY
+            ),
+            key=lambda engine: engine.name,
+        )
+        engine_ids = {engine.get_identifier() for engine in engines}
         self.fields["engines"].choices = [
-            (key, mt.name) for key, mt in MACHINE_TRANSLATION_SERVICES.items()
+            (engine.get_identifier(), engine.name) for engine in engines
         ]
-        if "weblate" in MACHINE_TRANSLATION_SERVICES.keys():
+        if "weblate" in engine_ids:
             self.fields["engines"].initial = "weblate"
 
         use_types = {"all", "nottranslated", "todo", "fuzzy", "check:inconsistent"}
@@ -1349,6 +1380,7 @@ class ComponentSettingsForm(
             "delete_message",
             "merge_message",
             "addon_message",
+            "pull_message",
             "vcs",
             "repo",
             "branch",
@@ -1461,6 +1493,7 @@ class ComponentSettingsForm(
                         "delete_message",
                         "merge_message",
                         "addon_message",
+                        "pull_message",
                     ),
                     css_id="messages",
                 ),
@@ -1493,6 +1526,7 @@ class ComponentSettingsForm(
         vcses = (
             "git",
             "gerrit",
+            "gitea",
             "github",
             "gitlab",
             "pagure",
@@ -1556,17 +1590,18 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
 
 class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
     name = forms.CharField(
-        label=_("Component name"),
+        label=Component.name.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=_("Display name"),
+        help_text=Component.name.field.help_text,
     )
     slug = forms.SlugField(
-        label=_("URL slug"),
+        label=Component.slug.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=_("Name used in URLs and filenames."),
+        help_text=Component.slug.field.help_text,
     )
     is_glossary = forms.BooleanField(
-        label=_("Use as a glossary"),
+        label=Component.is_glossary.field.verbose_name,
+        help_text=Component.is_glossary.field.help_text,
         required=False,
     )
 
@@ -1640,8 +1675,8 @@ class ComponentProjectForm(ComponentNameForm):
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
-        label=_("Source language"),
-        help_text=_("Language used for source strings in all components"),
+        label=Component.source_language.field.verbose_name,
+        help_text=Component.source_language.field.help_text,
         queryset=Language.objects.all(),
     )
 
@@ -1649,7 +1684,7 @@ class ComponentProjectForm(ComponentNameForm):
         if "instance" in kwargs:
             kwargs.pop("instance")
         super().__init__(request, *args, **kwargs)
-        # It might be overriden based on preset project
+        # It might be overridden based on preset project
         self.fields["source_language"].initial = Language.objects.default_language
         self.request = request
         self.helper = FormHelper()
@@ -1724,26 +1759,20 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         queryset=Project.objects.none(), label=_("Project")
     )
     vcs = forms.ChoiceField(
-        label=_("Version control system"),
-        help_text=_(
-            "Version control system to use to access your "
-            "repository with translations."
-        ),
+        label=Component.vcs.field.verbose_name,
+        help_text=Component.vcs.field.help_text,
         choices=VCS_REGISTRY.get_choices(exclude={"local"}),
         initial=settings.DEFAULT_VCS,
     )
     repo = forms.CharField(
-        label=_("Source code repository"),
+        label=Component.repo.field.verbose_name,
         max_length=REPO_LENGTH,
-        help_text=_(
-            "URL of a repository, use weblate://project/component "
-            "for sharing with other component."
-        ),
+        help_text=Component.repo.field.help_text,
     )
     branch = forms.CharField(
-        label=_("Repository branch"),
+        label=Component.branch.field.verbose_name,
         max_length=REPO_LENGTH,
-        help_text=_("Repository branch to translate"),
+        help_text=Component.branch.field.help_text,
         required=False,
     )
 
@@ -2412,37 +2441,30 @@ class LabelForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class ProjectTokenDeleteForm(forms.Form):
-    token = forms.ModelChoiceField(
-        ProjectToken.objects.none(),
-        widget=forms.HiddenInput,
-        required=True,
-    )
-
-    def __init__(self, project, *args, **kwargs):
-        self.project = project
-        super().__init__(*args, **kwargs)
-        self.fields["token"].queryset = project.projecttoken_set.all()
-
-
 class ProjectTokenCreateForm(forms.ModelForm):
     class Meta:
-        model = ProjectToken
-        fields = ["name", "expires", "project"]
+        model = User
+        fields = ["full_name", "date_expires"]
         widgets = {
-            "expires": WeblateDateInput(),
-            "project": forms.HiddenInput,
+            "date_expires": WeblateDateInput(),
         }
 
     def __init__(self, project, *args, **kwargs):
         self.project = project
-        kwargs["initial"] = {"project": project}
         super().__init__(*args, **kwargs)
 
-    def clean_project(self):
-        if self.project != self.cleaned_data["project"]:
-            raise ValidationError("Invalid project!")
-        return self.cleaned_data["project"]
+    def save(self, *args, **kwargs):
+        self.instance.is_bot = True
+        base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
+        while User.objects.filter(
+            Q(username=name) | Q(email=f"{name}@bots.noreply.weblate.org")
+        ).exists():
+            name = f"{base_name}-{token_hex(2)}"
+        self.instance.username = name
+        self.instance.email = f"{name}@bots.noreply.weblate.org"
+        result = super().save(*args, **kwargs)
+        self.project.add_user(self.instance, "Administration")
+        return result
 
     def clean_expires(self):
         expires = self.cleaned_data["expires"]

@@ -147,9 +147,12 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             )
         )
 
-    def search(self, query, **context):
+    def search(self, query, distinct: bool = True, **context):
         """High level wrapper for searching."""
-        return self.filter(parse_query(query, **context))
+        result = self.filter(parse_query(query, **context))
+        if distinct:
+            result = result.distinct()
+        return result
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
@@ -351,7 +354,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     class Meta:
         app_label = "trans"
-        unique_together = ("translation", "id_hash")
+        unique_together = [("translation", "id_hash")]
         verbose_name = "string"
         verbose_name_plural = "strings"
 
@@ -502,6 +505,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             # We can not exclude current unit here as we need to trigger
             # the updates below
             for unit in self.unit_set.prefetch().prefetch_bulk():
+                # Share component instance for locking and possible bulk updates
+                unit.translation.component = self.translation.component
                 unit.update_state()
                 unit.update_priority()
                 unit.run_checks()
@@ -1014,7 +1019,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         return True
 
     def update_source_units(self, previous_source, user, author):
-        """Update source for units withing same component.
+        """Update source for units within same component.
 
         This is needed when editing template translation for monolingual formats.
         """
@@ -1267,7 +1272,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return []
         key = self.translation.keys_cache_key
         key_list = cache.get(key)
-        if key_list is None or self.pk not in key_list or True:
+        if key_list is None or self.pk not in key_list:
             key_list = list(
                 self.translation.unit_set.order_by("context").values_list(
                     "id", flat=True
@@ -1369,7 +1374,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.labels.add(label)
         else:
             self.labels.through.objects.filter(
-                label__name="Automatically translated"
+                unit=self, label__name="Automatically translated"
             ).delete()
 
         return saved
@@ -1396,7 +1401,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @cached_property
     def edit_mode(self):
-        """Returns syntax higlighting mode for Prismjs."""
+        """Returns syntax highlighting mode for Prismjs."""
         flags = self.all_flags
         if "icu-message-format" in flags:
             return "icu-message-format"
@@ -1479,9 +1484,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @cached_property
     def content_hash(self):
-        if self.translation.component.template:
-            return calculate_hash(self.source, self.context)
-        return self.id_hash
+        return calculate_hash(self.source, self.context)
 
     @cached_property
     def recent_content_changes(self):

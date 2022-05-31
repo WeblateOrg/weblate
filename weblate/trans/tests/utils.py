@@ -33,6 +33,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.auth.models import User
+from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
 from weblate.utils.files import remove_tree
@@ -235,6 +236,15 @@ class RepoTestMixin:
             vcs=vcs,
             **kwargs,
         )
+
+    @staticmethod
+    def configure_mt():
+        for engine in ["weblate", "weblate-translation-memory"]:
+            Setting.objects.get_or_create(
+                category=Setting.CATEGORY_MT,
+                name=engine,
+                defaults={"value": {}},
+            )
 
     def create_component(self):
         """Wrapper method for providing test component."""

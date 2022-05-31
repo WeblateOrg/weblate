@@ -149,8 +149,8 @@ LANGUAGES = (
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
-    ("zh-hans", "简体字"),
-    ("zh-hant", "正體字"),
+    ("zh-hans", "简体中文"),
+    ("zh-hant", "正體中文"),
 )
 
 SITE_ID = 1
@@ -236,10 +236,20 @@ GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN")
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME")
 GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN")
 
+# Gitea username and token for sending pull requests.
+# Please see the documentation for more details.
+GITEA_USERNAME = os.environ.get("WEBLATE_GITEA_USERNAME")
+GITEA_TOKEN = os.environ.get("WEBLATE_GITEA_TOKEN")
+
 # Pagure username and token for sending merge requests.
 # Please see the documentation for more details.
 PAGURE_USERNAME = os.environ.get("WEBLATE_PAGURE_USERNAME")
 PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN")
+
+# Default pull request message.
+# Please see the documentation for more details.
+if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
+    DEFAULT_PULL_MESSAGE = os.environ["WEBLATE_DEFAULT_PULL_MESSAGE"]
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
@@ -259,9 +269,6 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_SECRET", 
 SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
 
 # GitHub org specific auth
-if "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_KEY" in os.environ:
-    AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubOrganizationOAuth2",)
-
 SOCIAL_AUTH_GITHUB_ORG_KEY = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_KEY", SOCIAL_AUTH_GITHUB_KEY
 )
@@ -269,11 +276,11 @@ SOCIAL_AUTH_GITHUB_ORG_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_SECRET", SOCIAL_AUTH_GITHUB_SECRET
 )
 SOCIAL_AUTH_GITHUB_ORG_NAME = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_ORG_NAME", "")
+SOCIAL_AUTH_GITHUB_ORG_SCOPE = ["user:email", "read:org"]
+if SOCIAL_AUTH_GITHUB_ORG_NAME:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubOrganizationOAuth2",)
 
 # GitHub team specific auth
-if "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_KEY" in os.environ:
-    AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubTeamOAuth2",)
-
 SOCIAL_AUTH_GITHUB_TEAM_KEY = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_KEY", SOCIAL_AUTH_GITHUB_KEY
 )
@@ -281,11 +288,9 @@ SOCIAL_AUTH_GITHUB_TEAM_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_SECRET", SOCIAL_AUTH_GITHUB_SECRET
 )
 SOCIAL_AUTH_GITHUB_TEAM_ID = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_ID", "")
-
-if (
-    SOCIAL_AUTH_GITHUB_ORG_NAME or SOCIAL_AUTH_GITHUB_TEAM_ID
-) and "read:org" not in SOCIAL_AUTH_GITHUB_SCOPE:
-    SOCIAL_AUTH_GITHUB_SCOPE.append("read:org")
+SOCIAL_AUTH_GITHUB_TEAM_SCOPE = ["user:email", "read:org"]
+if SOCIAL_AUTH_GITHUB_TEAM_ID:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubTeamOAuth2",)
 
 if "WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.bitbucket.BitbucketOAuth",)
@@ -295,6 +300,17 @@ SOCIAL_AUTH_BITBUCKET_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET", ""
 )
 SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+
+if "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.bitbucket.BitbucketOAuth2",)
+
+SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = os.environ.get(
+    "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY", ""
+)
+SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET = os.environ.get(
+    "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET", ""
+)
+SOCIAL_AUTH_BITBUCKET_OAUTH2_VERIFIED_EMAILS_ONLY = True
 
 if "WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.facebook.FacebookOAuth2",)
@@ -375,6 +391,8 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "url": SITE_URL,
         }
     }
+    SOCIAL_AUTH_SAML_IMAGE = os.environ.get("WEBLATE_SAML_IDP_IMAGE", "")
+    SOCIAL_AUTH_SAML_TITLE = os.environ.get("WEBLATE_SAML_IDP_TITLE", "")
 
 # Azure
 if "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY" in os.environ:
@@ -421,6 +439,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
     )
     SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = os.environ.get(
         "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL", ""
+    )
+    SOCIAL_AUTH_KEYCLOAK_IMAGE = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE", ""
+    )
+    SOCIAL_AUTH_KEYCLOAK_TITLE = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE", ""
     )
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
 
@@ -746,10 +770,10 @@ LOGGING = {
             "propagate": False,
         },
         # Logging database queries
-        # "django.db.backends": {
-        #     "handlers": [DEFAULT_LOG],
-        #     "level": "DEBUG",
-        # },
+        "django.db.backends": {
+            "handlers": [DEFAULT_LOG],
+            "level": os.environ.get("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
+        },
         "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
@@ -1155,7 +1179,6 @@ REST_FRAMEWORK = {
         else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "weblate.api.authentication.ProjectTokenAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "weblate.api.authentication.BearerAuthentication",
         "rest_framework.authentication.SessionAuthentication",
@@ -1203,6 +1226,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
         rf"{URL_PREFIX}/contact/$",  # Optional for contact form
         rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
+        rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
     ],
 )
 modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
@@ -1219,8 +1243,8 @@ EMAIL_PORT = int(os.environ.get("WEBLATE_EMAIL_PORT", "25"))
 
 # Detect SSL/TLS setup
 if "WEBLATE_EMAIL_USE_TLS" in os.environ or "WEBLATE_EMAIL_USE_SSL" in os.environ:
-    EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
     EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
+    EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", not EMAIL_USE_SSL)
 elif EMAIL_PORT in (25, 587):
     EMAIL_USE_TLS = True
 elif EMAIL_PORT == 465:
@@ -1338,6 +1362,11 @@ SENTRY_DSN = os.environ.get("SENTRY_DSN")
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT")
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY")
+
+# Web Monetization
+INTERLEDGER_PAYMENT_POINTERS = get_env_list(
+    "WEBLATE_INTERLEDGER_PAYMENT_POINTERS", ["$ilp.uphold.com/ENU7fREdeZi9"]
+)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):

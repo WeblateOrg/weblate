@@ -146,6 +146,8 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("memory.edit", _("Manage translation memory")),
     # Translators: Permission name
+    ("machinery.edit", _("Manage machinery")),
+    # Translators: Permission name
     ("componentlist.edit", _("Manage component lists")),
 )
 
@@ -239,6 +241,8 @@ GROUPS = (
 
 # Per project group definitions
 ACL_GROUPS = {
+    pgettext("Per-project access-control group", "Administration"): "Administration",
+    pgettext("Per-project access-control group", "Review"): "Review strings",
     pgettext("Per-project access-control group", "Translate"): "Translate",
     pgettext("Per-project access-control group", "Sources"): "Edit source",
     pgettext("Per-project access-control group", "Languages"): "Manage languages",
@@ -248,8 +252,6 @@ ACL_GROUPS = {
     pgettext(
         "Per-project access-control group", "Automatic translation"
     ): "Automatic translation",
-    pgettext("Per-project access-control group", "Review"): "Review strings",
     pgettext("Per-project access-control group", "VCS"): "Manage repository",
-    pgettext("Per-project access-control group", "Administration"): "Administration",
     pgettext("Per-project access-control group", "Billing"): "Billing",
 }

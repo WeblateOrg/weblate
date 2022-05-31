@@ -324,6 +324,13 @@
         error: function (jqXHR, textStatus, errorThrown) {
           addAlert(errorThrown);
         },
+        success: function (data) {
+          if (dismiss_all) {
+            const { extra_flags, all_flags } = data;
+            $("#id_extra_flags").val(extra_flags);
+            $("#unit_all_flags").html(all_flags).addClass("flags-updated");
+          }
+        },
       });
       if (dismiss_all) {
         $check.remove();
@@ -408,7 +415,7 @@
         text = target.find(".source").text();
       }
 
-      this.insertIntoTranslation(text);
+      this.insertIntoTranslation($.trim(text));
       e.preventDefault();
     });
 
@@ -428,8 +435,10 @@
       if (cloneElement !== null) {
         let source = cloneElement.getAttribute("data-clone-text");
         if (source.length < 200) {
-          document.getElementById("id_source").value = source;
-          document.getElementById("id_target").value = document.querySelector(
+          let term_source = document.getElementById("id_add_term_source");
+          let term_target = document.getElementById("id_add_term_target");
+          term_source.value = source;
+          term_target.value = document.querySelector(
             ".translation-editor"
           ).value;
         }
@@ -488,7 +497,7 @@
     }
 
     renderTranslation(el, service) {
-      var row = $("<tr/>").attr("class", "js-copy-machinery").data("raw", el);
+      var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
           .attr("class", "target machinery-text")

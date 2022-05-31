@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
+from django.utils.html import escape
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
@@ -109,10 +109,13 @@ def get_credits(request, project=None, component=None):
     for language in data:
         name, translators = language.popitem()
         result.append(row_start)
-        result.append(language_format.format(name))
+        result.append(language_format.format(escape(name)))
         result.append(
             translator_start
-            + "\n".join(translator_format.format(*t) for t in translators)
+            + "\n".join(
+                translator_format.format(escape(t[0]), escape(t[1]), t[2])
+                for t in translators
+            )
             + translator_end
         )
         result.append(row_end)
@@ -288,8 +291,8 @@ def get_counts(request, project=None, component=None):
         result.append(
             "".join(
                 (
-                    cell_name.format(item["name"] or "Anonymous"),
-                    cell_name.format(item["email"] or ""),
+                    cell_name.format(escape(item["name"]) or "Anonymous"),
+                    cell_name.format(escape(item["email"]) or ""),
                     cell_count.format(item["count"]),
                     cell_count.format(item["edits"]),
                     cell_count.format(item["words"]),

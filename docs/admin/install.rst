@@ -74,7 +74,7 @@ Most notable dependencies:
 Django
     https://www.djangoproject.com/
 Celery
-    https://docs.celeryproject.org/
+    https://docs.celeryq.dev/
 Translate Toolkit
     https://toolkit.translatehouse.org/
 translation-finder
@@ -102,7 +102,7 @@ of them in :file:`requirements-optional.txt`.
     https://github.com/Nekmo/python-akismet
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
-``Zeep`` (optional for :ref:`ms-terminology`)
+``Zeep`` (optional for :ref:`mt-microsoft-terminology`)
     https://docs.python-zeep.org/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
@@ -142,7 +142,7 @@ The following dependencies have to be installed on the system:
 
 ``Git``
     https://git-scm.com/
-Pango, Cairo and related header files and gir introspection data
+Pango, Cairo and related header files and GObject introspection data
     https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`
 ``git-review`` (optional for Gerrit support)
     https://pypi.org/project/git-review/
@@ -1528,6 +1528,8 @@ The tasks are supposed to be executed by Celery beats daemon. In case it is not
 working properly, it might not be running or its database was corrupted. Check
 the Celery startup logs in such case to figure out root cause.
 
+.. _monitoring-celery:
+
 Monitoring Celery status
 ++++++++++++++++++++++++
 
@@ -1544,12 +1546,15 @@ configuration error in the admin interface.
 
 .. seealso::
 
+   :ref:`monitoring`,
+   :ref:`faq-monitoring`,
    :doc:`celery:userguide/configuration`,
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
    :doc:`celery:userguide/monitoring`,
    :djadmin:`celery_queues`
 
+.. _monitoring:
 
 Monitoring Weblate
 ------------------
@@ -1561,6 +1566,8 @@ For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endp
 
 .. seealso::
 
+   :ref:`faq-monitoring`,
+   :ref:`monitoring-celery`,
    `Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_
 
 .. _collecting-errors:

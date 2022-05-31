@@ -49,7 +49,7 @@ Automatic translation
                 |                 |                              |                                                                                        |
                 |                 |                              | ``fuzzy`` -- Strings marked for edit                                                   |
                 |                 |                              |                                                                                        |
-                |                 |                              | ``check:inconsistent`` -- Failed check: Inconsistent                                   |
+                |                 |                              | ``check:inconsistent`` -- Failing check: Inconsistent                                  |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
                 | ``auto_source`` | Automatic translation source | Available choices:                                                                     |
                 |                 |                              |                                                                                        |
@@ -178,25 +178,27 @@ Component discovery
 -------------------
 
 :Add-on ID: ``weblate.discovery.discovery``
-:Configuration: +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``match``              | Regular expression to match translation files against           |                                                                                     |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``file_format``        | File format                                                     |                                                                                     |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``name_template``      | Customize the component name                                    |                                                                                     |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``base_file_template`` | Define the monolingual base filename                            | Leave empty for bilingual translation files.                                        |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``new_base_template``  | Define the base file for new translations                       | Filename of file used for creating new translations. For gettext choose .pot file.  |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``language_regex``     | Language filter                                                 | Regular expression to filter translation files against when scanning for file mask. |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``copy_addons``        | Clone add-ons from the main component to the newly created ones |                                                                                     |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``remove``             | Remove components for inexistant files                          |                                                                                     |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
-                | ``confirm``            | I confirm the above matches look correct                        |                                                                                     |
-                +------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``match``                 | Regular expression to match translation files against           |                                                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``file_format``           | File format                                                     |                                                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``name_template``         | Customize the component name                                    |                                                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``base_file_template``    | Define the monolingual base filename                            | Leave empty for bilingual translation files.                                                                                                                |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``new_base_template``     | Define the base file for new translations                       | Filename of file used for creating new translations. For gettext choose .pot file.                                                                          |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``intermediate_template`` | Intermediate language file                                      | Filename of intermediate translation file. In most cases this is a translation file provided by developers and is used when creating actual source strings. |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``language_regex``        | Language filter                                                 | Regular expression to filter translation files against when scanning for file mask.                                                                         |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``copy_addons``           | Clone add-ons from the main component to the newly created ones |                                                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``remove``                | Remove components for inexistent files                          |                                                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``confirm``               | I confirm the above matches look correct                        |                                                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 :Triggers: repository post-update
 
 Automatically adds or removes project components based on file changes in the
@@ -413,15 +415,21 @@ Pseudolocale generation
 .. versionadded:: 4.5
 
 :Add-on ID: ``weblate.generate.pseudolocale``
-:Configuration: +------------+--------------------+--+
-                | ``source`` | Source strings     |  |
-                +------------+--------------------+--+
-                | ``target`` | Target translation |  |
-                +------------+--------------------+--+
-                | ``prefix`` | String prefix      |  |
-                +------------+--------------------+--+
-                | ``suffix`` | String suffix      |  |
-                +------------+--------------------+--+
+:Configuration: +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``source``         | Source strings           |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``target``         | Target translation       | All strings in this translation will be overwritten                                      |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``prefix``         | Fixed string prefix      |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``var_prefix``     | Variable string prefix   |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``suffix``         | Fixed string suffix      |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``var_suffix``     | Variable string suffix   |                                                                                          |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+                | ``var_multiplier`` | Variable part multiplier | How many times to repeat the variable part depending on the length of the source string. |
+                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
 :Triggers: component update, daily
 
 Generates a translation by adding prefix and suffix to source strings
@@ -434,6 +442,21 @@ in the pseudolocale language.
 
 Finding strings whose localized counterparts might not fit the layout
 is also possible.
+
+Using the variable parts makes it possible to look for strings which might not
+fit into the user interface after the localization - it extends the text based
+on the source string length. The variable parts are repeated by length of the
+text multiplied by the multiplier. For example ``Hello world`` with variable
+suffix ``_`` and variable multiplier of 1 becomes ``Hello world___________`` -
+the suffix is repeated once for each character in the source string.
+
+The strings will be generated using following pattern:
+
+:guilabel:`Fixed string prefix`
+:guilabel:`Variable string prefix`
+:guilabel:`Source string`
+:guilabel:`Variable string suffix`
+:guilabel:`Fixed string suffix`
 
 .. hint::
 
@@ -607,7 +630,6 @@ Original commit messages are kept, but authorship is lost unless :guilabel:`Per 
 the commit message is customized to include it.
 
 The original commit messages can optionally be overridden with a custom commit message.
-See :ref:`markup` for the message options.
 
 Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed
 from the original commit messages and appended to the end of the squashed

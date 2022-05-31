@@ -124,6 +124,10 @@ h1 {
   display: block;
 }
 
+.progress-bar-success {
+  background-color: #1fa38599;
+}
+
 .chart-progress .progress-bar-success {
   background-color: #2eccaa;
 }
@@ -247,6 +251,7 @@ textarea#id_check_flags {
 .hlcheck {
   display: inline-block;
   cursor: pointer;
+  white-space: pre-wrap;
 }
 
 .hlmatch {
@@ -760,9 +765,13 @@ legend {
 }
 
 .wrap-text {
+  white-space: pre-wrap;
+}
+
+.wrap-simple,
+.wrap-text {
   word-wrap: break-word;
   word-break: break-word;
-  white-space: pre-wrap;
 }
 
 .overflow-wrap {
@@ -1806,4 +1815,40 @@ a.language:hover {
   max-width: inherit;
   margin-bottom: inherit;
   font-weight: inherit;
+}
+
+.info-tooltip {
+  display: inline-block;
+  height: 24px;
+  vertical-align: super;
+  margin-left: 6px;
+}
+
+#unit_all_flags {
+  background-color: transparent;
+  display: inline-block;
+}
+
+#unit_all_flags.flags-updated {
+  animation: flags-updated ease-out 3000ms;
+}
+
+@-webkit-keyframes flags-updated {
+  0% {
+    background-color: rgba(255, 165, 0, 255);
+  }
+
+  100% {
+    background-color: rgba(255, 165, 0, 0);
+  }
+}
+
+@keyframes flags-updated {
+  0% {
+    background-color: rgba(255, 165, 0, 255);
+  }
+
+  100% {
+    background-color: rgba(255, 165, 0, 0);
+  }
 }

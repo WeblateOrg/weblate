@@ -33,7 +33,7 @@ def calculate_hash(*parts: str):
 
 
 def calculate_checksum(*parts: str):
-    """Calcualtes siphashc checksum for given strings."""
+    """Calculates siphashc checksum for given strings."""
     return format(raw_hash(*parts), "x")
 
 

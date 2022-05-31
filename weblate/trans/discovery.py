@@ -53,6 +53,7 @@ COPY_ATTRIBUTES = (
     "delete_message",
     "merge_message",
     "addon_message",
+    "pull_message",
     "push_on_commit",
     "commit_pending_age",
     "edit_template",
@@ -65,12 +66,13 @@ class ComponentDiscovery:
     def __init__(
         self,
         component,
-        match,
-        name_template,
-        file_format,
-        language_regex="^[^.]+$",
-        base_file_template="",
-        new_base_template="",
+        match: str,
+        name_template: str,
+        file_format: str,
+        language_regex: str = "^[^.]+$",
+        base_file_template: str = "",
+        new_base_template: str = "",
+        intermediate_template: str = "",
         path=None,
         copy_addons=True,
     ):
@@ -83,6 +85,7 @@ class ComponentDiscovery:
         self.name_template = name_template
         self.base_file_template = base_file_template
         self.new_base_template = new_base_template
+        self.intermediate_template = intermediate_template
         self.language_re = language_regex
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
@@ -97,6 +100,7 @@ class ComponentDiscovery:
             "language_regex",
             "base_file_template",
             "new_base_template",
+            "intermediate_template",
             "file_format",
             "copy_addons",
         )
@@ -174,6 +178,9 @@ class ComponentDiscovery:
                     "files_langs": {(path, groups["language"])},
                     "base_file": render_template(self.base_file_template, **groups),
                     "new_base": render_template(self.new_base_template, **groups),
+                    "intermediate": render_template(
+                        self.intermediate_template, **groups
+                    ),
                     "mask": mask,
                     "name": name,
                     "slug": slugify(name),
@@ -236,6 +243,7 @@ class ComponentDiscovery:
                 "template": match["base_file"],
                 "filemask": match["mask"],
                 "new_base": match["new_base"],
+                "intermediate": match["intermediate"],
                 "file_format": self.file_format,
                 "language_regex": self.language_re,
                 "addons_from": main.pk if self.copy_addons and main else None,
@@ -288,6 +296,9 @@ class ComponentDiscovery:
             return False
 
         if not valid_file(match["new_base"]):
+            return False
+
+        if not valid_file(match["intermediate"]):
             return False
 
         return True

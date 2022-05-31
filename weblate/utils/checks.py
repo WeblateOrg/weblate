@@ -127,7 +127,7 @@ def weblate_check(id, message, cls=Critical):
 def check_mail_connection(app_configs, **kwargs):
     errors = []
     try:
-        connection = get_connection()
+        connection = get_connection(timeout=5)
         connection.open()
         connection.close()
     except Exception as error:
@@ -151,7 +151,7 @@ def is_celery_queue_long():
     queues_data = cache.get(cache_key, {})
 
     # Hours since epoch
-    current_hour = int(time.time() / 3600)
+    current_hour = int(time.monotonic() / 3600)
     test_hour = current_hour - 1
 
     # Fetch current stats
@@ -253,7 +253,7 @@ def check_celery(app_configs, **kwargs):
 
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
-    now = time.time()
+    now = time.monotonic()
     if loaded and now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
         errors.append(
             weblate_check(
@@ -269,15 +269,15 @@ def check_celery(app_configs, **kwargs):
 def measure_database_latency():
     from weblate.trans.models import Project
 
-    start = time.time()
+    start = time.monotonic()
     Project.objects.exists()
-    return round(1000 * (time.time() - start))
+    return round(1000 * (time.monotonic() - start))
 
 
 def measure_cache_latency():
-    start = time.time()
+    start = time.monotonic()
     cache.get("celery_loaded")
-    return round(1000 * (time.time() - start))
+    return round(1000 * (time.monotonic() - start))
 
 
 def check_database(app_configs, **kwargs):
@@ -297,7 +297,7 @@ def check_database(app_configs, **kwargs):
             errors.append(
                 weblate_check(
                     "weblate.C038",
-                    f"The database seems slow, the query took {delta} miliseconds",
+                    f"The database seems slow, the query took {delta} milliseconds",
                 )
             )
 
@@ -443,7 +443,7 @@ def check_site(app_configs, **kwargs):
 
 def check_perms(app_configs=None, **kwargs):
     """Check that the data dir can be written to."""
-    start = time.time()
+    start = time.monotonic()
     errors = []
     uid = os.getuid()
     message = "The path {} is owned by a different user, check your DATA_DIR settings."
@@ -469,7 +469,7 @@ def check_perms(app_configs=None, **kwargs):
                 raise
             if stat.st_uid != uid:
                 errors.append(weblate_check("weblate.E027", message.format(path)))
-        if time.time() - start > 15:
+        if time.monotonic() - start > 15:
             break
 
     return errors
@@ -550,7 +550,7 @@ def check_version(app_configs=None, **kwargs):
     except (ValueError, OSError):
         return []
     if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
-        # With release every two months, this get's triggered after three releases
+        # With release every two months, this gets triggered after three releases
         if latest.timestamp + timedelta(days=180) < datetime.now():
             return [
                 weblate_check(

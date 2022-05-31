@@ -21,7 +21,8 @@ from html import escape, unescape
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import DeepLMachineryForm
 
 DEEPL_TRANSLATE = "{}translate"
 DEEPL_LANGUAGES = "{}languages"
@@ -42,12 +43,14 @@ class DeepLTranslation(MachineTranslation):
     }
     force_uncleanup = True
     hightlight_syntax = True
+    settings_form = DeepLMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_DEEPL_KEY is None:
-            raise MissingConfiguration("DeepL requires API key")
+    @staticmethod
+    def migrate_settings():
+        return {
+            "url": settings.MT_DEEPL_API_URL,
+            "key": settings.MT_DEEPL_KEY,
+        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
@@ -56,8 +59,8 @@ class DeepLTranslation(MachineTranslation):
     def download_languages(self):
         response = self.request(
             "post",
-            DEEPL_LANGUAGES.format(settings.MT_DEEPL_API_URL),
-            data={"auth_key": settings.MT_DEEPL_KEY},
+            DEEPL_LANGUAGES.format(self.settings["url"]),
+            data={"auth_key": self.settings["key"]},
         )
         result = {x["language"] for x in response.json()}
 
@@ -79,7 +82,7 @@ class DeepLTranslation(MachineTranslation):
     ):
         """Download list of possible translations from a service."""
         params = {
-            "auth_key": settings.MT_DEEPL_KEY,
+            "auth_key": self.settings["key"],
             "text": text,
             "source_lang": source,
             "target_lang": language,
@@ -92,7 +95,7 @@ class DeepLTranslation(MachineTranslation):
             params["formality"] = "less"
         response = self.request(
             "post",
-            DEEPL_TRANSLATE.format(settings.MT_DEEPL_API_URL),
+            DEEPL_TRANSLATE.format(self.settings["url"]),
             data=params,
         )
         payload = response.json()

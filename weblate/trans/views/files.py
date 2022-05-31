@@ -32,7 +32,6 @@ from weblate.trans.models import ComponentList, Translation
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.lock import WeblateLockTimeout
 from weblate.utils.views import (
     download_translation_file,
     get_component,
@@ -50,7 +49,7 @@ def download_multi(translations, commit_objs, fmt=None, name="translations"):
     for obj in commit_objs:
         try:
             obj.commit_pending("download", None)
-        except WeblateLockTimeout:
+        except Exception:
             report_error(cause="Download commit")
 
     for translation in translations:
@@ -181,7 +180,7 @@ def upload_translation(request, project, component, lang):
 
     # Do actual import
     try:
-        not_found, skipped, accepted, total = obj.merge_upload(
+        not_found, skipped, accepted, total = obj.handle_upload(
             request,
             request.FILES["file"],
             conflicts,

@@ -263,6 +263,8 @@ Users
     :type is_superuser: boolean
     :param is_active: Is user active? (optional)
     :type is_active: boolean
+    :param is_bot: Is user bot? (optional) (used for project scoped tokens)
+    :type is_bot: boolean
 
 .. http:get:: /api/users/(str:username)/
 
@@ -275,6 +277,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
 
@@ -292,6 +295,7 @@ Users
             ],
             "is_superuser": true,
             "is_active": true,
+            "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
@@ -308,6 +312,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
 
 .. http:patch:: /api/users/(str:username)/
@@ -321,6 +326,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
 
 .. http:delete:: /api/users/(str:username)/
@@ -434,6 +440,8 @@ Groups
     :type project_selection: int
     :param language_selection: Group of languages selected from given options
     :type language_selection: int
+    :param defining_project: link to the defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
+    :type defining_project: str
 
 .. http:get:: /api/groups/(int:id)/
 
@@ -448,7 +456,7 @@ Groups
     :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json array componentlists: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
-    :>json str defining_project: likn to defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
+    :>json str defining_project: link to the defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
 
     **Example JSON data:**
 
@@ -456,6 +464,7 @@ Groups
 
         {
             "name": "Guests",
+            "defining_project": null,
             "project_selection": 3,
             "language_selection": 1,
             "url": "http://example.com/api/groups/1/",
@@ -671,6 +680,8 @@ Languages
     :type name: string
     :param direction: Text direction
     :type direction: string
+    :param population: Number of speakers
+    :type population: int
     :param plural: Language plural formula and number
     :type plural: object
 
@@ -682,6 +693,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
+    :<json int population: Number of speakers
     :>json object plural: Object of language plural information
     :>json array aliases: Array of aliases for language
 
@@ -693,6 +705,7 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
+            "population": 159034349015,
             "plural": {
                 "id": 75,
                 "source": 0,
@@ -720,6 +733,7 @@ Languages
     :type language: string
     :<json string name: Language name
     :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:patch:: /api/languages/(string:language)/
@@ -730,6 +744,7 @@ Languages
     :type language: string
     :<json string name: Language name
     :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:delete:: /api/languages/(string:language)/
@@ -1076,6 +1091,7 @@ Projects
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1180,6 +1196,7 @@ Components
     :>json string delete_message: :ref:`component-delete_message`
     :>json string merge_message: :ref:`component-merge_message`
     :>json string addon_message: :ref:`component-addon_message`
+    :>json string pull_message: :ref:`component-pull_message`
     :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
@@ -1214,6 +1231,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1225,6 +1243,7 @@ Components
             "source_language": {
                 "code": "en",
                 "direction": "ltr",
+                "population": 159034349015,
                 "name": "English",
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
@@ -1304,6 +1323,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                    "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1610,6 +1630,7 @@ Components
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1748,6 +1769,7 @@ Translations
                     "source_language": {
                         "code": "en",
                         "direction": "ltr",
+                        "population": 159034349015,
                         "name": "English",
                         "url": "http://example.com/api/languages/en/",
                         "web_url": "http://example.com/languages/en/"
@@ -1776,6 +1798,7 @@ Translations
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1839,7 +1862,7 @@ Translations
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
-    Add new monolingual unit.
+    Add new unit.
 
     :param project: Project URL slug
     :type project: string
@@ -1847,8 +1870,9 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit
-    :<json array value: The translation unit value
+    :<json string key: Name of translation unit (used as key or context)
+    :<json array value: Source strings (use single string if not creating plural)
+    :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
     .. seealso::
 
@@ -2029,7 +2053,9 @@ and XLIFF.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
     :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
-    :>json string souce_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json boolean pending: whether the unit is pending for write
+    :>json timestamp timestamp: string age
 
 .. http:patch::  /api/units/(int:id)/
 
@@ -2390,12 +2416,12 @@ Metrics
     :>json int users: Number of users
     :>json int changes: Number of changes
     :>json int projects: Number of projects
-    :>json int components":  Number of components
-    :>json int translations":  Number of translations
-    :>json int languages":  Number of used languages
-    :>json int checks":  Number of triggered quality checks
-    :>json int configuration_errors":  Number of configuration errors
-    :>json int suggestions":  Number of pending suggestions
+    :>json int components:  Number of components
+    :>json int translations:  Number of translations
+    :>json int languages:  Number of used languages
+    :>json int checks:  Number of triggered quality checks
+    :>json int configuration_errors:  Number of configuration errors
+    :>json int suggestions:  Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
 
@@ -2446,7 +2472,7 @@ update individual repositories; see
 
         :ref:`github-setup`
             For instruction on setting up GitHub integration
-        https://docs.github.com/en/github/extending-github/about-webhooks
+        https://docs.github.com/en/get-started/customizing-your-github-workflow/exploring-integrations/about-webhooks
             Generic information about GitHub Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2499,15 +2525,20 @@ update individual repositories; see
 
     .. versionadded:: 3.8
 
-    Special hook for handling Azure Repos notifications and automatically
+    Special hook for handling Azure DevOps notifications and automatically
     updating matching components.
+
+    .. note::
+
+       Please make sure that :guilabel:`Resource details to send` is set to
+       *All*, otherwise Weblate will not be able to match your Azure repository.
 
     .. seealso::
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
         https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
-            Generic information about Azure Repos Web Hooks
+            Generic information about Azure DevOps Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
@@ -2562,7 +2593,7 @@ Weblate provides various exports to allow you to further process the data.
 
     Retrieves statistics for given component in given format.
 
-    **Example request**:
+    **Example request:**
 
     .. sourcecode:: http
 
@@ -2570,7 +2601,7 @@ Weblate provides various exports to allow you to further process the data.
         Host: example.com
         Accept: application/json, text/javascript
 
-    **Example response**:
+    **Example response:**
 
     .. sourcecode:: http
 
@@ -2661,4 +2692,4 @@ Changes in translations are exported in RSS feeds.
 
 .. seealso::
 
-   `RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_
+   `RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_
