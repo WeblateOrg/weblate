@@ -141,15 +141,14 @@ class ReportsComponentTest(BaseReportsTest):
     def test_credits_view_rst(self):
         response = self.get_credits("rst")
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "text/plain; charset=utf-8")
         self.assertEqual(
-            response.content.decode(),
+            response.content.decode().strip(),
             """
-
 * Czech
 
-    * Weblate &lt;b&gt;Test&lt;/b&gt; <weblate@example.org> (1)
-
-""",
+    * Weblate <b>Test</b> <weblate@example.org> (1)
+""".strip(),
         )
 
     def test_credits_view_html(self):
@@ -157,11 +156,11 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
             response.content.decode(),
-            "<table>\n"
+            "<table><tbody>\n"
             "<tr>\n<th>Czech</th>\n"
             '<td><ul><li><a href="mailto:weblate@example.org">'
             "Weblate &lt;b&gt;Test&lt;/b&gt;</a> (1)</li></ul></td>\n</tr>\n"
-            "</table>",
+            "</tbody></table>",
         )
 
     def get_counts(self, style, **kwargs):

@@ -1,5 +1,6 @@
 #
 # Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
+# Copyright © 2022 WofWca <wofwca@protonmail.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +20,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from django.utils.html import escape
+from django.utils.html import conditional_escape, escape, format_html, format_html_join
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
@@ -32,6 +33,16 @@ from weblate.utils.views import get_component, get_project, show_form_errors
 RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)
 
 HTML_HEADING = "<table>\n<tr>{0}</tr>"
+
+
+def format_plaintext(format_string, *args, **kwargs):
+    """Same as `format_html` in syntax, but performs no escaping."""
+    return format_string.format(*args, **kwargs)
+
+
+def format_plaintext_join(sep, format_string, args_generator):
+    """Same as `format_html_join` in syntax, but performs no escaping."""
+    return sep.join(format_plaintext(format_string, *args) for args in args_generator)
 
 
 def generate_credits(user, start_date, end_date, **kwargs):
@@ -84,45 +95,49 @@ def get_credits(request, project=None, component=None):
         return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data["style"] == "html":
-        start = "<table>"
-        row_start = "<tr>"
-        language_format = "<th>{0}</th>"
-        translator_start = "<td><ul>"
+        wrap_format = "<table><tbody>{}</tbody></table>"
+        language_format = """
+        <tr>
+            <th>{language}</th>
+            <td><ul>{translators}</ul></td>
+        </tr>
+        """
         translator_format = '<li><a href="mailto:{0}">{1}</a> ({2})</li>'
-        translator_end = "</ul></td>"
-        row_end = "</tr>"
         mime = "text/html"
-        end = "</table>"
+        format_html_or_plain = format_html
+        format_html_or_plain_join = format_html_join
     else:
-        start = ""
-        row_start = ""
-        language_format = "* {0}\n"
-        translator_start = ""
+        wrap_format = "{}"
+        language_format = "* {language}\n\n{translators}\n"
         translator_format = "    * {1} <{0}> ({2})"
-        translator_end = ""
-        row_end = ""
         mime = "text/plain"
-        end = ""
+        format_html_or_plain = format_plaintext
+        format_html_or_plain_join = format_plaintext_join
 
-    result = [start]
-
+    language_outputs = []
     for language in data:
         name, translators = language.popitem()
-        result.append(row_start)
-        result.append(language_format.format(escape(name)))
-        result.append(
-            translator_start
-            + "\n".join(
-                translator_format.format(escape(t[0]), escape(t[1]), t[2])
-                for t in translators
+        language_outputs.append(
+            format_html_or_plain(
+                language_format,
+                language=name,
+                translators=format_html_or_plain_join(
+                    "\n",
+                    translator_format,
+                    ((t[0], t[1], t[2]) for t in translators),
+                ),
             )
-            + translator_end
         )
-        result.append(row_end)
 
-    result.append(end)
-
-    return HttpResponse("\n".join(result), content_type=f"{mime}; charset=utf-8")
+    body = format_html_or_plain(
+        wrap_format,
+        format_html_or_plain_join("\n\n", "{}", ((v,) for v in language_outputs)),
+    )
+    # Just in case someone messes something up.
+    # Also consider simply using `html.unescape` instead.
+    if mime != "text/plain":
+        body = conditional_escape(body)
+    return HttpResponse(body, content_type=f"{mime}; charset=utf-8")
 
 
 COUNT_DEFAULTS = {
