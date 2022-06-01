@@ -94,12 +94,19 @@ def add_ghost_translations(component, user, translations, generator, **kwargs):
 def show_engage(request, project, lang=None):
     # Get project object, skipping ACL
     obj = get_project(request, project, skip_acl=True)
+    guessed_language = None
 
     # Handle language parameter
     if lang is not None:
         language = get_object_or_404(Language, code=lang)
     else:
         language = None
+        guessed_language = (
+            Language.objects.filter(translation__component__project=obj)
+            .exclude(component__project=obj)
+            .distinct()
+            .get_request_language(request)
+        )
     full_stats = obj.stats
     if language:
         try_set_language(lang)
@@ -119,6 +126,7 @@ def show_engage(request, project, lang=None):
             "total": obj.stats.source_strings,
             "percent": stats_obj.translated_percent,
             "language": language,
+            "guessed_language": guessed_language,
             "project_link": format_html(
                 '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
