@@ -40,6 +40,8 @@ PERMISSIONS = (
     # Translators: Permission name
     ("comment.delete", _("Delete comment")),
     # Translators: Permission name
+    ("comment.resolve", _("Resolve comment")),
+    # Translators: Permission name
     ("component.edit", _("Edit component settings")),
     # Translators: Permission name
     ("component.lock", _("Lock component, preventing translations")),
@@ -203,7 +205,7 @@ ROLES = (
     ),
     (
         pgettext("Access-control role", "Review strings"),
-        TRANSLATE_PERMS | {"unit.review", "unit.override"},
+        TRANSLATE_PERMS | {"unit.review", "unit.override", "comment.resolve"},
     ),
     (pgettext("Access-control role", "Translate"), TRANSLATE_PERMS),
     (

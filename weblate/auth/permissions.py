@@ -92,7 +92,7 @@ def check_permission(user, permission, obj):
     raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
 
 
-@register_perm("comment.delete", "suggestion.delete")
+@register_perm("comment.resolve", "comment.delete", "suggestion.delete")
 def check_delete_own(user, permission, obj):
     if user.is_authenticated and obj.user == user:
         return True

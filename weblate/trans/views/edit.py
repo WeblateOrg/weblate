@@ -789,7 +789,7 @@ def resolve_comment(request, pk):
     """Resolve comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
 
-    if not request.user.has_perm("comment.delete", comment_obj):
+    if not request.user.has_perm("comment.resolve", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()

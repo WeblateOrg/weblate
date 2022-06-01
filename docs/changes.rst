@@ -17,6 +17,7 @@ Not yet released.
 * Improved formatting of placeholder check errors.
 * Redirect /.well-known/change-password to /accounts/password/.
 * Machine translation services are now configurable per project.
+* Added separate permission for resolving comments and grant it to the :guilabel:`Review strings` role.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 
