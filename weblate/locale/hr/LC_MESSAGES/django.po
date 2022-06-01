@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-27 06:01+0000\n"
-"PO-Revision-Date: 2022-05-26 09:42+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-06-02 07:34+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -1957,15 +1957,13 @@ msgstr "Upravljaj prevodilačkom memorijom"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:149
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "Koristi strojno prevođenje"
+msgstr "Upravljaj strojnim prevođenjem"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
 msgid "Manage component lists"
-msgstr "Upravljaj popisom komponenata"
+msgstr "Upravljaj popisima komponenata"
 
 #: weblate/auth/data.py:181
 msgctxt "Access-control role"
@@ -2232,8 +2230,7 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Korisničko ime smije sadržavati samo slova, brojke i sljedeće znakove: @. + "
-"- _"
+"Korisničko ime smije sadržati samo slova, brojke i sljedeće znakove: @. + - _"
 
 #: weblate/auth/models.py:317
 msgid "A user with that username already exists."
@@ -3323,7 +3320,7 @@ msgstr "XLIFF prevodilačka datoteka"
 
 #: weblate/formats/ttkit.py:1237
 msgid "XLIFF with placeables support"
-msgstr ""
+msgstr "XLIFF s podrškom za zamjenska mjesta"
 
 #: weblate/formats/ttkit.py:1244
 msgid "XLIFF with gettext extensions"
@@ -3403,10 +3400,8 @@ msgid "CSV file"
 msgstr "CSV datoteka"
 
 #: weblate/formats/ttkit.py:1544
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "CSV datoteka"
+msgstr "CSV datoteka (UTF-8)"
 
 #: weblate/formats/ttkit.py:1550
 msgid "Simple CSV file"
@@ -3417,10 +3412,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Jednostavna CSV datoteka (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1575
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "Jednostavna CSV datoteka"
+msgstr "Jednostavna CSV datoteka (UTF-8)"
 
 #: weblate/formats/ttkit.py:1582
 msgid "YAML file"
@@ -3455,10 +3448,8 @@ msgid "Flat XML file"
 msgstr "Jednoslojna XML datoteka"
 
 #: weblate/formats/ttkit.py:1695
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "Greška repozitorija"
+msgstr "ResourceDictionary datoteka"
 
 #: weblate/formats/ttkit.py:1708
 msgid "INI file"
@@ -3601,16 +3592,12 @@ msgid "Right to left"
 msgstr "Zdesna na lijevo"
 
 #: weblate/lang/models.py:506 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "Broj izraza"
+msgstr "Broj ljudi koji govore ovim jezikom"
 
 #: weblate/lang/models.py:507
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "Broj jezika"
+msgstr "Broj ljudi koji govore ovim jezikom."
 
 #: weblate/lang/models.py:587
 msgctxt "Plural type"
@@ -3897,49 +3884,41 @@ msgid "Overview"
 msgstr "Pregled"
 
 #: weblate/machinery/base.py:103
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "Neuspjelo pronalaženje izvornog jezika!"
+msgstr "Neuspjelo dohvaćanje podržanih jezika: %s"
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "Zabranjen prijevod: %s"
+msgstr "Neuspjelo dohvaćanje prijevoda: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
-#, fuzzy
-#| msgid "Personal API key"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "Osobni API ključ"
+msgstr "API ključ"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "Glavni URL API-a:"
+msgstr "URL API-a"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "ID klijenta"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "Tajna klijenta"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "E-adresa podnositelja izmjene"
+msgstr "E-adresa kontakta"
 
 #: weblate/machinery/forms.py:81
 msgctxt "Automatic suggestion service configuration"
@@ -3947,92 +3926,73 @@ msgid "Username"
 msgstr "Korisničko ime"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "Korisničko ime autora"
+msgstr "SAP korisničko ime"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "Postavi lozinku"
+msgstr "SAP lozinka"
 
 #: weblate/machinery/forms.py:109
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Strojno prevođenje"
+msgstr "Aktiviraj strojno prevođenje"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "Upiši ispravno korisničko ime i lozinku."
+msgstr "Navedi ključ ili korisničko ime i lozinku."
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "URL krajnje točke programa"
 
 #: weblate/machinery/forms.py:136
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "Osnovni URL programa"
 
 #: weblate/machinery/forms.py:149
 msgctxt "Automatic suggestion service configuration"
 msgid "Application region"
-msgstr ""
+msgstr "Područje programa"
 
 #: weblate/machinery/forms.py:159
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "Informacije računa usluge Google Translate"
 
 #: weblate/machinery/forms.py:165
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate project"
-msgstr "Oglašavanje prevodilačkih projekata"
+msgstr "Google Translate projekt"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate location"
-msgstr "Prevodilačke obavijesti"
+msgstr "Google Translate lokacija"
 
 #: weblate/machinery/forms.py:179
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON: %s"
-msgstr "Neuspjela obrada JSON datoteke: {!s}"
+msgstr "Neuspjela obrada JSON-a: %s"
 
 #: weblate/machinery/forms.py:185
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "Samo pristup"
+msgstr "ID ključa pristupa"
 
 #: weblate/machinery/forms.py:188
-#, fuzzy
-#| msgid "Add host key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "Dodaj ključ računala"
+msgstr "Tajni ključ API-a"
 
 #: weblate/machinery/forms.py:191
-#, fuzzy
-#| msgid "Rename"
 msgctxt "AWS Translate configuration"
 msgid "Region name"
-msgstr "Preimenuj"
+msgstr "Ime regije"
 
 #: weblate/machinery/views.py:329
 msgid "Service is currently not available."
@@ -5293,9 +5253,8 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
-"Regularni izraz koji se podudara s datotekama prijevoda mora sadržavati "
-"dvije imenovane grupe za podudaranje s komponentom i s jezikom, neki "
-"primjeri:"
+"Regularni izraz koji se podudara s datotekama prijevoda mora sadržati dvije "
+"imenovane grupe za podudaranje s komponentom i s jezikom, neki primjeri:"
 
 #: weblate/templates/addons/discovery_help.html:9
 msgid "Example matched files"
@@ -6397,7 +6356,7 @@ msgstr "Napomena"
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
 msgid "The documentation has detailed instructions"
-msgstr "Dokumentacija sadržava detaljne upute"
+msgstr "Dokumentacija sadrži detaljne upute"
 
 #: weblate/templates/engage.html:14
 #, python-format
@@ -6451,16 +6410,16 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(count)s "
+"Prevodilački projekt za %(project)s trenutačno sadrži <strong>%(count)s "
 "prevodiv izraz</strong>. Projekt je <strong>%(percent)s %% preveden</strong>."
 msgstr[1] ""
-"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(count)s "
-"prevodiva izraza</strong>. Projekt je <strong>%(percent)s %% preveden</"
-"strong>."
+"Prevodilački projekt za %(project)s trenutačno sadrži <strong>%(count)s "
+"prevodiva izraza</strong>. Projekt je <strong>%(percent)s %% "
+"preveden</strong>."
 msgstr[2] ""
-"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(count)s "
-"prevodivih izraza</strong>. Projekt je <strong>%(percent)s %% preveden</"
-"strong>."
+"Prevodilački projekt za %(project)s trenutačno sadrži <strong>%(count)s "
+"prevodivih izraza</strong>. Projekt je <strong>%(percent)s %% "
+"preveden</strong>."
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -6471,13 +6430,13 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(count)s "
+"Prevodilački projekt za %(project)s trenutačno sadrži <strong>%(count)s "
 "prevodiv izraz</strong>."
 msgstr[1] ""
-"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(count)s "
+"Prevodilački projekt za %(project)s trenutačno sadrži <strong>%(count)s "
 "prevodiva izraza</strong>."
 msgstr[2] ""
-"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(count)s "
+"Prevodilački projekt za %(project)s trenutačno sadrži <strong>%(count)s "
 "prevodivih izraza</strong>."
 
 #: weblate/templates/engage.html:46
@@ -6947,23 +6906,20 @@ msgstr "Označi kao nepoželjno"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "Ova je usluga instalirana na svim stranicama web-mjesta."
 
 #: weblate/templates/machinery/detail.html:7
-#, fuzzy
-#| msgid "repository wide"
 msgid "site wide"
-msgstr "u cijelom repozitoriju"
+msgstr "na svim stranicama web-mjesta"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
 msgstr ""
+"Ova je usluga instalirana na svim stranicama web-mjesta, ali je deaktivirana."
 
 #: weblate/templates/machinery/detail.html:10
-#, fuzzy
-#| msgid "enabled"
 msgid "disabled"
-msgstr "aktivirano"
+msgstr "deaktivirano"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -6974,56 +6930,41 @@ msgid "Automatic suggestions"
 msgstr "Automatski prijedlozi"
 
 #: weblate/templates/machinery/list.html:23
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configured automatic suggestion services"
-msgstr "Koristi automatske prijedloge"
+msgstr "Konfigurirane usluge za automatske prijedloge"
 
 #: weblate/templates/machinery/list.html:34
 msgid "Disable"
-msgstr ""
+msgstr "Deaktiviraj"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "aktivirano"
+msgstr "Aktiviraj"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "Trenutačno nema instaliranih dodataka."
+msgstr "Trenutačno nema instaliranih usluga."
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "Trenutačno je instaliran %(count)s dodatak."
-msgstr[1] "Trenutačno su instalirana %(count)s dodatka."
-msgstr[2] "Trenutačno je instalirano %(count)s dodataka."
+msgstr[0] "Trenutačno je instalirana %(count)s usluga."
+msgstr[1] "Trenutačno su instalirane %(count)s usluge."
+msgstr[2] "Trenutačno je instalirano %(count)s usluga."
 
 #: weblate/templates/machinery/list.html:61
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Available automatic suggestion services"
-msgstr "Koristi automatske prijedloge"
+msgstr "Dostupne usluge za automatske prijedloge"
 
 #: weblate/templates/machinery/list.html:79
-#, fuzzy
-#| msgid "Could not find any such user."
 msgid "Could not find any additional services."
-msgstr "Takav korisnik nije pronađen."
+msgstr "Dodatne usluge nisu pronađene."
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
-msgstr "Neki dodaci će zatražiti dodatno podešavanje tijekom instaliranja."
+msgstr "Neke usluge će zatražiti dodatno podešavanje tijekom instaliranja."
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -9216,7 +9157,7 @@ msgstr "Sljedeće maske datoteke su pronađene višestruko:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
-msgstr "Komponenta sadržava prevodilačku datoteku za izvorni jezik."
+msgstr "Komponenta sadrži prevodilačku datoteku za izvorni jezik."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatelanguage.html:28
@@ -10081,12 +10022,9 @@ msgid "For all languages"
 msgstr "Za sve jezike"
 
 #: weblate/templates/translate.html:472
-#, fuzzy
-#| msgid ""
-#| "Selecting this option will set the corresponding \"ignore check\" flag"
 msgid "Selecting this option will set the corresponding ignore flag."
 msgstr ""
-"Odabirom ove opcije postavit će se odgovarajuća oznaka „zanemari provjeru”"
+"Odabirom ove opcije postavit će se odgovarajuća oznaka za zanemarivanje."
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -12769,19 +12707,19 @@ msgid "Failed to parse flags: %s"
 msgstr "Neuspjela obrada oznaka: %s"
 
 #: weblate/trans/validators.py:65
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the file mask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "Jezični kod za %s je bio prazan, provjeri masku datoteke."
+msgstr "Jezični kod za „%(filename)s” je prazan, provjeri masku datoteke."
 
 #: weblate/trans/validators.py:71
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the file mask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "Jezični kod „%s” je predugačak, provjeri masku datoteke."
+msgstr ""
+"Jezični kod „%(code)s” za „%(filename)s” je predugačak, provjeri masku "
+"datoteke."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
