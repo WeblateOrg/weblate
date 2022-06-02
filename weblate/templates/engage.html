@@ -61,11 +61,11 @@
 <a href="{% url 'register' %}" class="btn btn-primary btn-lg">{% trans "Register" %}</a>
 {% endif %}
 {% if language %}
-  <a id="engage-project" href="{% url 'translate' project=object.slug component='-' lang=language.code %}?q=state:%3Ctranslated" class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
+  <a href="{% url 'translate' project=object.slug component='-' lang=language.code %}?q=state:%3Ctranslated" class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
 {% elif guessed_language %}
-  <a id="engage-project" href="{% url 'translate' project=object.slug component='-' lang=guessed_language.code %}?q=state:%3Ctranslated" class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
+  <a href="{% url 'translate' project=object.slug component='-' lang=guessed_language.code %}?q=state:%3Ctranslated" class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
 {% endif %}
-<a href="{{ object.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
+<a id="engage-project" href="{{ object.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
 </p>
 
 </div>
