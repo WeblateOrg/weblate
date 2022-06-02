@@ -86,19 +86,14 @@ def migrate_roles(model, perm_model) -> Set[str]:
 def migrate_groups(model, role_model, update=False):
     """Create groups as defined in the data."""
     for group, roles, selection in GROUPS:
-        defaults = {
-            "project_selection": selection,
-            "language_selection": SELECTION_ALL,
-        }
         instance, created = model.objects.get_or_create(
-            name=group, internal=True, defaults=defaults
+            name=group,
+            internal=True,
+            project_selection=selection,
+            language_selection=SELECTION_ALL,
         )
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
-        if update:
-            for key, value in defaults.items():
-                setattr(instance, key, value)
-            instance.save()
 
 
 def create_anonymous(model, group_model, update=True):
