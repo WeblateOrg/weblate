@@ -780,7 +780,8 @@ class Plural(models.Model):
 
     def get_plural_label(self, idx):
         """Return label for plural form."""
-        return PLURAL_TITLE.format(
+        return format_html(
+            PLURAL_TITLE,
             name=self.get_plural_name(idx),
             icon=icon("info.svg"),
             # Translators: Label for plurals with example counts
