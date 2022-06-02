@@ -87,11 +87,12 @@ def migrate_groups(model, role_model, update=False):
     """Create groups as defined in the data."""
     for group, roles, selection in GROUPS:
         defaults = {
-            "internal": True,
             "project_selection": selection,
             "language_selection": SELECTION_ALL,
         }
-        instance, created = model.objects.get_or_create(name=group, defaults=defaults)
+        instance, created = model.objects.get_or_create(
+            name=group, internal=True, defaults=defaults
+        )
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
         if update:
