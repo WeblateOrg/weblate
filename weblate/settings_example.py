@@ -192,8 +192,12 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-# You can generate it using lib/python3.9/site-packages/weblate/examples/generate-secret-key
+
+# You can generate it using
+# lib/python3.9/site-packages/weblate/examples/generate-secret-key
+
 # Use the command above when you are in the root directory from weblate
+
 SECRET_KEY = ""
 
 TEMPLATES = [
