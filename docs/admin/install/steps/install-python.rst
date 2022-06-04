@@ -28,6 +28,8 @@ Python modules
 
         # pkgconfig is needed to install borgbackup 1.2
         pip3 install pkgconfig
+        # mysqlclient is needed if you want use mysql/mariadb
+        pip3 install mysqlclient
         # Install Weblate with all optional dependencies
         pip3 install "Weblate[all]"
 

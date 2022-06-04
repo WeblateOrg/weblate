@@ -8,9 +8,9 @@ Installing on Debian and Ubuntu
 .. code-block:: sh
 
    apt install \
-      libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev \
-      libffi-dev libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev \
-      libacl1-dev libssl-dev libpq-dev libjpeg62-turbo-dev build-essential \
+      build-essential gir1.2-pango-1.0 libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev \
+      libz-dev libyaml-dev libffi-dev libcairo-dev libmariadb-dev-compat libmariadb-dev \
+      libgirepository1.0-dev libacl1-dev libssl-dev libpq-dev libjpeg62-turbo-dev \
       python3-gdbm python3-dev python3-pip python3-venv git -y
 
 .. include:: steps/install-system-optional.rst
