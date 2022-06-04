@@ -4,12 +4,12 @@ Configuring Weblate
 .. note::
 
    Following steps assume virtualenv used by Weblate is active (what can be
-   done by ``. ~/weblate-env/bin/activate``). In case this is not true, you will
+   done by ``source /bin/activate``). In case this is not true, you will
    have to specify full path to :command:`weblate` command as
-   ``~/weblate-env/bin/weblate``.
+   ``bin/weblate``.
 
-#. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
-   to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`.
+#. Copy the file :file:`lib/python3.9/site-packages/weblate/settings_example.py`
+   to :file:`lib/python3.9/site-packages/weblate/settings.py`.
 
 #.
    .. include:: steps/adjust-config.rst
@@ -47,7 +47,7 @@ Configuring Weblate
 
          ~/weblate-env/lib/python3.7/site-packages/weblate/examples/celery start
 
-#. Start the development server (see :ref:`server` for production setup):
+#. Start the development server:
 
    .. code-block:: sh
 

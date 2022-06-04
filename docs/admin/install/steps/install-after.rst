@@ -13,7 +13,7 @@ Congratulations, your Weblate server is now running and you can start using it.
 Adding translation
 ++++++++++++++++++
 
-#. Open the admin interface (``http://localhost:8000/create/project/``) and create the project you
+#. Open the admin interface (``http://localhost:8000/create/project``) and create the project you
    want to translate. See :ref:`project` for more details.
 
    All you need to specify here is the project name and its website.
