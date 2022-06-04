@@ -6,27 +6,30 @@ Python modules
    We're using virtualenv to install Weblate in a separate environment from your
    system. If you are not familiar with it, check virtualenv :doc:`venv:user_guide`.
 
+.. warning::
+
+   Run the following commands in an empty directory
 
 #. Create the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv --python=python3 ~/weblate-env
+        python3 -m venv .
 
 #. Activate the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        . ~/weblate-env/bin/activate
+        source bin/activate
 
 #. Install Weblate including all optional dependencies:
 
    .. code-block:: sh
 
         # pkgconfig is needed to install borgbackup 1.2
-        pip install pkgconfig
+        pip3 install pkgconfig
         # Install Weblate with all optional dependencies
-        pip install "Weblate[all]"
+        pip3 install "Weblate[all]"
 
    Please check :ref:`optional-deps` for fine-tuning of optional dependencies.
 
@@ -44,4 +47,4 @@ Python modules
 
       .. code-block:: sh
 
-         pip install --force-reinstall --no-binary :all: cffi
+         pip3 install --force-reinstall --no-binary :all: cffi

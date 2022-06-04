@@ -11,35 +11,34 @@ Installing on Debian and Ubuntu
       libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev \
       libffi-dev libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev \
       libacl1-dev libssl-dev libpq-dev libjpeg62-turbo-dev build-essential \
-      python3-gdbm python3-dev python3-pip python3-virtualenv virtualenv git
+      python3-gdbm python3-dev python3-pip python3-venv git -y
 
 .. include:: steps/install-system-optional.rst
 
 .. code-block:: sh
 
-    apt install tesseract-ocr libtesseract-dev libleptonica-dev
-    apt install libldap2-dev libldap-common libsasl2-dev
-    apt install libxmlsec1-dev
+    apt install tesseract-ocr libtesseract-dev libleptonica-dev -y \
+    libldap2-dev libldap-common libsasl2-dev -y \
+    libxmlsec1-dev -y
 
 .. include:: steps/install-system-server.rst
 
 .. code-block:: sh
 
     # Web server option 1: NGINX and uWSGI
-    apt install nginx uwsgi uwsgi-plugin-python3
+    apt install nginx uwsgi uwsgi-plugin-python3 -y
 
     # Web server option 2: Apache with ``mod_wsgi``
-    apt install apache2 libapache2-mod-wsgi-py3
+    apt install apache2 libapache2-mod-wsgi-py3 -y
 
     # Caching backend: Redis
-    apt install redis-server
+    apt install redis-server -y
 
     # Database server: PostgreSQL
-    apt install postgresql postgresql-contrib
+    apt install postgresql postgresql-contrib -y
 
     # SMTP server
-    apt install exim4
-
+    apt install exim4 -y
 
 .. include:: steps/install-python.rst
 
