@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-02 07:34+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2022-06-04 18:59+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -16529,9 +16529,8 @@ msgstr "例として、2 つのプロジェクトをインポートします。"
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
-msgstr ""
-"はじめは、Debian ハンドブックの翻訳です。言語ごとに存在する、各章の翻訳が入っ"
-"たフォルダ:"
+msgstr "はじめは、Debian ハンドブックの翻訳です。言語ごとにフォルダが別れていて、各章"
+"の翻訳が入っています。"
 
 #: ../../admin/management.rst:476
 msgid ""
@@ -16539,9 +16538,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
-"次に、Tanaguru ツールを使用します。このツールで、ファイル形式と基本ファイル "
-"テンプレートを指定して、すべてのコンポーネントと翻訳を単一のフォルダに配置す"
-"る方法:"
+"次は、Tanaguru ツールです。このツールでは、ファイル形式と基礎となる翻訳ファイ"
+"ルのテンプレートを指定する必要があり、すべてのコンポーネントの翻訳が1つのフォ"
+"ルダに配置されています。"
 
 #: ../../admin/management.rst:490
 msgid ""
@@ -16550,7 +16549,8 @@ msgid ""
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
 "ファイル名を解析して、``src/security/Numerous_security_holes_in_0.10.1.de."
-"po`` のようなファイル名から、正しいコンポーネントと言語を取得する複雑な例:"
+"po`` "
+"のようなファイル名から、正しいコンポーネントと言語を取得する、もっと複雑な例:"
 
 #: ../../admin/management.rst:501
 msgid "Filtering only translations in a chosen language:"
@@ -30116,7 +30116,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:27
 msgid "Weblate logs"
-msgstr "Weblate の履歴"
+msgstr "Weblate のログ"
 
 #: ../../contributing/debugging.rst:29
 msgid ""
@@ -30125,10 +30125,10 @@ msgid ""
 "either in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on "
 "your syslog daemon configuration)."
 msgstr ""
-"Weblate は、バックグラウンドで行われていることの詳細な履歴を生成できます。デ"
-"フォルトの設定では、syslog が使用され、その結果、履歴は、:file:`/var/log/"
-"messages` または :file:`/var/log/syslog`（syslog デーモンの設定によって異な"
-"る）のいずれかに出力されます。"
+"Weblate は、バックグラウンドで行われていることの詳細なログを生成できます。デ"
+"フォルトの設定では、syslog が使用され、ログは、:file:`/var/log/messages` "
+"または :file:`/var/log/syslog`（syslog "
+"デーモンの設定によって異なる）のいずれかに出力されます。"
 
 #: ../../contributing/debugging.rst:34
 msgid ""
@@ -30136,17 +30136,17 @@ msgid ""
 "well. The example system-wide setups logs to several files under :file:`/var/"
 "log/celery/`."
 msgstr ""
-"Celery プロセス（参照: :ref:`celery`）は、通常、独自の履歴も作成します。シス"
-"テム全体の設定の例では、履歴は :file:`/var/log/celery/` 以下に複数のファイル"
-"が記録されます。"
+"Celery プロセス（参照: "
+":ref:`celery`）は、通常、独自のログも作成します。システム全体の設定の例では、"
+"ログは :file:`/var/log/celery/` 以下の複数のファイルに記録されます。"
 
 #: ../../contributing/debugging.rst:37
 msgid ""
 "Docker containers log to their output (as per usual in the Docker world), so "
 "you can look at the logs using ``docker-compose logs``."
 msgstr ""
-"Docker コンテナは（Docker の世界では通常通り）その出力に履歴を記録するので、 "
-"``docker-compose logs`` を使用して履歴を見ることができます。"
+"Docker コンテナは（Docker の世界では通常通り）その出力にログを記録するので、 "
+"``docker-compose logs`` を使用してログを見ることができます。"
 
 #: ../../contributing/debugging.rst:42
 msgid ""
@@ -30157,7 +30157,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:47
 msgid "Not processing background tasks"
-msgstr "バックグラウンド タスクを処理しない"
+msgstr "バックグラウンド タスクが処理されない"
 
 #: ../../contributing/debugging.rst:49
 msgid ""
@@ -30175,7 +30175,7 @@ msgstr "その場合の確認事項:"
 
 #: ../../contributing/debugging.rst:55
 msgid "Check that the Celery process is running, see :ref:`celery`"
-msgstr "Celery プロセス実行中の確認、参照 :ref:`celery`"
+msgstr "Celery プロセスが実行されているか確認。参照 :ref:`celery`"
 
 #: ../../contributing/debugging.rst:56
 msgid ""
@@ -30187,7 +30187,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:57
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
-msgstr "Celery の履歴にエラーがないか調べる（参照: :ref:`weblate-logs`）"
+msgstr "Celery のログにエラーがないか調べる（参照: :ref:`weblate-logs`）"
 
 #: ../../contributing/debugging.rst:62
 msgid "Not receiving e-mails from Weblate"
@@ -30212,10 +30212,11 @@ msgid ""
 "however sent in the background and there might be some issues with Celery "
 "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
-"これはメールを直接送信するため、SMTP 設定が正常化かどうかを確認できます（参"
-"照: :ref:`out-mail`）。ただし、Weblate からのメールの多くはバックグラウンドで"
-"送信されるため、Celery にも問題が発生することがあります。デバッグについて"
-"は、:ref:`debug-tasks` を確認してください。"
+"これはメールを直接送信するため、SMTP 設定が正常かどうかを確認できます（参照: "
+":ref:`out-mail`）。ただし、Weblate "
+"からのメールの多くはバックグラウンドで送信されるため、Celery "
+"に問題がある場合があります。Celery のデバッグについては、:ref:`debug-tasks` "
+"を確認してください。"
 
 #: ../../contributing/debugging.rst:75
 msgid "Analyzing application crashes"
@@ -30244,10 +30245,10 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
-"多くのタスクが、Celery にオフロードされ、バックグラウンドで処理されます。エ"
-"ラーは、管理画面には表示されませんが、Celery の履歴には表示されます。:ref:"
-"`collecting-errors` を設定すると、このようなエラーを簡単に見つけることができ"
-"ます。"
+"多くのタスクが、Celery にオフロードされ、バックグラウンドで処理されます。エラ"
+"ーは、管理画面には表示されませんが、Celery のログには残ります。:ref"
+":`collecting-errors` "
+"を設定すると、このようなエラーを簡単に見つけることができます。"
 
 #: ../../contributing/debugging.rst:90
 msgid "Performance issues"
@@ -30259,8 +30260,8 @@ msgid ""
 "logs showing the issue, and anything that might help figuring out where the "
 "code might be improved."
 msgstr ""
-"一部の事例で、Weblate の性能が低下した場合は、問題についての関連履歴と、コー"
-"ドを改善すべき可能性がある箇所を特定するのに必要な情報を収集してください。"
+"何らかの状況で Weblate の性能が低下した場合は、問題に関連するログと、コードを"
+"改善すべき可能性がある箇所を特定するのに必要な情報を収集してください。"
 
 #: ../../contributing/debugging.rst:96
 msgid ""
@@ -30269,18 +30270,17 @@ msgid ""
 "`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
-"何の兆候もなく要求に時間がかかりすぎる場合は、:ref:`collecting-errors` ととも"
-"に `dogslow <https://pypi.org/project/dogslow/>`_ をインストールし、エラー収"
-"集ツールで特定した詳細なトレースバックを取得してください。"
+"何の兆候もなくリクエストに時間がかかりすぎる場合は、:ref:`collecting-errors` "
+"とともに `dogslow <https://pypi.org/project/dogslow/>`_ をインストールし、エ"
+"ラー収集ツールで特定した詳細なトレースバックを取得してください。"
 
 #: ../../contributing/debugging.rst:101
 msgid ""
 "In case the slow performance is linked to the database, you can also enable "
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
-msgstr ""
-"性能の低下がデータベースに関連している場合、:setting:`DEBUG` を有効にし、すべ"
-"てのデータベース問合せの履歴を有効にする設定方法:"
+msgstr "性能の低下がデータベースに関連している場合、:setting:`DEBUG` "
+"を有効にし、すべてのデータベース問合せのログを残せます。"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -31842,7 +31842,7 @@ msgstr ":ref:`ci-tests`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr "Weblate にコードの提供開始"
+msgstr "Weblate にコードの貢献を始める"
 
 #: ../../contributing/start.rst:4
 msgid ""
@@ -33352,8 +33352,8 @@ msgid ""
 msgstr ""
 "レポート機能を使用すると、指定した期間内の翻訳の進捗状況を把握できます。コン"
 "ポーネントに対して行った作業時間の概要を表示します。レポート機能は、翻訳コン"
-"ポーネントの :guilabel:`詳細` メニュー、プロジェクト、またはダッシュボードに"
-"あります。操作画面:"
+"ポーネント、プロジェクト、またはダッシュボードの :guilabel:`詳細` "
+"メニューにあります。操作画面:"
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -33372,13 +33372,11 @@ msgid "Translator credits"
 msgstr "翻訳者のクレジット"
 
 #: ../../devel/reporting.rst:21
-#, fuzzy
 msgid ""
 "Generates a document usable for crediting translators - sorted by language "
 "and lists all contributors to a given language:"
-msgstr ""
-"翻訳者の署名として使用するドキュメントを生成します。言語ごとに並ぶ、すべての"
-"翻訳者の一覧:"
+msgstr "翻訳者のクレジットとして使用できるドキュメントを生成します。言語名順に、翻訳"
+"者の一覧を言語ごとに表示します。"
 
 #: ../../devel/reporting.rst:38
 msgid ""
@@ -33392,7 +33390,7 @@ msgstr "貢献者の統計情報"
 #: ../../devel/reporting.rst:46
 msgid ""
 "Generates the number of translated words and strings by translator name:"
-msgstr "生成された、翻訳者ごとの翻訳した文字列数および単語数の:"
+msgstr "翻訳者ごとの翻訳した文字列数や単語数を生成します:"
 
 #: ../../devel/reporting.rst:51
 msgid ""
@@ -33404,7 +33402,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:54
 msgid "All stats are available in three variants:"
-msgstr "統計で把握できる 3 分類:"
+msgstr "全ての統計は3種類の分類があります。"
 
 #: ../../devel/reporting.rst:56
 msgid "`Total`"
@@ -33424,7 +33422,7 @@ msgstr "未翻訳の文字列を、新規に翻訳した文字列の合計。"
 
 #: ../../devel/reporting.rst:60
 msgid "`Approved`"
-msgstr "`承認済`"
+msgstr "`承認`"
 
 #: ../../devel/reporting.rst:61
 msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
@@ -33432,15 +33430,15 @@ msgstr "文字列の査読作業で承認した合計（参照: :ref:`reviews`�
 
 #: ../../devel/reporting.rst:63
 msgid "`Edited`"
-msgstr "`編集済`"
+msgstr "`編集`"
 
 #: ../../devel/reporting.rst:63
 msgid "Edited strings which had translation before."
-msgstr "以前に翻訳した文字列の合計。"
+msgstr "すでに翻訳済みのものを編集した文字列。"
 
 #: ../../devel/reporting.rst:65
 msgid "The following metrics are available for each:"
-msgstr "使用可能な評価基準:"
+msgstr "それぞれの分類に対して、次の指標があります。"
 
 #: ../../devel/reporting.rst:67
 msgid "`Count`"
@@ -33448,7 +33446,7 @@ msgstr "`文字列数`"
 
 #: ../../devel/reporting.rst:68
 msgid "Number of strings."
-msgstr "文字列の合計。"
+msgstr "文字列の数。"
 
 #: ../../devel/reporting.rst:69
 msgid "`Edits`"
@@ -33458,9 +33456,7 @@ msgstr "`編集回数`"
 msgid ""
 "Number of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
-msgstr ""
-"文字列を編集操作した回数（ダメラウ・レーベンシュタイン距離による編集操作回"
-"数）。"
+msgstr "編集した文字数（ダメラウ・レーベンシュタイン距離で測ったもの）。"
 
 #: ../../devel/reporting.rst:71
 msgid "`Source words`"
@@ -33996,18 +33992,24 @@ msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/"
 "plugin/1053050985172660071/weblate-integration>`_"
 msgstr ""
+"`Figma 用 Weblate プラグイン <https://www.figma.com/community/plugin/"
+"1053050985172660071/weblate-integration>`_"
 
 #: ../../devel/thirdparty.rst:9
 msgid ""
 "`WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/"
 "javierllorente/weblatefx>`_"
 msgstr ""
+"`WeblateFX、JavaFX ベースの Weblate デスクトップクライアント <https://github."
+"com/javierllorente/weblatefx>`_"
 
 #: ../../devel/thirdparty.rst:10
 msgid ""
 "`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
 "jweblate>`_"
 msgstr ""
+"`JWeblate、Java ベースの Weblate ライブラリ <https://github.com/"
+"javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:14
 msgid ""
