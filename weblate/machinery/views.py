@@ -195,8 +195,7 @@ class EditMachineryView(FormView):
         return
 
     def get_initial(self):
-        settings = self.settings_dict()
-        return settings.get(self.machinery_id) or {}
+        return self.settings_dict.get(self.machinery_id) or {}
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
