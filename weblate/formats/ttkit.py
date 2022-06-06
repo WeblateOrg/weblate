@@ -898,7 +898,7 @@ class JSONUnit(MonolingualSimpleUnit):
         return context
 
 
-class WebExtensionJSONUnit(JSONUnit):
+class PlaceholdersJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
         placeholders = self.mainunit.placeholders
@@ -916,19 +916,6 @@ class WebExtensionJSONUnit(JSONUnit):
                 placeholder_str = usage
             placeholder_strings.append(Flags.format_value(placeholder_str))
         return "placeholders:{}".format(":".join(placeholder_strings))
-
-
-class ARBJSONUnit(JSONUnit):
-    @cached_property
-    def flags(self):
-        placeholders = self.mainunit.placeholders
-        if not placeholders:
-            return ""
-        return "placeholders:{}".format(
-            ":".join(
-                Flags.format_value(f"{{{key.upper()}}}") for key in placeholders.keys()
-            )
-        )
 
 
 class CSVUnit(MonolingualSimpleUnit):
@@ -1440,7 +1427,7 @@ class WebExtensionJSONFormat(JSONFormat):
     loader = ("jsonl10n", "WebExtensionJsonFile")
     monolingual = True
     autoload = ("messages*.json",)
-    unit_class = WebExtensionJSONUnit
+    unit_class = PlaceholdersJSONUnit
 
 
 class I18NextFormat(JSONFormat):
@@ -1463,7 +1450,7 @@ class ARBFormat(JSONFormat):
     format_id = "arb"
     loader = ("jsonl10n", "ARBJsonFile")
     autoload = ("*.arb",)
-    unit_class = ARBJSONUnit
+    unit_class = PlaceholdersJSONUnit
     check_flags = ("icu-message-format",)
 
 
