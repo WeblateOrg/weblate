@@ -952,14 +952,19 @@ class CSVUnit(MonolingualSimpleUnit):
 
     @cached_property
     def context(self):
+        def get_context(unit):
+            if unit.id:
+                return unit.id
+            if unit.context:
+                return unit.context
+            return unit.getid()
+
         # Needed to avoid Translate Toolkit construct ID
         # as context\04source
         if self.template is not None:
-            if self.template.id:
-                return self.template.id
-            if self.template.context:
-                return self.template.context
-            return self.template.getid()
+            return get_context(self.template)
+        if self.parent.is_template:
+            return get_context(self.unit)
         return self.unescape_csv(self.mainunit.getcontext())
 
     @cached_property
