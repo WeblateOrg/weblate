@@ -89,8 +89,6 @@ def auth_name(auth: str, separator: str = "<br />"):
     """Create HTML markup for social authentication method."""
     params = get_auth_params(auth)
 
-    separator = format_html(separator)
-
     if not params["image"].startswith("http"):
         params["image"] = staticfiles_storage.url("auth/" + params["image"])
     params["icon"] = format_html(IMAGE_SOCIAL_TEMPLATE, separator=separator, **params)
