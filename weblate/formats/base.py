@@ -136,7 +136,7 @@ class TranslationUnit:
     @cached_property
     def id_hash(self):
         return self.calculate_id_hash(
-            self.template is not None or self.parent.is_template,
+            self.template is not None,
             self.source,
             self.context,
         )
