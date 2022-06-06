@@ -2046,6 +2046,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         "skipping update due to error in parsing template: %s",
                         error.nested,
                     )
+                    self.handle_parse_error(error.nested, filename=self.template)
                     self.update_import_alerts()
                     raise error.nested
                 was_change |= bool(translation.reason)
