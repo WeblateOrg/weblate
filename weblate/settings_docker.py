@@ -1137,8 +1137,8 @@ CACHES = {
         "LOCATION": "{}://{}:{}/{}".format(
             REDIS_PROTO,
             os.environ.get("REDIS_HOST", "cache"),
-            os.environ.get("REDIS_PORT", "6379"),
-            os.environ.get("REDIS_DB", "1"),
+            get_env_int("REDIS_PORT", 6379),
+            get_env_int("REDIS_DB", 1),
         ),
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
@@ -1272,8 +1272,8 @@ CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
     REDIS_PROTO,
     f":{REDIS_PASSWORD}@" if REDIS_PASSWORD else "",
     os.environ.get("REDIS_HOST", "cache"),
-    os.environ.get("REDIS_PORT", "6379"),
-    os.environ.get("REDIS_DB", "1"),
+    get_env_int("REDIS_PORT", 6379),
+    get_env_int("REDIS_DB", 1),
 )
 if REDIS_PROTO == "rediss":
     CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
