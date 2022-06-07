@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-04 18:59+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-06-08 21:18+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -13071,7 +13071,8 @@ msgstr ""
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
-msgstr ""
+msgstr "既存の環境変数は、Weblate 4.13 "
+"への移行時にインポートされますが、変更してもそれ以上の影響はありません。"
 
 #: ../../admin/install/docker.rst:879
 msgid "Authentication settings"
@@ -20394,7 +20395,7 @@ msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, use :setting:"
 "`UPDATE_LANGUAGES` to disable that."
 msgstr ""
-":ref:`languages`は、アップグレード時に自動的に更新されるようになりました。こ"
+":ref:`languages` は、アップグレード時に自動的に更新されるようになりました。こ"
 "れを無効にするには、:setting:`UPDATE_LANGUAGES` を使用します。"
 
 #: ../../admin/upgrade.rst:320
@@ -20403,13 +20404,17 @@ msgid ""
 "`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the context "
 "is now shown as location."
 msgstr ""
+"コンテキストとロケーションの処理が、:ref:`winrc`、:ref:`html`、:ref:`idml`、"
+"および :ref:`txt` のファイル形式で変更されました。ほとんどの場合、コンテキス"
+"トにはロケーションが表示されます。"
 
 #: ../../admin/upgrade.rst:323
 msgid ""
 "The machine translation services are now configured using the user "
 "interface, settings from the configuration file will be imported during the "
 "database migration."
-msgstr ""
+msgstr "これにより、ユーザー インターフェイスを使用して機械翻訳サービスが設定され、デ"
+"ータベースの移行中に設定ファイルがインポートされます。"
 
 #: ../../admin/upgrade.rst:332
 msgid "Upgrading from Python 2 to Python 3"
@@ -23096,6 +23101,9 @@ msgid ""
 "Please make sure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+":guilabel:`送信するリソースの詳細` に *All* "
+"が設定されていることを確認してください。設定されていない場合、Weblate は "
+"Azure リポジトリと一致できなくなります。"
 
 #: ../../api.rst:2539
 msgid "For instruction on setting up Azure integration"
@@ -23111,7 +23119,7 @@ msgstr ""
 
 #: ../../api.rst:2541
 msgid "Generic information about Azure DevOps Web Hooks"
-msgstr "Azure DevOps Web Hooks についての一般的な情報"
+msgstr "Azure DevOps Web フックについての一般的な情報"
 
 #: ../../api.rst:2549
 msgid ""
@@ -23135,7 +23143,7 @@ msgstr "https://docs.gitea.io/en-us/webhooks/"
 
 #: ../../api.rst:2557
 msgid "Generic information about Gitea Webhooks"
-msgstr ""
+msgstr "Gitea Web フックについての一般的な情報"
 
 #: ../../api.rst:2565
 msgid ""
@@ -24375,7 +24383,7 @@ msgstr "言語全体の検索の追加。"
 
 #: ../../changes.rst:342
 msgid "Initial support for :ref:`docker-scaling` the Docker deployment."
-msgstr ""
+msgstr "導入時に、Docker デプロイメントの :ref:`docker-scaling` 対応。"
 
 #: ../../changes.rst:344
 msgid ""
@@ -24801,15 +24809,16 @@ msgstr "あいまいな言語コードを使用する場合の警告の追加。
 msgid ""
 "The user is now presented with a filtered list of languages when adding a "
 "new translation."
-msgstr ""
+msgstr "ユーザーが新しい翻訳を追加するときに、言語をフィルター処理した一覧を表示する"
+"ように変更。"
 
 #: ../../changes.rst:473
 msgid "Extended search capabilities for changes in history."
-msgstr ""
+msgstr "履歴の変更に拡張検索機能の追加。"
 
 #: ../../changes.rst:474
 msgid "Improved billing detail pages and Libre hosting workflow."
-msgstr ""
+msgstr "請求詳細ページおよび Libre ホスティングの処理の改良。"
 
 #: ../../changes.rst:475
 msgid "Extended translation statistics API."
@@ -24821,7 +24830,7 @@ msgstr "翻訳中の [その他の翻訳] タブの改善。"
 
 #: ../../changes.rst:477
 msgid "Added tasks API."
-msgstr ""
+msgstr "タスク API の追加。"
 
 #: ../../changes.rst:478
 msgid "Improved performance of file upload."
@@ -24829,7 +24838,7 @@ msgstr "ファイル アップロードの性能の向上。"
 
 #: ../../changes.rst:479
 msgid "Improved display of user defined special characters."
-msgstr ""
+msgstr "ユーザー定義の特殊文字の表示の改良。"
 
 #: ../../changes.rst:480
 msgid "Improved performance of auto-translation."
@@ -24841,7 +24850,7 @@ msgstr "ユーザー インターフェイスの複数のマイナーな機能�
 
 #: ../../changes.rst:482
 msgid "Improved naming of ZIP downloads."
-msgstr ""
+msgstr "ZIP ダウンロードの名称の改良。"
 
 #: ../../changes.rst:483
 msgid "Added option for getting notifications on unwatched projects."
@@ -24887,11 +24896,13 @@ msgstr "開発者コメントを Markdown を使用してレンダリングす�
 msgid ""
 "Simplified setup of Git repositories with different default branch than "
 "\"master\"."
-msgstr ""
+msgstr "\"master\" とは異なるデフォルト ブランチを使用した Git "
+"リポジトリの設定の簡略化。"
 
 #: ../../changes.rst:498
 msgid "Newly created internal repositories now use main as the default branch."
-msgstr ""
+msgstr "新しく作成された内部リポジトリは、デフォルト ブランチとして main "
+"を使用するように変更。"
 
 #: ../../changes.rst:499
 msgid ""
@@ -24901,15 +24912,15 @@ msgstr "reStructuredText を翻訳中の、未変更の翻訳の誤検知の減�
 
 #: ../../changes.rst:500
 msgid "Fixed CodeMirror display issues in some situations."
-msgstr ""
+msgstr "状況によって発生していた、CodeMirror の表示に関する問題の修正。"
 
 #: ../../changes.rst:501
 msgid "Renamed Template group to \"Sources\" to clarify its meaning."
-msgstr ""
+msgstr "テンプレート グループの名前を「Sources」に変更。意味の明確化。"
 
 #: ../../changes.rst:502
 msgid "Fixed GitLab pull requests on repositories with longer paths."
-msgstr ""
+msgstr "GitLab のプルリクエストで、パスが長いリポジトリがあった問題の修正。"
 
 #: ../../changes.rst:504
 msgid ""
@@ -24941,7 +24952,7 @@ msgstr "バージョン情報の非表示の対応の追加。"
 
 #: ../../changes.rst:514
 msgid "Improve hooks compatibility with Bitbucket Server."
-msgstr ""
+msgstr "Bitbucket Server とのフックの互換性問題の改良。"
 
 #: ../../changes.rst:515
 msgid "Improved performance of translation memory updates."
@@ -24949,7 +24960,7 @@ msgstr "翻訳メモリの更新の性能の向上。"
 
 #: ../../changes.rst:516
 msgid "Reduced memory usage."
-msgstr ""
+msgstr "メモリ使用量の削減。"
 
 #: ../../changes.rst:517
 msgid "Improved performance of Matrix view."
@@ -24977,11 +24988,11 @@ msgstr "2020 年 10 月 15 日にリリース。"
 
 #: ../../changes.rst:527
 msgid "Include user stats in the API."
-msgstr ""
+msgstr "API にユーザーの統計情報を含めるように改良。"
 
 #: ../../changes.rst:528
 msgid "Fixed component ordering on paginated pages."
-msgstr ""
+msgstr "ページ分割されたページでのコンポーネントの順序問題の修正。"
 
 #: ../../changes.rst:529
 msgid "Define source language for a glossary."
@@ -24989,7 +25000,7 @@ msgstr "用語集の原文の言語の設定。"
 
 #: ../../changes.rst:530
 msgid "Rewritten support for GitHub and GitLab pull requests."
-msgstr ""
+msgstr "GitHub および GitLab のプルリクエストに対応するためのコードの書き直し。"
 
 #: ../../changes.rst:531
 msgid "Fixed stats counts after removing suggestion."
@@ -25001,11 +25012,11 @@ msgstr "公開ユーザー情報を拡張しました。"
 
 #: ../../changes.rst:533
 msgid "Fixed configuration of enforced checks."
-msgstr ""
+msgstr "強制検査設定の修正。"
 
 #: ../../changes.rst:534
 msgid "Improve documentation about built-in backups."
-msgstr ""
+msgstr "組み込みバックアップについてのドキュメントの改良。"
 
 #: ../../changes.rst:535
 msgid "Moved source language attribute from project to a component."
@@ -25017,7 +25028,7 @@ msgstr "Vue I18n 書式の検査の追加。"
 
 #: ../../changes.rst:537
 msgid "Generic placeholders check now supports regular expressions."
-msgstr ""
+msgstr "汎用プレースホルダ チェックが正規表現に対応。"
 
 #: ../../changes.rst:538
 msgid "Improved look of Matrix mode."
@@ -25029,25 +25040,26 @@ msgstr "機械翻訳を、新しく自動提案と命名。"
 
 #: ../../changes.rst:540
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
-msgstr ""
+msgstr "複数の GitLab または GitHub インスタンスとの接続に対応。"
 
 #: ../../changes.rst:541
 msgid ""
 "Extended API to cover project updates, unit updates and removals and "
 "glossaries."
-msgstr ""
+msgstr "プロジェクトの更新、ユニットの更新、削除、用語集に対応する拡張 API の追加。"
 
 #: ../../changes.rst:542
 msgid "Unit API now properly handles plural strings."
-msgstr ""
+msgstr "Unit API を、複数の文字列を適切に処理するよう改良。"
 
 #: ../../changes.rst:543
 msgid "Component creation can now handle ZIP file or document upload."
-msgstr ""
+msgstr "コンポーネントの作成で、ZIP "
+"ファイルまたはドキュメントのアップロードを処理できるように改良。"
 
 #: ../../changes.rst:544
 msgid "Consolidated API response status codes."
-msgstr ""
+msgstr "API 応答ステータスコードの統合。"
 
 #: ../../changes.rst:545
 msgid "Support Markdown in contributor agreement."
@@ -25059,7 +25071,7 @@ msgstr "原文の記録を改善した。"
 
 #: ../../changes.rst:547
 msgid "Improved JSON, YAML and CSV formats compatibility."
-msgstr ""
+msgstr "JSON、YAML および CSV 形式の互換性の改良。"
 
 #: ../../changes.rst:548
 msgid "Added support for removing strings."
@@ -25067,15 +25079,15 @@ msgstr "文字列の削除に対応。"
 
 #: ../../changes.rst:549
 msgid "Improved performance of file downloads."
-msgstr ""
+msgstr "ファイル ダウンロードの性能の改良。"
 
 #: ../../changes.rst:550
 msgid "Improved repository management view."
-msgstr ""
+msgstr "リポジトリ管理画面の改良。"
 
 #: ../../changes.rst:551
 msgid "Automatically enable java-format for Android."
-msgstr ""
+msgstr "Android の java-format を自動的に有効にするように変更。"
 
 #: ../../changes.rst:552
 msgid "Added support for localized screenshots."
@@ -25087,7 +25099,7 @@ msgstr "Python 3.9 に対応。"
 
 #: ../../changes.rst:554
 msgid "Fixed translating HTML files under certain conditions."
-msgstr ""
+msgstr "特定の条件下での HTML ファイルの翻訳問題の修正。"
 
 #: ../../changes.rst:556
 msgid ""
@@ -25111,11 +25123,11 @@ msgstr "JSON 形式の原文の一致を修正しました。"
 
 #: ../../changes.rst:564
 msgid "Fixed login redirect for some authentication configurations."
-msgstr ""
+msgstr "一部の認証構成のログイン リダイレクト問題の修正。"
 
 #: ../../changes.rst:565
 msgid "Fixed LDAP authentication with group sync."
-msgstr ""
+msgstr "グループ同期による LDAP 認証問題の修正。"
 
 #: ../../changes.rst:566
 msgid "Fixed crash in reporting automatic translation progress."
@@ -25127,7 +25139,7 @@ msgstr "トレーラー有効時の Git コミットのスカッシュの修正�
 
 #: ../../changes.rst:568
 msgid "Fixed creating local VCS components using API."
-msgstr ""
+msgstr "API を使用したローカル VCS コンポーネントの作成問題の修正。"
 
 #: ../../changes.rst:571
 msgid "Weblate 4.2.1"
@@ -25147,7 +25159,7 @@ msgstr "一部の XLIFF ファイルのクリーンアップ アドオンでの�
 
 #: ../../changes.rst:577
 msgid "Allow setting up localization CDN in Docker image."
-msgstr ""
+msgstr "Docker イメージで現地語化 CDN の設定を許可するように変更。"
 
 #: ../../changes.rst:580
 msgid "Weblate 4.2"
@@ -25159,20 +25171,20 @@ msgstr "2020 年 8 月 18 日にリリース。"
 
 #: ../../changes.rst:584
 msgid "Improved user pages and added listing of users."
-msgstr ""
+msgstr "ユーザーページの改良。ユーザーの一覧の追加。"
 
 #: ../../changes.rst:585
 msgid ""
 "Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0."
-msgstr ""
+msgstr "3.x リリースからの移行対応を終了し、4.1 または 4.0 からの移行対応に変更。"
 
 #: ../../changes.rst:586
 msgid "Added exports into several monolingual formats."
-msgstr ""
+msgstr "複数のモノリンガル形式へのエクスポートの追加。"
 
 #: ../../changes.rst:588
 msgid "Number of displayed nearby strings can be configured."
-msgstr ""
+msgstr "前後の文字列で表示する文字列の数の設定に対応。"
 
 #: ../../changes.rst:589
 msgid "Added support for locking components experiencing repository errors."
@@ -25182,11 +25194,11 @@ msgstr ""
 
 #: ../../changes.rst:590
 msgid "Simplified main navigation (replaced buttons with icons)."
-msgstr ""
+msgstr "メイン ナビゲーションの簡素化（ボタンをアイコンに変更）。"
 
 #: ../../changes.rst:591
 msgid "Improved language code handling in Google Translate integration."
-msgstr ""
+msgstr "Google Translate との連携における言語コード処理の改良。"
 
 #: ../../changes.rst:592
 msgid "The Git squash add-on can generate ``Co-authored-by:`` trailers."
@@ -25194,37 +25206,37 @@ msgstr "Git squash アドオンでの、``Co-authored-by:`` トレーラーの�
 
 #: ../../changes.rst:593
 msgid "Improved query search parser."
-msgstr ""
+msgstr "クエリ検索解析の改良。"
 
 #: ../../changes.rst:594
 msgid "Improved user feedback from format strings checks."
-msgstr ""
+msgstr "書式文字列検査からのユーザー フィードバックの改良。"
 
 #: ../../changes.rst:595
 msgid "Improved performance of bulk state changes."
-msgstr ""
+msgstr "状態の一括変更の性能の改善。"
 
 #: ../../changes.rst:596
 msgid "Added compatibility redirects after project or component renaming."
-msgstr ""
+msgstr "プロジェクトまたはコンポーネントの名前変更後の互換性リダイレクトの追加。"
 
 #: ../../changes.rst:597
 msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
-msgstr ""
+msgstr "文字列の承認、コンポーネントのロック、ライセンスの変更に関する通知の追加。"
 
 #: ../../changes.rst:598
 msgid "Added support for ModernMT."
-msgstr ""
+msgstr "ModernMT に対応"
 
 #: ../../changes.rst:599
 msgid "Allow to avoid overwriting approved translations on file upload."
-msgstr ""
+msgstr "ファイルのアップロード時に承認された翻訳が上書きされないように改善。"
 
 #: ../../changes.rst:600
 msgid "Dropped support for some compatibility URL redirects."
-msgstr ""
+msgstr "一部の互換性 URL リダイレクトへの対応の終了。"
 
 #: ../../changes.rst:601
 msgid "Added check for ECMAScript template literals."
@@ -25236,7 +25248,7 @@ msgstr "コンポーネントを監視するオプションを追加しました
 
 #: ../../changes.rst:603
 msgid "Removed leading dot from JSON unit keys."
-msgstr ""
+msgstr "JSON のユニット キーの先頭のドットの削除。"
 
 #: ../../changes.rst:604
 msgid "Removed separate Celery queue for translation memory."
@@ -25248,23 +25260,25 @@ msgstr "すべてのコンポーネントを一度に言語を翻訳できるよ
 
 #: ../../changes.rst:606
 msgid "Allow to configure ``Content-Security-Policy`` HTTP headers."
-msgstr ""
+msgstr "``Content-Security-Policy`` HTTP ヘッダーを設定可能に変更。"
 
 #: ../../changes.rst:607
 msgid "Added support for aliasing languages at project level."
-msgstr ""
+msgstr "プロジェクト レベルでのエイリアシング言語に対応。"
 
 #: ../../changes.rst:608
 msgid ""
 "New add-on to help with HTML or JavaScript localization, see :ref:`addon-"
 "weblate.cdn.cdnjs`."
 msgstr ""
+"HTML または JavaScript の現地語化を支援する新しいアドオンの追加。参照: :ref"
+":`addon-weblate.cdn.cdnjs`。"
 
 #: ../../changes.rst:609
 msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN`."
-msgstr ""
+msgstr "Weblate ドメインを設定で設定できるように変更。参照: :setting:`SITE_DOMAIN`。"
 
 #: ../../changes.rst:610
 msgid "Add support for searching by component and project."
@@ -25280,11 +25294,11 @@ msgstr "2020 年 6 月 19 日にリリース。"
 
 #: ../../changes.rst:617
 msgid "Fixed changing autofix or add-ons configuration in Docker."
-msgstr ""
+msgstr "Docker での自動修正またはアドオン設定の変更問題の修正。"
 
 #: ../../changes.rst:618
 msgid "Fixed possible crash in \"About\" page."
-msgstr ""
+msgstr "「Weblate について」ページで発生することがあったクラッシュ問題の修正。"
 
 #: ../../changes.rst:619
 msgid "Improved installation of byte-compiled locale files."
@@ -25292,32 +25306,32 @@ msgstr "バイト コンパイル言語ファイルのインストールの改�
 
 #: ../../changes.rst:620
 msgid "Fixed adding words to glossary."
-msgstr ""
+msgstr "用語集への単語の追加問題の修正。"
 
 #: ../../changes.rst:621
 msgid "Fixed keyboard shortcuts for machinery."
-msgstr ""
+msgstr "機械翻訳のキーボード ショートカットの修正。"
 
 #: ../../changes.rst:622
 msgid "Removed debugging output causing discarding log events in some setups."
-msgstr ""
+msgstr "一部の設定でログ イベントを破棄する原因となっていたデバッグ出力を削除。"
 
 #: ../../changes.rst:623
 msgid "Fixed lock indication on project listing."
-msgstr ""
+msgstr "プロジェクト一覧のロック表示問題の修正。"
 
 #: ../../changes.rst:624
 msgid "Fixed listing GPG keys in some setups."
-msgstr ""
+msgstr "一部の設定で GPG キーが一覧表示される問題の修正。"
 
 #: ../../changes.rst:625
 msgid "Added option for which DeepL API version to use."
-msgstr ""
+msgstr "使用する DeepL API バージョンのオプションの追加。"
 
 #: ../../changes.rst:626
 msgid ""
 "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
-msgstr ""
+msgstr "SAML サービス プロバイダとしての動作に対応。参照: :ref:`saml-auth`。"
 
 #: ../../changes.rst:629
 msgid "Weblate 4.1"
@@ -25329,23 +25343,23 @@ msgstr "2020 年 6 月 15 日にリリース。"
 
 #: ../../changes.rst:633
 msgid "Added support for creating new translations with included country code."
-msgstr ""
+msgstr "国コードを含む新しい翻訳を作成するためのサポートの追加。"
 
 #: ../../changes.rst:634
 msgid "Added support for searching source strings with screenshot."
-msgstr ""
+msgstr "スクリーンショットを使用した原文検索のサポートの追加。"
 
 #: ../../changes.rst:635
 msgid "Extended info available in the stats insights."
-msgstr ""
+msgstr "詳細な情報を、統計情報で確認できるように改良。"
 
 #: ../../changes.rst:636
 msgid "Improved search editing on \"Translate\" pages."
-msgstr ""
+msgstr "「翻訳」ページでの検索編集の改良。"
 
 #: ../../changes.rst:637
 msgid "Improve handling of concurrent repository updates."
-msgstr ""
+msgstr "リポジトリの同時更新の処理の改善。"
 
 #: ../../changes.rst:638
 msgid "Include source language in project creation form."
@@ -25353,48 +25367,48 @@ msgstr "プロジェクト作成フォームに原文の言語を含める。"
 
 #: ../../changes.rst:639
 msgid "Include changes count in credits."
-msgstr ""
+msgstr "変更回数をクレジットに含めるように変更。"
 
 #: ../../changes.rst:640
 msgid "Fixed UI language selection in some cases."
-msgstr ""
+msgstr "UI の言語選択ができない場合がある問題の修正。"
 
 #: ../../changes.rst:641
 msgid "Allow to whitelist registration methods with registrations closed."
-msgstr ""
+msgstr "新規登録が閉鎖された状態で、ホワイトリストに新規登録できる機能の追加。"
 
 #: ../../changes.rst:642
 msgid "Improved lookup of related terms in glossary."
-msgstr ""
+msgstr "用語集での関連用語の検索の改良。"
 
 #: ../../changes.rst:643
 msgid "Improved translation memory matches."
-msgstr ""
+msgstr "翻訳メモリとの一致の改良。"
 
 #: ../../changes.rst:644
 msgid "Group same machinery results."
-msgstr ""
+msgstr "同じ機械翻訳結果をグループ化する機能の追加。"
 
 #: ../../changes.rst:645
 msgid "Add direct link to edit screenshot from translate page."
-msgstr ""
+msgstr "翻訳ページからスクリーンショットを編集するための直接リンクの追加。"
 
 #: ../../changes.rst:646
 msgid "Improved removal confirmation dialog."
-msgstr ""
+msgstr "削除確認ダイアログの改善。"
 
 #: ../../changes.rst:647
 msgid "Include templates in ZIP download."
-msgstr ""
+msgstr "テンプレートを ZIP ダウンロードに含めるように変更。"
 
 #: ../../changes.rst:648
 msgid ""
 "Add support for Markdown and notification configuration in announcements."
-msgstr ""
+msgstr "お知らせが、Markdown と通知の設定に対応。"
 
 #: ../../changes.rst:649
 msgid "Extended details in check listings."
-msgstr ""
+msgstr "検査一覧の詳細の拡張。"
 
 #: ../../changes.rst:650
 msgid ""
@@ -25408,7 +25422,7 @@ msgstr ""
 
 #: ../../changes.rst:651
 msgid "Consistently use dismissed as state of dismissed checks."
-msgstr ""
+msgstr "除外する品質検査の状態として、常に除外とするように変更。"
 
 #: ../../changes.rst:652
 msgid "Add support for configuring default add-ons to enable."
@@ -25416,23 +25430,23 @@ msgstr "デフォルトのアドオンを有効にする設定に対応。"
 
 #: ../../changes.rst:653
 msgid "Fixed editor keyboard shortcut to dismiss checks."
-msgstr ""
+msgstr "チェックを解除するための編集用のキーボード ショートカットの修正。"
 
 #: ../../changes.rst:654
 msgid "Improved machine translation of strings with placeholders."
-msgstr ""
+msgstr "プレースホルダーを使用した文字列の機械翻訳の改善。"
 
 #: ../../changes.rst:655
 msgid "Show ghost translation for user languages to ease starting them."
-msgstr ""
+msgstr "ユーザー言語のゴースト翻訳を表示し、起動を容易にするように変更。"
 
 #: ../../changes.rst:656
 msgid "Improved language code parsing."
-msgstr ""
+msgstr "言語コードの解析の改良。"
 
 #: ../../changes.rst:657
 msgid "Show translations in user language first in the list."
-msgstr ""
+msgstr "ユーザー言語の翻訳を一覧の最初に表示するように変更。"
 
 #: ../../changes.rst:658
 msgid "Renamed shapings to more generic name variants."
@@ -25443,18 +25457,20 @@ msgid ""
 "Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-"
 "untranslated`, :ref:`check-duplicate`."
 msgstr ""
+"追加した新しい品質検査:　:ref:`check-unnamed-format`、:ref:`check-long-"
+"untranslated`、:ref:`check-duplicate`。"
 
 #: ../../changes.rst:660
 msgid "Reintroduced support for wiping translation memory."
-msgstr ""
+msgstr "翻訳メモリの消去に再度対応。"
 
 #: ../../changes.rst:661
 msgid "Fixed option to ignore source checks."
-msgstr ""
+msgstr "原文検査を除外するオプションの修正。"
 
 #: ../../changes.rst:662
 msgid "Added support for configuring different branch for pushing changes."
-msgstr ""
+msgstr "変更をプッシュするための異なるブランチの設定に対応。"
 
 #: ../../changes.rst:663
 msgid "API now reports rate limiting status in the HTTP headers."
@@ -25462,17 +25478,18 @@ msgstr "API で、HTTP ヘッダーに接続制限状態の通知を可能にし
 
 #: ../../changes.rst:664
 msgid "Added support for Google Translate V3 API (Advanced)."
-msgstr ""
+msgstr "Google Translate V3 API（Advanced）に対応。"
 
 #: ../../changes.rst:665
 msgid "Added ability to restrict access on component level."
-msgstr ""
+msgstr "コンポーネント単位でのアクセス制限機能の追加。"
 
 #: ../../changes.rst:666
 msgid ""
 "Added support for whitespace and other special chars in translation flags, "
 "see :ref:`custom-checks`."
-msgstr ""
+msgstr "翻訳フラグでの空白およびその他の特殊文字のサポートの追加。参照: :ref:`custom-"
+"checks`。"
 
 #: ../../changes.rst:667
 msgid "Always show rendered text check if enabled."
@@ -25480,11 +25497,11 @@ msgstr "有効にした場合は、常に表示したテキストを検査する
 
 #: ../../changes.rst:668
 msgid "API now supports filtering of changes."
-msgstr ""
+msgstr "API が変更点のフィルタリングに対応。"
 
 #: ../../changes.rst:669
 msgid "Added support for sharing glossaries between projects."
-msgstr ""
+msgstr "プロジェクト間で用語集を共有できるよう改良。"
 
 #: ../../changes.rst:672
 msgid "Weblate 4.0.4"
@@ -25496,37 +25513,37 @@ msgstr "2020 年 5 月 7 日にリリース。"
 
 #: ../../changes.rst:676
 msgid "Fixed testsuite execution on some Python 3.8 environments."
-msgstr ""
+msgstr "一部の Python 3.8 環境でのテストの構成の実行の修正。"
 
 #: ../../changes.rst:677
 msgid "Typo fixes in the documentation."
-msgstr ""
+msgstr "ドキュメントのタイプミスの修正。"
 
 #: ../../changes.rst:678
 msgid "Fixed creating components using API in some cases."
-msgstr ""
+msgstr "一部の場合での API を使用したコンポーネントの作成問題の修正。"
 
 #: ../../changes.rst:679
 msgid "Fixed JavaScript errors breaking mobile navigation."
-msgstr ""
+msgstr "モバイル ナビゲーションを中断する JavaScript エラー問題の修正。"
 
 #: ../../changes.rst:680
 msgid "Fixed crash on displaying some checks."
-msgstr ""
+msgstr "一部の検査を表示する際のクラッシュ問題の修正。"
 
 #: ../../changes.rst:681
 msgid "Fixed screenshots listing."
-msgstr ""
+msgstr "スクリーンショット一覧表示の問題の修正。"
 
 #: ../../changes.rst:682
 msgid "Fixed monthly digest notifications."
-msgstr ""
+msgstr "毎月のダイジェスト通知問題の修正。"
 
 #: ../../changes.rst:683
 msgid ""
 "Fixed intermediate translation behavior with units non existing in "
 "translation."
-msgstr ""
+msgstr "翻訳にユニットが存在しない中間翻訳動作の修正。"
 
 #: ../../changes.rst:686
 msgid "Weblate 4.0.3"
@@ -25538,11 +25555,11 @@ msgstr "2020 年 5 月 2 日にリリース。"
 
 #: ../../changes.rst:690
 msgid "Fixed possible crash in reports."
-msgstr ""
+msgstr "レポートでクラッシュすることがある問題の修正。"
 
 #: ../../changes.rst:691
 msgid "User mentions in comments are now case insensitive."
-msgstr ""
+msgstr "コメント内での @ ユーザー指定は、大文字と小文字を区別しないように変更。"
 
 #: ../../changes.rst:692
 msgid "Fixed PostgreSQL migration for non superusers."
@@ -25550,11 +25567,11 @@ msgstr ""
 
 #: ../../changes.rst:693
 msgid "Fixed changing the repository URL while creating component."
-msgstr ""
+msgstr "コンポーネントの作成中にリポジトリの URL が変更される問題の修正。"
 
 #: ../../changes.rst:694
 msgid "Fixed crash when upstream repository is gone."
-msgstr ""
+msgstr "上流のリポジトリがなくなったときにクラッシュ問題の修正。"
 
 #: ../../changes.rst:697
 msgid "Weblate 4.0.2"
@@ -25566,19 +25583,19 @@ msgstr "2020 年 4 月 27 日にリリース。"
 
 #: ../../changes.rst:701
 msgid "Improved performance of translation stats."
-msgstr ""
+msgstr "翻訳統計の性能の改良。"
 
 #: ../../changes.rst:702
 msgid "Improved performance of changing labels."
-msgstr ""
+msgstr "ラベル変更時の性能の改良。"
 
 #: ../../changes.rst:704
 msgid "Improved translation memory performance."
-msgstr ""
+msgstr "翻訳メモリの性能の向上。"
 
 #: ../../changes.rst:705
 msgid "Fixed possible crash on component deletion."
-msgstr ""
+msgstr "コンポーネントの削除時に発生することがあったクラッシュ問題の修正。"
 
 #: ../../changes.rst:706
 msgid "Fixed displaying of translation changes in some corner cases."
@@ -25586,15 +25603,15 @@ msgstr "一部の特殊なケースでの翻訳変更の表示を修正。"
 
 #: ../../changes.rst:707
 msgid "Improved warning about too long celery queue."
-msgstr ""
+msgstr "celery キューが長すぎる場合の警告の改善。"
 
 #: ../../changes.rst:708
 msgid "Fixed possible false positives in the consistency check."
-msgstr ""
+msgstr "整合性検査で起こりうる誤検知の修正。"
 
 #: ../../changes.rst:709
 msgid "Fixed deadlock when changing linked component repository."
-msgstr ""
+msgstr "リンクされたコンポーネント リポジトリを変更する際のデッドロック問題の修正。"
 
 #: ../../changes.rst:710
 msgid "Included edit distance in changes listing and CSV and reports."
