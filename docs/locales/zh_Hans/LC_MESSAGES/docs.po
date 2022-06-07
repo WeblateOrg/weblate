@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-04 18:59+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2022-06-08 21:18+0000\n"
+"Last-Translator: YangYulin <yylteam@icloud.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -4666,7 +4666,7 @@ msgstr ""
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
-msgstr ""
+msgstr "单引号和双引号都被接受，特殊字符使用反斜杠进行转义："
 
 #: ../../admin/checks.rst:47
 msgid "Here is a list of flags currently accepted:"
@@ -7084,17 +7084,17 @@ msgstr "默认这是关闭的。"
 
 #: ../../admin/config.rst:945
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:949
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
-msgstr ""
+msgstr "用于网络货币化的分类账间支付指针（ILP）列表。"
 
 #: ../../admin/config.rst:951
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
-msgstr ""
+msgstr "如果指定了多个，则通过随机选择一个来实现概率收入共享。"
 
 #: ../../admin/config.rst:954
 msgid "Please check <https://webmonetization.org/> for more details."
@@ -7889,7 +7889,8 @@ msgid ""
 "The languages display might become inconsistent with this. Weblate language "
 "definitions extend over time and it will not display language code for the "
 "defined languages."
-msgstr ""
+msgstr "语言显示可能会与此不一致。Weblate "
+"语言定义会随着时间的推移而扩展，并且它不会显示所定义语言的语言代码。"
 
 #: ../../admin/config.rst:1698
 msgid ":ref:`included-languages`"
@@ -11555,7 +11556,8 @@ msgstr "定义明确的部署以测试即将推出的 Weblate 功能"
 msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
-msgstr ""
+msgstr "每张图片在发布之前都经过我们的 CI 测试，所以即使是 `bleeding` "
+"版本也应该可以安全使用。"
 
 #: ../../admin/install/docker.rst:100
 msgid "Docker container with HTTPS support"
@@ -11673,6 +11675,9 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`."
 msgstr ""
+"从 Weblate 4.10-1 开始，Docker 容器使用 Django 4.0 需要 PostgreSQL 10 "
+"或更高版本，请在升级 Weblate 之前对其进行升级。参见 :ref:`upgrade-4.10` 和 "
+":ref:`docker-postgres-upgrade`。"
 
 #: ../../admin/install/docker.rst:202
 msgid ""
@@ -11717,7 +11722,8 @@ msgid ""
 "PostgreSQL containers do not support automatic upgrading between version, "
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
-msgstr ""
+msgstr "PostgreSQL "
+"容器不支持版本间自动升级，需要手动升级。以下步骤显示了升级选项之一。"
 
 #: ../../admin/install/docker.rst:240
 msgid "https://github.com/docker-library/postgres/issues/37"
@@ -11794,6 +11800,8 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"uWSGI 和 Celery 的工作进程数是根据 CPU 的数量自动确定的。这适用于大多数云虚拟"
+"机，因为这些虚拟机通常具有很少的CPU和大量的内存。"
 
 #: ../../admin/install/docker.rst:312
 msgid ""
@@ -11813,6 +11821,10 @@ msgid ""
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgstr ""
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:344
 msgid "Scaling horizontally"
@@ -11825,6 +11837,9 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
+"您可以运行多个 Weblate 容器来水平扩展服务。 :file:`/app/data` "
+"卷必须由所有容器共享，建议使用集群文件系统，如 GlusterFS。对于每个容器， "
+":file:`/app/cache`卷应该是分开的。"
 
 #: ../../admin/install/docker.rst:353
 msgid ""
@@ -11833,6 +11848,8 @@ msgid ""
 "the services should be running just once in the cluster and the ordering of "
 "the services matters as well."
 msgstr ""
+"每个 Weblate 容器都使用 :envvar:`WEBLATE_SERVICE` 环境变量定义了角色。请仔细"
+"阅读文档，因为某些服务应该在集群中只运行一次，并且服务的顺序也很重要。"
 
 #: ../../admin/install/docker.rst:358
 msgid ""
@@ -11840,6 +11857,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"您可以在 ``docker-compose`` 存储库中找到示例设置，如 `docker-compose-"
+"split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
+"compose-split.yml>`__ 。"
 
 #: ../../admin/install/docker.rst:365
 msgid "Docker environment variables"
@@ -11951,7 +11971,7 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
 #: ../../admin/install/docker.rst:465
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "发送错误消息的电子邮件地址。"
 
 #: ../../admin/install/docker.rst:469
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
@@ -11967,7 +11987,7 @@ msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:483
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
-msgstr ""
+msgstr "配置联系表单行为，请参阅 :setting:`CONTACT_FORM`。"
 
 #: ../../admin/install/docker.rst:487
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
@@ -12041,7 +12061,8 @@ msgstr ""
 msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
-msgstr ""
+msgstr "让 Weblate 在文档的头部设置 `meta[name=monetization]` "
+"字段。如果指定了多个，则随机选择一个。"
 
 #: ../../admin/install/docker.rst:580
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -16791,7 +16812,7 @@ msgstr "详细的项目名称，用于显示项目名称。"
 
 #: ../../admin/projects.rst:131
 msgid "URL slug"
-msgstr "URL slug"
+msgstr "URL 标识串"
 
 #: ../../admin/projects.rst:133
 msgid "Project name suitable for URLs."
