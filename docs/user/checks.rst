@@ -961,6 +961,10 @@ Placeholders
 
    You can use regular expression as placeholder.
 
+.. versionchanged:: 4.13
+
+   With the ``case-insensitive`` flag, the placeholders are not case-sensitive.
+
 Translation is missing some placeholders. These are either extracted from the
 translation file or defined manually using ``placeholders`` flag, more can be
 separated with colon, strings with space can be quoted:
@@ -974,6 +978,12 @@ In case you have some syntax for placeholders, you can use a regular expression:
 .. code-block:: text
 
     placeholders:r"%[^% ]%"
+
+You can also have case insensitive placeholders:
+
+.. code-block:: text
+
+    placeholders:$URL$:$TARGET$,case-insensitive
 
 .. seealso::
 

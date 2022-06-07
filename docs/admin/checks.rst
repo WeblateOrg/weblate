@@ -134,6 +134,8 @@ Here is a list of flags currently accepted:
 ``md-text``
     Treat text as a Markdown document.
     Enable :ref:`check-md-link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks.
+``case-insensitive``
+    Adjust checks behavior to be case-insensitive. Currently affects only :ref:`check-placeholders` quality check.
 ``safe-html``
     Enable the :ref:`check-safe-html` quality check.
 ``url``

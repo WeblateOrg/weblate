@@ -530,7 +530,10 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     EXPECTED_PATH = "webextension/_locales/cs_CZ/messages.json"
     FIND_CONTEXT = "hello"
     NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
-    EXPECTED_FLAGS = ["placeholders:$URL$", "placeholders:$coUnT$"]
+    EXPECTED_FLAGS = [
+        "placeholders:$URL$,case-insensitive",
+        "placeholders:$COUNT$,case-insensitive",
+    ]
     MONOLINGUAL = True
 
 

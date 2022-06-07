@@ -904,18 +904,11 @@ class PlaceholdersJSONUnit(JSONUnit):
         placeholders = self.mainunit.placeholders
         if not placeholders:
             return ""
-        placeholder_strings = []
-        for key in placeholders.keys():
-            # Since placeholders are case-insensitive, look up how it's used in the
-            # string itself and take it as a base.
-            placeholder_str = f"${key.upper()}$"
-            usage_start = self.mainunit.source.upper().find(placeholder_str)
-            if usage_start >= 0:
-                usage_end = usage_start + len(placeholder_str)
-                usage = self.mainunit.source[usage_start:usage_end]
-                placeholder_str = usage
-            placeholder_strings.append(Flags.format_value(placeholder_str))
-        return "placeholders:{}".format(":".join(placeholder_strings))
+        return "placeholders:{},case-insensitive".format(
+            ":".join(
+                Flags.format_value(f"${key.upper()}$") for key in placeholders.keys()
+            )
+        )
 
 
 class CSVUnit(MonolingualSimpleUnit):

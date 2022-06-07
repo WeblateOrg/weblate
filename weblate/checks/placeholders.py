@@ -48,7 +48,8 @@ class PlaceholderCheck(TargetCheckParametrized):
             "|".join(
                 re.escape(param) if isinstance(param, str) else param.pattern
                 for param in super().get_value(unit)
-            )
+            ),
+            re.IGNORECASE if "case-insensitive" in unit.all_flags else 0,
         )
 
     @staticmethod
@@ -56,16 +57,37 @@ class PlaceholderCheck(TargetCheckParametrized):
         for match in value.finditer(text):
             yield match.group()
 
+    def diff_case_sensitive(self, expected, found):
+        return expected - found, found - expected
+
+    def diff_case_insensitive(self, expected, found):
+        expected_fold = {v.casefold(): v for v in expected}
+        found_fold = {v.casefold(): v for v in found}
+
+        expected_set = set(expected_fold)
+        found_set = set(found_fold)
+
+        return (
+            {expected_fold[v] for v in expected_set - found_set},
+            {found_fold[v] for v in found_set - expected_set},
+        )
+
     def check_target_params(self, sources, targets, unit, value):
         expected = set(self.get_matches(value, unit.source_string))
+
+        if "case-insensitive" in unit.all_flags:
+            diff_func = self.diff_case_insensitive
+        else:
+            diff_func = self.diff_case_sensitive
 
         missing = set()
         extra = set()
 
         for target in targets:
             found = set(self.get_matches(value, target))
-            missing.update(expected - found)
-            extra.update(found - expected)
+            diff = diff_func(expected, found)
+            missing.update(diff[0])
+            extra.update(diff[1])
 
         if missing or extra:
             return {"missing": missing, "extra": extra}

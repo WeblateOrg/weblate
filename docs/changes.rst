@@ -19,6 +19,7 @@ Not yet released.
 * Machine translation services are now configurable per project.
 * Added separate permission for resolving comments and grant it to the :guilabel:`Review strings` role.
 * Added support for storing alternative translations in the CSV file.
+* The placeholders check can now be case-insensitive as well.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
 

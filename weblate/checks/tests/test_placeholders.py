@@ -100,6 +100,32 @@ class PlaceholdersTest(CheckTestCase):
             """,
         )
 
+    def test_case_insentivive(self):
+        self.assertTrue(
+            self.check.check_target(
+                ["Hello %WORLD%"],
+                ["Ahoj %world%"],
+                MockUnit(
+                    None,
+                    "placeholders:%WORLD%",
+                    self.default_lang,
+                    "Hello %WORLD%",
+                ),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["Hello %WORLD%"],
+                ["Ahoj %world%"],
+                MockUnit(
+                    None,
+                    "placeholders:%WORLD%,case-insensitive",
+                    self.default_lang,
+                    "Hello %WORLD%",
+                ),
+            )
+        )
+
 
 class RegexTest(CheckTestCase):
     check = RegexCheck()
