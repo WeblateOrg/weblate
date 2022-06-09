@@ -364,6 +364,10 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         """Push all Git repos."""
         return self.on_repo_components(True, "do_file_sync", request)
 
+    def has_push_configuration(self):
+        """Check whether any suprojects can push."""
+        return self.on_repo_components(False, "has_push_configuration")
+
     def can_push(self):
         """Check whether any suprojects can push."""
         return self.on_repo_components(False, "can_push")

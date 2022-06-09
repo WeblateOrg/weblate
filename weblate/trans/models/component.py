@@ -1086,9 +1086,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return os.path.join(self.project.full_path, self.slug)
 
     @perform_on_link
+    def has_push_configuration(self):
+        return bool(self.push)
+
+    @perform_on_link
     def can_push(self):
         """Return true if push is possible for this component."""
-        return bool(self.push) or not self.repository_class.needs_push_url
+        return self.has_push_configuration() or not self.repository_class.needs_push_url
 
     @property
     def is_repo_link(self):

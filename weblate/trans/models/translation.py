@@ -518,6 +518,9 @@ class Translation(
     def can_push(self):
         return self.component.can_push()
 
+    def has_push_configuration(self):
+        return self.component.has_push_configuration()
+
     def get_hash_filenames(self):
         """Return filenames to include in the hash."""
         component = self.component

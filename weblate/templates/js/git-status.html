@@ -44,7 +44,7 @@
     </td>
     <td class="number">
       {% if user_can_push_translation %}
-        <a href="" class="btn btn-primary link-post" data-href="{{ object.get_push_url }}" {% if not object.can_push %}disabled="disabled"{% endif %} title="{% trans "Push changes to the remote repository" %}">{% trans "Push" %}</a>
+        <a href="" class="btn btn-primary link-post" data-href="{{ object.get_push_url }}" {% if not object.can_push %}disabled="disabled"{% endif %} title="{% if not object.has_push_configuration %}{% trans "Please configure push URL in the component settings to enable pushing from Weblate." %}{% else %}{% trans "Push changes to the remote repository" %}{% endif %}">{% trans "Push" %}</a>
       {% endif %}
     </td>
   </tr>
