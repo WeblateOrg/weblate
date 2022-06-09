@@ -140,8 +140,8 @@ def format_file(filename):
 class PropertiesSortAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.properties.sort"
-    verbose = _("Formats the Java properties file")
-    description = _("Sorts the Java properties file.")
+    verbose = _("Format the Java properties file")
+    description = _("Formats and sorts the Java properties file.")
     compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
     icon = "sort-alphabetical.svg"
 

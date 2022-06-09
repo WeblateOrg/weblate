@@ -659,14 +659,20 @@ Allows adjusting JSON output behavior, for example indentation or sorting.
 
 .. _addon-weblate.properties.sort:
 
-Formats the Java properties file
---------------------------------
+Format the Java properties file
+-------------------------------
 
 :Add-on ID: ``weblate.properties.sort``
 :Configuration: `This add-on has no configuration.`
 :Triggers: repository pre-commit
 
-Sorts the Java properties file.
+Formats and sorts the Java properties file.
+
+* Consolidates newlines to Unix ones.
+* Uppercase formatting of Unicode escape sequences (in case they are present).
+* Strips blank lines and comments.
+* Sorts the strings by the keys.
+* Drops duplicate strings.
 
 .. _addon-weblate.removal.comments:
 
