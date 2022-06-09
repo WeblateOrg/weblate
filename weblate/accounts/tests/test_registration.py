@@ -594,11 +594,19 @@ class RegistrationTest(BaseRegistrationTest):
                     "email": "noreply2@example.org",
                     "verified": False,
                     "primary": False,
+                    "visibility": "public",
+                },
+                {
+                    "email": "noreply-other@example.org",
+                    "verified": True,
+                    "primary": True,
+                    "visibility": "private",
                 },
                 {
                     "email": "noreply-weblate@example.org",
                     "verified": True,
-                    "primary": True,
+                    "primary": False,
+                    "visibility": "public",
                 },
             ],
         )

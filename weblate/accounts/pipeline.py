@@ -66,13 +66,19 @@ def get_github_email(access_token):
     )
     data = response.json()
     email = None
+    primary = None
     for entry in data:
         # Skip not verified ones
         if not entry["verified"]:
             continue
+        if entry.get("visibility") == "public":
+            # There is just one public mail, prefer it
+            return entry["email"]
         email = entry["email"]
         if entry["primary"]:
-            break
+            primary = entry["email"]
+    if primary:
+        return primary
     return email
 
 
