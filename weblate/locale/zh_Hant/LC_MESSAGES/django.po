@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-27 06:01+0000\n"
-"PO-Revision-Date: 2022-05-26 09:42+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-06-10 22:18+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -1891,10 +1891,8 @@ msgstr "管理翻譯記憶"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:149
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "使用機器翻譯"
+msgstr "管理機器翻譯"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
@@ -3233,7 +3231,7 @@ msgstr "XLIFF 翻譯檔"
 
 #: weblate/formats/ttkit.py:1237
 msgid "XLIFF with placeables support"
-msgstr ""
+msgstr "包含 placeables 支援的 XLIFF"
 
 #: weblate/formats/ttkit.py:1244
 msgid "XLIFF with gettext extensions"
@@ -3313,10 +3311,8 @@ msgid "CSV file"
 msgstr "CSV 檔"
 
 #: weblate/formats/ttkit.py:1544
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "CSV 檔"
+msgstr "CSV 檔案 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1550
 msgid "Simple CSV file"
@@ -3327,10 +3323,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "簡單 CSV 檔（ISO-8859-1）"
 
 #: weblate/formats/ttkit.py:1575
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "簡單 CSV 檔"
+msgstr "簡單 CSV 檔 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1582
 msgid "YAML file"
@@ -3365,10 +3359,8 @@ msgid "Flat XML file"
 msgstr "Flat XML 檔"
 
 #: weblate/formats/ttkit.py:1695
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "儲存庫失敗"
+msgstr "ResourceDictionary 檔案"
 
 #: weblate/formats/ttkit.py:1708
 msgid "INI file"
@@ -3511,16 +3503,12 @@ msgid "Right to left"
 msgstr "從右到左"
 
 #: weblate/lang/models.py:506 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "字串數目"
+msgstr "語言使用者數量"
 
 #: weblate/lang/models.py:507
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "語言數"
+msgstr "會說這個語言的人數。"
 
 #: weblate/lang/models.py:587
 msgctxt "Plural type"
@@ -3802,49 +3790,41 @@ msgid "Overview"
 msgstr "概覽"
 
 #: weblate/machinery/base.py:103
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "找不到來源語言！"
+msgstr "無法取得支援的語言：%s"
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "無法變更翻譯旗標！"
+msgstr "無法取得翻譯：%s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
-#, fuzzy
-#| msgid "Personal API key"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "個人 API 金鑰"
+msgstr "API 金鑰"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "API 根基 URL："
+msgstr "API URL"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "用戶端 ID"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "用戶端秘密金鑰 (secret)"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "提交者電子郵件"
+msgstr "聯絡信箱"
 
 #: weblate/machinery/forms.py:81
 msgctxt "Automatic suggestion service configuration"
@@ -3852,92 +3832,73 @@ msgid "Username"
 msgstr "使用者名稱"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "作者使用者名稱"
+msgstr "SAP 使用者名稱"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "設定密碼"
+msgstr "SAP 密碼"
 
 #: weblate/machinery/forms.py:109
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "機器翻譯"
+msgstr "啟用機器翻譯"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "請輸入正確的使用者名與密碼。"
+msgstr "請提供金鑰，或使用者帳號與密碼。"
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "應用程式端點 URL"
 
 #: weblate/machinery/forms.py:136
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "應用程式基礎 URL"
 
 #: weblate/machinery/forms.py:149
 msgctxt "Automatic suggestion service configuration"
 msgid "Application region"
-msgstr ""
+msgstr "應用程式區域"
 
 #: weblate/machinery/forms.py:159
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "Google 翻譯服務帳號資訊"
 
 #: weblate/machinery/forms.py:165
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate project"
-msgstr "推動翻譯專案"
+msgstr "Google 翻譯專案"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate location"
-msgstr "翻譯通知"
+msgstr "Google Translate 位置"
 
 #: weblate/machinery/forms.py:179
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON: %s"
-msgstr "JSON 檔解析失敗：{!s}"
+msgstr "無法解析 JSON：%s"
 
 #: weblate/machinery/forms.py:185
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "僅供存取"
+msgstr "存取金鑰 ID"
 
 #: weblate/machinery/forms.py:188
-#, fuzzy
-#| msgid "Secret key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "祕密金鑰"
+msgstr "API 祕密金鑰"
 
 #: weblate/machinery/forms.py:191
-#, fuzzy
-#| msgid "Rename"
 msgctxt "AWS Translate configuration"
 msgid "Region name"
-msgstr "重新命名"
+msgstr "區域名稱"
 
 #: weblate/machinery/views.py:329
 msgid "Service is currently not available."
@@ -5125,7 +5086,7 @@ msgstr "找不到任何與此翻譯組件相容的額外附加元件。"
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some add-ons will ask for additional configuration during installation."
-msgstr "有些附加組件在安裝時會要求額外設定組態。"
+msgstr "有些附加元件會在安裝時，要求進行額外設定。"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -6730,7 +6691,7 @@ msgstr "標記為垃圾"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "本服務的安裝範圍是全平臺。"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "site wide"
@@ -6738,7 +6699,7 @@ msgstr "全平臺"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
-msgstr ""
+msgstr "本服務的安裝範圍是全平臺，但已經停用。"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "disabled"
@@ -6753,56 +6714,39 @@ msgid "Automatic suggestions"
 msgstr "自動建議"
 
 #: weblate/templates/machinery/list.html:23
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configured automatic suggestion services"
-msgstr "使用自動建議"
+msgstr "已設定自動建議服務"
 
 #: weblate/templates/machinery/list.html:34
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable"
-msgstr "已停用"
+msgstr "停用"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "已啟用"
+msgstr "啟用"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "目前沒有安裝的附加元件。"
+msgstr "目前未安裝服務。"
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "目前已安裝 %(count)s 個附加元件。"
+msgstr[0] "目前已安裝 %(count)s 個服務。"
 
 #: weblate/templates/machinery/list.html:61
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Available automatic suggestion services"
-msgstr "使用自動建議"
+msgstr "可用的自動建議服務"
 
 #: weblate/templates/machinery/list.html:79
-#, fuzzy
-#| msgid "Could not find any such user."
 msgid "Could not find any additional services."
-msgstr "找不到此使用者。"
+msgstr "找不到任何其他服務。"
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
-msgstr "有些附加組件在安裝時會要求額外設定組態。"
+msgstr "有些服務會在安裝時，要求進行額外設定。"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -9670,11 +9614,8 @@ msgid "For all languages"
 msgstr "所有語言"
 
 #: weblate/templates/translate.html:472
-#, fuzzy
-#| msgid ""
-#| "Selecting this option will set the corresponding \"ignore check\" flag"
 msgid "Selecting this option will set the corresponding ignore flag."
-msgstr "選擇本選項，將設定對應的「忽略查核」旗標"
+msgstr "選擇本選項，將設定對應的忽略旗標。"
 
 #: weblate/templates/translate.html:501
 #, python-format
@@ -12207,19 +12148,17 @@ msgid "Failed to parse flags: %s"
 msgstr "解析旗標失敗：%s"
 
 #: weblate/trans/validators.py:65
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the file mask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "%s 的語言代碼是空白的。請檢查檔案遮罩。"
+msgstr "「%(filename)s」的語言代碼是空白的。請檢查檔案遮罩。"
 
 #: weblate/trans/validators.py:71
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the file mask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "「%s」語言代碼過長。請檢查檔案遮罩。"
+msgstr "「%(filename)s」的「%(code)s」語言代碼過長。請檢查檔案遮罩。"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
