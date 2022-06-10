@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-08 21:18+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2022-06-10 22:18+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -3235,7 +3235,7 @@ msgstr ""
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
-msgstr "これには、現在の翻訳のファイル名を元にした引数を一つ渡します。"
+msgstr "これには、唯一の引数として現在の翻訳のファイル名が渡されます。"
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:94
 msgid "Management interface"
@@ -3380,8 +3380,7 @@ msgstr "お知らせ"
 
 #: ../../admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
-msgstr ""
-"以前のリリースでは、この機能はホワイトボード メッセージと呼んでいました。"
+msgstr "以前のリリースでは、この機能はホワイトボード メッセージと呼ばれていました。"
 
 #: ../../admin/announcements.rst:8
 msgid ""
@@ -3400,9 +3399,8 @@ msgstr "翻訳の目的、期限、状態、目標値の設定を告知します
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
-msgstr ""
-"ユーザーは、監視中のプロジェクトのお知らせの通知を受け取ります（拒否しない限"
-"り）。"
+msgstr "ユーザーには、監視中のプロジェクトのお知らせが (オプトアウトしない限り) "
+"通知されます。"
 
 #: ../../admin/announcements.rst:15
 msgid ""
@@ -3796,14 +3794,14 @@ msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
-"Slack OAuth 2 を使用するには、<https://api.slack.com/apps> にアプリケーション"
-"を必ず登録してください。"
+"Slack OAuth 2 を使用するには、 <https://api.slack.com/apps> "
+"でアプリケーションを登録する必要があります。"
 
 #: ../../admin/auth.rst:306
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
-msgstr ""
-"リダイレクト先の URL は、``https://WEBLATE SERVER/accounts/complete/slack/``"
+msgstr "リダイレクト URL は ``https://WEBLATE SERVER/accounts/complete/slack/`` "
+"です。"
 
 #: ../../admin/auth.rst:325
 msgid ":doc:`psa:backends/slack`"
@@ -3870,8 +3868,8 @@ msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
-"デフォルトの :file:`settings.py` に付属する :setting:`django:"
-"AUTH_PASSWORD_VALIDATORS` の効果的な検査項目:"
+"デフォルトの :file:`settings.py` には、適切な "
+":setting:`django:AUTH_PASSWORD_VALIDATORS` のセットが付属しています。"
 
 #: ../../admin/auth.rst:376
 msgid "Passwords can't be too similar to your other personal info."
@@ -3895,7 +3893,7 @@ msgstr "パスワードが、単一の文字または半角スペースのみで
 
 #: ../../admin/auth.rst:381
 msgid "Passwords can't match a password you have used in the past."
-msgstr "パスワードが、過去に登録されていないこと。"
+msgstr "パスワードが、過去に過去に使用したパスワードと一致していないこと。"
 
 #: ../../admin/auth.rst:383
 msgid "You can customize this setting to match your password policy."
@@ -17438,12 +17436,12 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
-"Weblate の複数の操作では接続回数が制限されています。 :setting:"
-"`RATELIMIT_WINDOW` 秒以内で最大 :setting:`RATELIMIT_ATTEMPTS` 回の試行が許可"
-"されています。その後、ユーザーは :setting:`RATELIMIT_LOCKOUT` 秒間遮断されま"
-"す。``RATELIMIT_CONTACT_ATTEMPTS`` や ``RATELIMIT_TRANSLATE_ATTEMPTS`` など"
-"の、アクセス範囲を限定した設定もあります。次の表は、すべての使用可能なアクセ"
-"ス範囲の一覧です。"
+"Weblate のいくつかの操作は接続回数が制限されています。 "
+":setting:`RATELIMIT_WINDOW` 秒以内で最大 :setting:`RATELIMIT_ATTEMPTS` "
+"回の試行が許可されています。その後、ユーザーは :setting:`RATELIMIT_LOCKOUT` "
+"秒間遮断されます。 ``RATELIMIT_CONTACT_ATTEMPTS`` や "
+"``RATELIMIT_TRANSLATE_ATTEMPTS`` などの、スコープを限定した設定もあります。次"
+"の表は、すべての使用可能なスコープの一覧です。"
 
 #: ../../admin/optionals.rst:258
 msgid "The following operations are subject to rate limiting:"
@@ -35664,7 +35662,7 @@ msgstr "``po/en.po``"
 
 #: ../../formats.rst:265
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`gettext PO ファイル (モノリンガル)`"
 
 #: ../../formats.rst:271
 msgid "XLIFF"
@@ -35675,9 +35673,9 @@ msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
-"XML ベースのファイル形式は、翻訳ファイルを標準化するために作成されましたが、"
-"結果的には、この分野の多くの標準 <https://xkcd.com/927/>`_ の 1 つにしかすぎ"
-"ません。"
+"XML ベースのファイル形式で、翻訳ファイルを標準化するために作成されましたが、"
+"結果的には、この分野の `多くの標準 <https://xkcd.com/927/>`_ の 1 "
+"つにしかすぎません。"
 
 #: ../../formats.rst:279
 msgid ""
