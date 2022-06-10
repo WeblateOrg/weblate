@@ -324,10 +324,10 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def on_repo_components(self, use_all: bool, method: str, *args, **kwargs):
+    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs):
         """Wrapper for operations on repository."""
         generator = (
-            getattr(component, method)(*args, **kwargs)
+            getattr(component, func)(*args, **kwargs)
             for component in self.all_repo_components
         )
         if use_all:
