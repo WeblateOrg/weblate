@@ -976,7 +976,7 @@ EMAIL_SEND_HTML = True
 EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 
 # Enable remote hooks
-ENABLE_HOOKS = True
+ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
 
 # Version hiding
 HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")

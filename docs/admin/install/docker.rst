@@ -835,6 +835,12 @@ Generic settings
 
       :ref:`api-rate`
 
+.. envvar:: WEBLATE_ENABLE_HOOKS
+
+   .. versionadded:: 4.13
+
+   Configures :setting:`ENABLE_HOOKS`.
+
 .. envvar:: WEBLATE_ENABLE_AVATARS
 
    .. versionadded:: 4.6.1
