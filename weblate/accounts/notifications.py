@@ -424,7 +424,7 @@ class MergeFailureNotification(Notification):
     def should_skip(self, user, change):
         fake = copy(change)
         fake.action = Change.ACTION_ALERT
-        fake.alert = Alert()
+        fake.alert = Alert(name="MergeFailure", details={"error": ""})
         if self.fake_notify is None:
             self.fake_notify = NewAlertNotificaton(None, self.perm_cache)
         return bool(
