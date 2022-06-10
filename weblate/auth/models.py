@@ -698,10 +698,20 @@ def create_groups(update):
     create_anonymous(User, Group, update)
 
     # Automatic assignment to the users group
-    group = Group.objects.get(name="Users")
+    group = Group.objects.get(
+        name="Users",
+        internal=True,
+        project_selection=SELECTION_ALL_PUBLIC,
+        language_selection=SELECTION_ALL,
+    )
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match="^.*$")
-    group = Group.objects.get(name="Viewers")
+    group = Group.objects.get(
+        name="Viewers",
+        internal=True,
+        project_selection=SELECTION_ALL_PROTECTED,
+        language_selection=SELECTION_ALL,
+    )
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match="^.*$")
 
