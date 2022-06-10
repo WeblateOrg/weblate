@@ -81,6 +81,7 @@ class BaseAlert:
     verbose = ""
     on_import = False
     link_wide = False
+    project_wide = False
     dismissable = False
     doc_page = ""
     doc_anchor = ""
@@ -364,6 +365,7 @@ class BrokenProjectURL(BaseAlert):
     dismissable = True
     doc_page = "admin/projects"
     doc_anchor = "project-web"
+    project_wide = True
 
     def __init__(self, instance, error=None):
         super().__init__(instance)

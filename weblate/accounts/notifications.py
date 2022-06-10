@@ -677,12 +677,30 @@ class NewAlertNotificaton(Notification):
     required_attr = "alert"
 
     def should_skip(self, user, change):
-        if not change.component.linked_component or not change.alert.obj.link_wide:
-            return False
-        fake = copy(change)
-        fake.component = change.component.linked_component
-        fake.project = fake.component.project
-        return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
+        if change.alert.obj.link_wide:
+            # Notify for main component
+            if not change.component.linked_component:
+                return False
+            # Notify only for others only when user will not get main.
+            # This handles component level subscriptions.
+            fake = copy(change)
+            fake.component = change.component.linked_component
+            fake.project = fake.component.project
+            return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
+        if change.alert.obj.project_wide:
+            first_component = change.component.project.component_set.order_by(
+                "id"
+            ).first()
+            # Notify for the first component
+            if change.component.id == first_component.id:
+                return True
+            # Notify only for others only when user will not get first.
+            # This handles component level subscriptions.
+            fake = copy(change)
+            fake.component = first_component
+            fake.project = fake.component.project
+            return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
+        return False
 
 
 class SummaryNotification(Notification):
