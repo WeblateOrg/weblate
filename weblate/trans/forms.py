@@ -633,10 +633,10 @@ class SimpleUploadForm(forms.Form):
         required=True,
     )
     fuzzy = forms.ChoiceField(
-        label=_("Processing of \"Needs editing\" strings"),
+        label=_('Processing of "Needs editing" strings'),
         choices=(
             ("", _("Do not import")),
-            ("process", _("Import as \"Needs editing\"")),
+            ("process", _('Import as "Needs editing"')),
             ("approve", _("Import as translated")),
         ),
         required=False,
@@ -859,7 +859,7 @@ class AutoForm(forms.Form):
         choices=[
             ("suggest", _("Add as suggestion")),
             ("translate", _("Add as translation")),
-            ("fuzzy", _("Add as \"Needing edit\"")),
+            ("fuzzy", _('Add as "Needing edit"')),
         ],
         initial="suggest",
     )
