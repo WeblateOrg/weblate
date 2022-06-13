@@ -1039,7 +1039,7 @@ class EngageForm(forms.Form):
     component = forms.ChoiceField(required=False, choices=[("", _("All components"))])
 
     def __init__(self, user, project, *args, **kwargs):
-        """Dynamically generate choices for used languages in a project."""
+        """Dynamically generate choices for used languages in the project."""
         super().__init__(*args, **kwargs)
 
         self.fields["lang"].choices += project.languages.as_choices()
