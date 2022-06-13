@@ -1,7 +1,7 @@
 Weblate 4.13
 ------------
 
-Not yet released.
+Released on June 15th 2022.
 
 * Changed behavior of updating language names.
 * Added pagination to projects listing.
