@@ -127,7 +127,7 @@ class WeblateDateField(forms.DateField):
         super().__init__(**kwargs)
 
     def to_python(self, value):
-        """Produce timezone aware datetime with 00:00:00 as time."""
+        """Produce timezone-aware datetime with 00:00:00 as time."""
         value = super().to_python(value)
         if isinstance(value, date):
             return from_current_timezone(
@@ -382,7 +382,7 @@ class PluralTextarea(forms.Textarea):
 class PluralField(forms.CharField):
     """Renderer for the plural field.
 
-    The only difference from CharField is that it does not force value to be string.
+    The only difference from CharField is that it does not force the value to be a string.
     """
 
     def __init__(self, max_length=None, min_length=None, **kwargs):
@@ -548,7 +548,7 @@ class TranslationForm(UnitForm):
         if self.cleaned_data["contentsum"] != unit.content_hash:
             raise ValidationError(
                 _(
-                    "Source string has been changed meanwhile. "
+                    "The source string has changed meanwhile. "
                     "Please check your changes."
                 )
             )
@@ -559,7 +559,7 @@ class TranslationForm(UnitForm):
             if last_author != self.user:
                 raise ValidationError(
                     _(
-                        "Translation of the string has been changed meanwhile. "
+                        "The translation of the string has changed meanwhile. "
                         "Please check your changes."
                     )
                 )
@@ -633,10 +633,10 @@ class SimpleUploadForm(forms.Form):
         required=True,
     )
     fuzzy = forms.ChoiceField(
-        label=_("Processing of strings needing edit"),
+        label=_('Processing of "Needs editing" strings'),
         choices=(
             ("", _("Do not import")),
-            ("process", _("Import as string needing edit")),
+            ("process", _('Import as "Needs editing"')),
             ("approve", _("Import as translated")),
         ),
         required=False,
@@ -652,7 +652,7 @@ class SimpleUploadForm(forms.Form):
         return ("user/files", f"upload-{field.name}")
 
     def remove_translation_choice(self, value):
-        """Remove add as translation choice."""
+        """Remove \"Add as translation\" choice."""
         choices = self.fields["method"].choices
         self.fields["method"].choices = [
             choice for choice in choices if choice[0] != value
@@ -660,7 +660,7 @@ class SimpleUploadForm(forms.Form):
 
 
 class UploadForm(SimpleUploadForm):
-    """Upload form with the option to overwrite current messages."""
+    """Uploading form with the option to overwrite current messages."""
 
     conflicts = forms.ChoiceField(
         label=_("Conflict handling"),
@@ -669,9 +669,9 @@ class UploadForm(SimpleUploadForm):
             "already translated."
         ),
         choices=(
-            ("", _("Update only untranslated strings")),
-            ("replace-translated", _("Update translated strings")),
-            ("replace-approved", _("Update translated and approved strings")),
+            ("", _("Change only untranslated strings")),
+            ("replace-translated", _("Change translated strings")),
+            ("replace-approved", _("Change translated and approved strings")),
         ),
         required=False,
         initial="replace-translated",
@@ -709,7 +709,7 @@ def get_upload_form(user, translation, *args, **kwargs):
 
 
 class SearchForm(forms.Form):
-    """Text searching form."""
+    """Text-searching form."""
 
     # pylint: disable=invalid-name
     q = QueryField()
@@ -719,7 +719,7 @@ class SearchForm(forms.Form):
     offset_kwargs = {}
 
     def __init__(self, user, language=None, show_builder=True, **kwargs):
-        """Generate choices for other component in same project."""
+        """Generate choices for other components in the same project."""
         self.user = user
         self.language = language
         super().__init__(**kwargs)
@@ -765,7 +765,7 @@ class SearchForm(forms.Form):
         ignored = {"offset", "checksum"}
         for param in sorted(self.cleaned_data):
             value = self.cleaned_data[param]
-            # We don't care about empty values or ignored
+            # We don't care about empty values or ignored ones
             if value is None or param in ignored:
                 continue
             if isinstance(value, bool):
@@ -785,7 +785,7 @@ class SearchForm(forms.Form):
             elif isinstance(value, User):
                 items.append((param, value.username))
             else:
-                # It should be string here
+                # It should be a string here
                 if value:
                     items.append((param, value))
         return items
@@ -794,7 +794,7 @@ class SearchForm(forms.Form):
         return urlencode(sorted(self.items()))
 
     def reset_offset(self):
-        """Reset offset to avoid using form as default for new search."""
+        """Reset its offset to avoid using the form as the default for any new search."""
         data = copy.copy(self.data)
         data["offset"] = "1"
         data["checksum"] = ""
@@ -808,7 +808,7 @@ class PositionSearchForm(SearchForm):
 
 
 class MergeForm(UnitForm):
-    """Simple form for merging translation of two units."""
+    """Simple form for merging the translation of two units."""
 
     merge = forms.IntegerField()
 
@@ -829,7 +829,7 @@ class MergeForm(UnitForm):
             if not translation.is_source and unit.source != merge_unit.source:
                 raise ValidationError(_("Could not find merged string."))
         except Unit.DoesNotExist:
-            raise ValidationError(_("Could not find merged string."))
+            raise ValidationError(_("Could not find the merged string."))
         return self.cleaned_data
 
 
@@ -847,7 +847,7 @@ class RevertForm(UnitForm):
                 pk=self.cleaned_data["revert"], unit=self.unit
             )
         except Change.DoesNotExist:
-            raise ValidationError(_("Could not find reverted change."))
+            raise ValidationError(_("Could not find the reverted change."))
         return self.cleaned_data
 
 
@@ -859,7 +859,7 @@ class AutoForm(forms.Form):
         choices=[
             ("suggest", _("Add as suggestion")),
             ("translate", _("Add as translation")),
-            ("fuzzy", _("Add as needing edit")),
+            ("fuzzy", _('Add as "Needing edit"')),
         ],
         initial="suggest",
     )
@@ -872,7 +872,7 @@ class AutoForm(forms.Form):
         ),
     )
     auto_source = forms.ChoiceField(
-        label=_("Automatic translation source"),
+        label=_("Source of automated translations"),
         choices=[
             ("others", _("Other translation components")),
             ("mt", _("Machine translation")),
@@ -896,7 +896,7 @@ class AutoForm(forms.Form):
     )
 
     def __init__(self, obj, *args, **kwargs):
-        """Generate choices for other component in same project."""
+        """Generate choices for other components in the same project."""
         super().__init__(*args, **kwargs)
         self.obj = obj
 
@@ -910,7 +910,8 @@ class AutoForm(forms.Form):
             project=obj.project
         )
 
-        # Fetching is faster than doing count on possibly thousands of components
+        # Fetching first few entries is faster than doing a count query on possibly
+        # thousands of components
         if len(self.components.values_list("id")[:30]) == 30:
             # Do not show choices when too many
             self.fields["component"] = forms.CharField(
@@ -918,7 +919,7 @@ class AutoForm(forms.Form):
                 label=_("Components"),
                 help_text=_(
                     "Enter component to use as source, "
-                    "keep blank to use all components in current project."
+                    "keep blank to use all components in the current project."
                 ),
             )
         else:
@@ -1001,7 +1002,7 @@ class CommentForm(forms.Form):
         label=_("Scope"),
         help_text=_(
             "Is your comment specific to this "
-            "translation or generic for all of them?"
+            "translation, or generic for all of them?"
         ),
         choices=(
             (
@@ -1027,7 +1028,7 @@ class CommentForm(forms.Form):
 
     def __init__(self, project, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Remove bug report in case source review is not enabled
+        # Remove bug-report in case source review is not enabled
         if not project.source_review:
             self.fields["scope"].choices = self.fields["scope"].choices[1:]
 
@@ -1039,7 +1040,7 @@ class EngageForm(forms.Form):
     component = forms.ChoiceField(required=False, choices=[("", _("All components"))])
 
     def __init__(self, user, project, *args, **kwargs):
-        """Dynamically generate choices for used languages in project."""
+        """Dynamically generate choices for used languages in the project."""
         super().__init__(*args, **kwargs)
 
         self.fields["lang"].choices += project.languages.as_choices()
@@ -1051,7 +1052,7 @@ class EngageForm(forms.Form):
 
 
 class NewLanguageOwnerForm(forms.Form):
-    """Form for requesting new language."""
+    """Form for requesting a new language."""
 
     lang = forms.MultipleChoiceField(
         label=_("Languages"), choices=[], widget=forms.SelectMultiple
@@ -1070,7 +1071,7 @@ class NewLanguageOwnerForm(forms.Form):
 
 
 class NewLanguageForm(NewLanguageOwnerForm):
-    """Form for requesting new language."""
+    """Form for requesting a new language."""
 
     lang = forms.ChoiceField(label=_("Language"), choices=[], widget=forms.Select)
 
@@ -1167,10 +1168,10 @@ class UserBlockForm(forms.Form):
     expiry = forms.ChoiceField(
         label=_("Block duration"),
         choices=(
-            ("", _("Block user until I unblock them")),
-            ("1", _("Block user for one day")),
-            ("7", _("Block user for one week")),
-            ("30", _("Block user for one month")),
+            ("", _("Block the user until I unblock")),
+            ("1", _("Block the user for one day")),
+            ("7", _("Block the user for one week")),
+            ("30", _("Block the user for one month")),
         ),
         required=False,
     )
@@ -1179,7 +1180,7 @@ class UserBlockForm(forms.Form):
 class ReportsForm(forms.Form):
     style = forms.ChoiceField(
         label=_("Report format"),
-        help_text=_("Choose file format for the report"),
+        help_text=_("Choose a file format for the report"),
         choices=(
             ("rst", _("reStructuredText")),
             ("json", _("JSON")),
@@ -1194,7 +1195,7 @@ class ReportsForm(forms.Form):
             ("month", _("Last month")),
             ("this-year", _("This year")),
             ("year", _("Last year")),
-            ("", _("As specified")),
+            ("", _("As specified below")),
         ),
         required=False,
     )
@@ -1263,7 +1264,7 @@ class ReportsForm(forms.Form):
         )
         # Final validation
         if self.cleaned_data["start_date"] > self.cleaned_data["end_date"]:
-            msg = _("Starting date has to be before ending date!")
+            msg = _("The starting date has to be before the ending date.")
             raise ValidationError({"start_date": msg, "end_date": msg})
 
 
@@ -1281,7 +1282,7 @@ class CleanRepoMixin:
             return repo
         if not self.request.user.has_perm("component.edit", obj):
             raise ValidationError(
-                _("You do not have permission to access this component!")
+                _("You do not have permission to access this component.")
             )
         return repo
 
@@ -1620,7 +1621,7 @@ class ComponentSelectForm(ComponentNameForm):
     component = forms.ModelChoiceField(
         queryset=Component.objects.none(),
         label=_("Component"),
-        help_text=_("Select existing component to copy configuration from."),
+        help_text=_("Select an existing component configuration to copy."),
     )
 
     def __init__(self, request, *args, **kwargs):
@@ -1662,7 +1663,7 @@ class ComponentBranchForm(ComponentSelectForm):
         try:
             self.instance.full_clean()
         except ValidationError as error:
-            # Can not raise directly as this will contain errors
+            # Can not raise directly, as this will contain errors
             # from fields not present here
             result = {NON_FIELD_ERRORS: []}
             for key, value in error.message_dict.items():
@@ -1702,12 +1703,12 @@ class ComponentProjectForm(ComponentNameForm):
         name = self.cleaned_data.get("name")
         if name and project.component_set.filter(name__iexact=name).exists():
             raise ValidationError(
-                {"name": _("Component with the same name already exists.")}
+                {"name": _("A component with the same name already exists.")}
             )
         slug = self.cleaned_data.get("slug")
         if slug and project.component_set.filter(slug__iexact=slug).exists():
             raise ValidationError(
-                {"slug": _("Component with the same name already exists.")}
+                {"slug": _("A component with the same name already exists.")}
             )
 
 
@@ -1755,8 +1756,8 @@ class ComponentDocCreateForm(ComponentProjectForm):
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     """Component creation form.
 
-    This is mostly copy from Component model. Probably should be extracted to standalone
-    Repository model...
+    This is mostly copied from the Component model. Probably should be extracted to a
+    standalone Repository model…
     """
 
     project = forms.ModelChoiceField(
@@ -1876,7 +1877,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
 
 
 class ComponentMoveForm(SettingsBaseForm, ComponentDocsMixin):
-    """Component rename form."""
+    """Component renaming form."""
 
     class Meta:
         model = Component
@@ -2030,7 +2031,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
 
 
 class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
-    """Project rename form."""
+    """Project renaming form."""
 
     class Meta:
         model = Project
@@ -2056,14 +2057,14 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
 
 class ReplaceForm(forms.Form):
     q = QueryField(
-        required=False, help_text=_("Optional additional filter on the strings")
+        required=False, help_text=_("Optional additional filter applied to the strings")
     )
     search = forms.CharField(
         label=_("Search string"),
         min_length=1,
         required=True,
         strip=False,
-        help_text=_("Case sensitive string to search for and replace."),
+        help_text=_("Case-sensitive string to search for and replace."),
     )
     replacement = forms.CharField(
         label=_("Replacement string"), min_length=1, required=True, strip=False
@@ -2092,7 +2093,7 @@ class ReplaceConfirmForm(forms.Form):
 
 
 class MatrixLanguageForm(forms.Form):
-    """Form for requesting new language."""
+    """Form for requesting a new language."""
 
     lang = forms.MultipleChoiceField(
         label=_("Languages"), choices=[], widget=forms.SelectMultiple
@@ -2123,7 +2124,7 @@ class NewUnitBaseForm(forms.Form):
         try:
             data = self.as_kwargs()
         except KeyError:
-            # Probably some fields validation has failed
+            # Probably the validation of some fields has failed
             return
         self.translation.validate_new_unit_data(**data)
 
@@ -2150,8 +2151,8 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     context = forms.CharField(
         label=_("Translation key"),
         help_text=_(
-            "Key used to identify string in translation file. "
-            "File format specific rules might apply."
+            "Key used to identify the string in the translation file. "
+            "File-format specific rules might apply."
         ),
         required=True,
     )
@@ -2181,7 +2182,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     auto_context = forms.BooleanField(
         required=False,
         initial=True,
-        label=_("Automatically adjust context when same string already exists."),
+        label=_("Auto-adjust context when an identical string already exists."),
     )
     source = PluralField(
         label=_("Source string"),
@@ -2247,7 +2248,7 @@ class CachedQueryIterator(ModelChoiceIterator):
     """
     Choice iterator for cached querysets.
 
-    It assumes the queryset is reused and avoids using iterator or count queries.
+    It assumes the queryset is reused and avoids using an iterator or counting queries.
     """
 
     def __iter__(self):
@@ -2397,7 +2398,7 @@ class ProjectLanguageDeleteForm(BaseDeleteForm):
 
 
 class AnnouncementForm(forms.ModelForm):
-    """Component base form."""
+    """Announcement posting form."""
 
     class Meta:
         model = Announcement
@@ -2474,7 +2475,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         expires = self.cleaned_data["expires"]
         expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
         if expires < timezone.now():
-            raise forms.ValidationError(gettext("Expiry cannot be in the past!"))
+            raise forms.ValidationError(gettext("Expiry cannot be in the past."))
         return expires
 
 
