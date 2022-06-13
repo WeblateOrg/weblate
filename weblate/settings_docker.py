@@ -877,22 +877,32 @@ if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
     MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
 
 # Baidu app key and secret
-MT_BAIDU_ID = None
-MT_BAIDU_SECRET = None
+MT_BAIDU_ID = os.environ.get("WEBLATE_MT_BAIDU_ID")
+MT_BAIDU_SECRET = os.environ.get("WEBLATE_MT_BAIDU_SECRET")
+if MT_BAIDU_ID and MT_BAIDU_SECRET:
+    MT_SERVICES += ("weblate.machinery.baidu.BaiduTranslation",)
 
 # Youdao Zhiyun app key and secret
-MT_YOUDAO_ID = None
-MT_YOUDAO_SECRET = None
+MT_YOUDAO_ID = os.environ.get("WEBLATE_MT_YOUDAO_ID")
+MT_YOUDAO_SECRET = os.environ.get("WEBLATE_MT_YOUDAO_SECRET")
+if MT_YOUDAO_ID and MT_YOUDAO_SECRET:
+    MT_SERVICES += ("weblate.machinery.youdao.YoudaoTranslation",)
 
 # Netease Sight (Jianwai) app key and secret
-MT_NETEASE_KEY = None
-MT_NETEASE_SECRET = None
+MT_NETEASE_KEY = os.environ.get("WEBLATE_MT_NETEASE_KEY")
+MT_NETEASE_SECRET = os.environ.get("WEBLATE_MT_NETEASE_SECRET")
+if MT_NETEASE_KEY and MT_NETEASE_SECRET:
+    MT_SERVICES += ("weblate.machinery.youdao.NeteaseSightTranslation",)
 
 # API key for Yandex Translate API
-MT_YANDEX_KEY = None
+MT_YANDEX_KEY = os.environ.get("WEBLATE_MT_YANDEX_KEY")
+if MT_YANDEX_KEY:
+    MT_SERVICES += ("weblate.machinery.yandex.YandexTranslation",)
 
 # tmserver URL
-MT_TMSERVER = None
+MT_TMSERVER = os.environ.get("WEBLATE_MT_SERVICES")
+if MT_TMSERVER:
+    MT_SERVICES += ("weblate.machinery.tmserver.TMServerTranslation",)
 
 # SAP Translation Hub
 MT_SAP_BASE_URL = os.environ.get("WEBLATE_MT_SAP_BASE_URL")
