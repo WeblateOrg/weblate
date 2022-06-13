@@ -2397,7 +2397,7 @@ class ProjectLanguageDeleteForm(BaseDeleteForm):
 
 
 class AnnouncementForm(forms.ModelForm):
-    """Component base-form."""
+    """Announcement posting form."""
 
     class Meta:
         model = Announcement
