@@ -910,7 +910,8 @@ class AutoForm(forms.Form):
             project=obj.project
         )
 
-        # Fetching is faster than doing a count on possibly thousands of components
+        # Fetching first few entries is faster than doing a count query on possibly
+        # thousands of components
         if len(self.components.values_list("id")[:30]) == 30:
             # Do not show choices when too many
             self.fields["component"] = forms.CharField(
