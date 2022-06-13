@@ -285,7 +285,7 @@ Enforcing checks
 
 You can configure a list of checks which can not be ignored by setting
 :ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
-be ignored in the user interface and any string failing this check is marked as
+be dismissed in the user interface and any string failing this check is marked as
 :guilabel:`Needs editing` (see :ref:`states`).
 
 .. _fonts:
