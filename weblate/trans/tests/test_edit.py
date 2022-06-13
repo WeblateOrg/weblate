@@ -922,7 +922,7 @@ class EditComplexTest(ViewTestCase):
             "Hello, world!\n", "Nazdar svete!\n", contentsum="aaa"
         )
         # We should get an error message
-        self.assertContains(response, "Source string has been changed meanwhile")
+        self.assertContains(response, "The source string has changed meanwhile.")
         self.assert_backend(0)
 
     def test_edit_changed_translation(self):
@@ -932,7 +932,7 @@ class EditComplexTest(ViewTestCase):
         )
         # We should get an error message
         self.assertContains(
-            response, "Translation of the string has been changed meanwhile"
+            response, "The translation of the string has changed meanwhile."
         )
         self.assert_backend(0)
 
