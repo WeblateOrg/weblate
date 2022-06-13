@@ -1263,7 +1263,7 @@ class ReportsForm(forms.Form):
         )
         # Final validation
         if self.cleaned_data["start_date"] > self.cleaned_data["end_date"]:
-            msg = _("The starting date has to be before ending date!")
+            msg = _("The starting date has to be before the ending date.")
             raise ValidationError({"start_date": msg, "end_date": msg})
 
 
