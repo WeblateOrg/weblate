@@ -42,7 +42,7 @@ from weblate.auth.models import User, get_anonymous
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.requests import request
-from weblate.utils.validators import USERNAME_MATCHER, clean_fullname
+from weblate.utils.validators import USERNAME_MATCHER, EmailValidator, clean_fullname
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
@@ -360,6 +360,10 @@ def ensure_valid(
         if same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
             raise EmailAlreadyAssociated(backend, "E-mail exists")
+
+        validator = EmailValidator()
+        # This raises ValidationError
+        validator(details["email"])
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):

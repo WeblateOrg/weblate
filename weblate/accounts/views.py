@@ -1268,6 +1268,8 @@ def social_complete(request, backend):  # noqa: C901
             request,
             _("The supplied user identity is already in use for another account."),
         )
+    except ValidationError as error:
+        return registration_fail(request, str(error))
 
 
 @login_required
