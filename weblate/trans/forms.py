@@ -852,10 +852,10 @@ class RevertForm(UnitForm):
 
 
 class AutoForm(forms.Form):
-    """Auto-translation form."""
+    """Automatic translation form."""
 
     mode = forms.ChoiceField(
-        label=_("Auto-translation mode"),
+        label=_("Automatic translation mode"),
         choices=[
             ("suggest", _("Add as suggestion")),
             ("translate", _("Add as translation")),
