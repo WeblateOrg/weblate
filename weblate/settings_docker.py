@@ -876,24 +876,6 @@ MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", "global")
 if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
     MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
 
-# Baidu app key and secret
-MT_BAIDU_ID = None
-MT_BAIDU_SECRET = None
-
-# Youdao Zhiyun app key and secret
-MT_YOUDAO_ID = None
-MT_YOUDAO_SECRET = None
-
-# Netease Sight (Jianwai) app key and secret
-MT_NETEASE_KEY = None
-MT_NETEASE_SECRET = None
-
-# API key for Yandex Translate API
-MT_YANDEX_KEY = None
-
-# tmserver URL
-MT_TMSERVER = None
-
 # SAP Translation Hub
 MT_SAP_BASE_URL = os.environ.get("WEBLATE_MT_SAP_BASE_URL")
 MT_SAP_SANDBOX_APIKEY = os.environ.get("WEBLATE_MT_SAP_SANDBOX_APIKEY")
