@@ -380,9 +380,11 @@ class PluralTextarea(forms.Textarea):
 
 
 class PluralField(forms.CharField):
-    """Renderer for the plural field.
+    """
+    Renderer for the plural field.
 
-    The only difference from CharField is that it does not force the value to be a string.
+    The only difference from CharField is that it does not
+    enforce the value to be a string.
     """
 
     def __init__(self, max_length=None, min_length=None, **kwargs):
@@ -652,7 +654,7 @@ class SimpleUploadForm(forms.Form):
         return ("user/files", f"upload-{field.name}")
 
     def remove_translation_choice(self, value):
-        """Remove \"Add as translation\" choice."""
+        """Remove "Add as translation" choice."""
         choices = self.fields["method"].choices
         self.fields["method"].choices = [
             choice for choice in choices if choice[0] != value
@@ -794,7 +796,12 @@ class SearchForm(forms.Form):
         return urlencode(sorted(self.items()))
 
     def reset_offset(self):
-        """Reset its offset to avoid using the form as the default for any new search."""
+        """
+        Resets form offset.
+
+        Thsi is needed to avoid issues when using the form as the default for
+        any new search.
+        """
         data = copy.copy(self.data)
         data["offset"] = "1"
         data["checksum"] = ""
