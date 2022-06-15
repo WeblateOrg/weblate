@@ -1060,6 +1060,23 @@ Slack
 
     Enables Slack authentication, see :ref:`slack-auth`.
 
+
+OpenID Connect
+++++++++++++++
+
+.. versionadded:: 4.13-1
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY
+
+   Configures generic OpenID Connect intergration.
+
+   .. seealso::
+
+      :doc:`psa:backends/oidc`
+
 .. _docker-saml:
 
 SAML

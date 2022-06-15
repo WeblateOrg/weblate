@@ -463,6 +463,22 @@ if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
     SOCIAL_AUTH_SLACK_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_SLACK_KEY", "")
     SOCIAL_AUTH_SLACK_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_SLACK_SECRET", "")
 
+# Generic OpenID Connect
+if "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT" in os.environ:
+    AUTHENTICATION_BACKENDS += (
+        "social_core.backends.open_id_connect.OpenIdConnectAuth",
+    )
+    SOCIAL_AUTH_OIDC_OIDC_ENDPOINT = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT", ""
+    )
+    SOCIAL_AUTH_OIDC_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_OIDC_KEY", "")
+    SOCIAL_AUTH_OIDC_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_OIDC_SECRET", "")
+    if "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY" in os.environ:
+        SOCIAL_AUTH_OIDC_USERNAME_KEY = os.environ[
+            "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY"
+        ]
+
+
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     import ldap
