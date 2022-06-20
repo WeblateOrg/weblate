@@ -584,6 +584,8 @@ class Translation(
             except FileParseError as error:
                 report_error(cause="Failed to parse file on commit")
                 self.log_error("skipping commit due to error: %s", error)
+                if signals:
+                    self.component.update_import_alerts(delete=False)
                 return False
 
             units = (

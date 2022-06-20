@@ -148,7 +148,7 @@ MERGE_CHOICES = (
     ("merge_noff", gettext_lazy("Merge without fast-forward")),
 )
 
-LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
+LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure", "ParseError"}
 
 
 def perform_on_link(func):
@@ -1616,6 +1616,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         for component in components.values():
             vcs_post_commit.send(sender=self.__class__, component=component)
             component.store_local_revision()
+            component.update_import_alerts(delete=False)
 
         # Push if enabled
         if not skip_push:
