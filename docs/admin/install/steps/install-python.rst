@@ -31,7 +31,7 @@ Python modules
         # Install Weblate with all optional dependencies, if you want to use PostgreSQL
         pip3 install "Weblate[all]"
         # If you want to use MySQL/MariaDB instead PostgreSQL
-        pip3 install Weblate[all,MySQL]
+        pip3 install "Weblate[all,MySQL]"
 
    Please check :ref:`optional-deps` for fine-tuning of optional dependencies.
 

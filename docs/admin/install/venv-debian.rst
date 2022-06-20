@@ -31,14 +31,15 @@ Installing on Debian and Ubuntu
     # Web server option 2: Apache with ``mod_wsgi``
     apt install apache2 libapache2-mod-wsgi-py3 -y
 
-    # Caching backend: Redis
-    apt install redis-server -y
-
     # Database server: PostgreSQL
     apt install postgresql postgresql-contrib -y
 
     # SMTP server
     apt install exim4 -y
+
+Install Redis
+--------
+.. include:: redis.rst
 
 .. include:: steps/install-python.rst
 
