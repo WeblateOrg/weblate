@@ -62,7 +62,7 @@ class ProxyMiddleware:
             proxy = request.META.get(settings.IP_PROXY_HEADER)
         if proxy:
             # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
-            address = proxy.split(", ")[settings.IP_PROXY_OFFSET].strip()
+            address = proxy.split(",")[settings.IP_PROXY_OFFSET].strip()
             try:
                 validate_ipv46_address(address)
                 request.META["REMOTE_ADDR"] = address
