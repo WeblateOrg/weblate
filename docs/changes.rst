@@ -3,6 +3,8 @@ Weblate 4.13.1
 
 Not yet released.
 
+* Fixed tracking suggestions in history.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
 
 Weblate 4.13

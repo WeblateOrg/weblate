@@ -68,14 +68,12 @@ class SuggestionManager(models.Manager):
         )
 
         # Record in change
-        Change.objects.create(
-            unit=unit,
-            suggestion=suggestion,
-            action=Change.ACTION_SUGGESTION,
-            user=user,
-            target=target,
-            author=user,
+        change = unit.generate_change(
+            user, user, Change.ACTION_SUGGESTION, check_new=False, save=False
         )
+        change.suggestion = suggestion
+        change.target = target
+        change.save()
 
         # Add unit vote
         if vote:
