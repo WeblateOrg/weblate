@@ -17,8 +17,8 @@ Installing on Debian and Ubuntu
 
 .. code-block:: sh
 
-    apt install tesseract-ocr libtesseract-dev libleptonica-dev -y \
-    libldap2-dev libldap-common libsasl2-dev -y \
+    apt install tesseract-ocr libtesseract-dev libleptonica-dev \
+    libldap2-dev libldap-common libsasl2-dev \
     libxmlsec1-dev -y
 
 .. include:: steps/install-system-server.rst

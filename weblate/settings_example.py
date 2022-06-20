@@ -29,13 +29,13 @@ SITE_TITLE = "Weblate"
 SITE_DOMAIN = ""
 
 # Whether site uses https
-ENABLE_HTTPS = True
+ENABLE_HTTPS = False
 
 #
 # Django settings for Weblate project.
 #
 
-DEBUG = False
+DEBUG = True
 
 ADMINS = (
     # ("Your Name", "your_email@example.com"),
