@@ -925,7 +925,7 @@ class AutoForm(forms.Form):
                 required=False,
                 label=_("Components"),
                 help_text=_(
-                    "Enter component to use as source, "
+                    "Enter slug of a component to use as source, "
                     "keep blank to use all components in the current project."
                 ),
             )
