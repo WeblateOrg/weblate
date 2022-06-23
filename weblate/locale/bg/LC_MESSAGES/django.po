@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-27 06:01+0000\n"
-"PO-Revision-Date: 2022-06-20 11:51+0000\n"
+"PO-Revision-Date: 2022-06-24 08:19+0000\n"
 "Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -815,7 +815,7 @@ msgstr ""
 #: weblate/accounts/pipeline.py:315
 msgid "You can not complete password reset while signed in."
 msgstr ""
-"Не можете да завършите подновяването на паролата, докато сте вписан(а) в "
+"Не можете да завършите подновяването на паролата, докато сте вписани в "
 "системата."
 
 #: weblate/accounts/pipeline.py:318 weblate/accounts/pipeline.py:341
@@ -843,7 +843,7 @@ msgstr "Имейлът вече не принадлежи на проверен 
 #: weblate/accounts/views.py:949 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
-msgstr "Възстановяване на паролата"
+msgstr "Възстановяване на парола"
 
 #: weblate/accounts/views.py:177
 msgid "Remove account"
@@ -5007,7 +5007,7 @@ msgstr "Задаване на паролата"
 
 #: weblate/templates/accounts/reset.html:46
 msgid "Reset my password"
-msgstr "Нулирайте паролата ми"
+msgstr "Възстановяване на парола"
 
 #: weblate/templates/accounts/trial.html:14
 msgid "Thank you for your interest in trying Weblate!"
@@ -7018,7 +7018,7 @@ msgstr ""
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
-msgstr "Следните дейности са извършени от профила ви в %(site_title)s:"
+msgstr "Следните действия са извършени от профила ви в %(site_title)s:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7330,8 +7330,8 @@ msgstr "Има заявка за нов език в %(component)s"
 #, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
-msgstr[0] "Нов низ в %(translation)s"
-msgstr[1] "Нови низове в %(translation)s"
+msgstr[0] "Нов низ – %(translation)s"
+msgstr[1] "Нови низове – %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:9
 msgid "Suggestion"
@@ -7394,7 +7394,7 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
-"Паролата не може да бъде нулирана, тъй като в %(site_title)s няма "
+"Паролата не може да бъде възстановена, тъй като в %(site_title)s няма "
 "регистриран профил с този адрес на електронна поща."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
@@ -7417,12 +7417,12 @@ msgstr ""
 #: weblate/templates/mail/reset.html:7
 #, python-format
 msgid "There was a request to reset your Weblate password at %(site_title)s."
-msgstr "Имаше заявка за нулиране на паролата Ви за Weblate в %(site_title)s."
+msgstr "Има заявка за възстановяване на парола за Weblate в %(site_title)s."
 
 #: weblate/templates/mail/reset_subject.txt:4
 #, python-format
 msgid "Password reset on %(site_title)s"
-msgstr "Паролата за %(site_title)s е нулирана"
+msgstr "Паролата за %(site_title)s е възстановена"
 
 #: weblate/templates/mail/shared-activity.html:18
 msgid "If this was not done by you, report it by clicking the button below."
@@ -7468,12 +7468,13 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"В случай, че връзката за потвърждение е с изтекъл срок, можете да използвате "
-"възможността за нулиране на паролата, за да получите достъп до профила си."
+"В случай, че препратката за потвърждение е с изтекъл срок, за да получите "
+"достъп до профила си, можете да използвате възможността за възстановяване на "
+"паролата."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
-msgstr "Потвърждаване на нулирането на паролата"
+msgstr "Възстановяване на паролата"
 
 #: weblate/templates/mail/shared-registration.html:21
 msgid "Confirm account removal"
@@ -8605,7 +8606,7 @@ msgstr "Низове с предложения за превод"
 #: weblate/templates/snippets/info.html:376
 msgctxt "Number of strings"
 msgid "Untranslated strings"
-msgstr "Непреведени низове"
+msgstr "Низове без превод"
 
 #: weblate/templates/snippets/info.html:392
 msgid "Global numbers"
@@ -8882,11 +8883,11 @@ msgstr "Целеви низове"
 
 #: weblate/templates/snippets/query-builder.html:20
 msgid "Key/Context strings"
-msgstr "Ключ/контекст на низа"
+msgstr "Низове на ключа/контекста"
 
 #: weblate/templates/snippets/query-builder.html:22
 msgid "Location strings"
-msgstr "Низове за местоположение"
+msgstr "Низове на местоположението"
 
 #: weblate/templates/snippets/query-builder.html:23
 msgid "String state"
@@ -8916,7 +8917,7 @@ msgstr "Точно"
 #: weblate/templates/snippets/query-builder.html:56
 #: weblate/templates/snippets/query-builder.html:58
 msgid "String changed after"
-msgstr "Низът е променен след"
+msgstr "Низове, променени след"
 
 #: weblate/templates/snippets/query-builder.html:59
 msgid "String changed before"
@@ -8928,7 +8929,7 @@ msgstr "Дата"
 
 #: weblate/templates/snippets/query-builder.html:72
 msgid "Query examples"
-msgstr "Примери за заявки"
+msgstr "Примерни заявки"
 
 #: weblate/templates/snippets/query-builder.html:75
 msgid "Review strings changed by other users"
@@ -9006,9 +9007,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate използва SSH-ключ за достъп до отдалечени хранилища. Съответстващият "
-"публичен ключ може да бъде намерен по-долу. Използвайте го, за да дадете на "
-"Weblate достъп до хранилище."
+"Weblate използва ключове на SSH за достъп до отдалечени хранилища. "
+"Съответстващият публичен ключ може да бъде намерен по-долу. Използвайте го, "
+"за да дадете на Weblate достъп до хранилище."
 
 #: weblate/templates/snippets/ssh-key.html:11
 msgid "SSH key not available."
@@ -10441,7 +10442,7 @@ msgstr "Низове само за четене"
 
 #: weblate/trans/filter.py:35 weblate/trans/filter.py:122
 msgid "Untranslated strings"
-msgstr "Непреведени низове"
+msgstr "Низове без превод"
 
 #: weblate/trans/filter.py:38 weblate/trans/filter.py:125
 msgid "Strings marked for edit"
@@ -10485,7 +10486,7 @@ msgstr "Низове без етикет"
 
 #: weblate/trans/filter.py:68
 msgid "Pluralized string"
-msgstr "Низ с множествено число"
+msgstr "Низове с множествено число"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
 msgid "Failing check: {}"
@@ -10501,7 +10502,7 @@ msgstr "Посочена е неправилна контролна сума!"
 
 #: weblate/trans/forms.py:165
 msgid "More possible users were found."
-msgstr "Откритие са още възможни потребители."
+msgstr "Открити са още възможни потребители."
 
 #: weblate/trans/forms.py:179
 msgid "Missing query string."
@@ -10525,7 +10526,7 @@ msgstr "Филтър за търсене"
 
 #: weblate/trans/forms.py:406
 msgid "Please choose a valid filter type."
-msgstr "Моля, изберете правилен вид филтър."
+msgstr "Изберете правилния вид на филтъра."
 
 #: weblate/trans/forms.py:438
 msgid "The string you wanted to translate is no longer available."
@@ -10565,7 +10566,7 @@ msgstr "Междувременно изходният низ е променен
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
-msgstr "Междувременно преводът на низа е бил променен. Проверете промените си."
+msgstr "Междувременно преводът на низа е променен. Проверете промените си."
 
 #: weblate/trans/forms.py:569
 msgid "Translation text too long!"
