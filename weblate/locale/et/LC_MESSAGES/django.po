@@ -9,13 +9,14 @@
 # Stanislav Lem <justaryo@yandex.ru>, 2020.
 # Janar Leas <janarleas+ubuntuone@googlemail.com>, 2020.
 # Kristjan Räts <kristjanrats@gmail.com>, 2021.
+# PriitUring <priit.uring@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-05-27 06:01+0000\n"
-"PO-Revision-Date: 2022-05-26 09:42+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-06-26 12:16+0000\n"
+"Last-Translator: PriitUring <priit.uring@gmail.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -377,10 +378,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Kasutajatingimustega nõusolek antud {date}."
 
 #: weblate/accounts/models.py:164
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Kutsutud Weblate kasutajaks {username} poolt."
+msgstr "Kutsutud kasutama {site_title}, kasutaja {username} poolt."
 
 #: weblate/accounts/models.py:165
 msgid "Started trial period."
@@ -400,7 +400,7 @@ msgstr ""
 #: weblate/accounts/models.py:171
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Ligipääs projektile {project} oli blokeeritud"
 
 #: weblate/accounts/models.py:176
 msgid "Configured password to sign in."
@@ -425,6 +425,7 @@ msgstr "Oma kontole juurdepääsu taastamiseks palun lähtesta oma salasõna."
 #: weblate/accounts/models.py:186
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Palun kontakteeruge projekti hooldajatega, kui tunnete, et see on sobimatu."
 
 #: weblate/accounts/models.py:310 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -983,20 +984,12 @@ msgid "The server does not allow authentication."
 msgstr "Server ei luba tõendamist."
 
 #: weblate/accounts/views.py:1260
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr ""
-"Registreerumist ei saa lõpetada. Pakutud tõendus, e-posti aadress või "
-"kasutajanimi on juba kasutusel teise kasutajakonto poolt."
+msgstr "Pakutud e-posti aadress on juba kasutusel teise kasutajakonto poolt."
 
 #: weblate/accounts/views.py:1264
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "See kasutajanimi on juba võetud. Palun vali mõni muu."
+msgstr "See kasutajanimi on juba võetud teise kasutaja poolt."
 
 #: weblate/accounts/views.py:1269
 #, fuzzy
@@ -1330,7 +1323,7 @@ msgstr "Regulaaravaldis, mille suhtes kontrollime tõlkefaile"
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:596
 #: weblate/trans/forms.py:1712 weblate/trans/models/component.py:393
 msgid "File format"
-msgstr ""
+msgstr "Faili formaat"
 
 #: weblate/addons/forms.py:260
 msgid "Customize the component name"
@@ -1777,7 +1770,7 @@ msgstr ""
 #. Translators: Permission name
 #: weblate/auth/data.py:67 weblate/templates/translate.html:598
 msgid "Add screenshot"
-msgstr ""
+msgstr "Lisa kuvatõmmis"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:69
@@ -1789,7 +1782,7 @@ msgstr ""
 #: weblate/auth/data.py:71
 #: weblate/templates/screenshots/screenshot_detail.html:94
 msgid "Delete screenshot"
-msgstr ""
+msgstr "Kustuta kuvatõmmis"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:73 weblate/templates/translate.html:712
@@ -2163,7 +2156,7 @@ msgstr ""
 #: weblate/templates/trans/project-access.html:146
 #: weblate/templates/trans/project-access.html:256 weblate/trans/forms.py:1428
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: weblate/auth/models.py:88
 msgid "Choose permissions granted to this role."
@@ -2261,7 +2254,7 @@ msgstr ""
 
 #: weblate/auth/models.py:317
 msgid "A user with that username already exists."
-msgstr ""
+msgstr "Kasutaja sama kasutajanimega on juba olemas."
 
 #: weblate/auth/models.py:332
 msgid "Superuser status"
@@ -2289,7 +2282,7 @@ msgstr "Aegunud"
 
 #: weblate/auth/models.py:352 weblate/templates/accounts/user.html:152
 msgid "Groups"
-msgstr ""
+msgstr "Grupid"
 
 #: weblate/auth/models.py:355
 msgid ""
@@ -2391,7 +2384,7 @@ msgstr ""
 
 #: weblate/billing/models.py:274
 msgid "Changes in last month"
-msgstr ""
+msgstr "Muudatused viimasel kuul"
 
 #: weblate/billing/models.py:280
 msgid "Number of changes"
@@ -2594,7 +2587,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:353 weblate/checks/flags.py:75
 msgid "Maximum length of translation"
-msgstr ""
+msgstr "Maksimum tõlke pikkus"
 
 #: weblate/checks/chars.py:354
 msgid "Translation should not exceed given length"
@@ -2688,7 +2681,7 @@ msgstr ""
 
 #: weblate/checks/flags.py:49
 msgid "XML text"
-msgstr ""
+msgstr "XML tekst"
 
 #: weblate/checks/flags.py:50
 msgid "DOS line endings"
@@ -2758,7 +2751,7 @@ msgstr ""
 #: weblate/checks/flags.py:73 weblate/trans/models/component.py:618
 #: weblate/utils/views.py:135
 msgid "Priority"
-msgstr ""
+msgstr "Prioriteet"
 
 #: weblate/checks/flags.py:77
 msgid "Replacements while rendering"
@@ -3283,12 +3276,12 @@ msgstr ""
 #: weblate/trans/forms.py:1071 weblate/trans/forms.py:2409
 #: weblate/trans/models/announcement.py:104
 msgid "Language"
-msgstr ""
+msgstr "Keel"
 
 #: weblate/fonts/validators.py:32 weblate/fonts/validators.py:36
 #: weblate/utils/validators.py:164
 msgid "Unsupported file format."
-msgstr ""
+msgstr "Faili formaati ei toetata."
 
 #: weblate/fonts/views.py:72
 #, fuzzy
@@ -3298,7 +3291,7 @@ msgstr "Niisuguse nimega osis on selles projektis juba olemas."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
-msgstr ""
+msgstr "Loomine nurjus, palun parandage allolevad vead."
 
 #: weblate/fonts/views.py:96
 msgid "Font deleted."
@@ -4000,12 +3993,12 @@ msgstr ""
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "Tingimused"
 
 #: weblate/legal/views.py:31 weblate/templates/snippets/info.html:12
 #: weblate/templates/translation.html:37
 msgid "Overview"
-msgstr ""
+msgstr "Ülevaade"
 
 #: weblate/machinery/base.py:103
 #, fuzzy, python-format
@@ -4027,11 +4020,9 @@ msgstr "API tunnus"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "API juur URL:"
+msgstr "API URL"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
@@ -4780,24 +4771,22 @@ msgid "Preferences"
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:26
-#, fuzzy
-#| msgid "Translated"
 msgid "Notifications"
-msgstr "Tõlgitud"
+msgstr "Teavitused"
 
 #: weblate/templates/accounts/profile.html:27
 #: weblate/templates/accounts/profile.html:108
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: weblate/templates/accounts/profile.html:28
 msgid "Profile"
-msgstr ""
+msgstr "Profiil"
 
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:314
 msgid "Licenses"
-msgstr ""
+msgstr "Litsentsid"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:222
@@ -6010,7 +5999,7 @@ msgstr "Vaata oma arvelduste olekut"
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:191
 msgid "Browse"
-msgstr ""
+msgstr "Sirvi"
 
 #: weblate/templates/browse.html:49 weblate/trans/views/edit.py:246
 #: weblate/trans/views/edit.py:552
@@ -6692,7 +6681,7 @@ msgstr ""
 #: weblate/templates/engage.html:64
 msgctxt "Call to action on engage page"
 msgid "Translate"
-msgstr "tõlgi"
+msgstr "Tõlgi"
 
 #: weblate/templates/engage.html:65
 #, fuzzy
@@ -6774,7 +6763,7 @@ msgstr ""
 #: weblate/templates/trans/project-access-row.html:38
 #: weblate/templates/trans/project-access-row.html:55
 msgid "Remove"
-msgstr ""
+msgstr "Eemalda"
 
 #: weblate/templates/fonts/fontgroup_detail.html:47
 #, fuzzy
@@ -8353,7 +8342,7 @@ msgstr "Täisnimi"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:34
 msgid "Color"
-msgstr ""
+msgstr "Värvus"
 
 #: weblate/templates/project-labels.html:37
 #, fuzzy
@@ -9058,12 +9047,12 @@ msgstr "tõlgitud"
 #: weblate/templates/translate.html:249 weblate/templates/translate.html:433
 #: weblate/trans/forms.py:1447
 msgid "Suggestions"
-msgstr ""
+msgstr "Soovitused"
 
 #: weblate/templates/snippets/list-objects.html:103
 #: weblate/templates/translate.html:255 weblate/templates/translate.html:499
 msgid "Comments"
-msgstr ""
+msgstr "Kommentaarid"
 
 #: weblate/templates/snippets/list-objects.html:125
 #, fuzzy
@@ -9105,12 +9094,12 @@ msgstr ""
 #: weblate/templates/snippets/position-field.html:8
 #: weblate/templates/snippets/position-field.html:11
 msgid "First"
-msgstr ""
+msgstr "Esimene"
 
 #: weblate/templates/snippets/position-field.html:9
 #: weblate/templates/snippets/position-field.html:12
 msgid "Previous"
-msgstr ""
+msgstr "Eelmine"
 
 #: weblate/templates/snippets/position-field.html:17
 #, python-format
@@ -9134,12 +9123,12 @@ msgstr ""
 #: weblate/templates/snippets/position-field.html:30
 #: weblate/templates/snippets/position-field.html:33
 msgid "Next"
-msgstr ""
+msgstr "Järgmine"
 
 #: weblate/templates/snippets/position-field.html:31
 #: weblate/templates/snippets/position-field.html:34
 msgid "Last"
-msgstr ""
+msgstr "Viimane"
 
 #: weblate/templates/snippets/progress.html:5 weblate/trans/forms.py:473
 msgid "Approved"
@@ -9534,10 +9523,8 @@ msgstr "Ei õnnestunud töödelda ühte sobivat faili."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
-#, fuzzy
-#| msgid "Full name"
 msgid "Filename"
-msgstr "Täisnimi"
+msgstr "Failinimi"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
@@ -9781,7 +9768,7 @@ msgstr ""
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
-msgstr ""
+msgstr "Muudatused"
 
 #: weblate/templates/trans/change_list.html:33
 msgid "Download latest changes as CSV"
@@ -10286,7 +10273,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:233
 msgid "Suggest"
-msgstr ""
+msgstr "Soovita"
 
 #: weblate/templates/translate.html:235
 msgid "Skip"
@@ -10732,7 +10719,7 @@ msgstr ""
 
 #: weblate/trans/admin.py:90
 msgid "Administrators"
-msgstr ""
+msgstr "Administraatorid"
 
 #: weblate/trans/admin.py:111
 msgid "VCS repositories"
@@ -11628,7 +11615,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
-msgstr ""
+msgstr "Kategooria"
 
 #: weblate/trans/models/announcement.py:112
 msgid "Category defines color used for the message."
@@ -12922,10 +12909,9 @@ msgid "Forbidden translation: %s"
 msgstr "Soovitatud tõlked"
 
 #: weblate/trans/templatetags/translations.py:174
-#, fuzzy, python-format
-#| msgid "translated"
+#, python-format
 msgid "Untranslatable: %s"
-msgstr "tõlgitud"
+msgstr "Pole tõlgitavad: %s"
 
 #: weblate/trans/templatetags/translations.py:176
 #, fuzzy, python-format
@@ -12972,7 +12958,7 @@ msgstr ""
 
 #: weblate/trans/templatetags/translations.py:415
 msgid "yesterday"
-msgstr ""
+msgstr "eile"
 
 #: weblate/trans/templatetags/translations.py:416
 #, python-format
@@ -13050,7 +13036,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:470
 msgid "tomorrow"
-msgstr ""
+msgstr "homme"
 
 #: weblate/trans/templatetags/translations.py:472
 msgid "a week from now"
@@ -13660,7 +13646,7 @@ msgstr ""
 #. Translators: Name of a color
 #: weblate/utils/colors.py:26
 msgid "Blue"
-msgstr ""
+msgstr "Sinine"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:28
@@ -13692,19 +13678,17 @@ msgstr ""
 #. Translators: Name of a color
 #: weblate/utils/colors.py:38
 msgid "Yellow"
-msgstr ""
+msgstr "Kollane"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:40
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "Muuda"
+msgstr "Oranž"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:42
 msgid "Red"
-msgstr ""
+msgstr "Punane"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:44
@@ -13719,17 +13703,17 @@ msgstr ""
 #. Translators: Name of a color
 #: weblate/utils/colors.py:48
 msgid "Purple"
-msgstr ""
+msgstr "Lilla"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:50
 msgid "Black"
-msgstr ""
+msgstr "Must"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:52
 msgid "Gray"
-msgstr ""
+msgstr "Hall"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:54
@@ -13886,10 +13870,8 @@ msgid "Position and priority"
 msgstr ""
 
 #: weblate/utils/views.py:134
-#, fuzzy
-#| msgid "Translated"
 msgid "Position"
-msgstr "Tõlgitud"
+msgstr "Positsioon"
 
 #: weblate/utils/views.py:140
 msgid "Number of words"
