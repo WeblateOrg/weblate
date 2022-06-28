@@ -1,10 +1,6 @@
-// prettier-ignore
 var weblate_supported = {{ languages }}
-// prettier-ignore
 var weblate_url = {{ url }};
-// prettier-ignore
 var weblate_selector = {{ css_selector }};
-// prettier-ignore
 var weblate_cookie_name = {{ cookie_name }};
 
 var ready = (callback) => {
