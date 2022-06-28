@@ -353,6 +353,7 @@ class BaseMachineTranslationTest(TestCase):
                     self.assertIsInstance(
                         value, str, f"'{key}' is supposed to be a string"
                     )
+        return translation
 
     def mock_empty(self):
         pass
@@ -1105,8 +1106,23 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         def request_callback(request):
             headers = {}
             payload = parse_qs(request.body)
-            self.assertEqual(payload["text"], ['Hello, <x id="7"></x>!'])
-            return (200, headers, json.dumps(DEEPL_RESPONSE))
+            self.assertEqual(
+                payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
+            )
+            return (
+                200,
+                headers,
+                json.dumps(
+                    {
+                        "translations": [
+                            {
+                                "detected_source_language": "EN",
+                                "text": 'Hallo, <x id="7"></x>! &lt;&lt;foo&gt;&gt;',
+                            }
+                        ]
+                    }
+                ),
+            )
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1117,13 +1133,14 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             callback=request_callback,
         )
         # Fetch from service
-        self.assert_translate(
+        translation = self.assert_translate(
             self.SUPPORTED,
-            "Hello, %s!",
+            "Hello, %s! <<foo>>",
             self.EXPECTED_LEN,
             machine=machine,
             unit_args={"flags": "python-format"},
         )
+        self.assertEqual(translation[0]["text"], "Hallo, %s! <<foo>>")
 
     @responses.activate
     def test_cache(self):
