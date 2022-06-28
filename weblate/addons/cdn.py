@@ -23,6 +23,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -97,17 +98,34 @@ class CDNJSAddon(BaseAddon):
                 render_to_string(
                     "addons/js/weblate.js",
                     {
-                        "languages": '", "'.join(
-                            sorted(
-                                translation.language.code
-                                for translation in translations
+                        # `mark_safe(json.dumps(` is NOT safe in HTML files. Only JS.
+                        # See `django.utils.html.json_script`
+                        "languages": mark_safe(
+                            json.dumps(
+                                sorted(
+                                    translation.language.code
+                                    for translation in translations
+                                )
                             )
                         ),
-                        "url": os.path.join(
-                            settings.LOCALIZE_CDN_URL, self.instance.state["uuid"]
+                        "url": mark_safe(
+                            json.dumps(
+                                os.path.join(
+                                    settings.LOCALIZE_CDN_URL,
+                                    self.instance.state["uuid"],
+                                )
+                            )
                         ),
-                        "cookie_name": self.instance.configuration["cookie_name"],
-                        "css_selector": self.instance.configuration["css_selector"],
+                        "cookie_name": mark_safe(
+                            json.dumps(
+                                self.instance.configuration["cookie_name"],
+                            )
+                        ),
+                        "css_selector": mark_safe(
+                            json.dumps(
+                                self.instance.configuration["css_selector"],
+                            )
+                        ),
                     },
                 )
             )
