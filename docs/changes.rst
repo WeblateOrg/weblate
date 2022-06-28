@@ -7,6 +7,7 @@ Not yet released.
 * Fixed parsing reverse proxy info from Cloudflare.
 * Make parse error lock a component from translating.
 * Fixed configuring intermediate file in the discovery add-on.
+* Fixed DeepL translations behvior with placeholders.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
 

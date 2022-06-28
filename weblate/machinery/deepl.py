@@ -86,6 +86,8 @@ class DeepLTranslation(MachineTranslation):
             "text": text,
             "source_lang": source,
             "target_lang": language,
+            "tag_handling": "xml",
+            "ignore_tags": "x",
         }
         if language.endswith("@FORMAL"):
             params["target_lang"] = language[:-7]
@@ -106,8 +108,6 @@ class DeepLTranslation(MachineTranslation):
                 "quality": self.max_score,
                 "service": self.name,
                 "source": text,
-                "tag_handling": "xml",
-                "ignore_tags": "x",
             }
 
     def unescape_text(self, text: str):
