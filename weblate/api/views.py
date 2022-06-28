@@ -337,7 +337,7 @@ class UserViewSet(viewsets.ModelViewSet):
         remove_user(instance, request)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post", "delete"])
     def groups(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
@@ -350,7 +350,10 @@ class UserViewSet(viewsets.ModelViewSet):
         except (Group.DoesNotExist, ValueError) as error:
             raise ValidationError(str(error))
 
-        obj.groups.add(group)
+        if request.method == "POST":
+            obj.groups.add(group)
+        if request.method == "DELETE":
+            obj.groups.remove(group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)

@@ -215,6 +215,43 @@ class UserAPITest(APIBaseTest):
             request={"group_id": group.id},
         )
 
+    def test_remove_group(self):
+        group = Group.objects.get(name="Viewers")
+        username = User.objects.filter(is_active=True).first().username
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="post",
+            code=403,
+            request={"group_id": group.id},
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": -1},
+        )
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id},
+        )
+        self.assertIn("http://example.com/api/groups/2/", response.data["groups"])
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="delete",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id},
+        )
+        self.assertNotIn("http://example.com/api/groups/2/", response.data["groups"])
+
     def test_list_notifications(self):
         response = self.do_request(
             "api:user-notifications",

@@ -344,6 +344,16 @@ Users
     :type username: string
     :form string group_id: The unique group ID
 
+.. http:delete:: /api/users/(str:username)/groups/
+
+    .. versionadded:: 4.13.1
+
+    Remove user from a group.
+
+    :param username: User's username
+    :type username: string
+    :form string group_id: The unique group ID
+
 .. http:get:: /api/users/(str:username)/statistics/
 
     List statistics of a user.
