@@ -6,6 +6,7 @@ Not yet released.
 * Fixed tracking suggestions in history.
 * Fixed parsing reverse proxy info from Cloudflare.
 * Make parse error lock a component from translating.
+* Fixed configuring intermediate file in the discovery add-on.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
 

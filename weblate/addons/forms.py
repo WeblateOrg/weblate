@@ -320,6 +320,7 @@ class DiscoveryForm(BaseAddonForm):
             Field("name_template"),
             Field("base_file_template"),
             Field("new_base_template"),
+            Field("intermediate_template"),
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
