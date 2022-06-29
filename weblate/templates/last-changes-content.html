@@ -46,7 +46,7 @@
             {% with details=change.get_details_display %}
             {% if details %}
                 {{ details }}
-            {% elif change.can_revert %}
+            {% elif change.show_content and change.unit %}
                 <label>{{ change.unit.translation.component.source_language }}</label>
                 {% format_translation change.get_source change.unit.translation.component.source_language %}
                 <label>
@@ -61,16 +61,6 @@
                     {% endif %}
                 </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
-            {% elif change.show_content and change.unit %}
-                <label>{{ change.unit.translation.component.source_language }}</label>
-                {% format_translation change.get_source change.unit.translation.component.source_language %}
-                <label>
-                  {{ change.unit.translation.language }}
-                  {% if change.details.state %}
-                    <span class="badge">{{ change.get_state_display }}</span>
-                  {% endif %}
-                </label>
-                {% format_translation change.target change.unit.translation.language change.unit.translation.plural %}
             {% elif change.show_source %}
                 {% format_translation change.target change.component.source_language diff=change.old %}
             {% elif change.target %}
