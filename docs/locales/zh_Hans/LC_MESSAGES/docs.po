@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-29 05:14+0000\n"
-"Last-Translator: Eric <alchemillatruth@purelymail.com>\n"
+"PO-Revision-Date: 2022-06-29 06:39+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17943,7 +17943,7 @@ msgstr "词汇表将可以在所有由 :ref:`component-links`定义的项目中�
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
-msgstr "建议在词汇表上启用 :ref:`component-manage_units`，以允许向其添加新词。"
+msgstr "建议在词汇表上启用 :ref:`component-manage_units`，以允许添加新词。"
 
 #: ../../admin/projects.rst:851
 msgid ":ref:`glossary`"
@@ -18471,7 +18471,7 @@ msgstr "定制列表"
 msgid ""
 "You can customize the listing by providing a text and image (570 x 260 "
 "pixels) at <https://weblate.org/user/>."
-msgstr "您可以通过<https://weblate.org/user/> 上提供文本和图像（570 x 260 "
+msgstr "您可以在 <https://weblate.org/user/> 上提供文本和图像（570 x 260 "
 "像素）来自定义列表。"
 
 #: ../../admin/translating.rst:2
@@ -18722,7 +18722,7 @@ msgstr "对于 pip 安装，可以通过后面的来实现："
 
 #: ../../admin/upgrade.rst:46
 msgid "If you don't want to install all of the optional dependencies do:"
-msgstr ""
+msgstr "如果不想安装所有可选依赖项，请执行以下操作："
 
 #: ../../admin/upgrade.rst:52
 msgid ""
@@ -18734,7 +18734,8 @@ msgstr "通过 Git 核实，你需要取回新的源代码并升级你的安装�
 msgid ""
 "New Weblate release might have new :ref:`optional-deps`, please check if "
 "they cover features you want."
-msgstr ""
+msgstr "新版本 Weblate 可能有新的 :ref:`optional-deps`, "
+"快来看看有没有你感兴趣的功能。"
 
 #: ../../admin/upgrade.rst:68
 msgid ""
@@ -18884,6 +18885,9 @@ msgid ""
 "instead. You might need to adjust ``MT_DEEPL_API_URL`` to match your "
 "subscription."
 msgstr ""
+"``MT_DEEPL_API_VERSION`` 设置已在 V4.7 中移除, :ref:`mt-deepl` "
+"机器翻译现在使用新的 ``MT_DEEPL_API_URL`` 代替,您可能需要调整 "
+"``MT_DEEPL_API_URL`` 以匹配您的订阅。"
 
 #: ../../admin/upgrade.rst:147 ../../admin/upgrade.rst:164
 #: ../../admin/upgrade.rst:188 ../../admin/upgrade.rst:206
@@ -19057,17 +19061,17 @@ msgstr "从 4.4 升级到 4.5"
 
 #: ../../admin/upgrade.rst:215
 msgid "The migration might take considerable time if you had big glossaries."
-msgstr ""
+msgstr "如果你的的词汇表过大，迁移可能需要相当长的时间。"
 
 #: ../../admin/upgrade.rst:216 ../../changes.rst:415
 msgid "Glossaries are now stored as regular components."
-msgstr ""
+msgstr "词汇表现在是作为常规组件存储的。"
 
 #: ../../admin/upgrade.rst:217
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
-msgstr ""
+msgstr "词汇表 API，被移除，使用常规翻译 API 访问词汇表。"
 
 #: ../../admin/upgrade.rst:218
 msgid ""
@@ -19079,7 +19083,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:222
 msgid "There is a new dependency on the `pyahocorasick` module."
-msgstr ""
+msgstr "`pyahocorasick` 模块有一个新的依赖项。"
 
 #: ../../admin/upgrade.rst:227
 msgid "Upgrade from 4.5 to 4.6"
@@ -19097,7 +19101,8 @@ msgstr ""
 msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
-msgstr ""
+msgstr "在依赖关系和 :setting:`django:PASSWORD_HASHERS`中，有一个变化，"
+"即在密码散列中优先 使用，Argon2。"
 
 #: ../../admin/upgrade.rst:240
 msgid "Upgrade from 4.6 to 4.7"
@@ -19118,6 +19123,9 @@ msgid ""
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
+":ref:`mt-deepl`机器翻译现在有一个通用的 ``MT_DEEPL_API_URL`` "
+"设置，以更灵活地适应不同的订阅模式。 \n"
+" ``MT_DEEPL_API_VERSION`` 设置不再使用。"
 
 #: ../../admin/upgrade.rst:249
 msgid "Django 3.2 is now required."
@@ -19139,7 +19147,7 @@ msgstr "从 4.8 升级到 4.9"
 msgid ""
 "There is a change in storing metrics, the upgrade can take long time on "
 "larger sites."
-msgstr ""
+msgstr "存储指标有变化，在较大的站点上升级可能需要很长时间。"
 
 #: ../../admin/upgrade.rst:274
 msgid "Upgrade from 4.9 to 4.10"
@@ -19149,7 +19157,7 @@ msgstr "从 4.9 升级到 4.10"
 msgid ""
 "There is a change in per-project groups, the upgrade can take long time on "
 "sites with thousands of projects."
-msgstr ""
+msgstr "每个项目组有一个变化，在有成千上万个项目的网站上，升级可能需要很长的时间。"
 
 #: ../../admin/upgrade.rst:280
 msgid ""
@@ -19157,6 +19165,9 @@ msgid ""
 "incompatible-4.0`. Weblate still supports Django 3.2 for now, in case any of "
 "these are problematic. Most notable changes which might affect Weblate:"
 msgstr ""
+"Django 4.0做了一些不兼容的改动，见 :ref:`django:backwards-incompatible-4.0`。"
+"Weblate目前仍然支持Django 3."
+"2，以防其中有问题。可能影响Weblate的最显著的变化。"
 
 #: ../../admin/upgrade.rst:285
 msgid ""
@@ -19167,11 +19178,11 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr ":setting:`django:CSRF_TRUSTED_ORIGINS`的格式已经改变。"
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
-msgstr ""
+msgstr "Docker 容器现在使用 Django 4.0，有关更改，请参见上文。"
 
 #: ../../admin/upgrade.rst:293
 msgid "Upgrade from 4.10 to 4.11"
@@ -19185,19 +19196,22 @@ msgstr "Weblate 现在需要 Python 3.7 或更新版本。"
 msgid ""
 "The implementation of :ref:`manage-acl` has changed, removing the project "
 "prefix from the group names. This affects API users."
-msgstr ""
+msgstr ":ref:`manage-acl`的实现已经改变，从组名中删除了项目前缀。这影响到了API用户。"
 
 #: ../../admin/upgrade.rst:300
 msgid ""
 "Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for "
 "character set detection."
-msgstr ""
+msgstr "Weblate 现在使用 ``charset-normalizer`` 而不是 ``chardet`` 模块来检测字符集。"
 
 #: ../../admin/upgrade.rst:301
 msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
+"在4.11.1中改变了：在 \n"
+" ``REST_FRAMEWORK`` 设置中有一个变化（删除了 "
+"``DEFAULT_AUTHENTICATION_CLASSES`` ）。"
 
 #: ../../admin/upgrade.rst:306
 msgid "Upgrade from 4.11 to 4.12"
