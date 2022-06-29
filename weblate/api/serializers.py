@@ -974,6 +974,12 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "extra_flags",
         )
 
+    def to_internal_value(self, data):
+        # Allow blank target for untranslated strings
+        if data.get("state") in (0, "0"):
+            self.fields["target"].child.allow_blank = True
+        return super().to_internal_value(data)
+
 
 class NewUnitSerializer(serializers.Serializer):
     def as_kwargs(self, data=None):

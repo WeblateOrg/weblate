@@ -2743,6 +2743,19 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
 
+    def test_untranslate_unit(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Performing update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            request={"state": "0", "target": ""},
+        )
+
     def test_unit_review(self):
         self.component.project.translation_review = True
         self.component.project.save()
