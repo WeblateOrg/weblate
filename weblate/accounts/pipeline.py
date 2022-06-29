@@ -38,7 +38,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.models import User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.requests import request
@@ -146,6 +146,7 @@ def send_validation(strategy, backend, code, partial_token):
     context = {"url": url, "validity": settings.AUTH_TOKEN_VALID // 3600}
 
     template = "activation"
+    user = None
     if session.get("password_reset"):
         template = "reset"
     elif session.get("account_remove"):
@@ -153,10 +154,11 @@ def send_validation(strategy, backend, code, partial_token):
     elif session.get("user_invite"):
         template = "invite"
         context.update(session["invitation_context"])
+        user = User.objects.get(pk=session["social_auth_user"])
 
     # Create audit log, it might be for anonymous at this point for new registrations
     AuditLog.objects.create(
-        strategy.request.user,
+        user,
         strategy.request,
         "sent-email",
         email=code.email,
@@ -391,7 +393,7 @@ def notify_connect(
     """Notify about adding new link."""
     # Adjust possibly pending email confirmation audit logs
     AuditLog.objects.filter(
-        user=get_anonymous(),
+        user=None,
         activity="sent-email",
         params={"email": details["email"]},
     ).update(user=user)

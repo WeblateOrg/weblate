@@ -260,7 +260,7 @@ class AuditLogQuerySet(models.QuerySet):
 class AuditLog(models.Model):
     """User audit log storage."""
 
-    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE, null=True)
     activity = models.CharField(
         max_length=20,
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
@@ -316,7 +316,8 @@ class AuditLog(models.Model):
 
     def should_notify(self):
         return (
-            not self.user.is_bot
+            self.user is not None
+            and not self.user.is_bot
             and self.user.is_active
             and self.activity in NOTIFY_ACTIVITY
         )
