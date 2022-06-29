@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
 "PO-Revision-Date: 2022-06-29 04:39+0000\n"
-"Last-Translator: Eric <alchemillatruth@purelymail.com>\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3343,7 +3343,7 @@ msgid ""
 "services."
 msgstr ""
 "Weblate 的默认设置使用 python-social-auth ，网站上处理新用户注册的一种形式。"
-"确定邮箱后，新用户可以通过使用一种第三方服务来贡献或证实。"
+"确定电子邮箱后，新用户可以通过使用一种第三方服务来贡献或证实。"
 
 #: ../../admin/auth.rst:11
 msgid ""
@@ -16622,6 +16622,8 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
+"Fedora消息集成可以作为一个单独的Python模块 ``weblate-fedora-messaging``."
+"使用。请参阅<https://github.com/WeblateOrg/fedora_messaging/>了解设置说明。"
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -16878,7 +16880,7 @@ msgstr "译者可以在其中找到有关该项目的更多信息的 URL。"
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
-msgstr ""
+msgstr "这是一个必须的参数，除非通过 :setting:`WEBSITE_REQUIRED`关闭。"
 
 #: ../../admin/projects.rst:147
 msgid "Translation instructions"
@@ -16889,7 +16891,8 @@ msgid ""
 "Text describing localization process in the project, and any other "
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
-msgstr ""
+msgstr "描述项目中的本地化过程的文本，以及任何其他对翻译人员有用的信息。Markdown可用"
+"于文本格式化或插入链接。"
 
 #: ../../admin/projects.rst:155
 msgid "Set \"Language-Team\" header"
@@ -17143,7 +17146,7 @@ msgstr ""
 msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
-msgstr ""
+msgstr "对于链接的存储库，这一点不被使用，链接组件的设置适用。"
 
 #: ../../admin/projects.rst:340
 msgid ""
@@ -17454,6 +17457,8 @@ msgid ""
 "enabled it using :ref:`custom-checks` in :ref:`component-check_flags` or :"
 "ref:`additional`."
 msgstr ""
+"强制执行检查并不能自动启用它，你仍然应该使用 :ref:`custom-checks` 在 :ref"
+":`component-check_flags` 或 :ref:`additional` 中启用它。"
 
 #: ../../admin/projects.rst:554
 msgid "Translation license"
@@ -17530,6 +17535,8 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"项目管理员可以添加新的翻译，即使这里是禁用的，只要有可能（要么::ref"
+":`component-new_base`，要么文件格式支持从一个空文件开始）。"
 
 #: ../../admin/projects.rst:595
 msgid ":ref:`adding-translation`, :ref:`new-translations`"
@@ -17544,7 +17551,8 @@ msgid ""
 "Configures whether users in Weblate will be allowed to add new strings and "
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
-msgstr ""
+msgstr "配置Weblate中的用户是否被允许添加新字符串和删除现有字符串。调整这一点以配合你"
+"的本地化工作流程--新字符串应该如何被引入。"
 
 #: ../../admin/projects.rst:609
 msgid ""
@@ -17554,13 +17562,18 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"对于双语格式，字符串通常是从源代码中提取的（例如通过使用 :program:`xgettext`"
+"），在Weblate中添加新的字符串应该被禁用（下次更新翻译文件时，它们会被丢弃）。"
+"在Weblate中，你可以为每个翻译管理字符串，但它并不强制要求所有翻译中的字符串都"
+"是一致的。"
 
 #: ../../admin/projects.rst:615
 msgid ""
 "For monolingual formats, the strings are managed only on source language and "
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
-msgstr ""
+msgstr "对于单语格式，字符串只在源语言上管理，并在翻译中自动添加或删除。一旦翻译完毕"
+"，这些字符串就会出现在翻译文件中。"
 
 #: ../../admin/projects.rst:621
 msgid ""
@@ -17606,7 +17619,8 @@ msgstr "变基"
 msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
-msgstr ""
+msgstr "在更新时，将Weblate的提交重新放在上游版本库之上。这提供了干净的历史，没有额外"
+"的合并提交。"
 
 #: ../../admin/projects.rst:651
 msgid ""
@@ -17619,6 +17633,8 @@ msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"你可能需要通过选择 :ref:`vcs-git-force-push`作为 :ref:`component-"
+"vcs`来启用强制推送，特别是在推送到不同的分支时。"
 
 #: ../../admin/projects.rst:660
 msgid "Merge"
@@ -17629,7 +17645,8 @@ msgid ""
 "Upstream repository changes are merged into Weblate one. This setting "
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
-msgstr ""
+msgstr "上游存储库更改合并到 Weblate 之一。 此设置尽可能使用快进。 "
+"这是最安全的方式，但可能会产生大量合并提交。"
 
 #: ../../admin/projects.rst:665
 msgid "Merge without fast-forward"
@@ -17641,6 +17658,8 @@ msgid ""
 "commit every time (even when fast-forward would be possible). Every Weblate "
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
+"上游版本库的修改会被合并到Weblate版本库中，每次都要做一次合并提交（即使是在可"
+"以快进的时候）。每一个Weblate的修改都会在Weblate版本库中显示为合并提交。"
 
 #: ../../admin/projects.rst:667
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -17704,7 +17723,7 @@ msgstr "可以通过 :setting:`COMMIT_PENDING_HOURS` 更改默认值。"
 msgid ""
 "There are other situations where pending changes might be committed, see :"
 "ref:`lazy-commit`."
-msgstr ""
+msgstr "还有一些情况下，待定的修改可能会被提交，见 :ref:`lazy-commit`。"
 
 #: ../../admin/projects.rst:717
 msgid "Lock on error"
@@ -17868,6 +17887,9 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"在组件或组件列表级别限制访问，会接管对组件的访问权限，而不考虑项目级别的权限"
+"。你必须明确地授予它访问权。这可以通过授予一个新的用户组并将用户放入其中，"
+"或者使用默认的 \"自定义 \"或 \"私人 \"访问控制组来实现。"
 
 #: ../../admin/projects.rst:812
 msgid ""
@@ -17915,13 +17937,13 @@ msgstr ""
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
-msgstr ""
+msgstr "词汇表将可以在所有由 :ref:`component-links`定义的项目中访问。"
 
 #: ../../admin/projects.rst:846
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
-msgstr ""
+msgstr "建议在词汇表上启用 :ref:`component-manage_units`，以允许向其添加新词。"
 
 #: ../../admin/projects.rst:851
 msgid ":ref:`glossary`"
@@ -17933,7 +17955,7 @@ msgstr "术语表颜色"
 
 #: ../../admin/projects.rst:858
 msgid "Display color for a glossary used when showing word matches."
-msgstr ""
+msgstr "显示词汇表的颜色，在显示单词匹配时使用。"
 
 #: ../../admin/projects.rst:863
 msgid "Template markup"
@@ -18345,11 +18367,11 @@ msgstr "您实例的 SSH 公钥"
 
 #: ../../admin/support.rst:35
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
-msgstr ""
+msgstr "此外，当 :ref:`discover-weblate`被打开时。"
 
 #: ../../admin/support.rst:37
 msgid "List of public projects (name, URL and website)"
-msgstr ""
+msgstr "公共项目列表（名称、网址和网站）"
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
