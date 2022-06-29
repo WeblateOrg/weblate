@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-28 13:20+0000\n"
-"Last-Translator: Eric <alchemillatruth@purelymail.com>\n"
+"PO-Revision-Date: 2022-06-29 01:35+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3343,7 +3343,7 @@ msgid ""
 "services."
 msgstr ""
 "Weblate 的默认设置使用 python-social-auth ，网站上处理新用户注册的一种形式。"
-"确定电子邮箱后，新用户可以通过使用一种第三方服务来贡献或证实。"
+"确定邮箱后，新用户可以通过使用一种第三方服务来贡献或证实。"
 
 #: ../../admin/auth.rst:11
 msgid ""
@@ -3405,9 +3405,9 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"Weblate 默认依赖于第三方身份验证服务来提供合法的电子邮箱地址。如果想要使用的"
-"一些服务不支持，请通过为其配置 FORCE_EMAIL_VALIDATION ，来强制 Weblate 网站上"
-"的电子邮箱验证："
+"Weblate 默认依赖于第三方身份验证服务来提供合法的邮箱地址。如果想要使用的一些"
+"服务不支持，请通过为其配置 FORCE_EMAIL_VALIDATION ，来强制 Weblate "
+"网站上的邮箱验证："
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -3656,8 +3656,8 @@ msgid ""
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
 "通过从 :setting:`django:AUTHENTICATION_BACKENDS` 删除 ``social_core.backends."
-"email.EmailAuth`` ，可以关闭电子邮箱和密码身份验证。总是将 ``weblate."
-"accounts.auth.WeblateUserBackend`` 保留在那里，它用于 Weblate 核心功能。"
+"email.EmailAuth`` ，可以关闭邮箱和密码身份验证。总是将 ``weblate.accounts."
+"auth.WeblateUserBackend`` 保留在那里，它用于 Weblate 核心功能。"
 
 #: ../../admin/auth.rst:351
 msgid ""
@@ -3805,7 +3805,7 @@ msgstr "``urn:oid:2.5.4.4``"
 
 #: ../../admin/auth.rst:459
 msgid "E-mail"
-msgstr "电子邮箱"
+msgstr "邮箱"
 
 #: ../../admin/auth.rst:459
 msgid "``urn:oid:0.9.2342.19200300.100.1.3``"
@@ -3918,9 +3918,8 @@ msgid ""
 "Step one is disclosing the e-mail field of the user via CAS. This has to be "
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
-msgstr ""
-"第一步通过 CAS 揭示了用户电子邮箱字段。这必须在 CAS 服务器自身来配置，并需要"
-"至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
+msgstr "第一步通过 CAS 揭示了用户邮箱字段。这必须在 CAS 服务器自身来配置，"
+"并需要至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
 
 #: ../../admin/auth.rst:613
 msgid "Step two is updating Weblate to use your CAS server and attributes."
@@ -3945,9 +3944,9 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
-"最后，可以使用信号将电子邮箱字段投射到用户对象上。为了生效，必须将信号从 "
-"`django-cas-ng` 软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可"
-"能产生问题，这样建议将它放进去："
+"最后，可以使用信号将邮箱字段投射到用户对象上。为了生效，必须将信号从 `django-"
+"cas-ng` 软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可能产生问"
+"题，这样建议将它放进去："
 
 #: ../../admin/auth.rst:644
 msgid ""
@@ -6420,7 +6419,7 @@ msgstr "``\"from\"``"
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
-msgstr "发件人为:mailheader:`From`, 你的电子邮箱服务器需要允许发送此类邮件。"
+msgstr "发件人为:mailheader:`From`, 你的邮箱服务器需要允许发送此类邮件。"
 
 #: ../../admin/config.rst:396
 msgid "DATA_DIR"
@@ -7582,7 +7581,7 @@ msgstr ""
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
-msgstr "如果打开，CAPTCHA 会添加到用户输入其电子邮箱地址的所有页面中："
+msgstr "如果打开，CAPTCHA 会添加到用户输入其邮箱地址的所有页面中："
 
 #: ../../admin/config.rst:1440
 msgid "New account registration."
@@ -7594,7 +7593,7 @@ msgstr "找回密码。"
 
 #: ../../admin/config.rst:1442
 msgid "Adding e-mail to an account."
-msgstr "将电子邮箱地址添加到账户中。"
+msgstr "将邮箱地址添加到账户中。"
 
 #: ../../admin/config.rst:1443
 msgid "Contact form for users that are not signed in."
@@ -7606,15 +7605,15 @@ msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1452
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr "允许你筛选哪个电子邮箱地址可以注册。"
+msgstr "允许你筛选哪个邮箱地址可以注册。"
 
 #: ../../admin/config.rst:1454
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
-msgstr "默认为 ``.*`` ，允许使用任何电子邮箱地址注册。"
+msgstr "默认为 ``.*`` ，允许使用任何邮箱地址注册。"
 
 #: ../../admin/config.rst:1456
 msgid "You can use it to restrict registration to a single e-mail domain:"
-msgstr "可以用它限制注册到单一的电子邮箱域名："
+msgstr "可以用它限制注册到单一的邮箱域名："
 
 #: ../../admin/config.rst:1465
 msgid "REGISTRATION_OPEN"
@@ -7634,8 +7633,8 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
-"这个设置影响了内建的通过电子邮箱地址或通过 Python Social Auth 的身份验证（ 可"
-"以使用 :setting:`REGISTRATION_ALLOW_BACKENDS` 为适当的后端建立白名单）。"
+"这个设置影响了内建的通过邮箱地址或通过 Python Social Auth 的身份验证（ "
+"可以使用 :setting:`REGISTRATION_ALLOW_BACKENDS` 为适当的后端建立白名单）。"
 
 #: ../../admin/config.rst:1476
 msgid ""
@@ -7742,7 +7741,7 @@ msgstr "SITE_DOMAIN"
 msgid ""
 "Configures site domain. This is necessary to produce correct absolute links "
 "in many scopes (for example activation e-mails, notifications or RSS feeds)."
-msgstr "配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活电子邮箱、"
+msgstr "配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活邮箱、"
 "通知或 RSS 订阅源）。"
 
 #: ../../admin/config.rst:1562
@@ -10022,8 +10021,9 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"对于任何生产服务器禁止这项。允许调试模式时， Django 会在出错的情况下向用户显"
-"示回溯信息，当禁止时，错误将每封电子邮箱发送到 ``ADMINS`` （请参见上面）。"
+"对于任何生产服务器禁止这项。允许调试模式时， Django "
+"会在出错的情况下向用户显示回溯信息，当禁止时，错误将每封邮箱发送到 ``ADMINS``"
+" （请参见上面）。"
 
 #: ../../admin/install.rst:693
 msgid ""
@@ -10043,7 +10043,7 @@ msgstr "``DEFAULT_FROM_EMAIL``"
 #: ../../admin/install.rst:705
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
-msgstr "用于发送电子邮件的电子邮件发件人地址，例如注册电子邮箱。"
+msgstr "用于发送邮件的邮件发件人地址，例如注册邮箱。"
 
 #: ../../admin/install.rst:709
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
@@ -10073,7 +10073,7 @@ msgstr "``SERVER_EMAIL``"
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
-msgstr "用作向管理员发送电子邮件的发送者地址的电子邮箱，例如通知失败的合并。"
+msgstr "用作向管理员发送邮件的发送者地址的邮箱，例如通知失败的合并。"
 
 #: ../../admin/install.rst:731
 msgid ":setting:`django:SERVER_EMAIL`"
@@ -12317,7 +12317,8 @@ msgstr "配置速率限制器。"
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
-msgstr ""
+msgstr "你可以为任何速率限制器的范围设置配置。要做到这一点，请在 :ref:`rate-"
+"limit'中描述的任何设置中添加`WEBLATE_`前缀。"
 
 #: ../../admin/install/docker.rst:820
 msgid ""
@@ -12371,7 +12372,8 @@ msgstr "自动建议服务现在在用户界面进行配置，见 :ref:`machine-
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
-msgstr ""
+msgstr "现有的环境变量在迁移到Weblate 4."
+"13时被导入，但改变它们不会有任何进一步的影响。"
 
 #: ../../admin/install/docker.rst:879
 msgid "Authentication settings"
@@ -12527,8 +12529,7 @@ msgstr "其他身份认证设置"
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
-msgstr ""
-"当设置为任何值时禁止电子邮箱身份认证。请参见 :ref:`disable-email-auth`。"
+msgstr "当设置为任何值时禁止邮箱身份认证。请参见 :ref:`disable-email-auth`。"
 
 #: ../../admin/install/docker.rst:1085
 msgid "PostgreSQL database setup"
@@ -12554,7 +12555,7 @@ msgstr "PostgreSQL 密码。"
 msgid ""
 "Path to the file containing the PostgreSQL password. Use as an alternative "
 "to POSTGRES_PASSWORD."
-msgstr ""
+msgstr "包含PostgreSQL密码的文件的路径。用作 POSTGRES_PASSWORD 的替代。"
 
 #: ../../admin/install/docker.rst:1102
 msgid "PostgreSQL username."
@@ -12593,24 +12594,26 @@ msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request (this is the default "
 "behavior)."
-msgstr ""
+msgstr "数据库连接的寿命，以秒为单位的整数。使用0可以在每次请求结束时关闭数据库连接（"
+"这是默认行为）。"
 
 #: ../../admin/install/docker.rst:1133
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
-msgstr ""
+msgstr "启用连接持久性通常会导致更多的数据库开放连接。请在启用前调整你的数据库配置。"
 
 #: ../../admin/install/docker.rst:1145
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
+":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
 #: ../../admin/install/docker.rst:1151
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
-msgstr ""
+msgstr "禁用数据库中的服务器端游标。这在一些:command:`pgbouncer`设置中是必要的。"
 
 #: ../../admin/install/docker.rst:1163
 msgid ""
@@ -12618,6 +12621,9 @@ msgid ""
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursors`"
 msgstr ""
+":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
+"DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
+"cursors`"
 
 #: ../../admin/install/docker.rst:1168
 msgid "Database backup settings"
@@ -12763,7 +12769,7 @@ msgstr ""
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
-msgstr ""
+msgstr "SSL/TLS支持是根据:envvar:`WEBLATE_EMAIL_PORT`自动启用的。"
 
 #: ../../admin/install/docker.rst:1296
 msgid ""
@@ -12925,7 +12931,8 @@ msgid ""
 "Base number of worker processes running in the container. When not set it is "
 "determined automatically on container startup based on number of CPU cores "
 "available."
-msgstr ""
+msgstr "容器中运行的工作者进程的基本数量。如果没有设置，它将在容器启动时根据可用的CPU"
+"核数自动确定。"
 
 #: ../../admin/install/docker.rst:1459
 msgid ""
@@ -12935,6 +12942,10 @@ msgid ""
 "`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use these settings "
 "to fine-tune."
 msgstr ""
+"它被用来确定 :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
+":envvar:`CELERY_MEMORY_OPTIONS`, : envvar:`CELERY_TRANSLATE_OPTIONS`, "
+":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, 和 "
+":envvar:`WEB_WORKERS`。你可以使用这些设置来微调。"
 
 #: ../../admin/install/docker.rst:1472
 msgid ""
@@ -12949,7 +12960,7 @@ msgstr ""
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "默认情况下，并发工作者的数量是基于 :envvar:`WEBLATE_WORKERS`。"
 
 #: ../../admin/install/docker.rst:1487
 msgid ""
@@ -12964,7 +12975,7 @@ msgstr "配置应该执行多少个 uWSGI worker。"
 
 #: ../../admin/install/docker.rst:1494
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "它默认为 :envvar:`WEBLATE_WORKERS`。"
 
 #: ../../admin/install/docker.rst:1505
 msgid ""
@@ -12985,7 +12996,8 @@ msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
-msgstr ""
+msgstr "Celery任务调度器，应该只有一个实例在运行。这个容器也负责数据库结构的迁移，它"
+"应该在其他容器之前启动。"
 
 #: ../../admin/install/docker.rst:1513
 msgid "``celery-backup``"
@@ -12993,7 +13005,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1514
 msgid "Celery worker for backups, only one instance should be running."
-msgstr ""
+msgstr "用于备份的Celery worker，应该只有一个实例在运行。"
 
 #: ../../admin/install/docker.rst:1515
 msgid "``celery-celery``"
@@ -13001,7 +13013,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1516
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "普通的 Celery worker."
 
 #: ../../admin/install/docker.rst:1517
 #, fuzzy
@@ -13080,12 +13092,14 @@ msgid ""
 "static files. Its content is recreated on container startup and the volume "
 "can be mounted using ephemeral filesystem such as `tmpfs`."
 msgstr ""
+"缓存卷被挂载为 :file:`/app/cache`，用于存储静态文件。它的内容在容器启动时被重"
+"新创建，卷可以使用短暂的文件系统（如 `tmpfs` ）挂载。"
 
 #: ../../admin/install/docker.rst:1549
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
-msgstr ""
+msgstr "当手动创建卷时，目录应该由UID 1000拥有，因为那是容器内使用的用户。"
 
 #: ../../admin/install/docker.rst:1554
 msgid ""
@@ -13147,6 +13161,8 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"这种方法也可以用来覆盖Weblate的模板。例如 :ref:`legal`文件可以放在 :file:`/"
+"app/data/python/customize/templates/legal/documents`里。"
 
 #: ../../admin/install/docker.rst:1591
 msgid ""
@@ -13183,7 +13199,8 @@ msgid ""
 "The PostgtreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
-msgstr ""
+msgstr "PostgtreSQL容器使用默认的PostgreSQL配置，它不会有效地利用你的CPU核心或内存。"
+"建议自定义配置以提高性能。"
 
 #: ../../admin/install/docker.rst:1623
 msgid ""
@@ -13191,6 +13208,8 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"配置可以按照https://hub.docker.com/_/postgres \"数据库配置 \"中的描述来调整"
+"。匹配你的环境的配置可以使用https://pgtune.leopard.in.ua/。"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -13263,6 +13282,9 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+":file:`template.yml`适合在OpenShift中运行所有组件。还有 :file:`template-"
+"external-postgresql."
+"yml`，它不启动PostgreSQL服务器，允许你配置外部PostgreSQL服务器。"
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
@@ -13500,18 +13522,19 @@ msgstr "安装包含所有可选依赖项的 Weblate："
 #: ../../admin/install/steps/install-python.rst:31
 msgid ""
 "Please check :ref:`optional-deps` for fine-tuning of optional dependencies."
-msgstr ""
+msgstr "请查看 :ref:`optional-deps` 以了解对可选依赖关系的微调情况。"
 
 #: ../../admin/install/steps/install-python.rst:35
 msgid "On some Linux distributions running Weblate fails with libffi error:"
-msgstr ""
+msgstr "在某些Linux发行版上，运行Weblate会出现libffi错误。"
 
 #: ../../admin/install/steps/install-python.rst:41
 msgid ""
 "This is caused by incompatibility of binary packages distributed via PyPI "
 "with the distribution. To address this, you need to rebuild the package on "
 "your system:"
-msgstr ""
+msgstr "这是由于通过PyPI发布的二进制包与该发行版不兼容造成的。为了解决这个问题，你需"
+"要在你的系统上重建该软件包。"
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
@@ -14062,7 +14085,7 @@ msgstr "Linux 风格"
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation."
-msgstr ""
+msgstr "Linux 使用的语言环境，使用中文和 POSIX 样式符号的遗留代码。"
 
 #: ../../admin/languages.rst:210
 msgid ""
@@ -14160,20 +14183,21 @@ msgstr "配置自动建议"
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "在Weblate 4.13之前，这些服务是在 :ref:`config`中配置的。"
 
 #: ../../admin/machine.rst:10
 msgid ""
 "The support for several machine translation and translation memory services "
 "is built-in. Each service can be turned on by the administrator for whole "
 "site or at the project settings:"
-msgstr ""
+msgstr "内置了对几种机器翻译和翻译记忆服务的支持。每个服务都可以由管理员在整个网站或"
+"项目设置中打开。"
 
 #: ../../admin/machine.rst:18
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
-msgstr ""
+msgstr "它们受到其使用条款的约束，所以确保你被允许以你想要的方式使用它们。"
 
 #: ../../admin/machine.rst:21
 msgid ""
@@ -14191,7 +14215,7 @@ msgstr ":ref:`adding-translation`."
 
 #: ../../admin/machine.rst:31
 msgid "Amagama"
-msgstr ""
+msgstr "Amagama"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -14311,7 +14335,7 @@ msgstr "`Amazon 翻译文档 <https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:93
 msgid "Baidu"
-msgstr ""
+msgstr "百度"
 
 #: ../../admin/machine.rst:97
 msgid "``baidu``"
@@ -14548,6 +14572,11 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
+"`谷歌翻译文档 <https://cloud.google.com/translate/docs>`_, `"
+"在谷歌云上开始认证 <https://cloud.google.com/docs/authentication/getting-"
+"started>`_, `创建谷歌翻译项目 <https://cloud.google.com/appengine/docs/"
+"standard/nodejs/building-app/creating-project>`_, `谷歌云应用引擎位置 "
+"<https://cloud.google.com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -14741,7 +14770,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:344
 msgid "Contact e-mail"
-msgstr "联系电子邮箱"
+msgstr "联系邮箱"
 
 #: ../../admin/machine.rst:346 ../../admin/machine.rst:396
 #, fuzzy
@@ -14759,8 +14788,8 @@ msgid ""
 "requests/day when you provide a contact e-mail address in ``email``. You can "
 "also ask them for more."
 msgstr ""
-"自由匿名使用，当前限制为 100 个请求/天，或者在 ``email`` 中提供电子邮箱联系地"
-"址时限制为 1000 个请求/天。您还可以向他们请求更多。"
+"自由匿名使用，当前限制为 100 个请求/天，或者在 ``email`` "
+"中提供邮箱联系地址时限制为 1000 个请求/天。您还可以向他们请求更多。"
 
 #: ../../admin/machine.rst:361
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
@@ -15104,9 +15133,8 @@ msgstr ""
 msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
-msgstr ""
-"建议的作者电子邮箱地址。这个用户必须在导入前存在（您可以根据需要在管理界面建"
-"立一个）。"
+msgstr "建议的作者邮箱地址。这个用户必须在导入前存在（您可以根据需要在管理界面建立一"
+"个）。"
 
 #: ../../admin/management.rst:102
 msgid "auto_translate"
@@ -15291,7 +15319,7 @@ msgstr "使用给定的姓名而不是 ``admin`` 。"
 
 #: ../../admin/management.rst:264
 msgid "Specify the admin e-mail address."
-msgstr "指定 admin 的电子邮箱地址。"
+msgstr "指定 admin 的邮箱地址。"
 
 #: ../../admin/management.rst:268
 msgid "Specify the admin name (visible)."
@@ -15624,9 +15652,8 @@ msgstr "从 Django auth_users 数据库的 JSON 转储中导入用户。"
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
-msgstr ""
-"使用这个选项可以检查给定文件是否可以被导入，并且报告用户名或电子邮箱地址可能"
-"导致的冲突。"
+msgstr "使用这个选项可以检查给定文件是否可以被导入，并且报告用户名或电子地址可能导致"
+"的冲突。"
 
 #: ../../admin/management.rst:558
 msgid "You can dump users from the existing Django installation using:"
@@ -17320,9 +17347,8 @@ msgstr "源字符串缺陷报告地址"
 msgid ""
 "Email address used for reporting upstream bugs. This address will also "
 "receive notification about any source string comments made in Weblate."
-msgstr ""
-"用于报告上游缺陷的电子邮箱地址。这个地址还会收到在 Weblate 中作出的任何源字符"
-"串评论的通知。"
+msgstr "用于报告上游缺陷的邮箱地址。这个地址还会收到在 Weblate "
+"中作出的任何源字符串评论的通知。"
 
 #: ../../admin/projects.rst:495
 msgid "Allow translation propagation"
@@ -19581,7 +19607,7 @@ msgstr "用户全名"
 
 #: ../../api.rst:260
 msgid "User email"
-msgstr "用户电子邮箱"
+msgstr "用户邮箱"
 
 #: ../../api.rst:262
 msgid "Is user superuser? (optional)"
@@ -19615,7 +19641,7 @@ msgstr "用户的全名"
 
 #: ../../api.rst:277 ../../api.rst:312 ../../api.rst:326
 msgid "email of a user"
-msgstr "用户的电子电子邮箱"
+msgstr "用户的邮箱"
 
 #: ../../api.rst:278 ../../api.rst:313 ../../api.rst:327
 msgid "whether the user is a super user"
@@ -20998,7 +21024,7 @@ msgstr "上传文件"
 
 #: ../../api.rst:1932
 msgid "Author e-mail"
-msgstr "作者电子邮箱"
+msgstr "作者邮箱"
 
 #: ../../api.rst:1933
 msgid "Author name"
@@ -24685,7 +24711,7 @@ msgstr "修复了新建新的语言。"
 
 #: ../../changes.rst:882
 msgid "Avoid sending auditlog notifications to deleted e-mails."
-msgstr "避免了向删除的电子邮箱发送审计日志。"
+msgstr "避免了向删除的邮箱发送审计日志。"
 
 #: ../../changes.rst:883
 msgid "Added support for read-only strings."
@@ -31894,10 +31920,10 @@ msgid ""
 "list is usually the best approach.  This way you can keep an eye on when "
 "problems arise in translation, take care of them, and fix them quickly."
 msgstr ""
-"翻译者可以为翻译和源字符串添加评论。每个 :ref:`component` 都可以配置电子邮箱"
-"地址来接收这类评论（请参见 :ref:`component-report_source_bugs`），并且使用开"
-"发者邮件列表通常是最佳方式。可以以这种方式关注翻译中出现的问题，处理它们，并"
-"迅速修复。"
+"翻译者可以为翻译和源字符串添加评论。每个 :ref:`component` "
+"都可以配置邮箱地址来接收这类评论（请参见 :ref:`component-report_source_bugs`"
+"），并且使用开发者邮件列表通常是最佳方式。可以以这种方式关注翻译中出现的问题"
+"，处理它们，并迅速修复。"
 
 #: ../../devel/review.rst:69
 msgid ":ref:`user-comments`"
