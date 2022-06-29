@@ -118,6 +118,9 @@ class PoExporterTest(BaseTestCase):
     def test_unit_special(self):
         self.check_unit(source="bar\x1e\x1efoo", target="br\x1eff")
 
+    def test_unit_bom(self):
+        self.check_unit(source="For example ￾￾", target="For example ￾￾")
+
     def _encode(self, string):
         return string.encode("utf-8")
 

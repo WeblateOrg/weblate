@@ -19,6 +19,7 @@
 """Exporter using translate-toolkit."""
 
 import re
+from itertools import chain
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -43,7 +44,14 @@ from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
-_CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
+# Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
+XML_REPLACE_CHARMAP = dict.fromkeys(
+    chain(
+        (x for x in range(32) if x not in (9, 10, 13)),
+        [0xFFFE, 0xFFFF],
+        range(0xD800, 0xDFFF + 1),
+    )
+)
 
 DASHES = re.compile("--+")
 
@@ -231,7 +239,7 @@ class PoExporter(BaseExporter):
 
 class XMLFilterMixin:
     def string_filter(self, text):
-        return text.translate(_CHARMAP)
+        return super().string_filter(text).translate(XML_REPLACE_CHARMAP)
 
 
 class XMLExporter(XMLFilterMixin, BaseExporter):
@@ -398,7 +406,7 @@ class CSVExporter(CVSBaseExporter):
         return text
 
 
-class XlsxExporter(CVSBaseExporter):
+class XlsxExporter(XMLFilterMixin, CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"
