@@ -229,7 +229,12 @@ class PoExporter(BaseExporter):
         return store
 
 
-class XMLExporter(BaseExporter):
+class XMLFilterMixin:
+    def string_filter(self, text):
+        return text.translate(_CHARMAP)
+
+
+class XMLExporter(XMLFilterMixin, BaseExporter):
     """Wrapper for XML based exporters to strip control characters."""
 
     def get_storage(self):
@@ -237,9 +242,6 @@ class XMLExporter(BaseExporter):
             sourcelanguage=self.source_language.code,
             targetlanguage=self.language.code,
         )
-
-    def string_filter(self, text):
-        return text.translate(_CHARMAP)
 
     def add(self, unit, word):
         unit.settarget(word, self.language.code)
@@ -429,7 +431,7 @@ class JSONExporter(MonolingualExporter):
     verbose = _("JSON")
 
 
-class AndroidResourceExporter(MonolingualExporter):
+class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
     storage_class = AndroidResourceFile
     name = "aresource"
     content_type = "application/xml"
@@ -440,9 +442,6 @@ class AndroidResourceExporter(MonolingualExporter):
         # Need to have storage to handle plurals
         unit._store = self.storage
         super().add(unit, word)
-
-    def string_filter(self, text):
-        return text.translate(_CHARMAP)
 
     def add_note(self, output, note: str, origin: str):
         # Remove -- from the comment or - at the end as that is not
