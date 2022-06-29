@@ -10,6 +10,7 @@ Not yet released.
 * Fixed DeepL translations behvior with placeholders.
 * Fixed untranslating strings via API.
 * Added support for removing user from a group via API.
+* Fixed audit log for user invitation e-mails.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
 
