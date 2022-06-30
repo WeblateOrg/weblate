@@ -9,6 +9,7 @@ Not yet released.
 * Fixed configuring intermediate file in the discovery add-on.
 * Fixed DeepL translations behvior with placeholders.
 * Fixed untranslating strings via API.
+* Added support for removing user from a group via API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
 
