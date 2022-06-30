@@ -20,7 +20,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from django.utils.html import conditional_escape, escape, format_html, format_html_join
+from django.utils.html import conditional_escape, format_html, format_html_join
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
@@ -279,12 +279,17 @@ def get_counts(request, project=None, component=None):
     )
 
     if form.cleaned_data["style"] == "html":
-        start = HTML_HEADING.format("".join(f"<th>{h}</th>" for h in headers))
+        start = format_html(
+            HTML_HEADING,
+            format_html_join("", "<th>{}</th>", ((header,) for header in headers)),
+        )
         row_start = "<tr>"
         cell_name = cell_count = "<td>{0}</td>\n"
         row_end = "</tr>"
         mime = "text/html"
         end = "</table>"
+        format_html_or_plain = format_html
+        format_html_or_plain_join = format_html_join
     else:
         start = "{0}\n{1} {2}\n{0}".format(
             RST_HEADING,
@@ -297,6 +302,8 @@ def get_counts(request, project=None, component=None):
         row_end = ""
         mime = "text/plain"
         end = RST_HEADING
+        format_html_or_plain = format_plaintext
+        format_html_or_plain_join = format_plaintext_join
 
     result = [start]
 
@@ -304,35 +311,37 @@ def get_counts(request, project=None, component=None):
         if row_start:
             result.append(row_start)
         result.append(
-            "".join(
+            format_html_or_plain_join(
+                "",
+                "{}",
                 (
-                    cell_name.format(escape(item["name"]) or "Anonymous"),
-                    cell_name.format(escape(item["email"]) or ""),
-                    cell_count.format(item["count"]),
-                    cell_count.format(item["edits"]),
-                    cell_count.format(item["words"]),
-                    cell_count.format(item["chars"]),
-                    cell_count.format(item["t_words"]),
-                    cell_count.format(item["t_chars"]),
-                    cell_count.format(item["count_new"]),
-                    cell_count.format(item["edits_new"]),
-                    cell_count.format(item["words_new"]),
-                    cell_count.format(item["chars_new"]),
-                    cell_count.format(item["t_words_new"]),
-                    cell_count.format(item["t_chars_new"]),
-                    cell_count.format(item["count_approve"]),
-                    cell_count.format(item["edits_approve"]),
-                    cell_count.format(item["words_approve"]),
-                    cell_count.format(item["chars_approve"]),
-                    cell_count.format(item["t_words_approve"]),
-                    cell_count.format(item["t_chars_approve"]),
-                    cell_count.format(item["count_edit"]),
-                    cell_count.format(item["edits_edit"]),
-                    cell_count.format(item["words_edit"]),
-                    cell_count.format(item["chars_edit"]),
-                    cell_count.format(item["t_words_edit"]),
-                    cell_count.format(item["t_chars_edit"]),
-                )
+                    (format_html_or_plain(cell_name, item["name"] or "Anonymous"),),
+                    (format_html_or_plain(cell_name, item["email"] or ""),),
+                    (format_html_or_plain(cell_count, item["count"]),),
+                    (format_html_or_plain(cell_count, item["edits"]),),
+                    (format_html_or_plain(cell_count, item["words"]),),
+                    (format_html_or_plain(cell_count, item["chars"]),),
+                    (format_html_or_plain(cell_count, item["t_words"]),),
+                    (format_html_or_plain(cell_count, item["t_chars"]),),
+                    (format_html_or_plain(cell_count, item["count_new"]),),
+                    (format_html_or_plain(cell_count, item["edits_new"]),),
+                    (format_html_or_plain(cell_count, item["words_new"]),),
+                    (format_html_or_plain(cell_count, item["chars_new"]),),
+                    (format_html_or_plain(cell_count, item["t_words_new"]),),
+                    (format_html_or_plain(cell_count, item["t_chars_new"]),),
+                    (format_html_or_plain(cell_count, item["count_approve"]),),
+                    (format_html_or_plain(cell_count, item["edits_approve"]),),
+                    (format_html_or_plain(cell_count, item["words_approve"]),),
+                    (format_html_or_plain(cell_count, item["chars_approve"]),),
+                    (format_html_or_plain(cell_count, item["t_words_approve"]),),
+                    (format_html_or_plain(cell_count, item["t_chars_approve"]),),
+                    (format_html_or_plain(cell_count, item["count_edit"]),),
+                    (format_html_or_plain(cell_count, item["edits_edit"]),),
+                    (format_html_or_plain(cell_count, item["words_edit"]),),
+                    (format_html_or_plain(cell_count, item["chars_edit"]),),
+                    (format_html_or_plain(cell_count, item["t_words_edit"]),),
+                    (format_html_or_plain(cell_count, item["t_chars_edit"]),),
+                ),
             )
         )
         if row_end:
