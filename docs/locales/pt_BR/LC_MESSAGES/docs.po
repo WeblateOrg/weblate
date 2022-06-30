@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-10 22:18+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-07-01 06:22+0000\n"
+"Last-Translator: Leonardo Klein Rezende <leo@ziondev.us>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -1483,15 +1483,6 @@ msgid "Additional access restrictions"
 msgstr "Restrições adicionais de acesso"
 
 #: ../../admin/access.rst:629
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, i."
-#| "e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and set :setting:"
-#| "`REQUIRE_LOGIN` to ``/.*`` to require logging-in to access all the site "
-#| "pages. This is basically the way to lock your Weblate installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1501,23 +1492,17 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"Se você quiser usar a instalação do Weblate de uma maneira menos pública, ou "
-"seja, permitir novos usuários apenas por convite, isso pode ser feito "
-"configurando o Weblate de forma que apenas usuários conhecidos tenham acesso "
-"a ele. Para fazer isso, você pode definir :setting:`REGISTRATION_OPEN` para "
-"``False`` para prevenir registros de quaisquer novos usuários, e definir :"
-"setting:`REQUIRE_LOGIN` para ``/.*`` para exigir login para acessar todas as "
-"páginas do site. Esta é basicamente a forma de bloquear a instalação do "
-"Weblate."
+"Se você quer usar a instalação do Weblate de forma menos pública, ou seja, "
+"permitir novos usuários apenas por convite, isso pode ser feito configurando "
+"o Weblate para que apenas usuários conhecidos tenham acesso a ele. Para "
+"fazer isso, você pode definir :setting:`REGISTRATION_OPEN` para ``False`` "
+"para prevenir registros de quaisquer novos usuários, e definir "
+":setting:`REQUIRE_LOGIN` para ``/.*`` para exigir login para acessar todas "
+"as páginas do site. Assim você terá seu Weblate privado."
 
 #: ../../admin/access.rst:638
-#, fuzzy
-#| msgid ""
-#| "You can use built-in :ref:`invitations <manage-acl>` to add new users."
 msgid "You can use built-in :ref:`invite-user` to add new users."
-msgstr ""
-"Você pode usar os :ref:`convites <manage-acl>` embutidos para adicionar "
-"novos usuários."
+msgstr "Você pode usar :ref:`invite-user` para adicionar novos usuários."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2249
 msgid "Add-ons"
@@ -4141,18 +4126,12 @@ msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
 msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:466
-#, fuzzy
-#| msgid ""
-#| "The example above and the Docker image define an IDP labelled "
-#| "``weblate``. You might need to configure this string as :guilabel:`Relay` "
-#| "in your IDP."
 msgid ""
 "The example above and the Docker image define an IDP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
-"O exemplo acima e a imagem do Docker definem um IDP rotulado como "
-"``weblate``. Você pode precisar configurar este texto como :guilabel:`Relay` "
-"em seu IDP."
+"O exemplo acima e a imagem do Docker definem um IDP chamado``weblate``. Pode "
+"ser preciso configurar esta string como :guilabel:`Relay` em seu IDP."
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -5095,6 +5074,8 @@ msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Aspas simples e duplas são aceitas, e caracteres especiais são tratados com "
+"barra invertida:"
 
 #: ../../admin/checks.rst:47
 msgid "Here is a list of flags currently accepted:"
@@ -8716,22 +8697,16 @@ msgid "The default list already has the common formats."
 msgstr "A lista padrão já tem os formatos comuns."
 
 #: ../../admin/config.rst:1864
-#, fuzzy
-#| msgid "WEBLATE_ADDONS"
 msgid "WEBLATE_MACHINERY"
-msgstr "WEBLATE_ADDONS"
+msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:1868
-#, fuzzy
-#| msgid "List of file formats available for use."
 msgid "List of machinery services available for use."
-msgstr "Lista de formatos de arquivo disponíveis para uso."
+msgstr "Lista de serviços de tradução disponíveis para uso."
 
 #: ../../admin/config.rst:1872
-#, fuzzy
-#| msgid ":doc:`/admin/addons`"
 msgid ":doc:`/admin/machine`"
-msgstr ":doc:`/admin/addons`"
+msgstr ":doc:`/admin/machine`"
 
 #: ../../admin/config.rst:1877
 msgid "WEBLATE_GPG_IDENTITY"
@@ -10090,10 +10065,8 @@ msgid "https://pypi.org/project/ruamel.yaml/"
 msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:105
-#, fuzzy
-#| msgid "``Zeep`` (optional for :ref:`ms-terminology`)"
 msgid "``Zeep`` (optional for :ref:`mt-microsoft-terminology`)"
-msgstr "``Zeep`` (opcional para :ref:`ms-terminology`)"
+msgstr "``Zeep`` (opcional para :ref:`mt-microsoft-terminology`)"
 
 #: ../../admin/install.rst:106
 msgid "https://docs.python-zeep.org/"
@@ -12128,19 +12101,14 @@ msgstr ""
 "falhas, recomenda-se ajustar a configuração para ir :ref:`collecting-errors`."
 
 #: ../../admin/install.rst:1549
-#, fuzzy
-#| msgid ""
-#| ":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, :"
-#| "doc:`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :"
-#| "djadmin:`celery_queues`"
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 msgstr ""
-":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, :doc:"
-"`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:"
-"`celery_queues`"
+":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
+"configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 
 #: ../../admin/install.rst:1560
 msgid "Monitoring Weblate"
@@ -12165,12 +12133,12 @@ msgstr ""
 "get:`/api/metrics/` da API."
 
 #: ../../admin/install.rst:1569
-#, fuzzy
-#| msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
-msgstr "`Plugin do Weblate para Munin <https://github.com/WeblateOrg/munin>`_"
+msgstr ""
+":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Plugin do Weblate para "
+"Munin <https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1576
 msgid "Collecting error reports"
@@ -13425,28 +13393,24 @@ msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgstr "Configura :setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:866
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Automatic suggestion settings"
-msgstr "Sugestões automáticas"
+msgstr "Configurações de sugestões automáticas"
 
 #: ../../admin/install/docker.rst:870
-#, fuzzy
-#| msgid ""
-#| "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-"
-#| "translation`."
 msgid ""
 "Automatic suggestion services are now configured in the user interface, see :"
 "ref:`machine-translation-setup`."
 msgstr ""
-"Mostra a aba :guilabel:`Sugestões automáticas`, consulte :ref:`machine-"
-"translation`."
+"Serviços de sugestões automáticas agora são configurados na interface de "
+"usuário, consulte :ref:`machine-translation-setup`."
 
 #: ../../admin/install/docker.rst:873
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
+"As variáveis de ambiente atuais são importadas durante a migração para o "
+"Weblate 4.13, mas alterá-las não surtirá nenhum efeito."
 
 #: ../../admin/install/docker.rst:879
 msgid "Authentication settings"
@@ -15423,15 +15387,13 @@ msgstr ""
 "projetos públicos na instância a partir de seu perfil:"
 
 #: ../../admin/machine.rst:4
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configuring automatic suggestions"
-msgstr "Usar sugestões automáticas"
+msgstr "Configurando sugestões automáticas"
 
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "Antes do Weblate 4.13, os serviços eram configurados no :ref:`config`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -15439,12 +15401,17 @@ msgid ""
 "is built-in. Each service can be turned on by the administrator for whole "
 "site or at the project settings:"
 msgstr ""
+"O suporte para vários mecanismos de tradução e serviços de memória de "
+"tradução (Translation Memory) é integrado. Cada serviço pode ser ativado "
+"pelo administrador para todo o site ou nas configurações do projeto:"
 
 #: ../../admin/machine.rst:18
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Eles estão sujeitos aos seus termos de uso, então certifique-se de ter "
+"permissão para usá-los."
 
 #: ../../admin/machine.rst:21
 #, fuzzy
@@ -15466,13 +15433,11 @@ msgstr "Tradução de máquina"
 
 #: ../../admin/machine.rst:31
 msgid "Amagama"
-msgstr ""
+msgstr "amaGama"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "Service"
 msgid "Service ID"
-msgstr "Serviço"
+msgstr "ID do serviço"
 
 #: ../../admin/machine.rst:33
 msgid "``amagama``"
@@ -15481,19 +15446,14 @@ msgstr ""
 #: ../../admin/machine.rst:34 ../../admin/machine.rst:165
 #: ../../admin/machine.rst:254 ../../admin/machine.rst:465
 #: ../../admin/machine.rst:480
-#, fuzzy
-#| msgid "`This add-on has no configuration.`"
 msgid "`This service has no configuration.`"
-msgstr "`Esta extensão não tem configuração.`"
+msgstr "`Este serviço não tem configuração.`"
 
 #: ../../admin/machine.rst:36
-#, fuzzy
-#| msgid ""
-#| "Special installation of :ref:`tmserver` run by the authors of Virtaal."
 msgid ""
 "Special installation of :ref:`mt-tmserver` run by the authors of Virtaal."
 msgstr ""
-"Instalação especial do :ref:`tmserver` executado pelos autores do Virtaal."
+"Instalação especial do :ref:`mt-tmserver` executado pelos autores do Virtaal."
 
 #: ../../admin/machine.rst:40
 msgid ""
@@ -15504,10 +15464,8 @@ msgstr ""
 "amaGama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:48
-#, fuzzy
-#| msgid "Apertium"
 msgid "Apertium APy"
-msgstr "Apertium"
+msgstr "Apertium APy"
 
 #: ../../admin/machine.rst:50
 msgid "``apertium-apy``"
@@ -15535,17 +15493,12 @@ msgstr ""
 "Apertium-APy."
 
 #: ../../admin/machine.rst:62
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/"
-#| ">`_, `Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-"
-#| "apy>`_"
 msgid ""
 "`Apertium website <https://www.apertium.org/>`_, `Apertium APy documentation "
 "<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
-":setting:`MT_APERTIUM_APY`, `Site do Apertium <https://www.apertium.org/>`_, "
-"`Documentação do Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
+"`Site do Apertium <https://www.apertium.org/>`_, `Documentação do Apertium "
+"APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:70
 msgid "AWS"
@@ -15600,14 +15553,10 @@ msgstr ""
 "textos de e para o inglês em uma variedade de idiomas compatíveis."
 
 #: ../../admin/machine.rst:88
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
 msgstr ""
-"`Documentação sobre volumes do Docker <https://docs.docker.com/storage/"
-"volumes/>`_"
+"`Documentação do Amazon Translate <https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:93
 msgid "Baidu"
@@ -15620,12 +15569,12 @@ msgstr ""
 #: ../../admin/machine.rst:99 ../../admin/machine.rst:372
 #: ../../admin/machine.rst:514
 msgid "Client ID"
-msgstr "Client ID"
+msgstr "ID do cliente"
 
 #: ../../admin/machine.rst:101 ../../admin/machine.rst:374
 #: ../../admin/machine.rst:516
 msgid "Client secret"
-msgstr "Client secret"
+msgstr "Chave secreta"
 
 #: ../../admin/machine.rst:104
 msgid "Machine translation service provided by Baidu."
@@ -15640,15 +15589,11 @@ msgstr ""
 "Baidu para usá-lo."
 
 #: ../../admin/machine.rst:110
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
-#| "<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgid ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
-":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `API de tradução do Baidu "
-"<https://api.fanyi.baidu.com/api/trans/product/index>`_"
+"`API de tradução do Baidu <https://api.fanyi.baidu.com/api/trans/product/"
+"index>`_"
 
 #: ../../admin/machine.rst:115
 msgid "DeepL"
@@ -15663,7 +15608,7 @@ msgstr ""
 #: ../../admin/machine.rst:330 ../../admin/machine.rst:348
 #: ../../admin/machine.rst:394 ../../admin/machine.rst:493
 msgid "API key"
-msgstr "Chave de API"
+msgstr "Chave da API"
 
 #: ../../admin/machine.rst:126
 msgid ""
@@ -15748,18 +15693,13 @@ msgstr ""
 "\"Bonjour\", você tem a URL correta; se não, tente os outros três."
 
 #: ../../admin/machine.rst:155
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
-#| "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-#| "`DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgid ""
 "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl."
 "com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgstr ""
-":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `Site do DeepL "
-"<https://www.deepl.com/>`_, `Preços do DeepL <https://www.deepl.com/pro>`_, "
-"`Documentação do DeepL <https://www.deepl.com/docs-api.html>`_"
+"`Site do DeepL <https://www.deepl.com/>`_, `Preços do DeepL <https://www."
+"deepl.com/pro>`_, `Documentação do DeepL <https://www.deepl.com/docs-api."
+"html>`_"
 
 #: ../../admin/machine.rst:162
 msgid "Glosbe"
@@ -15814,21 +15754,14 @@ msgstr ""
 "API e ativar a cobrança no console da API do Google."
 
 #: ../../admin/machine.rst:194
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
-#| "google.com/translate/docs>`_"
 msgid ""
 "`Google translate documentation <https://cloud.google.com/translate/docs>`_"
 msgstr ""
-":setting:`MT_GOOGLE_KEY`, `Documentação do Google Tradutor <https://cloud."
-"google.com/translate/docs>`_"
+"`Documentação do Google Tradutor <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:199
-#, fuzzy
-#| msgid "Google Translate"
 msgid "Google Translate API v3"
-msgstr "Google Tradutor"
+msgstr "Google Tradutor API v3"
 
 #: ../../admin/machine.rst:201
 #, fuzzy
@@ -15844,7 +15777,7 @@ msgstr "``component:TEXTO``"
 
 #: ../../admin/machine.rst:203
 msgid "Google Translate service account info"
-msgstr "Informações da conta de serviço do Google Tradutor"
+msgstr "Informações do serviço de contas do Google Tradutor"
 
 #: ../../admin/machine.rst:205
 #, fuzzy
@@ -15854,7 +15787,7 @@ msgstr "``project:TEXTO``"
 
 #: ../../admin/machine.rst:205
 msgid "Google Translate project"
-msgstr "Projeto Google Translate"
+msgstr "Projeto do Google Tradutor"
 
 #: ../../admin/machine.rst:207
 #, fuzzy
@@ -15864,7 +15797,7 @@ msgstr "``location:TEXTO``"
 
 #: ../../admin/machine.rst:207
 msgid "Google Translate location"
-msgstr "Localização do Google Translate"
+msgstr "Regionalização do Google Tradutor"
 
 #: ../../admin/machine.rst:210
 msgid "Machine translation service provided by Google Cloud services."
@@ -15880,6 +15813,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
+"`Documentação do Google Translate <https://cloud.google.com/translate/docs>`"
+"_, `Primeiros passos com autenticação Google Cloud <https://cloud.google.com/"
+"docs/authentication/getting-started>`_, `Criando um projeto Google Translate "
+"<https://cloud.google.com/appengine/docs/standard/nodejs/building-app/"
+"creating-project>`_, `Regiões do Google Cloud App Engine <https://cloud."
+"google.com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -15911,30 +15850,20 @@ msgid "Requires an API key to use outside of the website."
 msgstr "Requer uma chave de API para usar fora do website."
 
 #: ../../admin/machine.rst:242
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_LIBRETRANSLATE_KEY`, :setting:`MT_LIBRETRANSLATE_API_URL`, "
-#| "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
-#| "repository <https://github.com/LibreTranslate/LibreTranslate>`_, "
-#| "`LibreTranslate mirrors <https://github.com/LibreTranslate/"
-#| "LibreTranslate#user-content-mirrors>`_"
 msgid ""
 "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
 "repository <https://github.com/LibreTranslate/LibreTranslate>`_, "
 "`LibreTranslate mirrors <https://github.com/LibreTranslate/"
 "LibreTranslate#user-content-mirrors>`_"
 msgstr ""
-":setting:`MT_LIBRETRANSLATE_KEY`, :setting:`MT_LIBRETRANSLATE_API_URL`, "
 "`Website do LibreTranslate <https://libretranslate.com/>`_, `Repositório do "
-"LibreTranslate <https://github.com/LibreTranslate/LibreTranslate>`_, "
-"`Espelhos do LibreTranslate <https://github.com/LibreTranslate/"
-"LibreTranslate#user-content-mirrors>`_"
+"LibreTranslate <https://github.com/LibreTranslate/LibreTranslate>`_, `"
+"Espelhos do LibreTranslate <https://github.com/LibreTranslate/LibreTranslate"
+"#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:249
-#, fuzzy
-#| msgid "Microsoft Terminology Service"
 msgid "Microsoft Terminology"
-msgstr "Serviço de Terminologia Microsoft"
+msgstr ""
 
 #: ../../admin/machine.rst:253
 #, fuzzy
@@ -15978,7 +15907,7 @@ msgstr "``url``"
 
 #: ../../admin/machine.rst:276
 msgid "Application endpoint URL"
-msgstr "URL do endpoint do aplicativo"
+msgstr "URL do endpoint da aplicação"
 
 #: ../../admin/machine.rst:278
 #, fuzzy
@@ -15988,39 +15917,23 @@ msgstr "``url``"
 
 #: ../../admin/machine.rst:278
 msgid "Application base URL"
-msgstr "URL base do aplicativo"
+msgstr "URL base da aplicação"
 
 #: ../../admin/machine.rst:280
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
-msgstr ""
-"O padrão é ``api.cognitive.microsofttranslator.com`` para o Azure Global."
+msgstr "``api.cognitive.microsofttranslator.com`` -- Global (não-regional)"
 
 #: ../../admin/machine.rst:282
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific"
-msgstr ""
-"O padrão é ``api.cognitive.microsofttranslator.com`` para o Azure Global."
+msgstr "``api-apc.cognitive.microsofttranslator.com`` -- Ásia Pacífico"
 
 #: ../../admin/machine.rst:284
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
-msgstr ""
-"O padrão é ``api.cognitive.microsofttranslator.com`` para o Azure Global."
+msgstr "``api-eur.cognitive.microsofttranslator.com`` -- Europa"
 
 #: ../../admin/machine.rst:286
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgid "``api-nam.cognitive.microsofttranslator.com`` -- North America"
-msgstr ""
-"O padrão é ``api.cognitive.microsofttranslator.com`` para o Azure Global."
+msgstr "``api-nam.cognitive.microsofttranslator.com`` -- América do Norte"
 
 #: ../../admin/machine.rst:288
 msgid "``api.translator.azure.cn`` -- China"
@@ -16028,7 +15941,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:290
 msgid "Application region"
-msgstr "Região do aplicativo"
+msgstr "Região da aplicação"
 
 #: ../../admin/machine.rst:293
 msgid ""
@@ -16056,18 +15969,13 @@ msgid "Translator Text API V3"
 msgstr "API V3 de texto do Tradutor"
 
 #: ../../admin/machine.rst:304
-#, fuzzy
-#| msgid ""
-#| "You need to register at Azure portal and use the key you obtain there. "
-#| "With new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` "
-#| "to locale of your service."
 msgid ""
 "You need to register at Azure portal and use the key you obtain there. With "
 "new Azure keys, you also need to set ``region`` to locale of your service."
 msgstr ""
 "Você precisa se registrar no portal do Azure e usar a chave obtida lá. Com "
-"as novas chaves do Azure, você também precisa definir :setting:"
-"`MT_MICROSOFT_REGION` para a localidade do seu serviço."
+"as novas chaves do Azure, você também precisa definir ``region`` para a "
+"região do seu serviço."
 
 #: ../../admin/machine.rst:309
 msgid "For Azure China, please use your endpoint from the Azure Portal."
@@ -16096,14 +16004,8 @@ msgid "``modernmt``"
 msgstr ""
 
 #: ../../admin/machine.rst:335
-#, fuzzy
-#| msgid ""
-#| "`ModernMT API <https://www.modernmt.com/api/#translation>`_, :setting:"
-#| "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_,"
-msgstr ""
-"`API do ModernMT <https://www.modernmt.com/api/#translation>`_, :setting:"
-"`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
+msgstr "`API do ModernMT <https://www.modernmt.com/api/#translation>`_,"
 
 #: ../../admin/machine.rst:340 ../../changes.rst:2030
 msgid "MyMemory"
@@ -16134,11 +16036,6 @@ msgid "Huge translation memory with machine translation."
 msgstr "Grande memória de tradução com tradução de máquina."
 
 #: ../../admin/machine.rst:354
-#, fuzzy
-#| msgid ""
-#| "Free, anonymous usage is currently limited to 100 requests/day, or to "
-#| "1000 requests/day when you provide a contact e-mail address in :setting:"
-#| "`MT_MYMEMORY_EMAIL`. You can also ask them for more."
 msgid ""
 "Free, anonymous usage is currently limited to 100 requests/day, or to 1000 "
 "requests/day when you provide a contact e-mail address in ``email``. You can "
@@ -16146,13 +16043,11 @@ msgid ""
 msgstr ""
 "O uso gratuito e anônimo está atualmente limitado a 100 solicitações/dia ou "
 "a 1000 solicitações/dia quando você fornece um endereço de e-mail de contato "
-"em :setting:`MT_MYMEMORY_EMAIL`. Você também pode pedir mais."
+"em``email``. Você também pode solicitar mais."
 
 #: ../../admin/machine.rst:361
-#, fuzzy
-#| msgid "`Glosbe website <https://glosbe.com/>`_"
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
-msgstr "`Site do Glosbe <https://glosbe.com/>`_"
+msgstr "`Site do MyMemory <https://mymemory.translated.net/>`_"
 
 #: ../../admin/machine.rst:366
 msgid "Netease Sight"
@@ -16174,14 +16069,8 @@ msgstr ""
 "NetEase."
 
 #: ../../admin/machine.rst:383
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
-#| "Translation Platform <https://sight.youdao.com/>`_"
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
-msgstr ""
-":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Plataforma de "
-"Tradução NetEase Sight <https://sight.youdao.com/>`_"
+msgstr "`Plataforma de Tradução NetEase Sight <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:388
 msgid "SAP Translation Hub"
@@ -16230,26 +16119,16 @@ msgstr ""
 "Cloud Platform) para usar este serviço."
 
 #: ../../admin/machine.rst:408
-#, fuzzy
-#| msgid ""
-#| "Whether to also use machine translation services, in addition to the term "
-#| "database. Possible values: ``True`` or ``False``"
 msgid ""
 "You can also configure whether to also use machine translation services, in "
 "addition to the term database."
 msgstr ""
-"Se deve também usar serviços de tradução de máquina, além do banco de dados "
-"de termos. Possíveis valores: ``True`` ou ``False``"
+"Você também pode configurar se deseja utilizar serviços de tradução "
+"automática, além do base de dados de termos."
 
 #: ../../admin/machine.rst:413
-#, fuzzy
-#| msgid ""
-#| "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` "
-#| "and :setting:`MT_SAP_SANDBOX_APIKEY`."
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
-msgstr ""
-"Para acessar a API Sandbox, você precisa definir :setting:`MT_SAP_BASE_URL` "
-"e :setting:`MT_SAP_SANDBOX_APIKEY`."
+msgstr "Para acessar a API Sandbox, você precisa definir ``url`` e ``key``."
 
 #: ../../admin/machine.rst:416
 msgid ""
@@ -16258,19 +16137,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:420
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-#| "`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` "
-#| "`SAP Translation Hub API <https://api.sap.com/shell/discover/"
-#| "contentpackage/SAPTranslationHub/api/translationhub>`_"
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 msgstr ""
-":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-"`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` `SAP "
-"Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
+"`API SAP Translation Hub <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 
 #: ../../admin/machine.rst:425
@@ -16310,18 +16181,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:454
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` :ref:`amagama:"
-#| "installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory "
-#| "<https://amagama.translatehouse.org/>`_"
 msgid ""
 ":doc:`tt:commands/tmserver` :ref:`amagama:installation`, :doc:`virtaal:"
 "amagama`, `Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
-":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` :ref:`amagama:"
-"installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory <https://"
-"amagama.translatehouse.org/>`_"
+":doc:`tt:commands/tmserver` :ref:`amagama:installation`, "
+":doc:`virtaal:amagama`, `Memória de Tradução Amagama <https://amagama."
+"translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:462 ../../../README.rst:None
 msgid "Weblate"
@@ -16384,17 +16250,12 @@ msgstr ""
 "da Yandex."
 
 #: ../../admin/machine.rst:502
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
-#| "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/"
-#| ">`_"
 msgid ""
 "`Yandex Translate API <https://yandex.com/dev/translate/>`_, `Powered by "
 "Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
-":setting:`MT_YANDEX_KEY`, `API do Yandex Translate <https://yandex.com/dev/"
-"translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
+"`API do Yandex Tradutor<https://yandex.com/dev/translate/>`_, `Fornecido por "
+"Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:508
 msgid "Youdao Zhiyun"
@@ -16417,17 +16278,12 @@ msgstr ""
 "Youdao."
 
 #: ../../admin/machine.rst:525
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun "
-#| "Natural Language Translation Service <https://ai.youdao.com/product-fanyi-"
-#| "text.s>`_"
 msgid ""
 "`Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/"
 "product-fanyi-text.s>`_"
 msgstr ""
-":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
-"Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
+"`Youdao Zhiyun Serviço de Tradução de Linguagem Natural <https://ai.youdao."
+"com/product-fanyi-text.s>`_"
 
 #: ../../admin/machine.rst:528
 msgid "Custom machine translation"
@@ -16445,16 +16301,12 @@ msgstr ""
 "``dictionary``:"
 
 #: ../../admin/machine.rst:537
-#, fuzzy
-#| msgid ""
-#| "You can list your own class in :setting:`MT_SERVICES` and Weblate will "
-#| "start using that."
 msgid ""
 "You can list your own class in :setting:`WEBLATE_MACHINERY` and Weblate will "
 "start using that."
 msgstr ""
-"Você pode listar sua própria classe em :setting:`MT_SERVICES` e o Weblate "
-"vai começar a usar isso."
+"Você pode listar sua própria classe em :setting:`WEBLATE_MACHINERY` e o "
+"Weblate irá utilizá-la."
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -17468,15 +17320,11 @@ msgstr ""
 "ou :ref:`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/memory.rst:21
-#, fuzzy
-#| msgid ""
-#| "For installation tips, see :ref:`weblate-translation-memory`, which is "
-#| "turned on by default."
 msgid ""
 "For installation tips, see :ref:`mt-weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
-"Para dicas de instalação, veja :ref:`weblate-translation-memory`, que está "
+"Para dicas de instalação, veja :ref:`mt-weblate-translation-memory`, que é "
 "ativado por padrão."
 
 #: ../../admin/memory.rst:28
