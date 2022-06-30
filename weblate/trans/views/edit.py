@@ -191,7 +191,7 @@ def get_other_units(unit):
     return result
 
 
-def cleanup_session(session):
+def cleanup_session(session, delete_all: bool = False):
     """Delete old search results from session storage."""
     now = int(time.monotonic())
     keys = list(session.keys())
@@ -199,7 +199,12 @@ def cleanup_session(session):
         if not key.startswith("search_"):
             continue
         value = session[key]
-        if not isinstance(value, dict) or value["ttl"] < now or "items" not in value:
+        if (
+            delete_all
+            or not isinstance(value, dict)
+            or value["ttl"] < now
+            or "items" not in value
+        ):
             del session[key]
 
 
@@ -988,6 +993,8 @@ def delete_unit(request, unit_id):
         unit.translation.component.update_import_alerts(delete=False)
         messages.error(request, _("Failed to remove the string: %s") % error)
         return redirect(unit)
+    # Remove cached search results as we've just removed one of the unit there
+    cleanup_session(request.session, delete_all=True)
     return redirect(unit.translation)
 
 
