@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-29 12:45+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2022-06-30 02:55+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -20355,7 +20355,7 @@ msgstr "在给定的项目中新建翻译部件。"
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
-msgstr ""
+msgstr "当从一个版本控制系统（VCS）仓库创建多个组件时使用 :ref:`internal-urls`。"
 
 #: ../../api.rst:972
 msgid ""
@@ -20375,7 +20375,7 @@ msgstr "要翻译的文档"
 
 #: ../../api.rst:980
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
-msgstr ""
+msgstr "禁用通过 :ref:`internal-urls`自动共享仓库。"
 
 #: ../../api.rst:981
 msgid ""
@@ -20399,6 +20399,8 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"使用``zipfile`` 上传文件时无法使用 JSON 和``docfile``参数数据必须以 "
+":mimetype:`multipart/form-data`的形式上传。"
 
 #: ../../api.rst:988
 msgid "**CURL form request example:**"
@@ -20410,11 +20412,11 @@ msgstr "**CURL JSON 请求的示例：**"
 
 #: ../../api.rst:1021
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**从 Git 创建新部件的 JSON 请求:**"
 
 #: ../../api.rst:1044
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**JSON 请求从另一个部件创建新组件:**"
 
 #: ../../api.rst:1113
 msgid "Returns paginated statistics for all languages within a project."
@@ -20720,13 +20722,13 @@ msgstr ""
 msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
-msgstr ""
+msgstr "使用请求的格式将与部件关联的所有可用翻译作为存档文件下载。"
 
 #: ../../api.rst:1395
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip``"
-msgstr ""
+msgstr "要使用的存档格式；如果未指定,默认为 ``zip``;支持的格式: ``zip``"
 
 #: ../../api.rst:1396
 msgid "Filter downloaded strings, see :ref:`search`."
@@ -21023,7 +21025,7 @@ msgstr "翻译单元的名称（用作键或上下文）"
 
 #: ../../api.rst:1874
 msgid "Source strings (use single string if not creating plural)"
-msgstr ""
+msgstr "源字符串（如果不创建复数则使用单个字符串）"
 
 #: ../../api.rst:1875
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
@@ -21162,6 +21164,10 @@ msgid ""
 "org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
 "base.TranslationUnit>`_ and XLIFF."
 msgstr ""
+"`unit`是翻译的一个单件它将一个源字符串与一个相应的翻译字符串配对，还包含一些"
+"相关的元数据。该术语源自`Translate Toolkit <http://docs.translatehouse.org/"
+"projects/translate-toolkit/en/latest/api/storage.html#translate.storage.base."
+"TranslationUnit>`_ 和XLIFF。"
 
 #: ../../api.rst:2015
 msgid "Returns list of translation units."
@@ -21573,7 +21579,7 @@ msgstr "取消部件与部件列表的关联。"
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
-msgstr ""
+msgstr "术语表现在存储为常规部件,翻译和字符串请改用相应的 API。"
 
 #: ../../api.rst:2388
 msgid "Tasks"
@@ -21609,11 +21615,11 @@ msgstr "任务日志"
 
 #: ../../api.rst:2408
 msgid "Metrics"
-msgstr ""
+msgstr "指标"
 
 #: ../../api.rst:2412
 msgid "Returns server metrics."
-msgstr ""
+msgstr "返回服务器指标。"
 
 #: ../../api.rst:2414
 msgid "Number of units"
@@ -21821,6 +21827,8 @@ msgid ""
 "Please make sure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"请确保 :guilabel:`Resource details to "
+"send`设置为*All*，否则Weblate将无法匹配你的Azure资源库。"
 
 #: ../../api.rst:2539
 msgid "For instruction on setting up Azure integration"
@@ -21961,7 +21969,7 @@ msgstr "为项目列表添加了分页。"
 #: ../../changes.rst:8
 msgid ""
 "API for creating new units now returns information about newly created unit."
-msgstr ""
+msgstr "用于创建新单元的 API 现在返回有关新创建单元的信息。"
 
 #: ../../changes.rst:9
 msgid "Component discovery now supports configuring an intermediate language."
@@ -21969,13 +21977,13 @@ msgstr "部件发现现在支持配置中间语言。"
 
 #: ../../changes.rst:10
 msgid "Added fixed encoding variants to CSV formats."
-msgstr ""
+msgstr "为CSV格式增加了修复编码变体。"
 
 #: ../../changes.rst:11
 msgid ""
 "Changed handling of context and location for some formats to better fit "
 "underlying implementation."
-msgstr ""
+msgstr "改变了对某些格式的上下文和位置的处理以更好地适应底层实现。"
 
 #: ../../changes.rst:12
 msgid "Added support for ResourceDictionary format."
@@ -22003,7 +22011,7 @@ msgstr "改进了占位符检查错误的格式化。"
 
 #: ../../changes.rst:18
 msgid "Redirect /.well-known/change-password to /accounts/password/."
-msgstr ""
+msgstr "将 /.well-known/change-password 重定向到 /accounts/password/."
 
 #: ../../changes.rst:19
 msgid "Machine translation services are now configurable per project."
@@ -22039,7 +22047,7 @@ msgstr "修复了添加新语言时可能丢失翻译的问题。"
 
 #: ../../changes.rst:31
 msgid "Ensure Weblate SSH key is generated during migrations."
-msgstr ""
+msgstr "确保在迁移过程中生成Weblate SSH密钥。"
 
 #: ../../changes.rst:33
 msgid ""
@@ -22109,7 +22117,7 @@ msgstr "扩展了 :ref:`addon-weblate.generate.pseudolocale` 附加组件的选�
 #: ../../changes.rst:56
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
-msgstr ""
+msgstr "添加 ``ignore-all-checks`` 标记以忽略对字符串的所有质量检查。"
 
 #: ../../changes.rst:57
 msgid ""
@@ -22145,7 +22153,7 @@ msgstr "使合并请求说明可在部件层次上进行配置。"
 
 #: ../../changes.rst:64
 msgid "Improved maximal length restriction behavior with XML tags."
-msgstr ""
+msgstr "改进了XML标签的最大长度限制行为。"
 
 #: ../../changes.rst:65
 msgid "Fixed loading Fluent files with additional comments."
@@ -22189,6 +22197,9 @@ msgid ""
 "see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/"
 "advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgstr ""
+"修复了对 Git 和 Mercurial 缺少的参数清理 - "
+"CVE-2022-23915，有关更多详细信息，请参阅`GHSA-3872-f48p-pxqj <https://github."
+"com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_"
 
 #: ../../changes.rst:84
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -22228,6 +22239,9 @@ msgid ""
 "com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more "
 "details."
 msgstr ""
+"修复了存储的 XSS - CVE-2022-24710，有关更多详细信息,请参阅`GHSA-6jp6-9rf9-"
+"gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-"
+"6jp6-9rf9-gc66>`_"
 
 #: ../../changes.rst:97
 msgid "Fixed add-on installation using API."
@@ -22250,7 +22264,7 @@ msgstr "在其它的出现位置清单上指示锁定状态和贡献者协议。
 
 #: ../../changes.rst:101
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
-msgstr ""
+msgstr "修复了更新带有过时字符串或缺少复数形式的 PO 文件。"
 
 #: ../../changes.rst:102 ../../changes.rst:229
 msgid "Improved squash add-on compatibility with Gerrit."
@@ -22260,7 +22274,7 @@ msgstr "改进了挤压附加组件与 Gerrit 的兼容性。"
 msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
-msgstr ""
+msgstr "根据 :http:header:`Accept-Language`标头，自动选择用户语言。"
 
 #: ../../changes.rst:104
 msgid "Improved error handling on string removal."
@@ -22280,7 +22294,7 @@ msgstr "跟踪来自代码库的字符串更改。"
 
 #: ../../changes.rst:109
 msgid "Sticky header on translations listing to improve navigation."
-msgstr ""
+msgstr "翻译列表上的粘性标头以改善导航。"
 
 #: ../../changes.rst:110
 msgid "Fixed untranslating strings in :ref:`javaprop`."
