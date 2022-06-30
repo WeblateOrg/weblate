@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
-"PO-Revision-Date: 2022-06-30 02:55+0000\n"
-"Last-Translator: YFdyh000 <yfdyh000@gmail.com>\n"
+"PO-Revision-Date: 2022-07-01 00:31+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -322,9 +322,8 @@ msgid ""
 "If the invited user missed the validity of the invitation, they can set "
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
-msgstr ""
-"如果被邀请的用户错过了邀请的有效性，则可以在密码重置表单中使用被邀请的电子邮"
-"件地址设置密码，因为已经创建了帐户。"
+msgstr "如果被邀请的用户错过了邀请的有效性，则可以在密码重置表单中使用被邀请的电子邮"
+"箱地址设置密码，因为已经创建了帐户。"
 
 #: ../../admin/access.rst:155
 msgid ""
@@ -814,9 +813,10 @@ msgid ""
 "to automatically assign newly created users to a group based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"在 :ref:`Django 管理界面 <admin-interface>` 的 :guilabel:`群组` 编辑页面的底"
-"部，可以指定 :guilabel:`自动群组分配`，这是一个正则表达式列表，用于根据他们的"
-"电子邮件地址自动将新创建的用户分配到群组。 此分配仅在创建帐户时发生。"
+"在 :ref:`Django 管理界面 <admin-interface>` 的 :guilabel:`群组` "
+"编辑页面的底部，可以指定 :guilabel:`自动群组分配`，这是一个正则表达式列表，用"
+"于根据他们的电子邮箱地址自动将新创建的用户分配到群组。 "
+"此分配仅在创建帐户时发生。"
 
 #: ../../admin/access.rst:417
 msgid ""
@@ -830,8 +830,8 @@ msgid ""
 msgstr ""
 "该功能最常见的用例是将所有新用户分配到某个默认群组。为此，您可能希望在正则表"
 "达式字段中保留默认值（``^.*$``）。此选项的另一个用例可能是默认为您公司的员工"
-"提供一些额外的权限。假设他们都使用您域中的公司电子邮件地址，这可以通过像 ``^."
-"*@mycompany.com`` 这样的表达式来完成。"
+"提供一些额外的权限。假设他们都使用您域中的公司电子邮箱地址，这可以通过像 "
+"``^.*@mycompany.com`` 这样的表达式来完成。"
 
 #: ../../admin/access.rst:426
 msgid ""
@@ -1629,7 +1629,7 @@ msgstr "从 HTML 文件中提取字符串"
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
-msgstr "当前存储库或远程 URL 中要解析可翻译字符串的文件名列表。"
+msgstr "当前仓库或远程 URL 中要解析可翻译字符串的文件名列表。"
 
 #: ../../admin/addons.rst:97
 msgid "daily, repository post-commit, repository post-update"
@@ -1908,7 +1908,7 @@ msgstr "代码库更新后"
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
-msgstr "根据版本控制系统中文件更改的情况来自动添加或删除项目部件。"
+msgstr "根据版本控制系统（VCS）中文件更改的情况来自动添加或删除项目部件。"
 
 #: ../../admin/addons.rst:207
 msgid ""
@@ -1949,9 +1949,9 @@ msgid ""
 msgstr ""
 "组件发现附加组件使用 :ref:`internal-urls`。 "
 "这是在多个组件之间共享版本控制系统（VCS） 设置的便捷方式。 "
-"链接的组件使用主要组件的本地存储库，通过将 ``weblate://project/main-"
-"component`` 填入 :ref:`component-repo` 字段（在 :guilabel:`Manage` ↓ "
-":guilabel: 各个组件的`设置` ↓ :guilabel:`版本控制系统`)。 "
+"链接的组件使用主要组件的本地仓库，通过将 ``weblate://project/main-component``"
+" 填入 :ref:`component-repo` 字段（在 :guilabel:`Manage` ↓ :guilabel: "
+"各个组件的`设置` ↓ :guilabel:`版本控制系统`)。 "
 "这也节省了配置和系统资源的时间。"
 
 #: ../../admin/addons.rst:232 ../../admin/addons.rst:391
@@ -2599,9 +2599,8 @@ msgstr ""
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the add-on configuration."
-msgstr ""
-"每当从上游存储库中提取新的更改时都会被触发。多数 msgmerge 命令行选项可通过附"
-"加组件配置进行设置。"
+msgstr "每当从上游仓库中提取新的更改时都会被触发。多数 msgmerge "
+"命令行选项可通过附加组件配置进行设置。"
 
 #: ../../admin/addons.rst:599
 msgid "Squash Git commits"
@@ -2650,9 +2649,9 @@ msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"尾注行是类似于 RFC 822 电子邮件标头的行，位于提交说明的其他自由格式部分的末"
-"尾，例如 “Co-authored-by…”。"
+msgstr "尾注行是类似于 RFC 822 "
+"电子邮件标头的行，位于提交说明的其他自由格式部分的末尾，例如 “Co-authored-"
+"by…”。"
 
 #: ../../admin/addons.rst:615
 #, fuzzy
@@ -3069,7 +3068,7 @@ msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:896
 msgid "Post-update repository processing"
-msgstr "更新后存储库处理"
+msgstr "更新后仓库处理"
 
 #: ../../admin/addons.rst:898
 msgid ""
@@ -3092,7 +3091,7 @@ msgstr "翻译的预提交处理"
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
-msgstr "在将翻译提交到存储库之前，使用 commit 脚本自动更改翻译。"
+msgstr "在将翻译提交到仓库之前，使用 commit 脚本自动更改翻译。"
 
 #: ../../admin/addons.rst:917
 msgid ""
@@ -3425,8 +3424,8 @@ msgid ""
 msgstr ""
 "启用单独的后端非常简单，只需在 :setting:`django:AUTHENTICATION_BACKENDS` 设置"
 "中添加一个条目（可能还需要添加特定认证方法所需的密钥）。请注意，一些后端默认"
-"不提供用户电子邮件，你必须明确地请求，否则 Weblate 将无法正确记入用户所做的贡"
-"献。"
+"不提供用户电子邮件，你必须明确地请求，否则 Weblate "
+"将无法正确记入用户所做的贡献。"
 
 #: ../../admin/auth.rst:62
 msgid ""
@@ -3664,8 +3663,7 @@ msgstr ""
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
-msgstr ""
-"禁用电子邮件身份验证将禁用所有电子邮件相关的功能 - 用户邀请或密码重置功能。"
+msgstr "禁用电子邮件身份验证将禁用所有电子邮件相关的功能 - 用户邀请或密码重置功能。"
 
 #: ../../admin/auth.rst:356
 msgid ""
@@ -4495,9 +4493,10 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
-"版本控制存储库包含带有 Weblate 更改的上游存储库的副本。如果你对所有翻译部件启"
-"用了:ref:`component-push_on_commit``，那么所有 Weblate 变化都包括在上游。不需"
-"要在 Weblate 端备份存储库，因为它们可以从上游位置再次克隆，不会丢失数据。"
+"版本控制仓库包含带有 Weblate "
+"更改的上游仓库的副本。如果你对所有翻译部件启用了:ref:`component-"
+"push_on_commit``，那么所有 Weblate 变化都包括在上游。不需要在 Weblate "
+"端备份仓库，因为它们可以从上游位置再次克隆，不会丢失数据。"
 
 #: ../../admin/backup.rst:291
 msgid "SSH and GPG keys"
@@ -4542,8 +4541,8 @@ msgid ""
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
 "Celery 任务队列可能会包含一些信息，但通常无需进行备份。你最多会丢失尚未被翻译"
-"记忆库处理的更新。无论如何，建议在恢复时执行全文或存储库更新，这样就不会有丢"
-"失这些内容的问题。"
+"记忆库处理的更新。无论如何，建议在恢复时执行全文或仓库更新，这样就不会有丢失"
+"这些内容的问题。"
 
 #: ../../admin/backup.rst:316
 msgid ":ref:`celery`"
@@ -5969,8 +5968,8 @@ msgstr "登录。删除账户密码，防止用户不请求新的密码而登录
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
-msgstr ""
-"密码重置。防止发出新的电子邮件，避免向用户发出太多密码重置尝试的垃圾邮件。"
+msgstr "密码重置。防止发出新的电子邮件，避免向用户发出太多密码重置尝试的垃圾电子邮件"
+"。"
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
@@ -6085,8 +6084,7 @@ msgid ""
 "How long the authentication token and temporary password from password reset "
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
-msgstr ""
-"身份验证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 "
+msgstr "身份验证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 "
 "172800（ 2 天）。"
 
 #: ../../admin/config.rst:141
@@ -6400,8 +6398,8 @@ msgstr "CONTACT_FORM"
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
-msgstr ""
-"配置来自联系表单的电子邮件的发送方式。选择与您的邮件服务器配置相匹配的配置。"
+msgstr "配置来自联系表单的电子邮件的发送方式。选择与您的电子邮件服务器配置相匹配的配"
+"置。"
 
 #: ../../admin/config.rst:387
 msgid "``\"reply-to\"``"
@@ -6421,7 +6419,7 @@ msgstr "``\"from\"``"
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
-msgstr "发件人为:mailheader:`From`, 你的电子邮箱服务器需要允许发送此类邮件。"
+msgstr "发件人为:mailheader:`From`, 你的电子邮箱服务器需要允许发送此类电子邮件。"
 
 #: ../../admin/config.rst:396
 msgid "DATA_DIR"
@@ -6692,7 +6690,7 @@ msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:574
 msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
-msgstr "提交者电子邮件地址默认为 ``noreply@weblate.org`` 。"
+msgstr "提交者电子邮箱地址默认为 ``noreply@weblate.org`` 。"
 
 #: ../../admin/config.rst:578
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
@@ -6823,9 +6821,8 @@ msgstr "ENABLE_HTTPS"
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
-msgstr ""
-"将链接作为 HTTPS 还是 HTTP 发送给 Weblate。这个设置影响发送电子邮件，并产生绝"
-"对 URL。"
+msgstr "将链接作为 HTTPS 还是 HTTP 发送给 Weblate。这个设置影响发送电子邮件，"
+"并产生绝对 URL。"
 
 #: ../../admin/config.rst:693
 msgid ""
@@ -8193,8 +8190,7 @@ msgstr "执行 :djadmin:`updategit` （选择项目，或 ``--all`` 来更新全
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
-msgstr ""
-"每当Weblate更新存储库时，更新后附加组件都将被触发，请参见： :ref:`addons` 。"
+msgstr "每当Weblate更新仓库时，更新后附加组件都将被触发，请参见： :ref:`addons` 。"
 
 #: ../../admin/continuous.rst:75
 msgid "Avoiding merge conflicts"
@@ -9803,9 +9799,8 @@ msgid ""
 "Weblate sends out e-mails on various occasions - for account activation and "
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
-msgstr ""
-"Weblate 在各种情况下会发出电子邮件——用于激活账户，以及用户配置的各种通知。对"
-"于这些需要访问 SMTP 服务器。"
+msgstr "Weblate 在各种情况下会发出电子邮件——用于激活账户，以及用户配置的各种通知。"
+"对于这些需要访问 SMTP 服务器。"
 
 #: ../../admin/install.rst:532
 msgid ""
@@ -9815,11 +9810,11 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
-"邮件服务器使用这些设置进行配置: :setting:`django:EMAIL_HOST`, :setting:"
-"`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, :setting:"
-"`django:EMAIL_USE_SSL`, :setting:`django:EMAIL_HOST_USER` and :setting:"
-"`django:EMAIL_PORT`。从名称就可以大概知道它们的含义，但是你可以在Django 文档"
-"中找到更多信息。"
+"电子邮件服务器使用这些设置进行配置: :setting:`django:EMAIL_HOST`, "
+":setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`, :setting:`django:EMAIL_HOST_USER` and "
+":setting:`django:EMAIL_PORT`。从名称就可以大概知道它们的含义，"
+"但是你可以在Django 文档中找到更多信息。"
 
 #: ../../admin/install.rst:541
 msgid ""
@@ -10024,8 +10019,8 @@ msgid ""
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
 "对于任何生产服务器禁止这项。允许调试模式时， Django "
-"会在出错的情况下向用户显示回溯信息，当禁止时，错误将每封邮件发送到 ``ADMINS``"
-" （请参见上面）。"
+"会在出错的情况下向用户显示回溯信息，当禁止时，错误将每封电子邮件发送到 "
+"``ADMINS`` （请参见上面）。"
 
 #: ../../admin/install.rst:693
 msgid ""
@@ -10045,7 +10040,7 @@ msgstr "``DEFAULT_FROM_EMAIL``"
 #: ../../admin/install.rst:705
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
-msgstr "用于发送邮件的邮件发件人地址，例如注册电子邮箱。"
+msgstr "用于发送电子邮件的电子邮件发件人地址，例如注册电子邮箱。"
 
 #: ../../admin/install.rst:709
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
@@ -10075,7 +10070,7 @@ msgstr "``SERVER_EMAIL``"
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
-msgstr "用作向管理员发送邮件的发送者地址的电子邮箱，例如通知失败的合并。"
+msgstr "用作向管理员发送电子邮件的发送者地址的电子邮箱，例如通知失败的合并。"
 
 #: ../../admin/install.rst:731
 msgid ":setting:`django:SERVER_EMAIL`"
@@ -10175,9 +10170,8 @@ msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to defining "
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
-msgstr ""
-"将正确的管理地址设置到 :setting:`ADMINS` 设置中，来确定服务器出现一些故障时谁"
-"接收电子邮件，例如："
+msgstr "将正确的管理地址设置到 :setting:`ADMINS` "
+"设置中，来确定服务器出现一些故障时谁接收电子邮件，例如："
 
 #: ../../admin/install.rst:816
 msgid "Set correct site domain"
@@ -10189,8 +10183,8 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
-"在管理界面调整网站名称和域名，否则 RSS 中的链接或注册电子邮件地址将不工作。这"
-"使用 :setting:`SITE_DOMAIN` 来配置，它应该包含网站域名。"
+"在管理界面调整网站名称和域名，否则 RSS 中的链接或注册电子邮箱地址将不工作。"
+"这使用 :setting:`SITE_DOMAIN` 来配置，它应该包含网站域名。"
 
 #: ../../admin/install.rst:824
 msgid ""
@@ -10357,8 +10351,8 @@ msgid ""
 "for example:"
 msgstr ""
 "Weblate 需要在几种情况下发送电子邮件，这些电子邮件应具有正确的发送者地址，请"
-"配置:setting:`SERVER_EMAIL` 和 :setting:`DEFAULT_FROM_EMAIL`，与你的环境匹"
-"配，例如："
+"配置:setting:`SERVER_EMAIL` 和 "
+":setting:`DEFAULT_FROM_EMAIL`，与你的环境匹配，例如："
 
 #: ../../admin/install.rst:987
 msgid ""
@@ -11401,7 +11395,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
-msgstr "克隆 weblate-docker 存储库："
+msgstr "克隆 weblate-docker 仓库："
 
 #: ../../admin/install/docker.rst:25
 msgid ""
@@ -11857,9 +11851,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
-"您可以在 ``docker-compose`` 存储库中找到示例设置，如 `docker-compose-"
-"split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
-"compose-split.yml>`__ 。"
+"您可以在 ``docker-compose`` 仓库中找到示例设置，如 `docker-compose-split.yml "
+"<https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-split."
+"yml>`__ 。"
 
 #: ../../admin/install/docker.rst:365
 msgid "Docker environment variables"
@@ -11971,7 +11965,7 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
 #: ../../admin/install/docker.rst:465
 msgid "The email address that error messages are sent from."
-msgstr "发送错误消息的电子邮件地址。"
+msgstr "发送错误消息的电子邮箱地址。"
 
 #: ../../admin/install/docker.rst:469
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
@@ -12034,8 +12028,8 @@ msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
-"让 Weblate 假定在反向 HTTPS 代理后面操作，这使 Weblate 在电子邮件和 API 链接"
-"中使用 HTTPS ，或者在 cookies 上设置安全标记。"
+"让 Weblate 假定在反向 HTTPS 代理后面操作，这使 Weblate 在电子邮件和 API "
+"链接中使用 HTTPS ，或者在 cookies 上设置安全标记。"
 
 #: ../../admin/install/docker.rst:551
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
@@ -12697,7 +12691,7 @@ msgstr "电子邮件服务器设置"
 
 #: ../../admin/install/docker.rst:1221
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr "要使外发电子邮件正常工作，您需要提供一个邮件服务器。"
+msgstr "要使外发电子邮件正常工作，您需要提供一个电子邮件服务器。"
 
 #: ../../admin/install/docker.rst:1223
 msgid "Example TLS configuration:"
@@ -12713,7 +12707,7 @@ msgstr ":ref:`out-mail`"
 
 #: ../../admin/install/docker.rst:1249
 msgid "Mail server hostname or IP address."
-msgstr "邮件服务器主机名或 IP 地址。"
+msgstr "电子邮件服务器主机名或 IP 地址。"
 
 #: ../../admin/install/docker.rst:1253
 msgid ""
@@ -12725,7 +12719,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1260
 msgid "Mail server port, defaults to 25."
-msgstr "邮件服务器端口，默认为 25。"
+msgstr "电子邮件服务器端口，默认为 25。"
 
 #: ../../admin/install/docker.rst:1262
 msgid ":setting:`django:EMAIL_PORT`"
@@ -12763,9 +12757,9 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
-"与 SMTP 服务器通信时是否使用隐式 TLS（安全）连接。在大多数电子邮件文档中，这"
-"种 TLS 连接类型称为 SSL。通常在端口 465 上使用。如果遇到问题，请参阅显式 TLS "
-"设置 :envvar:`WEBLATE_EMAIL_USE_TLS`。"
+"与 SMTP 服务器通信时是否使用隐式 TLS（安全）连接。在大多数电子邮件文档中，"
+"这种 TLS 连接类型称为 SSL。通常在端口 465 上使用。如果遇到问题，请参阅显式 "
+"TLS 设置 :envvar:`WEBLATE_EMAIL_USE_TLS`。"
 
 #: ../../admin/install/docker.rst:1291 ../../admin/install/docker.rst:1309
 msgid ""
@@ -16158,9 +16152,9 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"对存储库的受限制的访问（使用 `Private` :ref:`access control <acl>` 或在 :"
-"setting:`REQUIRE_LOGIN` 处于启用状态时）需要一个 API 令牌，获取位置在你的 :"
-"ref:`用户个人资料 <user-profile>`:"
+"对仓库的受限制的访问（使用 `Private` :ref:`access control <acl>` 或在 "
+":setting:`REQUIRE_LOGIN` 处于启用状态时）需要一个 API 令牌，获取位置在你的 "
+":ref:`用户个人资料 <user-profile>`:"
 
 #: ../../admin/optionals.rst:55
 msgid ""
@@ -16316,7 +16310,7 @@ msgid ""
 "`ENABLE_AVATARS`."
 msgstr ""
 "头像在服务器端下载并缓存，来减少对默认服务的网站的泄露。通过为其配置的电子邮"
-"件地址来取回头像的内建支持，可以使用 :setting:`ENABLE_AVATARS` 来关闭。"
+"箱地址来取回头像的内建支持，可以使用 :setting:`ENABLE_AVATARS` 来关闭。"
 
 #: ../../admin/optionals.rst:175
 msgid "Weblate currently supports:"
@@ -16340,7 +16334,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:189
 msgid "Spam protection"
-msgstr "针对垃圾邮件的保护"
+msgstr "针对垃圾电子邮件的保护"
 
 #: ../../admin/optionals.rst:191
 msgid ""
@@ -16984,9 +16978,9 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
-"将翻译导入到Weblate时定义语言代码映射。当您的存储库中的语言代码不一致，并且您"
-"希望在Weblate中获得一致的视图，或者如果您想使用翻译文件的非标准命名时，可以使"
-"用此方法。"
+"将翻译导入到Weblate时定义语言代码映射。当您的仓库中的语言代码不一致，并且您希"
+"望在Weblate中获得一致的视图，或者如果您想使用翻译文件的非标准命名时，可以使用"
+"此方法。"
 
 #: ../../admin/projects.rst:230
 msgid ""
@@ -17098,7 +17092,7 @@ msgstr "部件所属的 :ref:`project`。"
 
 #: ../../admin/projects.rst:302
 msgid "Version control system"
-msgstr "版本控制系统"
+msgstr "版本控制系统（VCS）"
 
 #: ../../admin/projects.rst:304
 msgid "VCS to use, see :ref:`vcs` for details."
@@ -17147,7 +17141,7 @@ msgstr ""
 msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
-msgstr "对于链接的存储库，这一点不被使用，链接组件的设置适用。"
+msgstr "对于链接的仓库，这一点不被使用，链接部件的设置适用。"
 
 #: ../../admin/projects.rst:340
 msgid ""
@@ -17166,9 +17160,8 @@ msgid ""
 "URL of repository browser used to display source files (location of used "
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
-msgstr ""
-"用于显示源文件（所用消息的位置）的存储库浏览器的 URL。此处为空时，将不生成这"
-"样的链接。你可以使用 :ref:`markup`。"
+msgstr "用于显示源文件（所用消息的位置）的仓库浏览器的 "
+"URL。此处为空时，将不生成这样的链接。你可以使用 :ref:`markup`。"
 
 #: ../../admin/projects.rst:351
 msgid ""
@@ -17495,9 +17488,8 @@ msgid ""
 "User can select desired language and the project maintainers will receive a "
 "notification about this. It is up to them to add (or not) the language to "
 "the repository."
-msgstr ""
-"用户可以选择所需的语言，项目维护者将收到相关通知。由项目维护者来决定是否将该"
-"语言添加到存储库中。"
+msgstr "用户可以选择所需的语言，项目维护者将收到相关通知。由项目维护者来决定是否将该"
+"语言添加到仓库中。"
 
 #: ../../admin/projects.rst:579
 msgid "Point to translation instructions URL"
@@ -17646,7 +17638,7 @@ msgid ""
 "Upstream repository changes are merged into Weblate one. This setting "
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
-msgstr "上游存储库更改合并到 Weblate 之一。 此设置尽可能使用快进。 "
+msgstr "上游仓库更改合并到 Weblate 之一。 此设置尽可能使用快进。 "
 "这是最安全的方式，但可能会产生大量合并提交。"
 
 #: ../../admin/projects.rst:665
@@ -18948,9 +18940,8 @@ msgstr ""
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
-msgstr ""
-"用户数据库上的用户名和电子邮件字段现在应该不因为大小写敏感而不同。它之前错误"
-"地没有被 PostgreSQL 强制。"
+msgstr "用户数据库上的用户名和电子邮件字段现在应该不因为大小写敏感而不同。"
+"它之前错误地没有被 PostgreSQL 强制。"
 
 #: ../../admin/upgrade.rst:167
 msgid "Upgrade from 4.2 to 4.3"
@@ -22273,7 +22264,7 @@ msgstr "改进了挤压附加组件与 Gerrit 的兼容性。"
 msgid ""
 "Automatically initialize user languages based on the :http:header:`Accept-"
 "Language` header."
-msgstr "根据 :http:header:`Accept-Language`标头，自动选择用户语言。"
+msgstr "根据 :http:header:`Accept-Language`标头自动选择用户语言。"
 
 #: ../../changes.rst:104
 msgid "Improved error handling on string removal."
@@ -22301,7 +22292,7 @@ msgstr "修复了不翻译 :ref:`javaprop` 中的字符串的问题。"
 
 #: ../../changes.rst:111
 msgid "Fixed Git operation with non-ascii branch names."
-msgstr ""
+msgstr "修复了具有非 ASCII 分支名称的 Git 操作。"
 
 #: ../../changes.rst:112
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
@@ -22329,7 +22320,8 @@ msgstr "改进了缅甸文的标点检查。"
 msgid ""
 "Added support for defining custom teams at project level to grant users "
 "access, see :ref:`manage-acl`."
-msgstr ""
+msgstr "添加了对在项目级别定义自定义团队以授予用户访问权限的支持，请参阅 :ref"
+":`manage-acl`。"
 
 #: ../../changes.rst:117
 msgid "Added documentation links to alerts."
@@ -22339,7 +22331,7 @@ msgstr "添加了警报的文档链接。"
 msgid ""
 "Docker container automatically enables TLS/SSL for outgoing e-mail when "
 "needed."
-msgstr ""
+msgstr "Docker容器会在需要时为发送的电子邮自动件启用TLS/SSL。"
 
 #: ../../changes.rst:119
 msgid "Added support for searching for resolved comments."
@@ -22351,7 +22343,7 @@ msgstr "新增了对 borgbackup 1.2 的支持。"
 
 #: ../../changes.rst:121
 msgid "Fixed applying of :guilabel:`Automatically translated` label."
-msgstr ""
+msgstr "修复了 :guilabel:`Automatically translated`标签的应用."
 
 #: ../../changes.rst:123
 msgid ""
@@ -22371,11 +22363,11 @@ msgstr "发布于 2021 年 12 月 22 日。"
 
 #: ../../changes.rst:130
 msgid "Documented changes introduced by upgrading to Django 4.0."
-msgstr ""
+msgstr "升级到 Django 4.0 引入的文档化更改。"
 
 #: ../../changes.rst:131
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
-msgstr ""
+msgstr "修复了 :guilabel:`Automatically translated`标签的显示。"
 
 #: ../../changes.rst:132
 msgid "Fixed API display of branch in components with a shared repository."
@@ -22395,7 +22387,7 @@ msgstr "改进了 :ref:`check-kashida` 的准确性。"
 
 #: ../../changes.rst:136
 msgid "The Weblate Docker container now uses Python 3.10."
-msgstr ""
+msgstr "Weblate Docker 容器现在使用 Python 3.10。"
 
 #: ../../changes.rst:138
 msgid ""
@@ -22421,7 +22413,7 @@ msgstr "新增对 DeepL Formality 参数和占位符的支持。"
 msgid ""
 "Bulk edit and search and replace are now available on project and language "
 "level."
-msgstr ""
+msgstr "项目和语言 现在提供 批量编辑搜索和替换"
 
 #: ../../changes.rst:147
 msgid "Added filtering to search and replace."
@@ -22431,7 +22423,7 @@ msgstr "为搜索和替换特性添加了筛选。"
 msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
-msgstr ""
+msgstr "已修复：“执行自动翻译”权限不再属于 *Languages* 组。"
 
 #: ../../changes.rst:149
 msgid ""
@@ -22447,7 +22439,7 @@ msgstr "修复了生成带特殊字符的 XLSX 文件的问题。"
 msgid ""
 "Added ability to the GitHub authentication backend to check if the user "
 "belongs to a specific GitHub organization or team."
-msgstr ""
+msgstr "为GitHub认证后端增加了检查用户是否属于特定GitHub组织或团队的功能。"
 
 #: ../../changes.rst:152
 msgid "Improved feedback on invalid parameters passed to API."
@@ -22693,7 +22685,7 @@ msgstr ""
 
 #: ../../changes.rst:226
 msgid "Fixed saving glossary explanations in some cases."
-msgstr "修正了某些情况下保存术语表解释的问题。"
+msgstr "修复了某些情况下保存术语表解释的问题。"
 
 #: ../../changes.rst:227 ../../changes.rst:1547 ../../changes.rst:1601
 #: ../../changes.rst:1634 ../../changes.rst:1721 ../../changes.rst:1737
@@ -22707,7 +22699,7 @@ msgstr "性能改进。"
 
 #: ../../changes.rst:230
 msgid "Fixed adding strings to monolingual glossary components."
-msgstr "修正了向单语术语表部件添加字符串的问题。"
+msgstr "修复了向单语术语表部件添加字符串的问题。"
 
 #: ../../changes.rst:231
 msgid "Improved performance in handling variants."
@@ -22755,11 +22747,11 @@ msgstr "修复了 API 中搜索字符串验证问题。"
 
 #: ../../changes.rst:246
 msgid "Fixed Git exporter URLs after a domain change."
-msgstr "修正了域名变更后的 Git 导出器 URL 问题。"
+msgstr "修复了域名变更后的 Git 导出器 URL 问题。"
 
 #: ../../changes.rst:247
 msgid "Fixed cleanup add-on for Windows RC files."
-msgstr "修正了 Windows RC 文件的清理附加组件。"
+msgstr "修复了 Windows RC 文件的清理附加组件。"
 
 #: ../../changes.rst:248
 msgid "Fixed possible crash in XLIFF updating."
@@ -22849,7 +22841,7 @@ msgstr "Weblate 现在需要 Django 3.2。"
 
 #: ../../changes.rst:276
 msgid "Fixed inviting users when e-mail authentication is disabled."
-msgstr "修正了电子邮件身份验证被禁用时邀请用户的问题。"
+msgstr "修复了电子邮件身份验证被禁用时邀请用户的问题。"
 
 #: ../../changes.rst:277
 msgid "Improved language definitions."
@@ -22946,7 +22938,7 @@ msgstr "发布于 2021 年 5 月 2 日。"
 
 #: ../../changes.rst:308
 msgid "Remove obsolete spam protection code."
-msgstr "删除了过时的垃圾邮件防护代码。"
+msgstr "删除了过时的垃圾电子邮件防护代码。"
 
 #: ../../changes.rst:309
 msgid "Improve source plural check accuracy."
@@ -23098,7 +23090,7 @@ msgstr "改进的搜索查询示例。"
 
 #: ../../changes.rst:354
 msgid "Fixed possible loss of newly added strings on replace upload."
-msgstr "修正了替换上传时可能会丢失新添加的字符串的问题。"
+msgstr "修复了替换上传时可能会丢失新添加的字符串的问题。"
 
 #: ../../changes.rst:357
 msgid "Weblate 4.5.2"
@@ -23126,7 +23118,7 @@ msgstr "允许从翻译页面上传截图。"
 
 #: ../../changes.rst:365
 msgid "Added forced file synchronization to the repository maintenance."
-msgstr "向存储库维护添加了强制文件同步。"
+msgstr "向仓库维护添加了强制文件同步。"
 
 #: ../../changes.rst:366
 msgid "Fixed automatic suggestions for languages with a longer code."
@@ -23250,7 +23242,7 @@ msgstr "用多种格式标记修复了多个未命名变量检查行为。"
 msgid ""
 "Dropped mailing list field on the project in favor of generic instructions "
 "for translators."
-msgstr "去掉了项目的邮件列表字段，为翻译者提供通用说明。"
+msgstr "去掉了项目的电子邮件列表字段，为翻译者提供通用说明。"
 
 #: ../../changes.rst:404
 msgid "Added pseudolocale generation add-on."
@@ -23855,7 +23847,7 @@ msgstr "可以配置显示的附近字符串数量。"
 
 #: ../../changes.rst:589
 msgid "Added support for locking components experiencing repository errors."
-msgstr "增加了对锁定遇到存储库错误的部件的支持。"
+msgstr "增加了对锁定遇到仓库错误的部件的支持。"
 
 #: ../../changes.rst:590
 msgid "Simplified main navigation (replaced buttons with icons)."
@@ -24394,7 +24386,7 @@ msgstr "将白板消息（whiteboard message）改名为公告（announcement）
 
 #: ../../changes.rst:747
 msgid "Fixed occasional problems with registration mails."
-msgstr "修复了注册邮件偶尔出现的问题。"
+msgstr "修复了注册电子邮件偶尔出现的问题。"
 
 #: ../../changes.rst:748
 msgid "Improved LINGUAS update add-on to handle more syntax variants."
@@ -25089,7 +25081,7 @@ msgstr "将意外记入 Celery 日志。"
 
 #: ../../changes.rst:966
 msgid "Improve performance of repository scoped add-ons."
-msgstr "提高存储库范围附加组件的性能。"
+msgstr "提高仓库范围附加组件的性能。"
 
 #: ../../changes.rst:968
 msgid "Fixed password reset behavior."
@@ -25428,7 +25420,7 @@ msgstr "管理员和一致性附加组件现在可以添加翻译，即使对用
 #: ../../changes.rst:1067
 msgid ""
 "Fixed description of toggle disabling ``Language-Team`` header manipulation."
-msgstr "修正了停用 ``Language-Team`` 标头操作说明的错误。"
+msgstr "修复了停用 ``Language-Team`` 标头操作说明的错误。"
 
 #: ../../changes.rst:1068
 msgid "Notify users mentioned in comments."
@@ -26279,7 +26271,7 @@ msgstr "改进了更新大的翻译文件时的性能。"
 
 #: ../../changes.rst:1351
 msgid "Added support for blocking certain e-mails from registration."
-msgstr "为阻挡注册的某个电子邮件地址添加了支持。"
+msgstr "为阻挡注册的某个电子邮箱地址添加了支持。"
 
 #: ../../changes.rst:1352
 msgid "Users can now delete their own comments."
@@ -27621,7 +27613,7 @@ msgstr "支持使用第三方服务登录，请查阅手册了解详情。"
 
 #: ../../changes.rst:1782
 msgid "Users can login by e-mail instead of username."
-msgstr "用户可以通过电子邮件地址而不是用户名登录。"
+msgstr "用户可以通过电子邮箱地址而不是用户名登录。"
 
 #: ../../changes.rst:1784
 msgid "Improved source strings review."
@@ -28058,7 +28050,7 @@ msgstr "每个项目的 git 提交的配置。"
 
 #: ../../changes.rst:1918
 msgid "Simple antispam protection."
-msgstr "简单的防垃圾邮件保护。"
+msgstr "简单的防垃圾电子邮件保护。"
 
 #: ../../changes.rst:1919
 msgid "Better layout of main page."
@@ -28812,8 +28804,7 @@ msgid ""
 "A lot of things are done in the background by Celery workers. If things like "
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
-msgstr ""
-"Celery workers 在后台完成很多事。如果像发送电子邮件或删除部件这样的事情不能正"
+msgstr "Celery workers 在后台完成很多事。如果像发送电子邮件或删除部件这样的事情不能正"
 "常运作，那么可能有一个相关的问题。"
 
 #: ../../contributing/debugging.rst:53
@@ -28847,9 +28838,10 @@ msgid ""
 "for instructions on how to invoke it in different environments) or by using :"
 "ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
-"你可以使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调用"
-"它的指示说明请参见 :ref:`invoke-manage` ）或 :guilabel:`Tools` 选项卡下的 :"
-"ref:`management-interface` 来验证外发电子邮件是否正常工作。"
+"你可以使用 :djadmin:`django:sendtestemail` 管理命令（"
+"关于在不同环境中如何调用它的指示说明请参见 :ref:`invoke-manage` ）或 "
+":guilabel:`Tools` 选项卡下的 :ref:`management-interface` "
+"来验证外发电子邮件是否正常工作。"
 
 #: ../../contributing/debugging.rst:69
 msgid ""
@@ -28859,8 +28851,8 @@ msgid ""
 "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
 "这些直接发送电子邮件，因此这验证您的SMTP配置是否正确（请参见 :ref:`out-"
-"mail`）。然而来自 Weblate 的多数电子邮件在后台发送，并且可能也会有 Celery 相"
-"关的问题，请参阅 :ref:`debug-tasks` 来调试。"
+"mail`）。然而来自 Weblate 的多数电子邮件在后台发送，并且可能也会有 Celery "
+"相关的问题，请参阅 :ref:`debug-tasks` 来调试。"
 
 #: ../../contributing/debugging.rst:75
 msgid "Analyzing application crashes"
@@ -29794,7 +29786,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:47
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
-msgstr "通过 :command:`./scripts/set-version` 在存储库中增加版本。"
+msgstr "通过 :command:`./scripts/set-version` 在仓库中增加版本。"
 
 #: ../../contributing/release.rst:49
 msgid ""
@@ -30548,8 +30540,8 @@ msgid ""
 "open it with PyCharm. Once the IDE is open, the first step is to specify the "
 "interpreter you want to use:"
 msgstr ""
-"考虑到你刚刚将 GitHub 存储库复制到一个文件夹中，只需使用 PyCharm 打开它。一"
-"旦 IDE 打开，第一步要做的是指定你想要使用的解释器："
+"考虑到你刚刚将 GitHub 仓库复制到一个文件夹中，只需使用 PyCharm 打开它。一旦 "
+"IDE 打开，第一步要做的是指定你想要使用的解释器："
 
 #: ../../contributing/start.rst:133
 msgid ""
@@ -31482,14 +31474,14 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
-"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，最简单的"
-"方法是授予 Weblate 访问存储库的权限。导入过程将指导您将翻译配置进部件。"
+"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，"
+"最简单的方法是授予 Weblate 访问仓库的权限。导入过程将指导您将翻译配置进部件。"
 
 #: ../../devel/integration.rst:13
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
-msgstr "或者，您可以使用 Weblate 设置一个包含所有翻译的本地存储库，无需集成。"
+msgstr "或者，您可以使用 Weblate 设置一个包含所有翻译的本地仓库，无需集成。"
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -31553,8 +31545,8 @@ msgid ""
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
-"这可以通过在你的存储库中设置一个 webhook 来自动实现，每当有新的提交时，"
-"webhook 就会触发 Weblate。更多细节请参见 :ref:`update-vcs`。"
+"这可以通过在你的仓库中设置一个 webhook 来自动实现，每当有新的提交时，webhook "
+"就会触发 Weblate。更多细节请参见 :ref:`update-vcs`。"
 
 #: ../../devel/integration.rst:52
 msgid ""
@@ -32008,8 +32000,8 @@ msgid ""
 msgstr ""
 "翻译者可以为翻译和源字符串添加评论。每个 :ref:`component` "
 "都可以配置电子邮箱地址来接收这类评论（请参见 :ref:`component-report_source_bu"
-"gs`），并且使用开发者邮件列表通常是最佳方式。可以以这种方式关注翻译中出现的问"
-"题，处理它们，并迅速修复。"
+"gs`），并且使用开发者电子邮件列表通常是最佳方式。可以以这种方式关注翻译中出现"
+"的问题，处理它们，并迅速修复。"
 
 #: ../../devel/review.rst:69
 msgid ":ref:`user-comments`"
@@ -33002,9 +32994,8 @@ msgstr "在 Weblate 中，基于工作流程有几种复查方式，请参见 :r
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
-msgstr ""
-"你可以在 :ref:`subscriptions` 中订阅做出的任何更改，然后通过电子邮件查看其他"
-"人的贡献。"
+msgstr "你可以在 :ref:`subscriptions` "
+"中订阅做出的任何更改，然后通过电子邮件查看其他人的贡献。"
 
 #: ../../faq.rst:301
 msgid ""
@@ -33243,7 +33234,7 @@ msgstr ""
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
-msgstr "如果不需要源语言的翻译文件，请从存储库中将其删除。"
+msgstr "如果不需要源语言的翻译文件，请从仓库中将其删除。"
 
 #: ../../faq.rst:467
 msgid ""
@@ -38065,7 +38056,7 @@ msgstr ""
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
-msgstr "使用邮件中收到的链接来激活注册账号。"
+msgstr "使用电子邮件中收到的链接来激活注册账号。"
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
@@ -40286,7 +40277,7 @@ msgstr "自 wlc 0.7 起受支持。"
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
-msgstr "重置 Weblate 对象中的更改以匹配远程存储库（翻译，部件或项目）。"
+msgstr "重置 Weblate 对象中的更改以匹配远程仓库（翻译，部件或项目）。"
 
 #: ../../wlc.rst:194 ../../wlc.rst:259
 msgid "Supported since wlc 0.9."
