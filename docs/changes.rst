@@ -1,7 +1,7 @@
 Weblate 4.13.1
 --------------
 
-Not yet released.
+Released on July 1st 2022.
 
 * Fixed tracking suggestions in history.
 * Fixed parsing reverse proxy info from Cloudflare.
