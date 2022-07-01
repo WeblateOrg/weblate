@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-01 11:20+0000\n"
-"PO-Revision-Date: 2022-05-29 07:20+0000\n"
+"PO-Revision-Date: 2022-07-04 11:36+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1210,16 +1210,12 @@ msgid "Long lines wrapping"
 msgstr "Lange regels afbreken"
 
 #: weblate/addons/forms.py:115
-#, fuzzy
-#| msgid "Wrap lines at 77 characters and at newlines"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Regels afbreken bij 77 tekens en nieuwe regels"
+msgstr "Regels afbreken bij 77 tekens en nieuwe regels (standaard in xgettext)"
 
 #: weblate/addons/forms.py:116
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Enkel afbreken op nieuwe regels"
+msgstr "Enkel afbreken op nieuwe regels (xgettext --no-wrap)"
 
 #: weblate/addons/forms.py:117 weblate/addons/forms.py:215
 msgid "No line wrapping"
@@ -1645,16 +1641,12 @@ msgstr ""
 "inspringen en sorteren."
 
 #: weblate/addons/properties.py:143
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Format the Java properties file"
-msgstr "Formatteert het Java-eigenschappenbestand"
+msgstr "Java-eigenschappenbestand opmaken"
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Formats and sorts the Java properties file."
-msgstr "Formatteert het Java-eigenschappenbestand"
+msgstr "Maak het Java-eigenschappenbestand op en orden het."
 
 #: weblate/addons/removal.py:51
 msgid "Stale comment removal"
@@ -1749,10 +1741,8 @@ msgstr "Opmerking verwijderen"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Resolve comment"
-msgstr "Reactie opgelost"
+msgstr "Reactie oplossen"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
@@ -3359,10 +3349,8 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:161
-#, fuzzy
-#| msgid "Simple CSV file (UTF-8)"
 msgid "Multivalue CSV file (UTF-8)"
-msgstr "Eenvoudig csv-bestand (UTF-8)"
+msgstr "Csv-bestand met meerdere waarden (UTF-8)"
 
 #: weblate/formats/ttkit.py:1137
 msgid "gettext PO file"
@@ -6802,13 +6790,12 @@ msgid "Outgoing commits in the Weblate repository"
 msgstr "Er zijn nieuwe commits in de Weblate-opslagruimte"
 
 #: weblate/templates/js/git-status.html:47
-#, fuzzy
-#| msgid "Configure push URL for automated flow of translations from Weblate."
 msgid ""
 "Please configure push URL in the component settings to enable pushing from "
 "Weblate."
 msgstr ""
-"Stel de push-url in om vertalingen automatisch op te halen van Weblate."
+"Stel de push-url in in de onderdeelinstellingen om vertalingen automatisch "
+"op te halen van Weblate."
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
@@ -8884,11 +8871,6 @@ msgstr ""
 "Versiebeheer of vertaalbestanden zijn ingesteld op individuele onderdelen:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
-#, fuzzy
-#| msgid ""
-#| "This project is in the trial period, and is publicly accessible. You can "
-#| "lock it and post an announcement in case you want to avoid contributions "
-#| "until you finish the setup."
 msgid ""
 "This project is in a trial period and is publicly accessible. Post an "
 "announcement and/or lock it if you don’t want contributions until you finish "
@@ -8899,11 +8881,6 @@ msgstr ""
 "vergrendelen en een aankondiging plaatsen."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
-#, fuzzy
-#| msgid ""
-#| "This project is in the trial period, so be cautious before you "
-#| "contribute. Things like license or repository can still change before "
-#| "being approved as a libre project."
 msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
@@ -9948,10 +9925,8 @@ msgid "Add variant of this string"
 msgstr "Tekenreeksvariant toevoegen"
 
 #: weblate/templates/translate.html:192
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add alternative translation"
-msgstr "Toevoegen als vertaling"
+msgstr "Toevoegen als alternatieve vertaling"
 
 #: weblate/templates/translate.html:201 weblate/templates/translate.html:232
 msgid "This translation is currently locked."
@@ -10143,13 +10118,11 @@ msgstr ""
 "Schakel deze instelling in om de optie ‘Controle negeren’ in te schakelen."
 
 #: weblate/templates/translate.html:504
-#, fuzzy, python-format
-#| msgid "There is %(count)s comment for this string."
-#| msgid_plural "There are %(count)s comments for this string."
+#, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "Deze tekenreeks bevat %(count)s opmerking."
-msgstr[1] "Deze tekenreeks bevat %(count)s opmerkingen."
+msgstr[0] "Deze tekenreeks bevat opgeloste %(count)s opmerking."
+msgstr[1] "Deze tekenreeks bevat onopgeloste %(count)s opmerkingen."
 
 #: weblate/templates/translate.html:518
 #, python-format
@@ -10583,10 +10556,8 @@ msgid "Toggle text direction"
 msgstr "Leesrichting omkeren"
 
 #: weblate/trans/forms.py:343
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translation"
-msgstr "Vertaling toevoegen"
+msgstr "Alternatieve vertaling"
 
 #: weblate/trans/forms.py:401
 msgid "Missing translated string!"
@@ -10629,17 +10600,11 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Aanvullende uitleg over de betekenis of het gebruik van de tekenreeks."
 
 #: weblate/trans/forms.py:553
-#, fuzzy
-#| msgid "Source string has been changed meanwhile. Please check your changes."
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
 "De brontekenreeks is in de tussentijd gewijzigd - controleer uw aanpassingen."
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid ""
-#| "Translation of the string has been changed meanwhile. Please check your "
-#| "changes."
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
@@ -10684,8 +10649,6 @@ msgid "Add new strings"
 msgstr "Nieuwe tekenreeksen toevoegen"
 
 #: weblate/trans/forms.py:638
-#, fuzzy
-#| msgid "Processing of strings needing edit"
 msgid "Processing of \"Needs editing\" strings"
 msgstr "Verwerking van aan te passen tekenreeksen"
 
@@ -10694,10 +10657,8 @@ msgid "Do not import"
 msgstr "Niet importeren"
 
 #: weblate/trans/forms.py:641
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Import as \"Needs editing\""
-msgstr "Aanpassing nodig"
+msgstr "Importeren als aan te passen tekenreeksen"
 
 #: weblate/trans/forms.py:642
 msgid "Import as translated"
@@ -10716,22 +10677,16 @@ msgstr ""
 "vertaald is."
 
 #: weblate/trans/forms.py:674
-#, fuzzy
-#| msgid "Update only untranslated strings"
 msgid "Change only untranslated strings"
-msgstr "Alleen onvertaalde tekenreeksen bijwerken"
+msgstr "Alleen onvertaalde tekenreeksen wijzigen"
 
 #: weblate/trans/forms.py:675
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Change translated strings"
-msgstr "Onvertaalde tekenreeksen"
+msgstr "Vertaalde tekenreeksen wijzigen"
 
 #: weblate/trans/forms.py:676
-#, fuzzy
-#| msgid "Update translated and approved strings"
 msgid "Change translated and approved strings"
-msgstr "Alleen vertaalde en goedgekeurde tekenreeksen bijwerken"
+msgstr "Vertaalde en goedgekeurde tekenreeksen wijzigen"
 
 #: weblate/trans/forms.py:686
 msgid "Author name"
@@ -10746,14 +10701,10 @@ msgid "Could not find merged string."
 msgstr "De samengevoegde tekenreeks is niet teruggevonden."
 
 #: weblate/trans/forms.py:839
-#, fuzzy
-#| msgid "Could not find merged string."
 msgid "Could not find the merged string."
 msgstr "De samengevoegde tekenreeks is niet teruggevonden."
 
 #: weblate/trans/forms.py:857
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find the reverted change."
 msgstr "De teruggedraaide wijziging is niet teruggevonden."
 
@@ -10762,8 +10713,6 @@ msgid "Automatic translation mode"
 msgstr "Automatische vertaalmodus"
 
 #: weblate/trans/forms.py:869
-#, fuzzy
-#| msgid "Add as needing edit"
 msgid "Add as \"Needing edit\""
 msgstr "Aanduiden met ‘Aanpassing nodig’"
 
@@ -10776,10 +10725,8 @@ msgstr ""
 "vertalingen gewist."
 
 #: weblate/trans/forms.py:882
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Source of automated translations"
-msgstr "Automatische vertaling uitvoeren"
+msgstr "Bron van automatische vertalingen"
 
 #: weblate/trans/forms.py:884
 msgid "Other translation components"
@@ -10806,16 +10753,12 @@ msgid "Score threshold"
 msgstr "Drempelwaarde van score"
 
 #: weblate/trans/forms.py:928
-#, fuzzy
-#| msgid ""
-#| "Enter component to use as source, keep blank to use all components in "
-#| "current project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Geef het onderdeel op dat dient te worden gebruikt als bron of laat leeg om "
-"alle onderdelen binnen een project te gebruiken."
+"Geef de slug van het onderdeel op dat dient te worden gebruikt als bron of "
+"laat leeg om alle onderdelen binnen het huidige project te gebruiken."
 
 #: weblate/trans/forms.py:939
 msgid "All components in current project"
@@ -10835,9 +10778,6 @@ msgid "Scope"
 msgstr "Toepassingsgebied"
 
 #: weblate/trans/forms.py:1011
-#, fuzzy
-#| msgid ""
-#| "Is your comment specific to this translation or generic for all of them?"
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
@@ -10878,26 +10818,18 @@ msgid "Block duration"
 msgstr "Blokkeerduur"
 
 #: weblate/trans/forms.py:1178
-#, fuzzy
-#| msgid "Block user until I unblock them"
 msgid "Block the user until I unblock"
 msgstr "Gebruiker blokkeren totdat ik hem/haar deblokkeer"
 
 #: weblate/trans/forms.py:1179
-#, fuzzy
-#| msgid "Block user for one day"
 msgid "Block the user for one day"
 msgstr "Eén dag blokkeren"
 
 #: weblate/trans/forms.py:1180
-#, fuzzy
-#| msgid "Block user for one week"
 msgid "Block the user for one week"
 msgstr "Eén week blokkeren"
 
 #: weblate/trans/forms.py:1181
-#, fuzzy
-#| msgid "Block user for one month"
 msgid "Block the user for one month"
 msgstr "Eén maand blokkeren"
 
@@ -10906,8 +10838,6 @@ msgid "Report format"
 msgstr "Verslagformaat"
 
 #: weblate/trans/forms.py:1190
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose a file format for the report"
 msgstr "Kies het bestandsformaat van het verslag"
 
@@ -10936,8 +10866,6 @@ msgid "Last year"
 msgstr "Afgelopen jaar"
 
 #: weblate/trans/forms.py:1205
-#, fuzzy
-#| msgid "As specified"
 msgid "As specified below"
 msgstr "Zoals opgegeven"
 
@@ -10954,16 +10882,12 @@ msgid "Missing date!"
 msgstr "Ontbrekende datum!"
 
 #: weblate/trans/forms.py:1274
-#, fuzzy
-#| msgid "Starting date has to be before ending date!"
 msgid "The starting date has to be before the ending date."
-msgstr "De startdatum moet vóór de einddatum liggen!"
+msgstr "De begindatum moet vóór de einddatum liggen."
 
 #: weblate/trans/forms.py:1292
-#, fuzzy
-#| msgid "You do not have permission to access this component!"
 msgid "You do not have permission to access this component."
-msgstr "U bent niet bevoegd om dit onderdeel te benaderen!"
+msgstr "U bent niet bevoegd om dit onderdeel te benaderen."
 
 #: weblate/trans/forms.py:1349
 msgid "This field has been identified as spam!"
@@ -11018,15 +10942,11 @@ msgid "Adding new languages"
 msgstr "Nieuwe talen toevoegen"
 
 #: weblate/trans/forms.py:1631
-#, fuzzy
-#| msgid "Select existing component to copy configuration from."
 msgid "Select an existing component configuration to copy."
 msgstr ""
 "Kies het vertaalonderdeel waarvan de configuratie moet worden gekopieerd."
 
 #: weblate/trans/forms.py:1713 weblate/trans/forms.py:1718
-#, fuzzy
-#| msgid "Component with the same name already exists."
 msgid "A component with the same name already exists."
 msgstr "Deze onderdeelnaam is al in gebruik."
 
@@ -11070,8 +10990,6 @@ msgstr ""
 "Gebruikt en draagt bij aan de pool van gedeelde vertalingen tussen projecten."
 
 #: weblate/trans/forms.py:2067
-#, fuzzy
-#| msgid "Optional additional filter on the strings"
 msgid "Optional additional filter applied to the strings"
 msgstr "Optioneel aanvullend filter op de tekenreeksen"
 
@@ -11080,8 +10998,6 @@ msgid "Search string"
 msgstr "Tekenreeks zoeken"
 
 #: weblate/trans/forms.py:2074
-#, fuzzy
-#| msgid "Case sensitive string to search for and replace."
 msgid "Case-sensitive string to search for and replace."
 msgstr "Hoofdlettergevoelig zoeken en vervangen."
 
@@ -11094,10 +11010,6 @@ msgid "Translation key"
 msgstr "Vertaalsleutel"
 
 #: weblate/trans/forms.py:2161
-#, fuzzy
-#| msgid ""
-#| "Key used to identify string in translation file. File format specific "
-#| "rules might apply."
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
@@ -11126,8 +11038,6 @@ msgstr ""
 "Een optionele uitleg om het gebruik van de tekenreeks te verduidelijken."
 
 #: weblate/trans/forms.py:2192
-#, fuzzy
-#| msgid "Automatically adjust context when same string already exists."
 msgid "Auto-adjust context when an identical string already exists."
 msgstr "Pas de context automatisch aan als dezelfde tekenreeks al aanwezig is."
 
@@ -11195,10 +11105,8 @@ msgid "Author username"
 msgstr "Gebruikersnaam van auteur"
 
 #: weblate/trans/forms.py:2485
-#, fuzzy
-#| msgid "Expiry cannot be in the past!"
 msgid "Expiry cannot be in the past."
-msgstr "Iets kan niet in het verleden verlopen!"
+msgstr "Iets kan niet in het verleden verlopen."
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
