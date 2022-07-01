@@ -3,10 +3,10 @@
 set -e -x
 
 python -m pip install -r requirements-ci.txt
+pip install --no-cache-dir --no-binary :all: cffi
 pip install -r requirements-test.txt
 # Workaround for
 # SystemError: ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)
-pip install --no-cache-dir --no-binary :all: cffi
 if [ ${1:-latest} = minimal ] ; then
     requirements-builder --req requirements.txt --level min > requirements-min.txt
     requirements-builder --req requirements-optional.txt --level min >> requirements-min.txt
