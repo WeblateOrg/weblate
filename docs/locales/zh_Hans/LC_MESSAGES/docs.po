@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-27 08:01+0200\n"
 "PO-Revision-Date: 2022-07-01 06:22+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -313,7 +313,7 @@ msgid ""
 "membership in the `Administration` team) would be sufficient."
 msgstr ""
 "此外，除了将现有用户添加到项目之外，还可以邀请新用户。将立即创建任何新用户，"
-"但是该帐户将保持不活动状态，直到使用通过电子邮件发送的邀请中的链接登录为止。"
+"但是该账户将保持不活动状态，直到使用通过电子邮件发送的邀请中的链接登录为止。"
 "不需要具有任何站点范围的权限，就可以这么做，项目级别的访问管理权限（如 "
 "`Administration` 团队成员资格）就足够了。"
 
@@ -323,7 +323,7 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr "如果被邀请的用户错过了邀请的有效性，则可以在密码重置表单中使用被邀请的电子邮"
-"箱地址设置密码，因为已经创建了帐户。"
+"箱地址设置密码，因为已经创建了账户。"
 
 #: ../../admin/access.rst:155
 msgid ""
@@ -816,7 +816,7 @@ msgstr ""
 "在 :ref:`Django 管理界面 <admin-interface>` 的 :guilabel:`群组` "
 "编辑页面的底部，可以指定 :guilabel:`自动群组分配`，这是一个正则表达式列表，用"
 "于根据他们的电子邮箱地址自动将新创建的用户分配到群组。 "
-"此分配仅在创建帐户时发生。"
+"此分配仅在创建账户时发生。"
 
 #: ../../admin/access.rst:417
 msgid ""
@@ -1308,9 +1308,8 @@ msgstr ""
 msgid ""
 "By default, :ref:`automatic group assignment <autogroup>` makes all new "
 "accounts members of this group when they join."
-msgstr ""
-"默认情况下，\\ :ref:`自动群组分配 <autogroup>` 将会使所有新帐户在加入时成为该"
-"组的成员。"
+msgstr "默认情况下，\\ :ref:`自动群组分配 <autogroup>` "
+"将会使所有新账户在加入时成为该组的成员。"
 
 #: ../../admin/access.rst:600
 msgid "Default roles: none"
@@ -3877,10 +3876,11 @@ msgid ""
 "djadmin:`createadmin`)."
 msgstr ""
 "你应当从设置的 :setting:`django:AUTHENTICATION_BACKENDS` 部分移除 "
-"``'social_core.backends.email.EmailAuth'`` ，否则用户不能够在 Weblate 中设置"
-"他们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
-"``'weblate.accounts.auth.WeblateUserBackend'`` 。它还允许你使用一个本地管理帐"
-"户登录，如果你已经创建了它 （如通过使用 :djadmin:`createadmin`）。"
+"``'social_core.backends.email.EmailAuth'`` ，否则用户不能够在 Weblate "
+"中设置他们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
+"``'weblate.accounts.auth.WeblateUserBackend'`` "
+"。它还允许你使用一个本地管理账户登录，如果你已经创建了它 （如通过使用 "
+":djadmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:548
 msgid "Using bind password"
@@ -12006,9 +12006,8 @@ msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册�
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
-msgstr ""
-"配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新帐户的身份验证方"
-"法。"
+msgstr "配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` "
+"创建新账户的身份验证方法。"
 
 #: ../../admin/install/docker.rst:530
 msgid ""
@@ -22442,7 +22441,7 @@ msgstr "为GitHub认证后端增加了检查用户是否属于特定GitHub组织
 
 #: ../../changes.rst:152
 msgid "Improved feedback on invalid parameters passed to API."
-msgstr ""
+msgstr "改进了对传递给 API 的无效参数的反馈。"
 
 #: ../../changes.rst:153
 msgid "Added support for project scoped access tokens for API."
@@ -22494,7 +22493,7 @@ msgstr "修复了添加新翻译时的统计数据显示。"
 
 #: ../../changes.rst:169
 msgid "Mitigate issues with GitHub SSH key change."
-msgstr ""
+msgstr "缓解 GitHub SSH 密钥更改的问题。"
 
 #: ../../changes.rst:171
 msgid ""
@@ -22531,22 +22530,22 @@ msgstr "新增支持限制翻译文件下载。"
 #: ../../changes.rst:182
 msgid ""
 "The ``safe-html`` can now understand Markdown when used with ``md-text``."
-msgstr ""
+msgstr "``safe-html`` 现在与 ``md-text`` 一起使用时能理解Markdown。"
 
 #: ../../changes.rst:183
 msgid ""
 "The ``max-length`` tag now ignores XML markup when used with ``xml-text``."
-msgstr ""
+msgstr "``max-length`` 标签现在与 ``xml-text`` 一起使用时，会忽略XML标记。"
 
 #: ../../changes.rst:184
 msgid "Fixed dimensions of rendered texts in :ref:`check-max-size`."
-msgstr ""
+msgstr "修复了:ref:`check-max-size`中渲染文本的尺寸。"
 
 #: ../../changes.rst:185
 msgid ""
 "Lowered app store title length to 30 to assist with upcoming Google policy "
 "changes."
-msgstr ""
+msgstr "将应用商店的标题长度降至30以协助应对即将到来的谷歌政策变化。"
 
 #: ../../changes.rst:186
 msgid ""
