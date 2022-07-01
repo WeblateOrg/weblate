@@ -33,8 +33,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-01 11:20+0000\n"
-"PO-Revision-Date: 2022-06-03 09:18+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2022-07-04 11:36+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -42,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1247,10 +1247,10 @@ msgid "Long lines wrapping"
 msgstr "Retour à la ligne des lignes longues"
 
 #: weblate/addons/forms.py:115
-#, fuzzy
-#| msgid "Wrap lines at 77 characters and at newlines"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Retour à la ligne à 77 caractères et pour les nouvelles lignes"
+msgstr ""
+"Retour à la ligne à 77 caractères et pour les nouvelles lignes ("
+"fonctionnement par défaut de xgettext)"
 
 #: weblate/addons/forms.py:116
 #, fuzzy
@@ -1691,16 +1691,12 @@ msgstr ""
 "l’indentation ou le tri."
 
 #: weblate/addons/properties.py:143
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Format the Java properties file"
-msgstr "Formate le fichier de propriétés Java"
+msgstr "Formater le fichier de propriétés Java"
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Formats and sorts the Java properties file."
-msgstr "Formate le fichier de propriétés Java"
+msgstr "Formate et ordonne le fichier de propriétés Java."
 
 #: weblate/addons/removal.py:51
 msgid "Stale comment removal"
@@ -1797,10 +1793,8 @@ msgstr "Supprimer le commentaire"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Resolve comment"
-msgstr "Commentaire résolu"
+msgstr "Fermer le commentaire"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
@@ -3437,10 +3431,8 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:161
-#, fuzzy
-#| msgid "Simple CSV file (UTF-8)"
 msgid "Multivalue CSV file (UTF-8)"
-msgstr "Fichier CSV simplifié (UTF-8)"
+msgstr "Fichier CSV multi-valeurs (UTF-8)"
 
 #: weblate/formats/ttkit.py:1137
 msgid "gettext PO file"
@@ -10096,10 +10088,8 @@ msgid "Add variant of this string"
 msgstr "Ajouter des variantes pour cette chaîne"
 
 #: weblate/templates/translate.html:192
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add alternative translation"
-msgstr "Ajouter comme traduction"
+msgstr "Ajouter une traduction alternative"
 
 #: weblate/templates/translate.html:201 weblate/templates/translate.html:232
 msgid "This translation is currently locked."
@@ -10288,13 +10278,11 @@ msgstr ""
 "vérification »."
 
 #: weblate/templates/translate.html:504
-#, fuzzy, python-format
-#| msgid "There is %(count)s comment for this string."
-#| msgid_plural "There are %(count)s comments for this string."
+#, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "Il y a %(count)s commentaire pour cette chaîne."
-msgstr[1] "Il y a %(count)s commentaires pour cette chaîne."
+msgstr[0] "Il y a %(count)s commentaire en cours pour cette chaîne."
+msgstr[1] "Il y a %(count)s commentaires en cours pour cette chaîne."
 
 #: weblate/templates/translate.html:518
 #, python-format
@@ -10726,10 +10714,8 @@ msgid "Toggle text direction"
 msgstr "Changer le sens du texte"
 
 #: weblate/trans/forms.py:343
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translation"
-msgstr "Créer une traduction"
+msgstr "Traduction alternative"
 
 #: weblate/trans/forms.py:401
 msgid "Missing translated string!"
@@ -10774,17 +10760,12 @@ msgstr ""
 "chaîne."
 
 #: weblate/trans/forms.py:553
-#, fuzzy
-#| msgid "Source string has been changed meanwhile. Please check your changes."
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
-"La chaîne source a été modifiée depuis. Veuillez vérifier vos modifications."
+"La chaîne source a été modifiée entre-temps. Veuillez vérifier vos "
+"modifications."
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid ""
-#| "Translation of the string has been changed meanwhile. Please check your "
-#| "changes."
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
@@ -10829,20 +10810,16 @@ msgid "Add new strings"
 msgstr "Ajouter de nouvelles chaînes"
 
 #: weblate/trans/forms.py:638
-#, fuzzy
-#| msgid "Processing of strings needing edit"
 msgid "Processing of \"Needs editing\" strings"
-msgstr "Traitement des chaînes À vérifier"
+msgstr "Traitement des chaînes \"À vérifier\""
 
 #: weblate/trans/forms.py:640
 msgid "Do not import"
 msgstr "Ne pas importer"
 
 #: weblate/trans/forms.py:641
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Import as \"Needs editing\""
-msgstr "À vérifier"
+msgstr "Importer comme \"À vérifier\""
 
 #: weblate/trans/forms.py:642
 msgid "Import as translated"
@@ -10861,22 +10838,16 @@ msgstr ""
 "traduite."
 
 #: weblate/trans/forms.py:674
-#, fuzzy
-#| msgid "Update only untranslated strings"
 msgid "Change only untranslated strings"
-msgstr "Mettre à jour uniquement les chaînes non traduites"
+msgstr "Modifier uniquement les chaînes non traduites"
 
 #: weblate/trans/forms.py:675
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Change translated strings"
-msgstr "Chaînes non traduites"
+msgstr "Modifier les chaînes traduites"
 
 #: weblate/trans/forms.py:676
-#, fuzzy
-#| msgid "Update translated and approved strings"
 msgid "Change translated and approved strings"
-msgstr "Mettre à jour les chaînes traduites et approuvées"
+msgstr "Modifier les chaînes traduites et approuvées"
 
 #: weblate/trans/forms.py:686
 msgid "Author name"
@@ -10891,14 +10862,10 @@ msgid "Could not find merged string."
 msgstr "Impossible de trouver la chaîne fusionnée."
 
 #: weblate/trans/forms.py:839
-#, fuzzy
-#| msgid "Could not find merged string."
 msgid "Could not find the merged string."
 msgstr "Impossible de trouver la chaîne fusionnée."
 
 #: weblate/trans/forms.py:857
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find the reverted change."
 msgstr "Impossible de trouver la modification restaurée."
 
@@ -10907,10 +10874,8 @@ msgid "Automatic translation mode"
 msgstr "Mode de traduction automatique"
 
 #: weblate/trans/forms.py:869
-#, fuzzy
-#| msgid "Add as needing edit"
 msgid "Add as \"Needing edit\""
-msgstr "Ajouter comme À vérifier"
+msgstr "Ajouter comme \"À vérifier\""
 
 #: weblate/trans/forms.py:877
 msgid ""
@@ -10921,10 +10886,8 @@ msgstr ""
 "existantes."
 
 #: weblate/trans/forms.py:882
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Source of automated translations"
-msgstr "Réaliser une traduction automatique"
+msgstr "Source des traductions automatiques"
 
 #: weblate/trans/forms.py:884
 msgid "Other translation components"
@@ -10980,14 +10943,11 @@ msgid "Scope"
 msgstr "Portée"
 
 #: weblate/trans/forms.py:1011
-#, fuzzy
-#| msgid ""
-#| "Is your comment specific to this translation or generic for all of them?"
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
-"Votre commentaire est-il spécifique à cette langue ou générique pour toutes "
-"les langues ?"
+"Votre commentaire est-il propre à cette langue ou concerne t'il toutes les "
+"langues ?"
 
 #: weblate/trans/forms.py:1021
 msgid "Source string comment, suggestions for changes to this string"
@@ -11030,26 +10990,18 @@ msgid "Block duration"
 msgstr "Durée du blocage"
 
 #: weblate/trans/forms.py:1178
-#, fuzzy
-#| msgid "Block user until I unblock them"
 msgid "Block the user until I unblock"
 msgstr "Bloquer l’utilisateur jusqu’à ce que je le débloque"
 
 #: weblate/trans/forms.py:1179
-#, fuzzy
-#| msgid "Block user for one day"
 msgid "Block the user for one day"
 msgstr "Bloquer l’utilisateur pour une journée"
 
 #: weblate/trans/forms.py:1180
-#, fuzzy
-#| msgid "Block user for one week"
 msgid "Block the user for one week"
 msgstr "Bloquer l’utilisateur pour une semaine"
 
 #: weblate/trans/forms.py:1181
-#, fuzzy
-#| msgid "Block user for one month"
 msgid "Block the user for one month"
 msgstr "Bloquer l’utilisateur pour un mois"
 
@@ -11058,8 +11010,6 @@ msgid "Report format"
 msgstr "Format du rapport"
 
 #: weblate/trans/forms.py:1190
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose a file format for the report"
 msgstr "Sélectionnez le format du fichier de rapport"
 
@@ -11088,10 +11038,8 @@ msgid "Last year"
 msgstr "Année en cours"
 
 #: weblate/trans/forms.py:1205
-#, fuzzy
-#| msgid "As specified"
 msgid "As specified below"
-msgstr "Comme indiqué"
+msgstr "Comme indiqué ci-dessous"
 
 #: weblate/trans/forms.py:1210 weblate/trans/forms.py:2430
 msgid "Starting date"
@@ -11106,16 +11054,12 @@ msgid "Missing date!"
 msgstr "Date manquante !"
 
 #: weblate/trans/forms.py:1274
-#, fuzzy
-#| msgid "Starting date has to be before ending date!"
 msgid "The starting date has to be before the ending date."
-msgstr "La date de début doit être antérieure à la date de fin !"
+msgstr "La date de début doit précéder la date de fin."
 
 #: weblate/trans/forms.py:1292
-#, fuzzy
-#| msgid "You do not have permission to access this component!"
 msgid "You do not have permission to access this component."
-msgstr "Vous n’avez pas le droit d’accéder à ce composant !"
+msgstr "Vous n’avez pas le droit d’accéder à ce composant."
 
 #: weblate/trans/forms.py:1349
 msgid "This field has been identified as spam!"
@@ -11177,10 +11121,8 @@ msgstr ""
 "Sélectionnez le composant existant à partir duquel copier la configuration."
 
 #: weblate/trans/forms.py:1713 weblate/trans/forms.py:1718
-#, fuzzy
-#| msgid "Component with the same name already exists."
 msgid "A component with the same name already exists."
-msgstr "Une composants portant ce nom existe déjà."
+msgstr "Un composant portant ce nom existe déjà."
 
 #: weblate/trans/forms.py:1738
 msgid "ZIP file containing translations"
@@ -11223,18 +11165,14 @@ msgstr ""
 "projets."
 
 #: weblate/trans/forms.py:2067
-#, fuzzy
-#| msgid "Optional additional filter on the strings"
 msgid "Optional additional filter applied to the strings"
-msgstr "Filtre supplémentaire et facultatif sur les chaînes"
+msgstr "Filtre supplémentaire et facultatif appliqué aux chaînes"
 
 #: weblate/trans/forms.py:2070
 msgid "Search string"
 msgstr "Rechercher une chaîne"
 
 #: weblate/trans/forms.py:2074
-#, fuzzy
-#| msgid "Case sensitive string to search for and replace."
 msgid "Case-sensitive string to search for and replace."
 msgstr "Chaîne sensible à la casse pour recherche et remplacement."
 
@@ -11247,15 +11185,11 @@ msgid "Translation key"
 msgstr "Clé de traduction"
 
 #: weblate/trans/forms.py:2161
-#, fuzzy
-#| msgid ""
-#| "Key used to identify string in translation file. File format specific "
-#| "rules might apply."
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
 msgstr ""
-"La clé utilisée pour identifier la chaîne dans le fichier de traduction. Des "
+"Clé utilisée pour identifier la chaîne dans le fichier de traduction. Des "
 "règles propres au format de fichier peuvent s’appliquer."
 
 #: weblate/trans/forms.py:2167
@@ -11279,11 +11213,9 @@ msgid "Optional context to clarify the source strings."
 msgstr "Contexte facultatif pour clarifier les chaînes sources."
 
 #: weblate/trans/forms.py:2192
-#, fuzzy
-#| msgid "Automatically adjust context when same string already exists."
 msgid "Auto-adjust context when an identical string already exists."
 msgstr ""
-"Ajuster automatiquement le contexte lorsque la même chaîne existe déjà."
+"Ajuster automatiquement le contexte lorsqu'une chaîne identique existe déjà."
 
 #: weblate/trans/forms.py:2214
 msgid "You can edit this later, as with any other string in the translation."
@@ -11351,10 +11283,8 @@ msgid "Author username"
 msgstr "Nom d’utilisateur de l’auteur"
 
 #: weblate/trans/forms.py:2485
-#, fuzzy
-#| msgid "Expiry cannot be in the past!"
 msgid "Expiry cannot be in the past."
-msgstr "L’expiration ne peut pas être dans le passé !"
+msgstr "L’expiration ne peut pas être dans le passé."
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
