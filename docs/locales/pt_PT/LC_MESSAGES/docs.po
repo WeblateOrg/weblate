@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
-"PO-Revision-Date: 2022-06-10 22:18+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-07-04 11:36+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
 "Language: pt_PT\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
 msgid "Access control"
@@ -2603,14 +2603,14 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/addons.rst:431
 msgid "Variable part multiplier"
-msgstr "Multiplicador de parte variável"
+msgstr "Multiplicador de partes variável"
 
 #: ../../admin/addons.rst:431
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
-"Quantas vezes repetir a parte variável dependendo do comprimento da cadeia "
+"Quantas vezes repetir a parte variável dependendo do comprimento do texto "
 "fonte."
 
 #: ../../admin/addons.rst:435
@@ -2651,6 +2651,13 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"O uso das partes variáveis torna possível procurar por textos que podem não "
+"caber na interface do utilizador após a localização -- isso estende o texto "
+"com base no comprimento do texto fonte. As partes variáveis são repetidas "
+"pelo comprimento do texto multiplicado pelo multiplicador. Por exemplo ``"
+"Hello world`` com sufixo variável ``_`` e multiplicador variável de 1 se "
+"torna ``Hello world___________`` -- o sufixo é repetido uma vez para cada "
+"caractere no texto fonte."
 
 #: ../../admin/addons.rst:453
 msgid "The strings will be generated using following pattern:"
@@ -2662,6 +2669,9 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
+":guilabel:`Prefixo de texto fixo` :guilabel:`Prefixo de texto variável` "
+":guilabel:`Texto fonte` :guilabel:`Sufixo de texto variável` :guilabel:`"
+"Sufixo de texto fixo`"
 
 #: ../../admin/addons.rst:463
 msgid ""
@@ -3910,6 +3920,13 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"Existem backends de autenticação semelhantes para o GitHub para organizações "
+"e o GitHub para equipas. As configurações delas são denominadas "
+"``SOCIAL_AUTH_GITHUB_ORG_*`` e ``SOCIAL_AUTH_GITHUB_TEAM_*`` e requerem "
+"configuração adicional do escopo -- ``SOCIAL_AUTH_GITHUB_ORG_NAME`` ou "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``. Os URLs de retorno delas de chamada são "
+"``https://example.com/accounts/complete/github-org/`` e ``https://example."
+"com/accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -5241,6 +5258,8 @@ msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Aspas simples e duplas são aceitas e caracteres especiais são tratados com "
+"barra invertida:"
 
 #: ../../admin/checks.rst:47
 msgid "Here is a list of flags currently accepted:"
@@ -7524,7 +7543,7 @@ msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:656
 msgid "Configures the default title and message for pull requests."
-msgstr ""
+msgstr "Configura o título e a mensagem padrão para pull requests."
 
 #: ../../admin/config.rst:661
 msgid "ENABLE_AVATARS"
@@ -7885,17 +7904,20 @@ msgstr "Isto está desativado por predefinição."
 
 #: ../../admin/config.rst:945
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:949
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
 msgstr ""
+"Lista de Indicadores de Pagamento Interledger (ILPs) para Monetização da Web."
 
 #: ../../admin/config.rst:951
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
+"Se vários forem especificados, o compartilhamento de receita probabilístico "
+"é obtido selecionando um aleatoriamente."
 
 #: ../../admin/config.rst:954
 #, fuzzy
@@ -8787,6 +8809,9 @@ msgid ""
 "definitions extend over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"A exibição de idiomas pode se tornar inconsistente com isso. As definições "
+"de idioma do Weblate se estendem ao longo do tempo e não exibirão o código "
+"de idioma para os idiomas definidos."
 
 #: ../../admin/config.rst:1698
 #, fuzzy
@@ -12984,6 +13009,9 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
+"Os contentores PostgreSQL não oferecem suporte a atualização automática "
+"entre versões, precisa realizar a atualização manualmente. Os passos a "
+"seguir mostram uma das opções de atualização."
 
 #: ../../admin/install/docker.rst:240
 #, fuzzy
@@ -13373,6 +13401,8 @@ msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Permite que o Weblate defina o campo `meta[nome=monetização]` no cabeçalho "
+"do documento. Se vários forem especificados, escolhe um aleatoriamente."
 
 #: ../../admin/install/docker.rst:580
 #, fuzzy
@@ -13725,6 +13755,8 @@ msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
+"As variáveis de ambiente atuais são importadas durante a migração ao Weblate "
+"4.13, mas alterá-las não surtirá nenhum efeito."
 
 #: ../../admin/install/docker.rst:885
 msgid "Authentication settings"
@@ -14175,6 +14207,8 @@ msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
+"O suporte a SSL/TLS é ativado automaticamente com base em "
+":envvar:`WEBLATE_EMAIL_PORT`."
 
 #: ../../admin/install/docker.rst:1319
 msgid ""
@@ -14642,6 +14676,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"O contentor PostgtreSQL usa a configuração padrão do PostgreSQL e não "
+"utilizará efetivamente os núcleos de CPU ou memória dele. Recomenda-se "
+"personalizar a configuração para melhorar o desempenho."
 
 #: ../../admin/install/docker.rst:1646
 msgid ""
@@ -14649,6 +14686,10 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"A configuração pode ser ajustada conforme descrito em `Database "
+"Configuration` em https://hub.docker.com/_/postgres. A configuração "
+"correspondente ao seu ambiente pode ser gerada usando https://pgtune.leopard."
+"in.ua/."
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -14994,6 +15035,8 @@ msgstr ""
 #: ../../admin/install/steps/install-python.rst:33
 msgid "On some Linux distributions running Weblate fails with libffi error:"
 msgstr ""
+"Em algumas distribuições Linux, a execução do Weblate falha com erro de "
+"libffi:"
 
 #: ../../admin/install/steps/install-python.rst:39
 msgid ""
@@ -15001,6 +15044,9 @@ msgid ""
 "with the distribution. To address this, you need to rebuild the package on "
 "your system:"
 msgstr ""
+"Isso é causado pela incompatibilidade de pacotes binários distribuídos via "
+"PyPI com a distribuição. Para resolver isso, precisa reconstruir o pacote no "
+"seu sistema:"
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
@@ -15631,6 +15677,8 @@ msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation."
 msgstr ""
+"Localidades como usado pelo Linux, usa códigos legados para notação de "
+"estilo chinês e POSIX."
 
 #: ../../admin/languages.rst:210
 msgid ""
@@ -15740,7 +15788,7 @@ msgstr "Usar sugestões automáticas"
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "Antes do Weblate 4.13, os serviços eram configurados no :ref:`config`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -15748,12 +15796,17 @@ msgid ""
 "is built-in. Each service can be turned on by the administrator for whole "
 "site or at the project settings:"
 msgstr ""
+"O suporte para vários mecanismos de tradução e serviços de memória de "
+"tradução (Translation Memory) é integrado. Cada serviço pode ser ativado "
+"pelo administrador para todo o site ou nas configurações do projeto:"
 
 #: ../../admin/machine.rst:18
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Eles estão sujeitos aos seus termos de uso, então certifique-se de ter "
+"permissão para usá-los."
 
 #: ../../admin/machine.rst:21
 #, fuzzy
@@ -15775,7 +15828,7 @@ msgstr "Tradução automática"
 
 #: ../../admin/machine.rst:31
 msgid "Amagama"
-msgstr ""
+msgstr "amaGama"
 
 #: ../../admin/machine.rst:0
 #, fuzzy
@@ -15934,7 +15987,7 @@ msgstr "ID de cliente"
 #: ../../admin/machine.rst:101 ../../admin/machine.rst:374
 #: ../../admin/machine.rst:516
 msgid "Client secret"
-msgstr "Segredo de cliente"
+msgstr "Chave secreta"
 
 #: ../../admin/machine.rst:104
 msgid "Machine translation service provided by Baidu."
@@ -16194,6 +16247,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
+"`Documentação do Google Translate <https://cloud.google.com/translate/docs>`"
+"_, `Primeiros passos com autenticação Google Cloud <https://cloud.google.com/"
+"docs/authentication/getting-started>`_, `Criando um projeto Google Translate "
+"<https://cloud.google.com/appengine/docs/standard/nodejs/building-app/"
+"creating-project>`_, `Regiões do Google Cloud App Engine <https://cloud."
+"google.com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -16293,7 +16352,7 @@ msgstr "``url``"
 
 #: ../../admin/machine.rst:276
 msgid "Application endpoint URL"
-msgstr "URL de «endpoint» da aplicação"
+msgstr "URL do endpoint da aplicação"
 
 #: ../../admin/machine.rst:278
 #, fuzzy
@@ -16654,6 +16713,9 @@ msgid ""
 "that are already translated inside Weblate. It looks for exact matches in "
 "the existing strings."
 msgstr ""
+"O serviço de tradução automática Weblate pode fornecer traduções para textos "
+"que já estão traduzidos dentro do Weblate. Ele procura correspondências "
+"exatas nos textos existentes."
 
 #: ../../admin/machine.rst:475
 msgid "Weblate Translation Memory"
@@ -16671,6 +16733,9 @@ msgid ""
 "that has been translated in past (or uploaded to the translation memory) can "
 "be translated in this way."
 msgstr ""
+"Use :ref:`translation-memory` como um serviço de tradução de máquina. "
+"Qualquer texto que tenha sido traduzido no passado (ou carregadalo na "
+"memória de tradução) pode ser traduzido dessa maneira."
 
 #: ../../admin/machine.rst:489
 msgid "Yandex"
@@ -21374,18 +21439,24 @@ msgid ""
 "The implementation of :ref:`manage-acl` has changed, removing the project "
 "prefix from the group names. This affects API users."
 msgstr ""
+"A implementação de :ref:`manage-acl` foi alterada, removendo o prefixo do "
+"projeto dos nomes dos grupos. Isso afeta os utilizadores da API."
 
 #: ../../admin/upgrade.rst:300
 msgid ""
 "Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for "
 "character set detection."
 msgstr ""
+"Weblate agora usa o módulo ``charset-normalizer`` em vez de ``chardet`` para "
+"detecção de conjunto de caracteres."
 
 #: ../../admin/upgrade.rst:301
 msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
+"**Alterado no 4.11.1:** Há uma alteração na configuração ``REST_FRAMEWORK`` ("
+"remoção de um dos backends em ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: ../../admin/upgrade.rst:306
 #, fuzzy
@@ -21410,6 +21481,8 @@ msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, use :setting:"
 "`UPDATE_LANGUAGES` to disable that."
 msgstr ""
+"Os :ref:`languages` agora são atualizados automaticamente na atualização, "
+"use :setting:`UPDATE_LANGUAGES` para desativar isso."
 
 #: ../../admin/upgrade.rst:320
 msgid ""
@@ -21908,7 +21981,7 @@ msgstr "O utilizador está ativo? (opcional)"
 
 #: ../../api.rst:266
 msgid "Is user bot? (optional) (used for project scoped tokens)"
-msgstr ""
+msgstr "O utilizador é bot? (opcional) (usado para tokens no escopo do projeto)"
 
 #: ../../api.rst:271
 msgid "Returns information about users."
@@ -23319,7 +23392,7 @@ msgstr "Nome da unidade de tradução"
 
 #: ../../api.rst:1884
 msgid "Source strings (use single string if not creating plural)"
-msgstr ""
+msgstr "Textos fonte (use um único texto se não estiver criando plural)"
 
 #: ../../api.rst:1885
 #, fuzzy
@@ -24190,6 +24263,9 @@ msgid ""
 "Please make sure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"Certifique-se de que :guilabel:`Resource details to send` esteja definido "
+"como *All*, caso contrário o Weblate não poderá corresponder ao seu "
+"repositório do Azure."
 
 #: ../../api.rst:2549
 msgid "For instruction on setting up Azure integration"
@@ -24421,6 +24497,8 @@ msgstr "Corrigido a indicação de bloqueio na listagem de projeto."
 msgid ""
 "API for creating new units now returns information about newly created unit."
 msgstr ""
+"A API para criar novas unidades agora retorna informações sobre a unidade "
+"recém-criada."
 
 #: ../../changes.rst:25
 #, fuzzy
@@ -24548,7 +24626,7 @@ msgstr ""
 
 #: ../../changes.rst:50
 msgid "Ensure Weblate SSH key is generated during migrations."
-msgstr ""
+msgstr "Garante que a chave SSH do Weblate seja gerada durante as migrações."
 
 #: ../../changes.rst:52
 #, fuzzy
@@ -24655,6 +24733,8 @@ msgstr ":ref:`addon-weblate.generate.generate`"
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
 msgstr ""
+"Adicionado o marcador ``ignore-all-checks`` para ignorar todas as "
+"verificações de qualidade num texto."
 
 #: ../../changes.rst:76
 #, fuzzy
@@ -24769,6 +24849,9 @@ msgid ""
 "see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/"
 "advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgstr ""
+"Corrigida a falta de sanitização de argumentos para Git e Mercurial -- "
+"CVE-2022-23915, consulte `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
+"weblate/security/advisories/GHSA-3872-f48p-pxqj> `_ para mais detalhes."
 
 #: ../../changes.rst:103
 #, fuzzy
@@ -24822,6 +24905,9 @@ msgid ""
 "com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more "
 "details."
 msgstr ""
+"Corrige XSS armazenado - CVE-2022-24710, veja `GHSA-6jp6-9rf9-gc66 "
+"<https://github.com/WeblateOrg/weblate/security/advisories/GHSA-"
+"6jp6-9rf9-gc66>`_ para mais detalhes."
 
 #: ../../changes.rst:116
 msgid "Fixed add-on installation using API."
@@ -24932,6 +25018,8 @@ msgid ""
 "Added support for defining custom teams at project level to grant users "
 "access, see :ref:`manage-acl`."
 msgstr ""
+"Adicionado suporte para definir equipas personalizadas a nível de projeto "
+"para conceder acesso a utilizadores, veja :ref:`manage-acl`."
 
 #: ../../changes.rst:136
 #, fuzzy
@@ -24944,6 +25032,8 @@ msgid ""
 "Docker container automatically enables TLS/SSL for outgoing e-mail when "
 "needed."
 msgstr ""
+"O contentor Docker ativa automaticamente TLS/SSL para e-mail de saída quando "
+"necessário."
 
 #: ../../changes.rst:138
 #, fuzzy
@@ -31826,16 +31916,22 @@ msgid ""
 "Any code should come with documentation explaining the behavior. Don't "
 "forget documenting methods, complex code blocks, or user visible features."
 msgstr ""
+"Qualquer código deve vir com documentação explicando o comportamento. Não se "
+"esqueça de documentar métodos, blocos de código complexos ou recursos "
+"visíveis ao utilizador."
 
 #: ../../contributing/snippets/code-guide.rst:12
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We're not checking this "
 "in our CI yet as existing code does not yet include them."
 msgstr ""
+"Qualquer novo código deve utilizar dicas de tipo :pep:`484`. Ainda não "
+"estamos verificando isso em nosso CI, pois o código existente ainda não os "
+"inclui."
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
-msgstr ""
+msgstr "Padrão de codificação e linting do código"
 
 #: ../../contributing/snippets/pre-commit.rst:4
 msgid ""
@@ -32099,6 +32195,9 @@ msgid ""
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
 msgstr ""
+"Caso o desempenho lento esteja vinculado ao banco de dados, também pode "
+"ativar o log de todas as consultas do banco de dados usando a seguinte "
+"configuração após ativar :setting:`DEBUG`:"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -32889,6 +32988,8 @@ msgid ""
 "Besides the main repository, Weblate consists of several Python modules. All "
 "these follow same structure and this documentation covers them all."
 msgstr ""
+"Além do repositório principal, o Weblate consiste em vários módulos Python. "
+"Todos estes seguem a mesma estrutura e esta documentação abrange todos eles."
 
 #: ../../contributing/modules.rst:7
 #, fuzzy
@@ -32901,12 +33002,16 @@ msgid ""
 "`wlc <https://github.com/WeblateOrg/wlc/>`_, Python client library, see :ref:"
 "`wlc`"
 msgstr ""
+"`wlc <https://github.com/WeblateOrg/wlc/>`_, biblioteca Python cliente, veja "
+":ref:`wlc`"
 
 #: ../../contributing/modules.rst:10
 msgid ""
 "`translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, "
 "used to discover translatable files in the repository"
 msgstr ""
+"`translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, "
+"usado para descobrir ficheiros traduzíveis no repositório"
 
 #: ../../contributing/modules.rst:11
 #, fuzzy
@@ -32931,14 +33036,16 @@ msgid ""
 "The tests are executed using :program:`py.test`. First you need to install "
 "test requirements:"
 msgstr ""
+"Os testes são executados usando :program:`py.test`. Primeiro precisa "
+"instalar os requisitos de teste:"
 
 #: ../../contributing/modules.rst:26
 msgid "You can then execute the testsuite in the repository checkout:"
-msgstr ""
+msgstr "Pode então executar o testsuite no checkout do repositório:"
 
 #: ../../contributing/modules.rst:34
 msgid "The CI integration is very similar to :doc:`tests`."
-msgstr ""
+msgstr "A integração do CI é muito semelhante a :doc:`tests`."
 
 #: ../../contributing/modules.rst:40
 #, fuzzy
@@ -35959,18 +36066,24 @@ msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/"
 "plugin/1053050985172660071/weblate-integration>`_"
 msgstr ""
+"`Plugin do Weblate para Figma <https://www.figma.com/community/plugin/"
+"1053050985172660071/weblate-integration>`_"
 
 #: ../../devel/thirdparty.rst:9
 msgid ""
 "`WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/"
 "javierllorente/weblatefx>`_"
 msgstr ""
+"`WeblateFX, um cliente desktop do Weblate baseado em JavaFX <https://github."
+"com/javierllorente/weblatefx>`_"
 
 #: ../../devel/thirdparty.rst:10
 msgid ""
 "`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
 "jweblate>`_"
 msgstr ""
+"`JWeblate, uma bilioteca do Weblate baseada em Java <https://github.com/"
+"javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:14
 msgid ""
@@ -36595,6 +36708,8 @@ msgid ""
 "This is the default committer name, configured by :setting:"
 "`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
+"Este é o nome padrão do committer, configurado por "
+":setting:`DEFAULT_COMMITER_EMAIL` e :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../faq.rst:262
 msgid ""
@@ -36611,6 +36726,10 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
+"Para commits onde nenhuma autoria é conhecida (por exemplo, sugestões "
+"anônimas ou resultados de tradução automática), a autoria é creditada ao "
+"utilizador anônimo (veja :setting:`ANONYMOUS_USER_NAME`). Pode alterar o "
+"nome e o e-mail na interface de gestão."
 
 #: ../../faq.rst:275
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -39450,7 +39569,7 @@ msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../../README.rst:61
 msgid "Live chat"
-msgstr ""
+msgstr "Bate-papo ao vivo"
 
 #: ../../../README.rst:63
 msgid ""
@@ -39459,6 +39578,10 @@ msgid ""
 "for example, https://web.libera.chat/#weblate or an IRC client installed on "
 "your computer."
 msgstr ""
+"O bate-papo ao vivo sobre Weblate está disponível na rede IRC `Libera.Chat "
+"<https://libera.chat/>`_. O nome do canal é ``#weblate``. Isso pode ser "
+"acessado, por exemplo, em https://web.libera.chat/#weblate ou com um cliente "
+"IRC instalado no seu computador."
 
 #: ../../../README.rst:79
 msgid ""
@@ -43721,6 +43844,8 @@ msgid ""
 "Submit current form; this is same as pressing :guilabel:`Save and continue` "
 "while editing translation."
 msgstr ""
+"Envia o formulário atual; isso é o mesmo que pressionar :guilabel:`Gravar e "
+"continuar` enquanto edita a tradução."
 
 #: ../../user/translating.rst:210
 msgid ":kbd:`Ctrl+Shift+Enter` or"
@@ -45636,7 +45761,7 @@ msgstr ""
 
 #: ../../workflows.rst:47
 msgid "This state is only available when reviews are enabled."
-msgstr ""
+msgstr "Este estado está disponível apenas quando revisões estão ativadas."
 
 #: ../../workflows.rst:49
 msgid "Suggestions are stored in Weblate only and not in the translation file."
