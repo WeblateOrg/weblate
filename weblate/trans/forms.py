@@ -886,7 +886,7 @@ class AutoForm(forms.Form):
         ],
         initial="others",
     )
-    component = forms.ChoiceField(
+    component = forms.CharField(
         label=_("Components"),
         required=False,
         help_text=_(
@@ -916,28 +916,6 @@ class AutoForm(forms.Form):
         ).exclude(
             project=obj.project
         )
-
-        # Fetching first few entries is faster than doing a count query on possibly
-        # thousands of components
-        if len(self.components.values_list("id")[:30]) == 30:
-            # Do not show choices when too many
-            self.fields["component"] = forms.CharField(
-                required=False,
-                label=_("Components"),
-                help_text=_(
-                    "Enter slug of a component to use as source, "
-                    "keep blank to use all components in the current project."
-                ),
-            )
-        else:
-            choices = [
-                (s.id, str(s))
-                for s in self.components.order_project().prefetch_related("project")
-            ]
-
-            self.fields["component"].choices = [
-                ("", _("All components in current project"))
-            ] + choices
 
         machinery_settings = obj.project.get_machinery_settings()
 

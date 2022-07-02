@@ -6,6 +6,10 @@
 {% load humanize %}
 {% load metrics %}
 
+{% block extra_script %}
+<link rel="stylesheet" href="/static/vendor/bootstrap/css/tom-select.bootstrap4.css" />
+{% endblock %}
+
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
 {% include "snippets/component-breadcrumb.html" with object=object.component %}
@@ -234,6 +238,33 @@
 <p>{% trans "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}</p>
 <p>{% trans "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}</p>
 {% crispy autoform %}
+<script src="/static/vendor/bootstrap/js/tom-select.base.js"></script>
+<script>
+new TomSelect('#id_component', {
+    valueField: 'id',
+    labelField: 'name',
+    searchField: 'name',
+    maxItems: 1,
+    closeAfterSelect: true,
+    allowEmptyOption: true,
+    load: function(query, callback) {
+        let url = '/api/components/shared/?search=' + encodeURIComponent(query);
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                callback(json.results);
+            })
+            .catch(() => {
+                callback();
+            });
+    },
+    render: {
+        option: function(item, escape) {
+             return `<div><h4 class="list-group-item-heading">${ escape(item.name) }</h4><div class="list-group-item-text text-primary">${ escape(item.project.name) }</div></div>`;
+        },
+    },
+});
+</script>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
