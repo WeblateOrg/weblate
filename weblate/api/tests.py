@@ -1801,6 +1801,20 @@ class ComponentAPITest(APIBaseTest):
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 4)
 
+    def test_list_shared_components(self):
+        response = self.client.get(reverse("api:component-shared"))
+        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(response.data["results"][0]["slug"], "test")
+        self.assertEqual(response.data["results"][0]["project"]["slug"], "test")
+        self.assertEqual(response.data["results"][1]["slug"], "glossary")
+        self.assertEqual(response.data["results"][1]["project"]["slug"], "test")
+
+    def test_search_shared_components(self):
+        response = self.client.get(reverse("api:component-shared") + "?search=glos")
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["slug"], "glossary")
+        self.assertEqual(response.data["results"][0]["project"]["slug"], "test")
+
     def test_get_component(self):
         response = self.client.get(
             reverse("api:component-detail", kwargs=self.component_kwargs)
