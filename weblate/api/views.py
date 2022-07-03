@@ -782,10 +782,17 @@ class ComponentViewSet(
     def shared(self, request, **kwargs):
         search = request.GET.get("search", "")
 
-        queryset = Component.objects.filter(project__contribute_shared_tm=True).filter_access(self.request.user).prefetch_related("source_language").order_by("id")
+        queryset = (
+            Component.objects.filter(project__contribute_shared_tm=True)
+            .filter_access(self.request.user)
+            .prefetch_related("source_language")
+            .order_by("id")
+        )
 
         if search != "":
-            queryset = queryset.filter(name__icontains=search) | queryset.filter(project__name__icontains=search)
+            queryset = queryset.filter(name__icontains=search) | queryset.filter(
+                project__name__icontains=search
+            )
 
         page = self.paginate_queryset(queryset)
         serializer = ComponentSerializer(page, many=True, context={"request": request})
