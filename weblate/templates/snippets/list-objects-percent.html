@@ -8,6 +8,8 @@
     {% endif %}
     {% if value and value == all %}
         <span class="green" title="{% blocktrans count count=all %}Completed translation with {{ count }} string{% plural %}Completed translation with {{ count }} strings{% endblocktrans %}">{% icon "check.svg" %}</span>
+    {% elif value == 0 and all == 0 %}
+      <span class="green" title="{% blocktrans %}No strings to translate{% endblocktrans %}">{% icon "check.svg" %}</span>
     {% else %}
         {{ percent|percent_format }}
     {% endif %}
