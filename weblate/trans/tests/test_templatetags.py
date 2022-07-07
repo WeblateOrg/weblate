@@ -269,6 +269,34 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_diff_whitespace_changed(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello  world",
+                self.component.source_language,
+                diff="Hello world",
+            )["items"][0]["content"],
+            """Hello
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only">
+                    </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only">
+                        <ins>
+                            <span class="hlspace">
+                                <span class="space-space"><span class="sr-only">
+                                </span></span>
+                            </span>
+                        </ins>
+                    </span>
+                </span>
+            </span>
+            world
+            """,
+        )
+
     def test_diff_newline(self):
         self.assertHTMLEqual(
             format_translation(

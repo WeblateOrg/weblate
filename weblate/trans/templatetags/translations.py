@@ -64,7 +64,8 @@ SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
 SPACE_SPACE = SPACE_TEMPLATE.format("space-space", " ")
 SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />")
 SPACE_START = '<span class="hlspace"><span class="space-space"><span class="sr-only">'
-SPACE_MIDDLE = '</span></span><span class="space-space"><span class="sr-only">'
+SPACE_MIDDLE_1 = "</span></span>"
+SPACE_MIDDLE_2 = '<span class="space-space"><span class="sr-only">'
 SPACE_END = "</span></span></span>"
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
@@ -109,8 +110,6 @@ class Formatter:
         self.dmp = diff_match_patch()
 
     def parse(self):
-        if self.diff:
-            self.parse_diff()
         if self.unit:
             self.parse_highlight()
         if self.terms:
@@ -118,6 +117,8 @@ class Formatter:
         if self.search_match:
             self.parse_search()
         self.parse_whitespace()
+        if self.diff:
+            self.parse_diff()
 
     def parse_diff(self):
         """Highlights diff, including extra whitespace."""
@@ -207,7 +208,8 @@ class Formatter:
         for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(SPACE_START)
             for i in range(match.start() + 1, match.end()):
-                self.tags[i].insert(0, SPACE_MIDDLE)
+                self.tags[i].insert(0, SPACE_MIDDLE_1)
+                self.tags[i].append(SPACE_MIDDLE_2)
             self.tags[match.end()].insert(0, SPACE_END)
 
         for match in WHITESPACE_RE.finditer(self.value):
