@@ -3,8 +3,8 @@ Configuring Weblate
 
 .. note::
 
-   The following assumes the virtualenv used by Weblate is turned on
-   (in ``. ~/weblate-env/bin/activate``). If not, specify the full path
+   The following assumes the virtualenv used by Weblate is running
+   (by executing ``. ~/weblate-env/bin/activate``). If not, specify the full path
    to the :command:`weblate` command as ``~/weblate-env/bin/weblate``.
 
 #. Copy the file :file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings_example.py`
