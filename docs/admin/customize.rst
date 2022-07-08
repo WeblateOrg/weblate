@@ -27,7 +27,7 @@ basics and pointing to further tutorials.
 
 To write some custom Python code (called a module), a
 place to store it is needed, either in the system path (usually something like
-:file:`/usr/lib/python3.7/site-packages/`) or in the Weblate directory, which
+:file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, which
 is also added to the interpreter search path.
 
 Better yet, turn your customization into a proper Python package:
