@@ -14,7 +14,7 @@ Released on July 1st 2022.
 * Fixed parsing reverse proxy info from Cloudflare.
 * Make parse error lock a component from translating.
 * Fixed configuring intermediate file in the discovery add-on.
-* Fixed DeepL translations behvior with placeholders.
+* Fixed DeepL translations behavior with placeholders.
 * Fixed untranslating strings via API.
 * Added support for removing user from a group via API.
 * Fixed audit log for user invitation e-mails.
