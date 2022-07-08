@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
-"PO-Revision-Date: 2022-07-07 17:41+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-07-08 10:43+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -1533,10 +1533,8 @@ msgid "``translate`` -- Add as translation"
 msgstr "``translate`` -- 翻訳として追加"
 
 #: ../../admin/addons.rst:38
-#, fuzzy
-#| msgid "``fuzzy`` -- Add as needing edit"
 msgid "``fuzzy`` -- Add as \"Needing edit\""
-msgstr "``fuzzy`` -- 要編集として追加"
+msgstr "``fuzzy`` -- 「要編集」として追加"
 
 #: ../../admin/addons.rst:40
 #, fuzzy
@@ -1583,10 +1581,8 @@ msgid "``auto_source``"
 msgstr "``source:TEXT``"
 
 #: ../../admin/addons.rst:54
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Source of automated translations"
-msgstr "自動翻訳の実行"
+msgstr "自動翻訳の参照先"
 
 #: ../../admin/addons.rst:56
 msgid "``others`` -- Other translation components"
@@ -1603,16 +1599,11 @@ msgid "``component``"
 msgstr "``component:TEXT``"
 
 #: ../../admin/addons.rst:60
-#, fuzzy
-#| msgid ""
-#| "Enter component to use as source, keep blank to use all components in "
-#| "current project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
-msgstr ""
-"ソースとして使用するコンポーネントを入力します。現在のプロジェクトのすべての"
-"コンポーネントを使用する場合は、空白のままにします。"
+msgstr "参照先として使用するコンポーネントのスラグを入力します。現在のプロジェクト内"
+"のすべてのコンポーネントを使用する場合は、空白のままにします。"
 
 #: ../../admin/addons.rst:62
 #, fuzzy
@@ -2918,7 +2909,7 @@ msgstr "インデント処理や並べ替えなど、JSON 出力形式の変更�
 
 #: ../../admin/addons.rst:663
 msgid "Format the Java properties file"
-msgstr "Java プロパティー・ファイルのフォーマット設定"
+msgstr "Java プロパティ ファイルの整形"
 
 #: ../../admin/addons.rst:665
 msgid "``weblate.properties.sort``"
@@ -2926,34 +2917,28 @@ msgstr "``weblate.properties.sort``"
 
 #: ../../admin/addons.rst:669
 msgid "Formats and sorts the Java properties file."
-msgstr "Javaプロパティファイルをフォーマットおよびソートします。"
+msgstr "Java プロパティ ファイルを整形およびソートします。"
 
 #: ../../admin/addons.rst:671
 msgid "Consolidates newlines to Unix ones."
-msgstr ""
+msgstr "改行を Unix の改行コードに統一する。"
 
 #: ../../admin/addons.rst:672
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
-msgstr ""
+msgstr "Unicode エスケープ シーケンスを大文字に整形する（存在する場合）。"
 
 #: ../../admin/addons.rst:673
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strips blank lines and comments."
-msgstr "コメントがある文字列"
+msgstr "空白行とコメントを削除する。"
 
 #: ../../admin/addons.rst:674
-#, fuzzy
-#| msgid "Source strings checks"
 msgid "Sorts the strings by the keys."
-msgstr "原文の検査"
+msgstr "文字列をキーでソートする。"
 
 #: ../../admin/addons.rst:675
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Drops duplicate strings."
-msgstr "重複した文字列の検出"
+msgstr "重複する文字列を削除する。"
 
 #: ../../admin/addons.rst:680
 msgid "Stale comment removal"
@@ -5984,12 +5969,6 @@ msgid "Enforcing checks"
 msgstr "検査の強制"
 
 #: ../../admin/checks.rst:286
-#, fuzzy
-#| msgid ""
-#| "You can configure a list of checks which can not be ignored by setting :"
-#| "ref:`component-enforced_checks` in :ref:`component`. Each listed check "
-#| "can not be ignored in the user interface and any string failing this "
-#| "check is marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgid ""
 "You can configure a list of checks which can not be ignored by setting :ref:"
 "`component-enforced_checks` in :ref:`component`. Each listed check can not "
@@ -5998,8 +5977,8 @@ msgid ""
 msgstr ""
 ":ref:`component` で :ref:`component-enforced_checks` を設定することで、無効に"
 "できない検査項目を設定できます。設定した検査項目は、ユーザーインターフェイス"
-"で除外にできず、検査で不合格となった文字列は :guilabel:`要編集` （参照: :ref:"
-"`states`）と設定されます。"
+"で除外にできず、検査で不合格となった文字列は :guilabel:`要編集` （参照: "
+":ref:`states`）と設定されます。"
 
 #: ../../admin/checks.rst:294
 msgid "Managing fonts"
@@ -13103,10 +13082,8 @@ msgid ":ref:`api-rate`"
 msgstr ":ref:`ci-tests`"
 
 #: ../../admin/install/docker.rst:842
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_AVATARS`."
 msgid "Configures :setting:`ENABLE_HOOKS`."
-msgstr ":setting:`ENABLE_AVATARS` を設定します。"
+msgstr ":setting:`ENABLE_HOOKS` を設定します。"
 
 #: ../../admin/install/docker.rst:848
 msgid "Configures :setting:`ENABLE_AVATARS`."
@@ -13282,10 +13259,8 @@ msgid "Configures generic OpenID Connect intergration."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1078
-#, fuzzy
-#| msgid ":doc:`psa:backends/openid`"
 msgid ":doc:`psa:backends/oidc`"
-msgstr ":doc:`psa:backends/openid`"
+msgstr ":doc:`psa:backends/oidc`"
 
 #: ../../admin/install/docker.rst:1083
 msgid "SAML"
@@ -21042,10 +21017,8 @@ msgid "The unique group ID"
 msgstr "固有のグループ ID"
 
 #: ../../api.rst:351
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from a group."
-msgstr "このグループからユーザーを削除する"
+msgstr "グループからユーザーを削除する。"
 
 #: ../../api.rst:359
 msgid "List statistics of a user."
@@ -23324,84 +23297,60 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.13.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.13.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on July 15th 2021."
 msgid "Released on July 1st 2022."
-msgstr "2021 年 7 月 15 日にリリース。"
+msgstr "2022 年 7 月 1 日にリリース。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed user mention suggestions display."
 msgid "Fixed tracking suggestions in history."
-msgstr "ユーザーが意見を提案する表示の修正。"
+msgstr "履歴内の追跡の提案を修正。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing reverse proxy info from Cloudflare."
-msgstr "CSV ファイルからの位置情報解析の修正。"
+msgstr "Cloudflare からのリバース プロキシ情報を解析する問題の修正。"
 
 #: ../../changes.rst:8
 msgid "Make parse error lock a component from translating."
 msgstr ""
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Fixed triggering automatically installed add-ons."
 msgid "Fixed configuring intermediate file in the discovery add-on."
-msgstr "自動的にインストールされたアドオン起動の修正。"
+msgstr "コンポーネントの検出アドオンでの中間ファイルの設定の修正。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved machine translation of strings with placeholders."
 msgid "Fixed DeepL translations behvior with placeholders."
-msgstr "プレースホルダーを使用した文字列の機械翻訳の改善。"
+msgstr "プレースホルダーを使用した DeepL 翻訳の挙動の修正。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Fixed untranslating strings in :ref:`javaprop`."
 msgid "Fixed untranslating strings via API."
-msgstr ":ref:`javaprop` では未翻訳となる問題の修正。"
+msgstr "API 経由で文字列が翻訳されない問題の修正。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for removing user from a group via API."
-msgstr "文字列の削除に対応。"
+msgstr "API を使用したグループからのユーザーの削除に対応。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Fixed avatar display in notification e-mails."
 msgid "Fixed audit log for user invitation e-mails."
-msgstr "通知メールのアバター表示の修正。"
+msgstr "ユーザー招待メールの監査ログの修正。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/81?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/81?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"85?closed=1>`__."
 
 #: ../../changes.rst:18
 msgid "Weblate 4.13"
 msgstr "Weblate 4.13"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Released on June 15th 2020."
 msgid "Released on June 15th 2022."
-msgstr "2020 年 6 月 15 日にリリース。"
+msgstr "2022 年 6 月 15 日にリリース。"
 
 #: ../../changes.rst:22
 msgid "Changed behavior of updating language names."
@@ -23472,11 +23421,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Added support for creating new translations with included country code."
 msgid "Added support for storing alternative translations in the CSV file."
-msgstr "国コードを含む新しい翻訳を作成するためのサポートの追加。"
+msgstr "CSV ファイルに複数の代替翻訳を格納できる仕様変更に対応。"
 
 #: ../../changes.rst:38
 msgid "The placeholders check can now be case-insensitive as well."
@@ -32535,16 +32481,6 @@ msgid "Building translators community"
 msgstr "翻訳者コミュニティの構築"
 
 #: ../../devel/community.rst:4
-#, fuzzy
-#| msgid ""
-#| "Following these recommendations supports the creation of a full, "
-#| "multilingual post-editing tool. Good translations are defined through the "
-#| "systemic-functional model of House which aims at a contextual correct "
-#| "translation. Write your own `post-editing guide <https://www.taus.net/"
-#| "academy/best-practices/postedit-best-practices/machine-translation-post-"
-#| "editing-guidelines>`_ and alter these recommendations to fit your own "
-#| "definitions. In most cases the `browser-plugin of languageTool <https://"
-#| "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgid ""
 "Following these recommendations supports the creation of a full, "
 "multilingual post-editing tool. Good translations are defined through the "
@@ -32555,12 +32491,12 @@ msgid ""
 "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
 "下記の機能を適切に設定することにより、多言語による完全な機械翻訳後編集に対応"
-"できます。良い翻訳は、文脈的に正しい翻訳を目指す House のシステム機能モデルに"
-"より定義されます。独自の `機械翻訳後編集のガイドライン <https://www.taus.net/"
-"academy/best-practices/postedit-best-practices/machine-translation-post-"
-"editing-guidelines>`_ を作成し、独自の定義に合わせてこれらの推奨事項を変更し"
-"ます。多くの場合、`ブラウザー プラグインの言語ツール <https://languagetool."
-"org/#firefox_chrome>`_ は、機械翻訳後編集の校正ツールとして使用できます。"
+"できます。良い翻訳は、文脈的に正しい翻訳を目指す House "
+"のシステム機能モデルにより定義されます。独自の `機械翻訳後編集のガイドライン "
+"<https://en.wikipedia.org/wiki/Postediting>`_ "
+"を作成し、独自の定義に合わせてこれらの推奨事項を変更します。多くの場合、`"
+"ブラウザー プラグインの言語ツール <https://languagetool.org/#firefox_chrome>`"
+"_ は、機械翻訳後編集の校正ツールとして使用できます。"
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -36990,10 +36926,8 @@ msgid "`Simple CSV file`"
 msgstr "`シンプルな CSV ファイル`"
 
 #: ../../formats.rst:1215
-#, fuzzy
-#| msgid "Simple CSV file (UTF-8)"
 msgid "Multivalue CSV file"
-msgstr "シンプルな CSV ファイル（UTF-8）"
+msgstr "代替翻訳格納 CSV ファイル"
 
 #: ../../formats.rst:1219
 msgid ""
@@ -41555,14 +41489,12 @@ msgid ":ref:`plural-formula`"
 msgstr ":ref:`plural-formula`"
 
 #: ../../user/translating.rst:156
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translations"
-msgstr "翻訳の作成"
+msgstr "代替の翻訳"
 
 #: ../../user/translating.rst:162
 msgid "This is currently only supported with :ref:`multivalue-csv`."
-msgstr ""
+msgstr "これは現在、:ref:`multivalue-csv` でのみ対応してます。"
 
 #: ../../user/translating.rst:164
 msgid ""
