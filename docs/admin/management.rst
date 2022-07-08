@@ -39,7 +39,7 @@ To run it:
 
     python ./manage.py list_versions
 
-If you've installed Weblate using the pip or pip3 installer, or by using the :file:`./setup.py`
+If you've installed Weblate using the pip installer, or by using the :file:`./setup.py`
 script, the :command:`weblate` is installed to your path (or virtualenv path),
 from where you can use it to control Weblate:
 

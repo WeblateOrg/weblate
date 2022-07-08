@@ -8,7 +8,7 @@ Installing on macOS
 .. code-block:: sh
 
     brew install python pango cairo gobject-introspection libffi glib libyaml
-    pip3 install virtualenv
+    pip install virtualenv
 
 Make sure pip will be able to find the ``libffi`` version provided by homebrew
 — this will be needed during the installation build step.

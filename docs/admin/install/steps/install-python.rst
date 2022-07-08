@@ -11,7 +11,7 @@ Python modules
 
    .. code-block:: sh
 
-        virtualenv --python=python3 ~/weblate-env
+        virtualenv ~/weblate-env
 
 #. Activate the virtualenv for Weblate:
 

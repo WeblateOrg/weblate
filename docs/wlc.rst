@@ -22,7 +22,7 @@ To use the commands below, you need to install :mod:`wlc`:
 
 .. code-block:: sh
 
-    pip3 install wlc
+    pip install wlc
 
 .. _docker-wlc:
 
