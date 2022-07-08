@@ -103,7 +103,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @classmethod
     def setUpClass(cls):
         # Screenshots storage
-        cls.image_path = os.path.join(settings.BASE_DIR, "test-images")
+        cls.image_path = os.path.join(
+            os.path.dirname(
+                os.path.dirname(
+                    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                )
+            ),
+            "test-images",
+        )
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
         # Build Chrome driver

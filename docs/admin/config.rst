@@ -215,18 +215,6 @@ Possible choices:
    Increasing the frequency is not recommended when Weblate contains thousands
    of components.
 
-.. setting:: BASE_DIR
-
-BASE_DIR
---------
-
-Base directory where Weblate sources are located.
-Used to derive several other paths by default:
-
-- :setting:`DATA_DIR`
-
-Default value: Top level directory of Weblate sources.
-
 .. setting:: BASIC_LANGUAGES
 
 BASIC_LANGUAGES
@@ -430,11 +418,10 @@ The following subdirectories usually exist:
 
         sudo chown www-data:www-data -R $DATA_DIR
 
-Defaults to ``$BASE_DIR/data``.
+Defaults to ``/home/weblate/data``, but it is expected to be configured.
 
 .. seealso::
 
-    :setting:`BASE_DIR`,
     :ref:`file-permissions`,
     :doc:`backup`
 

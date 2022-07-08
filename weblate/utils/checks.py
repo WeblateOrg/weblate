@@ -414,6 +414,13 @@ def check_templates(app_configs, **kwargs):
 def check_data_writable(app_configs=None, **kwargs):
     """Check we can write to data dir."""
     errors = []
+    if not settings.DATA_DIR:
+        return [
+            weblate_check(
+                "weblate.E002",
+                "DATA_DIR is not configured.",
+            )
+        ]
     dirs = [
         settings.DATA_DIR,
         data_dir("home"),
@@ -443,6 +450,8 @@ def check_site(app_configs, **kwargs):
 
 def check_perms(app_configs=None, **kwargs):
     """Check that the data dir can be written to."""
+    if not settings.DATA_DIR:
+        return []
     start = time.monotonic()
     errors = []
     uid = os.getuid()
@@ -503,9 +512,10 @@ def check_encoding(app_configs=None, **kwargs):
 
 def check_diskspace(app_configs=None, **kwargs):
     """Check free disk space."""
-    stat = os.statvfs(settings.DATA_DIR)
-    if stat.f_bavail * stat.f_bsize < 10000000:
-        return [weblate_check("weblate.C032", "The disk is nearly full")]
+    if settings.DATA_DIR:
+        stat = os.statvfs(settings.DATA_DIR)
+        if stat.f_bavail * stat.f_bsize < 10000000:
+            return [weblate_check("weblate.C032", "The disk is nearly full")]
     return []
 
 

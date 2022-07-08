@@ -24,13 +24,14 @@ import stat
 from django.conf import settings
 from translation_finder.finder import EXCLUDES
 
-DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, "data")
-DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, "data-test")
-BUILD_DIR = os.path.join(settings.BASE_DIR, "build")
-VENV_DIR = os.path.join(settings.BASE_DIR, ".venv")
-DOCS_DIR = os.path.join(settings.BASE_DIR, "docs")
-SCRIPTS_DIR = os.path.join(settings.BASE_DIR, "scripts")
-EXAMPLES_DIR = os.path.join(settings.BASE_DIR, "weblate", "examples")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DEFAULT_DATA_DIR = os.path.join(BASE_DIR, "data")
+DEFAULT_TEST_DIR = os.path.join(BASE_DIR, "data-test")
+BUILD_DIR = os.path.join(BASE_DIR, "build")
+VENV_DIR = os.path.join(BASE_DIR, ".venv")
+DOCS_DIR = os.path.join(BASE_DIR, "docs")
+SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
+EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
 
