@@ -285,7 +285,7 @@ Weblate supports XLIFF in several variants:
 `XLIFF with placeables support`
    Standard XLIFF supporting placeables and other XML elements.
 `XLIFF with gettext extensions`
-   XLIFF enriched  by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
+   XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
 
 
 .. seealso::
