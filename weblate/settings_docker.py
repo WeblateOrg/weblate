@@ -203,7 +203,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-# You can generate it using weblate/examples/generate-secret-key
+# You can generate it using weblate-generate-secret-key
 with open("/app/data/secret") as handle:
     SECRET_KEY = handle.read()
 

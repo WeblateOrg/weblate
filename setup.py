@@ -142,6 +142,11 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
+    entry_points={
+        "console_scripts": [
+            "weblate = weblate.runner:main",
+            "weblate-generate-secret-key = weblate.utils.generate_secret_key:main",
+        ]
+    },
     cmdclass={"build_py": WeblateBuildPy, "build_mo": BuildMo, "build": WeblateBuild},
 )

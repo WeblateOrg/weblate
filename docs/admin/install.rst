@@ -1029,7 +1029,7 @@ Django secret key
 The :setting:`SECRET_KEY` setting is used by Django to sign cookies, and you should
 really generate your own value rather than using the one from the example setup.
 
-You can generate a new key using :file:`weblate/examples/generate-secret-key` shipped
+You can generate a new key using :program:`weblate-generate-secret-key` shipped
 with Weblate.
 
 .. seealso::
