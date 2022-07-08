@@ -1036,39 +1036,6 @@ with Weblate.
 
     :setting:`SECRET_KEY`
 
-.. _production-home:
-
-Home directory
-++++++++++++++
-
-.. versionchanged:: 2.1
-   This is no longer required, Weblate now stores all its data in
-   :setting:`DATA_DIR`.
-
-The home directory for the user running Weblate should exist and be
-writable by this user. This is especially needed if you want to use SSH to
-access private repositories, but Git might need to access this directory as
-well (depending on the Git version you use).
-
-You can change the directory used by Weblate in :file:`settings.py`, for
-example to set it to ``configuration`` directory under the Weblate tree:
-
-.. code-block:: python
-
-    os.environ["HOME"] = os.path.join(BASE_DIR, "configuration")
-
-.. note::
-
-    On Linux, and other UNIX like systems, the path to user's home directory is
-    defined in :file:`/etc/passwd`. Many distributions default to a non-writable
-    directory for users used for serving web content (such as ``apache``,
-    ``www-data`` or ``wwwrun``), so you either have to run Weblate under
-    a different user, or change this setting.
-
-.. seealso::
-
-   :ref:`vcs-repos`
-
 .. _production-templates:
 
 Template loading
@@ -1080,34 +1047,23 @@ configure it using the following snippet (the ``loaders`` setting is important h
 
 .. code-block:: python
 
-    TEMPLATES = [
-        {
-            "BACKEND": "django.template.backends.django.DjangoTemplates",
-            "DIRS": [
-                os.path.join(BASE_DIR, "templates"),
-            ],
-            "OPTIONS": {
-                "context_processors": [
-                    "django.contrib.auth.context_processors.auth",
-                    "django.template.context_processors.debug",
-                    "django.template.context_processors.i18n",
-                    "django.template.context_processors.request",
-                    "django.template.context_processors.csrf",
-                    "django.contrib.messages.context_processors.messages",
-                    "weblate.trans.context_processors.weblate_context",
-                ],
-                "loaders": [
-                    (
-                        "django.template.loaders.cached.Loader",
-                        [
-                            "django.template.loaders.filesystem.Loader",
-                            "django.template.loaders.app_directories.Loader",
-                        ],
-                    ),
-                ],
-            },
-        },
-    ]
+   TEMPLATES = [
+       {
+           "BACKEND": "django.template.backends.django.DjangoTemplates",
+           "OPTIONS": {
+               "context_processors": [
+                   "django.contrib.auth.context_processors.auth",
+                   "django.template.context_processors.debug",
+                   "django.template.context_processors.i18n",
+                   "django.template.context_processors.request",
+                   "django.template.context_processors.csrf",
+                   "django.contrib.messages.context_processors.messages",
+                   "weblate.trans.context_processors.weblate_context",
+               ],
+           },
+           "APP_DIRS": True,
+       }
+   ]
 
 .. seealso::
 

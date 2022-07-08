@@ -17,17 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os.path
-
 from appconf import AppConf
 
 
 class WeblateConf(AppConf):
-    # Weblate installation root
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
     # Data directory
-    DATA_DIR = os.path.join(BASE_DIR, "data")
+    DATA_DIR = None
 
     # Akismet API key
     AKISMET_API_KEY = None

@@ -66,6 +66,8 @@ SITE_DOMAIN = "example.com"
 # Different root for test repos
 if "CI_BASE_DIR" in os.environ:
     BASE_DIR = os.environ["CI_BASE_DIR"]
+else:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")

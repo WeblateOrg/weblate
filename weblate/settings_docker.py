@@ -89,8 +89,6 @@ DATABASES = {
     }
 }
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 # Data directory
 DATA_DIR = os.environ.get("WEBLATE_DATA_DIR", "/app/data")
 CACHE_DIR = os.environ.get("WEBLATE_CACHE_DIR", "/app/cache")
