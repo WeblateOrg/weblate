@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
-"PO-Revision-Date: 2022-07-08 17:16+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"PO-Revision-Date: 2022-07-09 12:07+0000\n"
+"Last-Translator: YangYulin <yylteam@icloud.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -37296,12 +37296,12 @@ msgstr ""
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
-msgstr ""
+msgstr "``replacements:`` 标志可能也有助于在检查字符串之前扩展可放置对象。"
 
 #: ../../user/checks.rst:748 ../../user/checks.rst:788
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
-msgstr ""
+msgstr "当同时使用 ``xml-text`` 标志时，长度计算会忽略 XML 标记。"
 
 #: ../../user/checks.rst:753
 msgid "Maximum size of translation"
@@ -37325,14 +37325,16 @@ msgstr "``max-size:500``"
 msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
-msgstr ""
+msgstr "翻译呈现的文本不应超过给定的大小。它使用换行呈现文本，并检查文本是否适合给定"
+"的边界。"
 
 #: ../../user/checks.rst:766
 msgid ""
 "This check needs one or two parameters - maximal width and maximal number of "
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
-msgstr ""
+msgstr "此检查需要一个或两个参数 - "
+"最大宽度和最大行数。如果未提供行数，则考虑一行文本。"
 
 #: ../../user/checks.rst:770
 msgid ""
@@ -37340,6 +37342,8 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
+"您还可以通过 ``font-*`` 指令配置使用的字体（请参阅 :ref:`custom-checks`），"
+"例如以下翻译标志说以 ubuntu 字体大小 22 呈现的文本应该适合两行和 500 像素："
 
 #: ../../user/checks.rst:781
 msgid ""
@@ -37347,10 +37351,13 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
+"您可能希望在 :ref:`component` 中设置 ``font-*`` 指令，以便为组件中的所有字符"
+"串配置相同的字体。如果您需要为每个字符串自定义它，您可以覆盖每个字符串的这些"
+"值。"
 
 #: ../../user/checks.rst:792
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
-msgstr ""
+msgstr ":ref:`fonts`， :ref:`custom-checks`， :ref:`check-max-length`"
 
 #: ../../user/checks.rst:797
 msgid "Mismatched \\\\n"
@@ -37370,6 +37377,8 @@ msgid ""
 "fails if the number of ``\\n`` literals in translation do not match the "
 "source."
 msgstr ""
+"通常转义的换行符对于格式化程序输出很重要。如果翻译中的 ``\\n"
+"`` 字面量与源不匹配，则检查失败。"
 
 #: ../../user/checks.rst:810
 msgid "Mismatched colon"
@@ -37388,7 +37397,8 @@ msgid ""
 "Checks that colons are replicated between both source and translation. The "
 "presence of colons is also checked for various languages where they do not "
 "belong (Chinese or Japanese)."
-msgstr ""
+msgstr "检查冒号是否在源和翻译之间复制。还检查了冒号是否存在不属于它们的各种语言（中"
+"文或日语）。"
 
 #: ../../user/checks.rst:823
 msgid ""
@@ -37412,13 +37422,14 @@ msgid ""
 "Checks that trailing ellipses are replicated between both source and "
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
-msgstr ""
+msgstr "检查尾随省略号是否在源和翻译之间复制。这只检查真正的省略号（ ``...`` "
+"）而不是三个点（ ``...`` ）。"
 
 #: ../../user/checks.rst:838
 msgid ""
 "An ellipsis is usually rendered nicer than three dots in print, and sounds "
 "better with text-to-speech."
-msgstr ""
+msgstr "在打印中，省略号通常比三个点更好，并且使用文本到语音转换听起来更好。"
 
 #: ../../user/checks.rst:842 ../../user/checks.rst:1266
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
@@ -37442,7 +37453,8 @@ msgid ""
 "The presence of exclamation marks is also checked for various languages "
 "where they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, "
 "Myanmar or Nko)."
-msgstr ""
+msgstr "检查感叹号是否在源和翻译之间复制。还会检查感叹号是否存在不属于它们的各种语言"
+"（中文，日语，韩语，亚美尼亚语，林布语，缅甸语或Nko）。"
 
 #: ../../user/checks.rst:862
 msgid ""
@@ -37467,7 +37479,8 @@ msgid ""
 "Checks that full stops are replicated between both source and translation. "
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
-msgstr ""
+msgstr "检查是否在源和转换之间复制了句号。检查句号是否存在不属于它们的各种语言（中文"
+"，日语，梵文或乌尔都语）。"
 
 #: ../../user/checks.rst:880
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
@@ -37492,6 +37505,8 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"检查问号是否在源和翻译之间复制。对于不属于它们的各种语言（亚美尼亚语，阿拉伯"
+"语，中文，韩语，日语，埃塞俄比亚语，Vai或科普特语），也会检查问号的存在。"
 
 #: ../../user/checks.rst:899
 msgid ""
@@ -37514,7 +37529,7 @@ msgstr "``weblate.checks.chars.EndSemicolonCheck``"
 msgid ""
 "Checks that semicolons at the end of sentences are replicated between both "
 "source and translation."
-msgstr ""
+msgstr "检查句子末尾的分号是否在源和翻译之间复制。"
 
 #: ../../user/checks.rst:915
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
@@ -37537,6 +37552,8 @@ msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of ``\\n`` literals in translation do not match the source."
 msgstr ""
+"通常换行符对于格式化程序输出很重要。如果翻译中的 ``\\n"
+"`` 字面量与源不匹配，则检查失败。"
 
 #: ../../user/checks.rst:934
 msgid "Missing plurals"
@@ -37555,13 +37572,14 @@ msgid ""
 "Checks that all plural forms of a source string have been translated. "
 "Specifics on how each plural form is used can be found in the string "
 "definition."
-msgstr ""
+msgstr "检查源字符串的所有复数形式是否已翻译。有关如何使用每个复数形式的详细信息，请"
+"参阅字符串定义。"
 
 #: ../../user/checks.rst:944
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
-msgstr ""
+msgstr "在某些情况下，未能填写复数形式将导致在使用复数形式时不显示任何内容。"
 
 #: ../../user/checks.rst:950
 msgid "Placeholders"
@@ -37588,24 +37606,25 @@ msgstr "你可以使用正则表达式作为占位符。"
 #: ../../user/checks.rst:966
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
-msgstr ""
+msgstr "使用“不区分大小写”标志时，占位符不区分大小写。"
 
 #: ../../user/checks.rst:968
 msgid ""
 "Translation is missing some placeholders. These are either extracted from "
 "the translation file or defined manually using ``placeholders`` flag, more "
 "can be separated with colon, strings with space can be quoted:"
-msgstr ""
+msgstr "翻译缺少一些占位符。这些可以从翻译文件中提取或使用“占位符”标志手动定义，更多"
+"可以用冒号分隔，带空格的字符串可以引用："
 
 #: ../../user/checks.rst:976
 msgid ""
 "In case you have some syntax for placeholders, you can use a regular "
 "expression:"
-msgstr ""
+msgstr "如果您有一些占位符语法，则可以使用正则表达式："
 
 #: ../../user/checks.rst:982
 msgid "You can also have case insensitive placeholders:"
-msgstr ""
+msgstr "您还可以使用不区分大小写的占位符："
 
 #: ../../user/checks.rst:990 ../../user/glossary.rst:63
 #: ../../user/glossary.rst:79 ../../user/glossary.rst:95
@@ -37631,6 +37650,8 @@ msgid ""
 "only in a few selected languages like French or Breton, where space before "
 "double punctuation sign is a typographic rule."
 msgstr ""
+"检查双标点符号（感叹号、问号、分号和冒号）之前是否存在不可中断的空格。此规则"
+"仅在法语或布列塔尼语等少数选定语言中使用，其中双标点符号前的空格是排版规则。"
 
 #: ../../user/checks.rst:1011
 msgid ""
@@ -37658,7 +37679,8 @@ msgstr "``regex:REGEX``"
 msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
-msgstr ""
+msgstr "翻译与正则表达式不匹配。该表达式要么从翻译文件中提取，要么使用“正则表达式”标"
+"志手动定义："
 
 #: ../../user/checks.rst:1039
 msgid "Same plurals"
@@ -37676,7 +37698,7 @@ msgstr "``weblate.checks.consistency.SamePluralsCheck``"
 msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
-msgstr ""
+msgstr "如果翻译中某些复数形式重复，则检查失败。在大多数语言中，它们必须不同。"
 
 #: ../../user/checks.rst:1052
 msgid "Starting newline"
