@@ -7,7 +7,7 @@ translation is in good shape. The checks can be ignored in case of false positiv
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
 
-.. image:: /screenshots/checks.png
+.. image:: https://raw.githubusercontent.com/WeblateOrg/weblate/main/docs/screenshots/checks.png
 
 
 .. _autofix:
