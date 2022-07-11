@@ -1,5 +1,6 @@
 # This file is maintained in https://github.com/WeblateOrg/meta/
 name: Sync labels
+
 on:
   push:
     branches:
@@ -7,6 +8,10 @@ on:
     paths:
     - .github/labels.yml
     - .github/workflows/label-sync.yml
+
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Sync labels

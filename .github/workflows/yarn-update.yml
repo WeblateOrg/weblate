@@ -12,6 +12,9 @@ on:
     - scripts/yarn-update
     - scripts/yarn/*
 
+permissions:
+  contents: read
+
 jobs:
   yarn-update:
     runs-on: ubuntu-20.04

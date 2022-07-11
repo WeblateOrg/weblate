@@ -5,8 +5,14 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  contents: read
+
 jobs:
   issueLabeled:
+    permissions:
+      issues: write  # for peter-evans/create-or-update-comment to create or update comment
+      pull-requests: write  # for peter-evans/create-or-update-comment to create or update comment
     runs-on: ubuntu-20.04
     steps:
     - name: Add backlog comment
