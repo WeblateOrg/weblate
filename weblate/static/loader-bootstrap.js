@@ -940,16 +940,13 @@ $(function () {
       })
       .data("sort");
     var sort_value = $("#id_sort_by").val();
+    var $label = $(this).find("span.search-icon");
     if (sort_dropdown_value) {
       if (
         sort_value.replace("-", "") === sort_dropdown_value.replace("-", "") &&
         sort_value !== sort_dropdown_value
       ) {
-        $("#query-sort-toggle .asc").hide();
-        $("#query-sort-toggle .desc").show();
-      } else {
-        $("#query-sort-toggle .desc").hide();
-        $("#query-sort-toggle .asc").show();
+        $label.toggle();
       }
     }
   }
@@ -1028,9 +1025,7 @@ $(function () {
   });
   $(".query-sort-toggle").click(function () {
     var $this = $(this);
-    var $label = $this.find("span.search-icon");
     var $input = $this.closest(".search-group").find("input[name=sort_by]");
-    $label.toggle();
     var sort_params = $input.val().split(",");
     sort_params.forEach(function (param, index) {
       if (param.indexOf("-") !== -1) {
