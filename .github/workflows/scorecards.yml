@@ -34,16 +34,16 @@ jobs:
       with:
         results_file: results.sarif
         results_format: sarif
-          # (Optional) Read-only PAT token. Uncomment the `repo_token` line below if:
-          # - you want to enable the Branch-Protection check on a *public* repository, or
-          # - you are installing Scorecards on a *private* repository
-          # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-pat.
-          # repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
+        # (Optional) Read-only PAT token. Uncomment the `repo_token` line below if:
+        # - you want to enable the Branch-Protection check on a *public* repository, or
+        # - you are installing Scorecards on a *private* repository
+        # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-pat.
+        # repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
 
-          # Publish the results for public repositories to enable scorecard badges. For more details, see
-          # https://github.com/ossf/scorecard-action#publishing-results.
-          # For private repositories, `publish_results` will automatically be set to `false`, regardless
-          # of the value entered here.
+        # Publish the results for public repositories to enable scorecard badges. For more details, see
+        # https://github.com/ossf/scorecard-action#publishing-results.
+        # For private repositories, `publish_results` will automatically be set to `false`, regardless
+        # of the value entered here.
         publish_results: true
 
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
