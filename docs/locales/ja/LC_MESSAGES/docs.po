@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
-"PO-Revision-Date: 2022-07-08 10:43+0000\n"
+"PO-Revision-Date: 2022-07-13 10:22+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -5408,6 +5408,8 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
+"検査において、大文字と小文字を区別しないように設定します。現在は、:ref"
+":`check-placeholders` 品質検査のみに影響します。"
 
 #: ../../admin/checks.rst:139 ../../user/checks.rst:1149
 msgid "``safe-html``"
@@ -13252,11 +13254,11 @@ msgstr "Slack 認証を有効にします。参照: :ref:`slack-auth`。"
 
 #: ../../admin/install/docker.rst:1065
 msgid "OpenID Connect"
-msgstr ""
+msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1074
 msgid "Configures generic OpenID Connect intergration."
-msgstr ""
+msgstr "一般的な OpenID Connect の統合を設定します。"
 
 #: ../../admin/install/docker.rst:1078
 msgid ":doc:`psa:backends/oidc`"
@@ -23314,7 +23316,7 @@ msgstr "Cloudflare からのリバース プロキシ情報を解析する問題
 
 #: ../../changes.rst:8
 msgid "Make parse error lock a component from translating."
-msgstr ""
+msgstr "コンポーネントの翻訳を解析エラーからロックするように変更。"
 
 #: ../../changes.rst:9
 msgid "Fixed configuring intermediate file in the discovery add-on."
@@ -23418,7 +23420,8 @@ msgstr "機械翻訳サービスをプロジェクト単位で設定できるよ
 msgid ""
 "Added separate permission for resolving comments and grant it to the :"
 "guilabel:`Review strings` role."
-msgstr ""
+msgstr "コメントを解決するための個別の権限を追加し、それを :guilabel:`文字列の査読` "
+"ロールに付与。"
 
 #: ../../changes.rst:37
 msgid "Added support for storing alternative translations in the CSV file."
@@ -23426,7 +23429,7 @@ msgstr "CSV ファイルに複数の代替翻訳を格納できる仕様変更�
 
 #: ../../changes.rst:38
 msgid "The placeholders check can now be case-insensitive as well."
-msgstr ""
+msgstr "プレースホルダの検査でも、大文字と小文字を区別できるように変更。"
 
 #: ../../changes.rst:40
 msgid ""
@@ -24276,12 +24279,11 @@ msgstr "SAML 認証の統合の改善。"
 
 #: ../../changes.rst:293
 msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
-msgstr ""
-"コーナー ケースをより適切に処理するために :ref:`vcs-gerrit` の統合を修正。"
+msgstr "一部の特殊なケースをより適切に処理するために :ref:`vcs-gerrit` の統合を修正。"
 
 #: ../../changes.rst:294
 msgid "Weblate now requires Django 3.2."
-msgstr "Weblate が Django 3.2 を必要とするように変更。"
+msgstr "Weblate は、Django 3.2 が必須となりました。"
 
 #: ../../changes.rst:295
 msgid "Fixed inviting users when e-mail authentication is disabled."
@@ -24614,7 +24616,7 @@ msgstr "2021 年 3 月 5 日にリリース。"
 
 #: ../../changes.rst:399
 msgid "Fixed editing of glossary flags in some corner cases."
-msgstr "一部のコーナーケースで用語集フラグの編集を修正。"
+msgstr "一部の特殊なケースで用語集フラグの編集を修正。"
 
 #: ../../changes.rst:400
 msgid "Extend metrics usage to improve performance of several pages."
@@ -24889,7 +24891,7 @@ msgstr "コンポーネント作成時の検証の改善。"
 
 #: ../../changes.rst:481
 msgid "Weblate now requires Django 3.1."
-msgstr "Weblate が Django 3.1 を必要とするように変更。"
+msgstr "Weblate は、Django 3.1 が必須となりました。"
 
 #: ../../changes.rst:482
 msgid "Added support for appearance customization in the management interface."
@@ -25702,7 +25704,7 @@ msgstr ""
 
 #: ../../changes.rst:711
 msgid "Fixed PostgreSQL migration for non superusers."
-msgstr ""
+msgstr "スーパーユーザー以外の PostgreSQL の移行を修正。"
 
 #: ../../changes.rst:712
 msgid "Fixed changing the repository URL while creating component."
@@ -25755,39 +25757,39 @@ msgstr ""
 
 #: ../../changes.rst:729
 msgid "Included edit distance in changes listing and CSV and reports."
-msgstr ""
+msgstr "変更リスト、CSV、およびレポートに編集した文字数を追加。"
 
 #: ../../changes.rst:730
 msgid "Avoid false positives of punctuation spacing check for Canadian French."
-msgstr ""
+msgstr "カナダ系フランス語の句読点間隔検査の誤検出を修正。"
 
 #: ../../changes.rst:731
 msgid "Fixed XLIFF export with placeholders."
-msgstr ""
+msgstr "プレースホルダを使用した XLIFF エクスポートの修正。"
 
 #: ../../changes.rst:732
 msgid "Fixed false positive with zero width check."
-msgstr ""
+msgstr "ゼロ幅検査の誤検出を修正。"
 
 #: ../../changes.rst:733
 msgid "Improved reporting of configuration errors."
-msgstr ""
+msgstr "構成エラーのレポートの改良。"
 
 #: ../../changes.rst:734
 msgid "Fixed bilingual source upload."
-msgstr ""
+msgstr "バイリンガル ソースのアップロードの修正。"
 
 #: ../../changes.rst:735
 msgid "Automatically detect supported languages for DeepL machine translation."
-msgstr ""
+msgstr "DeepL 機械翻訳に対応している言語の自動検出に対応。"
 
 #: ../../changes.rst:736
 msgid "Fixed progress bar display in some corner cases."
-msgstr ""
+msgstr "一部の特殊なケースでのプログレスバー表示を修正。"
 
 #: ../../changes.rst:737
 msgid "Fixed some checks triggering on non translated strings."
-msgstr ""
+msgstr "未翻訳の文字列において、一部の検査が起動する問題を修正。"
 
 #: ../../changes.rst:740
 msgid "Weblate 4.0.1"
@@ -25799,7 +25801,7 @@ msgstr "2020 年 4 月 16 日にリリース。"
 
 #: ../../changes.rst:744
 msgid "Fixed package installation from PyPI."
-msgstr ""
+msgstr "PyPI からのパッケージのインストールを修正。"
 
 #: ../../changes.rst:747
 msgid "Weblate 4.0"
@@ -25807,33 +25809,33 @@ msgstr "Weblate 4.0"
 
 #: ../../changes.rst:751
 msgid "Weblate now requires Python 3.6 or newer."
-msgstr ""
+msgstr "Weblate は、Python 3.6 以降が必須となりました。"
 
 #: ../../changes.rst:752
 msgid "Added management overview of component alerts."
-msgstr ""
+msgstr "コンポーネントの警告の管理概要の追加。"
 
 #: ../../changes.rst:753
 msgid "Added component alert for broken repository browser URLs."
-msgstr ""
+msgstr "壊れたリポジトリ ブラウザの URL に対するコンポーネントの警告を追加。"
 
 #: ../../changes.rst:754
 msgid "Improved sign in and registration pages."
-msgstr ""
+msgstr "サインインと登録ページの改良。"
 
 #: ../../changes.rst:755
 msgid ""
 "Project access control and workflow configuration integrated to project "
 "settings."
-msgstr ""
+msgstr "プロジェクトのアクセス制御とワークフロー設定をプロジェクト設定へ統合。"
 
 #: ../../changes.rst:756
 msgid "Added check and highlighter for i18next interpolation and nesting."
-msgstr ""
+msgstr "i18next 補間およびネストの検査とハイライトの追加。"
 
 #: ../../changes.rst:757
 msgid "Added check and highlighter for percent placeholders."
-msgstr ""
+msgstr "パーセントのプレースホルダの検査とハイライトの追加。"
 
 #: ../../changes.rst:758
 msgid "Display suggestions failing checks."
@@ -25841,15 +25843,15 @@ msgstr "検査で不合格となった提案を表示する。"
 
 #: ../../changes.rst:759
 msgid "Record source string changes in history."
-msgstr ""
+msgstr "原文の変更を履歴に記録するように変更。"
 
 #: ../../changes.rst:760
 msgid "Upgraded Microsoft Translator to version 3 API."
-msgstr ""
+msgstr "Microsoft Translator をバージョン 3 の API にアップグレード。"
 
 #: ../../changes.rst:761
 msgid "Reimplemented translation memory backend."
-msgstr ""
+msgstr "翻訳メモリのバックエンドを再実装。"
 
 #: ../../changes.rst:762
 msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
