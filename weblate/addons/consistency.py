@@ -18,6 +18,7 @@
 #
 
 
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -41,9 +42,9 @@ class LangaugeConsistencyAddon(BaseAddon):
         language_consistency.delay(
             component.project_id,
             list(
-                Language.objects.filter(translation__component=component).values_list(
-                    "pk", flat=True
-                )
+                Language.objects.filter(
+                    Q(translation__component=component) | Q(component=component)
+                ).values_list("pk", flat=True)
             ),
         )
 

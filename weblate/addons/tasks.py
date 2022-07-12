@@ -22,6 +22,7 @@ from typing import List
 
 from django.db import Error as DjangoDatabaseError
 from django.db import transaction
+from django.db.models import Q
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
@@ -87,7 +88,9 @@ def language_consistency(project_id: int, language_ids: List[int]):
     languages = Language.objects.filter(id__in=language_ids)
 
     for component in project.component_set.iterator():
-        missing = languages.exclude(translation__component=component)
+        missing = languages.exclude(
+            Q(translation__component=component) | Q(component=component)
+        )
         if not missing:
             continue
         component.commit_pending("language consistency", None)
