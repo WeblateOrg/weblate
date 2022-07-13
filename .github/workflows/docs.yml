@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Cache pip
-      uses: actions/cache@v3.0.4
+      uses: actions/cache@v3.0.5
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
@@ -51,7 +51,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Cache pip
-      uses: actions/cache@v3.0.4
+      uses: actions/cache@v3.0.5
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
