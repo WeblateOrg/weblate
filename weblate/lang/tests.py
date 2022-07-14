@@ -336,7 +336,7 @@ class VerifyPluralsTest(TestCase):
             self.assertEqual(
                 calculated,
                 nplurals,
-                "Invalid nplurals for {}: {} ({}, {})".format(
+                "Invalid nplurals for {}: calculated={} (number={}, formula={})".format(
                     code, calculated, nplurals, plural_formula
                 ),
             )
