@@ -72,6 +72,7 @@ class AddonList(AddonViewMixin, ListView):
 
     def post(self, request, **kwargs):
         component = self.get_component()
+        component.acting_user = request.user
         name = request.POST.get("name")
         addon = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
@@ -130,6 +131,7 @@ class AddonDetail(AddonViewMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
+        obj.component.acting_user = request.user
         if "delete" in request.POST:
             obj.delete()
             return self.redirect_list()

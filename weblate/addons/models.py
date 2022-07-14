@@ -40,7 +40,7 @@ from weblate.addons.events import (
     EVENT_UNIT_POST_SAVE,
     EVENT_UNIT_PRE_CREATE,
 )
-from weblate.trans.models import Component, Unit
+from weblate.trans.models import Change, Component, Unit
 from weblate.trans.signals import (
     component_post_update,
     store_post_load,
@@ -102,8 +102,18 @@ class Addon(models.Model):
         # Reallocate to repository
         if self.repo_scope and self.component.linked_component:
             self.component = self.component.linked_component
+
         # Clear add-on cache
         self.component.drop_addons_cache()
+
+        # Store history (if not updating state only)
+        if update_fields != ["state"]:
+            self.store_change(
+                Change.ACTION_ADDON_CREATE
+                if self.pk or force_insert
+                else Change.ACTION_ADDON_CHANGE
+            )
+
         return super().save(
             force_insert=force_insert,
             force_update=force_update,
@@ -121,6 +131,15 @@ class Addon(models.Model):
             },
         )
 
+    def store_change(self, action):
+        Change.objects.create(
+            action=action,
+            user=self.component.acting_user,
+            component=self.component,
+            target=self.name,
+            details=self.configuration,
+        )
+
     def configure_events(self, events):
         for event in events:
             Event.objects.get_or_create(addon=self, event=event)
@@ -134,11 +153,13 @@ class Addon(models.Model):
     def addon(self):
         return self.addon_class(self)
 
-    def delete(self, *args, **kwargs):
+    def delete(self, using=None, keep_parents=False):
+        # Store history
+        self.store_change(Change.ACTION_ADDON_REMOVE)
         # Delete any addon alerts
         if self.addon.alert:
             self.component.delete_alert(self.addon.alert)
-        super().delete(*args, **kwargs)
+        return super().delete(using=using, keep_parents=keep_parents)
 
     def disable(self):
         self.component.log_warning(

@@ -243,6 +243,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SCREENSHOT_ADDED = 57
     ACTION_SCREENSHOT_UPLOADED = 58
     ACTION_STRING_REPO_UPDATE = 59
+    ACTION_ADDON_CREATE = 60
+    ACTION_ADDON_CHANGE = 61
+    ACTION_ADDON_REMOVE = 62
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -363,6 +366,12 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
         # Translators: Name of event in the history
         (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
+        # Translators: Name of event in the history
+        (ACTION_ADDON_CREATE, gettext_lazy("Add-on installed")),
+        # Translators: Name of event in the history
+        (ACTION_ADDON_CHANGE, gettext_lazy("Add-on configuration changed")),
+        # Translators: Name of event in the history
+        (ACTION_ADDON_REMOVE, gettext_lazy("Add-on uninstalled")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -593,6 +602,7 @@ class Change(models.Model, UserDisplayMixin):
         )
 
     def get_details_display(self):  # noqa: C901
+        from weblate.addons.models import ADDONS
         from weblate.utils.markdown import render_markdown
 
         details = self.details
@@ -611,6 +621,16 @@ class Change(models.Model, UserDisplayMixin):
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
+
+        if self.action in (
+            self.ACTION_ADDON_CREATE,
+            self.ACTION_ADDON_CHANGE,
+            self.ACTION_ADDON_REMOVE,
+        ):
+            try:
+                return ADDONS[self.target].name
+            except KeyError:
+                return self.target
 
         if self.action in self.AUTO_ACTIONS and self.auto_status:
             return str(self.AUTO_ACTIONS[self.action])

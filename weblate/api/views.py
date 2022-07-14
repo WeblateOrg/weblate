@@ -859,6 +859,7 @@ class ComponentViewSet(
     @action(detail=True, methods=["post"])
     def addons(self, request, **kwargs):
         obj = self.get_object()
+        obj.acting_user = request.user
 
         if not request.user.has_perm("component.edit", obj):
             self.permission_denied(request, "Can not create addon")
@@ -1605,10 +1606,12 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        instance.component.acting_user = request.user
         self.perm_check(request, instance)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        instance.component.acting_user = request.user
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)
