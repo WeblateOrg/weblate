@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
 "PO-Revision-Date: 2022-07-14 10:06+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"Last-Translator: YangYulin <yylteam@icloud.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -37815,10 +37815,13 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
+"此检查的默认行为是从检查中排除内置黑名单中的单词。这些单词经常被翻译。这对于"
+"避免短字符串的误报非常有用，短字符串仅由在多种语言中相同的单个单词组成。可以"
+"通过向字符串或组件添加“严格相同”标志来禁用此黑名单。"
 
 #: ../../user/checks.rst:1136
 msgid ":ref:`component`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`component`， :ref:`custom-checks`"
 
 #: ../../user/checks.rst:1142
 msgid "Unsafe HTML"
@@ -37838,18 +37841,21 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
+"翻译使用了不安全的 HTML 标记。必须使用 ``safe-html`` 标志启用此检查（请参阅 "
+":ref:`custom-checks`）。还有附带的自动修复程序，可以自动清理标记。"
 
 #: ../../user/checks.rst:1158
 msgid ""
 "When ``md-text`` flag is also used, the Markdown style links are also "
 "allowed."
-msgstr ""
+msgstr "当同时使用 ``md-text`` 标志时，也允许使用 Markdown 样式链接。"
 
 #: ../../user/checks.rst:1162
 msgid ""
 "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
 ">`_ library developed by Mozilla."
-msgstr ""
+msgstr "HTML 检查由 Mozilla 开发的 `Bleach <https://bleach.readthedocs.io/>`_ "
+"库执行。"
 
 #: ../../user/checks.rst:1170
 msgid "URL"
@@ -38151,8 +38157,8 @@ msgid ""
 "download` menu:"
 msgstr ""
 "您还可以下载转换为一种广泛使用的本地化格式的翻译。转换后的文件将使用 Weblate "
-"中提供的数据进行丰富；例如附加上下文、评论或标志。可通过 :guilabel:`文件` ↓ "
-":guilabel:`自定义下载` 菜单获得各种文件格式："
+"中提供的数据进行丰富；例如附加上下文、评论或标志。以下各种文件格式可通过 "
+":guilabel:`文件` ↓ :guilabel:`自定义下载` 菜单获得："
 
 #: ../../user/files.rst:30
 msgid "gettext PO"
@@ -38217,7 +38223,7 @@ msgstr "上传翻译"
 msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
-msgstr "进行更改后，请使用 :guilabel:`文件` 菜单中的 :guilabel:`上传翻译` 选项。"
+msgstr "进行更改后，请在 :guilabel:`文件` 菜单中使用 :guilabel:`上传翻译`。"
 
 #: ../../user/files.rst:68
 msgid ""
@@ -38313,8 +38319,8 @@ msgstr "将新字符串添加到翻译中。它跳过已经存在的那个。"
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
-msgstr "如果您想添加新字符串并更新现有翻译，请使用 :guilabel:`添加为翻译 ` "
-"选项第二次上传文件。"
+msgstr "如果您想添加新字符串并更新现有翻译，请使用 :guilabel:`添加为翻译` "
+"第二次上传文件。"
 
 #: ../../user/files.rst:113
 msgid ""
@@ -38415,6 +38421,8 @@ msgid ""
 "optionally with other projects using :ref:`component-links` from the "
 "respective glossary component."
 msgstr ""
+"给定项目的空词汇表会随项目自动创建。词汇表在同一个项目的所有组件之间共享，"
+"并且可以选择使用来自相应词汇表组件的 :ref:`component-links` 与其他项目共享。"
 
 #: ../../user/glossary.rst:32
 msgid ""
@@ -39294,6 +39302,10 @@ msgid ""
 "on the original string, for example that it should be rephrased or to ask "
 "questions about it."
 msgstr ""
+"可以发布三种类型的评论：用于翻译、源字符串或在使用 :ref:`project-"
+"source_review` 启用此功能时报告源字符串错误。选择一个适合您要讨论的主题。源字"
+"符串注释无论如何都有助于提供对原始字符串的反馈，例如应该改写它或提出有关它的"
+"问题。"
 
 #: ../../user/translating.rst:71
 msgid ""
