@@ -1164,8 +1164,8 @@ class AddonSerializer(serializers.ModelSerializer):
         try:
             name = attrs["name"]
         except KeyError:
-            if self.partial and self.instance:
-                name = self.instance.name
+            if self.partial and instance:
+                name = instance.name
             else:
                 raise serializers.ValidationError(
                     {"name": "Can not change add-on name"}
