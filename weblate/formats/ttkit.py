@@ -55,6 +55,7 @@ from weblate.formats.base import (
     UpdateError,
 )
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
+from weblate.lang.models import Plural
 from weblate.trans.util import (
     get_clean_env,
     get_string,
@@ -1030,8 +1031,6 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     @classmethod
     def get_plural(cls, language, store=None):
         """Return matching plural object."""
-        from weblate.lang.models import Plural
-
         if store:
             header = store.store.parseheader()
         else:
@@ -1374,6 +1373,11 @@ class AndroidFormat(TTKitFormat):
     language_format = "android"
     check_flags = ("java-format",)
     autoaddon = {"weblate.cleanup.blank": {}}
+    plural_preference = (
+        Plural.SOURCE_ANDROID,
+        Plural.SOURCE_CLDR,
+        Plural.SOURCE_DEFAULT,
+    )
 
 
 class DictStoreMixin:

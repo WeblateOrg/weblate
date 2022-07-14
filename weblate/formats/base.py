@@ -194,6 +194,7 @@ class TranslationFormat:
     bilingual_class = None
     create_style = "create"
     has_multiple_strings: bool = False
+    plural_preference: Optional[Tuple[int, ...]] = None
 
     @classmethod
     def get_identifier(cls):
@@ -269,6 +270,17 @@ class TranslationFormat:
     @classmethod
     def get_plural(cls, language, store=None):
         """Return matching plural object."""
+        if cls.plural_preference is not None:
+            # Fetch all matching plurals
+            plurals = language.plural_set.filter(source__in=cls.plural_preference)
+
+            # Use first matching in the order of preference
+            for source in cls.plural_preference:
+                for plural in plurals:
+                    if plural.source == source:
+                        return plural
+
+        # Fall back to default one
         return language.plural
 
     @cached_property
