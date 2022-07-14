@@ -6,6 +6,25 @@ Language definitions
 To present different translations properly, info about language name,
 text direction, plural definitions and language code is needed.
 
+.. _included-languages:
+
+Built-in language definitions
+-----------------------------
+
+Definitions for about 600 languages are included in Weblate and the list is
+extended in every release. Whenever Weblate is upgraded (more specifically
+whenever :program:`weblate migrate` is executed, see
+:ref:`generic-upgrade-instructions`) the database of languages is updated to
+include all language definitions shipped in Weblate.
+
+This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
+enforce updating the database to match Weblate built-in data using
+:djadmin:`setuplang`.
+
+.. seealso::
+
+   :ref:`extending-languages`
+
 .. _language-parsing-codes:
 
 Parsing language codes
@@ -57,25 +76,6 @@ You can change language definitions in the languages interface
 While editing, make sure all fields are correct (especially plurals and
 text direction), otherwise translators will be unable to properly edit
 those translations.
-
-.. _included-languages:
-
-Built-in language definitions
------------------------------
-
-Definitions for about 600 languages are included in Weblate and the list is
-extended in every release. Whenever Weblate is upgraded (more specifically
-whenever :program:`weblate migrate` is executed, see
-:ref:`generic-upgrade-instructions`) the database of languages is updated to
-include all language definitions shipped in Weblate.
-
-This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
-enforce updating the database to match Weblate built-in data using
-:djadmin:`setuplang`.
-
-.. seealso::
-
-   :ref:`extending-languages`
 
 .. _ambiguous-languages:
 
