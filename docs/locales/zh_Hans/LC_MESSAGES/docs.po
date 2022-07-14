@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
-"PO-Revision-Date: 2022-07-13 10:22+0000\n"
+"PO-Revision-Date: 2022-07-14 10:06+0000\n"
 "Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -37870,7 +37870,8 @@ msgid ""
 "The translation does not contain an URL. This is triggered only in case the "
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
-msgstr ""
+msgstr "翻译不包含 URL。仅当单元被标记为包含 URL 时才会触发。在这种情况下，"
+"翻译必须是有效的 URL。"
 
 #: ../../user/checks.rst:1187
 msgid "XML markup"
@@ -37889,18 +37890,20 @@ msgid ""
 "This usually means the resulting output will look different. In most cases "
 "this is not a desired result from changing the translation, but occasionally "
 "it is."
-msgstr ""
+msgstr "这通常意味着生成的输出看起来会有所不同。在大多数情况下，这不是更改翻译所期望"
+"的结果，但有时确实如此。"
 
 #: ../../user/checks.rst:1197
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
-msgstr ""
+msgstr "检查 XML 标记是否在源和翻译之间复制。"
 
 #: ../../user/checks.rst:1201 ../../user/checks.rst:1220
 msgid ""
 "This check is disabled by the ``safe-html`` flag as the HTML cleanup done by "
 "it can produce HTML markup which is not valid XML."
-msgstr ""
+msgstr "此检查被 ``safe-html`` 标记禁用，因为它完成的 HTML 清理可能会生成无效 XML 的 "
+"HTML 标记。."
 
 #: ../../user/checks.rst:1207
 msgid "XML syntax"
@@ -37916,7 +37919,7 @@ msgstr "``weblate.checks.markup.XMLValidityCheck``"
 
 #: ../../user/checks.rst:1216
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "此XML标记无效。"
 
 #: ../../user/checks.rst:1226
 msgid "Zero-width space"
@@ -37934,14 +37937,15 @@ msgstr "``weblate.checks.chars.ZeroWidthSpaceCheck``"
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
-msgstr ""
+msgstr "零宽空格 (<U+200B>) 字符用于分隔单词中的消息（自动换行）。"
 
 #: ../../user/checks.rst:1235
 msgid ""
 "As they are usually inserted by mistake, this check is triggered once they "
 "are present in translation. Some programs might have problems when this "
 "character is used."
-msgstr ""
+msgstr "由于它们通常是被错误插入的，一旦它们出现在翻译中，就会触发这个检查。一些程序"
+"在使用这个字符时可能会出现问题。"
 
 #: ../../user/checks.rst:1240
 msgid ""
@@ -37980,13 +37984,15 @@ msgstr "``weblate.checks.source.EllipsisCheck``"
 msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
-msgstr ""
+msgstr "当字符串使用三个点 (``...``) ，而它应该使用一个省略号字符 "
+"(``…``)，时就会失败。"
 
 #: ../../user/checks.rst:1261
 msgid ""
 "Using the Unicode character is in most cases the better approach and looks "
 "better rendered, and may sound better with text-to-speech."
-msgstr ""
+msgstr "在大多数情况下，使用 Unicode 字符是更好的方法，并且看起来呈现得更好，并且使用"
+"文本到语音转换可能听起来更好。"
 
 #: ../../user/checks.rst:1271
 msgid "ICU MessageFormat syntax"
@@ -38022,7 +38028,7 @@ msgstr "``weblate.checks.source.LongUntranslatedCheck``"
 msgid ""
 "When the string has not been translated for a long time, it can indicate a "
 "problem in a source string making it hard to translate."
-msgstr ""
+msgstr "当字符串很长时间没有被翻译时，它可能表明源字符串中存在问题，使其难以翻译。"
 
 #: ../../user/checks.rst:1302
 msgid "Multiple failing checks"
@@ -38041,14 +38047,16 @@ msgid ""
 "Numerous translations of this string have failing quality checks. This is "
 "usually an indication that something could be done to improve the source "
 "string."
-msgstr ""
+msgstr "该字符串的许多翻译都未通过质量检查。这通常表明可以采取一些措施来改进源字符串"
+"。"
 
 #: ../../user/checks.rst:1313
 msgid ""
 "This check failing can quite often be caused by a missing full stop at the "
 "end of a sentence, or similar minor issues which translators tend to fix in "
 "translation, while it would be better to fix it in the source string."
-msgstr ""
+msgstr "这种检查失败往往是由于句子末尾缺少句号或类似的小问题造成的，译者往往在翻译中"
+"解决这些问题，而最好在源字符串中解决。"
 
 #: ../../user/checks.rst:1320
 msgid "Multiple unnamed variables"
@@ -38068,12 +38076,12 @@ msgstr "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
-msgstr ""
+msgstr "字符串中有多个未命名的变量，因此译者无法重新排序它们。"
 
 #: ../../user/checks.rst:1332
 msgid ""
 "Consider using named variables instead to allow translators to reorder them."
-msgstr ""
+msgstr "考虑使用命名变量来允许翻译人员重新排序。"
 
 #: ../../user/checks.rst:1337
 msgid "Unpluralised"
@@ -38432,7 +38440,8 @@ msgstr "术语表术语"
 msgid ""
 "Glossary terms are translated the same way regular strings are. You can "
 "toggle additional features using the :guilabel:`Tools` menu for each term."
-msgstr ""
+msgstr "术语表的翻译方式与普通字符串的翻译方式相同。你可以使用每个术语的 "
+":guilabel:`Tools`菜单为每个术语切换附加功能。"
 
 #: ../../user/glossary.rst:52
 msgid "Untranslatable terms"
@@ -38446,6 +38455,10 @@ msgid ""
 "terms that should not be changed in other languages. Such terms are visually "
 "highlighted in the glossary sidebar."
 msgstr ""
+"标记某些术语的翻译 ``read-only`` 通过批量编辑、输入标记或使用 "
+":guilabel:`Tools` ↓ :guilabel:`Mark as read-only` 表示它们不能被翻译。对于品"
+"牌名称或其他不应该在其他语言中被改变的术语，可以使用这个方法。这样的术语会在"
+"术语表侧边栏中直观地突出显示。"
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
