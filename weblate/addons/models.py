@@ -98,12 +98,12 @@ class Addon(models.Model):
         cls = self.addon_class
         self.project_scope = cls.project_scope
         self.repo_scope = cls.repo_scope
-        if self.component:
-            # Reallocate to repository
-            if self.repo_scope and self.component.linked_component:
-                self.component = self.component.linked_component
-            # Clear add-on cache
-            self.component.drop_addons_cache()
+
+        # Reallocate to repository
+        if self.repo_scope and self.component.linked_component:
+            self.component = self.component.linked_component
+        # Clear add-on cache
+        self.component.drop_addons_cache()
         return super().save(
             force_insert=force_insert,
             force_update=force_update,
