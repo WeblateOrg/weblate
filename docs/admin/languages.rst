@@ -23,7 +23,8 @@ enforce updating the database to match Weblate built-in data using
 
 .. seealso::
 
-   :ref:`extending-languages`
+   :ref:`extending-languages`,
+   `Current language definitions <https://github.com/WeblateOrg/language-data/blob/main/languages.csv>`_
 
 .. _language-parsing-codes:
 
