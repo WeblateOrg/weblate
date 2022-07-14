@@ -31,6 +31,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
@@ -315,14 +316,16 @@ class OpenGraphWidget(NormalWidget):
         ]
 
     def get_name(self) -> str:
-        return self.obj.name
+        return str(self.obj)
 
     def get_title(self, name: str, suffix: str = "") -> str:
         # Translators: Text on OpenGraph image
-        return format_html(
-            _("Project {}"),
-            format_html("<b>{}</b>{}", name, suffix),
-        )
+        if isinstance(self.obj, Project):
+            template = _("Project {}")
+        else:
+            template = _("Component {}")
+
+        return format_html(template, format_html("<b>{}</b>{}", name, suffix))
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
