@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-01 13:21+0200\n"
 "PO-Revision-Date: 2022-07-14 10:06+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -794,7 +794,7 @@ msgstr ""
 
 #: ../../admin/access.rst:402
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
-msgstr "复查 ``foo/bar`` 西班牙语翻译（不是在其他地方）中的字符串。"
+msgstr "审校 ``foo/bar`` 西班牙语翻译（而非其他地方）中的字符串。"
 
 #: ../../admin/access.rst:403
 msgid ""
@@ -2008,7 +2008,7 @@ msgstr "``20`` -- 已翻译"
 
 #: ../../admin/addons.rst:253
 msgid "``30`` -- Approved"
-msgstr "``30`` -- 已审核"
+msgstr "``30`` -- 已核准"
 
 #: ../../admin/addons.rst:255
 #, fuzzy
@@ -21207,8 +21207,8 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``, ``add``), see :ref:`upload-method`"
 msgstr ""
-"上传方法 (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, "
-"``source``, ``add``)，见 :ref:`upload-method`"
+"上传方法（``translate``、``approve``、``suggest``、``fuzzy``、``replace``、``"
+"source``、``add``），请参见 :ref:`upload-method`"
 
 #: ../../api.rst:1945 ../../wlc.rst:277
 msgid ""
@@ -21334,7 +21334,7 @@ msgstr "翻译单元的标记"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
-msgstr "单元状态，0——未翻译，10——需要编辑，20——已翻译，30——以通过，100——只读"
+msgstr "单元状态，0——未翻译、10——需要编辑、20——已翻译、30——已核准、100——只读"
 
 #: ../../api.rst:2053
 msgid "whether the unit is fuzzy or marked for review"
@@ -21346,7 +21346,7 @@ msgstr "单元是否被翻译"
 
 #: ../../api.rst:2055
 msgid "whether the translation is approved"
-msgstr "翻译是否被核准"
+msgstr "译文是否已核准"
 
 #: ../../api.rst:2056
 msgid "unit position in translation file"
@@ -21409,9 +21409,8 @@ msgstr "对翻译单元执行部分更新。"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
-msgstr ""
-"单元状态, 0 - 未翻译, 10 - 需要编辑, 20 - 已翻译, 30 - 已批准 (需启用审核工作"
-"流, 见 :ref:`reviews`)"
+msgstr "单元状态，0——未翻译、10——需要编辑、20——已翻译、30——已核准（需启用审校流程，"
+"请参见 :ref:`reviews`）"
 
 #: ../../api.rst:2087
 msgid "Performs full update on translation unit."
@@ -23375,7 +23374,7 @@ msgstr "改进了批量编辑的性能。"
 #: ../../changes.rst:409
 msgid ""
 "Fixed preserving \"Needs editing\" and \"Approved\" states for ODF files."
-msgstr "修复了为 ODF 文件保留“需要编辑”和“已批准”状态的问题。"
+msgstr "修复了在 ODF 文件保存“需要编辑”和“已核准”状态的问题。"
 
 #: ../../changes.rst:410
 msgid "Improved interface for customizing translation-file downloads"
@@ -24061,7 +24060,7 @@ msgstr "为 ModernMT 添加了支持。"
 
 #: ../../changes.rst:618
 msgid "Allow to avoid overwriting approved translations on file upload."
-msgstr "允许避免在文件上传时覆盖已批准的翻译。"
+msgstr "允许避免在文件上传时覆盖已核准的译文。"
 
 #: ../../changes.rst:619
 msgid "Dropped support for some compatibility URL redirects."
@@ -24873,7 +24872,7 @@ msgstr "修复了一些 Python 2.7 安装中的数据的迁移。"
 
 #: ../../changes.rst:871
 msgid "Allow configuration of Git shallow cloning."
-msgstr "允许 Git 钱克隆的配置。"
+msgstr "允许配置 Git 浅克隆。"
 
 #: ../../changes.rst:872
 msgid "Improved background notification processing."
@@ -25403,7 +25402,7 @@ msgstr "对于 API 浏览使用了与应用一致的外观。"
 
 #: ../../changes.rst:1031
 msgid "Include approved stats in the reports."
-msgstr "在报告中包括了同意的统计数据。"
+msgstr "在报告中包含已核准相关的统计数据。"
 
 #: ../../changes.rst:1032
 msgid "Report progress when updating translation component."
@@ -26387,7 +26386,7 @@ msgstr "更改了键盘快捷键，以减少与浏览器/系统快捷键的冲�
 
 #: ../../changes.rst:1347
 msgid "Improved support for approved flag in XLIFF files."
-msgstr "改进了对 XLIFF 文件中的同意标记的支持。"
+msgstr "改进了对 XLIFF 文件中的已核准标记的支持。"
 
 #: ../../changes.rst:1348
 msgid "Added support for not wrapping long strings in gettext PO files."
@@ -32059,7 +32058,7 @@ msgstr "`Approved`"
 
 #: ../../devel/reporting.rst:61
 msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
-msgstr "在复查流程中同意的字符串数量（请参见 :ref:`reviews`）。"
+msgstr "在审校流程中已核准的字符串数量（请参见 :ref:`reviews`）。"
 
 #: ../../devel/reporting.rst:63
 msgid "`Edited`"
@@ -33820,7 +33819,7 @@ msgstr "支持 [#xl]_"
 
 #: ../../formats.rst:65
 msgid "needs editing, approved"
-msgstr "需要编辑、已批准"
+msgstr "需要编辑、已核准"
 
 #: ../../formats.rst:67
 msgid ":ref:`javaprop`"
@@ -34245,9 +34244,9 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
-"如果翻译字符串具有 ``approved=\"yes\"``，那么它还将被导入 Weblate 作为 "
-"\"Approved\"（同意的），任何其它内容被导入作为 \"Waiting for review\" （等待"
-"复核，这与 XLIFF 规范匹配）。"
+"如果翻译字符串具有 ``approved=\"yes\"``，那么它还将作为“Approved”（已核准）"
+"导入 Weblate，其他的将作为 “Waiting for review”（待审校）导入（符合 XLIFF "
+"规范）。"
 
 #: ../../formats.rst:318
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
@@ -34262,7 +34261,7 @@ msgstr "``state`` 属性只在字符串标记为需要编辑的情况下添加�
 #: ../../formats.rst:321
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
-msgstr "``approved`` 属性只在字符串已经被复查的情况下添加。"
+msgstr "``approved`` 属性只在字符串已审校的情况下添加。"
 
 #: ../../formats.rst:322
 msgid ""
@@ -34275,9 +34274,8 @@ msgid ""
 "That means that when using the XLIFF format, it is strongly recommended to "
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
-msgstr ""
-"那意味着当使用 XLIFF 格式时，强烈推荐打开 Weblate 复查过程，从而能看到并更改"
-"字符串的同意状态。"
+msgstr "这意味着在使用 XLIFF 格式时，强烈推荐打开 Weblate "
+"审校过程，以便查看和更改字符串的核准状态。"
 
 #: ../../formats.rst:327
 msgid ""
@@ -41048,7 +41046,7 @@ msgstr ""
 
 #: ../../workflows.rst:40
 msgid "Waiting for review"
-msgstr "等待复查"
+msgstr "待审校"
 
 #: ../../workflows.rst:40
 msgid ""
@@ -41058,7 +41056,7 @@ msgstr "已翻译，但未进行审核。它作为有效翻译存储在文件中
 
 #: ../../workflows.rst:46
 msgid "Approved"
-msgstr "已批准"
+msgstr "已核准"
 
 #: ../../workflows.rst:43
 msgid ""
@@ -41220,7 +41218,7 @@ msgstr "*审校员* 可以编辑所有翻译（包括已核准的翻译）。"
 
 #: ../../workflows.rst:141
 msgid "Suggestions can also be used to suggest changes for approved strings."
-msgstr "建议还可以用于建议更改已批准的字符串。"
+msgstr "建议还可以用于建议更改已核准的字符串。"
 
 #: ../../workflows.rst:159
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
