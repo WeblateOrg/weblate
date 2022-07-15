@@ -186,9 +186,13 @@ def cleanup_project(pk):
             continue
         with transaction.atomic():
             # Remove all units where there is just one referenced unit (self)
-            translation.unit_set.annotate(Count("unit")).filter(
-                unit__count__lte=1
-            ).delete()
+            deleted, details = (
+                translation.unit_set.annotate(Count("unit"))
+                .filter(unit__count__lte=1)
+                .delete()
+            )
+            if deleted:
+                translation.log_info("removed leaf units: %s", details)
 
 
 @app.task(trail=False)
