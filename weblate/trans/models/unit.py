@@ -49,11 +49,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.db import (
-    FastDeleteModelMixin,
-    FastDeleteQuerySetMixin,
-    using_postgresql,
-)
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.search import parse_query
@@ -83,7 +79,7 @@ SIMPLE_FILTERS = {
 NEWLINES = re.compile(r"\r\n|\r|\n")
 
 
-class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
+class UnitQuerySet(models.QuerySet):
     def filter_type(self, rqtype):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
@@ -296,7 +292,7 @@ class LabelsField(models.ManyToManyField):
                 through.filter(unit__source_unit=instance, label__name=label).delete()
 
 
-class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
+class Unit(models.Model, LoggerMixin):
 
     translation = models.ForeignKey("Translation", on_delete=models.deletion.CASCADE)
     id_hash = models.BigIntegerField()
