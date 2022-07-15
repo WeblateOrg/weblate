@@ -516,6 +516,10 @@ class TranslationFormat:
         cls.create_new_file(filename, language, base, callback)
 
     @classmethod
+    def get_new_file_content(cls):
+        return None
+
+    @classmethod
     def create_new_file(
         cls,
         filename: str,
