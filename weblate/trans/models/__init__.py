@@ -166,9 +166,4 @@ def post_delete_linked(sender, instance, **kwargs):
 @disable_for_loaddata
 def stats_invalidate(sender, instance, **kwargs):
     """Invalidate stats on new comment or suggestion."""
-    # Invalidate stats counts
-    instance.unit.translation.invalidate_cache()
-    # Invalidate unit cached properties
-    for key in ["all_comments", "suggestions"]:
-        if key in instance.__dict__:
-            del instance.__dict__[key]
+    instance.unit.invalidate_related_cache()

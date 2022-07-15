@@ -1588,3 +1588,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     )
                 )
         return result
+
+    def invalidate_related_cache(self):
+        # Invalidate stats counts
+        self.translation.invalidate_cache()
+        # Invalidate unit cached properties
+        for key in ["all_comments", "suggestions"]:
+            if key in self.__dict__:
+                del self.__dict__[key]
