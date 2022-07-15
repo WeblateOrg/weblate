@@ -55,7 +55,6 @@ from weblate.trans.models.variant import Variant
 from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
 from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
@@ -88,7 +87,7 @@ class TranslationManager(models.Manager):
         return translation
 
 
-class TranslationQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
+class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
         from weblate.trans.models import Alert
 
@@ -122,9 +121,7 @@ class TranslationQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         )
 
 
-class Translation(
-    FastDeleteModelMixin, models.Model, URLMixin, LoggerMixin, CacheKeyMixin
-):
+class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)

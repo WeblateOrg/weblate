@@ -87,7 +87,6 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.colors import COLOR_CHOICES
-from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField, JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
@@ -178,7 +177,7 @@ def prefetch_tasks(components):
     return components
 
 
-class ComponentQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
+class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
     def prefetch(self):
@@ -244,7 +243,7 @@ class ComponentQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         return self
 
 
-class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
+class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
