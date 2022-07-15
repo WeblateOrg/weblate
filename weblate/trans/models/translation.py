@@ -1268,6 +1268,7 @@ class Translation(
             self.component.invalidate_cache()
         else:
             self.check_sync(request=request, change=change)
+            self.notify_new(request)
             self.invalidate_cache()
         # Trigger post-update signal
         self.component.trigger_post_update(previous_revision, False)
