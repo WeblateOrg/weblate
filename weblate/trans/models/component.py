@@ -2692,9 +2692,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             updated_unit_id_hashes = {unit.id_hash for unit in updated_units}
 
         # Delete stale regex variants
-        Variant.objects.filter(component=self).exclude(
-            variant_regex__in=("", self.variant_regex)
-        ).delete()
+        self.variant_set.exclude(variant_regex__in=("", self.variant_regex)).delete()
 
         # Handle regex based variants
         if self.variant_regex:
@@ -2733,8 +2731,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             ).update(variant=variant)
 
         # Delete stale variant links
-        Variant.objects.annotate(unit_count=Count("defining_units")).filter(
-            component=self, variant_regex="", unit_count=0
+        self.variant_set.annotate(unit_count=Count("defining_units")).filter(
+            variant_regex="", unit_count=0
         ).delete()
 
     def update_link_alerts(self, noupdate: bool = False):
