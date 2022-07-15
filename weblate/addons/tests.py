@@ -321,7 +321,8 @@ class GettextAddonTest(ViewTestCase):
                 self.assertTrue(text.startswith("@@@_"))
                 # We need to deal with automated fixups
                 self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
-        self.component.addon_set.all().delete()
+        for addon in self.component.addon_set.all():
+            addon.delete()
         translation = self.component.translation_set.get(language_code="de")
         self.assertEqual(translation.check_flags, "")
 
