@@ -384,7 +384,6 @@ class Translation(
             return
         details["reason"] = self.reason
 
-        self.log_info("processing %s, %s", self.filename, self.reason)
         self.component.check_template_valid()
 
         # List of updated units (used for cleanup and duplicates detection)
@@ -393,6 +392,13 @@ class Translation(
         try:
             store = self.store
             translation_store = None
+
+            self.log_info(
+                "processing %s, %s, %d strings",
+                self.filename,
+                self.reason,
+                len(store.content_units),
+            )
 
             # Store plural
             plural = store.get_plural(self.language, store)
