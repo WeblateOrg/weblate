@@ -164,6 +164,10 @@ class Suggestion(models.Model, UserDisplayMixin):
         )
         self.delete()
 
+    def delete(self, using=None, keep_parents=False):
+        self.unit.invalidate_related_cache()
+        return super().delete(using=using, keep_parents=keep_parents)
+
     def get_num_votes(self):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
