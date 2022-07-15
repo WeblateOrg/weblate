@@ -333,20 +333,20 @@ def component_after_save(
 def component_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
-        obj = Component.objects.get(pk=pk)
-        obj.acting_user = user
+        component = Component.objects.get(pk=pk)
+        component.acting_user = user
         Change.objects.create(
-            project=obj.project,
+            project=component.project,
             action=Change.ACTION_REMOVE_COMPONENT,
-            target=obj.slug,
+            target=component.slug,
             user=user,
             author=user,
         )
-        obj.delete()
-        if obj.allow_translation_propagation:
-            components = obj.project.component_set.filter(
+        component.delete()
+        if component.allow_translation_propagation:
+            components = component.project.component_set.filter(
                 allow_translation_propagation=True
-            ).exclude(pk=obj.pk)
+            ).exclude(pk=component.pk)
             for component_id in components.values_list("id", flat=True):
                 update_checks.delay(component_id)
     except Component.DoesNotExist:
@@ -357,11 +357,14 @@ def component_removal(pk, uid):
 def project_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
-        obj = Project.objects.get(pk=pk)
+        project = Project.objects.get(pk=pk)
         Change.objects.create(
-            action=Change.ACTION_REMOVE_PROJECT, target=obj.slug, user=user, author=user
+            action=Change.ACTION_REMOVE_PROJECT,
+            target=project.slug,
+            user=user,
+            author=user,
         )
-        obj.delete()
+        project.delete()
     except Project.DoesNotExist:
         return
 
