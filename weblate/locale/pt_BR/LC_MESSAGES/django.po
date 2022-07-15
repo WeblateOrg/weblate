@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2019, 2021.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2019, 2021, 2022.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019, 2020, 2021, 2022.
 # RD WebDesign <weblate@rdwebdesign.com.br>, 2019.
 # Paulo Schopf <pschopf@gmail.com>, 2019.
@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-14 13:12+0000\n"
-"PO-Revision-Date: 2022-07-04 11:36+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2022-07-16 13:17+0000\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -3779,13 +3779,11 @@ msgstr "Plural de stringsdict"
 
 #: weblate/lang/models.py:683
 msgid "CLDR v38+ plural"
-msgstr ""
+msgstr "Plural da CLDR v38+"
 
 #: weblate/lang/models.py:684
-#, fuzzy
-#| msgid "Android style"
 msgid "Android plural"
-msgstr "Estilo Android"
+msgstr "Plural do Android"
 
 #: weblate/lang/models.py:685
 msgid "Manually entered formula"
@@ -8746,11 +8744,8 @@ msgstr[0] "Tradução concluída com %(count)s texto"
 msgstr[1] "Tradução concluída com %(count)s textos"
 
 #: weblate/templates/snippets/list-objects-percent.html:12
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgid "No strings to translate"
-msgstr "Há um novo texto para ser traduzido"
+msgstr "Nenhum texto para ser traduzido"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9051,16 +9046,12 @@ msgid "Sort By"
 msgstr "Ordenar por"
 
 #: weblate/templates/snippets/sort-field.html:24
-#, fuzzy
-#| msgid "pending"
 msgid "Ascending"
-msgstr "pendente"
+msgstr "Ascendente"
 
 #: weblate/templates/snippets/sort-field.html:27
-#, fuzzy
-#| msgid "pending"
 msgid "Descending"
-msgstr "pendente"
+msgstr "Descendente"
 
 #: weblate/templates/snippets/ssh-key.html:5
 msgid "Public key copied to clipboard."
@@ -9967,10 +9958,8 @@ msgid "Add variant of this string"
 msgstr "Adicionar variante deste texto"
 
 #: weblate/templates/translate.html:192
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add alternative translation"
-msgstr "Adicionar como tradução"
+msgstr "Adicionar tradução alternativa"
 
 #: weblate/templates/translate.html:201 weblate/templates/translate.html:232
 msgid "This translation is currently locked."
@@ -10155,13 +10144,11 @@ msgstr ""
 "Selecionar esta opção definirá o sinalizador de ignorar correspondente."
 
 #: weblate/templates/translate.html:504
-#, fuzzy, python-format
-#| msgid "There is %(count)s comment for this string."
-#| msgid_plural "There are %(count)s comments for this string."
+#, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "Existe %(count)s comentário para este texto."
-msgstr[1] "Existem %(count)s comentários para estes textos."
+msgstr[0] "Existe %(count)s comentário não resolvido para este texto."
+msgstr[1] "Existem %(count)s comentários não resolvidos para estes textos."
 
 #: weblate/templates/translate.html:518
 #, python-format
@@ -10594,10 +10581,8 @@ msgid "Toggle text direction"
 msgstr "Inverter a direção do texto"
 
 #: weblate/trans/forms.py:343
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translation"
-msgstr "Criar tradução"
+msgstr "Tradução alternativa"
 
 #: weblate/trans/forms.py:401
 msgid "Missing translated string!"
@@ -10640,16 +10625,10 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Explicação adicional para esclarecer o significado ou uso do texto."
 
 #: weblate/trans/forms.py:553
-#, fuzzy
-#| msgid "Source string has been changed meanwhile. Please check your changes."
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "O texto fonte foi alterado enquanto isso. Verifique suas alterações."
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid ""
-#| "Translation of the string has been changed meanwhile. Please check your "
-#| "changes."
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
@@ -10703,10 +10682,8 @@ msgid "Do not import"
 msgstr "Não importar"
 
 #: weblate/trans/forms.py:641
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Import as \"Needs editing\""
-msgstr "Necessita edição"
+msgstr "Importar como \"Necessita edição\""
 
 #: weblate/trans/forms.py:642
 msgid "Import as translated"
@@ -10725,22 +10702,16 @@ msgstr ""
 "traduzido."
 
 #: weblate/trans/forms.py:674
-#, fuzzy
-#| msgid "Update only untranslated strings"
 msgid "Change only untranslated strings"
-msgstr "Atualizar apenas textos não traduzidos"
+msgstr "Alterar apenas textos não traduzidos"
 
 #: weblate/trans/forms.py:675
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Change translated strings"
-msgstr "Textos não traduzidos"
+msgstr "Alterar textos traduzidos"
 
 #: weblate/trans/forms.py:676
-#, fuzzy
-#| msgid "Update translated and approved strings"
 msgid "Change translated and approved strings"
-msgstr "Atualizar textos traduzidos e aprovados"
+msgstr "Alterar textos traduzidos e aprovados"
 
 #: weblate/trans/forms.py:686
 msgid "Author name"
@@ -10755,26 +10726,20 @@ msgid "Could not find merged string."
 msgstr "Não foi possível encontrar o texto mesclado."
 
 #: weblate/trans/forms.py:839
-#, fuzzy
-#| msgid "Could not find merged string."
 msgid "Could not find the merged string."
 msgstr "Não foi possível encontrar o texto mesclado."
 
 #: weblate/trans/forms.py:857
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find the reverted change."
-msgstr "Não foi possível reverter a alteração."
+msgstr "Não foi possível encontrar a alteração revertida."
 
 #: weblate/trans/forms.py:865
 msgid "Automatic translation mode"
 msgstr "Modo de tradução automática"
 
 #: weblate/trans/forms.py:869
-#, fuzzy
-#| msgid "Add as needing edit"
 msgid "Add as \"Needing edit\""
-msgstr "Adicionar como necessita edição"
+msgstr "Adicionar como \"Necessita edição\""
 
 #: weblate/trans/forms.py:877
 msgid ""
@@ -10785,10 +10750,8 @@ msgstr ""
 "existentes."
 
 #: weblate/trans/forms.py:882
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Source of automated translations"
-msgstr "Executar tradução automática"
+msgstr "Fonte das traduções automáticas"
 
 #: weblate/trans/forms.py:884
 msgid "Other translation components"
@@ -10844,9 +10807,6 @@ msgid "Scope"
 msgstr "Escopo"
 
 #: weblate/trans/forms.py:1011
-#, fuzzy
-#| msgid ""
-#| "Is your comment specific to this translation or generic for all of them?"
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
@@ -10915,8 +10875,6 @@ msgid "Report format"
 msgstr "Formato do relatório"
 
 #: weblate/trans/forms.py:1190
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose a file format for the report"
 msgstr "Escolha o formato de arquivo para o relatório"
 
@@ -10945,10 +10903,8 @@ msgid "Last year"
 msgstr "Ano passado"
 
 #: weblate/trans/forms.py:1205
-#, fuzzy
-#| msgid "As specified"
 msgid "As specified below"
-msgstr "Como especificado"
+msgstr "Como especificado abaixo"
 
 #: weblate/trans/forms.py:1210 weblate/trans/forms.py:2430
 msgid "Starting date"
