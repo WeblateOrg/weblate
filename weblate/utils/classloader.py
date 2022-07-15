@@ -49,9 +49,11 @@ def load_class(name, setting):
 class ClassLoader:
     """Dict like object to lazy load list of classes."""
 
-    def __init__(self, name, construct=True):
+    def __init__(self, name: str, construct: bool = True, collect_errors: bool = False):
         self.name = name
         self.construct = construct
+        self.collect_errors = collect_errors
+        self.errors = {}
 
     def get_settings(self):
         result = getattr(settings, self.name)
@@ -66,7 +68,13 @@ class ClassLoader:
         result = {}
         value = self.get_settings()
         for path in value:
-            obj = load_class(path, self.name)
+            try:
+                obj = load_class(path, self.name)
+            except ImproperlyConfigured as error:
+                self.errors[path] = error
+                if self.collect_errors:
+                    continue
+                raise
             if self.construct:
                 obj = obj()
             result[obj.get_identifier()] = obj
