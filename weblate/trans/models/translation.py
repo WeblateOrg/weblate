@@ -1095,6 +1095,8 @@ class Translation(
             )
             existing.add(idkey)
             accepted += 1
+        self.was_new = accepted
+        self.notify_new(request)
         component.invalidate_cache()
         if component.needs_variants_update:
             component.update_variants()
@@ -1420,6 +1422,8 @@ class Translation(
                 component.schedule_sync_terminology()
             component.invalidate_cache()
             component_post_update.send(sender=self.__class__, component=component)
+            self.was_new = 1
+            self.notify_new(request)
         return result
 
     @transaction.atomic
@@ -1483,6 +1487,7 @@ class Translation(
         if not self.is_source or not self.component.manage_units:
             return
         expected_count = self.component.translation_set.count()
+        self.was_new = 0
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
@@ -1499,6 +1504,8 @@ class Translation(
                 skip_existing=True,
                 sync_terminology=False,
             )
+            self.was_new += 1
+        self.notify_new(None)
 
     def validate_new_unit_data(  # noqa: C901
         self,
