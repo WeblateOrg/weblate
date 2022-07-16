@@ -735,7 +735,10 @@ class Plural(models.Model):
 
     @cached_property
     def plural_function(self):
-        return gettext.c2py(self.formula if self.formula else "0")
+        try:
+            return gettext.c2py(self.formula if self.formula else "0")
+        except ValueError as error:
+            raise ValueError(f"Failed to compile formula '{self.formula}': {error}")
 
     @cached_property
     def examples(self):
