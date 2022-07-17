@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2022.
+# amano <amano.hajime@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-14 15:13+0200\n"
-"PO-Revision-Date: 2022-07-16 13:17+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2022-07-18 06:29+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -368,8 +369,8 @@ msgid ""
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
 "プロジェクトで悪事を働くユーザーがいる場合、そのユーザーの投稿をブロックでき"
-"ます。ブロックされたユーザーは、書き込み権限があれば、引き続きプロジェクトの"
-"閲覧はできますが、投稿はできなくなります。"
+"ます。ブロックされたユーザーは、権限があれば引き続きプロジェクトの閲覧はでき"
+"ますが、貢献はできなくなります。"
 
 #: ../../admin/access.rst:173
 msgid "Per-project permission management"
@@ -380,10 +381,12 @@ msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"Weblate のユーザー インターフェイスでは、プロジェクトごとに `保護` または `プ"
-"ライベート` に設定、さらに :ref:`manage users <manage-acl>` に設定できます。"
+"Weblate のユーザー インターフェイスでは、プロジェクトごとに `保護` または "
+"`プライベート` に設定することや :ref:`ユーザーの管理 <manage-acl>` "
+"ができます。"
 
 #: ../../admin/access.rst:178
+#, fuzzy
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
@@ -393,11 +396,11 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "デフォルトでは、`ユーザー` および `閲覧者` :ref:`default groups <default-"
-"groups>` のグループに設定された個々のアクセス権は、Weblate 全体では許可されま"
-"せん。これにより、以下の :ref:`custom-acl` の説明にあるように、デフォルトのグ"
-"ループを変更したり、新しいグループを作成したり、個々のコンポーネントの追加の"
-"カスタム設定を作成したりして、サイト全体でこれらのプロジェクトにアクセス権を"
-"付与します。"
+"groups>` のグループに設定された個々のアクセス権は、Weblate "
+"全体では許可されません。これにより、以下の :ref:`custom-acl` の説明にあるよう"
+"に、デフォルトのグループを変更したり、新しいグループを作成したり、個々のコン"
+"ポーネントの追加のカスタム設定を作成したりして、サイト全体でこれらのプロジェ"
+"クトにアクセス権を付与します。"
 
 #: ../../admin/access.rst:184
 msgid ""
@@ -407,8 +410,8 @@ msgid ""
 "team of the project."
 msgstr ""
 "アクセス権を、Weblate ユーザー管理画面から管理する主な利点の 1 つは、スーパー"
-"ユーザー権限を付与せずにアクセス権を他のユーザーに委任できることです。そのた"
-"めには、プロジェクトの` 管理`チームに追加します。"
+"ユーザー権限を付与せずに管理を他のユーザーに委任できることです。そのためには"
+"、プロジェクトの` 管理`チームに追加します。"
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
@@ -420,9 +423,9 @@ msgid ""
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"権限システムはグループとロールに基づいています。ロールにはアクセス権のセット"
-"を設定し、グループはアクセス権をユーザーと翻訳にリンクさせます。詳細について"
-"は、:ref:`auth-model` を確認してください。"
+"権限システムはグループとロールに基づいています。ロールはアクセス権の組み合わ"
+"せを設定し、グループはロールをユーザーと翻訳に結び付けます。詳しくは :ref"
+":`auth-model` を確認してください。"
 
 #: ../../admin/access.rst:200
 msgid ""
@@ -1602,9 +1605,8 @@ msgstr "``component:TEXT``"
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
-msgstr ""
-"参照先として使用するコンポーネントのスラグを入力します。現在のプロジェクト内"
-"のすべてのコンポーネントを使用する場合は、空白のままにします。"
+msgstr "参照先として使用するコンポーネントのスラッグを入力します。現在のプロジェクト"
+"内のすべてのコンポーネントを使用する場合は、空白のままにします。"
 
 #: ../../admin/addons.rst:62
 #, fuzzy
@@ -23261,15 +23263,15 @@ msgstr "2022 年 7 月 1 日にリリース。"
 
 #: ../../changes.rst:15
 msgid "Fixed tracking suggestions in history."
-msgstr "履歴内の追跡の提案を修正。"
+msgstr "履歴内の提案の追跡を修正。"
 
 #: ../../changes.rst:16
 msgid "Fixed parsing reverse proxy info from Cloudflare."
-msgstr "Cloudflare からのリバース プロキシ情報を解析する問題の修正。"
+msgstr "Cloudflare からのリバース プロキシ情報の解析を修正。"
 
 #: ../../changes.rst:17
 msgid "Make parse error lock a component from translating."
-msgstr "コンポーネントの翻訳を解析エラーからロックするように変更。"
+msgstr "解析エラーの際、コンポーネントの翻訳をロックするように変更。"
 
 #: ../../changes.rst:18
 msgid "Fixed configuring intermediate file in the discovery add-on."
@@ -23379,7 +23381,7 @@ msgstr ""
 
 #: ../../changes.rst:46
 msgid "Added support for storing alternative translations in the CSV file."
-msgstr "CSV ファイルに複数の代替翻訳を格納できる仕様変更に対応。"
+msgstr "CSV ファイルで複数の代替翻訳の格納に対応。"
 
 #: ../../changes.rst:47
 msgid "The placeholders check can now be case-insensitive as well."
@@ -25744,7 +25746,7 @@ msgstr "一部の特殊なケースでのプログレスバー表示を修正。
 
 #: ../../changes.rst:746
 msgid "Fixed some checks triggering on non translated strings."
-msgstr "未翻訳の文字列において、一部の検査が起動する問題を修正。"
+msgstr "未翻訳の文字列において、一部の検査が行われる問題を修正。"
 
 #: ../../changes.rst:749
 msgid "Weblate 4.0.1"
@@ -36887,13 +36889,13 @@ msgstr "`シンプルな CSV ファイル`"
 
 #: ../../formats.rst:1215
 msgid "Multivalue CSV file"
-msgstr "代替翻訳格納 CSV ファイル"
+msgstr "複数値 CSV ファイル"
 
 #: ../../formats.rst:1219
 msgid ""
 "This variant of the CSV files allows storing multiple translations per "
 "string."
-msgstr ""
+msgstr "この種類の CSV ファイルでは、一つの文字列に対して複数の翻訳を保存できます。"
 
 #: ../../formats.rst:1221
 msgid ":doc:`tt:formats/csv`"
