@@ -266,16 +266,25 @@ textarea#id_check_flags {
   display: inline-block;
 }
 
+.space-tab,
+.space-nl,
+.space-space {
+  min-width: 0.3em;
+  display: inline-block;
+}
 .space-tab::before {
   content: "→";
+  position: absolute;
 }
 
 .space-nl::before {
   content: "↵";
+  position: absolute;
 }
 
 .space-space::before {
   content: "·";
+  position: absolute;
 }
 
 ins,

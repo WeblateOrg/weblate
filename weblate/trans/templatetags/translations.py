@@ -60,13 +60,13 @@ from weblate.utils.views import SORT_CHOICES
 register = template.Library()
 
 HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
-SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
+SPACE_TEMPLATE = '<span class="{}">{}</span>'
 SPACE_SPACE = SPACE_TEMPLATE.format("space-space", " ")
 SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />")
-SPACE_START = '<span class="hlspace"><span class="space-space"><span class="sr-only">'
-SPACE_MIDDLE_1 = "</span></span>"
-SPACE_MIDDLE_2 = '<span class="space-space"><span class="sr-only">'
-SPACE_END = "</span></span></span>"
+SPACE_START = '<span class="hlspace"><span class="space-space">'
+SPACE_MIDDLE_1 = "</span>"
+SPACE_MIDDLE_2 = '<span class="space-space">'
+SPACE_END = "</span></span>"
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
@@ -220,11 +220,9 @@ class Formatter:
                 cls = "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace">'
-                f'<span class="{cls}" title="{title}">'
-                '<span class="sr-only">'
+                '<span class="hlspace">' f'<span class="{cls}" title="{title}">'
             )
-            self.tags[match.end()].insert(0, "</span></span></span>")
+            self.tags[match.end()].insert(0, "</span></span>")
 
     def format(self):
         tags = self.tags
