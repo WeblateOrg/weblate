@@ -200,11 +200,16 @@ BCP style using hyphen as a separator
 BCP style using hyphen as a separator, including country code
    BCP style language code including the country code even when not necessary
    (for example ``cs-CZ``).
+BCP style using hyphen as a separator, legacy language codes
+   Uses legacy codes for Chinese and BCP style notation.
+BCP style using hyphen as a separator, lower cased
+   BCP style notation, all in lower case (for examle ``cs-cz``).
+App store metadata style
+   Style suitable for uploading metadata to appstores. This should be suitable
+   for both Apple App Store and Google Play Store.
 Android style
    Only used in Android apps, produces language codes like
    ``pt-rBR``.
-BCP style using hyphen as a separator, legacy language codes
-   Uses legacy codes for Chinese and BCP style notation.
 Linux style
    Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
 

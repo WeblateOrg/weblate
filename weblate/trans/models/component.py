@@ -141,6 +141,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
         "bcp_legacy",
         gettext_lazy("BCP style using hyphen as a separator, legacy language codes"),
     ),
+    ("appstore", gettext_lazy("App store metadata style")),
     ("linux", gettext_lazy("Linux style")),
 )
 

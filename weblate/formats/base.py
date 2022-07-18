@@ -45,6 +45,13 @@ LEGACY_CODES = {
     "zh_Hans_SG": "zh_SG",
     "zh_Hant_HK": "zh_HK",
 }
+APPSTORE_CODES = {
+    "ar": "ar-SA",
+    "de": "de-DE",
+    "fr": "fr-FR",
+    "nl": "nl-NL",
+    "pt": "pt-PT",
+}
 
 
 class UnitNotFound(Exception):
@@ -489,6 +496,11 @@ class TranslationFormat:
     def get_language_bcp_legacy(cls, code: str) -> str:
         """BCP, but doesn't use Hans/Hant, but rather TW/CN variants."""
         return cls.get_language_bcp(cls.get_language_linux(code))
+
+    @classmethod
+    def get_language_appstore(cls, code: str) -> str:
+        """App store language codes."""
+        return cls.get_language_bcp(APPSTORE_CODES.get(code, code))
 
     @classmethod
     def get_language_filename(cls, mask: str, code: str) -> str:
