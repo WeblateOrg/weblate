@@ -1695,7 +1695,7 @@ class ResourceDictionaryFormat(FlatXMLFormat):
     format_id = "resourcedictionary"
     loader = ("resourcedictionary", "ResourceDictionaryFile")
     check_flags = ("c-sharp-format",)
-    language_format = "java"
+    language_format = "bcp_legacy"
     new_translation = """<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -1795,7 +1795,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     name = "XWiki Java Properties"
     format_id = "xwiki-java-properties"
     loader = ("properties", "xwikifile")
-    language_format = "java"
+    language_format = "bcp_legacy"
     autoload = ("*.properties",)
     new_translation = "\n"
     can_add_unit: bool = False
@@ -1919,7 +1919,7 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     name = _("mi18n lang file")
     format_id = "mi18n-lang"
     new_translation = "\n"
-    language_format = "java"
+    language_format = "bcp_legacy"
     check_flags = ("es-format",)
     monolingual = True
 

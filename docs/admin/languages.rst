@@ -203,8 +203,8 @@ BCP style using hyphen as a separator, including country code
 Android style
    Only used in Android apps, produces language codes like
    ``pt-rBR``.
-Java style
-   Used by Java—mostly BCP with legacy codes for Chinese.
+BCP style using hyphen as a separator, legacy language codes
+   Uses legacy codes for Chinese and BCP style notation.
 Linux style
    Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
 
