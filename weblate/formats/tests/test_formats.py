@@ -429,7 +429,7 @@ class PropertiesFormatTest(AutoFormatTest):
     COUNT = 12
     EXT = "properties"
     MASK = "java/swing_messages_*.properties"
-    EXPECTED_PATH = "java/swing_messages_cs-CZ.properties"
+    EXPECTED_PATH = "java/swing_messages_cs_CZ.properties"
     FIND = "IGNORE"
     FIND_CONTEXT = "IGNORE"
     FIND_MATCH = "Ignore"
@@ -452,7 +452,7 @@ class GWTFormatTest(AutoFormatTest):
     COUNT = 1
     EXT = "properties"
     MASK = "gwt/gwt_*.properties"
-    EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
+    EXPECTED_PATH = "gwt/gwt_cs_CZ.properties"
     FIND = "cartItems"
     FIND_CONTEXT = "cartItems"
     FIND_MATCH = (

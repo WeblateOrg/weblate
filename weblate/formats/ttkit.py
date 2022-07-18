@@ -1285,7 +1285,7 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
     format_id = "properties-utf8"
     loader = ("properties", "javautf8file")
     new_translation = "\n"
-    language_format = "java"
+    language_format = "linux"
     check_flags = ("auto-java-messageformat",)
 
 
@@ -1293,7 +1293,7 @@ class PropertiesUtf16Format(PropertiesBaseFormat):
     name = _("Java Properties (UTF-16)")
     format_id = "properties-utf16"
     loader = ("properties", "javafile")
-    language_format = "java"
+    language_format = "linux"
     new_translation = "\n"
     # Translate Toolkit autodetection might fail in some cases.
     force_encoding = "utf-16"
@@ -1303,7 +1303,7 @@ class PropertiesFormat(PropertiesBaseFormat):
     name = _("Java Properties (ISO 8859-1)")
     format_id = "properties"
     loader = ("properties", "javafile")
-    language_format = "java"
+    language_format = "linux"
     new_translation = "\n"
     autoload = ("*.properties",)
     # Java properties need to be ISO 8859-1, but Translate Toolkit converts
@@ -1326,6 +1326,7 @@ class GWTFormat(StringsFormat):
     loader = ("properties", "gwtfile")
     new_translation = "\n"
     check_flags = ("auto-java-messageformat",)
+    language_format = "linux"
 
 
 class PhpFormat(TTKitFormat):
@@ -1850,7 +1851,6 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     name = "XWiki Page Properties"
     format_id = "xwiki-page-properties"
     loader = ("properties", "XWikiPageProperties")
-    language_format = "java"
     force_encoding = "utf-8"
 
     def save_content(self, handle):
@@ -1869,7 +1869,6 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
     name = "XWiki Full Page"
     format_id = "xwiki-fullpage"
     loader = ("properties", "XWikiFullPage")
-    language_format = "java"
 
 
 class TBXUnit(TTKitUnit):
