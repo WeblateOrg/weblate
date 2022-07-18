@@ -33,8 +33,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-14 13:12+0000\n"
-"PO-Revision-Date: 2022-07-09 05:48+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2022-07-18 17:05+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -42,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1253,10 +1253,10 @@ msgstr ""
 "(fonctionnement par défaut de xgettext)"
 
 #: weblate/addons/forms.py:116
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Retour à la ligne automatique uniquement pour les nouvelles lignes"
+msgstr ""
+"Retour à la ligne automatique uniquement pour les nouvelles lignes ("
+"similaire à « xgettext --no-wrap »)"
 
 #: weblate/addons/forms.py:117 weblate/addons/forms.py:215
 msgid "No line wrapping"
@@ -3854,13 +3854,11 @@ msgstr "Pluriel stringsdict"
 
 #: weblate/lang/models.py:683
 msgid "CLDR v38+ plural"
-msgstr ""
+msgstr "Pluriels CLDR v38+"
 
 #: weblate/lang/models.py:684
-#, fuzzy
-#| msgid "Android style"
 msgid "Android plural"
-msgstr "Style Android"
+msgstr "Pluriels Android"
 
 #: weblate/lang/models.py:685
 msgid "Manually entered formula"
@@ -6920,14 +6918,12 @@ msgid "Outgoing commits in the Weblate repository"
 msgstr "Archivages sortants du dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:47
-#, fuzzy
-#| msgid "Configure push URL for automated flow of translations from Weblate."
 msgid ""
 "Please configure push URL in the component settings to enable pushing from "
 "Weblate."
 msgstr ""
-"Configurez l’URL d’envoi pour un flux automatisé des traductions depuis "
-"Weblate."
+"Veuillez configurer l’URL d’envoi dans les paramètres du composant pour "
+"activer l’envoi depuis Weblate."
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
@@ -8881,11 +8877,8 @@ msgstr[0] "Traduction terminée avec %(count)s chaîne"
 msgstr[1] "Traduction terminée avec %(count)s chaînes"
 
 #: weblate/templates/snippets/list-objects-percent.html:12
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgid "No strings to translate"
-msgstr "Nouvelle chaîne à traduire"
+msgstr "Aucune chaîne à traduire"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9026,33 +9019,23 @@ msgstr ""
 "sur des composants individuels :"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
-#, fuzzy
-#| msgid ""
-#| "This project is in the trial period, and is publicly accessible. You can "
-#| "lock it and post an announcement in case you want to avoid contributions "
-#| "until you finish the setup."
 msgid ""
 "This project is in a trial period and is publicly accessible. Post an "
 "announcement and/or lock it if you don’t want contributions until you finish "
 "the setup."
 msgstr ""
-"Ce projet est en période d’essai et est public. Vous pouvez le verrouiller "
-"et publier une annonce pour empêcher les contributions pendant que vous "
-"terminez le paramétrage."
+"Ce projet est en période d’essai et est public. Publiez une annonce ou "
+"verrouillez le projet pour empêcher les contributions jusqu’à que vous "
+"terminiez le paramétrage."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
-#, fuzzy
-#| msgid ""
-#| "This project is in the trial period, so be cautious before you "
-#| "contribute. Things like license or repository can still change before "
-#| "being approved as a libre project."
 msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
 msgstr ""
-"Ce projet utilise une offre d’essai et n’est pas un projet libre approuvé. "
-"Soyez prudents avant de contribuer car des éléments comme la licence ou le "
-"dépôt pourraient être modifiés."
+"Ce projet est en période d’essai, soyez prudent lorsque vous contribuez. Les "
+"paramètres peuvent encore changer avant que le projet ne soit approuvé en "
+"tant que projet libre."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
 msgid "Manage billing"
@@ -9192,16 +9175,12 @@ msgid "Sort By"
 msgstr "Trier par"
 
 #: weblate/templates/snippets/sort-field.html:24
-#, fuzzy
-#| msgid "pending"
 msgid "Ascending"
-msgstr "en attente"
+msgstr "Croissant"
 
 #: weblate/templates/snippets/sort-field.html:27
-#, fuzzy
-#| msgid "pending"
 msgid "Descending"
-msgstr "en attente"
+msgstr "Décroissant"
 
 #: weblate/templates/snippets/ssh-key.html:5
 msgid "Public key copied to clipboard."
@@ -10943,16 +10922,12 @@ msgid "Score threshold"
 msgstr "Seuil de score"
 
 #: weblate/trans/forms.py:928
-#, fuzzy
-#| msgid ""
-#| "Enter component to use as source, keep blank to use all components in "
-#| "current project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Précisez le composant à utiliser comme source, laissez vide pour utiliser "
-"tous les composants du projet actuel."
+"Précisez l’identifiant du composant à utiliser comme source, laissez vide "
+"pour utiliser tous les composants dans le projet actuel."
 
 #: weblate/trans/forms.py:939
 msgid "All components in current project"
@@ -11143,11 +11118,9 @@ msgid "Adding new languages"
 msgstr "Ajout de nouvelles langues en cours"
 
 #: weblate/trans/forms.py:1631
-#, fuzzy
-#| msgid "Select existing component to copy configuration from."
 msgid "Select an existing component configuration to copy."
 msgstr ""
-"Sélectionnez le composant existant à partir duquel copier la configuration."
+"Sélectionnez un composant existant à partir duquel copier la configuration."
 
 #: weblate/trans/forms.py:1713 weblate/trans/forms.py:1718
 msgid "A component with the same name already exists."
@@ -11776,22 +11749,18 @@ msgstr "Chaîne mise à jour dans le dépôt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:370
-#, fuzzy
-#| msgid "Uninstall"
 msgid "Add-on installed"
-msgstr "Désinstaller"
+msgstr "Module installé"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:372
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add-on configuration changed"
-msgstr "Configuration incorrecte"
+msgstr "Configuration du module modifiée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:374
 msgid "Add-on uninstalled"
-msgstr ""
+msgstr "Module désinstallé"
 
 #: weblate/trans/models/change.py:444
 msgid "New string to translate"
@@ -13016,13 +12985,13 @@ msgstr "activé"
 #: weblate/trans/templatetags/translations.py:937
 #, python-format
 msgid "%s M"
-msgstr ""
+msgstr "%s M"
 
 #. Translators: Number format, in thousands (kilo)
 #: weblate/trans/templatetags/translations.py:941
 #, python-format
 msgid "%s k"
-msgstr ""
+msgstr "%s k"
 
 #: weblate/trans/util.py:45
 msgid "Very high"
@@ -13491,10 +13460,8 @@ msgid "Project {}"
 msgstr "Projet {}"
 
 #: weblate/trans/widgets.py:326
-#, fuzzy
-#| msgid "Component: {}"
 msgid "Component {}"
-msgstr "Composant : {}"
+msgstr "Composant {}"
 
 #: weblate/trans/widgets.py:390
 msgid "Status badge"
