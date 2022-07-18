@@ -151,6 +151,10 @@ ZERO_ONE_TWO_FEW_MANY_OTHER_PLURALS = (
     "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : (n>2 && n<7) ? 3 :(n>6 && n<11) ? 4 : 5",
     "n==0 ? 0 : (n % 10 == 1 && n % 100 != 11 && n % 100 != 71 && n % 100 != 91) ? 1 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 && n % 100 != 92) ? 2 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && (n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 < 90 || n % 100 > 99)) ? 3 : ((n != 0 && n % 1000000 == 0) ? 4 : 5)))",
 )
+ONE_MANY_OTHER_PLURALS = (
+    "(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2)",
+    "(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2)",
+)
 
 ZERO_OTHER_PLURALS = ("n==0 ? 0 : 1",)
 
@@ -175,6 +179,7 @@ PLURAL_ZERO_ONE_FEW_OTHER = 16
 PLURAL_ZERO_ONE_TWO_FEW_OTHER = 17
 PLURAL_ZERO_ONE_TWO_OTHER = 18
 PLURAL_ZERO_ONE_FEW_MANY_OTHER = 19
+PLURAL_ONE_MANY_OTHER = 20
 PLURAL_UNKNOWN = 666
 
 # Extra zero plural handling for stringsdict
@@ -241,6 +246,7 @@ PLURAL_MAPPINGS = (
         PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER,
     ),
     (nospace_set(ZERO_OTHER_PLURALS), PLURAL_ZERO_OTHER),
+    (nospace_set(ONE_MANY_OTHER_PLURALS), PLURAL_ONE_MANY_OTHER),
 )
 
 # Plural names mapping
@@ -354,6 +360,11 @@ PLURAL_NAMES = {
     ),
     PLURAL_ZERO_OTHER: (
         pgettext_lazy("Plural form description", "Zero"),
+        pgettext_lazy("Plural form description", "Other"),
+    ),
+    PLURAL_ONE_MANY_OTHER: (
+        pgettext_lazy("Plural form description", "One"),
+        pgettext_lazy("Plural form description", "Many"),
         pgettext_lazy("Plural form description", "Other"),
     ),
 }

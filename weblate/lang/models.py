@@ -35,7 +35,7 @@ from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
-from weblate_language_data.plurals import EXTRAPLURALS
+from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 from weblate_language_data.rtl import RTL_LANGS
 
 from weblate.lang import data
@@ -455,25 +455,33 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 )
 
         # Create addditiona plurals
-        for code, _unused, nplurals, plural_formula in EXTRAPLURALS:
-            lang = languages[code]
+        extra_plurals = (
+            (Plural.SOURCE_GETTEXT, EXTRAPLURALS),
+            (Plural.SOURCE_CLDR, CLDRPLURALS),
+        )
+        for source, definitions in extra_plurals:
+            for code, _unused, nplurals, plural_formula in definitions:
+                lang = languages[code]
 
-            for plural in plurals[code][Plural.SOURCE_GETTEXT]:
-                try:
-                    if plural.same_plural(nplurals, plural_formula):
-                        break
-                except ValueError:
-                    # Fall back to string compare if parsing failed
-                    if plural.number == nplurals and plural.formula == plural_formula:
-                        break
-            else:
-                plural = lang.plural_set.create(
-                    source=Plural.SOURCE_GETTEXT,
-                    number=nplurals,
-                    formula=plural_formula,
-                    type=get_plural_type(lang.base_code, plural_formula),
-                )
-                logger(f"Created plural {plural_formula} for language {code}")
+                for plural in plurals[code][source]:
+                    try:
+                        if plural.same_plural(nplurals, plural_formula):
+                            break
+                    except ValueError:
+                        # Fall back to string compare if parsing failed
+                        if (
+                            plural.number == nplurals
+                            and plural.formula == plural_formula
+                        ):
+                            break
+                else:
+                    plural = lang.plural_set.create(
+                        source=source,
+                        number=nplurals,
+                        formula=plural_formula,
+                        type=get_plural_type(lang.base_code, plural_formula),
+                    )
+                    logger(f"Created plural {plural_formula} for language {code}")
 
 
 def setup_lang(sender, **kwargs):
@@ -661,6 +669,10 @@ class Plural(models.Model):
         (
             data.PLURAL_ZERO_ONE_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "Zero/one/few/many/other"),
+        ),
+        (
+            data.PLURAL_ONE_MANY_OTHER,
+            pgettext_lazy("Plural type", "One/many/other"),
         ),
         (
             data.PLURAL_UNKNOWN,

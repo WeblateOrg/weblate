@@ -29,7 +29,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import activate
 from weblate_language_data.languages import LANGUAGES
-from weblate_language_data.plurals import EXTRAPLURALS
+from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
@@ -311,7 +311,7 @@ class VerifyPluralsTest(TestCase):
 
     @staticmethod
     def all_data():
-        return chain(LANGUAGES, EXTRAPLURALS)
+        return chain(LANGUAGES, EXTRAPLURALS, CLDRPLURALS)
 
     def test_valid(self):
         """Validate that we can name all plural formulas."""
