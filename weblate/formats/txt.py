@@ -191,7 +191,7 @@ class AppStoreFormat(TranslationFormat):
     monolingual = True
     unit_class = TextUnit
     simple_filename = False
-    language_format = "bcp_legacy"
+    language_format = "appstore"
     create_style = "directory"
 
     def load(self, storefile, template_store):
