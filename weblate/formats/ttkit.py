@@ -88,6 +88,8 @@ class TTKitUnit(TranslationUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
+            if self.parent.is_template:
+                return get_string(self.template.target)
             return ""
         return get_string(self.unit.target)
 
