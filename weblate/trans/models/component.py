@@ -136,11 +136,12 @@ LANGUAGE_CODE_STYLE_CHOICES = (
         "bcp_long",
         gettext_lazy("BCP style using hyphen as a separator, including country code"),
     ),
-    ("android", gettext_lazy("Android style")),
     (
         "bcp_legacy",
         gettext_lazy("BCP style using hyphen as a separator, legacy language codes"),
     ),
+    ("bcp_lower", gettext_lazy("BCP style using hyphen as a separator, lower cased")),
+    ("android", gettext_lazy("Android style")),
     ("appstore", gettext_lazy("App store metadata style")),
     ("linux", gettext_lazy("Linux style")),
 )

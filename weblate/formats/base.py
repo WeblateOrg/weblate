@@ -462,6 +462,10 @@ class TranslationFormat:
     def get_language_bcp(code: str) -> str:
         return code.replace("_", "-")
 
+    @classmethod
+    def get_language_bcp_lower(cls, code: str) -> str:
+        return cls.get_language_bcp(code).lower()
+
     @staticmethod
     def get_language_posix_long(code: str) -> str:
         return EXPAND_LANGS.get(code, code)
