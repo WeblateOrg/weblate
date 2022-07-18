@@ -36,6 +36,14 @@
       submitForm({ target: this.$translationArea });
     });
 
+    /* Delete machinery results */
+    this.$editor.on("click", ".js-delete-machinery", (e) => {
+      var $el = $(e.target);
+      var entry_text = $el.parent().parent().data("raw").text;
+      var serviceName = $el.parent().parent().data("raw").service;
+      this.updateMachinery(serviceName, entry_text);
+    });
+
     Mousetrap.bindGlobal("alt+end", function (e) {
       window.location = $("#button-end").attr("href");
       return false;
@@ -207,6 +215,24 @@
         },
       });
       return false;
+    });
+  };
+
+  FullEditor.prototype.updateMachinery = function (serviceName, entry_text) {
+    var translation_object = this.machinery.state.translations.find(
+      (e) => e.text === entry_text
+    );
+    $.ajax({
+      type: "DELETE", // Delete or Put
+      url: $("#js-translate").attr("href").replace("__service__", serviceName),
+      data: translation_object, // to ask
+      dataType: "json",
+      success: (data) => {
+        this.processMachineryResults(data);
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        this.processMachineryError(jqXHR, textStatus, errorThrown);
+      },
     });
   };
 
@@ -534,6 +560,11 @@
             "<td>" +
             '<a class="js-copy-save-machinery btn btn-primary">' +
             gettext("Copy and save") +
+            "</a>" +
+            "</td>" +
+            "<td>" +
+            '<a class="js-delete-machinery btn btn-danger">' +
+            gettext("Delete entry") +
             "</a>" +
             "</td>"
         )

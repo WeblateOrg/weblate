@@ -30,7 +30,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
@@ -344,7 +344,7 @@ def handle_machinery(request, service, unit, search=None):
     return JsonResponse(data=response)
 
 
-@require_POST
+@require_http_methods(["DELETE", "POST"])
 def translate(request, unit_id, service):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
