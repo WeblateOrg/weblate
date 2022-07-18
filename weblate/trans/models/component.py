@@ -137,7 +137,10 @@ LANGUAGE_CODE_STYLE_CHOICES = (
         gettext_lazy("BCP style using hyphen as a separator, including country code"),
     ),
     ("android", gettext_lazy("Android style")),
-    ("java", gettext_lazy("Java style")),
+    (
+        "bcp_legacy",
+        gettext_lazy("BCP style using hyphen as a separator, legacy language codes"),
+    ),
     ("linux", gettext_lazy("Linux style")),
 )
 
@@ -476,7 +479,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     )
     language_code_style = models.CharField(
         verbose_name=gettext_lazy("Language code style"),
-        max_length=10,
+        max_length=20,
         choices=LANGUAGE_CODE_STYLE_CHOICES,
         default="",
         blank=True,

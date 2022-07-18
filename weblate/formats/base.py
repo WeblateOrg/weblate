@@ -486,8 +486,8 @@ class TranslationFormat:
         return sanitized.replace("_", "-r")
 
     @classmethod
-    def get_language_java(cls, code: str) -> str:
-        """Java doesn't use Hans/Hant, but rather TW/CN variants."""
+    def get_language_bcp_legacy(cls, code: str) -> str:
+        """BCP, but doesn't use Hans/Hant, but rather TW/CN variants."""
         return cls.get_language_bcp(cls.get_language_linux(code))
 
     @classmethod
