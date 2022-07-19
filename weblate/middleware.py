@@ -20,11 +20,14 @@
 from urllib.parse import urlparse
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
 from django.http import Http404, HttpResponsePermanentRedirect
+from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
 from django.utils.http import escape_leading_slashes
+from django.utils.translation import gettext_lazy as _
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
@@ -151,6 +154,13 @@ class RedirectMiddleware:
         request.user.check_access_component(component)
         return component
 
+    def check_existing_translations(self, slug, project):
+        """Check in existing translations for specific language.
+
+        Return False if language translation not present, else True.
+        """
+        return any(lang.name == slug for lang in project.languages)
+
     def process_exception(self, request, exception):
         if not isinstance(exception, Http404):
             return None
@@ -161,12 +171,13 @@ class RedirectMiddleware:
             return None
 
         kwargs = dict(resolver_match.kwargs)
-
+        new_lang = None
         if "lang" in kwargs:
             language = self.fixup_language(kwargs["lang"])
             if language is None:
                 return None
             kwargs["lang"] = language.code
+            new_lang = language.name
 
         if "project" in kwargs:
             project = self.fixup_project(kwargs["project"], request)
@@ -179,6 +190,24 @@ class RedirectMiddleware:
                 if component is None:
                     return None
                 kwargs["component"] = component.slug
+
+                if new_lang:
+                    existing_trans = self.check_existing_translations(new_lang, project)
+                    if not existing_trans:
+                        messages.add_message(
+                            request,
+                            messages.INFO,
+                            _(
+                                f"{new_lang} translation is currently not available,\
+                                but can be added."
+                            ),
+                        )
+                        return redirect(
+                            reverse(
+                                "component",
+                                args=[kwargs["project"], kwargs["component"]],
+                            )
+                        )
 
         if kwargs != resolver_match.kwargs:
             query = request.META["QUERY_STRING"]
