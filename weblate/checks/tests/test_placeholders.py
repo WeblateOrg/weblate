@@ -84,17 +84,17 @@ class PlaceholdersTest(CheckTestCase):
             """
             Following format strings are missing:
             <span class="hlcheck" data-value=" {URL} ">
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace"><span class="space-space">
+            </span></span>
             {URL}
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace"><span class="space-space">
+            </span></span>
             </span>
             <br />
             Following format strings are extra:
             <span class="hlcheck" data-value=" {URL}">
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace"><span class="space-space">
+            </span></span>
             {URL}
             </span>
             """,
