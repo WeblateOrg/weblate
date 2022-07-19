@@ -428,6 +428,16 @@ class BasicViewTest(ViewTestCase):
             status_code=301,
         )
 
+        # Non existing translated language should redirect with an info message
+        self.kw_component["lang"] = "Hindi"
+        response = self.client.get(reverse("translation", kwargs=self.kw_component))
+        self.kw_component.pop("lang")
+        self.assertRedirects(
+            response, reverse("component", kwargs=self.kw_component), status_code=302
+        )
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn("Hindi translation is currently not available", messages[0])
+
     def test_view_unit(self):
         unit = self.get_unit()
         response = self.client.get(unit.get_absolute_url())
