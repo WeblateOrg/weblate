@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 # Oğuz Ersen <oguz@ersen.moe>, 2022.
+# Hasan <hasanyildiz0@yaani.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-14 15:13+0200\n"
-"PO-Revision-Date: 2022-07-16 13:17+0000\n"
-"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
+"PO-Revision-Date: 2022-07-21 19:17+0000\n"
+"Last-Translator: Hasan <hasanyildiz0@yaani.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -333,6 +334,12 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` team) would be sufficient."
 msgstr ""
+"Ayrıca, mevcut bir kullanıcıyı projeye eklemenin yanı sıra yenilerini davet "
+"etmek de mümkündür. Herhangi bir yeni kullanıcı hemen oluşturulacak, ancak e-"
+"posta yoluyla gönderilen davetiyede bir bağlantıyla oturum açana kadar hesap "
+"etkin olmayacaktır. Bunu yapabilmek için site genelinde herhangi bir "
+"ayrıcalığa sahip olmak gerekli değildir, proje kapsamında erişim yönetimi "
+"izni (örn. `Yönetim` ekibine üyelik) yeterli olacaktır."
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -340,18 +347,25 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"Davet edilen kullanıcı davetiyenin geçerliliğini kaçırdıysa, hesap zaten "
+"oluşturulduğundan parola sıfırlama formunda davet edilen e-posta adresini "
+"kullanarak parolasını ayarlayabilir."
 
 #: ../../admin/access.rst:155
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
 msgstr ""
+"Kullanıcı davetiyeleri için e-postayı yeniden göndermek mümkündür (önceden "
+"gönderilen davetiyeleri geçersiz kılar)."
 
 #: ../../admin/access.rst:158
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"Aynı tür davetler site genelinde :guilabel:`Kullanıcılar` sekmesindeki :ref:`"
+"yönetim arabirimi <yönetim arabirimi>` öğesinden kullanılabilir."
 
 #: ../../admin/access.rst:164
 msgid "Blocking users"
@@ -363,6 +377,9 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Bazı kullanıcıların projenizde kötü davranması durumunda, katkıda "
+"bulunmalarını engelleme seçeneğiniz vardır. Engellenen kullanıcı, bunun için "
+"izinleri varsa projeyi görmeye devam edebilir, ancak katkıda bulunamaz."
 
 #: ../../admin/access.rst:173
 msgid "Per-project permission management"
@@ -385,6 +402,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"Varsayılan olarak bu, Weblate'in bu grupların kendi yapılandırması nedeniyle "
+"`Kullanıcılar` ve `Görüntüleyenler`: ref: `varsayılan gruplar <varsayılan "
+"gruplar>` tarafından sağlanan erişimi vermesini engeller. Bu, varsayılan "
+"grupları değiştirerek, yeni bir tane oluşturarak veya aşağıdaki :ref:`custom-"
+"acl' bölümünde açıklandığı gibi tek tek bileşen için ek özel ayarlar "
+"oluşturarak site genelinde bu projelere izin vermenizi engellemez."
 
 #: ../../admin/access.rst:184
 msgid ""
@@ -393,10 +416,14 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
+"Weblate kullanıcı arabirimi üzerinden izinleri yönetmenin en önemli "
+"avantajlarından biri, izinleri diğer kullanıcılara süper kullanıcı "
+"ayrıcalığı vermeden devredebilmenizdir. Bunu yapmak için bunları projenin "
+"`Yönetim` ekibine ekleyin."
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
-msgstr ""
+msgstr "Özel erişim denetimi"
 
 #: ../../admin/access.rst:196
 msgid ""
@@ -416,6 +443,12 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Weblate'in erişim kontrol sisteminin şimdilik en güçlü özellikleri yalnızca "
+":ref:'Django admin ınterface <admin-ınterface>` aracılığıyla kullanılabilir. "
+"Herhangi bir projenin izinlerini yönetmek için kullanabilirsiniz. Kullanmak "
+"için mutlaka `Custom` :ref:`access control <acl>' olarak değiştirmeniz "
+"gerekmez. Ancak, kullanmak için süper kullanıcı ayrıcalıklarına sahip "
+"olmanız gerekir."
 
 #: ../../admin/access.rst:206
 msgid ""
@@ -425,6 +458,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Uygulamanın ayrıntılarıyla ilgilenmiyorsanız ve yalnızca varsayılanlara göre "
+"yeterince basit bir yapılandırma oluşturmak istiyorsanız veya Weblate "
+"kurulumunun tamamına site genelinde erişiminiz yoksa (`Barındırılan Weblate "
+"<https://hosted.weblate.org />'_), lütfen şu adrese bakın: ref:'erişim-"
+"basit' bölümü."
 
 #: ../../admin/access.rst:212
 msgid "Common setups"
@@ -435,6 +473,8 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Bu bölüm, ilginizi çekebilecek bazı genel yapılandırmalara genel bir bakış "
+"içerir."
 
 #: ../../admin/access.rst:218
 msgid "Site-wide permission management"
@@ -445,24 +485,31 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Tüm örneğe ilişkin izinleri bir kerede yönetmek için kullanıcıları uygun "
+":ref:`default groups <default-groups>' öğesine ekleyin`:"
 
 #: ../../admin/access.rst:223
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"'Kullanıcılar` (bu, varsayılan olarak :ref:`otomatik grup ataması <otomatik "
+"grup>' ile yapılır)."
 
 #: ../../admin/access.rst:225
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Gözden Geçirenler` (kullanıyorsanız: ref: `özel gözden geçirenlerle iş "
+"akışını gözden geçirin <yorumlar>`)."
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"'Yöneticiler` (yönetim işlemlerinin çoğunu başkasına devretmek istiyorsanız)."
 
 #: ../../admin/access.rst:230
 msgid ""
