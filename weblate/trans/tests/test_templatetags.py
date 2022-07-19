@@ -230,7 +230,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             Hello
             <del>
                 <span class="hlspace">
-                    <span class="space-space"><span class="sr-only"> </span></span>
+                    <span class="space-space"> </span>
                 </span>
             </del>
             world
@@ -247,7 +247,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """Hello
             <del>
                 <span class="hlspace">
-                    <span class="space-space"><span class="sr-only"> </span></span>
+                    <span class="space-space"> </span>
                 </span>
             </del>
             world
@@ -262,7 +262,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """Hello
             <ins>
                 <span class="hlspace">
-                    <span class="space-space"><span class="sr-only"> </span></span>
+                    <span class="space-space"> </span>
                 </span>
             </ins>
             world
@@ -279,18 +279,14 @@ class TranslationFormatTestCase(FixtureTestCase):
             """Hello
             <span class="hlspace">
                 <span class="space-space">
-                    <span class="sr-only">
-                    </span>
                 </span>
                 <span class="space-space">
-                    <span class="sr-only">
-                        <ins>
-                            <span class="hlspace">
-                                <span class="space-space"><span class="sr-only">
-                                </span></span>
+                    <ins>
+                        <span class="hlspace">
+                            <span class="space-space">
                             </span>
-                        </ins>
-                    </span>
+                        </span>
+                    </ins>
                 </span>
             </span>
             world
@@ -307,12 +303,12 @@ class TranslationFormatTestCase(FixtureTestCase):
             """Hello
             <del>
                 <span class="hlspace">
-                    <span class="space-nl"><span class="sr-only"></span></span>
+                    <span class="space-nl"></span>
                 </span><br />
             </del>
             <ins>
                 <span class="hlspace">
-                    <span class="space-space"><span class="sr-only"> </span></span>
+                    <span class="space-space"> </span>
                 </span>
             </ins>
             world
@@ -364,10 +360,8 @@ class TranslationFormatTestCase(FixtureTestCase):
             text
             <span class="hlspace">
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
             </span>
             <span class="glossary-term"
@@ -448,8 +442,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             <span class="hlcheck" data-value="%d">
                 <span class="highlight-number"></span>%d
             </span>
-            banana.<span class="hlspace"><span class="space-nl"><span class="sr-only">
-            </span>
+            banana.<span class="hlspace"><span class="space-nl">
             </span>
             </span>
             <br/>
@@ -474,7 +467,6 @@ class TranslationFormatTestCase(FixtureTestCase):
             """
             <span class="hlspace">
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
             </span>
             Hello
@@ -488,10 +480,8 @@ class TranslationFormatTestCase(FixtureTestCase):
             """
             <span class="hlspace">
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
             </span>
             Hello
@@ -506,13 +496,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             Hello
             <span class="hlspace">
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
             </span>
             world
@@ -525,8 +512,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """
             Hello
             world
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span>
+            <span class="hlspace"><span class="space-space">
             </span>
             </span>
             """,
@@ -541,7 +527,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             Hello
             <span class="hlspace">
                 <span class="space-space" title="NO-BREAK SPACE">
-                    <span class="sr-only">\u00A0</span>
+                    \u00A0
                 </span>
             </span>
             world
@@ -557,12 +543,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             Hello
             <span class="hlspace">
                 <span class="space-nl">
-                    <span class="sr-only"> </span>
                 </span>
             </span><br>
             <span class="hlspace">
                 <span class="space-space">
-                    <span class="sr-only"> </span>
                 </span>
             </span>
             world
@@ -603,8 +587,6 @@ class DiffTestCase(SimpleTestCase):
             <del>old
              <span class="hlspace">
              <span class="space-space">
-             <span class="sr-only">
-             </span>
              </span>
             </del>
             text""",
@@ -636,7 +618,7 @@ class DiffTestCase(SimpleTestCase):
                 diff="Hello world! ",
             )["items"][0]["content"],
             'Hello world!<del><span class="hlspace"><span class="space-space">'
-            '<span class="sr-only"> </span></span></span></del>',
+            " </span></span></del>",
         )
 
     def test_format_entities(self):
