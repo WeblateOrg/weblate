@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-14 13:12+0000\n"
-"PO-Revision-Date: 2022-05-26 09:42+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-07-22 08:40+0000\n"
+"Last-Translator: jackfrost <jackfrost5446@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1692,10 +1692,8 @@ msgstr "의견 삭제하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Resolve comment"
-msgstr "해결된 주석"
+msgstr "해결된 의견"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
@@ -1951,10 +1949,8 @@ msgstr "번역 메모리 관리"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "번역엔진 사용"
+msgstr "번역기 관리"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:153
@@ -3033,7 +3029,7 @@ msgstr "정규 표현식"
 
 #: weblate/checks/placeholders.py:128
 msgid "Translation does not match regular expression"
-msgstr "번역이 정규 표현식과 일치하지 않습니다."
+msgstr "번역이 정규 표현식과 일치하지 않음"
 
 #: weblate/checks/placeholders.py:157
 msgid "Does not match regular expression {}."
@@ -3286,7 +3282,7 @@ msgstr "Excel 오픈 XML"
 #, fuzzy
 #| msgid "Simple CSV file"
 msgid "Multivalue CSV file (UTF-8)"
-msgstr "Simple CSV 파일"
+msgstr "Multivalue CSV file (UTF-8)"
 
 #: weblate/formats/ttkit.py:1136
 msgid "gettext PO file"
@@ -3386,10 +3382,8 @@ msgid "CSV file"
 msgstr "CSV 파일"
 
 #: weblate/formats/ttkit.py:1541
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "CSV 파일"
+msgstr "CSV 파일 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1548
 msgid "Simple CSV file"
@@ -3400,10 +3394,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Simple CSV 파일 (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1573
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "Simple CSV 파일"
+msgstr "Simple CSV 파일 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1580
 msgid "YAML file"
@@ -3438,10 +3430,8 @@ msgid "Flat XML file"
 msgstr "플렛 XML 파일"
 
 #: weblate/formats/ttkit.py:1693
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "저장소 병합실패"
+msgstr "ResourceDictionary 파일"
 
 #: weblate/formats/ttkit.py:1706
 msgid "INI file"
@@ -3584,16 +3574,12 @@ msgid "Right to left"
 msgstr "오른쪽에서 왼쪽으로"
 
 #: weblate/lang/models.py:506 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "문자열의 갯수"
+msgstr "언어 사용자의 수"
 
 #: weblate/lang/models.py:507
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "언어의 수"
+msgstr "이 언어를 사용하는 사람들의 수입니다."
 
 #: weblate/lang/models.py:587
 msgctxt "Plural type"
@@ -3718,13 +3704,11 @@ msgstr "Stringsdict 복수형"
 
 #: weblate/lang/models.py:683
 msgid "CLDR v38+ plural"
-msgstr ""
+msgstr "CLDR v38+ 복수형"
 
 #: weblate/lang/models.py:684
-#, fuzzy
-#| msgid "Android style"
 msgid "Android plural"
-msgstr "안드로이드 형식"
+msgstr "안드로이드 복수형"
 
 #: weblate/lang/models.py:685
 msgid "Manually entered formula"
@@ -3888,49 +3872,41 @@ msgid "Overview"
 msgstr "개요"
 
 #: weblate/machinery/base.py:103
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "원본 언어 찾기 실패!"
+msgstr "지원 언어 불러오기 실패함: %s"
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "번역 플래그를 변경하지 못했습니다!"
+msgstr "번역 불러오기 실패함: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
-#, fuzzy
-#| msgid "Your personal API key:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "당신의 개인 API 키:"
+msgstr "API 키"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:197
 #: weblate/machinery/forms.py:204
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "API 루트 URL:"
+msgstr "API URL"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "고객 ID"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "고객 비밀"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "참여자의 전자우편"
+msgstr "e-mail 연락처"
 
 #: weblate/machinery/forms.py:81
 msgctxt "Automatic suggestion service configuration"
@@ -3938,41 +3914,33 @@ msgid "Username"
 msgstr "사용자 이름"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "작성자 이름"
+msgstr "SAP 사용자 이름"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "비밀번호 설정"
+msgstr "SAP 비밀번호"
 
 #: weblate/machinery/forms.py:109
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "번역엔진 번역"
+msgstr "기계 번역 활성화"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "올바른 사용자 이름과 비밀번호를 입력하십시오."
+msgstr "키 또는 사용자 이름과 비밀번호를 입력하십시오."
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
 msgid "Application endpoint URL"
-msgstr ""
+msgstr "응용프로그램 endpoint URL"
 
 #: weblate/machinery/forms.py:136
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "응용프로그램 base URL"
 
 #: weblate/machinery/forms.py:149
 msgctxt "Automatic suggestion service configuration"
@@ -6908,10 +6876,8 @@ msgid_plural "%(count)s characters edited"
 msgstr[0] "%(count)s 문자 편집됨"
 
 #: weblate/templates/last-changes-content.html:57
-#, fuzzy
-#| msgid "Create translation"
 msgid "Current translation"
-msgstr "번역 생성"
+msgstr "현재 번역"
 
 #: weblate/templates/last-changes-content.html:83
 msgid "No matching activity found."
@@ -8297,7 +8263,7 @@ msgstr "이전"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
-msgstr "지난 1년간의 활동"
+msgstr "지난 1년 동안의 활동"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
@@ -8411,7 +8377,7 @@ msgstr "저장소(Repository URL)가 클립보드에 복사되었습니다."
 #: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1643
 #: weblate/trans/models/component.py:326
 msgid "Repository branch"
-msgstr "저장소 가지"
+msgstr "저장소 분기"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
@@ -8470,11 +8436,11 @@ msgstr "복수형"
 
 #: weblate/templates/snippets/info.html:86 weblate/trans/models/project.py:103
 msgid "Project website"
-msgstr "프로젝트 누리집"
+msgstr "프로젝트 웹사이트"
 
 #: weblate/templates/snippets/info.html:93
 msgid "Instructions for translators"
-msgstr "번역자분들께 드리는 지침"
+msgstr "번역자 지침"
 
 #: weblate/templates/snippets/info.html:117
 msgid "Project maintainers"
@@ -8575,10 +8541,8 @@ msgid "Browse all users"
 msgstr "모든 언어"
 
 #: weblate/templates/snippets/info.html:276
-#, fuzzy
-#| msgid "Strings status"
 msgid "String statistics"
-msgstr "문자열 상태"
+msgstr "문자열 통계"
 
 #: weblate/templates/snippets/info.html:281
 #, fuzzy
@@ -8691,11 +8655,12 @@ msgstr "지난 30일"
 #: weblate/templates/snippets/info.html:425
 #: weblate/templates/snippets/info.html:496
 msgid "Trends of last 30 days"
-msgstr "지난 30일동안의 활동"
+msgstr "지난 30일 동안의 활동"
 
 #: weblate/templates/snippets/info.html:463
+#, fuzzy
 msgid "Quick numbers"
-msgstr "빠른 숫자"
+msgstr "주요 수치"
 
 #: weblate/templates/snippets/info.html:487
 #: weblate/templates/snippets/info.html:524
@@ -11419,7 +11384,7 @@ msgstr "저장소 탐색기 URL이 잘못됨"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:364
 msgid "Broken project website URL"
-msgstr "프로젝트 누리집의 URL이 잘못됨"
+msgstr "프로젝트 웹사이트의 URL이 잘못됨"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:378
@@ -12527,7 +12492,7 @@ msgstr "커스텀"
 
 #: weblate/trans/models/project.py:105
 msgid "Main website of translated project."
-msgstr "번역된 프로젝트의 주요 누리집입니다."
+msgstr "번역된 프로젝트의 기본 웹사이트입니다."
 
 #: weblate/trans/models/project.py:108
 msgid "Translation instructions"
@@ -13614,7 +13579,7 @@ msgstr "비었음"
 #: weblate/utils/state.py:31
 msgctxt "String state"
 msgid "Needs editing"
-msgstr "편집이 필요함"
+msgstr "수정이 필요함"
 
 #: weblate/utils/state.py:32
 msgctxt "String state"
