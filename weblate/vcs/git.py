@@ -354,9 +354,7 @@ class GitRepository(Repository):
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        self.execute(
-            ["rm", "--force", "--"] + [self.resolve_symlinks(name) for name in files]
-        )
+        self.execute(["rm", "--force", "--"] + files)
         self.commit(message, author)
 
     def configure_remote(
