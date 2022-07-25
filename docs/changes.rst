@@ -14,6 +14,7 @@ Not yet released.
 * Exteded API to cover translation memory.
 * Improved document translation workflow.
 * Improved reliability of HTML and text files translation.
+* Added support for project level backups.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 

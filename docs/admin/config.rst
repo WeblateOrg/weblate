@@ -1332,6 +1332,32 @@ Example:
 
    :setting:`LEGAL_URL`
 
+.. setting:: PROJECT_BACKUP_KEEP_COUNT
+
+PROJECT_BACKUP_KEEP_COUNT
+-------------------------
+
+.. versionadded:: 4.14
+
+Defines how many backups per project are kept on the server. It defaults to 3.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_KEEP_DAYS
+
+PROJECT_BACKUP_KEEP_DAYS
+------------------------
+
+.. versionadded:: 4.14
+
+Defines how long the project backups will be kept on the server. Defaults to 30 days.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS

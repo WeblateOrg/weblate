@@ -183,6 +183,8 @@ Current translation status:
     LICENSE_REQUIRED = False
     WEBSITE_REQUIRED = True
     FONTS_CDN_URL = None
+    PROJECT_BACKUP_KEEP_DAYS = 30
+    PROJECT_BACKUP_KEEP_COUNT = 3
 
     class Meta:
         prefix = ""

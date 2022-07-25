@@ -55,6 +55,7 @@ from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
+from weblate.trans.backups import ProjectBackup
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
@@ -2067,9 +2068,7 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
         fields = ["slug"]
 
 
-class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
-    """Project creation form."""
-
+class BillingMixin(forms.Form):
     # This is fake field with is either hidden or configured
     # in the view
     billing = forms.ModelChoiceField(
@@ -2079,9 +2078,69 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
         empty_label=None,
     )
 
+
+class ProjectCreateForm(
+    BillingMixin, SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
+):
+    """Project creation form."""
+
     class Meta:
         model = Project
         fields = ("name", "slug", "web", "instructions")
+
+
+class ProjectImportCreateForm(ProjectCreateForm):
+    class Meta:
+        model = Project
+        fields = ("name", "slug")
+
+    def __init__(self, request, projectbackup, *args, **kwargs):
+        kwargs["initial"] = {
+            "name": projectbackup.data["project"]["name"],
+            "slug": projectbackup.data["project"]["slug"],
+        }
+        super().__init__(request, *args, **kwargs)
+        self.projectbackup = projectbackup
+        self.helper.layout = Layout(
+            ContextDiv(
+                template="trans/project_import_info.html",
+                context={"projectbackup": projectbackup},
+            ),
+            Field("name"),
+            Field("slug"),
+            Field("billing"),
+        )
+
+
+class ProjectImportForm(BillingMixin, forms.Form):
+    """Component base form."""
+
+    zipfile = forms.FileField(
+        label=_("ZIP file containing project backup"),
+        validators=[FileExtensionValidator(allowed_extensions=["zip"])],
+        widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
+    )
+
+    def __init__(self, request, projectbackup=None, *args, **kwargs):
+        kwargs.pop("instance", None)
+        super().__init__(*args, **kwargs)
+        self.request = request
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field("zipfile"),
+            Field("billing"),
+        )
+
+    def clean_zipfile(self):
+        zipfile = self.cleaned_data["zipfile"]
+        backup = ProjectBackup(zipfile)
+        try:
+            backup.validate()
+        except Exception as error:
+            raise ValidationError(_("Failed to load project backup: %s") % error)
+        self.cleaned_data["projectbackup"] = backup
+        return zipfile
 
 
 class ReplaceForm(forms.Form):

@@ -18,6 +18,7 @@
 #
 
 import json
+import os
 import subprocess
 from zipfile import BadZipfile
 
@@ -32,6 +33,7 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.views.generic.edit import CreateView
 
+from weblate.trans.backups import ProjectBackup
 from weblate.trans.forms import (
     ComponentBranchForm,
     ComponentCreateForm,
@@ -42,6 +44,8 @@ from weblate.trans.forms import (
     ComponentSelectForm,
     ComponentZipCreateForm,
     ProjectCreateForm,
+    ProjectImportCreateForm,
+    ProjectImportForm,
 )
 from weblate.trans.models import Component, Project
 from weblate.trans.tasks import perform_update
@@ -74,19 +78,20 @@ class CreateProject(BaseCreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        billing_field = form.fields["billing"]
-        if self.has_billing:
-            billing_field.queryset = self.billings
-            try:
-                billing_field.initial = int(self.request.GET["billing"])
-            except (ValueError, KeyError):
-                pass
-            billing_field.required = not self.request.user.is_superuser
-            if self.request.user.is_superuser:
-                billing_field.empty_label = "-- without billing --"
-        else:
-            billing_field.required = False
-            billing_field.widget = HiddenInput()
+        if "billing" in form.fields:
+            billing_field = form.fields["billing"]
+            if self.has_billing:
+                billing_field.queryset = self.billings
+                try:
+                    billing_field.initial = int(self.request.GET["billing"])
+                except (ValueError, KeyError):
+                    pass
+                billing_field.required = not self.request.user.is_superuser
+                if self.request.user.is_superuser:
+                    billing_field.empty_label = "-- without billing --"
+            else:
+                billing_field.required = False
+                billing_field.widget = HiddenInput()
         return form
 
     def form_valid(self, form):
@@ -111,6 +116,7 @@ class CreateProject(BaseCreateView):
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
         kwargs["can_create"] = self.can_create()
+        kwargs["import_form"] = self.get_form(ProjectImportForm)
         if self.has_billing:
             from weblate.billing.models import Billing
 
@@ -131,6 +137,69 @@ class CreateProject(BaseCreateView):
                     pks.add(billing.pk)
             self.billings = Billing.objects.filter(pk__in=pks).prefetch()
         return super().dispatch(request, *args, **kwargs)
+
+
+class ImportProject(CreateProject):
+    form_class = ProjectImportForm
+    template_name = "trans/project_import.html"
+
+    def setup(self, request, *args, **kwargs):
+        if "import_project" in request.session and os.path.exists(
+            request.session["import_project"]
+        ):
+            if "zipfile" in request.POST:
+                # Delete previous (stale) import data
+                os.unlink(self.projectbackup.filename)
+                del self.request.session["import_project"]
+                self.projectbackup = None
+            else:
+                self.projectbackup = ProjectBackup(request.session["import_project"])
+                # The backup is already validated at this point,
+                # but we need to load the info.
+                self.projectbackup.validate()
+        else:
+            request.session.pop("import_project", None)
+            self.projectbackup = None
+        super().setup(request, *args, **kwargs)
+
+    def get_form_class(self):
+        """Return the form class to use."""
+        if self.projectbackup:
+            return ProjectImportCreateForm
+        return self.form_class
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.projectbackup:
+            kwargs["projectbackup"] = self.projectbackup
+        return kwargs
+
+    def post(self, request, *args, **kwargs):
+        if "zipfile" in request.POST and self.projectbackup:
+            # Delete previous (stale) import data
+            os.unlink(self.projectbackup.filename)
+            del self.request.session["import_project"]
+            self.projectbackup = None
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        if isinstance(form, ProjectImportForm):
+            # Save current zip to the import dir
+            self.request.session["import_project"] = form.cleaned_data[
+                "projectbackup"
+            ].store_for_import()
+            return redirect("create-project-import")
+        # Perform actual import
+        project = self.projectbackup.restore(
+            project_name=form.cleaned_data["name"],
+            project_slug=form.cleaned_data["slug"],
+            user=self.request.user,
+            billing=form.cleaned_data["billing"],
+        )
+        return redirect(project)
+
+
+# ProjectImportForm
 
 
 @method_decorator(login_required, name="dispatch")

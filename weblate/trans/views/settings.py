@@ -17,13 +17,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.http import Http404, JsonResponse
+from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView, View
 
 from weblate.lang.models import Language
 from weblate.trans.forms import (
@@ -39,7 +42,11 @@ from weblate.trans.forms import (
     TranslationDeleteForm,
 )
 from weblate.trans.models import Announcement, Change, Component
-from weblate.trans.tasks import component_removal, project_removal
+from weblate.trans.tasks import (
+    component_removal,
+    create_project_backup,
+    project_removal,
+)
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.stats import ProjectLanguage
@@ -351,3 +358,43 @@ def component_progress(request, project, component):
             "return_url": return_url,
         },
     )
+
+
+class BackupsMixin:
+    @method_decorator(login_required)
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.obj = get_project(request, kwargs["project"])
+        if not request.user.has_perm("project.edit", self.obj):
+            raise PermissionDenied()
+
+
+class BackupsView(BackupsMixin, TemplateView):
+    template_name = "trans/backups.html"
+
+    def post(self, request, *args, **kwargs):
+        create_project_backup.delay(self.obj.pk)
+        messages.success(
+            request, _("Backup was triggered, it will be shorly available.")
+        )
+        return redirect("backups", project=self.obj.slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["keep_count"] = settings.PROJECT_BACKUP_KEEP_COUNT
+        context["keep_days"] = settings.PROJECT_BACKUP_KEEP_DAYS
+        context["object"] = self.obj
+        context["backups"] = self.obj.list_backups()
+        return context
+
+
+class BackupsDownloadView(BackupsMixin, View):
+    def get(self, request, *args, **kwargs):
+        for backup in self.obj.list_backups():
+            if backup["name"] == kwargs["backup"]:
+                return FileResponse(
+                    open(backup["path"], "rb"),
+                    as_attachment=True,
+                    filename=backup["name"],
+                )
+        raise Http404
