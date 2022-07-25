@@ -18,7 +18,7 @@
 #
 import os
 import time
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from glob import glob
 from typing import List, Optional
 
@@ -518,6 +518,49 @@ def daily_update_checks():
         update_checks.delay(component_id)
 
 
+@app.task(trail=False)
+def cleanup_project_backups():
+    # This intentionally does not use Project objects to remove stale backups
+    # for removed projects as well.
+    rootdir = data_dir("projectbackups")
+    backup_cutoff = datetime.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
+    for projectdir in glob(os.path.join(rootdir, "*")):
+        if projectdir.endswith("import"):
+            # Keep imports for shorter time, but more of them
+            cutoff = datetime.now() - timedelta(days=1)
+            max_count = 30
+        else:
+            cutoff = backup_cutoff
+            max_count = settings.PROJECT_BACKUP_KEEP_COUNT
+        backups = sorted(
+            (
+                (
+                    path,
+                    datetime.fromtimestamp(int(path.split(".")[0])),
+                )
+                for path in os.listdir(projectdir)
+                if path.endswith(".zip") or path.endswith(".zip.part")
+            ),
+            key=lambda item: item[1],
+            reverse=True,
+        )
+        while len(backups) > max_count:
+            remove = backups.pop()
+            os.unlink(os.path.join(projectdir, remove[0]))
+
+        for backup in backups:
+            if backup[1] < cutoff:
+                os.unlink(os.path.join(projectdir, backup[0]))
+
+
+@app.task(trail=False)
+def create_project_backup(pk):
+    from weblate.trans.backups import ProjectBackup
+
+    project = Project.objects.get(pk=pk)
+    ProjectBackup().backup_project(project)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
@@ -540,4 +583,9 @@ def setup_periodic_tasks(sender, **kwargs):
     )
     sender.add_periodic_task(
         3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
+    )
+    sender.add_periodic_task(
+        crontab(hour=2, minute=30),
+        cleanup_project_backups.s(),
+        name="cleanup-project-backups",
     )

@@ -3,6 +3,35 @@
 Backing up and moving Weblate
 =============================
 
+.. _projectbackup:
+
+Project level backups
+---------------------
+
+.. versionadded:: 4.14
+
+.. warning::
+
+   Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ as a database.
+
+The project backups all translation content from Weblate (project, components,
+translations, string comments, suggestions or checks). It is suitable for
+transferring a project to another Weblate instance.
+
+You can perform a project backup in :guilabel:`Manage` ↓ :guilabel:`Backups`.
+The backup can be restored when creating a project (see
+:ref:`adding-projects`).
+
+The backups currently do not include access control information and history.
+
+The comments and suggestions are backed up with an username of user who did
+create them. Upon import it is assigned to a matching user. If there is no user
+with such username, it is assigned to anonymous user.
+
+The generated backups are kept on the server as configured by
+:setting:`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT`
+(it defaults to keep at most 3 backups for 30 days).
+
 Automated backup using BorgBackup
 ---------------------------------
 

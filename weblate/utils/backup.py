@@ -71,6 +71,8 @@ def tag_cache_dirs():
         data_dir("cache", "fonts"),
         # Static files (default is inside data)
         settings.STATIC_ROOT,
+        # Project backups
+        data_dir("projectbackups"),
     ]
     # Django file based caches
     for cache in settings.CACHES.values():

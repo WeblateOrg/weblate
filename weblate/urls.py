@@ -301,6 +301,16 @@ real_patterns = [
         name="settings",
     ),
     path(
+        "backups/<name:project>/",
+        weblate.trans.views.settings.BackupsView.as_view(),
+        name="backups",
+    ),
+    path(
+        "backups/<name:project>/<name:backup>",
+        weblate.trans.views.settings.BackupsDownloadView.as_view(),
+        name="backups-download",
+    ),
+    path(
         "labels/<name:project>/",
         weblate.trans.views.labels.project_labels,
         name="labels",
@@ -334,6 +344,11 @@ real_patterns = [
         "create/project/",
         weblate.trans.views.create.CreateProject.as_view(),
         name="create-project",
+    ),
+    path(
+        "create/project/import/",
+        weblate.trans.views.create.ImportProject.as_view(),
+        name="create-project-import",
     ),
     path(
         "create/component/",

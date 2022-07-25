@@ -19,6 +19,8 @@
 
 import os
 import os.path
+from datetime import datetime
+from glob import glob
 from typing import Optional
 
 from django.conf import settings
@@ -29,6 +31,7 @@ from django.db.models import Count, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy
 
 from weblate.configuration.models import Setting
@@ -516,3 +519,24 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             else:
                 settings[item] = value
         return settings
+
+    def list_backups(self):
+        backup_dir = data_dir("projectbackups", f"{self.pk}")
+        result = []
+        if not os.path.exists(backup_dir):
+            return result
+        with os.scandir(backup_dir) as iterator:
+            for entry in iterator:
+                if not entry.name.endswith(".zip"):
+                    continue
+                result.append(
+                    {
+                        "name": entry.name,
+                        "path": os.path.join(backup_dir, entry.name),
+                        "timestamp": make_aware(
+                            datetime.fromtimestamp(int(entry.name.split(".")[0]))
+                        ),
+                        "size": entry.stat().st_size // 1024,
+                    }
+                )
+        return sorted(result, key=lambda item: item["timestamp"], reverse=True)
