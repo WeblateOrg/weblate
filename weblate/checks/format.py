@@ -257,7 +257,7 @@ FLAG_RULES = {
     "python-brace-format": (PYTHON_BRACE_MATCH, name_format_is_position_based),
     "scheme-format": (SCHEME_PRINTF_MATCH, scheme_format_is_position_based),
     "c-sharp-format": (C_SHARP_MATCH, name_format_is_position_based),
-    "java-format": (JAVA_MATCH, c_format_is_position_based),
+    "java-printf-format": (JAVA_MATCH, c_format_is_position_based),
 }
 
 
@@ -547,7 +547,7 @@ class CSharpFormatCheck(BaseFormatCheck):
 class JavaFormatCheck(BasePrintfCheck):
     """Check for Java format string."""
 
-    check_id = "java_format"
+    check_id = "java_printf_format"
     name = _("Java format")
     description = _("Java format string does not match source")
 
@@ -555,7 +555,7 @@ class JavaFormatCheck(BasePrintfCheck):
 class JavaMessageFormatCheck(BaseFormatCheck):
     """Check for Java MessageFormat string."""
 
-    check_id = "java_messageformat"
+    check_id = "java_format"
     name = _("Java MessageFormat")
     description = _("Java MessageFormat string does not match source")
     regexp = JAVA_MESSAGE_MATCH

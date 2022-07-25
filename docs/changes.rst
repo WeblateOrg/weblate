@@ -20,6 +20,7 @@ Released on July 1st 2022.
 * Fixed untranslating strings via API.
 * Added support for removing user from a group via API.
 * Fixed audit log for user invitation e-mails.
+* Fixed flag names for Java formatting strings.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
 

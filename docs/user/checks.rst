@@ -309,7 +309,7 @@ This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>
   `Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/icu-syntax/>`_
 
 
-.. _check-java-format:
+.. _check-java-printf-format:
 
 Java format
 ***********
@@ -317,10 +317,14 @@ Java format
 :Summary: Java format string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaFormatCheck``
-:Flag to enable: ``java-format``
-:Flag to ignore: ``ignore-java-format``
+:Flag to enable: ``java-printf-format``
+:Flag to ignore: ``ignore-java-printf-format``
 :Simple format string example: ``There are %d apples``
 :Position format string example: ``Your balance is %1$d %2$s``
+
+.. versionchanged:: 4.14
+
+   This used to be toggled by ``java-format`` flag, it was changed for consistency with GNU gettext.
 
 .. seealso::
 
@@ -328,7 +332,7 @@ Java format
    `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
 
-.. _check-java-messageformat:
+.. _check-java-format:
 
 Java MessageFormat
 ******************
@@ -336,10 +340,14 @@ Java MessageFormat
 :Summary: Java MessageFormat string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
-:Flag to enable unconditionally: ``java-messageformat``
+:Flag to enable unconditionally: ``java-format``
 :Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
-:Flag to ignore: ``ignore-java-messageformat``
+:Flag to ignore: ``ignore-java-format``
 :Position format string example: ``There are {0} apples``
+
+.. versionchanged:: 4.14
+
+   This used to be toggled by ``java-messageformat`` flag, it was changed for consistency with GNU gettext.
 
 .. seealso::
 

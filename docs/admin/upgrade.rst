@@ -326,6 +326,18 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.13 to 4.14
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The Java formatting checks now match GNU gettext flags. The flags set in
+  Weblate will be automatically migrated, but third-party scripts will need to
+  use ``java-printf-format`` instead of ``java-format`` and ``java-format``
+  instead of ``java-messageformat``.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
