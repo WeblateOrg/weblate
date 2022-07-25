@@ -14,6 +14,7 @@
       "$id": "#root/basic",
       "title": "Basic",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "username",
         "full_name",
@@ -63,6 +64,7 @@
       "$id": "#root/profile",
       "title": "Profile",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "language",
         "suggested",
@@ -271,6 +273,7 @@
           "timestamp",
           "activity"
         ],
+        "additionalProperties": false,
         "properties": {
           "address": {
             "$id": "#root/auditlog/items/address",
