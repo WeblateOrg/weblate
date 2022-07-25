@@ -591,7 +591,7 @@ class JavaFormatCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            "java-format",
+            "java-printf-format",
             "%1s string %2s",
             [(0, 3, "%1s"), (11, 14, "%2s")],
         )
@@ -649,7 +649,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            "java-messageformat",
+            "java-format",
             "{0}string{1}",
             [(0, 3, "{0}"), (9, 12, "{1}")],
         )
@@ -735,7 +735,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
     def test_skip(self):
         unit = MockUnit(source="source")
         self.assertTrue(self.check.should_skip(unit))
-        unit = MockUnit(source="source", flags="java-messageformat")
+        unit = MockUnit(source="source", flags="java-format")
         self.assertFalse(self.check.should_skip(unit))
         unit = MockUnit(source="source", flags="auto-java-messageformat")
         self.assertTrue(self.check.should_skip(unit))
@@ -763,7 +763,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         unit = Unit(
             source="{0}''s brush is {1} centimeters tall",
             target="{0}'s brush is {1} centimeters tall",
-            extra_flags="java-messageformat",
+            extra_flags="java-format",
             translation=Translation(
                 component=Component(
                     file_format="auto",

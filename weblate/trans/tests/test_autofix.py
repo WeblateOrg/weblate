@@ -138,7 +138,7 @@ class AutoFixTest(TestCase):
         # No flags
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string, but forced
-        unit.flags = "java-messageformat"
+        unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string
         unit.flags = "auto-java-messageformat"
@@ -161,5 +161,5 @@ class AutoFixTest(TestCase):
         # Quoted format
         self.assertEqual(fix.fix_target(["'r''' {0}"], unit), (["''r'' {0}"], True))
         unit.source = "foo"
-        unit.flags = "java-messageformat"
+        unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))

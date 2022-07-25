@@ -101,10 +101,10 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-i18next-interpolation` quality check.
 ``icu-message-format``
     Enable the :ref:`check-icu-message-format` quality check.
+``java-printf-format``
+    Enable the :ref:`check-java-printf-format` quality check.
 ``java-format``
     Enable the :ref:`check-java-format` quality check.
-``java-messageformat``
-    Enable the :ref:`check-java-messageformat` quality check.
 ``javascript-format``
     Enable the :ref:`check-javascript-format` quality check.
 ``lua-format``
@@ -165,8 +165,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-icu-message-format` quality check.
 ``ignore-java-format``
     Skip the :ref:`check-java-format` quality check.
-``ignore-java-messageformat``
-    Skip the :ref:`check-java-messageformat` quality check.
+``ignore-java-printf-format``
+    Skip the :ref:`check-java-printf-format` quality check.
 ``ignore-javascript-format``
     Skip the :ref:`check-javascript-format` quality check.
 ``ignore-lua-format``

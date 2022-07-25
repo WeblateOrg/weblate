@@ -1374,7 +1374,7 @@ class AndroidFormat(TTKitFormat):
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     autoload = ("strings*.xml", "values*.xml")
     language_format = "android"
-    check_flags = ("java-format",)
+    check_flags = ("java-printf-format",)
     autoaddon = {"weblate.cleanup.blank": {}}
     plural_preference = (
         Plural.SOURCE_ANDROID,
