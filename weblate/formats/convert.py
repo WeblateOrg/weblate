@@ -53,6 +53,7 @@ from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import PoUnit, XliffUnit
+from weblate.trans.util import get_string
 from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
@@ -73,6 +74,13 @@ class ConvertPoUnit(PoUnit):
     def is_approved(self, fallback=False):
         """Check whether unit is approved."""
         return fallback
+
+    @cached_property
+    def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template:
+            return get_string(self.template.source)
+        return get_string(self.unit.source)
 
 
 class ConvertXliffUnit(XliffUnit):
