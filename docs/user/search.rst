@@ -67,9 +67,9 @@ Fields
    lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for
    examples.
 ``check:TEXT``
-   String has failing check.
+   String has failing check, see :doc:`/user/checks` for check identifiers.
 ``dismissed_check:TEXT``
-   String has dismissed check.
+   String has dismissed check, see :doc:`/user/checks` for check identifiers.
 ``comment:TEXT``
    Search in user comments.
 ``resolved_comment:TEXT``

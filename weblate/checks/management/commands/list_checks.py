@@ -73,6 +73,7 @@ class Command(BaseCommand):
             lines.append(
                 f":Check class: ``{check_class.__module__}.{check_class.__qualname__}``"
             )
+            lines.append(f":Check identifier: ``{check.check_id}``")
             if check.default_disabled:
                 lines.append(f":Flag to enable: ``{check.enable_string}``")
             lines.append(f":Flag to ignore: ``{check.ignore_string}``")
