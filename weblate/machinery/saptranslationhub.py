@@ -95,6 +95,7 @@ class SAPTranslationHub(MachineTranslation):
                 yield {
                     "text": translation["value"],
                     "quality": translation.get("qualityIndex", 100),
+                    "show_quality": "qualityIndex" in translation,
                     "service": self.name,
                     "source": text,
                 }

@@ -71,4 +71,5 @@ class WeblateMemory(MachineTranslation):
                 "service": self.name,
                 "origin": result.get_origin_display(),
                 "source": result.source,
+                "show_quality": True,
             }

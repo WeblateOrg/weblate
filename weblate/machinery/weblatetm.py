@@ -93,6 +93,7 @@ class WeblateTranslation(MachineTranslation):
             yield {
                 "text": munit.get_target_plurals()[0],
                 "quality": quality,
+                "show_quality": True,
                 "service": self.name,
                 "origin": str(munit.translation.component),
                 "origin_url": munit.get_absolute_url(),

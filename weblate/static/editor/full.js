@@ -519,9 +519,11 @@
       row.append(service);
 
       /* Quality score as bar with the text */
-      row.append(
-        $("<td class='number'><strong>" + el.quality + "</strong> %</td>")
-      );
+      let quality_cell = $("<td class='number'></td>");
+      if (el.show_quality) {
+        quality_cell.html("<strong>" + el.quality + "</strong> %");
+      }
+      row.append(quality_cell);
       /* Translators: Verb for copy operation */
       row.append(
         $(
