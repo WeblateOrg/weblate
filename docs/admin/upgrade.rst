@@ -41,6 +41,12 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
+      pip install -U "Weblate[all]==version"
+
+   Or, if you just want to get the latest released version:
+
+   .. code-block:: sh
+
       pip install -U "Weblate[all]"
 
    If you don't want to install all of the optional dependencies do:
