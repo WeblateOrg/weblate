@@ -137,18 +137,37 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def get_remote_repo_url(self):
         return self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
 
+    def get_fake_component(self):
+        return Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            pk=-1,
+        )
+
     def clone_repo(self, path):
         return self._class.clone(
             self.get_remote_repo_url(),
             path,
             self._remote_branch,
-            component=Component(
-                slug="test",
-                name="Test",
-                project=Project(name="Test", slug="test", pk=-1),
-                pk=-1,
-            ),
+            component=self.get_fake_component(),
         )
+
+    def test_weblate_repo_init(self):
+        """Test repo workflow as used by Weblate."""
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = self._class(
+                tempdir, self._remote_branch, component=self.get_fake_component()
+            )
+            with repo.lock:
+                repo.configure_remote(
+                    self.get_remote_repo_url(),
+                    "",
+                    self._remote_branch,
+                )
+                repo.update_remote()
+                repo.configure_branch(self._remote_branch)
+                repo.merge()
 
     def tearDown(self):
         self.remove_temp()
