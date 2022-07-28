@@ -4,6 +4,9 @@ Weblate 4.14
 Not yet released.
 
 * Track add-on changes in a history.
+* Fixed parsing translation from Windows RC, HTML and text files.
+* Extended language code style configuration options.
+* Added support for pluralse updated in recent CLDR releases.
 * Reduced memory usage while updating components with a lot of translations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
