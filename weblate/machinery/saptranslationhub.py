@@ -25,7 +25,7 @@ from .forms import SAPMachineryForm
 
 
 class SAPTranslationHub(MachineTranslation):
-    # https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub
+    # https://api.sap.com/api/translationhub/overview
     name = "SAP Translation Hub"
     settings_form = SAPMachineryForm
 
