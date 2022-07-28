@@ -949,16 +949,16 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
 
     def mock_error(self):
         responses.add(
-            responses.GET, "http://sth.example.com/languages", body="", status=500
+            responses.GET, "http://sth.example.com/v1/languages", body="", status=500
         )
         responses.add(
-            responses.POST, "http://sth.example.com/translate", body="", status=500
+            responses.POST, "http://sth.example.com/v1/translate", body="", status=500
         )
 
     def mock_response(self):
         responses.add(
             responses.GET,
-            "http://sth.example.com/languages",
+            "http://sth.example.com/v1/languages",
             json={
                 "languages": [
                     {"id": "en", "name": "English", "bcp-47-code": "en"},
@@ -969,7 +969,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.POST,
-            "http://sth.example.com/translate",
+            "http://sth.example.com/v1/translate",
             json=SAPTRANSLATIONHUB_JSON,
             status=200,
             content_type="text/json",

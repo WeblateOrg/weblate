@@ -39,6 +39,13 @@ class SAPTranslationHub(MachineTranslation):
             "enable_mt": bool(settings.MT_SAP_USE_MT),
         }
 
+    @property
+    def api_base_url(self):
+        base = super().api_base_url
+        if base.endswith("/v1"):
+            return base
+        return f"{base}/v1"
+
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
         # to access the sandbox
