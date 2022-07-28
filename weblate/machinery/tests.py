@@ -349,6 +349,10 @@ class BaseMachineTranslationTest(TestCase):
                     self.assertIsInstance(
                         value, int, f"'{key}' is supposed to be a integer"
                     )
+                elif key == "show_quality":
+                    self.assertIsInstance(
+                        value, bool, f"'{key}' is supposed to be a boolean"
+                    )
                 else:
                     self.assertIsInstance(
                         value, str, f"'{key}' is supposed to be a string"

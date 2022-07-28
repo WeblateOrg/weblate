@@ -72,6 +72,7 @@ class MemoryModelTest(FixtureTestCase):
                     "origin": "File: test",
                     "source": "Hello",
                     "text": "Ahoj",
+                    "show_quality": True,
                 }
             ],
         )
