@@ -31,7 +31,6 @@ from django.utils import timezone
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.utils.files import remove_tree
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
     GiteaRepository,
@@ -173,8 +172,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.remove_temp()
 
     def add_remote_commit(self, conflict=False, rename=False):
-        tempdir = tempfile.mkdtemp()
-        try:
+        with tempfile.TemporaryDirectory() as tempdir:
             repo = self.clone_repo(tempdir)
             self.fixup_repo(repo)
 
@@ -207,8 +205,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
                 # Push it
                 repo.push("")
-        finally:
-            remove_tree(tempdir)
 
     def test_clone(self):
         # Verify that VCS directory exists
