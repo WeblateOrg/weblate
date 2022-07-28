@@ -363,6 +363,7 @@ fulfilled:
 * Somebody else changes an already changed string.
 * A merge from upstream occurs.
 * An explicit commit is requested.
+* A file download is requested.
 * Change is older than period defined as :ref:`component-commit_pending_age` on :ref:`component`.
 
 .. hint::
