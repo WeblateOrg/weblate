@@ -21,7 +21,9 @@
 import random
 import time
 from hashlib import md5
+from itertools import chain
 from typing import Dict, List
+from urllib.parse import quote
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -105,6 +107,19 @@ class MachineTranslation:
             self.download_translations(*self.validate_payload)
         except Exception as error:
             raise ValidationError(_("Failed to fetch translation: %s") % error)
+
+    @property
+    def api_base_url(self):
+        base = self.settings["url"]
+        if base.endswith("/"):
+            base = base.rstrip("/")
+        return base
+
+    def get_api_url(self, *parts):
+        """Generates service URL gracefully handle trailing slashes."""
+        return "/".join(
+            chain([self.api_base_url], (quote(part, b"") for part in parts))
+        )
 
     @classmethod
     def get_identifier(cls):

@@ -24,9 +24,6 @@ from weblate.machinery.base import MachineTranslation
 
 from .forms import KeyURLMachineryForm
 
-LIBRETRANSLATE_TRANSLATE = "{}translate"
-LIBRETRANSLATE_LANGUAGES = "{}languages"
-
 
 class LibreTranslateTranslation(MachineTranslation):
     """LibreTranslate machine translation support."""
@@ -48,7 +45,7 @@ class LibreTranslateTranslation(MachineTranslation):
     def download_languages(self):
         response = self.request(
             "get",
-            LIBRETRANSLATE_LANGUAGES.format(self.settings["url"]),
+            self.get_api_url("languages"),
         )
         return [x["code"] for x in response.json()]
 
@@ -65,7 +62,7 @@ class LibreTranslateTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         response = self.request(
             "post",
-            LIBRETRANSLATE_TRANSLATE.format(self.settings["url"]),
+            self.get_api_url("translate"),
             data={
                 "api_key": self.settings["key"],
                 "q": text,

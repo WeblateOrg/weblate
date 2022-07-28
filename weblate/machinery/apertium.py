@@ -91,10 +91,6 @@ class ApertiumAPYTranslation(MachineTranslation):
     max_score = 90
     settings_form = URLMachineryForm
 
-    @property
-    def url(self):
-        return self.settings["url"]
-
     @staticmethod
     def migrate_settings():
         return {
@@ -116,7 +112,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        data = self.request_status("get", f"{self.url}/listPairs")
+        data = self.request_status("get", self.get_api_url("listPairs"))
         return [
             (item["sourceLanguage"], item["targetLanguage"])
             for item in data["responseData"]
@@ -142,7 +138,9 @@ class ApertiumAPYTranslation(MachineTranslation):
             "q": text,
             "markUnknown": "no",
         }
-        response = self.request_status("get", f"{self.url}/translate", params=args)
+        response = self.request_status(
+            "get", self.get_api_url("translate"), params=args
+        )
 
         yield {
             "text": response["responseData"]["translatedText"],

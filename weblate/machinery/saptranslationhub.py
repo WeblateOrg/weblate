@@ -56,7 +56,7 @@ class SAPTranslationHub(MachineTranslation):
     def download_languages(self):
         """Get all available languages from SAP Translation Hub."""
         # get all available languages
-        response = self.request("get", self.settings["url"] + "languages")
+        response = self.request("get", self.get_api_url("languages"))
         payload = response.json()
 
         return [d["id"] for d in payload["languages"]]
@@ -86,7 +86,7 @@ class SAPTranslationHub(MachineTranslation):
         }
 
         # perform the request
-        response = self.request("post", self.settings["url"] + "translate", json=data)
+        response = self.request("post", self.get_api_url("translate"), json=data)
         payload = response.json()
 
         # prepare the translations for weblate

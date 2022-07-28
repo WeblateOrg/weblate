@@ -24,9 +24,6 @@ from django.conf import settings
 from .base import MachineTranslation
 from .forms import DeepLMachineryForm
 
-DEEPL_TRANSLATE = "{}translate"
-DEEPL_LANGUAGES = "{}languages"
-
 # Extracted from https://www.deepl.com/docs-api/translating-text/response/
 FORMAL_LANGUAGES = {"DE", "FR", "IT", "ES", "NL", "PL", "PT-PT", "PT-BR", "RU"}
 
@@ -59,7 +56,7 @@ class DeepLTranslation(MachineTranslation):
     def download_languages(self):
         response = self.request(
             "post",
-            DEEPL_LANGUAGES.format(self.settings["url"]),
+            self.get_api_url("languages"),
             data={"auth_key": self.settings["key"]},
         )
         result = {x["language"] for x in response.json()}
@@ -97,7 +94,7 @@ class DeepLTranslation(MachineTranslation):
             params["formality"] = "less"
         response = self.request(
             "post",
-            DEEPL_TRANSLATE.format(self.settings["url"]),
+            self.get_api_url("translate"),
             data=params,
         )
         payload = response.json()

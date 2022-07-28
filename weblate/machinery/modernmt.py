@@ -55,7 +55,7 @@ class ModernMTTranslation(MachineTranslation):
 
     def download_languages(self):
         """List of supported languages."""
-        response = self.request("get", self.settings["url"] + "languages")
+        response = self.request("get", self.get_api_url("languages"))
         payload = response.json()
 
         for source, targets in payload["data"].items():
@@ -74,7 +74,7 @@ class ModernMTTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         response = self.request(
             "get",
-            self.settings["url"] + "translate",
+            self.get_api_url("translate"),
             params={"q": text, "source": source, "target": language},
         )
         payload = response.json()

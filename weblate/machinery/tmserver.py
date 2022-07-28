@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from urllib.parse import quote
 
 from django.conf import settings
 from requests.exceptions import HTTPError
@@ -40,10 +39,6 @@ class TMServerTranslation(MachineTranslation):
             "url": settings.MT_TMSERVER,
         }
 
-    @property
-    def url(self):
-        return self.settings["url"]
-
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("-", "_").lower()
@@ -51,8 +46,8 @@ class TMServerTranslation(MachineTranslation):
     def download_languages(self):
         """Download list of supported languages from a service."""
         try:
-            # This will raise exception in DEBUG mode
-            response = self.request("get", f"{self.url}/languages/")
+            # This URL needs trailing slash, that's why blank string is included
+            response = self.request("get", self.get_api_url("languages", ""))
             data = response.json()
         except HTTPError as error:
             if error.response.status_code == 404:
@@ -83,11 +78,8 @@ class TMServerTranslation(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
-        url = "{}/{}/{}/unit/{}".format(
-            self.url,
-            quote(source, b""),
-            quote(language, b""),
-            quote(text[:500].replace("\r", " ").encode(), b""),
+        url = self.get_api_url(
+            source, language, "unit", text[:500].replace("\r", " ").encode()
         )
         response = self.request("get", url)
         payload = response.json()
@@ -108,5 +100,5 @@ class AmagamaTranslation(TMServerTranslation):
     settings_form = None
 
     @property
-    def url(self):
+    def api_base_url(self):
         return AMAGAMA_LIVE
