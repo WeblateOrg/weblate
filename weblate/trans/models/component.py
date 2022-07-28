@@ -2061,6 +2061,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = code
+                # Unload the store to save memory as we won't need it again
+                translation.drop_store_cache()
                 # Remove fuzzy flag on template name change
                 if changed_template and self.template:
                     translation.unit_set.filter(state=STATE_FUZZY).update(
