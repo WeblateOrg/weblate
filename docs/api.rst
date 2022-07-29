@@ -1403,7 +1403,6 @@ Components
     :type component: string
 
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip``
-    :query string q: Filter downloaded strings, see :ref:`search`.
 
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
@@ -1919,6 +1918,7 @@ Translations
         as stored in VCS.
 
     :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``
+    :query string q: Filter downloaded strings, see :ref:`search`.
 
     :param project: Project URL slug
     :type project: string
