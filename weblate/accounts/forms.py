@@ -482,6 +482,8 @@ class CaptchaForm(forms.Form):
             )
             % self.captcha.display
         )
+        if self.is_bound:
+            self["captcha"].label = self.fields["captcha"].label
 
     def clean_captcha(self):
         """Validation for CAPTCHA."""
