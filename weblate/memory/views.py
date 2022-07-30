@@ -120,7 +120,7 @@ class RebuildView(MemoryFormView):
         import_memory.delay(project_id=project.id, component_id=component_id)
         messages.success(
             self.request,
-            _("Entries deleted and memory will be rebuilt in the background."),
+            _("Deleted entries and the translation memory will be rebuilt in the background."),
         )
         return super().form_valid(form)
 
