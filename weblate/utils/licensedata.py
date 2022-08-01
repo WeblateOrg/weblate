@@ -1348,12 +1348,6 @@ LICENSES = (
     ),
     ("JSON", "JSON License", "https://spdx.org/licenses/JSON.html", False),
     (
-        "KiCad-libraries-exception",
-        "KiCad Libraries Exception",
-        "https://spdx.org/licenses/KiCad-libraries-exception.html",
-        False,
-    ),
-    (
         "LPPL-1.0",
         "LaTeX Project Public License v1.0",
         "https://spdx.org/licenses/LPPL-1.0.html",
@@ -1476,6 +1470,12 @@ LICENSES = (
         "https://spdx.org/licenses/MTLL.html",
         False,
     ),
+    (
+        "MS-LPL",
+        "Microsoft Limited Public License",
+        "https://spdx.org/licenses/MS-LPL.html",
+        False,
+    ),
     ("MS-PL", "Microsoft Public License", "https://spdx.org/licenses/MS-PL.html", True),
     (
         "MS-RL",
@@ -1483,6 +1483,7 @@ LICENSES = (
         "https://spdx.org/licenses/MS-RL.html",
         True,
     ),
+    ("Minpack", "Minpack License", "https://spdx.org/licenses/Minpack.html", False),
     (
         "MITNFA",
         "MIT +no-false-attribs license",
@@ -1590,6 +1591,12 @@ LICENSES = (
         True,
     ),
     ("Newsletr", "Newsletr License", "https://spdx.org/licenses/Newsletr.html", False),
+    (
+        "NICTA-1.0",
+        "NICTA Public Software License, Version 1.0",
+        "https://spdx.org/licenses/NICTA-1.0.html",
+        False,
+    ),
     (
         "NIST-PD",
         "NIST Public Domain Notice",
