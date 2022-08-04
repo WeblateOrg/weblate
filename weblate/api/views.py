@@ -64,6 +64,7 @@ from weblate.api.serializers import (
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
+    MemorySerializer,
     MonolingualUnitSerializer,
     NotificationSerializer,
     ProjectSerializer,
@@ -83,6 +84,7 @@ from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
@@ -980,6 +982,27 @@ class ComponentViewSet(
             requested_format,
             name=instance.full_slug.replace("/", "-"),
         )
+
+
+class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
+    """Memory API."""
+
+    queryset = Memory.objects.none()
+    serializer_class = MemorySerializer
+
+    def get_queryset(self):
+        if not self.request.user.is_superuser:
+            self.permission_denied(self.request, "Access not allowed")
+        return Memory.objects.order_by("id")
+
+    def perm_check(self, request, instance):
+        if not request.user.has_perm("memory.delete", instance):
+            self.permission_denied(request, "Can not delete memory entry")
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        return super().destroy(request, *args, **kwargs)
 
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):

@@ -28,6 +28,7 @@ from weblate.api.views import (
     ComponentViewSet,
     GroupViewSet,
     LanguageViewSet,
+    MemoryViewSet,
     Metrics,
     ProjectViewSet,
     RoleViewSet,
@@ -46,6 +47,7 @@ router.register("roles", RoleViewSet)
 router.register("projects", ProjectViewSet)
 router.register("components", ComponentViewSet)
 router.register("translations", TranslationViewSet)
+router.register("memory", MemoryViewSet)
 router.register("languages", LanguageViewSet)
 router.register("component-lists", ComponentListViewSet)
 router.register("changes", ChangeViewSet)
