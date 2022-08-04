@@ -31,6 +31,7 @@ from weblate_language_data.languages import LANGUAGES
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
+from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Change,
@@ -2181,6 +2182,32 @@ class LanguageAPITest(APIBaseTest):
             request={"name": "New Language"},
         )
         self.assertEqual(Language.objects.get(code="cs").name, "New Language")
+
+
+class MemoryAPITest(APIBaseTest):
+    def test_get(self):
+        self.do_request(
+            "api:memory-list",
+            method="get",
+            superuser=True,
+            code=200,
+        )
+
+        self.do_request(
+            "api:memory-list",
+            method="get",
+            superuser=False,
+            code=403,
+        )
+
+    def test_delete(self):
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": Memory.objects.first().pk},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
 
 
 class TranslationAPITest(APIBaseTest):

@@ -27,6 +27,7 @@ from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
+from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
@@ -904,6 +905,22 @@ class PluralField(serializers.ListField):
 
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
+
+
+class MemorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Memory
+        fields = (
+            "id",
+            "source",
+            "target",
+            "source_language",
+            "target_language",
+            "origin",
+            "project",
+            "from_file",
+            "shared",
+        )
 
 
 class UnitSerializer(serializers.ModelSerializer):

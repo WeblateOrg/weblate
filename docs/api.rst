@@ -2009,6 +2009,24 @@ Translations
     :>json string url: URL to access the translation (engagement URL)
     :>json string url_translate: URL to access the translation (real translation URL)
 
+
+Memory
+++++++
+
+.. versionadded:: 4.14
+
+.. http:get:: /api/memory/
+
+    Returns a list of memory results.
+
+.. http:delete:: /api/memory/(int:memory_object_id)/
+
+    Deletes a memory object
+
+    :param memory_object_id: Memory Object ID
+    :type project: int
+
+
 Units
 +++++
 
