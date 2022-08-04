@@ -201,7 +201,9 @@ class LocationLinksTest(TestCase):
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
-        self.unit.location = "foo.bar:123,bar.foo:321,https://example.com/foo,http://example.org/bar"
+        self.unit.location = (
+            "foo.bar:123,bar.foo:321,https://example.com/foo,http://example.org/bar"
+        )
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
             """
@@ -230,6 +232,7 @@ class LocationLinksTest(TestCase):
             </a>
             """,
         )
+
 
 class TranslationFormatTestCase(FixtureTestCase):
     def setUp(self):
