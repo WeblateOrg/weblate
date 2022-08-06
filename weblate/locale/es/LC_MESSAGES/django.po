@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-14 13:12+0000\n"
-"PO-Revision-Date: 2022-08-01 03:15+0000\n"
+"PO-Revision-Date: 2022-08-09 17:22+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -3990,10 +3990,9 @@ msgid "Failed to fetch supported languages: %s"
 msgstr "No se pudo encontrar el idioma de origen."
 
 #: weblate/machinery/base.py:107
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "¡Falló al cambiar las etiquetas de traducción!"
+msgstr "No se pudo recuperar la traducción: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
@@ -4043,10 +4042,8 @@ msgid "Enable machine translation"
 msgstr "Activar traducción automática"
 
 #: weblate/machinery/forms.py:122
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "Proporcione el nombre de usuario y la contraseña correctamente."
+msgstr "Proporcione, bien la clave, bien el nombre de usuario y la contraseña."
 
 #: weblate/machinery/forms.py:130
 msgctxt "Automatic suggestion service configuration"
@@ -4085,18 +4082,14 @@ msgid "Failed to parse JSON: %s"
 msgstr "No se pudo procesar el archivo JSON: {!s}"
 
 #: weblate/machinery/forms.py:185
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "Acceso solo"
+msgstr "Id. de clave de acceso"
 
 #: weblate/machinery/forms.py:188
-#, fuzzy
-#| msgid "Secret key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "Llave secreta"
+msgstr "Clave de secreto de API"
 
 #: weblate/machinery/forms.py:191
 msgctxt "AWS Translate configuration"
@@ -7056,7 +7049,7 @@ msgstr "Marcar como indeseable"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "Este servicio se instaló para todo el sitio."
 
 #: weblate/templates/machinery/detail.html:7
 msgid "site wide"
@@ -7064,7 +7057,7 @@ msgstr "en todo el sitio"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
-msgstr ""
+msgstr "Este servicio se instaló para todo el sitio pero está desactivado."
 
 #: weblate/templates/machinery/detail.html:10
 msgid "disabled"
@@ -7091,19 +7084,15 @@ msgid "Enable"
 msgstr "Activar"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "No hay ningún complemento instalado actualmente."
+msgstr "No hay ningún servicio instalado actualmente."
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "Actualmente hay %(count)s complemento instalado."
-msgstr[1] "Actualmente hay %(count)s complementos instalados."
+msgstr[0] "Actualmente hay %(count)s servicio instalado."
+msgstr[1] "Actualmente hay %(count)s servicios instalados."
 
 #: weblate/templates/machinery/list.html:61
 msgid "Available automatic suggestion services"
@@ -7114,14 +7103,10 @@ msgid "Could not find any additional services."
 msgstr "No se pudo encontrar ningún servicio adicional."
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
-"Algunos complementos solicitarán una configuración adicional durante la "
-"instalación."
+"Algunos servicios requerirán configuración adicional durante la instalación."
 
 #: weblate/templates/mail/account_activity.html:7
 #, fuzzy, python-format
@@ -9144,16 +9129,12 @@ msgid "Sort By"
 msgstr "Ordenar por"
 
 #: weblate/templates/snippets/sort-field.html:24
-#, fuzzy
-#| msgid "pending"
 msgid "Ascending"
-msgstr "pendiente"
+msgstr "Ascendente"
 
 #: weblate/templates/snippets/sort-field.html:27
-#, fuzzy
-#| msgid "pending"
 msgid "Descending"
-msgstr "pendiente"
+msgstr "Descendente"
 
 #: weblate/templates/snippets/ssh-key.html:5
 msgid "Public key copied to clipboard."
