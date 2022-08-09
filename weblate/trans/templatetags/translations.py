@@ -606,11 +606,11 @@ def try_linkify_filename(
     """
     Attempt to convert `text` to a repo link to `filename:line`.
 
-    If the `text` is prefixed with a protocol, like https://, http://, ftp://, the
+    If the `text` is prefixed with http:// or https://, the
     link will be an absolute link to the specified resource.
     """
     link = None
-    if re.search(r"\w+://", text):
+    if re.search(r"https?://", text):
         link = text
     elif profile:
         link = unit.translation.component.get_repoweb_link(
