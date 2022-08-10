@@ -1041,6 +1041,9 @@ class GhostStats(BaseStats):
     def save(self):
         return
 
+    def load(self):
+        return {}
+
     def get_absolute_url(self):
         return None
 
