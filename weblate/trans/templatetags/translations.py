@@ -610,7 +610,7 @@ def try_linkify_filename(
     link will be an absolute link to the specified resource.
     """
     link = None
-    if re.search(r"https?://", text):
+    if re.search(r"^https?://", text):
         link = text
     elif profile:
         link = unit.translation.component.get_repoweb_link(
