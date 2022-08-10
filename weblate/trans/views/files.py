@@ -133,7 +133,7 @@ def download_translation(request, project, component, lang):
     kwargs = {}
 
     if "format" in request.GET or "q" in request.GET:
-        form = DownloadForm(request.GET)
+        form = DownloadForm(obj, request.GET)
         if not form.is_valid():
             show_form_errors(request, form)
             return redirect(obj)

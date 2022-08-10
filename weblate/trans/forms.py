@@ -600,14 +600,17 @@ class DownloadForm(forms.Form):
     q = QueryField()
     format = forms.ChoiceField(
         label=_("File format"),
-        choices=[(x.name, x.verbose) for x in EXPORTERS.values()],
+        choices=[],
         initial="po",
         required=True,
         widget=forms.RadioSelect,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, translation, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["format"].choices = [
+            (x.name, x.verbose) for x in EXPORTERS.values() if x.supports(translation)
+        ]
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
