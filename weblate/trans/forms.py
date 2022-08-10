@@ -26,7 +26,7 @@ from typing import Dict, List
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Fieldset, Layout
+from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
@@ -750,6 +750,9 @@ class SearchForm(forms.Form):
                 },
             ),
             Field("checksum"),
+            # Add hidden submit button so that submission via enter works
+            # See https://stackoverflow.com/a/477699/225718
+            HTML('<input type="submit" hidden />'),
         )
 
     def get_name(self):

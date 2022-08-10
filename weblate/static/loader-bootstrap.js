@@ -1048,17 +1048,9 @@ $(function () {
         return false;
       }
     });
-  $("#id_position").on("keydown", function (event) {
-    if (event.key === "Enter") {
-      $(this).closest("form").submit();
-    }
-  });
-  $("#id_q").on("keydown", function (event) {
-    if (event.key === "Enter") {
-      var $form = $(this).closest("form");
-      $form.find("input[name=offset]").val("1");
-      $form.submit();
-    }
+  $("#id_q").on("change", function (event) {
+    var $form = $(this).closest("form");
+    $form.find("input[name=offset]").val("1");
   });
   $(".search-add").click(function () {
     var group = $(this).closest(".search-group");
