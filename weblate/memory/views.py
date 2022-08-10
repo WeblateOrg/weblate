@@ -121,7 +121,8 @@ class RebuildView(MemoryFormView):
         messages.success(
             self.request,
             _(
-                "Deleted entries and the translation memory will be rebuilt in the background."
+                "Deleted entries and the translation memory will be "
+                "rebuilt in the background."
             ),
         )
         return super().form_valid(form)
