@@ -18,6 +18,7 @@
 #
 
 import social_core.backends.utils
+from crispy_forms.helper import FormHelper
 from django import forms
 from django.conf import settings
 from django.http import HttpRequest
@@ -138,6 +139,11 @@ class SimpleGroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["name", "roles", "language_selection", "languages"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
 
     def save(self, commit=True, project=None):
         if not commit:
