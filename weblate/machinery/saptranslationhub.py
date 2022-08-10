@@ -92,6 +92,11 @@ class SAPTranslationHub(MachineTranslation):
             "units": [{"value": text}],
         }
 
+        # Include domain if set
+        domain = self.settings.get("domain")
+        if domain:
+            data["domain"] = domain
+
         # perform the request
         response = self.request("post", self.get_api_url("translate"), json=data)
         payload = response.json()

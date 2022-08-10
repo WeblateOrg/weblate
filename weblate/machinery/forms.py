@@ -21,7 +21,7 @@ import json
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext, pgettext_lazy
+from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 
 class BaseMachineryForm(forms.Form):
@@ -111,6 +111,16 @@ class SAPMachineryForm(URLMachineryForm):
         ),
         required=False,
         initial=True,
+    )
+    domain = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Translation domain"
+        ),
+        help_text=gettext_lazy(
+            "The ID of a translation domain, for example, BC. If you do not specify "
+            "a domain, the method searches for translations in all available domains."
+        ),
+        required=False,
     )
 
     def clean(self):

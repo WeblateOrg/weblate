@@ -8,6 +8,7 @@ Not yet released.
 * Extended language code style configuration options.
 * Added support for pluralse updated in recent CLDR releases.
 * Reduced memory usage while updating components with a lot of translations.
+* Added support for translation domain in SAP Translation Hub.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 
