@@ -102,6 +102,7 @@ class SAPMachineryForm(URLMachineryForm):
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "SAP password"
         ),
+        widget=forms.PasswordInput,
         required=False,
     )
     enable_mt = forms.BooleanField(
