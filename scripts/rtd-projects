@@ -30,7 +30,7 @@ LOCALES = set(DOCUMENTATION_LANGUAGES.values())
 
 # Default values
 FIELDS = {
-    "tags": ["django", "gettext", "translate", "localize", "language"],
+    "tags": {"django", "gettext", "translate", "localize", "language"},
     "homepage": "https://weblate.org/",
     "programming_language": {"code": "py", "name": "Python"},
     "default_branch": "main",
@@ -40,6 +40,8 @@ FIELDS = {
 def get_update(value):
     if isinstance(value, dict) and "code" in value:
         return value["code"]
+    if isinstance(value, set):
+        return list(value)
     return value
 
 
@@ -70,8 +72,14 @@ while result["next"]:
             LOCALES.remove(code)
             # Sync attributes
             for name, value in FIELDS.items():
-                if value != project[name]:
-                    print(f"Different {name} on {project['name']}: {project[name]}")
+                current = project[name]
+                if isinstance(value, set):
+                    current = set(current)
+                if value != current:
+                    print(
+                        f"Different {name} on {project['name']}: {current}",
+                        project["urls"]["home"],
+                    )
                     response = requests.patch(
                         project["_links"]["_self"],
                         json={name: get_update(value)},
@@ -79,7 +87,19 @@ while result["next"]:
                     )
                     response.raise_for_status()
             if not project["translation_of"] and code != "en":
-                print("Not a translation {project['name']}: ", project["urls"]["home"])
+                print(f"Not a translation {project['name']}: ", project["urls"]["home"])
+            # Check versions
+            versions_response = requests.get(
+                f'{project["_links"]["versions"]}?active=true', headers=AUTH
+            )
+            versions_response.raise_for_status()
+            versions = versions_response.json()
+            if versions["count"] < 2:
+                print(
+                    f"Missing automation rule {project['name']}: ",
+                    project["urls"]["home"],
+                )
+
 
 # Create missing ones
 for language in LOCALES:
@@ -99,4 +119,5 @@ for language in LOCALES:
     )
     project = response.json()
     response.raise_for_status()
-    print("Not a translation {project['name']}: ", project["urls"]["home"])
+    print(f"Not a translation {project['name']}: ", project["urls"]["home"])
+    print(f"Missing automation rule {project['name']}: ", project["urls"]["home"])
