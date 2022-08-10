@@ -213,9 +213,11 @@ def check_celery(app_configs, **kwargs):
                 )
             )
 
+        start = time.monotonic()
         result = ping.delay()
         try:
             pong = result.get(timeout=10, disable_sync_subtasks=False)
+            cache.set("celery_latency", round(1000 * (time.monotonic() - start)))
             current = ping()
             # Check for outdated Celery running different version of configuration
             if current != pong:

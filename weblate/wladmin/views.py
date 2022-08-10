@@ -271,6 +271,7 @@ def performance(request):
         "menu_page": "performance",
         "web_encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
         "celery_encoding": cache.get("celery_encoding"),
+        "celery_latency": cache.get("celery_latency"),
         "database_latency": measure_database_latency(),
         "cache_latency": measure_cache_latency(),
     }
