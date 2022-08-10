@@ -29,7 +29,7 @@ from social_django.views import complete
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
-from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, User, get_anonymous
 from weblate.trans.models import Change
 from weblate.utils import messages
@@ -156,8 +156,9 @@ class SimpleGroupForm(forms.ModelForm):
 
         # Save languages only for manual selection, otherwise
         # it would override logic from Group.save()
-        if self.instance.language_selection == SELECTION_MANUAL:
-            self._save_m2m()
+        if self.instance.language_selection == SELECTION_ALL:
+            del self.cleaned_data["languages"]
+        self._save_m2m()
         if project:
             self.instance.projects.add(project)
         return self.instance

@@ -375,7 +375,36 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 0)
         self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+        self.assertEqual(
+            set(group.roles.values_list("name", flat=True)), {"Power user"}
+        )
         return group
+
+    def test_create_group_all_lang(self):
+        self.project.add_user(self.user, "Administration")
+        response = self.client.post(
+            reverse("create-project-group", kwargs=self.kw_project),
+            {
+                "name": "All team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 1,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+            },
+        )
+        self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="All team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 1)
+        self.assertNotEqual(
+            list(group.languages.values_list("code", flat=True)), ["cs"]
+        )
+        self.assertEqual(
+            set(group.roles.values_list("name", flat=True)), {"Power user"}
+        )
 
     def test_edit_group(self):
         group = self.test_create_group()
