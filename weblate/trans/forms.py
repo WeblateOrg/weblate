@@ -1838,6 +1838,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
+        # Hide all fields with exception of discovery
         for field, value in self.fields.items():
             if field == "discovery":
                 continue
