@@ -9,6 +9,9 @@ Not yet released.
 * Added support for pluralse updated in recent CLDR releases.
 * Reduced memory usage while updating components with a lot of translations.
 * Added support for translation domain in SAP Translation Hub.
+* Allow absolute links in source string locations.
+* Improved operation behind some reverse proxies.
+* Exteded API to cover translation memory.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 
