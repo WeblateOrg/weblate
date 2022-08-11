@@ -475,6 +475,7 @@ class PlainTextFormat(ConvertFormat):
         for source_unit in input_store.units:
             target_unit = store.addsourceunit(source_unit.source)
             target_unit.addlocations(source_unit.getlocations())
+        store.removeduplicates("msgctxt")
         return store
 
     def save_content(self, handle):
