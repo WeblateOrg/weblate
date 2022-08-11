@@ -603,9 +603,16 @@ def unit_state_title(unit) -> str:
 def try_linkify_filename(
     text, filename: str, line: str, unit, profile, link_class: str = ""
 ):
-    """Attemp to convert `text` to a repo link to `filename:line`."""
+    """
+    Attempt to convert `text` to a repo link to `filename:line`.
+
+    If the `text` is prefixed with http:// or https://, the
+    link will be an absolute link to the specified resource.
+    """
     link = None
-    if profile:
+    if re.search(r"^https?://", text):
+        link = text
+    elif profile:
         link = unit.translation.component.get_repoweb_link(
             filename, line, profile.editor_link
         )
