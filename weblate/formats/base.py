@@ -428,12 +428,9 @@ class TranslationFormat:
 
     def is_valid(self):
         """Check whether store seems to be valid."""
-        # Make sure we do not have a collision in id_hash
-        hashes = set()
         for unit in self.content_units:
-            if unit.id_hash in hashes:
-                raise ValueError(f"Duplicate id_hash for unit {unit.unit}")
-            hashes.add(unit.id_hash)
+            # Just make sure that id_hash can be calculated
+            unit.id_hash
         return True
 
     @classmethod
