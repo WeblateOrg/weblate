@@ -12,6 +12,7 @@ Not yet released.
 * Allow absolute links in source string locations.
 * Improved operation behind some reverse proxies.
 * Exteded API to cover translation memory.
+* Improved document translation workflow.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 

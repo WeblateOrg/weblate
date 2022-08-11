@@ -55,7 +55,7 @@ from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
-from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
+from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
@@ -1800,7 +1800,9 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
             params.pop("discovery")
 
         instance = Component(**params)
-        instance.clean_fields(exclude=("filemask", "file_format", "license"))
+        instance.clean_fields(
+            exclude=("filemask", "template", "file_format", "license")
+        )
         instance.validate_unique()
         instance.clean_repo()
         self.instance = instance
@@ -1822,6 +1824,18 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         choices=[("manual", _("Specify configuration manually"))],
         required=True,
         widget=forms.RadioSelect,
+    )
+    filemask = forms.CharField(
+        label=Component.filemask.field.verbose_name,
+        max_length=FILENAME_LENGTH,
+        required=False,
+        widget=forms.HiddenInput,
+    )
+    template = forms.CharField(
+        label=Component.template.field.verbose_name,
+        max_length=FILENAME_LENGTH,
+        required=False,
+        widget=forms.HiddenInput,
     )
 
     def render_choice(self, value):
@@ -1873,6 +1887,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             self.instance.full_path,
             source_language=self.instance.source_language.code,
             eager=eager,
+            hint=self.instance.filemask,
         )
 
     def clean(self):
