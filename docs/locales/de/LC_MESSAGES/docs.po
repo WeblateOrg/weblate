@@ -4,13 +4,14 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 # VfBFan <drop0815@posteo.de>, 2022.
 # yangyangdaji <1504305527@qq.com>, 2022.
+# Alexander Fruth <afruth33@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-14 15:13+0200\n"
-"PO-Revision-Date: 2022-08-09 17:22+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"PO-Revision-Date: 2022-08-15 07:18+0000\n"
+"Last-Translator: Alexander Fruth <afruth33@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -1521,6 +1522,13 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Wenn Sie Ihre Weblate-Installation weniger öffentlich nutzen möchten, d.h. "
+"neue Benutzer nur auf Einladungsbasis zulassen möchten, können Sie Weblate "
+"so konfigurieren, dass nur bekannte Benutzer darauf zugreifen können. Um "
+"dies zu tun, müssen Sie :setting:`REGISTRATION_OPEN` auf ``False`` setzen, "
+"um das registrieren neuer Nutzer zu verhindern, und :setting:`REQUIRE_LOGIN` "
+"auf ``/.*`` damit Sie sich anmelden müssen, um auf alle Seiten der Website "
+"zugreifen zu können."
 
 #: ../../admin/access.rst:642
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -1803,6 +1811,9 @@ msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
+"Erzeugt eine eindeutige URL für Ihre Komponente, die Sie in HTML-Seiten "
+"einfügen können, um diese zu lokalisieren. Siehe :ref:`weblate-cdn` für "
+"weitere Details."
 
 #: ../../admin/addons.rst:110
 msgid ""
@@ -1841,6 +1852,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
+"Verwenden Sie dies, um leere Zeichenketten in Übersetzungsdateien zu "
+"vermeiden (z. B. wenn Ihre Lokalisierungsbibliothek sie als fehlend anzeigt, "
+"anstatt auf die Quellzeichenfolge zurückzugreifen)."
 
 #: ../../admin/addons.rst:134 ../../admin/addons.rst:151
 #: ../../admin/addons.rst:594 ../../admin/addons.rst:738
@@ -1897,6 +1911,8 @@ msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
+"Fehlende Sprachen werden alle 24 Stunden überprüft, und wenn neue Sprachen "
+"in Weblate hinzugefügt werden."
 
 #: ../../admin/addons.rst:168
 msgid "Unlike most others, this add-on affects the whole project."
@@ -2066,6 +2082,9 @@ msgid ""
 "djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"Wird jedes mal ausgelöst, wenn das VCS aktualisiert wird, und ähnelt "
+"ansonsten dem Verwaltungsbefehl :djadmin:`import_project`. Auf diese Weise "
+"können Sie mehrere Übersetzungskomponenten innerhalb eines VCS verfolgen."
 
 #: ../../admin/addons.rst:211
 msgid ""
@@ -2084,6 +2103,9 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+"Sobald Sie auf :guilabel:`Save` klicken, wird eine Vorschau der passenden "
+"Komponenten angezeigt, anhand derer Sie überprüfen können, ob die "
+"Konfiguration tatsächlich Ihren Anforderungen entspricht:"
 
 #: ../../admin/addons.rst:223
 msgid ""
