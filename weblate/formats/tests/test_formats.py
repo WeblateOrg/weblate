@@ -191,11 +191,15 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     EDIT_TARGET = "Nazdar, svete!\n"
     MONOLINGUAL = False
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        if cls.FORMAT.format_id not in FILE_FORMATS:
+            raise SkipTest(f"File format {cls.FORMAT!r} is not supported!")
+
     def setUp(self):
         super().setUp()
         self.create_temp()
-        if self.FORMAT.format_id not in FILE_FORMATS:
-            raise SkipTest(f"File format {self.FORMAT!r} is not supported!")
 
     def tearDown(self):
         super().tearDown()
