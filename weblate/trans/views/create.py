@@ -284,7 +284,7 @@ class CreateComponent(BaseCreateView):
         )
 
     def dispatch(self, request, *args, **kwargs):
-        if "filemask" in request.POST:
+        if "new_base" in request.POST:
             self.stage = "create"
         elif "discovery" in request.POST:
             self.stage = "discover"
