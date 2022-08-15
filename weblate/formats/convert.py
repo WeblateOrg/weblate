@@ -132,7 +132,7 @@ class ConvertFormat(TranslationFormat):
 
     @staticmethod
     def needs_target_sync(template_store):
-        return True
+        return False
 
     def load(self, storefile, template_store):
         # Did we get file or filename?
@@ -207,6 +207,33 @@ class ConvertFormat(TranslationFormat):
         self.save()
         return []
 
+    @staticmethod
+    def convert_to_po(parser, template_store):
+        store = pofile()
+        if template_store:
+            parser.makeindex()
+            for unit in template_store.content_units:
+                thepo = store.addsourceunit(unit.source)
+                locations = unit.unit.getlocations()
+                thepo.addlocations(locations)
+                thepo.addnote(unit.unit.getnotes(), "developer")
+                for location in locations:
+                    try:
+                        translation = parser.locationindex[location]
+                        thepo.target = translation.source
+                        break
+                    except KeyError:
+                        continue
+        else:
+            for htmlunit in parser.units:
+                # Source file
+                thepo = store.addsourceunit(htmlunit.source)
+                thepo.target = htmlunit.source
+                thepo.addlocations(htmlunit.getlocations())
+                thepo.addnote(htmlunit.getnotes(), "developer")
+        store.removeduplicates("msgctxt")
+        return store
+
 
 class HTMLFormat(ConvertFormat):
     name = _("HTML file")
@@ -214,35 +241,11 @@ class HTMLFormat(ConvertFormat):
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
 
-    @staticmethod
-    def needs_target_sync(template_store):
-        return False
-
-    @staticmethod
-    def convertfile(storefile, template_store):
-        store = pofile()
+    @classmethod
+    def convertfile(cls, storefile, template_store):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=BytesIOMode("", storefile.read()))
-        for htmlunit in htmlparser.units:
-            if template_store:
-                # Translation
-                template = template_store.find_unit_template(
-                    htmlunit.getcontext(), htmlunit.source
-                )
-                if template is None:
-                    # Skip locations not present in the source HTML file
-                    continue
-                # Create unit with matching source
-                thepo = store.addsourceunit(template.source)
-                thepo.target = htmlunit.source
-            else:
-                # Source file
-                thepo = store.addsourceunit(htmlunit.source)
-                thepo.target = htmlunit.source
-            thepo.addlocations(htmlunit.getlocations())
-            thepo.addnote(htmlunit.getnotes(), "developer")
-        store.removeduplicates("msgctxt")
-        return store
+        return cls.convert_to_po(htmlparser, template_store)
 
     def save_content(self, handle):
         """Store content to file."""
@@ -326,6 +329,10 @@ class OpenDocumentFormat(ConvertFormat):
         """Return most common file extension for format."""
         return "odt"
 
+    @staticmethod
+    def needs_target_sync(template_store):
+        return True
+
 
 class IDMLFormat(ConvertFormat):
     name = _("IDML file")
@@ -379,6 +386,10 @@ class IDMLFormat(ConvertFormat):
     def extension():
         """Return most common file extension for format."""
         return "idml"
+
+    @staticmethod
+    def needs_target_sync(template_store):
+        return True
 
 
 class WindowsRCFormat(ConvertFormat):
@@ -468,15 +479,9 @@ class PlainTextFormat(ConvertFormat):
     @classmethod
     def convertfile(cls, storefile, template_store):
         input_store = TxtFile(encoding="utf-8", flavour=cls.flavour)
-        input_store.filename = os.path.basename(storefile.name)
         input_store.parse(storefile.readlines())
-        store = pofile()
-        # This is translate.convert.txt2po.txt2po.convert_store
-        for source_unit in input_store.units:
-            target_unit = store.addsourceunit(source_unit.source)
-            target_unit.addlocations(source_unit.getlocations())
-        store.removeduplicates("msgctxt")
-        return store
+        input_store.filename = os.path.basename(storefile.name)
+        return cls.convert_to_po(input_store, template_store)
 
     def save_content(self, handle):
         """Store content to file."""

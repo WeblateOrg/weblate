@@ -18,6 +18,10 @@
 #
 """File format specific behavior."""
 
+import os
+from tempfile import NamedTemporaryFile
+from unittest import SkipTest
+
 from weblate.formats.convert import (
     HTMLFormat,
     IDMLFormat,
@@ -28,6 +32,7 @@ from weblate.formats.convert import (
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.tests.test_formats import AutoFormatTest
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.state import STATE_TRANSLATED
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
@@ -40,6 +45,50 @@ class ConvertFormatTest(AutoFormatTest):
     NEW_UNIT_MATCH = None
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+
+    CONVERT_TEMPLATE = ""
+    CONVERT_TRANSLATION = ""
+    CONVERT_EXPECTED = ""
+
+    def test_convert(self):
+        if not self.CONVERT_TEMPLATE:
+            raise SkipTest(f"Test template not provided for {self.FORMAT.format_id}")
+        template = NamedTemporaryFile(delete=False, mode="w+")
+        translation = NamedTemporaryFile(delete=False, mode="w+")
+        try:
+            # Generate test files
+            template.write(self.CONVERT_TEMPLATE)
+            template.close()
+            translation.write(self.CONVERT_TRANSLATION)
+            translation.close()
+
+            # Parse
+            storage = self.FORMAT(
+                translation.name,
+                template_store=self.FORMAT(template.name, is_template=True),
+            )
+
+            # Ensure it is parsed correctly
+            self.assertEqual(len(storage.content_units), 2)
+            unit1, unit2 = storage.content_units
+            self.assertEqual(unit1.source, "Hello")
+            self.assertEqual(unit1.target, "Ahoj")
+            self.assertEqual(unit2.source, "Bye")
+            self.assertEqual(unit2.target, "")
+
+            # Translation
+            unit2.set_target("Nazdar")
+            unit2.set_state(STATE_TRANSLATED)
+
+            # Save
+            storage.save()
+
+            # Check translation
+            with open(translation.name) as handle:
+                self.assertEqual(handle.read(), self.CONVERT_EXPECTED)
+        finally:
+            os.unlink(template.name)
+            os.unlink(translation.name)
 
 
 class HTMLFormatTest(ConvertFormatTest):
@@ -57,6 +106,10 @@ class HTMLFormatTest(ConvertFormatTest):
     BASE = HTML_FILE
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = "<html><body><p>Hello</p><p>Bye</p></body></html>"
+    CONVERT_TRANSLATION = "<html><body><p>Ahoj</p><p></p></body></html>"
+    CONVERT_EXPECTED = "<html><body><p>Ahoj</p><p>Nazdar</p></body></html>"
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):
@@ -147,3 +200,7 @@ class PlainTextFormatTest(ConvertFormatTest):
     FIND = "Hello, world!"
     FIND_MATCH = "Hello, world!"
     EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = "Hello\n\nBye"
+    CONVERT_TRANSLATION = "Ahoj\n\n"
+    CONVERT_EXPECTED = "Ahoj\n\nNazdar"

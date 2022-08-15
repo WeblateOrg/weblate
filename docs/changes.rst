@@ -13,6 +13,7 @@ Not yet released.
 * Improved operation behind some reverse proxies.
 * Exteded API to cover translation memory.
 * Improved document translation workflow.
+* Improved reliability of HTML and text files translation.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 
