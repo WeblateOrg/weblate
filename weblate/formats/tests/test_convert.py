@@ -186,6 +186,30 @@ class WindowsRCFormatTest(ConvertFormatTest):
     FIND_MATCH = "Hello, world!\n"
     EDIT_OFFSET = 1
 
+    CONVERT_TEMPLATE = """LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+
+STRINGTABLE
+BEGIN
+    IDS_MSG1                "Hello"
+    IDS_MSG2                "Bye"
+END
+"""
+    CONVERT_TRANSLATION = """LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+
+STRINGTABLE
+BEGIN
+    IDS_MSG1                "Ahoj"
+END
+"""
+    CONVERT_EXPECTED = """LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+
+STRINGTABLE
+BEGIN
+    IDS_MSG1                "Ahoj"
+    IDS_MSG2                "Nazdar"
+END
+"""
+
 
 class PlainTextFormatTest(ConvertFormatTest):
     FORMAT = PlainTextFormat
