@@ -164,6 +164,8 @@ class MemoryViewTest(FixtureTestCase):
     def test_memory(
         self, match="Number of your entries", fail=False, prefix: str = "", **kwargs
     ):
+
+        is_project_scoped = "kwargs" in kwargs and "project" in kwargs["kwargs"]
         # Test wipe without confirmation
         response = self.client.get(reverse(f"{prefix}memory-delete", **kwargs))
         self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
@@ -172,7 +174,7 @@ class MemoryViewTest(FixtureTestCase):
         self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
 
         # Test rebuild without confirmation
-        if "project" in kwargs:
+        if is_project_scoped:
             response = self.client.get(reverse(f"{prefix}memory-rebuild", **kwargs))
             self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
 
@@ -216,19 +218,18 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Entries deleted")
+            self.assertContains(response, "Entries were deleted")
             self.assertEqual(count, Memory.objects.count())
             response = self.client.post(
                 reverse(f"{prefix}memory-delete", **kwargs),
                 {"confirm": "1"},
                 follow=True,
             )
-            self.assertContains(response, "Entries deleted")
+            self.assertContains(response, "Entries were deleted")
             self.assertGreater(count, Memory.objects.count())
 
         # Test rebuild
-        if "project" in kwargs:
-            count = Memory.objects.count()
+        if is_project_scoped:
             response = self.client.post(
                 reverse(f"{prefix}memory-rebuild", **kwargs),
                 {"confirm": "1", "origin": "invalid"},
@@ -243,15 +244,19 @@ class MemoryViewTest(FixtureTestCase):
             if fail:
                 self.assertContains(response, "Permission Denied", status_code=403)
             else:
-                self.assertContains(response, "Entries deleted and memory")
-                self.assertEqual(count, Memory.objects.count())
+                self.assertContains(
+                    response, "Entries were deleted and the translation memory"
+                )
+                self.assertEqual(4, Memory.objects.count())
                 response = self.client.post(
                     reverse(f"{prefix}memory-rebuild", **kwargs),
                     {"confirm": "1"},
                     follow=True,
                 )
-                self.assertContains(response, "Entries deleted and memory")
-                self.assertGreater(count, Memory.objects.count())
+                self.assertContains(
+                    response, "Entries were deleted and the translation memory"
+                )
+                self.assertEqual(4, Memory.objects.count())
 
         # Test invalid upload
         response = self.upload_file("cs.json", **kwargs)

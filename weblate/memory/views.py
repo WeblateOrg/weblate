@@ -81,7 +81,7 @@ class DeleteView(MemoryFormView):
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
         entries.delete()
-        messages.success(self.request, _("Entries deleted."))
+        messages.success(self.request, _("Entries were deleted."))
         return super().form_valid(form)
 
 
@@ -121,7 +121,7 @@ class RebuildView(MemoryFormView):
         messages.success(
             self.request,
             _(
-                "Deleted entries and the translation memory will be "
+                "Entries were deleted and the translation memory will be "
                 "rebuilt in the background."
             ),
         )
