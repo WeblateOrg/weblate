@@ -193,9 +193,9 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
         if cls.FORMAT.format_id not in FILE_FORMATS:
             raise SkipTest(f"File format {cls.FORMAT!r} is not supported!")
+        super().setUpClass()
 
     def setUp(self):
         super().setUp()
