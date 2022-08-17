@@ -44,6 +44,7 @@
           "$id": "#root/basic/email",
           "title": "E-mail",
           "type": "string",
+          "format": "email",
           "default": "",
           "examples": [
             "noreply@example.com"
@@ -53,6 +54,7 @@
           "$id": "#root/basic/date_joined",
           "title": "Date joined",
           "type": "string",
+          "format": "date-time",
           "default": "",
           "examples": [
             "2019-11-18T18:53:54.862Z"
@@ -92,7 +94,7 @@
           "examples": [
             "cs"
           ],
-          "pattern": "^.*$"
+          "pattern": "^[^ ]*$"
         },
         "suggested": {
           "$id": "#root/profile/suggested",
@@ -299,11 +301,11 @@
             "$id": "#root/auditlog/items/timestamp",
             "title": "Timestamp",
             "type": "string",
+            "format": "date-time",
             "default": "",
             "examples": [
               "2019-11-18T18:58:30.845Z"
-            ],
-            "pattern": "^.*$"
+            ]
           },
           "activity": {
             "$id": "#root/auditlog/items/activity",
