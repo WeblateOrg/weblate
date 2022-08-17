@@ -472,6 +472,16 @@ class ParseErrorNotification(Notification):
     verbose = _("Parse error")
     template_name = "parse_error"
 
+    def get_context(
+        self, change=None, subscription=None, extracontext=None, changes=None
+    ):
+        context = super().get_context(change, subscription, extracontext, changes)
+        if change:
+            context["details"]["filelink"] = change.component.get_repoweb_link(
+                change.details.get("filename"), "1"
+            )
+        return context
+
 
 @register_notification
 class NewStringNotificaton(Notification):
