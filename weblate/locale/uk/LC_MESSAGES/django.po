@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-07-16 13:17+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2022-08-20 17:08+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -3758,12 +3758,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Нуль/один/кілька/багато/інше"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Один/декілька/багато/інше"
+msgstr "Один/багато/інше"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -4016,17 +4013,17 @@ msgid "Enable machine translation"
 msgstr "Увімкнути комп'ютерний переклад"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Відомості про переклад"
+msgstr "Домен перекладу"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"Ідентифікатор домену перекладу. Приклад: BC. Якщо ви не вкажете домен, метод "
+"шукатиме переклади в усіх доступних доменах."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4139,14 +4136,10 @@ msgid "File: {}"
 msgstr "Файл: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
-msgstr "Записи вилучені."
+msgstr "Записи вилучено."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
@@ -4221,7 +4214,7 @@ msgstr "Гру"
 msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
-msgstr ""
+msgstr "Перекладу мовою {new_lang} ще немає, але його можна додати."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5605,7 +5598,7 @@ msgstr "Придбати новий план хостингу"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Спробуйте Weblate безкоштовно"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7860,16 +7853,12 @@ msgid "Cache latency"
 msgstr "Затримка кешу"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Затримка кешу"
+msgstr "Латентність Celery"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Ще не ввійшли"
+msgstr "Ще не виміряно"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9613,32 +9602,26 @@ msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr "Weblate не зміг видобути поточні зміни при поновленні репозиторію."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are currently no backups."
-msgstr "Немає встановлених додатків."
+msgstr "Резервних копій зараз немає."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Створити резервне копіювання"
+msgstr "Увімкнути резервне копіювання"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "Переклад буде оновлено у фоновому режимі."
+msgstr "Резервну копію буде створено у фоновому режимі."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Резервні копії буде вилучено за %(keep_days)s день."
+msgstr[1] "Резервні копії буде вилучено за %(keep_days)s дні."
+msgstr[2] "Резервні копії буде вилучено за %(keep_days)s днів."
+msgstr[3] "Резервні копії буде вилучено за %(keep_days)s день."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9998,27 +9981,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "У вас немає прав для створення проєктів."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Сприяння перекладацьким проєктам"
+msgstr "Імпортувати проєкт перекладу"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Створити проєкт"
+msgstr "Імпортувати проєкт"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "Створити резервне копіювання"
+msgstr "Імпортування резервної копії"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Створено на %(server)s (%(domain)s) за допомогою Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11164,16 +11141,13 @@ msgid ""
 msgstr "Використовує та додає у базу спільних перекладів для різних проєктів."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "ZIP-файл, що містить переклади"
+msgstr "ZIP-файл, що містить резервну копію проєкту"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Не вдалося обробити ключ: %s"
+msgstr "Не вдалося завантажити резервну копію проєкту: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11861,26 +11835,20 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "Стиль BCP з дефісом як роздільником, включно з кодом країни"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "Стиль BCP з дефісом як роздільником, включно з кодом країни"
+msgstr "Стиль BCP з дефісом як роздільником, включно із застарілими кодами мов"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Стиль BCP з дефісом як роздільником"
+msgstr "Стиль BCP з дефісом як роздільником, малими літерами"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Стиль Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Файли метаданих крамниці застосунків"
+msgstr "Стиль метаданих крамниці програм"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13469,7 +13437,7 @@ msgstr "Мову проєкту вилучено."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Задіяно резервне копіювання. Невдовзі матимете резервну копію."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
