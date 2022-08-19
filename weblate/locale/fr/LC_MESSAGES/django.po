@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-08-10 23:58+0000\n"
+"PO-Revision-Date: 2022-08-20 17:08+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -3833,12 +3833,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Zéro / un / quelques / beaucoup / autre"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Un / quelques / plusieurs / autre"
+msgstr "Un / plusieurs / autre"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -4092,17 +4089,18 @@ msgid "Enable machine translation"
 msgstr "Activer la traduction automatisée"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Informations sur la traduction"
+msgstr "Domaine de la traduction"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"L'ID d'un domaine de traduction, par exemple : BC. Si vous n'indiquez pas de "
+"domaine, la méthode recherche les traductions dans tous les domaines "
+"disponibles."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4217,20 +4215,16 @@ msgid "File: {}"
 msgstr "Fichier : {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
 msgstr "Entrées supprimées."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
 msgstr ""
-"Les éléments supprimés et le mémoire de traduction vont être reconstruits en "
-"arrière-plan."
+"Les éléments ont étés supprimés et le mémoire de traduction va être "
+"reconstruit en arrière-plan."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4302,6 +4296,8 @@ msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
 msgstr ""
+"La traduction {new_lang} n’est pas disponible actuellement mais peut être "
+"ajoutée."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5687,7 +5683,7 @@ msgstr "Acheter une nouvelle offre d’hébergement"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Essayez Weblate gratuitement"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7949,10 +7945,8 @@ msgid "Celery latency"
 msgstr "Latence du cache"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Pas encore connecté"
+msgstr "Non encore mesuré"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9705,30 +9699,24 @@ msgstr ""
 "du dépôt."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are currently no backups."
-msgstr "Il n’y a actuellement aucun composant de traduction."
+msgstr "Il n’y a aucune sauvegarde actuellement."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Effectuer une sauvegarde"
+msgstr "Lancer une sauvegarde"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "La traduction sera mise à jour en tâche de fond."
+msgstr "La sauvegarde s'effectuera en arrière-plan."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "La sauvegarde sera supprimée après %(keep_days)s jours."
+msgstr[1] "Les sauvegardes seront supprimées après %(keep_days)s jours."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -10095,27 +10083,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "Vous n’avez actuellement pas le droit de créer des projets."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Promouvoir les projets de traduction"
+msgstr "Importer le projet de traduction"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Créer un projet"
+msgstr "Importer le projet"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Run backup"
 msgid "Importing backup"
-msgstr "Lancer la sauvegarder"
+msgstr "Importer la sauvegarde"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Créée sur %(server)s (%(domain)s) par Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11272,16 +11254,13 @@ msgstr ""
 "projets."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "Fichier Zip contenant les traductions"
+msgstr "Fichier Zip contenant les sauvegardes du projet"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Échec lors de l’analyse de la clé %s"
+msgstr "Échec lors du chargement de la sauvegarde du projet : %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11984,20 +11963,16 @@ msgstr ""
 "pays"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Style BCP utilisant un trait d’union comme séparateur"
+msgstr "Style BCP utilisant un trait d’union comme séparateur et en minuscules"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Style Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Fichiers de métadonnées de l’App Store"
+msgstr "Style de métadonnées de l’App Store"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13573,7 +13548,7 @@ msgstr "La langue du projet a été supprimée."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "La sauvegarde a été lancée, elle sera disponible prochainement."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
