@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-19 19:13+0200\n"
-"PO-Revision-Date: 2022-07-25 18:00+0000\n"
+"PO-Revision-Date: 2022-08-20 17:09+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -4364,16 +4364,16 @@ msgid "Backing up and moving Weblate"
 msgstr "Резервне копіювання і пересування Weblate"
 
 #: ../../admin/backup.rst:9
-#, fuzzy
-#| msgid "8 weekly backups"
 msgid "Project level backups"
-msgstr "резервних копій із 8-тижневим періодом створення"
+msgstr "Резервне копіювання на рівні проєктів"
 
 #: ../../admin/backup.rst:15
 msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
+"Підтримку відновлення даних з резервних копій передбачено лише для баз даних "
+"PostgreSQL або MariaDB 10.5+."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -4381,6 +4381,9 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"До резервних копій проєктів включено усі дані перекладу з Weblate (проєкт, "
+"складники, переклади, коментарі до рядків, пропозиції та перевірки). Такі "
+"резервні копії зручні для перенесення проєктів на інші екземпляри Weblate."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4388,11 +4391,17 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"Створити резервну копію проєкту можна за допомогою пункту "
+":guilabel:`Керування` ↓ :guilabel:`Резервні копії`. Відновити дані з "
+"резервної копії можна під час створення проєкту (див. :ref:`adding-"
+"projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"До поточних версій резервних копій не входять дані щодо керування доступом "
+"та дані журналу."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -4400,6 +4409,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Коментарі і пропозиції потрапляють до резервної копії разом із даними щодо "
+"користувача, який їх створив. Під час імпортування програма пов'яже їх із "
+"відповідним користувачем. Якщо не буде виявлено користувача із відповідною "
+"назвою облікового запису, дані буде пов'язано із анонімним користувачем."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4407,6 +4420,10 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Створені резервні копії зберігатимуться на сервері, який визначається "
+"змінними :setting:`PROJECT_BACKUP_KEEP_DAYS` і "
+":setting:`PROJECT_BACKUP_KEEP_COUNT` (типовим є зберігання не більше 3 "
+"резервних копій протягом 30 днів)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -5457,10 +5474,8 @@ msgid "``java-printf-format``"
 msgstr "`javascript-format`"
 
 #: ../../admin/checks.rst:105
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enable the :ref:`check-java-printf-format` quality check."
-msgstr "Увімкнути перевірку якості :ref:`check-javascript-format`."
+msgstr "Увімкнути перевірку якості :ref:`check-java-printf-format`."
 
 #: ../../admin/checks.rst:106 ../../user/checks.rst:354
 #, fuzzy
@@ -5763,10 +5778,8 @@ msgid "``ignore-java-printf-format``"
 msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:169
-#, fuzzy
-#| msgid "Skip the :ref:`check-javascript-format` quality check."
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr "Пропустити перевірку якості :ref:`check-javascript-format`."
+msgstr "Пропустити перевірку якості :ref:`check-java-printf-format`."
 
 #: ../../admin/checks.rst:170 ../../user/checks.rst:378
 msgid "``ignore-javascript-format``"
@@ -8194,13 +8207,15 @@ msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1338
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1342
 msgid ""
 "Defines how many backups per project are kept on the server. It defaults to "
 "3."
 msgstr ""
+"Визначає, скільки резервних копій на проєкт слід зберігати на сервері. "
+"Типовим значенням є 3."
 
 #: ../../admin/config.rst:1346 ../../admin/config.rst:1359
 #, fuzzy
@@ -8210,13 +8225,15 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1351
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1355
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Визначає, наскільки довго зберігатимуться резервні копії проєкту на сервері. "
+"Типовим значенням є 30 днів."
 
 #: ../../admin/config.rst:1364
 msgid "RATELIMIT_ATTEMPTS"
@@ -9547,10 +9564,8 @@ msgid "An explicit commit is requested."
 msgstr "Надіслано запит на явний внесок."
 
 #: ../../admin/continuous.rst:366
-#, fuzzy
-#| msgid "An explicit commit is requested."
 msgid "A file download is requested."
-msgstr "Надіслано запит на явний внесок."
+msgstr "Надіслано запит щодо отримання файла."
 
 #: ../../admin/continuous.rst:367
 msgid ""
@@ -15445,42 +15460,32 @@ msgstr ""
 "(наприклад, ``cs-CZ``)."
 
 #: ../../admin/languages.rst:203
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "Стиль BCP з дефісом як роздільником, включно з кодом країни"
+msgstr "Стиль BCP з дефісом як роздільником, включно із застарілими кодами мов"
 
 #: ../../admin/languages.rst:204
-#, fuzzy
-#| msgid ""
-#| "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
-#| "notation."
 msgid "Uses legacy codes for Chinese and BCP style notation."
-msgstr ""
-"Локалі у формі, яку використано у Linux, з застарілими кодами для китайської "
-"та позначеннями у стилі POSIX."
+msgstr "Використовує застарілі коди для китайської та позначень у стилі BCP."
 
 #: ../../admin/languages.rst:205
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Стиль BCP з дефісом як роздільником"
+msgstr "Стиль BCP з дефісом як роздільником, малими літерами"
 
 #: ../../admin/languages.rst:206
 msgid "BCP style notation, all in lower case (for examle ``cs-cz``)."
-msgstr ""
+msgstr "Позначення у стилі BCP, усі малими літерами (наприклад, ``cs-cz``)."
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Файли метаданих крамниці застосунків"
+msgstr "Стиль метаданих крамниці програм"
 
 #: ../../admin/languages.rst:208
 msgid ""
 "Style suitable for uploading metadata to appstores. This should be suitable "
 "for both Apple App Store and Google Play Store."
 msgstr ""
+"Стиль, що пасує для вивантаження метаданих до крамниць програм. Має "
+"працювати для Apple App Store та Google Play Store."
 
 #: ../../admin/languages.rst:211
 msgid "Android style"
@@ -16397,6 +16402,11 @@ msgid ""
 "Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 msgstr ""
+"`Програмний інтерфейс концентратора перекладів SAP <https://api.sap.com/"
+"shell/discover/contentpackage/SAPTranslationHub/api/translationhub>`_, `"
+"Побудова базової адреси концентратора перекладів SAP <https://help.sap.com/"
+"docs/SAP_TRANSLATION_HUB/ed6ce7a29bdd42169f5f0d7868bce6eb/"
+"3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:426
 msgid "tmserver"
@@ -20629,7 +20639,7 @@ msgstr "Для встановлень за допомогою pip цього м�
 
 #: ../../admin/upgrade.rst:46
 msgid "Or, if you just want to get the latest released version:"
-msgstr ""
+msgstr "Або, якщо ви просто хочете отримати найсвіжішу випущену версію:"
 
 #: ../../admin/upgrade.rst:52
 msgid "If you don't want to install all of the optional dependencies do:"
@@ -21225,10 +21235,8 @@ msgstr ""
 "перенесення бази даних."
 
 #: ../../admin/upgrade.rst:336
-#, fuzzy
-#| msgid "Upgrade from 4.3 to 4.4"
 msgid "Upgrade from 4.13 to 4.14"
-msgstr "Оновлення з 4.3 до 4.4"
+msgstr "Оновлення з 4.13 до 4.14"
 
 #: ../../admin/upgrade.rst:340
 msgid ""
@@ -21237,6 +21245,10 @@ msgid ""
 "use ``java-printf-format`` instead of ``java-format`` and ``java-format`` "
 "instead of ``java-messageformat``."
 msgstr ""
+"Перевірки форматування Java у новій версії відповідають прапорцям GNU "
+"gettext. Прапорці, які встановлено у Weblate буде автоматично перенесено, "
+"але для сторонніх скриптів вам доведеться скористатися ``java-printf-format``"
+" замість ``java-format`` і ``java-format`` замість ``java-messageformat``."
 
 #: ../../admin/upgrade.rst:350
 msgid "Upgrading from Python 2 to Python 3"
@@ -23241,20 +23253,16 @@ msgid "URL to access the translation (real translation URL)"
 msgstr "адреса доступу до перекладу (справжня адреса перекладу)"
 
 #: ../../api.rst:2020
-#, fuzzy
-#| msgid "Returns a list of all projects."
 msgid "Returns a list of memory results."
-msgstr "Повертає список усіх проєктів."
+msgstr "Повертає список результатів з пам'яті."
 
 #: ../../api.rst:2024
-#, fuzzy
-#| msgid "Deletes a project."
 msgid "Deletes a memory object"
-msgstr "Вилучає проєкт."
+msgstr "Вилучає об'єкт пам'яті"
 
 #: ../../api.rst:2026
 msgid "Memory Object ID"
-msgstr ""
+msgstr "Ідентифікатор об'єкта пам'яті"
 
 #: ../../api.rst:2031
 msgid "Units"
@@ -24119,74 +24127,53 @@ msgid "Track add-on changes in a history."
 msgstr "Реалізовано стеження за змінами у додатках у журналі."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
-msgstr "Виправлено обробку місця у файлах CSV."
+msgstr ""
+"Виправлено обробку перекладів з файлів Windows RC, HTML та текстових файлів."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Extend template language for filename manipulations."
 msgid "Extended language code style configuration options."
-msgstr "Мову шаблонів розширено для обробки назв файлів."
+msgstr "Розширено параметри налаштовування стилю коду мов."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for automated daily update of repositories."
 msgid "Added support for pluralse updated in recent CLDR releases."
-msgstr "Додано підтримку автоматично щоденного оновлення репозиторіїв."
+msgstr "Додано підтримку оновлених форм множини з нещодавніх випусків CLDR."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "Support for starting translation components without existing translations."
 msgid ""
 "Reduced memory usage while updating components with a lot of translations."
 msgstr ""
-"Реалізовано підтримку започаткування складників перекладу без наявних "
-"перекладів."
+"Зменшено використання пам'яті під час оновлення складників із багатьма "
+"перекладами."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for SAP Translation Hub service."
 msgid "Added support for translation domain in SAP Translation Hub."
-msgstr "Додано підтримку служб SAP Translation Hub."
+msgstr "Додано підтримку домену перекладу у SAP Translation Hub."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Source string location"
 msgid "Allow absolute links in source string locations."
-msgstr "Позиція джерельного рядка"
+msgstr ""
+"Уможливлено абсолютні посилання для місця розташування початкового рядка."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved notifications on parse errors."
 msgid "Improved operation behind some reverse proxies."
-msgstr "Удосконалено сповіщення щодо помилок обробки."
+msgstr "Удосконалено роботу за деякими оберненими проксі-серверами."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Extended API with translation creation."
 msgid "Exteded API to cover translation memory."
-msgstr "Програмний інтерфейс розширено для створення перекладів."
+msgstr "Програмний інтерфейс розширено для роботи з пам'яттю перекладів."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved translation locking."
 msgid "Improved document translation workflow."
-msgstr "Удосконалено блокування перекладів."
+msgstr "Удосконалено процедуру перекладу документів."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improved reliability of import across file formats."
 msgid "Improved reliability of HTML and text files translation."
-msgstr "Удосконалено надійність імпортування даних між форматами файлів."
+msgstr "Удосконалено надійність перекладу файлів HTML та текстових файлів."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added support for borgbackup 1.2."
 msgid "Added support for project level backups."
-msgstr "Додано підтримку borgbackup 1.2."
+msgstr "Додано підтримку резервного копіювання на рівні проєктів."
 
 #: ../../changes.rst:19
 msgid ""
@@ -24242,10 +24229,8 @@ msgstr ""
 "Виправлено журнал аудиту щодо повідомлень електронної пошти користувачам."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Fixed flag names for Java formatting strings."
-msgstr "Надає можливість пакетного редагування прапорців, міток або стану."
+msgstr "Виправлено назви прапорців для рядків форматування Java."
 
 #: ../../changes.rst:36
 msgid ""
@@ -33217,16 +33202,12 @@ msgid "noreply@example.com"
 msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "Формат C"
+msgstr "format"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Email"
 msgid "email"
-msgstr "Ел. пошта"
+msgstr "email"
 
 #: ../../contributing/schemas.rst:19
 msgid "**date\\_joined**"
@@ -33242,7 +33223,7 @@ msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr ""
+msgstr "date-time"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
@@ -33261,10 +33242,8 @@ msgid "*Language*"
 msgstr "*Мова*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "^[^ ]+$"
 msgid "^[^ ]\\*$"
-msgstr "^[^ ]+$"
+msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
@@ -35846,16 +35825,12 @@ msgstr ""
 "javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:11
-#, fuzzy
-#| msgid ""
-#| "`JWeblate, a Java-based Weblate library <https://github.com/"
-#| "javierllorente/jweblate>`_"
 msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
 "porscheinformatik/weblate-spring>`_"
 msgstr ""
-"`JWeblate, бібліотека Weblate на основі Java <https://github.com/"
-"javierllorente/jweblate>`_"
+"`Spring MessageSource на основі сервера Weblate <https://github.com/"
+"porscheinformatik/weblate-spring>`_"
 
 #: ../../devel/thirdparty.rst:15
 msgid ""
@@ -39787,10 +39762,8 @@ msgid "``weblate.checks.markup.BBCodeCheck``"
 msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "change identifier"
 msgid "Check identifier"
-msgstr "змінити ідентифікатор"
+msgstr "Перевірити ідентифікатор"
 
 #: ../../user/checks.rst:53
 #, fuzzy
@@ -40373,6 +40346,8 @@ msgid ""
 "This used to be toggled by ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Зазвичай, перемикається прапорцем ``java-format``, було змінено для "
+"сумісності із GNU gettext."
 
 #: ../../user/checks.rst:341
 msgid ""
@@ -40421,6 +40396,8 @@ msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Зазвичай, перемикається прапорцем ``java-messageformat``, було змінено для "
+"сумісності із GNU gettext."
 
 #: ../../user/checks.rst:365
 msgid ""
@@ -43299,6 +43276,8 @@ msgstr "``check:ТЕКСТ``"
 msgid ""
 "String has failing check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"Рядок не пройшов перевірки, див. :doc:`/user/checks`, щоб дізнатися більше "
+"про перевірку ідентифікаторів."
 
 #: ../../user/search.rst:71
 msgid "``dismissed_check:TEXT``"
@@ -43308,6 +43287,8 @@ msgstr "``dismissed_check:ТЕКСТ``"
 msgid ""
 "String has dismissed check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"Перевірку рядка пропущено, див. :doc:`/user/checks`, щоб дізнатися більше "
+"про перевірку ідентифікаторів."
 
 #: ../../user/search.rst:73
 msgid "``comment:TEXT``"
