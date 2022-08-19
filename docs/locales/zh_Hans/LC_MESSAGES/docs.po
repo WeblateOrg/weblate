@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-19 19:13+0200\n"
 "PO-Revision-Date: 2022-08-20 00:12+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -4034,14 +4034,15 @@ msgstr "项目级别备份"
 msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
-msgstr ""
+msgstr "仅当使用 PostgreSQL 或 MariaDB 10.5+ 作为数据库时，才支持还原备份。"
 
 #: ../../admin/backup.rst:17
 msgid ""
 "The project backups all translation content from Weblate (project, "
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
-msgstr ""
+msgstr "该项目备份了Weblate的所有翻译内容（项目、部件、翻译、字符串注释、建议或检查）"
+"。它适用于将一个项目转移到另一个Weblate实例。"
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4049,18 +4050,22 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"你可以在 :guilabel:`Manage`↓ "
+":guilabel:`Backups`中进行项目备份。在创建项目时可以恢复备份（见 :ref:`adding-"
+"projects`）。"
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
-msgstr ""
+msgstr "备份当前不包括访问控制信息和历史记录。"
 
 #: ../../admin/backup.rst:27
 msgid ""
 "The comments and suggestions are backed up with an username of user who did "
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
-msgstr ""
+msgstr "评论和建议由创建它们的用户的用户名备份。导入后，它会分配给匹配的用户。如果没"
+"有具有该用户名的用户，则将其分配给匿名用户。"
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4068,6 +4073,9 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"生成的备份按照 :setting:`PROJECT_BACKUP_KEEP_DAYS` 和 "
+":setting:`PROJECT_BACKUP_KEEP_COUNT`的配置保留在服务器上（默认情况下最多保留 "
+"3 个备份 30 天）。"
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -7559,13 +7567,13 @@ msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1338
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1342
 msgid ""
 "Defines how many backups per project are kept on the server. It defaults to "
 "3."
-msgstr ""
+msgstr "定义每个项目在服务器上保留多少备份，它默认为3。"
 
 #: ../../admin/config.rst:1346 ../../admin/config.rst:1359
 #, fuzzy
@@ -7575,13 +7583,13 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1351
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1355
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
-msgstr ""
+msgstr "定义项目备份将在服务器上保留多长时间，默认值为 30 天。"
 
 #: ../../admin/config.rst:1364
 msgid "RATELIMIT_ATTEMPTS"
@@ -14166,7 +14174,7 @@ msgstr "BCP 样式，使用连字符作为分隔符，小写"
 
 #: ../../admin/languages.rst:206
 msgid "BCP style notation, all in lower case (for examle ``cs-cz``)."
-msgstr ""
+msgstr "BCP 样式表示法，全部小写（示例 ``cs-cz`` ）。"
 
 #: ../../admin/languages.rst:208
 msgid "App store metadata style"
