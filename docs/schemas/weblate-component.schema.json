@@ -1,0 +1,748 @@
+{
+  "$id": "https://weblate.org/schemas/weblate-component.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {},
+  "title": "Weblate component backup",
+  "additionalProperties": false,
+  "required": [
+    "component",
+    "translations",
+    "units",
+    "screenshots"
+  ],
+  "properties": {
+    "component": {
+      "$id": "#root/component",
+      "title": "Component configuration",
+      "type": "object",
+      "required": [
+        "name",
+        "slug",
+        "vcs",
+        "repo",
+        "push",
+        "repoweb",
+        "report_source_bugs",
+        "branch",
+        "push_branch",
+        "filemask",
+        "template",
+        "edit_template",
+        "intermediate",
+        "new_base",
+        "file_format",
+        "locked",
+        "allow_translation_propagation",
+        "enable_suggestions",
+        "suggestion_voting",
+        "suggestion_autoaccept",
+        "check_flags",
+        "enforced_checks",
+        "license",
+        "agreement",
+        "new_lang",
+        "language_code_style",
+        "manage_units",
+        "merge_style",
+        "commit_message",
+        "add_message",
+        "delete_message",
+        "merge_message",
+        "addon_message",
+        "pull_message",
+        "push_on_commit",
+        "commit_pending_age",
+        "auto_lock_error",
+        "source_language",
+        "language_regex",
+        "variant_regex",
+        "priority",
+        "restricted",
+        "is_glossary",
+        "glossary_color",
+        "remote_revision",
+        "local_revision"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$id": "#root/component/name",
+          "title": "Project name",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "Hello"
+          ]
+        },
+        "slug": {
+          "$id": "#root/component/slug",
+          "title": "URL slug",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "hello"
+          ]
+        },
+        "vcs": {
+          "$id": "#root/component/vcs",
+          "title": "Version control system",
+          "type": "string"
+        },
+        "repo": {
+          "$id": "#root/component/repo",
+          "title": "Source code repository",
+          "type": "string"
+        },
+        "push": {
+          "$id": "#root/component/push",
+          "title": "Repository push URL",
+          "type": "string"
+        },
+        "repoweb": {
+          "$id": "#root/component/",
+          "title": "Repository browser",
+          "type": "string"
+        },
+        "report_source_bugs": {
+          "$id": "#root/component/report_source_bugs",
+          "title": "Source string bug reporting address",
+          "type": "string",
+          "oneOf": [
+            {
+              "enum": [
+                ""
+              ]
+            },
+            {
+              "format": "email"
+            }
+          ]
+        },
+        "branch": {
+          "$id": "#root/component/branch",
+          "title": "Repository branch",
+          "type": "string"
+        },
+        "push_branch": {
+          "$id": "#root/component/push_branch",
+          "title": "Push branch",
+          "type": "string"
+        },
+        "filemask": {
+          "$id": "#root/component/filemask",
+          "title": "File mask",
+          "type": "string"
+        },
+        "template": {
+          "$id": "#root/component/template",
+          "title": "Monolingual base language file",
+          "type": "string"
+        },
+        "edit_template": {
+          "$id": "#root/component/edit_template",
+          "title": "Edit base file",
+          "type": "boolean"
+        },
+        "intermediate": {
+          "$id": "#root/component/intermediate",
+          "title": "Intermediate language file",
+          "type": "string"
+        },
+        "new_base": {
+          "$id": "#root/component/new_base",
+          "title": "Template for new translations",
+          "type": "string"
+        },
+        "file_format": {
+          "$id": "#root/component/file_format",
+          "title": "File format",
+          "type": "string"
+        },
+        "locked": {
+          "$id": "#root/component/locked",
+          "title": "Locked",
+          "type": "boolean"
+        },
+        "allow_translation_propagation": {
+          "$id": "#root/component/allow_translation_propagation",
+          "title": "Allow translation propagation",
+          "type": "boolean"
+        },
+        "enable_suggestions": {
+          "$id": "#root/component/enable_suggestions",
+          "title": "Turn on suggestions",
+          "type": "boolean"
+        },
+        "suggestion_voting": {
+          "$id": "#root/component/suggestion_voting",
+          "title": "Suggestion voting",
+          "type": "boolean"
+        },
+        "suggestion_autoaccept": {
+          "$id": "#root/component/suggestion_autoaccept",
+          "title": "Autoaccept suggestions",
+          "type": "integer"
+        },
+        "check_flags": {
+          "$id": "#root/component/check_flags",
+          "title": "Translation flags",
+          "type": "string"
+        },
+        "enforced_checks": {
+          "$id": "#root/component/enforced_checks",
+          "title": "",
+          "type": "array",
+          "items": {
+            "$id": "#root/component/items",
+            "title": "Check name",
+            "type": "string"
+          }
+        },
+        "license": {
+          "$id": "#root/component/license",
+          "title": "Translation license",
+          "type": "string"
+        },
+        "agreement": {
+          "$id": "#root/component/agreement",
+          "title": "Contributor agreement",
+          "type": "string"
+        },
+        "new_lang": {
+          "$id": "#root/component/new_lang",
+          "title": "Adding new translation",
+          "type": "string"
+        },
+        "language_code_style": {
+          "$id": "#root/component/language_code_style",
+          "title": "Language code style",
+          "type": "string"
+        },
+        "manage_units": {
+          "$id": "#root/component/manage_units",
+          "title": "Manage strings",
+          "type": "boolean"
+        },
+        "merge_style": {
+          "$id": "#root/component/merge_style",
+          "title": "Merge style",
+          "type": "string",
+          "enum": [
+            "merge",
+            "rebase",
+            "merge_noff"
+          ]
+        },
+        "commit_message": {
+          "$id": "#root/component/commit_message",
+          "title": "Commit message when translating",
+          "type": "string"
+        },
+        "add_message": {
+          "$id": "#root/component/add_message",
+          "title": "Commit message when adding translation",
+          "type": "string"
+        },
+        "delete_message": {
+          "$id": "#root/component/delete_message",
+          "title": "Commit message when removing translation",
+          "type": "string"
+        },
+        "merge_message": {
+          "$id": "#root/component/merge_message",
+          "title": "Commit message when merging translation",
+          "type": "string"
+        },
+        "addon_message": {
+          "$id": "#root/component/addon_message",
+          "title": "Commit message when add-on makes a change",
+          "type": "string"
+        },
+        "pull_message": {
+          "$id": "#root/component/pull_message",
+          "title": "Merge request message",
+          "type": "string"
+        },
+        "push_on_commit": {
+          "$id": "#root/component/push_on_commit",
+          "title": "Push on commit",
+          "type": "boolean"
+        },
+        "commit_pending_age": {
+          "$id": "#root/component/commit_pending_age",
+          "title": "Age of changes to commit",
+          "type": "integer"
+        },
+        "auto_lock_error": {
+          "$id": "#root/component/auto_lock_error",
+          "title": "Lock on error",
+          "type": "boolean"
+        },
+        "source_language": {
+          "$id": "#root/component/source_language",
+          "title": "Source language code",
+          "type": "string"
+        },
+        "language_regex": {
+          "$id": "#root/component/language_regex",
+          "title": "Language filter",
+          "type": "string"
+        },
+        "variant_regex": {
+          "$id": "#root/component/variant_regex",
+          "title": "Variants regular expression",
+          "type": "string"
+        },
+        "priority": {
+          "$id": "#root/component/priority",
+          "title": "Priority",
+          "type": "integer"
+        },
+        "restricted": {
+          "$id": "#root/component/restricted",
+          "title": "Restricted component",
+          "type": "boolean"
+        },
+        "is_glossary": {
+          "$id": "#root/component/is_glossary",
+          "title": "Use as a glossary",
+          "type": "boolean"
+        },
+        "glossary_color": {
+          "$id": "#root/component/glossary_color",
+          "title": "Glossary color",
+          "type": "string"
+        },
+        "remote_revision": {
+          "$id": "#root/component/remote_revision",
+          "title": "Remote revision",
+          "type": "string"
+        },
+        "local_revision": {
+          "$id": "#root/component/local_revision",
+          "title": "Local revision",
+          "type": "string"
+        }
+      }
+    },
+    "translations": {
+      "$id": "#root/translations",
+      "title": "Translation data",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$id": "#root/translations/items",
+        "title": "Items",
+        "type": "object",
+        "required": [
+          "id",
+          "language_code",
+          "plural",
+          "revision",
+          "filename"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$id": "#root/translations/items/id",
+            "title": "Primary key",
+            "type": "integer"
+          },
+          "filename": {
+            "$id": "#root/translations/items/filename",
+            "title": "Filename",
+            "type": "string"
+          },
+          "language_code": {
+            "$id": "#root/translations/items/language_code",
+            "title": "Language code",
+            "type": "string",
+            "pattern": "^[^ ]+$"
+          },
+          "plural": {
+            "$id": "#root/translations/items/plural",
+            "title": "Plural definition",
+            "type": "object",
+            "required": [
+              "source",
+              "number",
+              "formula",
+              "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "source": {
+                "$id": "#root/translations/items/plural/source",
+                "title": "Plural definition source",
+                "type": "integer"
+              },
+              "number": {
+                "$id": "#root/translations/items/plural/number",
+                "title": "Number of plurals",
+                "type": "integer"
+              },
+              "formula": {
+                "$id": "#root/translations/items/plural/formula",
+                "title": "Plural formula",
+                "type": "string"
+              },
+              "type": {
+                "$id": "#root/translations/items/plural/type",
+                "title": "Plural type",
+                "type": "integer"
+              }
+            }
+          },
+          "revision": {
+            "$id": "#root/translations/items/revision",
+            "title": "File revision",
+            "type": "string"
+          },
+          "check_flags": {
+            "$id": "#root/translations/items/check_flags",
+            "title": "Translation flags",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "units": {
+      "$id": "#root/units",
+      "title": "Unit data",
+      "type": "array",
+      "items": {
+        "$id": "#root/units/items",
+        "title": "Unit data",
+        "type": "object",
+        "required": [
+          "translation_id",
+          "id_hash",
+          "location",
+          "context",
+          "note",
+          "flags",
+          "source",
+          "previous_source",
+          "target",
+          "state",
+          "original_state",
+          "details",
+          "position",
+          "num_words",
+          "priority",
+          "pending",
+          "timestamp",
+          "extra_flags",
+          "explanation",
+          "labels",
+          "comments",
+          "checks",
+          "suggestions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "translation_id": {
+            "$id": "#root/units/items/translation_id",
+            "title": "",
+            "type": "integer"
+          },
+          "id_hash": {
+            "$id": "#root/units/items/id_hash",
+            "title": "",
+            "pattern": "[0-9a-f]{16}",
+            "type": "string"
+          },
+          "location": {
+            "$id": "#root/units/items/location",
+            "title": "",
+            "type": "string"
+          },
+          "context": {
+            "$id": "#root/units/items/context",
+            "title": "",
+            "type": "string"
+          },
+          "note": {
+            "$id": "#root/units/items/note",
+            "title": "",
+            "type": "string"
+          },
+          "flags": {
+            "$id": "#root/units/items/flags",
+            "title": "",
+            "type": "string"
+          },
+          "source": {
+            "$id": "#root/units/items/source",
+            "title": "",
+            "type": "string"
+          },
+          "previous_source": {
+            "$id": "#root/units/items/previous_source",
+            "title": "",
+            "type": "string"
+          },
+          "target": {
+            "$id": "#root/units/items/target",
+            "title": "",
+            "type": "string"
+          },
+          "state": {
+            "$id": "#root/units/items/state",
+            "title": "",
+            "type": "integer"
+          },
+          "original_state": {
+            "$id": "#root/units/items/original_state",
+            "title": "",
+            "type": "integer"
+          },
+          "details": {
+            "$id": "#root/units/items/details",
+            "title": "",
+            "type": "object"
+          },
+          "position": {
+            "$id": "#root/units/items/position",
+            "title": "",
+            "type": "integer"
+          },
+          "num_words": {
+            "$id": "#root/units/items/num_words",
+            "title": "",
+            "type": "integer"
+          },
+          "priority": {
+            "$id": "#root/units/items/priority",
+            "title": "",
+            "type": "integer"
+          },
+          "pending": {
+            "$id": "#root/units/items/pending",
+            "title": "",
+            "type": "boolean"
+          },
+          "timestamp": {
+            "$id": "#root/units/items/timestamp",
+            "type": "string",
+            "format": "date-time",
+            "default": "",
+            "examples": [
+              "2019-11-18T18:53:54.862Z"
+            ]
+          },
+          "extra_flags": {
+            "$id": "#root/units/items/extra_flags",
+            "title": "",
+            "type": "string"
+          },
+          "explanation": {
+            "$id": "#root/units/itintegerems/explanation",
+            "title": "",
+            "type": "string"
+          },
+          "labels": {
+            "$id": "#root/units/items/labels",
+            "title": "",
+            "type": "array",
+            "items": {
+              "$id": "#root/units/items/labels/items",
+              "title": "Unit labels",
+              "type": "string"
+            }
+          },
+          "comments": {
+            "$id": "#root/units/items/comments",
+            "title": "",
+            "type": "array",
+            "items": {
+              "$id": "#root/units/items/comments/items",
+              "title": "Unit comments",
+              "type": "object",
+              "required": [
+                "user",
+                "comment",
+                "timestamp",
+                "resolved"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "user": {
+                  "$id": "#root/units/items/comments/items/user",
+                  "type": "string"
+                },
+                "comment": {
+                  "$id": "#root/units/items/comments/items/comment",
+                  "type": "string"
+                },
+                "timestamp": {
+                  "$id": "#root/units/items/comments/items/timestamp",
+                  "type": "string",
+                  "format": "date-time",
+                  "default": "",
+                  "examples": [
+                    "2019-11-18T18:53:54.862Z"
+                  ]
+                },
+                "resolved": {
+                  "$id": "#root/units/items/comments/items/resolved",
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "checks": {
+            "$id": "#root/units/items/checks",
+            "title": "",
+            "type": "array",
+            "items": {
+              "$id": "#root/units/items/checks/items",
+              "title": "Unit checks",
+              "type": "object",
+              "required": [
+                "name",
+                "dismissed"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "$id": "#root/units/items/checks/items/name",
+                  "type": "string"
+                },
+                "dismissed": {
+                  "$id": "#root/units/items/checks/items/dismissed",
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "suggestions": {
+            "$id": "#root/units/items/suggestions",
+            "title": "",
+            "type": "array",
+            "items": {
+              "$id": "#root/units/items/suggestions/items",
+              "title": "Unit suggestions",
+              "type": "object",
+              "required": [
+                "target",
+                "user",
+                "timestamp",
+                "votes"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "target": {
+                  "$id": "#root/units/items/suggestions/items/target",
+                  "type": "string"
+                },
+                "user": {
+                  "$id": "#root/units/items/suggestions/items/user",
+                  "type": "string"
+                },
+                "timestamp": {
+                  "$id": "#root/units/items/suggestions/items/timestamp",
+                  "type": "string",
+                  "format": "date-time",
+                  "default": "",
+                  "examples": [
+                    "2019-11-18T18:53:54.862Z"
+                  ]
+                },
+                "votes": {
+                  "$id": "#root/units/items/suggestions/items/votes",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "user",
+                      "value"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "user": {
+                        "$id": "#root/units/items/suggestions/items/votes/items/user",
+                        "type": "string"
+                      },
+                      "value": {
+                        "$id": "#root/units/items/suggestions/items/votes/items/value",
+                        "type": "integer",
+                        "enum": [
+                          -1,
+                          1
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "screenshots": {
+      "$id": "#root/screenshots",
+      "title": "Screenshot data",
+      "type": "array",
+      "items": {
+        "$id": "#root/screenshots/items",
+        "type": "object",
+        "required": [
+          "name",
+          "image",
+          "translation_id",
+          "units",
+          "timestamp",
+          "user"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$id": "#root/screenshots/items/name",
+            "type": "string"
+          },
+          "image": {
+            "$id": "#root/screenshots/items/image",
+            "type": "string"
+          },
+          "translation_id": {
+            "$id": "#root/screenshots/items/translation_id",
+            "title": "",
+            "type": "integer"
+          },
+          "user": {
+            "$id": "#root/screenshots/items/user",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "timestamp": {
+            "$id": "#root/screenshots/items/timestamp",
+            "type": "string",
+            "format": "date-time",
+            "default": "",
+            "examples": [
+              "2019-11-18T18:53:54.862Z"
+            ]
+          },
+          "units": {
+            "$id": "#root/screenshots/items/units",
+            "type": "array",
+            "items": {
+              "$id": "#root/screenshots/items/units/items",
+              "pattern": "[0-9a-f]{16}",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

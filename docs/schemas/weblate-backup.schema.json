@@ -45,6 +45,7 @@
           "$id": "#root/metadata/domain",
           "title": "Server domain",
           "type": "string",
+          "format": "hostname",
           "default": "",
           "examples": [
             "weblate.example.com"
@@ -54,6 +55,7 @@
           "$id": "#root/metadata/timestamp",
           "title": "Export timestamp",
           "type": "string",
+          "format": "date-time",
           "default": "",
           "examples": [
             "2019-11-18T18:53:54.862Z"
@@ -103,6 +105,7 @@
           "$id": "#root/project/web",
           "title": "",
           "type": "string",
+          "format": "uri",
           "default": "Project website",
           "examples": [
             "https://weblate.org/"
@@ -206,7 +209,7 @@
             "type": "string",
             "default": "",
             "examples": [
-              "PC / Linux / Firefox 70.0"
+              "navy"
             ],
             "enum": [
               "navy",
