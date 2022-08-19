@@ -40,7 +40,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-07-14 13:12+0000\n"
-"PO-Revision-Date: 2022-08-17 05:22+0000\n"
+"PO-Revision-Date: 2022-08-19 17:12+0000\n"
 "Last-Translator: Yang Yulin <yylteam@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -315,17 +315,17 @@ msgstr "密码已更改。"
 #: weblate/accounts/models.py:149
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "用户名已从 {old} 变更为 {new}。"
+msgstr "用户名已从 {old} 更改为 {new}。"
 
 #: weblate/accounts/models.py:150
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "电子邮箱地址已从 {old} 变更为 {new}。"
+msgstr "电子邮箱地址已从 {old} 更改为 {new}。"
 
 #: weblate/accounts/models.py:151
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr "全名已从 {old} 变更为 {new}。"
+msgstr "全名已从 {old} 更改为 {new}。"
 
 #: weblate/accounts/models.py:152
 msgid "Password reset requested."
@@ -819,7 +819,7 @@ msgstr "您只能在登录时确认注册。"
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
-msgstr "您的电子邮箱不属于认证账户，它已被变更为{0}。"
+msgstr "您的电子邮箱不属于认证账户，它已被更改为 {0}。"
 
 #: weblate/accounts/views.py:174 weblate/accounts/views.py:886
 #: weblate/accounts/views.py:949 weblate/templates/accounts/reset.html:7
@@ -1645,7 +1645,7 @@ msgstr "查看账单信息"
 #. Translators: Permission name
 #: weblate/auth/data.py:37
 msgid "Download changes"
-msgstr "下载改动"
+msgstr "下载变化"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -4950,7 +4950,7 @@ msgstr "活动"
 
 #: weblate/templates/accounts/user.html:145
 msgid "Recent changes"
-msgstr "近期变更"
+msgstr "近期变化"
 
 #: weblate/templates/accounts/user.html:147
 msgid "User identities"
@@ -4993,7 +4993,7 @@ msgstr "翻译"
 
 #: weblate/templates/accounts/user.html:185
 msgid "Browse all changes for user"
-msgstr "浏览该用户的所有变更"
+msgstr "浏览该用户的所有更改"
 
 #: weblate/templates/accounts/user.html:246
 msgid "Group"
@@ -5949,7 +5949,7 @@ msgstr "应用"
 
 #: weblate/templates/component.html:227 weblate/templates/translate.html:362
 msgid "Browse all component changes"
-msgstr "浏览部件的所有变更"
+msgstr "浏览部件的所有更改"
 
 #: weblate/templates/component.html:241
 msgid ""
@@ -6542,7 +6542,7 @@ msgstr "请在部件设置中配置推送 URL，以启用从 Weblate 推送。"
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
-msgstr "推送变更到远程代码库"
+msgstr "推送更改到远程代码库"
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push"
@@ -6562,7 +6562,7 @@ msgstr "更新"
 
 #: weblate/templates/js/git-status.html:68
 msgid "Pull changes from the remote repository"
-msgstr "从远程代码库拉取变更"
+msgstr "从远程代码库拉取更改"
 
 #: weblate/templates/js/git-status.html:68
 msgid "Pull"
@@ -6570,7 +6570,7 @@ msgstr "拉取"
 
 #: weblate/templates/js/git-status.html:71
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "将Weblate更改变基到远程仓库"
+msgstr "将 Weblate 更改变基到远程仓库"
 
 #: weblate/templates/js/git-status.html:71
 #: weblate/trans/models/component.py:147
@@ -6588,7 +6588,7 @@ msgstr "不快进合并"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr "锁定防止翻译者进行更改"
+msgstr "锁定以防止翻译者进行更改"
 
 #: weblate/templates/js/git-status.html:94
 msgid "Allow changes to the Weblate repository"
@@ -8209,7 +8209,7 @@ msgstr "字符串百分比"
 #: weblate/templates/snippets/info.html:510
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "托管的字符串"
+msgstr "托管的字符串数"
 
 #: weblate/templates/snippets/info.html:283
 msgid "Words percent"
@@ -8229,7 +8229,7 @@ msgstr "字符百分比"
 #: weblate/templates/snippets/info.html:286
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "托管的字符"
+msgstr "托管的字符数"
 
 #: weblate/templates/snippets/info.html:291
 msgctxt "Number of strings"
@@ -8671,9 +8671,8 @@ msgstr "公钥已复制到剪贴板。"
 msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
-msgstr ""
-"Weblate 使用 SSH 密钥来访问远程代码库。相应的公钥如下，你可以使用它来获取访问"
-"代码库的权限。"
+msgstr "Weblate 使用 SSH 密钥访问远程仓库。相应的公钥可以在下面找到，"
+"您可以使用它来授予 Weblate 对仓库的访问权限。"
 
 #: weblate/templates/snippets/ssh-key.html:11
 msgid "SSH key not available."
@@ -9085,7 +9084,7 @@ msgstr "Weblate 无法在更新代码库时拉取上游更改。"
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
-msgstr "变更"
+msgstr "更改"
 
 #: weblate/templates/trans/change_list.html:33
 msgid "Download latest changes as CSV"
@@ -9464,7 +9463,7 @@ msgstr "术语表术语"
 
 #: weblate/templates/translate.html:113 weblate/templates/zen-units.html:64
 msgid "Source change"
-msgstr "原文变更"
+msgstr "原文变化"
 
 #: weblate/templates/translate.html:129
 msgid "Intermediate language"
@@ -9795,7 +9794,7 @@ msgstr "浏览所有部件"
 
 #: weblate/templates/translation.html:219
 msgid "Browse all translation changes"
-msgstr "浏览翻译的所有变更"
+msgstr "浏览翻译的所有变化"
 
 #: weblate/templates/translation.html:234
 msgid ""
@@ -9988,7 +9987,7 @@ msgstr "此网站运行 Weblate 以进行各种软件项目的本地化。"
 #: weblate/trans/feeds.py:38 weblate/trans/feeds.py:72
 #, python-format
 msgid "Recent changes in %s"
-msgstr "%s 的近期变更"
+msgstr "%s 的近期变化"
 
 #: weblate/trans/feeds.py:41 weblate/trans/feeds.py:75
 #, python-format
@@ -10866,7 +10865,7 @@ msgstr "发现重复字符串"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:280
 msgid "Committed changes"
-msgstr "已提交变更"
+msgstr "已提交更改"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:282
@@ -11229,7 +11228,7 @@ msgstr "已导出代码库 URL"
 
 #: weblate/trans/models/component.py:313
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "仓库网址，用户可以从这里获取变更内容"
+msgstr "仓库网址，用户可以从这里获取更改的内容"
 
 #: weblate/trans/models/component.py:318
 msgid "Source string bug reporting address"
