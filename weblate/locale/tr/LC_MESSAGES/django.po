@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-07-16 13:17+0000\n"
+"PO-Revision-Date: 2022-08-20 17:08+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -3734,12 +3734,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Sıfır/bir/birkaç/birçok/diğer"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Bir/birkaç/birçok/diğer"
+msgstr "Bir/çok/diğer"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -3993,17 +3990,17 @@ msgid "Enable machine translation"
 msgstr "Makine çevirisini etkinleştir"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Çeviri Bilgileri"
+msgstr "Çeviri etki alanı"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"Bir çeviri etki alanının kimliği, örneğin, BC. Eğer bir etki alanı "
+"belirtmezseniz, yöntem mevcut tüm etki alanlarındaki çevirileri arar."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4116,18 +4113,15 @@ msgid "File: {}"
 msgstr "Dosya: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
 msgstr "Girişler silindi."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "Girişler silindi ve bellek arka planda yeniden oluşturulacaktır."
+msgstr ""
+"Girişler silindi ve çeviri belleği arka planda yeniden oluşturulacaktır."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4199,6 +4193,8 @@ msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
 msgstr ""
+"{new_lang} çevirisi şu anda mevcut değil,                                "
+"ancak eklenebilir."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5549,7 +5545,7 @@ msgstr "Yeni barındırma planı satın al"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Weblate’i ücretsiz deneyin"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7612,7 +7608,7 @@ msgstr "Aç"
 
 #: weblate/templates/manage/backups.html:63
 msgid "Perform backup"
-msgstr "Yedekleme yapmak"
+msgstr "Yedekleme gerçekleştir"
 
 #: weblate/templates/manage/backups.html:78
 #: weblate/templates/memory/index.html:57
@@ -7781,16 +7777,12 @@ msgid "Cache latency"
 msgstr "Önbellek gecikmesi"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Önbellek gecikmesi"
+msgstr "Celery gecikmesi"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Henüz giriş yapılmadı"
+msgstr "Henüz ölçülmedi"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7819,7 +7811,7 @@ msgstr "Etkinleştir"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:5
 msgid "Backup repository"
-msgstr "Yedek depo"
+msgstr "Yedekleme deposu"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:9
 msgid "Passphrase"
@@ -7840,7 +7832,7 @@ msgstr "Özel anahtarı indir"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:16
 msgid "The private key is needed to access the remote backup repository."
-msgstr "Özel anahtar, uzak yedek deposuna erişmek için gereklidir."
+msgstr "Özel anahtar, uzak yedekleme deposuna erişmek için gereklidir."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -9509,30 +9501,24 @@ msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr "Weblate, depoyu güncellerken yukarı akış değişikliklerini alamadı."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are currently no backups."
-msgstr "Şu anda çeviri bileşeni yok."
+msgstr "Şu anda yedekler yok."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Yedekleme yapmak"
+msgstr "Yedeklemeyi tetikle"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "Çeviri arka planda güncellenecektir."
+msgstr "Yedekleme arka planda oluşturulacaktır."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Yedekler %(keep_days)s gün sonra kaldırılır."
+msgstr[1] "Yedekler %(keep_days)s gün sonra kaldırılır."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9889,27 +9875,22 @@ msgid "You currently do not have permission to create projects."
 msgstr "Şu anda projeleri oluşturmak için izniniz yok."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Çeviri projeleri tanıtımı"
+msgstr "Çeviri projesini içe aktar"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Proje oluştur"
+msgstr "Projeyi içe aktar"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Run backup"
 msgid "Importing backup"
-msgstr "Yedeklemeyi çalıştır"
+msgstr "Yedekleme içe aktarılıyor"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
 msgstr ""
+"Weblate %(version)s tarafından %(server)s (%(domain)s) üzerinde oluşturuldu"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11047,16 +11028,13 @@ msgid ""
 msgstr "Projeler arası paylaşılan çeviri havuzunu kullanır ve katkıda bulunur."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "Çevirileri içeren ZIP dosyası"
+msgstr "Proje yedeklemesini içeren ZIP dosyası"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Anahtarı ayrıştırma başarısız oldu: %s"
+msgstr "Proje yedeklemesini yükleme başarısız oldu: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11745,27 +11723,20 @@ msgstr ""
 "Ülke kodu da dahil olmak üzere ayırıcı olarak kısa çizgi kullanan BCP stili"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr ""
-"Ülke kodu da dahil olmak üzere ayırıcı olarak kısa çizgi kullanan BCP stili"
+msgstr "Ayırıcı olarak tire kullanan BCP stili, eski dil kodları"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Ayırıcı olarak kısa çizgi kullanan BCP stili"
+msgstr "Ayırıcı olarak tire kullanan BCP stili, küçük harfli"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Android stili"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Uygulama mağazası üst veri dosyaları"
+msgstr "Uygulama mağazası üstveri stili"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13296,7 +13267,7 @@ msgstr "Projenin dili kaldırıldı."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Yedekleme tetiklendi, kısa sürede kullanılabilir olacak."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
