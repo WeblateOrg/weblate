@@ -1452,8 +1452,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return result
 
     def notify_deletion(self, unit, user):
-        change = Change(
-            translation=self,
+        self.change_set.create(
             action=Change.ACTION_STRING_REMOVE,
             user=user,
             target=unit.target,
@@ -1462,7 +1461,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 "target": unit.target,
             },
         )
-        change.save(force_insert=True)
 
     @transaction.atomic
     def delete_unit(self, request, unit):
