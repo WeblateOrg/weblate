@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-07-21 19:17+0000\n"
-"Last-Translator: m-aciek <maciej.olko@gmail.com>\n"
+"PO-Revision-Date: 2022-08-19 18:45+0000\n"
+"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -3764,12 +3764,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Zero/jeden/kilka/wiele/inne"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Jeden/kilka/wiele/inne"
+msgstr "Jeden/wiele/inne"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -4022,17 +4019,17 @@ msgid "Enable machine translation"
 msgstr "Włącz tłumaczenie maszynowe"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Informacje o tłumaczeniu"
+msgstr "Domena tłumaczenia"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"Identyfikator domeny tłumaczenia, na przykład BC. Jeśli nie określisz "
+"domeny, metoda wyszukuje tłumaczenia we wszystkich dostępnych domenach."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4145,18 +4142,15 @@ msgid "File: {}"
 msgstr "Plik: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
-msgstr "Wpisy usunięte."
+msgstr "Wpisy zostały usunięte."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "Wpisy zostały usunięte, a pamięć zostanie przebudowana w tle."
+msgstr ""
+"Wpisy zostały usunięte, a pamięć tłumaczeniowa zostanie przebudowana w tle."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4228,6 +4222,8 @@ msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
 msgstr ""
+"Tłumaczenie na {new_lang} jest obecnie "
+"niedostępne,                                ale może zostać dodane."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5597,7 +5593,7 @@ msgstr "Kup nowy plan hostingowy"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Wypróbuj Weblate za darmo"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7849,16 +7845,12 @@ msgid "Cache latency"
 msgstr "Opóźnienie pamięci podręcznej"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Opóźnienie pamięci podręcznej"
+msgstr "Opóźnienie Celery"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Jeszcze nie zalogowany"
+msgstr "Jeszcze niezmierzone"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9602,31 +9594,25 @@ msgstr ""
 "Weblate nie może pobrać zmian ze źródła podczas aktualizacji repozytorium."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are currently no backups."
-msgstr "Obecnie nie ma składników tłumaczenia."
+msgstr "Obecnie nie ma kopii zapasowych."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Wykonaj kopię zapasową"
+msgstr "Uruchom kopię zapasową"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "Tłumaczenie zostanie zaktualizowane w tle."
+msgstr "Kopia zapasowa zostanie wygenerowana w tle."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Kopie zapasowe są usuwane po %(keep_days)s dniu."
+msgstr[1] "Kopie zapasowe są usuwane po %(keep_days)s dniach."
+msgstr[2] "Kopie zapasowe są usuwane po %(keep_days)s dniach."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9987,27 +9973,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "Obecnie nie masz uprawnień do tworzenia projektów."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Promowanie projektów tłumaczeniowych"
+msgstr "Importuj projekt tłumaczeniowy"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Utwórz projekt"
+msgstr "Importuj projekt"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Run backup"
 msgid "Importing backup"
-msgstr "Uruchom kopię zapasową"
+msgstr "Importowanie kopii zapasowej"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Utworzono na %(server)s (%(domain)s) przez Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11154,16 +11134,13 @@ msgstr ""
 "projektami."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "Plik ZIP zawierający tłumaczenia"
+msgstr "Plik ZIP zawierający kopię zapasową projektu"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Nie udało się przeanalizować klucza: %s"
+msgstr "Nie udało się wczytać kopii zapasowej projektu: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11847,26 +11824,20 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "Styl BCP za pomocą łącznika jako separatora, wraz z kodem kraju"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "Styl BCP za pomocą łącznika jako separatora, wraz z kodem kraju"
+msgstr "Styl BCP używający łącznika jako separatora i starszych kodów języków"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Styl BCP za pomocą łącznika jako separatora"
+msgstr "Styl BCP używający łącznika jako separatora i małych liter"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Styl Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Pliki metadanych sklepu z aplikacjami"
+msgstr "Styl metadanych sklepu z aplikacjami"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13442,7 +13413,7 @@ msgstr "Język projektu został usunięty."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Kopia zapasowa została uruchomiona, wkrótce będzie dostępna."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
