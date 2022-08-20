@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-08-19 17:12+0000\n"
+"PO-Revision-Date: 2022-08-20 17:08+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -3703,12 +3703,9 @@ msgid "Zero/one/few/many/other"
 msgstr "ゼロ/1つ/少数/多数/その他"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "1つ/少数/多数/その他"
+msgstr "1つ/多数/その他"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -3959,11 +3956,9 @@ msgid "Enable machine translation"
 msgstr "機械翻訳の有効化"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "翻訳の概要"
+msgstr "翻訳のドメイン"
 
 #: weblate/machinery/forms.py:120
 msgid ""
@@ -4082,18 +4077,14 @@ msgid "File: {}"
 msgstr "ファイル: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
 msgstr "項目を削除しました。"
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "項目を削除しました。メモリはバックグラウンドで再構築されます。"
+msgstr "項目を削除しました。翻訳メモリはバックグラウンドで再構築されます。"
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4164,7 +4155,7 @@ msgstr "12 月"
 msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
-msgstr ""
+msgstr "{new_lang} の翻訳は今はありませんが、追加できます。"
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5511,7 +5502,7 @@ msgstr "新しいホスティング プランの購入"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Weblate を無料で試す"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7723,10 +7714,8 @@ msgid "Celery latency"
 msgstr "キャッシュの遅延時間"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "まだサインインしていません"
+msgstr "未計測"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9425,29 +9414,23 @@ msgstr ""
 "Weblate はリポジトリの更新中にアップストリームの変更を取得できませんでした。"
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are currently no backups."
-msgstr "現時点では翻訳コンポーネントがありません。"
+msgstr "現在、バックアップはありません。"
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
 msgstr "バックアップの実行"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "翻訳はバックグラウンドで更新されます。"
+msgstr "バックアップはバックグラウンドで作成されます。"
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
+msgstr[0] "バックアップは%(keep_days)s日後に削除されます。"
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9809,16 +9792,12 @@ msgid "You currently do not have permission to create projects."
 msgstr "現時点ではプロジェクトを作成する権限がありません。"
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "翻訳プロジェクトのプロモーション"
+msgstr "翻訳プロジェクトのインポート"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "プロジェクトの作成"
+msgstr "プロジェクトのインポート"
 
 #: weblate/templates/trans/project_import_info.html:5
 #, fuzzy
@@ -9829,7 +9808,7 @@ msgstr "バックアップの実行"
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "%(server)s (%(domain)s) で Weblate %(version)s によって作成"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -10942,16 +10921,13 @@ msgid ""
 msgstr "プロジェクト間で翻訳を相互に共有してください。"
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "翻訳を含む ZIP ファイル"
+msgstr "プロジェクトのバックアップが入った ZIP ファイル"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "鍵の解析に失敗しました: %s"
+msgstr "バックアップの読み込みに失敗しました: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11640,10 +11616,8 @@ msgid "Android style"
 msgstr "Android 形式"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "アプリ ストアのメタデータ ファイル"
+msgstr "アプリストアのメタデータ形式"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
