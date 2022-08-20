@@ -32,7 +32,7 @@ from django.utils.translation import (
     pgettext,
     pgettext_lazy,
 )
-from jellyfish import damerau_levenshtein_distance
+from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
@@ -705,11 +705,7 @@ class Change(models.Model, UserDisplayMixin):
         return ""
 
     def get_distance(self):
-        try:
-            return damerau_levenshtein_distance(self.old, self.target)
-        except MemoryError:
-            # Too long strings
-            return abs(len(self.old) - len(self.target))
+        return DamerauLevenshtein.distance(self.old, self.target)
 
     def get_source(self):
         return self.details.get("source", self.unit.source)
