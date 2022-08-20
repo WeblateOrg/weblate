@@ -27,7 +27,6 @@ from dateutil.parser import ParserError, parse
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from rapidfuzz.distance import DamerauLevenshtein
 from pyparsing import (
     CaselessKeyword,
     OpAssoc,
@@ -37,6 +36,7 @@ from pyparsing import (
     infix_notation,
     one_of,
 )
+from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.checks.parser import RawQuotedString
 from weblate.trans.util import PLURAL_SEPARATOR
