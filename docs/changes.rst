@@ -1,7 +1,7 @@
 Weblate 4.14
 ------------
 
-Not yet released.
+Released on August 22nd 2022.
 
 * Track add-on changes in a history.
 * Fixed parsing translation from Windows RC, HTML and text files.
