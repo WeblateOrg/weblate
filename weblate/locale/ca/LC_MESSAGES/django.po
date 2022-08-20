@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-07-21 19:17+0000\n"
+"PO-Revision-Date: 2022-08-21 08:34+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
@@ -3775,12 +3775,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Zero/un/pocs/molts/altres"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Un/pocs/molts/altres"
+msgstr "Un/molts/altres"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -4035,17 +4032,18 @@ msgid "Enable machine translation"
 msgstr "Activa la traducció automàtica"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Informació de la traducció"
+msgstr "Domini de la traducció"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"L'identificador d'un domini de traducció, per exemple, BC. Si no "
+"especifiqueu un domini, el mètode cerca traduccions en tots els dominis "
+"disponibles."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4159,18 +4157,16 @@ msgid "File: {}"
 msgstr "Fitxer: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
-msgstr "S'han suprimit les entrades."
+msgstr "S'han suprimit els elements."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "Els elements s'han suprimit; la memòria es reconstruirà en segon pla."
+msgstr ""
+"S'han suprimit els elements; la memòria de traducció es reconstruirà en "
+"segon pla."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4242,6 +4238,8 @@ msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
 msgstr ""
+"La traducció a {new_lang} no està disponible,                                "
+"però es pot afegir."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5617,7 +5615,7 @@ msgstr "Compra un pla d'allotjament nou"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Proveu el Weblate de franc"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7867,16 +7865,12 @@ msgid "Cache latency"
 msgstr "Latència de la memòria cau"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Latència de la memòria cau"
+msgstr "Latència del Celery"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Encara no heu iniciat la sessió"
+msgstr "Encara no s'ha mesurat"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9630,30 +9624,24 @@ msgstr ""
 "repositori."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "Translation comment"
 msgid "There are currently no backups."
-msgstr "Comentari de la traducció"
+msgstr "Actualment no hi ha cap còpia de seguretat."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Fes una còpia de seguretat"
+msgstr "Inicia una còpia de seguretat"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "La traducció s'actualitzarà en segon pla."
+msgstr "La còpia de seguretat es generarà en segon pla."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Les còpies de seguretat se suprimeixen després de %(keep_days)s dia."
+msgstr[1] "Les còpies de seguretat se suprimeixen després de %(keep_days)s dies."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -10013,27 +10001,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "Actualment no teniu permisos per a crear projectes."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Promoció de projectes de traducció"
+msgstr "Importa un projecte de traducció"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Crea un projecte"
+msgstr "Importa un projecte"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "Fes una còpia de seguretat"
+msgstr "S'està important la còpia de seguretat"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Creada a %(server)s (%(domain)s) pel Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11178,16 +11160,13 @@ msgstr ""
 "projectes."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "Fitxer ZIP que conté traduccions"
+msgstr "Fitxer ZIP que conté la còpia de seguretat del projecte"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Ha fallat l'anàlisi de la clau: %s"
+msgstr "No s'ha pogut carregar la còpia de seguretat del projecte: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11878,27 +11857,20 @@ msgstr ""
 "Estil BCP, fent servir un guió com a separador, incloent-hi el codi de país"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr ""
-"Estil BCP, fent servir un guió com a separador, incloent-hi el codi de país"
+msgstr "Estil BCP, fent servir un guió com a separador, codis de llengua antics"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Estil BCP, fent servir un guió com a separador"
+msgstr "Estil BCP, fent servir un guió com a separador, en minúscules"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Estil d'Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Fitxers de metadades de botiga d'aplicacions"
+msgstr "Estil de metadades de botiga d'aplicacions"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13461,7 +13433,7 @@ msgstr "S'ha suprimit la llengua del projecte."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "S'ha iniciat una còpia de seguretat, estarà disponible aviat."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
