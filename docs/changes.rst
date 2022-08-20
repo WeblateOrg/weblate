@@ -15,6 +15,7 @@ Released on August 22nd 2022.
 * Improved document translation workflow.
 * Improved reliability of HTML and text files translation.
 * Added support for project level backups.
+* Improved performance and memory usage of translation memory lookups.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 

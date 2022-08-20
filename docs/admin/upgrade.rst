@@ -341,6 +341,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   Weblate will be automatically migrated, but third-party scripts will need to
   use ``java-printf-format`` instead of ``java-format`` and ``java-format``
   instead of ``java-messageformat``.
+* The `jellyfish` dependency has been replaced by `rapidfuzz`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
