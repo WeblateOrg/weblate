@@ -27,7 +27,7 @@ from dateutil.parser import ParserError, parse
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from jellyfish import damerau_levenshtein_distance
+from rapidfuzz.distance import DamerauLevenshtein
 from pyparsing import (
     CaselessKeyword,
     OpAssoc,
@@ -58,14 +58,7 @@ class Comparer:
 
     def similarity(self, first, second):
         """Returns string similarity in range 0 - 100%."""
-        try:
-            distance = damerau_levenshtein_distance(first, second)
-            return int(
-                100 * (1.0 - (float(distance) / max(len(first), len(second), 1)))
-            )
-        except MemoryError:
-            # Too long string, mark them as not much similar
-            return 50
+        return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
 
 
 # Field type definitions
