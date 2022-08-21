@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-08-20 17:08+0000\n"
+"PO-Revision-Date: 2022-08-22 11:45+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -4014,6 +4014,8 @@ msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"De id van een vertaaldomein, bijv. BC. Als u geen domein opgeeft, dan wordt "
+"er naar vertalingen op alle beschikbare domeinen gezocht."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4126,19 +4128,16 @@ msgid "File: {}"
 msgstr "Bestand: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
-msgstr "Items verwijderd."
+msgstr "De items zijn verwijderd."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
 msgstr ""
-"De items zijn verwijderd en het geheugen wordt op de achtergrond bijgewerkt."
+"De items zijn verwijderd en het vertaalgeheugen wordt op de achtergrond "
+"bijgewerkt."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4210,6 +4209,8 @@ msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
 msgstr ""
+"De {new_lang}e vertaling is momenteel niet "
+"beschikbaar,                                maar kan worden toegevoegd."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5574,7 +5575,7 @@ msgstr "Hostingpakket aanschaffen"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Probeer Weblate gratis uit"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7816,16 +7817,12 @@ msgid "Cache latency"
 msgstr "Cachevertraging"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Cachevertraging"
+msgstr "Celeryvertraging"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Nog niet ingelogd"
+msgstr "Nog niet gemeten"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9556,30 +9553,24 @@ msgstr ""
 "bijwerken van de opslagruimte."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are currently no backups."
-msgstr "Er zijn geen uitbreidingen geïnstalleerd."
+msgstr "Er zijn geen momenteel geen back-ups beschikbaar."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
 msgstr "Back-up uitvoeren"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "De vertaling wordt op de achtergrond bijgewerkt."
+msgstr "De back-up wordt op de achtergrond gemaakt."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Back-ups worden na %(keep_days)s dag verwijderd."
+msgstr[1] "Back-ups worden na %(keep_days)s dagen verwijderd."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9938,27 +9929,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "U bent op dit moment niet bevoegd om projecten aan te maken."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Promoot vertaalprojecten"
+msgstr "Vertaalproject importeren"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Project aanmaken"
+msgstr "Project importeren"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "Back-up uitvoeren"
+msgstr "Bezig met importeren…"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Gemaakt op %(server)s (%(domain)s) door Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11110,16 +11095,13 @@ msgstr ""
 "Gebruikt en draagt bij aan de pool van gedeelde vertalingen tussen projecten."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "ZIP-bestand met vertalingen"
+msgstr "Zip-bestand met back-up"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Het verwerken van de sleutel is mislukt: %s"
+msgstr "De back-up kan niet worden geladen: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11809,26 +11791,20 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "BCP-stijl met streepje als scheidingsteken, inclusief landcode"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "BCP-stijl met streepje als scheidingsteken, inclusief landcode"
+msgstr "BCP-stijl met streepje als scheidingsteken en oude taalcodes"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "BCP-stijl met liggend streepje als scheidingsteken"
+msgstr "BCP-stijl met liggend streepje als scheidingsteken, kleine letters"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Android-stijl"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "App-store metadata-bestanden"
+msgstr "App-store metagegevensstijl"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13390,7 +13366,7 @@ msgstr "De projecttaal is verwijderd."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "De back-up wordt uitgevoerd en is z.s.m. beschikbaar."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
