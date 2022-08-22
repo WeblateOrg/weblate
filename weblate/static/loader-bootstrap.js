@@ -30,7 +30,7 @@ function decreaseLoading(sel) {
 function addAlert(message, kind = "danger", delay = 3000) {
   var alerts = $("#popup-alerts");
   var e = $(
-    '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+    '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
   );
   e.addClass("alert-" + kind);
   e.append(new Text(message));
@@ -145,7 +145,9 @@ function screenshotAddString() {
 
 function screnshotResultError(severity, message) {
   $("#search-results tbody.unit-listing-body").html(
-    $("<tr/>").addClass(severity).html($('<td colspan="4"></td>').text(message))
+    $("<tr/>")
+      .addClass(severity)
+      .html($('<td colspan="4"></td>').text(message)),
   );
 }
 
@@ -156,7 +158,7 @@ function screenshotLoaded(data) {
   } else if (data.results.length === 0) {
     screnshotResultError(
       "warning",
-      gettext("No new matching source strings found.")
+      gettext("No new matching source strings found."),
     );
   } else {
     $("#search-results table").replaceWith(data.results);
@@ -250,7 +252,7 @@ function loadTableSorting() {
                   inverse *
                   compareCells(
                     extractText($a.find("td,th")[myIndex]),
-                    extractText($b.find("td,th")[myIndex])
+                    extractText($b.find("td,th")[myIndex]),
                   )
                 );
               })
@@ -390,7 +392,7 @@ function initHighlight(root) {
           "\u2002|\u2003|\u2004|\u2005|",
           "\u2006|\u2007|\u2008|\u2009|",
           "\u200A|\u202F|\u205F|\u3000",
-        ].join("")
+        ].join(""),
       );
       let extension = {
         hlspace: {
@@ -473,13 +475,13 @@ $(function () {
               " (" +
               xhr.status +
               "): " +
-              responseText
+              responseText,
           );
         }
         $target.data("loaded", 1);
         loadTableSorting();
       });
-    }
+    },
   );
 
   if ($("#form-activetab").length > 0) {
@@ -504,7 +506,7 @@ $(function () {
       activeTab = $(
         '.nav [data-toggle=tab][href="' +
           location.hash.substr(0, separator) +
-          '"]'
+          '"]',
       );
       if (activeTab.length) {
         activeTab.tab("show");
@@ -523,7 +525,7 @@ $(function () {
   ) {
     /* From cookie */
     activeTab = $(
-      '[data-toggle=tab][href="' + Cookies.get("translate-tab") + '"]'
+      '[data-toggle=tab][href="' + Cookies.get("translate-tab") + '"]',
     );
     if (activeTab.length) {
       activeTab.tab("show");
@@ -852,7 +854,7 @@ $(function () {
       .find('input[name="name"]')
       .on("change keypress keydown keyup paste", function () {
         $slug.val(
-          slugify($(this).val(), { remove: /[^\w\s-]+/g }).toLowerCase()
+          slugify($(this).val(), { remove: /[^\w\s-]+/g }).toLowerCase(),
         );
       });
   });
@@ -1069,13 +1071,13 @@ $(function () {
           button.attr("data-field") +
           prefix +
           quoteSearch(input.val()) +
-          " "
+          " ",
       );
     }
   });
   $(".search-insert").click(function () {
     $("#id_q").insertAtCaret(
-      " " + $(this).closest("tr").find("code").text() + " "
+      " " + $(this).closest("tr").find("code").text() + " ",
     );
   });
 
@@ -1094,7 +1096,7 @@ $(function () {
         target.val(name.substring(0, name.lastIndexOf(".")));
         target.change();
       }
-    }
+    },
   );
 
   /* Alert when creating a component */
@@ -1103,9 +1105,9 @@ $(function () {
       addAlert(
         gettext("Weblate is now scanning the repository, please be patient."),
         (kind = "info"),
-        (delay = 0)
+        (delay = 0),
       );
-    }
+    },
   );
 
   /* Username autocompletion */
@@ -1165,20 +1167,20 @@ $(function () {
   console.log(
     "%c" +
       pgettext("Alert to user when opening browser developer console", "Stop!"),
-    "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;"
+    "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
   );
   console.log(
     "%c" +
       gettext(
-        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account."
+        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
       ),
-    "font-size: 20px; font-family: sans-serif"
+    "font-size: 20px; font-family: sans-serif",
   );
   console.log(
     "%c" +
       gettext(
-        "See https://en.wikipedia.org/wiki/Self-XSS for more information."
+        "See https://en.wikipedia.org/wiki/Self-XSS for more information.",
       ),
-    "font-size: 20px; font-family: sans-serif"
+    "font-size: 20px; font-family: sans-serif",
   );
 });
