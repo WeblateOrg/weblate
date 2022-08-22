@@ -198,9 +198,10 @@ class RedirectMiddleware:
                             request,
                             messages.INFO,
                             _(
-                                f"{new_lang} translation is currently not available,\
-                                but can be added."
-                            ),
+                                "%s translation is currently not available, "
+                                "but can be added."
+                            )
+                            % new_lang,
                         )
                         return redirect(
                             reverse(
