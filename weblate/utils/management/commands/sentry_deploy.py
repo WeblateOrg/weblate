@@ -24,7 +24,7 @@ import weblate.utils.version
 from weblate.utils.management.base import BaseCommand
 
 TAGS_API = "https://api.github.com/repos/WeblateOrg/weblate/git/ref/tags/{}"
-RELEASES_API = "https://sentry.io/api/0/organizations/{}/releases/"
+RELEASES_API = "https://sentry.weblate.org/api/0/organizations/weblate/releases/"
 
 
 class Command(BaseCommand):
@@ -44,7 +44,7 @@ class Command(BaseCommand):
             ref = response.json()["object"]["sha"]
 
         sentry_auth = {"Authorization": f"Bearer {settings.SENTRY_TOKEN}"}
-        sentry_base = RELEASES_API.format(settings.SENTRY_ORGANIZATION)
+        sentry_base = RELEASES_API
         release_url = sentry_base + version + "/"
 
         # Ensure the release is tracked on Sentry
