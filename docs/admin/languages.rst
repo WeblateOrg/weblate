@@ -203,7 +203,7 @@ BCP style using hyphen as a separator, including country code
 BCP style using hyphen as a separator, legacy language codes
    Uses legacy codes for Chinese and BCP style notation.
 BCP style using hyphen as a separator, lower cased
-   BCP style notation, all in lower case (for examle ``cs-cz``).
+   BCP style notation, all in lower case (for example ``cs-cz``).
 App store metadata style
    Style suitable for uploading metadata to appstores. This should be suitable
    for both Apple App Store and Google Play Store.

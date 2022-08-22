@@ -435,7 +435,7 @@ BITBUCKET_PAYLOAD_SERVER_MERGED = r"""
                 "links":{
                     "clone": [
                         {
-                            "href": "https://examle.com/scm/wlt/locre.git",
+                            "href": "https://example.com/scm/wlt/locre.git",
                             "name": "http"
                         },
                         {
@@ -1659,7 +1659,7 @@ class BitbucketBackendTest(HookBackendTestCase):
                 "service_long_name": "Bitbucket",
                 "repo_url": "https://example.com/projects/WLT/repos/locre/browse",
                 "repos": [
-                    "https://examle.com/scm/wlt/locre.git",
+                    "https://example.com/scm/wlt/locre.git",
                     "ssh://git@example.com:7999/wlt/locre.git",
                 ],
                 "branch": None,
