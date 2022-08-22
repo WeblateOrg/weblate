@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ project.get_absolute_url }}">{{ object.component.project }}</a></li>
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 {% if object.component.slug != "-" %}
 {% include "snippets/component-breadcrumb.html" with object=object.component %}
 {% endif %}
