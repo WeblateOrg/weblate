@@ -714,6 +714,10 @@ class WeblateLoginView(LoginView):
 
         return super().dispatch(request, *args, **kwargs)
 
+    def form_invalid(self, form):
+        rotate_token(self.request)
+        return super().form_invalid(form)
+
 
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
