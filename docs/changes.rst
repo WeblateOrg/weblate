@@ -13,7 +13,7 @@ Released on August 22nd 2022.
 * Track add-on changes in a history.
 * Fixed parsing translation from Windows RC, HTML and text files.
 * Extended language code style configuration options.
-* Added support for pluralse updated in recent CLDR releases.
+* Added support for plurals updated in the recent CLDR releases.
 * Reduced memory usage while updating components with a lot of translations.
 * Added support for translation domain in SAP Translation Hub.
 * Allow absolute links in source string locations.
