@@ -63,7 +63,6 @@ class WeblateConf(AppConf):
     SENTRY_DSN = None
     SENTRY_SECURITY = None
     SENTRY_ENVIRONMENT = "devel"
-    SENTRY_ORGANIZATION = "weblate"
     SENTRY_TOKEN = None
     SENTRY_PROJECTS = ["weblate"]
     SENTRY_EXTRA_ARGS = {}
