@@ -3,6 +3,8 @@ Weblate 4.14.1
 
 Not yet released.
 
+* Fixed generating project backups in some situations.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 
 Weblate 4.14
