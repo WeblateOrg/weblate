@@ -208,7 +208,9 @@ def cleanup_session(session, delete_all: bool = False):
             del session[key]
 
 
-def search(base, project, unit_set, request, blank: bool = False):
+def search(
+    base, project, unit_set, request, blank: bool = False, use_cache: bool = False
+):
     """Perform search or returns cached search results."""
     # Possible new search
     form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
@@ -236,7 +238,8 @@ def search(base, project, unit_set, request, blank: bool = False):
     session_key = f"search_{base.cache_key}_{search_url}"
 
     if (
-        session_key in request.session
+        use_cache
+        and session_key in request.session
         and "offset" in request.GET
         and "items" in request.session[session_key]
     ):
@@ -267,7 +270,8 @@ def search(base, project, unit_set, request, blank: bool = False):
         "ids": unit_ids,
         "ttl": int(time.monotonic()) + 86400,
     }
-    request.session[session_key] = store_result
+    if use_cache:
+        request.session[session_key] = store_result
 
     search_result.update(store_result)
     return search_result
@@ -1001,7 +1005,7 @@ def delete_unit(request, unit_id):
 def browse(request, project, component, lang):
     """Strings browsing."""
     obj, project, unit_set = parse_params(request, project, component, lang)
-    search_result = search(obj, project, unit_set, request, blank=True)
+    search_result = search(obj, project, unit_set, request, blank=True, use_cache=False)
     offset = search_result["offset"]
     page = 20
     units = unit_set.prefetch_full().get_ordered(
