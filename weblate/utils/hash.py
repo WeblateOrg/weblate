@@ -34,7 +34,7 @@ def calculate_hash(*parts: str):
 
 def calculate_checksum(*parts: str):
     """Calculates siphashc checksum for given strings."""
-    return format(raw_hash(*parts), "x")
+    return format(raw_hash(*parts), "016x")
 
 
 def checksum_to_hash(checksum: str):
@@ -44,4 +44,4 @@ def checksum_to_hash(checksum: str):
 
 def hash_to_checksum(id_hash: int):
     """Converts id_hash (signed 64-bit int) to unsigned hex."""
-    return format(id_hash + 2**63, "x")
+    return format(id_hash + 2**63, "016x")
