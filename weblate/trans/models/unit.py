@@ -661,7 +661,7 @@ class Unit(models.Model, LoggerMixin):
             context = unit.context
             self.check_valid([context])
             note = unit.notes
-            previous_source = unit.previous_source
+            source_change = previous_source = unit.previous_source
         except DjangoDatabaseError:
             raise
         except Exception as error:
@@ -697,12 +697,13 @@ class Unit(models.Model, LoggerMixin):
             if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
                 if self.previous_source == source and self.fuzzy:
                     # Source change was reverted
+                    source_change = self.source
                     previous_source = ""
                     state = STATE_TRANSLATED
                 else:
                     # Store previous source and fuzzy flag for monolingual
                     if previous_source == "":
-                        previous_source = self.source
+                        source_change = previous_source = self.source
                     state = STATE_FUZZY
             elif (
                 self.state == STATE_FUZZY
@@ -777,12 +778,12 @@ class Unit(models.Model, LoggerMixin):
         if translation.is_template:
             component.updated_sources[self.id] = self
         # Indicate source string change
-        if not same_source and previous_source:
+        if not same_source and source_change:
             translation.update_changes.append(
                 Change(
                     unit=self,
                     action=Change.ACTION_SOURCE_CHANGE,
-                    old=previous_source,
+                    old=source_change,
                     target=self.source,
                 )
             )
