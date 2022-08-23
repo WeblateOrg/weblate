@@ -1451,6 +1451,17 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.notify_new(request)
         return result
 
+    def notify_deletion(self, unit, user):
+        self.change_set.create(
+            action=Change.ACTION_STRING_REMOVE,
+            user=user,
+            target=unit.target,
+            details={
+                "source": unit.source,
+                "target": unit.target,
+            },
+        )
+
     @transaction.atomic
     def delete_unit(self, request, unit):
         from weblate.auth.models import get_anonymous
@@ -1470,6 +1481,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 # Delete the removed unit from the database
                 cleanup_variants |= translation_unit.variant_id is not None
                 translation_unit.delete()
+                self.notify_deletion(translation_unit, user)
                 # Skip file processing on source language without a storage
                 if not self.filename:
                     continue
@@ -1495,6 +1507,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     source_unit = translation_unit.source_unit
                     if source_unit.source_unit.unit_set.count() == 1:
                         source_unit.delete()
+                        source_unit.translation.notify_deletion(source_unit, user)
 
             if self.is_source and unit.position and not component.has_template():
                 # Adjust position is source language
