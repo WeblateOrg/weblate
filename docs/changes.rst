@@ -7,6 +7,7 @@ Not yet released.
 * Improved error reporting on file upload.
 * Fetch all user verified e-mails from GitHub during authentication.
 * Avoid matching glossary terms on context or keys.
+* Added notifications for string removals.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 
@@ -28,7 +29,6 @@ Released on August 22nd 2022.
 * Improved reliability of HTML and text files translation.
 * Added support for project level backups.
 * Improved performance and memory usage of translation memory lookups.
-* Added notifications for string removals.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
 
