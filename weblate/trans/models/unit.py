@@ -695,7 +695,7 @@ class Unit(models.Model, LoggerMixin):
             and same_target
         ):
             if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
-                if self.previous_source == self.source and self.fuzzy:
+                if self.previous_source == source and self.fuzzy:
                     # Source change was reverted
                     previous_source = ""
                     state = STATE_TRANSLATED
