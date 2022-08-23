@@ -705,6 +705,7 @@ class Unit(models.Model, LoggerMixin):
                     if previous_source == "":
                         source_change = previous_source = self.source
                     state = STATE_FUZZY
+                self.pending = True
             elif (
                 self.state == STATE_FUZZY
                 and state == STATE_FUZZY
