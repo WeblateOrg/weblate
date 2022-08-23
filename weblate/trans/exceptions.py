@@ -39,3 +39,7 @@ class InvalidTemplate(WeblateError):
     def __init__(self, nested, message=None):
         super().__init__(message or f"Template file can not be parsed: {nested}")
         self.nested = nested
+
+
+class FailedCommitError(WeblateError):
+    """Failed to commit file."""

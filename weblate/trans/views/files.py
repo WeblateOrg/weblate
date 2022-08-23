@@ -26,7 +26,7 @@ from django.utils.translation import ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.exceptions import PluralFormsMismatch
+from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatch
 from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.trans.models import ComponentList, Translation
 from weblate.utils import messages
@@ -208,6 +208,9 @@ def upload_translation(request, project, component, lang):
             request,
             _("Plural forms in the uploaded file do not match current translation."),
         )
+    except FailedCommitError as error:
+        messages.error(request, str(error))
+        report_error(cause="Upload error")
     except Exception as error:
         messages.error(
             request,

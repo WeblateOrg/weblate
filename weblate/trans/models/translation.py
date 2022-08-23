@@ -40,7 +40,11 @@ from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
-from weblate.trans.exceptions import FileParseError, PluralFormsMismatch
+from weblate.trans.exceptions import (
+    FailedCommitError,
+    FileParseError,
+    PluralFormsMismatch,
+)
 from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
@@ -969,7 +973,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         filenames = []
         with component.repository.lock:
             # Commit pending changes
-            component.commit_pending("source update", request.user)
+            try:
+                component.commit_pending("source update", request.user)
+            except Exception as error:
+                raise FailedCommitError(
+                    _("Failed to commit pending changes: %s")
+                    % str(error).replace(self.component.full_path, "")
+                )
 
             # Create actual file with the uploaded content
             temp = tempfile.NamedTemporaryFile(
@@ -1042,10 +1052,16 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         fileobj.close()
         fileobj = BytesIOMode(fileobj.name, filecopy)
         with self.component.repository.lock:
-            if self.is_source:
-                self.component.commit_pending("replace file", request.user)
-            else:
-                self.commit_pending("replace file", request.user)
+            try:
+                if self.is_source:
+                    self.component.commit_pending("replace file", request.user)
+                else:
+                    self.commit_pending("replace file", request.user)
+            except Exception as error:
+                raise FailedCommitError(
+                    _("Failed to commit pending changes: %s")
+                    % str(error).replace(self.component.full_path, "")
+                )
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
             store2.check_valid()
@@ -1161,7 +1177,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             # Commit pending changes in template
             if component.has_template():
-                component.source_translation.commit_pending("upload", request.user)
+                try:
+                    component.source_translation.commit_pending("upload", request.user)
+                except Exception as error:
+                    raise FailedCommitError(
+                        _("Failed to commit pending changes: %s")
+                        % str(error).replace(self.component.full_path, "")
+                    )
 
             # Load backend file
             if method == "add" and self.is_template:

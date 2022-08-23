@@ -4,6 +4,7 @@ Weblate 4.14.1
 Not yet released.
 
 * Fixed generating project backups in some situations.
+* Improved error reporting on file upload.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 
