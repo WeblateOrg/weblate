@@ -209,7 +209,7 @@ def cleanup_session(session, delete_all: bool = False):
 
 
 def search(
-    base, project, unit_set, request, blank: bool = False, use_cache: bool = False
+    base, project, unit_set, request, blank: bool = False, use_cache: bool = True
 ):
     """Perform search or returns cached search results."""
     # Possible new search
