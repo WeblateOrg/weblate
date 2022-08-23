@@ -591,6 +591,12 @@ class RegistrationTest(BaseRegistrationTest):
             "https://api.github.com/user/emails",
             json=[
                 {
+                    "email": "noreply@users.noreply.github.com",
+                    "verified": True,
+                    "primary": False,
+                    "visibility": "public",
+                },
+                {
                     "email": "noreply2@example.org",
                     "verified": False,
                     "primary": False,
@@ -634,6 +640,14 @@ class RegistrationTest(BaseRegistrationTest):
         user = User.objects.get(username="weblate")
         self.assertEqual(user.full_name, "Test Weblate Name")
         self.assertEqual(user.email, "noreply-weblate@example.org")
+        self.assertEqual(
+            set(
+                VerifiedEmail.objects.filter(social__user=user).values_list(
+                    "email", flat=True
+                )
+            ),
+            {"noreply-other@example.org", "noreply-weblate@example.org"},
+        )
 
     def test_github_existing(self):
         """Adding GitHub association to existing account."""

@@ -5,6 +5,7 @@ Not yet released.
 
 * Fixed generating project backups in some situations.
 * Improved error reporting on file upload.
+* Fetch all user verified e-mails from GitHub during authentication.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 

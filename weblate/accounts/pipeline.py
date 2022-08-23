@@ -56,7 +56,7 @@ class EmailAlreadyAssociated(AuthAlreadyAssociated):
     pass
 
 
-def get_github_email(access_token):
+def get_github_emails(access_token):
     """Get real e-mail from GitHub."""
     response = request(
         "get",
@@ -67,6 +67,8 @@ def get_github_email(access_token):
     data = response.json()
     email = None
     primary = None
+    public = None
+    emails = []
     for entry in data:
         # Skip noreply e-mail
         if entry["email"].endswith("@users.noreply.github.com"):
@@ -74,15 +76,15 @@ def get_github_email(access_token):
         # Skip not verified ones
         if not entry["verified"]:
             continue
+        emails.append(entry["email"])
         if entry.get("visibility") == "public":
             # There is just one public mail, prefer it
-            return entry["email"]
+            public = entry["email"]
+            continue
         email = entry["email"]
         if entry["primary"]:
             primary = entry["email"]
-    if primary:
-        return primary
-    return email
+    return public or primary or email, emails
 
 
 @partial
@@ -108,7 +110,8 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action, **kwarg
 def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
     """Force entering e-mail for backends which don't provide it."""
     if backend.name == "github":
-        email = get_github_email(kwargs["response"]["access_token"])
+        email, emails = get_github_emails(kwargs["response"]["access_token"])
+        details["verified_emails"] = emails
         if email is not None:
             details["email"] = email
 
@@ -371,7 +374,14 @@ def ensure_valid(
 def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified e-mail."""
     # The email can be empty for some services
-    if details.get("email"):
+    if details.get("verified_emails"):
+        current = set(details["verified_emails"])
+        existing = set(social.verifiedemail_set.values_list("email", flat=True))
+        for remove in existing - current:
+            social.verifiedemail_set.filter(email=remove).delete()
+        for add in current - existing:
+            social.verifiedemail_set.create(email=add)
+    elif details.get("email"):
         verified, created = VerifiedEmail.objects.get_or_create(
             social=social, defaults={"email": details["email"]}
         )
