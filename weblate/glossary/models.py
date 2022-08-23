@@ -77,7 +77,7 @@ def get_glossary_terms(unit):
 
     # Build complete source for matching
     parts = []
-    for text in unit.get_source_plurals() + [unit.context]:
+    for text in unit.get_source_plurals():
         text = text.lower().strip()
         if text:
             parts.append(text)
