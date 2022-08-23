@@ -408,6 +408,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_SOURCE_CHANGE,
     }
 
     # Actions shown on the repository management page
