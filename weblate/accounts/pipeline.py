@@ -68,6 +68,9 @@ def get_github_email(access_token):
     email = None
     primary = None
     for entry in data:
+        # Skip noreply e-mail
+        if entry["email"].endswith("@users.noreply.github.com"):
+            continue
         # Skip not verified ones
         if not entry["verified"]:
             continue
@@ -108,9 +111,6 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
         email = get_github_email(kwargs["response"]["access_token"])
         if email is not None:
             details["email"] = email
-        details_email = details.get("email") or ""
-        if details_email.endswith("@users.noreply.github.com"):
-            del details["email"]
 
     # Remove any pending e-mail validation codes
     if details.get("email") and backend.name == "email":
