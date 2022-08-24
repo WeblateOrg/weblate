@@ -39,7 +39,7 @@ from django.views.generic.edit import FormMixin
 
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
-from weblate.auth.forms import AdminInviteUserForm
+from weblate.auth.forms import AdminGroupForm, AdminInviteUserForm
 from weblate.auth.models import Group, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
@@ -504,6 +504,7 @@ class GroupListView(FormMixin, ListView):
     template_name = "manage/groups.html"
     paginate_by = 50
     model = Group
+    form_class = AdminGroupForm
 
     def get_queryset(self):
         return (
@@ -519,9 +520,6 @@ class GroupListView(FormMixin, ListView):
         result["menu_items"] = MENU
         result["menu_page"] = "groups"
         return result
-
-    def get_form_class(self):
-        return GroupUpdateView().get_form_class()
 
     def get_success_url(self):
         return reverse("manage-groups")
@@ -540,15 +538,7 @@ class GroupListView(FormMixin, ListView):
 
 class GroupUpdateView(UpdateView):
     model = Group
-    fields = [
-        "name",
-        "roles",
-        "project_selection",
-        "projects",
-        "componentlists",
-        "language_selection",
-        "languages",
-    ]
+    form_class = AdminGroupForm
     template_name = "manage/group.html"
 
     def get_success_url(self):
