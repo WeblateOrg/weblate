@@ -4,6 +4,7 @@
 {% load crispy_forms_tags %}
 {% load permissions %}
 {% load icons %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -146,6 +147,7 @@
           <th>{% trans "Name" %}</th>
           <th>{% trans "Roles" %}</th>
           <th>{% trans "Languages" %}</th>
+          <th>{% trans "Members" %}</th>
           <th></th>
         </tr>
       </thead>
@@ -171,6 +173,7 @@
               {% endfor %}
             {% endif %}
           </td>
+          <td class="number">{{ group.user__count|intcomma }}</td>
           <td>
             <a href="#" data-toggle="modal" data-target="#edit_group_{{ group.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
               {% icon 'pencil.svg' %}
@@ -190,6 +193,9 @@
                     </div>
                     <div class="modal-body" id="delete_group_body_{{ group.id }}">
                       {% blocktrans with name=group.name %}This will delete the team <b>{{ name }}</b> from this project.{% endblocktrans %}
+                      {% if group.user__count %}
+                        {% blocktrans count count=group.user__count %}There is {{count}} member of this team. Deleting the team might affect their access to the project.{% plural %}There are {{count}} members of this team. Deleting the team might affect their access to the project.{% endblocktrans %}
+                      {% endif %}
                     </div>
                     <div class="modal-footer">
                       <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />

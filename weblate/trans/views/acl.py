@@ -22,7 +22,7 @@ from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models import Prefetch
+from django.db.models import Count, Prefetch
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -265,7 +265,7 @@ def manage_access(request, project):
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
-    groups = obj.defined_groups.order()
+    groups = obj.defined_groups.order().annotate(Count("user"))
     for group in groups:
         group.edit_form = SimpleGroupForm(
             instance=group, auto_id=f"id_group_{group.id}_%s"

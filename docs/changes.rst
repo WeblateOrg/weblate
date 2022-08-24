@@ -9,6 +9,7 @@ Not yet released.
 * Avoid matching glossary terms on context or keys.
 * Added notifications for string removals.
 * Improved management of untranslatable terms in glossary.
+* List number of team members on team management page.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 
