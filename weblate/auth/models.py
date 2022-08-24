@@ -630,22 +630,16 @@ class User(AbstractBaseUser):
         groups = Group.objects.filter(user=self, roles__permissions__codename=perm)
         return Project.objects.filter(group__in=groups).distinct().order()
 
-    def get_visible_name(self):
-        # Get full name from database or username
+    def get_visible_name(self) -> str:
+        """Get full name from database or username."""
         result = self.full_name or self.username
-        return result.replace("<", "").replace(">", "").replace('"', "")
-
-    def get_author_name(self, email=True):
-        """Return formatted author name with e-mail."""
         # The < > are replace to avoid tricking Git to use
         # name as e-mail
+        return result.replace("<", "").replace(">", "").replace('"', "")
 
-        full_name = self.get_visible_name()
-
-        # Add e-mail if we are asked for it
-        if not email:
-            return full_name
-        return f"{full_name} <{self.email}>"
+    def get_author_name(self) -> str:
+        """Return formatted author name with e-mail."""
+        return f"{self.get_visible_name()} <{self.email}>"
 
 
 class AutoGroup(models.Model):

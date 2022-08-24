@@ -557,13 +557,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self.revision = self.get_git_blob_hash()
         self.save(update_fields=["revision"])
 
-    def get_last_author(self, email=False):
+    def get_last_author(self):
         """Return last author of change done in Weblate."""
         if not self.stats.last_author:
             return None
         from weblate.auth.models import User
 
-        return User.objects.get(pk=self.stats.last_author).get_author_name(email)
+        return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
     @transaction.atomic
     def commit_pending(

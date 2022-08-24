@@ -206,7 +206,7 @@ class Billing(models.Model):
         if projects:
             base = projects
         elif owners:
-            base = ", ".join(x.get_author_name(False) for x in owners)
+            base = ", ".join(x.get_visible_name() for x in owners)
         else:
             base = "Unassigned"
         trial = ", trial" if self.is_trial else ""
