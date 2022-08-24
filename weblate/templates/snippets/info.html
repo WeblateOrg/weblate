@@ -307,7 +307,7 @@
       <td class="number">{{ stats.source_chars|intcomma }}</td>
       </tr>
       {% endif %}
-      {% if stats.approved %}
+      {% if stats.has_review %}
       <tr>
       <th>{% trans "Approved" context "Number of strings" %}</th>
       <td class="number">{{ stats.approved_percent|percent_format }}</td>
