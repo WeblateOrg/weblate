@@ -379,3 +379,14 @@ class AdminTest(ViewTestCase):
 
         response = self.client.get(url)
         self.assertNotContains(response, name)
+
+    def test_edit_internal_group(self):
+        response = self.client.post(
+            reverse("manage-group", kwargs={"pk": Group.objects.get(name="Users").pk}),
+            {
+                "name": "Other",
+                "language_selection": "1",
+                "project_selection": "1",
+            },
+        )
+        self.assertContains(response, "prohibited for built-in groups")

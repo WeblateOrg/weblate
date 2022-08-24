@@ -21,7 +21,9 @@ import social_core.backends.utils
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.http import HttpRequest
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from social_core.backends.email import EmailAuth
 from social_django.views import complete
@@ -140,10 +142,32 @@ class SimpleGroupForm(forms.ModelForm):
         model = Group
         fields = ["name", "roles", "language_selection", "languages"]
 
+    internal_fields = [
+        "name",
+        "project_selection",
+        "language_selection",
+    ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+    def clean(self):
+        super().clean()
+        if self.instance.internal:
+            for field in self.internal_fields:
+                if field in self.cleaned_data and self.cleaned_data[field] != getattr(
+                    self.instance, field
+                ):
+                    raise ValidationError(
+                        {
+                            field: gettext(
+                                "Changing of %s is prohibited for built-in groups."
+                            )
+                            % field
+                        }
+                    )
 
     def save(self, commit=True, project=None):
         if not commit:
