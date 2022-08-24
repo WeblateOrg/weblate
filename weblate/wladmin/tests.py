@@ -364,13 +364,19 @@ class AdminTest(ViewTestCase):
                 "name": name,
                 "language_selection": "1",
                 "project_selection": "1",
+                "autogroup_set-TOTAL_FORMS": "1",
+                "autogroup_set-INITIAL_FORMS": "0",
+                "autogroup_set-0-match": "^.*$",
             },
         )
         self.assertRedirects(response, url)
+        group = Group.objects.get(name=name)
+
+        self.assertEqual(group.autogroup_set.count(), 1)
 
         # Delete
         response = self.client.post(
-            reverse("manage-group", kwargs={"pk": Group.objects.get(name=name).pk}),
+            reverse("manage-group", kwargs={"pk": group.pk}),
             {
                 "delete": 1,
             },

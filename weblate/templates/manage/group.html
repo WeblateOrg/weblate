@@ -16,7 +16,30 @@
 
 <form method="POST">
 {% csrf_token %}
-{{ form | crispy }}
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#basic" role="tab" data-toggle="tab">{% trans "Settings" %}</a></li>
+  <li role="presentation"><a href="#auto" role="tab" data-toggle="tab">{% trans "Automatic assignments" %}</a></li>
+  <li role="presentation"><a href="#users" role="tab" data-toggle="tab">{% trans "Members" %}</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="basic">
+    {{ form | crispy }}
+  </div>
+  <div class="tab-pane" id="auto">
+    {{ auto_formset | crispy }}
+    <div class="multiFieldEmpty hidden">
+      {{ auto_formset.empty_form | crispy }}
+    </div>
+    <button class="btn btn-info add-multifield" data-prefix="autogroup_set">{% trans "Add automatic assignment" %}</button>
+    <br/>
+    <br/>
+    <br/>
+  </div>
+  <div class="tab-pane" id="users">
+  </div>
+</div>
+
 <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </form>
 

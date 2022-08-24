@@ -1153,6 +1153,38 @@ $(function () {
     });
   });
 
+  /* forset fields adding */
+  $(".add-multifield").on("click", function () {
+    const updateElementIndex = function (el, prefix, ndx) {
+      const id_regex = new RegExp("(" + prefix + "-(\\d+|__prefix__))");
+      const replacement = prefix + "-" + ndx;
+      if ($(el).prop("for")) {
+        $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
+      }
+      if (el.id) {
+        el.id = el.id.replace(id_regex, replacement);
+      }
+      if (el.name) {
+        el.name = el.name.replace(id_regex, replacement);
+      }
+    };
+    var $this = $(this);
+    var $form = $this.parents("form");
+    var prefix = $this.data("prefix");
+    var blank = $form.find(".multiFieldEmpty");
+    var row = blank.clone();
+    var totalForms = $("#id_" + prefix + "-TOTAL_FORMS");
+    row.removeClass(["multiFieldEmpty", "hidden"]).addClass("multiField");
+    row.find("*").each(function () {
+      updateElementIndex(this, prefix, totalForms.val());
+    });
+
+    row.insertBefore(blank);
+    totalForms.val(parseInt(totalForms.val(), 10) + 1);
+
+    return false;
+  });
+
   /* Textarea highlighting */
   Prism.languages.none = {};
   initHighlight(document);

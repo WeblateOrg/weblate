@@ -108,3 +108,8 @@ class AppearanceForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+
+class ChangedCharField(forms.CharField):
+    def has_changed(self, initial, data):
+        return True
