@@ -1406,6 +1406,9 @@ class Unit(models.Model, LoggerMixin):
     def all_flags(self):
         return self.get_all_flags()
 
+    def get_unit_flags(self):
+        return Flags(self.extra_flags)
+
     @cached_property
     def edit_mode(self):
         """Returns syntax highlighting mode for Prismjs."""
@@ -1541,7 +1544,7 @@ class Unit(models.Model, LoggerMixin):
         translation = self.translation
         component = translation.component
         result = []
-        if self.is_source or component.is_glossary:
+        if self.is_source:
             if "read-only" in flags:
                 if (
                     "read-only" not in translation.all_flags
@@ -1553,6 +1556,14 @@ class Unit(models.Model, LoggerMixin):
             else:
                 result.append(("addflag", "read-only", gettext("Mark as read-only")))
         if component.is_glossary:
+            if "read-only" in self.source_unit.get_unit_flags():
+                result.append(
+                    ("removeflag", "read-only", gettext("Unmark as untranslatable"))
+                )
+            else:
+                result.append(
+                    ("addflag", "read-only", gettext("Mark as untranslatable"))
+                )
             if "forbidden" in flags:
                 result.append(
                     (
