@@ -135,7 +135,9 @@ class WeblateAuthAdmin(WeblateModelAdmin):
         perms_needed.discard("Audit log entry")
         perms_needed.discard("verified_email")
         perms_needed.discard("verified email")
+        perms_needed.discard("verified e-mail")
         perms_needed.discard("Verified email")
+        perms_needed.discard("Verified e-mail")
         return deleted_objects, model_count, perms_needed, protected
 
 
