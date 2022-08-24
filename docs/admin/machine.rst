@@ -212,7 +212,7 @@ Machine translation service provided by Google Cloud services.
 .. seealso::
 
     `Google translate documentation <https://cloud.google.com/translate/docs>`_,
-    `Getting started with authentication on Google Cloud <https://cloud.google.com/docs/authentication/getting-started>`_,
+    `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_,
     `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_,
     `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/locations>`_
 
