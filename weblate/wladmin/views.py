@@ -510,6 +510,7 @@ class GroupListView(FormMixin, ListView):
         return (
             super()
             .get_queryset()
+            .prefetch_related("languages", "projects")
             .filter(defining_project=None)
             .annotate(Count("user"))
             .order()

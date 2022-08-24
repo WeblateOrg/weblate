@@ -265,7 +265,9 @@ def manage_access(request, project):
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
-    groups = obj.defined_groups.order().annotate(Count("user"))
+    groups = (
+        obj.defined_groups.order().annotate(Count("user")).prefetch_related("languages")
+    )
     for group in groups:
         group.edit_form = SimpleGroupForm(
             instance=group, auto_id=f"id_group_{group.id}_%s"
