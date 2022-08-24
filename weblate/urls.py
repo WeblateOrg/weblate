@@ -1002,6 +1002,16 @@ real_patterns = [
         name="manage-users",
     ),
     path(
+        "manage/groups/",
+        weblate.wladmin.views.GroupListView.as_view(),
+        name="manage-groups",
+    ),
+    path(
+        "manage/groups/<int:pk>/",
+        weblate.wladmin.views.GroupUpdateView.as_view(),
+        name="manage-group",
+    ),
+    path(
         "manage/users/check/",
         weblate.wladmin.views.users_check,
         name="manage-users-check",

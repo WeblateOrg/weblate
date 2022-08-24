@@ -337,3 +337,45 @@ class AdminTest(ViewTestCase):
         response = self.client.get(url)
         self.assertContains(response, "Automatic group assignment")
         self.assertContains(response, name)
+
+    def test_groups(self):
+        name = "Test group"
+        url = reverse("manage-groups")
+        response = self.client.get(url)
+        self.assertNotContains(response, name)
+
+        # Create
+        response = self.client.post(
+            reverse("manage-groups"),
+            {
+                "name": name,
+                "language_selection": "1",
+                "project_selection": "1",
+            },
+        )
+        self.assertRedirects(response, url)
+        response = self.client.get(url)
+        self.assertContains(response, name)
+
+        # Edit
+        response = self.client.post(
+            reverse("manage-group", kwargs={"pk": Group.objects.get(name=name).pk}),
+            {
+                "name": name,
+                "language_selection": "1",
+                "project_selection": "1",
+            },
+        )
+        self.assertRedirects(response, url)
+
+        # Delete
+        response = self.client.post(
+            reverse("manage-group", kwargs={"pk": Group.objects.get(name=name).pk}),
+            {
+                "delete": 1,
+            },
+        )
+        self.assertRedirects(response, url)
+
+        response = self.client.get(url)
+        self.assertNotContains(response, name)

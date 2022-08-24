@@ -10,6 +10,7 @@ Not yet released.
 * Added notifications for string removals.
 * Improved management of untranslatable terms in glossary.
 * List number of team members on team management page.
+* Add group management interface.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 

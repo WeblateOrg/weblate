@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-groups' %}">{% trans "Groups" %}</a></li>
+<li><a href="{% url 'manage-group' pk=object.pk %}">{{ object.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+{% csrf_token %}
+{{ form | crispy }}
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+</form>
+
+{% endblock %}

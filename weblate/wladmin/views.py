@@ -25,19 +25,22 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
+from django.views.generic import ListView, UpdateView
+from django.views.generic.edit import FormMixin
 
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
@@ -79,6 +82,7 @@ MENU = (
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
+    ("groups", "manage-groups", gettext_lazy("Groups")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
@@ -493,3 +497,73 @@ def billing(request):
             "pending": pending,
         },
     )
+
+
+@method_decorator(management_access, name="dispatch")
+class GroupListView(FormMixin, ListView):
+    template_name = "manage/groups.html"
+    paginate_by = 50
+    model = Group
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .filter(defining_project=None)
+            .annotate(Count("user"))
+            .order()
+        )
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["menu_items"] = MENU
+        result["menu_page"] = "groups"
+        return result
+
+    def get_form_class(self):
+        return GroupUpdateView().get_form_class()
+
+    def get_success_url(self):
+        return reverse("manage-groups")
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+class GroupUpdateView(UpdateView):
+    model = Group
+    fields = [
+        "name",
+        "roles",
+        "project_selection",
+        "projects",
+        "componentlists",
+        "language_selection",
+        "languages",
+    ]
+    template_name = "manage/group.html"
+
+    def get_success_url(self):
+        return reverse("manage-groups")
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["menu_items"] = MENU
+        result["menu_page"] = "groups"
+        return result
+
+    def post(self, request, **kwargs):
+        if "delete" in request.POST:
+            success_url = self.get_success_url()
+            self.object = self.get_object()
+            self.object.delete()
+            return HttpResponseRedirect(success_url)
+        return super().post(request, **kwargs)
