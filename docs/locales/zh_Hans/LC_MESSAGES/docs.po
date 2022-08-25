@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-19 19:13+0200\n"
-"PO-Revision-Date: 2022-08-24 06:15+0000\n"
+"PO-Revision-Date: 2022-08-26 06:36+0000\n"
 "Last-Translator: Yang Yulin <yylteam@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -1533,7 +1533,7 @@ msgstr "``组件:TEXT``"
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
-msgstr "输入要用作来源的部件的标识串，留空则使用当前项目中的所有部件。"
+msgstr "输入要用作来源的部件的标识符，留空则使用当前项目中的所有部件。"
 
 #: ../../admin/addons.rst:62
 #, fuzzy
@@ -18621,9 +18621,9 @@ msgid ""
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
 "每个人可以默认添加建议，由登录用户来接受。当超过一名登录用户同意时，建议投票"
-"结果可以使用字符串，通过 :guilabel:`Suggestion voting` 设置 :ref:"
-"`component`，来打开投票，并且通过 :guilabel:`Autoaccept suggestions` 来设置接"
-"受建议的阈值（如果投票的话，这也包括来自提出建议的用户的投票）。"
+"结果可以使用字符串，通过 :guilabel:`建议投票` 设置 "
+":ref:`component`，来打开投票，并且通过 :guilabel:`自动接受建议` "
+"来设置接受建议的阈值（如果投票的话，这也包括来自提出建议的用户的投票）。"
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -18632,17 +18632,14 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are enforced` :ref:"
 "`permission <privileges>`."
 msgstr ""
-"一旦设置了自动接受，普通用户会失去直接保存翻译或接受建议的权限。要绕过这一"
-"点，可以通过 :guilabel:`当建议强制时编辑字符串` :ref:`permission "
-"<privileges>`。"
+"一旦设置了自动接受，普通用户会失去直接保存翻译或接受建议的权限。要绕过这一点"
+"，可以通过设置 :guilabel:`当建议强制时编辑字符串` :ref:`权限 <privileges>`。"
 
 #: ../../admin/translating.rst:23
 msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
-msgstr ""
-"您可以将这些与 :ref:`access control <access-control>` 结合起来，形成下列设置"
-"之一："
+msgstr "您可以将这些与 :ref:`访问控制 <access-control>` 结合起来，形成下列设置之一："
 
 #: ../../admin/translating.rst:26
 msgid ""
@@ -18718,7 +18715,7 @@ msgstr ":ref:`checks`"
 msgid ""
 "Previously called :guilabel:`Quality checks flags`, it no longer configures "
 "only checks."
-msgstr "之前被称为 :guilabel:`Quality checks flags`，它不再只配置检查了。"
+msgstr "之前被称为 :guilabel:`质量检查标记`，它不再只配置检查了。"
 
 #: ../../admin/translating.rst:85
 msgid ""
@@ -18735,7 +18732,7 @@ msgstr "解释"
 
 #: ../../admin/translating.rst:101
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr "在以前的版本中这被称为 :guilabel:`Extra context`。"
+msgstr "在以前的版本中这被称为 :guilabel:`额外上下文`。"
 
 #: ../../admin/translating.rst:103
 msgid ""
@@ -18768,7 +18765,7 @@ msgid ""
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
-"除了 :ref:`additional`，截图在 :guilabel:`Tools` 菜单下有个单独的管理界面。上"
+"除了 :ref:`additional`，截图在 :guilabel:`工具` 菜单下有个单独的管理界面。上"
 "传截图，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行。"
 
 #: ../../admin/translating.rst:126
@@ -19531,8 +19528,8 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
-"API 可以在 ``/api/`` URL上访问，并且它基于 `Django REST framework <https://"
-"www.django-rest-framework.org/>`_。你可以直接使用或参考 :ref:`wlc`。"
+"API 可以在 ``/api/`` URL上访问，并且它基于 `Django REST 框架 <https://www."
+"django-rest-framework.org/>`_ 。你可以直接使用或参考 :ref:`wlc`。"
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
@@ -20347,7 +20344,7 @@ msgstr "返回项目的信息。"
 #: ../../api.rst:1923 ../../api.rst:1934 ../../api.rst:1962 ../../api.rst:1975
 #: ../../api.rst:1990
 msgid "Project URL slug"
-msgstr "项目 URL 标识串"
+msgstr "项目 URL 标识符"
 
 #: ../../api.rst:820
 msgid "project name"
@@ -20418,7 +20415,7 @@ msgstr "通过 :http:method:`PATCH` 请求来编辑一个项目。"
 #: ../../api.rst:1878 ../../api.rst:1897 ../../api.rst:1925 ../../api.rst:1936
 #: ../../api.rst:1964 ../../api.rst:1977 ../../api.rst:1992
 msgid "Component URL slug"
-msgstr "部件 URL 标识串"
+msgstr "部件 URL 标识符"
 
 #: ../../api.rst:860
 msgid "Edit a project by a :http:method:`PUT` request."
@@ -25043,7 +25040,7 @@ msgstr "修复了单复数形式语言中没有进行相同的复数检查。"
 
 #: ../../changes.rst:897
 msgid "Fixed regex search on some fields."
-msgstr "修复了相同字段的 regex 搜索。"
+msgstr "修复了某些字段上的正则表达式搜索。"
 
 #: ../../changes.rst:900
 msgid "Weblate 3.10.1"
@@ -29054,8 +29051,8 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
-"程序缺陷可以表现为应用崩溃或各种不正常行为。欢迎您搜集任何这类问题的信息，并"
-"将其提交给 `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_。"
+"程序缺陷可以表现为应用崩溃或各种不正常行为。欢迎您搜集任何这类问题的信息，"
+"并将其提交给 `问题跟踪器 <https://github.com/WeblateOrg/weblate/issues>`_ 。"
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -30005,7 +30002,7 @@ msgstr "然后您可以在仓库签出中执行测试套件:"
 
 #: ../../contributing/modules.rst:34
 msgid "The CI integration is very similar to :doc:`tests`."
-msgstr "CI 集成与:doc:`tests`非常相似。"
+msgstr "CI 集成与 :doc:`tests` 非常相似。"
 
 #: ../../contributing/modules.rst:40
 #, fuzzy
@@ -31596,7 +31593,7 @@ msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`gettext PO file`"
-msgstr "选择 :guilabel:`gettext PO file`"
+msgstr "选择 :guilabel:`gettext PO 文件`"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -32320,8 +32317,7 @@ msgstr "活动报告检查项目、部件或独立用户的翻译的更改。"
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
-msgstr ""
-"一个项目或部件的活动报告可以从其操作面板上的 :guilabel:`Info` 选项卡中获取。"
+msgstr "一个项目或部件的活动报告可以从其操作面板上的 :guilabel:`信息` 选项卡中获取。"
 
 #: ../../devel/review.rst:18
 msgid ""
@@ -32473,8 +32469,8 @@ msgid ""
 "and link it from main project as a translation."
 msgstr ""
 "如果使用 Read the Docs 服务，那么可以在 Read the Docs 上开始构建翻译的文档。"
-"它们的 :doc:`rtd:localization` 几乎覆盖了您需要的每一件事——创建另一个项目，设"
-"置其语言以及从主项目上链接它作为翻译。"
+"它们的 :doc:`文档本地化 <rtd:localization>` 几乎覆盖了您需要的每一件事——创建"
+"另一个项目，设置其语言以及从主项目上链接它作为翻译。"
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -32871,8 +32867,8 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
-"可以从每个项目、组件或语言的菜单 :guilabel:`Manage` ↓ :guilabel:`Removal` 中"
-"删除语言、组件或它们所在的项目（如果使用，则从 Weblate 和远程仓库中删除）。"
+"可以从每个项目、组件或语言的菜单 :guilabel:`管理` ↓ :guilabel:`移除` "
+"中删除语言、组件或它们所在的项目（如果使用，则从 Weblate 和远程仓库中删除）。"
 
 #: ../../devel/translations.rst:39
 msgid ""
@@ -32881,8 +32877,8 @@ msgid ""
 "`slug` is the project's, language's, or component's pathname as it can be "
 "seen in the URL."
 msgstr ""
-"启动 :guilabel:`Removal` 操作会显示要删除的组件列表。您必须输入对象的 `slug` "
-"以确认删除。 `slug` 是项目、语言或组件的路径名，可以在 URL 中看到。"
+"启动 :guilabel:`移除` 操作会显示要删除的组件列表。您必须输入对象的 `标识符` "
+"以确认删除。 `标识符` 是项目、语言或组件的路径名，可以在 URL 中看到。"
 
 #: ../../devel/translations.rst:43
 msgid ""
@@ -35981,7 +35977,7 @@ msgstr "设置说明："
 
 #: ../../../README.rst:50
 msgid "https://docs.weblate.org/en/latest/admin/install.html"
-msgstr "https://docs.weblate.org/en/latest/admin/install.html"
+msgstr "https://docs.weblate.org/zh_CN/latest/admin/install.html"
 
 #: ../../../README.rst:53
 msgid "Bugs"
@@ -40782,11 +40778,11 @@ msgid ""
 "pushing). Depending on service and your organization settings, this happens "
 "immediately, or requires confirmation on the Weblate side."
 msgstr ""
-"对于 Hosted Weblate，有一个在 GitHub、Bitbucket、Codeberg 和 GitLab 上注册的"
-"专用推送用户（用户名 :guilabel:`weblate`，电子邮件 ``hosted@weblate.org`` "
-"和，名为 :guilabel:`Weblate push 用户`）。您需要将此用户添加为协作者并为其授"
-"予对您的仓库的适当权限（克隆可以只读，推送需要写入）。根据服务和您的组织设"
-"置，这会立即发生，或者需要在 Weblate 端进行确认。"
+"对于 Hosted Weblate，有一个在 GitHub、Bitbucket、Codeberg 和 GitLab "
+"上注册的专用推送用户（用户名 :guilabel:`weblate`，电子邮件 ``hosted@weblate."
+"org`` 和，名为 :guilabel:`Weblate 推送用户`）。您需要将此用户添加为协作者并为"
+"其授予对您的仓库的适当权限（克隆可以只读，推送需要写入）。根据服务和您的组织"
+"设置，这会立即发生，或者需要在 Weblate 端进行确认。"
 
 #: ../../vcs.rst:34
 msgid ""
@@ -41902,7 +41898,7 @@ msgid ""
 "user that has a :guilabel:`Translate` permission for the project."
 msgstr ""
 "在以下各章中，*任何用户* 都是指有权访问翻译的用户。如果项目是公共项目，则可以"
-"是任何经过身份验证的用户，也可以是具有项目 :guilabel:`Translate` 权限的用户。"
+"是任何经过身份验证的用户，也可以是具有项目 :guilabel:`翻译` 权限的用户。"
 
 #: ../../workflows.rst:30
 msgid "Each translated string can be in one of following states:"
@@ -42032,7 +42028,7 @@ msgstr "翻译者群组"
 
 #: ../../workflows.rst:86 ../../workflows.rst:118 ../../workflows.rst:155
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
-msgstr "或者通过 :ref:`per-project access control <manage-acl>` 进行 `翻译`。"
+msgstr "或者通过 :ref:`每个项目的访问控制 <manage-acl>` 进行 `翻译` 。"
 
 #: ../../workflows.rst:90 ../../workflows.rst:122 ../../workflows.rst:159
 msgid "Reviewers group"
@@ -42113,7 +42109,7 @@ msgstr "建议还可以用于建议更改已核准的字符串。"
 
 #: ../../workflows.rst:159
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "或使用 :ref:`per-project access control <manage-acl>` 进行 `Review`."
+msgstr "或使用 :ref:`每个项目的访问控制 <manage-acl>` 进行 `审校` 。"
 
 #: ../../workflows.rst:165
 msgid "Turning on reviews"
