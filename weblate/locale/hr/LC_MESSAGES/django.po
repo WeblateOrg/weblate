@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-19 17:12+0000\n"
-"PO-Revision-Date: 2022-08-17 05:22+0000\n"
+"PO-Revision-Date: 2022-08-26 06:36+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -3713,12 +3713,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Nula/jedan/nekoliko/mnogo/ostalo"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Jedan/nekoliko/mnogo/ostalo"
+msgstr "Jedan/nekoliko/ostalo"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -3970,17 +3967,17 @@ msgid "Enable machine translation"
 msgstr "Aktiviraj strojno prevođenje"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation Information"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Podaci prijevoda"
+msgstr "Domena prijevoda"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"ID domene prijevoda, na primjer, BC. Ako ne odrediš domenu, metoda traži "
+"prijevode u svim dostupnim domenama."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4093,18 +4090,15 @@ msgid "File: {}"
 msgstr "Datoteka {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
-msgstr "Zapisi izbrisani."
+msgstr "Zapisi su izbrisani."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "Izbrisani unosi i memorija će se obnoviti u pozadini."
+msgstr ""
+"Unosi su izbrisani i prevodilačka memorija će se ponovo izgraditi u pozadini."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4176,6 +4170,8 @@ msgid ""
 "{new_lang} translation is currently not "
 "available,                                but can be added."
 msgstr ""
+"{new_lang} prijevod trenutačno nije dostupan,                                "
+"ali se može dodati."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5524,7 +5520,7 @@ msgstr "Kupi novi plan za hosting"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Isprobaj Weblate besplatno"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7756,16 +7752,12 @@ msgid "Cache latency"
 msgstr "Latencija predmemorije"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Latencija predmemorije"
+msgstr "Celery latencija"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Još nema prijave"
+msgstr "Još nije izmjereno"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9499,31 +9491,25 @@ msgstr ""
 "aktualiziranja repozitorija."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are currently no backups."
-msgstr "Trenutačno nema instaliranih dodataka."
+msgstr "Trenutačno nema sigurnosnih kopija."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Izradi sigurnosnu kopiju"
+msgstr "Pokreni izradu sigurnosne kopije"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "Prijevod će se aktualizirati u pozadini."
+msgstr "Sigurnosna kopija će se generirati u pozadini."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Sigurnosne kopije se uklanjaju nakon %(keep_days)s dan."
+msgstr[1] "Sigurnosne kopije se uklanjaju nakon %(keep_days)s dana."
+msgstr[2] "Sigurnosne kopije se uklanjaju nakon %(keep_days)s dana."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9885,27 +9871,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "Trenutačno nemaš dozvolu za stvaranje projekata."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Oglašavanje prevodilačkih projekata"
+msgstr "Uvezi prevodilački projekt"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Stvori projekt"
+msgstr "Uvezi projekt"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "Izradi sigurnosnu kopiju"
+msgstr "Uvoz sigurnosne kopije"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Stvoreno na %(server)s (%(domain)s) od Weblatea %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11040,16 +11020,13 @@ msgid ""
 msgstr "Koristi i doprinosi skupu zajedničkih prijevoda između projekata."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "ZIP datoteka s prijevodima"
+msgstr "ZIP datoteka sa sigurnosnom kopijom projekta"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Neuspjela obrada ključa: %s"
+msgstr "Neuspjelo učitavanje sigurnosne kopije projekta: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11731,26 +11708,20 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "BCP stil koristeći crticu kao znak razdvajanja, uključujući kôd zemlje"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "BCP stil koristeći crticu kao znak razdvajanja, uključujući kôd zemlje"
+msgstr "BCP stil koristeći crticu kao znak razdvajanja, stari kodovi zemlje"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "BCP stil koristeći crticu kao znak razdvajanja"
+msgstr "BCP stil koristeći crticu kao znak razdvajanja, mala slova"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Android stil"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "App store datoteke metapodataka"
+msgstr "Stil metapodataka trgovine aplikacija"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -13314,7 +13285,7 @@ msgstr "Jezik projekta je uklonjen."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Sigurnosno kopiranje je pokrenuto, bit će uskoro dostupno."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
