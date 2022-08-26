@@ -12,6 +12,7 @@ Not yet released.
 * List number of team members on team management page.
 * Add group management interface.
 * Always show review stats when reviews are enabled.
+* Added searching support in units API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 

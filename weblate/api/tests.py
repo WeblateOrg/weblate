@@ -2734,6 +2734,10 @@ class UnitAPITest(APIBaseTest):
         response = self.client.get(reverse("api:unit-list"))
         self.assertEqual(response.data["count"], 16)
 
+    def test_list_units_filter(self):
+        response = self.client.get(reverse("api:unit-list"), {"q": "is:translated"})
+        self.assertEqual(response.data["count"], 6)
+
     def test_get_unit(self):
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"

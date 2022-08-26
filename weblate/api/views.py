@@ -1239,6 +1239,18 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def get_queryset(self):
         return Unit.objects.filter_access(self.request.user).order_by("id")
 
+    def filter_queryset(self, queryset):
+        result = super().filter_queryset(queryset)
+        query_string = self.request.GET.get("q", "")
+        try:
+            parse_query(query_string)
+        except Exception as error:
+            report_error()
+            raise ValidationError(f"Failed to parse query string: {error}")
+        if query_string:
+            result = result.search(query_string)
+        return result
+
     def perform_update(self, serializer):
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data

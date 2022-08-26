@@ -2042,6 +2042,9 @@ and XLIFF.
 
     Returns list of translation units.
 
+    :param q: Search query string :ref:`Searching` (optional)
+    :type q: string
+
     .. seealso::
 
         Unit object attributes are documented at :http:get:`/api/units/(int:id)/`.
