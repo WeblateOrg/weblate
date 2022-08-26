@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-08-20 17:09+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2022-08-28 13:49+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -14877,21 +14877,14 @@ msgid "Configuring Weblate"
 msgstr "Налаштовування Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "Following steps assume virtualenv used by Weblate is active (what can be "
-#| "done by ``. ~/weblate-env/bin/activate``). In case this is not true, you "
-#| "will have to specify full path to :command:`weblate` command as ``~/"
-#| "weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the virtualenv used by Weblate is activated (by "
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"У наступних кроках ми припускаємо, що віртуальне середовище, яке "
-"використовується Weblate, є активним (активувати його можна за допомогою ``. "
-"~/weblate-env/bin/activate``). Якщо середовище не активовано, вам доведеться "
-"вказати повний шлях до команди :command:`weblate` як ``~/weblate-env/bin/"
+"Далі ми припускаємо, що віртуальне середовище, яке використовується Weblate, "
+"активоване (шляхом виконання ``. ~/weblate-env/bin/activate``). Якщо ні, "
+"вкажіть повний шлях до команди :command:`weblate` як ``~/weblate-env/bin/"
 "weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:10
@@ -14905,48 +14898,32 @@ msgstr ""
 "weblate/settings.py`."
 
 #: ../../admin/install/steps/install-configure.rst:16
-#, fuzzy
-#| msgid ""
-#| "Create the database and its structure for Weblate (the example settings "
-#| "use PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
 "Створіть базу даних і її структуру для Weblate (у прикладі вказано параметри "
-"для PostgreSQL, ознайомтеся із розділом check :ref:`database-setup`, щоб "
-"дізнатися більше про готову до промислової роботи конфігурацію):"
+"для PostgreSQL, ознайомтеся з розділом check :ref:`database-setup`, щоб "
+"дізнатися більше про готову для робочого середовища конфігурацію):"
 
 #: ../../admin/install/steps/install-configure.rst:23
-#, fuzzy
-#| msgid ""
-#| "Create the administrator user account and copy the password it outputs to "
-#| "the clipboard, and also save it for later use:"
 msgid ""
 "Create an account for the administrator user and copy its password to the "
 "clipboard, and also save it for later use:"
 msgstr ""
-"Створіть обліковий запис адміністративного користувача і скопіюйте пароль, "
-"який буде виведено, до буфера обміну даними, а також збережіть його для "
-"наступного використання:"
+"Створіть обліковий запис адміністративного користувача і скопіюйте його "
+"пароль до буфера обміну, а також збережіть його для користування в "
+"подальшому:"
 
 #: ../../admin/install/steps/install-configure.rst:30
-#, fuzzy
-#| msgid ""
-#| "Collect static files for web server (see :ref:`server` and :ref:`static-"
-#| "files`):"
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
-"Зберіть статичні файли для вебсервера (див. :ref:`server` і :ref:`static-"
-"files`):"
+"Зберіть статичні файли для свого вебсервера (див. :ref:`server` і :ref"
+":`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:36
-#, fuzzy
-#| msgid ""
-#| "Compress JavaScript and CSS files (optional, see :ref:`production-"
-#| "compress`):"
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
@@ -14955,27 +14932,20 @@ msgstr ""
 "compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:42
-#, fuzzy
-#| msgid ""
-#| "Start Celery workers. This is not necessary for development purposes, but "
-#| "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
 "Запустіть обробники Celery. У цьому немає потреби для розробки, але ми "
-"наполегливо рекомендуємо це у всіх інших варіантах. Див. :ref:`celery`, щоб "
-"дізнатися більше:"
+"наполегливо радимо це у всіх інших варіантах. :ref:`celery`, містить більше "
+"інформації:"
 
 #: ../../admin/install/steps/install-configure.rst:49
-#, fuzzy
-#| msgid ""
-#| "Start the development server (see :ref:`server` for production setup):"
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
-"Запустіть сервер для розробки (див. :ref:`server`, щоб дізнатися більше про "
-"промислові налаштування):"
+"Запустіть сервер для розробки (докладніше про налаштування робочого "
+"середовища: :ref:`server`):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -16068,14 +16038,6 @@ msgstr ""
 "Служба комп'ютерного перекладу, яка надається хмарними службами Google."
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_, `Getting started with authentication on Google Cloud <https://"
-#| "cloud.google.com/docs/authentication/getting-started>`_, `Creating Google "
-#| "Translate project <https://cloud.google.com/appengine/docs/standard/"
-#| "nodejs/building-app/creating-project>`_, `Google Cloud App Engine "
-#| "locations <https://cloud.google.com/appengine/docs/locations>`_"
 msgid ""
 "`Google translate documentation <https://cloud.google.com/translate/docs>`_, "
 "`Authenticate to Cloud services using client libraries <https://cloud.google."
@@ -16084,12 +16046,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
-"`Документація до Google Перекладач <https://cloud.google.com/translate/"
-"docs>`_, `Перші кроки із розпізнаванням у Google Cloud <https://cloud.google."
-"com/docs/authentication/getting-started>`_, `Створення проєкту Google "
-"Перекладач <https://cloud.google.com/appengine/docs/standard/nodejs/building-"
-"app/creating-project>`_, `Місця рушія програм Google Cloud <https://cloud."
-"google.com/appengine/docs/locations>`_"
+"`Документація до Google Перекладача <https://cloud.google.com/translate/"
+"docs>`_, `Автентифікація у хмарних службах за допомогою клієнтських "
+"бібліотек <https://cloud.google.com/docs/authentication/client-libraries>`_, "
+"`Створення проєкту Google Перекладач <https://cloud.google.com/appengine/"
+"docs/standard/nodejs/building-app/creating-project>`_, `Місця рушія програм "
+"Google Cloud <https://cloud.google.com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -21296,7 +21258,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:344
 msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
-msgstr ""
+msgstr "Залежність `jellyfish` було замінено на `rapidfuzz`."
 
 #: ../../admin/upgrade.rst:351
 msgid "Upgrading from Python 2 to Python 3"
@@ -24163,85 +24125,69 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.14.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.14.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed CodeMirror display issues in some situations."
 msgid "Fixed generating project backups in some situations."
-msgstr "Виправлено проблеми показу CodeMirror у деяких ситуаціях."
+msgstr "Виправлено генерування резервних копій проєкту в деяких ситуаціях."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance of file upload."
 msgid "Improved error reporting on file upload."
-msgstr "Поліпшено швидкодію вивантаження файлів."
+msgstr "Удосконалено звітування про помилки під час вивантаження файлів."
 
 #: ../../changes.rst:8
 msgid "Fetch all user verified e-mails from GitHub during authentication."
 msgstr ""
+"Отримуйте всі перевірені користувачем електронні листи з GitHub під час "
+"автентифікації."
 
 #: ../../changes.rst:9
 msgid "Avoid matching glossary terms on context or keys."
 msgstr ""
+"Додано уникнення зіставлення термінів глосарія з контекстом або ключами."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed notifications rendering in Gmail."
 msgid "Added notifications for string removals."
-msgstr "Виправлено показ сповіщень у Gmail."
+msgstr "Додано сповіщення про вилучення рядків."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved lookup of related terms in glossary."
 msgid "Improved management of untranslatable terms in glossary."
-msgstr "Удосконалено пошук відповідних термінів у глосарії."
+msgstr "Удосконалено керування неперекладними термінами в глосарії."
 
 #: ../../changes.rst:12
 msgid "List number of team members on team management page."
 msgstr ""
+"Відтепер можна вказувати кількість учасників команди на сторінці керування "
+"командою."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Use management interface"
 msgid "Add group management interface."
-msgstr "Використовувати інтерфейс керування"
+msgstr "Додано інтерфейс керування групою."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Always show rendered text check if enabled."
 msgid "Always show review stats when reviews are enabled."
-msgstr ""
-"Реалізовано безумовний показ перевірки на обробку тексту, якщо її увімкнено."
+msgstr "Реалізовано показ статистики відгуків, коли ввімкнуто рецензування."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/84?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/84?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"86?closed=1>`__."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.14"
 msgstr "Weblate 4.14"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 22nd 2022."
-msgstr "Випущено 21 серпня 2021 року."
+msgstr "Випущено 22 серпня 2022 року."
 
 #: ../../changes.rst:23
 msgid "Track add-on changes in a history."
@@ -24257,8 +24203,6 @@ msgid "Extended language code style configuration options."
 msgstr "Розширено параметри налаштовування стилю коду мов."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for pluralse updated in recent CLDR releases."
 msgid "Added support for plurals updated in the recent CLDR releases."
 msgstr "Додано підтримку оновлених форм множини з нещодавніх випусків CLDR."
 
@@ -24299,10 +24243,10 @@ msgid "Added support for project level backups."
 msgstr "Додано підтримку резервного копіювання на рівні проєктів."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance and memory usage of translation memory lookups."
-msgstr "Удосконалено швидкодію обробки пам'яті перекладу."
+msgstr ""
+"Удосконалено швидкодію та використання пам'яті для пошуку в пам’яті "
+"перекладів."
 
 #: ../../changes.rst:37
 msgid ""
@@ -42696,13 +42640,6 @@ msgid "Untranslatable terms"
 msgstr "Терміни, які не слід перекладати"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:"
-#| "`Mark as read-only` means they can not be translated. Use this for brand "
-#| "names or other terms that should not be changed in other languages. Such "
-#| "terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -42710,9 +42647,9 @@ msgid ""
 "or other terms that should not be changed in other languages. Such terms are "
 "visually highlighted in the glossary sidebar."
 msgstr ""
-"Позначення певних перекладів термінів глосарія як придатних ``лише для "
+"Позначення певних перекладів термінів глосарія придатними ``лише для "
 "читання`` пакетним редагуванням, введенням прапорця або за допомогою пункту "
-"меню :guilabel:`Знаряддя` ↓ :guilabel:`Позначити лише для читання`, означає, "
+"меню :guilabel:`Знаряддя` ↓ :guilabel:`Позначити не перекладним`, означає, "
 "що терміни не можна перекладати. Скористайтеся цим для зареєстрованих "
 "торговельних марок або інших термінів, які не слід змінювати під час "
 "перекладу. Відповідні терміни буде візуально підсвічено на бічній панелі "
