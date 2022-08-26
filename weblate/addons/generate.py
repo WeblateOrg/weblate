@@ -27,7 +27,12 @@ from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Translation
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 
 class GenerateFileAddon(BaseAddon):
@@ -135,7 +140,10 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
 
     def daily(self, component):
         # Check all strings
-        self.do_update(component, Q(state__lte=STATE_TRANSLATED))
+        query = Q(state__lte=STATE_TRANSLATED)
+        if self.instance.configuration.get("include_readonly", False):
+            query |= Q(state=STATE_READONLY)
+        self.do_update(component, query)
 
     def component_update(self, component):
         # Update only untranslated strings

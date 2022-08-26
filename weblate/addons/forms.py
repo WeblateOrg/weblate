@@ -531,6 +531,10 @@ class PseudolocaleAddonForm(BaseAddonForm):
             "the length of the source string."
         ),
     )
+    include_readonly = forms.BooleanField(
+        label=_("Include read-only strings"),
+        required=False,
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -543,6 +547,7 @@ class PseudolocaleAddonForm(BaseAddonForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),
+            Field("include_readonly"),
             Field("target"),
             Field("prefix"),
             Field("var_prefix"),
