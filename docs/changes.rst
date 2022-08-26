@@ -28,7 +28,7 @@ Released on August 22nd 2022.
 * Added support for translation domain in SAP Translation Hub.
 * Allow absolute links in source string locations.
 * Improved operation behind some reverse proxies.
-* Exteded API to cover translation memory.
+* Extended API to cover translation memory.
 * Improved document translation workflow.
 * Improved reliability of HTML and text files translation.
 * Added support for project level backups.
