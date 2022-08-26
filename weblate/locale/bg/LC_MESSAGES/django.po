@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-20 17:08+0000\n"
+"PO-Revision-Date: 2022-08-26 10:09+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -2171,7 +2171,7 @@ msgstr "Повторно изпращане на е-писмото с покан
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "Промяната на „%s“ е забранена за вградените групи."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -4216,14 +4216,9 @@ msgid "Dec"
 msgstr "дек"
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid ""
-#| "{new_lang} translation is currently not "
-#| "available,                                but can be added."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
-msgstr ""
-"В момента няма наличен превод на {new_lang},                                "
-"но може да бъде добавен такъв."
+msgstr "В момента няма наличен превод на %s, но може да бъде добавен такъв."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -7704,16 +7699,12 @@ msgid "Libre"
 msgstr "Свободен"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "Автоматични назначения на групи"
+msgstr "Автоматични назначения"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "Автоматично назначаване на група"
+msgstr "Добавяне на автоматично назначение"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7721,10 +7712,9 @@ msgid "Access only"
 msgstr "Само достъп"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "Това ще изтрие екипа <b>%(name)s</b> от този проект."
+msgstr "Това ще изтрие групата <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7735,13 +7725,15 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"В тази група има %(count)s член. Изтриването на групата може да повлияе на "
+"достъпа му."
 msgstr[1] ""
+"В тази група има %(count)s члена. Изтриването на групата може да повлияе на "
+"достъпа им."
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "Създаване на нов екип"
+msgstr "Създаване на нова група"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -9966,13 +9958,15 @@ msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
 msgstr[0] ""
+"В този екип има %(count)s член. Изтриването на екипа може да повлияе на "
+"достъпа на този член до проекта."
 msgstr[1] ""
+"В този екип има %(count)s членове. Изтриването на екипа може да повлияе на "
+"техния достъп до проекта."
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "Редактиране на етикета"
+msgstr "Редактиране на екипа"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -11760,8 +11754,6 @@ msgstr "Добавката е премахната"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
 msgstr "Премахване на низ"
 
@@ -12621,10 +12613,9 @@ msgstr "Неуспешен анализа на файла „%(file)s“: %(erro
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Подаване на чакащите промени"
+msgstr "Чакащите промени не успяха да бъдат подадени: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12661,16 +12652,12 @@ msgid "Mark as read-only"
 msgstr "Отбелязване като „само за четене“"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Премахване на отбелязването като „забранен превод“"
+msgstr "Премахване на отбелязването като „непреводимо“"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Отбелязване като „забранен превод“"
+msgstr "Отбелязване като „непреводимо“"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
