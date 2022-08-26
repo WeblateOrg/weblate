@@ -865,6 +865,11 @@ Generic settings
 
    Configures :setting:`BORG_EXTRA_ARGS`.
 
+.. envvar:: WEBLATE_ENABLE_SHARING
+
+   .. versionadded:: 4.14.1
+
+   Configures :setting:`ENABLE_SHARING`.
 
 .. _docker-machine:
 
