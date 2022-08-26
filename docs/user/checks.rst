@@ -182,6 +182,7 @@ C format
 :Summary: C format string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.CFormatCheck``
+:Check identifier: ``c_format``
 :Flag to enable: ``c-format``
 :Flag to ignore: ``ignore-c-format``
 :Simple format string example: ``There are %d apples``
@@ -836,7 +837,7 @@ pixels:
 Mismatched \\n
 ~~~~~~~~~~~~~~
 
-:Summary: Number of \\n in translation does not match source
+:Summary: Number of \\n literals in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.EscapedNewlineCountingCheck``
 :Check identifier: ``escaped_newline``

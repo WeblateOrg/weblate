@@ -316,7 +316,7 @@ class EscapedNewlineCountingCheck(CountingCheck):
     string = "\\n"
     check_id = "escaped_newline"
     name = _("Mismatched \\n")
-    description = _("Number of \\n in translation does not match source")
+    description = _("Number of \\n literals in translation does not match source")
 
 
 class NewLineCountCheck(CountingCheck):
