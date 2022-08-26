@@ -10,9 +10,9 @@
 # TopTheWorst <topbkk57@gmail.com>, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.14\n"
+"Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2022-08-19 17:12+0000\n"
+"POT-Creation-Date: 2022-08-26 06:38+0000\n"
 "PO-Revision-Date: 2022-05-26 09:41+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
@@ -46,7 +46,7 @@ msgid "This username is already taken. Please choose another."
 msgstr "ชื่อผู้ใช้นี้ถูกใช้แล้ว โปรดเลือกชื่ออื่น"
 
 #: weblate/accounts/forms.py:125 weblate/accounts/forms.py:812
-#: weblate/auth/models.py:320 weblate/templates/trans/project-access.html:36
+#: weblate/auth/models.py:320 weblate/templates/trans/project-access.html:37
 msgid "Full name"
 msgstr "ชื่อเต็ม"
 
@@ -62,7 +62,7 @@ msgstr "รายชื่อคอมโพเนนต์: %s"
 #: weblate/accounts/forms.py:320 weblate/accounts/forms.py:387
 #: weblate/accounts/templatetags/authnames.py:36 weblate/auth/models.py:326
 #: weblate/templates/accounts/user.html:196
-#: weblate/templates/trans/project-access.html:38 weblate/utils/fields.py:91
+#: weblate/templates/trans/project-access.html:39 weblate/utils/fields.py:91
 #: weblate/wladmin/forms.py:56
 msgid "E-mail"
 msgstr "อีเมล"
@@ -245,7 +245,7 @@ msgid ""
 msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณใน %(component)s เท่านั้น"
 
 #: weblate/accounts/forms.py:811 weblate/auth/models.py:309
-#: weblate/templates/trans/project-access.html:35 weblate/utils/forms.py:42
+#: weblate/templates/trans/project-access.html:36 weblate/utils/forms.py:42
 msgid "Username"
 msgstr "ชื่อผู้ใช้"
 
@@ -613,7 +613,7 @@ msgstr "โปรดเลือกรายชื่อคอมโพเนน
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "การเลือกรายชื่อคอมโพเนนต์จะไม่มีผลใดๆ เมื่อไม่ได้ถูกแสดงบนแดชบอร์ด"
 
-#: weblate/accounts/models.py:748 weblate/trans/views/edit.py:359
+#: weblate/accounts/models.py:748 weblate/trans/views/edit.py:363
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -668,7 +668,7 @@ msgstr "เปลี่ยนสัญญาอนุญาต"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:472 weblate/trans/models/change.py:296
+#: weblate/accounts/notifications.py:472 weblate/trans/models/change.py:297
 msgid "Parse error"
 msgstr "ข้อผิดพลาดในการแยกวิเคราะห์"
 
@@ -679,7 +679,7 @@ msgstr "สตริงใหม่"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:499 weblate/trans/models/change.py:340
+#: weblate/accounts/notifications.py:499 weblate/trans/models/change.py:341
 msgid "New contributor"
 msgstr "ผู้มีส่วนร่วมใหม่"
 
@@ -731,13 +731,13 @@ msgstr "คอมโพเนนต์การแปลใหม่"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:673 weblate/trans/models/change.py:342
+#: weblate/accounts/notifications.py:673 weblate/trans/models/change.py:343
 msgid "New announcement"
 msgstr "ประกาศใหม่"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:685 weblate/trans/models/change.py:344
+#: weblate/accounts/notifications.py:685 weblate/trans/models/change.py:345
 msgid "New alert"
 msgstr "คำเตือนใหม่"
 
@@ -775,31 +775,31 @@ msgstr "ไม่สามารถนำรหัสผ่านที่ใช
 msgid "Your password can't match a password you have used in the past."
 msgstr "รหัสผ่านของคุณต้องไม่ตรงกับรหัสผ่านที่คุณใช้ในอดีต"
 
-#: weblate/accounts/pipeline.py:323
+#: weblate/accounts/pipeline.py:326
 msgid "You can not complete password reset while signed in."
 msgstr "คุณไม่สามารถทำการตั้งค่ารหัสผ่านใหม่ให้เสร็จสมบูรณ์ขณะลงชื่อเข้าได้"
 
-#: weblate/accounts/pipeline.py:326 weblate/accounts/pipeline.py:349
+#: weblate/accounts/pipeline.py:329 weblate/accounts/pipeline.py:352
 msgid "The registration link has been invalidated."
 msgstr "ลิงก์การลงทะเบียนไม่สามารถใช้ได้แล้ว"
 
-#: weblate/accounts/pipeline.py:341
+#: weblate/accounts/pipeline.py:344
 msgid "You can not complete registration while signed in."
 msgstr "คุณไม่สามารถทำการลงทะเบียนให้เสร็จสมบูรณ์ขณะลงชื่อเข้าได้"
 
-#: weblate/accounts/pipeline.py:346
+#: weblate/accounts/pipeline.py:349
 msgid "You can confirm your registration only while signed in."
 msgstr "คุณสามารถยืนยันการลงทะเบียนของคุณได้ขณะลงชื่อเข้าเท่านั้น"
 
-#: weblate/accounts/pipeline.py:496
+#: weblate/accounts/pipeline.py:506
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr "อีเมลของคุณไม่ใช่ของบัญชีที่ยืนยันแล้วอีกต่อไป โดยได้ถูกเปลี่ยนเป็น {0} แล้ว"
 
-#: weblate/accounts/views.py:174 weblate/accounts/views.py:886
-#: weblate/accounts/views.py:949 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:174 weblate/accounts/views.py:890
+#: weblate/accounts/views.py:953 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
 msgstr "ตั้งค่ารหัสผ่านใหม่"
@@ -808,7 +808,7 @@ msgstr "ตั้งค่ารหัสผ่านใหม่"
 msgid "Remove account"
 msgstr "เอาบัญชีออก"
 
-#: weblate/accounts/views.py:180 weblate/accounts/views.py:782
+#: weblate/accounts/views.py:180 weblate/accounts/views.py:786
 msgid "User registration"
 msgstr "การลงทะเบียนผู้ใช้"
 
@@ -873,101 +873,101 @@ msgstr "ทดลองใช้ฟรี"
 msgid "Sign in"
 msgstr "ลงชื่อเข้า"
 
-#: weblate/accounts/views.py:727 weblate/wladmin/sites.py:188
+#: weblate/accounts/views.py:731 weblate/wladmin/sites.py:188
 msgid "Thank you for using Weblate."
 msgstr "ขอบคุณที่ใช้ Weblate"
 
-#: weblate/accounts/views.py:816 weblate/templates/accounts/email.html:17
+#: weblate/accounts/views.py:820 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
 msgstr "ลงทะเบียนอีเมล"
 
-#: weblate/accounts/views.py:831 weblate/accounts/views.py:906
+#: weblate/accounts/views.py:835 weblate/accounts/views.py:910
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "ไม่สามารถตั้งค่ารหัสผ่านใหม่ได้ เนื่องจากการรับรองความถูกต้องด้วยอีเมลถูกปิดอยู่"
 
-#: weblate/accounts/views.py:862 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:866 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:133
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: weblate/accounts/views.py:872
+#: weblate/accounts/views.py:876
 msgid "Password reset has been already completed."
 msgstr "การตั้งค่ารหัสผ่านใหม่เสร็จสมบูรณ์แล้ว"
 
-#: weblate/accounts/views.py:1095
+#: weblate/accounts/views.py:1099
 msgid "Could not remove user identity"
 msgstr "ไม่สามารถเอาข้อมูลประจำตัวของผู้ใช้ออกได้"
 
-#: weblate/accounts/views.py:1105
+#: weblate/accounts/views.py:1109
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "เพิ่มข้อมูลประจำตัวอื่นโดยยืนยันที่อยู่อีเมลของคุณก่อน"
 
-#: weblate/accounts/views.py:1151
+#: weblate/accounts/views.py:1155
 msgid "Could not complete registration."
 msgstr "ไม่สามารถดำเนินการลงทะเบียนให้เสร็จสมบูรณ์ได้"
 
-#: weblate/accounts/views.py:1154
+#: weblate/accounts/views.py:1158
 msgid "Please check if you have already registered an account."
 msgstr "โปรดตรวจสอบว่าคุณได้ลงทะเบียนบัญชีแล้วหรือยัง"
 
-#: weblate/accounts/views.py:1156
+#: weblate/accounts/views.py:1160
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "คุณยังสามารถขอรหัสผ่านใหม่ได้ถ้าคุณทำข้อมูลประจำตัวของคุณหาย"
 
-#: weblate/accounts/views.py:1166
+#: weblate/accounts/views.py:1170
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr "ลองลงทะเบียนใหม่อีกครั้งเพื่อตรวจสอบตัวตนของคุณ โทเค็นการตรวจสอบอาจหมดอายุแล้ว"
 
-#: weblate/accounts/views.py:1173
+#: weblate/accounts/views.py:1177
 msgid "Could not authenticate due to invalid session state."
 msgstr "ไม่สามารถรับรองความถูกต้องได้เนื่องจากมีสถานะเซสชันที่ไม่ถูกต้อง"
 
-#: weblate/accounts/views.py:1180
+#: weblate/accounts/views.py:1184
 msgid "Got no e-mail address from third party authentication service."
 msgstr "ไม่สามารถรับที่อยู่อีเมลจากบริการรับรองความถูกต้องของบุคคลที่สามได้"
 
-#: weblate/accounts/views.py:1182
+#: weblate/accounts/views.py:1186
 msgid "Please register using e-mail instead."
 msgstr "โปรดลงทะเบียนโดยใช้อีเมลแทน"
 
-#: weblate/accounts/views.py:1189
+#: weblate/accounts/views.py:1193
 msgid "New registrations are turned off."
 msgstr "การลงทะเบียนใหม่ถูกปิด"
 
-#: weblate/accounts/views.py:1247
+#: weblate/accounts/views.py:1251
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "ไม่สามารถรับรองความถูกต้องได้ อาจเป็นเนื่องจากโทเค็นหมดอายุหรือมีข้อผิดพลาดในการเชื่อมต่อ"
 
-#: weblate/accounts/views.py:1253
+#: weblate/accounts/views.py:1257
 msgid "Authentication cancelled."
 msgstr "ยกเลิกการรับรองความถูกต้องแล้ว"
 
-#: weblate/accounts/views.py:1256
+#: weblate/accounts/views.py:1260
 msgid "The server does not allow authentication."
 msgstr "เซิร์ฟเวอร์ไม่อนุญาตการรับรองความถูกต้อง"
 
-#: weblate/accounts/views.py:1260
+#: weblate/accounts/views.py:1264
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "ที่อยู่อีเมลที่ระบุถูกใช้สำหรับบัญชีอื่นแล้ว"
 
-#: weblate/accounts/views.py:1264
+#: weblate/accounts/views.py:1268
 msgid "The supplied username is already in use for another account."
 msgstr "ชื่อผู้ใช้ที่ระบุถูกใช้สำหรับบัญชีอื่นแล้ว"
 
-#: weblate/accounts/views.py:1269
+#: weblate/accounts/views.py:1273
 msgid "The supplied user identity is already in use for another account."
 msgstr "ข้อมูลประจำตัวของผู้ใช้ที่ระบุถูกใช้สำหรับบัญชีอื่นแล้ว"
 
-#: weblate/accounts/views.py:1295 weblate/accounts/views.py:1308
+#: weblate/accounts/views.py:1299 weblate/accounts/views.py:1312
 msgid "Notification settings adjusted."
 msgstr "ปรับการตั้งค่าการแจ้งเตือนแล้ว"
 
-#: weblate/accounts/views.py:1313
+#: weblate/accounts/views.py:1317
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -977,7 +977,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:74
-#: weblate/templates/translation.html:230 weblate/trans/models/change.py:264
+#: weblate/templates/translation.html:230 weblate/trans/models/change.py:265
 msgid "Automatic translation"
 msgstr "การแปลแบบอัตโนมัติ"
 
@@ -1633,27 +1633,27 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "อนุญาตให้ปรับแต่งการทำงานของเอาต์พุต YAML เช่น ความยาวบรรทัด หรือการขึ้นบรรทัดใหม่"
 
-#: weblate/auth/admin.py:162 weblate/auth/admin.py:167
+#: weblate/auth/admin.py:164 weblate/auth/admin.py:169
 msgid "Personal info"
 msgstr "ข้อมูลส่วนบุคคล"
 
-#: weblate/auth/admin.py:163
+#: weblate/auth/admin.py:165
 msgid "Authentication"
 msgstr "การรับรองความถูกต้อง"
 
-#: weblate/auth/admin.py:169 weblate/auth/models.py:86
+#: weblate/auth/admin.py:171 weblate/auth/models.py:86
 msgid "Permissions"
 msgstr "สิทธิอนุญาต"
 
-#: weblate/auth/admin.py:172
+#: weblate/auth/admin.py:174
 msgid "Important dates"
 msgstr "วันสำคัญ"
 
-#: weblate/auth/admin.py:230
+#: weblate/auth/admin.py:232
 msgid "This is not used when a component list is selected."
 msgstr "ไม่ได้ใช้เมื่อเลือกรายการส่วนประกอบ"
 
-#: weblate/auth/admin.py:236
+#: weblate/auth/admin.py:238
 msgid "This is not used when a component is selected."
 msgstr "ไม่ได้ใช้เมื่อเลือกส่วนประกอบ"
 
@@ -1914,7 +1914,7 @@ msgid "Manage language definitions"
 msgstr "จัดการข้อกำหนดภาษา"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:141
+#: weblate/auth/data.py:141 weblate/templates/manage/groups.html:19
 msgid "Manage groups"
 msgstr "จัดการกลุ่ม"
 
@@ -2100,19 +2100,24 @@ msgctxt "Per-project access-control group"
 msgid "Billing"
 msgstr "การเรียกเก็บเงิน"
 
-#: weblate/auth/forms.py:105 weblate/trans/views/acl.py:219
+#: weblate/auth/forms.py:107 weblate/trans/views/acl.py:219
 #, fuzzy
 #| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
 msgstr "อีเมลการเปิดใช้งานจะถูกส่งไปที่นี่"
 
-#: weblate/auth/forms.py:114
+#: weblate/auth/forms.py:116
 msgid "Send e-mail invitation to the user"
 msgstr "ส่งคำเชิญทางอีเมลไปยังผู้ใช้"
 
-#: weblate/auth/forms.py:128
+#: weblate/auth/forms.py:130
 msgid "Resend e-mail invitation to the user"
 msgstr "ส่งอีเมลคำเชิญไปยังผู้ใช้ซ้ำ"
+
+#: weblate/auth/forms.py:166
+#, python-format
+msgid "Changing of %s is prohibited for built-in groups."
+msgstr ""
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -2121,10 +2126,11 @@ msgstr "%s (สิทธิ์แบบทั้งไซต์)"
 
 #: weblate/auth/models.py:83 weblate/auth/models.py:106
 #: weblate/templates/fonts/fontgroup_detail.html:18
+#: weblate/templates/manage/groups.html:25
 #: weblate/templates/manage/performance.html:26
 #: weblate/templates/manage/performance.html:72
-#: weblate/templates/trans/project-access.html:146
-#: weblate/templates/trans/project-access.html:256 weblate/trans/forms.py:1447
+#: weblate/templates/trans/project-access.html:147
+#: weblate/templates/trans/project-access.html:262 weblate/trans/forms.py:1447
 msgid "Name"
 msgstr "ชื่อ"
 
@@ -2132,7 +2138,8 @@ msgstr "ชื่อ"
 msgid "Choose permissions granted to this role."
 msgstr "เลือกสิทธิ์ที่มอบให้กับบทบาทนี้"
 
-#: weblate/auth/models.py:109 weblate/templates/trans/project-access.html:147
+#: weblate/auth/models.py:109 weblate/templates/manage/groups.html:26
+#: weblate/templates/trans/project-access.html:148
 msgid "Roles"
 msgstr "บทบาท"
 
@@ -2148,15 +2155,15 @@ msgstr "การเลือกโครงการ"
 msgid "As defined"
 msgstr "ตามที่กำหนด"
 
-#: weblate/auth/models.py:126
+#: weblate/auth/models.py:126 weblate/templates/manage/groups.html:57
 msgid "All projects"
 msgstr "โครงการทั้งหมด"
 
-#: weblate/auth/models.py:127
+#: weblate/auth/models.py:127 weblate/templates/manage/groups.html:59
 msgid "All public projects"
 msgstr "โครงการสาธารณะทั้งหมด"
 
-#: weblate/auth/models.py:128
+#: weblate/auth/models.py:128 weblate/templates/manage/groups.html:61
 msgid "All protected projects"
 msgstr "โครงการที่มีการป้องกันทั้งหมด"
 
@@ -2168,7 +2175,8 @@ msgstr "จากรายการคอมโพเนนต์"
 #: weblate/billing/models.py:289 weblate/templates/base.html:132
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:95 weblate/templates/language.html:19
-#: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:398
+#: weblate/templates/manage/groups.html:28 weblate/templates/projects.html:5
+#: weblate/templates/snippets/info.html:398
 #: weblate/templates/snippets/info.html:432 weblate/trans/views/basic.py:79
 msgid "Projects"
 msgstr "โครงการ"
@@ -2186,8 +2194,8 @@ msgstr "คอมโพเนนต์"
 msgid "Language selection"
 msgstr "การเลือกภาษา"
 
-#: weblate/auth/models.py:149 weblate/templates/trans/project-access.html:167
-#: weblate/trans/forms.py:1053
+#: weblate/auth/models.py:149 weblate/templates/manage/groups.html:48
+#: weblate/templates/trans/project-access.html:169 weblate/trans/forms.py:1053
 msgid "All languages"
 msgstr "ภาษาทั้งหมด"
 
@@ -2198,11 +2206,11 @@ msgstr "ภาษาทั้งหมด"
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:8
 #: weblate/templates/languages.html:6 weblate/templates/mail/base.html:66
-#: weblate/templates/mail/base.html:86 weblate/templates/project.html:31
-#: weblate/templates/snippets/info.html:404
+#: weblate/templates/mail/base.html:86 weblate/templates/manage/groups.html:27
+#: weblate/templates/project.html:31 weblate/templates/snippets/info.html:404
 #: weblate/templates/snippets/info.html:439
 #: weblate/templates/trans/change_list.html:20
-#: weblate/templates/trans/project-access.html:148 weblate/trans/admin.py:106
+#: weblate/templates/trans/project-access.html:149 weblate/trans/admin.py:106
 #: weblate/trans/forms.py:1072 weblate/trans/forms.py:2187
 msgid "Languages"
 msgstr "ภาษา"
@@ -2240,11 +2248,13 @@ msgstr "ใช้งานอยู่"
 msgid "Mark user as inactive instead of removing."
 msgstr "ทำเครื่องหมายผู้ใช้ว่าไม่ได้ใช้งานแทนการเอาออก"
 
-#: weblate/auth/models.py:347 weblate/templates/trans/project-access.html:257
+#: weblate/auth/models.py:347 weblate/templates/trans/project-access.html:263
 msgid "Expires"
 msgstr "หมดอายุ"
 
 #: weblate/auth/models.py:352 weblate/templates/accounts/user.html:152
+#: weblate/templates/manage/group.html:11
+#: weblate/templates/manage/groups.html:11 weblate/wladmin/views.py:87
 msgid "Groups"
 msgstr "กลุ่ม"
 
@@ -2253,23 +2263,23 @@ msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr "ผู้ใช้ได้รับสิทธิ์ทั้งหมดที่รวมอยู่ในการเป็นสมาชิกของกลุ่มเหล่านี้"
 
-#: weblate/auth/models.py:653
+#: weblate/auth/models.py:647
 msgid "Regular expression for e-mail address"
 msgstr "นิพจน์ปกติสำหรับที่อยู่อีเมล"
 
-#: weblate/auth/models.py:657
+#: weblate/auth/models.py:651
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr "ผู้ใช้ที่มีที่อยู่อีเมลที่ตรงกันจะถูกเพิ่มไปยังกลุ่มนี้"
 
-#: weblate/auth/models.py:661
+#: weblate/auth/models.py:655
 msgid "Group to assign"
 msgstr "กลุ่มที่จะกำหนด"
 
-#: weblate/auth/models.py:674 weblate/trans/forms.py:1177
+#: weblate/auth/models.py:668 weblate/trans/forms.py:1177
 msgid "User to block"
 msgstr "ผู้ใช้ที่จะบล็อก"
 
-#: weblate/auth/models.py:677 weblate/templates/accounts/user.html:245
+#: weblate/auth/models.py:671 weblate/templates/accounts/user.html:245
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:44 weblate/templates/list-projects.html:5
@@ -2280,7 +2290,7 @@ msgstr "ผู้ใช้ที่จะบล็อก"
 msgid "Project"
 msgstr "โครงการ"
 
-#: weblate/auth/models.py:679
+#: weblate/auth/models.py:673
 msgid "Block expiry"
 msgstr "บล็อกหมดอายุ"
 
@@ -4279,11 +4289,10 @@ msgid "Dec"
 msgstr "ธ.ค."
 
 #: weblate/middleware.py:201
-#, python-brace-format
-msgid ""
-"{new_lang} translation is currently not "
-"available,                                but can be added."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "This translation is currently locked."
+msgid "%s translation is currently not available, but can be added."
+msgstr "คำแปลนี้ถูกล็อกอยู่ในขณะนี้"
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -4483,7 +4492,7 @@ msgstr "คีย์ Weblate"
 
 #: weblate/templates/about/keys.html:16
 #: weblate/templates/manage/snippets/backup-credentials.html:14
-#: weblate/templates/trans/project-access.html:316
+#: weblate/templates/trans/project-access.html:322
 msgid "SSH key"
 msgstr "คีย์ SSH"
 
@@ -4788,8 +4797,8 @@ msgstr "บันทึกการตรวจสอบ"
 #: weblate/templates/accounts/profile.html:31
 #: weblate/templates/accounts/profile.html:254
 #: weblate/templates/project.html:92
-#: weblate/templates/trans/project-access.html:20
-#: weblate/templates/trans/project-access.html:250
+#: weblate/templates/trans/project-access.html:21
+#: weblate/templates/trans/project-access.html:256
 msgid "API access"
 msgstr "การเข้าถึง API"
 
@@ -4815,13 +4824,15 @@ msgstr ""
 #: weblate/templates/lang/plural_form.html:16
 #: weblate/templates/machinery/edit.html:31
 #: weblate/templates/manage/appearance.html:23
+#: weblate/templates/manage/group.html:43
+#: weblate/templates/manage/groups.html:121
 #: weblate/templates/project-label-edit.html:21
 #: weblate/templates/project-labels.html:42
 #: weblate/templates/project-settings.html:16
 #: weblate/templates/screenshots/screenshot_detail.html:75
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project-access-row.html:75
-#: weblate/templates/trans/project-access.html:215
+#: weblate/templates/trans/project-access.html:221
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/trans/project_import.html:26
 #: weblate/templates/translate.html:410 weblate/templates/translate.html:573
@@ -4969,12 +4980,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:260
-#: weblate/templates/trans/project-access.html:298
+#: weblate/templates/trans/project-access.html:304
 msgid "Your personal API key:"
 msgstr "คีย์ API ส่วนตัวของคุณ:"
 
 #: weblate/templates/accounts/profile.html:263
-#: weblate/templates/trans/project-access.html:301
+#: weblate/templates/trans/project-access.html:307
 msgid "API key copied to clipboard."
 msgstr ""
 
@@ -4993,7 +5004,7 @@ msgstr ""
 #: weblate/templates/trans/delete-project-language.html:18
 #: weblate/templates/trans/delete-project.html:25
 #: weblate/templates/trans/delete-translation.html:13
-#: weblate/templates/trans/project-access.html:301
+#: weblate/templates/trans/project-access.html:307
 msgid "Copy to clipboard"
 msgstr "คัดลอกไปยังคลิปบอร์ด"
 
@@ -5152,10 +5163,10 @@ msgstr "เริ่มการแปลใหม่"
 #: weblate/templates/manage/users.html:9 weblate/templates/project.html:91
 #: weblate/templates/snippets/info.html:416
 #: weblate/templates/snippets/info.html:453
-#: weblate/templates/trans/project-access.html:18
-#: weblate/templates/trans/project-access.html:29
+#: weblate/templates/trans/project-access.html:19
+#: weblate/templates/trans/project-access.html:30
 #: weblate/templates/trans/suggestion_list.html:6
-#: weblate/templates/weblate_auth/user_list.html:5 weblate/wladmin/views.py:81
+#: weblate/templates/weblate_auth/user_list.html:5 weblate/wladmin/views.py:86
 msgid "Users"
 msgstr "ผู้ใช้"
 
@@ -5236,19 +5247,20 @@ msgstr "ข้อมูลเฉพาะตัวของผู้ใช้ป
 #: weblate/templates/billing/overview.html:6
 #: weblate/templates/manage/billing.html:7 weblate/templates/project.html:104
 #: weblate/templates/snippets/info.html:103 weblate/trans/forms.py:2075
-#: weblate/wladmin/views.py:86
+#: weblate/wladmin/views.py:92
 msgid "Billing"
 msgstr "การเรียกเก็บเงิน"
 
 #: weblate/templates/accounts/user.html:153 weblate/templates/base.html:343
 #: weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82 weblate/templates/language.html:34
+#: weblate/templates/manage/groups.html:70
 #: weblate/templates/project-labels.html:27 weblate/templates/replace.html:46
 #: weblate/templates/screenshots/screenshot_list.html:60
 #: weblate/templates/snippets/info.html:20
 #: weblate/templates/snippets/info.html:48
 #: weblate/templates/trans/project-access-row.html:35
-#: weblate/templates/trans/project-access.html:175
+#: weblate/templates/trans/project-access.html:178
 msgid "Edit"
 msgstr "แก้ไข"
 
@@ -5277,6 +5289,9 @@ msgid "Group"
 msgstr "กลุ่ม"
 
 #: weblate/templates/accounts/user.html:247
+#: weblate/templates/manage/group.html:22
+#: weblate/templates/manage/groups.html:29
+#: weblate/templates/trans/project-access.html:150
 msgid "Members"
 msgstr ""
 
@@ -5293,20 +5308,20 @@ msgid "Remove user from this group"
 msgstr ""
 
 #: weblate/templates/accounts/user.html:273
-#: weblate/templates/trans/project-access.html:58
+#: weblate/templates/trans/project-access.html:59
 #, python-format
 msgid "Blocked until %(expiry)s"
 msgstr ""
 
 #: weblate/templates/accounts/user.html:275
-#: weblate/templates/trans/project-access.html:60
+#: weblate/templates/trans/project-access.html:61
 #, fuzzy
 #| msgid "Ignore permanently"
 msgid "Blocked permanently"
 msgstr "ละเว้นอย่างถาวร"
 
 #: weblate/templates/accounts/user.html:279
-#: weblate/templates/trans/project-access.html:68
+#: weblate/templates/trans/project-access.html:69
 #, fuzzy
 #| msgid "Unlock"
 msgid "Unblock user"
@@ -5318,6 +5333,8 @@ msgstr "ปลดล็อก"
 #: weblate/templates/language.html:32 weblate/templates/list-comments.html:40
 #: weblate/templates/manage/backups.html:64
 #: weblate/templates/manage/backups.html:87
+#: weblate/templates/manage/groups.html:73
+#: weblate/templates/manage/groups.html:93
 #: weblate/templates/memory/index.html:48
 #: weblate/templates/memory/index.html:63
 #: weblate/templates/memory/index.html:105
@@ -5326,8 +5343,8 @@ msgstr "ปลดล็อก"
 #: weblate/templates/screenshots/screenshot_detail.html:101
 #: weblate/templates/screenshots/screenshot_list.html:67
 #: weblate/templates/snippets/suggestions.html:41
-#: weblate/templates/trans/project-access.html:178
-#: weblate/templates/trans/project-access.html:195
+#: weblate/templates/trans/project-access.html:181
+#: weblate/templates/trans/project-access.html:201
 msgid "Delete"
 msgstr "ลบ"
 
@@ -5670,12 +5687,12 @@ msgstr "ภาพรวมการเรียกเก็บเงิน"
 #: weblate/templates/memory/index.html:18 weblate/templates/project.html:83
 #: weblate/templates/translate.html:370
 #: weblate/wladmin/templates/admin/weblate-index.html:43
-#: weblate/wladmin/views.py:76
+#: weblate/wladmin/views.py:81
 msgid "Translation memory"
 msgstr "หน่วยความจำคำแปล"
 
 #: weblate/templates/base.html:265 weblate/templates/component-settings.html:9
-#: weblate/templates/component.html:99
+#: weblate/templates/component.html:99 weblate/templates/manage/group.html:20
 #: weblate/templates/project-settings.html:8 weblate/templates/project.html:99
 msgid "Settings"
 msgstr "การตั้งค่า"
@@ -5719,14 +5736,15 @@ msgstr "มีส่วนร่วมกับ Weblate"
 #: weblate/templates/base.html:336 weblate/templates/base.html:344
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
+#: weblate/templates/manage/groups.html:83
 #: weblate/templates/memory/index.html:56
 #: weblate/templates/memory/index.html:79
 #: weblate/templates/memory/index.html:114
 #: weblate/templates/memory/index.html:138
 #: weblate/templates/trans/project-access-row.html:48
 #: weblate/templates/trans/project-access-row.html:68
-#: weblate/templates/trans/project-access.html:188
-#: weblate/templates/trans/project-access.html:208
+#: weblate/templates/trans/project-access.html:191
+#: weblate/templates/trans/project-access.html:214
 #: weblate/templates/translate.html:566 weblate/templates/translate.html:714
 #: weblate/templates/translate.html:768 weblate/templates/translate.html:790
 msgid "Close"
@@ -5993,8 +6011,8 @@ msgstr "ตรวจสอบสถานะการเรียกเก็บ
 msgid "Browse"
 msgstr "เรียกดู"
 
-#: weblate/templates/browse.html:49 weblate/trans/views/edit.py:255
-#: weblate/trans/views/edit.py:567
+#: weblate/templates/browse.html:49 weblate/trans/views/edit.py:258
+#: weblate/trans/views/edit.py:571
 #, fuzzy
 #| msgid "No words found!"
 msgid "No strings found!"
@@ -6089,7 +6107,7 @@ msgstr "กลับไปที่คอมโพเนนต์หลังจ
 msgid "Info"
 msgstr "ข้อมูล"
 
-#: weblate/templates/component.html:35 weblate/wladmin/views.py:79
+#: weblate/templates/component.html:35 weblate/wladmin/views.py:84
 msgid "Alerts"
 msgstr "การแจ้งเตือน"
 
@@ -6142,7 +6160,7 @@ msgstr "ดาวน์โหลดไฟล์คำแปลเป็นไฟ
 #: weblate/templates/language-project.html:38
 #: weblate/templates/language.html:25 weblate/templates/manage/tools.html:9
 #: weblate/templates/project.html:60 weblate/templates/translate.html:177
-#: weblate/templates/translation.html:64 weblate/wladmin/views.py:83
+#: weblate/templates/translation.html:64 weblate/wladmin/views.py:89
 msgid "Tools"
 msgstr "เครื่องมือ"
 
@@ -6152,7 +6170,7 @@ msgstr "เครื่องมือ"
 #: weblate/templates/language-project.html:90 weblate/templates/project.html:64
 #: weblate/templates/project.html:192 weblate/templates/replace.html:19
 #: weblate/templates/translation.html:68 weblate/templates/translation.html:253
-#: weblate/trans/models/change.py:302
+#: weblate/trans/models/change.py:303
 msgid "Search and replace"
 msgstr "ค้นหาและแทนที่"
 
@@ -6177,6 +6195,8 @@ msgstr "เริ่มการแปลใหม่"
 #: weblate/templates/manage/appearance.html:9
 #: weblate/templates/manage/backups.html:7
 #: weblate/templates/manage/billing.html:6
+#: weblate/templates/manage/group.html:10
+#: weblate/templates/manage/groups.html:10
 #: weblate/templates/manage/index.html:14
 #: weblate/templates/manage/performance.html:8
 #: weblate/templates/manage/repos.html:5 weblate/templates/manage/ssh.html:7
@@ -6316,8 +6336,8 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/snippets/query-builder.html:107
 #: weblate/templates/snippets/query-builder.html:114
-#: weblate/templates/trans/project-access.html:95
-#: weblate/templates/trans/project-access.html:239
+#: weblate/templates/trans/project-access.html:96
+#: weblate/templates/trans/project-access.html:245
 #: weblate/templates/translate.html:775 weblate/templates/translation.html:298
 #: weblate/templates/translation.html:411
 msgid "Add"
@@ -7078,7 +7098,7 @@ msgstr "แปลงกลับ"
 
 #: weblate/templates/last-changes-content.html:40
 #: weblate/templates/snippets/suggestions.html:46
-#: weblate/templates/trans/project-access.html:104
+#: weblate/templates/trans/project-access.html:105
 msgid "Block user"
 msgstr ""
 
@@ -7709,7 +7729,7 @@ msgstr "ลบ"
 msgid "Congratulations, your setup seems to work."
 msgstr "ยินดีด้วย การตั้งค่าของคุณดูเหมือนจะได้ผล"
 
-#: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:82
+#: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:88
 msgid "Appearance"
 msgstr ""
 
@@ -7726,7 +7746,7 @@ msgid "Reset customization"
 msgstr "การดูแลระบบ"
 
 #: weblate/templates/manage/backups.html:8 weblate/templates/project.html:98
-#: weblate/templates/trans/backups.html:8 weblate/wladmin/views.py:75
+#: weblate/templates/trans/backups.html:8 weblate/wladmin/views.py:80
 msgid "Backups"
 msgstr "การสำรองข้อมูล"
 
@@ -7756,14 +7776,14 @@ msgid "Perform backup"
 msgstr "สำรองข้อมูล"
 
 #: weblate/templates/manage/backups.html:78
+#: weblate/templates/manage/groups.html:84
 #: weblate/templates/memory/index.html:57
 #: weblate/templates/memory/index.html:80
 #: weblate/templates/memory/index.html:115
 #: weblate/templates/memory/index.html:139
 #: weblate/templates/trans/delete-form.html:7
 #: weblate/templates/trans/project-access-row.html:49
-#: weblate/templates/trans/project-access.html:189
-#: weblate/templates/trans/project-access.html:209
+#: weblate/templates/trans/project-access.html:192
 msgid "Are you absolutely sure?"
 msgstr "คุณแน่ใจหรือไม่?"
 
@@ -7792,6 +7812,47 @@ msgstr "การจัดเก็บ"
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
 msgstr ""
+
+#: weblate/templates/manage/group.html:21
+#, fuzzy
+#| msgid "Automatic group assignments"
+msgid "Automatic assignments"
+msgstr "การกำหนดกลุ่มอัตโนมัติ"
+
+#: weblate/templates/manage/group.html:34
+#, fuzzy
+#| msgid "Automatic group assignment"
+msgid "Add automatic assignment"
+msgstr "การกำหนดกลุ่มอัตโนมัติ"
+
+#: weblate/templates/manage/groups.html:43
+#: weblate/templates/trans/project-access.html:164
+#, fuzzy
+#| msgid "Access control"
+msgid "Access only"
+msgstr "การควบคุมการเข้าถึง"
+
+#: weblate/templates/manage/groups.html:87
+#, fuzzy, python-format
+#| msgid "This will remove <b>%(user)s</b> access to this project."
+msgid "This will delete the group <b>%(name)s</b>."
+msgstr "การดำเนินการนี้จะเอาสิทธิ์การเข้าถึงโครงการนี้ของ <b>%(user)s</b> ออก"
+
+#: weblate/templates/manage/groups.html:89
+#, python-format
+msgid ""
+"There is %(count)s member of this group. Deleting the group might affect "
+"their access."
+msgid_plural ""
+"There are %(count)s members of this group. Deleting the group might affect "
+"their access."
+msgstr[0] ""
+
+#: weblate/templates/manage/groups.html:114
+#, fuzzy
+#| msgid "Manage glossary"
+msgid "Create new group"
+msgstr "จัดการอภิธานศัพท์"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7869,7 +7930,7 @@ msgstr ""
 
 #: weblate/templates/manage/performance.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:36
-#: weblate/wladmin/views.py:77
+#: weblate/wladmin/views.py:82
 msgid "Performance report"
 msgstr "รายงานประสิทธิภาพ"
 
@@ -8003,7 +8064,7 @@ msgstr ""
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
-#: weblate/wladmin/views.py:78
+#: weblate/wladmin/views.py:83
 msgid "SSH keys"
 msgstr "กุญแจ SSH"
 
@@ -9299,7 +9360,7 @@ msgstr "คีย์ SSH ไม่พร้อมใช้งาน"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:262
+#: weblate/trans/models/change.py:263
 msgid "Suggestion added"
 msgstr "เพิ่มข้อเสนอแนะแล้ว"
 
@@ -9997,7 +10058,7 @@ msgid "Locked"
 msgstr ""
 
 #: weblate/templates/trans/project-access-row.html:25
-#: weblate/templates/trans/project-access.html:54
+#: weblate/templates/trans/project-access.html:55
 msgid "Not yet signed in"
 msgstr "ยังไม่ได้ลงชื่อเข้า"
 
@@ -10015,85 +10076,95 @@ msgstr ""
 msgid "Resend invitation"
 msgstr "ส่งคำเชิญซ้ำ"
 
-#: weblate/templates/trans/project-access.html:10
+#: weblate/templates/trans/project-access.html:11
 #: weblate/trans/models/project.py:139
 msgid "Access control"
 msgstr "การควบคุมการเข้าถึง"
 
-#: weblate/templates/trans/project-access.html:19
-#: weblate/templates/trans/project-access.html:41
-#: weblate/templates/trans/project-access.html:140
-#: weblate/templates/trans/project-access.html:258 weblate/trans/forms.py:2587
+#: weblate/templates/trans/project-access.html:20
+#: weblate/templates/trans/project-access.html:42
+#: weblate/templates/trans/project-access.html:141
+#: weblate/templates/trans/project-access.html:264 weblate/trans/forms.py:2587
 msgid "Teams"
 msgstr ""
 
-#: weblate/templates/trans/project-access.html:40
+#: weblate/templates/trans/project-access.html:41
 #, fuzzy
 #| msgid "Last login"
 msgid "Last sign in"
 msgstr "การเข้าสู่ระบบครั้งล่าสุด"
 
-#: weblate/templates/trans/project-access.html:78
+#: weblate/templates/trans/project-access.html:79
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr ""
 
-#: weblate/templates/trans/project-access.html:89
+#: weblate/templates/trans/project-access.html:90
 msgid "Add a user"
 msgstr "เพิ่มผู้ใช้"
 
-#: weblate/templates/trans/project-access.html:110
+#: weblate/templates/trans/project-access.html:111
 #, fuzzy
 #| msgid "Unlock"
 msgid "Block"
 msgstr "ปลดล็อก"
 
-#: weblate/templates/trans/project-access.html:121
+#: weblate/templates/trans/project-access.html:122
 msgid "Invite new user"
 msgstr "เชิญผู้ใช้ใหม่"
 
-#: weblate/templates/trans/project-access.html:127
+#: weblate/templates/trans/project-access.html:128
 msgid "Invite"
 msgstr "เชิญ"
 
-#: weblate/templates/trans/project-access.html:162
-#, fuzzy
-#| msgid "Access control"
-msgid "Access only"
-msgstr "การควบคุมการเข้าถึง"
-
-#: weblate/templates/trans/project-access.html:192
+#: weblate/templates/trans/project-access.html:195
 #, fuzzy, python-format
 #| msgid "This will remove <b>%(user)s</b> access to this project."
 msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "การดำเนินการนี้จะเอาสิทธิ์การเข้าถึงโครงการนี้ของ <b>%(user)s</b> ออก"
 
-#: weblate/templates/trans/project-access.html:232
+#: weblate/templates/trans/project-access.html:197
+#, python-format
+msgid ""
+"There is %(count)s member of this team. Deleting the team might affect their "
+"access to the project."
+msgid_plural ""
+"There are %(count)s members of this team. Deleting the team might affect "
+"their access to the project."
+msgstr[0] ""
+
+#: weblate/templates/trans/project-access.html:215
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit team"
+msgstr "แก้ไขป้ายชื่อ"
+
+#: weblate/templates/trans/project-access.html:238
 #, fuzzy
 #| msgid "Manage glossary"
 msgid "Create new team"
 msgstr "จัดการอภิธานศัพท์"
 
-#: weblate/templates/trans/project-access.html:277
+#: weblate/templates/trans/project-access.html:283
 #, fuzzy
 #| msgid "Language"
 msgid "Create a project token"
 msgstr "ภาษา"
 
-#: weblate/templates/trans/project-access.html:283
+#: weblate/templates/trans/project-access.html:289
 #, fuzzy
 #| msgid "Created"
 msgid "Create"
 msgstr "วันที่สร้าง"
 
-#: weblate/templates/trans/project-access.html:293
+#: weblate/templates/trans/project-access.html:299
 #, fuzzy
 #| msgid "Your personal API key:"
 msgid "Personal API key"
 msgstr "คีย์ API ส่วนตัวของคุณ:"
 
-#: weblate/templates/trans/project-access.html:306
+#: weblate/templates/trans/project-access.html:312
 msgid "This is your personal API key, do not share it with anybody else."
 msgstr ""
 
@@ -10268,9 +10339,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "มีสิทธิอนุญาตไม่เพียงพอในการเพิ่มข้อเสนอแนะ"
 
-#: weblate/templates/translate.html:217 weblate/trans/views/edit.py:415
-#: weblate/trans/views/edit.py:436 weblate/trans/views/edit.py:454
-#: weblate/trans/views/edit.py:931
+#: weblate/templates/translate.html:217 weblate/trans/views/edit.py:419
+#: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:458
+#: weblate/trans/views/edit.py:935
 msgid "Insufficient privileges for saving translations."
 msgstr "มีสิทธิอนุญาตไม่เพียงพอในการบันทึกคำแปล"
 
@@ -10734,7 +10805,7 @@ msgstr "URL ภาพ"
 msgid "Open in full editor"
 msgstr "เปิดในตัวแก้ไขแบบเต็ม"
 
-#: weblate/templates/zen-units.html:99 weblate/trans/views/edit.py:572
+#: weblate/templates/zen-units.html:99 weblate/trans/views/edit.py:576
 msgid "The translation has come to an end."
 msgstr "การแปลมาถึงจุดสิ้นสุดแล้ว"
 
@@ -11789,211 +11860,211 @@ msgid "Do not specify both component and project!"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:252
+#: weblate/trans/models/change.py:253
 msgid "Resource update"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:254
+#: weblate/trans/models/change.py:255
 msgid "Translation completed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:256
+#: weblate/trans/models/change.py:257
 msgid "Translation changed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:258
+#: weblate/trans/models/change.py:259
 msgid "New translation"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:260
+#: weblate/trans/models/change.py:261
 msgid "Comment added"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:266
+#: weblate/trans/models/change.py:267
 msgid "Suggestion accepted"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:268
+#: weblate/trans/models/change.py:269
 msgid "Translation reverted"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:270
+#: weblate/trans/models/change.py:271
 msgid "Translation uploaded"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:272
+#: weblate/trans/models/change.py:273
 msgid "New source string"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:274
+#: weblate/trans/models/change.py:275
 msgid "Component locked"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:276
+#: weblate/trans/models/change.py:277
 msgid "Component unlocked"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:278
+#: weblate/trans/models/change.py:279
 #, fuzzy
 #| msgid "Search"
 msgid "Found duplicated string"
 msgstr "ค้นหา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:280
+#: weblate/trans/models/change.py:281
 msgid "Committed changes"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:282
+#: weblate/trans/models/change.py:283
 msgid "Pushed changes"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:284
+#: weblate/trans/models/change.py:285
 msgid "Reset repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:286
+#: weblate/trans/models/change.py:287
 msgid "Merged repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:288
+#: weblate/trans/models/change.py:289
 msgid "Rebased repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:290
+#: weblate/trans/models/change.py:291
 msgid "Failed merge on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:292
+#: weblate/trans/models/change.py:293
 msgid "Failed rebase on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:294
+#: weblate/trans/models/change.py:295
 msgid "Failed push on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:298
+#: weblate/trans/models/change.py:299
 msgid "Removed translation"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:300
+#: weblate/trans/models/change.py:301
 msgid "Suggestion removed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:304
+#: weblate/trans/models/change.py:305
 msgid "Suggestion removed during cleanup"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:306
+#: weblate/trans/models/change.py:307
 #, fuzzy
 #| msgid "Search"
 msgid "Source string changed"
 msgstr "ค้นหา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:308
+#: weblate/trans/models/change.py:309
 #, fuzzy
 #| msgid "Search"
 msgid "New string added"
 msgstr "ค้นหา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:310
+#: weblate/trans/models/change.py:311
 msgid "Bulk status change"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:312
+#: weblate/trans/models/change.py:313
 #, fuzzy
 #| msgid "Change password"
 msgid "Changed visibility"
 msgstr "เปลี่ยนรหัสผ่าน"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:314
+#: weblate/trans/models/change.py:315
 msgid "Added user"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:316
+#: weblate/trans/models/change.py:317
 msgid "Removed user"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:318
+#: weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "Administration"
 msgid "Translation approved"
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:320
+#: weblate/trans/models/change.py:321
 msgid "Marked for edit"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:322
+#: weblate/trans/models/change.py:323
 #, fuzzy
 #| msgid "Delete"
 msgid "Removed component"
 msgstr "ลบ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:324
+#: weblate/trans/models/change.py:325
 msgid "Removed project"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:326
+#: weblate/trans/models/change.py:327
 #, fuzzy
 #| msgid "Language"
 msgid "Found duplicated language"
 msgstr "ภาษา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:328
+#: weblate/trans/models/change.py:329
 #, fuzzy
 #| msgid "Language"
 msgid "Renamed project"
 msgstr "ภาษา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:330
+#: weblate/trans/models/change.py:331
 #, fuzzy
 #| msgid "Delete"
 msgid "Renamed component"
 msgstr "ลบ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:332
+#: weblate/trans/models/change.py:333
 #, fuzzy
 #| msgid "Delete"
 msgid "Moved component"
 msgstr "ลบ"
 
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:338
 #, fuzzy
 #| msgid "Administration"
 msgctxt "Name of event in the history"
@@ -12001,123 +12072,130 @@ msgid "New string to translate"
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:346
+#: weblate/trans/models/change.py:347
 #, fuzzy
 #| msgid "Language"
 msgid "Added new language"
 msgstr "ภาษา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:348
+#: weblate/trans/models/change.py:349
 #, fuzzy
 #| msgid "Language"
 msgid "Requested new language"
 msgstr "ภาษา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:350
+#: weblate/trans/models/change.py:351
 #, fuzzy
 #| msgid "Language"
 msgid "Created project"
 msgstr "ภาษา"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:352
+#: weblate/trans/models/change.py:353
 #, fuzzy
 #| msgid "Delete"
 msgid "Created component"
 msgstr "ลบ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:354
+#: weblate/trans/models/change.py:355
 msgid "Invited user"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:356
+#: weblate/trans/models/change.py:357
 #, fuzzy
 #| msgid "Administration"
 msgid "Received repository notification"
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:358
+#: weblate/trans/models/change.py:359
 msgid "Replaced file by upload"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:360
+#: weblate/trans/models/change.py:361
 #, fuzzy
 #| msgid "Last change"
 msgid "License changed"
 msgstr "การเปลี่ยนแปลงล่าสุด"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:362
+#: weblate/trans/models/change.py:363
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
 msgstr "ข้อตกลงสำหรับผู้มีส่วนร่วม"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:364
+#: weblate/trans/models/change.py:365
 #, fuzzy
 #| msgid "Screenshot name"
 msgid "Screnshot added"
 msgstr "ชื่อภาพหน้าจอ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:366
+#: weblate/trans/models/change.py:367
 #, fuzzy
 #| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
 msgstr "ภาพหน้าจอที่อัปโหลด"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:368
+#: weblate/trans/models/change.py:369
 #, fuzzy
 #| msgid "Update the internal repository"
 msgid "String updated in the repository"
 msgstr "ปรับปรุงที่เก็บภายใน"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:370
+#: weblate/trans/models/change.py:371
 msgid "Add-on installed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:372
+#: weblate/trans/models/change.py:373
 msgid "Add-on configuration changed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:374
+#: weblate/trans/models/change.py:375
 msgid "Add-on uninstalled"
 msgstr ""
 
-#: weblate/trans/models/change.py:444
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:377
+#, fuzzy
+#| msgid "Remove a string"
+msgid "Remove string"
+msgstr "เอาสตริงออก"
+
+#: weblate/trans/models/change.py:448
 #, fuzzy
 #| msgid "Administration"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "การดูแลระบบ"
 
-#: weblate/trans/models/change.py:450
+#: weblate/trans/models/change.py:454
 #, fuzzy
 #| msgid "This translation is currently locked for updates."
 msgid "The component was automatically locked because of an alert."
 msgstr "การแปลนี้ถูกล็อกไว้สำหรับการอัปเดตในขณะนี้"
 
-#: weblate/trans/models/change.py:454
+#: weblate/trans/models/change.py:458
 msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
 
-#: weblate/trans/models/change.py:510
+#: weblate/trans/models/change.py:514
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: weblate/trans/models/change.py:612
+#: weblate/trans/models/change.py:616
 #, fuzzy, python-format
 #| msgid "New string to translate in %(translation)s"
 #| msgid_plural "New strings to translate in %(translation)s"
@@ -12125,26 +12203,26 @@ msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
 msgstr[0] "มีสตริงใหม่ให้แปลใน %(translation)s"
 
-#: weblate/trans/models/change.py:648
+#: weblate/trans/models/change.py:652
 #, fuzzy
 #| msgid "Last change"
 msgid "The \"{}\" file was changed."
 msgstr "การเปลี่ยนแปลงล่าสุด"
 
-#: weblate/trans/models/change.py:651
+#: weblate/trans/models/change.py:655
 msgid "Parsing of the \"{}\" file was enforced."
 msgstr ""
 
-#: weblate/trans/models/change.py:654
+#: weblate/trans/models/change.py:658
 msgid "File {} was added."
 msgstr ""
 
-#: weblate/trans/models/change.py:658
+#: weblate/trans/models/change.py:662
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "ไม่มีข้อมูล"
 
-#: weblate/trans/models/change.py:660
+#: weblate/trans/models/change.py:664
 #, fuzzy, python-format
 #| msgid "Language"
 msgid ""
@@ -12933,78 +13011,98 @@ msgstr ""
 msgid "Failed to accept suggestion!"
 msgstr ""
 
-#: weblate/trans/models/translation.py:203
+#: weblate/trans/models/translation.py:207
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: weblate/trans/models/translation.py:212
+#: weblate/trans/models/translation.py:216
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1530
+#: weblate/trans/models/translation.py:980
+#: weblate/trans/models/translation.py:1062
+#: weblate/trans/models/translation.py:1184
+#, fuzzy, python-format
+#| msgid "Commit pending changes"
+msgid "Failed to commit pending changes: %s"
+msgstr "ส่งการเปลี่ยนแปลงที่รอค้างอยู่"
+
+#: weblate/trans/models/translation.py:1565
 #, fuzzy
 #| msgid "Administration"
 msgid "This string seems to already exist."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/translation.py:1537
+#: weblate/trans/models/translation.py:1572
 #, fuzzy, python-format
 #| msgid "Versions"
 msgid "Failed adding string: %s"
 msgstr "รุ่น"
 
-#: weblate/trans/models/translation.py:1537
+#: weblate/trans/models/translation.py:1572
 #, fuzzy
 #| msgid "Administration"
 msgid "No translation found."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/unit.py:911
+#: weblate/trans/models/unit.py:913
 #, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatically translated"
 msgstr "การแปลแบบอัตโนมัติ"
 
-#: weblate/trans/models/unit.py:1549
+#: weblate/trans/models/unit.py:1554
 #, fuzzy
 #| msgid "Administration"
 msgid "Unmark as read-only"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/unit.py:1552
+#: weblate/trans/models/unit.py:1557
 #, fuzzy
 #| msgid "Mark as spam"
 msgid "Mark as read-only"
 msgstr "ทำเครื่องหมายว่าเป็นสแปม"
 
-#: weblate/trans/models/unit.py:1559
+#: weblate/trans/models/unit.py:1561
+#, fuzzy
+#| msgid "Administration"
+msgid "Unmark as untranslatable"
+msgstr "การดูแลระบบ"
+
+#: weblate/trans/models/unit.py:1565
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Mark as untranslatable"
+msgstr "เพิ่มเป็นคำแปลอื่น ๆ"
+
+#: weblate/trans/models/unit.py:1572
 #, fuzzy
 #| msgid "Administration"
 msgid "Unmark as forbidden translation"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/models/unit.py:1567
+#: weblate/trans/models/unit.py:1580
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "เพิ่มเป็นคำแปลอื่น ๆ"
 
-#: weblate/trans/models/unit.py:1575
+#: weblate/trans/models/unit.py:1588
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1583
+#: weblate/trans/models/unit.py:1596
 msgid "Mark as terminology"
 msgstr ""
 
@@ -13525,117 +13623,117 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 
-#: weblate/trans/views/edit.py:279
+#: weblate/trans/views/edit.py:283
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:284
+#: weblate/trans/views/edit.py:288
 msgid "You don't have privileges to add suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:290
+#: weblate/trans/views/edit.py:294
 msgid "Your suggestion has been identified as spam!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:301
+#: weblate/trans/views/edit.py:305
 msgid "Your suggestion already exists!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:343
+#: weblate/trans/views/edit.py:347
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
-#: weblate/trans/views/edit.py:369
+#: weblate/trans/views/edit.py:373
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:392
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr ""
 
-#: weblate/trans/views/edit.py:430
+#: weblate/trans/views/edit.py:434
 msgid "Invalid merge request!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:448
+#: weblate/trans/views/edit.py:452
 msgid "Invalid revert request!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:458
+#: weblate/trans/views/edit.py:462
 msgid "Can not revert to empty translation!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:477
+#: weblate/trans/views/edit.py:481
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:487
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:489
+#: weblate/trans/views/edit.py:493
 msgid "You do not have privilege to vote for suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:513
+#: weblate/trans/views/edit.py:517
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:582
+#: weblate/trans/views/edit.py:586
 msgid "Invalid search string!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:711 weblate/trans/views/search.py:98
+#: weblate/trans/views/edit.py:715 weblate/trans/views/search.py:98
 #: weblate/trans/views/search.py:256
 msgid "Failed to process form!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:733
+#: weblate/trans/views/edit.py:737
 #, fuzzy
 #| msgid "Administration"
 msgid "Automatic translation in progress"
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/views/edit.py:769
+#: weblate/trans/views/edit.py:773
 #, fuzzy
 #| msgid "Source has been removed."
 msgid "Source needs review"
 msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
-#: weblate/trans/views/edit.py:772
+#: weblate/trans/views/edit.py:776
 msgid "Posted new comment"
 msgstr ""
 
-#: weblate/trans/views/edit.py:774
+#: weblate/trans/views/edit.py:778
 msgid "Failed to add comment!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:793
+#: weblate/trans/views/edit.py:797
 #, fuzzy
 #| msgid "Administration"
 msgid "Comment has been deleted."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/views/edit.py:811
+#: weblate/trans/views/edit.py:815
 #, fuzzy
 #| msgid "Administration"
 msgid "Comment has been resolved."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/views/edit.py:975
+#: weblate/trans/views/edit.py:979
 #, fuzzy
 #| msgid "Administration"
 msgid "New string has been added."
 msgstr "การดูแลระบบ"
 
-#: weblate/trans/views/edit.py:994
+#: weblate/trans/views/edit.py:998
 #, fuzzy, python-format
 #| msgid "Failed to parse TMX file!"
 msgid "Failed to remove the string: %s"
@@ -13667,7 +13765,7 @@ msgstr[0] ""
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
 
-#: weblate/trans/views/files.py:214
+#: weblate/trans/views/files.py:217
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "การอัปโหลดไฟล์ล้มเหลว: %s"
@@ -13951,17 +14049,17 @@ msgstr ""
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/search.py:304
+#: weblate/utils/search.py:297
 #, fuzzy
 #| msgid "Status"
 msgid "Unsupported state: {}"
 msgstr "สถานะ"
 
-#: weblate/utils/search.py:369
+#: weblate/utils/search.py:362
 msgid "Invalid timestamp: {}"
 msgstr ""
 
-#: weblate/utils/search.py:439
+#: weblate/utils/search.py:432
 msgid "Invalid regular expression: {}"
 msgstr ""
 
@@ -14323,49 +14421,49 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: weblate/wladmin/views.py:74
+#: weblate/wladmin/views.py:79
 #, fuzzy
 #| msgid "Administration"
 msgid "Weblate status"
 msgstr "การดูแลระบบ"
 
-#: weblate/wladmin/views.py:80
+#: weblate/wladmin/views.py:85
 #, fuzzy
 #| msgid "Versions"
 msgid "Repositories"
 msgstr "รุ่น"
 
-#: weblate/wladmin/views.py:130
+#: weblate/wladmin/views.py:136
 msgid "Test e-mail sent."
 msgstr ""
 
-#: weblate/wladmin/views.py:133
+#: weblate/wladmin/views.py:139
 #, fuzzy, python-format
 #| msgid "Administration"
 msgid "Could not send test e-mail: %s"
 msgstr "การดูแลระบบ"
 
-#: weblate/wladmin/views.py:182
+#: weblate/wladmin/views.py:188
 #, fuzzy
 #| msgid "Authentication"
 msgid "Activation completed."
 msgstr "รับรองความถูกต้อง"
 
-#: weblate/wladmin/views.py:188
+#: weblate/wladmin/views.py:194
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
 msgstr ""
 
-#: weblate/wladmin/views.py:233
+#: weblate/wladmin/views.py:239
 msgid "Backup process triggered"
 msgstr ""
 
-#: weblate/wladmin/views.py:255
+#: weblate/wladmin/views.py:261
 msgid "Could not dismiss the configuration error!"
 msgstr ""
 
-#: weblate/wladmin/views.py:356
+#: weblate/wladmin/views.py:362
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Created user account {}."
@@ -14519,12 +14617,6 @@ msgstr "ลบบัญชีนี้"
 
 #~ msgid "Permission"
 #~ msgstr "สิทธิ์"
-
-#~ msgid "Automatic group assignment"
-#~ msgstr "การกำหนดกลุ่มอัตโนมัติ"
-
-#~ msgid "Automatic group assignments"
-#~ msgstr "การกำหนดกลุ่มอัตโนมัติ"
 
 #, fuzzy
 #~| msgctxt "Access-control role"
