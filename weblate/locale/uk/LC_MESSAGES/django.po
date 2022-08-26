@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-20 17:08+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2022-08-26 14:16+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -2182,7 +2182,7 @@ msgstr "Повторно надіслати запрошення користу�
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "Зміна %s заборонена для вбудованих груп."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -4220,12 +4220,9 @@ msgid "Dec"
 msgstr "Гру"
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid ""
-#| "{new_lang} translation is currently not "
-#| "available,                                but can be added."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
-msgstr "Перекладу мовою {new_lang} ще немає, але його можна додати."
+msgstr "Перекладу мовою %s ще немає, але його можна додати."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -7749,16 +7746,12 @@ msgid "Libre"
 msgstr "Вільний"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "Автоматичні призначення груп"
+msgstr "Автоматичні призначення"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "Автоматичне призначення групи"
+msgstr "Додати автоматичне призначення"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7766,13 +7759,12 @@ msgid "Access only"
 msgstr "Лише доступ"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "У результаті команду <b>%(name)s</b> буде вилучено з проєкту."
+msgstr "Це призведе до видалення групи <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "There is %(count)s member of this group. Deleting the group might affect "
 "their access."
@@ -7780,15 +7772,19 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"У цій групі %(count)s учасник. Видалення групи може вплинути на його доступ."
 msgstr[1] ""
+"У цій групі %(count)s учасники. Видалення групи може вплинути на їхній "
+"доступ."
 msgstr[2] ""
+"У цій групі %(count)s учасників. Видалення групи може вплинути на їхній "
+"доступ."
 msgstr[3] ""
+"У цій групі %(count)s учасник. Видалення групи може вплинути на їхній доступ."
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "Створити команду"
+msgstr "Створити групу"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -10009,7 +10005,7 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "У результаті команду <b>%(name)s</b> буде вилучено з проєкту."
 
 #: weblate/templates/trans/project-access.html:197
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "There is %(count)s member of this team. Deleting the team might affect their "
 "access to the project."
@@ -10017,15 +10013,21 @@ msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
 msgstr[0] ""
+"У команді %(count)s учасник. Видалення команди може вплинути на його доступ "
+"до проєкту."
 msgstr[1] ""
+"У команді %(count)s учасники. Видалення команди може вплинути на їхній "
+"доступ до проєкту."
 msgstr[2] ""
+"У команді %(count)s учасників. Видалення команди може вплинути на їхній "
+"доступ до проєкту."
 msgstr[3] ""
+"У команді %(count)s учасник. Видалення команди може вплинути на його доступ "
+"до проєкту."
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "Редагувати мітку"
+msgstr "Редагувати команду"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -11819,8 +11821,6 @@ msgstr "Додаток вилучено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
 msgstr "Вилучити рядок"
 
@@ -12673,10 +12673,9 @@ msgstr "Не вдалося прочитати файл %(file)s: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Подати чергу змін"
+msgstr "Не вдалося надіслати очікувані зміни: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12713,32 +12712,28 @@ msgid "Mark as read-only"
 msgstr "Позначити «лише читання»"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Скасувати позначення як забороненого перекладу"
+msgstr "Скасувати позначення неперекладним"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Позначити як заборонений переклад"
+msgstr "Позначити неперекладним"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
-msgstr "Скасувати позначення як забороненого перекладу"
+msgstr "Скасувати позначення забороненим перекладом"
 
 #: weblate/trans/models/unit.py:1580
 msgid "Mark as forbidden translation"
-msgstr "Позначити як заборонений переклад"
+msgstr "Позначити забороненим перекладом"
 
 #: weblate/trans/models/unit.py:1588
 msgid "Unmark as terminology"
-msgstr "Скасувати позначення як термінології"
+msgstr "Скасувати позначення термінологією"
 
 #: weblate/trans/models/unit.py:1596
 msgid "Mark as terminology"
-msgstr "Позначити як термінологію"
+msgstr "Позначити термінологією"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
