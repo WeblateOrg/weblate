@@ -318,6 +318,16 @@ class EscapedNewlineCountingCheck(CountingCheck):
     name = _("Mismatched \\n")
     description = _("Number of \\n literals in translation does not match source")
 
+    ignore_re = re.compile(r"[A-Z]:\\\\[^\\ ]+(\\[^\\ ]+)+")
+
+    def check_single(self, source, target, unit):
+        if not target or not source:
+            return False
+
+        target = self.ignore_re.sub("", target)
+        source = self.ignore_re.sub("", source)
+        return super().check_single(source, target, unit)
+
 
 class NewLineCountCheck(CountingCheck):
     """Check whether there is same amount of new lines."""

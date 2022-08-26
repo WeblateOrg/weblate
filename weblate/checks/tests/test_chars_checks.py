@@ -216,6 +216,7 @@ class EscapedNewlineCountingCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = ("string\\nstring", "string\\nstring", "")
+        self.test_good_none = (r"C:\\path\name", r"C:\\path\jmeno", "")
         self.test_failure_1 = ("string\\nstring", "string\\n\\nstring", "")
         self.test_failure_2 = ("string\\n\\nstring", "string\\nstring", "")
 
