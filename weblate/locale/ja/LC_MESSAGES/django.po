@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-23 21:31+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-08-28 13:44+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -38,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2136,7 +2136,7 @@ msgstr "ユーザーに招待メールを再送信する"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "システム既定のグループの場合、%s の変更は禁止されています。"
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -3974,7 +3974,8 @@ msgstr "翻訳のドメイン"
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
-msgstr ""
+msgstr "翻訳ドメインの ID（BC など）。ドメインを指定しない場合、このメソッドは使用可"
+"能なすべてのドメインで翻訳を検索します。"
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4161,12 +4162,9 @@ msgid "Dec"
 msgstr "12 月"
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid ""
-#| "{new_lang} translation is currently not "
-#| "available,                                but can be added."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
-msgstr "{new_lang} の翻訳は今はありませんが、追加できます。"
+msgstr "%s 翻訳は現在使用できませんが、追加はできます。"
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -7605,16 +7603,12 @@ msgid "Libre"
 msgstr "Libre"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "自動的なグループの割り当て"
+msgstr "自動割り当て"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "自動的なグループの割り当て"
+msgstr "自動割り当ての追加"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7622,11 +7616,9 @@ msgid "Access only"
 msgstr "閲覧のみ"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr ""
-"これにより、このプロジェクトから <b>%(name)s</b> チームが削除されます。"
+msgstr "これにより、<b>%(name)s</b> グループが削除されます。"
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7636,13 +7628,12 @@ msgid ""
 msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
-msgstr[0] ""
+msgstr[0] "このグループには、%(count)s 人のメンバーが存在します。グループを削除すると、"
+"アクセスに影響を及ぼすことがあります。"
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "新しいチームの作成"
+msgstr "新しいグループの作成"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7770,10 +7761,8 @@ msgid "Cache latency"
 msgstr "キャッシュの遅延時間"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "キャッシュの遅延時間"
+msgstr "Celery の遅延時間"
 
 #: weblate/templates/manage/performance.html:164
 msgid "Not yet measured"
@@ -9827,13 +9816,12 @@ msgid ""
 msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
-msgstr[0] ""
+msgstr[0] "このチームには、%(count)s 人のメンバーが存在します。チームを削除すると、アク"
+"セスに影響を及ぼすことがあります。"
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "ラベルの編集"
+msgstr "チームの編集"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -9874,10 +9862,8 @@ msgid "Import project"
 msgstr "プロジェクトのインポート"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "バックアップの実行"
+msgstr "バックアップのインポート"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
@@ -11585,8 +11571,6 @@ msgstr "アドオンがアンインストールされました"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
 msgstr "文字列の削除"
 
@@ -11681,16 +11665,12 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "国コードを含む、ハイフンを区切り文字とする BCP 形式"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "国コードを含む、ハイフンを区切り文字とする BCP 形式"
+msgstr "従来の言語コードを含む、ハイフンを区切り文字とする BCP 形式"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "ハイフンを区切り文字とする BCP 形式"
+msgstr "小文字を含む、ハイフンを区切り文字とする BCP 形式"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
@@ -12416,10 +12396,9 @@ msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "保留中の変更をコミットする"
+msgstr "保留中に失敗したコミットの変更: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12456,16 +12435,12 @@ msgid "Mark as read-only"
 msgstr "翻訳禁止に設定"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "使用禁止の訳語の解除"
+msgstr "翻訳禁止の解除"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "使用禁止の訳語に設定"
+msgstr "翻訳禁止に設定"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
@@ -13222,7 +13197,7 @@ msgstr "プロジェクトの言語を削除しました。"
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "バックアップが開始されました、今しばらくお待ちください。"
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
