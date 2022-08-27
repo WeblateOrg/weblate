@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-08-23 21:31+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-08-28 13:34+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -4225,16 +4225,15 @@ msgid "Backing up and moving Weblate"
 msgstr "Weblate のバックアップと移動"
 
 #: ../../admin/backup.rst:9
-#, fuzzy
-#| msgid "8 weekly backups"
 msgid "Project level backups"
-msgstr "週次バックアップ、8 週間"
+msgstr "プロジェクト レベルのバックアップ"
 
 #: ../../admin/backup.rst:15
 msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
-msgstr ""
+msgstr "バックアップの復元は、PostgreSQL または MariaDB 10.5 "
+"以降をデータベースとして使用する場合にのみ対応しています。"
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -4242,6 +4241,9 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"プロジェクトは、Weblate からすべての翻訳コンテンツ（プロジェクト、コンポーネ"
+"ント、翻訳、文字列コメント、提案または検査結果）をバックアップします。"
+"プロジェクトを別の Weblate インスタンスに転送するのに適しています。"
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4249,11 +4251,14 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"プロジェクトのバックアップは、guilabel:`管理` ↓ :guilabel:`バックアップ` "
+"から実行できます。バックアップは、プロジェクトの作成時に復元できます（参照 "
+":ref:`adding-projects`）。"
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
-msgstr ""
+msgstr "現在、バックアップにはアクセス制御情報と履歴は含まれていません。"
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -4261,6 +4266,9 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"コメントと提案は、作成したユーザーのユーザー名でバックアップします。インポー"
+"ト時には、一致するユーザーに割り当てます。該当するユーザー名のユーザーが存在"
+"しない場合は、匿名ユーザーに割り当てます。"
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4268,6 +4276,10 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"生成されたバックアップは、:setting:`PROJECT_BACKUP_KEEP_DAYS` と "
+":setting:`PROJECT_BACKUP_KEEP_COUNT` "
+"に設定した通りにサーバーに保存します（デフォルトでは、最大 3 "
+"つのバックアップを 30 日間保存します）。"
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -5290,10 +5302,8 @@ msgid "``java-printf-format``"
 msgstr "`javascript-format`"
 
 #: ../../admin/checks.rst:105
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enable the :ref:`check-java-printf-format` quality check."
-msgstr ":ref:`check-javascript-format` の品質検査を有効にする。"
+msgstr ":ref:`check-java-printf-format` の品質検査を有効にする。"
 
 #: ../../admin/checks.rst:106 ../../user/checks.rst:354
 #, fuzzy
@@ -5595,10 +5605,8 @@ msgid "``ignore-java-printf-format``"
 msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:169
-#, fuzzy
-#| msgid "Skip the :ref:`check-javascript-format` quality check."
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr ":ref:`check-javascript-format` の品質検査を除外する。"
+msgstr ":ref:`check-java-printf-format` の品質検査を除外する。"
 
 #: ../../admin/checks.rst:170 ../../user/checks.rst:378
 msgid "``ignore-javascript-format``"
@@ -7964,13 +7972,14 @@ msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1338
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1342
 msgid ""
 "Defines how many backups per project are kept on the server. It defaults to "
 "3."
-msgstr ""
+msgstr "プロジェクトごとにサーバーに保存するバックアップの数を定義します。"
+"デフォルトは 3 つです。"
 
 #: ../../admin/config.rst:1346 ../../admin/config.rst:1359
 #, fuzzy
@@ -7980,13 +7989,14 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1351
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1355
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
-msgstr ""
+msgstr "プロジェクトのバックアップがサーバーに保存される期間を定義します。"
+"デフォルトは 30 日です。"
 
 #: ../../admin/config.rst:1364
 msgid "RATELIMIT_ATTEMPTS"
@@ -9260,10 +9270,8 @@ msgid "An explicit commit is requested."
 msgstr "直接コミットが要求される。"
 
 #: ../../admin/continuous.rst:366
-#, fuzzy
-#| msgid "An explicit commit is requested."
 msgid "A file download is requested."
-msgstr "直接コミットが要求される。"
+msgstr "ファイルのダウンロードが要求される。"
 
 #: ../../admin/continuous.rst:367
 msgid ""
@@ -14405,21 +14413,15 @@ msgid "Configuring Weblate"
 msgstr "Weblate の設定"
 
 #: ../../admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "Following steps assume virtualenv used by Weblate is active (what can be "
-#| "done by ``. ~/weblate-env/bin/activate``). In case this is not true, you "
-#| "will have to specify full path to :command:`weblate` command as ``~/"
-#| "weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the virtualenv used by Weblate is activated (by "
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"以下の手順は、Weblate で使用する virtualenv が有効であることを前提としていま"
-"す（``. ~/weblate-env/bin/activate`` 可能な操作 ）。無効の場合は、:command:"
-"`weblate` コマンドへのフルパス（``~/weblate-env/bin/weblate``）を指定すること"
-"が必要となります。"
+"以下の手順は、Weblate で使用する virtualenv "
+"が有効であることを前提としています（``. ~/weblate-env/bin/activate`` "
+"を実行した結果 ）。無効の場合は、:command:`weblate` コマンドへのフルパス"
+"（``~/weblate-env/bin/weblate``）の指定が必要です。"
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -14432,58 +14434,34 @@ msgstr ""
 "にコピーする。"
 
 #: ../../admin/install/steps/install-configure.rst:16
-#, fuzzy
-#| msgid ""
-#| "Create the database and its structure for Weblate (the example settings "
-#| "use PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
-"Weblate 用のデータベースと構造を作成する（設定例では、PostgreSQL を使用す"
-"る。:ref:`database-setup` で運用環境に対応した初期設定を確認する）:"
+"Weblate 用のデータベースと構造を作成する（設定例では、PostgreSQL "
+"を使用する。:ref:`database-setup` で運用環境に対応した初期設定を確認する）:"
 
 #: ../../admin/install/steps/install-configure.rst:23
-#, fuzzy
-#| msgid ""
-#| "Create the administrator user account and copy the password it outputs to "
-#| "the clipboard, and also save it for later use:"
 msgid ""
 "Create an account for the administrator user and copy its password to the "
 "clipboard, and also save it for later use:"
-msgstr ""
-"管理者ユーザー アカウントを作成し、生成されたパスワードをクリップボードにコ"
-"ピーし、後で使用するために保存する:"
+msgstr "管理者ユーザー アカウントを作成し、そのパスワードをクリップボードにコピーし、"
+"後で使用するために保存する:"
 
 #: ../../admin/install/steps/install-configure.rst:30
-#, fuzzy
-#| msgid ""
-#| "Collect static files for web server (see :ref:`server` and :ref:`static-"
-#| "files`):"
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
-msgstr ""
-"Web サーバー用の静的ファイルを収集する（ref:`server および ref:`static-"
-"files）:"
+msgstr "Web サーバーの静的ファイルを収集する（ref:`server および ref:`static-files）:"
 
 #: ../../admin/install/steps/install-configure.rst:36
-#, fuzzy
-#| msgid ""
-#| "Compress JavaScript and CSS files (optional, see :ref:`production-"
-#| "compress`):"
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
-msgstr ""
-"JavaScript ファイルと CSS ファイルを圧縮する（省略可能、参照: :ref:"
-"`production-compress`）:"
+msgstr "JavaScript ファイルと CSS ファイルを圧縮する（省略可能、参照: :ref"
+":`production-compress`）:"
 
 #: ../../admin/install/steps/install-configure.rst:42
-#, fuzzy
-#| msgid ""
-#| "Start Celery workers. This is not necessary for development purposes, but "
-#| "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
@@ -14492,14 +14470,9 @@ msgstr ""
 "ず起動すること。詳細については、 :ref:`celery` を確認:"
 
 #: ../../admin/install/steps/install-configure.rst:49
-#, fuzzy
-#| msgid ""
-#| "Start the development server (see :ref:`server` for production setup):"
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
-msgstr ""
-"開発サーバーを起動する（運用サーバーの初期設定については、:ref:`server` を確"
-"認）:"
+msgstr "開発サーバーを起動する（運用サーバーの設定については、:ref:`server` を確認）:"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -14990,30 +14963,20 @@ msgstr ""
 "必要でない場合でも国コードを含む BCP 形式の言語コード（例: ``cs-CZ`` ）。"
 
 #: ../../admin/languages.rst:203
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "国コードを含む、ハイフンを区切り文字とする BCP 形式"
+msgstr "従来の言語コードを含む、ハイフンを区切り文字とする BCP 形式"
 
 #: ../../admin/languages.rst:204
-#, fuzzy
-#| msgid ""
-#| "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
-#| "notation."
 msgid "Uses legacy codes for Chinese and BCP style notation."
-msgstr ""
-"Linux で使用するロケール。ロケールは、中国語や POSIX 形式の表記にレガシーコー"
-"ドが使用されています。"
+msgstr "中国語および BCP スタイルの表記には従来のコードを使用する。"
 
 #: ../../admin/languages.rst:205
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "ハイフンを区切り文字とする BCP 形式"
+msgstr "小文字を含む、ハイフンを区切り文字とする BCP 形式"
 
 #: ../../admin/languages.rst:206
 msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
-msgstr ""
+msgstr "BCP スタイルの記法。全て小文字で表記する（例: ``cs-cz``）。"
 
 #: ../../admin/languages.rst:208
 msgid "App store metadata style"
@@ -15024,6 +14987,8 @@ msgid ""
 "Style suitable for uploading metadata to appstores. This should be suitable "
 "for both Apple App Store and Google Play Store."
 msgstr ""
+"メタデータを Appstore にアップロードするのに適したスタイル。これは Apple App "
+"Store と Google Play Store の両方に適しているでしょう。"
 
 #: ../../admin/languages.rst:211
 msgid "Android style"
@@ -15553,14 +15518,6 @@ msgid "Machine translation service provided by Google Cloud services."
 msgstr "Google Cloud サービスが提供する機械翻訳サービス。"
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_, `Getting started with authentication on Google Cloud <https://"
-#| "cloud.google.com/docs/authentication/getting-started>`_, `Creating Google "
-#| "Translate project <https://cloud.google.com/appengine/docs/standard/"
-#| "nodejs/building-app/creating-project>`_, `Google Cloud App Engine "
-#| "locations <https://cloud.google.com/appengine/docs/locations>`_"
 msgid ""
 "`Google translate documentation <https://cloud.google.com/translate/docs>`_, "
 "`Authenticate to Cloud services using client libraries <https://cloud.google."
@@ -15569,12 +15526,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
-"`Google 翻訳ドキュメント <https://cloud.google.com/translate/docs>`_ 、"
-"`Google Cloudで認証を開始する <https://cloud.google.com/docs/authentication/"
-"getting-started>`_ 、`Google 翻訳プロジェクトの作成 <https://cloud.google."
-"com/appengine/docs/standard/nodejs/building-app/creating-project>`_ 、"
-"`Google Cloud App Engine のロケーション <https://cloud.google.com/appengine/"
-"docs/locations>`_"
+"`Google 翻訳ドキュメント <https://cloud.google.com/translate/docs>`_ 、`"
+"クライアント ライブラリを使用してクラウド サービスを認証する <https://cloud."
+"google.com/docs/authentication/client-libraries>`_ 、`Google "
+"翻訳プロジェクトの作成 <https://cloud.google.com/appengine/docs/standard/"
+"nodejs/building-app/creating-project>`_ 、`Google Cloud App Engine "
+"のロケーション <https://cloud.google.com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -15912,6 +15869,10 @@ msgid ""
 "Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 msgstr ""
+"`SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
+"SAPTranslationHub/api/translationhub>`_ 、`SAP Translation Hub のベース URL "
+"の構築 <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
+"ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:426
 msgid "tmserver"
@@ -19998,7 +19959,7 @@ msgstr "pip によるインストール方法:"
 
 #: ../../admin/upgrade.rst:46
 msgid "Or, if you just want to get the latest released version:"
-msgstr ""
+msgstr "または、最新のリリース バージョンを入手するだけの場合:"
 
 #: ../../admin/upgrade.rst:52
 msgid "If you don't want to install all of the optional dependencies do:"
@@ -20575,10 +20536,8 @@ msgstr ""
 "データベースの移行中に設定ファイルがインポートされます。"
 
 #: ../../admin/upgrade.rst:336
-#, fuzzy
-#| msgid "Upgrade from 4.3 to 4.4"
 msgid "Upgrade from 4.13 to 4.14"
-msgstr "4.3 から 4.4 にアップグレード"
+msgstr "4.13 から 4.14 にアップグレード"
 
 #: ../../admin/upgrade.rst:340
 msgid ""
@@ -20587,10 +20546,14 @@ msgid ""
 "use ``java-printf-format`` instead of ``java-format`` and ``java-format`` "
 "instead of ``java-messageformat``."
 msgstr ""
+"Java 形式の検査が GNU gettext フラグと一致するようになりました。Weblate "
+"で設定したフラグは自動的に移行されますが、サードパーティのスクリプトでは "
+"``java-format`` の代わりに ``java-printf-format`` を使用し、``java-"
+"messageformat`` の代わりに ``java-format`` を使用してください。"
 
 #: ../../admin/upgrade.rst:344
 msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
-msgstr ""
+msgstr "依存関係のある `jellyfish` は `rapidfuzz` に置き換わりました。"
 
 #: ../../admin/upgrade.rst:351
 msgid "Upgrading from Python 2 to Python 3"
@@ -22572,20 +22535,16 @@ msgid "URL to access the translation (real translation URL)"
 msgstr "翻訳にアクセスするための URL（実際の翻訳 URL）"
 
 #: ../../api.rst:2020
-#, fuzzy
-#| msgid "Returns a list of all projects."
 msgid "Returns a list of memory results."
-msgstr "返り値は、すべてのプロジェクトのリストです。"
+msgstr "返り値は、メモリのリストです。"
 
 #: ../../api.rst:2024
-#, fuzzy
-#| msgid "Deletes a project."
 msgid "Deletes a memory object"
-msgstr "プロジェクトを削除します。"
+msgstr "メモリ オブジェクトを削除します"
 
 #: ../../api.rst:2026
 msgid "Memory Object ID"
-msgstr ""
+msgstr "メモリ オブジェクト ID"
 
 #: ../../api.rst:2031
 msgid "Units"
@@ -23430,26 +23389,20 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.14.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.14.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "まだリリースしていません。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed CodeMirror display issues in some situations."
 msgid "Fixed generating project backups in some situations."
-msgstr "状況によって発生していた、CodeMirror の表示に関する問題の修正。"
+msgstr "特定の状況におけるプロジェクトのバックアップの生成の問題を修正。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance of file upload."
 msgid "Improved error reporting on file upload."
-msgstr "ファイル アップロードの性能の向上。"
+msgstr "ファイルのアップロードに関するエラー報告の改良。"
 
 #: ../../changes.rst:8
 msgid "Fetch all user verified e-mails from GitHub during authentication."
@@ -23460,74 +23413,56 @@ msgid "Avoid matching glossary terms on context or keys."
 msgstr ""
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed notifications rendering in Gmail."
 msgid "Added notifications for string removals."
-msgstr "Gmail に表示する通知の修正。"
+msgstr "文字列の削除の通知を追加。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved lookup of related terms in glossary."
 msgid "Improved management of untranslatable terms in glossary."
-msgstr "用語集での関連用語の検索の改良。"
+msgstr "用語集の翻訳禁止用語の管理を改良。"
 
 #: ../../changes.rst:12
 msgid "List number of team members on team management page."
 msgstr ""
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Use management interface"
 msgid "Add group management interface."
-msgstr "管理画面の使用"
+msgstr "グループ管理インターフェイスの追加。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Always show rendered text check if enabled."
 msgid "Always show review stats when reviews are enabled."
-msgstr "有効にした場合は、常に表示したテキストを検査する。"
+msgstr "査読が有効な場合、常に査読の統計情報を表示するよう改良。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/84?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/84?"
-"closed=1>`__ 。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"86?closed=1>`__ 。"
 
 #: ../../changes.rst:19
 msgid "Weblate 4.14"
 msgstr "Weblate 4.14"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 22nd 2022."
-msgstr "2021 年 8 月 21 日にリリース。"
+msgstr "2021 年 8 月 22 日にリリース。"
 
 #: ../../changes.rst:23
 msgid "Track add-on changes in a history."
 msgstr "アドオンの変更を履歴で追跡可能に改良。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
-msgstr "CSV ファイルからの位置情報解析の修正。"
+msgstr "Windows RC、HTML、およびテキストファイルからの解析翻訳の問題を修正。"
 
 #: ../../changes.rst:25
 msgid "Extended language code style configuration options."
 msgstr ""
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for aliasing languages at project level."
 msgid "Added support for plurals updated in the recent CLDR releases."
-msgstr "プロジェクト レベルでのエイリアシング言語に対応。"
+msgstr "最近の CLDR リリースで更新された複数形に対応。"
 
 #: ../../changes.rst:27
 msgid ""
@@ -23539,44 +23474,32 @@ msgid "Added support for translation domain in SAP Translation Hub."
 msgstr "SAP Translation Hub の翻訳ドメインに対応。"
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Source string location"
 msgid "Allow absolute links in source string locations."
-msgstr "原文の記載位置"
+msgstr "原文の記載位置への絶対リンクを許可するように変更。"
 
 #: ../../changes.rst:30
 msgid "Improved operation behind some reverse proxies."
 msgstr ""
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Extended API with translation creation."
 msgid "Extended API to cover translation memory."
-msgstr "翻訳作成の API の拡張。"
+msgstr "翻訳メモリに対応するように API を拡張。"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Added add-ons to customize translation workflows."
 msgid "Improved document translation workflow."
-msgstr "翻訳ワークフローを変更するためのアドオンの追加。"
+msgstr "ドキュメント翻訳ワークフローの改良。"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Improved rendering of inconsistent translations."
 msgid "Improved reliability of HTML and text files translation."
-msgstr "不整合な翻訳の表示の改善。"
+msgstr "HTML およびテキスト ファイルの翻訳の信頼性を向上。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Added support for borgbackup 1.2."
 msgid "Added support for project level backups."
-msgstr "borgbackup 1.2 に対応。"
+msgstr "プロジェクト レベルのバックアップに対応。"
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance and memory usage of translation memory lookups."
-msgstr "翻訳メモリの更新の性能の向上。"
+msgstr "翻訳メモリ検索の性能向上とメモリ使用量の削減。"
 
 #: ../../changes.rst:37
 msgid ""
@@ -23627,10 +23550,8 @@ msgid "Fixed audit log for user invitation e-mails."
 msgstr "ユーザー招待メールの監査ログの修正。"
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Fixed flag names for Java formatting strings."
-msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
+msgstr "Java 形式の文字列のフラグ名の修正。"
 
 #: ../../changes.rst:54
 msgid ""
@@ -31969,14 +31890,10 @@ msgid "noreply@example.com"
 msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "C 言語書式"
+msgstr "形式"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "email"
 msgstr "メールアドレス"
 
@@ -32013,10 +31930,8 @@ msgid "*Language*"
 msgstr "*言語*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "^[^ ]+$"
 msgid "^[^ ]\\*$"
-msgstr "^[^ ]+$"
+msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
@@ -34488,16 +34403,12 @@ msgstr ""
 "javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:11
-#, fuzzy
-#| msgid ""
-#| "`JWeblate, a Java-based Weblate library <https://github.com/"
-#| "javierllorente/jweblate>`_"
 msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
 "porscheinformatik/weblate-spring>`_"
 msgstr ""
-"`JWeblate、Java ベースの Weblate ライブラリ <https://github.com/"
-"javierllorente/jweblate>`_"
+"`Weblate サーバーが対応する Spring MessageSource <https://github.com/"
+"porscheinformatik/weblate-spring>`_"
 
 #: ../../devel/thirdparty.rst:15
 msgid ""
@@ -38301,10 +38212,8 @@ msgid "``weblate.checks.markup.BBCodeCheck``"
 msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "change identifier"
 msgid "Check identifier"
-msgstr "識別子の変更"
+msgstr "識別子の検査"
 
 #: ../../user/checks.rst:53
 #, fuzzy
@@ -41051,13 +40960,6 @@ msgid "Untranslatable terms"
 msgstr "翻訳させない用語"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:"
-#| "`Mark as read-only` means they can not be translated. Use this for brand "
-#| "names or other terms that should not be changed in other languages. Such "
-#| "terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -41065,10 +40967,11 @@ msgid ""
 "or other terms that should not be changed in other languages. Such terms are "
 "visually highlighted in the glossary sidebar."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`翻訳禁止に設定"
-"` を使用して、特定の用語の翻訳に ``read-only`` というフラグを立てると、翻訳で"
-"きません。他の言語に翻訳してはならないブランド名やその他の用語に使用します。"
-"このような用語は、用語集のサイドバーで視覚的に強調表示されます。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ "
+":guilabel:`翻訳禁止に設定` を使用して、特定の用語の翻訳に ``read-only`` とい"
+"うフラグを立てると、翻訳できません。他の言語に翻訳してはならないブランド名や"
+"その他の用語に使用します。このような用語は、用語集のサイドバーで視覚的に強調"
+"表示されます。"
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
