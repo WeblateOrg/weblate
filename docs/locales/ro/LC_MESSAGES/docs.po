@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-08-09 17:22+0000\n"
+"PO-Revision-Date: 2022-08-29 08:17+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -4354,16 +4354,16 @@ msgid "Backing up and moving Weblate"
 msgstr "Copierea de rezervă și mutarea Weblate"
 
 #: ../../admin/backup.rst:9
-#, fuzzy
-#| msgid "Remote backups"
 msgid "Project level backups"
-msgstr "Copii de rezervă la distanță"
+msgstr "Copii de rezervă la nivel de proiect"
 
 #: ../../admin/backup.rst:15
 msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
+"Restaurarea copiilor de rezervă este acceptată numai atunci când se "
+"utilizează PostgreSQL sau MariaDB 10.5+ ca bază de date."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -4371,6 +4371,10 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"Proiectul face o copie de rezervă a întregului conținut de traducere din "
+"Weblate (proiect, componente, traduceri, comentarii de șiruri, sugestii sau "
+"verificări). Este potrivit pentru transferul unui proiect către o altă "
+"instanță Weblate."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4378,11 +4382,16 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"Puteți efectua o copie de rezervă a proiectului în :guilabel:`Manage` ↓ "
+":guilabel:`Backups`. Copia de rezervă poate fi restaurată la crearea unui "
+"proiect (a se vedea :ref:`adding-projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"În prezent, copiile de rezervă nu includ informații privind controlul "
+"accesului și istoricul."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -4390,6 +4399,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Comentariile și sugestiile sunt susținute de un nume de utilizator care le-a "
+"creat. La import, acestea sunt atribuite unui utilizator corespunzător. Dacă "
+"nu există un utilizator cu un astfel de nume de utilizator, este atribuit "
+"unui utilizator anonim."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4397,6 +4410,10 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Copiile de rezervă generate sunt păstrate pe server după cum este configurat "
+"prin :setting:`PROJECT_BACKUP_KEEP_DAYS` și "
+":setting:`PROJECT_BACKUP_KEEP_COUNT` (în mod implicit se păstrează cel mult "
+"3 copii de rezervă pentru 30 de zile)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -5452,10 +5469,8 @@ msgid "``java-printf-format``"
 msgstr "Format JavaScript"
 
 #: ../../admin/checks.rst:105
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enable the :ref:`check-java-printf-format` quality check."
-msgstr "Activați verificarea calității :ref:`check-javascript-format`."
+msgstr "Activați verificarea calității :ref:`check-java-printf-format`."
 
 #: ../../admin/checks.rst:106 ../../user/checks.rst:354
 #, fuzzy
@@ -5763,10 +5778,8 @@ msgid "``ignore-java-printf-format``"
 msgstr "Repository Git"
 
 #: ../../admin/checks.rst:169
-#, fuzzy
-#| msgid "Skip the :ref:`check-javascript-format` quality check."
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr "Treceți peste verificarea calității :ref:`check-javascript-format`."
+msgstr "Săriți peste verificarea calității :ref:`check-java-printf-format`."
 
 #: ../../admin/checks.rst:170 ../../user/checks.rst:378
 msgid "``ignore-javascript-format``"
@@ -8218,13 +8231,15 @@ msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1338
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROIECT_COPIE DE REZERVĂ_PĂSTRARE_NUMĂR"
 
 #: ../../admin/config.rst:1342
 msgid ""
 "Defines how many backups per project are kept on the server. It defaults to "
 "3."
 msgstr ""
+"Definește câte copii de rezervă pentru fiecare proiect sunt păstrate pe "
+"server. Valoarea implicită este de 3."
 
 #: ../../admin/config.rst:1346 ../../admin/config.rst:1359
 #, fuzzy
@@ -8234,13 +8249,15 @@ msgstr "Denumire proiect"
 
 #: ../../admin/config.rst:1351
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "ZILE_DE_MENȚINERE_DE_BACKUP_DE_PROIECT"
 
 #: ../../admin/config.rst:1355
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Definește cât timp vor fi păstrate pe server copiile de rezervă ale "
+"proiectului. Valoarea implicită este de 30 de zile."
 
 #: ../../admin/config.rst:1364
 msgid "RATELIMIT_ATTEMPTS"
@@ -9574,10 +9591,8 @@ msgid "An explicit commit is requested."
 msgstr "Se solicită o confirmare explicită."
 
 #: ../../admin/continuous.rst:366
-#, fuzzy
-#| msgid "An explicit commit is requested."
 msgid "A file download is requested."
-msgstr "Se solicită o confirmare explicită."
+msgstr "Se solicită descărcarea unui fișier."
 
 #: ../../admin/continuous.rst:367
 msgid ""
@@ -14863,21 +14878,15 @@ msgid "Configuring Weblate"
 msgstr "Configurarea Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "Following steps assume virtualenv used by Weblate is active (what can be "
-#| "done by ``. ~/weblate-env/bin/activate``). In case this is not true, you "
-#| "will have to specify full path to :command:`weblate` command as ``~/"
-#| "weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the virtualenv used by Weblate is activated (by "
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"Următorii pași presupun că virtualenv folosit de Weblate este activ (ceea ce "
-"se poate face prin ``. ~/weblate-env/bin/activate``). În cazul în care acest "
-"lucru nu este adevărat, va trebui să specificați calea completă a comenzii :"
-"command:`weblate` ca ``~/weblate-env/bin/weblate``."
+"Ceea ce urmează presupune că virtualenv-ul folosit de Weblate este activat ("
+"prin executarea ``. ~/weblate-env/bin/activate``). În caz contrar, "
+"specificați calea completă a comenzii :command:`weblate` ca ``~/weblate-env/"
+"bin/weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -14890,76 +14899,52 @@ msgstr ""
 "weblate/settings.py`."
 
 #: ../../admin/install/steps/install-configure.rst:16
-#, fuzzy
-#| msgid ""
-#| "Create the database and its structure for Weblate (the example settings "
-#| "use PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
 "Creați baza de date și structura acesteia pentru Weblate (setările de "
 "exemplu utilizează PostgreSQL, verificați :ref:`database-setup` pentru o "
-"configurare pregătită pentru producție):"
+"configurație pregătită pentru producție):"
 
 #: ../../admin/install/steps/install-configure.rst:23
-#, fuzzy
-#| msgid ""
-#| "Create the administrator user account and copy the password it outputs to "
-#| "the clipboard, and also save it for later use:"
 msgid ""
 "Create an account for the administrator user and copy its password to the "
 "clipboard, and also save it for later use:"
 msgstr ""
-"Creați contul de utilizator administrator și copiați parola pe care o scoate "
-"în clipboard și, de asemenea, salvați-o pentru utilizare ulterioară:"
+"Creați un cont pentru utilizatorul administrator și copiați parola acestuia "
+"în clipboard, precum și salvați-o pentru utilizare ulterioară:"
 
 #: ../../admin/install/steps/install-configure.rst:30
-#, fuzzy
-#| msgid ""
-#| "Collect static files for web server (see :ref:`server` and :ref:`static-"
-#| "files`):"
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
-"Colectează fișiere statice pentru serverul web (a se vedea :ref:`server` și :"
-"ref:`static-files`):"
+"Colectează fișierele statice pentru serverul tău web (a se vedea "
+":ref:`server` și :ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:36
-#, fuzzy
-#| msgid ""
-#| "Compress JavaScript and CSS files (optional, see :ref:`production-"
-#| "compress`):"
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
-"Comprimarea fișierelor JavaScript și CSS (opțional, consultați :ref:"
-"`production-compress`):"
+"Comprimarea fișierelor JavaScript și CSS (opțional, consultați :ref"
+":`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:42
-#, fuzzy
-#| msgid ""
-#| "Start Celery workers. This is not necessary for development purposes, but "
-#| "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
-"Începeți să lucrați cu Celery. Acest lucru nu este necesar în scopuri de "
+"Începeți lucrurile cu Celery. Acest lucru nu este necesar în scopuri de "
 "dezvoltare, dar este recomandat cu tărie în caz contrar. Pentru mai multe "
 "informații, consultați :ref:`celery`:"
 
 #: ../../admin/install/steps/install-configure.rst:49
-#, fuzzy
-#| msgid ""
-#| "Start the development server (see :ref:`server` for production setup):"
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
-"Porniți serverul de dezvoltare (consultați :ref:`server` pentru configurația "
-"de producție):"
+"Porniți serverul de dezvoltare ( :ref:`server` configurația de producție):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -15478,42 +15463,34 @@ msgstr ""
 "(de exemplu ``cs-CZ``)."
 
 #: ../../admin/languages.rst:203
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "Stil BCP care utilizează cratima ca separator, inclusiv codul de țară"
+msgstr ""
+"Stilul BCP care utilizează cratima ca separator, coduri de limbă moștenite"
 
 #: ../../admin/languages.rst:204
-#, fuzzy
-#| msgid ""
-#| "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
-#| "notation."
 msgid "Uses legacy codes for Chinese and BCP style notation."
-msgstr ""
-"Setările regionale utilizate de Linux, utilizează coduri vechi pentru "
-"chineză și notații de tip POSIX."
+msgstr "Folosește coduri vechi pentru notele în stil chinezesc și BCP."
 
 #: ../../admin/languages.rst:205
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Stilul BCP care utilizează cratima ca separator"
+msgstr "Stil BCP, folosind cratima ca separator, cu litere minuscule"
 
 #: ../../admin/languages.rst:206
 msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
-msgstr ""
+msgstr "Notație în stilul BCP, toate în minuscule (de exemplu ``cs-cz``)."
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Fișiere de metadate ale magazinului de aplicații"
+msgstr "Stilul metadatelor din magazinul de aplicații"
 
 #: ../../admin/languages.rst:208
 msgid ""
 "Style suitable for uploading metadata to appstores. This should be suitable "
 "for both Apple App Store and Google Play Store."
 msgstr ""
+"Stil potrivit pentru încărcarea metadatelor în magazinele de aplicații. "
+"Acesta ar trebui să fie potrivit atât pentru Apple App Store, cât și pentru "
+"Google Play Store."
 
 #: ../../admin/languages.rst:211
 msgid "Android style"
@@ -16057,14 +16034,6 @@ msgid "Machine translation service provided by Google Cloud services."
 msgstr "Serviciu de traducere automată furnizat de serviciile Google Cloud."
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_, `Getting started with authentication on Google Cloud <https://"
-#| "cloud.google.com/docs/authentication/getting-started>`_, `Creating Google "
-#| "Translate project <https://cloud.google.com/appengine/docs/standard/"
-#| "nodejs/building-app/creating-project>`_, `Google Cloud App Engine "
-#| "locations <https://cloud.google.com/appengine/docs/locations>`_"
 msgid ""
 "`Google translate documentation <https://cloud.google.com/translate/docs>`_, "
 "`Authenticate to Cloud services using client libraries <https://cloud.google."
@@ -16073,12 +16042,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/locations>`_"
 msgstr ""
-"`Documentația Google translate <https://cloud.google.com/translate/docs>`_, "
-"`Începând cu autentificarea pe Google Cloud <https://cloud.google.com/docs/"
-"authentication/getting-started>`_, `Crearea proiectului Google Translate "
-"<https://cloud.google.com/appengine/docs/standard/nodejs/building-app/"
-"creating-project>`_, `Localizările Google Cloud App Engine <https://cloud."
-"google.com/appengine/docs/locations>`_"
+"`Documentația Google translate <https://cloud.google.com/translate/docs>`_, `"
+"Autentificarea la serviciile Cloud folosind biblioteci client <https://cloud."
+"google.com/docs/authentication/client-libraries>`_, `Crearea proiectului "
+"Google Translate <https://cloud.google.com/appengine/docs/standard/nodejs/"
+"building-app/creating-project>`_, `Localizările Google Cloud App Engine "
+"<https://cloud.google.com/appengine/docs/locations>`_"
 
 #: ../../admin/machine.rst:222
 msgid "LibreTranslate"
@@ -16413,6 +16382,10 @@ msgid ""
 "Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 msgstr ""
+"`SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
+"SAPTranslationHub/api/translationhub>`_, `Construirea URL-ului de bază al "
+"SAP Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
+"ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:426
 msgid "tmserver"
@@ -20673,7 +20646,7 @@ msgstr "În cazul instalațiilor pip, acest lucru poate fi realizat prin:"
 
 #: ../../admin/upgrade.rst:46
 msgid "Or, if you just want to get the latest released version:"
-msgstr ""
+msgstr "Sau, dacă doriți doar să obțineți cea mai recentă versiune lansată:"
 
 #: ../../admin/upgrade.rst:52
 msgid "If you don't want to install all of the optional dependencies do:"
@@ -21269,10 +21242,8 @@ msgstr ""
 "importate în timpul migrării bazei de date."
 
 #: ../../admin/upgrade.rst:336
-#, fuzzy
-#| msgid "Upgrade from 4.3 to 4.4"
 msgid "Upgrade from 4.13 to 4.14"
-msgstr "Actualizare de la 4.3 la 4.4"
+msgstr "Actualizare de la 4.13 la 4.14"
 
 #: ../../admin/upgrade.rst:340
 msgid ""
@@ -21281,10 +21252,14 @@ msgid ""
 "use ``java-printf-format`` instead of ``java-format`` and ``java-format`` "
 "instead of ``java-messageformat``."
 msgstr ""
+"Verificările de formatare Java se potrivesc acum cu indicatoarele GNU "
+"gettext. Stegulețele setate în Weblate vor fi migrate automat, dar "
+"scripturile terților vor trebui să folosească ``java-printf-format`` în loc "
+"de ``java-format`` și ``java-format`` în loc de ``java-messageformat``."
 
 #: ../../admin/upgrade.rst:344
 msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
-msgstr ""
+msgstr "Dependența `jellyfish` a fost înlocuită cu `rapidfuzz`."
 
 #: ../../admin/upgrade.rst:351
 msgid "Upgrading from Python 2 to Python 3"
@@ -23370,20 +23345,16 @@ msgid "URL to access the translation (real translation URL)"
 msgstr "URL pentru a accesa traducerea (URL-ul real al traducerii)"
 
 #: ../../api.rst:2020
-#, fuzzy
-#| msgid "Returns a list of all projects."
 msgid "Returns a list of memory results."
-msgstr "Returnează o listă cu toate proiectele."
+msgstr "Returnează o listă de rezultate de memorie."
 
 #: ../../api.rst:2024
-#, fuzzy
-#| msgid "Deletes a project."
 msgid "Deletes a memory object"
-msgstr "Șterge un proiect."
+msgstr "Șterge un obiect de memorie"
 
 #: ../../api.rst:2026
 msgid "Memory Object ID"
-msgstr ""
+msgstr "ID-ul obiectului de memorie"
 
 #: ../../api.rst:2031
 msgid "Units"
@@ -24239,165 +24210,132 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS pe Wikipedia <https://en.wikipedia.org/wiki/RSS>``_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.14.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.14.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Încă nu a fost lansat."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed CodeMirror display issues in some situations."
 msgid "Fixed generating project backups in some situations."
 msgstr ""
-"Au fost rezolvate problemele de afișare a CodeMirror în anumite situații."
+"A fost reparată generarea de copii de rezervă ale proiectelor în anumite "
+"situații."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance of file upload."
 msgid "Improved error reporting on file upload."
-msgstr "Îmbunătățirea performanțelor de încărcare a fișierelor."
+msgstr "A fost îmbunătățită raportarea erorilor la încărcarea fișierelor."
 
 #: ../../changes.rst:8
 msgid "Fetch all user verified e-mails from GitHub during authentication."
 msgstr ""
+"Obțineți toate e-mailurile verificate de utilizator de la GitHub în timpul "
+"autentificării."
 
 #: ../../changes.rst:9
 msgid "Avoid matching glossary terms on context or keys."
-msgstr ""
+msgstr "Evitați să potriviți termenii din glosar cu contextul sau cu cheile."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed notifications rendering in Gmail."
 msgid "Added notifications for string removals."
-msgstr "A fost reparată redarea notificărilor în Gmail."
+msgstr "S-au adăugat notificări pentru eliminarea șirurilor de caractere."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved lookup of related terms in glossary."
 msgid "Improved management of untranslatable terms in glossary."
-msgstr "Îmbunătățirea căutării termenilor înrudiți în glosar."
+msgstr "Gestionarea îmbunătățită a termenilor intraductibili din glosar."
 
 #: ../../changes.rst:12
 msgid "List number of team members on team management page."
 msgstr ""
+"Indicați numărul de membri ai echipei pe pagina de gestionare a echipei."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Use management interface"
 msgid "Add group management interface."
-msgstr "Utilizați interfața de gestionare"
+msgstr "Adăugați o interfață de gestionare a grupului."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Always show rendered text check if enabled."
 msgid "Always show review stats when reviews are enabled."
-msgstr "Afișați întotdeauna textul redat verificați dacă este activat."
+msgstr ""
+"Afișați întotdeauna statisticile de recenzii atunci când sunt activate "
+"recenziile."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/84?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?"
 "closed=1>`__."
 msgstr ""
 "`Toate modificările în detaliu <https://github.com/WeblateOrg/weblate/"
-"milestone/84?closed=1>``__."
+"milestone/86?closed=1>``__."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.14"
 msgstr "Weblate 4.14"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 22nd 2022."
-msgstr "Lansat pe 21 august 2021."
+msgstr "Lansat pe 21 august 2022."
 
 #: ../../changes.rst:23
 msgid "Track add-on changes in a history."
 msgstr "Urmăriți modificările add-on-urilor într-un istoric."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
-msgstr "A fost reparată analizarea locației din fișierele CSV."
+msgstr ""
+"A fost reparată traducerea parsing din Windows RC, HTML și fișiere text."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Extend template language for filename manipulations."
 msgid "Extended language code style configuration options."
-msgstr "Extindeți limbajul de șabloane pentru manipularea numelor de fișiere."
+msgstr "Opțiuni de configurare a stilului de cod lingvistic extins."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for automated daily update of repositories."
 msgid "Added support for plurals updated in the recent CLDR releases."
 msgstr ""
-"A fost adăugat suport pentru actualizarea zilnică automată a depozitelor."
+"A fost adăugat suport pentru pluralul actualizat în versiunile recente ale "
+"CLDR."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "Support for starting translation components without existing translations."
 msgid ""
 "Reduced memory usage while updating components with a lot of translations."
 msgstr ""
-"Suport pentru pornirea componentelor de traducere fără traduceri existente."
+"Reducerea utilizării memoriei la actualizarea componentelor cu multe "
+"traduceri."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for SAP Translation Hub service."
 msgid "Added support for translation domain in SAP Translation Hub."
-msgstr "A fost adăugat suport pentru serviciul SAP Translation Hub."
+msgstr ""
+"A fost adăugat suport pentru domeniul de traducere în SAP Translation Hub."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Source string location"
 msgid "Allow absolute links in source string locations."
-msgstr "Locația șirului sursă"
+msgstr "Permiterea legăturilor absolute în locațiile șirului sursă."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Improved notifications on parse errors."
 msgid "Improved operation behind some reverse proxies."
-msgstr "Notificări îmbunătățite privind erorile de analiză."
+msgstr "Îmbunătățirea funcționării în spatele unor proxy-uri inverse."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Extended API with translation creation."
 msgid "Extended API to cover translation memory."
-msgstr "API extins cu crearea de traduceri."
+msgstr "API extinsă pentru a acoperi memoria de traducere."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Improved translation locking."
 msgid "Improved document translation workflow."
-msgstr "A fost îmbunătățită blocarea traducerilor."
+msgstr "Îmbunătățirea fluxului de lucru pentru traducerea documentelor."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Improved reliability of import across file formats."
 msgid "Improved reliability of HTML and text files translation."
-msgstr "Îmbunătățirea fiabilității importului în diferite formate de fișiere."
+msgstr "Îmbunătățirea fiabilității traducerii fișierelor HTML și text."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Added support for borgbackup 1.2."
 msgid "Added support for project level backups."
-msgstr "A fost adăugat suport pentru borgbackup 1.2."
+msgstr "A fost adăugat suport pentru copii de rezervă la nivel de proiect."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance and memory usage of translation memory lookups."
-msgstr "Îmbunătățirea performanțelor de actualizare a memoriei de traducere."
+msgstr ""
+"Îmbunătățirea performanțelor și a utilizării memoriei în cazul căutărilor în "
+"memoria de traducere."
 
 #: ../../changes.rst:37
 msgid ""
@@ -24457,7 +24395,7 @@ msgstr ""
 
 #: ../../changes.rst:52
 msgid "Fixed flag names for Java formatting strings."
-msgstr ""
+msgstr "A corectat numele indicatoarelor pentru șirurile de formatare Java."
 
 #: ../../changes.rst:54
 msgid ""
@@ -33473,16 +33411,12 @@ msgid "noreply@example.com"
 msgstr "noreply@exemple.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "Format C"
+msgstr "formatul"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "email"
-msgstr "Email"
+msgstr "e-mail"
 
 #: ../../contributing/schemas.rst:19
 msgid "**date\\_joined**"
@@ -33498,7 +33432,7 @@ msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr ""
+msgstr "dată-timp"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
@@ -33517,10 +33451,8 @@ msgid "*Language*"
 msgstr "*Limbă*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "^[^ ]+$"
 msgid "^[^ ]\\*$"
-msgstr "^[^ ]+$"
+msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
@@ -36106,16 +36038,12 @@ msgstr ""
 "javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:11
-#, fuzzy
-#| msgid ""
-#| "`JWeblate, a Java-based Weblate library <https://github.com/"
-#| "javierllorente/jweblate>`_"
 msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
 "porscheinformatik/weblate-spring>`_"
 msgstr ""
-"`JWeblate, o bibliotecă Weblate bazată pe Java <https://github.com/"
-"javierllorente/jweblate>`_"
+"`Spring MessageSource susținută de un server Weblate <https://github.com/"
+"porscheinformatik/weblate-spring>`_"
 
 #: ../../devel/thirdparty.rst:15
 msgid ""
@@ -40063,10 +39991,8 @@ msgid "``weblate.checks.markup.BBCodeCheck``"
 msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "change identifier"
 msgid "Check identifier"
-msgstr "identificator de modificare"
+msgstr "Identificatorul de verificare"
 
 #: ../../user/checks.rst:53
 msgid "``bbcode``"
@@ -40650,6 +40576,8 @@ msgid ""
 "This used to be toggled by ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Acest lucru era activat de steagul ``java-format``, dar a fost schimbat "
+"pentru coerență cu GNU gettext."
 
 #: ../../user/checks.rst:341
 msgid ""
@@ -40698,6 +40626,8 @@ msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Acest lucru era activat de steagul ``java-messageformat``, dar a fost "
+"schimbat pentru a fi în concordanță cu GNU gettext."
 
 #: ../../user/checks.rst:365
 msgid ""
@@ -42872,13 +42802,6 @@ msgid "Untranslatable terms"
 msgstr "Termeni netraductibili"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:"
-#| "`Mark as read-only` means they can not be translated. Use this for brand "
-#| "names or other terms that should not be changed in other languages. Such "
-#| "terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -42886,12 +42809,12 @@ msgid ""
 "or other terms that should not be changed in other languages. Such terms are "
 "visually highlighted in the glossary sidebar."
 msgstr ""
-"Marcarea anumitor traduceri ale termenilor din glosar ca fiind ``read-only`` "
-"prin editare în bloc, prin tastarea indicatorului sau prin utilizarea :"
-"guilabel:`Tools` ↓ :guilabel:`Mark as read-only` înseamnă că acestea nu pot "
-"fi traduse. Folosiți această opțiune pentru nume de mărci sau alți termeni "
-"care nu trebuie modificați în alte limbi. Astfel de termeni sunt evidențiați "
-"vizual în bara laterală a glosarului."
+"Marcarea anumitor traduceri de termeni din glosar ca fiind \"doar pentru "
+"citire\" prin editare în bloc, prin tastarea indicatorului sau prin "
+"utilizarea :guilabel:`Tools` ↓ :guilabel:`Mark as untranslatable` înseamnă "
+"că acestea nu pot fi traduse. Folosiți această opțiune pentru nume de mărci "
+"sau alți termeni care nu trebuie modificați în alte limbi. Astfel de termeni "
+"sunt evidențiați vizual în bara laterală a glosarului."
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
@@ -43586,6 +43509,8 @@ msgstr "``check:TEXT``"
 msgid ""
 "String has failing check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"Șirul are o verificare nereușită, a se vedea :doc:`/user/checks` pentru "
+"identificatorii de verificare."
 
 #: ../../user/search.rst:71
 msgid "``dismissed_check:TEXT``"
@@ -43595,6 +43520,8 @@ msgstr "``dismissed_check:TEXT``"
 msgid ""
 "String has dismissed check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"Șirul a respins controlul respins, a se vedea :doc:`/user/checks` pentru "
+"identificatorii de control."
 
 #: ../../user/search.rst:73
 msgid "``comment:TEXT``"
