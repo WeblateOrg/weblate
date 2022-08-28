@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-09 17:22+0000\n"
+"PO-Revision-Date: 2022-08-29 08:17+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2189,7 +2189,7 @@ msgstr "Retrimiteți invitația prin e-mail utilizatorului"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "Modificarea lui %s este interzisă pentru grupurile încorporate."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -3787,12 +3787,9 @@ msgid "Zero/one/few/many/other"
 msgstr "Zero/unul/prea puțini/mulți/mai mulți/alții"
 
 #: weblate/lang/models.py:675
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr "Unul/prea puțini/mulți/alți"
+msgstr "Unul//mulți/alți"
 
 #: weblate/lang/models.py:679
 msgctxt "Plural type"
@@ -4047,17 +4044,17 @@ msgid "Enable machine translation"
 msgstr "Activați traducerea automată"
 
 #: weblate/machinery/forms.py:117
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation domain"
-msgstr "Status traducere"
+msgstr "Domeniu traducere"
 
 #: weblate/machinery/forms.py:120
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"ID-ul unui domeniu de traducere, de exemplu, BC. Dacă nu specificați un "
+"domeniu, metoda caută traduceri în toate domeniile disponibile."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -4170,18 +4167,16 @@ msgid "File: {}"
 msgstr "Fișier: {}"
 
 #: weblate/memory/views.py:84
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Entries were deleted."
-msgstr "Înscrieri șterse."
+msgstr "Au fost șterse intrările."
 
 #: weblate/memory/views.py:124
-#, fuzzy
-#| msgid "Entries deleted and memory will be rebuilt in the background."
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "Înregistrările șterse și memoria vor fi reconstruite în fundal."
+msgstr ""
+"Înregistrările au fost șterse, iar memoria de traducere va fi reconstruită "
+"în fundal."
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -4248,10 +4243,9 @@ msgid "Dec"
 msgstr "Dec"
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid "This translation is currently locked."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
-msgstr "Această traducere este momentan blocată."
+msgstr "Traducerea %s nu este disponibilă în prezent, dar poate fi adăugată."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -5643,7 +5637,7 @@ msgstr "Achiziționarea unui nou plan de găzduire"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Încercați Weblate gratuit"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7788,16 +7782,12 @@ msgid "Libre"
 msgstr "Liberă"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "Atribuirea automată a grupului"
+msgstr "Atribuiri automate"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "Atribuirea automată a grupului"
+msgstr "Adăugați atribuirea automată"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7805,10 +7795,9 @@ msgid "Access only"
 msgstr "Doar acces"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "Acest lucru va șterge echipa <b>%(name)s</b> din acest proiect."
+msgstr "Acest lucru va șterge grupul <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7819,14 +7808,18 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"Există %(count)s membru al acestui grup. Ștergerea grupului ar putea afecta "
+"accesul acestora."
 msgstr[1] ""
+"Există %(count)s membri ai acestui grup. Ștergerea grupului ar putea afecta "
+"accesul acestora."
 msgstr[2] ""
+"Există %(count)s de membri ai acestui grup. Ștergerea grupului ar putea "
+"afecta accesul acestora."
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "Creați o nouă echipă"
+msgstr "Creați un nou grup"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7955,16 +7948,12 @@ msgid "Cache latency"
 msgstr "Latența memoriei cache"
 
 #: weblate/templates/manage/performance.html:163
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Celery latency"
-msgstr "Latența memoriei cache"
+msgstr "Latență Celery"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Nu s-a înregistrat încă"
+msgstr "Nu a fost încă măsurat"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9715,31 +9704,25 @@ msgstr ""
 "depozitul."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are currently no backups."
-msgstr "În prezent nu sunt instalate suplimente."
+msgstr "În prezent, nu există copii de rezervă."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
-msgstr "Efectuați o copie de rezervă"
+msgstr "Declanșator de rezervă"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "Traducerea va fi actualizată în fundal."
+msgstr "Copia de rezervă va fi generată în fundal."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Copiile de rezervă sunt eliminate după %(keep_days)s o zi."
+msgstr[1] "Copiile de rezervă sunt eliminate după %(keep_days)s zile."
+msgstr[2] "Copiile de rezervă sunt eliminate după %(keep_days)s de zile."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -10077,14 +10060,18 @@ msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
 msgstr[0] ""
+"Există %(count)s membru al acestei echipe. Ștergerea echipei ar putea afecta "
+"accesul acestora la proiect."
 msgstr[1] ""
+"Există %(count)s membri ai acestei echipe. Ștergerea echipei ar putea afecta "
+"accesul acestora la proiect."
 msgstr[2] ""
+"Există %(count)s de membri ai acestei echipe. Ștergerea echipei ar putea "
+"afecta accesul acestora la proiect."
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "Editați eticheta"
+msgstr "Editați echipa"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -10117,27 +10104,21 @@ msgid "You currently do not have permission to create projects."
 msgstr "În prezent, nu aveți permisiunea de a crea proiecte."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Promovarea proiectelor de traducere"
+msgstr "Import proiect de traducere"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Creați un proiect"
+msgstr "Importați un proiect"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "Efectuați o copie de rezervă"
+msgstr "Importați o copie de rezervă"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Creat pe %(server)s (%(domain)s) by Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 msgid "Token copied to clipboard."
@@ -11307,16 +11288,13 @@ msgstr ""
 "Folosește și contribuie la fondul de traduceri partajate între proiecte."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "Fișier ZIP conținând traducerile"
+msgstr "Fișier ZIP care conține copia de siguranță a proiectului"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Nu a reușit să analizeze cheia: %s"
+msgstr "Nu s-a reușit încărcarea copiei de rezervă a proiectului: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -11919,10 +11897,8 @@ msgstr "Add-on dezinstalat"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
-msgstr "Eliminați un șir de caractere"
+msgstr "Eliminați șirul de caractere"
 
 #: weblate/trans/models/change.py:448
 msgid "New string to translate"
@@ -12020,26 +11996,21 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "Stil BCP care utilizează cratima ca separator, inclusiv codul de țară"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "Stil BCP care utilizează cratima ca separator, inclusiv codul de țară"
+msgstr ""
+"Stilul BCP care utilizează cratima ca separator, coduri de limbă moștenite"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Stilul BCP care utilizează cratima ca separator"
+msgstr "Stil BCP, folosind cratima ca separator, cu litere minuscule"
 
 #: weblate/trans/models/component.py:144
 msgid "Android style"
 msgstr "Stil Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "App store metadata style"
-msgstr "Fișiere de metadate ale magazinului de aplicații"
+msgstr "Stilul metadatelor din magazinul de aplicații"
 
 #: weblate/trans/models/component.py:146
 msgid "Linux style"
@@ -12795,10 +12766,9 @@ msgstr "Nu a reușit să analizeze fișierul %(file)s: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Angajarea modificărilor în așteptare"
+msgstr "Nu s-a reușit confirmarea modificărilor în așteptare: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12835,16 +12805,12 @@ msgid "Mark as read-only"
 msgstr "Marcați ca fiind numai pentru citire"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Debifați ca traducere interzisă"
+msgstr "A nu se marca ca intraductibil"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Marcați ca traducere interzisă"
+msgstr "A nu se marca ca intraductibil"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
@@ -13664,7 +13630,7 @@ msgstr "Limba proiectului a fost eliminată."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Backup-ul a fost declanșat, acesta va fi disponibil în scurt timp."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
