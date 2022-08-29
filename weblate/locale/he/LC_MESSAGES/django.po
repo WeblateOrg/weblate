@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-20 17:08+0000\n"
+"PO-Revision-Date: 2022-08-30 01:08+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2091,7 +2091,7 @@ msgstr "שליחת הזמנה למשתמש בדוא״ל שוב"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "החלפת %s אסורה בקבוצות מובנות."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -4109,14 +4109,9 @@ msgid "Dec"
 msgstr "דצמ׳"
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid ""
-#| "{new_lang} translation is currently not "
-#| "available,                                but can be added."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
-msgstr ""
-"תרגום ל{new_lang} אינו זמין כרגע,                                אך ניתן "
-"להוסיף אותו."
+msgstr "תרגום ל%s אינו זמין כרגע, אך ניתן להוסיף אותו."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -7542,16 +7537,12 @@ msgid "Libre"
 msgstr "חופשי"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "הקצאת קבוצות אוטומטיות"
+msgstr "הקצאות אוטומטיות"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "הקצאת קבוצות אוטומטית"
+msgstr "הוספת הקצאה אוטומטית"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7559,10 +7550,9 @@ msgid "Access only"
 msgstr "גישה בלבד"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "פעולה זו תמחק את הצוות <b>%(name)s</b> מהמיזם."
+msgstr "פעולה זו תמחק את הקבוצה <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7578,10 +7568,8 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "יצירת צוות חדש"
+msgstr "יצירת קבוצה חדשה"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -9722,10 +9710,8 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "עריכת תווית"
+msgstr "עריכת צוות"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -11477,8 +11463,6 @@ msgstr "תוסף הוסר"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
 msgstr "הסרת מחרוזת"
 
@@ -12278,10 +12262,9 @@ msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "הגשת השינויים הממתינים"
+msgstr "הגשת השינויים הממתינים נכשלה: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
