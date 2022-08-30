@@ -42,7 +42,7 @@ def import_memory(project_id: int, component_id: Optional[int] = None):
         with transaction.atomic():
             units = Unit.objects.filter(
                 translation__component=component, state__gte=STATE_TRANSLATED
-            )
+            ).exclude(target="")
             if not component.intermediate:
                 units = units.exclude(
                     translation__language_id=component.source_language_id

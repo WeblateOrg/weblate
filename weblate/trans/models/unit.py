@@ -802,6 +802,7 @@ class Unit(models.Model, LoggerMixin):
         # Update translation memory if needed
         if (
             self.state >= STATE_TRANSLATED
+            and self.target
             and (not translation.is_source or component.intermediate)
             and (created or not same_source or not same_target)
         ):
@@ -1366,6 +1367,7 @@ class Unit(models.Model, LoggerMixin):
         if (
             user
             and self.target != self.old_unit["target"]
+            and self.target
             and self.state >= STATE_TRANSLATED
             and not component.is_glossary
         ):
