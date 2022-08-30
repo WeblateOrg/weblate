@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-07-21 19:17+0000\n"
+"PO-Revision-Date: 2022-09-02 10:13+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1431,8 +1431,6 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Clonar extensões do componente principal para os recém-criados"
 
 #: weblate/addons/forms.py:306
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Remover componentes para os ficheiros inexistentes"
 
@@ -1501,34 +1499,24 @@ msgid "Target translation"
 msgstr "Tradução de destino"
 
 #: weblate/addons/forms.py:504
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "As seguintes traduções serão removidas:"
+msgstr "Todas as cadeias nesta tradução serão sobrescritas"
 
 #: weblate/addons/forms.py:507 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Prefixo da cadeia"
+msgstr "Prefixo da cadeia fixo"
 
 #: weblate/addons/forms.py:512 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Prefixo da cadeia"
+msgstr "Prefixo da cadeia variável"
 
 #: weblate/addons/forms.py:517 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Sufixo da cadeia"
+msgstr "Sufixo da cadeia fixo"
 
 #: weblate/addons/forms.py:522 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Sufixo da cadeia"
+msgstr "Sufixo da cadeia variável"
 
 #: weblate/addons/forms.py:527
 msgid "Variable part multiplier"
@@ -2025,10 +2013,8 @@ msgstr "Gerir a memória de tradução"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:151
-#, fuzzy
-#| msgid "Use machinery"
 msgid "Manage machinery"
-msgstr "Utilizar tradução automática"
+msgstr "Gerir tradução automática"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:153
@@ -2755,10 +2741,8 @@ msgid "Terminology"
 msgstr "Terminologia"
 
 #: weblate/checks/flags.py:59
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all checks"
-msgstr "Verificações ignoradas"
+msgstr "Ignorar todas as verificações"
 
 #: weblate/checks/flags.py:61 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -3493,10 +3477,8 @@ msgid "CSV file"
 msgstr "Ficheiro CSV"
 
 #: weblate/formats/ttkit.py:1544
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "Ficheiro CSV"
+msgstr "Ficheiro CSV (UTF-8)"
 
 #: weblate/formats/ttkit.py:1551
 msgid "Simple CSV file"
@@ -3507,10 +3489,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Ficheiro CSV simples (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1576
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "Ficheiro CSV simples"
+msgstr "Ficheiro CSV simples (UTF-8)"
 
 #: weblate/formats/ttkit.py:1583
 msgid "YAML file"
@@ -3545,10 +3525,8 @@ msgid "Flat XML file"
 msgstr "Ficheiro XML plano"
 
 #: weblate/formats/ttkit.py:1696
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "Falha no repositório"
+msgstr "Ficheiro ResourceDictionary"
 
 #: weblate/formats/ttkit.py:1709
 msgid "INI file"
@@ -3692,16 +3670,12 @@ msgid "Right to left"
 msgstr "Da direita para a esquerda"
 
 #: weblate/lang/models.py:514 weblate/templates/snippets/info.html:39
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of speakers"
-msgstr "Quantidade de cadeias"
+msgstr "Número de falantes"
 
 #: weblate/lang/models.py:515
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of people speaking this language."
-msgstr "Quantidade de idiomas"
+msgstr "Número de pessoas que falam esta língua."
 
 #: weblate/lang/models.py:595
 msgctxt "Plural type"
@@ -4005,16 +3979,14 @@ msgid "Overview"
 msgstr "Sinopse"
 
 #: weblate/machinery/base.py:105
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "Não foi possível encontrar o idioma fonte!"
+msgstr "Falha ao obter as línguas suportadas: %s"
 
 #: weblate/machinery/base.py:109
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Failed to fetch translation: %s"
-msgstr "Falha ao mudar bandeiras de tradução!"
+msgstr "Falha ao obter tradução: %s"
 
 #: weblate/machinery/forms.py:48 weblate/machinery/forms.py:85
 #: weblate/machinery/forms.py:92
@@ -4024,11 +3996,9 @@ msgstr "chave API"
 
 #: weblate/machinery/forms.py:54 weblate/machinery/forms.py:208
 #: weblate/machinery/forms.py:215
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "URL de raiz API:"
+msgstr "URL da API"
 
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
@@ -4041,11 +4011,9 @@ msgid "Client secret"
 msgstr "Chave secreta"
 
 #: weblate/machinery/forms.py:76
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "E-mail do publicador"
+msgstr "E-mail de contacto"
 
 #: weblate/machinery/forms.py:81
 msgctxt "Automatic suggestion service configuration"
@@ -4053,25 +4021,19 @@ msgid "Username"
 msgstr "Nome de utilizador"
 
 #: weblate/machinery/forms.py:97
-#, fuzzy
-#| msgid "Author username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "Nome de utilizador do autor"
+msgstr "Nome de utilizador SAP"
 
 #: weblate/machinery/forms.py:103
-#, fuzzy
-#| msgid "Set password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "Definir palavra-passe"
+msgstr "Palavra-passe SAP"
 
 #: weblate/machinery/forms.py:110
-#, fuzzy
-#| msgid "Machine translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Tradução automática"
+msgstr "Ativar tradução automática"
 
 #: weblate/machinery/forms.py:117
 #, fuzzy
@@ -4087,10 +4049,9 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:133
-#, fuzzy
-#| msgid "Please enter the correct username and password."
 msgid "Please provide either key or username and password."
-msgstr "Por favor, insira o nome de utilizador e a palavra-passe corretos."
+msgstr ""
+"Por favor, insira ou uma chave ou um nome de utilizador e palavra-passe."
 
 #: weblate/machinery/forms.py:141
 msgctxt "Automatic suggestion service configuration"
@@ -4113,45 +4074,34 @@ msgid "Google Translate service account info"
 msgstr "Informação de conta do serviço Google Translate"
 
 #: weblate/machinery/forms.py:176
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate project"
-msgstr "Promoção de projectos de tradução"
+msgstr "Projeto Google Translate"
 
 #: weblate/machinery/forms.py:181
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate location"
-msgstr "Notificações de tradução"
+msgstr "Localização Google Translate"
 
 #: weblate/machinery/forms.py:190
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON: %s"
-msgstr "Não foi possível analisar o ficheiro JSON: {!s}"
+msgstr "Falha ao analisar o JSON: %s"
 
 #: weblate/machinery/forms.py:196
-#, fuzzy
-#| msgid "Access only"
 msgctxt "AWS Translate configuration"
 msgid "Access key ID"
-msgstr "Somente acesso"
+msgstr "ID da chave de acesso"
 
 #: weblate/machinery/forms.py:199
-#, fuzzy
-#| msgid "Secret key"
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr "Chave secreta"
+msgstr "Chave secreta da API"
 
 #: weblate/machinery/forms.py:202
-#, fuzzy
-#| msgid "Rename"
 msgctxt "AWS Translate configuration"
 msgid "Region name"
-msgstr "Renomear"
+msgstr "Nome da região"
 
 #: weblate/machinery/views.py:328
 msgid "Service is currently not available."
@@ -4470,10 +4420,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:240
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for Libre hosting"
-msgstr "Pedir alojamento para um projeto"
+msgstr "Pedir alojamento Libre"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -4677,10 +4625,8 @@ msgid "Trial subscriptions"
 msgstr "Assinaturas de avaliação"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy
-#| msgid "Translate your libre project"
 msgid "Set up your libre project"
-msgstr "Traduza o seu projeto libre"
+msgstr "Configure o seu projeto Libre"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid ""
@@ -4704,15 +4650,11 @@ msgid "Unapproved projects will be removed."
 msgstr "Projetos não aprovados serão removidos."
 
 #: weblate/templates/accounts/hosting.html:43
-#, fuzzy
-#| msgid ""
-#| "There is no guarantee of service availability, nor quality for free "
-#| "service plan."
 msgid ""
 "There is no guarantee of service availability, nor quality for Libre hosting."
 msgstr ""
 "Não há garantia de disponibilidade nem qualidade de serviço para o plano de "
-"serviço gratuito."
+"alojamento Libre."
 
 #: weblate/templates/accounts/hosting.html:48
 msgid "Get started"
@@ -5565,16 +5507,12 @@ msgid "Project URL slug"
 msgstr "URL semântico do projeto"
 
 #: weblate/templates/addons/pseudolocale.html:4
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Generated strings"
-msgstr "Cadeias não traduzidas"
+msgstr "Cadeias geradas"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The strings will be generated using following pattern:"
-msgstr "A cadeia não foi traduzida há muito tempo"
+msgstr "As cadeias serão geradas segundo o padrão:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -7123,10 +7061,8 @@ msgid "This service is installed site wide."
 msgstr "Este serviço está instalado em todo o site."
 
 #: weblate/templates/machinery/detail.html:7
-#, fuzzy
-#| msgid "repository wide"
 msgid "site wide"
-msgstr "todo o repositório"
+msgstr "todo o site"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
@@ -7145,64 +7081,44 @@ msgid "Automatic suggestions"
 msgstr "Sugestões automáticas"
 
 #: weblate/templates/machinery/list.html:23
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configured automatic suggestion services"
-msgstr "Usar sugestões automáticas"
+msgstr "Configurar serviços de sugestões automáticas"
 
 #: weblate/templates/machinery/list.html:34
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable"
-msgstr "inactivo"
+msgstr "Desativar"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "activo"
+msgstr "Ativar"
 
 #: weblate/templates/machinery/list.html:50
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "There are no services currently installed."
-msgstr "Não existem extensões atualmente instaladas."
+msgstr "Não existem serviços atualmente instalados."
 
 #: weblate/templates/machinery/list.html:52
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s add-on installed."
-#| msgid_plural "There are currently %(count)s add-ons installed."
+#, python-format
 msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
-msgstr[0] "Existe atualmente %(count)s extensão instalada."
-msgstr[1] "Existe atualmente %(count)s extensões instaladas."
+msgstr[0] "Existe atualmente %(count)s serviço instalado."
+msgstr[1] "Existe atualmente %(count)s serviços instalados."
 
 #: weblate/templates/machinery/list.html:61
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Available automatic suggestion services"
-msgstr "Usar sugestões automáticas"
+msgstr "Serviços de sugestões automáticas disponíveis"
 
 #: weblate/templates/machinery/list.html:79
-#, fuzzy
-#| msgid "Could not find any such user."
 msgid "Could not find any additional services."
-msgstr "Não foi possível encontrar tal utilizador."
+msgstr "Não foi possível encontrar quaisquer serviços adicionais."
 
 #: weblate/templates/machinery/list.html:81
-#, fuzzy
-#| msgid ""
-#| "Some add-ons will ask for additional configuration during installation."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
-"Algumas extensões irão solicitar configurações adicionais durante a "
-"instalação."
+"Alguns serviços irão solicitar configurações adicionais durante a instalação."
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "The following activity has occured on your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
 msgstr "Ocorreu a seguinte atividade na sua conta em %(site_title)s:"
 
@@ -7312,16 +7228,13 @@ msgstr ""
 "programa de faturação serão removidos ao %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Se a sua avaliação gratuita não for aprovada, todos os projetos dentro deste "
-"plano de faturamento serão removidos em %(date)s."
+"Se o seu alojamento Libre não for aprovado, todos os projetos dentro deste "
+"plano de faturação serão removidos em %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -8182,10 +8095,8 @@ msgstr "Reconstruir"
 
 #: weblate/templates/memory/index.html:84
 #: weblate/templates/memory/index.html:143
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Memory will be then populated with the current translations."
-msgstr "O ficheiro enviado será incorporado na tradução atual."
+msgstr "A memória será então preenchida com as traduções atuais."
 
 #: weblate/templates/memory/index.html:158
 msgid "Shared translation memory"
@@ -8840,8 +8751,6 @@ msgid "Needs editing"
 msgstr "Precisa de edição"
 
 #: weblate/templates/snippets/info.html:349
-#, fuzzy
-#| msgid "Read only"
 msgctxt "Number of strings"
 msgid "Read-only"
 msgstr "Somente leitura"
@@ -8899,17 +8808,15 @@ msgstr ""
 "As etiquetas adicionais podem ser definidas pelos administradores do projeto."
 
 #: weblate/templates/snippets/libre-basic.html:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Translated content has to be released under a license approved by OSI or "
-#| "recognized as libre by FSF."
+#, python-format
 msgid ""
 "Translated content has to be released under a license "
 "%(link_osi_start)sapproved by OSI%(link_end)s or "
 "%(link_fsf_start)srecognized as libre by FSF%(link_end)s."
 msgstr ""
-"O conteúdo traduzido deve ser lançado sob uma licença aprovada pela OSI ou "
-"reconhecida como libre pela FSF."
+"O conteúdo traduzido deve ser lançado sob uma licença %(link_osi_start)"
+"saprovada pela OSI%(link_end)s ou %(link_fsf_start)sreconhecida como libre "
+"pela FSF%(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:4
 msgid ""
@@ -11664,8 +11571,6 @@ msgid "No file mask matches."
 msgstr "Nenhuma máscara de ficheiro corresponde."
 
 #: weblate/trans/models/alert.py:427
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Ficheiros inexistentes."
 
@@ -12111,10 +12016,8 @@ msgid "App store metadata style"
 msgstr "Ficheiros de metadados da App Store"
 
 #: weblate/trans/models/component.py:146
-#, fuzzy
-#| msgid "Font style"
 msgid "Linux style"
-msgstr "Estilo da letra"
+msgstr "Estilo Linux"
 
 #: weblate/trans/models/component.py:150
 msgid "Merge"
@@ -12935,27 +12838,20 @@ msgid "Insert character {0}"
 msgstr "Inserir caráter {0}"
 
 #: weblate/trans/specialchars.py:285
-#, fuzzy
-#| msgid "Opening double quote"
 msgid "Main opening quote"
-msgstr "Aspas principais para abrir"
+msgstr "Aspas de início principais"
 
 #: weblate/trans/specialchars.py:286
-#, fuzzy
-#| msgid "Closing single quote"
 msgid "Main closing quote"
-msgstr "Aspas principais para fechar"
+msgstr "Aspas de fim principais"
 
 #: weblate/trans/specialchars.py:287
-#, fuzzy
 msgid "Alternative opening quote"
-msgstr "Aspas alternativas para abrir"
+msgstr "Aspas de início alternativas"
 
 #: weblate/trans/specialchars.py:288
-#, fuzzy
-#| msgid "Opening single quote"
 msgid "Alternative closing quote"
-msgstr "Aspas alternativas para fechar"
+msgstr "Aspas de fim alternativas"
 
 #: weblate/trans/specialchars.py:291
 msgid "Hyphen"
@@ -13002,8 +12898,7 @@ msgid "Forbidden translation: %s"
 msgstr "Tradução proibida: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgid "Non translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
 msgstr "Não traduzível: %s"
 
@@ -13295,21 +13190,21 @@ msgid "Failed to parse flags: %s"
 msgstr "Falha ao analisar os sinalizadores: %s"
 
 #: weblate/trans/validators.py:65
-#, fuzzy, python-format
-#| msgid "The language code for %s was empty, please check the file mask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
 msgstr ""
-"O código de idioma para %s estava vazio, verifique a máscara de ficheiros."
+"O código de idioma para \"%(filename)s\" está vazio, verifique a máscara de "
+"ficheiros."
 
 #: weblate/trans/validators.py:71
-#, fuzzy, python-format
-#| msgid "The language code \"%s\" is too long, please check the file mask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
 msgstr ""
-"O código de idioma \"%s\" é muito longo, verifique a máscara de ficheiros."
+"O código de idioma \"%(code)s\" para \"%(filename)s\" é muito longo, "
+"verifique a máscara de ficheiros."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13993,10 +13888,8 @@ msgid "GitHub pull request"
 msgstr "Solicitação de pull do GitHub"
 
 #: weblate/vcs/git.py:986
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "Solicitação de pull do GitHub"
+msgstr "«Pull request» do GitHub"
 
 #: weblate/vcs/git.py:1072
 msgid "No remote repository"
