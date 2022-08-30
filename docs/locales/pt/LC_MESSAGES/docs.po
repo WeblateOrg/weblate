@@ -4,13 +4,14 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 # yangyangdaji <1504305527@qq.com>, 2022.
 # Laura Vasconcelos Pereira Felippe <lauravpf@gmail.com>, 2022.
+# ssantos <ssantos@web.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-08-20 17:08+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-09-02 10:13+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -89,8 +90,6 @@ msgid "Public"
 msgstr "Pública"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users."
 msgid "Publicly visible, translatable for all signed-in users."
 msgstr ""
 "Visível publicamente, traduzível para todos os utilizadores autenticados."
@@ -189,11 +188,6 @@ msgid "Managing per-project access control"
 msgstr "A gerir controle de acesso por projeto"
 
 #: ../../admin/access.rst:83
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Manage project access` privilege (see :ref:"
-#| "`privileges`) can manage users in projects with non-`Custom` access "
-#| "control. They can assign users to one of the following groups."
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can manage users in projects via adding them to the teams. The "
@@ -201,10 +195,12 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
-"Os utilizadores com o privilégio :guilabel:`Gerir acesso ao projeto` (veja "
-"a :ref:`privileges`) podem gerir utilizadores em projetos com controle de "
-"acesso não `Personalizado`. Eles podem atribuir os utilizadores a um dos "
-"seguintes grupos."
+"Os utilizadores com o privilégio :guilabel:`gerir o acesso ao projecto` (ver "
+":ref:`privileges`) podem gerir utilizadores em projetos através da adição "
+"deles às equipas. A coleção inicial de equipas é fornecida pela Weblate, mas "
+"equipas adicionais podem ser definidas, proporcionando um controlo de acesso "
+"mais fino. É possível limitar as equipas aos idiomas e atribuir-lhes funções "
+"de acesso designadas (ver :ref:`privileges`)."
 
 #: ../../admin/access.rst:89
 msgid "The following teams are automatically created for every project:"
@@ -338,15 +334,6 @@ msgid "New user invitation"
 msgstr "Novo convite de utilizador"
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` group) would "
-#| "be sufficient."
 msgid ""
 "Also, besides adding an existing user to the project, it is possible to "
 "invite new ones. Any new user will be created immediately, but the account "
@@ -360,7 +347,7 @@ msgstr ""
 "conta permanecerá inativa até que entre com uma ligação no convite enviado "
 "por e-mail. Não é necessário ter nenhum privilégio de todo o site para fazer "
 "isso, a permissão de gestão de acesso no escopo do projeto (por exemplo, uma "
-"associação no grupo `Administração`) seria suficiente."
+"associação ao grupo `Administração`) seria suficiente."
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -432,12 +419,6 @@ msgstr ""
 "conforme descrito em :ref:`custom-acl` abaixo."
 
 #: ../../admin/access.rst:184
-#, fuzzy
-#| msgid ""
-#| "One of the main benefits of managing permissions through the Weblate user "
-#| "interface is that you can delegate it to other users without giving them "
-#| "the superuser privilege. In order to do so, add them to the "
-#| "`Administration` group of the project."
 msgid ""
 "One of the main benefits of managing permissions through the Weblate user "
 "interface is that you can delegate it to other users without giving them the "
@@ -445,8 +426,8 @@ msgid ""
 "team of the project."
 msgstr ""
 "Um dos principais benefícios de gerir permissões por meio da interface de "
-"utilizador do Weblate é que pode delegá-las a outros utilizadores sem dar a "
-"eles o privilégio de superutilizador. Para isso, adicione-os ao grupo "
+"utilizador do Weblate é que pode delegá-las a outros utilizadores sem lhes "
+"dar o privilégio de superutilizador. Para isso, adicione-os ao grupo "
 "`Administração` do projeto."
 
 #: ../../admin/access.rst:192
@@ -1055,10 +1036,8 @@ msgid "Delete comment"
 msgstr "Apagar comentário"
 
 #: ../../admin/access.rst:464
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Resolve comment"
-msgstr "Comentário resolvido"
+msgstr "Resolver comentário"
 
 #: ../../admin/access.rst:464 ../../admin/access.rst:506
 #: ../../admin/access.rst:508
@@ -1687,16 +1666,12 @@ msgid "``component``"
 msgstr "``component:TEXTO``"
 
 #: ../../admin/addons.rst:60
-#, fuzzy
-#| msgid ""
-#| "Enter component to use as source, keep blank to use all components in "
-#| "current project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Insira o componente a ser usado como fonte, mantenha em branco para usar "
-"todos os componentes no projeto atual."
+"Introduza a lesma de um componente para utilizar como fonte, deixe em branco "
+"para utilizar todos os componentes no projeto atual."
 
 #: ../../admin/addons.rst:62
 #, fuzzy
@@ -2091,8 +2066,6 @@ msgid "``remove``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:198
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Remover componentes para os ficheiros inexistentes"
 
@@ -2493,20 +2466,16 @@ msgid "Target translation"
 msgstr "Tradução de destino"
 
 #: ../../admin/addons.rst:421
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "As seguintes traduções serão removidas:"
+msgstr "Todas as cadeias nesta tradução serão sobrescritas"
 
 #: ../../admin/addons.rst:423
 msgid "``prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:423
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Prefixo da cadeia"
+msgstr "Prefixo de cadeia fixo"
 
 #: ../../admin/addons.rst:425
 msgid "``var_prefix``"
