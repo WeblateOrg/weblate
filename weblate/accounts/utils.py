@@ -87,12 +87,17 @@ def remove_user(user, request):
     Token.objects.filter(user=user).delete()
 
 
-def get_all_user_mails(user, entries=None):
+def get_all_user_mails(user, entries=None, filter_deliverable=True):
     """Return all verified mails for user."""
     kwargs = {"social__user": user}
     if entries:
         kwargs["social__in"] = entries
-    emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
+    if filter_deliverable:
+        # filter out emails that are not deliverable
+        emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True, is_deliverable=True))
+    else:
+        # allow all emails, including non deliverable ones
+        emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
     emails.add(user.email)
     emails.discard(None)
     emails.discard("")

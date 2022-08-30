@@ -71,12 +71,16 @@ def get_github_emails(access_token):
     public = None
     emails = []
     for entry in data:
-        # Skip noreply e-mail
+        # Skip noreply e-mail only if we need deliverable e-mails
         if entry["email"].endswith("@users.noreply.github.com"):
+            entry["is_deliverable"] = False
+            emails.append(entry["email"])
             continue
         # Skip not verified ones
         if not entry["verified"]:
-            continue
+            continue            
+
+        entry["is_deliverable"] = True
         emails.append(entry["email"])
         if entry.get("visibility") == "public":
             # There is just one public mail, prefer it
