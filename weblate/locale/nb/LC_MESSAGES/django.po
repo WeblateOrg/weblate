@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-01 03:15+0000\n"
+"PO-Revision-Date: 2022-09-02 10:13+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2779,22 +2779,22 @@ msgstr "Strengvariant"
 #: weblate/checks/flags.py:265
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Ugyldig oversettelsesflagg: \"%s\""
+msgstr "Ugyldig oversettelsesflagg: «%s»"
 
 #: weblate/checks/flags.py:269
 #, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr "Oversettelsflagg har ingen parametre: \"%s\""
+msgstr "Oversettelsflagg har ingen parametre: «%s»"
 
 #: weblate/checks/flags.py:275
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Feil parametre for oversettelsesflagg: \"%s\""
+msgstr "Feil parametre for oversettelsesflagg: «%s»"
 
 #: weblate/checks/flags.py:279
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Manglende parametre for oversettelsesflagg: \"%s\""
+msgstr "Manglende parametre for oversettelsesflagg: «%s»"
 
 #: weblate/checks/format.py:389
 #, python-format
@@ -3967,8 +3967,8 @@ msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not Track"
 "\" settings in your browser."
 msgstr ""
-"Denne siden bruker Matomo for å analysere trafikk. Matomo overholder \"Ikke "
-"spor meg\"-innstillinger i din nettleser."
+"Denne siden bruker Matomo for å analysere trafikk. Matomo overholder «Do Not "
+"Track» (Ikke spor meg) -innstillinger i din nettleser."
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
@@ -4630,18 +4630,13 @@ msgid "Register again if the confirmation link expires."
 msgstr "Se etter bekreftelseslenken i innboksen din."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Hvis du ikke får den innen kort tid, sjekk din søppelpostmappe, eller prøv "
-"registreringen igjen. Hvis problemet vedvarer, må du <a href="
-"\"%(contact_url)s\">kontakt oss</a>."
+"Hvis den ikke er i søppelposten heller kan det hende du må registrere deg "
+"igjen. <a href=\"%(contact_url)s\">Kontakt oss</a> Hvis du har problemer."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6792,14 +6787,13 @@ msgstr "Bruk et lengre tastaturmønster med flere svinger."
 
 #: weblate/templates/i18n.html:29
 msgid "Repeats like \"aaa\" are easy to guess."
-msgstr "Repetisjoner som \"aaa\" er enkle å gjette."
+msgstr "Repetisjoner som «aaa» er enkle å gjette."
 
 #: weblate/templates/i18n.html:30
 msgid ""
 "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\"."
 msgstr ""
-"Gjentagelser som \"abcabcabc\" er bare litt vanskeligere å gjette enn \"abc"
-"\"."
+"Gjentagelser som «abcabcabc» er bare litt vanskeligere å gjette enn «abc»."
 
 #: weblate/templates/i18n.html:31
 msgid "Avoid repeated words and characters."
@@ -6876,7 +6870,7 @@ msgstr "Ord stavet omvendt er ikke mye vanskeligere å gjette."
 #: weblate/templates/i18n.html:49
 msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr ""
-"Forutsigbare erstatninger som \"@\" istedenfor \"a\" hjelper ikke veldig mye."
+"Forutsigbare erstatninger som «@» istedenfor «a» hjelper ikke veldig mye."
 
 #: weblate/templates/i18n.html:50
 msgid "Your password can't contain repeated words or characters."
@@ -11121,10 +11115,8 @@ msgid "Automatic translation mode"
 msgstr "Automatisk oversettelsesmodus"
 
 #: weblate/trans/forms.py:876
-#, fuzzy
-#| msgid "Add as needing edit"
 msgid "Add as \"Needing edit\""
-msgstr "Legg til som trenger redigering"
+msgstr "Legg til som «Trenger redigering»"
 
 #: weblate/trans/forms.py:884
 #, fuzzy
@@ -12103,15 +12095,13 @@ msgid "N/A"
 msgstr "I/T"
 
 #: weblate/trans/models/change.py:664
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Lisensen for komponenten %(component)s ble endret fra %(old)s til %(target)s."
+"Lisensen for komponenten «%(component)s» ble endret fra %(old)s til "
+"%(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:117
@@ -12826,12 +12816,13 @@ msgstr "Oversettelsesinstruksjoner"
 
 #: weblate/trans/models/project.py:116
 msgid "Set \"Language-Team\" header"
-msgstr "Sett \"oversettelseslag\" (Language-Team) -topptekst"
+msgstr "Sett «Language-Team» (oversettelseslag) -topptekst"
 
 #: weblate/trans/models/project.py:119
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
-"Lar Weblate oppdatere \"oversettelseslag\" i filtoppteksten av ditt prosjekt."
+"Lar Weblate oppdatere «Language-Team» (oversettelseslag) i filtoppteksten av "
+"prosjektet ditt."
 
 #: weblate/trans/models/project.py:123
 msgid "Use shared translation memory"
@@ -13375,7 +13366,7 @@ msgstr "Klarte ikke å tolke flagg. %s"
 #| msgid "The language code for %s was empty, please check the filemask."
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "Språkkoden for %s var tom, sjekk filmasken."
+msgstr "Språkkoden for «%(filename)s» var tom, sjekk filmasken."
 
 #: weblate/trans/validators.py:71
 #, fuzzy, python-format
@@ -13383,7 +13374,7 @@ msgstr "Språkkoden for %s var tom, sjekk filmasken."
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "Språkkoden for \"%s\" er for lang. Sjekk filmasken."
+msgstr "Språkkoden for «%s» er for lang. Sjekk filmasken."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13923,7 +13914,7 @@ msgstr "En bruker med det brukernavnet finnes allerede."
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr "Udefinert variabel: \"%s\""
+msgstr "Udefinert variabel: «%s»"
 
 #: weblate/utils/render.py:135
 msgid "Failed to render template: {}"
