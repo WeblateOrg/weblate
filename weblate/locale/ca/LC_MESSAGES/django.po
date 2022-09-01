@@ -15,13 +15,14 @@
 # Sergi Font <sfont@tuta.io>, 2021.
 # David Surroca <davidsurrocaestrada@gmail.com>, 2021.
 # Maite Guix <maite.guix@gmail.com>, 2022.
+# Joan Montané <jmontane@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-21 08:34+0000\n"
-"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
+"PO-Revision-Date: 2022-09-02 10:13+0000\n"
+"Last-Translator: Joan Montané <jmontane@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -29,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2188,7 +2189,7 @@ msgstr "Torna a enviar el correu electrònic d'invitació a l'usuari"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "No és permès de canviar %s per als grups integrats."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -4243,14 +4244,9 @@ msgid "Dec"
 msgstr "des."
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid ""
-#| "{new_lang} translation is currently not "
-#| "available,                                but can be added."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
-msgstr ""
-"La traducció a {new_lang} no està disponible,                                "
-"però es pot afegir."
+msgstr "La traducció a %s no és disponible, però es pot afegir."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -7761,16 +7757,12 @@ msgid "Libre"
 msgstr "Lliure"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "Assignacions automàtiques dels grups"
+msgstr "Assignacions automàtiques"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "Assignació automàtica del grup"
+msgstr "Afegeix una assignació automàtica"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7778,10 +7770,9 @@ msgid "Access only"
 msgstr "Només accés"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "Això suprimirà l'equip <b>%(name)s</b> d'aquest projecte."
+msgstr "Això suprimirà el grup <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7792,13 +7783,15 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"Hi ha %(count)s membre en aquest grup. La supressió del grup podria afectar-"
+"ne l'accés."
 msgstr[1] ""
+"Hi ha %(count)s membres en aquest grup. La supressió del grup podria afectar-"
+"ne l'accés."
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "Crea un equip nou"
+msgstr "Crea un grup nou"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -10038,13 +10031,15 @@ msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
 msgstr[0] ""
+"Hi ha %(count)s membre en aquest equip. La supressió de l'equip podria "
+"afectar-ne l'accés al projecte."
 msgstr[1] ""
+"Hi ha %(count)s membres en aquest equip. La supressió de l'equip podria "
+"afectar-ne l'accés al projecte."
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "Edita l'etiqueta"
+msgstr "Edita l'equip"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -11840,10 +11835,8 @@ msgstr "S'ha desinstal·lat un complement"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
-msgstr "Suprimeix cadenes"
+msgstr "Suprimeix la cadena"
 
 #: weblate/trans/models/change.py:448
 msgid "New string to translate"
@@ -12705,10 +12698,9 @@ msgstr "No s'ha pogut analitzar el fitxer %(file)s: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Publica els canvis pendents"
+msgstr "No s'han pogut cometre els canvis pendents: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12745,16 +12737,12 @@ msgid "Mark as read-only"
 msgstr "Marca com a només lectura"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Desmarca com a traducció prohibida"
+msgstr "Desmarca com a no traduïble"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Marca com a traducció prohibida"
+msgstr "Marca com a no traduïble"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
