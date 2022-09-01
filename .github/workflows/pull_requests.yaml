@@ -6,8 +6,13 @@ on:
   pull_request_target:
     types: opened
 
+permissions:
+  contents: read
+
 jobs:
   weblate_automerge:
+    permissions:
+      pull-requests: write # for actions-ecosystem/action-add-labels to add label
     runs-on: ubuntu-20.04
     name: Weblate automerge
     if: ${{ github.actor == 'weblate' || github.actor == 'pre-commit-ci[bot]' }}
