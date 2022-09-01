@@ -749,6 +749,14 @@ class ProjectLanguageComponent:
     def translation_set(self):
         return self.parent.translation_set
 
+    @property
+    def context_label(self):
+        return self.translation_set[0].component.context_label
+
+    @property
+    def source_language(self):
+        return self.translation_set[0].component.source_language
+
 
 class ProjectLanguage:
     """Wrapper class used in project-language listings and stats."""
