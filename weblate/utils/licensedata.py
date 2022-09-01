@@ -589,6 +589,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-3.0-IGO",
+        "Creative Commons Attribution 3.0 IGO",
+        "https://spdx.org/licenses/CC-BY-3.0-IGO.html",
+        False,
+    ),
+    (
         "CC-BY-3.0-NL",
         "Creative Commons Attribution 3.0 Netherlands",
         "https://spdx.org/licenses/CC-BY-3.0-NL.html",
@@ -1459,6 +1465,18 @@ LICENSES = (
         True,
     ),
     (
+        "LZMA-SDK-9.11-to-9.20",
+        "LZMA SDK License (versions 9.11 to 9.20)",
+        "https://spdx.org/licenses/LZMA-SDK-9.11-to-9.20.html",
+        False,
+    ),
+    (
+        "LZMA-SDK-9.22",
+        "LZMA SDK License (versions 9.22 and beyond)",
+        "https://spdx.org/licenses/LZMA-SDK-9.22.html",
+        False,
+    ),
+    (
         "MakeIndex",
         "MakeIndex License",
         "https://spdx.org/licenses/MakeIndex.html",
@@ -1528,6 +1546,12 @@ LICENSES = (
         "Mozilla Public License 2.0 (no copyleft exception)",
         "https://spdx.org/licenses/MPL-2.0-no-copyleft-exception.html",
         True,
+    ),
+    (
+        "mpi-permissive",
+        "mpi Permissive License",
+        "https://spdx.org/licenses/mpi-permissive.html",
+        False,
     ),
     ("mpich2", "mpich2 License", "https://spdx.org/licenses/mpich2.html", False),
     ("mplus", "mplus Font License", "https://spdx.org/licenses/mplus.html", False),
@@ -1901,6 +1925,12 @@ LICENSES = (
         "Python License 2.0",
         "https://spdx.org/licenses/Python-2.0.html",
         True,
+    ),
+    (
+        "Python-2.0.1",
+        "Python License 2.0.1",
+        "https://spdx.org/licenses/Python-2.0.1.html",
+        False,
     ),
     (
         "PSF-2.0",
