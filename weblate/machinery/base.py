@@ -18,6 +18,8 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from requests.exceptions import HTTPError
 
+from weblate.checks.format import BaseFormatCheck
+from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -377,12 +379,37 @@ class MachineTranslation:
         else:
             source_strings = unit.get_source_plurals()
             source_plural = translation.component.source_language.plural
-            target_plural = unit.translation.plural
-            if source_plural.same_as(target_plural):
+            target_plural = translation.plural
+            if len(source_strings) == 1 or source_plural.same_as(target_plural):
                 strings_to_translate = source_strings
+            elif target_plural.number == 1:
+                strings_to_translate = [source_strings[-1]]
             else:
-                strings_to_translate = [""] * target_plural.number
-                strings_to_translate[-1] = source_strings[-1]
+                source_map = {
+                    examples[0]: i for i, examples in source_plural.examples.items()
+                    if len(examples) == 1
+                }
+                format_check = next((
+                    check for check in CHECKS.values() if (
+                        isinstance(check, BaseFormatCheck)
+                        and check.enable_string in unit.all_flags
+                    )
+                ), None)
+                strings_to_translate = []
+                last = target_plural.number - 1
+                for i in range(target_plural.number):
+                    examples = target_plural.examples.get(i, ())
+                    if format_check and len(examples) == 1:
+                        number = examples[0]
+                        strings_to_translate.append(
+                            source_strings[source_map[number]]
+                            if number in source_map else
+                            format_check.interpolate_number(source_strings[-1], number)
+                        )
+                    elif i == last:
+                        strings_to_translate.append(source_strings[-1])
+                    else:
+                        strings_to_translate.append("")
             return [
                 self._translate(source, language, text, unit, user, threshold=threshold)
                 for text in strings_to_translate
