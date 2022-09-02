@@ -305,7 +305,11 @@ class PluralTextarea(forms.Textarea):
         lang = translation.language
         plural = translation.plural
         tabindex = self.attrs["tabindex"]
-        placeables = [hl[2] for hl in highlight_string(unit.source_string, unit)]
+        plurals = unit.get_source_plurals()
+        placeables = set()
+        for text in plurals:
+            placeables.update(hl[2] for hl in highlight_string(text, unit))
+        placeables = list(placeables)
         show_plural_labels = len(values) > 1 and not translation.component.is_multivalue
 
         # Need to add extra class
@@ -322,7 +326,6 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
-        plurals = unit.get_source_plurals()
         base_id = f"id_{unit.checksum}"
         for idx, val in enumerate(values):
             # Generate ID

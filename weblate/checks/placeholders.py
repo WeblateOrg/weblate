@@ -75,7 +75,7 @@ class PlaceholderCheck(TargetCheckParametrized):
     def check_target_params(self, sources, targets, unit, value):
         expected = set(self.get_matches(value, sources[0]))
         if not expected and len(sources) > 1:
-            expected = set(self.get_matches(value, sources[1]))
+            expected = set(self.get_matches(value, sources[-1]))
         plural_examples = SimpleLazyObject(lambda: unit.translation.plural.examples)
 
         if "case-insensitive" in unit.all_flags:
