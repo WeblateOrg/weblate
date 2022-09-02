@@ -376,7 +376,11 @@ class Unit(models.Model, LoggerMixin):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
         if not same_content or not self.num_words:
-            self.num_words = len(self.source_string.split())
+            self.num_words = sum(
+                len(s.split())
+                for s in self.get_source_plurals()
+                if not s.startswith("<unused singular")
+            )
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
@@ -862,7 +866,7 @@ class Unit(models.Model, LoggerMixin):
         """
         plurals = self.get_source_plurals()
         singular = plurals[0]
-        if len(plurals) == 1 or "<unused singular" not in singular:
+        if len(plurals) == 1 or not singular.startswith("<unused singular"):
             return singular
         return plurals[1]
 

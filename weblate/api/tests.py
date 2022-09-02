@@ -2526,7 +2526,7 @@ class TranslationAPITest(APIBaseTest):
                 "translate_url": "http://example.com/translate/test/test/cs/",
                 "failing_percent": 0.0,
                 "translated_percent": 0.0,
-                "total_words": 15,
+                "total_words": 19,
                 "failing": 0,
                 "translated_words": 0,
                 "fuzzy_percent": 0.0,
