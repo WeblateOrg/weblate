@@ -199,7 +199,7 @@ The following commands are available:
 
     Displays repository status for a given Weblate object (translation, component or project).
 
-.. option:: statistics
+.. option:: stats
 
     Displays detailed statistics for a given Weblate object (translation, component or project).
 
