@@ -259,6 +259,7 @@ class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
     regexp: Optional[Pattern[str]] = None
+    plural_parameter_regexp: Optional[Pattern[str]] = None
     default_disabled = True
     normalize_remove = None
 
@@ -419,6 +420,27 @@ class BaseFormatCheck(TargetCheck):
             )
         return super().get_description(check_obj)
 
+    def interpolate_number(self, text: str, number: int) -> str:
+        """
+        Attempt to find, in `text`, the placeholder for the number that controls
+        which plural form is used, and replace it with `number`.
+
+        Returns an empty string if the interpolation fails for any reason.
+        """
+        if not self.plural_parameter_regexp:
+            # Interpolation isn't available for this format.
+            return ""
+        it = self.plural_parameter_regexp.finditer(text)
+        match = next(it, None)
+        if match:
+            if next(it, None):
+                # We've found two matching placeholders. We have no way to
+                # determine which one we should replace, so we give up.
+                return ""
+        else:
+            return ""
+        return text[:match.start()] + str(number) + text[match.end():]
+
 
 class BasePrintfCheck(BaseFormatCheck):
     """Base class for printf based format checks."""
@@ -448,6 +470,7 @@ class PythonFormatCheck(BasePrintfCheck):
     check_id = "python_format"
     name = _("Python format")
     description = _("Python format string does not match source")
+    plural_parameter_regexp = re.compile(r"%\((?:count|number|num|n)\)[a-zA-Z]")
 
 
 class PHPFormatCheck(BasePrintfCheck):
@@ -518,6 +541,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     name = _("Python brace format")
     description = _("Python brace format string does not match source")
     regexp = PYTHON_BRACE_MATCH
+    plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
 
     def is_position_based(self, string):
         return name_format_is_position_based(string)
@@ -594,6 +618,8 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     name = _("i18next interpolation")
     description = _("The i18next interpolation does not match source")
     regexp = I18NEXT_MATCH
+    # https://www.i18next.com/translation-function/plurals
+    plural_parameter_regexp = re.compile(r"{{count}}")
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
@@ -606,6 +632,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
     name = _("ECMAScript template literals")
     description = _("ECMAScript template literals do not match source")
     regexp = ES_TEMPLATE_MATCH
+    plural_parameter_regexp = re.compile(r"\$\{(?:count|number|num|n)\}")
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
@@ -619,6 +646,7 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     name = _("Percent placeholders")
     description = _("The percent placeholders do not match source")
     regexp = PERCENT_MATCH
+    plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
 
 
 class VueFormattingCheck(BaseFormatCheck):
@@ -626,6 +654,8 @@ class VueFormattingCheck(BaseFormatCheck):
     name = _("Vue I18n formatting")
     description = _("The Vue I18n formatting does not match source")
     regexp = VUE_MATCH
+    # https://kazupon.github.io/vue-i18n/guide/pluralization.html
+    plural_parameter_regexp = re.compile(r"%?\{(?:count|n)\}")
 
 
 class MultipleUnnamedFormatsCheck(SourceCheck):
