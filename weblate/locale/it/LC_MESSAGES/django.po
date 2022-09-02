@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-20 17:08+0000\n"
+"PO-Revision-Date: 2022-09-02 10:13+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:100
@@ -2189,7 +2189,7 @@ msgstr "Invia nuovamente l'invito email all'utente"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "La modifica di %s è vietata per i gruppi integrati."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -4238,14 +4238,10 @@ msgid "Dec"
 msgstr "Dic"
 
 #: weblate/middleware.py:201
-#, fuzzy, python-format
-#| msgid ""
-#| "{new_lang} translation is currently not "
-#| "available,                                but can be added."
+#, python-format
 msgid "%s translation is currently not available, but can be added."
 msgstr ""
-"La traduzione di {new_lang} non è attualmente disponibile, ma può essere "
-"aggiunta."
+"La traduzione di %s non è attualmente disponibile, ma può essere aggiunta."
 
 #: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -7739,16 +7735,12 @@ msgid "Libre"
 msgstr "Libero"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "Assegnazioni automatiche dei gruppi"
+msgstr "Assegnazioni automatiche"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "Assegnazione automatica del gruppo"
+msgstr "Aggiungi assegnazione automatica"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7756,10 +7748,9 @@ msgid "Access only"
 msgstr "Solo accesso"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "Questo eliminerà il team <b>%(name)s</b> da questo progetto."
+msgstr "Questo eliminerà il gruppo <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7770,13 +7761,15 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"C'è %(count)s membro di questo gruppo. L'eliminazione del gruppo potrebbe "
+"influire sul suo accesso."
 msgstr[1] ""
+"Ci sono %(count)s membri di questo gruppo. L'eliminazione del gruppo "
+"potrebbe influire sul loro accesso."
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "Crea nuovo team"
+msgstr "Crea nuovo gruppo"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -10005,13 +9998,15 @@ msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
 msgstr[0] ""
+"C'è %(count)s membro di questo team. L'eliminazione del team potrebbe "
+"influire sul suo accesso al progetto."
 msgstr[1] ""
+"Ci sono %(count)s membri di questo team. L'eliminazione del team potrebbe "
+"influire sul loro accesso al progetto."
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "Modifica etichetta"
+msgstr "Modifica team"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -11810,10 +11805,8 @@ msgstr "Addon disinstallato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
-msgstr "Rimuovi una stringa"
+msgstr "Rimuovi stringa"
 
 #: weblate/trans/models/change.py:448
 msgid "New string to translate"
@@ -12673,10 +12666,9 @@ msgstr "Impossibile analizzare il file %(file)s: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Invia le modifiche in attesa"
+msgstr "Impossibile eseguire il commit delle modifiche in sospeso: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12713,16 +12705,12 @@ msgid "Mark as read-only"
 msgstr "Seleziona come sola lettura"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Deseleziona come traduzione vietata"
+msgstr "Deseleziona come non traducibile"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Seleziona come traduzione vietata"
+msgstr "Contrassegna come non traducibile"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
