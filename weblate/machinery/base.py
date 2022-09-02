@@ -286,9 +286,8 @@ class MachineTranslation:
         """Generates a single replacement."""
         return f"[X{h_start}X]"
 
-    def cleanup_text(self, unit):
+    def cleanup_text(self, text, unit):
         """Removes placeholder to avoid confusing the machine translation."""
-        text = unit.source_string
         replacements = {}
         if not self.do_cleanup:
             return text, replacements
@@ -371,39 +370,53 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, unit, user, search, threshold)
+        if search:
+            return self._translate(
+                source, language, search, unit, user, search=True, threshold=threshold
+            )
+        else:
+            source_strings = unit.get_source_plurals()
+            source_plural = translation.component.source_language.plural
+            target_plural = unit.translation.plural
+            if source_plural.same_as(target_plural):
+                strings_to_translate = source_strings
+            else:
+                strings_to_translate = [""] * target_plural.number
+                strings_to_translate[-1] = source_strings[-1]
+            return [
+                self._translate(source, language, text, unit, user, threshold=threshold)
+                for text in strings_to_translate
+            ]
 
     def _translate(
-        self, source, language, unit, user=None, search=None, threshold: int = 75
+        self, source, language, text, unit, user=None, search=False, threshold: int = 75
     ):
         if search:
             replacements = {}
-            source_string = text = search
         else:
-            text, replacements = self.cleanup_text(unit)
-            source_string = unit.source_string
+            text, replacements = self.cleanup_text(text, unit)
 
         if not text or self.is_rate_limited():
             return []
 
         cache_key, result = self.get_cached(
-            source, language, source_string, threshold, replacements
+            source, language, text, threshold, replacements
         )
         if result is not None:
             return result
 
         try:
-            result = list(
-                self.download_translations(
+            result = [
+                item for item in self.download_translations(
                     source,
                     language,
                     text,
                     unit,
                     user,
-                    search=bool(search),
+                    search=search,
                     threshold=threshold,
-                )
-            )
+                ) if item["quality"] >= threshold
+            ]
             if replacements or self.force_uncleanup:
                 self.uncleanup_results(replacements, result)
             if cache_key:
@@ -448,12 +461,17 @@ class MachineTranslation:
     def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
         for unit in units:
             result = unit.machinery
-            if result["best"] >= self.max_score:
+            if result is None:
+                result = unit.machinery = {}
+            elif min(*result.get("quality", (-1,))) >= self.max_score:
                 continue
-            for item in self._translate(
-                source, language, unit, user=user, threshold=threshold
-            ):
-                if result["best"] > item["quality"]:
-                    continue
-                result["best"] = item["quality"]
-                result["translation"] = item["text"]
+            translation_lists = self.translate(unit, user=user, threshold=threshold)
+            n = len(translation_lists)
+            translation = result.setdefault("translation", [""] * n)
+            quality = result.setdefault("quality", [-1] * n)
+            for i, possible_translations in enumerate(translation_lists):
+                for item in possible_translations:
+                    if quality[i] > item["quality"]:
+                        continue
+                    quality[i] = item["quality"]
+                    translation[i] = item["text"]

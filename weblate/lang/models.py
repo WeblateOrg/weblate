@@ -802,6 +802,15 @@ class Plural(models.Model):
 
         return number, formula
 
+    def same_as(self, other):
+        """Check whether the given plurals are equivalent."""
+        if self.formula != other.formula:
+            ours, theirs = self.plural_function, other.plural_function
+            for i in range(-10, 200):
+                if ours(i) != theirs(i):
+                    return False
+        return True
+
     def same_plural(self, number, formula):
         """Compare whether given plurals formula matches."""
         if number != self.number or not formula:

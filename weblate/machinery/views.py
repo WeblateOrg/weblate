@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from functools import reduce
 from typing import Dict, Optional
 
 from django.core.exceptions import PermissionDenied
@@ -317,9 +318,13 @@ def handle_machinery(request, service, unit, search=None):
         response["responseDetails"] = _("Service is currently not available.")
     else:
         try:
-            response["translations"] = translation_service.translate(
+            translations = translation_service.translate(
                 unit, request.user, search=search
             )
+            for plural_form, possible_translations in enumerate(translations):
+                for item in possible_translations:
+                    item["plural_form"] = plural_form
+            response["translations"] = reduce(list.extend, translations, [])
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
