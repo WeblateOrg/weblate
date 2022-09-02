@@ -421,7 +421,7 @@ class Unit(models.Model, LoggerMixin):
         self.trigger_update_variants = True
         self.fixups = []
         # Data for machinery integration
-        self.machinery = {"best": -1}
+        self.machinery = None
         # Data for glossary integration
         self.glossary_terms = None
         # Store original attributes for change tracking

@@ -22,9 +22,9 @@
     /* Copy machinery results */
     this.$editor.on("click", ".js-copy-machinery", (e) => {
       var $el = $(e.target);
-      var text = $el.parent().parent().data("raw").text;
+      var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.replaceValue(text);
+      this.$translationArea.get(raw.plural_form).replaceValue(raw.text);
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -32,9 +32,9 @@
     /* Copy and save machinery results */
     this.$editor.on("click", ".js-copy-save-machinery", (e) => {
       var $el = $(e.target);
-      var text = $el.parent().parent().data("raw").text;
+      var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.replaceValue(text);
+      this.$translationArea.get(raw.plural_form).replaceValue(raw.text);
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });

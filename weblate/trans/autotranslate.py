@@ -175,8 +175,7 @@ class AutoTranslate:
 
         return {
             unit.id: unit.machinery["translation"]
-            for unit in units
-            if unit.machinery["best"] >= threshold
+            for unit in units if unit.machinery
         }
 
     def process_mt(self, engines: List[str], threshold: int):

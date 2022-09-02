@@ -328,7 +328,8 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine(cache=cache)
         translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
-        self.assertEqual(len(translation), expected_len)
+        self.assertIsInstance(translation[0], list)
+        self.assertEqual(len(translation[0]), expected_len)
         for result in translation:
             for key, value in result.items():
                 if key == "quality":
@@ -373,7 +374,7 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine()
         unit = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
         machine.batch_translate([unit])
-        self.assertNotEqual(unit.machinery["best"], -1)
+        self.assertGreater(unit.machinery["quality"][0], -1)
         self.assertIn("translation", unit.machinery)
 
     @responses.activate
@@ -390,7 +391,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             len(
                 machine_translation.translate(
                     MockUnit(code=self.SUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
-                ),
+                )[0],
             ),
             self.EXPECTED_LEN,
         )
@@ -408,18 +409,19 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         machine_translation = self.get_machine()
         unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
         self.assertEqual(
-            machine_translation.cleanup_text(unit), ("Hello, [X7X]!", {"[X7X]": "%s"})
+            machine_translation.cleanup_text(unit.source, unit),
+            ("Hello, [X7X]!", {"[X7X]": "%s"})
         )
         self.assertEqual(
             machine_translation.translate(unit),
-            [
+            [[
                 {
                     "quality": 100,
                     "service": "Dummy",
                     "source": "Hello, %s!",
                     "text": "Nazdar %s!",
                 }
-            ],
+            ]],
         )
 
 
@@ -1260,7 +1262,11 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             self.assertIsInstance(translation, list)
             self.assertEqual(
                 translation,
-                [{"text": "Ahoj", "quality": 88, "service": "AWS", "source": "Hello"}],
+                [[{
+                    "text": "Ahoj",
+                    "quality": 88,
+                    "service": "AWS", "source": "Hello",
+                }]],
             )
 
     def test_batch(self, machine=None):
@@ -1329,7 +1335,7 @@ class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
-        self.assertEqual(results, [])
+        self.assertEqual(results, [[]])
 
     def test_exists(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
