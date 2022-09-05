@@ -66,9 +66,9 @@ TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
-TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat Flags")
+TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat flags")
 TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
-TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat Tag Prefix")
+TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat tag prefix")
 TYPED_FLAGS_ARGS["icu-tag-prefix"] = single_value_flag(str)
 TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
@@ -266,7 +266,7 @@ class Flags:
             if name in self._values:
                 if is_plain:
                     raise ValidationError(
-                        _('Translation flag has no parameters: "%s"') % name
+                        _('The translation flag has no parameters: "%s"') % name
                     )
                 try:
                     self.get_value(name)
