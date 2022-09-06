@@ -286,9 +286,23 @@ class EditResourceTest(EditTest):
             self.component.commit_pending("test", None)
         self.assertEqual(Unit.objects.filter(pending=True).count(), 0)
         self.assertEqual(Unit.objects.filter(context="key").count(), 2)
+        self.assertEqual(
+            Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
+        )
+        self.component.create_translations(force=True)
+        self.assertEqual(
+            Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
+        )
 
     def test_new_unit_translate_commit_translation(self, commit_translation=False):
         self.test_new_unit_translate(commit_translation=True)
+
+
+class EditResxTest(EditTest):
+    has_plurals = False
+
+    def create_component(self):
+        return self.create_resx()
 
 
 class EditLanguageTest(EditTest):
