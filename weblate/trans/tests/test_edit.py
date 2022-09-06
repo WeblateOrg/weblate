@@ -19,11 +19,13 @@
 
 """Test for translation views."""
 
+
 import time
 from unittest import SkipTest
 
 from django.urls import reverse
 
+from weblate.addons.resx import ResxUpdateAddon
 from weblate.checks.models import Check
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -302,7 +304,9 @@ class EditResxTest(EditTest):
     has_plurals = False
 
     def create_component(self):
-        return self.create_resx()
+        component = self.create_resx()
+        ResxUpdateAddon.create(component)
+        return component
 
 
 class EditLanguageTest(EditTest):
