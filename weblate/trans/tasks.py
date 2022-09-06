@@ -525,6 +525,8 @@ def cleanup_project_backups():
     rootdir = data_dir("projectbackups")
     backup_cutoff = datetime.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
     for projectdir in glob(os.path.join(rootdir, "*")):
+        if not os.path.isdir(projectdir):
+            continue
         if projectdir.endswith("import"):
             # Keep imports for shorter time, but more of them
             cutoff = datetime.now() - timedelta(days=1)
