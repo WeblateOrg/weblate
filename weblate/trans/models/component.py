@@ -3217,7 +3217,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         from weblate.trans.models import Unit
 
         for current in self.enforced_checks:
-            check = CHECKS[current]
+            try:
+                check = CHECKS[current]
+            except KeyError:
+                yield {"name": current, "notsupported": True}
             # Check is always enabled
             if not check.default_disabled:
                 continue
