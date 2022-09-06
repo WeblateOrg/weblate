@@ -118,6 +118,19 @@ class RenameTest(ViewTestCase):
         self.assertEqual(component.project.slug, "other")
         self.assertIsNotNone(component.repository.last_remote_revision)
 
+    def test_rename_invalid(self):
+        url = reverse("component", kwargs=self.kw_component)
+        Component.objects.filter(pk=self.component.id).update(filemask="invalid/*.po")
+        self.make_manager()
+        self.assertContains(self.client.get(url), "#rename")
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}, follow=True
+        )
+        self.assertRedirects(response, f"{url}#rename")
+        self.assertContains(
+            response, "Cannot rename due to outstanding issue in the configuration"
+        )
+
     def test_rename_component(self):
         self.make_manager()
         self.assertContains(

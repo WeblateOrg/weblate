@@ -19,7 +19,7 @@
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
@@ -227,6 +227,16 @@ def remove_project_language(request, project, lang):
 def perform_rename(form_cls, request, obj, perm: str):
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied()
+
+    # Make sure any non-rename related issues are resolved first
+    try:
+        obj.full_clean()
+    except ValidationError as err:
+        messages.error(
+            request,
+            _("Cannot rename due to outstanding issue in the configuration: %s") % err,
+        )
+        return redirect_param(obj, "#rename")
 
     form = form_cls(request, request.POST, instance=obj)
     if not form.is_valid():
