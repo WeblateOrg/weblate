@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-09-07 08:10+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-09-08 07:39+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -41,9 +41,10 @@ msgid ""
 "older, please consult the documentation for the specific version you are "
 "using."
 msgstr ""
-"Weblate 3.0 より前は、Django の権限システムのみをベースにしていましたが、"
-"現在は Weblate 専用に構築されています。古いバージョンを使用する場合は、使用す"
-"るバージョンのドキュメントを確認してください。"
+"Weblate 3.0 が採用されるまでは、Django "
+"の権限システムのみをベースにしていましたが、現在は Weblate 専用に構築されてい"
+"ます。古いバージョンを使用する場合は、使用するバージョンのドキュメントを確認"
+"してください。"
 
 #: ../../admin/access.rst:18
 msgid "Simple access control"
@@ -3465,7 +3466,7 @@ msgstr "同じことを、管理画面を使用して追加する方法:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr "何についてのお知らせかによって、表示する方法が変わります。"
+msgstr "選択したコンテキストの内容に基づく表示位置:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
@@ -3502,7 +3503,7 @@ msgstr "言語の概要ページと、その言語のすべての翻訳の上部
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr "言語の概要ページには次のように表示されます。"
+msgstr "言語の概要ページに表示される実際の画面:"
 
 #: ../../admin/announcements.rst:-1
 msgid ""
@@ -10280,8 +10281,8 @@ msgstr "PostgreSQL でデータベースの作成"
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
-msgstr "通常、Weblate "
-"は専用のユーザーアカウントとデータベースで実行するのがよいでしょう。"
+msgstr "通常は、Weblate "
+"を専用のデータベースと、専用のユーザーアカウントで実行してください。設定例:"
 
 #: ../../admin/install.rst:370
 msgid ""
@@ -20394,9 +20395,9 @@ msgid ""
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
-":ref:`mt-deepl` 機械翻訳には、汎用的な ``MT_DEEPL_API_URL`` 設定が追加され、"
-"異なるサブスクリプションに対してより柔軟に対応します。``MT_DEEPL_API_VERSION`"
-"` の設定は使われなくなりました。"
+":ref:`mt-deepl` 機械翻訳には、汎用的な ``MT_DEEPL_API_URL`` 設定が追加されま"
+"した。適切にサブスクリプションの違いに対応できるようになりました。``MT_DEEPL_"
+"API_VERSION`` の設定項目は削除されました。"
 
 #: ../../admin/upgrade.rst:255
 msgid "Django 3.2 is now required."
@@ -20448,8 +20449,8 @@ msgstr ""
 msgid ""
 "Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and "
 "higher."
-msgstr "PostgreSQL 9.6 のサポート終了。Django 4.0 は PostgreSQL 10 "
-"以降のみ対応します。"
+msgstr "PostgreSQL 9.6 への対応は終了しました。Django 4.0 は、PostgreSQL 10 "
+"以降に対応します。"
 
 #: ../../admin/upgrade.rst:292
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
@@ -20562,12 +20563,12 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
-"Weblate は Python 3.6 "
-"未満のサポートを終了しました。まだ古いバージョンで実行している場合は、"
-"先に既存のバージョンで Python 3 "
-"に移行を完了させて、後でアップグレードしてください。参照: `Python 2 から "
-"Python 3 にアップデート — Weblate 3.11.1 ドキュメント <https://docs.weblate."
-"org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
+"Weblate は、Python 3.6 "
+"未満への対応は終了しました。まだ古いバージョンで実行している場合は、"
+"事前に既存のバージョンから Python 3 "
+"に移行を完了させたあと、アップグレードを実行してください。参照: `Python 2 "
+"から Python 3 にアップデート — Weblate 3.11.1 ドキュメント <https://docs."
+"weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
 "python-3>`_ 。"
 
 #: ../../admin/upgrade.rst:362
@@ -26153,7 +26154,7 @@ msgstr "Gmail に表示する通知の修正。"
 
 #: ../../changes.rst:827
 msgid "Fixed reverting changes from the history."
-msgstr "履歴からの変更の取り消しを修正。"
+msgstr "履歴から変更を元に戻す機能を修正。"
 
 #: ../../changes.rst:828
 msgid "Added links to events in digest notifications."
@@ -27320,11 +27321,11 @@ msgstr "Git用のマージ コミット メッセージをカスタマイズ可�
 
 #: ../../changes.rst:1184
 msgid "Added visual indication of component alerts in navigation."
-msgstr ""
+msgstr "ナビゲーションにコンポーネントの警告を表示する機能を追加。"
 
 #: ../../changes.rst:1185
 msgid "Improved performance of loading translation files."
-msgstr ""
+msgstr "翻訳ファイルの読み込みの速度の改良。"
 
 #: ../../changes.rst:1186
 msgid "New add-on to squash commits prior to push."
@@ -27336,19 +27337,19 @@ msgstr "変更された翻訳の表示の改善。"
 
 #: ../../changes.rst:1188
 msgid "Changed default merge style to rebase and made that configurable."
-msgstr ""
+msgstr "デフォルトのマージをリベースに変更し、設定変更可能に修正。"
 
 #: ../../changes.rst:1189
 msgid "Better handle private use subtags in language code."
-msgstr ""
+msgstr "言語コードでプライベート使用のサブタグの処理を改良。"
 
 #: ../../changes.rst:1190
 msgid "Improved performance of fulltext index updates."
-msgstr ""
+msgstr "全文検索用インデックスの更新の速度を改良。"
 
 #: ../../changes.rst:1191
 msgid "Extended file upload API to support more parameters."
-msgstr ""
+msgstr "ファイル アップロード API を拡張し、多くのパラメータに対応。"
 
 #: ../../changes.rst:1194
 msgid "Weblate 3.3"
@@ -27360,32 +27361,32 @@ msgstr "2018 年 11 月 30 日にリリース。"
 
 #: ../../changes.rst:1198
 msgid "Added support for component and project removal."
-msgstr ""
+msgstr "コンポーネントとプロジェクトの削除に対応。"
 
 #: ../../changes.rst:1199
 msgid "Improved performance for some monolingual translations."
-msgstr ""
+msgstr "一部のモノリンガル翻訳の性能の改良。"
 
 #: ../../changes.rst:1200
 msgid ""
 "Added translation component alerts to highlight problems with a translation."
-msgstr ""
+msgstr "翻訳についての問題を強調表示して警告する翻訳コンポーネントを追加。"
 
 #: ../../changes.rst:1201
 msgid "Expose XLIFF string resname as context when available."
-msgstr ""
+msgstr "使用可能な場合は、XLIFF 文字列名をコンテキストとして公開する機能の追加。"
 
 #: ../../changes.rst:1202
 msgid "Added support for XLIFF states."
-msgstr ""
+msgstr "XLIFF 動作への対応。"
 
 #: ../../changes.rst:1203
 msgid "Added check for non writable files in DATA_DIR."
-msgstr ""
+msgstr "DATA_DIR 内の書き込み禁止ファイルの有無の検査機能を追加。"
 
 #: ../../changes.rst:1204
 msgid "Improved CSV export for changes."
-msgstr ""
+msgstr "変更点を CSV エクスポートする機能を改良。"
 
 #: ../../changes.rst:1207
 msgid "Weblate 3.2.2"
@@ -27401,31 +27402,31 @@ msgstr "不要になった Babel の依存関係の削除。"
 
 #: ../../changes.rst:1212
 msgid "Updated language definitions."
-msgstr ""
+msgstr "登録言語の更新。"
 
 #: ../../changes.rst:1213
 msgid "Improve documentation for add-ons, LDAP and Celery."
-msgstr ""
+msgstr "アドオン、LDAP、Celery ドキュメントの改良。"
 
 #: ../../changes.rst:1214
 msgid "Fixed enabling new dos-eol and auto-java-messageformat flags."
-msgstr ""
+msgstr "新しい dos-eol および auto-java-messageformat フラグを有効に変更。"
 
 #: ../../changes.rst:1215
 msgid "Fixed running setup.py test from PyPI package."
-msgstr ""
+msgstr "PyPI パッケージから実行する setup.py テストの修正。"
 
 #: ../../changes.rst:1216
 msgid "Improved plurals handling."
-msgstr ""
+msgstr "複数形の処理の改良。"
 
 #: ../../changes.rst:1217
 msgid "Fixed translation upload API failure in some corner cases."
-msgstr ""
+msgstr "一部の特殊なケースで発生していた翻訳アップロード API の不具合を修正。"
 
 #: ../../changes.rst:1218
 msgid "Fixed updating Git configuration in case it was changed manually."
-msgstr ""
+msgstr "手動で変更した場合の Git 設定の更新を修正。"
 
 #: ../../changes.rst:1221
 msgid "Weblate 3.2.1"
@@ -27441,35 +27442,35 @@ msgstr "Python 2.7 での backports.csv への依存性を文書化。"
 
 #: ../../changes.rst:1226
 msgid "Fix running tests under root."
-msgstr ""
+msgstr "root 権限で実行するテストの修正。"
 
 #: ../../changes.rst:1227
 msgid "Improved error handling in gitexport module."
-msgstr ""
+msgstr "gitexport モジュールのエラー処理の改良。"
 
 #: ../../changes.rst:1228
 msgid "Fixed progress reporting for newly added languages."
-msgstr ""
+msgstr "新たに追加された言語の進捗状況の報告を修正。"
 
 #: ../../changes.rst:1229
 msgid "Correctly report Celery worker errors to Sentry."
-msgstr ""
+msgstr "Celery ワーカーのエラーを Sentry に正しく報告するように修正。"
 
 #: ../../changes.rst:1230
 msgid "Fixed creating new translations with Qt Linguist."
-msgstr ""
+msgstr "Qt Linguist での新しい翻訳の作成を修正。"
 
 #: ../../changes.rst:1231
 msgid "Fixed occasional fulltext index update failures."
-msgstr ""
+msgstr "不定期に発生する全文検索用インデックスの更新エラーを修正。"
 
 #: ../../changes.rst:1232
 msgid "Improved validation when creating new components."
-msgstr ""
+msgstr "新規コンポーネント作成時の検証を改良。"
 
 #: ../../changes.rst:1233
 msgid "Added support for cleanup of old suggestions."
-msgstr ""
+msgstr "古い提案のクリーンアップに対応。"
 
 #: ../../changes.rst:1236
 msgid "Weblate 3.2"
@@ -27481,7 +27482,7 @@ msgstr "2018 年 10 月 6 日にリリース。"
 
 #: ../../changes.rst:1240
 msgid "Add install_addon management command for automated add-on installation."
-msgstr ""
+msgstr "自動アドオン インストール用の install_addon 管理コマンドの追加。"
 
 #: ../../changes.rst:1241
 msgid "Allow more fine grained ratelimit settings."
@@ -27489,12 +27490,12 @@ msgstr "詳細な接続制限の許可。"
 
 #: ../../changes.rst:1242
 msgid "Added support for export and import of Excel files."
-msgstr ""
+msgstr "Excel ファイルのエクスポートおよびインポートに対応。"
 
 #: ../../changes.rst:1243
 msgid ""
 "Improve component cleanup in case of multiple component discovery add-ons."
-msgstr ""
+msgstr "アドオンが複数のコンポーネントを検出した場合のクリーンアップを改良。"
 
 #: ../../changes.rst:1244
 msgid "Rewritten Microsoft Terminology machine translation backend."
@@ -27502,15 +27503,15 @@ msgstr "Microsoft Terminology の機械翻訳バックエンドの書き直し�
 
 #: ../../changes.rst:1245
 msgid "Weblate now uses Celery to offload some processing."
-msgstr ""
+msgstr "現在 Weblate は、Celery を使用して処理負荷を軽減。"
 
 #: ../../changes.rst:1246
 msgid "Improved search capabilities and added regular expression search."
-msgstr ""
+msgstr "検索機能を改良し、正規表現検索を追加。"
 
 #: ../../changes.rst:1247
 msgid "Added support for Youdao Zhiyun API machine translation."
-msgstr ""
+msgstr "Youdao Zhiyun API 機械翻訳に対応。"
 
 #: ../../changes.rst:1248
 msgid "Added support for Baidu API machine translation."
@@ -27518,35 +27519,35 @@ msgstr "Baidu API の機械翻訳に対応しました。"
 
 #: ../../changes.rst:1249
 msgid "Integrated maintenance and cleanup tasks using Celery."
-msgstr ""
+msgstr "Celery を使用してメンテナンスとクリーンアップのタスクを統合。"
 
 #: ../../changes.rst:1250
 msgid "Improved performance of loading translations by almost 25%."
-msgstr ""
+msgstr "翻訳の読み込みの速度を 約 25 ％改良。"
 
 #: ../../changes.rst:1251
 msgid "Removed support for merging headers on upload."
-msgstr ""
+msgstr "アップロード時にヘッダーをマージする機能の削除。"
 
 #: ../../changes.rst:1252
 msgid "Removed support for custom commit messages."
-msgstr ""
+msgstr "カスタム コミット メッセージ機能の削除。"
 
 #: ../../changes.rst:1253
 msgid "Configurable editing mode (zen/full)."
-msgstr ""
+msgstr "編集モード（zen/full）を設定で変更可能に改良。"
 
 #: ../../changes.rst:1254
 msgid "Added support for error reporting to Sentry."
-msgstr ""
+msgstr "Sentry へのエラー報告に対応。"
 
 #: ../../changes.rst:1255
 msgid "Added support for automated daily update of repositories."
-msgstr ""
+msgstr "リポジトリの自動日次更新に対応。"
 
 #: ../../changes.rst:1256
 msgid "Added support for creating projects and components by users."
-msgstr ""
+msgstr "ユーザーによるプロジェクトおよびコンポーネントの作成に対応。"
 
 #: ../../changes.rst:1257
 msgid "Built-in translation memory now automatically stores translations done."
@@ -27554,21 +27555,23 @@ msgstr "組み込みの翻訳メモリが、翻訳の自動保存に対応。"
 
 #: ../../changes.rst:1258
 msgid "Users and projects can import their existing translation memories."
-msgstr ""
+msgstr "ユーザーやプロジェクトが、既存の翻訳メモリをインポートできるように改良。"
 
 #: ../../changes.rst:1259
 msgid "Better management of related strings for screenshots."
-msgstr ""
+msgstr "スクリーンショットの関連文字列の管理を改良。"
 
 #: ../../changes.rst:1260
 msgid "Added support for checking Java MessageFormat."
-msgstr ""
+msgstr "Java MessageFormat の検査に対応。"
 
 #: ../../changes.rst:1262
 msgid ""
 "See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/"
 "milestone/36?closed=1>`_ for detailed list of addressed issues."
 msgstr ""
+"問題への対処の詳細については、参照: `3.2 milestone on GitHub <https://github."
+"com/WeblateOrg/weblate/milestone/36?closed=1>`_ を確認してください。"
 
 #: ../../changes.rst:1266
 msgid "Weblate 3.1.1"
@@ -27588,32 +27591,33 @@ msgstr "Weblate 3.1"
 
 #: ../../changes.rst:1277
 msgid "Upgrades from older version than 3.0.1 are not supported."
-msgstr ""
+msgstr "3.0.1 より古いバージョンからのアップグレードへの対応は終了。"
 
 #: ../../changes.rst:1278
 msgid "Allow to override default commit messages from settings."
-msgstr ""
+msgstr "デフォルトのコミットメッセージを、設定により上書きできるように改良。"
 
 #: ../../changes.rst:1279
 msgid "Improve webhooks compatibility with self hosted environments."
-msgstr ""
+msgstr "Web フックとユーザーのサーバー環境との互換性を改良。"
 
 #: ../../changes.rst:1280
 msgid "Added support for Amazon Translate."
-msgstr ""
+msgstr "Amazon Translate に対応。"
 
 #: ../../changes.rst:1281
 msgid "Compatibility with Django 2.1."
-msgstr ""
+msgstr "Django 2.1 への互換性に対応。"
 
 #: ../../changes.rst:1282
 msgid ""
 "Django system checks are now used to diagnose problems with installation."
-msgstr ""
+msgstr "Django のシステム "
+"チェックは、インストールに関する問題の診断に使用されるように変更されました。"
 
 #: ../../changes.rst:1283
 msgid "Removed support for soon shutdown libravatar service."
-msgstr ""
+msgstr "まもなく終了する libravatar サービスへの機能を削除。"
 
 #: ../../changes.rst:1284
 msgid "New add-on to mark unchanged translations as needing edit."
@@ -27630,11 +27634,11 @@ msgstr "ダウンロードした翻訳のカスタマイズに対応。"
 #: ../../changes.rst:1287
 msgid ""
 "Improved calculation of string similarity in translation memory matches."
-msgstr ""
+msgstr "翻訳メモリ照合における文字列類似性のロジックを改良。"
 
 #: ../../changes.rst:1288
 msgid "Added support by signing Git commits by GnuPG."
-msgstr ""
+msgstr "GnuPG による Git コミットへの署名に対応。"
 
 #: ../../changes.rst:1291
 msgid "Weblate 3.0.1"
@@ -27646,11 +27650,11 @@ msgstr "2018 年 6 月 10 日にリリース。"
 
 #: ../../changes.rst:1295
 msgid "Fixed possible migration issue from 2.20."
-msgstr ""
+msgstr "2.20 から発生することがあった移行の不具合を修正。"
 
 #: ../../changes.rst:1297
 msgid "Removed obsolete hook examples."
-msgstr ""
+msgstr "廃止されたフックの例を削除。"
 
 #: ../../changes.rst:1298
 msgid "Improved caching documentation."
@@ -27678,7 +27682,7 @@ msgstr "アクセス制御の書き換え。"
 
 #: ../../changes.rst:1308
 msgid "Several code cleanups that lead to moved and renamed modules."
-msgstr ""
+msgstr "モジュールの移動や名前変更に関連するコードの削除。"
 
 #: ../../changes.rst:1309
 msgid "New add-on for automatic component discovery."
@@ -27699,7 +27703,7 @@ msgstr "PO ファイル ヘッダーに貢献者名を格納する新しいア�
 
 #: ../../changes.rst:1313
 msgid "The per component hook scripts are removed, use add-ons instead."
-msgstr ""
+msgstr "各コンポーネントのフック スクリプトは削除されます。今後はアドオンを使用。"
 
 #: ../../changes.rst:1314
 msgid "Add support for collecting contributor agreements."
@@ -27722,7 +27726,7 @@ msgstr "コミット メッセージ テンプレートでより多くの変数�
 
 #: ../../changes.rst:1318
 msgid "Add support for providing additional textual context."
-msgstr ""
+msgstr "追加のテキスト コンテキストの提供に対応。"
 
 #: ../../changes.rst:1321
 msgid "Weblate 2.x series"
@@ -27754,36 +27758,36 @@ msgstr "複数言語での同時検索に対応。"
 
 #: ../../changes.rst:1332
 msgid "New add-on to configure gettext output wrapping."
-msgstr ""
+msgstr "gettext 出力のラッピングを設定するアドオンの追加。"
 
 #: ../../changes.rst:1333
 msgid "New add-on to configure JSON formatting."
-msgstr ""
+msgstr "JSON 形式を設定するアドオンの追加。"
 
 #: ../../changes.rst:1334
 msgid ""
 "Added support for authentication in API using RFC 6750 compatible Bearer "
 "authentication."
-msgstr ""
+msgstr "RFC 6750 互換 Bearer 認証を使用した API での認証に対応。"
 
 #: ../../changes.rst:1335
 msgid ""
 "Added support for automatic translation using machine translation services."
-msgstr ""
+msgstr "自動翻訳サービスによる自動翻訳に対応。"
 
 #: ../../changes.rst:1336
 msgid "Added support for HTML markup in whiteboard messages."
-msgstr ""
+msgstr "ホワイトボード メッセージを HTML マークアップに対応。"
 
 #: ../../changes.rst:1337
 msgid "Added support for mass changing state of strings."
-msgstr ""
+msgstr "文字列の状態の一括変更に対応。"
 
 #: ../../changes.rst:1338
 msgid ""
 "Translate-toolkit at least 2.3.0 is now required, older versions are no "
 "longer supported."
-msgstr ""
+msgstr "現在、Translate-toolkit 2.3.0 以降が必須。古いバージョンへの対応は終了。"
 
 #: ../../changes.rst:1339
 msgid "Added built-in translation memory."
@@ -27803,7 +27807,7 @@ msgstr ""
 
 #: ../../changes.rst:1342
 msgid "Machine translation results are now cached inside Weblate."
-msgstr ""
+msgstr "自動翻訳の結果を Weblate にキャッシュするように改良。"
 
 #: ../../changes.rst:1343
 msgid "Added support for reordering committed changes."
@@ -27819,11 +27823,11 @@ msgstr "2018 年 2 月 20 日にリリース。"
 
 #: ../../changes.rst:1350
 msgid "Fixed migration issue on upgrade from 2.18."
-msgstr ""
+msgstr "2.18 からのアップグレードで発生する移行時の不具合を修正。"
 
 #: ../../changes.rst:1351
 msgid "Improved file upload API validation."
-msgstr ""
+msgstr "ファイル アップロード API の検証を改良。"
 
 #: ../../changes.rst:1354
 msgid "Weblate 2.19"
@@ -27835,7 +27839,7 @@ msgstr "2018 年 2 月 15 日にリリース。"
 
 #: ../../changes.rst:1358
 msgid "Fixed imports across some file formats."
-msgstr ""
+msgstr "一部のファイル形式でのインポートを修正。"
 
 #: ../../changes.rst:1359
 msgid "Display human friendly browser information in audit log."
@@ -37147,10 +37151,10 @@ msgid ""
 "choose file format variant with encoding to avoid this (for example :"
 "guilabel:`CSV file (UTF-8)`)."
 msgstr ""
-"デフォルトでは、CSV フォーマットはファイルのエンコーディングを自動検出します"
-"。これは、ある種のコーナーケースでは信頼できないことがあり、パフォーマンス低"
-"下を引き起こします。これを避けるために、エンコーディングを指定したファイル形"
-"式を選択してください（例 :guilabel:`CSV ファイル (UTF-8)`）。"
+"デフォルトでは、CSV 形式を選択するとファイルのエンコーディングを自動検出しま"
+"す。一部の特殊なケースでは、正確に判別できず検出速度が低下します。これを避け"
+"るには、エンコーディングを指定したファイル形式を選択してください（例 "
+":guilabel:`CSV ファイル（UTF-8）`）。"
 
 #: ../../formats.rst:1178
 msgid ""
@@ -42757,13 +42761,13 @@ msgid ""
 "pushing). Depending on service and your organization settings, this happens "
 "immediately, or requires confirmation on the Weblate side."
 msgstr ""
-"Hosted Weblate では GitHub、Bitbucket、Codeberg、および GitLab "
+"Hosted Weblate では、GitHub、Bitbucket、Codeberg および GitLab "
 "に登録したプッシュ専用ユーザー（ユーザー名 :guilabel:`weblate`、"
 "メールアドレス ``hosted@weblate.org`` 、表示名 :guilabel:`Weblate push user` "
-"）がいます。このユーザーをコラボレーターとして追加し、リポジトリに適切な権限"
-"を与えてください（クローンには読み取りで十分で、プッシュには書き込みが必要で"
-"す）。サービスとあなたの組織の設定によって、すぐに反映されるか、Weblate "
-"側で確認する必要がある場合があります。"
+"）を用意しています。このユーザーをコラボレーターとして追加し、リポジトリに適"
+"切な権限を与えてください（クローンは読み取り権限で十分、プッシュは書き込み権"
+"限が必須）。サービスとユーザーの組織の設定によっては即時に反映されますが、"
+"反映されていない場合は Weblate 側から確認してください。"
 
 #: ../../vcs.rst:34
 msgid ""
