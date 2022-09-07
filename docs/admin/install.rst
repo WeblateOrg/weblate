@@ -1036,39 +1036,6 @@ with Weblate.
 
     :setting:`SECRET_KEY`
 
-.. _production-templates:
-
-Template loading
-++++++++++++++++
-
-It is recommended to use a cached template loader for Django. It caches parsed
-templates and avoids the need to do parsing with every single request. You can
-configure it using the following snippet (the ``loaders`` setting is important here):
-
-.. code-block:: python
-
-   TEMPLATES = [
-       {
-           "BACKEND": "django.template.backends.django.DjangoTemplates",
-           "OPTIONS": {
-               "context_processors": [
-                   "django.contrib.auth.context_processors.auth",
-                   "django.template.context_processors.debug",
-                   "django.template.context_processors.i18n",
-                   "django.template.context_processors.request",
-                   "django.template.context_processors.csrf",
-                   "django.contrib.messages.context_processors.messages",
-                   "weblate.trans.context_processors.weblate_context",
-               ],
-           },
-           "APP_DIRS": True,
-       }
-   ]
-
-.. seealso::
-
-    :py:class:`django:django.template.loaders.cached.Loader`
-
 .. _production-cron:
 
 Running maintenance tasks
