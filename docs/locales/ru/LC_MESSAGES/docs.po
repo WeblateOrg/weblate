@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-08-28 13:49+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"PO-Revision-Date: 2022-09-07 21:02+0000\n"
+"Last-Translator: Vik <xasertop@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -3016,12 +3016,14 @@ msgstr "Форматирование и сортировка файла свой
 
 #: ../../admin/addons.rst:671
 msgid "Consolidates newlines to Unix ones."
-msgstr "Устанавливает всюду символы новой строки Unix."
+msgstr "Объединяет новые строки с Unix-строками."
 
 #: ../../admin/addons.rst:672
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
 msgstr ""
+"Форматирование управляющих последовательностей Unicode в верхнем регистре ("
+"если присутствуют)."
 
 #: ../../admin/addons.rst:673
 msgid "Strips blank lines and comments."
@@ -12915,24 +12917,14 @@ msgstr ""
 "более новых версий."
 
 #: ../../admin/install/docker.rst:226
-#, fuzzy
-#| msgid ""
-#| "You might also want to update the ``docker-compose`` repository, though "
-#| "it's not needed in most case. Please beware of PostgreSQL version changes "
-#| "in this case as it's not straightforward to upgrade the database, see "
-#| "`GitHub issue <https://github.com/docker-library/postgres/issues/37>`_ "
-#| "for more info."
 msgid ""
 "You might also want to update the ``docker-compose`` repository, though it's "
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
 "Также вы можете захотеть обновить репозиторий ``docker-compose``, хотя в "
-"большинстве случаев необходимости в этом нет. Пожалуйста, остерегайтесь в "
-"этом случае изменений версии PostgreSQL, поскольку обновление базы данных "
-"является не простым делом, более подробную информацию смотрите `в этом "
-"замечании на GitHub’е <https://github.com/docker-library/postgres/"
-"issues/37>`_."
+"большинстве случаев в этом нет необходимости. См. :ref:`docker-postgres-"
+"upgrade` для обновления сервера PostgreSQL."
 
 #: ../../admin/install/docker.rst:232
 msgid "Upgrading PostgreSQL container"
@@ -13614,18 +13606,13 @@ msgstr ""
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid ""
-#| "The API requests are rate limited; the default configuration limits it to "
-#| "100 requests per day for anonymous users and 5000 requests per hour for "
-#| "authenticated users."
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
-"Частота запросов к API ограничена; конфигурация по умолчанию ограничивает её "
-"до 100 запросов в день для анонимных пользователей и до 5000 запросов в час "
-"для аутентифицированных пользователей."
+"Настраивает ограничение частоты запросов API. По умолчанию ``100/day`` для "
+"анонимных пользователей и ``5000/hour`` для аутентифицированных "
+"пользователей."
 
 #: ../../admin/install/docker.rst:836
 #, fuzzy
@@ -13681,10 +13668,8 @@ msgid "LDAP"
 msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:897
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
-msgstr "Пароль для аутентификации по электронной почте."
+msgstr "Путь к файлу, содержащему пароль привязки к серверу LDAP."
 
 #: ../../admin/install/docker.rst:899
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
@@ -13816,8 +13801,6 @@ msgid "Configures generic OpenID Connect intergration."
 msgstr "Настраивает типовую интеграцию OpenID Connect."
 
 #: ../../admin/install/docker.rst:1078
-#, fuzzy
-#| msgid ":doc:`psa:backends/openid`"
 msgid ":doc:`psa:backends/oidc`"
 msgstr ":doc:`psa:backends/oidc`"
 
@@ -13847,14 +13830,12 @@ msgid "Other authentication settings"
 msgstr "Другие параметры аутентификации"
 
 #: ../../admin/install/docker.rst:1103
-#, fuzzy
-#| msgid "Disables e-mail authentication when set to any value."
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
 "При установке в любое значение отключает аутентификацию через электронную "
-"почту."
+"почту. См. :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1108
 msgid "PostgreSQL database setup"
@@ -14015,16 +13996,12 @@ msgid "The Redis server password, not used by default."
 msgstr "Пароль сервера Redis, по умолчанию не используется."
 
 #: ../../admin/install/docker.rst:1227
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the Redis server password."
-msgstr "Пароль для аутентификации по электронной почте."
+msgstr "Путь к файлу, содержащему пароль сервера Redis."
 
 #: ../../admin/install/docker.rst:1229
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`REDIS_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`REDIS_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1233
 msgid "Enables using SSL for Redis connection."
@@ -14588,10 +14565,8 @@ msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1640
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring PostgreSQL server"
-msgstr "Настройка Weblate для использования PostgreSQL"
+msgstr "Настройка сервера PostgreSQL"
 
 #: ../../admin/install/docker.rst:1642
 msgid ""
@@ -14816,13 +14791,12 @@ msgid "Installing from sources"
 msgstr "Установка из исходников"
 
 #: ../../admin/install/source.rst:4
-#, fuzzy
-#| msgid "Please follow the installation instructions for your system first:"
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
-"Пожалуйста, сперва проследуйте инструкциям по установке для вашей системы:"
+"Пожалуйста, прежде чем установить Weblate, следуйте инструкциям по установке "
+"для вашей системы:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -14988,21 +14962,15 @@ msgid "Configuring Weblate"
 msgstr "Настройка Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "Following steps assume virtualenv used by Weblate is active (what can be "
-#| "done by ``. ~/weblate-env/bin/activate``). In case this is not true, you "
-#| "will have to specify full path to :command:`weblate` command as ``~/"
-#| "weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the virtualenv used by Weblate is activated (by "
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"Следующие шаги подразумевают, что виртуальное окружение, используемое "
-"Weblate’ом, активно (активировать его можно командой ``. ~/weblate-env/bin/"
-"activate``). В случае, если это не так, вам придется указывать полный путь к "
-"команде :command:`weblate`: ``~/weblate-env/bin/weblate``."
+"Далее предполагается, что виртуальное окружение, используемое Weblate "
+"активно (активировать можно командой ``. ~/weblate-env/bin/activate``). Если "
+"это не так, укажите полный путь к команде :command:`weblate`: ``~/weblate-"
+"env/bin/weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -15015,76 +14983,53 @@ msgstr ""
 "weblate/settings.py`."
 
 #: ../../admin/install/steps/install-configure.rst:16
-#, fuzzy
-#| msgid ""
-#| "Create the database and its structure for Weblate (the example settings "
-#| "use PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
-"Создайте базу данных и ее структуру для Weblate (пример настройки использует "
-"PostgreSQL, для установки в рабочую среду ознакомьтесь разделом :ref:"
-"`database-setup`):"
+"Создайте базу данных и её структуру для Weblate (для примера настройки "
+"используется PostgreSQL, ознакомьтесь с :ref:`database-setup`, чтобы узнать "
+"информацию о готовой установке):"
 
 #: ../../admin/install/steps/install-configure.rst:23
-#, fuzzy
-#| msgid ""
-#| "Create the administrator user account and copy the password it outputs to "
-#| "the clipboard, and also save it for later use:"
 msgid ""
 "Create an account for the administrator user and copy its password to the "
 "clipboard, and also save it for later use:"
 msgstr ""
-"Создайте учетную запись администратора и скопируйте сгенерированный ей "
-"пароль в буфер обмена, также сохраните его для дальнейшего использования:"
+"Создайте учётную запись администратора и скопируйте её пароль в буфер "
+"обмена, и сохраните его для дальнейшего использования:"
 
 #: ../../admin/install/steps/install-configure.rst:30
-#, fuzzy
-#| msgid ""
-#| "Collect static files for web server (see :ref:`server` and :ref:`static-"
-#| "files`):"
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
-"Соберите статические файлы для веб-сервера (смотрите разделы :ref:`server` "
+"Соберите статические файлы для своего веб-сервера (см. разделы :ref:`server` "
 "и :ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:36
-#, fuzzy
-#| msgid ""
-#| "Compress JavaScript and CSS files (optional, see :ref:`production-"
-#| "compress`):"
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
-"Сожмите файлы JavaScript и CSS (необязательно, смотрите раздел :ref:"
-"`production-compress`):"
+"Сожмите файлы JavaScript и CSS (необязательно, смотрите раздел :ref"
+":`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:42
-#, fuzzy
-#| msgid ""
-#| "Start Celery workers. This is not necessary for development purposes, but "
-#| "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
-"Запустите рабочие процессы Celery. Для целей разработки это делать не "
-"обязательно, но настоятельно рекомендуется. Дополнительную информацию "
-"смотрите в разделе :ref:`celery`:"
+"Запустите обработчики Celery. Для целей разработки это делать не "
+"обязательно, но настоятельно рекомендуется. Больше информации смотрите в "
+"разделе :ref:`celery`:"
 
 #: ../../admin/install/steps/install-configure.rst:49
-#, fuzzy
-#| msgid ""
-#| "Start the development server (see :ref:`server` for production setup):"
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
-"Запустите сервер разработки (шаги для запуска рабочего сервера смотрите в "
-"разделе :ref:`server`):"
+"Запустите сервер разработки (в разделе :ref:`server` подробно описана "
+"настройка):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -15105,10 +15050,6 @@ msgstr ""
 "``."
 
 #: ../../admin/install/steps/install-after.rst:7
-#, fuzzy
-#| msgid ""
-#| "Login with admin credentials obtained during installation or register "
-#| "with new users."
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
@@ -15170,13 +15111,6 @@ msgstr ""
 "перевода. Подробнее смотрите в разделе :ref:`component`."
 
 #: ../../admin/install/steps/install-after.rst:25
-#, fuzzy
-#| msgid ""
-#| "The important fields here are: Component name, VCS repository address and "
-#| "mask for finding translatable files. Weblate supports a wide range of "
-#| "formats including gettext PO files, Android resource strings, iOS string "
-#| "properties, Java properties or Qt Linguist files, see :ref:`formats` for "
-#| "more details."
 msgid ""
 "The important fields here are: :ref:`component-name`, :ref:`component-repo`, "
 "and :ref:`component-filemask` for finding translatable files. Weblate "
@@ -15184,11 +15118,11 @@ msgid ""
 "`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` or :ref:"
 "`fluent`, see :ref:`formats` for more details."
 msgstr ""
-"Здесь важны следующие поля: название компонента, адрес репозитория системы "
-"контроля версий и маска для поиска переводимых файлов. Weblate поддерживает "
-"широкий спектр форматов, включая PO-файлы gettext, строки ресурсов "
-"Android’а, строки свойств iOS, файлы свойств Java или Qt Linguist, подробнее "
-"смотрите в разделе :ref:`formats`."
+"Здесь важны следующие поля: :ref:`component-name`, :ref:`component-repo` и "
+":ref:`component-filemask`для поиска файлов перевода. Weblate поддерживает "
+"широкий спектр форматов, включая :ref:`gettext`, :ref:`aresource`, "
+":ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` или :ref:`fluent`, см. "
+":ref:`formats`, чтобы получить больше подробностей."
 
 #: ../../admin/install/steps/install-after.rst:31
 msgid ""
@@ -15267,7 +15201,7 @@ msgid ""
 ":ref:`extending-languages`, `Current language definitions <https://github."
 "com/WeblateOrg/language-data/blob/main/languages.csv>`_"
 msgstr ""
-":ref:`extending-languages`, Определения языка находятся в <https://github."
+":ref:`extending-languages`, `Определения языка находятся в <https://github."
 "com/WeblateOrg/language-data/blob/main/languages.csv>`_"
 
 #: ../../admin/languages.rst:32
@@ -15383,13 +15317,6 @@ msgid "Ambiguous language codes and macrolanguages"
 msgstr "Неоднозначные коды языков и макроязыки"
 
 #: ../../admin/languages.rst:86
-#, fuzzy
-#| msgid ""
-#| "In many cases it is not a good idea to use macro language code for a "
-#| "translation. The typical problematic case might be Kurdish language, "
-#| "which might be written in Arabic or Latin script, depending on actual "
-#| "variant. To get correct behavior in Weblate, it is recommended to use "
-#| "individual language codes only and avoid macro languages."
 msgid ""
 "In many cases it is not a good idea to use macrolanguage code for a "
 "translation. The typical problematic case might be Kurdish language, which "
@@ -15397,11 +15324,11 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macrolanguages."
 msgstr ""
-"В большинстве случаев использовать код макроязыка для перевода не является "
-"хорошей идеей. Типичный проблемный случай — это курдский язык, разные "
+"В большинстве случаев использовать код макроязыка для перевода не очень "
+"хорошая идея. Типичный проблемный случай — это курдский язык, разные "
 "варианты которого могут записываться либо латиницей, либо арабским письмом. "
 "Чтобы добиться корректного поведения в Weblate рекомендуется использовать "
-"только индивидуальные коды языков, избегая макроязыки."
+"только индивидуальные коды языков, избегая макроязыков."
 
 #: ../../admin/languages.rst:94
 msgid ""
@@ -15629,14 +15556,9 @@ msgstr ""
 "языков"
 
 #: ../../admin/languages.rst:204
-#, fuzzy
-#| msgid ""
-#| "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
-#| "notation."
 msgid "Uses legacy codes for Chinese and BCP style notation."
 msgstr ""
-"Локали, используемые в Linux, используют устаревшие коды для обозначения "
-"китайского языка и стиля POSIX."
+"Использует устаревшие коды для обозначения китайского языка и стиля BCP."
 
 #: ../../admin/languages.rst:205
 msgid "BCP style using hyphen as a separator, lower cased"
@@ -23612,10 +23534,8 @@ msgid "Returns a list of memory results."
 msgstr "Возвращает список всех проектов."
 
 #: ../../api.rst:2024
-#, fuzzy
-#| msgid "Deletes a project."
 msgid "Deletes a memory object"
-msgstr "Удаляет проект."
+msgstr "Удаляет объект памяти"
 
 #: ../../api.rst:2026
 msgid "Memory Object ID"
@@ -24486,36 +24406,30 @@ msgid "Retrieves RSS feed with recent changes for Weblate instance."
 msgstr "Возвращает RSS-ленту с последними изменениями в экземпляре Weblate."
 
 #: ../../api.rst:2723
-#, fuzzy
-#| msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.14.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.14.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ещё не выпущен."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed CodeMirror display issues in some situations."
 msgid "Fixed generating project backups in some situations."
-msgstr "Исправлены проблемы с отображением CodeMirror в некоторых ситуациях."
+msgstr "Исправлено генерирование резервных копий проекта в некоторых ситуациях."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance of file upload."
 msgid "Improved error reporting on file upload."
-msgstr "Улучшена производительность загрузки файлов."
+msgstr "Улучшено процесс сообщения об ошибках при загрузке файлов."
 
 #: ../../changes.rst:8
 msgid "Fetch all user verified e-mails from GitHub during authentication."
 msgstr ""
+"Получение всех подтвержденных пользователем электронных писем из GitHub во "
+"время аутентификации."
 
 #: ../../changes.rst:9
 msgid "Avoid matching glossary terms on context or keys."
@@ -24528,20 +24442,17 @@ msgid "Added notifications for string removals."
 msgstr "Исправлена отрисовка уведомлений в Gmail."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved lookup of related terms in glossary."
 msgid "Improved management of untranslatable terms in glossary."
-msgstr "Улучшен поиск смежных терминов в глоссарии."
+msgstr "Улучшено управление непереводимыми терминами в глоссарии."
 
 #: ../../changes.rst:12
 msgid "List number of team members on team management page."
 msgstr ""
+"Перечислите количество участников команды на странице управления командой."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Use management interface"
 msgid "Add group management interface."
-msgstr "Использование интерфейса управления"
+msgstr "Добавлен интерфейс управления группой."
 
 #: ../../changes.rst:14
 #, fuzzy
@@ -24562,16 +24473,12 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.14"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.14"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 22nd 2022."
-msgstr "Выпущен 21 августа 2021 года."
+msgstr "Выпущен 22 августа 2022 года."
 
 #: ../../changes.rst:23
 #, fuzzy
