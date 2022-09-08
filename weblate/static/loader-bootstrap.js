@@ -86,7 +86,10 @@ jQuery.fn.extend({
   replaceValue: function (myValue) {
     return this.each(function () {
       this.value = myValue;
-      $(this).trigger("input");
+      // Need `bubbles` because some `'input'` listeners (like this
+      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
+      // ) are attached to the parent elements.
+      this.dispatchEvent(new Event("input", { bubbles: true }));
     });
   },
 });
