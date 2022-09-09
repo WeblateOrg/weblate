@@ -86,9 +86,7 @@ jQuery.fn.extend({
   replaceValue: function (myValue) {
     return this.each(function () {
       this.value = myValue;
-      this.dispatchEvent(new Event("input"));
-      /* Legacy jQuery trigger as well */
-      $(this).change();
+      $(this).trigger("input");
     });
   },
 });
