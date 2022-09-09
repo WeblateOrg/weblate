@@ -1438,7 +1438,7 @@ class ComponentSettingsForm(
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
         self.fields["links"].queryset = request.user.managed_projects.exclude(
-            pk=self.instance.pk
+            pk=self.instance.project.pk
         )
         self.helper.layout = Layout(
             TabHolder(
