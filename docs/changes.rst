@@ -14,6 +14,7 @@ Not yet released.
 * Always show review stats when reviews are enabled.
 * Added searching support in units API.
 * Fixed progress bar display for read-only strings in the review workflow.
+* Improved Burmese punctuation check.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 

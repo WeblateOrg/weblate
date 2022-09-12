@@ -126,6 +126,13 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(False, ("Text.", "Text᱾", ""), "sat")
         self.do_test(True, ("Text.", "Text", ""), "sat")
 
+    def test_my(self):
+        self.do_test(False, ("Te xt", "Te xt", ""), "my")
+        self.do_test(True, ("Te xt", "Te xt။", ""), "my")
+        self.do_test(False, ("Text.", "Text။", ""), "my")
+        self.do_test(False, ("Text?", "ပုံဖျက်မလး။", ""), "my")
+        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")
+
 
 class EndColonCheckTest(CheckTestCase):
     check = EndColonCheck()
@@ -173,9 +180,9 @@ class EndQuestionCheckTest(CheckTestCase):
         self.do_test(True, ("Text?", "Texte", ""), "el")
 
     def test_my(self):
-        self.do_test(False, ("Text?", "Texte՞", ""), "my")
-        self.do_test(False, ("Text", "Texte՞", ""), "my")
-        self.do_test(True, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(False, ("Texte", "Texte", ""), "my")
+        self.do_test(False, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")
 
 
 class EndExclamationCheckTest(CheckTestCase):

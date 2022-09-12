@@ -26,6 +26,7 @@ from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
+MY_QUESTION_MARK = "\u1038\u104b"
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -157,6 +158,12 @@ class EndStopCheck(TargetCheck):
     name = _("Mismatched full stop")
     description = _("Source and translation do not both end with a full stop")
 
+    def _check_my(self, source, target):
+        if target.endswith(MY_QUESTION_MARK):
+            # Laeave this on the question mark check
+            return False
+        return self.check_chars(source, target, -1, (".", "။"))
+
     def check_single(self, source, target, unit):
         if len(source) <= 4:
             # Might need to use shortcut in translation
@@ -189,7 +196,7 @@ class EndStopCheck(TargetCheck):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))
         if self.is_language(unit, ("my",)):
-            return self.check_chars(source, target, -1, (".", "။"))
+            return self._check_my(source, target)
         return self.check_chars(
             source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។", "።")
         )
@@ -245,9 +252,7 @@ class EndQuestionCheck(TargetCheck):
         return target[-1] not in self.question_el
 
     def _check_my(self, source, target):
-        if source[-1] != "?":
-            return False
-        return target[-3:] == "ား။"
+        return source.endswith("?") != target.endswith(MY_QUESTION_MARK)
 
     def check_single(self, source, target, unit):
         if not source or not target:
