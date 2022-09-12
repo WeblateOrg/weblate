@@ -33,7 +33,6 @@ from weblate.utils.checks import (
     check_perms,
     check_settings,
     check_site,
-    check_templates,
     check_version,
 )
 from weblate.utils.db import using_postgresql
@@ -59,7 +58,6 @@ class UtilsConfig(AppConfig):
         register(check_celery, deploy=True)
         register(check_cache, deploy=True)
         register(check_settings, deploy=True)
-        register(check_templates, deploy=True)
         register(check_database, deploy=True)
         register(check_site)
         register(check_perms, deploy=True)

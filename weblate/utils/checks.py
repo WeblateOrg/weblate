@@ -81,7 +81,6 @@ DOC_LINKS = {
     "weblate.E013": ("admin/install", "production-email"),
     "weblate.E014": ("admin/install", "production-secret"),
     "weblate.E015": ("admin/install", "production-hosts"),
-    "weblate.E016": ("admin/install", "production-templates"),
     "weblate.E017": ("admin/install", "production-site"),
     "weblate.E018": ("admin/optionals", "avatars"),
     "weblate.E019": ("admin/install", "celery"),
@@ -381,37 +380,6 @@ def check_settings(app_configs, **kwargs):
     if not settings.ALLOWED_HOSTS:
         errors.append(weblate_check("weblate.E015", "No allowed hosts are set up"))
     return errors
-
-
-def check_templates(app_configs, **kwargs):
-    """Check for cached DjangoTemplates Loader."""
-    if settings.DEBUG:
-        return []
-
-    from django.template import engines
-    from django.template.backends.django import DjangoTemplates
-    from django.template.loaders import cached
-
-    is_cached = True
-
-    for engine in engines.all():
-        if not isinstance(engine, DjangoTemplates):
-            continue
-
-        for loader in engine.engine.template_loaders:
-            if not isinstance(loader, cached.Loader):
-                is_cached = False
-
-    if is_cached:
-        return []
-
-    return [
-        weblate_check(
-            "weblate.E016",
-            "Set up a cached template loader for better performance",
-            Error,
-        )
-    ]
 
 
 def check_data_writable(app_configs=None, **kwargs):
