@@ -3264,3 +3264,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return same_repo[0].get_repo_link_url()
         except IndexError:
             return None
+
+    @cached_property
+    def enable_review(self):
+        return self.project.enable_review

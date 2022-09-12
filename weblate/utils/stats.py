@@ -670,10 +670,7 @@ class ComponentStats(LanguageStats):
 
     @cached_property
     def has_review(self):
-        return (
-            self._object.project.source_review
-            or self._object.project.translation_review
-        )
+        return self._object.enable_review
 
     @cached_property
     def lazy_translated_percent_key(self):
@@ -894,7 +891,7 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def has_review(self):
-        return self._object.source_review or self._object.translation_review
+        return self._object.enable_review
 
     def get_invalidate_keys(
         self,

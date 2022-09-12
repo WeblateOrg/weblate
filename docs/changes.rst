@@ -13,6 +13,7 @@ Not yet released.
 * Add group management interface.
 * Always show review stats when reviews are enabled.
 * Added searching support in units API.
+* Fixed progress bar display for read-only strings in the review workflow.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 

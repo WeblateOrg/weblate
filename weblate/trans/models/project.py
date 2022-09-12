@@ -540,3 +540,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     }
                 )
         return sorted(result, key=lambda item: item["timestamp"], reverse=True)
+
+    @cached_property
+    def enable_review(self):
+        return self.translation_review or self.source_review

@@ -526,12 +526,13 @@ def get_stats(obj):
 
 
 def translation_progress_data(
-    total: int, readonly: int, approved: int, translated: int
+    total: int, readonly: int, approved: int, translated: int, has_review: bool
 ):
-    translated -= approved
-    if approved:
+    if has_review:
+        translated -= approved
         approved += readonly
         translated -= readonly
+
     bad = total - approved - translated
     return {
         "approved": f"{translation_percent(approved, total, False):.1f}",
@@ -548,6 +549,7 @@ def translation_progress(obj):
         stats.readonly,
         stats.approved,
         stats.translated - stats.translated_checks,
+        stats.has_review,
     )
 
 
@@ -559,6 +561,7 @@ def words_progress(obj):
         stats.readonly_words,
         stats.approved_words,
         stats.translated_words - stats.translated_checks_words,
+        stats.has_review,
     )
 
 
