@@ -648,7 +648,7 @@ class User(AbstractBaseUser):
 
     def get_author_name(self) -> str:
         """Return formatted author name with e-mail."""
-        return f"{self.get_visible_name()} <{self.email}>"
+        return f"{self.get_visible_name()} <{self.commit_email}>"
 
 
 class AutoGroup(models.Model):
