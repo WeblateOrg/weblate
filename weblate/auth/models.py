@@ -61,7 +61,7 @@ from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import EmailField, UsernameField
+from weblate.utils.fields import EmailField, CommitEmailField, UsernameField
 from weblate.utils.validators import validate_fullname, validate_username
 
 
@@ -328,6 +328,12 @@ class User(AbstractBaseUser):
         null=True,
         unique=True,
     )
+    commit_email = CommitEmailField(
+        _("Commit E-mail"),
+        blank=False,
+        null=True,
+        unique=True,
+    )
     is_superuser = models.BooleanField(
         _("Superuser status"),
         default=False,
@@ -361,7 +367,7 @@ class User(AbstractBaseUser):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "full_name"]
+    REQUIRED_FIELDS = ["email", "full_name", "commit_email"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
