@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Change,
     Component,
     ComponentList,
+    Label,
     Project,
     Translation,
     Unit,
@@ -75,7 +76,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
                     return None
                 value = getattr(value, key)
             if self.strip_parts:
-                lookup = "__".join(lookup.split("__")[self.strip_parts :])
+                lookup = "__".join(lookup.split("__")[self.strip_parts:])
             kwargs[lookup] = value
         return self.reverse(view_name, kwargs=kwargs, request=request, format=format)
 
@@ -923,6 +924,25 @@ class MemorySerializer(serializers.ModelSerializer):
         )
 
 
+class LabelsSerializer(serializers.RelatedField):
+    class Meta:
+        model = Label
+
+    def get_queryset(self):
+        unit = self.parent.parent.instance
+        project = unit.translation.component.project
+        return Label.objects.filter(project=project)
+
+    def to_representation(self, value):
+        return value.name
+
+    def to_internal_value(self, data):
+        unit = self.parent.parent.instance
+        project = unit.translation.component.project
+        label = project.label_set.get(name=data)
+        return label
+
+
 class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -941,6 +961,7 @@ class UnitSerializer(serializers.ModelSerializer):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
+    labels = LabelsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Unit
@@ -955,6 +976,7 @@ class UnitSerializer(serializers.ModelSerializer):
             "context",
             "note",
             "flags",
+            "labels",
             "state",
             "fuzzy",
             "translated",
@@ -981,6 +1003,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
+    labels = LabelsSerializer(many=True)
 
     class Meta:
         model = Unit
@@ -989,6 +1012,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "state",
             "explanation",
             "extra_flags",
+            "labels",
         )
 
     def to_internal_value(self, data):
