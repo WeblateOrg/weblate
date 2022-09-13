@@ -94,7 +94,7 @@ def get_all_user_mails(user, entries=None, filter_deliverable=True):
         kwargs["social__in"] = entries
     if filter_deliverable:
         # filter out emails that are not deliverable
-        emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True, is_deliverable=True))
+        emails = set(VerifiedEmail.objects.filter(is_deliverable = True, **kwargs).values_list("email", flat=True))
     else:
         # allow all emails, including non deliverable ones
         emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
