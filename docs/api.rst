@@ -2070,6 +2070,7 @@ and XLIFF.
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
+    :>json array labels: translation unit labels, available on source units
     :>json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
     :>json boolean fuzzy: whether the unit is fuzzy or marked for review
     :>json boolean translated: whether the unit is translated
@@ -2100,6 +2101,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :>json array labels: labels, available on source units
 
 .. http:put::  /api/units/(int:id)/
 
@@ -2113,6 +2115,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :>json array labels: labels, available on source units
 
 .. http:delete::  /api/units/(int:id)/
 
