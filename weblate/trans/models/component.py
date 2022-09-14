@@ -1594,7 +1594,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     @perform_on_link
     def commit_pending(self, reason: str, user, skip_push: bool = False):
         """Check whether there is any translation to be committed."""
-        # Get all translation with pending changes
+        # Get all translation with pending changes, source translation first
         translations = sorted(
             Translation.objects.filter(unit__pending=True)
             .filter(Q(component=self) | Q(component__linked_component=self))
@@ -1613,7 +1613,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     translation.component.linked_component = self
                 if translation.pk == translation.component.source_translation.pk:
                     translation = translation.component.source_translation
-                translation.commit_pending(reason, user, skip_push=True, signals=False)
+                translation._commit_pending(reason, user)
                 components[translation.component.pk] = translation.component
 
         # Fire postponed post commit signals

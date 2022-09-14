@@ -566,58 +566,54 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
     @transaction.atomic
-    def commit_pending(
-        self, reason: str, user, skip_push: bool = False, signals: bool = True
-    ):
+    def commit_pending(self, reason: str, user, skip_push: bool = False):
         """Commit any pending changes."""
-        with self.component.repository.lock:
-            # Commit template first
-            if (
-                not self.is_source
-                and self.component.has_template()
-                and self.component.source_translation.needs_commit()
-            ):
-                self.component.source_translation.commit_pending(
-                    reason, user, skip_push=skip_push, signals=signals
-                )
+        if not self.needs_commit():
+            return False
+        return self.component.commit_pending(reason, user, skip_push=skip_push)
 
-            if not self.needs_commit():
-                return False
+    @transaction.atomic
+    def _commit_pending(self, reason: str, user):
+        """
+        Translation commit implementation.
 
-            self.log_info("committing pending changes (%s)", reason)
+        Assumptions:
 
-            try:
-                store = self.store
-            except FileParseError as error:
-                report_error(cause="Failed to parse file on commit")
-                self.log_error("skipping commit due to error: %s", error)
-                if signals:
-                    self.component.update_import_alerts(delete=False)
-                return False
+        - repository lock is held
+        - the source translation needs to be commited first
+        - signals and alerts are updated by the caller
+        - repository push is handled by the caller
+        """
+        self.log_info("committing pending changes (%s)", reason)
 
-            units = (
-                self.unit_set.filter(pending=True)
-                .prefetch_recent_content_changes()
-                .select_for_update()
-            )
+        try:
+            store = self.store
+        except FileParseError as error:
+            report_error(cause="Failed to parse file on commit")
+            self.log_error("skipping commit due to error: %s", error)
+            return False
 
-            for unit in units:
-                # We reuse the queryset, so pending units might reappear here
-                if not unit.pending:
-                    continue
+        units = (
+            self.unit_set.filter(pending=True)
+            .prefetch_recent_content_changes()
+            .select_for_update()
+        )
 
-                # Get last change metadata
-                author, timestamp = unit.get_last_content_change()
+        for unit in units:
+            # We reuse the queryset, so pending units might reappear here
+            if not unit.pending:
+                continue
 
-                author_name = author.get_author_name()
+            # Get last change metadata
+            author, timestamp = unit.get_last_content_change()
 
-                # Flush pending units for this author
-                self.update_units(units, store, author_name, author.id)
+            author_name = author.get_author_name()
 
-                # Commit changes
-                self.git_commit(
-                    user, author_name, timestamp, skip_push=skip_push, signals=signals
-                )
+            # Flush pending units for this author
+            self.update_units(units, store, author_name, author.id)
+
+            # Commit changes
+            self.git_commit(user, author_name, timestamp, skip_push=True, signals=False)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -1178,7 +1174,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Commit pending changes in template
             if component.has_template():
                 try:
-                    component.source_translation.commit_pending("upload", request.user)
+                    component.commit_pending("upload", request.user)
                 except Exception as error:
                     raise FailedCommitError(
                         _("Failed to commit pending changes: %s")
