@@ -73,6 +73,24 @@ class MemoryModelTest(FixtureTestCase):
                     "source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
+                    "delete_url": None,
+                }
+            ],
+        )
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertEqual(
+            machine_translation.translate(unit, user=self.user, search="Hello"),
+            [
+                {
+                    "quality": 100,
+                    "service": "Weblate Translation Memory",
+                    "origin": "File: test",
+                    "source": "Hello",
+                    "text": "Ahoj",
+                    "show_quality": True,
+                    "delete_url": f"/api/memory/{Memory.objects.first().pk}/",
                 }
             ],
         )
