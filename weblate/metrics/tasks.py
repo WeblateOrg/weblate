@@ -43,8 +43,38 @@ def collect_metrics():
         Metric.objects.collect_language(language)
 
 
+@app.task(trail=False)
+def cleanup_metrics():
+    """Remove stale metrics."""
+    projects = Project.objects.values_list("pk", flat=True)
+    Metric.objects.filter(scope=Metric.SCOPE_PROJECT).exclude(
+        relation__in=projects
+    ).delete()
+    Metric.objects.filter(scope=Metric.SCOPE_PROJECT_LANGUAGE).exclude(
+        relation__in=projects
+    ).delete()
+    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT).exclude(
+        relation__in=Component.objects.values_list("pk", flat=True)
+    ).delete()
+    Metric.objects.filter(scope=Metric.SCOPE_TRANSLATION).exclude(
+        relation__in=Translation.objects.values_list("pk", flat=True)
+    ).delete()
+    Metric.objects.filter(scope=Metric.SCOPE_USER).exclude(
+        relation__in=User.objects.values_list("pk", flat=True)
+    ).delete()
+    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT_LIST).exclude(
+        relation__in=ComponentList.objects.values_list("pk", flat=True)
+    ).delete()
+    Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE).exclude(
+        relation__in=Language.objects.values_list("pk", flat=True)
+    ).delete()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         crontab(hour=0, minute=1), collect_metrics.s(), name="collect-metrics"
+    )
+    sender.add_periodic_task(
+        crontab(hour=23, minute=1), cleanup_metrics.s(), name="cleanup-metrics"
     )
