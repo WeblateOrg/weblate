@@ -36,6 +36,41 @@
       submitForm({ target: this.$translationArea });
     });
 
+    /* Delete machinery results */
+    this.$editor.on("click", ".js-delete-machinery", (e) => {
+      var $el = $(e.target);
+
+      /* Delete Url dialog */
+      var $deleteEntriesDialog = null;
+      this.$editor.on("show.bs.modal", "#delete-url-modal", (e) => {
+        $deleteEntriesDialog = $(e.currentTarget);
+        $deleteEntriesDialog.find(".modal-body").html("");
+        var text = $el.parent().parent().data("raw").text;
+        var modalBody = this.machinery.renderDeleteUrls(text);
+        $deleteEntriesDialog.find(".modal-body").append(modalBody);
+      });
+
+      this.$editor.on("hide.bs.modal", "#delete-url-modal", (e) => {
+        $deleteEntriesDialog = null;
+      });
+
+      this.$editor.on("submit", ".delete-url-form", (e) => {
+        var $form = $(e.currentTarget);
+        var $deleteEntries = $form.find("input.form-check-input:checked");
+        if ($deleteEntriesDialog === null) {
+          return false;
+        }
+        $deleteEntriesDialog.modal("hide");
+
+        Object.entries($deleteEntries).forEach(([_, entry]) => {
+          if (typeof entry.id !== "undefined") {
+            this.removeTranslationEntry(entry.id);
+          }
+        });
+        return false;
+      });
+    });
+
     Mousetrap.bindGlobal("alt+end", function (e) {
       window.location = $("#button-end").attr("href");
       return false;
@@ -210,6 +245,20 @@
     });
   };
 
+  FullEditor.prototype.removeTranslationEntry = function (delete_url) {
+    $.ajax({
+      type: "DELETE",
+      url: delete_url,
+      headers: { "X-CSRFToken": this.csrfToken },
+      success: () => {
+        addAlert(gettext("Translation memory entry removed."));
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        addAlert(errorThrown);
+      },
+    });
+  };
+
   FullEditor.prototype.fetchMachinery = function (serviceName) {
     $.ajax({
       type: "POST",
@@ -261,6 +310,7 @@
         ...this.machinery.state.translations,
         ...data.translations,
       ],
+      weblateTranslationMemory: new Set(),
       lang: data.lang,
       dir: data.dir,
     });
@@ -497,6 +547,7 @@
     constructor(initialState = {}) {
       this.state = {
         translations: [],
+        weblateTranslationMemory: new Set(),
         lang: null,
         dir: null,
       };
@@ -541,6 +592,20 @@
         )
       );
 
+      if (this.state.weblateTranslationMemory.has(el.text)) {
+        row.append(
+          $(
+            "<td>" +
+              '<a class="js-delete-machinery btn btn-danger" data-toggle="modal" data-target="#delete-url-modal">' +
+              gettext("Delete entry") +
+              "</a>" +
+              "</td>"
+          )
+        );
+      } else {
+        row.append($("<td></td>"));
+      }
+
       return row;
     }
 
@@ -549,6 +614,7 @@
       if (typeof el.origin !== "undefined") {
         service.append(" (");
         var origin;
+        var deleteUrl = false;
         if (typeof el.origin_detail !== "undefined") {
           origin = $("<abbr/>").text(el.origin).attr("title", el.origin_detail);
         } else if (typeof el.origin_url !== "undefined") {
@@ -556,10 +622,41 @@
         } else {
           origin = el.origin;
         }
+        if (el.delete_url) {
+          this.state.weblateTranslationMemory.add(el.text);
+        }
         service.append(origin);
         service.append(")");
       }
       return service;
+    }
+
+    renderDeleteUrls(text) {
+      var translations = this.state.translations;
+      var modalBody = $("<label>").text("");
+
+      translations.forEach((translation) => {
+        if (
+          text === translation.text &&
+          typeof translation.delete_url !== "undefined"
+        ) {
+          var inputElement = $("<input>")
+            .attr("class", "form-check-input")
+            .attr("type", "checkbox")
+            .attr("value", "")
+            .attr("id", translation.delete_url)
+            .attr("checked", true);
+          var labelElement = $("<label>")
+            .attr("class", "form-check-label")
+            .attr("for", translation.delete_url)
+            .text(translation.origin);
+          var divElement = $("<div>")
+            .attr("class", "form-check")
+            .append(inputElement, labelElement);
+          modalBody.append(divElement);
+        }
+      });
+      return modalBody;
     }
 
     render(translations) {

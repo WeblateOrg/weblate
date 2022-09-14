@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.urls import reverse
+
 from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.memory.models import Memory
 
@@ -72,4 +74,7 @@ class WeblateMemory(MachineTranslation):
                 "origin": result.get_origin_display(),
                 "source": result.source,
                 "show_quality": True,
+                "delete_url": reverse("api:memory-detail", kwargs={"pk": result.id})
+                if user is not None and user.has_perm("memory.delete", result)
+                else None,
             }
