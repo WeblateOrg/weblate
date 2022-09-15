@@ -23,13 +23,14 @@
 # Yonjae Lee <yjyj93@gmail.com>, 2022.
 # jackfrost <jackfrost5446@gmail.com>, 2022.
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2022.
+# Hoseok Seo <ddinghoya@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-19 17:12+0000\n"
-"Last-Translator: jackfrost <jackfrost5446@gmail.com>\n"
+"PO-Revision-Date: 2022-09-17 00:24+0000\n"
+"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -37,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2122,7 +2123,7 @@ msgstr "사용자에게 이메일 초대장을 다시 보내기"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "기본 제공 그룹의 경우 %s을(를) 변경할 수 없습니다."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -3312,7 +3313,7 @@ msgstr "XLIFF 번역 파일"
 
 #: weblate/formats/ttkit.py:1231
 msgid "XLIFF with placeables support"
-msgstr ""
+msgstr "배치 가능 지원이 있는 XLIFF"
 
 #: weblate/formats/ttkit.py:1238
 msgid "XLIFF with gettext extensions"
@@ -3958,7 +3959,8 @@ msgstr "번역 정보"
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
-msgstr ""
+msgstr "번역 도메인의 ID입니다(예: BC). 도메인을 지정하지 않으면 사용 가능한 모든 "
+"도메인에서 번역이 검색됩니다."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -3977,12 +3979,12 @@ msgstr "응용프로그램 base URL"
 #: weblate/machinery/forms.py:160
 msgctxt "Automatic suggestion service configuration"
 msgid "Application region"
-msgstr ""
+msgstr "적용 지역"
 
 #: weblate/machinery/forms.py:170
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "구글 번역 서비스 계정 정보"
 
 #: weblate/machinery/forms.py:176
 #, fuzzy
@@ -5517,7 +5519,7 @@ msgstr "새 호스팅 플랜 구매"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Weblate를 무료로 사용해 보세요"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -6964,7 +6966,7 @@ msgstr "스팸으로 표시"
 
 #: weblate/templates/machinery/detail.html:7
 msgid "This service is installed site wide."
-msgstr ""
+msgstr "이 서비스는 사이트 전체에 설치됩니다."
 
 #: weblate/templates/machinery/detail.html:7
 #, fuzzy
@@ -6974,7 +6976,7 @@ msgstr "저장소 전체"
 
 #: weblate/templates/machinery/detail.html:10
 msgid "This service is installed site wide, but disabled."
-msgstr ""
+msgstr "이 서비스는 사이트 전체에 설치되지만 비활성화되어 있습니다."
 
 #: weblate/templates/machinery/detail.html:10
 msgid "disabled"
@@ -7676,7 +7678,8 @@ msgid ""
 msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
-msgstr[0] ""
+msgstr[0] "이 그룹에는 %(count)s 명의 회원이 있습니다. 그룹을 삭제하면 접속에 영향을 줄 "
+"수 있습니다."
 
 #: weblate/templates/manage/groups.html:114
 #, fuzzy
@@ -9678,7 +9681,7 @@ msgstr "번역이 끝났습니다."
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
+msgstr[0] "백업은 %(keep_days)s 일 후에 제거됩니다."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -10006,7 +10009,8 @@ msgid ""
 msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
-msgstr[0] ""
+msgstr[0] "이 팀에는 %(count)s 명의 회원이 있습니다. 팀을 삭제하면 프로젝트에 대한 "
+"접속에 영향을 줄 수 있습니다."
 
 #: weblate/templates/trans/project-access.html:215
 #, fuzzy
@@ -10073,7 +10077,7 @@ msgstr "백업 수행"
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "%(server)s (%(domain)s)에서 Weblate %(version)s에 의해 생성됨"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 #, fuzzy
@@ -11924,7 +11928,7 @@ msgstr "나쁜 설정"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:375
 msgid "Add-on uninstalled"
-msgstr ""
+msgstr "부가기능 설치 제거됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
@@ -12898,7 +12902,7 @@ msgstr "닫는 싱글 인용부호"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
-msgstr ""
+msgstr "대체 시작 큰 따옴표"
 
 #: weblate/trans/specialchars.py:288
 #, fuzzy
@@ -13175,13 +13179,13 @@ msgstr "사용할 수 있음"
 #: weblate/trans/templatetags/translations.py:942
 #, python-format
 msgid "%s M"
-msgstr ""
+msgstr "%s M"
 
 #. Translators: Number format, in thousands (kilo)
 #: weblate/trans/templatetags/translations.py:946
 #, python-format
 msgid "%s k"
-msgstr ""
+msgstr "%s k"
 
 #: weblate/trans/util.py:45
 msgid "Very high"
@@ -13633,7 +13637,7 @@ msgstr "프로젝트 언어 %s가 제거됐습니다."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "백업이 실행되었으며, 곧 사용할 수 있습니다."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
