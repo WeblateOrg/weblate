@@ -449,7 +449,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     enforced_checks = JSONField(
         verbose_name=gettext_lazy("Enforced checks"),
         help_text=gettext_lazy("List of checks which can not be ignored."),
-        default=[],
+        default=list,
         blank=True,
     )
 

@@ -46,7 +46,7 @@ class Alert(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=150)
     dismissed = models.BooleanField(default=False, db_index=True)
-    details = JSONField(default={})
+    details = JSONField(default=dict)
 
     class Meta:
         unique_together = [("component", "name")]
