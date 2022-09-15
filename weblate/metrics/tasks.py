@@ -16,7 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+from datetime import timedelta
+
 from celery.schedules import crontab
+from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -46,6 +50,7 @@ def collect_metrics():
 @app.task(trail=False)
 def cleanup_metrics():
     """Remove stale metrics."""
+    # Remove metrics for deleted objects
     projects = Project.objects.values_list("pk", flat=True)
     Metric.objects.filter(scope=Metric.SCOPE_PROJECT).exclude(
         relation__in=projects
@@ -68,6 +73,10 @@ def cleanup_metrics():
     Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE).exclude(
         relation__in=Language.objects.values_list("pk", flat=True)
     ).delete()
+
+    # Remove past metrics, but we need data for last 24 months
+    cutoff = timezone.now() - timedelta(days=800)
+    Metric.objects.filter(date__lte=cutoff).delete()
 
 
 @app.on_after_finalize.connect
