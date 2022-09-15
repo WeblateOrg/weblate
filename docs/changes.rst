@@ -1,7 +1,7 @@
 Weblate 4.14.1
 --------------
 
-Not yet released.
+Released on September 15th 2022.
 
 * Fixed generating project backups in some situations.
 * Improved error reporting on file upload.
