@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-29 08:17+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"PO-Revision-Date: 2022-09-17 00:24+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -2071,7 +2071,7 @@ msgstr "重新向使用者傳送邀請 E-mail"
 #: weblate/auth/forms.py:166
 #, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "禁止內建群組更改 %s。"
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -7390,16 +7390,12 @@ msgid "Libre"
 msgstr "自由軟體"
 
 #: weblate/templates/manage/group.html:21
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic assignments"
-msgstr "自動群組分派"
+msgstr "自動分派"
 
 #: weblate/templates/manage/group.html:34
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Add automatic assignment"
-msgstr "自動群組分派"
+msgstr "加入自動分派"
 
 #: weblate/templates/manage/groups.html:43
 #: weblate/templates/trans/project-access.html:164
@@ -7407,10 +7403,9 @@ msgid "Access only"
 msgstr "僅供存取"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "這會從本專案刪除 <b>%(name)s</b> 團隊。"
+msgstr "這會刪除 <b>%(name)s</b> 群組。"
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7420,13 +7415,11 @@ msgid ""
 msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
-msgstr[0] ""
+msgstr[0] "這個群組有 %(count)s 名成員。刪除群組可能會影響成員存取。"
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "建立新團隊"
+msgstr "建立新群組"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -9497,13 +9490,11 @@ msgid ""
 msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
-msgstr[0] ""
+msgstr[0] "這個團隊有 %(count)s 名成員。刪除團隊可能會影響成員存取專案。"
 
 #: weblate/templates/trans/project-access.html:215
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit team"
-msgstr "編輯標籤"
+msgstr "編輯團隊"
 
 #: weblate/templates/trans/project-access.html:238
 msgid "Create new team"
@@ -11225,8 +11216,6 @@ msgstr "已解除安裝附加元件"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove string"
 msgstr "移除字串"
 
@@ -12000,10 +11989,9 @@ msgstr "無法解析 %(file)s 檔案：%(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "提交未決的更動"
+msgstr "無法提交未決更動：%s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12038,16 +12026,12 @@ msgid "Mark as read-only"
 msgstr "標記為唯讀"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "取消禁止的翻譯標記"
+msgstr "取消不可翻譯標記"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "標記為禁止的翻譯"
+msgstr "標記為不可翻譯"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
