@@ -87,7 +87,7 @@ jobs:
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v3.1.0
+    - uses: codecov/codecov-action@v3.1.1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations
