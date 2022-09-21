@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-08-12 21:25+0000\n"
-"Last-Translator: Jiri Nakola <github@nakola.fi>\n"
+"PO-Revision-Date: 2022-09-23 07:23+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -5600,7 +5600,7 @@ msgstr "Osta uusi isännöintipalvelu (hosting)"
 
 #: weblate/templates/base.html:238
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Kokeile Weblatea ilmaiseksi"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7725,10 +7725,9 @@ msgid "Access only"
 msgstr "Vain pääsy"
 
 #: weblate/templates/manage/groups.html:87
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "Tämä poistaa työryhmän <b>%(name)s</b> tästä projektista."
+msgstr "Tämä poistaa ryhmän <b>%(name)s</b>."
 
 #: weblate/templates/manage/groups.html:89
 #, python-format
@@ -7742,10 +7741,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/manage/groups.html:114
-#, fuzzy
-#| msgid "Create new team"
 msgid "Create new group"
-msgstr "Luo uusi joukkue"
+msgstr "Luo uusi ryhmä"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7880,10 +7877,8 @@ msgid "Celery latency"
 msgstr "Välimuistin latenssi"
 
 #: weblate/templates/manage/performance.html:164
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet measured"
-msgstr "Ei vielä sisäänkirjautunut"
+msgstr "Ei vielä mitattu"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -9600,30 +9595,24 @@ msgstr ""
 "Weblate ei voi noutaa etäarkiston muutoksia arkiston päivittämisen aikana."
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are currently no backups."
-msgstr "Yhtään käännöskomponenttia ei ole."
+msgstr "Varmuuskopioita ei vielä ole."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Trigger backup"
 msgstr "Suorita varmuuskopiointi"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Backup will be generated in the background."
-msgstr "Käännös päivitetään taustalla."
+msgstr "Varmuuskopio luodaan taustalla."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Varmuuskopiot poistetaan %(keep_days)s päivän jälkeen."
+msgstr[1] "Varmuuskopiot poistetaan %(keep_days)s päivän jälkeen."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -9989,22 +9978,16 @@ msgid "You currently do not have permission to create projects."
 msgstr "Sinulla ei ole oikeuksia luoda projekteja."
 
 #: weblate/templates/trans/project_form.html:24
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Import translation project"
-msgstr "Käännösprojektien mainostaminen"
+msgstr "Tuo käännösprojekti"
 
 #: weblate/templates/trans/project_import.html:8
-#, fuzzy
-#| msgid "Create project"
 msgid "Import project"
-msgstr "Luo projekti"
+msgstr "Tuo projekti"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Perform backup"
 msgid "Importing backup"
-msgstr "Suorita varmuuskopiointi"
+msgstr "Tuodaan varmuuskopiota"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
@@ -11144,16 +11127,13 @@ msgid ""
 msgstr "Käyttää ja osallistuu projektien välisiin jaettuihin käännöksiin."
 
 #: weblate/trans/forms.py:2119
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ZIP file containing project backup"
-msgstr "Käännökset sisältävä ZIP-tiedosto"
+msgstr "Projektin vrmuuskopion sisältävä ZIP-tiedosto"
 
 #: weblate/trans/forms.py:2141
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Failed to load project backup: %s"
-msgstr "Avaimen jäsentäminen epäonnistui: %s"
+msgstr "Projektin varmuuskopion lataaminen epäonnistui: %s"
 
 #: weblate/trans/forms.py:2148
 msgid "Optional additional filter applied to the strings"
@@ -12589,10 +12569,9 @@ msgstr "Tiedoston %(file)s jäsentäminen epäonnistui: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Commitoi odottavat muutokset"
+msgstr "Odottavien muutosten kommitointi epäonnistui: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -13416,7 +13395,7 @@ msgstr "Projektin kieli poistettiin."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Varmuuskopion suoritus pyydettiin, se on pian saatavilla."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
