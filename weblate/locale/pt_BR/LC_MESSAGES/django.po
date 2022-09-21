@@ -26,13 +26,14 @@
 # vitoUwu <victorhugomeurerdelgrandi@gmail.com>, 2022.
 # Claudio Filho F Filho <filhocf@gmail.com>, 2022.
 # Areera <zedielluiz@gmail.com>, 2022.
+# Luiz Carlos Lucasv <csversut@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-09-05 11:10+0000\n"
-"Last-Translator: Areera <zedielluiz@gmail.com>\n"
+"PO-Revision-Date: 2022-09-23 07:23+0000\n"
+"Last-Translator: Luiz Carlos Lucasv <csversut@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -40,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -8997,18 +8998,13 @@ msgstr ""
 "você finalizar a configuração."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
-#, fuzzy
-#| msgid ""
-#| "This project is in the trial period, so be cautious before you "
-#| "contribute. Things like license or repository can still change before "
-#| "being approved as a libre project."
 msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
 msgstr ""
-"Este projeto está em um período de avaliação, seja cuidadoso enquanto "
-"contribui. A implementação ainda pode ser alterada antes de ser aprovada "
-"como um projeto livre."
+"Este projeto está em período de teste, seja cauteloso ao contribuir. A "
+"configuração ainda pode ser alterada antes de ser aprovada como um projeto "
+"libre."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
 msgid "Manage billing"
@@ -10024,10 +10020,8 @@ msgid "Import project"
 msgstr "Importar projeto"
 
 #: weblate/templates/trans/project_import_info.html:5
-#, fuzzy
-#| msgid "Run backup"
 msgid "Importing backup"
-msgstr "Executar backup"
+msgstr "Importando backup"
 
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
@@ -10831,10 +10825,8 @@ msgid "Add new strings"
 msgstr "Adicionar novos textos"
 
 #: weblate/trans/forms.py:642
-#, fuzzy
-#| msgid "Processing of strings needing edit"
 msgid "Processing of \"Needs editing\" strings"
-msgstr "Processamento de textos com \"edição necessária\""
+msgstr "Processamento de textos com \"Edição necessária\""
 
 #: weblate/trans/forms.py:644
 msgid "Do not import"
@@ -11002,8 +10994,6 @@ msgid "Block duration"
 msgstr "Duração do bloqueio"
 
 #: weblate/trans/forms.py:1185
-#, fuzzy
-#| msgid "Block user until I unblock them"
 msgid "Block the user until I unblock"
 msgstr "Bloquear usuário até eu desbloqueá-lo"
 
@@ -11872,8 +11862,6 @@ msgid "BCP style using hyphen as a separator, including country code"
 msgstr "Estilo BCP usando hífen como separador, incluindo código de país"
 
 #: weblate/trans/models/component.py:141
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr "Estilo BCP usando hífen como separador, antigos códigos de idiomas"
 
@@ -12628,10 +12616,9 @@ msgstr "Falha ao analisar arquivo %(file)s: %(error)s"
 #: weblate/trans/models/translation.py:980
 #: weblate/trans/models/translation.py:1062
 #: weblate/trans/models/translation.py:1184
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Fazer commit das alterações pendentes"
+msgstr "Fazer commit das alterações pendentes: %s"
 
 #: weblate/trans/models/translation.py:1565
 msgid "This string seems to already exist."
@@ -12668,16 +12655,12 @@ msgid "Mark as read-only"
 msgstr "Marcar como somente leitura"
 
 #: weblate/trans/models/unit.py:1561
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Desmarcar como tradução proibida"
+msgstr "Desmarcar como intraduzível"
 
 #: weblate/trans/models/unit.py:1565
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Marcar como tradução proibida"
+msgstr "Marcar como intraduzível"
 
 #: weblate/trans/models/unit.py:1572
 msgid "Unmark as forbidden translation"
@@ -13010,13 +12993,13 @@ msgstr "habilitado"
 #: weblate/trans/templatetags/translations.py:942
 #, python-format
 msgid "%s M"
-msgstr ""
+msgstr "%s M"
 
 #. Translators: Number format, in thousands (kilo)
 #: weblate/trans/templatetags/translations.py:946
 #, python-format
 msgid "%s k"
-msgstr ""
+msgstr "%s k"
 
 #: weblate/trans/util.py:45
 msgid "Very high"
@@ -13457,7 +13440,7 @@ msgstr "Idioma do projeto foi removido."
 
 #: weblate/trans/views/settings.py:378
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "O backup foi acionado, em breve estará disponível."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
@@ -13481,10 +13464,8 @@ msgid "Project {}"
 msgstr "Projeto {}"
 
 #: weblate/trans/widgets.py:326
-#, fuzzy
-#| msgid "Component: {}"
 msgid "Component {}"
-msgstr "Componente: {}"
+msgstr "Componente {}"
 
 #: weblate/trans/widgets.py:390
 msgid "Status badge"
