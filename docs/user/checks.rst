@@ -210,7 +210,7 @@ C# format
 .. seealso::
 
    :ref:`check-formats`,
-   `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+   `C# String Format <https://learn.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
 
 .. _check-es-format:
 
