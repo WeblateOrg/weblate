@@ -10,7 +10,7 @@ from translate.misc.xml_helpers import valid_chars_only
 from weblate.formats.ttkit import TBXFormat
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
-from weblate.vcs.git import LocalRepository
+from weblate.vcs.git import GitRepository, LocalRepository
 
 
 def create_glossary(project, name, slug, glossary, license):
@@ -36,6 +36,8 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
     Project = apps.get_model("trans", "Project")
     Language = apps.get_model("lang", "Language")
     db_alias = schema_editor.connection.alias
+
+    GitRepository.global_setup()
 
     projects = Project.objects.using(db_alias).all()
 
