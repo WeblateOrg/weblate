@@ -8,7 +8,11 @@
     {% if check.notsupported %}
       <li>{% blocktrans with check=check.name %}{{ check }} quality check is enforced, but it is not available.{% endblocktrans %}</li>
     {% else %}
-      <li>{% blocktrans with check=check.name flag=check.enable_string %}{{ check }} quality check is enforced, but not turned on using <code>{{ flag }}</code>.{% endblocktrans %}</li>
+      <li>{% blocktrans with check=check.name flag=check.enable_string %}{{ check }} quality check is enforced, but not turned on using <code>{{ flag }}</code> flag.{% endblocktrans %}</li>
     {% endif %}
   {% endfor %}
 </ul>
+
+<p>
+  {% trans "The check can be turned on by adding the corresponding flag to string or component flags." %}
+</p>

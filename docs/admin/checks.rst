@@ -288,6 +288,16 @@ You can configure a list of checks which can not be ignored by setting
 be dismissed in the user interface and any string failing this check is marked as
 :guilabel:`Needs editing` (see :ref:`states`).
 
+.. note::
+
+   Turning on check enforcing doesn't enable it automatically. The check can be
+   turned on by adding the corresponding flag to string or component flags.
+
+   .. seealso::
+
+      :ref:`additional`,
+      :ref:`component-check_flags`
+
 .. _fonts:
 
 Managing fonts
