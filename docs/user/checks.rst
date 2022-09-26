@@ -272,7 +272,7 @@ XML tags. You can configure the behavior of this check by using ``icu-flags:*``,
 opting into XML support or by disabling certain sub-checks. For example, the following flag
 enables XML support while disabling validation of plural sub-messages:
 
-.. code-block::text
+.. code-block:: text
 
    icu-message-format, icu-flags:xml:-plural_selectors
 
@@ -305,7 +305,7 @@ Additionally, when ``strict-xml`` is not enabled but ``xml`` is enabled, you can
 For example, the following flag will only allow XML tags to be matched if they start with
 ``<x:``:
 
-.. code-block::text
+.. code-block:: text
 
   icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"
 
