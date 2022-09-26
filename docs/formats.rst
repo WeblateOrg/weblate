@@ -745,6 +745,14 @@ stored in a different location from the other files -- :file:`res/values/strings
 
     This script may help pre-process your existing strings.xml files and translations: https://gist.github.com/paour/11291062
 
+.. hint::
+
+   To avoid translating some strings, these can be marked as non-translatable. This can be especially useful for string references:
+
+   .. code-block:: xml
+
+      <string name="foobar" translatable="false">@string/foo</string>
+
 .. _apple:
 
 Apple iOS strings
