@@ -3,6 +3,8 @@ Weblate 4.15
 
 Not yet released.
 
+* Added support for removing entries from translation memory.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 
 Weblate 4.14.1
