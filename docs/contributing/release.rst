@@ -45,6 +45,7 @@ Post release manual steps:
 10. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
 11. Increase version in the website download links.
 12. Increase version in the repository by :command:`./scripts/set-version`.
+13. Check that readthedocs.org did build all translations of the documentation using :command:`./scripts/rtd-projects`.
 
 To create tags using the :command:`./scripts/create-release` script you will need following:
 

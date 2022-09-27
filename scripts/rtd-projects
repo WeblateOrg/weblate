@@ -21,6 +21,7 @@
 """Synchronizes Read the Docs projects for all languages."""
 
 import os
+import subprocess
 
 import requests
 from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
@@ -44,6 +45,12 @@ def get_update(value):
         return list(value)
     return value
 
+
+git_tag = subprocess.run(
+    ["git", "describe", "--tags", "--abbrev=0"], capture_output=True, text=True
+)
+
+LATEST_RELEASE = git_tag.stdout.strip()
 
 # Read the authorization token
 with open(os.path.expanduser("~/.config/readthedocs.token")) as handle:
@@ -94,6 +101,20 @@ while result["next"]:
             )
             versions_response.raise_for_status()
             versions = versions_response.json()
+            found = None
+            while LATEST_RELEASE not in {
+                version["slug"] for version in versions["results"]
+            }:
+                if versions["next"] is None:
+                    print(
+                        f"Missing release {LATEST_RELEASE} in  {project['name']}: ",
+                        project["urls"]["home"],
+                    )
+                    break
+                versions_response = requests.get(versions["next"], headers=AUTH)
+                versions_response.raise_for_status()
+                versions = versions_response.json()
+
             if versions["count"] < 2:
                 print(
                     f"Missing automation rule {project['name']}: ",
