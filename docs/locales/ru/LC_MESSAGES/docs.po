@@ -5,13 +5,14 @@
 # Viktor <xasertop@gmail.com>, 2022.
 # Andrei Stepanov <adem4ik@gmail.com>, 2022.
 # Blueberry <igory.ygr200@gmail.com>, 2022.
+# Vik <k3kelm4vw@mozmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-09-15 11:51+0000\n"
-"Last-Translator: Vik <xasertop@gmail.com>\n"
+"PO-Revision-Date: 2022-09-27 12:44+0000\n"
+"Last-Translator: Vik <k3kelm4vw@mozmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -15717,7 +15718,7 @@ msgstr "Настройка автоматических предложений"
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "До Weblate 4.13 службы настраивались в :ref:`config`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -15748,7 +15749,7 @@ msgstr ":ref:`adding-translation`."
 
 #: ../../admin/machine.rst:31
 msgid "Amagama"
-msgstr ""
+msgstr "Amagama"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -23227,6 +23228,8 @@ msgstr "Название единицы перевода (используетс
 #: ../../api.rst:1883
 msgid "Source strings (use single string if not creating plural)"
 msgstr ""
+"Исходные строки (используйте одну строку, если не создаёте формы "
+"множественного числа)"
 
 #: ../../api.rst:1884
 #, fuzzy
@@ -23369,10 +23372,8 @@ msgid "URL to access the translation (real translation URL)"
 msgstr "URL-адрес для доступа к переводу (реальный URL-адрес перевода)"
 
 #: ../../api.rst:2020
-#, fuzzy
-#| msgid "Returns a list of all projects."
 msgid "Returns a list of memory results."
-msgstr "Возвращает список всех проектов."
+msgstr "Возвращает список из результатов памяти."
 
 #: ../../api.rst:2024
 msgid "Deletes a memory object"
@@ -23548,10 +23549,8 @@ msgid "whether the unit is pending for write"
 msgstr "является ли перевод единицы перевода неточным или отмеченным на правку"
 
 #: ../../api.rst:2086
-#, fuzzy
-#| msgid "String age"
 msgid "string age"
-msgstr "Возраст строки"
+msgstr "возраст строки"
 
 #: ../../api.rst:2092
 msgid "Performs partial update on translation unit."
@@ -24021,12 +24020,12 @@ msgid "For instruction on setting up GitHub integration"
 msgstr "Инструкция по настройке интеграции с GitHub"
 
 #: ../../api.rst:2503
-#, fuzzy
-#| msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
 msgid ""
 "https://docs.github.com/en/get-started/customizing-your-github-workflow/"
 "exploring-integrations/about-webhooks"
-msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
+msgstr ""
+"https://docs.github.com/en/get-started/customizing-your-github-workflow/"
+"exploring-integrations/about-webhooks"
 
 #: ../../api.rst:2504
 msgid "Generic information about GitHub Webhooks"
@@ -24103,15 +24102,11 @@ msgid "Generic information about Pagure Webhooks"
 msgstr "Общая информация о веб-обработчиках Pagure"
 
 #: ../../api.rst:2556
-#, fuzzy
-#| msgid ""
-#| "Special hook for handling Azure Repos notifications and automatically "
-#| "updating matching components."
 msgid ""
 "Special hook for handling Azure DevOps notifications and automatically "
 "updating matching components."
 msgstr ""
-"Специальный обработчик для обработки уведомлений Azure Repos и "
+"Специальный обработчик для обработки уведомлений Azure DevOps и "
 "автоматического обновления соответствующих компонентов."
 
 #: ../../api.rst:2561
@@ -24133,10 +24128,8 @@ msgstr ""
 "webhooks?view=azure-devops"
 
 #: ../../api.rst:2569
-#, fuzzy
-#| msgid "Generic information about Azure Repos Web Hooks"
 msgid "Generic information about Azure DevOps Web Hooks"
-msgstr "Общая информация о веб-обработчиках Azure Repos"
+msgstr "Общая информация о веб-обработчиках Azure DevOps"
 
 #: ../../api.rst:2577
 msgid ""
@@ -24277,10 +24270,8 @@ msgid "Avoid matching glossary terms on context or keys."
 msgstr ""
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed notifications rendering in Gmail."
 msgid "Added notifications for string removals."
-msgstr "Исправлена отрисовка уведомлений в Gmail."
+msgstr "Добавлены уведомления об удалении строк."
 
 #: ../../changes.rst:11
 msgid "Improved management of untranslatable terms in glossary."
@@ -24296,22 +24287,16 @@ msgid "Add group management interface."
 msgstr "Добавлен интерфейс управления группой."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Always show rendered text check if enabled."
 msgid "Always show review stats when reviews are enabled."
-msgstr "Отображаемый текст, если он включён, показывается всегда."
+msgstr "Всегда показывается статистика рецензий, когда они включены."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/62?"
-"closed=1>`__."
+"`Подробности всех изменений <https://github.com/WeblateOrg/weblate/milestone/"
+"82?closed=1>`__."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.14"
@@ -24328,10 +24313,8 @@ msgid "Track add-on changes in a history."
 msgstr "Запись изменений исходной строки в историю."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
-msgstr "Исправлен парсинг расположения из CSV-файлов."
+msgstr "Исправлен парсинг перевода из Windows RC, HTML и текстовых файлов."
 
 #: ../../changes.rst:25
 #, fuzzy
@@ -33485,7 +33468,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:-1
 msgid "Weblate user data export"
-msgstr "Файл экспорта данных пользователя Weblate’а"
+msgstr "Файл экспорта данных пользователя Weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
@@ -43445,14 +43428,10 @@ msgid "Special characters"
 msgstr "Специальные символы"
 
 #: ../../user/profile.rst:145
-#, fuzzy
-#| msgid ""
-#| "Additional characters to include in the visual keyboard, :ref:`visual-"
-#| "keyboard`."
 msgid "Additional special characters to include in the :ref:`visual-keyboard`."
 msgstr ""
-"Дополнительные символы для включения в визуальную клавиатуру, смотрите "
-"раздел :ref:`visual-keyboard`."
+"Дополнительные специальные символы для включения в разделе :ref:`visual-"
+"keyboard`."
 
 #: ../../user/profile.rst:150
 msgid "Notifications"
@@ -44584,10 +44563,8 @@ msgid ":kbd:`Cmd+Y`"
 msgstr ":kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:250
-#, fuzzy
-#| msgid "Toggle the :guilabel:`Needs editing` flag."
 msgid "Toggle the :guilabel:`Needs editing` checkbox."
-msgstr "Переключение флага :guilabel:`На правку`."
+msgstr "Переключение флажка :guilabel:`На правку`."
 
 #: ../../user/translating.rst:258
 msgid "Visual keyboard"
@@ -44857,12 +44834,12 @@ msgstr ""
 "(памяти переводов)."
 
 #: ../../user/translating.rst:368
-#, fuzzy
-#| msgid "Fixed displaying of :guilabel:`Automatically translated` label."
 msgid ""
 "The automatically translated strings are labelled :guilabel:`Automatically "
 "translated`."
-msgstr "Исправлено отображение метки :guilabel:`Автоматически переведённая`."
+msgstr ""
+"Автоматически переведённые строки помечены :guilabel:`Автоматически "
+"переведено`."
 
 #: ../../user/translating.rst:380
 msgid ""
@@ -44939,8 +44916,6 @@ msgstr ""
 "меню :guilabel:`Инструменты` проекта, компонента или перевода."
 
 #: ../../user/translating.rst:423
-#, fuzzy
-#| msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
 msgstr ":ref:`Надстройка «Массовая правка» <addon-weblate.flags.bulk>`"
 
@@ -45290,15 +45265,11 @@ msgstr ""
 "(смотрите раздел :ref:`git-exporter`)."
 
 #: ../../vcs.rst:150
-#, fuzzy
-#| msgid ""
-#| "Some addons can operate on multiple components sharing one repository, "
-#| "for example :ref:`addon-weblate.git.squash`."
 msgid ""
 "Some add-ons can operate on multiple components sharing one repository, for "
 "example :ref:`addon-weblate.git.squash`."
 msgstr ""
-"Некоторые надстройки могут работать с несколькими компонентами, совместно "
+"Некоторые надстройки могут работать с несколькими компонентами, "
 "использующими один репозиторий, например, «:ref:`addon-weblate.git.squash`»."
 
 #: ../../vcs.rst:154
@@ -45486,10 +45457,8 @@ msgstr ""
 "фиксацию (tip) при отправке изменений обратно."
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "GitHub pull request from fork"
 msgid "GitHub pull requests"
-msgstr "GitHub’овский запрос на извлечение из форка"
+msgstr "Запрос на извлечение в GitHub"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -45520,16 +45489,12 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:284
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-#| "`GITHUB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
 "setting:`GITHUB_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-"`GITHUB_CREDENTIALS`"
+":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, "
+":setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:295
 msgid "GitLab merge requests"
@@ -45566,57 +45531,39 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:314
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
-#| "`GITLAB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
 "setting:`GITLAB_CREDENTIALS`"
 msgstr ""
-":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
-"`GITLAB_CREDENTIALS`"
+":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, "
+":setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull requests"
-msgstr "Запрос на принятие изменений в GitHub"
+msgstr "Запрос на извлечение в Gitea"
 
 #: ../../vcs.rst:329
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to "
-#| "allow pushing translation changes as pull requests, instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
 "allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
-"GitHub'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
-"извлечение вместо того, чтобы выполнять ``push`` непосредственно в "
-"репозиторий."
+"Это просто добавляет тонкий слой поверх :ref:`vcs-git` с помощью `API Gitea`"
+"_, что позволяет отправлять изменения в переводе в виде запросов на "
+"извлечение, вместо отправки непосредственной в репозиторий."
 
 #: ../../vcs.rst:333
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitlab` creates merge request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
-"Нет необходимости использовать его для доступа к Git-репозиториям, обычный :"
-"ref:`vcs-git` работает так же, единственная разница заключается в том, как "
+"Нет необходимости использовать его для доступа к Git-репозиториям, обычный "
+":ref:`vcs-git` работает так же, единственная разница заключается в том, как "
 "выполняется отправка изменений в репозиторий. С помощью :ref:`vcs-git` "
-"изменения отправляются непосредственно в репозиторий, в то время как :ref:"
-"`vcs-gitlab` создаёт запрос на слияние."
+"изменения отправляются непосредственно в репозиторий, в то время как :ref"
+":`vcs-gitea` создаёт запросы на извлечение."
 
 #: ../../vcs.rst:338
 msgid ""
@@ -45626,16 +45573,12 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:344
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
-#| "`GITLAB_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
 "setting:`GITEA_CREDENTIALS`"
 msgstr ""
-":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
-"`GITLAB_CREDENTIALS`"
+":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, "
+":setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:355
 msgid "Pagure merge requests"
@@ -45672,16 +45615,12 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:374
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
-#| "`PAGURE_CREDENTIALS`"
 msgid ""
 ":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :"
 "setting:`PAGURE_CREDENTIALS`"
 msgstr ""
-":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
-"`PAGURE_CREDENTIALS`"
+":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
+":setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:384
 msgid "Gerrit"
@@ -46396,11 +46335,6 @@ msgid "The states are represented in the translation files when possible."
 msgstr "Состояния по возможности представлены в файлах перевода."
 
 #: ../../workflows.rst:55
-#, fuzzy
-#| msgid ""
-#| "In case file format you use does not support storing states, you might "
-#| "want to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged "
-#| "strings as needing editing."
 msgid ""
 "In case file format you use does not support storing states, you might want "
 "to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
@@ -46408,7 +46342,7 @@ msgid ""
 msgstr ""
 "В случае, если используемый вами формат файла не поддерживает хранение "
 "состояний, вы можете использовать надстройку :ref:`addon-weblate.flags."
-"same_edit`, чтобы пометить неизменённые строки флагом «На правку».."
+"same_edit`, чтобы пометить неизменённые строки флагом «На правку»."
 
 #: ../../workflows.rst:61
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
