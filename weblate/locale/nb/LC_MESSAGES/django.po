@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-09-02 10:13+0000\n"
+"PO-Revision-Date: 2022-09-29 07:21+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2170,9 +2170,9 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Send e-postinvitasjon til brukeren på ny"
 
 #: weblate/auth/forms.py:166
-#, python-format
+#, fuzzy, python-format
 msgid "Changing of %s is prohibited for built-in groups."
-msgstr ""
+msgstr "Endring av %s tillates ikke for innebygde grupper."
 
 #: weblate/auth/models.py:78
 #, python-format
@@ -4056,10 +4056,13 @@ msgid "Translation domain"
 msgstr "Oversettelsesinformasjon"
 
 #: weblate/machinery/forms.py:120
+#, fuzzy
 msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"ID for oversettelsesdomenet, for eksempel BC. Hvis du ikke angir et domene "
+"vil metoden søke etter oversettelser i alle tilgjengelige domener."
 
 #: weblate/machinery/forms.py:133
 msgid "Please provide either key or username and password."
@@ -5642,8 +5645,9 @@ msgid "Purchase new hosting plan"
 msgstr "Kjøp ny vertstjeningsplan"
 
 #: weblate/templates/base.html:238
+#, fuzzy
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Prøv Weblate gratis"
 
 #: weblate/templates/base.html:262
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -7795,7 +7799,7 @@ msgstr ""
 "Dette vil slette prosjektsymbolet <b>%(token)s</b> fra dette prosjektet."
 
 #: weblate/templates/manage/groups.html:89
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "There is %(count)s member of this group. Deleting the group might affect "
 "their access."
@@ -7803,7 +7807,11 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"Det er %(count)s medlem i denne gruppen. Sletting av gruppen kan ha "
+"innvirkning på dets tilgang."
 msgstr[1] ""
+"Det er %(count)s medlemmer i denne gruppen. Sletting av gruppen kan ha "
+"innvirkning på tilgangen deres."
 
 #: weblate/templates/manage/groups.html:114
 #, fuzzy
@@ -9798,8 +9806,8 @@ msgstr "Oversettelsen vil bli oppdatert i bakgrunnen."
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sikkerhetskopier fjernes etter %(keep_days)s dag."
+msgstr[1] "Sikkerhetskopier fjernes etter %(keep_days)s dager."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -10128,7 +10136,7 @@ msgstr ""
 "Dette vil slette prosjektsymbolet <b>%(token)s</b> fra dette prosjektet."
 
 #: weblate/templates/trans/project-access.html:197
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "There is %(count)s member of this team. Deleting the team might affect their "
 "access to the project."
@@ -10136,7 +10144,11 @@ msgid_plural ""
 "There are %(count)s members of this team. Deleting the team might affect "
 "their access to the project."
 msgstr[0] ""
+"Det er %(count)s medlem i dette laget. Sletting av laget kan ha innvirkning "
+"på dets tilgang."
 msgstr[1] ""
+"Det er %(count)s medlemmer i denne gruppen. Sletting av laget kan ha "
+"innvirkning på tilgangen deres."
 
 #: weblate/templates/trans/project-access.html:215
 #, fuzzy
@@ -10195,7 +10207,7 @@ msgstr "Utfør sikkerhetskopiering"
 #: weblate/templates/trans/project_import_info.html:7
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Opprettet %(server)s (%(domain)s) med Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:4
 #, fuzzy
@@ -13773,8 +13785,9 @@ msgid "Language of the project was removed."
 msgstr "Språket for prosjektet ble fjernet."
 
 #: weblate/trans/views/settings.py:378
+#, fuzzy
 msgid "Backup was triggered, it will be shorly available."
-msgstr ""
+msgstr "Sikkerhetskopi anmodet. Den vil bli tilgjengelig snart."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
