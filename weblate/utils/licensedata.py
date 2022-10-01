@@ -431,6 +431,7 @@ LICENSES = (
         "https://spdx.org/licenses/CERN-OHL-W-2.0.html",
         True,
     ),
+    ("checkmk", "Checkmk License", "https://spdx.org/licenses/checkmk.html", False),
     (
         "ClArtistic",
         "Clarified Artistic License",
