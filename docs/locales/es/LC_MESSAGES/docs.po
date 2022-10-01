@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-09-30 22:13+0000\n"
+"PO-Revision-Date: 2022-10-02 12:24+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -1559,7 +1559,7 @@ msgstr "ID del complemento"
 
 #: ../../admin/addons.rst:30
 msgid "``weblate.autotranslate.autotranslate``"
-msgstr ""
+msgstr "``weblate.traducir automáticamente.traducir automáticamente``"
 
 #: ../../admin/addons.rst:0 ../../admin/config.rst:4
 #: ../../admin/install/kubernetes.rst:26 ../../admin/install/openshift.rst:102
@@ -1631,7 +1631,7 @@ msgstr "``fuzzy`` -- Cadenas marcadas para ser editas"
 
 #: ../../admin/addons.rst:52
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
-msgstr ""
+msgstr "``check:inconsistent`` -- Comprobación fallida: Inconsistente"
 
 #: ../../admin/addons.rst:54
 #, fuzzy
@@ -1785,6 +1785,8 @@ msgstr ""
 #: ../../admin/addons.rst:97
 msgid "daily, repository post-commit, repository post-update"
 msgstr ""
+"diario, confirmación posterior del repositorio, actualización posterior del "
+"repositorio"
 
 #: ../../admin/addons.rst:99
 msgid ""
@@ -1807,6 +1809,8 @@ msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
+"Genera una URL única para su componente que pueda incluir para localizarlas "
+"en las páginas HTML . Consulte :ref:`weblate-cdn` para más detalles."
 
 #: ../../admin/addons.rst:110
 msgid ""
@@ -1848,6 +1852,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
+"Utilícelo para no tener cadenas vacías en los archivos para ser traducidos ("
+"por ejemplo, si su biblioteca de localización las muestra como pendientes de "
+"traducir. En lugar de recurrir a la cadena de origen)."
 
 #: ../../admin/addons.rst:134 ../../admin/addons.rst:151
 #: ../../admin/addons.rst:594 ../../admin/addons.rst:738
@@ -1864,7 +1871,7 @@ msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:143
 msgid "repository pre-commit, repository post-update"
-msgstr ""
+msgstr "repositorio pre-commit, repositorio post-actualización"
 
 #: ../../admin/addons.rst:145
 msgid ""
@@ -1887,7 +1894,7 @@ msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:160
 msgid "daily, repository post-add"
-msgstr ""
+msgstr "diario, repositorio post-add"
 
 #: ../../admin/addons.rst:162
 msgid ""
@@ -1916,6 +1923,8 @@ msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
+"Traduce automáticamente las cadenas recientemente añadidas con :ref:`addon-"
+"weblate.autotranslate.autotranslate`."
 
 #: ../../admin/addons.rst:178
 msgid "Component discovery"
@@ -2083,6 +2092,10 @@ msgid ""
 "djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"Se activa cada vez que se actualiza el VCS, y por lo demás es similar al "
+"comando de gestión :djadmin:`import_project`. De este modo, se puede "
+"realizar un seguimiento de miltitud de componentes en la traducción dentro "
+"de un VCS."
 
 #: ../../admin/addons.rst:211
 msgid ""
@@ -2090,6 +2103,10 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
+"La coincidencia se realiza mediante expresiones regulares que permiten una "
+"configuración compleja, pero se requieren algunos conocimientos para "
+"hacerlo. Se pueden encontrar algunos ejemplos de unos casos comunes en la "
+"sección de ayuda del complemento."
 
 #: ../../admin/addons.rst:216
 msgid ""
@@ -2097,6 +2114,9 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+"Una vez que presione :guilabel:`Guardar`, se presentará una vista previa de "
+"los componentes coincidentes, desde donde puede verificar si la "
+"configuración realmente se ajusta a sus necesidades:"
 
 #: ../../admin/addons.rst:223
 msgid ""
@@ -2108,6 +2128,14 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"El complemento de detección de los componentes utiliza :ref:`internal-urls`. "
+"Es una forma conveniente de compartir la configuración de VCS entre "
+"múltiples integrantes. Los componentes vinculados utilizan el repositorio "
+"local del componente principal configurado al completar ``weblate://project/"
+"main-component`` en el campo :ref:`component-repo` (en :guilabel:`Manage` ↓ "
+":guilabel: `Configuración` ↓ :guilabel:`Sistema de control de versiones`) de "
+"cada componente respectivo. Esto también ahorra tiempo con la configuración "
+"y los recursos del sistema."
 
 #: ../../admin/addons.rst:232 ../../admin/addons.rst:391
 msgid ":ref:`markup`"
@@ -2211,6 +2239,10 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
+"Automatice el etiquetado comenzando con la consulta de búsqueda ``NO tiene: "
+"etiqueta`` y agregue etiquetas hasta que todas las cadenas tengan todas las "
+"etiquetas requeridas. También se pueden realizar otras operaciones "
+"automatizadas para los metadatos de Weblate."
 
 #: ../../admin/addons.rst:271 ../../admin/config.rst:1577
 msgid "**Examples:**"
@@ -2226,7 +2258,7 @@ msgstr "Consulta de búsqueda"
 
 #: ../../admin/addons.rst:277
 msgid "``NOT has:label``"
-msgstr ""
+msgstr "``NO tiene:etiqueta``"
 
 #: ../../admin/addons.rst:279
 msgid "*recent*"
@@ -2235,10 +2267,12 @@ msgstr "*reciente*"
 #: ../../admin/addons.rst:281
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
+"Marcar todas las cadenas del registro de cambios de :ref:`appstore` como de "
+"solo lectura"
 
 #: ../../admin/addons.rst:285
 msgid "``language:en AND key:changelogs/``"
-msgstr ""
+msgstr "``idioma:es Y clave:cambios/``"
 
 #: ../../admin/addons.rst:287 ../../admin/checks.rst:53
 msgid "``read-only``"
@@ -2259,7 +2293,7 @@ msgstr "``weblate.flags.same_edit``"
 #: ../../admin/addons.rst:306 ../../admin/addons.rst:328
 #: ../../admin/addons.rst:345
 msgid "unit post-create"
-msgstr ""
+msgstr "unidad posterior a la creación"
 
 #: ../../admin/addons.rst:308
 msgid ""
@@ -2277,6 +2311,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"También es posible que desee ajustar la verificación :ref:`check-same` "
+"agregando el indicador ``strict-same`` a :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:319 ../../admin/addons.rst:336
 #: ../../admin/addons.rst:353
@@ -2291,7 +2327,7 @@ msgstr "Marcar cadenas de origen nuevas como «Necesitan edición»"
 
 #: ../../admin/addons.rst:326
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:330
 msgid ""
@@ -2308,10 +2344,8 @@ msgid "Flag new translations as \"Needs editing\""
 msgstr "Marcar traducciones nuevas como «Necesitan edición»"
 
 #: ../../admin/addons.rst:343
-#, fuzzy
-#| msgid "``weblate/static``"
 msgid "``weblate.flags.target_edit``"
-msgstr "``weblate/static``"
+msgstr "``weblate.flags.target_edit``"
 
 #: ../../admin/addons.rst:347
 msgid ""
@@ -2329,7 +2363,7 @@ msgstr "Generador de estadísticas"
 
 #: ../../admin/addons.rst:360
 msgid "``weblate.generate.generate``"
-msgstr ""
+msgstr "``weblate.generar.generar``"
 
 #: ../../admin/addons.rst:362
 #, fuzzy
@@ -2353,10 +2387,8 @@ msgstr "Contenido del archivo generado"
 
 #: ../../admin/addons.rst:366 ../../admin/addons.rst:485
 #: ../../admin/addons.rst:564 ../../admin/addons.rst:667
-#, fuzzy
-#| msgid "repository wide"
 msgid "repository pre-commit"
-msgstr "todo el repositorio"
+msgstr "compromiso previo del repositorio"
 
 #: ../../admin/addons.rst:368
 msgid "Generates a file containing detailed info about the translation status."
@@ -2391,10 +2423,8 @@ msgid "Prefill translation with source"
 msgstr "Prerrellenar traducción con original"
 
 #: ../../admin/addons.rst:400
-#, fuzzy
-#| msgid "``weblate``"
 msgid "``weblate.generate.prefill``"
-msgstr "``weblate``"
+msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:404
 msgid "Fills in translation strings with source string."
@@ -2416,7 +2446,7 @@ msgstr "Generación de pseudorregiones"
 
 #: ../../admin/addons.rst:417
 msgid "``weblate.generate.pseudolocale``"
-msgstr ""
+msgstr "``weblate.generar.pseudolocalización``"
 
 #: ../../admin/addons.rst:419
 #, fuzzy
@@ -40175,7 +40205,7 @@ msgstr ""
 
 #: ../../user/translating.rst:172
 msgid "Keyboard shortcuts"
-msgstr "Atajos del teclado"
+msgstr "Atajos en el teclado"
 
 #: ../../user/translating.rst:176
 msgid ""
