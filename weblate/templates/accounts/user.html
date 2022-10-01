@@ -292,9 +292,26 @@
       {% csrf_token %}
       {{ form|crispy }}
       <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-      <input type="submit" name="remove_user" value="{% trans "Delete" %}" class="btn btn-danger" />
+      <input type="button" name="remove_user" value="{% trans "Delete" %}" class="btn-danger red" data-toggle="modal" data-target="#delete_user_{{ user.id }}">
+      <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+            </div>
+            <div class="modal-body">
+              {% blocktrans with user=user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktrans %}
+            </div>
+            <div class="modal-footer">
+               <input type="submit" name="remove_user" value="{% trans "Delete" %}" class="btn btn-danger" />
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
     </form>
   </div>
+
 {% endif %}
 
 </div>
