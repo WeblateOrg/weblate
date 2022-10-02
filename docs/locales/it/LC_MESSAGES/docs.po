@@ -5,13 +5,14 @@
 # yangyangdaji <1504305527@qq.com>, 2022.
 # bovirus <roberto.boriotti@canon.it>, 2022.
 # John R. D'Orazio <priest@johnromanodorazio.com>, 2022.
+# Massimo Pissarello <mapi68@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-09-23 07:23+0000\n"
-"Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
+"PO-Revision-Date: 2022-10-02 12:24+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "documentation/it/>\n"
 "Language: it\n"
@@ -89,6 +90,9 @@ msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "guilabel:`Access control` setting. Available options are:"
 msgstr ""
+"Puoi limitare l'accesso dell'utente a singoli progetti selezionando "
+"un'impostazione diversa di :guilabel:`Controllo di accesso`. Le opzioni "
+"disponibili sono:"
 
 #: ../../admin/access.rst:35
 msgid "Public"
@@ -127,6 +131,10 @@ msgid ""
 "all users are forbidden to performed any actions on the project. You will "
 "have to set up all the permissions using :ref:`custom-acl`."
 msgstr ""
+":ref: Le funzionalità di `Gestione utenti <manage-acl>` verranno "
+"disabilitate; per impostazione predefinita, a tutti gli utenti è vietato "
+"eseguire qualsiasi azione sul progetto. Dovrai impostare tutte le "
+"autorizzazioni usando :ref:`custom-acl`."
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -134,10 +142,15 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`Controllo accesso` può essere modificato nella scheda "
+":guilabel:`Accesso` della configurazione (:guilabel:`Gestisci` ↓ "
+":guilabel:`Impostazioni`) di ogni rispettivo progetto."
 
 #: ../../admin/access.rst:52 ../../admin/projects.rst:185
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Il valore predefinito può essere modificato da "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -146,6 +159,11 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"Anche per i progetti `Privati`, verranno visualizzate alcune informazioni "
+"sul tuo progetto: le statistiche e il riepilogo della lingua per l'intera "
+"istanza includeranno i conteggi per tutti i progetti nonostante "
+"l'impostazione del controllo di accesso. Il nome del tuo progetto e altre "
+"informazioni non possono essere rivelate in questo modo."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -153,6 +171,10 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"L'attuale insieme di autorizzazioni disponibili per gli utenti per "
+"impostazione predefinita nei progetti `Pubblico`, `Protetto` e `Privato` può "
+"essere ridefinito dall'amministratore dell'istanza Weblate usando :ref:`"
+"impostazioni personalizzate <custom-acl>`."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -161,6 +183,11 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
+"Attivando il controllo di accesso `Personalizzato`, Weblate rimuoverà tutti "
+"i :ref:`gruppi speciali <manage-acl>` che ha creato per un progetto "
+"selezionato. Se lo stai facendo senza l'autorizzazione di amministratore per "
+"l'intera istanza di Weblate, perderai immediatamente l'accesso per gestire "
+"il progetto."
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -182,6 +209,12 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
+"Gli utenti con il privilegio :guilabel:`Gestisci accesso al progetto` (vedi "
+":ref:`privilegi`) possono gestire gli utenti nei progetti aggiungendoli ai "
+"team. La raccolta iniziale dei team è fornita da Weblate, ma è possibile "
+"definirne di aggiuntivi fornendo un controllo degli accessi più dettagliato. "
+"Puoi limitare i team alle lingue e assegnare loro ruoli di accesso designati "
+"(vedi :ref:`privilegi`)."
 
 #: ../../admin/access.rst:89
 msgid "The following teams are automatically created for every project:"
@@ -242,10 +275,8 @@ msgid "Languages"
 msgstr "Lingue"
 
 #: ../../admin/access.rst:109
-#, fuzzy
-#| msgid "Add several languages for translation"
 msgid "Can manage translated languages (add or remove translations)."
-msgstr "Aggiungi più lingue per la traduzione"
+msgstr "Può gestire le lingue tradotte (aggiungi o rimuovi traduzioni)."
 
 #: ../../admin/access.rst:112 ../../admin/access.rst:470 ../../api.rst:2408
 #: ../../user/glossary.rst:4 ../../user/translating.rst:293
@@ -253,20 +284,16 @@ msgid "Glossary"
 msgstr "Glossario"
 
 #: ../../admin/access.rst:112
-#, fuzzy
-#| msgid "Add several languages for translation"
 msgid "Can manage glossary (add or remove entries, also upload)."
-msgstr "Aggiungi più lingue per la traduzione"
+msgstr "Può gestire il glossario (aggiungere o rimuovere voci, anche caricare)."
 
 #: ../../admin/access.rst:115 ../../api.rst:2014
 msgid "Memory"
 msgstr "Memoria"
 
 #: ../../admin/access.rst:115
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Can manage translation memory."
-msgstr "Gestione memoria traduzione"
+msgstr "Può gestire la memoria di traduzione."
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:490 ../../api.rst:2163
 #: ../../user/translating.rst:282
@@ -290,10 +317,8 @@ msgid "Automatic translation"
 msgstr "Traduzione automatica"
 
 #: ../../admin/access.rst:122
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Can use automatic translation."
-msgstr "Traduzione automatica"
+msgstr "Può usare la traduzione automatica."
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:536
 msgid "VCS"
@@ -1475,10 +1500,8 @@ msgstr "Modo traduzione automatica"
 #: ../../admin/addons.rst:520 ../../admin/addons.rst:603
 #: ../../admin/addons.rst:650 ../../admin/addons.rst:751
 #: ../../admin/addons.rst:763 ../../admin/machine.rst:278
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Available choices:"
-msgstr "Configurazione possibile"
+msgstr "Scelte disponibili:"
 
 #: ../../admin/addons.rst:34
 #, fuzzy
@@ -1603,10 +1626,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:66 ../../admin/addons.rst:402
 #: ../../admin/addons.rst:433
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "component update, daily"
-msgstr "Componente in fase di aggiornamento…"
+msgstr "aggiornamento componenti, ogni giorno"
 
 #: ../../admin/addons.rst:68
 msgid ""
@@ -1617,16 +1638,12 @@ msgstr ""
 "componenti."
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "Backup process triggered"
 msgid "It is triggered:"
-msgstr "Il processo di backup è stato attivato"
+msgstr "Viene attivato:"
 
 #: ../../admin/addons.rst:72
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "When new strings appear in a component."
-msgstr "Aggiungi nuovo componente di traduzione"
+msgstr "Quando vengono visualizzate nuove stringhe in un componente."
 
 #: ../../admin/addons.rst:73
 msgid ""
@@ -2160,10 +2177,8 @@ msgid "``read-only``"
 msgstr ""
 
 #: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
-msgstr "Nome componente"
+msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 
 #: ../../admin/addons.rst:300
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -2280,22 +2295,16 @@ msgid "Generates a file containing detailed info about the translation status."
 msgstr "Genera un file con informazioni dettagliate sulla stato traduzione."
 
 #: ../../admin/addons.rst:370
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
-"Puoi usare il markup dei modelli Django sia nel nome file sia nel contenuto, "
-"ad esempio:"
+"Puoi usare un modello Django sia nel nome del file che nel contenuto, vedi "
+":ref:`markup` per una descrizione dettagliata del markup."
 
 #: ../../admin/addons.rst:373
-#, fuzzy
-#| msgid "Failed to parse base file for new translations: %s"
 msgid "For example generating a summary file for each translation:"
-msgstr "Analisi fallita file base per le nuove traduzioni: %s"
+msgstr "Ad esempio generando un file di riepilogo per ogni traduzione:"
 
 #: ../../admin/addons.rst:376
 msgid "``locale/{{ language_code }}.json``"
@@ -2891,22 +2900,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:673
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strips blank lines and comments."
-msgstr "Stringhe con commenti"
+msgstr "Elimina le righe vuote e i commenti."
 
 #: ../../admin/addons.rst:674
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Sorts the strings by the keys."
-msgstr "Commento stringa sorgente"
+msgstr "Ordina le stringhe in base ai tasti."
 
 #: ../../admin/addons.rst:675
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Drops duplicate strings."
-msgstr "Rilevata stringa duplicata"
+msgstr "Elimina le stringhe duplicate."
 
 #: ../../admin/addons.rst:680
 msgid "Stale comment removal"
@@ -3219,10 +3222,8 @@ msgid "For example with Gulp you can do it using following code:"
 msgstr ""
 
 #: ../../admin/addons.rst:918
-#, fuzzy
-#| msgid "Threshold for inclusion of translations."
 msgid "Pre-commit processing of translations"
-msgstr "Soglia per inclusione traduzioni."
+msgstr "Elaborazione preliminare delle traduzioni"
 
 #: ../../admin/addons.rst:920
 msgid ""
@@ -4870,10 +4871,8 @@ msgid "``check-glossary``"
 msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/checks.rst:91
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Enable the :ref:`check-check-glossary` quality check."
-msgstr "Aggiunto al glossario"
+msgstr "Abilita il controllo di qualità :ref:`check-check-glossary`."
 
 #: ../../admin/checks.rst:92 ../../user/checks.rst:168
 #, fuzzy
@@ -5183,10 +5182,8 @@ msgid "``ignore-bbcode``"
 msgstr ""
 
 #: ../../admin/checks.rst:147
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-bbcode` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-bbcode`."
 
 #: ../../admin/checks.rst:148 ../../user/checks.rst:77
 msgid "``ignore-duplicate``"
@@ -5467,40 +5464,32 @@ msgid "``ignore-kashida``"
 msgstr ""
 
 #: ../../admin/checks.rst:201
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-kashida` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-kashida`."
 
 #: ../../admin/checks.rst:202 ../../user/checks.rst:711
 msgid "``ignore-md-link``"
 msgstr ""
 
 #: ../../admin/checks.rst:203
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-md-link` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità ref:`check-md-link`."
 
 #: ../../admin/checks.rst:204 ../../user/checks.rst:732
 msgid "``ignore-md-reflink``"
 msgstr ""
 
 #: ../../admin/checks.rst:205
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-md-reflink` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-md-reflink`."
 
 #: ../../admin/checks.rst:206 ../../user/checks.rst:752
 msgid "``ignore-md-syntax``"
 msgstr ""
 
 #: ../../admin/checks.rst:207
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-md-syntax` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-md-syntax`."
 
 #: ../../admin/checks.rst:208 ../../user/checks.rst:770
 msgid "``ignore-max-length``"
@@ -5673,20 +5662,16 @@ msgid "``ignore-begin-space``"
 msgstr ""
 
 #: ../../admin/checks.rst:241
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-begin-space` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-begin-space`."
 
 #: ../../admin/checks.rst:242 ../../user/checks.rst:1143
 msgid "``ignore-end-newline``"
 msgstr ""
 
 #: ../../admin/checks.rst:243
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-end-newline` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-end-newline`."
 
 #: ../../admin/checks.rst:244 ../../user/checks.rst:1161
 msgid "``ignore-end-space``"
@@ -5753,10 +5738,8 @@ msgid "``ignore-zero-width-space``"
 msgstr ""
 
 #: ../../admin/checks.rst:257
-#, fuzzy
-#| msgid "Skip the \"Mismatched \\n\" quality check."
 msgid "Skip the :ref:`check-zero-width-space` quality check."
-msgstr "Salta il controllo di qualità \"\\n non corrispondente\"."
+msgstr "Salta il controllo di qualità :ref:`check-zero-width-space`."
 
 #: ../../admin/checks.rst:258 ../../user/checks.rst:1321
 msgid "``ignore-ellipsis``"
@@ -6352,10 +6335,8 @@ msgid ":doc:`checks` recalculation"
 msgstr ""
 
 #: ../../admin/config.rst:206
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "Configurazione possibile"
+msgstr "Possibili scelte:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
@@ -9092,7 +9073,7 @@ msgstr ""
 
 #: ../../admin/install.rst:76
 msgid "Celery"
-msgstr ""
+msgstr "Sedano"
 
 #: ../../admin/install.rst:77
 msgid "https://docs.celeryq.dev/"
@@ -11211,10 +11192,8 @@ msgid "https://github.com/docker-library/postgres/issues/37"
 msgstr ""
 
 #: ../../admin/install/docker.rst:242
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Stop Weblate container:"
-msgstr "Configurazione Weblate"
+msgstr "Arresta contenitore Weblate:"
 
 #: ../../admin/install/docker.rst:248
 msgid "Backup the database:"
@@ -11225,10 +11204,8 @@ msgid "Stop the database container:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:260
-#, fuzzy
-#| msgid "Remove the project"
 msgid "Remove the PostgreSQL volume:"
-msgstr "Rimuovi il progetto"
+msgstr "Rimuovere il volume PostgreSQL:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
@@ -11243,10 +11220,8 @@ msgid "Restore the database from the backup:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:281
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Start all remaining containers:"
-msgstr "Contatta i responsabili"
+msgstr "Avvia tutti i contenitori rimanenti:"
 
 #: ../../admin/install/docker.rst:290
 #, fuzzy
@@ -22367,10 +22342,9 @@ msgid "Password hashing now uses Argon2 by default."
 msgstr ""
 
 #: ../../changes.rst:396
-#, fuzzy
-#| msgid "Progress bar color indicates translation state:"
 msgid "Simplified progress bars indicating translation status."
-msgstr "Il colore della barra di avanzamento indica lo stato della traduzione:"
+msgstr ""
+"Barre di avanzamento semplificate che indicano lo stato della traduzione."
 
 #: ../../changes.rst:397
 msgid ""
@@ -22420,10 +22394,8 @@ msgid "Fixed possible crash when adding strings."
 msgstr "Traduzione approvata in %(translation)s"
 
 #: ../../changes.rst:411
-#, fuzzy
-#| msgid "Invalid search query!"
 msgid "Improved search query examples."
-msgstr "Richiesta ricerca non valida!"
+msgstr "Esempi di ricerca migliorati."
 
 #: ../../changes.rst:412
 msgid "Fixed possible loss of newly added strings on replace upload."
@@ -28166,10 +28138,8 @@ msgid "Hook triggered before new unit is created."
 msgstr ""
 
 #: ../../contributing/addons.rst:11
-#, fuzzy
-#| msgid "Example add-on"
 msgid "Here is an example add-on:"
-msgstr "Esempio componente aggiuntivo"
+msgstr "Ecco un esempio di addon:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
@@ -28315,10 +28285,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/debugging.rst:53
-#, fuzzy
-#| msgid "Things to check"
 msgid "Things to check in that case:"
-msgstr "Elementi da verificare"
+msgstr "Cose da controllare in questo caso:"
 
 #: ../../contributing/debugging.rst:55
 msgid "Check that the Celery process is running, see :ref:`celery`"
@@ -29940,10 +29908,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/start.rst:20
-#, fuzzy
-#| msgid "Clone source"
 msgid "Clone the Weblate source code:"
-msgstr "Clona sorgente"
+msgstr "Clona il codice sorgente di Weblate:"
 
 #: ../../contributing/start.rst:27
 #, fuzzy
@@ -31046,10 +31012,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:112
-#, fuzzy
-#| msgid "Changing version control system is not supported!"
 msgid "Managing version control repository"
-msgstr "La modifica del sistema controllo versione non è supportata!"
+msgstr "Gestione del repository di controllo della versione"
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -31905,10 +31869,8 @@ msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 msgstr ""
 
 #: ../../devel/translations.rst:99
-#, fuzzy
-#| msgid "Color variants:"
 msgid "Manual variants"
-msgstr "Varianti colore:"
+msgstr "Varianti manuali"
 
 #: ../../devel/translations.rst:103
 msgid ""
@@ -33160,10 +33122,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:281
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Weblate supports XLIFF in several variants:"
-msgstr "Stato assistenza Weblate"
+msgstr "Weblate supporta XLIFF in diverse varianti:"
 
 #: ../../formats.rst:283
 #, fuzzy
@@ -34411,10 +34371,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1494
-#, fuzzy
-#| msgid "There are no translations in this component."
 msgid "There are three flavors of this format:"
-msgstr "In questo componente non ci sono traduzioni."
+msgstr "Ci sono tre versioni di questo formato:"
 
 #: ../../formats.rst:1496
 msgid "Plain text file"
@@ -37515,10 +37473,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:37
-#, fuzzy
-#| msgid "Browse all glossary changes"
 msgid "You can browse all glossary terms:"
-msgstr "Sfoglia tutte le modifiche del glossario"
+msgstr "Puoi sfogliare tutti i termini del glossario:"
 
 #: ../../user/glossary.rst:41
 #, fuzzy
@@ -38473,10 +38429,10 @@ msgid "Source needs review"
 msgstr "Richiede revisione sorgente"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "Strings marked for review:"
 msgid "String was marked for review using :ref:`source-reviews`."
-msgstr "Stringhe segnate da revisionare:"
+msgstr ""
+"La stringa è stata contrassegnata per la revisione utilizzando :ref:`source-"
+"reviews`."
 
 #: ../../user/translating.rst:107
 msgid ":ref:`labels`"
@@ -39461,10 +39417,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitHub pull requests"
-msgstr "Richiesta unione non valida!"
+msgstr "Richieste di pull GitHub"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -39494,10 +39448,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge requests"
-msgstr "Richiesta unione non valida!"
+msgstr "Richieste di unione di GitLab"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -39562,10 +39514,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:355
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge requests"
-msgstr "Richiesta unione non valida!"
+msgstr "Richieste di unione di pagine"
 
 #: ../../vcs.rst:359
 msgid ""
@@ -39629,7 +39579,7 @@ msgstr ""
 
 #: ../../vcs.rst:420
 msgid "Subversion"
-msgstr ""
+msgstr "Subversion"
 
 #: ../../vcs.rst:424
 msgid ""
@@ -40062,10 +40012,8 @@ msgid "List all projects:"
 msgstr ""
 
 #: ../../wlc.rst:373
-#, fuzzy
-#| msgid "Upload translations files"
 msgid "Upload translation file:"
-msgstr "Carica file traduzioni"
+msgstr "Carica file di traduzione:"
 
 #: ../../wlc.rst:379
 msgid "You can also designate what project wlc should work on:"
