@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-09-28 01:22+0000\n"
+"PO-Revision-Date: 2022-10-04 17:21+0000\n"
 "Last-Translator: Coool (github.com/Coool) <coool@mail.lv>\n"
 "Language-Team: Latvian <https://hosted.weblate.org/projects/weblate/"
 "documentation/lv/>\n"
@@ -5123,6 +5123,10 @@ msgstr ""
 #: ../../admin/config.rst:276
 msgid "Customize ``Content-Security-Policy`` header for Weblate. The header is automatically generated based on enabled integrations with third-party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Iestatīt Weblate tīmekļa vietnes galveni ``Content-Security-Policy``. "
+"Galvenes nosaukums tiek automātiski ģenerēts, pamatojoties uz iespējotām "
+"integrācijām ar trešo pušu pakalpojumiem (Matomo, Google Analytics, Sentry, "
+"…)."
 
 #: ../../admin/config.rst:280
 msgid "All these default to empty list."
@@ -5151,6 +5155,11 @@ msgstr ""
 #: ../../admin/config.rst:308
 msgid "All built-in :ref:`checks` are turned on by default, from where you can change these settings. By default they are commented out in :ref:`sample-configuration` so that default values are used. New checks then carried out for each new Weblate version."
 msgstr ""
+"Pēc noklusējuma visas iebūvētās :ref:`pārbaudes <checks>` ir iespējotas, no "
+"turienes jūs varat mainīt šos iestatījumus. Pēc noklusējuma tie ir "
+"atkomentēti iekš :ref:`iestatījumu faila paraugs <sample-configuration>` "
+"faila, lai izmantotu noklusējuma vērtības. Katrā nākamajā Weblate versijā "
+"tur tiek pievienotas jaunas pārbaudes, ja tādas ir."
 
 #: ../../admin/config.rst:312
 msgid "You can turn off all checks:"
@@ -5709,6 +5718,8 @@ msgstr ""
 #: ../../admin/config.rst:892
 msgid "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"Google Analytics ID, lai iespējotu Weblate tīmekļa vietnes uzraudzību, "
+"izmantojot Google Analytics."
 
 #: ../../admin/config.rst:897
 msgid "HIDE_REPO_CREDENTIALS"
@@ -5838,14 +5849,17 @@ msgstr ""
 #: ../../admin/config.rst:1322
 msgid "Useful if you host your legal documents outside Weblate for embedding them inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Noderīgi, ja savus juridiskos dokumentus hostējiet ārpus Weblate, un "
+"vēlaties tos iegult Weblate vietnē. Lai iegūtu sīkāku informāciju, lūdzu, "
+"skatiet :ref:`legal`."
 
 #: ../../admin/config.rst:1046
 msgid ":setting:`PRIVACY_URL`"
-msgstr ""
+msgstr ":setting:`PRIVACY_URL`"
 
 #: ../../admin/config.rst:1051
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:1053
 msgid "Additional licenses to include in the license choices."
@@ -6429,10 +6443,13 @@ msgstr ""
 #: ../../admin/config.rst:1782
 msgid "In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow <commit hash>'`` error when pushing from Weblate, turn off shallow clones completely by setting:"
 msgstr ""
+"Ja tiek parādīta ``fatal: protocol error: expected old/new/ref, got 'shallow "
+"<commit hash>'`` kļūda, kad veicat izmaiņu virzīšanu (push) no Weblate, "
+"pilnībā atspējojiet seklos klonus parametrā:"
 
 #: ../../admin/config.rst:1792
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:1794
 msgid "List of add-ons available for use. To use them, they have to be enabled for a given translation component. By default this includes all built-in add-ons, when extending the list you will probably want to keep existing ones enabled, for example:"
@@ -6592,6 +6609,8 @@ msgstr ""
 #: ../../admin/continuous.rst:65
 msgid "Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance"
 msgstr ""
+"Iespējot :setting:`AUTO_UPDATE` parametru, lai automātiski atjauninātu visas "
+"Weblate komponentes"
 
 #: ../../admin/continuous.rst:67
 msgid "Execute :djadmin:`updategit` (with selection of project or ``--all`` to update all)"
@@ -6608,6 +6627,11 @@ msgstr ""
 #: ../../admin/continuous.rst:77
 msgid "The merge conflicts from Weblate arise when same file was changed both in Weblate and outside it. There are two approaches to deal with that - avoid edits outside Weblate or integrate Weblate into your updating process, so that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"Weblate apvienošanas konflikti rodas, kad viens un tas pats fails ir "
+"modificēts gan Weblate, gan ārpus tā. Ir divas pieejas kā to atrisināt - vai "
+"nu izvairieties no failu rediģēšanas ārpus Weblate, vai arī integrējiet "
+"Weblate savā atjaunināšanas procesā, lai atmestu veiktās izmaiņas ārpus "
+"Weblate pirms failu atjaunināšanas."
 
 #: ../../admin/continuous.rst:82
 msgid "The first approach is easy with monolingual files - you can add new strings within Weblate and leave whole editing of the files there. For bilingual files, there is usually some kind of message extraction process to generate translatable files from the source code. In some cases this can be split into two parts - one for the extraction generates template (for example gettext POT is generated using :program:`xgettext`) and then further process merges it into actual translations (the gettext PO files are updated using :program:`msgmerge`). You can perform the second step within Weblate and it will make sure that all pending changes are included prior to this operation."
