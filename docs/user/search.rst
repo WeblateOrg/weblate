@@ -40,14 +40,14 @@ Fields
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
-   Search for string states (``approved``, ``translated``, ``untranslated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
+   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
    Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``.
 ``is:TEXT``
    Search for pending translations (``pending``).
-   Can also search for all string states except for ``empty`` (``approved``, ``translated``, ``untranslated``, ``needs-editing``, ``read-only``).
+   Can also search for all string states (``approved``, ``translated``, ``untranslated``, ``needs-editing``, ``read-only``).
 ``language:TEXT``
    String target language.
 ``component:TEXT``
