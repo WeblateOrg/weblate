@@ -292,7 +292,7 @@
       {% csrf_token %}
       {{ form|crispy }}
       <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-      <input type="button" value="{% trans "Delete" %}" class="btn-danger red" data-toggle="modal" data-target="#delete_user_{{ user.id }}">
+      <input type="button" name="remove_user" value="{% trans "Delete" %}" class="btn-danger red" data-toggle="modal" data-target="#delete_user_{{ user.id }}">
       <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
