@@ -6,18 +6,27 @@ Python modules
    We're using virtualenv to install Weblate in a separate environment from your
    system. If you are not familiar with it, check virtualenv :doc:`venv:user_guide`.
 
+.. hint::
+
+   Change with `cd` to the directory, in that you want install weblate
 
 #. Create the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv ~/weblate-env
+        virtualenv weblate
+
+#. Change to the weblate directory
+
+   .. code-block:: sh
+
+         cd weblate
 
 #. Activate the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        . ~/weblate-env/bin/activate
+        source bin/activate
 
 #. Install Weblate including all optional dependencies:
 
