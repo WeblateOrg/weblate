@@ -171,7 +171,9 @@ class MemoryManager(models.Manager):
                 header.get("srclang"), lang_cache, langmap
             )
         except Language.DoesNotExist:
-            raise MemoryImportError(_("Failed to find source language!"))
+            raise MemoryImportError(
+                _("Failed to find language %s!") % header.get("srclang")
+            )
 
         found = 0
         for unit in storage.units:
@@ -182,7 +184,14 @@ class MemoryManager(models.Manager):
                 lang_code, text = get_node_data(unit, node)
                 if not lang_code or not text:
                     continue
-                language = Language.objects.get_by_code(lang_code, lang_cache, langmap)
+                try:
+                    language = Language.objects.get_by_code(
+                        lang_code, lang_cache, langmap
+                    )
+                except Language.DoesNotExist:
+                    raise MemoryImportError(
+                        _("Failed to find language %s!") % header.get("srclang")
+                    )
                 translations[language.code] = text
 
             try:
