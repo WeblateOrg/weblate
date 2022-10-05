@@ -593,6 +593,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.log_error("skipping commit due to error: %s", error)
             return False
 
+        try:
+            store.ensure_index()
+        except ValueError as error:
+            report_error(cause="Failed to parse file on commit")
+            self.log_error("skipping commit due to error: %s", error)
+            return False
+
         units = (
             self.unit_set.filter(pending=True)
             .prefetch_recent_content_changes()

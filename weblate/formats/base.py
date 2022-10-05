@@ -355,6 +355,9 @@ class TranslationFormat:
             return self._find_unit_monolingual(context, source)
         return self._find_unit_bilingual(context, source)
 
+    def ensure_index(self):
+        return self._unit_index
+
     def add_unit(self, ttkit_unit):
         """Add new unit to underlying store."""
         raise NotImplementedError()
