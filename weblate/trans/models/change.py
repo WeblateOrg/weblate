@@ -713,3 +713,10 @@ class Change(models.Model, UserDisplayMixin):
 
     def get_source(self):
         return self.details.get("source", self.unit.source)
+
+    def get_ip_address(self):
+        if self.suggestion and "address" in self.suggestion.userdetails:
+            return self.suggestion.userdetails["address"]
+        if self.comment and "address" in self.comment.userdetails:
+            return self.comment.userdetails["address"]
+        return None
