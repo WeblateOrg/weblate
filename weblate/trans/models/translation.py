@@ -425,6 +425,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if self.component.intermediate:
                 translation_store = store
                 store = self.load_store(force_intermediate=True)
+                try:
+                    store_units = store.content_units
+                except ValueError as error:
+                    raise FileParseError(str(error))
 
             for pos, unit in enumerate(store_units):
                 # Use translation store if exists and if it contains the string
