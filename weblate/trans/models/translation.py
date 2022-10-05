@@ -394,11 +394,16 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store = self.store
             translation_store = None
 
+            try:
+                store_units = store.content_units
+            except ValueError as error:
+                raise FileParseError(str(error))
+
             self.log_info(
                 "processing %s, %s, %d strings",
                 self.filename,
                 self.reason,
-                len(store.content_units),
+                len(store_units),
             )
 
             # Store plural
@@ -421,7 +426,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 translation_store = store
                 store = self.load_store(force_intermediate=True)
 
-            for pos, unit in enumerate(store.content_units):
+            for pos, unit in enumerate(store_units):
                 # Use translation store if exists and if it contains the string
                 if translation_store is not None:
                     try:
