@@ -117,3 +117,8 @@ class DuplicateCheckTest(CheckTestCase):
                 "", "Gruppe %Gruppe%", MockUnit(flags="percent-placeholders")
             )
         )
+
+    def test_same_bbcode(self):
+        self.assertFalse(self.check.check_single("", "for [em]x[/em]", MockUnit()))
+        self.assertTrue(self.check.check_single("", "em [em]x[/em]", MockUnit()))
+        self.assertTrue(self.check.check_single("", "em [em]x", MockUnit()))
