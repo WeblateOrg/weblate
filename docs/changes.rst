@@ -4,6 +4,7 @@ Weblate 4.15
 Not yet released.
 
 * Added support for removing entries from translation memory.
+* Improved analysis on the duplicate language alert.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 

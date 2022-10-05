@@ -38,13 +38,14 @@
 
 <table class="table table-condensed">
 <thead>
-<tr><th>{% trans "Language" %}</th><th>{% trans "Language codes" %}</th></tr>
+<tr><th>{% trans "Language" %}</th><th>{% trans "Language codes" %}</th><th>{% trans "File names" %}</th></tr>
 </thead>
 <tbody>
 {% for occurrence in occurrences %}
 <tr>
     <td>{{ occurrence.language }}</td>
     <td>{{ occurrence.codes }}</td>
+    <td>{{ occurrence.filenames }}</td>
 </tr>
 {% endfor %}
 </tbody>

@@ -2002,7 +2002,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 source_file = self.new_base
             else:
                 # Always include source language to avoid parsing matching files
-                languages[self.source_language.code] = self.source_language.code
+                languages[
+                    self.source_language.code
+                ] = translation  # self.source_language.code
                 translations[translation.id] = translation
 
             # Delete old source units after change from monolingual to bilingual
@@ -2033,7 +2035,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     code=self.get_language_alias(code)
                 )
                 if lang.code in languages:
-                    codes = f"{code}, {languages[lang.code]}"
+                    codes = f"{code}, {languages[lang.code].language_code}"
+                    filenames = f"{path}, {languages[lang.code].filename}"
                     detail = f"{lang.code} ({codes})"
                     self.log_warning("duplicate language found: %s", detail)
                     Change.objects.create(
@@ -2043,7 +2046,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         action=Change.ACTION_DUPLICATE_LANGUAGE,
                     )
                     self.trigger_alert(
-                        "DuplicateLanguage", codes=codes, language_code=lang.code
+                        "DuplicateLanguage",
+                        codes=codes,
+                        language_code=lang.code,
+                        filenames=filenames,
                     )
                     continue
                 try:
@@ -2060,7 +2066,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     raise error.nested
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
-                languages[lang.code] = code
+                languages[lang.code] = translation
                 # Unload the store to save memory as we won't need it again
                 translation.drop_store_cache()
                 # Remove fuzzy flag on template name change
