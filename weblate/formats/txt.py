@@ -188,6 +188,7 @@ class AppStoreFormat(TranslationFormat):
     name = _("App store metadata files")
     format_id = "appstore"
     can_add_unit = False
+    can_delete_unit = True
     monolingual = True
     unit_class = TextUnit
     simple_filename = False

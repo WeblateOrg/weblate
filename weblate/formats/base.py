@@ -193,6 +193,7 @@ class TranslationFormat:
     unit_class: Type[TranslationUnit] = TranslationUnit
     autoload: Tuple[str, ...] = ()
     can_add_unit: bool = True
+    can_delete_unit: bool = True
     language_format: str = "posix"
     simple_filename: bool = True
     new_translation: Optional[Union[str, bytes]] = None

@@ -233,6 +233,11 @@ def check_unit_delete(user, permission, obj):
     # Check if removing is generally allowed
     if not check_manage_units(obj, component):
         return False
+
+    # Does file format support removing?
+    if not component.file_format_cls.can_delete_unit:
+        return False
+
     if component.is_glossary:
         permission = "glossary.delete"
     return check_can_edit(user, permission, obj)

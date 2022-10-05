@@ -1801,6 +1801,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     autoload = ("*.properties",)
     new_translation = "\n"
     can_add_unit: bool = False
+    can_delete_unit: bool = False
     set_context_bilingual: bool = True
 
     # Ensure that untranslated units are saved too as missing properties and
