@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-02 12:24+0000\n"
+"PO-Revision-Date: 2022-10-05 22:54+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "documentation/it/>\n"
@@ -218,11 +218,11 @@ msgstr ""
 
 #: ../../admin/access.rst:89
 msgid "The following teams are automatically created for every project:"
-msgstr ""
+msgstr "I seguenti team vengono creati automaticamente per ogni progetto:"
 
 #: ../../admin/access.rst:91
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Per i progetti `Pubblico`, `Protetto` e `Privato`:"
 
 #: ../../admin/access.rst:94
 msgid "Administration"
@@ -244,11 +244,11 @@ msgstr ""
 
 #: ../../admin/access.rst:97
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Può approvare le traduzioni durante la revisione."
 
 #: ../../admin/access.rst:99
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Solo per i progetti `Protetto` e `Privato`:"
 
 #: ../../admin/access.rst:102
 msgid "Translate"
@@ -256,7 +256,7 @@ msgstr "Traduci"
 
 #: ../../admin/access.rst:102
 msgid "Can translate the project and upload translations made offline."
-msgstr ""
+msgstr "Può tradurre il progetto e caricare le traduzioni effettuate offline."
 
 #: ../../admin/access.rst:106 ../../devel/community.rst:41
 msgid "Sources"
@@ -326,7 +326,7 @@ msgstr "VCS"
 
 #: ../../admin/access.rst:125
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Può gestire VCS e accedere al repository esportato."
 
 #: ../../admin/access.rst:128 ../../admin/optionals.rst:63
 msgid "Billing"
@@ -335,6 +335,8 @@ msgstr "Fatturazione"
 #: ../../admin/access.rst:128
 msgid "Can access billing info and settings (see :ref:`billing`)."
 msgstr ""
+"Può accedere alle informazioni e alle impostazioni di fatturazione (vedi "
+":ref:`billing`)."
 
 #: ../../admin/access.rst:132
 msgid ""
@@ -358,6 +360,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` team) would be sufficient."
 msgstr ""
+"Inoltre, oltre ad aggiungere un utente esistente al progetto, è possibile "
+"invitarne di nuovi. Qualsiasi nuovo utente verrà creato immediatamente, ma "
+"l'account rimarrà inattivo fino all'accesso con un collegamento nell'invito "
+"inviato tramite e-mail. Non è necessario disporre di alcun privilegio a "
+"livello di sito per farlo, è sufficiente l'autorizzazione alla gestione "
+"dell'accesso nell'ambito del progetto (ad es. un'appartenenza al team "
+"\"Amministrazione\")."
 
 #: ../../admin/access.rst:149
 msgid ""
@@ -365,12 +374,17 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"Se l'utente invitato ha perso la validità dell'invito, può impostare la "
+"propria password utilizzando l'indirizzo e-mail invitato nel modulo di "
+"reimpostazione della password poiché l'account è già stato creato."
 
 #: ../../admin/access.rst:155
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
 msgstr ""
+"È possibile inviare nuovamente l'e-mail per gli inviti degli utenti ("
+"invalidando qualsiasi invito inviato in precedenza)."
 
 #: ../../admin/access.rst:158
 msgid ""
@@ -390,6 +404,10 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Nel caso in cui alcuni utenti si comportino male nel tuo progetto, hai la "
+"possibilità di impedire loro di contribuire. L'utente bloccato sarà comunque "
+"in grado di vedere il progetto se dispone delle autorizzazioni per quello, "
+"ma non sarà in grado di contribuire."
 
 #: ../../admin/access.rst:173
 #, fuzzy
@@ -429,7 +447,7 @@ msgstr ""
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
-msgstr ""
+msgstr "Controllo accessi personalizzato"
 
 #: ../../admin/access.rst:196
 #, fuzzy
@@ -473,6 +491,8 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Questa sezione contiene una panoramica di alcune configurazioni comuni che "
+"potrebbero interessarti."
 
 #: ../../admin/access.rst:218
 #, fuzzy
@@ -539,6 +559,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Puoi creare i tuoi gruppi dedicati per gestire le autorizzazioni per oggetti "
+"distinti come linguaggi, componenti e progetti. Sebbene questi gruppi "
+"possano concedere solo privilegi aggiuntivi, non puoi revocare alcuna "
+"autorizzazione concessa da gruppi a livello di sito o per progetto "
+"aggiungendo un altro gruppo personalizzato."
 
 #: ../../admin/access.rst:251 ../../admin/access.rst:381
 #: ../../admin/config.rst:237 ../../admin/config.rst:256
@@ -550,7 +575,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:630 ../../admin/install/docker.rst:1456
 #: ../../admin/install/docker.rst:1501 ../../admin/install/docker.rst:1519
 msgid "**Example:**"
-msgstr ""
+msgstr "**Esempio:**"
 
 #: ../../admin/access.rst:253
 msgid ""
@@ -558,6 +583,9 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Se desideri (per qualsiasi motivo) consentire la traduzione in una lingua "
+"specifica (diciamo \"ceco\") solo a un gruppo chiuso di traduttori "
+"affidabili mantenendo pubbliche le traduzioni in altre lingue, dovrai:"
 
 #: ../../admin/access.rst:257
 msgid ""
