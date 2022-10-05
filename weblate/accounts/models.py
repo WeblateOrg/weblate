@@ -319,6 +319,7 @@ class AuditLog(models.Model):
             self.user is not None
             and not self.user.is_bot
             and self.user.is_active
+            and self.user.email
             and self.activity in NOTIFY_ACTIVITY
         )
 
