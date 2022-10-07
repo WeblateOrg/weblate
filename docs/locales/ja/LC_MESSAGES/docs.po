@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-07 00:40+0000\n"
+"PO-Revision-Date: 2022-10-07 04:02+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -19720,8 +19720,8 @@ msgid ""
 "`permission <privileges>`."
 msgstr ""
 "提案の自動採用を有効化すると、通常のユーザーは、翻訳を直接保存したり、提案を"
-"採用する権限を失います。これは、:guilabel:`提案採用時の編集` :ref:`権 "
-"<privileges>` で変更できます。"
+"採用する権限を失います。これは、:guilabel:`提案採用時の編集` :ref:`"
+"アクセス権 <privileges>` から変更できます。"
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -19754,9 +19754,8 @@ msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.) - Only turn "
 "on voting."
-msgstr ""
-"提案に投票する選択肢。（ユーザーが複数の提案をしていて、翻訳に確信が持てない"
-"場合に投票先を選択します。）・投票のみ有効化する。"
+msgstr "提案に対して投票する選択肢。（ユーザーが複数の提案をしていて、翻訳に確信が持"
+"てない場合に投票先を選択します。）— 投票のみ有効化する。"
 
 #: ../../admin/translating.rst:42
 msgid "Additional info on source strings"
@@ -25867,7 +25866,7 @@ msgstr "2020 年 5 月 7 日にリリース。"
 
 #: ../../changes.rst:734
 msgid "Fixed testsuite execution on some Python 3.8 environments."
-msgstr "一部の Python 3.8 環境でのテストの構成の実行の修正。"
+msgstr "一部の Python 3.8 環境でのテストスイート実行の修正。"
 
 #: ../../changes.rst:735
 msgid "Typo fixes in the documentation."
@@ -27582,7 +27581,7 @@ msgstr "2018 年 7 月 27 日にリリース。"
 
 #: ../../changes.rst:1270
 msgid "Fix testsuite failure on some setups."
-msgstr ""
+msgstr "一部の設定で発生してたテストスイートの不具合を修正。"
 
 #: ../../changes.rst:1273
 msgid "Weblate 3.1"
@@ -27844,40 +27843,40 @@ msgstr "一部のファイル形式でのインポートを修正。"
 
 #: ../../changes.rst:1359
 msgid "Display human friendly browser information in audit log."
-msgstr ""
+msgstr "ブラウザーの監査ログに分かりやすい情報を追加。"
 
 #: ../../changes.rst:1360
 msgid "Added TMX exporter for files."
-msgstr ""
+msgstr "ファイルのエクスポーターに TMX を追加。"
 
 #: ../../changes.rst:1361
 msgid "Various performance improvements for loading translation files."
-msgstr ""
+msgstr "翻訳ファイルの読み込みに関する多くの性能の改良。"
 
 #: ../../changes.rst:1362
 msgid ""
 "Added option to disable access management in Weblate in favor of Django one."
-msgstr ""
+msgstr "Django を最優先にして、Weblate でアクセス管理を無効にするオプションの追加。"
 
 #: ../../changes.rst:1363
 msgid "Improved glossary lookup speed for large strings."
-msgstr ""
+msgstr "長文の用語集検索の速度性能の改良。"
 
 #: ../../changes.rst:1364
 msgid "Compatibility with django_auth_ldap 1.3.0."
-msgstr ""
+msgstr "django_auth_ldap 1.3.0 との互換性に対応。"
 
 #: ../../changes.rst:1365
 msgid "Configuration errors are now stored and reported persistently."
-msgstr ""
+msgstr "設定エラーを、永続的に保存し報告するように改良。"
 
 #: ../../changes.rst:1366
 msgid "Honor ignore flags in whitespace autofixer."
-msgstr ""
+msgstr "空白自動修正時に除外フラグに従うように変更。"
 
 #: ../../changes.rst:1367
 msgid "Improved compatibility with some Subversion setups."
-msgstr ""
+msgstr "一部の Subversion の設定の互換性を改良。"
 
 #: ../../changes.rst:1368
 msgid "Improved built-in machine translation service."
@@ -27885,7 +27884,7 @@ msgstr "搭載の機械翻訳サービスの改善。"
 
 #: ../../changes.rst:1369
 msgid "Added support for SAP Translation Hub service."
-msgstr ""
+msgstr "SAP Translation Hub サービスに対応。"
 
 #: ../../changes.rst:1370
 msgid "Added support for Microsoft Terminology service."
@@ -27974,7 +27973,7 @@ msgstr "2017 年 10 月 13 日にリリース。"
 
 #: ../../changes.rst:1399
 msgid "Fixed running testsuite in some specific situations."
-msgstr ""
+msgstr "一部の特定の状況下で発生していたテストスイート実行時の問題を修正。"
 
 #: ../../changes.rst:1400
 msgid "Locales updates."
@@ -28686,7 +28685,8 @@ msgstr ""
 
 #: ../../changes.rst:1635
 msgid "Testsuite no longer requires network access to test repositories."
-msgstr ""
+msgstr "Testsuite "
+"において、リポジトリをテストするためのネットワーク接続を不要に変更。"
 
 #: ../../changes.rst:1638
 msgid "Weblate 2.6"
@@ -32498,15 +32498,14 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr "Weblate テストの構成と継続的な統合"
+msgstr "Weblate テストスイートと継続的な統合"
 
 #: ../../contributing/tests.rst:4
 msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
-msgstr ""
-"現在、ほぼすべてのコードにテストの構成があります。新しい機能のテストケースを"
-"追加し、検査対象を増やして動作を検証します。"
+msgstr "現在、ほぼすべてのコードにテストスイートがあります。新しい機能のテストケース"
+"を追加し、検査対象を増やして動作を検証します。"
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
@@ -32573,7 +32572,7 @@ msgstr "ローカル テスト"
 
 #: ../../contributing/tests.rst:47
 msgid "To run a testsuite locally, use:"
-msgstr "テストの構成をローカルで実行するコマンド:"
+msgstr "テストスイートをローカルで実行するコマンド:"
 
 #: ../../contributing/tests.rst:55
 msgid ""
