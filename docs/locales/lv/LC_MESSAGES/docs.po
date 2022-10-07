@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-04 17:21+0000\n"
+"PO-Revision-Date: 2022-10-10 06:36+0000\n"
 "Last-Translator: Coool (github.com/Coool) <coool@mail.lv>\n"
 "Language-Team: Latvian <https://hosted.weblate.org/projects/weblate/"
 "documentation/lv/>\n"
@@ -2629,6 +2629,8 @@ msgstr ""
 #: ../../admin/admin.rst:28
 msgid "Will be removed in the future, as its use is discouraged—most features can be managed directly in Weblate."
 msgstr ""
+"Tuvākajā laikā tiks noņemts, jo tā lietošana nav ieteicama — lielāko daļu "
+"funkciju var kontrolēt tieši no Weblate."
 
 #: ../../admin/admin.rst:31
 msgid "Here you can manage objects stored in the database, such as users, translations and other settings:"
@@ -3168,6 +3170,8 @@ msgstr ""
 #: ../../admin/auth.rst:613
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"Otrais solis ir atjaunināt Weblate, lai izmantotu jūsu CAS serveri un "
+"atribūtus."
 
 #: ../../admin/auth.rst:615
 msgid "To install `django-cas-ng`:"
@@ -3560,10 +3564,16 @@ msgstr ""
 #: ../../admin/backup.rst:313
 msgid "The version control repositories contain a copy of your upstream repositories with Weblate changes. If you have :ref:`component-push_on_commit` enabled for all your translation components, all Weblate changes are included upstream. No need to back up the repositories on the Weblate side as they can be cloned again from the upstream location(s) with no data loss."
 msgstr ""
+"Avota vadības repozitorijos ir jūsu augšupējo repozitoriju kopijas ar "
+"izmaiņām no Weblate. Ja esat iespējojis :ref:`component-push_on_commit` "
+"parametru visiem tulkošanas komponentiem, visas izmaiņas no Weblate tiek "
+"iekļautas augšupējā repozitorijā. Nav nepieciešams dublēt repozitoriju "
+"Weblate pusē, jo tos var atkārtoti klonēt no iepriekšējiem repozitorijiem, "
+"nezaudējot datus."
 
 #: ../../admin/backup.rst:320
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "SSH un GPG kriptogrāfijas atslēgas"
 
 #: ../../admin/backup.rst:322
 msgid "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
@@ -5706,14 +5716,18 @@ msgstr ""
 #: ../../admin/config.rst:876
 msgid "GitHub personal access token used to make API calls to send pull requests for translation updates."
 msgstr ""
+"GitHub personiskās piekļuves atslēga, ko izmanto API izsaukumiem, kas "
+"nepieciešami tulkojuma atjaunināšanas pieprasījumu iesniegšanai."
 
 #: ../../admin/config.rst:881
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub personal access token`_"
 msgstr ""
+":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Ģenerēt GitHub "
+"personiskās piekļuves atslēgu`_"
 
 #: ../../admin/config.rst:890
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:892
 msgid "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
@@ -6767,7 +6781,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:274
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "Iesniegt izmaiņas no Weblate"
 
 #: ../../admin/continuous.rst:276
 msgid "Each translation component can have a push URL set up (see :ref:`component-push`), and in that case Weblate will be able to push change to the remote repository.  Weblate can be also be configured to automatically push changes on every commit (this is default, see :ref:`component-push_on_commit`). If you do not want changes to be pushed automatically, you can do that manually under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
@@ -6783,7 +6797,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:291
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
-msgstr ""
+msgstr "Kopumā Git, GitHub un GitLab ir pieejamas šādas iespējas:"
 
 #: ../../admin/continuous.rst:294
 msgid "Desired setup"
@@ -6844,7 +6858,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:302
 msgid "GitHub pull request from fork"
-msgstr ""
+msgstr "GitHub vilkšanas (pull) pieprasījums no repozitorija atzarojuma"
 
 #: ../../admin/continuous.rst:302
 #: ../../admin/continuous.rst:304
@@ -6855,17 +6869,17 @@ msgstr ""
 
 #: ../../admin/continuous.rst:304
 msgid "GitHub pull request from branch"
-msgstr ""
+msgstr "GitHub vilkšanas (pull) pieprasījums no zara"
 
 #: ../../admin/continuous.rst:304
 #: ../../admin/continuous.rst:308
 #: ../../admin/continuous.rst:312
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "SSH tīmekļa vietnes URL [#empty]_"
 
 #: ../../admin/continuous.rst:306
 msgid "GitLab merge request from fork"
-msgstr ""
+msgstr "GitLab sapludināšanas pieprasījums no atzarojuma"
 
 #: ../../admin/continuous.rst:306
 #: ../../admin/continuous.rst:308
@@ -6876,7 +6890,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:308
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "GitLab sapludināšanas pieprasījums no zara"
 
 #: ../../admin/continuous.rst:310
 msgid "Pagure merge request from fork"
@@ -9213,6 +9227,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:663
 msgid "Configures GitHub personal access token for GitHub pull-requests via API by changing :setting:`GITHUB_TOKEN`."
 msgstr ""
+"Iestata GitHub personiskās piekļuves atslēgu GitHub vilkšanas (pull) "
+"pieprasījumiem, izmantojot API, mainot :setting:`GITHUB_TOKEN`."
 
 #: ../../admin/install/docker.rst:672
 msgid "Configures GitLab username for GitLab merge-requests by changing :setting:`GITLAB_USERNAME`"
@@ -9221,6 +9237,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:681
 msgid "Configures GitLab personal access token for GitLab merge-requests via API by changing :setting:`GITLAB_TOKEN`"
 msgstr ""
+"Iestata GitLab personiskās piekļuves atslēgu sapludināšanas pieprasījumiem "
+"pakalpojumā GitLab, izmantojot API, mainot :setting:`GITLAB_TOKEN`"
 
 #: ../../admin/install/docker.rst:690
 msgid "Configures Pagure username for Pagure merge-requests by changing :setting:`PAGURE_USERNAME`"
@@ -26618,6 +26636,13 @@ msgstr ""
 #: ../../faq.rst:38
 msgid "Merge conflicts happen from time to time when the translation file is changed in both Weblate and the upstream repository concurrently. You can usually avoid this by merging Weblate translations prior to making changes in the translation files (e.g. before running msgmerge). Just tell Weblate to commit all pending translations (you can do it in :guilabel:`Repository maintenance` in the :guilabel:`Manage` menu) and merge the repository (if automatic push is not on)."
 msgstr ""
+"Laiku pa laikam, kad tulkošanas fails tiek modificēts gan Weblate, gan tieši "
+"repozitorijā, rodas sapludināšanas konflikti. Parasti no tā var izvairīties, "
+"vispirms sapludinot tulkojumus no Weblate pirms izmaiņu veikšanas tulkošanas "
+"failos (piemēram, pirms msgmerge palaišanas). Vienkārši sakiet Weblate veikt "
+"visus neapstiprinātos tulkojumus (to varat izdarīt izvēlnes :guilabel:`"
+"Repozitorijas apkope` apakšizvēlnē :guilabel:`Pārvaldīt`) un sapludināt "
+"repozitorijus (ja vien nav iespējota automātiskā sapludināšana)."
 
 #: ../../faq.rst:46
 msgid "If you've already encountered a merge conflict, the easiest way to solve all conflicts locally on your machine, is to add Weblate as a remote repository, merge it into upstream and fix any conflicts. Once you push changes back, Weblate will be able to use the merged version without any other special actions."
@@ -30894,7 +30919,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1407
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
+msgstr "Virkne tiek lietota daudzskaitlī, bet neizmanto daudzskaitļa formas"
 
 #: ../../user/checks.rst:1409
 msgid "``weblate.checks.source.OptionalPluralCheck``"
