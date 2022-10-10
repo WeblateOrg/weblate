@@ -6,13 +6,14 @@
 # yangyangdaji <1504305527@qq.com>, 2022.
 # Andrés Morgensen <expressindia_aeromax@slmail.me>, 2022.
 # gallegonovato <fran-carro@hotmail.es>, 2022.
+# Mr. Vega <juanmarin690@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-05 22:54+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2022-10-10 23:42+0000\n"
+"Last-Translator: Mr. Vega <juanmarin690@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -4372,6 +4373,9 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Generalmente cualquier programa adicional Django funciona con Weblate. Solo "
+"hay que seguir las instrucciones del programa adicional. Se recomienda tener "
+"el soporte de usuario Weblate instalado."
 
 #: ../../admin/auth.rst:673
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
@@ -4383,6 +4387,9 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Normalmente la instalación consiste en agregar un soporte de autenticación "
+"en :setting:`django:AUTHENTICATION_BACKENDS` e instalar una aplicación de "
+"autenticación (si la hay) en :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -4397,6 +4404,8 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
+"Restaurar las copias de seguridad solo es compatible cuando se usa "
+"PostgreSQL o MariaDB 10.5+ como base de datos."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -4404,6 +4413,10 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"El proyecto crea copias de seguridad de todo el contenido de la traducción "
+"en Weblate (proyectos, componentes, traducciones, comentarios de las "
+"cadenas, sugerencias o comprobaciones). También es posible transferir entre "
+"proyectos de Weblate."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4411,11 +4424,16 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"Se puede realizar una copia de seguridad del proyecto en :guilabel:`Manage` ↓"
+" :guilabel:`Backups`. La copia de seguridad se puede restaurar al crear un "
+"proyecto (véase :ref:`adding-projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"Actualmente las copias de seguridad no incluyen la información de control de "
+"acceso ni el historial."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -4423,6 +4441,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Los comentarios y las sugerencias se respaldan junto con el nombre de "
+"usuario de quién los creó. Al importar se le asigna al usuario "
+"correspondiente. Si no se encuentra el nombre de usuario, se le asigna a un "
+"usuario anónimo."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4430,6 +4452,9 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Las copias de seguridad se guardan en el servidos que se configuró como "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` y :setting:`PROJECT_BACKUP_KEEP_COUNT ("
+"por defecto se guardan hasta 3 copias de seguridad por 30 días)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
