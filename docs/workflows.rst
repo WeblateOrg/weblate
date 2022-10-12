@@ -81,7 +81,7 @@ This is also the default setup in Weblate.
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
 +------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 0           |                                    |
+| Auto-accept suggestions| 0           |                                    |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
 |                        |             | :ref:`per-project access control   |
@@ -150,7 +150,7 @@ consistent and that the quality is good.
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
 +------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 0           |                                    |
+| Auto-accept suggestions| 0           |                                    |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
 |                        |             | :ref:`per-project access control   |
