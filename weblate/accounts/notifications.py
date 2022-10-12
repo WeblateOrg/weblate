@@ -92,6 +92,7 @@ class Notification:
     digest_template: str = "digest"
     filter_languages: bool = False
     ignore_watched: bool = False
+    any_watched: bool = False
     required_attr: Optional[str] = None
 
     def __init__(self, outgoing, perm_cache=None):
@@ -123,10 +124,19 @@ class Notification:
         result = Subscription.objects.filter(notification=self.get_name())
         if users is not None:
             result = result.filter(user_id__in=users)
-        query = Q(scope__in=(SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL))
+        query = Q(scope__in=(SCOPE_ADMIN, SCOPE_ALL))
+        # Special case for site-wide announcements
+        if self.any_watched and not project and not component:
+            query |= Q(scope=SCOPE_WATCHED)
         if component:
+            if not self.ignore_watched:
+                query |= Q(scope=SCOPE_WATCHED) & Q(
+                    user__profile__watched=component.project
+                )
             query |= Q(component=component)
         if project:
+            if not self.ignore_watched:
+                query |= Q(scope=SCOPE_WATCHED) & Q(user__profile__watched=project)
             query |= Q(project=project)
         if lang_filter:
             result = result.filter(user__profile__languages=translation.language)
@@ -203,13 +213,6 @@ class Notification:
                 or (
                     subscription.scope == SCOPE_ADMIN
                     and not self.is_admin(user, project)
-                )
-                # Watched scope for not watched
-                or (
-                    subscription.scope == SCOPE_WATCHED
-                    and not self.ignore_watched
-                    and project is not None
-                    and not user.profile.watches_project(project)
                 )
             ):
                 continue
@@ -673,6 +676,7 @@ class NewAnnouncementNotificaton(Notification):
     verbose = _("New announcement")
     template_name = "new_announcement"
     required_attr = "announcement"
+    any_watched: bool = True
 
     def should_skip(self, user, change):
         return not change.announcement.notify
