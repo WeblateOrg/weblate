@@ -425,7 +425,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         ),
     )
     suggestion_autoaccept = models.PositiveSmallIntegerField(
-        verbose_name=gettext_lazy("Autoaccept suggestions"),
+        verbose_name=gettext_lazy("Auto-accept suggestions"),
         default=0,
         help_text=gettext_lazy(
             "Automatically accept suggestions with this number of votes,"
