@@ -8,13 +8,14 @@
 # M. Tahir YILMAZ <mtahiryilmazz@gmail.com>, 2022.
 # M. Tahir YILMAZ <thrylmz@live.cn>, 2022.
 # Zay <zayria@proton.me>, 2022.
+# Kaya Zeren <kayazeren@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-10 06:36+0000\n"
-"Last-Translator: Zay <zayria@proton.me>\n"
+"PO-Revision-Date: 2022-10-13 17:01+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -34,8 +35,8 @@ msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
-"Weblate, tüm örnek için veya sınırlı bir kapsamda kullanıcı izinlerini "
-"atamak için ayrıntılı bir yetki sistemiyle birlikte gelmektedir."
+"Weblate, kopyanın tamamında ya da sınırlı bir kapsamda kullanıcı izinlerini "
+"atamak için ayrıntılı bir yetkilendirme sistemi sağlar."
 
 #: ../../admin/access.rst:11
 msgid ""
@@ -88,7 +89,7 @@ msgstr ""
 
 #: ../../admin/access.rst:35
 msgid "Public"
-msgstr "Açık"
+msgstr "Herkese açık"
 
 #: ../../admin/access.rst:36
 msgid "Publicly visible, translatable for all signed-in users."
@@ -96,7 +97,7 @@ msgstr "Herkes görebilir, tüm oturum açmış kullanıcılar çevirebilir."
 
 #: ../../admin/access.rst:37
 msgid "Protected"
-msgstr "Korumalı"
+msgstr "Korunmuş"
 
 #: ../../admin/access.rst:38
 msgid "Publicly visible, but translatable only for selected users."
@@ -148,9 +149,9 @@ msgid ""
 "other information can’t be revealed through this."
 msgstr ""
 "`Özel` projeler için bile, projenizle ilgili bazı bilgiler açığa çıkacaktır: "
-"tüm örnek için istatistikler ve dil özeti, erişim denetimi ayarına rağmen "
-"tüm projelerin sayılarını içerecektir. Proje adınız ve diğer bilgileriniz bu "
-"şekilde ifşa edilemez."
+"Kopyanın tamamı için istatistikler ve dil özeti, erişim denetimi ayarına "
+"rağmen tüm projelerin sayılarını içerir. Proje adınız ve diğer bilgileriniz "
+"bu şekilde açığa çıkmaz."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -158,10 +159,9 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
-"\"Genel\", \"Korumalı\" ve \"Özel\" projelerde kullanıcılar için varsayılan "
-"olarak mevcut olan gerçek izinler kümesi, Weblate örneği yöneticisi "
-"tarafından :ref:`özel ayarlar <özel-acl>` kullanılarak yeniden "
-"tanımlanabilir."
+"`Herkese açık`, `Korunmuş` ve `Özel` projelerde kullanıcılar için varsayılan "
+"olarak var olan gerçek izinler kümesi, Weblate kopyası yöneticisi tarafından "
+":ref:`custom setting <custom-acl>` kullanılarak yeniden tanımlanabilir."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -171,7 +171,7 @@ msgid ""
 "instantly lose your access to manage the project."
 msgstr ""
 "`Özel` erişim denetimini açarak, Weblate seçilen bir proje için oluşturduğu "
-"tüm :ref:`özel grupları <manage-acl>` kaldıracaktır. Bunu tüm Weblate örneği "
+"tüm :ref:`özel grupları <manage-acl>` kaldırır. Bunu tüm Weblate kopyası "
 "için yönetici izni olmadan yapıyorsanız, projeyi yönetme erişiminizi anında "
 "kaybedersiniz."
 
@@ -206,7 +206,7 @@ msgstr "Her proje için otomatik olarak aşağıdaki takımlar oluşturulur:"
 
 #: ../../admin/access.rst:91
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "\"Genel\", \"Korumalı\" ve \"Özel\" projeler için:"
+msgstr "`Herkese açık`, `Korunmuş` ve `Özel` projeler için:"
 
 #: ../../admin/access.rst:94
 msgid "Administration"
@@ -226,7 +226,7 @@ msgstr "Gözden geçirme sırasında çevirileri onaylayabilir."
 
 #: ../../admin/access.rst:99
 msgid "For `Protected` and `Private` projects only:"
-msgstr "Yalnızca \"Korumalı\" ve \"Özel\" projeler için:"
+msgstr "Yalnızca `Korunmuş` ve `Özel` projeler için:"
 
 #: ../../admin/access.rst:102
 msgid "Translate"
@@ -246,7 +246,7 @@ msgid ""
 "manage_units>`) and source string info."
 msgstr ""
 "(:ref:`project settings <component-manage_units>` içinde izin verilirse) "
-"kaynak dizgileri ve kaynak dizgi bilgilerini düzenleyebilir."
+"kaynak dizgeleri ve kaynak dizge bilgilerini düzenleyebilir."
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:266
 #: ../../admin/access.rst:282 ../../admin/access.rst:393 ../../api.rst:673
@@ -287,7 +287,7 @@ msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
-"Ekran görüntülerini yönetebilir (ekleyip kaldırabilir ve kaynak dizgilerle "
+"Ekran görüntülerini yönetebilir (ekleyip kaldırabilir ve kaynak dizgelerle "
 "ilişkilendirebilir)."
 
 #: ../../admin/access.rst:122 ../../admin/addons.rst:26
@@ -368,8 +368,8 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"Aynı tür davetler site genelinde :guilabel:`Kullanıcılar` sekmesindeki :ref:"
-"`yönetim arabirimi <yönetim arabirimi>` öğesinden kullanılabilir."
+"Aynı tür davetler site genelinde :guilabel:`Kullanıcılar` sekmesindeki :ref:`"
+"yönetim arabirimi <yönetim arabirimi>` ögesinden kullanılabilir."
 
 #: ../../admin/access.rst:164
 msgid "Blocking users"
@@ -394,7 +394,7 @@ msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"Projelerinizi `Korumalı` veya `Özel` olarak ayarlayabilir ve Weblate "
+"Projelerinizi `Korunmuş` ya da `Özel` olarak ayarlayabilir ve Weblate "
 "kullanıcı arayüzünde her proje için :ref:`manage users <manage-acl>`."
 
 #: ../../admin/access.rst:178
@@ -489,8 +489,8 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
-"Tüm örneğe ilişkin izinleri bir kerede yönetmek için kullanıcıları uygun :"
-"ref:`default groups <default-groups>' öğesine ekleyin`:"
+"Kopyanın tamamındaki izinleri bir kerede yönetmek için kullanıcıları uygun "
+":ref:`default groups <default-groups>` ögesine ekleyin:"
 
 #: ../../admin/access.rst:223
 msgid ""
@@ -521,9 +521,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
-"Tüm projeleri 'Genel' olarak yapılandırılmış tutmalısınız (bkz. :ref:'acl'), "
-"aksi takdirde 'Kullanıcılar' ve 'Gözden Geçirenler' gruplarına üyelik "
-"tarafından sağlanan site genelindeki izinlerin herhangi bir etkisi olmaz."
+"Tüm projeleri `Herkese açık` olarak yapılandırılmış tutmalısınız (bkz. "
+":ref:'acl'). Yoksa `Kullanıcılar` ve `Gözden geçirenler` gruplarına üye "
+"olarak sağlanan site genelindeki izinlerin herhangi bir etkisi olmaz."
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -543,9 +543,9 @@ msgid ""
 "guilabel:`All public projects`)."
 msgstr ""
 "Bazı yeni özel gruplar da tanımlayabilirsiniz. Bu gruplar için izinlerinizi "
-"site genelinde yönetmeye devam etmek istiyorsanız, :guilabel:'Proje seçimi' "
-"için uygun bir değer seçin (ör. :guilabel:'Tüm projeler' veya :guilabel:'Tüm "
-"ortak projeler')."
+"site genelinde yönetmeyi sürdürmek istiyorsanız, :guilabel:`Proje seçimi` "
+"için uygun bir değer seçin (örneğin :guilabel:`Tüm projeler` ya da "
+":guilabel:`Tüm herkese açık projeler`)."
 
 #: ../../admin/access.rst:244
 msgid "Custom permissions for languages, components or projects"
@@ -581,10 +581,10 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
-"Eğer (sebebi ne olursa olsun) belirli bir dile çeviri (diyelim ki `Çekçe`) "
-"yapılmasına yalnızca belirli güvenilir bir çevirmen grubuna izin vermek ve "
-"diğer dillerde yapılan çevirileri kısıtlamak istemiyorsanız, bunu yapmanız "
-"gerekecektir:"
+"Eğer (sebebi ne olursa olsun) belirli bir dilde çevirinin (`Çekçe` gibi) "
+"yalnızca belirli güvenilir bir çevirmen grubu tarafından yapılmasına izin "
+"vermek ve diğer dillerde yapılan çevirileri herkese açık tutmak istiyorsanız "
+"şunu yapmanız gerekecektir:"
 
 #: ../../admin/access.rst:257
 msgid ""
@@ -635,7 +635,7 @@ msgstr "Proje seçimi"
 
 #: ../../admin/access.rst:279
 msgid "`All public projects`"
-msgstr "`Tüm genel projeler`"
+msgstr "`Tüm herkese açık projeler`"
 
 #: ../../admin/access.rst:283
 msgid "`Czech`"
@@ -658,7 +658,7 @@ msgstr "Kullanıcılar, roller, gruplar ve izinler"
 
 #: ../../admin/access.rst:298
 msgid "The authentication models consist of several objects:"
-msgstr "Kimlik doğrulama modelleri birkaç öğeden oluşur:"
+msgstr "Kimlik doğrulama modelleri birkaç ögeden oluşur:"
 
 #: ../../admin/access.rst:301
 msgid "`Permission`"
@@ -794,7 +794,7 @@ msgstr ""
 
 #: ../../admin/access.rst:390
 msgid "`Review Strings`, `Manage repository`"
-msgstr "`Dizgileri gözden geçir`, `Depoyu yönet`"
+msgstr "`Dizgeleri gözden geçir`, `Depoyu yönet`"
 
 #: ../../admin/access.rst:391 ../../admin/addons.rst:60 ../../api.rst:1155
 msgid "Components"
@@ -942,7 +942,7 @@ msgstr "Yorumu gönder"
 msgid ""
 "`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
 msgstr ""
-"`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `Dizgileri gözden geçir`, "
+"`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `Dizgeleri gözden geçir`, "
 "`Çevir`"
 
 #: ../../admin/access.rst:462
@@ -956,7 +956,7 @@ msgstr "Yorumu çöz"
 #: ../../admin/access.rst:464 ../../admin/access.rst:506
 #: ../../admin/access.rst:508
 msgid "`Administration`, `Review strings`"
-msgstr "`Yönetim`, `Dizgileri gözden geçir`"
+msgstr "`Yönetim`, `Dizgeleri gözden geçir`"
 
 #: ../../admin/access.rst:466
 msgid "Component"
@@ -1054,11 +1054,11 @@ msgstr "Ekran görüntüsünü sil"
 
 #: ../../admin/access.rst:496 ../../admin/addons.rst:419
 msgid "Source strings"
-msgstr "Kaynak dizgiler"
+msgstr "Kaynak dizgeler"
 
 #: ../../admin/access.rst:496
 msgid "Edit additional string info"
-msgstr "Ek dizgi bilgisini düzenle"
+msgstr "Ek dizge bilgilerini düzenle"
 
 #: ../../admin/access.rst:496
 msgid "`Administration`, `Edit source`"
@@ -1066,35 +1066,35 @@ msgstr "`Yönetim`, `Kaynağı düzenle`"
 
 #: ../../admin/access.rst:498
 msgid "Strings"
-msgstr "Dizgiler"
+msgstr "Dizgeler"
 
 #: ../../admin/access.rst:498
 msgid "Add new string"
-msgstr "Yeni dizgi ekle"
+msgstr "Yeni dizge ekle"
 
 #: ../../admin/access.rst:500
 msgid "Remove a string"
-msgstr "Bir dizgiyi kaldır"
+msgstr "Bir dizgeyi kaldır"
 
 #: ../../admin/access.rst:502
 msgid "Dismiss failing check"
-msgstr "Kusur denetimini yoksay"
+msgstr "Kusur denetimini yok say"
 
 #: ../../admin/access.rst:504
 msgid "Edit strings"
-msgstr "Dizgileri düzenle"
+msgstr "Dizgeleri düzenle"
 
 #: ../../admin/access.rst:506
 msgid "Review strings"
-msgstr "Dizgileri gözden geçir"
+msgstr "Dizgeleri gözden geçir"
 
 #: ../../admin/access.rst:508
 msgid "Edit string when suggestions are enforced"
-msgstr "Önerileriler zorunlu kılındığında dizgiyi düzenle"
+msgstr "Öneriler zorunlu kılındığında dizgeyi düzenle"
 
 #: ../../admin/access.rst:510
 msgid "Edit source strings"
-msgstr "Kaynak dizgileri düzenle"
+msgstr "Kaynak dizgeleri düzenle"
 
 #: ../../admin/access.rst:510
 msgid "`Administration`, `Edit source`, `Power user`"
@@ -1118,7 +1118,7 @@ msgid ""
 "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
 "strings`, `Translate`"
 msgstr ""
-"`Yönetim`, `Kaynağı düzenle`, `Öneri ekle`, `Uzman kullanıcı`, `Dizgileri "
+"`Yönetim`, `Kaynağı düzenle`, `Öneri ekle`, `Uzman kullanıcı`, `Dizgeleri "
 "gözden geçir`, `Çevir`"
 
 #: ../../admin/access.rst:516
@@ -1155,7 +1155,7 @@ msgstr "`Yönetim`, `Otomatik çeviri`"
 
 #: ../../admin/access.rst:524
 msgid "Delete existing translation"
-msgstr "Varolan çeviriyi sil"
+msgstr "Var olan çeviriyi sil"
 
 #: ../../admin/access.rst:524 ../../admin/access.rst:528
 msgid "`Administration`, `Manage languages`"
@@ -1170,7 +1170,7 @@ msgid ""
 "`Administration`, `Edit source`, `Access repository`, `Power user`, `Review "
 "strings`, `Translate`, `Manage languages`"
 msgstr ""
-"`Yönetim`, `Kaynağı düzenle`, `Depoya eriş`, `Uzman kullanıcı`, `Dizgileri "
+"`Yönetim`, `Kaynağı düzenle`, `Depoya eriş`, `Uzman kullanıcı`, `Dizgeleri "
 "gözden geçir`, `Çevir`, `Dilleri yönet`"
 
 #: ../../admin/access.rst:528
@@ -1187,7 +1187,7 @@ msgstr "Yüklenmiş çevirinin hazırlayanını tanımlayın"
 
 #: ../../admin/access.rst:532
 msgid "Overwrite existing strings with upload"
-msgstr "Yükleme ile varolan dizgilerin üzerine yaz"
+msgstr "Yükleme ile var olan dizgelerin üzerine yazılsın"
 
 #: ../../admin/access.rst:534
 msgid "Upload translations"
@@ -1337,7 +1337,7 @@ msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this group."
 msgstr ""
-"Bu rol, ortak projelerin tüm kullanıcılar için görünür olduğundan emin "
+"Bu rol, herkese açık projelerin tüm kullanıcılara göründüğünden emin "
 "olunmasını sağlar. Varsayılan olarak tüm kullanıcılar bu grubun üyesidir."
 
 #: ../../admin/access.rst:601 ../../admin/access.rst:609
@@ -1373,7 +1373,7 @@ msgstr "Gözden geçirenler için grup (bkz: :ref:`workflows`)."
 
 #: ../../admin/access.rst:617
 msgid "Default roles: `Review strings`"
-msgstr "Varsayılan roller: `Dizgileri gözden geçir`"
+msgstr "Varsayılan roller: `Dizgeleri gözden geçir`"
 
 #: ../../admin/access.rst:622
 msgid "`Managers`"
@@ -1481,10 +1481,8 @@ msgid "``translate`` -- Add as translation"
 msgstr "``translate`` -- Çeviri olarak ekle"
 
 #: ../../admin/addons.rst:38
-#, fuzzy
-#| msgid "``fuzzy`` -- Add as needing edit"
 msgid "``fuzzy`` -- Add as \"Needing edit\""
-msgstr "``fuzzy`` -- Düzenleme ihtiyacı var olarak ekle"
+msgstr "``fuzzy`` -- \"Düzenlenmesi gerekli\" olarak ekle"
 
 #: ../../admin/addons.rst:40
 #, fuzzy
@@ -1501,24 +1499,24 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Lütfen tüm dizgileri çevirmenin varolan tüm çevirileri yoksayacağını "
+"Lütfen tüm dizgeleri çevirmenin var olan tüm çevirileri yok sayacağını "
 "unutmayın."
 
 #: ../../admin/addons.rst:44
 msgid "``all`` -- All strings"
-msgstr "``all`` -- Tüm dizgiler"
+msgstr "``all`` -- Tüm dizgeler"
 
 #: ../../admin/addons.rst:46
 msgid "``nottranslated`` -- Untranslated strings"
-msgstr "``nottranslated`` -- Çevrilmemiş dizgiler"
+msgstr "``nottranslated`` -- Çevrilmemiş dizgeler"
 
 #: ../../admin/addons.rst:48
 msgid "``todo`` -- Unfinished strings"
-msgstr "``todo`` -- Tamamlanmamış dizgiler"
+msgstr "``todo`` -- Tamamlanmamış dizgeler"
 
 #: ../../admin/addons.rst:50
 msgid "``fuzzy`` -- Strings marked for edit"
-msgstr "``fuzzy`` -- Düzenleme için işaretlenen dizgiler"
+msgstr "``fuzzy`` -- Düzenlenecek olarak işaretlenmiş dizgeler"
 
 #: ../../admin/addons.rst:52
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
@@ -1588,8 +1586,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Makine çevirisini veya diğer bileşenleri kullanarak dizgileri kendiliğinden "
-"çevirir."
+"Makine çevirisini veya diğer bileşenleri kullanarak dizgeleri otomatik "
+"olarak çevirir."
 
 #: ../../admin/addons.rst:70
 msgid "It is triggered:"
@@ -1597,7 +1595,7 @@ msgstr "Ne zaman tetiklenir:"
 
 #: ../../admin/addons.rst:72
 msgid "When new strings appear in a component."
-msgstr "Bileşende yeni dizgiler göründüğünde."
+msgstr "Bileşende yeni dizgeler göründüğünde."
 
 #: ../../admin/addons.rst:73
 msgid ""
@@ -1635,7 +1633,7 @@ msgstr "CSS seçici"
 
 #: ../../admin/addons.rst:91
 msgid "CSS selector to detect localizable elements."
-msgstr "Yerelleştirilebilir öğeleri algılamak için CSS seçici."
+msgstr "Yerelleştirilebilir ögeleri algılamak için CSS seçici."
 
 #: ../../admin/addons.rst:93
 msgid "``cookie_name``"
@@ -1655,15 +1653,15 @@ msgstr ""
 
 #: ../../admin/addons.rst:95 ../../devel/html.rst:60
 msgid "Extract strings from HTML files"
-msgstr "HTML dosyalarından dizgileri çıkar"
+msgstr "Dizgeleri HTML dosyalarından ayıkla"
 
 #: ../../admin/addons.rst:95
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Çevrilebilir dizgiler için ayrıştırılacak şu anki depodaki veya uzak "
-"URL'lerdeki dosya adlarının listesi."
+"Geçerli depoda ya da uzak adreslerde çevrilebilir dizgeler için işlenecek "
+"dosya adlarının listesi."
 
 #: ../../admin/addons.rst:97
 msgid "daily, repository post-commit, repository post-update"
@@ -1704,7 +1702,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:118
 msgid "Remove blank strings"
-msgstr "Boş dizgileri kaldır"
+msgstr "Boş dizgeleri kaldır"
 
 #: ../../admin/addons.rst:122
 msgid "``weblate.cleanup.blank``"
@@ -1725,7 +1723,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:126
 msgid "Removes strings without a translation from translation files."
-msgstr "Çeviri dosyalarından çevirisi olmayan dizgileri kaldırır."
+msgstr "Çeviri dosyalarından çevirisi olmayan dizgeleri kaldırır."
 
 #: ../../admin/addons.rst:128
 msgid ""
@@ -1733,9 +1731,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
-"Çeviri dosyalarında boş dizgilerin görünmemesi için bunu kullanın (örneğin "
-"yerelleştirme kütüphaneniz kaynak dizgiyi kullanmak yerine bunları boş "
-"dizgiler olarak görüntülüyorsa)."
+"Çeviri dosyalarında boş dizgelerin görünmemesi için bunu kullanın (örneğin "
+"yerelleştirme kütüphaneniz kaynak dizgeyi kullanmak yerine bunları boş "
+"dizgeler olarak görüntülüyorsa)."
 
 #: ../../admin/addons.rst:134 ../../admin/addons.rst:151
 #: ../../admin/addons.rst:594 ../../admin/addons.rst:738
@@ -1801,7 +1799,7 @@ msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
-"Yeni eklenen dizgileri :ref:`addon-weblate.autotranslate.autotranslate` ile "
+"Yeni eklenen dizgeleri :ref:`addon-weblate.autotranslate.autotranslate` ile "
 "otomatik olarak çevirin."
 
 #: ../../admin/addons.rst:178
@@ -1818,7 +1816,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:182 ../../devel/sphinx.rst:45
 msgid "Regular expression to match translation files against"
-msgstr "Çeviri dosyalarına karşı eşleştirmek için düzenli ifade"
+msgstr "Çeviri dosyalarıyla eşleştirilecek kurallı ifade"
 
 #: ../../admin/addons.rst:184
 #, fuzzy
@@ -1896,7 +1894,7 @@ msgid ""
 "source strings."
 msgstr ""
 "Ara çeviri dosyasının dosya adı. Çoğu durumda bu geliştiriciler tarafından "
-"sağlanan bir çeviri dosyasıdır ve gerçek kaynak dizgiler oluştururken "
+"sağlanan bir çeviri dosyasıdır ve gerçek kaynak dizgeler oluşturulurken "
 "kullanılır."
 
 #: ../../admin/addons.rst:194
@@ -1914,7 +1912,7 @@ msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Dosya maskesi taranırken çeviri dosyalarını süzmek için kullanılan düzenli "
+"Dosya maskesi taranırken çeviri dosyalarını süzmek için kullanılan kurallı "
 "ifade."
 
 #: ../../admin/addons.rst:196
@@ -1931,7 +1929,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:198
 msgid "Remove components for inexistent files"
-msgstr "Varolmayan dosyalar için bileşenleri kaldır"
+msgstr "Var olmayan dosyalar için bileşenleri kaldır"
 
 #: ../../admin/addons.rst:200
 msgid "``confirm``"
@@ -2077,7 +2075,7 @@ msgstr "bileşen güncellemesi"
 #: ../../admin/addons.rst:265
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
-"Dizgilerin işaretlerini, etiketlerini veya durumlarını toplu düzenleyin."
+"Dizgelerin işaretlerini, etiketlerini veya durumlarını toplu düzenleyin."
 
 #: ../../admin/addons.rst:267
 msgid ""
@@ -2086,7 +2084,7 @@ msgid ""
 "operations for Weblate metadata can also be done."
 msgstr ""
 "``NOT has:label`` arama sorgusuyla başlayarak etiketlemeyi otomatikleştirin "
-"ve tüm dizgiler gerekli tüm etiketlere sahip olana kadar etiketler ekleyin. "
+"ve tüm dizgeler gerekli tüm etiketlere sahip olana kadar etiketler ekleyin. "
 "Weblate üst verileri için diğer otomatik işlemler de yapılabilir."
 
 #: ../../admin/addons.rst:271 ../../admin/config.rst:1577
@@ -2095,7 +2093,7 @@ msgstr "**Örnekler:**"
 
 #: ../../admin/addons.rst:273
 msgid "Label new strings automatically"
-msgstr "Yeni dizgileri otomatik olarak etiketle"
+msgstr "Yeni dizgeler otomatik olarak etiketlensin"
 
 #: ../../admin/addons.rst:276 ../../admin/addons.rst:284
 msgid "Search query"
@@ -2112,7 +2110,7 @@ msgstr "*en son*"
 #: ../../admin/addons.rst:281
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
-"Tüm :ref:`appstore` değişiklik günlüğü dizgilerini salt okunur olarak "
+"Tüm :ref:`appstore` değişiklik günlüğü dizgelerini salt okunur olarak "
 "işaretle"
 
 #: ../../admin/addons.rst:285
@@ -2146,10 +2144,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"VCS'den yeni bir çevrilebilir dizgi içe aktarıldığında ve bir kaynak "
-"dizgiyle eşleştiğinde, Weblate'te düzenleme gerekli olarak işaretlenir. "
-"Özellikle çevrilmemiş dizgiler için kaynak dizgileri içeren dosya biçimleri "
-"için kullanışlıdır."
+"VCS üzerinden yeni bir çevrilebilir dizge içe aktarıldığında ve bir kaynak "
+"dizgeyle eşleştiğinde, Weblate üzerinde düzenlenmesi gerekli olarak "
+"işaretlenir. Özellikle çevrilmemiş dizgeler için kaynak dizgeleri içeren "
+"dosya biçimleri için kullanışlıdır."
 
 #: ../../admin/addons.rst:314
 msgid ""
@@ -2168,7 +2166,7 @@ msgstr ":ref:`tbx`"
 
 #: ../../admin/addons.rst:324
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Yeni kaynak dizgileri \"Düzenleme gerekli\" olarak işaretle"
+msgstr "Yeni kaynak dizgeleri \"Düzenleme gerekli\" olarak işaretlensin"
 
 #: ../../admin/addons.rst:326
 msgid "``weblate.flags.source_edit``"
@@ -2180,9 +2178,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Yeni bir kaynak dizgi VCS'den içe her aktarıldığında, Weblate'de düzenleme "
-"gerekli olarak işaretlenir. Bu yolla geliştiriciler tarafından yazılan "
-"kaynak dizgiler kolayca süzebilir ve düzenleyebilirsiniz."
+"Yeni bir kaynak dizge VCS üzerinden içe her aktarıldığında, Weblate üzerinde "
+"düzenlenmesi gerekli olarak işaretlenir. Böylece geliştiriciler tarafından "
+"yazılan kaynak dizgeleri kolayca süzebilir ve düzenleyebilirsiniz."
 
 #: ../../admin/addons.rst:341
 msgid "Flag new translations as \"Needs editing\""
@@ -2198,9 +2196,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Yeni bir çevrilebilir dizgi, VCS'den içeri her aktarıldığında, Weblate'de "
-"düzenleme gerekli olarak işaretlenir. Bu yolla geliştiricilerin oluşturduğu "
-"çevirileri kolayca süzer ve düzenleyebilirsiniz."
+"Yeni bir çevrilebilir dizge, VCS üzerinden içeri her aktarıldığında, Weblate "
+"üzerinde düzenlenmesi gerekli olarak işaretlenir. Böylece geliştiricilerin "
+"oluşturduğu çevirileri kolayca süzebilir ve düzenleyebilirsiniz."
 
 #: ../../admin/addons.rst:358
 msgid "Statistics generator"
@@ -2270,7 +2268,7 @@ msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:404
 msgid "Fills in translation strings with source string."
-msgstr "Çeviri dizgilerini kaynak dizgiyle doldurur."
+msgstr "Çeviri dizgelerini kaynak dizgeyle doldurur."
 
 #: ../../admin/addons.rst:406
 msgid ""
@@ -2278,8 +2276,8 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
-"Bileşendeki tüm çevrilmemiş dizgiler kaynak dizgiyle doldurulacak ve "
-"düzenleme gerekli olarak işaretlenecektir. Çeviri dosyalarında boş dizgi "
+"Bileşendeki tüm çevrilmemiş dizgeler kaynak dizgeyle doldurulacak ve "
+"düzenlenmesi gerekli olarak işaretlenecek. Çeviri dosyalarında boş dizge "
 "kabul edilmediğinde bunu kullanın."
 
 #: ../../admin/addons.rst:413
@@ -2308,7 +2306,7 @@ msgstr "Hedef çeviri"
 
 #: ../../admin/addons.rst:421
 msgid "All strings in this translation will be overwritten"
-msgstr "Bu çevirideki tüm dizgilerin üzerine yazılacaktır"
+msgstr "Bu çevirideki tüm dizgelerin üzerine yazılacak"
 
 #: ../../admin/addons.rst:423
 msgid "``prefix``"
@@ -2316,7 +2314,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:423
 msgid "Fixed string prefix"
-msgstr "Sabit dizgi öneki"
+msgstr "Sabit dizge ön eki"
 
 #: ../../admin/addons.rst:425
 msgid "``var_prefix``"
@@ -2324,7 +2322,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:425
 msgid "Variable string prefix"
-msgstr "Değişken dizgi öneki"
+msgstr "Değişken dizge ön eki"
 
 #: ../../admin/addons.rst:427
 msgid "``suffix``"
@@ -2332,7 +2330,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:427
 msgid "Fixed string suffix"
-msgstr "Sabit dizgi soneki"
+msgstr "Sabit dizge son eki"
 
 #: ../../admin/addons.rst:429
 msgid "``var_suffix``"
@@ -2340,7 +2338,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:429
 msgid "Variable string suffix"
-msgstr "Değişken dizgi soneki"
+msgstr "Değişken dizge son eki"
 
 #: ../../admin/addons.rst:431
 msgid "``var_multiplier``"
@@ -2355,15 +2353,14 @@ msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
-"Kaynak dizginin uzunluğuna bağlı olarak değişken kısmın kaç kez "
-"tekrarlanacağı."
+"Kaynak dizgenin uzunluğuna bağlı olarak değişken kısmın kaç kez yineleneceği."
 
 #: ../../admin/addons.rst:435
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Kaynak dizgilere kendiliğinden ön ek ve son ek ekleyerek çeviri oluşturur."
+"Kaynak dizgelere otomatik olarak ön ek ve son ek ekleyerek çeviri oluşturur."
 
 #: ../../admin/addons.rst:438
 msgid ""
@@ -2392,7 +2389,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:453
 msgid "The strings will be generated using following pattern:"
-msgstr "Dizgiler aşağıdaki şekil kullanılarak oluşturulacaktır:"
+msgstr "Dizgeler aşağıdaki model kullanılarak oluşturulacak:"
 
 #: ../../admin/addons.rst:455
 msgid ""
@@ -2595,7 +2592,7 @@ msgstr "Önceki"
 
 #: ../../admin/addons.rst:577
 msgid "Keep previous msgids of translated strings"
-msgstr "Çevrilen dizgilerin önceki msgid'lerini sakla"
+msgstr "Çevrilmiş dizgelerin önceki msgid değerleri saklansın"
 
 #: ../../admin/addons.rst:579
 #, fuzzy
@@ -2605,7 +2602,7 @@ msgstr "``Belgeler``"
 
 #: ../../admin/addons.rst:579
 msgid "Remove locations of translated strings"
-msgstr "Çevrilen dizgilerin konumlarını kaldır"
+msgstr "Çevrilmiş dizgelerin konumları kaldırılsın"
 
 #: ../../admin/addons.rst:581
 msgid "``fuzzy``"
@@ -2837,11 +2834,11 @@ msgstr "Boş satırları ve yorumları siler."
 
 #: ../../admin/addons.rst:674
 msgid "Sorts the strings by the keys."
-msgstr "Dizgileri anahtarlara göre sıralar."
+msgstr "Dizgeleri anahtarlara göre sıralar."
 
 #: ../../admin/addons.rst:675
 msgid "Drops duplicate strings."
-msgstr "Yinelenen dizgileri kaldırır."
+msgstr "Yinelenen dizgeleri kaldırır."
 
 #: ../../admin/addons.rst:680
 msgid "Stale comment removal"
@@ -2926,8 +2923,8 @@ msgid ""
 "string."
 msgstr ""
 "Tek dilli yukarı akış tabanlı dosya ile eşleştirmek için tüm çeviri "
-"dosyalarını güncelleyin. Kullanılmayan dizgiler kaldırılır ve kaynak "
-"dizginin kopyaları olarak yenileri eklenir."
+"dosyalarını güncelleyin. Kullanılmayan dizgeler kaldırılır ve kaynak "
+"dizgenin kopyaları olarak yenileri eklenir."
 
 #: ../../admin/addons.rst:733
 msgid ""
@@ -3782,10 +3779,8 @@ msgid "``urn:oid:2.5.4.42``"
 msgstr ""
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid "First name"
 msgid "Last name"
-msgstr "Ad"
+msgstr "Soyad"
 
 #: ../../admin/auth.rst:457
 msgid "``urn:oid:2.5.4.4``"
@@ -3955,10 +3950,8 @@ msgid "Backing up and moving Weblate"
 msgstr ""
 
 #: ../../admin/backup.rst:9
-#, fuzzy
-#| msgid "Remote backups"
 msgid "Project level backups"
-msgstr "Uzaktan yedeklemeler"
+msgstr "Proje düzeyinde yedekler"
 
 #: ../../admin/backup.rst:15
 msgid ""
@@ -4057,10 +4050,8 @@ msgid ":doc:`borg:usage/init`"
 msgstr ""
 
 #: ../../admin/backup.rst:74
-#, fuzzy
-#| msgid "Customizing listing"
 msgid "Customizing backup"
-msgstr "Listelemeyi özelleştirme"
+msgstr "Yedeklemeyi özelleştirme"
 
 #: ../../admin/backup.rst:76
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
@@ -4755,7 +4746,7 @@ msgstr ""
 #: ../../admin/checks.rst:85
 msgid "Regular expression to match translation, see :ref:`check-regex`."
 msgstr ""
-"Çeviri dosyalarını eşleştirmek için düzenli ifade, baknız :ref:`check-regex`."
+"Çeviri dosyalarının eşleştirileceği kurallı ifade. Örnek :ref:`check-regex`."
 
 #: ../../admin/checks.rst:86
 msgid "``forbidden``"
@@ -5050,10 +5041,8 @@ msgid "``ignore-all-checks``"
 msgstr "``ignore-check-glossary``"
 
 #: ../../admin/checks.rst:145
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Ignore all quality checks."
-msgstr "Yoksayılan denetimler"
+msgstr "Tüm kalite denetimlerini yok say."
 
 #: ../../admin/checks.rst:146 ../../user/checks.rst:54
 msgid "``ignore-bbcode``"
@@ -6432,7 +6421,7 @@ msgstr ""
 
 #: ../../admin/config.rst:456
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Herkese açık`"
 
 #: ../../admin/config.rst:457
 msgid "``1``"
@@ -6440,7 +6429,7 @@ msgstr ""
 
 #: ../../admin/config.rst:458
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Korunmuş`"
 
 #: ../../admin/config.rst:459
 msgid "``100``"
@@ -8307,7 +8296,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:329
 msgid "Protected branches"
-msgstr ""
+msgstr "Korunmuş dallar"
 
 #: ../../admin/continuous.rst:331
 msgid ""
@@ -10329,26 +10318,20 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:1401
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid "Running :ref:`auto-translation`."
-msgstr ":doc:`integration`, :ref:`continuous-translation`"
+msgstr ":ref:`auto-translation` işleniyor."
 
 #: ../../admin/install.rst:1402
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Sending digest notifications."
-msgstr "Bileşen genelinde bildirimler"
+msgstr "Toplu bildirimler gönderiliyor."
 
 #: ../../admin/install.rst:1403
 msgid "Offloading expensive operations from the wsgi process."
 msgstr ""
 
 #: ../../admin/install.rst:1404
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr "Bekleyen değişiklikleri Weblate deposuna işle"
+msgstr "Bekleyen değişiklikleri gönderiliyor (:ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1406
 msgid "A typical setup using Redis as a backend looks like this:"
@@ -10951,10 +10934,8 @@ msgid "https://github.com/docker-library/postgres/issues/37"
 msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../admin/install/docker.rst:242
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Stop Weblate container:"
-msgstr "Weblate yapılandırması"
+msgstr "Weblate kapsayıcısını durdur:"
 
 #: ../../admin/install/docker.rst:248
 msgid "Backup the database:"
@@ -10965,10 +10946,8 @@ msgid "Stop the database container:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:260
-#, fuzzy
-#| msgid "Remove the project"
 msgid "Remove the PostgreSQL volume:"
-msgstr "Projeyi kaldır"
+msgstr "PostgreSQL birimini kaldır:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
@@ -10983,10 +10962,8 @@ msgid "Restore the database from the backup:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:281
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Start all remaining containers:"
-msgstr "İletişim sorumlusu"
+msgstr "Kalan tüm kapsayıcıları başlat:"
 
 #: ../../admin/install/docker.rst:290
 msgid "Admin sign in"
@@ -13575,7 +13552,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:238
 msgid "``https://libretranslate.com/`` (official public instance)"
-msgstr ""
+msgstr "``https://libretranslate.com/`` (resmi herkese açık kopya)"
 
 #: ../../admin/machine.rst:238
 msgid "Requires an API key to use outside of the website."
@@ -14808,16 +14785,12 @@ msgid "Manually, :ref:`machine-translation` view while translating."
 msgstr ""
 
 #: ../../admin/memory.rst:18
-#, fuzzy
-#| msgid ""
-#| "Auto-translate the newly added strings with :ref:`addon-weblate."
-#| "autotranslate.autotranslate`."
 msgid ""
 "Automatically, by translating strings using :ref:`auto-translation`, or :ref:"
 "`addon-weblate.autotranslate.autotranslate` add-on."
 msgstr ""
-"Yeni eklenen dizgileri :ref:`addon-weblate.autotranslate.autotranslate` ile "
-"otomatik olarak çevirin."
+"Yeni eklenen dizgeleri :ref:`auto-translation` ya da :ref:`addon-weblate."
+"autotranslate.autotranslate` eklentisi ile otomatik olarak çevirin."
 
 #: ../../admin/memory.rst:21
 msgid ""
@@ -16080,7 +16053,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:487
 msgid "Source string bug reporting address"
-msgstr "Kaynak dizgi hata bildirme adresi"
+msgstr "Kaynak dizge hata bildirme adresi"
 
 #: ../../admin/projects.rst:489
 msgid ""
@@ -16248,7 +16221,7 @@ msgstr ":ref:`adding-translation`, :ref:`new-translations`"
 
 #: ../../admin/projects.rst:601
 msgid "Manage strings"
-msgstr "Dizgileri yönet"
+msgstr "Dizge yönetimi"
 
 #: ../../admin/projects.rst:605
 msgid ""
@@ -16449,17 +16422,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:750
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter the translation when scanning for "
-#| "filemask. It can be used to limit the list of languages managed by "
-#| "Weblate."
 msgid ""
 "Regular expression used to filter the translation when scanning for file "
 "mask. It can be used to limit the list of languages managed by Weblate."
 msgstr ""
-"Dosya maskesi taranırken çeviriyi süzmek için kullanılan düzenli ifade. "
-"Weblate tarafından yönetilen dillerin listesini sınırlamak için "
+"Dosya maskesine göre taranırken çeviriyi süzmek için kullanılan kurallı "
+"ifade. Weblate tarafından yönetilen dillerin listesini sınırlamak için "
 "kullanılabilir."
 
 #: ../../admin/projects.rst:755
@@ -16476,7 +16444,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:760 ../../user/checks.rst:1068
 msgid "Regular expression"
-msgstr "Düzenli ifade"
+msgstr "Kurallı ifade"
 
 #: ../../admin/projects.rst:762
 msgid "Selected languages only"
@@ -16520,7 +16488,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:776
 msgid "Variants regular expression"
-msgstr "Çeşitlerin düzenli ifadesi"
+msgstr "Çeşit kurallı ifadesi"
 
 #: ../../admin/projects.rst:778
 msgid ""
@@ -17012,7 +16980,7 @@ msgstr ""
 
 #: ../../admin/support.rst:33
 msgid "The public SSH key of your instance"
-msgstr ""
+msgstr "Kopyanızın herkese açık SSH anahtarı"
 
 #: ../../admin/support.rst:35
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
@@ -17126,8 +17094,8 @@ msgid ""
 "You can customize the listing by providing a text and image (570 x 260 "
 "pixels) at <https://weblate.org/user/>."
 msgstr ""
-"<https://weblate.org/user/> adresinde bir metin ve resim (570 x 260 piksel) "
-"sağlayarak listelemeyi özelleştirebilirsiniz."
+"<https://weblate.org/user/> adresinden bir metin ve görsel (570 x 260 piksel)"
+" belirterek listelemeyi özelleştirebilirsiniz."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -17275,7 +17243,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr ""
+msgstr "Docker kalıbı güncellemeleri"
 
 #: ../../admin/upgrade.rst:7
 msgid ""
@@ -17771,10 +17739,8 @@ msgid "Upgrade from 4.11 to 4.12"
 msgstr ""
 
 #: ../../admin/upgrade.rst:316
-#, fuzzy
-#| msgid "There are no assigned strings."
 msgid "There are no special steps required."
-msgstr "Atanan dizgiler yok."
+msgstr "Herhangi bir özel adım gerekmiyor."
 
 #: ../../admin/upgrade.rst:321
 msgid "Upgrade from 4.12 to 4.13"
@@ -18293,10 +18259,8 @@ msgid "The unique group ID"
 msgstr ""
 
 #: ../../api.rst:351
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from a group."
-msgstr "Kullanıcıyı bu gruptan kaldır"
+msgstr "Kullanıcıyı bir gruptan kaldır."
 
 #: ../../api.rst:359
 msgid "List statistics of a user."
@@ -18669,7 +18633,7 @@ msgstr ""
 
 #: ../../api.rst:784 ../../api.rst:1738 ../../api.rst:1999
 msgid "number of fuzzy (marked for edit) strings"
-msgstr "belirsiz (düzenleme için işaretlenen) dizgilerin sayısı"
+msgstr "belirsiz (düzenlenecek olarak işaretlenmiş) dizgelerin sayısı"
 
 #: ../../api.rst:785 ../../api.rst:1739 ../../api.rst:2000
 msgid "percentage of fuzzy (marked for edit) strings"
@@ -19384,11 +19348,11 @@ msgstr ""
 
 #: ../../api.rst:1734
 msgid "number of strings failing checks"
-msgstr "kusur denetimleri olan dizgi sayısı"
+msgstr "denetimleri geçemeyen dizge sayısı"
 
 #: ../../api.rst:1735
 msgid "percentage of strings failing checks"
-msgstr "kusur denetimleri olan dizgi yüzdesi"
+msgstr "denetimleri geçemeyen dizge yüzdesi"
 
 #: ../../api.rst:1736
 msgid "number of words with failing checks"
@@ -19487,10 +19451,8 @@ msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:1874
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new unit."
-msgstr "Yeni kullanıcı ekle"
+msgstr "Yeni birim ekle."
 
 #: ../../api.rst:1882
 #, fuzzy
@@ -19790,10 +19752,8 @@ msgstr ""
 "birimin belirsiz veya gözden geçirilmek üzere işaretlenmiş olup olmadığı"
 
 #: ../../api.rst:2086
-#, fuzzy
-#| msgid "String age"
 msgid "string age"
-msgstr "Dizgi yaşı"
+msgstr "dizge yaşı"
 
 #: ../../api.rst:2092
 msgid "Performs partial update on translation unit."
@@ -19938,11 +19898,11 @@ msgstr ""
 
 #: ../../api.rst:2224
 msgid "Remove source string association with screenshot."
-msgstr "Kaynak dizgi ile ekran görüntüsü ilişkilendirmesini kaldır."
+msgstr "Kaynak dizge ile ekran görüntüsü ilişkilendirmesini kaldır."
 
 #: ../../api.rst:2228
 msgid "Source string unit ID"
-msgstr "Kaynak dizgi birimi kimliği"
+msgstr "Kaynak dizge birimi kimliği"
 
 #: ../../api.rst:2233
 msgid "Creates a new screenshot."
@@ -20136,7 +20096,7 @@ msgstr "Birim sayısı"
 
 #: ../../api.rst:2443
 msgid "Number of translated units"
-msgstr "Çevrilen birim sayısı"
+msgstr "Çevrilmiş birim sayısı"
 
 #: ../../api.rst:2444
 msgid "Number of users"
@@ -20438,7 +20398,7 @@ msgstr "Bir dil için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2719
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr "Weblate örneği için son değişiklikleri içeren RSS bildirimini alır."
+msgstr "Weblate kopyası için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2723
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
@@ -20454,7 +20414,7 @@ msgstr "Henüz yayınlanmadı."
 
 #: ../../changes.rst:6
 msgid "Fixed generating project backups in some situations."
-msgstr "Bazı durumlarda proje yedeklerinin oluşturulması düzeltildi."
+msgstr "Bazı durumlarda proje yedeklerinin oluşturulması sorunu düzeltildi."
 
 #: ../../changes.rst:7
 msgid "Improved error reporting on file upload."
@@ -20472,7 +20432,7 @@ msgstr "Sözlük terimlerini bağlam veya anahtarlarla eşleştirmekten kaçın.
 
 #: ../../changes.rst:10
 msgid "Added notifications for string removals."
-msgstr "Dizgi kaldırma için bildirimler eklendi."
+msgstr "Dizge kaldırma bildirimleri eklendi."
 
 #: ../../changes.rst:11
 msgid "Improved management of untranslatable terms in glossary."
@@ -20515,7 +20475,8 @@ msgstr "Geçmişteki eklenti değişikliklerini izle."
 #: ../../changes.rst:24
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
 msgstr ""
-"Windows RC, HTML ve metin dosyalarından çeviri ayrıştırılması düzeltildi."
+"Windows RC, HTML ve metin dosyalarından çeviri ayrıştırılması sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:25
 msgid "Extended language code style configuration options."
@@ -20537,7 +20498,7 @@ msgstr "SAP Translation Hub'da çeviri etki alanı için destek eklendi."
 
 #: ../../changes.rst:29
 msgid "Allow absolute links in source string locations."
-msgstr "Kaynak dizgisi konumlarında mutlak bağlantılara izin ver."
+msgstr "Kaynak dizge konumlarında mutlak bağlantılar kullanılabilsin."
 
 #: ../../changes.rst:30
 msgid "Improved operation behind some reverse proxies."
@@ -20582,11 +20543,13 @@ msgstr "1 Temmuz 2022 tarihinde yayınlandı."
 
 #: ../../changes.rst:44
 msgid "Fixed tracking suggestions in history."
-msgstr "Önerilerin geçmişte izlenmesi düzeltildi."
+msgstr "Geçmişte önerilerin izlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:45
 msgid "Fixed parsing reverse proxy info from Cloudflare."
-msgstr "Cloudflare'den ters vekil bilgisinin ayrıştırılması düzeltildi."
+msgstr ""
+"Cloudflare üzerinden ters vekil sunucu bilgisinin işlenmesi sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:46
 msgid "Make parse error lock a component from translating."
@@ -20594,15 +20557,15 @@ msgstr "Ayrıştırma hatasının bir bileşenin çevrilmesini kilitlemesi sağl
 
 #: ../../changes.rst:47
 msgid "Fixed configuring intermediate file in the discovery add-on."
-msgstr "Keşif eklentisinde ara dosyanın yapılandırılması düzeltildi."
+msgstr "Keşif eklentisinde ara dosyanın yapılandırılması sorunu düzeltildi."
 
 #: ../../changes.rst:48
 msgid "Fixed DeepL translations behavior with placeholders."
-msgstr "Yer tutucularla DeepL çeviri davranışı düzeltildi."
+msgstr "Yer belircilerde DeepL çeviri davranışı düzeltildi."
 
 #: ../../changes.rst:49
 msgid "Fixed untranslating strings via API."
-msgstr "API aracılığıyla dizgilerin çevirisinin kaldırılması düzeltildi."
+msgstr "API aracılığıyla dizge çevirilerinin kaldırılması sorunu düzeltildi."
 
 #: ../../changes.rst:50
 msgid "Added support for removing user from a group via API."
@@ -20610,11 +20573,11 @@ msgstr "API aracılığıyla bir gruptan kullanıcı kaldırma desteği eklendi.
 
 #: ../../changes.rst:51
 msgid "Fixed audit log for user invitation e-mails."
-msgstr "Kullanıcı davet e-postaları için denetim günlüğü düzeltildi."
+msgstr "Kullanıcı davet e-postaları için denetim günlüğü sorunu düzeltildi."
 
 #: ../../changes.rst:52
 msgid "Fixed flag names for Java formatting strings."
-msgstr "Java biçimlendirme dizgileri için işaret adları düzeltildi."
+msgstr "Java biçimlendirme dizgeleri için işaret adları sorunu düzeltildi."
 
 #: ../../changes.rst:54
 msgid ""
@@ -20673,7 +20636,7 @@ msgstr "Renk körleri için ilerleme çubuğu renkleri iyileştirildi."
 
 #: ../../changes.rst:69
 msgid "Fixed variants cleanup on string removal."
-msgstr "Dizgi kaldırmada türevlerin temizlenmesi düzeltildi."
+msgstr "Dizge kaldırırken çeşitlerin temizlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:70
 msgid "Compatibility with Django 4.1."
@@ -20703,7 +20666,7 @@ msgid ""
 "Added separate permission for resolving comments and grant it to the :"
 "guilabel:`Review strings` role."
 msgstr ""
-"Yorumları çözümlemek için ayrı bir izin eklendi ve :guilabel:`Dizgileri "
+"Yorumların çözümlenmesi için ayrı bir izin eklendi ve :guilabel:`Dizgeleri "
 "gözden geçir` rolüne verildi."
 
 #: ../../changes.rst:76
@@ -20734,16 +20697,16 @@ msgstr "11 Mayıs 2022 tarihinde yayınlandı."
 #: ../../changes.rst:86
 msgid "Fixed rebuilding project translation memory for some components."
 msgstr ""
-"Bazı bileşenler için proje çeviri belleğinin yeniden oluşturulması "
+"Bazı bileşenler için proje çeviri belleğinin yeniden oluşturulması sorunu "
 "düzeltildi."
 
 #: ../../changes.rst:87
 msgid "Fixed sorting components by untranslated strings."
-msgstr "Bileşenleri çevrilmemiş dizgilere göre sıralama düzeltildi."
+msgstr "Bileşenleri çevrilmemiş dizgelere göre sıralama sorunu düzeltildi."
 
 #: ../../changes.rst:88
 msgid "Fixed possible loss of translations while adding new language."
-msgstr "Yeni dil eklenirken olası çeviri kaybı düzeltildi."
+msgstr "Yeni dil eklenirken olası çeviri kaybı sorunu düzeltildi."
 
 #: ../../changes.rst:89
 msgid "Ensure Weblate SSH key is generated during migrations."
@@ -20777,7 +20740,7 @@ msgstr "Fluent biçiminde söz dizimi hatalarının ele alınması iyileştirild
 
 #: ../../changes.rst:100
 msgid "Fixed avatar display in notification e-mails."
-msgstr "Bildirim e-postalarında avatar görüntülenmesi düzeltildi."
+msgstr "Bildirim e-postalarında avatar görüntüleme sorunu düzeltildi."
 
 #: ../../changes.rst:101
 msgid "Add support for web monetization."
@@ -20786,7 +20749,8 @@ msgstr "İnternetten para kazanma desteği eklendi."
 #: ../../changes.rst:102
 msgid "Fixed removal of stale source strings when removing translations."
 msgstr ""
-"Çevirileri kaldırırken eski kaynak dizgilerinin kaldırılması düzeltildi."
+"Çeviriler kaldırılırken eski kaynak dizgelerinin kaldırılması sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:104
 msgid ""
@@ -20823,8 +20787,8 @@ msgstr ""
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
 msgstr ""
-"Bir dizgideki tüm nitelik denetimlerini yoksaymak için ``ignore-all-checks`` "
-"bayrağı eklendi."
+"Bir dizgedeki tüm nitelik denetimlerini yok saymak için ``ignore-all-checks``"
+" bayrağı eklendi."
 
 #: ../../changes.rst:115
 msgid ""
@@ -20867,7 +20831,7 @@ msgstr "XML etiketlerinde en fazla uzunluk kısıtlama davranışı iyileştiril
 
 #: ../../changes.rst:123
 msgid "Fixed loading Fluent files with additional comments."
-msgstr "Fluent dosyalarının ek yorumlarla yüklenmesi düzeltildi."
+msgstr "Fluent dosyalarının ek yorumlarla yüklenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:125
 msgid ""
@@ -20887,7 +20851,7 @@ msgstr "4 Mart 2022 tarihinde yayınlandı."
 
 #: ../../changes.rst:132
 msgid "Fixed corrupted MO files in the binary release."
-msgstr "İkili sürümdeki bozuk MO dosyaları düzeltildi."
+msgstr "Binary sürümdeki bozuk MO dosyaları sorunu düzeltildi."
 
 #: ../../changes.rst:134
 msgid ""
@@ -20907,14 +20871,14 @@ msgid ""
 "see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/"
 "advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgstr ""
-"Git ve Mercurial için argümanların eksik temizlenmesi düzeltildi - "
-"CVE-2022-23915, daha fazla ayrıntı için `GHSA-3872-f48p-pxqj <https://github."
-"com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ adresine "
-"bakın."
+"Git ve Mercurial için argümanların eksik temizlenmesi sorunu düzeltildi - "
+"CVE-2022-23915, ayrıntılı bilgi almak için `GHSA-3872-f48p-pxqj "
+"<https://github.com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-"
+"pxqj>`_ adresine bakabilirsiniz."
 
 #: ../../changes.rst:142
 msgid "Fixed loading fuzzy strings from CSV files."
-msgstr "CSV dosyalarından belirsiz dizgilerin yüklenmesi düzeltildi."
+msgstr "CSV dosyalarından belirsiz dizgelerin yüklenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:143
 msgid "Added support for creating teams using the API."
@@ -20922,7 +20886,7 @@ msgstr "API kullanarak takım oluşturma desteği eklendi."
 
 #: ../../changes.rst:144
 msgid "Fixed user mention suggestions display."
-msgstr "Kullanıcı bahsetme önerilerinin gösterilmesi düzeltildi."
+msgstr "Kullanıcı önerileri anma görüntülenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:145
 msgid "The project tokens access can now be customized."
@@ -20962,13 +20926,13 @@ msgstr "API kullanarak eklenti kurulumu düzeltildi."
 msgid ""
 "Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`."
 msgstr ""
-":guilabel:`Eylem gerektiren dizgiler`, :guilabel:`Tamamlanmamış dizgiler` "
+":guilabel:`İşlem gereken dizgeler`, :guilabel:`Tamamlanmamış dizgeler` "
 "olarak yeniden adlandırıldı."
 
 #: ../../changes.rst:157
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
 msgstr ""
-":ref:`check-icu-message-format-syntax` kaynaklı yanlış pozitifler düzeltildi."
+":ref:`check-icu-message-format-syntax` kaynaklı yanlış uyarılar düzeltildi."
 
 #: ../../changes.rst:158
 msgid "Indicate lock and contributor agreement on other occurrences listing."
@@ -20977,7 +20941,8 @@ msgstr "Diğer kullanımlar listesinde kilit ve katılımcı sözleşmesini beli
 #: ../../changes.rst:159
 msgid "Fixed updating PO files with obsolete strings or missing plurals."
 msgstr ""
-"Eski dizgiler veya eksik çoğullarla PO dosyalarının güncellenmesi düzeltildi."
+"Eski dizgeler ya da eksik çoğullar bulunduran PO dosyalarının güncellenmesi "
+"sorunu düzeltildi."
 
 #: ../../changes.rst:160 ../../changes.rst:287
 msgid "Improved squash add-on compatibility with Gerrit."
@@ -20993,20 +20958,20 @@ msgstr ""
 
 #: ../../changes.rst:162
 msgid "Improved error handling on string removal."
-msgstr "Dizgi kaldırmada hataları ele alma iyileştirildi."
+msgstr "Dizge kaldırılırken sorunların işlenmesi iyileştirildi."
 
 #: ../../changes.rst:164
 msgid "Fixed some write operations with project token authentication."
-msgstr ""
-"Proje belirteci kimlik doğrulaması ile bazı yazma işlemleri düzeltildi."
+msgstr "Proje kodu kimlik doğrulaması ile bazı yazma işlemleri düzeltildi."
 
 #: ../../changes.rst:165
 msgid "Fixed string state tracking when the strings changes in the repository."
-msgstr "Depodaki dizgiler değiştiğinde dizgi durumu izleme düzeltildi."
+msgstr ""
+"Depodaki dizgeler değiştiğinde dizge durumunun izlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:166
 msgid "Track string changes from the repository."
-msgstr "Depodaki dizgi değişikliklerini izle."
+msgstr "Depodaki dizge değişiklikleri izlensin."
 
 #: ../../changes.rst:167
 msgid "Sticky header on translations listing to improve navigation."
@@ -21014,11 +20979,11 @@ msgstr "Gezinmeyi iyileştirmek için çeviriler listesinde sabitlenen başlık.
 
 #: ../../changes.rst:168
 msgid "Fixed untranslating strings in :ref:`javaprop`."
-msgstr ":ref:`javaprop` içindeki çevrilmeyen dizgiler düzeltildi."
+msgstr ":ref:`javaprop` içindeki çevrilmeyen dizgeler sorunu düzeltildi."
 
 #: ../../changes.rst:169
 msgid "Fixed Git operation with non-ascii branch names."
-msgstr "ASCII olmayan dal adlarıyla Git işlemi düzeltildi."
+msgstr "ASCII olmayan dal adlarıyla Git işlemi sorunu düzeltildi."
 
 #: ../../changes.rst:170
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
@@ -21036,8 +21001,8 @@ msgid ""
 "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
 "newly added strings."
 msgstr ""
-"Yeni eklenen dizgilerde :ref:`addon-weblate.autotranslate.autotranslate` "
-"eklentisinin tetiklenmesi düzeltildi."
+"Yeni eklenen dizgelerde :ref:`addon-weblate.autotranslate.autotranslate` "
+"eklentisinin tetiklenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:173
 msgid "Improved punctuation checks for Burmese."
@@ -21074,7 +21039,8 @@ msgstr "borgbackup 1.2 desteği eklendi."
 #: ../../changes.rst:179
 msgid "Fixed applying of :guilabel:`Automatically translated` label."
 msgstr ""
-":guilabel:`Otomatik olarak çevrildi` etiketinin uygulanması düzeltildi."
+":guilabel:`Otomatik olarak çevrilmiş` etiketinin uygulanması sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:181
 msgid ""
@@ -21099,12 +21065,13 @@ msgstr "Django 4.0'a yükseltmeyle gelen değişiklikler belgelendirildi."
 #: ../../changes.rst:189
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
 msgstr ""
-":guilabel:`Otomatik olarak çevrildi` etiketinin görüntülenmesi düzeltildi."
+":guilabel:`Otomatik olarak çevrilmiş` etiketinin görüntülenmesi sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:190
 msgid "Fixed API display of branch in components with a shared repository."
 msgstr ""
-"Paylaşılan bir depoya sahip bileşenlerde dalın API ile görüntülenmesi "
+"Paylaşılan bir depoya sahip bileşenlerde dalın API ile görüntülenmesi sorunu "
 "düzeltildi."
 
 #: ../../changes.rst:191
@@ -21113,7 +21080,7 @@ msgstr "Başarısız yollama uyarısında çözümleme iyileştirildi."
 
 #: ../../changes.rst:192
 msgid "Fixed manually editing page when browsing changes."
-msgstr "Değişikliklere göz atarken sayfayı elle düzenleme düzeltildi."
+msgstr "Değişikliklere göz atarken sayfayı elle düzenleme sorunu düzeltildi."
 
 #: ../../changes.rst:193
 msgid "Improved accuracy of :ref:`check-kashida`."
@@ -21160,8 +21127,8 @@ msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
 msgstr ""
-"Düzeltildi: \"Otomatik çeviri gerçekleştir\" ayrıcalığı artık *Diller* "
-"grubunun bir parçası değil."
+"Düzeltildi: \"Otomatik çeviri gerçekleştir\" izni artık *Diller* grubunun "
+"bir parçası değil."
 
 #: ../../changes.rst:207
 msgid ""
@@ -21173,7 +21140,7 @@ msgstr ""
 
 #: ../../changes.rst:208
 msgid "Fixed generating XLSX files with special chars."
-msgstr "Özel karakterlerle XLSX dosyalarının oluşturulması düzeltildi."
+msgstr "Özel karakterlerle XLSX dosyalarının oluşturulması sorunu düzeltildi."
 
 #: ../../changes.rst:209
 msgid ""
@@ -21194,16 +21161,17 @@ msgstr "API için proje kapsamında erişim belirteçleri için destek eklendi."
 
 #: ../../changes.rst:212
 msgid "Fixed string removal in some cases."
-msgstr "Bazı durumlarda dizgi kaldırma düzeltildi."
+msgstr "Bazı durumlarda dizge kaldırma sorunu düzeltildi."
 
 #: ../../changes.rst:213
 msgid "Fixed translating newly added strings."
-msgstr "Yeni eklenen dizgilerin çevrilmesi düzeltildi."
+msgstr "Yeni eklenen dizgelerin çevrilmesi sorunu düzeltildi."
 
 #: ../../changes.rst:214
 msgid "Label automatically translated strings to ease their filtering."
 msgstr ""
-"Süzülmesini kolaylaştırmak için otomatik olarak çevrilen dizgileri etiketle."
+"Süzülmesini kolaylaştırmak için otomatik olarak çevrilmiş dizgeler "
+"etiketlendi."
 
 #: ../../changes.rst:216
 msgid ""
@@ -21224,7 +21192,8 @@ msgstr "19 Kasım 2021 tarihinde yayınlandı."
 #: ../../changes.rst:223
 msgid "Fixed upload of monolingual files after changing template."
 msgstr ""
-"Şablon değiştirildikten sonra tek dilli dosyaların yüklenmesi düzeltildi."
+"Kalıp değiştirildikten sonra tek dilli dosyaların yüklenmesi sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:224
 msgid "Improved handling of whitespace in flags."
@@ -21236,7 +21205,8 @@ msgstr "İndirme API'sine filtreleme desteği eklendi."
 
 #: ../../changes.rst:226
 msgid "Fixed statistics display when adding new translations."
-msgstr "Yeni çeviriler eklerken istatistiklerin görüntülenmesi düzeltildi."
+msgstr ""
+"Yeni çeviriler eklerken istatistiklerin görüntülenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:227
 msgid "Mitigate issues with GitHub SSH key change."
@@ -21285,13 +21255,14 @@ msgstr ""
 msgid ""
 "The ``max-length`` tag now ignores XML markup when used with ``xml-text``."
 msgstr ""
-"``max-length`` etiketi artık ``xml-text`` ile kullanıldığında XML "
-"işaretlemesini yok sayar."
+"``max-length`` kod imi artık ``xml-text`` ile kullanıldığında XML "
+"kodlamasını yok sayar."
 
 #: ../../changes.rst:242
 msgid "Fixed dimensions of rendered texts in :ref:`check-max-size`."
 msgstr ""
-":ref:`check-max-size` içinde oluşturulan metinlerin boyutları düzeltildi."
+":ref:`check-max-size` içinde oluşturulan metinlerin boyutları sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:243
 msgid ""
@@ -21318,11 +21289,11 @@ msgstr "Makine çevirisi arka uçlarında hata durumu ele alınması iyileştiri
 
 #: ../../changes.rst:247
 msgid "Highlight unusual whitespace characters in the strings."
-msgstr "Dizgilerdeki olağan dışı boşluk karakterlerini vurgula."
+msgstr "Dizgelerdeki olağan dışı boşluk karakterleri vurgulansın."
 
 #: ../../changes.rst:248
 msgid "Added option to stay on translated string while editing."
-msgstr "Düzenleme yaparken çevrilen dizgide kalma seçeneği eklendi."
+msgstr "Düzenleme yaparken çevrilen dizgede kalma seçeneği eklendi."
 
 #: ../../changes.rst:249
 msgid ""
@@ -21333,7 +21304,8 @@ msgstr ""
 
 #: ../../changes.rst:250
 msgid "Fixed generating of MO files for monolingual translations."
-msgstr "Tek dilli çeviriler için MO dosyalarının oluşturulması düzeltildi."
+msgstr ""
+"Tek dilli çeviriler için MO dosyalarının oluşturulması sorunu düzeltildi."
 
 #: ../../changes.rst:251
 msgid ""
@@ -21369,7 +21341,7 @@ msgstr "10 Eylül 2021 tarihinde yayınlandı."
 
 #: ../../changes.rst:262
 msgid "Fixed user removal in Django admin interface."
-msgstr "Django yönetici arayüzünde kullanıcı kaldırma düzeltildi."
+msgstr "Django yönetici arayüzünden kullanıcı kaldırma sorunu düzeltildi."
 
 #: ../../changes.rst:263
 msgid "Document add-on parameters in greater detail."
@@ -21377,7 +21349,7 @@ msgstr "Eklenti parametreleri daha ayrıntılı olarak belgelendirildi."
 
 #: ../../changes.rst:264
 msgid "Fixed JavaScript error in glossary."
-msgstr "Sözlükte JavaScript hatası düzeltildi."
+msgstr "Sözlükteki JavaScript sorunu düzeltildi."
 
 #: ../../changes.rst:265
 msgid "Add limit to number of matches in consistency check."
@@ -21389,7 +21361,7 @@ msgstr "Makine çevirilerinde yer tutucuların işlenmesi iyileştirildi."
 
 #: ../../changes.rst:267
 msgid "Fixed creating add-ons using API."
-msgstr "API kullanarak eklenti oluşturma düzeltildi."
+msgstr "API kullanarak eklenti oluşturma sorunu düzeltildi."
 
 #: ../../changes.rst:268
 msgid ""
@@ -21417,7 +21389,7 @@ msgstr "XML denetimleriyle ``safe-html`` bayrak davranışı iyileştirildi."
 
 #: ../../changes.rst:273
 msgid "Fixed commit messages for linked components."
-msgstr "Bağlantılı bileşenler için işleme mesajları düzeltildi."
+msgstr "Bağlantılı bileşenler için gönderme iletileri düzeltildi."
 
 #: ../../changes.rst:275
 msgid ""
@@ -21445,7 +21417,7 @@ msgstr "Tam arama işlemi artık PostgreSQL ile büyük/küçük harfe duyarlı.
 
 #: ../../changes.rst:284
 msgid "Fixed saving glossary explanations in some cases."
-msgstr "Bazı durumlarda sözlük açıklamalarının kaydedilmesi düzeltildi."
+msgstr "Bazı durumlarda sözlük açıklamalarının kaydedilmesi sorunu düzeltildi."
 
 #: ../../changes.rst:285 ../../changes.rst:1605 ../../changes.rst:1659
 #: ../../changes.rst:1692 ../../changes.rst:1779 ../../changes.rst:1795
@@ -21459,7 +21431,7 @@ msgstr "Performans iyileştirmeleri."
 
 #: ../../changes.rst:288
 msgid "Fixed adding strings to monolingual glossary components."
-msgstr "Tek dilli sözlük bileşenlerine dizgi ekleme sorunu düzeltildi."
+msgstr "Tek dilli sözlük bileşenlerine dizge ekleme sorunu düzeltildi."
 
 #: ../../changes.rst:289
 msgid "Improved performance in handling variants."
@@ -21468,8 +21440,8 @@ msgstr "Çeşitlerin işlenmesi performansı iyileştirildi."
 #: ../../changes.rst:290
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
 msgstr ""
-"Sıkıştırma eklentisinin, bazen yukarı akış değişikliklerini ayrıştırmayı "
-"atlaması düzeltildi."
+"Sıkıştırma eklentisinin, bazen yukarı akış değişikliklerinin işlenmesini "
+"atlaması sorunu düzeltildi."
 
 #: ../../changes.rst:291
 msgid "Preserve file extension for downloads."
@@ -21505,12 +21477,12 @@ msgstr "Bir projede daha fazla dil takma adınının yapılandırılmasını des
 
 #: ../../changes.rst:303
 msgid "Fixed search string validation in API."
-msgstr "API'de arama dizgisi doğrulaması düzeltildi."
+msgstr "API üzerinde arama dizgesi doğrulaması sorunu düzeltildi."
 
 #: ../../changes.rst:304
 msgid "Fixed Git exporter URLs after a domain change."
 msgstr ""
-"Bir etki alanı değişikliğinden sonra Git dışa aktarıcı URL'leri düzeltildi."
+"Bir etki alanı değişikliğinden sonra Git dışa aktarıcı adresleri düzeltildi."
 
 #: ../../changes.rst:305
 msgid "Fixed cleanup add-on for Windows RC files."
@@ -21518,7 +21490,7 @@ msgstr "Windows RC dosyaları için temizleme eklentisi düzeltildi."
 
 #: ../../changes.rst:306
 msgid "Fixed possible crash in XLIFF updating."
-msgstr "XLIFF güncellemesinde olası çökme düzeltildi."
+msgstr "XLIFF güncellemesinde olası çökme sorunu düzeltildi."
 
 #: ../../changes.rst:308
 msgid ""
@@ -21624,7 +21596,7 @@ msgstr ""
 
 #: ../../changes.rst:337
 msgid "Fixed automatic creation of glossary languages."
-msgstr "Sözlük dillerinin otomatik olarak oluşturulması düzeltildi."
+msgstr "Sözlük dillerinin otomatik olarak oluşturulması sorunu düzeltildi."
 
 #: ../../changes.rst:338
 msgid "Extended documentation about add-ons."
@@ -21661,24 +21633,25 @@ msgstr "8 Mayıs 2021 tarihinde yayınlandı."
 #: ../../changes.rst:350
 msgid "Fixed crash after moving shared component between projects."
 msgstr ""
-"Paylaşılan bileşen projeler arasında taşındıktan sonra oluşan çökme "
+"Paylaşılan bileşen projeler arasında taşındıktan sonra oluşan çökme sorunu "
 "düzeltildi."
 
 #: ../../changes.rst:351
 msgid "Fixed adding new strings to empty properties files."
-msgstr "Boş özellikler dosyalarına yeni dizgilerin eklenmesi düzeltildi."
+msgstr "Boş özellikler dosyalarına yeni dizgelerin eklenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:352
 msgid "Fixed copy icon alignment in RTL languages."
-msgstr "Sağdan sola dillerinde kopya simgesi hizalaması düzeltildi."
+msgstr "Sağdan sola yazılan dillerde kopya simgesi hizalaması düzeltildi."
 
 #: ../../changes.rst:353
 msgid "Extended string statistics on the Info tab."
-msgstr "Bilgi sekmesinde dizgi istatistikleri genişletildi."
+msgstr "Bilgi sekmesinde dizge istatistikleri genişletildi."
 
 #: ../../changes.rst:354
 msgid "Fixed handling of translation files ignored in Git."
-msgstr "Git'te yok sayılan çeviri dosyalarının işlenmesi düzeltildi."
+msgstr ""
+"Git üzerinde yok sayılan çeviri dosyalarının işlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:355
 msgid "Improved metrics performance."
@@ -21686,7 +21659,7 @@ msgstr "Ölçüm performansı iyileştirildi."
 
 #: ../../changes.rst:356
 msgid "Fixed possible bug in saving glossaries."
-msgstr "Sözlükleri kaydetmedeki olası hata düzeltildi."
+msgstr "Sözlükleri kaydederken ortaya çıkabilen sorun düzeltildi."
 
 #: ../../changes.rst:357
 msgid ""
@@ -21729,20 +21702,21 @@ msgstr "Çekme istekleri oluştururken alınan hata mesajları iyileştirildi."
 
 #: ../../changes.rst:370
 msgid "Fixed creating pull requests on Pagure."
-msgstr "Pagure'de çekme istekleri oluşturma sorunu düzeltildi."
+msgstr "Pagure üzerinde çekme istekleri oluşturma sorunu düzeltildi."
 
 #: ../../changes.rst:371
 msgid "Fixed triggering automatically installed add-ons."
-msgstr "Otomatik olarak kurulan eklentilerin tetiklenmesi düzeltildi."
+msgstr "Otomatik olarak kurulan eklentilerin tetiklenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:372
 msgid "Fixed possible caching issues on upgrade."
-msgstr "Yükseltme sırasında olası önbelleğe alma sorunları düzeltildi."
+msgstr "Yükseltme sırasında olası ön belleğe alma sorunları düzeltildi."
 
 #: ../../changes.rst:373
 msgid "Fixed adding new units to monolingual translations using upload."
 msgstr ""
-"Yüklemeyi kullanarak tek dilli çevirilere yeni birimler eklenmesi düzeltildi."
+"Yüklemeyi kullanarak tek dilli çevirilere yeni birimler eklenmesi sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:375
 msgid ""
@@ -21815,7 +21789,7 @@ msgstr ""
 
 #: ../../changes.rst:394
 msgid "Simplified state indication while listing strings."
-msgstr "Dizgileri listelerken durumun gösterilmesi basitleştirildi."
+msgstr "Dizgeler listelenirken durumun gösterilmesi basitleştirildi."
 
 #: ../../changes.rst:395
 msgid "Password hashing now uses Argon2 by default."
@@ -21834,7 +21808,7 @@ msgstr ""
 
 #: ../../changes.rst:398
 msgid "Fixed saving string state to XLIFF."
-msgstr "Dizgi durumunu XLIFF olarak kaydetme düzeltildi."
+msgstr "Dizge durumunu XLIFF olarak kaydetme sorunu düzeltildi."
 
 #: ../../changes.rst:399
 msgid "Added language-wide search."
@@ -21862,11 +21836,11 @@ msgstr "1 Nisan 2021 tarihinde yayınlandı."
 
 #: ../../changes.rst:409
 msgid "Fixed metrics collection."
-msgstr "Ölçümlerin toplanması düzeltildi."
+msgstr "Ölçümlerin toplanması sorunu düzeltildi."
 
 #: ../../changes.rst:410
 msgid "Fixed possible crash when adding strings."
-msgstr "Dizgiler eklerken olası çökme düzeltildi."
+msgstr "Dizge eklerken olası çökme sorunu düzeltildi."
 
 #: ../../changes.rst:411
 msgid "Improved search query examples."
@@ -21875,7 +21849,8 @@ msgstr "Arama sorgusu örnekleri iyileştirildi."
 #: ../../changes.rst:412
 msgid "Fixed possible loss of newly added strings on replace upload."
 msgstr ""
-"Değiştirme yüklemesinde yeni eklenen dizgilerin olası kaybı düzeltildi."
+"Değiştirme yüklemesinde yeni eklenen dizgelerin kaybolabilmesi sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:415
 msgid "Weblate 4.5.2"
@@ -21895,7 +21870,7 @@ msgstr "Lua biçim denetimi eklendi."
 
 #: ../../changes.rst:421
 msgid "Ignore format strings in the :ref:`check-duplicate` check."
-msgstr ":ref:`check-duplicate` denetiminde biçim dizgilerini yok say."
+msgstr ":ref:`check-duplicate` denetiminde biçim dizgeleri yok sayıldı."
 
 #: ../../changes.rst:422
 msgid "Allow uploading screenshot from a translate page."
@@ -21911,7 +21886,7 @@ msgstr "Daha uzun kodlu diller için otomatik öneriler düzeltildi."
 
 #: ../../changes.rst:425
 msgid "Improved performance when adding new strings."
-msgstr "Yeni dizgiler ekleme performansı iyileştirildi."
+msgstr "Yeni dizge ekleme başarımı iyileştirildi."
 
 #: ../../changes.rst:426
 msgid "Several bug fixes in quality checks."
@@ -21927,7 +21902,7 @@ msgstr ":ref:`discover-weblate` ile bütünleştirme eklendi."
 
 #: ../../changes.rst:429
 msgid "Fixed checks behavior with read-only strings."
-msgstr "Salt okunur dizgilerle denetim davranışı düzeltildi."
+msgstr "Salt okunur dizgelerin denetlenmesi davranışı düzeltildi."
 
 #: ../../changes.rst:431
 msgid ""
@@ -21947,7 +21922,7 @@ msgstr "5 Mart 2021 tarihinde yayınlandı."
 
 #: ../../changes.rst:438
 msgid "Fixed editing of glossary flags in some corner cases."
-msgstr "Bazı uç durumlarda sözlük işaretlerinin düzenlenmesi düzeltildi."
+msgstr "Bazı uç durumlarda sözlük işaretlerinin düzenlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:439
 msgid "Extend metrics usage to improve performance of several pages."
@@ -21991,8 +21966,8 @@ msgstr "Toplu düzenleme performansı iyileştirildi."
 msgid ""
 "Fixed preserving \"Needs editing\" and \"Approved\" states for ODF files."
 msgstr ""
-"ODF dosyaları için \"Düzenleme gerekli\" ve \"Onaylandı\" durumlarını koruma "
-"düzeltildi."
+"ODF dosyaları için \"Düzenleme gerekli\" ve \"Onaylandı\" durumlarının "
+"koruması sorunu düzeltildi."
 
 #: ../../changes.rst:449
 msgid "Improved interface for customizing translation-file downloads"
@@ -22048,8 +22023,7 @@ msgstr "TermBase eXchange dosyaları için destek eklendi."
 #: ../../changes.rst:464
 msgid "Added support for manually defining string variants using a flag."
 msgstr ""
-"Bir işaret kullanarak dizgi çeşitlerini el ile tanımlamak için destek "
-"eklendi."
+"Bir işaret kullanarak dizge çeşitlerini el ile tanımlama desteği eklendi."
 
 #: ../../changes.rst:465
 msgid "Improved performance of consistency checks."
@@ -22057,7 +22031,7 @@ msgstr "Tutarlılık denetimlerinin performansı iyileştirildi."
 
 #: ../../changes.rst:466
 msgid "Improved performance of translation memory for long strings."
-msgstr "Uzun dizgiler için çeviri belleği performansı iyileştirildi."
+msgstr "Uzun dizgeler için çeviri belleği başarımı iyileştirildi."
 
 #: ../../changes.rst:467
 msgid "Added support for searching in explanations."
@@ -22065,7 +22039,7 @@ msgstr "Açıklamalarda arama desteği eklendi."
 
 #: ../../changes.rst:468
 msgid "Strings can now be added and removed in bilingual formats as well."
-msgstr "Dizgiler artık iki dilli biçimlerde da eklenebilir ve kaldırılabilir."
+msgstr "Dizgeler artık iki dilli biçimlerde de eklenebilir ve kaldırılabilir."
 
 #: ../../changes.rst:469
 msgid ""
@@ -22082,7 +22056,7 @@ msgstr ""
 #: ../../changes.rst:471
 msgid "Added a new upload method to add new strings to a translation."
 msgstr ""
-"Bir çeviriye yeni dizgiler eklemek için yeni bir yükleme yöntemi eklendi."
+"Bir çeviriye yeni dizgeler eklemek için yeni bir yükleme yöntemi eklendi."
 
 #: ../../changes.rst:472
 msgid "Added a simple interface to browse translation."
@@ -22141,7 +22115,7 @@ msgstr "14 Ocak 2021 tarihinde yayınlandı."
 
 #: ../../changes.rst:490
 msgid "Fixed corruption of one distributed MO file."
-msgstr "Dağıtılan bir MO dosyasının bozulması düzeltildi."
+msgstr "Dağıtılan bir MO dosyasının bozulması sorunu düzeltildi."
 
 #: ../../changes.rst:493
 msgid "Weblate 4.4.1"
@@ -22153,11 +22127,11 @@ msgstr "13 Ocak 2021 tarihinde yayınlandı."
 
 #: ../../changes.rst:497
 msgid "Fixed reverting plural changes."
-msgstr "Çoğul değişikliklerini geri alma düzeltildi."
+msgstr "Çoğul değişikliklerini geri alma sorunu düzeltildi."
 
 #: ../../changes.rst:498
 msgid "Fixed displaying help for project settings."
-msgstr "Proje ayarları için yardım görüntüleme düzeltildi."
+msgstr "Proje ayarları için yardım görüntüleme sorunu düzeltildi."
 
 #: ../../changes.rst:499
 msgid "Improved administration of users."
@@ -22176,7 +22150,7 @@ msgstr ""
 
 #: ../../changes.rst:502
 msgid "Fixed parsing of location from CSV files."
-msgstr "CSV dosyalarından konumun ayrıştırılması düzeltildi."
+msgstr "CSV dosyalarından konumun işlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:503
 msgid "Use content compression for file downloads."
@@ -22206,7 +22180,8 @@ msgstr ""
 
 #: ../../changes.rst:509
 msgid "Fixed cleanup add-on breaking adding new strings."
-msgstr "Temizleme eklentisinin yeni dizgiler eklemeyi bozması düzeltildi."
+msgstr ""
+"Temizleme eklentisinin yeni dizgeler eklenmesini bozması sorunu düzeltildi."
 
 #: ../../changes.rst:510
 msgid "Added API for add-ons."
@@ -22242,7 +22217,7 @@ msgstr "Yönetim arayüzünde görünüm özelleştirme desteği eklendi."
 
 #: ../../changes.rst:522
 msgid "Fixed read-only state handling in bulk edit."
-msgstr "Toplu düzenlemede salt okunur durum işleme düzeltildi."
+msgstr "Toplu düzenlemede salt okunur durum işleme sorunu düzeltildi."
 
 #: ../../changes.rst:523
 msgid "Improved CodeMirror integration."
@@ -22250,7 +22225,7 @@ msgstr "CodeMirror bütünleştirmesi iyileştirildi."
 
 #: ../../changes.rst:524
 msgid "Added add-on to remove blank strings from translation files."
-msgstr "Çeviri dosyalarından boş dizgileri kaldırmak için eklenti eklendi."
+msgstr "Çeviri dosyalarından boş dizgeleri kaldırmak için eklenti eklendi."
 
 #: ../../changes.rst:525
 msgid "The CodeMirror editor is now used for translations."
@@ -22347,10 +22322,8 @@ msgid "Released on November 4th 2020."
 msgstr "4 Kasım 2020 tarihinde yayınlandı."
 
 #: ../../changes.rst:550
-#, fuzzy
-#| msgid "Fixed crash on certain component filemasks."
 msgid "Fixed crash on certain component file masks."
-msgstr "Belirli bileşen dosya maskelerinde çökme düzeltildi."
+msgstr "Belirli bileşen dosya maskelerinde çökme sorunu düzeltildi."
 
 #: ../../changes.rst:551
 msgid "Improved accuracy of the consecutive duplicated words check."
@@ -22425,7 +22398,8 @@ msgstr "Otomatik çeviri performansı iyileştirildi."
 
 #: ../../changes.rst:570
 msgid "Fixed session expiry for authenticated users."
-msgstr "Kimliği doğrulanmış kullanıcılar için oturum sona ermesi düzeltildi."
+msgstr ""
+"Kimliği doğrulanmış kullanıcılar için oturum sona ermesi sorunu düzeltildi."
 
 #: ../../changes.rst:571
 msgid "Add support for hiding version information."
@@ -22473,7 +22447,7 @@ msgstr "Kullanıcı istatistikleri API'ye dahil edildi."
 
 #: ../../changes.rst:586
 msgid "Fixed component ordering on paginated pages."
-msgstr "Sayfalandırılmış sayfalardaki bileşen sıralaması düzeltildi."
+msgstr "Sayfalandırılmış sayfalardaki bileşen sıralaması sorunu düzeltildi."
 
 #: ../../changes.rst:587
 msgid "Define source language for a glossary."
@@ -22485,15 +22459,17 @@ msgstr "GitHub ve GitLab çekme istekleri desteği yeniden yazıldı."
 
 #: ../../changes.rst:589
 msgid "Fixed stats counts after removing suggestion."
-msgstr "Öneriyi kaldırdıktan sonraki istatistik sayıları düzeltildi."
+msgstr ""
+"Öneriyi kaldırdıktan sonra istatistik sayılarının doğruluğu sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:590
 msgid "Extended public user profile."
-msgstr "Açık kullanıcı profili genişletildi."
+msgstr "Herkese açık kullanıcı profili genişletildi."
 
 #: ../../changes.rst:591
 msgid "Fixed configuration of enforced checks."
-msgstr "Zorunlu denetimlerin yapılandırması düzeltildi."
+msgstr "Zorunlu denetimlerin yapılandırması sorunu düzeltildi."
 
 #: ../../changes.rst:592
 msgid "Improve documentation about built-in backups."
@@ -22509,7 +22485,7 @@ msgstr "Vue I18n biçimlendirmesi denetimi eklendi."
 
 #: ../../changes.rst:595
 msgid "Generic placeholders check now supports regular expressions."
-msgstr "Genel yer tutucu denetimi artık düzenli ifadeleri destekliyor."
+msgstr "Genel yer belirtici denetimi artık kurallı ifadeleri destekliyor."
 
 #: ../../changes.rst:596
 msgid "Improved look of Matrix mode."
@@ -22521,7 +22497,7 @@ msgstr "Makine çevirisi artık otomatik öneriler olarak adlandırılıyor."
 
 #: ../../changes.rst:598
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
-msgstr "Birden çok GitLab veya GitHub örneğiyle etkileşim için destek eklendi."
+msgstr "Birden çok GitLab veya GitHub kopyası ile etkileşim desteği eklendi."
 
 #: ../../changes.rst:599
 msgid ""
@@ -22533,7 +22509,7 @@ msgstr ""
 
 #: ../../changes.rst:600
 msgid "Unit API now properly handles plural strings."
-msgstr "Birim API'si artık çoğul dizgileri düzgün şekilde işliyor."
+msgstr "Birim API uygulaması artık çoğul dizgeleri düzgün şekilde işliyor."
 
 #: ../../changes.rst:601
 msgid "Component creation can now handle ZIP file or document upload."
@@ -22550,7 +22526,7 @@ msgstr "Katılımcı sözleşmesinde Markdown desteği."
 
 #: ../../changes.rst:604
 msgid "Improved source strings tracking."
-msgstr "Kaynak dizgi izleme iyileştirildi."
+msgstr "Kaynak dizge izlemesi iyileştirildi."
 
 #: ../../changes.rst:605
 msgid "Improved JSON, YAML and CSV formats compatibility."
@@ -22558,7 +22534,7 @@ msgstr "JSON, YAML ve CSV biçimleri uyumluluğu iyileştirildi."
 
 #: ../../changes.rst:606
 msgid "Added support for removing strings."
-msgstr "Dizgileri kaldırma desteği eklendi."
+msgstr "Dizgeleri kaldırma desteği eklendi."
 
 #: ../../changes.rst:607
 msgid "Improved performance of file downloads."
@@ -22582,7 +22558,8 @@ msgstr "Python 3.9 desteği eklendi."
 
 #: ../../changes.rst:612
 msgid "Fixed translating HTML files under certain conditions."
-msgstr "Belirli koşullar altında HTML dosyalarının çevrilmesi düzeltildi."
+msgstr ""
+"Belirli koşullar altında HTML dosyalarının çevrilmesi sorunu düzeltildi."
 
 #: ../../changes.rst:614
 msgid ""
@@ -22602,29 +22579,30 @@ msgstr "2 Eylül 2020 tarihinde yayınlandı."
 
 #: ../../changes.rst:621
 msgid "Fixed matching of source strings for JSON formats."
-msgstr "JSON biçimleri için kaynak dizgilerinin eşleşmesi düzeltildi."
+msgstr "JSON biçimleri için kaynak dizgelerinin eşleşmesi sorunu düzeltildi."
 
 #: ../../changes.rst:622
 msgid "Fixed login redirect for some authentication configurations."
 msgstr ""
-"Bazı kimlik doğrulama yapılandırmaları için oturum açma yeniden "
-"yönlendirmesi düzeltildi."
+"Bazı kimlik doğrulama yapılandırmaları için oturum açma yönlendirmesi "
+"düzeltildi."
 
 #: ../../changes.rst:623
 msgid "Fixed LDAP authentication with group sync."
-msgstr "Grup eşitleme ile LDAP kimlik doğrulaması düzeltildi."
+msgstr "Grup eşitleme ile LDAP kimlik doğrulaması sorunu düzeltildi."
 
 #: ../../changes.rst:624
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr "Otomatik çeviri ilerlemesini bildirirken çökme düzeltildi."
+msgstr ""
+"Otomatik çeviri ilerlemesini bildirirken oluşan çökme sorunu düzeltildi."
 
 #: ../../changes.rst:625
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr "Artbilgiler etkinken Git işleme toparlaması düzeltildi."
+msgstr "Art bilgiler etkinken Git gönderme derlemesi sorunu düzeltildi."
 
 #: ../../changes.rst:626
 msgid "Fixed creating local VCS components using API."
-msgstr "API kullanarak yerel VCS bileşenleri oluşturma düzeltildi."
+msgstr "API kullanarak yerel VCS bileşenleri oluşturma sorunu düzeltildi."
 
 #: ../../changes.rst:629
 msgid "Weblate 4.2.1"
@@ -22637,12 +22615,13 @@ msgstr "21 Ağustos 2020 tarihinde yayınlandı."
 #: ../../changes.rst:633
 msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
-"Android kaynaklarında bazı yerel ayarlar için çoğulların kaydedilmesi "
+"Android kaynaklarında bazı yerel ayarlar için çoğulların kaydedilmesi sorunu "
 "düzeltildi."
 
 #: ../../changes.rst:634
 msgid "Fixed crash in the cleanup add-on for some XLIFF files."
-msgstr "Bazı XLIFF dosyaları için temizleme eklentisindeki çökme düzeltildi."
+msgstr ""
+"Bazı XLIFF dosyaları için temizleme eklentisindeki çökme sorunu düzeltildi."
 
 #: ../../changes.rst:635
 msgid "Allow setting up localization CDN in Docker image."
@@ -22672,7 +22651,7 @@ msgstr "Birkaç tek dilli biçime dışa aktarım eklendi."
 
 #: ../../changes.rst:646
 msgid "Number of displayed nearby strings can be configured."
-msgstr "Görüntülenen yakındaki dizgilerin sayısı yapılandırılabilir."
+msgstr "Görüntülenecek yakındaki dizge sayısının yapılandırılması sağlandı."
 
 #: ../../changes.rst:647
 msgid "Added support for locking components experiencing repository errors."
@@ -22697,8 +22676,7 @@ msgstr "Arama sorgusu ayrıştırıcısı iyileştirildi."
 
 #: ../../changes.rst:652
 msgid "Improved user feedback from format strings checks."
-msgstr ""
-"Biçim dizgileri denetimlerinden kullanıcı geri bildirimi iyileştirildi."
+msgstr "Dizge biçimi denetimlerinin kullanıcı geri bildirimi iyileştirildi."
 
 #: ../../changes.rst:653
 msgid "Improved performance of bulk state changes."
@@ -22715,7 +22693,7 @@ msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
 msgstr ""
-"Dizgi onayı, bileşen kilitleme ve lisans değişikliği için bildirimler "
+"Dizge onayı, bileşen kilitleme ve lisans değişikliği için bildirimler "
 "eklendi."
 
 #: ../../changes.rst:656
@@ -22791,12 +22769,12 @@ msgstr "19 Haziran 2020 tarihinde yayınlandı."
 #: ../../changes.rst:675
 msgid "Fixed changing autofix or add-ons configuration in Docker."
 msgstr ""
-"Docker'da otomatik düzeltme veya eklenti yapılandırmasının değişmesi "
-"düzeltildi."
+"Docker üzerinde otomatik düzeltme ya da eklenti yapılandırmasının "
+"değiştirilmesi sorunu düzeltildi."
 
 #: ../../changes.rst:676
 msgid "Fixed possible crash in \"About\" page."
-msgstr "\"Hakkında\" sayfasındaki olası çökme düzeltildi."
+msgstr "\"Hakkında\" sayfasındaki olası çökme sorunu düzeltildi."
 
 #: ../../changes.rst:677
 msgid "Improved installation of byte-compiled locale files."
@@ -22808,7 +22786,7 @@ msgstr "Sözlüğe sözcük ekleme sorunu düzeltildi."
 
 #: ../../changes.rst:679
 msgid "Fixed keyboard shortcuts for machinery."
-msgstr "Makineler için klavye kısayolları düzeltildi."
+msgstr "Makineler için klavye kısayolları sorunu düzeltildi."
 
 #: ../../changes.rst:680
 msgid "Removed debugging output causing discarding log events in some setups."
@@ -22818,11 +22796,11 @@ msgstr ""
 
 #: ../../changes.rst:681
 msgid "Fixed lock indication on project listing."
-msgstr "Proje listesindeki kilit göstergesi düzeltildi."
+msgstr "Proje listesindeki kilit göstergesi sorunu düzeltildi."
 
 #: ../../changes.rst:682
 msgid "Fixed listing GPG keys in some setups."
-msgstr "Bazı kurulumlarda GPG anahtarlarının listelenmesi düzeltildi."
+msgstr "Bazı kurulumlarda GPG anahtarlarının listelenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:683
 msgid "Added option for which DeepL API version to use."
@@ -23316,7 +23294,7 @@ msgstr ""
 
 #: ../../changes.rst:833
 msgid "Fixed documentation links for add-ons."
-msgstr "Eklentiler için belge bağlantıları düzeltildi."
+msgstr "Eklentiler için belge bağlantıları sorunu düzeltildi."
 
 #: ../../changes.rst:834
 msgid "Reduced false negatives for unchanged translation check."
@@ -23428,7 +23406,7 @@ msgstr ""
 
 #: ../../changes.rst:873
 msgid "Added support for grouping string shapings."
-msgstr "Dizgi şekillerini gruplama desteği eklendi."
+msgstr "Dizge şekillerini gruplama desteği eklendi."
 
 #: ../../changes.rst:874
 msgid "Recommend upgrade to new Weblate versions in the system checks."
@@ -23633,7 +23611,7 @@ msgstr ""
 
 #: ../../changes.rst:941
 msgid "Added support for read-only strings."
-msgstr "Salt okunur dizgiler için destek eklendi."
+msgstr "Salt okunur dizge desteği eklendi."
 
 #: ../../changes.rst:942
 msgid "Added support for Markdown in comments."
@@ -24743,7 +24721,7 @@ msgstr ""
 #: ../../changes.rst:1284
 msgid "New add-on to mark unchanged translations as needing edit."
 msgstr ""
-"Değiştirilmemiş çevirileri \"Düzenleme gerekli\" olarak işaretlemek için "
+"Değiştirilmemiş çevirileri \"Düzenlenmesi gerekli\" olarak işaretlemek için "
 "yeni eklenti."
 
 #: ../../changes.rst:1285
@@ -25903,7 +25881,7 @@ msgstr ""
 
 #: ../../changes.rst:1668
 msgid "Fixed site wide search for failing checks."
-msgstr "Kusur denetimleri için site genelinde arama düzeltildi."
+msgstr "Geçilemeyen denetimler için site genelinde arama sorunu düzeltildi."
 
 #: ../../changes.rst:1669
 msgid "Added option to specify source language."
@@ -26613,7 +26591,7 @@ msgstr ""
 
 #: ../../changes.rst:1894
 msgid "Added public user pages."
-msgstr ""
+msgstr "Herkese açık kullanıcı sayfaları eklendi."
 
 #: ../../changes.rst:1895
 msgid "Better naming of plural forms."
@@ -26933,7 +26911,7 @@ msgstr ""
 
 #: ../../changes.rst:1986
 msgid "Caching counts of strings with failing checks."
-msgstr "Kusur denetimleri olan dizgilerin sayısının önbelleğe alınması."
+msgstr "Denetimleri geçemeyen dizgelerin sayısı ön belleğe alındı."
 
 #: ../../changes.rst:1987
 msgid "Checking of requirements during setup."
@@ -27482,7 +27460,7 @@ msgstr "Bir dosya ayrıştırıldıktan sonra tetiklenen kanca."
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
 msgid "It receives an instance of a file format class as a argument."
-msgstr "Argüman olarak bir dosya biçimi sınıfının bir örneğini alır."
+msgstr "Argüman olarak bir dosya biçimi sınıfının bir kopyasını alır."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:5
@@ -27908,10 +27886,11 @@ msgid ""
 "If you’re certain, you can also click on the link in the :guilabel:`Source "
 "string location` section and submit a PR with your correction."
 msgstr ""
-"Kaynak dizgide olası bir hata bulursanız, bunu Weblate düzenleyicisinde bir "
-"yorumla işaretleyebilirsiniz. Bu şekilde tartışılabilir ve düzeltilebilir. "
-"Eminseniz, :guilabel:`Kaynak dizgi konumu` bölümündeki bağlantıya "
-"tıklayabilir ve düzeltmenizle birlikte bir çekme isteği gönderebilirsiniz."
+"Kaynak dizgede olası bir hata bulursanız, bunu Weblate düzenleyicisinde bir "
+"yorumla belirtebilirsiniz. Bu şekilde üzerinde tartışılabilir ve "
+"düzeltilebilir. Eminseniz, :guilabel:`Kaynak dizge konumu` bölümündeki "
+"bağlantıya tıklayabilir ve düzeltmenizle birlikte bir çekme isteği "
+"gönderebilirsiniz."
 
 #: ../../contributing/index.rst:34
 msgid "Contribute to Weblate documentation"
@@ -28055,10 +28034,8 @@ msgstr ""
 "gibi seçenekler için lütfen `bağış sayfasına`_ bakın."
 
 #: ../../../BACKERS.rst:2
-#, fuzzy
-#| msgid "Supported since wlc 0.7 and Weblate 2.10."
 msgid "Supporters who have funded Weblate"
-msgstr "wlc 0.7 ve Weblate 2.10'dan beri desteklenmektedir."
+msgstr "Weblate için bağış yapan destekçiler"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
@@ -28677,7 +28654,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Category*"
-msgstr "*Dizgi Kategorisi*"
+msgstr "*Dizge Kategorisi*"
 
 #: ../../contributing/schemas.rst:9
 msgid ""
@@ -28725,7 +28702,7 @@ msgstr "Dosya adı veya bileşen adı"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*string*"
-msgstr "*dizgi*"
+msgstr "*dizge*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test.tmx"
@@ -28743,7 +28720,7 @@ msgstr "**source**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Source String*"
-msgstr "*Kaynak Dizgi*"
+msgstr "*Kaynak Dizge*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Hello"
@@ -28783,7 +28760,7 @@ msgstr "**target**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target String*"
-msgstr "*Hedef Dizgi*"
+msgstr "*Hedef Dizge*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
@@ -28922,7 +28899,7 @@ msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of suggested strings*"
-msgstr "*Önerilen dizgi sayısı*"
+msgstr "*Önerilmiş dizge sayısı*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translated**"
@@ -28930,7 +28907,7 @@ msgstr "**translated**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of translated strings*"
-msgstr "*Çevrilen dizgi sayısı*"
+msgstr "*Çevrilmiş dizge sayısı*"
 
 #: ../../contributing/schemas.rst:19
 msgid "24"
@@ -29640,10 +29617,9 @@ msgid "Unused new base in component settings"
 msgstr ""
 
 #: ../../devel/alerts.rst:25
-#, fuzzy
-#| msgid "Fixed commit messages for linked components."
 msgid "Duplicate file mask used for linked components"
-msgstr "Bağlantılı bileşenler için işleme mesajları düzeltildi."
+msgstr ""
+"Bağlantılı bileşenler için çift dosya maskesi kullanılması sorunu düzeltildi"
 
 #: ../../devel/alerts.rst:27
 msgid ""
@@ -30116,7 +30092,7 @@ msgstr ""
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
-msgstr "Weblate CDN için dizgi çıkarma"
+msgstr "Weblate CDN için dizge ayıklama"
 
 #: ../../devel/html.rst:67
 msgid ""
@@ -30304,7 +30280,7 @@ msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
-msgstr "Yeni dizgiler ekleme"
+msgstr "Yeni dizgeler ekleme"
 
 #: ../../devel/integration.rst:65
 msgid ""
@@ -30526,7 +30502,7 @@ msgstr "Katılımcı istatistikleri"
 #: ../../devel/reporting.rst:46
 msgid ""
 "Generates the number of translated words and strings by translator name:"
-msgstr "Çevirmen adına göre çevrilen sözcük ve dizgilerin sayısını oluşturur:"
+msgstr "Çevirmen adına göre çevrilmiş sözcük ve dizgelerin sayısını oluşturur:"
 
 #: ../../devel/reporting.rst:51
 msgid ""
@@ -30702,7 +30678,7 @@ msgstr ""
 
 #: ../../devel/review.rst:59
 msgid "Receiving source string feedback"
-msgstr "Kaynak dizgi geri bildirimi alma"
+msgstr "Kaynak dizge geri bildirimi alma"
 
 #: ../../devel/review.rst:61
 msgid ""
@@ -31572,16 +31548,12 @@ msgid "The solution to this is to perform the operation in sync with Weblate:"
 msgstr ""
 
 #: ../../faq.rst:285
-#, fuzzy
-#| msgid "Last commit in Weblate"
 msgid "Lock the affected component in Weblate."
-msgstr "Weblate’deki son işleme"
+msgstr "Weblate üzerinde etkilenen bileşeni kilitle."
 
 #: ../../faq.rst:286
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "Bekleyen değişiklikleri Weblate deposuna işle"
+msgstr "Bekleyen değişiklikleri gönder ve depo akışına birleştir."
 
 #: ../../faq.rst:287
 msgid ""
@@ -31846,8 +31818,8 @@ msgid ""
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
-"Kaynak dilin çeviri dosyasına ihtiyaç duyulduğu, ancak Weblate tarafından "
-"yok sayılmasının gerektiği durumda, lütfen hariç tutmak için :ref:`component-"
+"Kaynak dilin çeviri dosyasına gerek duyulduğu, ancak Weblate tarafından yok "
+"sayılmasının gerektiği durumda, katılmaması için :ref:`component-"
 "language_regex` seçeneğini ayarlayın."
 
 #: ../../faq.rst:471
@@ -32350,7 +32322,7 @@ msgstr ""
 
 #: ../../formats.rst:150
 msgid "Read-only strings"
-msgstr "Salt okunur dizgiler"
+msgstr "Salt okunur dizgeler"
 
 #: ../../formats.rst:154
 msgid ""
@@ -32465,10 +32437,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:281
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Weblate supports XLIFF in several variants:"
-msgstr "Weblate destek durumu"
+msgstr "Weblate, birkaç şekilde XLIFF desteği sunar:"
 
 #: ../../formats.rst:283
 #, fuzzy
@@ -32605,7 +32575,7 @@ msgstr ""
 
 #: ../../formats.rst:377
 msgid "String keys"
-msgstr "Dizgi anahtarları"
+msgstr "Dizge anahtarları"
 
 #: ../../formats.rst:379
 msgid ""
@@ -33000,7 +32970,7 @@ msgstr ""
 
 #: ../../formats.rst:785
 msgid "PHP strings"
-msgstr "PHP dizgileri"
+msgstr "PHP dizgeleri"
 
 #: ../../formats.rst:791
 msgid ""
@@ -33027,7 +32997,7 @@ msgstr ""
 
 #: ../../formats.rst:814
 msgid "Laravel PHP strings"
-msgstr "Laravel PHP dizgileri"
+msgstr "Laravel PHP dizgeleri"
 
 #: ../../formats.rst:818
 msgid "The Laravel PHP localization files are supported as well with plurals:"
@@ -33317,16 +33287,14 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1127
-#, fuzzy
-#| msgid ":ref:`component-language_regex`"
 msgid "``Languages/*.xaml``"
-msgstr ":ref:`component-language_regex`"
+msgstr "``Languages/*.xaml``"
 
 #: ../../formats.rst:1129
 #, fuzzy
 #| msgid ":ref:`component-language_regex`"
 msgid "``Language/en.xaml``"
-msgstr ":ref:`component-language_regex`"
+msgstr "``Language/en.xaml``"
 
 #: ../../formats.rst:1133
 #, fuzzy
@@ -33959,7 +33927,7 @@ msgid ""
 msgstr ""
 "Bu programla birlikte GNU Genel Kamu Lisansının bir kopyasını almış "
 "olmalısınız. Almadıysanız, https://www.gnu.org/licenses/licenses.tr.html "
-"adresine bakın."
+"adresine bakabilirsiniz."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
@@ -34340,7 +34308,7 @@ msgstr "Çevirideki BBCode kaynakla eşleşmiyor"
 #: ../../user/checks.rst:1250 ../../user/checks.rst:1273
 #: ../../user/checks.rst:1291
 msgid "translated strings"
-msgstr "çevrilmiş dizgiler"
+msgstr "çevrilmiş dizgeler"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -34530,11 +34498,11 @@ msgstr ""
 
 #: ../../user/checks.rst:162
 msgid "AngularJS interpolation string"
-msgstr "AngularJS ilişkilendirme dizgisi"
+msgstr "AngularJS ilişkilendirme dizgesi"
 
 #: ../../user/checks.rst:164
 msgid "AngularJS interpolation strings do not match source"
-msgstr "AngularJS ilişkilendirme dizgileri kaynakla eşleşmiyor"
+msgstr "AngularJS ilişkilendirme dizgeleri kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:166
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -34568,17 +34536,15 @@ msgstr "C biçimi"
 
 #: ../../user/checks.rst:182
 msgid "C format string does not match source"
-msgstr "C biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "C biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:184
 msgid "``weblate.checks.format.CFormatCheck``"
 msgstr ""
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "PHP format string"
 msgid "Simple format string example"
-msgstr "PHP biçimi dizgisi"
+msgstr "Basit dizge biçimi örneği"
 
 #: ../../user/checks.rst:187 ../../user/checks.rst:332
 #: ../../user/checks.rst:379 ../../user/checks.rst:397
@@ -34589,10 +34555,8 @@ msgid "``There are %d apples``"
 msgstr ""
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Python format string"
 msgid "Position format string example"
-msgstr "Python biçimi dizgisi"
+msgstr "Konum dizge biçimi örneği"
 
 #: ../../user/checks.rst:188 ../../user/checks.rst:333
 #: ../../user/checks.rst:455 ../../user/checks.rst:475
@@ -34616,7 +34580,7 @@ msgstr "C# biçimi"
 
 #: ../../user/checks.rst:201
 msgid "C# format string does not match source"
-msgstr "C# biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "C# biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:203
 msgid "``weblate.checks.format.CSharpFormatCheck``"
@@ -34716,8 +34680,8 @@ msgstr "ICU MessageFormat"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"ICU MessageFormat dizgilerinde sözdizimi hataları ve/veya yer tutucu "
-"uyuşmazlıkları."
+"ICU MessageFormat dizgelerinde sözdizimi hataları ve/veya yer tutucu "
+"uyuşmazlıkları var."
 
 #: ../../user/checks.rst:263
 #, fuzzy
@@ -34799,10 +34763,8 @@ msgid "``-types``"
 msgstr "`es-format`"
 
 #: ../../user/checks.rst:293
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "Skip checking that placeholder types match the source."
-msgstr "Yüzde yer tutucuları kaynakla eşleşmiyor"
+msgstr "Yer belirtici türlerinin kaynağa uygunluğu denetimi atlansın."
 
 #: ../../user/checks.rst:295
 msgid "``-extra``"
@@ -34852,7 +34814,7 @@ msgstr "Java biçimi"
 
 #: ../../user/checks.rst:326
 msgid "Java format string does not match source"
-msgstr "Java biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Java biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:328
 msgid "``weblate.checks.format.JavaFormatCheck``"
@@ -34882,7 +34844,7 @@ msgstr "Java MessageFormat"
 
 #: ../../user/checks.rst:350
 msgid "Java MessageFormat string does not match source"
-msgstr "Java MessageFormat dizgisi kaynakla eşleşmiyor"
+msgstr "Java MessageFormat dizgesi kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:352
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
@@ -34926,7 +34888,7 @@ msgstr "JavaScript biçimi"
 
 #: ../../user/checks.rst:373
 msgid "JavaScript format string does not match source"
-msgstr "JavaScript biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "JavaScript biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:375
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
@@ -34950,7 +34912,7 @@ msgstr "Lua biçimi"
 
 #: ../../user/checks.rst:391
 msgid "Lua format string does not match source"
-msgstr "Lua biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Lua biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:393
 msgid "``weblate.checks.format.LuaFormatCheck``"
@@ -34974,7 +34936,7 @@ msgstr "Object Pascal biçimi"
 
 #: ../../user/checks.rst:409
 msgid "Object Pascal format string does not match source"
-msgstr "Object Pascal biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Object Pascal biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:411
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
@@ -35024,7 +34986,7 @@ msgstr "Perl biçimi"
 
 #: ../../user/checks.rst:448
 msgid "Perl format string does not match source"
-msgstr "Perl biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Perl biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:450
 msgid "``weblate.checks.format.PerlFormatCheck``"
@@ -35049,7 +35011,7 @@ msgstr "PHP biçimi"
 
 #: ../../user/checks.rst:468
 msgid "PHP format string does not match source"
-msgstr "PHP biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "PHP biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:470
 msgid "``weblate.checks.format.PHPFormatCheck``"
@@ -35074,7 +35036,7 @@ msgstr "Python ayracı biçimi"
 
 #: ../../user/checks.rst:488
 msgid "Python brace format string does not match source"
-msgstr "Python ayraç biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Python ayraç biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:490
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
@@ -35111,7 +35073,7 @@ msgstr "Python biçimi"
 
 #: ../../user/checks.rst:508
 msgid "Python format string does not match source"
-msgstr "Python biçim dizgisi kaynakla eşleşmiyor"
+msgstr "Python biçim dizgesi kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:510
 msgid "``weblate.checks.format.PythonFormatCheck``"
@@ -35140,7 +35102,7 @@ msgstr "Qt biçimi"
 
 #: ../../user/checks.rst:528
 msgid "Qt format string does not match source"
-msgstr "Qt biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Qt biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:530
 msgid "``weblate.checks.qt.QtFormatCheck``"
@@ -35168,7 +35130,7 @@ msgstr "Qt çoğul biçimi"
 
 #: ../../user/checks.rst:546
 msgid "Qt plural format string does not match source"
-msgstr "Qt çoğul biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "Qt çoğul biçimindeki dizge kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:548
 msgid "``weblate.checks.qt.QtPluralCheck``"
@@ -35181,10 +35143,8 @@ msgid "``qt_plural_format``"
 msgstr "`lua-format`"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "PHP format string"
 msgid "Plural format string example"
-msgstr "PHP biçimi dizgisi"
+msgstr "Çoğul dizge biçimi örneği"
 
 #: ../../user/checks.rst:552
 msgid "``There are %Ln apple(s)``"
@@ -35202,7 +35162,7 @@ msgstr "Ruby biçimi"
 
 #: ../../user/checks.rst:564
 msgid "Ruby format string does not match source"
-msgstr "Ruby biçim dizgisi kaynakla eşleşmiyor"
+msgstr "Ruby biçim dizgesi kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:566
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
@@ -35242,7 +35202,7 @@ msgstr "Şema biçimi"
 
 #: ../../user/checks.rst:585
 msgid "Scheme format string does not match source"
-msgstr "Şema biçim dizgisi kaynakla eşleşmiyor"
+msgstr "Şema biçim dizgesi kaynakla eşleşmiyor"
 
 #: ../../user/checks.rst:587
 msgid "``weblate.checks.format.SchemeFormatCheck``"
@@ -35321,11 +35281,11 @@ msgstr "Çevrilmiş"
 
 #: ../../user/checks.rst:626
 msgid "This string has been translated in the past"
-msgstr "Bu dizgi geçmişte çevrilmiş"
+msgstr "Bu dizge geçmişte çevrilmiş"
 
 #: ../../user/checks.rst:627 ../../user/checks.rst:641
 msgid "all strings"
-msgstr "tüm dizgiler"
+msgstr "tüm dizgeler"
 
 #: ../../user/checks.rst:628
 msgid "``weblate.checks.consistency.TranslatedCheck``"
@@ -35352,8 +35312,8 @@ msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
-"Bu dizginin bu projede birden fazla çevirisi var ya da bazı bileşenlerde "
-"çevrilmedi."
+"Bu dizgenin bu projede birden fazla çevirisi var ya da bazı bileşenlerde "
+"çevrilmemiş."
 
 #: ../../user/checks.rst:642
 msgid "``weblate.checks.consistency.ConsistencyCheck``"
@@ -35875,7 +35835,7 @@ msgstr "Yer tutucular"
 
 #: ../../user/checks.rst:1012
 msgid "You can use regular expression as placeholder."
-msgstr "Düzenli ifadeyi yer tutucu olarak kullanabilirsiniz."
+msgstr "Kurallı ifadeyi yer belirtici olarak kullanabilirsiniz."
 
 #: ../../user/checks.rst:1016
 msgid ""
@@ -35938,11 +35898,12 @@ msgstr ""
 
 #: ../../user/checks.rst:1072
 msgid "Translation does not match regular expression"
-msgstr "Çeviri düzenli ifadeyle eşleşmiyor"
+msgstr "Çeviri kurallı ifadeyle eşleşmiyor"
 
 #: ../../user/checks.rst:1074
+#, fuzzy
 msgid "``weblate.checks.placeholders.RegexCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.RegexCheck``"
 
 #: ../../user/checks.rst:1075 ../../user/checks.rst:1076
 #, fuzzy
@@ -36281,13 +36242,13 @@ msgstr "Üç nokta"
 
 #: ../../user/checks.rst:1317
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr "Dizgi, üç nokta karakteri (…) yerine üç tane nokta (...) kullanır"
+msgstr "Dizge, üç nokta karakteri (…) yerine üç tane nokta (...) kullanıyor"
 
 #: ../../user/checks.rst:1318 ../../user/checks.rst:1340
 #: ../../user/checks.rst:1356 ../../user/checks.rst:1371
 #: ../../user/checks.rst:1392 ../../user/checks.rst:1408
 msgid "source strings"
-msgstr "kaynak satırlar"
+msgstr "kaynak dizgeler"
 
 #: ../../user/checks.rst:1319
 msgid "``weblate.checks.source.EllipsisCheck``"
@@ -36317,7 +36278,7 @@ msgstr "ICU MessageFormat sözdizimi"
 
 #: ../../user/checks.rst:1339
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "ICU MessageFormat dizgilerinde sözdizimi hataları."
+msgstr "ICU MessageFormat dizgelerinde sözdizimi hataları var."
 
 #: ../../user/checks.rst:1341
 #, fuzzy
@@ -36343,7 +36304,7 @@ msgstr "Uzun süre çevrilmeyen"
 
 #: ../../user/checks.rst:1355
 msgid "The string has not been translated for a long time"
-msgstr "Dizgi uzun zamandır çevrilmedi"
+msgstr "Dizge uzun zamandır çevrilmemiş"
 
 #: ../../user/checks.rst:1357
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
@@ -36400,8 +36361,8 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
-"Dizgide birden çok adlandırılmamış değişken var, bu da çevirmenlerin bunları "
-"yeniden sıralamasını imkansız hale getirmektedir"
+"Dizgede birden çok adlandırılmamış değişken var, bu da çevirmenlerin bunları "
+"yeniden sıralamasını olanaksız kılıyor"
 
 #: ../../user/checks.rst:1393
 msgid "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
@@ -36430,7 +36391,7 @@ msgstr "Çoğulsuz"
 
 #: ../../user/checks.rst:1407
 msgid "The string is used as plural, but not using plural forms"
-msgstr "Dizgi çoğul olarak kullanılır, ancak çoğul biçimleri kullanmaz"
+msgstr "Dizge çoğul olarak kullanılmış, ancak çoğul biçimleri kullanılmıyor"
 
 #: ../../user/checks.rst:1409
 msgid "``weblate.checks.source.OptionalPluralCheck``"
@@ -36607,7 +36568,7 @@ msgstr ""
 
 #: ../../user/files.rst:97
 msgid "Add as translation needing edit (``fuzzy``)"
-msgstr "Düzenlenmesi gereken çeviri olarak ekle (``fuzzy``)"
+msgstr "Düzenlenmesi gerekli çeviri olarak ekle (``fuzzy``)"
 
 #: ../../user/files.rst:95
 msgid ""
@@ -36627,7 +36588,7 @@ msgstr ""
 
 #: ../../user/files.rst:105
 msgid "Update source strings (``source``)"
-msgstr "Kaynak dizgileri güncelle (``source``)"
+msgstr "Kaynak dizgeleri güncelle (``source``)"
 
 #: ../../user/files.rst:103
 msgid ""
@@ -36641,7 +36602,7 @@ msgstr "Bu seçenek yalnızca bazı dosya biçimleri için desteklenir."
 
 #: ../../user/files.rst:115
 msgid "Add new strings (``add``)"
-msgstr "Yeni dizgiler ekle (``add``)"
+msgstr "Yeni dizgeler ekle (``add``)"
 
 #: ../../user/files.rst:108
 msgid ""
@@ -36660,11 +36621,10 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:115
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
-msgstr "Yüklenen dosyadan dizgiler içe aktarılmadı."
+msgstr ""
+"Yüklenen dosyadan yalnızca kaynak çevirisi ve anahtarı (bağlam) kullanılır."
 
 #: ../../user/files.rst:119
 msgid ""
@@ -36682,7 +36642,7 @@ msgstr ""
 
 #: ../../user/files.rst:131
 msgid "Strings needing edit"
-msgstr ""
+msgstr "Düzenlenmesi gerekli dizgeler"
 
 #: ../../user/files.rst:133
 msgid ""
@@ -37175,10 +37135,8 @@ msgid "``source:TEXT``"
 msgstr ""
 
 #: ../../user/search.rst:27
-#, fuzzy
-#| msgid "Source string search"
 msgid "Source string case-insensitive search."
-msgstr "Kaynak dizgi arama"
+msgstr "Büyük/küçük harfe duyarsız kaynak dizge arama."
 
 #: ../../user/search.rst:28
 msgid "``target:TEXT``"
@@ -37209,10 +37167,8 @@ msgid "``note:TEXT``"
 msgstr ""
 
 #: ../../user/search.rst:35
-#, fuzzy
-#| msgid "Source string search"
 msgid "Source string description case-insensitive search."
-msgstr "Kaynak dizgi arama"
+msgstr "Büyük/küçük harfe duyarsız kaynak dizge açıklaması arama."
 
 #: ../../user/search.rst:36
 msgid "``location:TEXT``"
@@ -37375,10 +37331,8 @@ msgid "``resolved_comment:TEXT``"
 msgstr "Çözümlenmiş yorum"
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Search in resolved comments."
-msgstr "Çözümlenmiş yorum"
+msgstr "Çözümlenmiş yorumlarda aransın."
 
 #: ../../user/search.rst:77
 msgid "``comment_author:TEXT``"
@@ -37431,10 +37385,8 @@ msgid "``screenshot:TEXT``"
 msgstr "``explanation:METİN``"
 
 #: ../../user/search.rst:88
-#, fuzzy
-#| msgid "Manage screenshots"
 msgid "Search in screenshots."
-msgstr "Ekran görüntülerini yönet"
+msgstr "Ekran görüntülerinde aransın."
 
 #: ../../user/search.rst:91
 msgid "Boolean operators"
@@ -37513,7 +37465,7 @@ msgstr ""
 
 #: ../../user/search.rst:134
 msgid "Regular expressions"
-msgstr "Düzenli ifadeler"
+msgstr "Kurallı ifadeler"
 
 #: ../../user/search.rst:136
 msgid ""
@@ -37579,10 +37531,8 @@ msgid "Options for translation project visibility:"
 msgstr ""
 
 #: ../../user/translating.rst:17
-#, fuzzy
-#| msgid "Public profile"
 msgid "Publicly visible"
-msgstr "Herkese açık profil"
+msgstr "Herkes görebilir"
 
 #: ../../user/translating.rst:18
 msgid "Visible only to a certain group of translators"
@@ -37681,23 +37631,19 @@ msgstr "Aşağıdaki hizmetler tanımlıdır:"
 
 #: ../../user/translating.rst:100
 msgid "Automatically translated"
-msgstr "Otomatik olarak çevrildi"
+msgstr "Otomatik olarak çevrilmiş"
 
 #: ../../user/translating.rst:101
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid "String was translated using :ref:`auto-translation`."
-msgstr ":doc:`integration`, :ref:`continuous-translation`"
+msgstr "Dizge :ref:`auto-translation` ile çevrilmiş."
 
 #: ../../user/translating.rst:103
 msgid "Source needs review"
 msgstr "Kaynağı gözden geçirme gerekli"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "Strings marked for review:"
 msgid "String was marked for review using :ref:`source-reviews`."
-msgstr "Gözden geçirme için işaretlenen satır:"
+msgstr "Dizge :ref:`source-reviews` ile gözden geçirme için işaretlenmiş."
 
 #: ../../user/translating.rst:107
 msgid ":ref:`labels`"
@@ -37882,7 +37828,7 @@ msgstr ""
 
 #: ../../user/translating.rst:210
 msgid "Unmark translation as needing edit and submit it."
-msgstr "Düzenleme gerekli işaretini kaldır ve çeviriyi gönder."
+msgstr "Düzenlenmesi gerekli işaretini kaldır ve çeviriyi gönder."
 
 #: ../../user/translating.rst:214
 msgid ":kbd:`Ctrl+E` or"
@@ -37967,7 +37913,7 @@ msgstr ""
 
 #: ../../user/translating.rst:238
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr ":guilabel:`Yakındaki dizgiler` sekmesini gösterir."
+msgstr ":guilabel:`Yakındaki dizgeler` sekmesini görüntüler."
 
 #: ../../user/translating.rst:242
 msgid ":kbd:`Ctrl+S` or"
@@ -37991,7 +37937,7 @@ msgstr ""
 
 #: ../../user/translating.rst:246
 msgid "Copy source string."
-msgstr "Kaynak dizgiyi kopyala."
+msgstr "Kaynak dizgeyi kopyala."
 
 #: ../../user/translating.rst:250
 msgid ":kbd:`Ctrl+Y` or"
@@ -38064,7 +38010,7 @@ msgstr ""
 
 #: ../../user/translating.rst:285
 msgid "Nearby strings"
-msgstr "Yakındaki dizgiler"
+msgstr "Yakındaki dizgeler"
 
 #: ../../user/translating.rst:285
 msgid ""
@@ -38210,13 +38156,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:368
-#, fuzzy
-#| msgid "Fixed displaying of :guilabel:`Automatically translated` label."
 msgid ""
 "The automatically translated strings are labelled :guilabel:`Automatically "
 "translated`."
 msgstr ""
-":guilabel:`Otomatik olarak çevrildi` etiketinin görüntülenmesi düzeltildi."
+":guilabel:`Otomatik olarak çevrilmiş` etiketinin görüntülenmesi sorunu "
+"düzeltildi."
 
 #: ../../user/translating.rst:380
 msgid ""
@@ -38247,9 +38192,9 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
-"Dizgileri karıştırma konusunda endişelenmeyin. Bu, asıl değişiklik "
-"onaylanmadan önce düzenlenen dizgilerin önizlemesini gösteren iki adımlı bir "
-"işlemdir."
+"Dizgeleri karıştırma konusunda endişelenmeyin. Bu, asıl değişiklik "
+"onaylanmadan önce düzenlenen dizgelerin ön izlemesini gösteren iki adımlı "
+"bir işlemdir."
 
 #: ../../user/translating.rst:406
 msgid ""
@@ -38675,10 +38620,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:267
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitHub pull requests"
-msgstr "Geçersiz birleştirme isteği!"
+msgstr "GitHub çekme istekleri"
 
 #: ../../vcs.rst:271
 msgid ""
@@ -38708,10 +38651,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "GitLab merge requests"
-msgstr "Geçersiz birleştirme isteği!"
+msgstr "GitLab birleştirme istekleri"
 
 #: ../../vcs.rst:299
 msgid ""
@@ -38776,10 +38717,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:355
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge requests"
-msgstr "Geçersiz birleştirme isteği!"
+msgstr "Pagure birleştirme istekleri"
 
 #: ../../vcs.rst:359
 msgid ""
@@ -39548,7 +39487,7 @@ msgstr ""
 
 #: ../../workflows.rst:139
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr "*Gözden geçiren* dizgileri onaylayabilir/onaylamayabilir."
+msgstr "*Gözden geçiren* dizgeleri onaylayabilir ve onayı kaldırabilir."
 
 #: ../../workflows.rst:140
 msgid "*Reviewer* can edit all translations (including approved ones)."
