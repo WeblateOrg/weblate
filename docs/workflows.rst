@@ -253,7 +253,7 @@ The bilingual formats do not allow direct editing of source strings (these
 are typically extracted directly from the source code). In this case a
 :guilabel:`Source needs review` label is attached to strings reported by
 translators. You should review such strings and either edit them in the source
-code, or remove the label.
+material, or remove the label.
 
 .. seealso::
 
