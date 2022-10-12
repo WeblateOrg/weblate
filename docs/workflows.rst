@@ -184,7 +184,7 @@ Quality gateway for the source strings
 In many cases the original source language strings come from developers,
 as they write the code and provide initial strings. However developers are
 often not native speakers of the source language, and may not be capable of
-attaining the desired source string quality. Intermediate translation can help you
+attaining the desired source-string quality. Intermediate translation can help you
 in addressing this — because it makes for an additional quality gateway for
 strings between developers and translators.
 
@@ -249,7 +249,7 @@ For monolingual formats, source string review functions similarly to
 :ref:`reviews` — once an issue with a source string is reported, it is marked as
 :guilabel:`Needs editing`.
 
-The bilingual formats do not allow direct editing of source strings (these
+Bilingual formats do not allow direct editing of source strings (these
 are typically extracted directly from the source code). In this case a
 :guilabel:`Source needs review` label is attached to strings reported by
 translators. You should review such strings and either edit them in the source
