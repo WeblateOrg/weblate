@@ -6,6 +6,7 @@ Not yet released.
 * Added support for removing entries from translation memory.
 * Improved analysis on the duplicate language alert.
 * Improved accurancy of the consecutive duplicated words check.
+* Improved scaling of sending many notifications.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 
