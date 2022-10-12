@@ -26,28 +26,28 @@ from weblate.checks.flags import Flags
 
 
 def validate_filemask(val):
-    """Validate that filemask contains *."""
+    """Validate that the filemask contains *."""
     if "*" not in val:
         raise ValidationError(
-            _("File mask does not contain * as a language placeholder!")
+            _("The filemask does not contain * as a language placeholder!")
         )
 
 
 def validate_autoaccept(val):
-    """Validate correct value for autoaccept."""
+    """Validate correct value for auto-accept."""
     if val == 1:
         raise ValidationError(
             _(
-                "A value of 1 is not allowed for autoaccept as "
+                "A value of 1 is not allowed for auto-accept as "
                 "it would permit users to vote on their own suggestions."
             )
         )
 
 
 def validate_check_flags(val):
-    """Validate check influencing flags."""
+    """Validate check-influencing flags."""
     try:
         flags = Flags(val)
     except (ParseException, re.error) as error:
-        raise ValidationError(_("Failed to parse flags: %s") % error)
+        raise ValidationError(_("Could not parse flags: %s") % error)
     flags.validate()
