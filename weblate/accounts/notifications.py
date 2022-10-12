@@ -133,7 +133,7 @@ class Notification:
         return (
             result.filter(query)
             .order_by("user", "-scope")
-            .prefetch_related("user__profile__watched")
+            .prefetch_related("user", "user__profile", "user__profile__watched")
         )
 
     def get_subscriptions(self, change, project, component, translation, users):
