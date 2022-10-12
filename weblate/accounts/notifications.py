@@ -173,8 +173,8 @@ class Notification:
             return False
 
         if project.pk not in self.perm_cache:
-            self.perm_cache[project.pk] = User.objects.all_admins(project).values_list(
-                "pk", flat=True
+            self.perm_cache[project.pk] = set(
+                User.objects.all_admins(project).values_list("pk", flat=True)
             )
 
         return user.pk in self.perm_cache[project.pk]
