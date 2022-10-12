@@ -22,6 +22,7 @@ from datetime import datetime
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
+from django.db.models.base import post_save
 from django.utils import timezone
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
@@ -175,6 +176,13 @@ class ChangeQuerySet(models.QuerySet):
 
     def order(self):
         return self.order_by("-timestamp")
+
+    def bulk_create(self, *args, **kwargs):
+        """Executes post save to ensure messages are sent to fedora messaging."""
+        changes = super().bulk_create(*args, **kwargs)
+        for change in changes:
+            post_save.send(change.__class__, instance=change, created=True)
+        return changes
 
 
 class ChangeManager(models.Manager):
