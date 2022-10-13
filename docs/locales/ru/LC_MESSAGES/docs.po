@@ -7,13 +7,14 @@
 # Blueberry <igory.ygr200@gmail.com>, 2022.
 # Vik <k3kelm4vw@mozmail.com>, 2022.
 # Coool (github.com/Coool) <coool@mail.lv>, 2022.
+# Evgeniy Khramov <thejenjagamertjg@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-09-29 07:21+0000\n"
-"Last-Translator: Vik <k3kelm4vw@mozmail.com>\n"
+"PO-Revision-Date: 2022-10-13 17:01+0000\n"
+"Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -4416,6 +4417,9 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Комментарии и предложения сопровождаются именем пользователя, который их "
+"создал. При импорте они присваиваются соответствующему пользователю. Если "
+"нет пользователя с таким именем, он присваивается анонимному пользователю."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4423,6 +4427,9 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Созданные резервные копии хранятся на сервере в соответствии с настройками "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` и :setting:`PROJECT_BACKUP_KEEP_COUNT` ("
+"по умолчанию хранится не более 3 резервных копий в течение 30 дней)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -5660,6 +5667,9 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
+"Настройте поведение проверок так, чтобы они были нечувствительны к регистру. "
+"В настоящее время влияет только на проверку качества :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:139 ../../user/checks.rst:1207
 #: ../../user/checks.rst:1208
@@ -8250,13 +8260,15 @@ msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1338
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1342
 msgid ""
 "Defines how many backups per project are kept on the server. It defaults to "
 "3."
 msgstr ""
+"Определяет, сколько резервных копий на проект хранится на сервере. По "
+"умолчанию 3."
 
 #: ../../admin/config.rst:1346 ../../admin/config.rst:1359
 #, fuzzy
@@ -8266,7 +8278,7 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1351
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1355
 msgid ""
@@ -15877,7 +15889,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:93
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: ../../admin/machine.rst:97
 msgid "``baidu``"
@@ -16374,7 +16386,7 @@ msgstr "`Веб-сайт MyMemory <https://mymemory.translated.net/>`_"
 
 #: ../../admin/machine.rst:366
 msgid "Netease Sight"
-msgstr ""
+msgstr "Netease Sight"
 
 #: ../../admin/machine.rst:370
 msgid "``netease-sight``"
@@ -16546,7 +16558,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:490
 msgid "Yandex"
-msgstr ""
+msgstr "Яндекс"
 
 #: ../../admin/machine.rst:492
 #, fuzzy
@@ -16576,7 +16588,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:509
 msgid "Youdao Zhiyun"
-msgstr ""
+msgstr "Youdao Zhiyun"
 
 #: ../../admin/machine.rst:513
 msgid "``youdao-zhiyun``"
@@ -23380,7 +23392,7 @@ msgstr "Удаляет объект памяти"
 
 #: ../../api.rst:2026
 msgid "Memory Object ID"
-msgstr ""
+msgstr "Идентификатор объекта памяти"
 
 #: ../../api.rst:2031
 msgid "Units"
@@ -24359,10 +24371,8 @@ msgid "Extended API to cover translation memory."
 msgstr "Расширенный API с созданием перевода."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Improved translation locking."
 msgid "Improved document translation workflow."
-msgstr "Улучшена блокировка переводов."
+msgstr "Улучшенный рабочий процесс перевода документов."
 
 #: ../../changes.rst:33
 #, fuzzy
@@ -24395,10 +24405,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.13.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.13.1"
 
 #: ../../changes.rst:42
 #, fuzzy
@@ -24471,10 +24479,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.13"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.13"
 
 #: ../../changes.rst:59
 #, fuzzy
@@ -24550,7 +24556,7 @@ msgstr "Улучшение обработки заполнителей в маш
 
 #: ../../changes.rst:73
 msgid "Redirect /.well-known/change-password to /accounts/password/."
-msgstr ""
+msgstr "Перенаправить /.well-known/change-password на /accounts/password/."
 
 #: ../../changes.rst:74
 #, fuzzy
@@ -24722,10 +24728,8 @@ msgstr ""
 "autotranslate`для вновь добавленных строк."
 
 #: ../../changes.rst:116
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for :ref:`vcs-gitea`."
-msgstr "Добавлена поддержка :ref:`txt`."
+msgstr "Добавлена поддержка :ref:`vcs-gitea`."
 
 #: ../../changes.rst:117
 msgid ""
@@ -24781,10 +24785,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:128
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11.2"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11.2"
 
 #: ../../changes.rst:130 ../../changes.rst:139
 #, fuzzy
@@ -24811,10 +24813,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:137
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11.1"
 
 #: ../../changes.rst:141
 msgid ""
@@ -24848,26 +24848,20 @@ msgid "The project tokens access can now be customized."
 msgstr "Скачанные переводы теперь могут быть настроены."
 
 #: ../../changes.rst:147
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/74?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/74?"
-"closed=1>`__."
+"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/"
+"78?closed=1>`__."
 
 #: ../../changes.rst:150
 msgid "Weblate 4.11"
 msgstr "Weblate 4.11"
 
 #: ../../changes.rst:152
-#, fuzzy
-#| msgid "Released on February 20th 2020."
 msgid "Released on February 25th 2022."
-msgstr "Выпущен 20 февраля 2020 года."
+msgstr "Выпущен 25 февраля 2022 года."
 
 #: ../../changes.rst:154
 msgid ""
@@ -24943,10 +24937,8 @@ msgid "Sticky header on translations listing to improve navigation."
 msgstr ""
 
 #: ../../changes.rst:168
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed untranslating strings in :ref:`javaprop`."
-msgstr "Исправлен перевод вновь добавленных строк."
+msgstr "Исправлена непереводимость строк в :ref:`javaprop`."
 
 #: ../../changes.rst:169
 msgid "Fixed Git operation with non-ascii branch names."
@@ -24972,10 +24964,8 @@ msgstr ""
 "autotranslate`для вновь добавленных строк."
 
 #: ../../changes.rst:173
-#, fuzzy
-#| msgid "Improve quality checks for Armenian."
 msgid "Improved punctuation checks for Burmese."
-msgstr "Улучшение проверок качества для армянского языка."
+msgstr "Улучшена проверка пунктуации для бирманского языка."
 
 #: ../../changes.rst:174
 msgid ""
@@ -24984,10 +24974,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:175
-#, fuzzy
-#| msgid "Fixed documentation links for add-ons."
 msgid "Added documentation links to alerts."
-msgstr "Исправлены ссылки на документацию для надстроек."
+msgstr "Добавлены ссылки на документацию к оповещениям."
 
 #: ../../changes.rst:176
 msgid ""
@@ -25004,10 +24992,8 @@ msgid "Added support for searching for resolved comments."
 msgstr "Добавлена поддержка поиска по пояснениям."
 
 #: ../../changes.rst:178
-#, fuzzy
-#| msgid "Added support for Python 3.9."
 msgid "Added support for borgbackup 1.2."
-msgstr "Добавлена поддержка Python 3.9."
+msgstr "Добавлена поддержка borgbackup 1.2."
 
 #: ../../changes.rst:179
 #, fuzzy
@@ -25016,16 +25002,12 @@ msgid "Fixed applying of :guilabel:`Automatically translated` label."
 msgstr "Исправлено отображение метки :guilabel:`Автоматически переведённая`."
 
 #: ../../changes.rst:181
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/74?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/74?"
-"closed=1>`__."
+"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/"
+"75?closed=1>`__."
 
 #: ../../changes.rst:184
 msgid "Weblate 4.10.1"
@@ -25064,16 +25046,12 @@ msgid "The Weblate Docker container now uses Python 3.10."
 msgstr "Контейнер Docker для Weblate теперь использует Python 3.10."
 
 #: ../../changes.rst:196
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/74?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/76?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/74?"
-"closed=1>`__."
+"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/"
+"76?closed=1>`__."
 
 #: ../../changes.rst:199
 msgid "Weblate 4.10"
@@ -31962,10 +31940,8 @@ msgstr ""
 "`internals`."
 
 #: ../../contributing/snippets/code-guide.rst:2
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding guidelines"
-msgstr "Оформление кода"
+msgstr "Рекомендации по кодированию"
 
 #: ../../contributing/snippets/code-guide.rst:4
 msgid ""
@@ -33518,16 +33494,12 @@ msgid "noreply@example.com"
 msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "C-формат"
+msgstr "формат"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Email"
 msgid "email"
-msgstr "Email"
+msgstr "Эл. почта"
 
 #: ../../contributing/schemas.rst:19
 msgid "**date\\_joined**"
@@ -33543,7 +33515,7 @@ msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr ""
+msgstr "date-time"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
@@ -33562,10 +33534,8 @@ msgid "*Language*"
 msgstr "*Язык*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "^[^ ]+$"
 msgid "^[^ ]\\*$"
-msgstr "^[^ ]+$"
+msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
@@ -34494,10 +34464,8 @@ msgstr ""
 "и улучшает качество и согласованность контента."
 
 #: ../../devel/community.rst:31
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Structured feedback"
-msgstr "reStructuredText"
+msgstr "Структурированный отзыв"
 
 #: ../../devel/community.rst:32
 msgid ""
@@ -34506,10 +34474,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/community.rst:35
-#, fuzzy
-#| msgid "Translation organization"
 msgid "Translation definition"
-msgstr "Организация переводов"
+msgstr "Определение перевода"
 
 #: ../../devel/community.rst:36
 msgid ""
@@ -34951,10 +34917,8 @@ msgstr ""
 "этапе можно выбрать любой одноязычный формат)."
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configuring Weblate CDN addon"
 msgid "Configuring Weblate CDN add-on"
-msgstr "Настройка надстройки Weblate CDN"
+msgstr "Настройка дополнения Weblate CDN"
 
 #: ../../devel/html.rst:47
 #, fuzzy
@@ -36834,10 +36798,8 @@ msgstr ""
 "``."
 
 #: ../../faq.rst:252
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
 
 #: ../../faq.rst:257
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
@@ -37528,10 +37490,8 @@ msgid "Plurals [#p]_"
 msgstr "Множественные формы [#p]_"
 
 #: ../../formats.rst:59
-#, fuzzy
-#| msgid "Description"
 msgid "Descriptions [#n]_"
-msgstr "Описание"
+msgstr "Описании [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
@@ -38002,10 +37962,8 @@ msgstr ""
 "В настоящее время Weblate поддерживает несколько вариантов переводов в JSON:"
 
 #: ../../formats.rst:283
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "`XLIFF translation file`"
-msgstr "Файл перевода XLIFF"
+msgstr "`Файл перевода XLIFF`"
 
 #: ../../formats.rst:284
 msgid ""
@@ -38015,17 +37973,15 @@ msgstr ""
 
 #: ../../formats.rst:285
 msgid "`XLIFF with placeables support`"
-msgstr ""
+msgstr "`XLIFF с поддержкой размещаемых файлов`"
 
 #: ../../formats.rst:286
 msgid "Standard XLIFF supporting placeables and other XML elements."
 msgstr ""
 
 #: ../../formats.rst:289
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "`XLIFF with gettext extensions`"
-msgstr "XLIFF с расширениями gettext"
+msgstr "`XLIFF с расширениями gettext`"
 
 #: ../../formats.rst:288
 msgid ""
@@ -39042,10 +38998,8 @@ msgstr ""
 "files`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1112
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary files"
-msgstr "Сбой репозитория"
+msgstr "Файлы ResourceDictionary"
 
 #: ../../formats.rst:1120
 msgid ""
@@ -39176,10 +39130,8 @@ msgid "`Simple CSV file`"
 msgstr "`Простой CSV-файл`"
 
 #: ../../formats.rst:1215
-#, fuzzy
-#| msgid "Simple CSV file (UTF-8)"
 msgid "Multivalue CSV file"
-msgstr "Простой CSV файл (UTF-8)"
+msgstr "Многозначный CSV-файл"
 
 #: ../../formats.rst:1219
 msgid ""
@@ -40239,10 +40191,8 @@ msgid "``weblate.checks.markup.BBCodeCheck``"
 msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "change identifier"
 msgid "Check identifier"
-msgstr "идентификатор изменения"
+msgstr "Проверить идентификатор"
 
 #: ../../user/checks.rst:53
 #, fuzzy
@@ -42820,10 +42770,8 @@ msgstr ""
 "противном случае некоторые возможности могут быть перенесены неправильно."
 
 #: ../../user/files.rst:74
-#, fuzzy
-#| msgid ":ref:`fmt_capabs`, :ref:`workflows`"
 msgid ":ref:`formats`, :doc:`/user/files`"
-msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
+msgstr ":ref:`formats`, :doc:`/user/files`"
 
 #: ../../user/files.rst:80
 msgid "Import methods"
@@ -43829,16 +43777,12 @@ msgid "Search in user comments."
 msgstr "Поиск в пользовательских комментариях."
 
 #: ../../user/search.rst:75
-#, fuzzy
-#| msgid "``comment:TEXT``"
 msgid "``resolved_comment:TEXT``"
-msgstr "``comment:ТЕКСТ``"
+msgstr "``resolved_comment:TEXT``"
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in resolved comments."
-msgstr "Поиск в пользовательских комментариях."
+msgstr "Поиск в разрешенных комментариях."
 
 #: ../../user/search.rst:77
 msgid "``comment_author:TEXT``"
@@ -43873,26 +43817,20 @@ msgid "Search in explanations."
 msgstr "Поиск в пояснениях."
 
 #: ../../user/search.rst:85
-#, fuzzy
-#| msgid "``state:TEXT``"
 msgid "``label:TEXT``"
-msgstr "``state:ТЕКСТ``"
+msgstr "``label:TEXT``"
 
 #: ../../user/search.rst:86
 msgid "Search in labels."
 msgstr "Поиск в метках."
 
 #: ../../user/search.rst:88
-#, fuzzy
-#| msgid "``screenshots``"
 msgid "``screenshot:TEXT``"
-msgstr "``screenshots``"
+msgstr "``screenshot:TEXT``"
 
 #: ../../user/search.rst:88
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in screenshots."
-msgstr "Поиск в пользовательских комментариях."
+msgstr "Поиск по скриншотам."
 
 #: ../../user/search.rst:91
 msgid "Boolean operators"
@@ -44309,10 +44247,8 @@ msgid ":ref:`plural-formula`"
 msgstr ":ref:`plural-formula`"
 
 #: ../../user/translating.rst:156
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translations"
-msgstr "Создать перевод"
+msgstr "Альтернативные переводы"
 
 #: ../../user/translating.rst:162
 msgid "This is currently only supported with :ref:`multivalue-csv`."
@@ -44371,22 +44307,16 @@ msgid ":kbd:`Alt+PageUp` or"
 msgstr ":kbd:`Alt+PageUp` или"
 
 #: ../../user/translating.rst:190
-#, fuzzy
-#| msgid ":kbd:`Ctrl ↑` or"
 msgid ":kbd:`Ctrl+↑` or"
-msgstr ":kbd:`Ctrl ↑` или"
+msgstr ":kbd:`Ctrl+↑` или"
 
 #: ../../user/translating.rst:192
-#, fuzzy
-#| msgid ":kbd:`Alt ↑` or"
 msgid ":kbd:`Alt+↑` or"
-msgstr ":kbd:`Alt ↑` или"
+msgstr ":kbd:`Alt+↑` или"
 
 #: ../../user/translating.rst:194
-#, fuzzy
-#| msgid ":kbd:`Cmd+↓`"
 msgid ":kbd:`Cmd+↑`"
-msgstr ":kbd:`Cmd+↓`"
+msgstr ":kbd:`Cmd+↑`"
 
 #: ../../user/translating.rst:188
 msgid "Navigate to previous translation in current search."
