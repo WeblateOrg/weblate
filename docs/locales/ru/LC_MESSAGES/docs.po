@@ -8,13 +8,14 @@
 # Vik <k3kelm4vw@mozmail.com>, 2022.
 # Coool (github.com/Coool) <coool@mail.lv>, 2022.
 # Evgeniy Khramov <thejenjagamertjg@gmail.com>, 2022.
+# Vin <k3kelm4vw@mozmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-13 17:01+0000\n"
-"Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
+"PO-Revision-Date: 2022-10-17 00:03+0000\n"
+"Last-Translator: Vin <k3kelm4vw@mozmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -3789,8 +3790,8 @@ msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
-"Вам нужно будет зарегистрировать приложение OAuth в GitHub’е, а затем "
-"передать Weblate’у все его секреты:"
+"Вам нужно будет зарегистрировать приложение OAuth в GitHub, а затем передать "
+"Weblate все его данные:"
 
 #: ../../admin/auth.rst:112
 msgid ""
@@ -3841,8 +3842,8 @@ msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
-"Вам нужно будет зарегистрировать приложение в Bitbucket’е, а затем "
-"рассказать Weblate’у все его секреты:"
+"Вам нужно будет зарегистрировать приложение в Bitbucket, а затем сообщить "
+"Weblate все его данные:"
 
 #: ../../admin/auth.rst:153
 msgid ":doc:`psa:backends/bitbucket`"
@@ -4521,7 +4522,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:82
 msgid "Weblate provisioned backup storage"
-msgstr "Предоставляемое Weblate’ом хранилище резервных копий"
+msgstr "Предоставляемое Weblate хранилище резервных копий"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -6648,7 +6649,7 @@ msgid ""
 "automatically."
 msgstr ""
 "Полезно, если вы не используете :ref:`обработчики <hooks>` для "
-"автоматического обновления Weblate’овских репозиториев."
+"автоматического обновления репозиториев Weblate."
 
 #: ../../admin/config.rst:94
 msgid ""
@@ -7211,9 +7212,9 @@ msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"Этот каталог должен быть доступен Weblate’у для записи. Запуск его в "
-"качестве приложения uWSGI означает, что пользователь ``www-data`` должен "
-"иметь к нему доступ с правами на запись."
+"Этот каталог должен быть доступен для записи Weblate. Запуск его как uWSGI "
+"означает, что пользователь ``www-data`` должен иметь к нему доступ с правами "
+"на запись."
 
 #: ../../admin/config.rst:415
 msgid ""
@@ -7304,7 +7305,7 @@ msgid ""
 msgstr ""
 "Используйте :guilabel:`Настраиваемый`, если списками контроля доступа вы "
 "управляете вручную, что означает, что вы не полагаетесь на внутреннее "
-"Weblate’овское управление ими."
+"управление Weblate."
 
 #: ../../admin/config.rst:469
 msgid ":ref:`acl`, :ref:`project-access_control`"
@@ -8285,6 +8286,8 @@ msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Определяет, как долго резервные копии проекта будут храниться на сервере. По "
+"умолчанию 30 дней."
 
 #: ../../admin/config.rst:1364
 msgid "RATELIMIT_ATTEMPTS"
@@ -8660,10 +8663,10 @@ msgid ""
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
 "Перенаправляет пользователей непосредственно в проект или компонент вместо "
-"отображения панели управления. Вы можете установить параметр в ``True``, в "
-"этом случае он будет работать только в том случае, если в Weblate’е и в "
-"самом деле есть только один проект. Или же можно задать плашку проекта, "
-"тогда пользователь будет безоговорочно перенаправлен в этот проект."
+"отображения панели управления. Вы можете установить значение ``True``, в "
+"этом случае он будет работать тогда, когда в Weblate и в самом деле есть "
+"только один проект. Или же можно задать плашку проекта, тогда пользователь "
+"будет безоговорочно перенаправлен в этот проект."
 
 #: ../../admin/config.rst:1640
 msgid ""
@@ -8925,9 +8928,7 @@ msgstr "WEBLATE_GPG_IDENTITY"
 
 #: ../../admin/config.rst:1894
 msgid "Identity used by Weblate to sign Git commits, for example:"
-msgstr ""
-"Идентификатор, используемый Weblate’ом для подписывания коммитов Git, "
-"например:"
+msgstr "Удостоверение, используемое Weblate для подписи коммитов Git, например:"
 
 #: ../../admin/config.rst:1900
 msgid ""
@@ -9215,10 +9216,9 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
-"Для заполнения адреса полезной нагрузки (поля :guilabel:`Payload URL`), "
-"добавьте к URL-адресу вашего Weblate’а суффикс ``/hooks/github/``, например, "
-"для сервиса Hosted Weblate, это этот адрес будет таким: ``https://hosted."
-"weblate.org/hooks/github/``."
+"Для адреса полезной нагрузки (поля :guilabel:`Payload URL`), добавьте к URL-"
+"адресу вашего Weblate ``/hooks/github/``, например, для сервиса Hosted "
+"Weblate, это этот адрес будет ``https://hosted.weblate.org/hooks/github/``."
 
 #: ../../admin/continuous.rst:157
 msgid ""
@@ -9541,8 +9541,7 @@ msgid ""
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
 "Также вы можете включить автоматическую отправку изменений после коммитов "
-"Weblate’а, это можно сделать установкой параметра :ref:`component-"
-"push_on_commit`."
+"Weblate, это можно сделать в параметре :ref:`component-push_on_commit`."
 
 #: ../../admin/continuous.rst:325
 msgid ""
@@ -9793,10 +9792,10 @@ msgid ""
 "python3.9/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
-"При написании собственного кода на Python (называемого модулем) его "
-"необходимо разместить в каталоге, находящемся либо где-то в системном пути "
-"(обычно это путь вида :file:`/usr/lib/python3.9/site-packages/`), либо в "
-"каталоге Weblate’а, который также добавляется к путям поиска интерпретатора."
+"При написании собственного кода на Python (называемого модулем), его "
+"необходимо разместить в каталоге, находящемся либо в системном пути (обычно "
+"это путь вида :file:`/usr/lib/python3.9/site-packages/`), либо в каталоге "
+"Weblate, который также добавляется к путям поиска интерпретатора."
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -9842,8 +9841,8 @@ msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
-"После установки этот модуль можно использовать в настройках Weblate’а "
-"(например, ``weblate_customization.checks.FooCheck``)."
+"После установки этот модуль можно использовать в настройках Weblate ("
+"например, ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
@@ -9854,7 +9853,7 @@ msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
-"Пример настройки Weblate’а можно найти по адресу <https://github.com/"
+"Пример настройки Weblate можно найти по адресу <https://github.com/"
 "WeblateOrg/customize-example>, он охватывает все описанные ниже темы."
 
 #: ../../admin/customize.rst:76
@@ -9954,8 +9953,8 @@ msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
-"Поместите файлы в модуль Python, содержащий вашу модификацию Weblate’а "
-"(смотрите раздел :ref:`custom-module`)."
+"Поместите файлы в модуль Python, содержащий ваши настройки Weblate (смотрите "
+"раздел :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:123
 msgid ""
@@ -16386,7 +16385,7 @@ msgstr "`Веб-сайт MyMemory <https://mymemory.translated.net/>`_"
 
 #: ../../admin/machine.rst:366
 msgid "Netease Sight"
-msgstr "Netease Sight"
+msgstr "NetEase Sight"
 
 #: ../../admin/machine.rst:370
 msgid "``netease-sight``"
@@ -16464,13 +16463,15 @@ msgstr ""
 #: ../../admin/machine.rst:413
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
 msgstr ""
-"Для доступа к API Sandbox необходимо задать параметры ``url`` and ``key``."
+"Для доступа к API Sandbox необходимо задать параметры ``url`` и ``key``."
 
 #: ../../admin/machine.rst:416
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
+"Для доступа к API Productive, вам необходимо задать ``url``, ``username`` и "
+"``password``."
 
 #: ../../admin/machine.rst:420
 msgid ""
@@ -16497,9 +16498,9 @@ msgid ""
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
 "Вы можете запустить свой собственный сервер памяти переводов, используя "
-"сервер, сходящий в поставку с Translate-toolkit, и настроив общение "
-"Weblate’а с ним. Также вы можете использовать его с сервером amaGama, "
-"который является расширенной версией tmserver’а."
+"сервер, входящий в Translate-toolkit, и настроив Weblate на взаимодействие с "
+"ним. Также вы можете использовать его с сервером amaGama, который является "
+"расширенной версией tmserver."
 
 #: ../../admin/machine.rst:437
 msgid "First you will want to import some data to the translation memory:"
@@ -16514,6 +16515,8 @@ msgid ""
 "Configure Weblate to talk to it, the default URL is ``http://localhost:8888/"
 "tmserver/``."
 msgstr ""
+"Настройте Weblate на взаимодействие с ним, URL-адрес по умолчанию — "
+"``http://localhost:8888/tmserver/``."
 
 #: ../../admin/machine.rst:455
 msgid ""
@@ -16541,7 +16544,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:476
 msgid "Weblate Translation Memory"
-msgstr "Память переводов Weblate’а"
+msgstr "Память переводов Weblate"
 
 #: ../../admin/machine.rst:480
 #, fuzzy
@@ -23243,12 +23246,9 @@ msgstr ""
 "множественного числа)"
 
 #: ../../api.rst:1884
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
-"Ссылка на исходную единицу перевода; смотрите описание :http:get:`/api/units/"
-"(int:id)/`"
+"недавно созданная единица перевода; смотрите :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1888
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
@@ -23554,10 +23554,8 @@ msgstr ""
 "(int:id)/`"
 
 #: ../../api.rst:2085
-#, fuzzy
-#| msgid "whether the unit is fuzzy or marked for review"
 msgid "whether the unit is pending for write"
-msgstr "является ли перевод единицы перевода неточным или отмеченным на правку"
+msgstr "является ли единица перевода ожидающей записи"
 
 #: ../../api.rst:2086
 msgid "string age"
@@ -24318,10 +24316,8 @@ msgid "Released on August 22nd 2022."
 msgstr "Выпущен 22 августа 2022 года."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Record source string changes in history."
 msgid "Track add-on changes in a history."
-msgstr "Запись изменений исходной строки в историю."
+msgstr "Отслеживайте изменения надстроек в истории."
 
 #: ../../changes.rst:24
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
@@ -24409,10 +24405,8 @@ msgid "Weblate 4.13.1"
 msgstr "Weblate 4.13.1"
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Released on July 15th 2021."
 msgid "Released on July 1st 2022."
-msgstr "Выпущен 15 июля 2021 года."
+msgstr "Выпущен 1 июля 2022 года."
 
 #: ../../changes.rst:44
 #, fuzzy
@@ -43526,16 +43520,12 @@ msgstr ""
 "конкретным полям."
 
 #: ../../user/search.rst:11
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens on :guilabel:`Source`, :"
-#| "guilabel:`Translate` and :guilabel:`Context` fields."
 msgid ""
 "When no field is defined, the lookup happens on source, target, and context "
 "strings."
 msgstr ""
-"Если поле не определено, поиск проводится по полям :guilabel:`Источник`, :"
-"guilabel:`Перевод` и :guilabel:`Контекст`."
+"Если поле не определено, поиск проводится в исходных, целевых и контекстных "
+"строках."
 
 #: ../../user/search.rst:16
 msgid "Simple search"
@@ -43647,12 +43637,6 @@ msgid "``has:TEXT``"
 msgstr "``has:ТЕКСТ``"
 
 #: ../../user/search.rst:47
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -43661,7 +43645,8 @@ msgid ""
 msgstr ""
 "Поиск строк, имеющих атрибуты — ``plural``, ``context``, ``suggestion``, "
 "``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``."
+"``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, "
+"``label``."
 
 #: ../../user/search.rst:48
 msgid "``is:TEXT``"
