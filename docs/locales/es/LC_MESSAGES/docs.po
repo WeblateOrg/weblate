@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-26 08:39+0200\n"
-"PO-Revision-Date: 2022-10-10 23:42+0000\n"
-"Last-Translator: Mr. Vega <juanmarin690@gmail.com>\n"
+"PO-Revision-Date: 2022-10-17 00:03+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -866,7 +866,7 @@ msgstr "Componentes"
 
 #: ../../admin/access.rst:392
 msgid "foo/bar"
-msgstr "foo/bar"
+msgstr "foobar"
 
 #: ../../admin/access.rst:394
 msgid "`Spanish`"
@@ -3435,7 +3435,7 @@ msgstr "Gestión de claves SSH; vea :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr "Resumen de las alertas para todos los componentes, ver :ref:`alerts`."
+msgstr "Resumen de alertas para todos los componentes, consulte :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
@@ -4361,7 +4361,9 @@ msgstr "En el archivo :file:`urls.py` del proyecto (cuando no existan modelos)"
 
 #: ../../admin/auth.rst:662
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
+msgstr ""
+"` Biblioteca de cliente Django CAS <https://github.com/django-cas-ng/django-"
+"cas-ng>`_"
 
 #: ../../admin/auth.rst:665
 msgid "Configuring third party Django authentication"
@@ -4467,6 +4469,11 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate tiene soporte integrado para crear copias de seguridad de servicios "
+"usando `BorgBackup`_. Borg crea copias de seguridad cifradas que ocupan poco "
+"espacio y que se pueden almacenar de forma segura en la nube. Las copias de "
+"seguridad se pueden controlar en la interfaz de gestión desde la pestaña "
+":guilabel:`Backups`."
 
 #: ../../admin/backup.rst:47
 msgid ""
@@ -4481,6 +4488,8 @@ msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"Las copias de seguridad que utilizan Borg son incrementales y Weblate está "
+"configurado para mantener las siguientes copias de seguridad:"
 
 #: ../../admin/backup.rst:51
 msgid "Daily backups for 14 days back"
@@ -4504,12 +4513,17 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ crea copias de seguridad cifradas y no podrá restaurarlas sin "
+"la frase de contraseña. La frase de contraseña se genera al agregar un nuevo "
+"servicio de respaldo y debe copiarla y guardarla en un lugar seguro."
 
 #: ../../admin/backup.rst:66
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+"Si utilizas :ref:`cloudbackup`, haz una copia de seguridad de tu clave SSH "
+"privada también, ya que se utiliza para acceder a tus copias de seguridad."
 
 #: ../../admin/backup.rst:71
 msgid ":doc:`borg:usage/init`"
@@ -4528,10 +4542,12 @@ msgstr ""
 #: ../../admin/backup.rst:77
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
+"La creación de copias de seguridad puede personalizarse mediante "
+":setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/backup.rst:82
 msgid "Weblate provisioned backup storage"
-msgstr ""
+msgstr "Almacenamiento de copia de seguridad proporcionado por Weblate"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -4539,26 +4555,37 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"La forma más sencilla de hacer una copia de seguridad de su instancia de "
+"Weblate es adquirir el `servicio de copia de seguridad en weblate.org "
+"<https://weblate.org/support/#backup>`_. Así es como se pone en marcha:"
 
 #: ../../admin/backup.rst:88
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
+"Compre el `Servicio de copia de seguridad` en https://welate.org/support/"
+"#backup."
 
 #: ../../admin/backup.rst:89
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
+"Introduzca la clave obtenida en la interfaz de gestión, consulte :ref"
+":`activate-support`."
 
 #: ../../admin/backup.rst:90
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
+"Weblate se conecta al servicio en la nube y obtiene información de acceso "
+"para las copias de seguridad."
 
 #: ../../admin/backup.rst:91
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
+"Active la nueva configuración de las copias de seguridad desde la pestaña "
+":guilabel:`Backups`."
 
 #: ../../admin/backup.rst:92
 msgid ""
@@ -4574,6 +4601,9 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"El paso manual de encender todo está ahí para su seguridad. Sin tu "
+"consentimiento no se envía ningún dato al repositorio de copias de seguridad "
+"obtenido a través del proceso de registro."
 
 #: ../../admin/backup.rst:103
 msgid "Using custom backup storage"
@@ -4585,6 +4615,10 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"También puede utilizar su propio almacenamiento para las copias de "
+"seguridad. Se puede utilizar SSH para almacenar las copias de seguridad en "
+"el destino remoto, el servidor de destino necesita tener instalado "
+"`BorgBackup`_."
 
 #: ../../admin/backup.rst:111
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -4623,12 +4657,17 @@ msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
+"Una opción es colocar las copias de seguridad en un volumen existente, por "
+"ejemplo :file:`/app/data/borgbackup`. Este es un volumen existente en el "
+"contenedor."
 
 #: ../../admin/backup.rst:130
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
+"También puede añadir un nuevo contenedor para las copias de seguridad en el "
+"archivo Docker Compose, por ejemplo, utilizando :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:141
 msgid ""
@@ -4649,34 +4688,45 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"Para crear copias de seguridad remotas, tendrá que instalar `BorgBackup`_ en "
+"otro servidor que sea accesible para su implementación de Weblate a través "
+"de SSH utilizando la clave SSH de Weblate:"
 
 #: ../../admin/backup.rst:151
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Prepare un servidor donde se almacenarán sus copias de seguridad."
 
 #: ../../admin/backup.rst:152
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Instala el servidor SSH en él (lo tendrás por defecto con la mayoría de las "
+"distribuciones de Linux)."
 
 #: ../../admin/backup.rst:153
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Instale `BorgBackup`_ en ese servidor; la mayoría de las distribuciones de "
+"Linux tienen paquetes disponibles (véase :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:154
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Elija un usuario existente o cree un nuevo usuario que se utilizará para las "
+"copias de seguridad."
 
 #: ../../admin/backup.rst:155
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Añade la clave SSH de Weblate al usuario para que Weblate pueda SSH al "
+"servidor sin necesidad de contraseña (ver :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:156
 msgid ""
@@ -4706,16 +4756,22 @@ msgstr "Restaurar a partir de BorgBackup"
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Restablece el acceso a tu repositorio de copias de seguridad y prepara tu "
+"frase de acceso a las mismas."
 
 #: ../../admin/backup.rst:171
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
+"Listar todas las copias de seguridad en el servidor usando ``borg list "
+"REPOSITORY``."
 
 #: ../../admin/backup.rst:173
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Restaura la copia de seguridad deseada en el directorio actual utilizando ``"
+"borg extract REPOSITORY::ARCHIVE``."
 
 #: ../../admin/backup.rst:175
 msgid ""
@@ -5672,10 +5728,8 @@ msgid "``ignore-lua-format``"
 msgstr "``ignore-es-format``"
 
 #: ../../admin/checks.rst:173
-#, fuzzy
-#| msgid "Skip the \"Lua format\" quality check."
 msgid "Skip the :ref:`check-lua-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Lua»."
+msgstr "Omita el control de calidad :ref:`check-lua-format`."
 
 #: ../../admin/checks.rst:174 ../../user/checks.rst:414
 #, fuzzy
@@ -5684,10 +5738,8 @@ msgid "``ignore-object-pascal-format``"
 msgstr "``ignore-qt-plural-format``"
 
 #: ../../admin/checks.rst:175
-#, fuzzy
-#| msgid "Skip the \"Perl format\" quality check."
 msgid "Skip the :ref:`check-object-pascal-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Perl»."
+msgstr "Omita el control de calidad :ref:`check-object-pascal-format`."
 
 #: ../../admin/checks.rst:176 ../../user/checks.rst:436
 msgid "``ignore-percent-placeholders``"
@@ -5703,71 +5755,56 @@ msgid "``ignore-perl-format``"
 msgstr "``ignore-perl-format``"
 
 #: ../../admin/checks.rst:179
-#, fuzzy
-#| msgid "Skip the \"Perl format\" quality check."
 msgid "Skip the :ref:`check-perl-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Perl»."
+msgstr "Omita el control de calidad :ref:`check-perl-format`."
 
 #: ../../admin/checks.rst:180 ../../user/checks.rst:473
 msgid "``ignore-php-format``"
 msgstr "``ignore-php-format``"
 
 #: ../../admin/checks.rst:181
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-php-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato C»."
+msgstr "Omita el control de calidad :ref:`check-php-format`."
 
 #: ../../admin/checks.rst:182 ../../user/checks.rst:493
 msgid "``ignore-python-brace-format``"
 msgstr "``ignore-python-brace-format``"
 
 #: ../../admin/checks.rst:183
-#, fuzzy
-#| msgid "Skip the \"Python brace format\" quality check."
 msgid "Skip the :ref:`check-python-brace-format` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad «Formato de llaves de Python»."
+msgstr "Omita el control de calidad :ref:`check-python-brace-format`."
 
 #: ../../admin/checks.rst:184 ../../user/checks.rst:513
 msgid "``ignore-python-format``"
 msgstr "``ignore-python-format``"
 
 #: ../../admin/checks.rst:185
-#, fuzzy
-#| msgid "Skip the \"Python format\" quality check."
 msgid "Skip the :ref:`check-python-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Python»."
+msgstr "Omita el control de calidad :ref:`check-python-format`."
 
 #: ../../admin/checks.rst:186 ../../user/checks.rst:533
 msgid "``ignore-qt-format``"
 msgstr "``ignore-qt-format``"
 
 #: ../../admin/checks.rst:187
-#, fuzzy
-#| msgid "Skip the \"Qt format\" quality check."
 msgid "Skip the :ref:`check-qt-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Qt»."
+msgstr "Omita el control de calidad :ref:`check-qt-format`."
 
 #: ../../admin/checks.rst:188 ../../user/checks.rst:551
 msgid "``ignore-qt-plural-format``"
 msgstr "``ignore-qt-plural-format``"
 
 #: ../../admin/checks.rst:189
-#, fuzzy
-#| msgid "Skip the \"Qt plural format\" quality check."
 msgid "Skip the :ref:`check-qt-plural-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato de plurales de Qt»."
+msgstr "Omita el control de calidad :ref:`check-qt-plural-format`."
 
 #: ../../admin/checks.rst:190 ../../user/checks.rst:569
 msgid "``ignore-ruby-format``"
 msgstr "``ignore-ruby-format``"
 
 #: ../../admin/checks.rst:191
-#, fuzzy
-#| msgid "Skip the \"Ruby format\" quality check."
 msgid "Skip the :ref:`check-ruby-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Ruby»."
+msgstr "Omita el control de calidad :ref:`check-ruby-format`."
 
 #: ../../admin/checks.rst:192 ../../user/checks.rst:590
 #, fuzzy
@@ -5776,10 +5813,8 @@ msgid "``ignore-scheme-format``"
 msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:193
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-scheme-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato C»."
+msgstr "Omita el control de calidad :ref:`check-scheme-format`."
 
 #: ../../admin/checks.rst:194 ../../user/checks.rst:610
 #, fuzzy
@@ -5788,20 +5823,16 @@ msgid "``ignore-vue-format``"
 msgstr "``ignore-es-format``"
 
 #: ../../admin/checks.rst:195
-#, fuzzy
-#| msgid "Skip the \"Lua format\" quality check."
 msgid "Skip the :ref:`check-vue-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato Lua»."
+msgstr "Omita el control de calidad :ref:`check-vue-format`."
 
 #: ../../admin/checks.rst:196 ../../user/checks.rst:630
 msgid "``ignore-translated``"
 msgstr "``ignore-translated``"
 
 #: ../../admin/checks.rst:197
-#, fuzzy
-#| msgid "Skip the \"Has been translated\" quality check."
 msgid "Skip the :ref:`check-translated` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Se había traducido»."
+msgstr "Omita el control de calidad :ref:`check-translated`."
 
 #: ../../admin/checks.rst:198 ../../user/checks.rst:644
 msgid "``ignore-inconsistent``"
@@ -9624,7 +9655,7 @@ msgstr "Dependencias más notables:"
 
 #: ../../admin/install.rst:74
 msgid "Django"
-msgstr "Django"
+msgstr "Web Python Django"
 
 #: ../../admin/install.rst:75
 msgid "https://www.djangoproject.com/"
@@ -14705,7 +14736,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:322
 msgid "ModernMT"
-msgstr "ModernMT"
+msgstr "Traductor ModernMT"
 
 #: ../../admin/machine.rst:326
 msgid "``modernmt``"
@@ -14848,7 +14879,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:426
 msgid "tmserver"
-msgstr "tmserver"
+msgstr "Servidor de memoria de traducción"
 
 #: ../../admin/machine.rst:428
 #, fuzzy
@@ -32781,7 +32812,7 @@ msgstr ":ref:`dotnet`"
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
-msgstr "Perl"
+msgstr "Lenguaje de programación Perl"
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
@@ -40938,10 +40969,8 @@ msgid "Git"
 msgstr "Git"
 
 #: ../../vcs.rst:202
-#, fuzzy
-#| msgid "Weblate now requires Python 3.6 or newer."
 msgid "Weblate needs Git 2.12 or newer."
-msgstr "Weblate ahora requiere Python 3.6 o una versión más reciente."
+msgstr "Weblate necesita Git 2.12 o posterior."
 
 #: ../../vcs.rst:206 ../../vcs.rst:414
 msgid ""
