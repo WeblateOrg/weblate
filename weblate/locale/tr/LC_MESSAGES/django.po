@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-08-26 06:38+0000\n"
-"PO-Revision-Date: 2022-10-13 17:01+0000\n"
+"PO-Revision-Date: 2022-10-17 00:03+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -50,7 +50,7 @@ msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
-"Bu e-posta adresi zaten kullanılıyor. Lütfen farklı bir e-posta adresi girin."
+"Bu e-posta adresi zaten kullanılıyor. Lütfen farklı bir e-posta adresi yazın."
 
 #: weblate/accounts/forms.py:114
 msgid "This username is already taken. Please choose another."
@@ -145,11 +145,11 @@ msgstr "Henüz bir parola belirlemediyseniz bu alanı boş bırakın."
 
 #: weblate/accounts/forms.py:532
 msgid "You have entered an invalid password."
-msgstr "Geçersiz bir parola girdiniz."
+msgstr "Yazdığınız parola geçersiz."
 
 #: weblate/accounts/forms.py:545
 msgid "Username or e-mail"
-msgstr "Kullanıcı adı veya e-posta"
+msgstr "Kullanıcı adı ya da e-posta"
 
 #: weblate/accounts/forms.py:546 weblate/accounts/templatetags/authnames.py:35
 msgid "Password"
@@ -157,7 +157,7 @@ msgstr "Parola"
 
 #: weblate/accounts/forms.py:549
 msgid "Please enter the correct username and password."
-msgstr "Lütfen doğru kullanıcı adını ve parolayı girin."
+msgstr "Lütfen doğru kullanıcı adını ve parolayı yazın."
 
 #: weblate/accounts/forms.py:550
 msgid "This account is inactive."
@@ -173,7 +173,7 @@ msgstr "Çeviri bildirimleri"
 
 #: weblate/accounts/forms.py:688
 msgid "Use default setting"
-msgstr "Varsayılan ayarı kullan"
+msgstr "Varsayılan ayar kullanılsın"
 
 #: weblate/accounts/forms.py:714
 msgid "Other projects"
@@ -275,7 +275,7 @@ msgstr "Kullanıcı adı"
 
 #: weblate/accounts/forms.py:813 weblate/auth/models.py:349
 msgid "Date joined"
-msgstr "Katıldığı tarih"
+msgstr "Katılma tarihi"
 
 #: weblate/accounts/forms.py:814
 msgid "Translations made"
@@ -307,26 +307,26 @@ msgstr "Grup ekle"
 
 #: weblate/accounts/models.py:148
 msgid "Password changed."
-msgstr "Parola değişti."
+msgstr "Parola değiştirildi."
 
 #: weblate/accounts/models.py:149
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "Kullanıcı adı {old} adından {new} adına değiştirildi."
+msgstr "{old} olan kullanıcı adı {new} olarak değiştirildi."
 
 #: weblate/accounts/models.py:150
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "E-posta {old} adresinden {new} adresine değiştirildi."
+msgstr "{old} olan e-posta adresi {new} olarak değiştirildi."
 
 #: weblate/accounts/models.py:151
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr "Ad soyad, {old} adından {new} adına değiştirildi."
+msgstr "{old} olan ad ve soyad {new} olarak değiştirildi."
 
 #: weblate/accounts/models.py:152
 msgid "Password reset requested."
-msgstr "Parola sıfırlama istendi."
+msgstr "Parolanın sıfırlanması istendi."
 
 #: weblate/accounts/models.py:153
 msgid "Password reset confirmed, password turned off."
@@ -335,39 +335,40 @@ msgstr "Parola sıfırlama onaylandı, parola kapatıldı."
 #: weblate/accounts/models.py:154
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "{method} ({name}) kullanılarak yapılandırılan giriş yapma."
+msgstr "{method} ({name}) ile oturum açma yapılandırıldı."
 
 #: weblate/accounts/models.py:155
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "{method} ({name}) kullanılarak kaldırılan giriş yapma."
+msgstr "{method} ({name}) ile oturum açma kaldırıldı."
 
 #: weblate/accounts/models.py:156
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "{method} ({name}) kullanarak giriş yapıldı."
+msgstr "{method} ({name}) ile oturum açıldı."
 
 #: weblate/accounts/models.py:157
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Yeni bir cihazdan {method} ({name}) kullanarak giriş yapıldı."
+msgstr "Yeni bir aygıttan {method} ({name}) ile oturum açıldı."
 
 #: weblate/accounts/models.py:158
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Birisi e-postanızla kaydolmaya çalıştı."
+msgstr "Birisi e-posta adresinizle bir hesap açmayı denedi."
 
 #: weblate/accounts/models.py:159
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Birisi e-posta adresinizi kullanarak kaydolmaya çalıştı."
+msgstr "Birisi e-posta adresinizi kullanarak hesap açmayı denedi."
 
 #: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "{method} ({name}) kullanılarak giriş yapılmadı."
+msgstr "{method} ({name}) ile oturum açılamadı."
 
 #: weblate/accounts/models.py:161
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Birçok başarısız giriş yapma denemesinden dolayı hesap kilitlendi."
+msgstr ""
+"Çok sayıda başarısız oturum açma denemesi yapıldığından hesap kilitlendi."
 
 #: weblate/accounts/models.py:162
 msgid "Account and all private data removed."
@@ -376,12 +377,12 @@ msgstr "Hesap ve tüm özel veriler kaldırıldı."
 #: weblate/accounts/models.py:163
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "Hizmet Şartları'nın kabulü {date}."
+msgstr "Hizmet koşulları {date} tarihinde kabul edilmiş."
 
 #: weblate/accounts/models.py:164
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "{username} tarafından {site_title}'e davet edildi."
+msgstr "{username} tarafından {site_title} sitesine davet edildi."
 
 #: weblate/accounts/models.py:165
 msgid "Started trial period."
@@ -407,29 +408,28 @@ msgstr "{project} projesine erişim engellendi"
 
 #: weblate/accounts/models.py:176
 msgid "Configured password to sign in."
-msgstr "Giriş yapmak için yapılandırılan parola."
+msgstr "Oturum açmak için yapılandırılmış parola."
 
 #: weblate/accounts/models.py:177
 msgid "Signed in using password."
-msgstr "Parola kullanarak giriş yapıldı."
+msgstr "Parola ile oturum açıldı."
 
 #: weblate/accounts/models.py:178
 msgid "Signed in using password from a new device."
-msgstr "Yeni bir cihazdan parola kullanarak giriş yapıldı."
+msgstr "Yeni bir cihazdan parola ile oturum açıldı."
 
 #: weblate/accounts/models.py:179
 msgid "Could not sign in using password."
-msgstr "Parola kullanılarak giriş yapılamadı."
+msgstr "Parola kullanılarak oturum açılamadı."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
-msgstr "Hesabınıza erişimi geri almak için lütfen parolanızı sıfırlayın."
+msgstr "Hesabınıza yeniden erişebilmek için lütfen parolanızı sıfırlayın."
 
 #: weblate/accounts/models.py:186
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
-"Bunun uygunsuz olduğunu düşünüyorsanız, lütfen proje bakımcıları ile "
-"iletişime geçin."
+"Bunun hatalı olduğunu düşünüyorsanız, lütfen proje yöneticileri ile görüşün."
 
 #: weblate/accounts/models.py:310 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -438,7 +438,7 @@ msgstr "Hesap etkinliği"
 
 #: weblate/accounts/models.py:372
 msgid "Interface Language"
-msgstr "Arayüz Dili"
+msgstr "Arayüz dili"
 
 #: weblate/accounts/models.py:378
 msgid "Translated languages"
@@ -450,7 +450,7 @@ msgid ""
 "the dashboard for easier access to your chosen translations."
 msgstr ""
 "Çeviri yapabileceğiniz dilleri seçin. Bunlar, seçtiğiniz çevirilere daha "
-"kolay erişmek için panelde size sunulacak."
+"kolay erişmek için panoda size sunulacak."
 
 #: weblate/accounts/models.py:388
 msgid "Secondary languages"
@@ -466,15 +466,15 @@ msgstr ""
 
 #: weblate/accounts/models.py:402
 msgid "Hide completed translations on the dashboard"
-msgstr "Tamamlanan çevirileri panelde gizle"
+msgstr "Tamamlanmış çeviriler panoda gizlensin"
 
 #: weblate/accounts/models.py:405
 msgid "Show secondary translations in the Zen mode"
-msgstr "İkincil çevirileri Zen kipinde göster"
+msgstr "İkincil çeviriler Zen kipinde görüntülensin"
 
 #: weblate/accounts/models.py:408
 msgid "Hide source if a secondary translation exists"
-msgstr "İkincil çeviri varsa kaynağı gizle"
+msgstr "İkincil çeviri varsa kaynak gizlensin"
 
 #: weblate/accounts/models.py:414
 msgid "Editor link"
@@ -486,8 +486,8 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Kaynak koduna bağlantı olarak kullanılacak bir özel URL girin. Dal için "
-"{{branch}}, dosya adı ve satır yer tutucuları olarak {{filename}} ve "
+"Kaynak koduna bağlantı olarak kullanılacak bir özel adres yazın. Dal için "
+"{{branch}}, dosya adı ve satır yer belirticileri olarak {{filename}} ve "
 "{{line}} kullanabilirsiniz."
 
 #: weblate/accounts/models.py:425
@@ -566,7 +566,7 @@ msgstr "Önerilen çeviriler"
 
 #: weblate/accounts/models.py:487
 msgid "Default dashboard view"
-msgstr "Varsayılan panel görünümü"
+msgstr "Varsayılan pano görünümü"
 
 #: weblate/accounts/models.py:493
 msgid "Default component list"
@@ -580,11 +580,11 @@ msgid ""
 "dashboard by default."
 msgstr ""
 "İzlenen projeler için bildirim alabilirsiniz ve bunlar varsayılan olarak "
-"panelde gösterilir."
+"panoda görüntülenir."
 
 #: weblate/accounts/models.py:511
 msgid "Website URL"
-msgstr "Web sitesi URL'si"
+msgstr "Web sitesi adresi"
 
 #: weblate/accounts/models.py:515
 msgid "Liberapay username"
@@ -600,24 +600,24 @@ msgstr ""
 
 #: weblate/accounts/models.py:524
 msgid "Fediverse URL"
-msgstr "Fediverse URL'si"
+msgstr "Fediverse adresi"
 
 #: weblate/accounts/models.py:527
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
-"Mastodon veya diaspora* gibi federe hizmetler için Fediverse profilinize "
-"bağlantılayın."
+"Mastodon veya diaspora* gibi birleşik hizmetler için Fediverse profilinizi "
+"ilişkilendirin."
 
 #: weblate/accounts/models.py:532
 msgid "Code site URL"
-msgstr "Kod sitesi URL'si"
+msgstr "Kod sitesi adresi"
 
 #: weblate/accounts/models.py:534
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
-"Codeberg veya GitLab gibi hizmetler için kod profilinizi bağlantılayın."
+"Codeberg veya GitLab gibi hizmetler için kod profilinizi ilişkilendirin."
 
 #: weblate/accounts/models.py:537
 msgid "GitHub username"
@@ -638,7 +638,7 @@ msgstr "Linkedin.com/in/profil adındaki LinkedIn profil adınız"
 #: weblate/accounts/models.py:553
 #: weblate/templates/snippets/embed-units.html:64
 msgid "Location"
-msgstr "Yer"
+msgstr "Konum"
 
 #: weblate/accounts/models.py:558
 msgid "Company"
@@ -647,13 +647,12 @@ msgstr "Şirket"
 #: weblate/accounts/models.py:613
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr ""
-"Lütfen panelde hangi bileşen listesini görüntülemek istediğinizi seçin."
+msgstr "Lütfen panoda görüntülenmesini istediğiniz bileşen listesini seçin."
 
 #: weblate/accounts/models.py:624
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
-"Panelde gösterilmediğinde bileşen listesinin seçilmesinin etkisi yoktur."
+"Panoda görüntülenmediğinde bileşen listesinin seçilmesinin etkisi yoktur."
 
 #: weblate/accounts/models.py:748 weblate/trans/views/edit.py:363
 #, python-format
@@ -661,8 +660,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
-"Çevrilen dillerinize %(language)s eklendi. Bunları ayarlarda "
-"ayarlayabilirsiniz."
+"%(language)s çevrilen dillerinize eklendi. Bunları ayarlar bölümünden "
+"değiştirebilirsiniz."
 
 #: weblate/accounts/models.py:809
 msgid ""
@@ -673,7 +672,7 @@ msgstr ""
 
 #: weblate/accounts/notifications.py:53
 msgid "Do not notify"
-msgstr "Bildirim yapma"
+msgstr "Bildirilmesin"
 
 #: weblate/accounts/notifications.py:54
 msgid "Instant notification"
@@ -694,7 +693,7 @@ msgstr "Aylık özet"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:417
 msgid "Repository failure"
-msgstr "Depo hatası"
+msgstr "Depo sorunu"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:445
@@ -715,7 +714,7 @@ msgstr "Lisans değişti"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:472 weblate/trans/models/change.py:297
 msgid "Parse error"
-msgstr "Ayrıştırma hatası"
+msgstr "İşleme sorunu"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:490
@@ -789,7 +788,7 @@ msgstr "Yeni uyarı"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:773
 msgid "Pending suggestions"
-msgstr "Öneriler beklemede"
+msgstr "Bekleyen öneriler"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:784
@@ -804,11 +803,11 @@ msgstr "Bu parola yalnızca boşluktan oluşuyor."
 
 #: weblate/accounts/password_validation.py:42
 msgid "This password is only a single character."
-msgstr "Bu parola yalnızca tek bir karakter."
+msgstr "Bu parolada yalnızca tek bir karakter var."
 
 #: weblate/accounts/password_validation.py:48
 msgid "Your password can't consist of a single character or only whitespace."
-msgstr "Parolanız tek karakterden veya yalnızca boşluktan oluşamaz."
+msgstr "Parolanız tek bir karakterden ya da yalnızca boşluktan oluşamaz."
 
 #: weblate/accounts/password_validation.py:68
 msgid "Can not reuse previously used password."
@@ -820,7 +819,7 @@ msgstr "Parolanız geçmişte kullandığınız bir parola ile eşleşemez."
 
 #: weblate/accounts/pipeline.py:326
 msgid "You can not complete password reset while signed in."
-msgstr "Giriş yapmışken parola sıfırlamayı tamamlayamazsınız."
+msgstr "Oturum açılmışken parola sıfırlama işlemini tamamlayamazsınız."
 
 #: weblate/accounts/pipeline.py:329 weblate/accounts/pipeline.py:352
 msgid "The registration link has been invalidated."
@@ -828,11 +827,11 @@ msgstr "Kayıt bağlantısı geçersiz kılındı."
 
 #: weblate/accounts/pipeline.py:344
 msgid "You can not complete registration while signed in."
-msgstr "Giriş yapmışken kaydolmayı tamamlayamazsınız."
+msgstr "Oturum açmışken hesap açma işlemini tamamlayamazsınız."
 
 #: weblate/accounts/pipeline.py:349
 msgid "You can confirm your registration only while signed in."
-msgstr "Yalnızca giriş yapmışken kaydınızı onaylayabilirsiniz."
+msgstr "Yalnızca oturum açmışken hesap açma işlemini onaylayabilirsiniz."
 
 #: weblate/accounts/pipeline.py:506
 #, python-brace-format
@@ -840,7 +839,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"E-postanız artık doğrulanmış hesaba ait değil, {0} olarak değiştirildi."
+"E-posta adresiniz artık doğrulanmış hesaba ait değil, {0} olarak "
+"değiştirildi."
 
 #: weblate/accounts/views.py:174 weblate/accounts/views.py:890
 #: weblate/accounts/views.py:953 weblate/templates/accounts/reset.html:7
@@ -878,7 +878,8 @@ msgstr "Hesabınız kaldırıldı."
 
 #: weblate/accounts/views.py:469
 msgid "Too many messages sent, please try again later."
-msgstr "Çok fazla ileti gönderildi, lütfen daha sonra yeniden deneyin."
+msgstr ""
+"Çok fazla sayıda ileti gönderildi. Lütfen bir süre sonra yeniden deneyin."
 
 #: weblate/accounts/views.py:497 weblate/templates/accounts/contact.html:6
 #: weblate/templates/base.html:285 weblate/templates/footer.html:16
@@ -894,17 +895,16 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
-"Görünüşe göre yakın zamanda bir deneme süresi talep etmişsiniz. Sizin için "
-"en iyi çözümü bulabilmemiz için lütfen sorunuzla birlikte bizimle iletişime "
-"geçin."
+"Görünüşe göre yakın zamanda bir deneme süresi isteğinde bulunmuşsunuz. Size "
+"uygun en iyi çözümü bulabilmemiz için lütfen sorunuzu bize yazın."
 
 #: weblate/accounts/views.py:562
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
-"Deneme süreniz şu an başladı ve işliyor; çeviri projenizi oluşturun ve "
-"Weblatlemeye başlayın!"
+"Deneme süreniz şu an başladı. Çeviri projenizi oluşturun ve Weblate ile "
+"çalışmaya başlayın!"
 
 #: weblate/accounts/views.py:568 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
@@ -917,19 +917,19 @@ msgstr "Bedava deneme"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:222
 msgid "Sign in"
-msgstr "Giriş yap"
+msgstr "Oturum aç"
 
 #: weblate/accounts/views.py:731 weblate/wladmin/sites.py:188
 msgid "Thank you for using Weblate."
-msgstr "Weblate'i kullandığınız için teşekkür ederiz."
+msgstr "Weblate kullandığınız için teşekkür ederiz."
 
 #: weblate/accounts/views.py:820 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr "E-postayı kaydettir"
+msgstr "E-posta adresi kaydet"
 
 #: weblate/accounts/views.py:835 weblate/accounts/views.py:910
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "Parola sıfırlanamıyor, e-posta kimlik doğrulaması kapalı."
+msgstr "Parola sıfırlanamadı. E-posta ile kimlik doğrulaması kapalı."
 
 #: weblate/accounts/views.py:866 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:133
@@ -951,7 +951,7 @@ msgstr "Önce e-posta adresinizi onaylayarak başka bir kimlik ekleyin."
 
 #: weblate/accounts/views.py:1155
 msgid "Could not complete registration."
-msgstr "Kayıt tamamlanamadı."
+msgstr "Hesap açma işlemi tamamlanamadı."
 
 #: weblate/accounts/views.py:1158
 msgid "Please check if you have already registered an account."
@@ -959,20 +959,19 @@ msgstr "Lütfen daha önce bir hesap açıp açmadığınızı denetleyin."
 
 #: weblate/accounts/views.py:1160
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr ""
-"Kimlik bilgilerinizi kaybettiyseniz, ayrıca yeni bir parola isteyebilirsiniz."
+msgstr "Kimlik bilgilerinizi kaybettiyseniz, yeni bir parola isteyebilirsiniz."
 
 #: weblate/accounts/views.py:1170
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
-"Kimliğinizi doğrulamak için tekrar kaydetmeyi deneyin, doğrulama "
-"belirtecinin muhtemelen süresi doldu."
+"Kimliğinizi doğrulamak için yeniden hesap açmayı deneyin. Büyük olasılıkla "
+"doğrulama kodunun süresi doldu."
 
 #: weblate/accounts/views.py:1177
 msgid "Could not authenticate due to invalid session state."
-msgstr "Geçersiz oturum durumu nedeniyle kimlik doğrulanamadı."
+msgstr "Oturum durumu geçersiz olduğundan kimlik doğrulanamadı."
 
 #: weblate/accounts/views.py:1184
 msgid "Got no e-mail address from third party authentication service."
@@ -980,22 +979,22 @@ msgstr "Üçüncü taraf kimlik doğrulama hizmetinde e-posta adresiniz yok."
 
 #: weblate/accounts/views.py:1186
 msgid "Please register using e-mail instead."
-msgstr "Lütfen bunun yerine e-posta kullanarak kaydolun."
+msgstr "Lütfen bunun yerine e-posta kullanarak hesap açın."
 
 #: weblate/accounts/views.py:1193
 msgid "New registrations are turned off."
-msgstr "Yeni kayıtlar kapatıldı."
+msgstr "Yeni hesap açılması engellendi."
 
 #: weblate/accounts/views.py:1251
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Muhtemelen kullanım süresi dolmuş bir belirteç veya bağlantı hatası "
-"nedeniyle kimliği doğrulanamadı."
+"Büyük olasılıkla kullanım süresi geçmiş bir kod ya da bağlantı hatası "
+"nedeniyle kimlik doğrulanamadı."
 
 #: weblate/accounts/views.py:1257
 msgid "Authentication cancelled."
-msgstr "Kimlik doğrulama iptal edildi."
+msgstr "Kimlik doğrulaması iptal edildi."
 
 #: weblate/accounts/views.py:1260
 msgid "The server does not allow authentication."
@@ -1003,15 +1002,15 @@ msgstr "Sunucu kimlik doğrulamasına izin vermiyor."
 
 #: weblate/accounts/views.py:1264
 msgid "The supplied e-mail address is already in use for another account."
-msgstr "Verilen e-posta adresi zaten başka bir hesap için kullanılmakta."
+msgstr "Belirtilen e-posta adresi zaten başka bir hesap için kullanılıyor."
 
 #: weblate/accounts/views.py:1268
 msgid "The supplied username is already in use for another account."
-msgstr "Verilen kullanıcı adı zaten başka bir hesap için kullanılmakta."
+msgstr "Belirtilen kullanıcı adı zaten başka bir hesap için kullanılıyor."
 
 #: weblate/accounts/views.py:1273
 msgid "The supplied user identity is already in use for another account."
-msgstr "Verilen kullanıcı kimliği zaten başka bir hesap için kullanılmakta."
+msgstr "Belirtilen kullanıcı kimliği zaten başka bir hesap için kullanılıyor."
 
 #: weblate/accounts/views.py:1299 weblate/accounts/views.py:1312
 msgid "Notification settings adjusted."
@@ -1022,8 +1021,8 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
-"Bildirim değişikliği bağlantısı artık geçerli değil, lütfen bildirimleri "
-"yapılandırmak için giriş yapın."
+"Bildirim değişikliği bağlantısı artık geçerli değil. Lütfen bildirimleri "
+"yapılandırmak için oturum açın."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:74
@@ -1036,7 +1035,7 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Makine çevirisini veya diğer bileşenleri kullanarak dizgeleri otomatik "
+"Makine çevirisini ya da diğer bileşenleri kullanarak dizgeleri otomatik "
 "olarak çevirir."
 
 #: weblate/addons/base.py:327 weblate/trans/views/create.py:247
@@ -1045,24 +1044,24 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"Depo güncel değil, siz onu güncelleştirene kadar beklenen sonuçları "
+"Depo güncel değil. Siz onu güncelleştirene kadar beklenen sonuçları "
 "alamayabilirsin."
 
 #: weblate/addons/cdn.py:39
 msgid "JavaScript localization CDN"
-msgstr "JavaScript yerelleştirme CDN'i"
+msgstr "JavaScript yerelleştirme CDN"
 
 #: weblate/addons/cdn.py:41
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"JavaScript veya HTML yerelleştirmesinde kullanılmak üzere içerik dağıtım "
+"JavaScript ya da HTML yerelleştirmesinde kullanılmak üzere içerik dağıtım "
 "ağına çevirileri yayınlar."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
-msgstr "Çeviri dosyaslarını temizle"
+msgstr "Çeviri dosyaları temizlensin"
 
 #: weblate/addons/cleanup.py:39
 msgid ""
@@ -1070,9 +1069,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Tüm çeviri dosyalarını tek dilli taban dosyayla eşleşmesi için güncelle. "
-"Çoğu dosya biçimi için bu, taban dosyada artık bulunmayan eski çeviri "
-"anahtarlarını kaldırmak anlamına gelir."
+"Tüm çeviri dosyalarını tek dilli temel dosyayla eşleşecek şekilde günceller. "
+"Bu işlem çoğu dosya biçiminde temel dosyada artık bulunmayan eski çeviri "
+"anahtarlarını kaldırır."
 
 #: weblate/addons/cleanup.py:63
 msgid "Remove blank strings"
@@ -1104,7 +1103,7 @@ msgid ""
 "the version control system."
 msgstr ""
 "Sürüm denetim sistemindeki dosya değişikliklerine göre proje bileşenlerini "
-"kendiliğinden ekler veya kaldırır."
+"otomatik olarak ekler ya da kaldırır."
 
 #: weblate/addons/example.py:36
 msgid "Example add-on"
@@ -1138,7 +1137,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:66
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Yeni çevirileri \"Düzenleme gerekli\" olarak işaretle"
+msgstr "Yeni çeviriler \"Düzenleme gerekli\" olarak işaretlensin"
 
 #: weblate/addons/flags.py:68
 msgid ""
