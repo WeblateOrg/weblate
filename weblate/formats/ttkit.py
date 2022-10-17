@@ -1655,6 +1655,7 @@ class SubRipFormat(TTKitFormat):
     unit_class = SubtitleUnit
     autoload = ("*.srt",)
     monolingual = True
+    autoaddon = {"weblate.flags.same_edit": {}}
 
     @staticmethod
     def mimetype():
