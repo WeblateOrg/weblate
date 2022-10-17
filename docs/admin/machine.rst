@@ -214,7 +214,7 @@ Machine translation service provided by Google Cloud services.
     `Google translate documentation <https://cloud.google.com/translate/docs>`_,
     `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_,
     `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_,
-    `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/locations>`_
+    `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
 
 .. _mt-libretranslate:
 
