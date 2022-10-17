@@ -530,3 +530,7 @@ class Repository:
 
     def list_remote_branches(self):
         return []
+
+    @classmethod
+    def uses_deprecated_setting(cls) -> bool:
+        return False

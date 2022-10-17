@@ -57,6 +57,23 @@ def check_vcs(app_configs, **kwargs):
     ]
 
 
+def check_vcs_deprecated(app_configs, **kwargs):
+    from weblate.vcs.models import VCS_REGISTRY
+
+    for key, cls in VCS_REGISTRY.items():
+        print(key, cls, cls.uses_deprecated_setting())
+    return [
+        weblate_check(
+            f"weblate.W040.{key}",
+            f"{key} uses deprecated configuration, please switch "
+            f"to {cls.identifier.upper()}_CREDENTIALS",
+            Warning,
+        )
+        for key, cls in VCS_REGISTRY.items()
+        if cls.uses_deprecated_setting()
+    ]
+
+
 def check_git(app_configs, **kwargs):
     template = "Failure in configuring Git: {}"
     return [
@@ -73,6 +90,7 @@ class VCSConfig(AppConfig):
     def ready(self):
         super().ready()
         register(check_vcs)
+        register(check_vcs_deprecated)
         register(check_git, deploy=True)
         register(check_gpg, deploy=True)
 

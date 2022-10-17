@@ -788,6 +788,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         }
 
     @classmethod
+    def uses_deprecated_setting(cls) -> bool:
+        return not getattr(settings, f"{cls.identifier.upper()}_CREDENTIALS") and (
+            getattr(settings, f"{cls.identifier.upper()}_USERNAME")
+            or getattr(settings, f"{cls.identifier.upper()}_TOKEN")
+        )
+
+    @classmethod
     def is_configured(cls) -> bool:
         return getattr(settings, f"{cls.identifier.upper()}_USERNAME") or getattr(
             settings, f"{cls.identifier.upper()}_CREDENTIALS"

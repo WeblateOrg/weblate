@@ -744,6 +744,10 @@ List for credentials for Gitea servers.
 GITEA_USERNAME
 --------------
 
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`GITEA_CREDENTIALS`.
+
 .. versionadded:: 4.12
 
 Gitea username used to send pull requests for translation updates.
@@ -757,6 +761,10 @@ Gitea username used to send pull requests for translation updates.
 
 GITEA_TOKEN
 -----------
+
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`GITEA_CREDENTIALS`.
 
 .. versionadded:: 4.12
 
@@ -804,6 +812,10 @@ List for credentials for GitLab servers.
 GITLAB_USERNAME
 ---------------
 
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`GITLAB_CREDENTIALS`.
+
 GitLab username used to send merge requests for translation updates.
 
 .. seealso::
@@ -815,6 +827,10 @@ GitLab username used to send merge requests for translation updates.
 
 GITLAB_TOKEN
 ------------
+
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`GITLAB_CREDENTIALS`.
 
 .. versionadded:: 4.3
 
@@ -859,6 +875,10 @@ List for credentials for GitHub servers.
 GITHUB_USERNAME
 ---------------
 
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`GITHUB_CREDENTIALS`.
+
 GitHub username used to send pull requests for translation updates.
 
 .. seealso::
@@ -870,6 +890,10 @@ GitHub username used to send pull requests for translation updates.
 
 GITHUB_TOKEN
 ------------
+
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`GITHUB_CREDENTIALS`.
 
 .. versionadded:: 4.3
 
@@ -1282,6 +1306,10 @@ List for credentials for Pagure servers.
 PAGURE_USERNAME
 ---------------
 
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`PAGURE_CREDENTIALS`.
+
 .. versionadded:: 4.3.2
 
 Pagure username used to send merge requests for translation updates.
@@ -1295,6 +1323,10 @@ Pagure username used to send merge requests for translation updates.
 
 PAGURE_TOKEN
 ------------
+
+.. deprecated:: 4.14.2
+
+   This configuration is insecure, it is recommended to switch to :setting:`PAGURE_CREDENTIALS`.
 
 .. versionadded:: 4.3.2
 

@@ -8,6 +8,7 @@ Not yet released.
 * Improved accurancy of the consecutive duplicated words check.
 * Improved scaling of sending many notifications.
 * Improved string state handling for subtitle translation.
+* Deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 
