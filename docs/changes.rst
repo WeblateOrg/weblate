@@ -1,5 +1,5 @@
-Weblate 4.15
-------------
+Weblate 4.14.2
+--------------
 
 Not yet released.
 
