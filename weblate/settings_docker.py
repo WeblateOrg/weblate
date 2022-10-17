@@ -473,6 +473,9 @@ if "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT" in os.environ:
             "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY"
         ]
 
+# Gitea
+SOCIAL_AUTH_GITEA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_KEY", "")
+SOCIAL_AUTH_GITEA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_SECRET", "")
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
