@@ -929,9 +929,16 @@ class LabelsSerializer(serializers.RelatedField):
         model = Label
 
     def get_queryset(self):
+        """
+        List of available labels for an unit.
+        
+        The queryset argument is only ever required for writable relationship field, 
+        in which case it is used for performing the model instance lookup, that maps
+        from the primitive user input, into a model instance.
+        """
         unit = self.parent.parent.instance
         project = unit.translation.component.project
-        return Label.objects.filter(project=project)
+        return project.label_set.all()
 
     def to_representation(self, value):
         return value.name
