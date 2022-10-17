@@ -80,7 +80,7 @@
       function (e) {
         window.location = $("#button-next").attr("href");
         return false;
-      }
+      },
     );
     Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], function (e) {
       window.location = $("#button-prev").attr("href");
@@ -141,7 +141,7 @@
         {
           scrollTop: $("#comment-form").offset().top,
         },
-        1000
+        1000,
       );
       $("#id_comment").focus();
     });
@@ -279,7 +279,7 @@
   FullEditor.prototype.processMachineryError = function (
     jqXHR,
     textStatus,
-    errorThrown
+    errorThrown,
   ) {
     decreaseLoading("machinery");
     if (jqXHR.state() !== "rejected") {
@@ -288,7 +288,7 @@
           " " +
           textStatus +
           ": " +
-          errorThrown
+          errorThrown,
       );
     }
   };
@@ -298,7 +298,7 @@
     if (data.responseStatus !== 200) {
       var msg = interpolate(
         gettext("The request for machine translation using %s has failed:"),
-        [data.service]
+        [data.service],
       );
       addAlert(msg + " " + data.responseDetails);
 
@@ -442,7 +442,7 @@
         } else {
           title = interpolate(
             gettext("Press Ctrl+I then %s to dismiss this."),
-            [key]
+            [key],
           );
         }
         $number.html($("<kbd/>").attr("title", title).text(key));
@@ -452,7 +452,7 @@
           function (e) {
             $this.find(".check-dismiss-single").click();
             return false;
-          }
+          },
         );
       } else {
         $number.html("");
@@ -490,7 +490,7 @@
       }
       /* Relies on clone source implementation */
       let cloneElement = document.querySelector(
-        ".source-language-group [data-clone-text]"
+        ".source-language-group [data-clone-text]",
       );
       if (cloneElement !== null) {
         let source = cloneElement.getAttribute("data-clone-text");
@@ -499,7 +499,7 @@
           let term_target = document.getElementById("id_add_term_target");
           term_source.value = source;
           term_target.value = document.querySelector(
-            ".translation-editor"
+            ".translation-editor",
           ).value;
         }
       }
@@ -564,7 +564,7 @@
           .attr("class", "target machinery-text")
           .attr("lang", this.state.lang)
           .attr("dir", this.state.dir)
-          .text(el.text)
+          .text(el.text),
       );
       row.append($("<td/>").attr("class", "machinery-text").text(el.source));
       row.append(service);
@@ -588,8 +588,8 @@
             '<a class="js-copy-save-machinery btn btn-primary">' +
             gettext("Copy and save") +
             "</a>" +
-            "</td>"
-        )
+            "</td>",
+        ),
       );
 
       if (this.state.weblateTranslationMemory.has(el.text)) {
@@ -599,8 +599,8 @@
               '<a class="js-delete-machinery btn btn-danger" data-toggle="modal" data-target="#delete-url-modal">' +
               gettext("Delete entry") +
               "</a>" +
-              "</td>"
-          )
+              "</td>",
+          ),
         );
       } else {
         row.append($("<td></td>"));
