@@ -355,6 +355,16 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             "for example: po/*.po or locale/*/LC_MESSAGES/django.po."
         ),
     )
+    screenshot_filemask = models.CharField(
+        verbose_name=gettext_lazy("Screenshot file mask"),
+        max_length=FILENAME_LENGTH,
+        blank=True,
+        validators=[validate_filemask, validate_filename],
+        help_text=gettext_lazy(
+            "Path of screenshots relative to repository root, "
+            "for example: docs/screenshots/*.png."
+        ),
+    )
     template = models.CharField(
         verbose_name=gettext_lazy("Monolingual base language file"),
         max_length=FILENAME_LENGTH,

@@ -1056,14 +1056,29 @@ class ScreenshotSerializer(RemovableSerializer):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "translation", "file_url", "units", "url")
+        fields = (
+            "name",
+            "repository_filename",
+            "translation",
+            "file_url",
+            "units",
+            "url",
+        )
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):
     class Meta:
         model = Screenshot
-        fields = ("name", "translation", "file_url", "units", "url", "image")
+        fields = (
+            "name",
+            "repository_filename",
+            "translation",
+            "file_url",
+            "units",
+            "url",
+            "image",
+        )
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 

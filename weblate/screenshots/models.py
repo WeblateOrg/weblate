@@ -52,6 +52,12 @@ class ScreenshotQuerySet(models.QuerySet):
 
 class Screenshot(models.Model, UserDisplayMixin):
     name = models.CharField(verbose_name=_("Screenshot name"), max_length=200)
+    repository_filename = models.CharField(
+        verbose_name=_("Repository path to screenshot"),
+        help_text=_("Scan for screenshot file change on repository update."),
+        blank=True,
+        max_length=200,
+    )
     image = ScreenshotField(
         verbose_name=_("Image"),
         help_text=_("Upload JPEG or PNG images up to 2000x2000 pixels."),
