@@ -721,11 +721,6 @@ GITEA_CREDENTIALS
 
 List for credentials for Gitea servers.
 
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    Gitea endpoint stick with :setting:`GITEA_USERNAME` and :setting:`GITEA_TOKEN`.
-
 .. code-block:: python
 
     GITEA_CREDENTIALS = {
@@ -788,11 +783,6 @@ GITLAB_CREDENTIALS
 
 List for credentials for GitLab servers.
 
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
-
 .. code-block:: python
 
     GITLAB_CREDENTIALS = {
@@ -851,11 +841,6 @@ GITHUB_CREDENTIALS
 .. versionadded:: 4.3
 
 List for credentials for GitHub servers.
-
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`.
 
 .. code-block:: python
 
@@ -1282,11 +1267,6 @@ PAGURE_CREDENTIALS
 .. versionadded:: 4.3.2
 
 List for credentials for Pagure servers.
-
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`.
 
 .. code-block:: python
 
