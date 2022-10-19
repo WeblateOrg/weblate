@@ -406,3 +406,12 @@ def check_unit_flag(user, permission, obj):
         return user.has_perm("source.edit", obj)
 
     return user.has_perm("glossary.edit", obj)
+
+
+@register_perm("memory.edit", "memory.delete")
+def check_memory_perms(user, permission, memory):
+    if memory.user_id == user.id:
+        return True
+    if memory.project is None:
+        return user.is_superuser
+    return check_permission(user, permission, memory.project)
