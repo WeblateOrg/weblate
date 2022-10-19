@@ -266,6 +266,7 @@ class TranslationFormat:
             raise ValueError(
                 _("Failed to load strings from the file, try choosing other format.")
             )
+        self.ensure_index()
 
     def get_filenames(self):
         if isinstance(self.storefile, str):

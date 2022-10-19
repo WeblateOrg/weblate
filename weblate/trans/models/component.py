@@ -2323,9 +2323,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         dir_path = self.full_path
         for match in matches:
             try:
-                self.file_format_cls.parse(
+                store = self.file_format_cls.parse(
                     os.path.join(dir_path, match), self.template_store
-                ).check_valid()
+                )
+                store.check_valid()
             except Exception as error:
                 errors.append(f"{match}: {error}")
         if errors:
