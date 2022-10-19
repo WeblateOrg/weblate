@@ -1077,6 +1077,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
             store2.check_valid()
+            store2.ensure_index()
 
             # Actually replace file content
             self.store.save_atomic(
