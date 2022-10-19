@@ -283,9 +283,9 @@ under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` pull requests or
 :ref:`vcs-gerrit` reviews, you can activate these by choosing
-:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` or
 :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, GitHub and GitLab:
@@ -306,6 +306,10 @@ Overall, following options are available with Git, GitHub and GitLab:
 | GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitLab merge request from branch  | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Gitea merge request from fork     | :ref:`vcs-gitea`              | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Gitea merge request from branch   | :ref:`vcs-gitea`              | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Pagure merge request from fork    | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
