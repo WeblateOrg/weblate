@@ -33,10 +33,9 @@ from weblate.utils.request import get_ip_address
 def get_cache_key(scope, request=None, address=None, user=None):
     """Generate cache key for request."""
     if (request and request.user.is_authenticated) or user:
-        if user:
-            key = user.id
-        else:
-            key = request.user.id
+        if user is None:
+            user = request.user
+        key = user.id
         origin = "user"
     else:
         if address is None:
