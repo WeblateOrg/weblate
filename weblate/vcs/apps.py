@@ -60,8 +60,6 @@ def check_vcs(app_configs, **kwargs):
 def check_vcs_deprecated(app_configs, **kwargs):
     from weblate.vcs.models import VCS_REGISTRY
 
-    for key, cls in VCS_REGISTRY.items():
-        print(key, cls, cls.uses_deprecated_setting())
     return [
         weblate_check(
             f"weblate.W040.{key}",
