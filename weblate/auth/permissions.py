@@ -410,8 +410,14 @@ def check_unit_flag(user, permission, obj):
 
 @register_perm("memory.edit", "memory.delete")
 def check_memory_perms(user, permission, memory):
-    if memory.user_id == user.id:
-        return True
-    if memory.project is None:
-        return user.is_superuser
-    return check_permission(user, permission, memory.project)
+    from weblate.memory.models import Memory
+
+    if isinstance(memory, Memory):
+        if memory.user_id == user.id:
+            return True
+        if memory.project is None:
+            return user.is_superuser
+        project = memory.project
+    else:
+        project = memory
+    return check_permission(user, permission, project)
