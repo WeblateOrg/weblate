@@ -41,6 +41,7 @@ from weblate.accounts.utils import (
 from weblate.auth.models import User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.requests import request
 from weblate.utils.validators import USERNAME_MATCHER, EmailValidator, clean_fullname
 
@@ -211,7 +212,9 @@ def remove_account(
         session = strategy.request.session
         session.set_expiry(90)
         session["remove_confirm"] = True
-        # Redirect to form to change password
+        # Reset rate limit to allow form submission
+        reset_rate_limit("remove", strategy.request)
+        # Redirect to the confirmation form
         return redirect("remove")
     return None
 

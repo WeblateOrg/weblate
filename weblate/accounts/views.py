@@ -407,7 +407,6 @@ def user_remove(request):
     elif request.method == "POST":
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
-            reset_rate_limit("remove", request)
             store_userid(request, remove=True)
             request.GET = {"email": request.user.email}
             return social_complete(request, "email")
