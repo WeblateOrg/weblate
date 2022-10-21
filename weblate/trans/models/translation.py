@@ -280,7 +280,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if fileobj is None:
             fileobj = self.get_filename()
         elif self.is_template:
-            template = self.component.load_template_store(fileobj)
+            template = self.component.load_template_store(
+                BytesIOMode(fileobj.name, fileobj.read())
+            )
             fileobj.seek(0)
         store = self.component.file_format_cls.parse(
             fileobj,

@@ -288,6 +288,32 @@ class ImportJoomlaTest(ImportTest):
         return self.create_joomla()
 
 
+class ImportCSVTest(ImportTest):
+    has_plurals = False
+
+    def create_component(self):
+        return self.create_csv_mono()
+
+    def test_import_source(self):
+        kwargs = self.kw_translation.copy()
+        kwargs["lang"] = "en"
+
+        with open(TEST_CSV, "rb") as handle:
+            response = self.client.post(
+                reverse("upload_translation", kwargs=kwargs),
+                {
+                    "file": handle,
+                    "method": "replace",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
+                },
+                follow=True,
+            )
+        self.assertRedirects(response, reverse("translation", kwargs=kwargs))
+        messages = list(response.context["messages"])
+        self.assertIn("Processed 1 string from the uploaded files", messages[0].message)
+
+
 class ImportJSONTest(ImportTest):
     has_plurals = False
 
