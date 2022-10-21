@@ -26,6 +26,7 @@ from .test_formats import AutoFormatTest
 
 TEST_CSV = get_test_file("fr-multi.csv")
 TEST_MONO_CSV = get_test_file("fr-multi-mono.csv")
+TEST_MONO_BASE_CSV = get_test_file("en-multi.csv")
 
 
 class MultiCSVUtf8FormatTest(AutoFormatTest):
@@ -95,8 +96,11 @@ class MultiCSVUtf8FormatTest(AutoFormatTest):
 class MonoMultiCSVUtf8FormatTest(MultiCSVUtf8FormatTest):
     MONOLINGUAL = True
     FIND = ""
+    MATCH = """\n"271681002","Stomach ache (finding)"\n"""
     NEW_UNIT_MATCH = b'"key","Source string"\r\n'
+    COUNT = 3
     FILE = TEST_MONO_CSV
+    TEMPLATE = TEST_MONO_BASE_CSV
     EXPECTED_EDIT = [
         '"source","target"',
         '"22298006","Infarctus myocardique"',

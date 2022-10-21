@@ -174,6 +174,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FORMAT = AutodetectFormat
     FILE = TEST_PO
     BASE = TEST_POT
+    TEMPLATE = None
     MIME = "text/x-gettext-catalog"
     EXT = "po"
     COUNT = 4
@@ -208,7 +209,8 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     def parse_file(self, filename):
         if self.MONOLINGUAL:
             return self.FORMAT(
-                filename, template_store=self.FORMAT(filename, is_template=True)
+                filename,
+                template_store=self.FORMAT(self.TEMPLATE or filename, is_template=True),
             )
         return self.FORMAT(filename)
 

@@ -144,7 +144,10 @@ class MultiFormatMixin:
         return self.merge_multi(super()._get_all_bilingual_units())
 
     def _build_monolingual_unit(self, unit):
-        matching = self._template_index[unit.id_hash]
+        try:
+            matching = self._template_index[unit.id_hash]
+        except KeyError:
+            return MultiUnit(self, self.unit_class(self, None, unit.units[0].template))
         matching_units = [unit.template for unit in matching.units]
         result = MultiUnit(
             self, self.unit_class(self, matching_units[0], unit.units[0].template)
