@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/cache@v3.0.11
+    - uses: actions/cache@v3
       with:
         path: |
           ~/.cache/pip
@@ -33,10 +33,5 @@ jobs:
       run: |
         python -m pip install --upgrade pip wheel
         pip install -r requirements-lint.txt
-    - name: Install extras
-      run: |
-        if [ -x .github/pre-commit-extras ] ; then
-          .github/pre-commit-extras
-        fi
     - name: pre-commit
       run: pre-commit run --all
