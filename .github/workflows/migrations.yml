@@ -42,7 +42,7 @@ jobs:
       with:
         python-version: 3.7
         cache: pip
-        cache-dependency-path: '**/requirements/*.txt'
+        cache-dependency-path: '**/requirements*.txt'
     - name: Install pip dependencies
       run: |
         ./ci/pip-install
