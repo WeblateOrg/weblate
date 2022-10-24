@@ -510,7 +510,7 @@ class Migration(migrations.Migration):
                 (
                     "license",
                     models.CharField(
-                        blank=True,
+                        blank=not settings.LICENSE_REQUIRED,
                         choices=get_license_choices(),
                         default="",
                         max_length=150,
