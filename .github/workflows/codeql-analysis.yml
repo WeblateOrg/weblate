@@ -29,17 +29,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3.1.0
-    - name: Cache pip
-      uses: actions/cache@v3.0.11
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+        cache: pip
+        cache-dependency-path: '**/requirements/*.txt'
     - name: Used versions
       run: ./ci/print-versions
     - name: Install pip dependencies
