@@ -218,6 +218,5 @@ def upload_translation(request, project, component, lang):
             % str(error).replace(obj.component.full_path, ""),
         )
         report_error(cause="Upload error")
-        raise
 
     return redirect(obj)
