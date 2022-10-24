@@ -10,6 +10,7 @@ Not yet released.
 * Improved string state handling for subtitle translation.
 * Deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list.
 * Fixed processing of some uploaded CSV files.
+* Improved whitespace changes handling in diff display.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 

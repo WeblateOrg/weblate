@@ -134,9 +134,20 @@ class Formatter:
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == dmp.DIFF_INSERT:
+
+                # Rearrange space highlighting
+                move_space = False
+                for pos, tag in enumerate(self.tags[offset]):
+                    if tag == SPACE_MIDDLE_2:
+                        self.tags[offset][pos] = SPACE_MIDDLE_1
+                        move_space = True
+                        break
+
                 self.tags[offset].append("<ins>")
+                if move_space:
+                    self.tags[offset].append(SPACE_START)
                 offset += len(data)
-                self.tags[offset].insert(0, "</ins>")
+                self.tags[offset].append("</ins>")
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
 
@@ -220,7 +231,7 @@ class Formatter:
                 cls = "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace">' f'<span class="{cls}" title="{title}">'
+                f'<span class="hlspace"><span class="{cls}" title="{title}">'
             )
             self.tags[match.end()].insert(0, "</span></span>")
 
@@ -233,7 +244,12 @@ class Formatter:
         newlines = {"\r", "\n"}
         for pos, char in enumerate(value):
             # Special case for single whitespace char in diff
-            if char == " " and "<ins>" in tags[pos] and "</ins>" in tags[pos + 1]:
+            if (
+                char == " "
+                and "<ins>" in tags[pos]
+                and SPACE_START not in tags[pos]
+                and "</ins>" in tags[pos + 1]
+            ):
                 tags[pos].append(SPACE_START)
                 tags[pos + 1].insert(0, SPACE_END)
 

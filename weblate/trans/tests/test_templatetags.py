@@ -306,6 +306,13 @@ class TranslationFormatTestCase(FixtureTestCase):
         )
 
     def test_diff_whitespace_changed(self):
+        print(
+            format_translation(
+                "Hello  world",
+                self.component.source_language,
+                diff="Hello world",
+            )["items"][0]["content"]
+        )
         self.assertHTMLEqual(
             format_translation(
                 "Hello  world",
@@ -316,15 +323,13 @@ class TranslationFormatTestCase(FixtureTestCase):
             <span class="hlspace">
                 <span class="space-space">
                 </span>
-                <span class="space-space">
-                    <ins>
-                        <span class="hlspace">
-                            <span class="space-space">
-                            </span>
-                        </span>
-                    </ins>
-                </span>
             </span>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space">
+                    </span>
+                </span>
+            </ins>
             world
             """,
         )
@@ -348,6 +353,31 @@ class TranslationFormatTestCase(FixtureTestCase):
                 </span>
             </ins>
             world
+            """,
+        )
+
+    def test_diff_changed_whitespace(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "     ${APP_NAME} is great",
+                self.component.source_language,
+                diff="    App is great",
+            )["items"][0]["content"],
+            """
+            <span class="hlspace">
+                <span class="space-space"> </span>
+                <span class="space-space"> </span>
+                <span class="space-space"> </span>
+                <span class="space-space"> </span>
+            </span>
+            <del>App</del>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"> </span>
+                </span>
+                ${APP_NAME}
+            </ins>
+            is great
             """,
         )
 
