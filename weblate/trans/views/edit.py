@@ -793,7 +793,7 @@ def delete_comment(request, pk):
 
     if "spam" in request.POST:
         comment_obj.report_spam()
-    comment_obj.delete()
+    comment_obj.delete(user=request.user)
     messages.info(request, _("Comment has been deleted."))
 
     return redirect_next(request.POST.get("next"), fallback_url)
@@ -810,8 +810,7 @@ def resolve_comment(request, pk):
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
-    comment_obj.resolved = True
-    comment_obj.save(update_fields=["resolved"])
+    comment_obj.resolve(user=request.user)
     messages.info(request, _("Comment has been resolved."))
 
     return redirect_next(request.POST.get("next"), fallback_url)

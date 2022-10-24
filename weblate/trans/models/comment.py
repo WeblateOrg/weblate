@@ -88,3 +88,25 @@ class Comment(models.Model, UserDisplayMixin):
         report_spam(
             self.userdetails["address"], self.userdetails["agent"], self.comment
         )
+
+    def resolve(self, user):
+        Change.objects.create(
+            unit=self.unit,
+            comment=self,
+            action=Change.ACTION_COMMENT_RESOLVE,
+            user=user,
+            author=self.user,
+            details={"comment": self.comment},
+        )
+        self.resolved = True
+        self.save(update_fields=["resolved"])
+
+    def delete(self, user=None, using=None, keep_parents=False):
+        Change.objects.create(
+            unit=self.unit,
+            action=Change.ACTION_COMMENT_DELETE,
+            user=user,
+            author=self.user,
+            details={"comment": self.comment},
+        )
+        super().delete(using=using, keep_parents=keep_parents)

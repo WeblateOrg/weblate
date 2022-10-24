@@ -12,6 +12,7 @@ Not yet released.
 * Fixed processing of some uploaded CSV files.
 * Improved whitespace changes handling in diff display.
 * Added automatic suggestions management link to management pages.
+* Track comment removal/resolving in history.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 

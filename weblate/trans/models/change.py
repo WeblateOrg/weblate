@@ -255,6 +255,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ADDON_CHANGE = 61
     ACTION_ADDON_REMOVE = 62
     ACTION_STRING_REMOVE = 63
+    ACTION_COMMENT_DELETE = 64
+    ACTION_COMMENT_RESOLVE = 65
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -383,6 +385,10 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_ADDON_REMOVE, gettext_lazy("Add-on uninstalled")),
         # Translators: Name of event in the history
         (ACTION_STRING_REMOVE, gettext_lazy("Remove string")),
+        # Translators: Name of event in the history
+        (ACTION_COMMENT_DELETE, gettext_lazy("Remove comment")),
+        # Translators: Name of event in the history
+        (ACTION_COMMENT_RESOLVE, gettext_lazy("Resolve comment")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
