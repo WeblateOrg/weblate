@@ -100,6 +100,7 @@ class MonoMultiCSVUtf8FormatTest(MultiCSVUtf8FormatTest):
     NEW_UNIT_MATCH = b'"key","Source string"\r\n'
     COUNT = 3
     FILE = TEST_MONO_CSV
+    BASE = TEST_MONO_BASE_CSV
     TEMPLATE = TEST_MONO_BASE_CSV
     EXPECTED_EDIT = [
         '"source","target"',
