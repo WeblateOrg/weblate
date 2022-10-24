@@ -1384,7 +1384,7 @@ class ViewsTest(FixtureTestCase):
 
     def test_configure_global(self):
         service = self.ensure_dummy_mt()
-        list_url = reverse("machinery-list")
+        list_url = reverse("manage-machinery")
         edit_url = reverse(
             "machinery-edit", kwargs={"machinery": service.get_identifier()}
         )

@@ -756,7 +756,7 @@ real_patterns = [
     path(
         "manage/machinery/",
         management_access(weblate.machinery.views.ListMachineryGlobalView.as_view()),
-        name="machinery-list",
+        name="manage-machinery",
     ),
     path(
         "manage/machinery/<name:machinery>/",

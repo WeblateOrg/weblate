@@ -87,6 +87,7 @@ MENU = (
     ("groups", "manage-groups", gettext_lazy("Groups")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
+    ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)

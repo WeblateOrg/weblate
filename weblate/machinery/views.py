@@ -40,6 +40,7 @@ from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Unit
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_project
+from weblate.wladmin.views import MENU as MANAGE_MENU
 
 
 class MachineryMixin:
@@ -139,6 +140,9 @@ class ListMachineryView(TemplateView):
         result = super().get_context_data(**kwargs)
         result["configured_services"] = self.configured_services
         result["available_services"] = self.available_services
+        if not self.project:
+            result["menu_items"] = MANAGE_MENU
+            result["menu_page"] = "machinery"
         return result
 
 
