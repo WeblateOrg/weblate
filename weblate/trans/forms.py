@@ -2436,11 +2436,14 @@ class BaseDeleteForm(forms.Form):
             ContextDiv(
                 template=self.warning_template,
                 css_class="form-group",
-                context={"object": obj},
+                context=self.get_template_context(obj),
             ),
             Field("confirm"),
         )
         self.helper.form_tag = False
+
+    def get_template_context(self, obj):
+        return {"object": obj}
 
     def clean(self):
         if self.cleaned_data.get("confirm") != self.obj.full_slug:
@@ -2456,6 +2459,14 @@ class TranslationDeleteForm(BaseDeleteForm):
         required=True,
     )
     warning_template = "trans/delete-translation.html"
+
+    def get_template_context(self, obj):
+        context = super().get_template_context(obj)
+        context["languages_addon"] = any(
+            addon.name == "weblate.consistency.languages"
+            for addon in obj.component.addons_cache["__all__"]
+        )
+        return context
 
 
 class ComponentDeleteForm(BaseDeleteForm):
