@@ -189,11 +189,18 @@ class ProfileForm(ProfileBaseForm):
         required=False,
     )
 
+    commit_email = forms.ChoiceField(
+        label=_("Commit e-mail"),
+        choices=(("", ""),),
+        required=False,
+    )
+
     class Meta:
         model = Profile
         fields = (
             "website",
             "public_email",
+            "commit_email",
             "liberapay",
             "codesite",
             "github",
@@ -327,18 +334,27 @@ class UserForm(forms.ModelForm):
         choices=(("", ""),),
         required=True,
     )
+    commit_email = forms.ChoiceField(
+        label=_("Commit E-mail"),
+        help_text=_("You can add another commit e-mail address below."),
+        choices=(("", ""),),
+        required=True,
+    )
+
     full_name = FullNameField()
 
     class Meta:
         model = User
-        fields = ("username", "full_name", "email")
+        fields = ("username", "full_name", "email", "commit_email")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         emails = get_all_user_mails(self.instance)
+        commit_emails = get_all_user_mails(self.instance, filter_deliverable=False)
 
         self.fields["email"].choices = [(x, x) for x in sorted(emails)]
+        self.fields["commit_email"].choices = [(x, x) for x in sorted(commit_emails)]
         self.fields["username"].valid = self.instance.username
 
         self.helper = FormHelper(self)
