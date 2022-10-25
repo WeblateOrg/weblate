@@ -206,6 +206,7 @@ class FullUserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "email",
+            "commit_email",
             "full_name",
             "username",
             "groups",
