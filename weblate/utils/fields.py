@@ -110,7 +110,3 @@ class EmailField(CaseInsensitiveFieldMixin, models.CharField):
                 **kwargs,
             }
         )
-
-class CommitEmailField(EmailField):
-    description = _("Commit e-mail")
-    pass

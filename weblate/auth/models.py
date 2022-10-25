@@ -61,7 +61,7 @@ from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import EmailField, CommitEmailField, UsernameField
+from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.validators import validate_fullname, validate_username
 
 
@@ -328,7 +328,7 @@ class User(AbstractBaseUser):
         null=True,
         unique=True,
     )
-    commit_email = CommitEmailField(
+    commit_email = EmailField(
         _("Commit E-mail"),
         blank=False,
         null=True,
