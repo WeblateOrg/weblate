@@ -468,11 +468,10 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             self.fresh = True
         else:
-            self.captcha = MathCaptcha.unserialize(request.session.pop("captcha"))
+            self.captcha = MathCaptcha.unserialize(request.session["captcha"])
+            self.set_label()
 
-    def generate_captcha(self):
-        self.captcha = MathCaptcha()
-        self.request.session["captcha"] = self.captcha.serialize()
+    def set_label(self):
         # Set correct label
         self.fields["captcha"].label = (
             pgettext(
@@ -484,6 +483,11 @@ class CaptchaForm(forms.Form):
         )
         if self.is_bound:
             self["captcha"].label = self.fields["captcha"].label
+
+    def generate_captcha(self):
+        self.captcha = MathCaptcha()
+        self.request.session["captcha"] = self.captcha.serialize()
+        self.set_label()
 
     def clean_captcha(self):
         """Validation for CAPTCHA."""
@@ -506,6 +510,9 @@ class CaptchaForm(forms.Form):
             self.captcha.question,
             self.cleaned_data["captcha"],
         )
+
+    def cleanup_session(self, request):
+        del request.session["captcha"]
 
 
 class EmptyConfirmForm(forms.Form):

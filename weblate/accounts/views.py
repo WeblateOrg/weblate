@@ -754,6 +754,8 @@ def register(request):
             and form.is_valid()
             and settings.REGISTRATION_OPEN
         ):
+            if captcha:
+                captcha.cleanup_session(request)
             if form.cleaned_data["email_user"]:
                 AuditLog.objects.create(
                     form.cleaned_data["email_user"], request, "connect"
@@ -800,6 +802,8 @@ def email_login(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
+            if captcha:
+                captcha.cleanup_session(request)
             email_user = form.cleaned_data["email_user"]
             if email_user and email_user != request.user:
                 AuditLog.objects.create(
@@ -920,6 +924,8 @@ def reset_password(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
+            if captcha:
+                captcha.cleanup_session(request)
             if form.cleaned_data["email_user"]:
                 audit = AuditLog.objects.create(
                     form.cleaned_data["email_user"], request, "reset-request"
