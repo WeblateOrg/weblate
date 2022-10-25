@@ -17,6 +17,7 @@ Not yet released.
 * Fixed captcha entering on unsuccessful registration.
 * Improved languages support in DeepL.
 * Improved webhooks compatibility with authenticated repositories.
+* Added support for Python 3.11.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 
