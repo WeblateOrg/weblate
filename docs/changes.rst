@@ -13,6 +13,7 @@ Not yet released.
 * Improved whitespace changes handling in diff display.
 * Added automatic suggestions management link to management pages.
 * Track comment removal/resolving in history.
+* Fixed restoring project backups with linked components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 
