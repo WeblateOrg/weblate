@@ -392,7 +392,7 @@ def store_email(strategy, backend, user, social, details, **kwargs):
         verified, created = VerifiedEmail.objects.get_or_create(
             social=social, defaults={"email": details["email"], "is_deliverable": details["is_deliverable"]}
         )
-        if not created and verified.email != details["email"]:
+        if not created and verified.email != details["email"] and verified.is_deliverable != details["is_deliverable"]:
             verified.email = details["email"]
             verified.is_deliverable = details["is_deliverable"]
             verified.save()

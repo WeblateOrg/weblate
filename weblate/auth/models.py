@@ -367,7 +367,7 @@ class User(AbstractBaseUser):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "full_name", "commit_email"]
+    REQUIRED_FIELDS = ["email", "full_name"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
@@ -648,7 +648,7 @@ class User(AbstractBaseUser):
 
     def get_author_name(self) -> str:
         """Return formatted author name with e-mail."""
-        return f"{self.get_visible_name()} <{self.commit_email}>"
+        return f"{self.get_visible_name()} <{self.commit_email if self.commit_email else self.email}>"
 
 
 class AutoGroup(models.Model):
