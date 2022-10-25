@@ -566,6 +566,12 @@ class Profile(models.Model):
         max_length=EMAIL_LENGTH,
     )
 
+    commit_email = EmailField(
+        verbose_name=_("Commit e-mail"),
+        blank=True,
+        max_length=EMAIL_LENGTH,
+    )
+
     class Meta:
         verbose_name = "User profile"
         verbose_name_plural = "User profiles"
