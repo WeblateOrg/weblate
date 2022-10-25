@@ -811,7 +811,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # All strings
         result.add(self.stats, "all", "")
 
-        result.add_if(self.stats, "readonly", "success")
+        result.add_if(
+            self.stats, "readonly", "info" if self.enable_review else "success"
+        )
 
         if not self.is_readonly:
             if self.enable_review:
