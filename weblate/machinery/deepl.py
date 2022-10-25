@@ -53,19 +53,33 @@ class DeepLTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
 
+    def get_authentication(self):
+        return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
+
     def download_languages(self):
         response = self.request(
-            "post",
-            self.get_api_url("languages"),
-            data={"auth_key": self.settings["key"]},
+            "get", self.get_api_url("languages"), params={"type": "source"}
         )
-        result = {x["language"] for x in response.json()}
+        source_languages = {x["language"] for x in response.json()}
+        response = self.request(
+            "get", self.get_api_url("languages"), params={"type": "target"}
+        )
+        target_languages = {x["language"] for x in response.json()}
 
         for lang in FORMAL_LANGUAGES:
-            if lang in result:
-                result.add(f"{lang}@FORMAL")
-                result.add(f"{lang}@INFORMAL")
-        return result
+            if lang in target_languages:
+                target_languages.add(f"{lang}@FORMAL")
+                target_languages.add(f"{lang}@INFORMAL")
+
+        return (
+            (source, target)
+            for source in source_languages
+            for target in target_languages
+        )
+
+    def is_supported(self, source, language):
+        """Check whether given language combination is supported."""
+        return (source, language) in self.supported_languages
 
     def download_translations(
         self,
@@ -79,7 +93,6 @@ class DeepLTranslation(MachineTranslation):
     ):
         """Download list of possible translations from a service."""
         params = {
-            "auth_key": self.settings["key"],
             "text": text,
             "source_lang": source,
             "target_lang": language,

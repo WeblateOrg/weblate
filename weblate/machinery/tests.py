@@ -1054,7 +1054,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self):
         responses.add(
-            responses.POST,
+            responses.GET,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
             status=500,
@@ -1068,7 +1068,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     def mock_languages(self):
         responses.add(
-            responses.POST,
+            responses.GET,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
@@ -1155,7 +1155,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(len(responses.calls), 3)
         responses.reset()
         # Fetch from cache
         machine = self.MACHINE_CLS(self.CONFIGURATION)
