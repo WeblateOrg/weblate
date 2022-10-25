@@ -225,10 +225,9 @@ class EditMachineryView(FormView):
         return
 
     def get_success_url(self):
-        kwargs = {}
         if self.project:
-            kwargs["project"] = self.project.slug
-        return reverse("machinery-list", kwargs=kwargs)
+            return reverse("machinery-list", kwargs={"project": self.project.slug})
+        return reverse("manage-machinery")
 
     def post(self, request, *args, **kwargs):
         if "delete" in request.POST:
