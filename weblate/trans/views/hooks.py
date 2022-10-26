@@ -185,6 +185,7 @@ def vcs_service_hook(request, service):
     spfilter = (
         Q(repo__in=repos)
         | Q(repo__iendswith=full_name)
+        | Q(repo__iendswith=f"{full_name}/")
         | Q(repo__iendswith=f"{full_name}.git")
     )
 
@@ -351,7 +352,7 @@ def bitbucket_hook_helper(data, request):
         "repo_url": repo_url,
         "repos": repos,
         "branch": bitbucket_extract_branch(data),
-        "full_name": f"{full_name}.git",
+        "full_name": full_name,
     }
 
 
@@ -388,7 +389,7 @@ def github_hook_helper(data, request):
         "repo_url": data["repository"]["url"],
         "repos": sorted(set(repos)),
         "branch": branch,
-        "full_name": f"{owner}/{slug}.git",
+        "full_name": f"{owner}/{slug}",
     }
 
 
@@ -403,7 +404,7 @@ def gitea_hook_helper(data, request):
             data["repository"]["html_url"],
         ],
         "branch": re.sub(r"^refs/heads/", "", data["ref"]),
-        "full_name": "{}.git".format(data["repository"]["full_name"]),
+        "full_name": data["repository"]["full_name"],
     }
 
 
@@ -420,7 +421,7 @@ def gitee_hook_helper(data, request):
             data["repository"]["html_url"],
         ],
         "branch": re.sub(r"^refs/heads/", "", data["ref"]),
-        "full_name": "{}.git".format(data["repository"]["path_with_namespace"]),
+        "full_name": data["repository"]["path_with_namespace"],
     }
 
 

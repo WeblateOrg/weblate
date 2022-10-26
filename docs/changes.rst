@@ -16,6 +16,7 @@ Not yet released.
 * Fixed restoring project backups with linked components.
 * Fixed captcha entering on unsuccessful registration.
 * Improved languages support in DeepL.
+* Improved webhooks compatibility with authenticated repositories.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
 
