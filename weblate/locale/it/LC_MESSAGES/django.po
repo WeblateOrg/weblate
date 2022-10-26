@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-10-26 11:44+0000\n"
-"PO-Revision-Date: 2022-10-13 17:01+0000\n"
+"PO-Revision-Date: 2022-10-26 14:26+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:100
@@ -1542,10 +1542,8 @@ msgstr ""
 "stringa sorgente."
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "Stringhe sola lettura"
+msgstr "Includi stringhe sola lettura"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2604,11 +2602,10 @@ msgid "Mismatched \\n"
 msgstr "\\n non corrispondenti"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
 msgstr ""
-"Il numero di linee nella traduzione non corrisponde a quelle nel sorgente"
+"Il numero di codici \\n"
+" nella traduzione non corrisponde a quelle nel sorgente"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2778,16 +2775,12 @@ msgid "Font spacing"
 msgstr "Spaziatura del carattere"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "Flag formato messaggio ICU"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
-msgstr "Prefisso etichetta MessageFormat ICU"
+msgstr "Prefisso etichetta formato messaggio ICU"
 
 #: weblate/checks/flags.py:73 weblate/trans/models/component.py:622
 #: weblate/utils/views.py:135
@@ -2808,8 +2801,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Flag di traduzione non valido: «%s»"
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "Il flag di traduzione non ha parametri: \"%s\""
 
@@ -4154,10 +4146,9 @@ msgid "Failed to parse TMX file!"
 msgstr "Analisi file TMX non riuscita!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "Lingua sorgente non trovata!"
+msgstr "Impossibile trovare la lingua %s!"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -9479,10 +9470,8 @@ msgid "Language codes"
 msgstr "Codici lingua"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "Nome del file"
+msgstr "Nomi file"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -9646,32 +9635,26 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "I seguenti controlli forzati non sono usati ovunque:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr ""
-"%(check)s controlli errori sono forzati, ma non abilitati usando <code>"
-"%(flag)s</code>."
+msgstr "%(check)s controlli errori sono forzati, ma non abilitati."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
 msgstr ""
-"%(check)s controlli errori sono forzati, ma non abilitati usando <code>"
-"%(flag)s</code>."
+"%(check)s controlli errori sono forzati, ma non abilitati usando la flag "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
+"Il controllo può essere attivato aggiungendo il flag corrispondente al flag "
+"stringa o componente."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9903,6 +9886,9 @@ msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
+"in questo componente è installato il modulo aggiuntivo 'Aggiungi lingue "
+"mancanti', quindi la lingua rimossa potrebbe essere nuovamente aggiunta dal "
+"componente aggiuntivo."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10042,13 +10028,7 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "Questo eliminerà il team <b>%(name)s</b> da questo progetto."
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
@@ -10056,11 +10036,11 @@ msgid_plural ""
 "This team contains %(count)s members. Deleting the team might affect their "
 "access to the project."
 msgstr[0] ""
-"C'è %(count)s membro di questo team. L'eliminazione del team potrebbe "
-"influire sul suo accesso al progetto."
+"Questo team contiene %(count)s membro. L'eliminazione del team potrebbe "
+"influire sul relativo accesso al progetto."
 msgstr[1] ""
-"Ci sono %(count)s membri di questo team. L'eliminazione del team potrebbe "
-"influire sul loro accesso al progetto."
+"Questo team contiene %(count)s membri. L'eliminazione del team potrebbe "
+"influire sui relativi accessi al progetto."
 
 #: weblate/templates/trans/project-access.html:215
 msgid "Edit team"
@@ -11863,17 +11843,13 @@ msgstr "Addon disinstallato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "Rimuovi stringa"
+msgstr "Stringa rimossa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "Commento risolto"
+msgstr "Commento rimosso"
 
 #: weblate/trans/models/change.py:462
 msgid "New string to translate"
@@ -13563,6 +13539,8 @@ msgstr "La lingua del progetto è stata rimossa."
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr ""
+"Impossibile rinominare a causa di un problema in sospeso nella "
+"configurazione: %s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
