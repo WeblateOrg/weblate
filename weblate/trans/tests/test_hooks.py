@@ -19,8 +19,8 @@
 
 """Test for notification hooks."""
 
-
 import json
+from unittest.mock import patch
 
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -1162,6 +1162,18 @@ GITEE_PAYLOAD = """
 
 
 class HooksViewTest(ViewTestCase):
+    def setUp(self):
+        super().setUp()
+        # Avoid actual repository updates
+        self.patcher = patch(
+            "weblate.trans.models.component.Component.update_remote_branch"
+        )
+        self.patcher.start()
+
+    def tearDown(self):
+        super().tearDown()
+        self.patcher.stop()
+
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_project(self):
         response = self.client.get(reverse("hook-project", kwargs=self.kw_project))
