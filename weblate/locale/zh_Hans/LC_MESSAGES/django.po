@@ -36,13 +36,14 @@
 # Yang Yulin <yylteam@icloud.com>, 2022.
 # Yang Yulin <yylteam@hotmail.com>, 2022.
 # Xu ZhuoHan <yylteam@hotmail.com>, 2022.
+# Eric <hamburger1024@mailbox.org>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-10-26 11:44+0000\n"
-"PO-Revision-Date: 2022-10-17 00:03+0000\n"
-"Last-Translator: Xu ZhuoHan <yylteam@hotmail.com>\n"
+"PO-Revision-Date: 2022-10-26 14:26+0000\n"
+"Last-Translator: Eric <hamburger1024@mailbox.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -50,7 +51,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1455,10 +1456,8 @@ msgid ""
 msgstr "可变部分重复多少次取决于源字符串的长度。"
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "只读字符串"
+msgstr "包含只读字符串"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2491,10 +2490,10 @@ msgid "Mismatched \\n"
 msgstr "不匹配的 \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "译文中的换行数量和原文不一致"
+msgstr ""
+"译文的 \\n"
+" 个数与原文不匹配"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2659,14 +2658,10 @@ msgid "Font spacing"
 msgstr "字体间距"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "ICU MessageFormat 标记"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
 msgstr "ICU MessageFormat 标签前缀"
 
@@ -2689,8 +2684,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "无效的翻译标记：“%s”"
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "翻译标记没有参数：“%s”"
 
@@ -4008,10 +4002,9 @@ msgid "Failed to parse TMX file!"
 msgstr "解析 TMX 文件失败！"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "找不到源语言！"
+msgstr "找不到 %s 语言！"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -9035,8 +9028,6 @@ msgid "Language codes"
 msgstr "语言代码"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
 msgstr "文件名"
 
@@ -9183,30 +9174,23 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "以下强制检查未在任何地方使用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr ""
-"%(check)s 质量检查是强制的，但未开启，开启方式是通过 <code>%(flag)s</code>。"
+msgstr "%(check)s 质量检查是强制性的，但不可用。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
-msgstr ""
-"%(check)s 质量检查是强制的，但未开启，开启方式是通过 <code>%(flag)s</code>。"
+msgstr "%(check)s 质量检查是强制的，但未开启，开启方式是通过 <code>%(flag)s</code> "
+"标记。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
-msgstr ""
+msgstr "可以通过将相应的标志添加到字符串或组件标志来打开检查。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9410,7 +9394,7 @@ msgstr "要删除的项目"
 msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
-msgstr ""
+msgstr "此组件安装了添加缺失语言插件，删除的语言可能会再次被它重新添加。"
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9541,13 +9525,7 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "这将从这个项目中删除 <b>%(name)s</b> 团队。"
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
@@ -11277,17 +11255,13 @@ msgstr "已卸载附加组件"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "移除字符串"
+msgstr "移除了字符串"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "已解决的评论"
+msgstr "移除了评论"
 
 #: weblate/trans/models/change.py:462
 msgid "New string to translate"
@@ -12849,7 +12823,7 @@ msgstr "项目的语言被删除了。"
 #: weblate/trans/views/settings.py:237
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
+msgstr "配置中未解决的问题造成无法重命名：%s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
