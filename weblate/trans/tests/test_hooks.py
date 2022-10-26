@@ -1169,10 +1169,7 @@ class HooksViewTest(ViewTestCase):
             "weblate.trans.models.component.Component.update_remote_branch"
         )
         self.patcher.start()
-
-    def tearDown(self):
-        super().tearDown()
-        self.patcher.stop()
+        self.addCleanup(self.patcher.stop)
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_project(self):
