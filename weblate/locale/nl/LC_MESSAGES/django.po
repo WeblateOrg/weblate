@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-10-26 11:44+0000\n"
-"PO-Revision-Date: 2022-08-28 13:48+0000\n"
+"PO-Revision-Date: 2022-10-26 17:58+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1525,10 +1525,8 @@ msgstr ""
 "van de brontekenreeks."
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "Alleen-lezen-tekenreeksen"
+msgstr "Alleen-lezen-tekenreeksen opnemen"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2584,10 +2582,10 @@ msgid "Mismatched \\n"
 msgstr "niet-overeenkomende \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "Het aantal regeleinden in de vertaling komt niet overeen met de bron"
+msgstr ""
+"Het aantal regeleinden (\\n"
+") in de vertaling komt niet overeen met de bron"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2754,14 +2752,10 @@ msgid "Font spacing"
 msgstr "Letterafstand"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "ICU Java MessageFormat-opties"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
 msgstr "ICU Java MessageFormat-tag - voorvoegsel"
 
@@ -2784,8 +2778,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Ongeldige aanvullende optie: “%s”"
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "De aanmerking bevat geen aanvullende opties: “%s”"
 
@@ -4127,10 +4120,9 @@ msgid "Failed to parse TMX file!"
 msgstr "Het tmx-bestand kan niet worden verwerkt!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "Geen brontaal gevonden!"
+msgstr "De brontaal, %s, is niet aangetroffen!"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -9440,10 +9432,8 @@ msgid "Language codes"
 msgstr "Taalcodes"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "Bestandsnaam"
+msgstr "Bestandsnamen"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -9609,20 +9599,13 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "De volgende afgedwongen controles worden niet overal gebruikt:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
 msgstr ""
-"%(check)s kwaliteitscontrole wordt afgedwongen, maar is niet ingeschakeld "
-"middels <code>%(flag)s</code>."
+"%(check)s kwaliteitscontrole wordt afgedwongen, maar is niet beschikbaar."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
@@ -9635,6 +9618,8 @@ msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
+"De controle kan worden ingeschakeld door de optie in kwestie toe te voegen "
+"aan de tekenreeks- of onderdeelopties."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9862,6 +9847,8 @@ msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
+"Voeg de ontbrekende taaluitbreiding toe aan dit onderdeel. Verwijderde talen "
+"kunnen zo opnieuw worden toegevoegd."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10000,13 +9987,7 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "Hiermee verwijdert het <b>%(name)s</b>e team uit het project."
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
@@ -10017,8 +9998,8 @@ msgstr[0] ""
 "Er is %(count)s persoon lid van dit team. Door het verwijderen ervan wordt "
 "hun toegang beperkt."
 msgstr[1] ""
-"Er is %(count)s personen lid van dit team. Door het verwijderen ervan wordt "
-"hun toegang beperkt."
+"Er zijn %(count)s personen lid van dit team. Door het verwijderen ervan "
+"wordt hun toegang beperkt."
 
 #: weblate/templates/trans/project-access.html:215
 msgid "Edit team"
@@ -11823,17 +11804,13 @@ msgstr "Uitbreiding gedeïnstalleerd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "Tekenreeks verwijderen"
+msgstr "De tekenreeks is verwijderd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "Reactie opgelost"
+msgstr "De reactie is verwijderd"
 
 #: weblate/trans/models/change.py:462
 msgid "New string to translate"
@@ -13522,7 +13499,7 @@ msgstr "De projecttaal is verwijderd."
 #: weblate/trans/views/settings.py:237
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
+msgstr "De naam kan niet worden gewijzigd wegens een configuratiefout: %s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
