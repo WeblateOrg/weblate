@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-10-26 11:44+0000\n"
-"PO-Revision-Date: 2022-09-08 07:39+0000\n"
+"PO-Revision-Date: 2022-10-28 08:02+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -38,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1498,10 +1498,8 @@ msgid ""
 msgstr "可変部分を繰り返す回数を、原文の長さの何倍にするか。"
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "翻訳禁止の文字列"
+msgstr "翻訳禁止の文字列を含める"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2546,10 +2544,10 @@ msgid "Mismatched \\n"
 msgstr "\\n 数の不一致"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "改行の数が原文と一致しないもの"
+msgstr ""
+"改行文字（\\n"
+"）の数が原文と一致しないもの"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2716,14 +2714,10 @@ msgid "Font spacing"
 msgstr "フォント間隔"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "ICU MessageFormat フラグ"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
 msgstr "ICU MessageFormat タグの接頭辞"
 
@@ -2746,8 +2740,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "翻訳フラグが正しくありません: \"%s\""
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "翻訳フラグに、パラメータがありません: \"%s\""
 
@@ -4078,10 +4071,9 @@ msgid "Failed to parse TMX file!"
 msgstr "TMX ファイルの解析に失敗しました！"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "原文の言語がありません！"
+msgstr "%s の言語はありません！"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -9305,8 +9297,6 @@ msgid "Language codes"
 msgstr "言語コード"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
 msgstr "ファイル名"
 
@@ -9470,32 +9460,24 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "どこにも使用されていない強制した検査項目:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr ""
-"%(check)s の品質検査を強制していますが、<code>%(flag)s</code> を使用して有効"
-"にしていません。"
+msgstr "%(check)s の品質検査を強制していますが、有効ではありません。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
-msgstr ""
-"%(check)s の品質検査を強制していますが、<code>%(flag)s</code> を使用して有効"
-"にしていません。"
+msgstr "%(check)s の品質検査を強制していますが、<code>%(flag)s</code> "
+"フラグを使用して有効にしていません。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
-msgstr ""
+msgstr "検査を有効にするには、文字列またはコンポーネントのフラグに対応するフラグを追"
+"加してください。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9723,7 +9705,8 @@ msgstr "削除するプロジェクト"
 msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
-msgstr ""
+msgstr "このコンポーネントには、不足している言語を追加するアドオンがインストールされ"
+"ているため、削除した言語が再び追加されることがあります。"
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9861,21 +9844,14 @@ msgstr ""
 "これにより、このプロジェクトから <b>%(name)s</b> チームが削除されます。"
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
 msgid_plural ""
 "This team contains %(count)s members. Deleting the team might affect their "
 "access to the project."
-msgstr[0] ""
-"このチームには、%(count)s 人のメンバーが存在します。チームを削除すると、アク"
+msgstr[0] "このチームには、%(count)s 人のメンバーが存在します。チームを削除すると、アク"
 "セスに影響を及ぼすことがあります。"
 
 #: weblate/templates/trans/project-access.html:215
@@ -11630,17 +11606,13 @@ msgstr "アドオンがアンインストールされました"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
 msgstr "文字列の削除"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "解決したコメント"
+msgstr "コメントの削除"
 
 #: weblate/trans/models/change.py:462
 msgid "New string to translate"
@@ -13266,7 +13238,7 @@ msgstr "プロジェクトの言語を削除しました。"
 #: weblate/trans/views/settings.py:237
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
+msgstr "名前が変更できません。問題の設定項目: %s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
