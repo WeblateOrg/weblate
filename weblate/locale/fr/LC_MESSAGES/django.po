@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-10-26 11:44+0000\n"
-"PO-Revision-Date: 2022-10-27 02:03+0000\n"
+"PO-Revision-Date: 2022-10-27 06:42+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -1159,7 +1159,7 @@ msgstr "Ce module ne fait rien, il s’agit seulement d’un exemple."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
-msgstr "Exécuter le script avant l’archivage"
+msgstr "Exécuter le script avant le commit"
 
 #: weblate/addons/example_pre.py:35
 msgid "This add-on executes a script."
@@ -1285,11 +1285,11 @@ msgstr "Utiliser les correspondances approximatives"
 
 #: weblate/addons/forms.py:146
 msgid "Commit squashing"
-msgstr "Écrasement des archivages"
+msgstr "Squash du commit"
 
 #: weblate/addons/forms.py:149
 msgid "All commits into one"
-msgstr "Tous les archivages en un seul"
+msgstr "Tous les commits en un seul"
 
 #: weblate/addons/forms.py:150
 msgid "Per language"
@@ -1305,7 +1305,7 @@ msgstr "Par auteur"
 
 #: weblate/addons/forms.py:158
 msgid "Append trailers to squashed commit message"
-msgstr "Ajout de champs d’en-têtes aux messages d’écrasement des archivages"
+msgstr "Ajout de champs d’en-têtes aux messages de commits squashés"
 
 #: weblate/addons/forms.py:162
 msgid ""
@@ -1315,19 +1315,19 @@ msgid ""
 msgstr ""
 "Les lignes de fin sont des lignes comparables aux lignes d’en-tête RFC 822 "
 "pour les courriels. Ces lignes sont ajoutées en fin de la partie libre du "
-"message d’archivage. Exemple : « Co-authored-by : … »."
+"message de commit. Exemple : « Co-authored-by : … »."
 
 #: weblate/addons/forms.py:168
 msgid "Commit message"
-msgstr "Message d’archivage"
+msgstr "Message de commit"
 
 #: weblate/addons/forms.py:172
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Ce message d’archivage sera utilisé à la place des messages d’archivage "
-"combinés des archivages écrasés."
+"Ce message de commit sera utilisé à la place des messages de commit combinés "
+"des commits squashés."
 
 #: weblate/addons/forms.py:189
 msgid "Sort JSON keys"
@@ -1677,11 +1677,11 @@ msgstr ""
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
-msgstr "Écrasement des archivages Git"
+msgstr "Squasher les commits Git"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Écraser les archivages Git avant de pousser les modifications."
+msgstr "Squasher les commits Git avant de pousser les modifications."
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -1985,7 +1985,7 @@ msgstr "Accéder au dépôt interne"
 #. Translators: Permission name
 #: weblate/auth/data.py:117
 msgid "Commit changes to the internal repository"
-msgstr "Archiver les modifications dans le dépôt interne"
+msgstr "Commiter les modifications dans le dépôt interne"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
@@ -2931,7 +2931,7 @@ msgstr "Format Scheme"
 
 #: weblate/checks/format.py:508
 msgid "Scheme format string does not match source"
-msgstr "La chaîne de format scheme ne correspond pas à la source"
+msgstr "La chaîne de format Scheme ne correspond pas à la source"
 
 #: weblate/checks/format.py:521
 msgid "Python brace format"
@@ -4535,7 +4535,7 @@ msgstr "Clef SSH"
 
 #: weblate/templates/about/keys.html:29
 msgid "Commit signing"
-msgstr "Signature des archivages"
+msgstr "Signature des commits"
 
 #: weblate/templates/about/keys.html:35
 #, python-format
@@ -4548,7 +4548,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:40
 msgid "Commit signing is not configured."
-msgstr "La signature de l’archivage n’est pas configurée."
+msgstr "La signature des commits n’est pas configurée."
 
 #: weblate/templates/about/stats.html:8
 #: weblate/templates/dashboard/user.html:34 weblate/templates/data.html:51
@@ -4694,8 +4694,8 @@ msgid ""
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "En vous inscrivant, vous acceptez d’utiliser vos nom et adresse courriel "
-"dans les archivages, et de contribuer aux projets traduits d’après la "
-"licence définie par chacun d’eux."
+"dans les commits, et de contribuer aux projets traduits d’après la licence "
+"définie par chacun d’eux."
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:46 weblate/templates/base.html:220
@@ -4904,7 +4904,7 @@ msgstr "Paramètres de notification"
 
 #: weblate/templates/accounts/profile.html:111
 msgid "Your name and e-mail will appear as commit authorship."
-msgstr "Vos nom et courriel apparaîtront en tant qu’auteur des archivages."
+msgstr "Vos nom et courriel apparaîtront en tant qu’auteur des commits."
 
 #: weblate/templates/accounts/profile.html:119
 msgid "Current user identities"
@@ -5104,8 +5104,8 @@ msgid ""
 "project."
 msgstr ""
 "En vous inscrivant, vous acceptez d’utiliser vos nom et adresse courriel "
-"dans les archivages ainsi que de contribuer sous la licence définie par "
-"chacun des projets de traduction."
+"dans les commits ainsi que de contribuer sous la licence définie par chacun "
+"des projets de traduction."
 
 #: weblate/templates/accounts/profile.html:323
 msgid "You have agreed to the following as a contributor:"
@@ -5623,17 +5623,16 @@ msgstr "Chaîne source"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr ""
-"Les archivages Weblate de tous les composants de ce dépôt seront écrasés."
+msgstr "Les commits Weblate de tous les composants de ce dépôt seront squashés."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"Les messages d’archivage originaux sont préservés mais perdront la paternité "
-"de l’archivage, sauf si vous sélectionnez « Par auteur » ou si vous "
-"personnalisez le message d’archivage pour l’inclure."
+"Les messages de commit originaux sont préservés mais perdront la paternité "
+"du commit, sauf si vous sélectionnez « Par auteur » ou si vous personnalisez "
+"le message de commit pour l’inclure."
 
 #: weblate/templates/base.html:119
 msgid "Toggle navigation"
@@ -6965,20 +6964,20 @@ msgstr "État du dépôt"
 #: weblate/templates/js/git-status.html:29 weblate/templates/translate.html:711
 msgid "Pending changes not yet committed to the Weblate repository"
 msgstr ""
-"Modifications en attente qui ne sont pas encore archivées dans le dépôt "
+"Modifications en attente qui ne sont pas encore committés dans le dépôt "
 "Weblate"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Archiver les modifications en attente dans le dépôt Weblate"
+msgstr "Commiter les modifications en attente dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit"
-msgstr "Enregistrer"
+msgstr "Commit"
 
 #: weblate/templates/js/git-status.html:43
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Archivages sortants du dépôt Weblate"
+msgstr "Commits sortants du dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:47
 msgid ""
@@ -6998,7 +6997,7 @@ msgstr "Pousser"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Missing commits in the Weblate repository"
-msgstr "Archivages manquants dans le dépôt Weblate"
+msgstr "Commits manquants dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with changes from the remote repository"
@@ -7230,7 +7229,7 @@ msgstr "Impossible de trouver des services supplémentaires."
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
-"Certains services demanderont un paramètrage supplémentaire lors de leur "
+"Certains services demanderont un paramétrage supplémentaire lors de leur "
 "installation."
 
 #: weblate/templates/mail/account_activity.html:7
@@ -8643,7 +8642,7 @@ msgstr "Branche du dépôt"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
-msgstr "Dernier archivage distant"
+msgstr "Dernier commit distant"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:43
@@ -8654,7 +8653,7 @@ msgstr "%(author)s a écrit %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
 msgid "Last commit in Weblate"
-msgstr "Dernier archivage dans Weblate"
+msgstr "Dernier commit dans Weblate"
 
 #: weblate/templates/snippets/git-info.html:68
 msgid "Weblate repository"
@@ -9061,7 +9060,7 @@ msgid ""
 "translated project."
 msgstr ""
 "En vous inscrivant, vous acceptez d’utiliser votre nom et votre adresse "
-"courriel dans les archivages du système de contrôle des versions et acceptez "
+"courriel dans les commits du système de contrôle des versions et acceptez "
 "aussi de contribuer d’après la licence définie par chacun des projets."
 
 #: weblate/templates/snippets/plural-formula.html:4
@@ -10028,7 +10027,7 @@ msgstr "Workflow type pour corriger les conflits de fusion"
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
 msgstr ""
-"Archiver toutes les modifications en attente dans Weblate et verrouiller le "
+"Commiter toutes les modifications en attente dans Weblate et verrouiller le "
 "composant."
 
 #: weblate/templates/trans/merge_instructions.html:14
@@ -10059,8 +10058,8 @@ msgstr ""
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
-"Vous pouvez utiliser le balisage des modèles Django dans les messages "
-"d’archivage."
+"Vous pouvez utiliser le balisage des modèles Django dans les messages de "
+"commit."
 
 #: weblate/templates/trans/other-row.html:12
 msgid "This translation"
@@ -10776,7 +10775,7 @@ msgstr "Quitter le mode Zen"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
-msgstr "Enregistrer les modifications en attente"
+msgstr "Commiter les modifications en attente"
 
 #: weblate/trans/admin.py:46
 msgid "Update VCS repository"
@@ -11296,7 +11295,7 @@ msgstr "Paramètres du Système de contrôle de versions"
 
 #: weblate/trans/forms.py:1503 weblate/trans/forms.py:1505
 msgid "Commit messages"
-msgstr "Messages d’archivage"
+msgstr "Messages de commit"
 
 #: weblate/trans/forms.py:1522
 msgid "Translation files"
@@ -11762,7 +11761,7 @@ msgstr "Chaîne en double détectée"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:291
 msgid "Committed changes"
-msgstr "Modifications archivées"
+msgstr "Modifications commitées"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:293
@@ -12337,7 +12336,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:515
 msgid "Commit message when translating"
-msgstr "Message d’archivage lors d’une traduction"
+msgstr "Message de commit lors d’une traduction"
 
 #: weblate/trans/models/component.py:517 weblate/trans/models/component.py:526
 #: weblate/trans/models/component.py:535 weblate/trans/models/component.py:544
@@ -12351,19 +12350,19 @@ msgstr ""
 
 #: weblate/trans/models/component.py:524
 msgid "Commit message when adding translation"
-msgstr "Message d’archivage lors d’ajout de traduction"
+msgstr "Message de commit lors d’ajout de traduction"
 
 #: weblate/trans/models/component.py:533
 msgid "Commit message when removing translation"
-msgstr "Message d’archivage lors de suppression de traduction"
+msgstr "Message de commit lors de suppression de traduction"
 
 #: weblate/trans/models/component.py:542
 msgid "Commit message when merging translation"
-msgstr "Message d’archivage lors de la fusion de la traduction"
+msgstr "Message de commit lors de la fusion de la traduction"
 
 #: weblate/trans/models/component.py:551
 msgid "Commit message when add-on makes a change"
-msgstr "Message d’archivage lorsqu’un module effectue une modification"
+msgstr "Message de commit lorsqu’un module effectue une modification"
 
 #: weblate/trans/models/component.py:560
 msgid "Merge request message"
@@ -12371,21 +12370,21 @@ msgstr "Message de demande de fusion"
 
 #: weblate/trans/models/component.py:569
 msgid "Push on commit"
-msgstr "Pousser lors de l’archivage"
+msgstr "Pousser lors du commit"
 
 #: weblate/trans/models/component.py:572
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Le dépôt doit-il ou non être poussé en amont à chaque archivage."
+msgstr "Le dépôt doit-il ou non être poussé en amont à chaque commit."
 
 #: weblate/trans/models/component.py:576
 msgid "Age of changes to commit"
-msgstr "Âge des modifications à archiver"
+msgstr "Âge des modifications à commiter"
 
 #: weblate/trans/models/component.py:580
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Durée en heures après laquelle les modifications en attente seront archivées "
+"Durée en heures après laquelle les modifications en attente seront commitées "
 "dans le système de contrôle de versions."
 
 #: weblate/trans/models/component.py:585
@@ -12847,7 +12846,7 @@ msgstr "Échec de l’analyse du fichier %(file)s : %(error)s"
 #: weblate/trans/models/translation.py:1200
 #, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Impossible d’archiver les modifications en attente : %s"
+msgstr "Impossible de commiter les modifications en attente : %s"
 
 #: weblate/trans/models/translation.py:1581
 msgid "This string seems to already exist."
@@ -13574,7 +13573,7 @@ msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours.
 
 #: weblate/trans/views/git.py:57
 msgid "All pending translations were committed."
-msgstr "Toutes les traductions en attente ont été archivées."
+msgstr "Toutes les traductions en attente ont été commitées."
 
 #: weblate/trans/views/git.py:72
 msgid "All repositories were updated."
