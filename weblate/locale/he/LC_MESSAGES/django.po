@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-10-26 11:44+0000\n"
-"PO-Revision-Date: 2022-10-13 17:01+0000\n"
+"PO-Revision-Date: 2022-10-28 08:02+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1455,10 +1455,8 @@ msgid ""
 msgstr "כמה פעמים לחזור על החלק של המשתנה כתלות באורך מחרוזת המקור."
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "מחרוזות לקריאה בלבד"
+msgstr "כולל מחרוזות לקריאה בלבד"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2498,10 +2496,10 @@ msgid "Mismatched \\n"
 msgstr "\\n לא תואמת"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "כמות השורות החדשות בתרגום אינה תואמת למקור"
+msgstr ""
+"כמות ביטויי ה־‎\\n"
+" בתרגום לא תואם למקור"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2667,14 +2665,10 @@ msgid "Font spacing"
 msgstr "ריווח גופן"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "דגלוני ICU MessageFormat"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
 msgstr "קידומת תגית ICU MessageFormat"
 
@@ -2697,8 +2691,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "דגל תרגום שגוי: „%s”"
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "לדגלון התרגום אין משתנים: „%s”"
 
@@ -4024,10 +4017,9 @@ msgid "Failed to parse TMX file!"
 msgstr "פענוח קובץ ה־TMX נכשל!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "איתור שפת המקור נכשל!"
+msgstr "איתור השפה %s נכשל!"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -9220,10 +9212,8 @@ msgid "Language codes"
 msgstr "קודים של שפות"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "שם קובץ"
+msgstr "שמות קבצים"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -9377,28 +9367,24 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "הבדיקות הנאכפות הבאות אינן בשימוש בשום מקום:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr "בדיקת האיכות %(check)s נאכפת, אך לא הופעלה עם <code>%(flag)s</code>."
+msgstr "בדיקת האיכות %(check)s נאכפת, אך אינה זמינה."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
-msgstr "בדיקת האיכות %(check)s נאכפת, אך לא הופעלה עם <code>%(flag)s</code>."
+msgstr ""
+"בדיקת האיכות %(check)s נאכפת, אך לא הופעלה עם הדגלון <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
+"אפשר להפעיל את הבדיקה על ידי הוספת הדגלון המתאים לדגלוני מחרוזות או רכיבים."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9611,7 +9597,7 @@ msgstr "מיזם להסרה"
 msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
-msgstr ""
+msgstr "תוסף הוספת שפות חסרות מותקן על הרכיב הזה, הוא עלול להחזיר שפות שהוסרו."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9745,23 +9731,17 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "פעולה זו תמחק את הצוות <b>%(name)s</b> מהמיזם."
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
 msgid_plural ""
 "This team contains %(count)s members. Deleting the team might affect their "
 "access to the project."
-msgstr[0] "יש חבר בצוות הזה. מחיקתו תשפיע על הגישה שלו אליו."
-msgstr[1] "יש %(count)s חברים בצוות הזה. מחיקתו תשפיע על הגישה שלהם אליו."
-msgstr[2] "יש %(count)s חברים בצוות הזה. מחיקתו תשפיע על הגישה שלהם אליו."
-msgstr[3] "יש %(count)s חברים בצוות הזה. מחיקתו תשפיע על הגישה שלהם אליו."
+msgstr[0] "יש חבר בצוות הזה. מחיקת הצוות תשפיע על הגישה שלו למיזם."
+msgstr[1] "יש %(count)s חברים בצוות הזה. מחיקת הצוות תשפיע על הגישה שלהם למיזם."
+msgstr[2] "יש %(count)s חברים בצוות הזה. מחיקת הצוות תשפיע על הגישה שלהם למיזם."
+msgstr[3] "יש %(count)s חברים בצוות הזה. מחיקת הצוות תשפיע על הגישה שלהם למיזם."
 
 #: weblate/templates/trans/project-access.html:215
 msgid "Edit team"
@@ -11517,17 +11497,13 @@ msgstr "תוסף הוסר"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "הסרת מחרוזת"
+msgstr "המחרוזת הוסרה"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "הערה שנפתרה"
+msgstr "ההערה הוסרה"
 
 #: weblate/trans/models/change.py:462
 msgid "New string to translate"
@@ -13179,7 +13155,7 @@ msgstr "שפת המיזם הוסרה."
 #: weblate/trans/views/settings.py:237
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
+msgstr "לא ניתן לשנות את השם עקב תקלה שאירעה בהגדרות: %s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
