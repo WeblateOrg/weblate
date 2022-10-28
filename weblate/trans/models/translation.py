@@ -66,7 +66,9 @@ from weblate.utils.stats import GhostStats, TranslationStats
 
 
 class TranslationManager(models.Manager):
-    def check_sync(self, component, lang, code, path, force=False, request=None):
+    def check_sync(
+        self, component, lang, code, path, force=False, request=None, change=None
+    ):
         """Parse translation meta info and updates translation object."""
         translation = component.translation_set.get_or_create(
             language=lang,
@@ -86,7 +88,7 @@ class TranslationManager(models.Manager):
             force = True
             translation.check_flags = flags
             translation.save(update_fields=["check_flags"])
-        translation.check_sync(force, request=request)
+        translation.check_sync(force, request=request, change=change)
 
         return translation
 
@@ -1307,7 +1309,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # delete_unit might do changes in the database only and not touch the files
         # for pending new units
         if self.is_source:
-            self.component.create_translations(request=request)
+            self.component.create_translations(request=request, change=change)
             self.component.invalidate_cache()
         else:
             self.check_sync(request=request, change=change)

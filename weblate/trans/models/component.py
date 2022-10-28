@@ -1924,12 +1924,13 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
+        change: Optional[int] = None,
     ):
         """Load translations from VCS."""
         try:
             with self.lock:
                 return self._create_translations(
-                    force, langs, request, changed_template, from_link
+                    force, langs, request, changed_template, from_link, change
                 )
         except WeblateLockTimeout:
             if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -1971,6 +1972,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
+        change: Optional[int] = None,
     ):
         """Load translations from VCS."""
         self.store_background_task()
@@ -2054,7 +2056,13 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     continue
                 try:
                     translation = Translation.objects.check_sync(
-                        self, lang, code, path, force, request=request
+                        self,
+                        lang,
+                        code,
+                        path,
+                        force,
+                        request=request,
+                        change=change,
                     )
                 except InvalidTemplate as error:
                     self.log_warning(
