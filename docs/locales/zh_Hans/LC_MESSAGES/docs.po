@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-26 13:44+0200\n"
-"PO-Revision-Date: 2022-10-28 08:02+0000\n"
+"PO-Revision-Date: 2022-10-29 21:48+0000\n"
 "Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17364,7 +17364,7 @@ msgstr "用于推送更改的分支，留空则使用 :ref:`component-branch`。
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
-msgstr "此功能目前只支持 Git、GitLab 和 GitHub，不支持其他 VCS 集成。"
+msgstr "此功能目前只支持 Git、GitLab 和 GitHub，不支持其他版本控制系统（VCS）集成。"
 
 #: ../../admin/projects.rst:399 ../../devel/gettext.rst:226
 #: ../../formats.rst:193 ../../formats.rst:259 ../../formats.rst:392
@@ -20525,9 +20525,8 @@ msgstr ""
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
-msgstr ""
-"``zipfile`` 和 ``docfile`` 参数现在可被无 VCS 的部件所接受，见 :ref:`vcs-"
-"local`."
+msgstr "``zipfile`` 和 ``docfile`` 参数现在可被无 VCS-less 的部件所接受，见 :ref"
+":`vcs-local`."
 
 #: ../../api.rst:972
 msgid ""
@@ -21245,8 +21244,8 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
-"下载存储在 VCS 中的当前翻译文件（不带 ``format`` 参数）或将其转换为另一格式"
-"（见 :ref:`download`）。"
+"下载存储在版本控制系统（VCS）中的当前翻译文件（不带 ``format`` "
+"参数）或将其转换为另一格式（见 :ref:`download`）。"
 
 #: ../../api.rst:1915
 msgid ""
@@ -22219,7 +22218,7 @@ msgstr "改进了 DeepL 中的语言支持。"
 
 #: ../../changes.rst:19
 msgid "Improved webhooks compatibility with authenticated repositories."
-msgstr "改进了 webhook 与经身份验证的存储库的兼容性。"
+msgstr "改进了 webhook 与经身份验证的仓库的兼容性。"
 
 #: ../../changes.rst:21
 msgid ""
@@ -27695,7 +27694,7 @@ msgstr "几个 URLs 已经更改，可能必须要更新您的书签。"
 
 #: ../../changes.rst:1735
 msgid "Hook scripts are executed with VCS root as current directory."
-msgstr "钩子脚本以 VCS root 作为当前目录执行。"
+msgstr "钩子脚本以版本控制系统（VCS）root 作为当前目录执行。"
 
 #: ../../changes.rst:1736
 msgid ""
@@ -27968,7 +27967,7 @@ msgstr "使用 Bootsctrap 的新的仓库 UI。"
 
 #: ../../changes.rst:1820
 msgid "Rewritten VCS backend."
-msgstr "重写了 VCS 后端。"
+msgstr "重写了版本控制系统（VCS）后端。"
 
 #: ../../changes.rst:1822
 msgid "Added whiteboard for site wide messages."
@@ -33077,8 +33076,7 @@ msgstr "如果只想删除一些特定的字符串，有以下方法："
 msgid ""
 "Manually in the source file. They will be removed from the translation "
 "project as well upon Weblate's repository update."
-msgstr ""
-"在源文件中手动操作。它们也将在 Weblate 的存储库更新后从翻译项目中删除。"
+msgstr "在源文件中手动操作。它们也将在 Weblate 的仓库更新后从翻译项目中删除。"
 
 #: ../../devel/translations.rst:50
 msgid ""
@@ -33094,9 +33092,8 @@ msgid ""
 "If you delete a language file in connected remote repository, respective "
 "translation will be removed from the component when Weblate updates local "
 "repository."
-msgstr ""
-"如果删除已连接的远程存储库中的语言文件，则当 Weblate 更新本地存储库时，将从组"
-"件中删除相应的翻译。"
+msgstr "如果删除已连接的远程仓库中的语言文件，则当 Weblate "
+"更新本地仓库时，将从组件中删除相应的翻译。"
 
 #: ../../devel/translations.rst:64
 msgid "String variants"
@@ -33569,8 +33566,8 @@ msgid ""
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
 "要在更改文件位置后保留链接到字符串的历史记录，注释或屏幕截图，您需要确保这些"
-"字符串永远不会在Weblate中删除。如果 Weblate 存储库已更新，但组件配置仍指向旧"
-"文件，则可能会发生这些删除操作。这使得Weblate认为它应该删除所有翻译。"
+"字符串永远不会在Weblate中删除。如果 Weblate 仓库已更新，但组件配置仍指向旧文"
+"件，则可能会发生这些删除操作。这使得Weblate认为它应该删除所有翻译。"
 
 #: ../../faq.rst:283
 msgid "The solution to this is to perform the operation in sync with Weblate:"
@@ -33588,25 +33585,22 @@ msgstr "提交任何待处理的更改，并将它们合并到上游代码库中
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
-msgstr ""
-"禁用接收 webhook :ref:`project`；这可以防止 Weblate 立即看到存储库中的更改。"
+msgstr "禁用接收 webhook :ref:`project`；这可以防止 Weblate 立即看到仓库中的更改。"
 
 #: ../../faq.rst:288
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
-msgstr ""
-"在存储库中进行任何需要的更改（例如使用 :command:`git mv`），将它们推送到上游"
-"存储库。"
+msgstr "在仓库中进行任何需要的更改（例如使用 :command:`git "
+"mv`），将它们推送到上游仓库。"
 
 #: ../../faq.rst:289
 msgid ""
 "Change the :ref:`component` to match the new setup; upon changing "
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
-msgstr ""
-"更改 :ref:`component` 以匹配新设置；在更改配置时，Weblate 将获取更新的存储库"
-"并注意更改的位置，同时保留现有的字符串。"
+msgstr "更改 :ref:`component` 以匹配新设置；在更改配置时，Weblate "
+"将获取更新的仓库并注意更改的位置，同时保留现有的字符串。"
 
 #: ../../faq.rst:290
 msgid "Unlock the component and re-enable hooks in the project configuration."
@@ -33908,7 +33902,7 @@ msgstr "功能"
 
 #: ../../faq.rst:486
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
-msgstr "Weblate 支持 Git 和 Mercurial 以外的其它 VCS 吗？"
+msgstr "Weblate 支持 Git 和 Mercurial 以外的其它版本控制系统（VCS）吗？"
 
 #: ../../faq.rst:488
 msgid ""
@@ -33917,9 +33911,9 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"Weblate 当前不原生支持除 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref:"
-"`vcs-gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 以外的任何 VCS，"
-"但可以为其他 VCS 编写后端。"
+"Weblate 当前不原生支持除 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref"
+":`vcs-gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` "
+"以外的任何版本控制系统（VCS），但可以为其他版本控制系统（VCS）编写后端。"
 
 #: ../../faq.rst:493
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
@@ -33927,7 +33921,7 @@ msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCS。
 
 #: ../../faq.rst:495
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
-msgstr "Weblate 还支持无 VCS 的操作，请参见 :ref:`vcs-local`。"
+msgstr "Weblate 还支持无版本控制系统（VCS）的操作，请参见 :ref:`vcs-local`。"
 
 #: ../../faq.rst:499
 msgid ""
@@ -33935,8 +33929,9 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
-"对于其它 VCS 的原生支持，Weblate 需要使用分布式 VCS，并可能会调整为能与除 "
-"Git 和 Mercurial 以外的任何东西一起使用，必须有人来实现这项支持。"
+"对于其它版本控制系统（VCS）的原生支持，Weblate "
+"需要使用分布式版本控制系统（VCS），并可能会调整为能与除 Git 和 Mercurial "
+"以外的任何东西一起使用，必须有人来实现这项支持。"
 
 #: ../../faq.rst:506
 msgid "How does Weblate credit translators?"
@@ -38949,9 +38944,8 @@ msgid ""
 "stored in the repository. In this case, any pending changes in the "
 "translation are getting committed and the up-to-date file is yield without "
 "any conversions."
-msgstr ""
-"第一个选项是下载存储在存储库中的原始格式的文件。在这种情况下，将提交译文中的"
-"任何挂起更改，并且生成最新文件而不进行任何转换。"
+msgstr "第一个选项是下载存储在仓库中的原始格式的文件。在这种情况下，将提交译文中的任"
+"何挂起更改，并且生成最新文件而不进行任何转换。"
 
 #: ../../user/files.rst:25
 msgid ""
@@ -40704,9 +40698,8 @@ msgstr "项目"
 msgid ""
 "Project info like instructions for translators, or a directory or link to "
 "the string in the version control system repository the project uses."
-msgstr ""
-"项目信息，如翻译人员的说明，或项目使用的版本控制系统存储库中字符串的目录或链"
-"接。"
+msgstr "项目信息，如翻译人员的说明，或项目使用的版本控制系统仓库中字符串的目录或链接"
+"。"
 
 #: ../../user/translating.rst:301
 msgid "If you want direct links, the translation format has to support it."
@@ -41244,8 +41237,7 @@ msgstr "使用代理"
 msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
-msgstr ""
-"如果需要使用代理服务器访问 HTTP/HTTPS VCS 存储库，请将 VCS 配置为使用它。"
+msgstr "如果需要使用代理服务器访问 HTTP/HTTPS VCS 仓库，请将 VCS 配置为使用它。"
 
 #: ../../vcs.rst:175
 msgid ""
@@ -41254,9 +41246,9 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
-"这可以使用 ``http_proxy`` 、 ``https_proxy`` 和 ``all_proxy`` 环境变量来完成"
-"（如 `cURL 文档 <https://curl.se/docs/>`_ 中所述）或通过在 VCS 配置中强制执"
-"行，例如："
+"这可以使用 ``http_proxy`` 、 ``https_proxy`` 和 ``all_proxy`` "
+"环境变量来完成（如 `cURL 文档 <https://curl.se/docs/>`_ "
+"中所述）或通过在版本控制系统（VCS）配置中强制执行，例如："
 
 #: ../../vcs.rst:185
 msgid ""
@@ -41288,7 +41280,7 @@ msgstr "Weblate 需要 Git 2.12 或更新版本。"
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
-msgstr "有关如何访问不同类型的存储库的信息，请参阅 :ref:`vcs-repos` 。"
+msgstr "有关如何访问不同类型的仓库的信息，请参阅 :ref:`vcs-repos` 。"
 
 #: ../../vcs.rst:211
 msgid "Git with force push"
@@ -41307,7 +41299,7 @@ msgstr ""
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
-msgstr "请谨慎使用，因为这很容易导致上游存储库中的提交丢失。"
+msgstr "请谨慎使用，因为这很容易导致上游仓库中的提交丢失。"
 
 #: ../../vcs.rst:223
 msgid "Customizing Git configuration"
@@ -41342,9 +41334,9 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
-"目前，Bazaar 和 Mercurial 的助手可在 GitHub 上的单独存储库中使用：`git-"
-"remote-hg`_ 和 `git-remote-bzr`_ 。手动下载它们并将它们放在搜索路径中的某个位"
-"置（例如 :file:`~/bin` ）。确保您安装了相应的版本控制系统。"
+"目前，Bazaar 和 Mercurial 的助手可在 GitHub 上的单独仓库中使用：`git-remote-"
+"hg`_ 和 `git-remote-bzr`_ 。手动下载它们并将它们放在搜索路径中的某个位置（"
+"例如 :file:`~/bin` ）。确保您安装了相应的版本控制系统。"
 
 #: ../../vcs.rst:243
 msgid ""
@@ -41378,17 +41370,16 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"这在 :ref:`vcs-git` 顶部添加了一个薄层，使用 `GitHub API`_ 允许将翻译更改作为"
-"拉取请求推送，而不是直接推送到存储库。"
+"这在 :ref:`vcs-git` 顶部添加了一个薄层，使用 `GitHub API`_ "
+"允许将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:274
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
-msgstr ""
-":ref:`vcs-git` 将更改直接推送到存储库，而 :ref:`vcs-github` 创建拉取请求。仅"
-"访问 Git 存储库不需要后者。"
+msgstr ":ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-github` 创建拉取请求。"
+"仅访问 Git 仓库不需要后者。"
 
 #: ../../vcs.rst:278
 msgid ""
@@ -41418,8 +41409,8 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"这只是使用 `GitLab API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为合并请求推送，而不是直接推送到存储库。"
+"这只是使用 `GitLab API`_ 在 :ref:`vcs-git` "
+"上添加了一个薄层，以允许将翻译更改作为合并请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:303
 msgid ""
@@ -41428,9 +41419,9 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
-"不需要使用它来访问 Git 存储库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别"
-"是如何处理推送到存储库。使用 :ref:`vcs-git` 将更改直接推送到存储库，而 :ref:"
-"`vcs-gitlab` 创建合并请求。"
+"不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` "
+"工作方式相同，唯一的区别是如何处理推送到仓库。使用 :ref:`vcs-git` "
+"将更改直接推送到仓库，而 :ref:`vcs-gitlab` 创建合并请求。"
 
 #: ../../vcs.rst:308
 msgid ""
@@ -41460,8 +41451,8 @@ msgid ""
 "allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"这只是使用 `Gitea API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为拉取请求推送，而不是直接推送到存储库。"
+"这只是使用 `Gitea API`_ 在 :ref:`vcs-git` "
+"上添加了一个薄层，以允许将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:333
 msgid ""
@@ -41470,9 +41461,9 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
-"不需要使用它来访问 Git 存储库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别"
-"是如何处理推送到存储库。使用 :ref:`vcs-git` 将更改直接推送到存储库，而 :ref:"
-"`vcs-gitea` 创建拉取请求。"
+"不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` "
+"工作方式相同，唯一的区别是如何处理推送到仓库。使用 :ref:`vcs-git` "
+"将更改直接推送到仓库，而 :ref:`vcs-gitea` 创建拉取请求。"
 
 #: ../../vcs.rst:338
 msgid ""
@@ -41502,8 +41493,8 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"这只是使用 `Pagure API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为合并请求推送，而不是直接推送到存储库。"
+"这只是使用 `Pagure API`_ 在 :ref:`vcs-git` "
+"上添加了一个薄层，以允许将翻译更改作为合并请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:363
 msgid ""
@@ -41512,9 +41503,9 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"不需要使用它来访问 Git 存储库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别"
-"是如何处理推送到存储库。使用 :ref:`vcs-git` 将更改直接推送到存储库，而 :ref:"
-"`vcs-pagure` 创建合并请求。"
+"不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` "
+"工作方式相同，唯一的区别是如何处理推送到仓库。使用 :ref:`vcs-git` "
+"将更改直接推送到仓库，而 :ref:`vcs-pagure` 创建合并请求。"
 
 #: ../../vcs.rst:368
 msgid ""
@@ -41544,14 +41535,14 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
-"使用 `git-review`_ 工具在 :ref:`vcs-git` 上添加一个薄层，以允许将翻译更改作"
-"为 Gerrit 审查请求推送，而不是将它们直接推送到存储库。"
+"使用 `git-review`_ 工具在 :ref:`vcs-git` 上添加一个薄层，"
+"以允许将翻译更改作为 Gerrit 审查请求推送，而不是将它们直接推送到仓库。"
 
 #: ../../vcs.rst:392
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories."
-msgstr "Gerrit 文档详细介绍了设置此类存储库所需的配置。"
+msgstr "Gerrit 文档详细介绍了设置此类仓库所需的配置。"
 
 #: ../../vcs.rst:400
 msgid "Mercurial"
@@ -41559,7 +41550,7 @@ msgstr "Mercurial"
 
 #: ../../vcs.rst:404
 msgid "Mercurial is another VCS you can use directly in Weblate."
-msgstr "Mercurial 是另一个可以在 Weblate 中直接使用的 VCS。"
+msgstr "Mercurial 是另一个可以在 Weblate 中直接使用的版本控制系统（VCS）。"
 
 #: ../../vcs.rst:408
 msgid ""
@@ -41580,9 +41571,8 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
-"Weblate 使用 `git-svn`_ 与 `subversion`_ 存储库交互。它是一个 Perl 脚本，允"
-"许 Git 客户端使用 subversion，使用户能够维护内部存储库的完整克隆并在本地提"
-"交。"
+"Weblate 使用 `git-svn`_ 与 `subversion`_ 仓库交互。它是一个 Perl 脚本，允许 "
+"Git 客户端使用 subversion，使用户能够维护内部仓库的完整克隆并在本地提交。"
 
 #: ../../vcs.rst:430
 msgid ""
@@ -41594,11 +41584,11 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
-"Weblate 尝试自动检测 Subversion 存储库布局 - 它支持分支的直接 URL 或具有标准"
-"布局的仓库（分支/、标签/和主干/）。有关这方面的更多信息，请参阅 `git-svn 文"
-"档 <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---"
-"stdlayout>`_ 。如果您的仓库没有标准布局并且遇到错误，请尝试在存储库 URL 中包"
-"含分支名称并将分支留空。"
+"Weblate 尝试自动检测 Subversion 仓库布局 - 它支持分支的直接 URL "
+"或具有标准布局的仓库（分支/、标签/和主干/）。有关这方面的更多信息，请参阅 "
+"`git-svn 文档 <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---"
+"stdlayout>`_ 。如果您的仓库没有标准布局并且遇到错误，请尝试在仓库 URL "
+"中包含分支名称并将分支留空。"
 
 #: ../../vcs.rst:439
 msgid ""
@@ -41650,8 +41640,9 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"在后台 Weblate 为您创建一个 Git 存储库并跟踪所有更改。如果您以后决定使用 VCS "
-"来存储翻译，您已经在 Weblate 中有一个存储库可以作为您的集成的基础。"
+"在后台 Weblate 为您创建一个 Git 仓库并跟踪所有更改。如果您以后决定使用 "
+"版本控制系统（VCS）来存储翻译，您已经在 Weblate "
+"中有一个仓库可以作为您的集成的基础。"
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
