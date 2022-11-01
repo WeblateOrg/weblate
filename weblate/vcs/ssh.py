@@ -35,6 +35,7 @@ from weblate.utils.hash import calculate_checksum
 
 # SSH key files
 KNOWN_HOSTS = "known_hosts"
+CONFIG = "config"
 RSA_KEY = "id_rsa"
 RSA_KEY_PUB = "id_rsa.pub"
 
@@ -253,7 +254,7 @@ exec {command} \
     -o StrictHostKeyChecking=yes \
     -o HashKnownHosts=no \
     -o UpdateHostKeys=yes \
-    -F /dev/null \
+    -F {config_file} \
     {extra_args} \
     "$@"
 """
@@ -282,6 +283,7 @@ class SSHWrapper:
         return SSH_WRAPPER_TEMPLATE.format(
             command=command,
             known_hosts=ssh_file(KNOWN_HOSTS),
+            config_file=ssh_file(CONFIG),
             identity=ssh_file(RSA_KEY),
             extra_args=settings.SSH_EXTRA_ARGS,
         )
@@ -295,6 +297,15 @@ class SSHWrapper:
         """Create wrapper for SSH to pass custom known hosts and key."""
         if not os.path.exists(self.path):
             os.makedirs(self.path)
+
+        if not os.path.exists(ssh_file(CONFIG)):
+            try:
+                with open(ssh_file(CONFIG), "x") as handle:
+                    handle.write(
+                        "# SSH configuration for customising SSH client in Weblate"
+                    )
+            except OSError:
+                pass
 
         for command in ("ssh", "scp"):
             filename = os.path.join(self.path, command)
