@@ -1048,6 +1048,12 @@ LICENSES = (
     ),
     ("FSFUL", "FSF Unlimited License", "https://spdx.org/licenses/FSFUL.html", False),
     (
+        "FSFULLRWD",
+        "FSF Unlimited License (With License Retention    and Warranty Disclaimer)",
+        "https://spdx.org/licenses/FSFULLRWD.html",
+        False,
+    ),
+    (
         "FSFULLR",
         "FSF Unlimited License (with License Retention)",
         "https://spdx.org/licenses/FSFULLR.html",
