@@ -586,6 +586,69 @@ class ComponentChangeTest(RepoTestCase):
         component.repo = component.linked_component.repo
         component.save()
 
+    def test_repo_link_generation_bitbucket(self):
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "ssh://git@bitbucket.org/marcus/project-x.git"
+        result = component.get_bitbucket_git_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",  # noqa
+        )
+        component.repo = "git@bitbucket.org:marcus/project-x.git"
+        result = component.get_bitbucket_git_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",  # noqa
+        )
+
+    def test_repo_link_generation_github(self):
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "git://github.com/marcus/project-x.git"
+        result = component.get_github_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://github.com/marcus/project-x/blob/{branch}/{filename}#L{line}",
+        )
+        component.repo = "git@github.com:marcus/project-x.git"
+        result = component.get_github_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://github.com/marcus/project-x/blob/{branch}/{filename}#L{line}",
+        )
+
+    def test_repo_link_generation_pagure(self):
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "https://pagure.io/f/ATEST"
+        result = component.get_pagure_repoweb_template()
+        self.assertEqual(
+            result, "https://pagure.io/f/ATEST/blob/{branch}/f/{filename}/#_{line}"
+        )
+
+    def test_repo_link_generation_azure(self):
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "f@vs-ssh.visualstudio.com:v3/f/c/ATEST"
+        result = component.get_azure_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
+        )
+        component.repo = "git@ssh.dev.azure.com:v3/f/c/ATEST"
+        result = component.get_azure_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
+        )
+        component.repo = "https://f.visualstudio.com/c/_git/ATEST"
+        result = component.get_azure_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
+        )
+
     def test_change_project(self):
         component = self.create_component()
 

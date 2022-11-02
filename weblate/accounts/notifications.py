@@ -481,7 +481,7 @@ class ParseErrorNotification(Notification):
         context = super().get_context(change, subscription, extracontext, changes)
         if change:
             context["details"]["filelink"] = change.component.get_repoweb_link(
-                change.details.get("filename"), "1"
+                change.details.get("filename"), "1", user=context["user"]
             )
         return context
 

@@ -154,6 +154,25 @@ MERGE_CHOICES = (
 
 LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure", "ParseError"}
 
+BITBUCKET_GIT_REPOS_REGEXP = [
+    r"(?:ssh|https):\/\/(?:(?:git@|)bitbucket.org)\/([^/]*)\/([^/]*)",
+    r"git@bitbucket.org:([^/]*)\/([^/]*)",
+]
+
+GITHUB_REPOS_REGEXP = [
+    r"(?:git|https):\/\/(?:github.com)\/([^/]*)\/([^/]*)",
+    r"git@github.com:([^/]*)\/([^/]*)",
+]
+
+PAGURE_REPOS_REGEXP = [r"(?:ssh|https):\/\/(?:(?:git@|)pagure.io)\/([^/]*)\/([^/]*)"]
+
+AZURE_REPOS_REGEXP = [
+    r"(?:https):\/\/(?:dev.azure.com)\/([^/]*)\/([^/]*)\/(?:_git)\/([^/]*)",
+    r"(?:https):\/\/(?:([^/]*).visualstudio.com)\/([^/]*)\/(?:_git)\/([^/]*)",
+    r"(?:[^/]*)\@vs-ssh.visualstudio.com:v3\/([^/]*)\/([^/]*)\/([^/]*)",
+    r"(?:git@ssh.dev.azure.com:v3)\/([^/]*)\/([^/]*)\/([^/]*)",
+]
+
 
 def perform_on_link(func):
     """Decorator to handle repository link."""
@@ -1155,7 +1174,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return self.git_export
 
     def get_repoweb_link(
-        self, filename: str, line: str, template: Optional[str] = None
+        self,
+        filename: str,
+        line: str,
+        template: Optional[str] = None,
+        user=None,
     ):
         """Generate link to source code browser for given file and line.
 
@@ -1163,9 +1186,18 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         here.
         """
         if not template:
-            template = self.repoweb
+            if self.repoweb:
+                template = self.repoweb
+            elif user and user.has_perm("vcs.view", self):
+                template = getattr(
+                    self,
+                    f"get_{self.vcs}_repoweb_template",
+                    self.get_git_repoweb_template,
+                )()
         if self.is_repo_link:
-            return self.linked_component.get_repoweb_link(filename, line, template)
+            return self.linked_component.get_repoweb_link(
+                filename, line, template, user=self.acting_user
+            )
         if not template:
             if filename.startswith("https://"):
                 return filename
@@ -1178,6 +1210,106 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             branch=urlquote(self.branch),
             component=self,
         )
+
+    def get_git_repoweb_template(self):
+        """Method to return the template link for a specific vcs."""
+        parsed_url = urlparse(self.repo)
+
+        if (
+            self.repo.startswith("git@bitbucket.org")
+            or parsed_url.hostname == "bitbucket.org"
+        ):
+            return self.get_bitbucket_git_repoweb_template()
+
+        if (
+            self.repo.startswith("git@github.com")
+            or parsed_url.hostname == "github.com"
+        ):
+            return self.get_github_repoweb_template()
+
+        if parsed_url.hostname == "pagure.io":
+            return self.get_pagure_repoweb_template()
+
+        if (
+            self.repo.startswith("git@ssh.dev.azure.com:v3")
+            or parsed_url.hostname == "dev.azure.com"
+            or parsed_url.hostname.split(".", 1)[-1] == "visualstudio.com"
+        ):
+            return self.get_azure_repoweb_template()
+
+        return None
+
+    def get_clean_slug(self, slug):
+        if slug.endswith(".git"):
+            slug = slug[:-4]
+        return slug
+
+    def get_bitbucket_git_repoweb_template(self):
+        owner, slug, matches = None, None, None
+        domain = "bitbucket.org"
+        if re.match(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo):
+            matches = re.search(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo)
+        elif re.match(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo):
+            matches = re.search(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo)
+        if matches:
+            owner = matches.group(1)
+            slug = self.get_clean_slug(matches.group(2))
+        if owner and slug:
+            return (
+                f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#{{line}}"
+            )
+
+        return None
+
+    def get_github_repoweb_template(self):
+        owner, slug, matches = None, None, None
+        domain = "github.com"
+        if re.match(GITHUB_REPOS_REGEXP[0], self.repo):
+            matches = re.search(GITHUB_REPOS_REGEXP[0], self.repo)
+        elif re.match(GITHUB_REPOS_REGEXP[1], self.repo):
+            matches = re.search(GITHUB_REPOS_REGEXP[1], self.repo)
+        if matches:
+            owner = matches.group(1)
+            slug = self.get_clean_slug(matches.group(2))
+        if owner and slug:
+            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"  # noqa
+
+        return None
+
+    def get_pagure_repoweb_template(self):
+        owner, slug = None, None
+        domain = "pagure.io"
+        if re.match(PAGURE_REPOS_REGEXP[0], self.repo):
+            matches = re.search(PAGURE_REPOS_REGEXP[0], self.repo)
+            owner = matches.group(1)
+            slug = matches.group(2)
+
+        if owner and slug:
+            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"  # noqa
+
+        return None
+
+    def get_azure_repoweb_template(self):
+        organization, project, repository, matches = None, None, None, None
+        domain = "dev.azure.com"
+        if re.match(AZURE_REPOS_REGEXP[0], self.repo):
+            matches = re.search(AZURE_REPOS_REGEXP[0], self.repo)
+        elif re.match(AZURE_REPOS_REGEXP[1], self.repo):
+            matches = re.search(AZURE_REPOS_REGEXP[1], self.repo)
+        elif re.match(AZURE_REPOS_REGEXP[2], self.repo):
+            matches = re.search(AZURE_REPOS_REGEXP[2], self.repo)
+        elif re.match(AZURE_REPOS_REGEXP[3], self.repo):
+            matches = re.search(AZURE_REPOS_REGEXP[3], self.repo)
+
+        if matches:
+            organization = matches.group(1)
+            project = matches.group(2)
+            repository = matches.group(3)
+
+        if organization and project and repository:
+            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"  # noqa
+
+        return None
 
     def error_text(self, error):
         """Returns text message for a RepositoryException."""
