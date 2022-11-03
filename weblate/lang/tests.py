@@ -319,7 +319,7 @@ class VerifyPluralsTest(TestCase):
             self.assertNotEqual(
                 get_plural_type(code.replace("_", "-").split("-")[0], plural_formula),
                 data.PLURAL_UNKNOWN,
-                f"Can not guess plural type for {code} ({plural_formula})",
+                f"Can not guess plural type for {code}: {plural_formula}",
             )
 
     def test_formula(self):
