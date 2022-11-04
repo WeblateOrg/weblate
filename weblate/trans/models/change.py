@@ -120,6 +120,7 @@ class ChangeQuerySet(models.QuerySet):
             "translation",
             "component",
             "project",
+            "component__source_language",
             "unit",
             "translation__language",
             "translation__plural",
