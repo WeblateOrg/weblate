@@ -507,7 +507,7 @@ class Change(models.Model, UserDisplayMixin):
         related_name="author_set",
         on_delete=models.deletion.CASCADE,
     )
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     action = models.IntegerField(
         choices=ACTION_CHOICES, default=ACTION_CHANGE, db_index=True
     )
@@ -520,7 +520,7 @@ class Change(models.Model, UserDisplayMixin):
     class Meta:
         app_label = "trans"
         index_together = [
-            ("translation", "action", "timestamp"),
+            ("timestamp", "translation", "project", "component", "language", "action"),
         ]
         verbose_name = "history event"
         verbose_name_plural = "history events"
