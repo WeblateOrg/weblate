@@ -215,13 +215,11 @@ TEMPLATES = [
 
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
-GITHUB_USERNAME = None
-GITHUB_TOKEN = None
+GITHUB_CREDENTIALS = {}
 
 # GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
-GITLAB_USERNAME = None
-GITLAB_TOKEN = None
+GITLAB_CREDENTIALS = {}
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
