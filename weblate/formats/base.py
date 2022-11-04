@@ -20,7 +20,7 @@
 
 import os
 import tempfile
-from copy import deepcopy
+from copy import copy
 from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
 from django.utils.functional import cached_property
@@ -180,7 +180,7 @@ class TranslationUnit:
         return self.unit is not None
 
     def clone_template(self):
-        self.mainunit = self.unit = deepcopy(self.template)
+        self.mainunit = self.unit = copy(self.template)
 
 
 class TranslationFormat:
