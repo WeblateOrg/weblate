@@ -10,13 +10,14 @@
 # Vri 🌈 <weblate@vrifox.cc>, 2022.
 # Anonynonymouse <tom.spaine60388@gmail.com>, 2022.
 # ssantos <ssantos@web.de>, 2022.
+# Jean-Luc Tibaux <eugentoptic@outlook.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-26 13:44+0200\n"
-"PO-Revision-Date: 2022-11-01 13:11+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2022-11-05 07:42+0000\n"
+"Last-Translator: Jean-Luc Tibaux <eugentoptic@outlook.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -2121,6 +2122,13 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"Das Add-on zur Komponentenerkennung verwendet :ref:`internal-urls`. Es ist "
+"ein bequemer Weg, um das VCS-Setup zwischen mehreren Komponenten zu teilen. "
+"Verknüpfte Komponenten verwenden das lokale Repository der Hauptkomponente, "
+"das durch Eintragen von ``weblate://project/main-component`` in das Feld :ref"
+":`component-repo` (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`"
+"Version control system`) der jeweiligen Komponente eingerichtet wird. Dies "
+"spart Zeit bei der Konfiguration und auch Systemressourcen."
 
 #: ../../admin/addons.rst:232 ../../admin/addons.rst:391
 msgid ":ref:`markup`"
@@ -2221,6 +2229,11 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
+"Automatisieren Sie die Beschriftung, indem Sie mit der Suchanfrage ``NOT "
+"has:label`` beginnen und so lange Beschriftungen hinzufügen, bis alle "
+"Zeichenfolgen alle erforderlichen Beschriftungen aufweisen. Andere "
+"automatisierte Vorgänge für Weblate-Metadaten können ebenfalls durchgeführt "
+"werden."
 
 #: ../../admin/addons.rst:271 ../../admin/config.rst:1589
 msgid "**Examples:**"
@@ -2245,6 +2258,7 @@ msgstr "*recent*"
 #: ../../admin/addons.rst:281
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
+"Markierung aller :ref:`appstore` Changelog-Zeichenfolgen als schreibgeschützt"
 
 #: ../../admin/addons.rst:285
 msgid "``language:en AND key:changelogs/``"
@@ -2287,6 +2301,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Sie können auch die :ref:`check-same` Prüfung verschärfen, indem Sie "
+"``strict-same`` zu :ref:`component-check_flags` hinzufügen."
 
 #: ../../admin/addons.rst:319 ../../admin/addons.rst:336
 #: ../../admin/addons.rst:353
@@ -2412,6 +2428,10 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Alle unübersetzten Zeichenketten in der Komponente werden mit der "
+"Quellzeichenkette gefüllt und als zu bearbeiten markiert. Verwenden Sie "
+"dies, wenn Sie keine leeren Zeichenfolgen in den Übersetzungsdateien haben "
+"können."
 
 #: ../../admin/addons.rst:413
 msgid "Pseudolocale generation"
@@ -2510,12 +2530,19 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Pseudolokalisierungen sind nützlich, um Zeichenfolgen zu finden, die nicht "
+"für die Lokalisierung vorbereitet sind. Dazu werden alle übersetzbaren "
+"Quelltextzeichenfolgen geändert, so dass es einfach ist, unveränderte "
+"Zeichenfolgen zu erkennen, wenn die Anwendung in der Pseudolokalsprache "
+"ausgeführt wird."
 
 #: ../../admin/addons.rst:445
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Es ist auch möglich, Zeichenketten zu finden, deren lokalisierte "
+"Entsprechungen nicht in das Layout passen."
 
 #: ../../admin/addons.rst:448
 msgid ""
@@ -2527,6 +2554,14 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"Die Verwendung der variablen Teile ermöglicht es, nach Zeichenfolgen zu "
+"suchen, die nach der Lokalisierung möglicherweise nicht in die "
+"Benutzeroberfläche passen - sie erweitert den Text auf der Grundlage der "
+"Länge der Quellzeichenfolge. Die variablen Teile werden um die Länge des "
+"Textes multipliziert mit dem Multiplikator wiederholt. Zum Beispiel wird ``"
+"Hello world`` mit dem variablen Suffix ``_`` und dem variablen Multiplikator "
+"von 1 zu ``Hello world___________`` - das Suffix wird für jedes Zeichen in "
+"der Quellzeichenkette einmal wiederholt."
 
 #: ../../admin/addons.rst:455
 msgid "The strings will be generated using following pattern:"
@@ -2538,12 +2573,17 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
+":guilabel:`Fester String-Präfix` :guilabel:`Variabler String-Präfix` "
+":guilabel:`Quellstring` :guilabel:`Variabler String-Suffix` :guilabel:`"
+"Fester String-Suffix`"
 
 #: ../../admin/addons.rst:465
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Sie können reale Sprachen zum Testen verwenden, aber in Weblate gibt es "
+"spezielle Pseudolokalisierungen - `en_XA` und `ar_XB`."
 
 #: ../../admin/addons.rst:470
 msgid ""
@@ -2606,6 +2646,9 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Aktualisiert die ALL_LINGUAS-Variable in :file:`configure`, :file:`configure."
+"in` oder einer :file:`configure.ac`-Datei, wenn eine neue Übersetzung "
+"hinzugefügt wird."
 
 #: ../../admin/addons.rst:516
 msgid "Customize gettext output"
@@ -2729,6 +2772,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"Der Speicherort der erzeugten MO-Datei kann angepasst werden, und das Feld "
+"dafür verwendet :ref:`markup`."
 
 #: ../../admin/addons.rst:575
 msgid "Update PO files to match POT (msgmerge)"
@@ -2909,6 +2954,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
+"Anhänger (Commit-Zeilen wie ``Co-authored-by: …``) können optional aus den "
+"ursprünglichen Commit-Nachrichten entfernt und an das Ende der gequetschten "
+"Commit-Nachricht angehängt werden. Dies erzeugt auch eine angemessene ``Co-"
+"authored-by:`` Anerkennung für jeden Übersetzer."
 
 #: ../../admin/addons.rst:644
 msgid "Customize JSON output"
@@ -2975,12 +3024,13 @@ msgstr "Formatiert und sortiert die Java-Eigenschaftendatei."
 
 #: ../../admin/addons.rst:673
 msgid "Consolidates newlines to Unix ones."
-msgstr ""
+msgstr "Konsolidiert Zeilenumbrüche zu Unix-Zeilenumbrüchen."
 
 #: ../../admin/addons.rst:674
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
 msgstr ""
+"Großbuchstabenformatierung von Unicode-Escape-Sequenzen (falls vorhanden)."
 
 #: ../../admin/addons.rst:675
 msgid "Strips blank lines and comments."
@@ -3266,11 +3316,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:867
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "Komponentenslug, der zum Aufbau der URL verwendet wird."
 
 #: ../../admin/addons.rst:873
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "Projekt-Slug, der zum Aufbau der URL verwendet wird."
 
 #: ../../admin/addons.rst:879
 msgid "Component name."
@@ -3365,6 +3415,8 @@ msgstr "Gemeinsamer Übersetzungsspeicher, siehe :doc:`Speicher`"
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
 msgstr ""
+"Leistungsbericht zur Überprüfung des Zustands von Weblate und der Länge von "
+"Celery-Warteschlangen"
 
 #: ../../admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`"
@@ -3372,23 +3424,27 @@ msgstr "SSH-Schlüsselverwaltung, siehe :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr ""
+msgstr "Übersicht der Alerts für alle Komponenten, siehe :ref:`Alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
-msgstr ""
+msgstr "Die Django-Verwaltungsoberfläche"
 
 #: ../../admin/admin.rst:28
 msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
 msgstr ""
+"Wird in Zukunft entfernt, da von seiner Verwendung abgeraten wird - die "
+"meisten Funktionen können direkt in Weblate verwaltet werden."
 
 #: ../../admin/admin.rst:31
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
 msgstr ""
+"Hier können Sie in der Datenbank gespeicherte Objekte, wie Benutzer, "
+"Übersetzungen und andere Einstellungen, verwalten:"
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -3396,6 +3452,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"Im Abschnitt :guilabel:`Reports` können Sie den Status Ihrer Site "
+"überprüfen, sie für :ref:`production` optimieren oder SSH-Schlüssel für den "
+"Zugriff auf :ref:`vcs-repos` verwalten."
 
 #: ../../admin/admin.rst:39
 msgid ""
@@ -3403,12 +3462,18 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"Verwalten Sie Datenbankobjekte unter einem der Abschnitte. Der "
+"interessanteste Bereich ist wahrscheinlich :guilabel:`Weblate translations`, "
+"wo Sie übersetzbare Projekte verwalten können, siehe :ref:`project` und "
+":ref:`component`."
 
 #: ../../admin/admin.rst:43
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+":guilabel:`Weblate languages` enthält Sprachdefinitionen, die in "
+":ref:`languages` näher erläutert werden."
 
 #: ../../admin/admin.rst:47
 msgid "Adding a project"
@@ -3437,10 +3502,13 @@ msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Sobald Sie ein Projekt hinzugefügt haben, können Sie ihm "
+"Übersetzungskomponenten hinzufügen. (Siehe :ref:`Component` für "
+"Informationen zu den einzelnen Parametern):"
 
 #: ../../admin/admin.rst:71 ../../admin/admin.rst:87
 msgid ":ref:`component`, :ref:`bimono`"
-msgstr ""
+msgstr ":ref:`Komponente`, :ref:`Bimono`"
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
@@ -3452,6 +3520,10 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Um die Übersetzung zu erleichtern, stellen Sie eine Vorlagendatei zur "
+"Verfügung, die die Zuordnung der Nachrichten-IDs zur jeweiligen "
+"Ausgangssprache (normalerweise Englisch) enthält. (Siehe :ref:`Component` "
+"für Informationen zu den einzelnen Parametern):"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -3467,29 +3539,39 @@ msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
 msgstr ""
+"Versorgen Sie Ihre Übersetzer mit Informationen, indem Sie Ankündigungen auf "
+"der gesamten Website, pro Projekt, Komponente oder Sprache veröffentlichen."
 
 #: ../../admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
 msgstr ""
+"Geben Sie den Zweck, die Fristen, den Status oder die Ziele für die "
+"Übersetzung an."
 
 #: ../../admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
 msgstr ""
+"Die Nutzer werden über die Ankündigungen der beobachteten Projekte "
+"benachrichtigt (sofern sie sich nicht abmelden)."
 
 #: ../../admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
 msgstr ""
+"Dies kann für verschiedene Dinge nützlich sein, von der Ankündigung des "
+"Zwecks der Website bis zur Angabe von Zielen für Übersetzungen."
 
 #: ../../admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"Die Ankündigungen können auf jeder Ebene im Menü :guilabel:`Verwaltung` mit "
+":guilabel:`Ankündigung` veröffentlicht werden:"
 
 #: ../../admin/announcements.rst:-1
 msgid ""
@@ -3608,28 +3690,36 @@ msgstr ""
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
+"Django kann zusätzlich so eingerichtet werden, dass es sich auch gegenüber "
+"anderen Mitteln authentifiziert."
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+":ref:`docker-auth` beschreibt, wie man die Authentifizierung im offiziellen "
+"Docker-Image konfiguriert."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Soziale Authentifizierung"
 
 #: ../../admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"Dank :doc:`psa:index` unterstützt Weblate die Authentifizierung über viele "
+"Dienste von Drittanbietern wie GitLab, Ubuntu, Fedora, etc."
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
+"Bitte lesen Sie die Dokumentation für allgemeine Konfigurationsanweisungen "
+"in :doc:`psa:configuration/django`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -3638,6 +3728,11 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Standardmäßig verlässt sich Weblate auf die Authentifizierungsdienste von "
+"Drittanbietern, um eine geprüfte E-Mail-Adresse bereitzustellen. Wenn einige "
+"der Dienste, die Sie verwenden möchten, dies nicht unterstützen, erzwingen "
+"Sie bitte die E-Mail-Validierung auf der Weblate-Seite, indem Sie "
+"FORCE_EMAIL_VALIDATION für sie konfigurieren. Zum Beispiel:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -3652,6 +3747,13 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
+"Das Aktivieren einzelner Backends ist recht einfach: Sie müssen lediglich "
+"einen Eintrag in der Einstellung :setting:`django:AUTHENTICATION_BACKENDS` "
+"hinzufügen und eventuell die für eine bestimmte Authentifizierungsmethode "
+"benötigten Schlüssel hinzufügen. Bitte beachten Sie, dass einige Backends "
+"standardmäßig keine Benutzer-E-Mails zur Verfügung stellen. Sie müssen diese "
+"explizit anfordern, da Weblate sonst nicht in der Lage ist, die Beiträge der "
+"Benutzer richtig zuzuordnen."
 
 #: ../../admin/auth.rst:62
 msgid ""
@@ -3716,6 +3818,13 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"Es gibt ähnliche Authentifizierungs-Backends für GitHub for Organizations "
+"und GitHub for Teams. Ihre Einstellungen heißen ``SOCIAL_AUTH_GITHUB_ORG_*`` "
+"und ``SOCIAL_AUTH_GITHUB_TEAM_*``, und sie erfordern zusätzliche "
+"Einstellungen des Bereichs - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` oder "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Ihre Callback-URLs lauten ``https://example."
+"com/accounts/complete/github-org/`` und ``https://example.com/accounts/"
+"complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -3906,6 +4015,9 @@ msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
 msgstr ""
+"Durch die Deaktivierung der E-Mail-Authentifizierung werden alle E-Mail-"
+"bezogenen Funktionen deaktiviert, z. B. die Benutzereinladung oder die "
+"Funktion zum Zurücksetzen des Passworts."
 
 #: ../../admin/auth.rst:356
 msgid ""
@@ -3933,6 +4045,8 @@ msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"Die Standard- :datei:`settings.py` kommt mit einem vernünftigen Satz von "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:376
 msgid "Passwords can't be too similar to your other personal info."
@@ -3973,6 +4087,10 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"Zusätzlich können Sie auch `django-zxcvbn-password <https://pypi.org/project/"
+"django-zxcvbn-password/>`_ installieren, das eine recht realistische "
+"Schätzung des Schwierigkeitsgrades von Passwörtern liefert und es "
+"ermöglicht, Passwörter unterhalb eines bestimmten Schwellenwertes abzulehnen."
 
 #: ../../admin/auth.rst:393
 msgid "SAML authentication"
@@ -3991,6 +4109,8 @@ msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate unterstützt einen einzelnen IDP, der ``weblate`` in "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS`` genannt werden muss."
 
 #: ../../admin/auth.rst:401
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
@@ -4085,6 +4205,7 @@ msgstr ""
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`SAML in Docker konfigurieren <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:477
 msgid "LDAP authentication"
@@ -4113,6 +4234,11 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Es gibt einige Inkompatibilitäten im Python LDAP 3.1.0 Modul, die Sie "
+"möglicherweise daran hindern, diese Version zu verwenden. Wenn Sie den "
+"Fehler `AttributeError: 'module' object has no attribute '_trace_level' "
+"<https://github.com/python-ldap/python-ldap/issues/226>`_ erhalten, könnte "
+"ein Downgrade von python-ldap auf 3.0.0 helfen."
 
 #: ../../admin/auth.rst:502
 msgid ""
@@ -4132,16 +4258,26 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"Sie sollten ``'social_core.backends.email.EmailAuth'`` aus der "
+":setting:`django:AUTHENTICATION_BACKENDS`-Einstellung entfernen, da Benutzer "
+"sonst ihr Passwort in Weblate setzen und sich damit authentifizieren können. "
+"Das Beibehalten von ``'weblate.accounts.auth.WeblateUserBackend'`` wird "
+"immer noch benötigt, um Berechtigungen zu vergeben und anonyme Benutzer zu "
+"ermöglichen. Außerdem können Sie sich mit einem lokalen Administratorkonto "
+"anmelden, wenn Sie es erstellt haben (z. B. mit :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:548
 msgid "Using bind password"
-msgstr ""
+msgstr "Bind-Passwort verwenden"
 
 #: ../../admin/auth.rst:550
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Wenn Sie keine direkte Bindung für die Authentifizierung verwenden können, "
+"müssen Sie die Suche verwenden und einen Benutzer für die Bindung für die "
+"Suche angeben. Zum Beispiel:"
 
 #: ../../admin/auth.rst:565
 msgid "Active Directory integration"
@@ -4149,7 +4285,7 @@ msgstr "Integration von Active Directory"
 
 #: ../../admin/auth.rst:598
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:605
 msgid "CAS authentication"
@@ -4199,19 +4335,27 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"Schließlich kann ein Signal verwendet werden, um das E-Mail-Feld dem "
+"Benutzerobjekt zuzuordnen. Damit dies funktioniert, müssen Sie das Signal "
+"aus dem Paket `django-cas-ng` importieren und Ihren Code mit diesem Signal "
+"verbinden. Dies in der Einstellungsdatei zu tun, kann zu Problemen führen, "
+"daher ist es empfehlenswert, dies zu tun:"
 
 #: ../../admin/auth.rst:644
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"In der Methode :py:meth:`django:django.apps.AppConfig.ready` Ihrer App-"
+"Konfiguration"
 
 #: ../../admin/auth.rst:645
 msgid "In the project's :file:`urls.py` file (when no models exist)"
 msgstr ""
+"In der Datei :file:`urls.py` des Projekts (wenn keine Modelle vorhanden sind)"
 
 #: ../../admin/auth.rst:662
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:665
 msgid "Configuring third party Django authentication"
@@ -4237,6 +4381,10 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Typischerweise besteht die Installation aus dem Hinzufügen eines "
+"Authentifizierungs-Backends zu :setting:`django:AUTHENTICATION_BACKENDS` und "
+"der Installation einer Authentifizierungs-App (falls es eine gibt) in "
+":setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -4253,6 +4401,8 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
+"Die Wiederherstellung von Backups wird nur unterstützt, wenn PostgreSQL oder "
+"MariaDB 10.5+ als Datenbank verwendet wird."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -4260,6 +4410,10 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"Das Projekt sichert alle Übersetzungsinhalte von Weblate (Projekt, "
+"Komponenten, Übersetzungen, String-Kommentare, Vorschläge oder Prüfungen). "
+"Es ist geeignet, um ein Projekt auf eine andere Weblate-Instanz zu "
+"übertragen."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4267,11 +4421,16 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"Sie können ein Projekt-Backup in :guilabel:`Verwaltung` ↓ :guilabel:`Backups`"
+" durchführen. Das Backup kann beim Erstellen eines Projekts "
+"wiederhergestellt werden (siehe :ref:`Projekte hinzufügen`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"Die Backups enthalten derzeit keine Informationen über die Zugriffskontrolle "
+"und den Verlauf."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -4279,6 +4438,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Die Kommentare und Vorschläge sind mit dem Benutzernamen des Benutzers, der "
+"sie erstellt hat, hinterlegt. Beim Import werden sie einem passenden "
+"Benutzer zugewiesen. Wenn es keinen Benutzer mit einem solchen Benutzernamen "
+"gibt, wird er einem anonymen Benutzer zugewiesen."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4286,6 +4449,9 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Die erzeugten Backups werden auf dem Server aufbewahrt, wie durch "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` und :setting:`PROJECT_BACKUP_KEEP_COUNT` "
+"konfiguriert (standardmäßig werden maximal 3 Backups für 30 Tage aufbewahrt)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -4298,6 +4464,11 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate bietet integrierte Unterstützung für die Erstellung von Service-"
+"Backups mit `BorgBackup`_. Borg erstellt platzsparende verschlüsselte "
+"Backups, die sicher in der Cloud gespeichert werden können. Die Backups "
+"können in der Verwaltungsoberfläche über die Registerkarte "
+":guilabel:`Backups` gesteuert werden."
 
 #: ../../admin/backup.rst:47
 msgid ""
@@ -4329,7 +4500,7 @@ msgstr "Monatliche Backups der letzten 6 Monate"
 
 #: ../../admin/backup.rst:60
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Borg-Verschlüsselungsschlüssel"
 
 #: ../../admin/backup.rst:62
 msgid ""
@@ -4337,12 +4508,18 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ erstellt verschlüsselte Backups, die Sie ohne die Passphrase "
+"nicht wiederherstellen können. Die Passphrase wird beim Hinzufügen eines "
+"neuen Backup-Dienstes generiert und Sie sollten sie kopieren und an einem "
+"sicheren Ort aufbewahren."
 
 #: ../../admin/backup.rst:66
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+"Wenn Sie :ref:`cloudbackup` verwenden, sichern Sie bitte auch Ihren privaten "
+"SSH-Schlüssel, da dieser für den Zugriff auf Ihre Backups verwendet wird."
 
 #: ../../admin/backup.rst:71
 msgid ":doc:`borg:usage/init`"
@@ -4361,6 +4538,8 @@ msgstr ""
 #: ../../admin/backup.rst:77
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
+"Die Erstellung von Sicherungskopien kann mit :setting:`BORG_EXTRA_ARGS` "
+"angepasst werden."
 
 #: ../../admin/backup.rst:82
 msgid "Weblate provisioned backup storage"
@@ -4372,6 +4551,9 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"Der einfachste Weg, Ihre Weblate-Instanz zu sichern, ist der Erwerb des "
+"`Backup-Service unter weblate.org <https://weblate.org/support/#backup>`_. "
+"So bringen Sie ihn zum Laufen:"
 
 #: ../../admin/backup.rst:88
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
@@ -4559,38 +4741,48 @@ msgstr ""
 
 #: ../../admin/backup.rst:164
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
-msgstr ""
+msgstr ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:167
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Wiederherstellung aus BorgBackup"
 
 #: ../../admin/backup.rst:169
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Stellen Sie den Zugriff auf Ihr Backup-Repository wieder her und bereiten "
+"Sie Ihre Backup-Passphrase vor."
 
 #: ../../admin/backup.rst:171
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
+"Listen Sie alle Backups auf dem Server mit ``borg list REPOSITORY`` auf."
 
 #: ../../admin/backup.rst:173
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Stellen Sie die gewünschte Sicherung mit ``borg extract REPOSITORY::ARCHIVE``"
+" in das aktuelle Verzeichnis wieder her."
 
 #: ../../admin/backup.rst:175
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Stellen Sie die Datenbank aus dem SQL-Dump wieder her, der sich im "
+"Verzeichnis ``backup`` im Weblate-Datenverzeichnis befindet (siehe :ref"
+":`Backup-Dumps`)."
 
 #: ../../admin/backup.rst:177
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Kopieren Sie die Weblate-Konfiguration (:file:`backups/settings.py`, siehe "
+":ref:`backup-dumps`) an den richtigen Ort, siehe :ref:`configuration`."
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -4609,6 +4801,8 @@ msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Kopieren Sie das gesamte wiederhergestellte Datenverzeichnis an den mit "
+":setting:`DATA_DIR` konfigurierten Ort."
 
 #: ../../admin/backup.rst:187
 msgid ""
@@ -4628,21 +4822,23 @@ msgstr ""
 
 #: ../../admin/backup.rst:192
 msgid "The Borg session might look like this:"
-msgstr ""
+msgstr "Die Borg-Sitzung könnte wie folgt aussehen:"
 
 #: ../../admin/backup.rst:204
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:212
 msgid "Manual backup"
-msgstr ""
+msgstr "Manuelle Sicherung"
 
 #: ../../admin/backup.rst:214
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"Je nachdem, was Sie speichern möchten, sichern Sie die Art der Daten, die "
+"Weblate an den jeweiligen Stellen speichert."
 
 #: ../../admin/backup.rst:218
 msgid ""
@@ -4651,24 +4847,32 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Wenn Sie manuelle Backups durchführen, können Sie die Warnung von Weblate "
+"über fehlende Backups ausschalten, indem Sie ``weblate.I028`` zu "
+":setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` oder "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` für Docker hinzufügen."
 
 #: ../../admin/backup.rst:228
 msgid "Database"
-msgstr ""
+msgstr "Datenbank"
 
 #: ../../admin/backup.rst:230
 msgid "The actual storage location depends on your database setup."
 msgstr ""
+"Der tatsächliche Speicherort hängt von der Einrichtung Ihrer Datenbank ab."
 
 #: ../../admin/backup.rst:234
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
+"Die Datenbank ist der wichtigste Speicher. Legen Sie regelmäßig "
+"Sicherungskopien Ihrer Datenbank an. Ohne die Datenbank sind alle "
+"Übersetzungen verloren."
 
 #: ../../admin/backup.rst:238
 msgid "Native database backup"
-msgstr ""
+msgstr "Native Datenbanksicherung"
 
 #: ../../admin/backup.rst:240
 msgid ""
@@ -4677,6 +4881,10 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
+"Es wird empfohlen, einen Dump der Datenbank mit datenbankeigenen Tools wie "
+":program:`pg_dump` oder :program:`mysqldump` zu speichern. Diese Methode ist "
+"in der Regel leistungsfähiger als das Django-Backup und stellt vollständige "
+"Tabellen mit allen Daten wieder her."
 
 #: ../../admin/backup.rst:244
 msgid ""
@@ -4685,10 +4893,15 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"Sie können dieses Backup in einer neueren Version von Weblate "
+"wiederherstellen. Es wird alle notwendigen Migrationen durchführen, wenn es "
+"in :djadmin:`django:migrate` ausgeführt wird. Bitte konsultieren Sie "
+":doc:`upgrade` für detailliertere Informationen über das Upgrade zwischen "
+"Versionen."
 
 #: ../../admin/backup.rst:249
 msgid "Django database backup"
-msgstr ""
+msgstr "Sicherung der Django-Datenbank"
 
 #: ../../admin/backup.rst:251
 msgid ""
@@ -4696,6 +4909,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
+"Alternativ können Sie Ihre Datenbank auch mit dem Befehl "
+":djadmin:`django:dumpdata` von Django sichern. Auf diese Weise ist die "
+"Sicherung datenbankunabhängig und kann verwendet werden, falls Sie das "
+"Datenbank-Backend ändern möchten."
 
 #: ../../admin/backup.rst:255
 msgid ""
@@ -4705,6 +4922,12 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
+"Bevor Sie die Datenbank wiederherstellen, müssen Sie genau dieselbe Weblate-"
+"Version verwenden, mit der die Sicherung erstellt wurde. Dies ist notwendig, "
+"da sich die Datenbankstruktur zwischen den einzelnen Versionen ändert und "
+"Sie die Daten auf irgendeine Weise beschädigen würden. Nachdem Sie die "
+"gleiche Version installiert haben, führen Sie alle Datenbankmigrationen mit "
+":djadmin:`django:migrate` durch."
 
 #: ../../admin/backup.rst:261
 msgid ""
@@ -4713,6 +4936,9 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Danach werden einige Einträge bereits in der Datenbank erstellt und sind "
+"auch in der Datenbanksicherung enthalten. Es wird empfohlen, solche Einträge "
+"manuell über die Verwaltungsshell zu löschen (siehe :ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:272
 msgid "Files"
@@ -4725,10 +4951,14 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
+"Wenn Sie genügend Speicherplatz haben, sichern Sie einfach das gesamte "
+":setting:`DATA_DIR`. Das ist eine sichere Sache, auch wenn es einige Dateien "
+"enthält, die Sie nicht wollen. In den folgenden Abschnitten wird detailliert "
+"beschrieben, was Sie sichern sollten und was Sie weglassen können."
 
 #: ../../admin/backup.rst:282
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Gedumpte Daten für Backups"
 
 #: ../../admin/backup.rst:286
 msgid ""
@@ -4740,7 +4970,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:289
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "Gespeichert in :setting:`DATA_DIR` ``/backups``."
 
 #: ../../admin/backup.rst:291
 msgid ""
@@ -4748,16 +4978,22 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate legt hier verschiedene Daten ab, und Sie können diese Dateien für "
+"vollständigere Backups einbinden. Die Dateien werden täglich aktualisiert ("
+"erfordert einen laufenden Celery-Beats-Server, siehe :ref:`celery`). Derzeit "
+"umfasst dies:"
 
 #: ../../admin/backup.rst:295
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Weblate-Einstellungen als :file:`settings.py` (es gibt auch eine erweiterte "
+"Version in :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:296
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr ""
+msgstr "Sicherung der PostgreSQL-Datenbank als :file:`Datenbank.sql`."
 
 #: ../../admin/backup.rst:297
 msgid "Environment dump as :file:`environment.yml`."
@@ -4768,6 +5004,9 @@ msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Die Datenbanksicherungen werden standardmäßig als reiner Text gespeichert, "
+"können aber auch komprimiert oder mit :setting:`DATABASE_BACKUP` ganz "
+"übersprungen werden."
 
 #: ../../admin/backup.rst:302
 #, fuzzy
@@ -4781,11 +5020,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:309
 msgid "Version control repositories"
-msgstr ""
+msgstr "Repositorys der Versionskontrolle"
 
 #: ../../admin/backup.rst:311
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Gespeichert in :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:313
 msgid ""
@@ -4805,12 +5044,14 @@ msgstr ""
 
 #: ../../admin/backup.rst:320
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "SSH- und GPG-Schlüssel"
 
 #: ../../admin/backup.rst:322
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
+"Gespeichert in :setting:`DATA_DIR` ``/ssh`` und :setting:`DATA_DIR` "
+"``/home``."
 
 #: ../../admin/backup.rst:324
 msgid ""
@@ -4818,14 +5059,18 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Wenn Sie SSH- oder GPG-Schlüssel verwenden, die von Weblate generiert "
+"wurden, sollten Sie von diesen Speicherorten ein Backup erstellen. "
+"Andernfalls gehen die privaten Schlüssel verloren und Sie müssen neue "
+"Schlüssel generieren."
 
 #: ../../admin/backup.rst:329
 msgid "User uploaded files"
-msgstr ""
+msgstr "Vom Benutzer hochgeladene Dateien"
 
 #: ../../admin/backup.rst:331
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Gespeichert in :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:333
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
@@ -4835,7 +5080,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:336
 msgid "Celery tasks"
-msgstr ""
+msgstr "Aufgaben von Celery"
 
 #: ../../admin/backup.rst:338
 msgid ""
@@ -4844,6 +5089,12 @@ msgid ""
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
+"Die Celery-Aufgabenwarteschlange kann einige Informationen enthalten, wird "
+"aber normalerweise nicht für ein Backup benötigt. Sie verlieren höchstens "
+"Aktualisierungen, die noch nicht im Translation Memory verarbeitet wurden. "
+"Es wird ohnehin empfohlen, bei der Wiederherstellung eine Volltext- oder "
+"Repository-Aktualisierung durchzuführen, so dass es kein Problem ist, diese "
+"zu verlieren."
 
 #: ../../admin/backup.rst:345
 msgid ":ref:`celery`"
@@ -4851,13 +5102,15 @@ msgstr ""
 
 #: ../../admin/backup.rst:348
 msgid "Command-line for manual backup"
-msgstr ""
+msgstr "Befehlszeile für manuelles Backup"
 
 #: ../../admin/backup.rst:350
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
+"Mit einem Cron-Job können Sie einen Bash-Befehl einrichten, der z. B. "
+"täglich ausgeführt wird:"
 
 #: ../../admin/backup.rst:356
 msgid ""
@@ -4865,74 +5118,92 @@ msgid ""
 "options, for instance the amount of memory used for compression; see https://"
 "linux.die.net/man/1/xz"
 msgstr ""
+"Die Zeichenkette zwischen den Anführungszeichen nach `XZ_OPT` erlaubt es "
+"Ihnen, Ihre xz-Optionen auszuwählen, zum Beispiel die Menge an Speicher, die "
+"für die Kompression verwendet wird; siehe https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:358
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
 msgstr ""
+"Sie können die Liste der Ordner und Dateien an Ihre Bedürfnisse anpassen. Um "
+"zu vermeiden, dass das Translation Memory (im Ordner \"Backups\") "
+"gespeichert wird, können Sie diese Option verwenden:"
 
 #: ../../admin/backup.rst:365
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Wiederherstellen der manuellen Sicherung"
 
 #: ../../admin/backup.rst:367
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Stellen Sie alle von Ihnen gesicherten Daten wieder her."
 
 #: ../../admin/backup.rst:369
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr "Aktualisieren Sie alle Repositories mit :djadmin:`updategit`."
 
 #: ../../admin/backup.rst:376
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Verschieben einer Weblate-Installation"
 
 #: ../../admin/backup.rst:378
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr ""
+"Verschieben Sie Ihre Installation auf ein anderes System, indem Sie die "
+"obigen Anweisungen zum Sichern und Wiederherstellen befolgen."
 
 #: ../../admin/backup.rst:383
 msgid ":ref:`py3`, :ref:`database-migration`"
-msgstr ""
+msgstr ":ref:`py3`, :ref:`Datenbank-Migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
-msgstr ""
+msgstr "Überprüfungen und Korrekturen"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Benutzerdefinierte automatische Korrekturen"
 
 #: ../../admin/checks.rst:9
 msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"Sie können auch Ihre eigenen automatischen Korrekturen zusätzlich zu den "
+"Standardkorrekturen implementieren und sie in :setting:`AUTOFIX_LIST` "
+"aufnehmen."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage;  be careful "
 "when writing one."
 msgstr ""
+"Die automatischen Korrekturen sind leistungsstark, können aber auch Schaden "
+"anrichten; seien Sie vorsichtig, wenn Sie eine schreiben."
 
 #: ../../admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"Zum Beispiel würde die folgende automatische Korrektur jedes Vorkommen der "
+"Zeichenfolge ``foo`` in einer Übersetzung durch ``bar`` ersetzen:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Um benutzerdefinierte Prüfungen zu installieren, geben Sie in der "
+":Einstellung:`AUTOFIX_LIST` einen vollqualifizierten Pfad zu der Python-"
+"Klasse an, siehe :ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior using flags"
-msgstr ""
+msgstr "Anpassen des Verhaltens mit Flaggen"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -4941,6 +5212,11 @@ msgid ""
 "(:ref:`component-check_flags`). Some file formats also allow to specify "
 "flags directly in the format (see :ref:`formats`)."
 msgstr ""
+"Sie können das Verhalten von Weblate durch die Verwendung von Flags "
+"feinabstimmen. Dies kann auf der Ebene des Quelltextes geschehen (siehe "
+":ref:`additional`) oder in der :ref:`Komponente` (:ref:`component-"
+"check_flags`). Einige Dateiformate erlauben es auch, Flags direkt im Format "
+"anzugeben (siehe :ref:`formats`)."
 
 #: ../../admin/checks.rst:34
 msgid ""
@@ -4948,16 +5224,21 @@ msgid ""
 "can use quotes to include whitespace or special chars in the string. For "
 "example:"
 msgstr ""
+"Die Flags sind durch Kommas getrennt, die Parameter durch Doppelpunkte. Sie "
+"können Anführungszeichen verwenden, um Leerzeichen oder Sonderzeichen in die "
+"Zeichenfolge aufzunehmen. Zum Beispiel:"
 
 #: ../../admin/checks.rst:41
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Es werden sowohl einfache als auch doppelte Anführungszeichen akzeptiert, "
+"Sonderzeichen werden mit Backslash maskiert:"
 
 #: ../../admin/checks.rst:47
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Hier finden Sie eine Liste der derzeit akzeptierten Flaggen:"
 
 #: ../../admin/checks.rst:49 ../../devel/sphinx.rst:41
 msgid "``rst-text``"
@@ -4967,6 +5248,8 @@ msgstr ""
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr ""
+"Behandelt einen Text als ein reStructuredText-Dokument, wirkt sich auf :ref"
+":`check-same` aus."
 
 #: ../../admin/checks.rst:51
 msgid "``dos-eol``"
@@ -4977,16 +5260,22 @@ msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
 "\\n``)."
 msgstr ""
+"Verwendet DOS-Zeilenende-Markierungen anstelle von Unix-Markierungen (``\\r"
+"\\n"
+"`` anstelle von ``\\n"
+"``)."
 
 #: ../../admin/checks.rst:54
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"Der String ist schreibgeschützt und sollte in Weblate nicht bearbeitet "
+"werden, siehe :ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:57
 msgid "``priority:N``"
-msgstr ""
+msgstr "`priority:N`"
 
 #: ../../admin/checks.rst:56
 msgid ""
@@ -4994,16 +5283,22 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Priorität der Zeichenfolge. Zeichenketten mit höherer Priorität werden "
+"zuerst zur Übersetzung angeboten. Die Standardpriorität ist 100. Je höher "
+"die Priorität einer Zeichenfolge ist, desto früher wird sie zur Übersetzung "
+"angeboten."
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
-msgstr ""
+msgstr "`max-length:N`"
 
 #: ../../admin/checks.rst:60
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
+"Begrenzt die maximale Länge für eine Zeichenkette auf N Zeichen, siehe :ref"
+":`check-max-length`."
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -5014,42 +5309,47 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Behandelt Text als XML-Dokument, betrifft :ref:`check-xml-invalid` und :ref"
+":`check-xml-tags`."
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
-msgstr ""
+msgstr "`font-family:NAME`"
 
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Definieren Sie die Schriftart für Rendering Checks, siehe :ref:`fonts`."
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
-msgstr ""
+msgstr "`font-weight:WEIGHT`"
 
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Definieren Sie font-weight für Rendering Checks, siehe :ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
-msgstr ""
+msgstr "``font-size:SIZE``"
 
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definieren Sie die Schriftgröße für Rendering Checks, siehe :ref:`fonts`."
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
-msgstr ""
+msgstr "``font-spacing:SPACING``"
 
 #: ../../admin/checks.rst:70
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definieren Sie die Buchstabenabstände für Rendering Checks, siehe "
+":ref:`Fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``icu-flags:FLAGS``"
-msgstr ""
+msgstr "``icu-flags:FLAGS``"
 
 #: ../../admin/checks.rst:72
 #, fuzzy
@@ -5061,7 +5361,7 @@ msgstr "Aktiviere Qualitätsprüfung :ref:`check-java-messageformat`."
 
 #: ../../admin/checks.rst:73
 msgid "``icu-tag-prefix:PREFIX``"
-msgstr ""
+msgstr "``icu-tag-prefix:PREFIX``"
 
 #: ../../admin/checks.rst:74
 #, fuzzy
@@ -5073,16 +5373,18 @@ msgstr "Überspringe Qualitätsprüfung :ref:`check-java-messageformat`."
 
 #: ../../admin/checks.rst:75
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr ""
+msgstr "``placeholders:NAME:NAME2:...``"
 
 #: ../../admin/checks.rst:76
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
+"Platzhalter-Strings werden in der Übersetzung erwartet, siehe :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:80
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr ""
+msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:78
 msgid ""
@@ -5091,20 +5393,27 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Ersetzungen, die bei der Überprüfung der resultierenden Textparameter "
+"durchgeführt werden sollen (zum Beispiel in :ref:`check-max-size` oder :ref"
+":`check-max-length`). Der typische Anwendungsfall hierfür ist die "
+"Erweiterung von Platzhaltern, um sicherzustellen, dass der Text auch bei "
+"langen Werten passt, zum Beispiel: ``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:82
 msgid "``variants:SOURCE``"
-msgstr ""
+msgstr "``icu-flags:FLAGS``"
 
 #: ../../admin/checks.rst:83
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
 msgstr ""
+"Markiert diese Zeichenkette als eine Variante von Zeichenkette mit passender "
+"Quelle. Siehe :ref:`Varianten`."
 
 #: ../../admin/checks.rst:84
 msgid "``regex:REGEX``"
-msgstr ""
+msgstr "``regex:REGEX``"
 
 #: ../../admin/checks.rst:85
 msgid "Regular expression to match translation, see :ref:`check-regex`."
@@ -5120,6 +5429,8 @@ msgstr ""
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
 msgstr ""
+"Zeigt eine verbotene Übersetzung in einem Glossar an, siehe :ref:`glossary-"
+"forbidden`."
 
 #: ../../admin/checks.rst:88
 msgid "``strict-same``"
@@ -5130,6 +5441,8 @@ msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
 msgstr ""
+"Unveränderte Übersetzung\" vermeiden, indem man die eingebaute schwarze "
+"Liste der Wörter verwendet, siehe :ref:`check-same`."
 
 #: ../../admin/checks.rst:90 ../../user/checks.rst:98
 #, fuzzy
@@ -5377,6 +5690,9 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
+"Anpassung des Prüfverhaltens, so dass Groß- und Kleinschreibung nicht "
+"berücksichtigt werden. Betrifft derzeit nur die Qualitätsprüfung :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:139 ../../user/checks.rst:1208
 #: ../../user/checks.rst:1209
@@ -5933,6 +6249,9 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
+"Im Allgemeinen heißt die Regel ``ignore-*`` für jede Prüfung, wobei ihr "
+"Bezeichner verwendet wird, so dass Sie dies auch für Ihre "
+"benutzerdefinierten Prüfungen verwenden können."
 
 #: ../../admin/checks.rst:276
 msgid ""
@@ -5940,10 +6259,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Diese Flags werden sowohl in den :ref:`component`-Einstellungen, in den "
+"Einstellungen für die Quelltexte als auch in der Übersetzungsdatei selbst ("
+"zum Beispiel in GNU gettext) verstanden."
 
 #: ../../admin/checks.rst:282
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Durchsetzung der Kontrollen"
 
 #: ../../admin/checks.rst:286
 msgid ""
@@ -5952,12 +6274,20 @@ msgid ""
 "be dismissed in the user interface and any string failing this check is "
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
+"Sie können eine Liste von Prüfungen konfigurieren, die nicht ignoriert "
+"werden können, indem Sie :ref:`component-enforced_checks` in :ref:`component`"
+" setzen. Jede aufgelistete Prüfung kann in der Benutzeroberfläche nicht "
+"abgewiesen werden und jede Zeichenkette, die diese Prüfung nicht besteht, "
+"wird als :guilabel:`Needs editing` markiert (siehe :ref:`states`)."
 
 #: ../../admin/checks.rst:293
 msgid ""
 "Turning on check enforcing doesn't enable it automatically. The check can be "
 "turned on by adding the corresponding flag to string or component flags."
 msgstr ""
+"Das Einschalten der Check-Erzwingung aktiviert diese nicht automatisch. Die "
+"Prüfung kann durch Hinzufügen des entsprechenden Flags zu String- oder "
+"Komponenten-Flags aktiviert werden."
 
 #: ../../admin/checks.rst:298
 #, fuzzy
@@ -5967,13 +6297,16 @@ msgstr ":ref:`perm-check`"
 
 #: ../../admin/checks.rst:304
 msgid "Managing fonts"
-msgstr ""
+msgstr "Schriftarten verwalten"
 
 #: ../../admin/checks.rst:310
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"In Weblate hochgeladene Schriften werden nur für die :ref:`check-max-size`-"
+"Prüfung verwendet, sie haben keine Auswirkungen auf die Weblate-"
+"Benutzeroberfläche."
 
 #: ../../admin/checks.rst:314
 msgid ""
@@ -5981,6 +6314,10 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
+"Der :ref:`check-max-size`-Check, der zur Berechnung der Größe des "
+"gerenderten Textes verwendet wird, benötigt eine Schriftart, die in Weblate "
+"geladen und mit einem Übersetzungsflag ausgewählt wurde (siehe :ref:`custom-"
+"checks`)."
 
 #: ../../admin/checks.rst:318
 msgid ""
@@ -5989,60 +6326,75 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
+"Das Weblate-Schriftarten-Management-Tool in :guilabel:`Fonts` unter dem Menü "
+":guilabel:`Manage` Ihres Übersetzungsprojekts bietet eine Schnittstelle zum "
+"Hochladen und Verwalten von Schriftarten. Sie können TrueType- oder OpenType-"
+"Schriften hochladen, Font-Gruppen einrichten und diese bei der Prüfung "
+"verwenden."
 
 #: ../../admin/checks.rst:323
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
+"Die Schriftgruppen ermöglichen es Ihnen, verschiedene Schriftarten für "
+"verschiedene Sprachen zu definieren, was in der Regel für nicht-lateinische "
+"Sprachen erforderlich ist:"
 
 #: ../../admin/checks.rst:328
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
+"Die Font-Gruppen werden durch einen Namen identifiziert, der keine Leer- "
+"oder Sonderzeichen enthalten darf, damit er in der Prüfdefinition leicht "
+"verwendet werden kann:"
 
 #: ../../admin/checks.rst:333
 msgid "Font-family and style is automatically recognized after uploading them:"
-msgstr ""
+msgstr "Schriftart und -stil werden nach dem Hochladen automatisch erkannt:"
 
 #: ../../admin/checks.rst:337
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "In Weblate können Sie eine Reihe von Schriftarten laden:"
 
 #: ../../admin/checks.rst:341
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Um die Schriftarten für die Überprüfung der Zeichenkettenlänge zu verwenden, "
+"übergeben Sie ihr die entsprechenden Flags (siehe :ref:`custom-checks`). Sie "
+"werden wahrscheinlich die folgenden benötigen:"
 
 #: ../../admin/checks.rst:344
 msgid "``max-size:500``"
-msgstr ""
+msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:345
 msgid "Defines maximal width in pixels."
-msgstr ""
+msgstr "Legt die maximale Breite in Pixeln fest."
 
 #: ../../admin/checks.rst:346
 msgid "``font-family:ubuntu``"
-msgstr ""
+msgstr "``font-weight:WEIGHT``"
 
 #: ../../admin/checks.rst:347
 msgid "Defines font group to use by specifying its identifier."
 msgstr ""
+"Definiert die zu verwendende Schriftgruppe durch Angabe ihres Bezeichners."
 
 #: ../../admin/checks.rst:350
 msgid "``font-size:22``"
-msgstr ""
+msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:349
 msgid "Defines font size in pixels."
-msgstr ""
+msgstr "Definition der Schriftgröße in Pixeln."
 
 #: ../../admin/checks.rst:355
 msgid "Writing own checks"
-msgstr ""
+msgstr "Ausstellen eigener Schecks"
 
 #: ../../admin/checks.rst:357
 msgid ""
@@ -6051,40 +6403,53 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Eine breite Palette von Qualitätsprüfungen ist eingebaut (siehe "
+":ref:`checks`), obwohl sie möglicherweise nicht alles abdecken, was Sie "
+"überprüfen wollen. Die Liste der durchgeführten Prüfungen kann mit "
+":setting:`CHECK_LIST` angepasst werden, und Sie können auch eigene Prüfungen "
+"hinzufügen."
 
 #: ../../admin/checks.rst:361
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "Unterklasse der `weblate.checks.Check`"
 
 #: ../../admin/checks.rst:362
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Legen Sie ein paar Attribute fest."
 
 #: ../../admin/checks.rst:363
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
+"Implementieren Sie entweder die Methode ``check`` (wenn Sie in Ihrem Code "
+"mit Pluralen umgehen wollen) oder die Methode ``check_single`` (die dies für "
+"Sie erledigt)."
 
 #: ../../admin/checks.rst:366
 msgid "Some examples:"
-msgstr ""
+msgstr "Einige Beispiele:"
 
 #: ../../admin/checks.rst:368
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Um benutzerdefinierte Prüfungen zu installieren, geben Sie in der "
+":Einstellung:`CHECK_LIST` einen vollqualifizierten Pfad zur Python-Klasse "
+"an, siehe :ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:372
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Prüfen, ob der Übersetzungstext \"foo\" nicht enthält"
 
 #: ../../admin/checks.rst:374
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
 msgstr ""
+"Es handelt sich um eine recht einfache Prüfung, bei der lediglich überprüft "
+"wird, ob in der Übersetzung die Zeichenfolge \"foo\" fehlt."
 
 #: ../../admin/checks.rst:381
 msgid "Checking that Czech translation text plurals differ"
@@ -6102,7 +6467,7 @@ msgstr ""
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr ""
+msgstr "Komponentenlisten"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -6110,12 +6475,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Geben Sie mehrere Listen von Komponenten an, die als Optionen auf dem "
+"Benutzer-Dashboard erscheinen sollen, aus denen die Benutzer eine als "
+"Standardansicht auswählen können. Siehe :ref:`dashboard` um mehr zu erfahren."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Für jede auf dem Dashboard angezeigte Komponentenliste wird ein Status "
+"angezeigt."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -6124,22 +6494,32 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"Die Namen und Inhalte der Komponentenlisten können in der "
+"Verwaltungsoberfläche im Abschnitt :guilabel:`Komponentenlisten` festgelegt "
+"werden. Jede Komponentenliste muss einen Namen haben, der dem Benutzer "
+"angezeigt wird, und einen Slug, der sie in der URL repräsentiert."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Ändern Sie die Dashboard-Einstellungen für anonyme Benutzer von der "
+"Verwaltungsoberfläche aus, indem Sie ändern, welches Dashboard nicht "
+"authentifizierten Benutzern angezeigt wird."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Automatische Komponentenlisten"
 
 #: ../../admin/componentlists.rst:30
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Fügen Sie der Liste automatisch Komponenten auf der Grundlage ihres Slugs "
+"hinzu, indem Sie Regeln für die :guilabel:`Automatic component list "
+"assignment` erstellen."
 
 #: ../../admin/componentlists.rst:33
 msgid ""
@@ -6147,12 +6527,17 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"Nützlich für die Pflege von Komponentenlisten für große Installationen oder "
+"für den Fall, dass Sie eine Komponentenliste mit allen Komponenten Ihrer "
+"Weblate-Installation haben möchten."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
+"Erstellen Sie eine Komponentenliste mit allen Komponenten Ihrer Weblate-"
+"Installation."
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -6160,6 +6545,9 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Definieren Sie :guilabel:`Automatische Komponentenzuweisung` mit ``^.*$`` "
+"als regulären Ausdruck sowohl in den Projekt- als auch in den "
+"Komponentenfeldern, wie auf diesem Bild gezeigt:"
 
 #: ../../admin/componentlists.rst:-1
 msgid ""
@@ -6173,28 +6561,36 @@ msgstr ""
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Alle Einstellungen werden in :file:`settings.py` gespeichert (wie bei Django "
+"üblich)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
 msgstr ""
+"Nachdem Sie eine dieser Einstellungen geändert haben, müssen Sie Weblate neu "
+"starten - sowohl den WSGI- als auch den Celery-Prozess."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"Wenn es als ``mod_wsgi`` ausgeführt wird, müssen Sie Apache neu starten, um "
+"die Konfiguration neu zu laden."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Bitte lesen Sie auch :doc:`Djangos Dokumentation <django:ref/settings>` für "
+"Parameter zur Konfiguration von Django selbst."
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -6202,14 +6598,17 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate kann Akismet verwenden, um eingehende anonyme Vorschläge auf Spam zu "
+"überprüfen. Besuchen Sie `akismet.com <https://akismet.com/>`_, um einen API-"
+"Schlüssel zu erwerben und ihn mit einer Website zu verknüpfen."
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "Benutzername von Benutzern, die nicht angemeldet sind."
 
 #: ../../admin/config.rst:39
 #, fuzzy
@@ -6219,47 +6618,56 @@ msgstr "Projekt-Zugriffssteuerung"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
 msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
 msgstr ""
+"Wie viele Tage Weblate Audit-Protokolle aufbewahren soll, die Informationen "
+"über Kontoaktivitäten enthalten."
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "Der Standardwert ist 180 Tage."
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:60
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Maximale Anzahl der fehlgeschlagenen Authentifizierungsversuche, bevor die "
+"Ratenbegrenzung angewendet wird."
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Dies wird derzeit an den folgenden Standorten angewandt:"
 
 #: ../../admin/config.rst:64
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Anmelden. Löscht das Kennwort des Kontos und verhindert, dass sich der "
+"Benutzer anmelden kann, ohne ein neues Kennwort anzufordern."
 
 #: ../../admin/config.rst:66
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
 msgstr ""
+"Passwort zurücksetzen. Verhindert, dass neue E-Mails gesendet werden, damit "
+"die Benutzer nicht mit zu vielen Versuchen, ihr Passwort zurückzusetzen, "
+"belästigt werden."
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "Der Standardwert ist 10."
 
 #: ../../admin/config.rst:73
 #, fuzzy
@@ -6269,81 +6677,92 @@ msgstr ":ref:`acl`"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:84
 msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
 msgstr ""
+"Die ursprüngliche Option \"Ein/Aus\" wurde geändert, um zu unterscheiden, "
+"welche Zeichenfolgen akzeptiert werden."
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Aktualisiert täglich alle Repositories."
 
 #: ../../admin/config.rst:90
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Nützlich, wenn Sie :ref:`hooks` nicht verwenden, um Weblate-Repositories "
+"automatisch zu aktualisieren."
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Aus Gründen der Abwärtskompatibilität gibt es neben der Auswahl der "
+"Zeichenkette auch Ein/Aus-Optionen."
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "Die Optionen sind:"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:440
 msgid "``\"none\"``"
-msgstr ""
+msgstr "`\"none\"`"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "Keine täglichen Aktualisierungen."
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "`\"remote\"`` auch ` ` `False`"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "Aktualisieren Sie nur Remotes."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "`\"full\"`` auch ` ` `True`"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Aktualisieren Sie Remotes und führen Sie Arbeitskopien zusammen."
 
 #: ../../admin/config.rst:107
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Dies setzt voraus, dass :ref:`celery` funktioniert, und wird nach einem "
+"Neustart wirksam."
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:114
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Präfix für den Aufbau von Avatar-URLs als: `\"${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}`\". Die folgenden Dienste sind dafür bekannt, dass "
+"sie funktionieren:"
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (Standard), wie unter https://gravatar.com/"
 
 #: ../../admin/config.rst:119
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "`AVATAR_URL_PREFIX = 'https://www.gravatar.com/'`"
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, as per https://www.libravatar.org/"
