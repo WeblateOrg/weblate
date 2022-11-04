@@ -800,7 +800,7 @@ class SearchForm(forms.Form):
         return items
 
     def urlencode(self):
-        return urlencode(sorted(self.items()))
+        return urlencode(self.items())
 
     def reset_offset(self):
         """
