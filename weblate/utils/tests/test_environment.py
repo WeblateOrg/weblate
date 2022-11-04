@@ -24,6 +24,7 @@ from django.test import SimpleTestCase
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_credentials,
     get_env_int,
     get_env_list,
     get_env_map,
@@ -80,3 +81,18 @@ class EnvTest(SimpleTestCase):
         self.assertEqual(setting, ["foo", "bar", "aaa"])
         del os.environ["WEBLATE_ADD_TEST"]
         del os.environ["WEBLATE_REMOVE_TEST"]
+
+    def test_get_env_credentials(self):
+        os.environ["WEBLATE_TEST_USERNAME"] = "user"
+        os.environ["WEBLATE_TEST_TOKEN"] = "token"
+        self.assertEqual(get_env_credentials("TEST"), ("user", "token", {}))
+
+        os.environ["WEBLATE_TEST_HOST"] = "host"
+        self.assertEqual(
+            get_env_credentials("TEST"),
+            (None, None, {"host": {"username": "user", "token": "token"}}),
+        )
+
+        del os.environ["WEBLATE_TEST_USERNAME"]
+        del os.environ["WEBLATE_TEST_TOKEN"]
+        del os.environ["WEBLATE_TEST_HOST"]

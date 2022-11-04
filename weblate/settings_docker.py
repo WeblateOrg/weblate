@@ -26,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_credentials,
     get_env_float,
     get_env_int,
     get_env_list,
@@ -226,23 +227,19 @@ TEMPLATES = [
 
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
-GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME")
-GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN")
+GITHUB_USERNAME, GITHUB_TOKEN, GITHUB_CREDENTIALS = get_env_credentials("GITHUB")
 
 # GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
-GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME")
-GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN")
+GITLAB_USERNAME, GITLAB_TOKEN, GITLAB_CREDENTIALS = get_env_credentials("GITLAB")
 
 # Gitea username and token for sending pull requests.
 # Please see the documentation for more details.
-GITEA_USERNAME = os.environ.get("WEBLATE_GITEA_USERNAME")
-GITEA_TOKEN = os.environ.get("WEBLATE_GITEA_TOKEN")
+GITEA_USERNAME, GITEA_TOKEN, GITEA_CREDENTIALS = get_env_credentials("GITEA")
 
 # Pagure username and token for sending merge requests.
 # Please see the documentation for more details.
-PAGURE_USERNAME = os.environ.get("WEBLATE_PAGURE_USERNAME")
-PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN")
+PAGURE_USERNAME, PAGURE_TOKEN, PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
 
 # Default pull request message.
 # Please see the documentation for more details.

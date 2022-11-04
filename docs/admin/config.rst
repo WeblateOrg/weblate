@@ -734,6 +734,12 @@ List for credentials for Gitea servers.
         },
     }
 
+.. seealso::
+
+   :envvar:`WEBLATE_GITEA_USERNAME`,
+   :envvar:`WEBLATE_GITEA_TOKEN`,
+   :envvar:`WEBLATE_GITEA_HOST`
+
 .. setting:: GITEA_USERNAME
 
 GITEA_USERNAME
@@ -796,6 +802,11 @@ List for credentials for GitLab servers.
         },
     }
 
+.. seealso::
+
+   :envvar:`WEBLATE_GITLAB_USERNAME`,
+   :envvar:`WEBLATE_GITLAB_TOKEN`,
+   :envvar:`WEBLATE_GITLAB_HOST`
 
 .. setting:: GITLAB_USERNAME
 
@@ -854,6 +865,12 @@ List for credentials for GitHub servers.
             "token": "another-api-token",
         },
     }
+
+.. seealso::
+
+   :envvar:`WEBLATE_GITHUB_USERNAME`,
+   :envvar:`WEBLATE_GITHUB_TOKEN`,
+   :envvar:`WEBLATE_GITHUB_HOST`
 
 .. setting:: GITHUB_USERNAME
 
@@ -1280,6 +1297,12 @@ List for credentials for Pagure servers.
             "token": "another-api-token",
         },
     }
+
+.. seealso::
+
+   :envvar:`WEBLATE_PAGURE_USERNAME`,
+   :envvar:`WEBLATE_PAGURE_TOKEN`,
+   :envvar:`WEBLATE_PAGURE_HOST`
 
 .. setting:: PAGURE_USERNAME
 

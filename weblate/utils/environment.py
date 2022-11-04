@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
 def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
@@ -74,3 +73,16 @@ def modify_env_list(current: List[str], name: str) -> List[str]:
     for item in get_env_list(f"WEBLATE_REMOVE_{name}"):
         current.remove(item)
     return current
+
+
+def get_env_credentials(
+    name: str,
+) -> Tuple[Optional[str], Optional[str], Dict[str, Dict[str, str]]]:
+    """Parses VCS integration credentials."""
+    username = os.environ.get(f"WEBLATE_{name}_USERNAME")
+    token = os.environ.get(f"WEBLATE_{name}_TOKEN")
+    host = os.environ.get(f"WEBLATE_{name}_HOST")
+
+    if host:
+        return None, None, {host: {"username": username, "token": token}}
+    return username, token, {}

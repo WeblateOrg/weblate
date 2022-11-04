@@ -648,56 +648,49 @@ Generic settings
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
 
 .. envvar:: WEBLATE_GITHUB_USERNAME
-
-    Configures GitHub username for GitHub pull-requests by changing
-    :setting:`GITHUB_USERNAME`.
-
-    .. seealso::
-
-       :ref:`vcs-github`
-
 .. envvar:: WEBLATE_GITHUB_TOKEN
+.. envvar:: WEBLATE_GITHUB_HOST
 
-    .. versionadded:: 4.3
-
-    Configures GitHub personal access token for GitHub pull-requests via API by changing
-    :setting:`GITHUB_TOKEN`.
+    Configures GitHub pull-requests integration by changing
+    :setting:`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or
+    :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`.
 
     .. seealso::
 
        :ref:`vcs-github`
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
-
-    Configures GitLab username for GitLab merge-requests by changing
-    :setting:`GITLAB_USERNAME`
-
-    .. seealso::
-
-       :ref:`vcs-gitlab`
-
 .. envvar:: WEBLATE_GITLAB_TOKEN
+.. envvar:: WEBLATE_GITLAB_HOST
 
-    Configures GitLab personal access token for GitLab merge-requests via API by changing
-    :setting:`GITLAB_TOKEN`
+    Configures GitLab merge-requests integration  by changing
+    :setting:`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or
+    :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
 
     .. seealso::
 
        :ref:`vcs-gitlab`
+
+.. envvar:: WEBLATE_GITEA_USERNAME
+.. envvar:: WEBLATE_GITEA_TOKEN
+.. envvar:: WEBLATE_GITEA_HOST
+
+    Configures Gitea pull-requests integration by changing
+    :setting:`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or
+    :setting:`GITEA_USERNAME` and :setting:`GITEA_TOKEN`.
+
+    .. seealso::
+
+       :ref:`vcs-gitea`
+
 
 .. envvar:: WEBLATE_PAGURE_USERNAME
-
-    Configures Pagure username for Pagure merge-requests by changing
-    :setting:`PAGURE_USERNAME`
-
-    .. seealso::
-
-       :ref:`vcs-pagure`
-
 .. envvar:: WEBLATE_PAGURE_TOKEN
+.. envvar:: WEBLATE_PAGURE_HOST
 
-    Configures Pagure personal access token for Pagure merge-requests via API by changing
-    :setting:`PAGURE_TOKEN`
+    Configures Pagure merge-requests integration  by changing
+    :setting:`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or
+    :setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`.
 
     .. seealso::
 
