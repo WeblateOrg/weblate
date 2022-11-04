@@ -31,7 +31,7 @@
 
             this.init();
             initHighlight(document);
-          }
+          },
         );
       }
     });
@@ -49,7 +49,7 @@
           {
             scrollTop: rowOffset,
           },
-          100
+          100,
         );
       }
     });
@@ -98,7 +98,7 @@
     $window.on("beforeunload", function () {
       if ($(".translation-modified").length > 0) {
         return gettext(
-          "There are some unsaved changes, are you sure you want to leave?"
+          "There are some unsaved changes, are you sure you want to leave?",
         );
       }
     });
@@ -124,7 +124,7 @@
       $editors.css(
         "min-height",
         (tdHeight - (contentHeight - editorHeight - 10)) / $editors.length +
-          "px"
+          "px",
       );
     });
   };

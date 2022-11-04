@@ -88,7 +88,7 @@ WLT.Editor = (function () {
       } else {
         addAlert(
           gettext("Please select target plural by clicking."),
-          (kind = "info")
+          (kind = "info"),
         );
         editors.addClass("editor-click-select");
         editors.click(function () {
@@ -190,14 +190,14 @@ WLT.Editor = (function () {
       function (e) {
         $(hlNumberSelector).show();
       },
-      "keydown"
+      "keydown",
     );
     Mousetrap.bindGlobal(
       "mod",
       function (e) {
         $(hlNumberSelector).hide();
       },
-      "keyup"
+      "keyup",
     );
   };
 
