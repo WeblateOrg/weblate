@@ -161,6 +161,9 @@ def perform_on_link(func):
     def on_link_wrapper(self, *args, **kwargs):
         linked = self.linked_component
         if linked:
+            # Avoid loading project next time if matches
+            if linked.project_id == self.project_id:
+                linked.project = self.project
             # Call same method on linked component
             return getattr(linked, func.__name__)(*args, **kwargs)
         return func(self, *args, **kwargs)
