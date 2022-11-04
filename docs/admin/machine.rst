@@ -150,6 +150,9 @@ https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX
 Replace the XXX with your auth_key. If you receive a JSON object which contains
 "Bonjour", you have the correct URL; if not, try the other three.
 
+Weblate supports DeepL formality, it will choose matching one based on the
+language (for example, there is ``de@formal`` and ``de@informal``).
+
 .. seealso::
 
     `DeepL website <https://www.deepl.com/>`_,
