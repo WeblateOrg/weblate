@@ -1,3 +1,10 @@
+Weblate 4.15
+------------
+
+Not yet released.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
+
 Weblate 4.14.2
 --------------
 
