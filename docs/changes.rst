@@ -1,7 +1,7 @@
 Weblate 4.14.2
 --------------
 
-Not yet released.
+Released on November 5th 2022.
 
 * Added support for removing entries from translation memory.
 * Improved analysis on the duplicate language alert.
