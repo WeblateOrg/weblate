@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-05 08:50+0100\n"
-"PO-Revision-Date: 2022-10-27 02:03+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2022-11-07 18:08+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.14.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -7576,16 +7576,12 @@ msgid "List for credentials for Gitea servers."
 msgstr "Список реєстраційних даних для серверів Gitea."
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, :envvar:"
 "`WEBLATE_GITEA_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, "
+":envvar:`WEBLATE_GITEA_HOST`"
 
 #: ../../admin/config.rst:746
 msgid "GITEA_USERNAME"
@@ -7639,16 +7635,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Список реєстраційних даних для серверів GitLab."
 
 #: ../../admin/config.rst:807
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, :envvar:"
 "`WEBLATE_GITLAB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, "
+":envvar:`WEBLATE_GITLAB_HOST`"
 
 #: ../../admin/config.rst:814
 msgid "GITLAB_USERNAME"
@@ -7703,16 +7695,12 @@ msgid "List for credentials for GitHub servers."
 msgstr "Список реєстраційних даних для серверів GitHub."
 
 #: ../../admin/config.rst:871
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, :envvar:"
 "`WEBLATE_GITHUB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, "
+":envvar:`WEBLATE_GITHUB_HOST`"
 
 #: ../../admin/config.rst:878
 msgid "GITHUB_USERNAME"
@@ -8204,16 +8192,12 @@ msgid "List for credentials for Pagure servers."
 msgstr "Список реєстраційних даних для серверів Pagure."
 
 #: ../../admin/config.rst:1303
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, :envvar:"
 "`WEBLATE_PAGURE_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, "
+":envvar:`WEBLATE_PAGURE_HOST`"
 
 #: ../../admin/config.rst:1310
 msgid "PAGURE_USERNAME"
@@ -13395,6 +13379,10 @@ msgid ""
 "`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or :setting:"
 "`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`."
 msgstr ""
+"Налаштовує інтеграцію зі запитами щодо об'єднання GitHub шляхом зміни "
+":setting:`GITHUB_CREDENTIALS` (якщо встановлено "
+":envvar:`WEBLATE_GITHUB_HOST`) або :setting:`GITHUB_USERNAME` і "
+":setting:`GITHUB_TOKEN`."
 
 #: ../../admin/install/docker.rst:666
 msgid ""
@@ -13402,6 +13390,10 @@ msgid ""
 "`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or :setting:"
 "`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`."
 msgstr ""
+"Налаштовує інтеграцію із запитами щодо об'єднання GitLab шляхом зміни "
+":setting:`GITLAB_CREDENTIALS` (якщо встановлено "
+":envvar:`WEBLATE_GITLAB_HOST`) або :setting:`GITLAB_USERNAME` і "
+":setting:`GITLAB_TOKEN`."
 
 #: ../../admin/install/docker.rst:678
 msgid ""
@@ -13409,6 +13401,9 @@ msgid ""
 "`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or :setting:"
 "`GITEA_USERNAME` and :setting:`GITEA_TOKEN`."
 msgstr ""
+"Налаштовує інтеграцію із запитами щодо об'єднання Gitea шляхом зміни "
+":setting:`GITEA_CREDENTIALS` (якщо встановлено :envvar:`WEBLATE_GITEA_HOST`) "
+"або :setting:`GITEA_USERNAME` і :setting:`GITEA_TOKEN`."
 
 #: ../../admin/install/docker.rst:691
 msgid ""
@@ -13416,6 +13411,10 @@ msgid ""
 "`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or :setting:"
 "`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`."
 msgstr ""
+"Налаштовує інтеграцію із запитами щодо об'єднання Pagure шляхом зміни "
+":setting:`PAGURE_CREDENTIALS` (якщо встановлено "
+":envvar:`WEBLATE_PAGURE_HOST`) або :setting:`PAGURE_USERNAME` і "
+":setting:`PAGURE_TOKEN`."
 
 #: ../../admin/install/docker.rst:701
 msgid ""
@@ -15972,6 +15971,8 @@ msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"У Weblate передбачено підтримку формальності DeepL, програма вибере "
+"відповідник на основі мови (наприклад, є ``de@formal`` і ``de@informal``)."
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -24179,10 +24180,8 @@ msgid "Weblate 4.14.2"
 msgstr "Weblate 4.14.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on November 4th 2020."
 msgid "Released on November 5th 2022."
-msgstr "Випущено 4 листопада 2020 року."
+msgstr "Випущено 5 листопада 2022 року."
 
 #: ../../changes.rst:6
 msgid "Added support for removing entries from translation memory."
@@ -24252,10 +24251,8 @@ msgstr ""
 "розпізнаванням."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added support for Python 3.10."
 msgid "Added support for Python 3.11."
-msgstr "Додано підтримку Python 3.10."
+msgstr "Додано підтримку Python 3.11."
 
 #: ../../changes.rst:22
 msgid ""
