@@ -166,14 +166,13 @@ class MemoryManager(models.Manager):
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
         lang_cache = {}
+        srclang = header.get("srclang")
+        if not srclang:
+            raise MemoryImportError(_("Source language not defined in the TMX file!"))
         try:
-            source_language = Language.objects.get_by_code(
-                header.get("srclang"), lang_cache, langmap
-            )
+            source_language = Language.objects.get_by_code(srclang, lang_cache, langmap)
         except Language.DoesNotExist:
-            raise MemoryImportError(
-                _("Failed to find language %s!") % header.get("srclang")
-            )
+            raise MemoryImportError(_("Failed to find language %s!") % srclang)
 
         found = 0
         for unit in storage.units:
