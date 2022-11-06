@@ -393,9 +393,8 @@ class ProjectBackup:
         source_translation_id = -1
         for item in data["translations"]:
             language = self.import_language(item["language_code"])
-            try:
-                plural = language.plural_set.get(**item["plural"])
-            except Plural.DoesNotExist:
+            plural = language.plural_set.filter(**item["plural"]).first()
+            if plural is None:
                 if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
                     plural = language.plural
                 elif item["plural"]["source"] in (
