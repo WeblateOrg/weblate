@@ -21,6 +21,7 @@
 
 from django.urls import reverse
 
+from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -66,6 +67,13 @@ class ChangesTest(ViewTestCase):
         )
         self.assertContains(response, "Resource update")
         self.assertContains(response, "testx is not one of the available choices")
+
+    def test_string(self):
+        response = self.client.get(
+            reverse("changes"), {"string": Unit.objects.first().pk}
+        )
+        self.assertContains(response, "New source string")
+        self.assertContains(response, "Changes of string in")
 
     def test_user(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")

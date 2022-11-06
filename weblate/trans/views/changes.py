@@ -33,10 +33,9 @@ from django.views.generic.list import ListView
 from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.forms import ChangesForm
+from weblate.trans.forms import ChangesFilterForm, ChangesForm
 from weblate.trans.models.change import Change
 from weblate.utils import messages
-from weblate.utils.forms import FilterForm
 from weblate.utils.site import get_site_url
 from weblate.utils.views import get_project_translation
 
@@ -51,6 +50,7 @@ class ChangesView(ListView):
         self.project = None
         self.component = None
         self.translation = None
+        self.unit = None
         self.language = None
         self.user = None
         self.actions = set()
@@ -75,6 +75,15 @@ class ChangesView(ListView):
             context["title"] = (
                 pgettext("Changes in translation", "Changes in %s") % self.translation
             )
+            if self.unit is not None:
+                context["unit"] = self.unit
+                url = {"string": self.unit.pk}
+                context["title"] = (
+                    pgettext(
+                        "Changes of string in a translation", "Changes of string in %s"
+                    )
+                    % self.translation
+                )
         elif self.component is not None:
             context["project"] = self.component.project
             context["component"] = self.component
@@ -145,6 +154,14 @@ class ChangesView(ListView):
         except Http404:
             messages.error(self.request, _("Failed to find matching project!"))
 
+    def _get_unit(self, form):
+        unit = form.cleaned_data.get("string")
+        if unit:
+            self.unit = unit
+            self.translation = translation = unit.translation
+            self.component = component = translation.component
+            self.project = component.project
+
     def _get_queryset_language(self, form):
         """Filtering by language."""
         if self.translation is None and form.cleaned_data.get("lang"):
@@ -173,9 +190,11 @@ class ChangesView(ListView):
 
     def get_queryset(self):
         """Return list of changes to browse."""
-        form = FilterForm(self.request.GET)
+        form = ChangesFilterForm(self.request, self.request.GET)
         if form.is_valid():
             self._get_queryset_project(form)
+
+            self._get_unit(form)
 
             self._get_queryset_language(form)
 
@@ -185,7 +204,9 @@ class ChangesView(ListView):
 
         result = Change.objects.last_changes(self.request.user)
 
-        if self.translation is not None:
+        if self.unit is not None:
+            result = result.filter(unit=self.unit)
+        elif self.translation is not None:
             result = result.filter(translation=self.translation)
         elif self.component is not None:
             result = result.filter(component=self.component)

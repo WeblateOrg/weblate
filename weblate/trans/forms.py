@@ -67,6 +67,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    FilterForm,
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
@@ -2506,6 +2507,20 @@ class AnnouncementForm(forms.ModelForm):
             "expiry": WeblateDateInput(),
             "message": MarkdownTextarea,
         }
+
+
+class ChangesFilterForm(FilterForm):
+    string = forms.ModelChoiceField(
+        Unit.objects.none(),
+        widget=forms.HiddenInput,
+        required=False,
+    )
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["string"].queryset = Unit.objects.filter(
+            translation__component__project__in=request.user.allowed_projects
+        )
 
 
 class ChangesForm(forms.Form):

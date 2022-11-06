@@ -3,6 +3,8 @@ Weblate 4.15
 
 Not yet released.
 
+* Added support for browsing changes for a individual string.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
 Weblate 4.14.2
