@@ -99,24 +99,3 @@ class WeblateTranslation(MachineTranslation):
                 "origin_url": munit.get_absolute_url(),
                 "source": source,
             }
-
-    def download_batch_strings(
-        self, source, language, units, texts: Set[str], user=None, threshold: int = 75
-    ):
-        if user:
-            base = Unit.objects.filter_access(user)
-        else:
-            base = Unit.objects.all()
-        query = reduce(lambda x, y: x | Q(source__search=y), texts, Q())
-        matching_units = base.filter(
-            query,
-            translation__component__source_language=source,
-            translation__language=language,
-            state__gte=STATE_TRANSLATED,
-        ).only("source", "target")
-
-        # We want only close matches here
-        adjust_similarity_threshold(0.95)
-
-        for unit in matching_units:
-            yield unit.source_string, unit.get_target_plurals()[0]

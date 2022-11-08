@@ -462,7 +462,7 @@ This typically happens when you have translation file for source language.
 Weblate keeps track of source strings and reserves source language for this.
 The additional file for same language is not processed.
 
-* In case the translation to the source language is desired, please change the :ref:`component-source_language` in the component settings.
+* In case the translation to the source language is desired, please change the :ref:`component-source_language` in the component settings. You might want to use `English (Developer)` as a source language, or utilize :ref:`source-quality-gateway`.
 * In case the translation file for the source language is not needed, please remove it from the repository.
 * In case the translation file for the source language is needed, but should be ignored by Weblate, please adjust the :ref:`component-language_regex` to exclude it.
 

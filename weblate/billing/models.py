@@ -312,9 +312,7 @@ class Billing(models.Model):
 
     @cached_property
     def count_languages(self):
-        if not self.all_projects:
-            return 0
-        return max(p.stats.languages for p in self.all_projects)
+        return max((p.stats.languages for p in self.all_projects), default=0)
 
     def display_languages(self):
         return f"{self.count_languages} / {self.plan.display_limit_languages}"

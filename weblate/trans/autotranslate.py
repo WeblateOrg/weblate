@@ -25,6 +25,7 @@ from django.db import transaction
 
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
+from weblate.trans.util import split_plural
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
@@ -111,7 +112,7 @@ class AutoTranslate:
 
         # Fetch translations
         translations = {
-            source: (state, target)
+            source: (state, split_plural(target))
             for source, state, target in sources.filter(
                 source__in=self.get_units().values("source")
             ).values_list("source", "state", "target")
