@@ -23,4 +23,3 @@ class MetricsConfig(AppConfig):
     name = "weblate.metrics"
     label = "metrics"
     verbose_name = "Metrics"
-    default_auto_field = "django.db.models.BigAutoField"
