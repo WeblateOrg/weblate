@@ -97,7 +97,7 @@ jQuery.fn.extend({
   },
 });
 
-function submitForm(evt, selector) {
+function submitForm(evt, combo, selector) {
   var $target = $(evt.target);
   var $form = $target.closest("form");
 

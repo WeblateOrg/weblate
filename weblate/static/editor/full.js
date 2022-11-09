@@ -98,12 +98,12 @@
       $('input[name="fuzzy"]').click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+shift+enter", function (e) {
+    Mousetrap.bindGlobal("mod+shift+enter", function (e, combo) {
       $('input[name="fuzzy"]').prop("checked", false);
-      return submitForm(e);
+      return submitForm(e, combo);
     });
-    Mousetrap.bindGlobal("alt+enter", function (e) {
-      return submitForm(e, 'button[name="suggest"]');
+    Mousetrap.bindGlobal("alt+enter", function (e, combo) {
+      return submitForm(e, combo, 'button[name="suggest"]');
     });
     Mousetrap.bindGlobal("mod+e", () => {
       this.$translationArea.get(0).focus();
