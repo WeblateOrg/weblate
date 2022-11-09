@@ -842,7 +842,7 @@ Generic settings
 
 .. envvar:: WEBLATE_AVATAR_URL_PREFIX
 
-   .. versionadded:: 4.14.3
+   .. versionadded:: 4.15
 
    Configures :setting:`AVATAR_URL_PREFIX`.
 
