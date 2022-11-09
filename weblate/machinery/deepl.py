@@ -24,9 +24,6 @@ from django.conf import settings
 from .base import MachineTranslation
 from .forms import DeepLMachineryForm
 
-# Extracted from https://www.deepl.com/docs-api/translating-text/response/
-FORMAL_LANGUAGES = {"DE", "FR", "IT", "ES", "NL", "PL", "PT-PT", "PT-BR", "RU"}
-
 
 class DeepLTranslation(MachineTranslation):
     """DeepL (Linguee) machine translation support."""
@@ -64,12 +61,16 @@ class DeepLTranslation(MachineTranslation):
         response = self.request(
             "get", self.get_api_url("languages"), params={"type": "target"}
         )
-        target_languages = {x["language"] for x in response.json()}
+        # Plain English is not listed, but is supported
+        target_languages = {"EN"}
 
-        for lang in FORMAL_LANGUAGES:
-            if lang in target_languages:
-                target_languages.add(f"{lang}@FORMAL")
-                target_languages.add(f"{lang}@INFORMAL")
+        # Handle formality extensions
+        for item in response.json():
+            lang_code = item["language"]
+            target_languages.add(lang_code)
+            if item.get("supports_formality"):
+                target_languages.add(f"{lang_code}@FORMAL")
+                target_languages.add(f"{lang_code}@INFORMAL")
 
         return (
             (source, target)

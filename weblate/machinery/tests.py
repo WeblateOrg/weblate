@@ -271,7 +271,7 @@ with open(get_test_file("googlev3.json")) as handle:
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
-    {"language": "DE", "name": "Deutsch"},
+    {"language": "DE", "name": "Deutsch", "supports_formality": True},
 ]
 
 LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
