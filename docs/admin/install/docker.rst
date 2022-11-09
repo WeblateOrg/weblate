@@ -840,6 +840,12 @@ Generic settings
 
    Configures :setting:`ENABLE_AVATARS`.
 
+.. envvar:: WEBLATE_AVATAR_URL_PREFIX
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`AVATAR_URL_PREFIX`.
+
 .. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 
    .. versionadded:: 4.9
