@@ -738,7 +738,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_unit_state(self):
         return "state" in self.details and self.action not in (
-            ACTION_SUGGESTION,
-            ACTION_SUGGESTION_DELETE,
-            ACTION_SUGGESTION_CLEANUP,
+            self.ACTION_SUGGESTION,
+            self.ACTION_SUGGESTION_DELETE,
+            self.ACTION_SUGGESTION_CLEANUP,
         )
