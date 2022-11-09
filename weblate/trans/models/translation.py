@@ -744,8 +744,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     unit.delete()
                     continue
 
-                updated = True
-
                 # Optionally add unit to translation file.
                 # This has be done prior setting target as some formats
                 # generate content based on target language.
@@ -753,10 +751,17 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     store.add_unit(pounit.unit)
 
                 # Store translations
-                if unit.is_plural:
-                    pounit.set_target(unit.get_target_plurals())
-                else:
-                    pounit.set_target(unit.target)
+                try:
+                    if unit.is_plural:
+                        pounit.set_target(unit.get_target_plurals())
+                    else:
+                        pounit.set_target(unit.target)
+                except Exception as error:
+                    self.component.handle_parse_error(error, self, reraise=False)
+                    report_error(cause="Failed to update unit")
+                    continue
+
+                updated = True
 
             # Update fuzzy/approved flag
             pounit.set_state(unit.state)
