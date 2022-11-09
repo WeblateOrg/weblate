@@ -1687,6 +1687,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         """Handler for parse errors."""
         error_message = getattr(error, "strerror", "")
         if not error_message:
+            error_message = getattr(error, "message", "")
+        if not error_message:
             error_message = str(error).replace(self.full_path, "")
         if filename is None:
             if translation is None:
