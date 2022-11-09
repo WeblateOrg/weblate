@@ -1683,7 +1683,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         return True
 
-    def handle_parse_error(self, error, translation=None, filename=None):
+    def handle_parse_error(
+        self, error, translation=None, filename=None, reraise: bool = True
+    ):
         """Handler for parse errors."""
         error_message = getattr(error, "strerror", "")
         if not error_message:
@@ -1704,7 +1706,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 details={"error_message": error_message, "filename": filename},
                 user=self.acting_user,
             )
-        raise FileParseError(error_message)
+        if reraise:
+            raise FileParseError(error_message)
 
     def store_local_revision(self):
         """Store current revision in the database."""

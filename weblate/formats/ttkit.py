@@ -1980,6 +1980,8 @@ class FluentUnit(MonolingualSimpleUnit):
     def set_target(self, target: Union[str, List[str]]):
         super().set_target(target)
         self.unit.source = target
+        # This triggers serialization discovering any syntax issues
+        self.unit.to_entry()
 
     @cached_property
     def flags(self):
