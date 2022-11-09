@@ -1981,6 +1981,17 @@ class FluentUnit(MonolingualSimpleUnit):
         super().set_target(target)
         self.unit.source = target
 
+    @cached_property
+    def flags(self):
+        # Needs translate-toolkit 3.7.5 or newer
+        if not hasattr(self.mainunit, "getplaceables"):
+            return ""
+        placeables = self.mainunit.getplaceables()
+        if not placeables:
+            return ""
+        placeables.insert(0, "placeholders")
+        return Flags.format_flag(tuple(placeables))
+
 
 class FluentFormat(TTKitFormat):
     name = _("Fluent file")
