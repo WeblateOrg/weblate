@@ -735,3 +735,10 @@ class Change(models.Model, UserDisplayMixin):
         if self.comment and "address" in self.comment.userdetails:
             return self.comment.userdetails["address"]
         return None
+
+    def show_unit_state(self):
+        return "state" in self.details and self.action not in (
+            ACTION_SUGGESTION,
+            ACTION_SUGGESTION_DELETE,
+            ACTION_SUGGESTION_CLEANUP,
+        )

@@ -63,7 +63,7 @@
                     {% if change.unit.target == change.target %}
                       <span class="badge">{% trans "Current translation" %}</span>
                     {% endif %}
-                    {% if change.details.state %}
+                    {% if change.show_unit_state %}
                       <span class="badge">{{ change.get_state_display }}</span>
                     {% endif %}
                 </label>
