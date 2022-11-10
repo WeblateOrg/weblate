@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-05 08:50+0100\n"
-"PO-Revision-Date: 2022-11-07 18:08+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-11-11 22:49+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.2\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -409,9 +409,9 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
-"アクセス権を Weblate ユーザー管理画面から管理する主な利点の１つは、スーパーユ"
-"ーザー権限を付与せずに管理を他のユーザーに委任できることです。そのためには、"
-"プロジェクトの `管理` チームに追加します。"
+"アクセス権を Weblate ユーザー管理画面から管理する主な利点の 1 つは、スーパー"
+"ユーザー権限を付与せずに管理を他のユーザーに委任できることです。そのためには"
+"、プロジェクトの `管理` チームに追加します。"
 
 #: ../../admin/access.rst:192
 msgid "Custom access control"
@@ -7366,16 +7366,12 @@ msgid "List for credentials for Gitea servers."
 msgstr "Gitea サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, :envvar:"
 "`WEBLATE_GITEA_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`、:envvar:`WEBLATE_ADMIN_NAME`、:envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITEA_USERNAME`、:envvar:`WEBLATE_GITEA_TOKEN`、:envvar:`WEB"
+"LATE_GITEA_HOST`"
 
 #: ../../admin/config.rst:746
 msgid "GITEA_USERNAME"
@@ -7428,16 +7424,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "GitLab サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:807
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, :envvar:"
 "`WEBLATE_GITLAB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`、:envvar:`WEBLATE_ADMIN_NAME`、:envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITLAB_USERNAME`、:envvar:`WEBLATE_GITLAB_TOKEN`、:envvar:`W"
+"EBLATE_GITLAB_HOST`"
 
 #: ../../admin/config.rst:814
 msgid "GITLAB_USERNAME"
@@ -7490,16 +7482,12 @@ msgid "List for credentials for GitHub servers."
 msgstr "GitHub サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:871
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, :envvar:"
 "`WEBLATE_GITHUB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`、:envvar:`WEBLATE_ADMIN_NAME`、:envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITHUB_USERNAME`、:envvar:`WEBLATE_GITHUB_TOKEN`、:envvar:`W"
+"EBLATE_GITHUB_HOST`"
 
 #: ../../admin/config.rst:878
 msgid "GITHUB_USERNAME"
@@ -7969,16 +7957,12 @@ msgid "List for credentials for Pagure servers."
 msgstr "Pagure サーバーの資格情報の一覧です。"
 
 #: ../../admin/config.rst:1303
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, :envvar:"
 "`WEBLATE_PAGURE_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`、:envvar:`WEBLATE_ADMIN_NAME`、:envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_PAGURE_USERNAME`、:envvar:`WEBLATE_PAGURE_TOKEN`、:envvar:`W"
+"EBLATE_PAGURE_HOST`"
 
 #: ../../admin/config.rst:1310
 msgid "PAGURE_USERNAME"
@@ -12978,6 +12962,9 @@ msgid ""
 "`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or :setting:"
 "`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`."
 msgstr ""
+":setting:`GITHUB_CREDENTIALS` （:envvar:`WEBLATE_GITHUB_HOST` "
+"が設定されている場合）、または :setting:`GITHUB_USERNAME` および "
+":setting:`GITHUB_TOKEN` を変更し、GitHub をプルリクエストの統合に設定します。"
 
 #: ../../admin/install/docker.rst:666
 msgid ""
@@ -12985,6 +12972,10 @@ msgid ""
 "`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or :setting:"
 "`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`."
 msgstr ""
+":setting:`GITLAB_CREDENTIALS` （:envvar:`WEBLATE_GITLAB_HOST` "
+"が設定されている場合）、または :setting:`GITLAB_USERNAME` および "
+":setting:`GITLAB_TOKEN` を変更し、GitLab "
+"をマージリクエストの統合に設定します。"
 
 #: ../../admin/install/docker.rst:678
 msgid ""
@@ -12992,6 +12983,9 @@ msgid ""
 "`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or :setting:"
 "`GITEA_USERNAME` and :setting:`GITEA_TOKEN`."
 msgstr ""
+":setting:`GITEA_CREDENTIALS` （:envvar:`WEBLATE_GITEA_HOST` "
+"が設定されている場合）、または :setting:`GITEA_USERNAME` および "
+":setting:`GITEA_TOKEN` を変更し、Gitea をプルリクエストの統合に設定します。"
 
 #: ../../admin/install/docker.rst:691
 msgid ""
@@ -12999,6 +12993,10 @@ msgid ""
 "`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or :setting:"
 "`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`."
 msgstr ""
+":setting:`PAGURE_CREDENTIALS` （:envvar:`WEBLATE_PAGURE_HOST` "
+"が設定されている場合）、または :setting:`PAGURE_USERNAME` および "
+":setting:`PAGURE_TOKEN` を変更し、Pagure "
+"をマージリクエストの統合に設定します。"
 
 #: ../../admin/install/docker.rst:701
 msgid ""
@@ -15463,6 +15461,8 @@ msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"Weblate は DeepL 形式に対応しており、言語（例: ``de@formal`` および "
+"``de@informal``）に基づいて一致するものが選択されます。"
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -23450,10 +23450,8 @@ msgid "Weblate 4.14.2"
 msgstr "Weblate 4.14.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on November 4th 2020."
 msgid "Released on November 5th 2022."
-msgstr "2020 年 11 月 4 日にリリース。"
+msgstr "2020 年 9 月 2 日にリリース。"
 
 #: ../../changes.rst:6
 msgid "Added support for removing entries from translation memory."
@@ -23517,10 +23515,8 @@ msgid "Improved webhooks compatibility with authenticated repositories."
 msgstr "認証済みリポジトリとの Webhook の互換性を改良。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added support for Python 3.10."
 msgid "Added support for Python 3.11."
-msgstr "Python 3.10 に対応。"
+msgstr "Python 3.11 に対応。"
 
 #: ../../changes.rst:22
 msgid ""
@@ -38889,7 +38885,6 @@ msgid "``icu_message_format``"
 msgstr "``ignore-java-messageformat``"
 
 #: ../../user/checks.rst:268
-#, fuzzy
 msgid "``There {number, plural, one {is one apple} other {are # apples}}.``"
 msgstr "``There {number, plural, one {is one apple} other {are # apples}}.``"
 
@@ -40201,12 +40196,10 @@ msgid "You can use regular expression as placeholder."
 msgstr "正規表現をプレースホルダーとして使用できる。"
 
 #: ../../user/checks.rst:1017
-#, fuzzy
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
-msgstr ""
-"``case-insensitive`` フラグを使用すると、プレースホルダーは大文字と小文字を区"
-"別しません。"
+msgstr "``case-insensitive`` "
+"フラグを使用すると、プレースホルダーは大文字と小文字を区別しなくなります。"
 
 #: ../../user/checks.rst:1019
 msgid ""
