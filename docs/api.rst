@@ -1708,6 +1708,16 @@ Components
     :param project_slug: Slug of the project to remove
     :type project_slug: string
 
+.. http:get:: /api/components/(string:project)/(string:component)/changes/
+
+    Returns a list of component changes. This is essentially a component scoped
+    :http:get:`/api/changes/` accepting same params.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
 Translations
 ++++++++++++
