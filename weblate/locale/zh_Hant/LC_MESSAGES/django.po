@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Chang-Chia Tseng <pswo10680@gmail.com>, 2018, 2019, 2020, 2021.
+# Chang-Chia Tseng <pswo10680@gmail.com>, 2018, 2019, 2020, 2021, 2022.
 # Louies <louies0623@gmail.com>, 2019, 2021.
 # byStarTW <pan93412@gmail.com>, 2019, 2020, 2021, 2022.
 # Jeff Huang <s8321414@gmail.com>, 2019, 2021.
@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-05 07:49+0000\n"
-"PO-Revision-Date: 2022-09-17 00:24+0000\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2022-11-13 21:47+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1436,10 +1436,8 @@ msgid ""
 msgstr "重複可變部分的次數多寡，取決於來源字串的長度。"
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "唯讀字串"
+msgstr "納入唯讀字串"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2472,10 +2470,10 @@ msgid "Mismatched \\n"
 msgstr "不相配 \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "譯文中的換行數和源文不符"
+msgstr ""
+"譯文中的 \\n"
+" 數目與源文不符"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2640,14 +2638,10 @@ msgid "Font spacing"
 msgstr "字間距"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "ICU MessageFormat 旗標"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
 msgstr "ICU MessageFormat 標籤前綴"
 
@@ -2670,8 +2664,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "無效的翻譯標記：「%s」"
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "翻譯旗標沒有參數：「%s」"
 
@@ -3993,10 +3986,9 @@ msgid "Failed to parse TMX file!"
 msgstr "解析 TMX 檔失敗！"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "找不到來源語言！"
+msgstr "找不到語言 %s！"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -9029,8 +9021,6 @@ msgid "Language codes"
 msgstr "語言碼"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
 msgstr "檔名"
 
@@ -9176,22 +9166,16 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "以下強制查核未在任何地方使用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr "%(check)s 品質查核是強制性的，但未使用 <code>%(flag)s</code> 開啟。"
+msgstr "%(check)s 品質查核是強制執行的，但未能使用。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
-msgstr "%(check)s 品質查核是強制性的，但未使用 <code>%(flag)s</code> 開啟。"
+msgstr "%(check)s 品質查核是強制執行的，但未使用開啟 <code>%(flag)s</code> 旗標。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
