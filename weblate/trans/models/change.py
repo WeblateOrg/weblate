@@ -520,7 +520,8 @@ class Change(models.Model, UserDisplayMixin):
     class Meta:
         app_label = "trans"
         index_together = [
-            ("timestamp", "translation", "project", "component", "language", "action"),
+            ("timestamp", "project", "component", "language", "action"),
+            ("action", "translation", "timestamp"),
         ]
         verbose_name = "history event"
         verbose_name_plural = "history events"
