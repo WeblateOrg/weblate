@@ -20,6 +20,7 @@
 from typing import List, Optional
 
 from celery import current_task
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
@@ -107,6 +108,13 @@ class AutoTranslate:
             kwargs["translation__component__source_language"] = source_language
             exclude["translation"] = self.translation
         sources = Unit.objects.filter(**kwargs)
+
+        # Use memory_db for the query in case it exists. This is supposed
+        # to be a read-only replica for offloading expensive translation
+        # queries.
+        if "memory_db" in settings.DATABASES:
+            sources = sources.using("memory_db")
+
         if exclude:
             sources = sources.exclude(**exclude)
 
