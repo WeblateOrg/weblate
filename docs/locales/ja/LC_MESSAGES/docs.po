@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-13 21:47+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-11-15 01:27+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -1566,7 +1566,7 @@ msgstr "``nottranslated`` -- 未翻訳の文字列"
 
 #: ../../admin/addons.rst:48
 msgid "``todo`` -- Unfinished strings"
-msgstr "``todo`` -- 翻訳途中の文字列"
+msgstr "``todo`` -- 翻訳未完了の文字列"
 
 #: ../../admin/addons.rst:50
 msgid "``fuzzy`` -- Strings marked for edit"
@@ -13156,10 +13156,8 @@ msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr ":setting:`ENABLE_AVATARS` を設定します。"
 
 #: ../../admin/install/docker.rst:847
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr ":setting:`STATUS_URL` の設定。"
+msgstr ":setting:`AVATAR_URL_PREFIX` の設定。"
 
 #: ../../admin/install/docker.rst:853
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
@@ -20618,10 +20616,8 @@ msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgstr "`jellyfish` への依存は `rapidfuzz` に置き換わりました。"
 
 #: ../../admin/upgrade.rst:349
-#, fuzzy
-#| msgid "Upgrade from 4.4 to 4.5"
 msgid "Upgrade from 4.14 to 4.15"
-msgstr "4.4 から 4.5 にアップグレード"
+msgstr "4.14 から 4.15 にアップグレード"
 
 #: ../../admin/upgrade.rst:353
 msgid ""
@@ -20629,6 +20625,9 @@ msgid ""
 "process will install it if it has sufficent privileges. See :ref:`dbsetup-"
 "postgres` for manual setup."
 msgstr ""
+"Weblate では、PostgreSQL の ``btree_gin`` 拡張が必要になりました。 "
+"必要とする権限がすべてあれば、移行プロセスに従ってインストールされます。 "
+"手動でアップグレードする場合は :ref:`dbsetup-postgres` を確認してください。"
 
 #: ../../admin/upgrade.rst:361
 msgid "Upgrading from Python 2 to Python 3"
@@ -23464,54 +23463,40 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.15"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.15"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "まだリリースしていません。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Support for showing changes from previous source string."
 msgid "Added support for browsing changes for a individual string."
-msgstr "以前の原文からの変更点を表示できるよう改良。"
+msgstr "各文字列の変更点を確認する機能の追加。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed crash in reporting automatic translation progress."
 msgid "Fixed plurals handling in automatic translation from other components."
-msgstr "自動翻訳の進行状況のレポートのクラッシュを修正しました。"
+msgstr "他のコンポーネントからの自動翻訳での複数形の処理を修正しました。"
 
 #: ../../changes.rst:8
 msgid "Added keyboard shortcut Alt+Enter to submit string as a suggestion."
-msgstr ""
+msgstr "提案として文字列を送信するキーボード ショートカット Alt+Enter を追加。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for placeables in the Fluent format."
-msgstr "Fluent 形式に対応。"
+msgstr "Fluent 形式の配置可能な要素に対応。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory."
-msgstr "翻訳メモリの更新の性能の向上。"
+msgstr "翻訳メモリの更新の性能の改良。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/87?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/87?"
-"closed=1>`__ 。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"88?closed=1>`__ 。"
 
 #: ../../changes.rst:15
 msgid "Weblate 4.14.2"
@@ -24104,8 +24089,7 @@ msgstr "API を使用したアドオンのインストールの修正。"
 #: ../../changes.rst:196
 msgid ""
 "Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`."
-msgstr ""
-":guilabel:`要編集の文字列` のラベルを :guilabel:`翻訳途中の文字列` に変更。"
+msgstr ":guilabel:`要編集の文字列` のラベルを :guilabel:`翻訳未完了の文字列` に変更。"
 
 #: ../../changes.rst:197
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
@@ -35650,10 +35634,6 @@ msgstr ""
 "ん。"
 
 #: ../../faq.rst:465
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the :ref:`component-source_language` in the component settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings. You might "
@@ -35661,7 +35641,8 @@ msgid ""
 "`source-quality-gateway`."
 msgstr ""
 "原文の言語への翻訳が必要な場合は、コンポーネント設定の :ref:`component-"
-"source_language` を変更してください。"
+"source_language` を変更してください。原文の言語として `English (Developer) ` "
+"、または :ref:`source-quality-gateway` を使用できます。"
 
 #: ../../faq.rst:466
 msgid ""
@@ -42260,10 +42241,11 @@ msgid ""
 "specific string or term."
 msgstr ""
 "コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに"
-"翻訳は、次のような個別の検査結果に分類されています、例えば :guilabel:`未翻訳"
-"の文字列` または :guilabel:`翻訳途中の文字列`。プロジェクト全体で不合格となら"
-"ずに翻訳できた場合であっても、:guilabel:`すべての文字列` が使用できます。ま"
-"た、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
+"翻訳は、次のような個別の検査結果に分類されています、例えば "
+":guilabel:`未翻訳の文字列` または :guilabel:`翻訳未完了の文字列`。プロジェク"
+"ト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
+"が使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索"
+"もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -42574,22 +42556,15 @@ msgid ":kbd:`Alt+Enter` or"
 msgstr ":kbd:`Alt+Enter` or"
 
 #: ../../user/translating.rst:214
-#, fuzzy
-#| msgid ":kbd:`Cmd+Enter`"
 msgid ":kbd:`Option+Enter`"
-msgstr ":kbd:`Cmd+Enter`"
+msgstr ":kbd:`Option+Enter`"
 
 #: ../../user/translating.rst:212
-#, fuzzy
-#| msgid ""
-#| "Submit current form; this is same as pressing :guilabel:`Save and "
-#| "continue` while editing translation."
 msgid ""
 "Submit the string as a suggestion; this is same as pressing :guilabel:"
 "`Suggest` while editing translation."
-msgstr ""
-"現在の翻訳を送信する。翻訳の編集中に :guilabel:`保存して次へ` を押すことと同"
-"じ。"
+msgstr "提案として文字列を送信する。翻訳の編集中に :guilabel:`提案` "
+"を押した場合と同じです。"
 
 #: ../../user/translating.rst:216
 msgid ":kbd:`Ctrl+E` or"
