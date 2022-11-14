@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-14 12:34+0000\n"
+"PO-Revision-Date: 2022-11-15 01:27+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -6763,7 +6763,7 @@ msgstr ""
 
 #: ../../admin/config.rst:132
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
 msgid ""
@@ -6771,42 +6771,52 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
+"Dauer der Gültigkeit des Authentifizierungstokens und des temporären "
+"Kennworts aus E-Mails zum Zurücksetzen des Kennworts. Wird in Sekunden "
+"angegeben, Standardwert ist 172800 (2 Tage)."
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
-msgstr ""
+msgstr "Wie viele Tage mit demselben Passwort erlaubt sein sollten."
 
 #: ../../admin/config.rst:149
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Passwortänderungen, die vor Weblate 2.15 vorgenommen wurden, werden in "
+"dieser Richtlinie nicht berücksichtigt."
 
 #: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
 msgstr ""
+"Liste der automatischen Korrekturen, die beim Speichern einer Zeichenkette "
+"anzuwenden sind."
 
 #: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
+"Geben Sie einen vollqualifizierten Pfad zu der Python-Klasse an, die die "
+"Autofixer-Schnittstelle implementiert."
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "Verfügbare Korrekturen:"
 
 #: ../../admin/config.rst:167
+#, fuzzy
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
@@ -6814,69 +6824,79 @@ msgstr ""
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid ""
 "Replaces trailing dots (...) if the source string has a corresponding "
 "ellipsis (…)."
 msgstr ""
+"Ersetzt nachgestellte Punkte (...), wenn die Ausgangszeichenkette "
+"entsprechende Auslassungspunkte (...) enthält."
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Entfernt Leerzeichen ohne Breite, wenn die Ausgangszeichenkette keine "
+"enthält."
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Entfernt Steuerzeichen, wenn die Ausgangszeichenkette keine enthält."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Entfernt unsichere HTML-Auszeichnungen aus Zeichenketten, die als ``safe-"
+"html`` gekennzeichnet sind (siehe :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Sie können auswählen, welche verwendet werden sollen:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BACKGROUND_TASKS"
-msgstr ""
+msgstr "BACKGROUND_TASKS"
 
 #: ../../admin/config.rst:198
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Legt fest, wie oft langwierige Wartungsmaßnahmen für eine Komponente "
+"ausgelöst werden sollen."
 
 #: ../../admin/config.rst:201
+#, fuzzy
 msgid "Right now this controls:"
-msgstr ""
+msgstr "Im Moment steuert dies:"
 
 #: ../../admin/config.rst:203
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` Erweiterung"
 
 #: ../../admin/config.rst:204
+#, fuzzy
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr ":doc:`überprüft` die Neuberechnung"
 
 #: ../../admin/config.rst:206
 msgid "Possible choices:"
@@ -6903,6 +6923,8 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"Es wird nicht empfohlen, die Häufigkeit zu erhöhen, wenn Weblate Tausende "
+"von Komponenten enthält."
 
 #: ../../admin/config.rst:221
 msgid "BASIC_LANGUAGES"
@@ -6963,6 +6985,7 @@ msgstr ":ref:`Backup`, :doc:`borg:usage/create`"
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:276
 msgid ""
@@ -6970,30 +6993,38 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Passen Sie den Header ``Content-Security-Policy`` für Weblate an. Die "
+"Kopfzeile wird automatisch auf der Grundlage der aktivierten Integrationen "
+"mit Diensten von Drittanbietern (Matomo, Google Analytics, Sentry, ...) "
+"generiert."
 
 #: ../../admin/config.rst:280
 msgid "All these default to empty list."
-msgstr ""
+msgstr "Alle diese Listen sind standardmäßig leer."
 
 #: ../../admin/config.rst:291
 msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/"
+"en-US/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:297
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:299
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Liste der an einer Übersetzung durchzuführenden Qualitätsprüfungen."
 
 #: ../../admin/config.rst:303
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Geben Sie einen vollqualifizierten Pfad zu der Python-Klasse an, die die "
+"Prüfschnittstelle implementiert."
 
 #: ../../admin/config.rst:306
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -7180,24 +7211,31 @@ msgstr ""
 
 #: ../../admin/config.rst:408
 msgid "User-uploaded  fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Vom Benutzer hochgeladene  Schriftarten, siehe :ref:`fonts`."
 
 #: ../../admin/config.rst:412
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Dieses Verzeichnis muss von Weblate beschreibbar sein. Die Ausführung als "
+"uWSGI bedeutet, dass der Benutzer ``www-data`` Schreibzugriff darauf haben "
+"sollte."
 
 #: ../../admin/config.rst:415
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Der einfachste Weg, dies zu erreichen, ist, den Benutzer zum Eigentümer des "
+"Verzeichnisses zu machen:"
 
 #: ../../admin/config.rst:421
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
+"Die Standardeinstellung ist ``/home/weblate/data``, aber es wird erwartet, "
+"dass sie konfiguriert wird."
 
 #: ../../admin/config.rst:425
 msgid ":ref:`file-permissions`, :doc:`backup`"
@@ -7205,13 +7243,16 @@ msgstr ""
 
 #: ../../admin/config.rst:431
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:435
+#, fuzzy
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Ob die Datenbank-Backups als reiner Text oder komprimiert gespeichert oder "
+"übersprungen werden sollen. Die zulässigen Werte sind:"
 
 #: ../../admin/config.rst:438
 msgid "``\"plain\"``"
@@ -7231,7 +7272,7 @@ msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:453
 msgid "The default access control setting for new projects:"
-msgstr ""
+msgstr "Die Standardeinstellung der Zugriffssteuerung für neue Projekte:"
 
 #: ../../admin/config.rst:455
 msgid "``0``"
@@ -7239,7 +7280,7 @@ msgstr ""
 
 #: ../../admin/config.rst:456
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Öffentlich`"
 
 #: ../../admin/config.rst:457
 msgid "``1``"
@@ -7247,7 +7288,7 @@ msgstr ""
 
 #: ../../admin/config.rst:458
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Geschützt`"
 
 #: ../../admin/config.rst:459
 msgid "``100``"
@@ -7255,7 +7296,7 @@ msgstr ""
 
 #: ../../admin/config.rst:460
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Privat`"
 
 #: ../../admin/config.rst:462
 msgid "``200``"
@@ -7263,13 +7304,15 @@ msgstr ""
 
 #: ../../admin/config.rst:462
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Benutzerdefiniert`"
 
 #: ../../admin/config.rst:464
 msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"Verwenden Sie :guilabel:`Benutzerdefiniert`, wenn Sie die ACL manuell "
+"verwalten, d.h. sich nicht auf die interne Weblate-Verwaltung verlassen."
 
 #: ../../admin/config.rst:469
 msgid ":ref:`acl`, :ref:`project-access_control`"
@@ -7284,6 +7327,8 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"Konfiguriert, ob :guilabel:`Projekte nach Beitrag automatisch beobachten` "
+"für neue Benutzer aktiviert werden soll. Der Standardwert ist ``True``."
 
 #: ../../admin/config.rst:484
 #, fuzzy
@@ -7297,7 +7342,7 @@ msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:493
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Der Standardwert für die Komponenteneinschränkung."
 
 #: ../../admin/config.rst:497
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
@@ -7316,6 +7361,8 @@ msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
 msgstr ""
+"Voreingestellte Commit-Meldungen für verschiedene Operationen, siehe "
+":ref:`Komponente` für Details."
 
 #: ../../admin/config.rst:514
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
@@ -7327,11 +7374,11 @@ msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:524
 msgid "Default add-ons to install on every created component."
-msgstr ""
+msgstr "Standard-Add-ons, die für jede erstellte Komponente installiert werden."
 
 #: ../../admin/config.rst:528
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Diese Einstellung wirkt sich nur auf neu erstellte Komponenten aus."
 
 #: ../../admin/config.rst:530 ../../admin/config.rst:1064
 #: ../../admin/config.rst:1360 ../../admin/config.rst:1462
@@ -7339,7 +7386,7 @@ msgstr ""
 #: ../../admin/management.rst:94 ../../admin/management.rst:150
 #: ../../admin/management.rst:690 ../../wlc.rst:52
 msgid "Example:"
-msgstr ""
+msgstr "Beispiel:"
 
 #: ../../admin/config.rst:550
 msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
@@ -7352,6 +7399,8 @@ msgstr "DEFAULT_COMMITER_EMAIL"
 #: ../../admin/config.rst:561
 msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgstr ""
+"Die E-Mail-Adresse des Committers ist standardmäßig auf ``noreply@weblate."
+"org`` eingestellt."
 
 #: ../../admin/config.rst:565
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
@@ -7363,7 +7412,7 @@ msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:574
 msgid "Committer name defaulting to ``Weblate``."
-msgstr ""
+msgstr "Der Name des Committers ist standardmäßig ``Weblate``."
 
 #: ../../admin/config.rst:578
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
@@ -7384,6 +7433,8 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
+"Der Standardwert ist \"en\". Das entsprechende Sprachobjekt muss in der "
+"Datenbank vorhanden sein."
 
 #: ../../admin/config.rst:593
 msgid ":ref:`languages`, :ref:`component-source_language`"
@@ -7395,15 +7446,15 @@ msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:603
 msgid "Merge style for any new components."
-msgstr ""
+msgstr "Merge-Stil für alle neuen Komponenten."
 
 #: ../../admin/config.rst:605
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - Standard"
 
 #: ../../admin/config.rst:606
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: ../../admin/config.rst:610
 msgid ":ref:`component`, :ref:`component-merge_style`"
@@ -7426,6 +7477,8 @@ msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 #: ../../admin/config.rst:629
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Standardeinstellung für die Übersetzungsweitergabe, ist standardmäßig "
+"''True''."
 
 #: ../../admin/config.rst:633
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
@@ -7438,21 +7491,28 @@ msgstr "DEFAULT_PULL_MESSAGE"
 #: ../../admin/config.rst:643
 msgid "Configures the default title and message for pull requests."
 msgstr ""
+"Konfiguriert den Standardtitel und die Standardnachricht für Pull-"
+"Anforderungen."
 
 #: ../../admin/config.rst:648
 msgid "ENABLE_AVATARS"
-msgstr ""
+msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:650
 msgid ""
 "Whether to turn on Gravatar-based avatars for users. By default this is on."
 msgstr ""
+"Ob Gravatar-basierte Avatare für Benutzer aktiviert werden sollen. "
+"Standardmäßig ist dies aktiviert."
 
 #: ../../admin/config.rst:652
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Avatare werden abgerufen und auf dem Server zwischengespeichert, wodurch das "
+"Risiko des Durchsickerns privater Informationen verringert und das "
+"Benutzererlebnis beschleunigt wird."
 
 #: ../../admin/config.rst:657
 msgid ""
@@ -7461,11 +7521,11 @@ msgstr ""
 
 #: ../../admin/config.rst:664
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:666
 msgid "Whether to enable anonymous remote hooks."
-msgstr ""
+msgstr "Ob anonyme Remote-Hooks aktiviert werden sollen."
 
 #: ../../admin/config.rst:670
 msgid ":ref:`hooks`"
@@ -7473,13 +7533,16 @@ msgstr ""
 
 #: ../../admin/config.rst:675
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:677
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Ob Links per HTTPS oder HTTP an Weblate gesendet werden sollen. Diese "
+"Einstellung wirkt sich auf gesendete E-Mails und generierte absolute URLs "
+"aus."
 
 #: ../../admin/config.rst:680
 msgid ""
