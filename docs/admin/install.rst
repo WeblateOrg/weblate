@@ -374,6 +374,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
    .. code-block:: postgres
 
         CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA weblate;
+        CREATE EXTENSION IF NOT EXISTS btree_gin WITH SCHEMA weblate;
 
 .. _config-postgresql:
 

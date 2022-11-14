@@ -7,6 +7,7 @@ Not yet released.
 * Fixed plurals handling in automatic translation from other components.
 * Added keyboard shortcut Alt+Enter to submit string as a suggestion.
 * Added support for placeables in the Fluent format.
+* Improved performance of translation memory.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
