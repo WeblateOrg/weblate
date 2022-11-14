@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-09 07:10+0000\n"
+"PO-Revision-Date: 2022-11-14 14:28+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -4158,7 +4158,7 @@ msgstr "¡Error al analizar el archivo TMX!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "¡El idioma de origen no está definido en el archivo TMX!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10357,10 +10357,8 @@ msgid "Apply selected translation to current string"
 msgstr "Aplicar traducción seleccionada a la cadena actual"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Ver todos los cambios"
+msgstr "Examinar todos los cambios de la cadena"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12574,16 +12572,12 @@ msgid "Could not add new translation file."
 msgstr "No se pudo añadir el archivo de traducción nuevo."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "El filtro de idioma filtra el idioma indicado."
+msgstr "El idioma dado se utiliza como idioma de origen."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "El filtro de idioma filtra el idioma indicado."
+msgstr "El idioma dado ya existe."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13277,12 +13271,10 @@ msgid "Changes in %s"
 msgstr "Cambios en %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Cambios en %s"
+msgstr "Cambios de la cadena en %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
