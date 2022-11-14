@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.14.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-05 07:49+0000\n"
-"PO-Revision-Date: 2022-09-19 23:11+0000\n"
+"PO-Revision-Date: 2022-11-14 12:34+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -1497,10 +1497,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:535
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Include read-only strings"
-msgstr "Skrifvarðir strengir"
+msgstr "Hafa með skrifvarða strengi"
 
 #: weblate/addons/forms.py:565
 msgid "The source and target have to be different languages."
@@ -2540,10 +2538,10 @@ msgid "Mismatched \\n"
 msgstr "Ósamræmi í \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "Fjöldi nýrra lína í þýðingu samsvarar ekki frumtexta"
+msgstr ""
+"Fjöldi \\n"
+"lesgilda í þýðingu samsvarar ekki frumtexta"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2710,16 +2708,12 @@ msgid "Font spacing"
 msgstr "Millibil leturs"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
-msgstr "Java MessageFormat-flögg"
+msgstr "ICU MessageFormat-flögg"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
-msgstr "Java MessageFormat-merkjaforskeyti"
+msgstr "ICU MessageFormat-merkjaforskeyti"
 
 #: weblate/checks/flags.py:73 weblate/trans/models/component.py:625
 #: weblate/utils/views.py:135
@@ -2740,10 +2734,9 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Ógilt þýðingaflagg: \"%s\""
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "Þýðingaflagg er ekki með nein viðföng: \"%s\""
+msgstr "Þýðingaflaggið er ekki með nein viðföng: \"%s\""
 
 #: weblate/checks/flags.py:275
 #, python-format
@@ -2870,11 +2863,11 @@ msgstr "i18next innskot samsvara ekki frumtexta"
 
 #: weblate/checks/format.py:609
 msgid "ECMAScript template literals"
-msgstr ""
+msgstr "Lesgildi ECMAScript sniðmáts"
 
 #: weblate/checks/format.py:610
 msgid "ECMAScript template literals do not match source"
-msgstr ""
+msgstr "Lesgildi ECMAScript sniðmáts samsvara ekki frumtexta"
 
 #: weblate/checks/format.py:622
 msgid "Percent placeholders"
@@ -3937,12 +3930,12 @@ msgstr "Slóð á API-forritsviðmót"
 #: weblate/machinery/forms.py:60
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "Auðkenni biðlara"
 
 #: weblate/machinery/forms.py:64
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "Leynilykill biðlara"
 
 #: weblate/machinery/forms.py:76
 msgctxt "Automatic suggestion service configuration"
@@ -4067,10 +4060,9 @@ msgid "Failed to parse TMX file!"
 msgstr "Mistókst að þátta TMX-skrá!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:193
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "Gat ekki fundið upprunatungumál!"
+msgstr "Gat ekki fundið tungumálið %s!"
 
 #: weblate/memory/models.py:264
 msgctxt "Translation memory category"
@@ -7259,7 +7251,7 @@ msgstr "Villuskilaboð"
 
 #: weblate/templates/mail/parse_error.html:13
 msgid "Failing file"
-msgstr ""
+msgstr "Biluð skrá"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, python-format
@@ -7282,16 +7274,18 @@ msgstr[1] "%(count)s tillögur bíða í %(component)s"
 #, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
 msgstr ""
+"Við höfum fengið beiðni um að fjarlægja Weblate-aðganginn þinn á "
+"%(site_title)s."
 
 #: weblate/templates/mail/remove_subject.txt:4
 #, python-format
 msgid "Account removal on %(site_title)s"
-msgstr ""
+msgstr "Fjarlæging notandaaðgangs á %(site_title)s"
 
 #: weblate/templates/mail/repository_error_subject.txt:3
 #, python-format
 msgid "Repository failure in %(component)s"
-msgstr ""
+msgstr "Gagnasafn brást í %(component)s"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
 #, python-format
@@ -9124,10 +9118,8 @@ msgid "Language codes"
 msgstr "Tungumálakóðar"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "Skráarheiti"
+msgstr "Skráaheiti"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -11395,17 +11387,13 @@ msgstr "Tók út viðbót"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:388
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "Fjarlægja streng"
+msgstr "Fjarlægði streng"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:390
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "Leyst athugasemd"
+msgstr "Fjarlægði athugasemd"
 
 #: weblate/trans/models/change.py:463
 msgid "New string to translate"
