@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-10-26 17:58+0000\n"
+"PO-Revision-Date: 2022-11-14 14:28+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -4120,7 +4120,7 @@ msgstr "Het tmx-bestand kan niet worden verwerkt!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "De brontaal is niet opgegeven in het tmx-bestand!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10291,10 +10291,8 @@ msgid "Apply selected translation to current string"
 msgstr "Geselecteerde vertaling gebruiken"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Alle wijzigingen doorbladeren"
+msgstr "Alle tekenreekswijzigingen bekijken"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12501,16 +12499,12 @@ msgid "Could not add new translation file."
 msgstr "Het nieuwe vertaalbestand kan niet worden toegevoegd."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "De opgegeven taal wordt gefilterd door het taalfilter."
+msgstr "De opgegeven taal is in gebruik als brontaal."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "De opgegeven taal wordt gefilterd door het taalfilter."
+msgstr "De opgegeven taal is al in gebruik."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13195,12 +13189,10 @@ msgid "Changes in %s"
 msgstr "Aanpassingen aan %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Aanpassingen aan %s"
+msgstr "Aanpassingen aan tekenreeks in %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
