@@ -43,8 +43,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-13 21:47+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2022-11-14 14:28+0000\n"
+"Last-Translator: Eric <hamburger1024@mailbox.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -4002,7 +4002,7 @@ msgstr "解析 TMX 文件失败！"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "未在 TMX 文件中定义源语言！"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -9805,10 +9805,8 @@ msgid "Apply selected translation to current string"
 msgstr "将选中的译文应用到当前字符串"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "浏览所有变更"
+msgstr "浏览所有字符串变更"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -11882,16 +11880,12 @@ msgid "Could not add new translation file."
 msgstr "无法添加新的翻译文件。"
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "给定的语言被语言筛选器过滤。"
+msgstr "给定的语言被用作源语言。"
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "给定的语言被语言筛选器过滤。"
+msgstr "给定的语言被语言已存在。"
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -12544,12 +12538,10 @@ msgid "Changes in %s"
 msgstr "%s 的变化"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "%s 的变化"
+msgstr "%s 中字符串的变化"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
