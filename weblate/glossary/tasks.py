@@ -44,9 +44,14 @@ def sync_glossary_languages(pk: int, component: Optional[Component] = None):
         return
     component.log_info("Adding glossary languages: %s", missing)
     component.commit_pending("glossary languages", None)
+    needs_create = False
     for language in missing:
-        component.add_new_language(language, None, create_translations=False)
-    component.create_translations(request=None)
+        added = component.add_new_language(language, None, create_translations=False)
+        if added is not None:
+            needs_create = True
+
+    if needs_create:
+        component.create_translations(request=None)
 
 
 @app.task(
