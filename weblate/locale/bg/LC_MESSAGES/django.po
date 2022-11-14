@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-10-29 21:48+0000\n"
-"Last-Translator: Ishika Jain <ishikajn8126@gmail.com>\n"
+"PO-Revision-Date: 2022-11-14 14:28+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -4122,7 +4122,7 @@ msgstr "Неуспешен анализ на файла TMX!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "Във файла TMX няма дефиниран изходен език!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10282,10 +10282,8 @@ msgid "Apply selected translation to current string"
 msgstr "Прилагане на избрания превод към текущия низ"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Преглед на всички промени"
+msgstr "Преглед на всички промени в низовете"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12488,16 +12486,12 @@ msgid "Could not add new translation file."
 msgstr "Не може да бъде добавен нов файл за превод."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Езикът е филтриран от езиковия филтър."
+msgstr "Езикът се използва като изходен."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Езикът е филтриран от езиковия филтър."
+msgstr "Езикът вече съществува."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13185,12 +13179,10 @@ msgid "Changes in %s"
 msgstr "Промени в %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Промени в %s"
+msgstr "Промени по низа в %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
