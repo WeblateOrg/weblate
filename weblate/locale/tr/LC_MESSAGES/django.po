@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-11 22:49+0000\n"
-"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
+"PO-Revision-Date: 2022-11-15 01:27+0000\n"
+"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -4104,7 +4104,7 @@ msgstr "TMX dosyası işlenemedi!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "Kaynak dil, TMX dosyasında tanımlı değil!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10226,10 +10226,8 @@ msgid "Apply selected translation to current string"
 msgstr "Seçilmiş çeviriyi geçerli dizgeye uygula"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Tüm değişikliklere gözat"
+msgstr "Tüm dizge değişikliklerine gözat"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12411,16 +12409,12 @@ msgid "Could not add new translation file."
 msgstr "Yeni çeviri dosyası eklenemedi."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Belirtilen dil, dil süzgeci tarafından süzüldü."
+msgstr "Belirtilen dil, kaynak dil olarak kullanılıyor."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Belirtilen dil, dil süzgeci tarafından süzüldü."
+msgstr "Belirtilen dil zaten var."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13104,12 +13098,10 @@ msgid "Changes in %s"
 msgstr "%s içindeki değişiklikler"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "%s içindeki değişiklikler"
+msgstr "%s içindeki dizge değişiklikleri"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
