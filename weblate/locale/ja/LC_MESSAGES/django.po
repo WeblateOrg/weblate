@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-11 22:49+0000\n"
+"PO-Revision-Date: 2022-11-15 01:27+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -793,7 +793,7 @@ msgstr "採用待ちの提案"
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
 msgid "Unfinished strings"
-msgstr "翻訳途中の文字列"
+msgstr "翻訳未完了の文字列"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -4070,7 +4070,7 @@ msgstr "TMX ファイルの解析に失敗しました！"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "ソース言語が TMX ファイルで定義されていません！"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -7513,13 +7513,13 @@ msgstr "スクリーンショットのコンテキスト"
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(component)s に %(count)s 個の翻訳途中の文字列"
+msgstr[0] "%(component)s に %(count)s 個の翻訳未完了の文字列"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s 個の翻訳途中の文字列"
+msgstr[0] "%(count)s 個の翻訳未完了の文字列"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -8743,15 +8743,15 @@ msgstr "この列でソート"
 
 #: weblate/templates/snippets/list-objects.html:43
 msgid "Unfinished"
-msgstr "翻訳途中"
+msgstr "翻訳未完了"
 
 #: weblate/templates/snippets/list-objects.html:53
 msgid "Unfinished words"
-msgstr "翻訳途中の単語"
+msgstr "翻訳未完了の単語"
 
 #: weblate/templates/snippets/list-objects.html:63
 msgid "Unfinished characters"
-msgstr "翻訳途中の文字"
+msgstr "翻訳未完了の文字"
 
 #: weblate/templates/snippets/list-objects.html:73
 msgid "Untranslated"
@@ -10133,10 +10133,8 @@ msgid "Apply selected translation to current string"
 msgstr "選択した翻訳を現在の文字列に適用"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "すべての変更を参照する"
+msgstr "すべての文字列の変更を確認する"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -10359,8 +10357,7 @@ msgstr "すべての文字列、コメントを付加したファイル（オフ
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
-msgstr ""
-"翻訳途中の文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
+msgstr "翻訳未完了の文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
 
 #: weblate/templates/translation.html:380
 msgid "The uploaded file will be merged with the current translation."
@@ -10549,7 +10546,7 @@ msgstr "コンテキストがある文字列"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
 msgid "Unfinished strings without suggestions"
-msgstr "提案のない翻訳途中の文字列"
+msgstr "提案のない翻訳未完了の文字列"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
@@ -12277,16 +12274,12 @@ msgid "Could not add new translation file."
 msgstr "新しい翻訳ファイルを追加できません。"
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "指定した言語は、言語フィルタで除外されました。"
+msgstr "指定した言語が、原文の言語として使用されます。"
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "指定した言語は、言語フィルタで除外されました。"
+msgstr "指定された言語はすでに存在しています。"
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -12953,12 +12946,10 @@ msgid "Changes in %s"
 msgstr "%s 内での変更"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "%s 内での変更"
+msgstr "%s の文字列の変更"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
