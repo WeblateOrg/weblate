@@ -299,7 +299,7 @@ class TranslationManipulationTest(ViewTestCase):
     def test_model_add_duplicate(self):
         request = self.get_request()
         self.assertFalse(get_messages(request))
-        self.assertTrue(
+        self.assertIsNone(
             self.component.add_new_language(Language.objects.get(code="de"), request)
         )
         self.assertTrue(get_messages(request))
