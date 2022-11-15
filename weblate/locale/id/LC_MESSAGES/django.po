@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-15 01:27+0000\n"
-"Last-Translator: Linerly <linerly@protonmail.com>\n"
+"PO-Revision-Date: 2022-11-15 11:00+0000\n"
+"Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -2596,10 +2596,10 @@ msgid "Mismatched \\n"
 msgstr "Ketidakcocokan \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "Jumlah baris baru di dalam terjemahan tidak cocok dengan sumber"
+msgstr ""
+"Jumlah \\n"
+" literal dalam terjemahan tidak sesuai dengan sumber"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2766,16 +2766,12 @@ msgid "Font spacing"
 msgstr "Spasi fon"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
 msgstr "Tanda ICU MessageFormat"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
-msgstr "Prefiks Tag ICU MessageFormat"
+msgstr "Prefiks tag ICU MessageFormat"
 
 #: weblate/checks/flags.py:73 weblate/trans/models/component.py:625
 #: weblate/utils/views.py:135
@@ -2796,10 +2792,9 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Tanda terjemahan tidak valid: \"%s\""
 
 #: weblate/checks/flags.py:269
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "Tanda terjemahan tak punya parameter: \"%s\""
+msgstr "Penanda terjemahan tak punya parameter: \"%s\""
 
 #: weblate/checks/flags.py:275
 #, python-format
@@ -3929,7 +3924,7 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:32
 #: weblate/templates/snippets/login-info.html:12
 msgid "Terms of Service"
-msgstr "Persyaratan Layanan"
+msgstr "Ketentuan Layanan"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:24
@@ -4137,13 +4132,12 @@ msgstr "Gagal mengurai berkas TMX!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "Bahasa sumber tidak ditentukan di dalam berkas TMX!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "Gagal menemukan bahasa sumber!"
+msgstr "Gagal menemukan bahasa %s!"
 
 #: weblate/memory/models.py:263
 msgctxt "Translation memory category"
@@ -9411,10 +9405,8 @@ msgid "Language codes"
 msgstr "Kode bahasa"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "Nama Berkas"
+msgstr "Nama berkas"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -9578,32 +9570,26 @@ msgid "Following enforced checks are not used anywhere:"
 msgstr "Pemeriksaan paksa berikut tidak digunakan di mana pun:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr ""
-"Pemeriksaan kualitas %(check)s diberlakukan, tetapi tidak diaktifkan "
-"menggunakan <code>%(flag)s</code>."
+msgstr "%(check)s pemeriksaan kualitas diberlakukan, tetapi tidak tersedia."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not turned on using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
 msgstr ""
-"Pemeriksaan kualitas %(check)s diberlakukan, tetapi tidak diaktifkan "
-"menggunakan <code>%(flag)s</code>."
+"%(check)s pemeriksaan kualitas diberlakukan, tetapi tidak dihidupkan "
+"menggunakan tanda <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
+"Pemeriksaan dapat diaktifkan dengan menambahkan tanda yang sesuai ke string "
+"atau penanda komponen."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9829,10 +9815,13 @@ msgid "Project to remove"
 msgstr "Proyek untuk dihapus"
 
 #: weblate/templates/trans/delete-translation.html:6
+#, fuzzy
 msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
+"Menambahkan pengaya bahasa yang hilang diinstal pada komponen ini, bahasa "
+"yang dihapus mungkin akan ditambahkan kembali."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -13452,7 +13441,7 @@ msgstr "Bahasa proyek telah dihapus."
 #: weblate/trans/views/settings.py:237
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
+msgstr "Tidak dapat mengganti nama karena adanya masalah dalam pengaturan: %s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
