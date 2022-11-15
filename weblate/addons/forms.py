@@ -201,6 +201,18 @@ class JSONCustomizeForm(BaseAddonForm):
     )
 
 
+class XMLCustomizeForm(BaseAddonForm):
+    tags_format = forms.ChoiceField(
+        label=_("XML closing tags format"),
+        choices=[
+            ("self_closing_tags", _("Self-Closing Tags")),
+            ("closing_tags", _("Closing Tags")),
+        ],
+        required=True,
+        initial="self_closing_tags",
+    )
+
+
 class YAMLCustomizeForm(BaseAddonForm):
     indent = forms.IntegerField(
         label=_("YAML indentation"), min_value=1, max_value=10, initial=2, required=True
