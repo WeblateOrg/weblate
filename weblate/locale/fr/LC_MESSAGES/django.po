@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-12 05:07+0000\n"
+"PO-Revision-Date: 2022-11-15 11:00+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -4207,7 +4207,7 @@ msgstr "Échec de l’analyse du fichier TMX !"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "La langue source n’est pas définie dans le fichier TMX !"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10440,10 +10440,8 @@ msgid "Apply selected translation to current string"
 msgstr "Appliquer la traduction sélectionnée à la chaîne courante"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Parcourir toutes les modifications"
+msgstr "Parcourir toutes les modifications de chaînes"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12674,16 +12672,12 @@ msgid "Could not add new translation file."
 msgstr "Impossible d’ajouter un nouveau fichier de traduction."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Le langage donné est filtré par le filtre de langage."
+msgstr "La langue donnée est utilisée comme langue source."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Le langage donné est filtré par le filtre de langage."
+msgstr "La langue donnée existe déjà."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13377,12 +13371,10 @@ msgid "Changes in %s"
 msgstr "Modifications pour %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Modifications pour %s"
+msgstr "Modifications de chaîne dans %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
