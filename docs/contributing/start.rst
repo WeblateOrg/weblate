@@ -118,6 +118,13 @@ Running the script without arguments will re-create the Docker container and res
    This is not a suitable setup for production, as it includes several hacks which
    are insecure, but they make development easier.
 
+
+Bootstrapping your devel instance
+---------------------------------
+
+You might want to use :djadmin:`import_demo` to create demo translations and
+:djadmin:`createadmin` to make an admin user.
+
 Coding Weblate with PyCharm
 ---------------------------
 
@@ -163,10 +170,3 @@ to debug it. This is done by creating a new `Django Server` configuration:
    the server from being reloaded live if you modify files. This allows the
    existing debugger breakpoints to persist, when they normally would be
    discarded upon reloading the server.
-
-
-Bootstrapping your devel instance
----------------------------------
-
-You might want to use :djadmin:`import_demo` to create demo translations and
-:djadmin:`createadmin` to make an admin user.
