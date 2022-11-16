@@ -322,9 +322,9 @@ def show_translation(request, project, component, lang):
     # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(component.slug)
-    for test_component in project.child_components.filter_access(user).exclude(
-        slug__in=existing
-    ):
+    for test_component in project.child_components:
+        if test_component.slug in existing:
+            continue
         if test_component.can_add_new_language(user, fast=True):
             other_translations.append(GhostTranslation(test_component, obj.language))
 

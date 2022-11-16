@@ -447,7 +447,9 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @cached_property
     def child_components(self):
-        return self.component_set.distinct() | self.shared_components.distinct()
+        own = self.component_set.all()
+        shared = self.shared_components.all()
+        return own.union(shared)
 
     def scratch_create_component(
         self,
