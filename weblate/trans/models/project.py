@@ -445,6 +445,18 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         return User.objects.all_admins(self).select_related("profile")
 
+    def get_child_components_access(self, user):
+        """
+        Lists child components.
+
+        This is slower than child_components, but allows additional
+        filtering on the result.
+        """
+        child_components = (
+            self.component_set.distinct() | self.shared_components.distinct()
+        )
+        return child_components.filter_access(user).order()
+
     @cached_property
     def child_components(self):
         own = self.component_set.all()

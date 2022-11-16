@@ -149,10 +149,7 @@ def show_project(request, project):
         .preload()
     )
 
-    child_components = obj.component_set.distinct() | obj.shared_components.distinct()
-    all_components = prefetch_stats(
-        child_components.filter_access(user).prefetch().order()
-    )
+    all_components = prefetch_stats(obj.get_child_components_access(user).prefetch())
     all_components = get_paginator(request, all_components)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
@@ -380,7 +377,9 @@ def data_project(request, project):
         "data.html",
         {
             "object": obj,
-            "components": obj.child_components.filter_access(request.user).order(),
+            "components": obj.get_child_components_access(request.user)
+            .prefetch()
+            .order(),
             "project": obj,
         },
     )
