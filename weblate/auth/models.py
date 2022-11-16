@@ -22,6 +22,7 @@ from collections import defaultdict
 from itertools import chain
 from typing import Optional, Set
 
+import sentry_sdk
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -554,47 +555,48 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects = defaultdict(list)
         components = defaultdict(list)
-        for group in self.groups.prefetch_related(
-            "roles__permissions",
-            "componentlists__components",
-            "components",
-            "projects",
-            "languages",
-        ):
-            languages = {language.id for language in group.languages.all()}
-            permissions = {
-                permission.codename
-                for permission in chain.from_iterable(
-                    role.permissions.all() for role in group.roles.all()
-                )
-            }
-            # Component list specific permissions
-            componentlist_values = {
-                (component.id, component.project_id)
-                for component in chain.from_iterable(
-                    clist.components.all() for clist in group.componentlists.all()
-                )
-            }
-            if group.componentlists.exists():
-                for component, project in componentlist_values:
-                    components[component].append((permissions, languages))
-                    # Grant access to the project
-                    projects[project].append(((), languages))
-                continue
-            # Component specific permissions
-            component_values = {
-                (component.id, component.project_id)
-                for component in group.components.all()
-            }
-            if component_values:
-                for component, project in component_values:
-                    components[component].append((permissions, languages))
-                    # Grant access to the project
-                    projects[project].append(((), languages))
-                continue
-            # Project specific permissions
-            for project in group.projects.all():
-                projects[project.id].append((permissions, languages))
+        with sentry_sdk.start_span(op="permissions", description=self.username):
+            for group in self.groups.prefetch_related(
+                "roles__permissions",
+                "componentlists__components",
+                "components",
+                "projects",
+                "languages",
+            ):
+                languages = {language.id for language in group.languages.all()}
+                permissions = {
+                    permission.codename
+                    for permission in chain.from_iterable(
+                        role.permissions.all() for role in group.roles.all()
+                    )
+                }
+                # Component list specific permissions
+                componentlist_values = {
+                    (component.id, component.project_id)
+                    for component in chain.from_iterable(
+                        clist.components.all() for clist in group.componentlists.all()
+                    )
+                }
+                if group.componentlists.exists():
+                    for component, project in componentlist_values:
+                        components[component].append((permissions, languages))
+                        # Grant access to the project
+                        projects[project].append(((), languages))
+                    continue
+                # Component specific permissions
+                component_values = {
+                    (component.id, component.project_id)
+                    for component in group.components.all()
+                }
+                if component_values:
+                    for component, project in component_values:
+                        components[component].append((permissions, languages))
+                        # Grant access to the project
+                        projects[project].append(((), languages))
+                    continue
+                # Project specific permissions
+                for project in group.projects.all():
+                    projects[project.id].append((permissions, languages))
         # Apply blocking
         now = timezone.now()
         for block in self.userblock_set.all():
