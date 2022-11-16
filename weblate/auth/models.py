@@ -231,10 +231,9 @@ class UserQuerySet(models.QuerySet):
 
         Note: This intentionally does not list superusers.
         """
-        groups = Group.objects.filter(
-            roles__permissions__codename=perm, projects=project
-        )
-        return self.filter(groups__in=groups).distinct()
+        return self.filter(
+            groups__roles__permissions__codename=perm, groups__projects=project
+        ).distinct()
 
     def all_admins(self, project):
         """All admins in a project."""
