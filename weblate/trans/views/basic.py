@@ -149,8 +149,9 @@ def show_project(request, project):
         .preload()
     )
 
+    child_components = obj.component_set.distinct() | obj.shared_components.distinct()
     all_components = prefetch_stats(
-        obj.child_components.filter_access(user).prefetch().order()
+        child_components.filter_access(user).prefetch().order()
     )
     all_components = get_paginator(request, all_components)
     for component in all_components:
