@@ -809,13 +809,9 @@ class ProjectLanguage:
 
     @cached_property
     def translation_set(self):
-        result = (
-            self.language.translation_set.prefetch()
-            .filter(
-                Q(component__project=self.project) | Q(component__links=self.project)
-            )
-            .distinct()
-            .order_by("component__priority", "component__name")
+        all_langs = self.language.translation_set.prefetch()
+        result = all_langs.filter(component__project=self.project).union(
+            all_langs.filter(component__links=self.project)
         )
         for item in result:
             item.is_shared = (
@@ -823,7 +819,10 @@ class ProjectLanguage:
                 if item.component.project == self.project
                 else item.component.project
             )
-        return result
+        return sorted(
+            result,
+            key=lambda trans: (trans.component.priority, trans.component.name.lower()),
+        )
 
     @cached_property
     def is_source(self):
