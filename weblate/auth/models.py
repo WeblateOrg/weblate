@@ -561,9 +561,11 @@ class User(AbstractBaseUser):
                 "componentlists__components",
                 "components",
                 "projects",
-                "languages",
             ):
-                languages = {language.id for language in group.languages.all()}
+                if group.language_selection == SELECTION_ALL:
+                    languages = None
+                else:
+                    languages = {language.id for language in group.languages.all()}
                 permissions = {
                     permission.codename
                     for permission in chain.from_iterable(

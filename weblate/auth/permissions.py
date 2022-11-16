@@ -80,13 +80,13 @@ def check_permission(user, permission, obj):
         return (
             not obj.component.restricted
             and any(
-                permission in permissions and lang in langs
+                permission in permissions and (langs is None or lang in langs)
                 for permissions, langs in user.project_permissions[
                     obj.component.project_id
                 ]
             )
         ) or any(
-            permission in permissions and lang in langs
+            permission in permissions and (langs is None or lang in langs)
             for permissions, langs in user.component_permissions[obj.component_id]
         )
     raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
