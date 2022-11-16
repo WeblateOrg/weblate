@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-10-28 08:02+0000\n"
+"PO-Revision-Date: 2022-11-16 21:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -4016,7 +4016,7 @@ msgstr "פענוח קובץ ה־TMX נכשל!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "שפת המקור לא מוגדרת בקובץ ה־TMX!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10027,10 +10027,8 @@ msgid "Apply selected translation to current string"
 msgstr "להחיל את התרגום הנבחר למחרוזת הנוכחית"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "עיון בכל השינויים"
+msgstr "עיון בכל השינויים במחרוזת"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12147,16 +12145,12 @@ msgid "Could not add new translation file."
 msgstr "לא ניתן להוסיף קובץ תרגום חדש."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "השפה הנבחרת מסוננת על ידי מסנן השפות."
+msgstr "השפה הנבחרת משמשת כשפת מקור."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "השפה הנבחרת מסוננת על ידי מסנן השפות."
+msgstr "השפה הנבחרת כבר קיימת."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -12861,12 +12855,10 @@ msgid "Changes in %s"
 msgstr "שינויים ב־%s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "שינויים ב־%s"
+msgstr "שינויי מחרוזת ב־%s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
