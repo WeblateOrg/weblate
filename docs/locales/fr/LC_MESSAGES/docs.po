@@ -9,13 +9,14 @@
 # EGuillemot <Elouen.Guillemot@gmail.com>, 2022.
 # Anne-Laure Gaillard <alaure.gaillard@gmail.com>, 2022.
 # William Hartley <whartley@pilcrow-ls.com>, 2022.
+# Nicolas Van Aarsen <nicovanaarsen@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-10-27 06:42+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"PO-Revision-Date: 2022-11-18 17:48+0000\n"
+"Last-Translator: Nicolas Van Aarsen <nicovanaarsen@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -229,7 +230,7 @@ msgstr "Inclut toutes les autorisations disponibles pour le projet."
 #: ../../admin/access.rst:97
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgstr ""
-"Révision (seulement si :ref:réviser le processus <reviews>` est activé)"
+"Révision (seulement si :ref:`réviser le processus <reviews>` est activé)"
 
 #: ../../admin/access.rst:97
 msgid "Can approve translations during review."
@@ -257,8 +258,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
-"Peut modifier des chaînes source (si authorisé par :ref:`project settings "
-"<component-manage_units>`) et les informations de chaîne source."
+"Peut modifier des chaînes source (si autorisé par les :ref:`paramètres du "
+"projet <component-manage_units>`) et les informations de chaîne source."
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:266
 #: ../../admin/access.rst:282 ../../admin/access.rst:393 ../../api.rst:673
@@ -287,7 +288,7 @@ msgstr "Mémoire"
 
 #: ../../admin/access.rst:115
 msgid "Can manage translation memory."
-msgstr "Peut gérer le mémoire de traduction."
+msgstr "Peut gérer la mémoire de traduction."
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:490 ../../api.rst:2166
 #: ../../user/translating.rst:284
@@ -38018,6 +38019,9 @@ msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
 msgstr ""
+"Le texte rendu par la traduction ne doit pas dépasser une taille donnée. "
+"Elle fait le rendu du texte avec un retour à la ligne et vérifie s'il tient "
+"dans les limites données."
 
 #: ../../user/checks.rst:807
 msgid ""
@@ -38025,6 +38029,9 @@ msgid ""
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
 msgstr ""
+"Cette vérification nécessite un ou deux paramètres - largeur maximale et "
+"nombre maximal de lignes. Si le nombre de lignes n'est pas indiqué, une "
+"seule ligne sera autorisée."
 
 #: ../../user/checks.rst:811
 msgid ""
@@ -38032,6 +38039,10 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
+"Vous pouvez également configurer la police utilisée à l'aide des directives "
+"``font-*`` (voir :ref:`custom-checks`), par exemple les drapeaux de "
+"traduction suivants indiquent que le texte rendu avec la police Ubuntu de "
+"taille 22 doit tenir sur deux lignes et 500 pixels :"
 
 #: ../../user/checks.rst:822
 msgid ""
@@ -38056,7 +38067,7 @@ msgstr "Le nombre de lignes de la traduction n’est pas identique à la source"
 
 #: ../../user/checks.rst:842
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EscapedNewlineCountingCheck``"
 
 #: ../../user/checks.rst:843
 #, fuzzy
@@ -38082,10 +38093,8 @@ msgstr ""
 "points"
 
 #: ../../user/checks.rst:856
-#, fuzzy
-#| msgid "``weblate``"
 msgid "``weblate.checks.chars.EndColonCheck``"
-msgstr "``weblate``"
+msgstr "``weblate.checks.chars.EndColonCheck``"
 
 #: ../../user/checks.rst:857
 #, fuzzy
@@ -38131,6 +38140,9 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
+"Vérifie que le caractère ``…`` est répliqué entre la source et la "
+"traduction. Cette vérification ne porte que sur les ellipses réelles (``…``) "
+"et non sur les trois points (``...``)."
 
 #: ../../user/checks.rst:882
 msgid ""
