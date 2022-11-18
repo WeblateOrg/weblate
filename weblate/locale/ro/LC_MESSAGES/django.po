@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-01 13:10+0000\n"
+"PO-Revision-Date: 2022-11-19 08:24+0000\n"
 "Last-Translator: Licaon Kter <licaon.kter@protonmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -4148,7 +4148,7 @@ msgstr "Nu a reușit să analizeze fișierul TMX!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "Limba sursă nu este definită în fișierul TMX!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -10400,8 +10400,6 @@ msgid "Apply selected translation to current string"
 msgstr "Aplică traducerea selectată la șirul curent"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all translation changes"
 msgid "Browse all string changes"
 msgstr "Răsfoiți toate modificările de traducere"
 
@@ -12636,16 +12634,12 @@ msgid "Could not add new translation file."
 msgstr "Nu s-a putut adăuga un nou fișier de traducere."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Limba dată este filtrată de filtrul de limbă."
+msgstr "Limba dată este utilizată ca limbă sursă."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Limba dată este filtrată de filtrul de limbă."
+msgstr "Limba dată există deja."
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13358,12 +13352,10 @@ msgid "Changes in %s"
 msgstr "Modificări în %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Modificări în %s"
+msgstr "Modificări ale șirului de caractere în %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
