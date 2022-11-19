@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-15 01:27+0000\n"
-"Last-Translator: Vri 🌈 <weblate@vrifox.cc>\n"
+"PO-Revision-Date: 2022-11-21 03:48+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -7029,6 +7029,8 @@ msgstr ""
 #: ../../admin/config.rst:306
 msgid "Adjust the list of checks to include ones relevant to you."
 msgstr ""
+"Passen Sie die Liste der Qualitätsprüfungen an die für Sie relevanten "
+"Prüfungen an."
 
 #: ../../admin/config.rst:308
 msgid ""
@@ -7037,14 +7039,19 @@ msgid ""
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
+"Alle integrierten :ref:`Qualitätsprüfungen` sind standardmäßig aktiviert, "
+"von wo aus Sie diese Einstellungen ändern können. Standardmäßig sind sie in "
+":ref:`Muster-Konfiguration` auskommentiert, sodass Standardwerte verwendet "
+"werden. Für jede neue Weblate-Version werden dann neue Qualitätsprüfungen "
+"durchgeführt."
 
 #: ../../admin/config.rst:312
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Sie können alle Qualitätsprüfungen deaktivieren:"
 
 #: ../../admin/config.rst:318
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Sie können nur ein paar einschalten:"
 
 #: ../../admin/config.rst:330
 msgid ""
@@ -7052,6 +7059,10 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :djadmin:`updatechecks`."
 msgstr ""
+"Eine Änderung dieser Einstellung wirkt sich nur auf neu geänderte "
+"Übersetzungen aus, bestehende Qualitätsprüfungen werden weiterhin in der "
+"Datenbank gespeichert. Um auch Änderungen an den gespeicherten Übersetzungen "
+"vorzunehmen, führen Sie :djadmin:`updatechecks` aus."
 
 #: ../../admin/config.rst:336 ../../admin/translating.rst:91
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -7059,29 +7070,35 @@ msgstr ""
 
 #: ../../admin/config.rst:341
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:345
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Löscht Kommentare nach einer bestimmten Anzahl von Tagen. Der Standardwert "
+"ist ``None``, was bedeutet, dass überhaupt nicht gelöscht wird."
 
 #: ../../admin/config.rst:351
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:355
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
+"Anzahl der Stunden zwischen Commits von ausstehenden Änderungen durch die "
+"Hintergrundaufgabe."
 
 #: ../../admin/config.rst:359
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :djadmin:`commit_pending`"
 msgstr ""
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :djadmin:`commit_pending`"
 
 #: ../../admin/config.rst:368
 msgid "CONTACT_FORM"
@@ -7121,7 +7138,7 @@ msgstr ""
 
 #: ../../admin/config.rst:384
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:386
 msgid ""
@@ -7129,10 +7146,13 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"Der Ordner, in dem Weblate alle Daten speichert. Er enthält Links zu VCS-"
+"Repositorys, einen Volltextindex und verschiedene Konfigurationsdateien für "
+"externe Tools."
 
 #: ../../admin/config.rst:389
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Üblicherweise existieren folgende Unterverzeichnisse:"
 
 #: ../../admin/config.rst:391
 msgid ":file:`home`"
@@ -7140,7 +7160,7 @@ msgstr ""
 
 #: ../../admin/config.rst:392
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Basisverzeichnis, das zum Aufrufen von Skripts verwendet wird."
 
 #: ../../admin/config.rst:393
 msgid ":file:`ssh`"
@@ -7148,7 +7168,7 @@ msgstr ""
 
 #: ../../admin/config.rst:394
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "SSH-Schlüssel und Konfiguration."
 
 #: ../../admin/config.rst:397
 msgid ":file:`static`"
@@ -7159,6 +7179,8 @@ msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
+"Standardspeicherort für statische Django-Dateien, angegeben durch "
+":setting:'django:STATIC_ROOT'. Siehe :ref:'static-files'."
 
 #: ../../admin/config.rst:398
 msgid ""
@@ -7196,6 +7218,7 @@ msgstr ""
 #: ../../admin/config.rst:404
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgstr ""
+"Tägliche Backup-Daten, für Details prüfen Sie bitte :ref:'backup-dumps'."
 
 #: ../../admin/config.rst:405
 msgid ":file:`celery`"
@@ -7203,11 +7226,11 @@ msgstr ""
 
 #: ../../admin/config.rst:406
 msgid "Celery scheduler data, see :ref:`celery`."
-msgstr ""
+msgstr "Celery Scheduler-Daten, siehe :ref:`celery`."
 
 #: ../../admin/config.rst:408
 msgid ":file:`fonts`:"
-msgstr ""
+msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:408
 msgid "User-uploaded  fonts, see :ref:`fonts`."
@@ -7239,7 +7262,7 @@ msgstr ""
 
 #: ../../admin/config.rst:425
 msgid ":ref:`file-permissions`, :doc:`backup`"
-msgstr ""
+msgstr ":ref:`file-permissions`, :doc:`backup`"
 
 #: ../../admin/config.rst:431
 msgid "DATABASE_BACKUP"
@@ -7255,8 +7278,9 @@ msgstr ""
 "übersprungen werden sollen. Die zulässigen Werte sind:"
 
 #: ../../admin/config.rst:438
+#, fuzzy
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:439
 msgid "``\"compressed\"``"
