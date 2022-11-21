@@ -1650,3 +1650,22 @@ the configuration to improve the performance.
 The configuration can be adjusted as described in `Database Configuration` at
 https://hub.docker.com/_/postgres. The configuration matching your environment
 can be generated using https://pgtune.leopard.in.ua/.
+
+Container internals
+-------------------
+
+The container is using :program:`supervisor` to start individual services. In
+case of :ref:`docker-scaling`, it only starts single service in a container.
+
+To check the services status use:
+
+.. code-block:: sh
+
+    docker-compose exec --user weblate weblate supervisorctl status
+
+There are individual services for each Celery queue (see :ref:`celery` for
+details). You can stop processing some tasks by stopping the appropriate worker:
+
+.. code-block:: sh
+
+    docker-compose exec --user weblate weblate supervisorctl stop celery-translate
