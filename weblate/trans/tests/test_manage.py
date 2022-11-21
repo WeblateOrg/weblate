@@ -39,7 +39,7 @@ class RemovalTest(ViewTestCase):
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/test/cs"}, follow=True)
-        self.assertContains(response, "Translation has been removed.")
+        self.assertContains(response, "The translation has been removed.")
 
     def test_component(self):
         self.make_manager()
@@ -50,7 +50,7 @@ class RemovalTest(ViewTestCase):
         )
         response = self.client.post(url, {"confirm": "test/test"}, follow=True)
         self.assertContains(
-            response, "Translation component was scheduled for removal."
+            response, "The translation component was scheduled for removal."
         )
 
     def test_project(self):
@@ -61,7 +61,7 @@ class RemovalTest(ViewTestCase):
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test"}, follow=True)
-        self.assertContains(response, "Project was scheduled for removal.")
+        self.assertContains(response, "The project was scheduled for removal.")
 
     def test_project_language(self):
         self.make_manager()
@@ -75,7 +75,7 @@ class RemovalTest(ViewTestCase):
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/cs"}, follow=True)
-        self.assertContains(response, "Language of the project was removed.")
+        self.assertContains(response, "A language in the project was removed.")
         self.assertEqual(Translation.objects.count(), 6)
 
 
