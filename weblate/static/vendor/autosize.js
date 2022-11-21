@@ -90,44 +90,41 @@
 	    ta.style.overflowY = value;
 	  }
 
-	  function getParentOverflows(el) {
+	  function bookmarkOverflows(el) {
 	    var arr = [];
 
 	    while (el && el.parentNode && el.parentNode instanceof Element) {
 	      if (el.parentNode.scrollTop) {
-	        arr.push({
-	          node: el.parentNode,
-	          scrollTop: el.parentNode.scrollTop
-	        });
+	        el.parentNode.style.scrollBehavior = 'auto';
+	        arr.push([el.parentNode, el.parentNode.scrollTop]);
 	      }
 
 	      el = el.parentNode;
 	    }
 
-	    return arr;
+	    return function () {
+	      return arr.forEach(function (_ref) {
+	        var node = _ref[0],
+	            scrollTop = _ref[1];
+	        node.scrollTop = scrollTop;
+	        node.style.scrollBehavior = null;
+	      });
+	    };
 	  }
 
 	  function resize() {
 	    if (ta.scrollHeight === 0) {
 	      // If the scrollHeight is 0, then the element probably has display:none or is detached from the DOM.
 	      return;
-	    }
+	    } // remove smooth scroll & prevent scroll-position jumping by restoring original scroll position
 
-	    var overflows = getParentOverflows(ta);
-	    var docTop = document.documentElement && document.documentElement.scrollTop; // Needed for Mobile IE (ticket #240)
 
+	    var restoreOverflows = bookmarkOverflows(ta);
 	    ta.style.height = '';
 	    ta.style.height = ta.scrollHeight + heightOffset + 'px'; // used to check if an update is actually necessary on window.resize
 
-	    clientWidth = ta.clientWidth; // prevents scroll-position jumping
-
-	    overflows.forEach(function (el) {
-	      el.node.scrollTop = el.scrollTop;
-	    });
-
-	    if (docTop) {
-	      document.documentElement.scrollTop = docTop;
-	    }
+	    clientWidth = ta.clientWidth;
+	    restoreOverflows();
 	  }
 
 	  function update() {
@@ -135,7 +132,7 @@
 	    var styleHeight = Math.round(parseFloat(ta.style.height));
 	    var computed = window.getComputedStyle(ta, null); // Using offsetHeight as a replacement for computed.height in IE, because IE does not account use of border-box
 
-	    var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight; // The actual height not matching the style height (set via the resize method) indicates that 
+	    var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight; // The actual height not matching the style height (set via the resize method) indicates that
 	    // the max-height has been exceeded, in which case the overflow should be allowed.
 
 	    if (actualHeight < styleHeight) {
