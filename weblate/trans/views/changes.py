@@ -56,6 +56,7 @@ class ChangesView(ListView):
         self.actions = set()
         self.start_date = None
         self.end_date = None
+        self.changes_form = None
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
@@ -134,7 +135,9 @@ class ChangesView(ListView):
 
         context["query_string"] = urlencode(url)
 
-        context["form"] = ChangesForm(self.request, data=self.request.GET)
+        context["form"] = self.changes_form or ChangesForm(
+            self.request, data=self.request.GET
+        )
 
         context["search_items"] = url
 
@@ -179,7 +182,7 @@ class ChangesView(ListView):
                 messages.error(self.request, _("Failed to find matching user!"))
 
     def _get_request_params(self):
-        form = ChangesForm(self.request, data=self.request.GET)
+        self.changes_form = form = ChangesForm(self.request, data=self.request.GET)
         if form.is_valid():
             if "action" in form.cleaned_data:
                 self.actions.update(form.cleaned_data["action"])
