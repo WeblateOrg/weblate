@@ -74,7 +74,7 @@ def change_project(request, project):
             return redirect("settings", project=obj.slug)
         else:
             messages.error(
-                request, _("Invalid settings, please check the form for errors!")
+                request, _("Invalid settings. Please check the form for errors.")
             )
     else:
         settings_form = ProjectSettingsForm(request, instance=obj)
@@ -102,7 +102,7 @@ def change_component(request, project, component):
             return redirect("settings", project=obj.project.slug, component=obj.slug)
         else:
             messages.error(
-                request, _("Invalid settings, please check the form for errors!")
+                request, _("Invalid settings. Please check the form for errors.")
             )
             # Get a fresh copy of object, otherwise it will use unsaved changes
             # from the failed form
@@ -114,7 +114,7 @@ def change_component(request, project, component):
         messages.warning(
             request,
             _(
-                "The repository is outdated, you might not get "
+                "The repository is outdated. You might not get "
                 "expected results until you update it."
             ),
         )
@@ -160,7 +160,7 @@ def remove_translation(request, project, component, lang):
         return redirect_param(obj, "#delete")
 
     obj.remove(request.user)
-    messages.success(request, _("Translation has been removed."))
+    messages.success(request, _("The translation has been removed."))
 
     return redirect(obj.component)
 
@@ -179,7 +179,7 @@ def remove_component(request, project, component):
         return redirect_param(obj, "#delete")
 
     component_removal.delay(obj.pk, request.user.pk)
-    messages.success(request, _("Translation component was scheduled for removal."))
+    messages.success(request, _("The translation component was scheduled for removal."))
 
     return redirect(obj.project)
 
@@ -198,7 +198,7 @@ def remove_project(request, project):
         return redirect_param(obj, "#delete")
 
     project_removal.delay(obj.pk, request.user.pk)
-    messages.success(request, _("Project was scheduled for removal."))
+    messages.success(request, _("The project was scheduled for removal."))
     return redirect("home")
 
 
@@ -220,7 +220,7 @@ def remove_project_language(request, project, lang):
     for translation in obj.translation_set:
         translation.remove(request.user)
 
-    messages.success(request, _("Language of the project was removed."))
+    messages.success(request, _("A language in the project was removed."))
     return redirect(project_object)
 
 
@@ -241,7 +241,7 @@ def perform_rename(form_cls, request, obj, perm: str):
     form = form_cls(request, request.POST, instance=obj)
     if not form.is_valid():
         show_form_errors(request, form)
-        # Reload the object from db to revert possible rejected change
+        # Reload the object from DB to revert possible rejected change
         obj.refresh_from_db()
         return redirect_param(obj, "#rename")
 
@@ -385,7 +385,7 @@ class BackupsView(BackupsMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         create_project_backup.delay(self.obj.pk)
         messages.success(
-            request, _("Backup was triggered, it will be shorly available.")
+            request, _("Backup scheduled. It will be available soon.")
         )
         return redirect("backups", project=self.obj.slug)
 
