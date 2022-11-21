@@ -8,6 +8,7 @@ Not yet released.
 * Added keyboard shortcut Alt+Enter to submit string as a suggestion.
 * Added support for placeables in the Fluent format.
 * Improved performance of translation memory.
+* Autogenerate repoweb browsing links for well known code hosting services.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
