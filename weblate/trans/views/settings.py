@@ -384,9 +384,7 @@ class BackupsView(BackupsMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         create_project_backup.delay(self.obj.pk)
-        messages.success(
-            request, _("Backup scheduled. It will be available soon.")
-        )
+        messages.success(request, _("Backup scheduled. It will be available soon."))
         return redirect("backups", project=self.obj.slug)
 
     def get_context_data(self, **kwargs):
