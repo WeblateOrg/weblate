@@ -135,9 +135,7 @@ class ChangesView(ListView):
 
         context["query_string"] = urlencode(url)
 
-        context["form"] = self.changes_form or ChangesForm(
-            self.request, data=self.request.GET
-        )
+        context["form"] = self.changes_form
 
         context["search_items"] = url
 
@@ -204,6 +202,8 @@ class ChangesView(ListView):
             self._get_queryset_user(form)
 
             self._get_request_params()
+        else:
+            self.changes_form = ChangesForm(self.request, data=self.request.GET)
 
         result = Change.objects.last_changes(self.request.user)
 
@@ -234,6 +234,8 @@ class ChangesView(ListView):
         return result
 
     def paginate_queryset(self, queryset, page_size):
+        if not self.changes_form.is_valid():
+            queryset = queryset.none()
         paginator, page, queryset, is_paginated = super().paginate_queryset(
             queryset, page_size
         )
