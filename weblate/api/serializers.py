@@ -76,7 +76,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
                     return None
                 value = getattr(value, key)
             if self.strip_parts:
-                lookup = "__".join(lookup.split("__")[self.strip_parts :])
+                lookup = "__".join(lookup.split("__")[self.strip_parts:])
             kwargs[lookup] = value
         return self.reverse(view_name, kwargs=kwargs, request=request, format=format)
 
@@ -946,7 +946,12 @@ class LabelsSerializer(serializers.RelatedField):
     def to_internal_value(self, data):
         unit = self.parent.parent.instance
         project = unit.translation.component.project
-        label = project.label_set.get(name=data)
+        try:
+            label = project.label_set.get(name=data)
+        except Label.DoesNotExist as ex:
+            raise serializers.ValidationError(
+                "Label with this name was not found."
+            ) from ex
         return label
 
 

@@ -2939,6 +2939,49 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(unit.all_flags.format(), "c-format, ignore-same")
         self.assertEqual(unit.all_checks_names, set())
 
+    def test_unit_labels(self):
+        self.component.project.label_set.create(name="test", color="navy")
+
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!\n", STATE_TRANSLATED)
+
+        # Edit on translation will fail
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            superuser=True,
+            request={"labels": "test"},
+        )
+
+        # Edit on source will fail when label doesn't exist
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            request={"labels": "foo"},
+        )
+
+        # Edit on source will work when label exists
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": "test"},
+        )
+
+        # Label should be now updated
+        unit = Unit.objects.get(pk=unit.id)
+        self.assertEqual(len(unit.all_labels), 1)
+        self.assertEqual(unit.all_labels[0].name, "test")
+
     def test_translate_plural_unit(self):
         unit = Unit.objects.get(
             translation__language_code="cs", source__startswith="Orangutan has "
