@@ -1047,6 +1047,26 @@ Defaults to 0.
     :setting:`IP_BEHIND_REVERSE_PROXY`,
     :setting:`IP_PROXY_HEADER`
 
+.. setting:: LEGAL_TOS_DATE
+
+LEGAL_TOS_DATE
+--------------
+
+.. versionadded:: 4.15
+
+.. note::
+
+   You need :ref:`legal` installed to make this work.
+
+Date of last update of terms of service documents. Whenever the date changes,
+users are required to agree with the terms of service.
+
+.. code-block:: python
+
+   from datetime import date
+
+   LEGAL_TOS_DATE = date(2022, 2, 2)
+
 .. setting:: LEGAL_URL
 
 LEGAL_URL

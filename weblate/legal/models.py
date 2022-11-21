@@ -17,17 +17,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from datetime import date
 
+from appconf import AppConf
 from django.conf import settings
 from django.db import models
 
 from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
 
-# Current TOS date
-TOS_DATE = date(2017, 7, 2)
+
+class WeblateLegalConf(AppConf):
+    # Current TOS date
+    LEGAL_TOS_DATE = date(2017, 7, 2)
+
+    class Meta:
+        prefix = ""
 
 
 class Agreement(models.Model):
@@ -47,14 +52,14 @@ class Agreement(models.Model):
         return f"{self.user.username}:{self.tos}"
 
     def is_current(self):
-        return self.tos == TOS_DATE
+        return self.tos == LEGAL_TOS_DATE
 
     def make_current(self, request):
         if not self.is_current():
             AuditLog.objects.create(
-                self.user, request, "tos", date=TOS_DATE.isoformat()
+                self.user, request, "tos", date=LEGAL_TOS_DATE.isoformat()
             )
-            self.tos = TOS_DATE
+            self.tos = LEGAL_TOS_DATE
             self.address = get_ip_address(request)
             self.user_agent = get_user_agent(request)
             self.save()
