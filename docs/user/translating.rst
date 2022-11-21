@@ -150,6 +150,8 @@ by the Unicode Consortium is a more detailed description.
 
    :ref:`plural-formula`
 
+.. image:: /screenshots/plurals.png
+
 .. _alternative-translations:
 
 Alternative translations
@@ -165,8 +167,6 @@ With some formats, it is possible to have more translations for a single
 string. You can add more alternative translations using the :guilabel:`Tools`
 menu. Any blank alternative translations will be automatically removed upon
 saving.
-
-.. image:: /screenshots/plurals.png
 
 Keyboard shortcuts
 ++++++++++++++++++
