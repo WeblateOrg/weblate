@@ -361,6 +361,12 @@ Java MessageFormat
 
    This used to be toggled by ``java-messageformat`` flag, it was changed for consistency with GNU gettext.
 
+This check validates that format string is valid for the Java MessageFormat
+class. Besides matching format strings in the curly braces, it also verifies
+single quotes as they have a special meaning. Whenever writing single quote, it
+should be written as ``''``. When not paired, it is treated as beginning of
+quoting and will not be shown when rendering the string.
+
 .. seealso::
 
    :ref:`check-formats`,
