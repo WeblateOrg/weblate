@@ -22,7 +22,7 @@ import json
 import re
 from datetime import date, datetime, timedelta
 from secrets import token_hex
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -2203,8 +2203,11 @@ class NewUnitBaseForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, translation, user, *args, **kwargs):
+    def __init__(
+        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
+        self.tabindex = tabindex or 200
         self.translation = translation
         self.fields["variant"].queryset = translation.unit_set.all()
         self.user = user
@@ -2254,10 +2257,12 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         required=True,
     )
 
-    def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(translation, user, *args, **kwargs)
-        self.fields["context"].widget.attrs["tabindex"] = 99
-        self.fields["source"].widget.attrs["tabindex"] = 100
+    def __init__(
+        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
+    ):
+        super().__init__(translation, user, tabindex, *args, **kwargs)
+        self.fields["context"].widget.attrs["tabindex"] = self.tabindex
+        self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
@@ -2278,11 +2283,13 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         required=True,
     )
 
-    def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(translation, user, *args, **kwargs)
-        self.fields["context"].widget.attrs["tabindex"] = 99
+    def __init__(
+        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
+    ):
+        super().__init__(translation, user, tabindex, *args, **kwargs)
+        self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["context"].label = translation.component.context_label
-        self.fields["source"].widget.attrs["tabindex"] = 100
+        self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].initial = Unit(
             translation=translation.component.source_translation, id_hash=0
@@ -2298,19 +2305,23 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         required=True,
     )
 
-    def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(translation, user, *args, **kwargs)
-        self.fields["target"].widget.attrs["tabindex"] = 101
+    def __init__(
+        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
+    ):
+        super().__init__(translation, user, tabindex, *args, **kwargs)
+        self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
         self.fields["target"].widget.profile = user.profile
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
-    def __init__(self, translation, user, *args, **kwargs):
+    def __init__(
+        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
+    ):
         if kwargs["initial"] is None:
             kwargs["initial"] = {}
         kwargs["initial"]["terminology"] = True
-        super().__init__(translation, user, *args, **kwargs)
+        super().__init__(translation, user, tabindex, *args, **kwargs)
 
 
 class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
