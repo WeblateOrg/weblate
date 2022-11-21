@@ -205,16 +205,9 @@ class ChangesView(ListView):
         else:
             self.changes_form = ChangesForm(self.request, data=self.request.GET)
 
-        result = Change.objects.last_changes(self.request.user)
-
-        if self.unit is not None:
-            result = result.filter(unit=self.unit)
-        elif self.translation is not None:
-            result = result.filter(translation=self.translation)
-        elif self.component is not None:
-            result = result.filter(component=self.component)
-        elif self.project is not None:
-            result = result.filter(project=self.project)
+        result = Change.objects.last_changes(
+            self.request.user, self.unit, self.translation, self.component, self.project
+        )
 
         if self.language is not None:
             result = result.filter(language=self.language)

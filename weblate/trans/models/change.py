@@ -142,17 +142,31 @@ class ChangeQuerySet(models.QuerySet):
         """Companion for prefetch to fill in nested references."""
         return self.preload_list(self, *args)
 
-    def last_changes(self, user):
+    def last_changes(self, user, unit, translation, component, project):
         """Return the most recent changes for an user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.
         """
-        if user.is_superuser:
-            return self.prefetch().order()
-        return (
-            self.prefetch()
-            .filter(
+        result = self
+        if unit is not None:
+            result = result.filter(unit=unit)
+            if not user.can_access_component(unit.translation.component):
+                result = result.none()
+        elif translation is not None:
+            result = result.filter(translation=translation)
+            if not user.can_access_component(translation.component):
+                result = result.none()
+        elif component is not None:
+            result = result.filter(component=component)
+            if not user.can_access_component(component):
+                result = result.none()
+        elif project is not None:
+            result = result.filter(project=project)
+            if not user.can_access_project(project):
+                result = result.none()
+        elif not user.is_superuser:
+            result = result.filter(
                 Q(project_id__in=user.allowed_project_ids)
                 & (
                     Q(component__isnull=True)
@@ -160,8 +174,7 @@ class ChangeQuerySet(models.QuerySet):
                     | Q(component_id__in=user.component_permissions)
                 )
             )
-            .order()
-        )
+        return result.prefetch().order()
 
     def authors_list(self, date_range=None):
         """Return list of authors."""

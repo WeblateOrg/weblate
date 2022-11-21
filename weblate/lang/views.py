@@ -123,8 +123,8 @@ def show_project(request, lang, project):
     user = request.user
 
     last_changes = (
-        Change.objects.last_changes(user)
-        .filter(language=language_object, project=project_object)[:10]
+        Change.objects.last_changes(user, project=project_object)
+        .filter(language=language_object)[:10]
         .preload()
     )
 
