@@ -142,7 +142,9 @@ class ChangeQuerySet(models.QuerySet):
         """Companion for prefetch to fill in nested references."""
         return self.preload_list(self, *args)
 
-    def last_changes(self, user, unit, translation, component, project):
+    def last_changes(
+        self, user, unit=None, translation=None, component=None, project=None
+    ):
         """Return the most recent changes for an user.
 
         Filters Change objects by user permissions and fetches related fields for
