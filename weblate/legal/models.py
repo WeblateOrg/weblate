@@ -52,14 +52,14 @@ class Agreement(models.Model):
         return f"{self.user.username}:{self.tos}"
 
     def is_current(self):
-        return self.tos == LEGAL_TOS_DATE
+        return self.tos == settings.LEGAL_TOS_DATE
 
     def make_current(self, request):
         if not self.is_current():
             AuditLog.objects.create(
-                self.user, request, "tos", date=LEGAL_TOS_DATE.isoformat()
+                self.user, request, "tos", date=settings.LEGAL_TOS_DATE.isoformat()
             )
-            self.tos = LEGAL_TOS_DATE
+            self.tos = settings.LEGAL_TOS_DATE
             self.address = get_ip_address(request)
             self.user_agent = get_user_agent(request)
             self.save()
