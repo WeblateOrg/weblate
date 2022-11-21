@@ -10,6 +10,7 @@ Not yet released.
 * Improved performance of translation memory.
 * Autogenerate repoweb browsing links for well known code hosting services.
 * Improved performance of several views.
+* Improved listing of strings with plurals.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
