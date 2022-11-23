@@ -137,17 +137,41 @@ class Formatter:
 
                 # Rearrange space highlighting
                 move_space = False
+                start_space = -1
                 for pos, tag in enumerate(self.tags[offset]):
                     if tag == SPACE_MIDDLE_2:
                         self.tags[offset][pos] = SPACE_MIDDLE_1
                         move_space = True
                         break
+                    elif tag == SPACE_START:
+                        start_space = pos
+                        break
 
-                self.tags[offset].append("<ins>")
+                if start_space != -1:
+                    self.tags[offset].insert(start_space, "<ins>")
+                    last_middle = None
+                    for i in range(len(data)):
+                        tagoffset = offset + i + 1
+                        for pos, tag in enumerate(self.tags[tagoffset]):
+                            if tag == SPACE_END:
+                                # Whitespace ends within <ins>
+                                start_space = -1
+                                break
+                            elif tag == SPACE_MIDDLE_2:
+                                last_middle = (tagoffset, pos)
+                        if start_space == -1:
+                            break
+                    if start_space != -1 and last_middle is not None:
+                        self.tags[tagoffset][pos] = SPACE_MIDDLE_1
+
+                else:
+                    self.tags[offset].append("<ins>")
                 if move_space:
                     self.tags[offset].append(SPACE_START)
                 offset += len(data)
                 self.tags[offset].append("</ins>")
+                if start_space != -1:
+                    self.tags[offset].append(SPACE_START)
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
 
