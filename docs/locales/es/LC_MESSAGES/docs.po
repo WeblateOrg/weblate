@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-16 01:16+0000\n"
+"PO-Revision-Date: 2022-11-24 13:47+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -4788,12 +4788,16 @@ msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Restaure la base de datos desde el volcado de SQL colocado en el directorio "
+"``backup`` en el directorio de datos de Weblate (ver :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:177
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Copie la configuración de Weblate (:file:`backups/settings.py`, consulte :ref"
+":`backup-dumps`) en la ubicación correcta, consulte :ref:`configuration`."
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -4802,28 +4806,38 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Cuando se utiliza un contenedor Docker, el archivo de configuración ya está "
+"incluido en el contenedor y debe restaurar las variables de entorno "
+"originales. El archivo :file:`environment.yml` podría ayudarte con esto (ver "
+":ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:184
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Copiar todo el directorio de datos restaurado en la ubicación configurada "
+"por :setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:187
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
+"Si utiliza un contenedor Docker, coloque los datos en el volumen de datos, "
+"véase :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:190
 msgid ""
 "Please make sure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
+"Por favor, asegúrese de que los archivos tienen la propiedad y los permisos "
+"correctos, véase :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:192
 msgid "The Borg session might look like this:"
-msgstr ""
+msgstr "La sesión de Borg podría verse así:"
 
 #: ../../admin/backup.rst:204
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
@@ -4848,6 +4862,10 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Si estás haciendo las copias de seguridad manuales, puede que quieras "
+"silenciar el aviso de Weblate sobre la falta de copias de seguridad "
+"añadiendo ``weblate.I028`` a :setting:`django:SILENCED_SYSTEM_CHECKS` en "
+":file:`settings.py` o :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` para Docker."
 
 #: ../../admin/backup.rst:228
 msgid "Database"
@@ -4856,6 +4874,8 @@ msgstr "Base de datos"
 #: ../../admin/backup.rst:230
 msgid "The actual storage location depends on your database setup."
 msgstr ""
+"La ubicación real del almacenamiento depende de la configuración de su base "
+"de datos."
 
 #: ../../admin/backup.rst:234
 msgid ""
@@ -4868,7 +4888,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:238
 msgid "Native database backup"
-msgstr ""
+msgstr "Copia de seguridad de la base de datos nativa"
 
 #: ../../admin/backup.rst:240
 msgid ""
@@ -4877,6 +4897,10 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
+"El enfoque recomendado es guardar un volcado de la base de datos utilizando "
+"herramientas nativas de la base de datos como :program:`pg_dump` o "
+":program:`mysqldump`. Suele funcionar mejor que la copia de seguridad de "
+"Django, y restaura tablas completas con todos sus datos."
 
 #: ../../admin/backup.rst:244
 msgid ""
@@ -4885,10 +4909,14 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"Puede restaurar esta copia de seguridad en una versión más reciente de "
+"Weblate, que realizará todas las migraciones necesarias cuando se ejecute en "
+":djadmin:`django:migrate`. Por favor, consulte :doc:`upgrade` para obtener "
+"información más detallada sobre cómo actualizar entre versiones."
 
 #: ../../admin/backup.rst:249
 msgid "Django database backup"
-msgstr ""
+msgstr "Copia de seguridad de la base de datos de Django"
 
 #: ../../admin/backup.rst:251
 msgid ""
@@ -4896,6 +4924,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
+"Alternativamente, puedes hacer una copia de seguridad de tu base de datos "
+"utilizando el comando :djadmin:`django:dumpdata` de Django. De esta manera "
+"la copia de seguridad es agnóstica a la base de datos y puede ser utilizada "
+"en caso de que quieras cambiar el backend de la base de datos."
 
 #: ../../admin/backup.rst:255
 msgid ""
@@ -4905,6 +4937,12 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
+"Antes de restaurar la base de datos, debe ejecutar exactamente la misma "
+"versión de Weblate en la que se hizo la copia de seguridad. Esto es "
+"necesario, ya que la estructura de la base de datos cambia entre las "
+"distintas versiones y podría acabar corrompiendo los datos de alguna manera. "
+"Después de instalar la misma versión, ejecute todas las migraciones de la "
+"base de datos utilizando :djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:261
 msgid ""
@@ -4913,6 +4951,10 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Después, algunas entradas ya estarán creadas en la base de datos y las "
+"tendrá también en la copia de seguridad de la base de datos. Lo recomendable "
+"es eliminar dichas entradas manualmente utilizando el shell de gestión (ver "
+":ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:272
 msgid "Files"
@@ -4925,6 +4967,10 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
+"Si tiene suficiente espacio para hacer copias de seguridad, simplemente haga "
+"una copia de seguridad de todo el :setting:`DATA_DIR`. Esto es una apuesta "
+"segura incluso si incluye algunos archivos que no quieres. Las siguientes "
+"secciones describen en detalle lo que debes respaldar y lo que puedes omitir."
 
 #: ../../admin/backup.rst:282
 msgid "Dumped data for backups"
@@ -4935,6 +4981,8 @@ msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"El volcado del entorno se añadió como :file:`environment.yml` para ayudar en "
+"la restauración en los entornos Docker."
 
 #: ../../admin/backup.rst:289
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
@@ -4946,31 +4994,43 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate vuelca varios datos aquí, y puedes incluir estos archivos para "
+"obtener copias de seguridad más completas. Los archivos se actualizan "
+"diariamente (se requiere un servidor de beats Celery en funcionamiento, "
+"véase :ref:`celery`). Actualmente, esto incluye:"
 
 #: ../../admin/backup.rst:295
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Configuración de Weblate como :file:`settings.py` (también hay una versión "
+"ampliada en :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:296
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr ""
+"Copia de seguridad de la base de datos PostgreSQL como :file:`database.sql`."
 
 #: ../../admin/backup.rst:297
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Volcado del entorno como :file:`environment.yml`."
 
 #: ../../admin/backup.rst:299
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Las copias de seguridad de la base de datos se guardan como texto plano por "
+"defecto, pero también pueden comprimirse o saltarse por completo utilizando "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:302
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr ""
+"Para restaurar la copia de seguridad de la base de datos, cárguela "
+"utilizando las herramientas de la base de datos, por ejemplo:"
 
 #: ../../admin/backup.rst:309
 msgid "Version control repositories"
@@ -4978,7 +5038,7 @@ msgstr "Repositorios de control de versiones"
 
 #: ../../admin/backup.rst:311
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Almacenado en :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:313
 msgid ""
@@ -4989,6 +5049,13 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
+"Los repositorios de control de versiones contienen una copia de tus "
+"repositorios upstream con los cambios de Weblate. Si tienes :ref:`component-"
+"push_on_commit` activado para todos tus componentes de traducción, todos los "
+"cambios de Weblate se incluyen en el flujo ascendente. No es necesario hacer "
+"una copia de seguridad de los repositorios en el lado de Weblate, ya que se "
+"pueden clonar de nuevo desde la(s) ubicación(es) de subida sin pérdida de "
+"datos."
 
 #: ../../admin/backup.rst:320
 msgid "SSH and GPG keys"
@@ -4998,6 +5065,7 @@ msgstr "Claves SSH y GPG"
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
+"Almacenado en :setting:`DATA_DIR` ``/ssh`` y :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:324
 msgid ""
@@ -5015,7 +5083,7 @@ msgstr "Archivos cargados por los usuarios"
 
 #: ../../admin/backup.rst:331
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Almacenado en :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:333
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
@@ -5034,6 +5102,12 @@ msgid ""
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
+"La cola de tareas de Celery puede contener alguna información, pero "
+"normalmente no es necesaria para una copia de seguridad. A lo sumo se "
+"perderán las actualizaciones que aún no han sido procesadas en la memoria de "
+"traducción. Se recomienda realizar la actualización del texto completo o del "
+"repositorio en el momento de la restauración, por lo que no hay problema en "
+"perderlos."
 
 #: ../../admin/backup.rst:345
 msgid ":ref:`celery`"
@@ -5058,6 +5132,9 @@ msgid ""
 "options, for instance the amount of memory used for compression; see https://"
 "linux.die.net/man/1/xz"
 msgstr ""
+"La cadena entre comillas después de `XZ_OPT` permite elegir las opciones de "
+"xz, por ejemplo la cantidad de memoria utilizada para la compresión; véase "
+"https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:358
 msgid ""
@@ -5109,6 +5186,8 @@ msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"También puede implementar sus propias correcciones automáticas además de las "
+"estándar e incluirlas en :setting:`AUTOFIX_LIST`."
 
 #: ../../admin/checks.rst:12
 msgid ""
@@ -5123,12 +5202,17 @@ msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"Por ejemplo, la siguiente corrección automática reemplazaría cada aparición "
+"de la cadena ``foo`` en una traducción por ``bar``:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Para instalar comprobaciones personalizadas, proporcione una ruta completa a "
+"la clase de Python en el parámetro :setting:`AUTOFIX_LIST`, véase :ref"
+":`custom-check-modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior using flags"
@@ -5141,6 +5225,11 @@ msgid ""
 "(:ref:`component-check_flags`). Some file formats also allow to specify "
 "flags directly in the format (see :ref:`formats`)."
 msgstr ""
+"Puede ajustar el comportamiento de Weblate utilizando banderas. Esto puede "
+"hacerse a nivel de la cadena de origen (ver :ref:`additional`), o en el "
+":ref:`component` (:ref:`component-check_flags`). Algunos formatos de archivo "
+"también permiten especificar banderas directamente en el formato (ver "
+":ref:`formats`)."
 
 #: ../../admin/checks.rst:34
 msgid ""
@@ -5148,16 +5237,21 @@ msgid ""
 "can use quotes to include whitespace or special chars in the string. For "
 "example:"
 msgstr ""
+"Las banderas están separadas por comas, los parámetros están separados por "
+"dos puntos. Puede utilizar comillas para incluir espacios en blanco o "
+"caracteres especiales en la cadena. Por ejemplo:"
 
 #: ../../admin/checks.rst:41
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Se aceptan tanto las comillas simples como las dobles, los caracteres "
+"especiales se escapan utilizando la barra invertida:"
 
 #: ../../admin/checks.rst:47
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Aquí hay una lista de banderas actualmente aceptadas:"
 
 #: ../../admin/checks.rst:49 ../../devel/sphinx.rst:41
 msgid "``rst-text``"
@@ -5167,6 +5261,8 @@ msgstr "``rst-text``"
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr ""
+"Tratar un texto como un documento reStructuredText, afecta a :ref:`check-"
+"same`."
 
 #: ../../admin/checks.rst:51
 msgid "``dos-eol``"
@@ -5177,6 +5273,9 @@ msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
 "\\n``)."
 msgstr ""
+"Utiliza los marcadores de fin de línea de DOS en lugar de los de Unix (``r\\n"
+"`` instead of ``\\n"
+"``)."
 
 #: ../../admin/checks.rst:54
 msgid ""
@@ -5196,6 +5295,9 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Prioridad de la cadena. Las cadenas de mayor prioridad se presentan primero "
+"para su traducción. La prioridad por defecto es 100, cuanto mayor sea la "
+"prioridad de una cadena, antes se ofrecerá para su traducción."
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
@@ -5206,6 +5308,8 @@ msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
+"Limita la longitud máxima de una cadena a N caracteres, véase :ref:`check-"
+"max-length`."
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -5216,6 +5320,8 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Tratar el texto como un documento XML, afecta a :ref:`check-xml-invalid` y "
+":ref:`check-xml-tags`."
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
@@ -5224,6 +5330,8 @@ msgstr "``font-family:NOMBRE``"
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definir la familia de fuentes para las comprobaciones de renderización, ver "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
@@ -5232,6 +5340,8 @@ msgstr "``font-weight:PESO``"
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definir el peso de la fuente para las comprobaciones de renderización, ver "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
@@ -5240,6 +5350,8 @@ msgstr "``font-size:TAMAÑO``"
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definir el tamaño de la fuente para las comprobaciones de renderización, ver "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
@@ -5248,10 +5360,12 @@ msgstr "``font-spacing:ESPACIADO``"
 #: ../../admin/checks.rst:70
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Definir el espaciado de las letras para las comprobaciones de renderización, "
+"ver :ref:`fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``icu-flags:FLAGS``"
-msgstr ""
+msgstr "``icu-flags:FLAGS``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -5263,7 +5377,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:73
 msgid "``icu-tag-prefix:PREFIX``"
-msgstr ""
+msgstr "``icu-tag-prefix:PREFIX``"
 
 #: ../../admin/checks.rst:74
 msgid ""
@@ -5286,7 +5400,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:80
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr ""
+msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:78
 msgid ""
@@ -5295,6 +5409,11 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Reemplazos a realizar cuando se comprueban los parámetros de texto "
+"resultantes (por ejemplo en :ref:`check-max-size` o :ref:`check-max-length`)"
+". El caso de uso típico para esto es expandir los placeables para asegurar "
+"que el texto encaje incluso con valores largos, por ejemplo: "
+"``replacements:%s: \"John Doe\"``."
 
 #: ../../admin/checks.rst:82
 msgid "``variants:SOURCE``"
@@ -5586,6 +5705,9 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
+"Ajustar el comportamiento de las comprobaciones para que no distingan entre "
+"mayúsculas y minúsculas. Actualmente sólo afecta a la comprobación de "
+"calidad :ref:`check-placeholders`."
 
 #: ../../admin/checks.rst:139 ../../user/checks.rst:1208
 #: ../../user/checks.rst:1209
@@ -5857,154 +5979,120 @@ msgid "``ignore-kashida``"
 msgstr "``ignore-kashida``"
 
 #: ../../admin/checks.rst:201
-#, fuzzy
-#| msgid "Skip the \"Multiple failing checks\" quality check."
 msgid "Skip the :ref:`check-kashida` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad «Varias comprobaciones fallidas»."
+msgstr "Omite la comprobación de calidad :ref:`check-kashida`."
 
 #: ../../admin/checks.rst:202 ../../user/checks.rst:712
 msgid "``ignore-md-link``"
 msgstr "``ignore-md-link``"
 
 #: ../../admin/checks.rst:203
-#, fuzzy
-#| msgid "Skip the \"Markdown links\" quality check."
 msgid "Skip the :ref:`check-md-link` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Enlaces de Markdown»."
+msgstr "Omite la comprobación de calidad :ref:`check-md-link`."
 
 #: ../../admin/checks.rst:204 ../../user/checks.rst:733
 msgid "``ignore-md-reflink``"
 msgstr "``ignore-md-reflink``"
 
 #: ../../admin/checks.rst:205
-#, fuzzy
-#| msgid "Skip the \"Markdown links\" quality check."
 msgid "Skip the :ref:`check-md-reflink` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Enlaces de Markdown»."
+msgstr "Omite la comprobación de calidad :ref:`check-md-reflink`."
 
 #: ../../admin/checks.rst:206 ../../user/checks.rst:753
 msgid "``ignore-md-syntax``"
 msgstr "``ignore-md-syntax``"
 
 #: ../../admin/checks.rst:207
-#, fuzzy
-#| msgid "Skip the \"Markdown syntax\" quality check."
 msgid "Skip the :ref:`check-md-syntax` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Sintaxis de Markdown»."
+msgstr "Omite la comprobación de calidad :ref:`check-md-syntax`."
 
 #: ../../admin/checks.rst:208 ../../user/checks.rst:771
 msgid "``ignore-max-length``"
 msgstr "``ignore-max-length``"
 
 #: ../../admin/checks.rst:209
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-max-length` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato C»."
+msgstr "Omite la comprobación de calidad :ref:`check-max-length`."
 
 #: ../../admin/checks.rst:210 ../../user/checks.rst:800
 msgid "``ignore-max-size``"
 msgstr "``ignore-max-size``"
 
 #: ../../admin/checks.rst:211
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-max-size` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Formato C»."
+msgstr "Omite la comprobación de calidad :ref:`check-max-size`."
 
 #: ../../admin/checks.rst:212 ../../user/checks.rst:844
 msgid "``ignore-escaped-newline``"
 msgstr "``ignore-escaped-newline``"
 
 #: ../../admin/checks.rst:213
-#, fuzzy
-#| msgid "Skip the \"Trailing newline\" quality check."
 msgid "Skip the :ref:`check-escaped-newline` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Salto de renglón al final»."
+msgstr "Omite la comprobación de calidad :ref:`check-escaped-newline`."
 
 #: ../../admin/checks.rst:214 ../../user/checks.rst:858
 msgid "``ignore-end-colon``"
 msgstr "``ignore-end-colon``"
 
 #: ../../admin/checks.rst:215
-#, fuzzy
-#| msgid "Skip the \"Mismatched colon\" quality check."
 msgid "Skip the :ref:`check-end-colon` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Dos puntos desiguales»."
+msgstr "Omite la comprobación de calidad :ref:`check-end-colon`."
 
 #: ../../admin/checks.rst:216 ../../user/checks.rst:877
 msgid "``ignore-end-ellipsis``"
 msgstr "``ignore-end-ellipsis``"
 
 #: ../../admin/checks.rst:217
-#, fuzzy
-#| msgid "Skip the \"Mismatched ellipsis\" quality check."
 msgid "Skip the :ref:`check-end-ellipsis` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad «Puntos suspensivos desiguales»."
+msgstr "Omite la comprobación de calidad :ref:`check-end-ellipsis`."
 
 #: ../../admin/checks.rst:218 ../../user/checks.rst:898
 msgid "``ignore-end-exclamation``"
 msgstr "``ignore-end-exclamation``"
 
 #: ../../admin/checks.rst:219
-#, fuzzy
-#| msgid "Skip the \"Mismatched exclamation mark\" quality check."
 msgid "Skip the :ref:`check-end-exclamation` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad «Signo de exclamación desigual»."
+msgstr "Omite la comprobación de calidad :ref:`check-end-exclamation`."
 
 #: ../../admin/checks.rst:220 ../../user/checks.rst:918
 msgid "``ignore-end-stop``"
 msgstr "``ignore-end-stop``"
 
 #: ../../admin/checks.rst:221
-#, fuzzy
-#| msgid "Skip the \"Mismatched full stop\" quality check."
 msgid "Skip the :ref:`check-end-stop` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Punto final desigual»."
+msgstr "Omite el control de calidad :ref:`check-end-stop`."
 
 #: ../../admin/checks.rst:222 ../../user/checks.rst:937
 msgid "``ignore-end-question``"
 msgstr "``ignore-end-question``"
 
 #: ../../admin/checks.rst:223
-#, fuzzy
-#| msgid "Skip the \"Mismatched question mark\" quality check."
 msgid "Skip the :ref:`check-end-question` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad «Signo de interrogación desigual»."
+msgstr "Omite el control de calidad :ref:`check-end-question`."
 
 #: ../../admin/checks.rst:224 ../../user/checks.rst:957
 msgid "``ignore-end-semicolon``"
 msgstr "``ignore-end-semicolon``"
 
 #: ../../admin/checks.rst:225
-#, fuzzy
-#| msgid "Skip the \"Mismatched semicolon\" quality check."
 msgid "Skip the :ref:`check-end-semicolon` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Punto y coma desigual»."
+msgstr "Omite la comprobación de calidad :ref:`check-end-semicolon`."
 
 #: ../../admin/checks.rst:226 ../../user/checks.rst:974
 msgid "``ignore-newline-count``"
 msgstr "``ignore-newline-count``"
 
 #: ../../admin/checks.rst:227
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-newline-count` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Salto de renglón al inicio»."
+msgstr "Omite la comprobación de calidad :ref:`check-newline-count`."
 
 #: ../../admin/checks.rst:228 ../../user/checks.rst:989
 msgid "``ignore-plurals``"
 msgstr "``ignore-plurals``"
 
 #: ../../admin/checks.rst:229
-#, fuzzy
-#| msgid "Skip the \"Same plurals\" quality check."
 msgid "Skip the :ref:`check-plurals` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Mismos plurales»."
+msgstr "Omite el control de calidad :ref:`check-plurals`."
 
 #: ../../admin/checks.rst:230 ../../user/checks.rst:1009
 msgid "``ignore-placeholders``"
@@ -6019,81 +6107,64 @@ msgid "``ignore-punctuation-spacing``"
 msgstr "``ignore-punctuation-spacing``"
 
 #: ../../admin/checks.rst:233
-#, fuzzy
-#| msgid "Skip the \"Punctuation spacing\" quality check."
 msgid "Skip the :ref:`check-punctuation-spacing` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Espaciado de puntuación»."
+msgstr "Omite la comprobación de calidad :ref:`check-punctuation-spacing`."
 
 #: ../../admin/checks.rst:234 ../../user/checks.rst:1078
 msgid "``ignore-regex``"
 msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:235
-#, fuzzy
-#| msgid "Skip the \"Markdown references\" quality check."
 msgid "Skip the :ref:`check-regex` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Referencias de Markdown»."
+msgstr "Omite la comprobación de calidad :ref:`check-regex`."
 
 #: ../../admin/checks.rst:236 ../../user/checks.rst:1098
 msgid "``ignore-same-plurals``"
 msgstr "``ignore-same-plurals``"
 
 #: ../../admin/checks.rst:237
-#, fuzzy
-#| msgid "Skip the \"Same plurals\" quality check."
 msgid "Skip the :ref:`check-same-plurals` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Mismos plurales»."
+msgstr "Omite la comprobación de calidad :ref:`check-same-plurals`."
 
 #: ../../admin/checks.rst:238 ../../user/checks.rst:1112
 msgid "``ignore-begin-newline``"
 msgstr "``ignore-begin-newline``"
 
 #: ../../admin/checks.rst:239
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-begin-newline` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Salto de renglón al inicio»."
+msgstr "Omite la comprobación de calidad :ref:`check-begin-newline`."
 
 #: ../../admin/checks.rst:240 ../../user/checks.rst:1130
 msgid "``ignore-begin-space``"
 msgstr "``ignore-begin-space``"
 
 #: ../../admin/checks.rst:241
-#, fuzzy
-#| msgid "Skip the \"Trailing space\" quality check."
 msgid "Skip the :ref:`check-begin-space` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Espacio al final»."
+msgstr "Omite la comprobación de calidad :ref:`check-begin-space`."
 
 #: ../../admin/checks.rst:242 ../../user/checks.rst:1144
 msgid "``ignore-end-newline``"
 msgstr "``ignore-end-newline``"
 
 #: ../../admin/checks.rst:243
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-end-newline` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Salto de renglón al inicio»."
+msgstr "Omite la comprobación de calidad :ref:`check-end-newline`."
 
 #: ../../admin/checks.rst:244 ../../user/checks.rst:1162
 msgid "``ignore-end-space``"
 msgstr "``ignore-end-space``"
 
 #: ../../admin/checks.rst:245
-#, fuzzy
-#| msgid "Skip the \"Zero-width space\" quality check."
 msgid "Skip the :ref:`check-end-space` quality check."
-msgstr "Pasa por alto la comprobación de calidad «Espacio de anchura cero»."
+msgstr "Omite la comprobación de calidad :ref:`check-end-space`."
 
 #: ../../admin/checks.rst:246 ../../user/checks.rst:1178
 msgid "``ignore-same``"
 msgstr "``ignore-same``"
 
 #: ../../admin/checks.rst:247
-#, fuzzy
-#| msgid "Skip the \"Multiple failing checks\" quality check."
 msgid "Skip the :ref:`check-same` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad «Varias comprobaciones fallidas»."
+msgstr "Omite la comprobación de calidad :ref:`check-same`."
 
 #: ../../admin/checks.rst:248 ../../user/checks.rst:1210
 msgid "``ignore-safe-html``"
@@ -6150,10 +6221,9 @@ msgid "``ignore-icu-message-format-syntax``"
 msgstr "``ignore-java-messageformat``"
 
 #: ../../admin/checks.rst:261
-#, fuzzy
-#| msgid "Skip the :ref:`check-java-messageformat` quality check."
 msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
-msgstr "Omite el control de calidad :ref:`check-java-messageformat`."
+msgstr ""
+"Omite la comprobación de calidad :ref:`check-icu-message-format-syntax`."
 
 #: ../../admin/checks.rst:262 ../../user/checks.rst:1360
 msgid "``ignore-long-untranslated``"
@@ -6211,35 +6281,30 @@ msgid "Enforcing checks"
 msgstr "Forzar comprobaciones"
 
 #: ../../admin/checks.rst:286
-#, fuzzy
-#| msgid ""
-#| "You can configure a list of checks which can not be ignored by setting :"
-#| "ref:`component-enforced_checks` in :ref:`component`. Each listed check "
-#| "can not be ignored in the user interface and any string failing this "
-#| "check is marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgid ""
 "You can configure a list of checks which can not be ignored by setting :ref:"
 "`component-enforced_checks` in :ref:`component`. Each listed check can not "
 "be dismissed in the user interface and any string failing this check is "
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"Puedes configurar una lista de comprobaciones que no se pueden ignoradar "
-"estableciendo :ref:`component-enforced_checks` en :ref:`component`. No se "
-"pueden ignorar cada una de las comprobaciones enumeradas en la interfaz de "
-"usuario y cualquier cadena que falle esta comprobación se marca como::"
-"guilabel:`Needs editing` (ver :ref:`states`)."
+"Puede configurar una lista de comprobaciones que no pueden ser ignoradas "
+"estableciendo :ref:`component-enforced_checks` en :ref:`component`. Cada una "
+"de las comprobaciones de la lista no se puede descartar en la interfaz de "
+"usuario y cualquier cadena que falle esta comprobación se marca como "
+":guilabel:`Needs editing` (ver :ref:`states`)."
 
 #: ../../admin/checks.rst:293
 msgid ""
 "Turning on check enforcing doesn't enable it automatically. The check can be "
 "turned on by adding the corresponding flag to string or component flags."
 msgstr ""
+"La activación de la comprobación no la habilita automáticamente. La "
+"comprobación puede activarse añadiendo la bandera correspondiente a las "
+"banderas de cadenas o componentes."
 
 #: ../../admin/checks.rst:298
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`additional`, :ref:`component-check_flags`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`additional`, :ref:`component-check_flags`"
 
 #: ../../admin/checks.rst:304
 msgid "Managing fonts"
@@ -6315,18 +6380,14 @@ msgstr ""
 "necesitarás los siguientes:"
 
 #: ../../admin/checks.rst:344
-#, fuzzy
 msgid "``max-size:500``"
 msgstr "``max-size:500``"
 
 #: ../../admin/checks.rst:345
-#, fuzzy
-#| msgid "Defines maximal width."
 msgid "Defines maximal width in pixels."
-msgstr "Define la anchura máxima."
+msgstr "Define la anchura máxima en píxeles."
 
 #: ../../admin/checks.rst:346
-#, fuzzy
 msgid "``font-family:ubuntu``"
 msgstr "``font-family:ubuntu``"
 
@@ -6335,15 +6396,12 @@ msgid "Defines font group to use by specifying its identifier."
 msgstr "Define el grupo de fuentes a utilizar especificando su identificador."
 
 #: ../../admin/checks.rst:350
-#, fuzzy
 msgid "``font-size:22``"
 msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:349
-#, fuzzy
-#| msgid "Defines font size."
 msgid "Defines font size in pixels."
-msgstr "Define el tamaño del texto."
+msgstr "Define el tamaño de la fuente en pixeles."
 
 #: ../../admin/checks.rst:355
 msgid "Writing own checks"
@@ -6501,33 +6559,43 @@ msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
 msgstr ""
+"Imagen que muestra el panel de administración de Weblate con la "
+"configuración anterior rellenada."
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Todos los ajustes se almacenan en :file:`settings.py` (como es habitual en "
+"Django)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
 msgstr ""
+"Después de cambiar cualquiera de estos ajustes, es necesario reiniciar "
+"Weblate, tanto los procesos WSGI como Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"En caso de que se ejecute como ``mod_wsgi``, es necesario reiniciar Apache "
+"para recargar la configuración."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Por favor, consulta también :doc:`La documentación de Django <django:ref/"
+"settings>` para conocer los parámetros de configuración del propio Django."
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -6535,10 +6603,13 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate puede utilizar Akismet para comprobar las sugerencias anónimas "
+"entrantes en busca de spam. Visita `akismet.com <https://akismet.com/>`_ "
+"para comprar una clave API y asociarla a un sitio."
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
@@ -6552,13 +6623,15 @@ msgstr "Control de acceso al proyecto"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
 msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
 msgstr ""
+"Cuántos días debe guardar Weblate los registros de auditoría, que contienen "
+"información sobre la actividad de la cuenta."
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
@@ -6566,29 +6639,36 @@ msgstr "El valor predeterminado es de 180 días."
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:60
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Número máximo de intentos de autenticación fallidos antes de que se aplique "
+"la limitación de velocidad."
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Actualmente se aplica en los siguientes lugares:"
 
 #: ../../admin/config.rst:64
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Iniciar sesión. Elimina la contraseña de la cuenta, impidiendo que el "
+"usuario se registre sin solicitar una nueva contraseña."
 
 #: ../../admin/config.rst:66
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
 msgstr ""
+"Restablecimiento de la contraseña. Evita que se envíen nuevos correos "
+"electrónicos, evitando el spam de los usuarios con demasiados intentos de "
+"restablecimiento de contraseña."
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
@@ -6602,13 +6682,15 @@ msgstr ":ref:`rate-limit`,"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:84
 msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
 msgstr ""
+"La opción original de activación/desactivación se modificó para diferenciar "
+"las cadenas que se aceptan."
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
@@ -6619,12 +6701,16 @@ msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Útil si no está utilizando :ref:`hooks` para actualizar los repositorios de "
+"Weblate automáticamente."
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Existen opciones de activación/desactivación además de la selección de "
+"cadenas para la compatibilidad con versiones anteriores."
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
@@ -6632,15 +6718,15 @@ msgstr "Las opciones son:"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:440
 msgid "``\"none\"``"
-msgstr ""
+msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "No hay actualizaciones diarias."
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` también ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
@@ -6648,7 +6734,7 @@ msgstr "Actualiza los remotos solamente."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` también ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
@@ -6659,41 +6745,47 @@ msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Esto requiere que :ref:`celery` esté funcionando, y tendrá efecto después de "
+"que se reinicie."
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:114
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Prefijo para construir las URL de los avatares como: ``${AVATAR_URL_PREFIX}/"
+"avatar/${MAIL_HASH}?${PARAMS}``. Se sabe que los siguientes servicios "
+"funcionan:"
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (por defecto), según https://gravatar.com/"
 
 #: ../../admin/config.rst:119
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, según https://www.libravatar.org/"
 
 #: ../../admin/config.rst:121
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:125
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 
 #: ../../admin/config.rst:132
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
 msgid ""
@@ -6701,10 +6793,13 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
+"El tiempo de validez del token de autenticación y la contraseña temporal de "
+"los correos electrónicos de restablecimiento de contraseña. Se establece en "
+"número de segundos, por defecto 172800 (2 días)."
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
@@ -6715,10 +6810,12 @@ msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Los cambios de contraseña realizados antes de Weblate 2.15 no se tendrán en "
+"cuenta en esta política."
 
 #: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
@@ -6729,6 +6826,8 @@ msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
+"Proporcione una ruta completa a la clase de Python que implementa la "
+"interfaz del autofijador."
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
@@ -6736,15 +6835,17 @@ msgstr "Correcciones disponibles:"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
 msgstr ""
+"Hacer coincidir los espacios en blanco al principio y al final de la cadena "
+"con la fuente."
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid ""
@@ -6756,7 +6857,7 @@ msgstr ""
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
@@ -6766,7 +6867,7 @@ msgstr ""
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
@@ -6774,13 +6875,15 @@ msgstr "Quita caracteres de control si la cadena de origen no los contiene."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Elimina las marcas HTML no seguras de las cadenas marcadas como ``safe-html``"
+" (ver :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
@@ -6792,25 +6895,27 @@ msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BACKGROUND_TASKS"
-msgstr ""
+msgstr "BACKGROUND_TASKS"
 
 #: ../../admin/config.rst:198
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Define la frecuencia con la que deben activarse las tareas de mantenimiento "
+"prolongadas para un componente."
 
 #: ../../admin/config.rst:201
 msgid "Right now this controls:"
-msgstr ""
+msgstr "En este momento esto controla:"
 
 #: ../../admin/config.rst:203
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
-msgstr ""
+msgstr ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 
 #: ../../admin/config.rst:204
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr ":doc:`checks` recalcular"
 
 #: ../../admin/config.rst:206
 msgid "Possible choices:"
@@ -6842,7 +6947,7 @@ msgstr ""
 
 #: ../../admin/config.rst:221
 msgid "BASIC_LANGUAGES"
-msgstr ""
+msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:225
 msgid ""
