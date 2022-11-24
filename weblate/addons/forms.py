@@ -202,6 +202,8 @@ class JSONCustomizeForm(BaseAddonForm):
 
 
 class XMLCustomizeForm(BaseAddonForm):
+    """Class defining user Form to configure XML Formatting AddOn"""
+
     tags_format = forms.ChoiceField(
         label=_("XML closing tags format"),
         choices=[

@@ -19,12 +19,15 @@
 
 
 from django.utils.translation import gettext_lazy as _
+from translate.storage.lisa import LISAfile
 
 from weblate.addons.base import StoreBaseAddon
 from weblate.addons.forms import XMLCustomizeForm
 
 
 class XMLCustomizeAddon(StoreBaseAddon):
+    """Class providing XML formatting changes as a component AddOn"""
+
     name = "weblate.xml.customize"
     verbose = _("Customize XML output")
     description = _(
@@ -32,8 +35,16 @@ class XMLCustomizeAddon(StoreBaseAddon):
     )
     settings_form = XMLCustomizeForm
 
+    @classmethod
+    def can_install(cls, component, user):
+        """Hook triggered to determine if add-on is compatible with component."""
+        # component are attached to a file format which is defined by a loader
+        # we want to provide this package only for component using LISAfile as loader
+        return issubclass(component.file_format_cls.loader, LISAfile)
+
     def store_post_load(self, translation, store):
+        """Hook triggered once component formatter has been loaded."""
         config = self.instance.configuration
-        store.XMLSelfClosingTags = (
+        store.store.XMLSelfClosingTags = (
             config.get("tags_format", "closing_tags") == "self_closing_tags"
         )
