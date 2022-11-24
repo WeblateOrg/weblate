@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-24 13:47+0000\n"
+"PO-Revision-Date: 2022-11-25 19:42+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -6955,6 +6955,10 @@ msgid ""
 "specified built-in list is used which includes all commonly used languages, "
 "but without country specific variants."
 msgstr ""
+"Lista de idiomas para ofrecer a los usuarios para iniciar una nueva "
+"traducción. Si no se especifica, se utiliza una lista integrada que incluye "
+"todos los idiomas más utilizados, pero sin variantes específicas de cada "
+"país."
 
 #: ../../admin/config.rst:229
 msgid ""
@@ -6962,6 +6966,9 @@ msgid ""
 "admins are still presented with full selection of languages defined in "
 "Weblate."
 msgstr ""
+"Esto sólo limita a los usuarios no privilegiados a añadir idiomas no "
+"deseados. Los administradores del proyecto siguen teniendo a su disposición "
+"una selección completa de idiomas definidos en Weblate."
 
 #: ../../admin/config.rst:234
 msgid ""
@@ -6979,19 +6986,19 @@ msgstr ":ref:`qtling`"
 
 #: ../../admin/config.rst:250
 msgid "BORG_EXTRA_ARGS"
-msgstr ""
+msgstr "BORG_EXTRA_ARGS"
 
 #: ../../admin/config.rst:254
 msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
 msgstr ""
+"Puedes pasar argumentos adicionales a :command:`borg create` cuando se "
+"activan las copias de seguridad integradas."
 
 #: ../../admin/config.rst:264
-#, fuzzy
-#| msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 msgid ":ref:`backup`, :doc:`borg:usage/create`"
-msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
+msgstr ":ref:`backup`, :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:274
 msgid ""
@@ -7005,10 +7012,14 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Personaliza la cabecera ``Content-Security-Policy`` para Weblate. La "
+"cabecera se genera automáticamente en función de las integraciones "
+"habilitadas con servicios de terceros (Matomo, Google Analytics, Sentry, "
+"...)."
 
 #: ../../admin/config.rst:280
 msgid "All these default to empty list."
-msgstr ""
+msgstr "Todo esto es una lista vacía por defecto."
 
 #: ../../admin/config.rst:291
 msgid ""
@@ -7020,7 +7031,7 @@ msgstr ""
 
 #: ../../admin/config.rst:297
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:299
 msgid "List of quality checks to perform on a translation."
@@ -7031,6 +7042,8 @@ msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Proporcione una ruta completa a la clase de Python que implementa la "
+"interfaz para la comprobación."
 
 #: ../../admin/config.rst:306
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -7076,63 +7089,75 @@ msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:341
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:345
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Eliminar los comentarios después de un número determinado de días. El valor "
+"predeterminado es ``None``, lo que significa que no se borra nada."
 
 #: ../../admin/config.rst:351
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:355
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
+"Número de horas entre la confirmación de los cambios pendientes mediante la "
+"tarea en segundo plano."
 
 #: ../../admin/config.rst:359
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :djadmin:`commit_pending`"
 msgstr ""
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :djadmin:`commit_pending`"
 
 #: ../../admin/config.rst:368
 msgid "CONTACT_FORM"
-msgstr ""
+msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:372
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
 msgstr ""
+"Configura cómo se envía el correo electrónico del formulario de contacto. "
+"Elija una configuración que coincida con la de su servidor de correo."
 
 #: ../../admin/config.rst:375
 msgid "``\"reply-to\"``"
-msgstr ""
+msgstr "``\"reply-to\"``"
 
 #: ../../admin/config.rst:376
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
+"El remitente se utiliza como :mailheader:`Reply-To`, este es el "
+"comportamiento por defecto."
 
 #: ../../admin/config.rst:379
 msgid "``\"from\"``"
-msgstr ""
+msgstr "``\"from\"``"
 
 #: ../../admin/config.rst:378
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"El remitente se utiliza como :mailheader:`From`. Su servidor de correo debe "
+"permitir el envío de este tipo de correos."
 
 #: ../../admin/config.rst:384
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:386
 msgid ""
@@ -7140,6 +7165,9 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"La carpeta en la que Weblate almacena todos los datos. Contiene enlaces a "
+"los repositorios VCS, un índice de texto completo y varios archivos de la "
+"configuración para herramientas externas."
 
 #: ../../admin/config.rst:389
 msgid "The following subdirectories usually exist:"
@@ -7166,46 +7194,41 @@ msgid ":file:`static`"
 msgstr ":file:`static`"
 
 #: ../../admin/config.rst:396
-#, fuzzy
-#| msgid ""
-#| "Default location for static Django files, specified by ``STATIC_ROOT``."
 msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
-"Ubicación predeterminada de los archivos de Django, especificada por "
-"``STATIC_ROOT``."
+"Ubicación por defecto para los archivos estáticos de Django, especificada "
+"por :setting:`django:STATIC_ROOT`. Ver :ref:`static-files`."
 
 #: ../../admin/config.rst:398
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
+"El contenedor Docker utiliza un volumen separado para esto, ver :ref:`docker-"
+"volume`."
 
 #: ../../admin/config.rst:399
 msgid ":file:`media`"
 msgstr ":file:`media`"
 
 #: ../../admin/config.rst:400
-#, fuzzy
-#| msgid ""
-#| "Default location for Django media files, specified by ``MEDIA_ROOT``."
 msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
-"Ubicación predeterminada de los archivos multimedia de Django, especificada "
-"por ``MEDIA_ROOT``."
+"Ubicación por defecto para los archivos multimedia de Django, especificada "
+"por :setting:`django:MEDIA_ROOT`. Contiene las capturas de pantalla subidas, "
+"véase :ref:`screenshots`."
 
 #: ../../admin/config.rst:401
 msgid ":file:`vcs`"
 msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:402
-#, fuzzy
-#| msgid "Version control repositories."
 msgid "Version control repositories for translations."
-msgstr "Repositorios de control de versiones."
+msgstr "Repositorios para el control de las versiones para las traducciones."
 
 #: ../../admin/config.rst:403
 msgid ":file:`backups`"
@@ -7214,6 +7237,8 @@ msgstr ":file:`backups`"
 #: ../../admin/config.rst:404
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgstr ""
+"Los datos de la copia de seguridad diaria, por favor, consulte :ref:`backup-"
+"dumps` para más detalles."
 
 #: ../../admin/config.rst:405
 #, fuzzy
@@ -7231,7 +7256,7 @@ msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:408
 msgid "User-uploaded  fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Fuentes cargadas por el usuario, véase :ref:`fonts`."
 
 #: ../../admin/config.rst:412
 msgid ""
@@ -7254,14 +7279,15 @@ msgstr ""
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
+"Por defecto es ``/home/weblate/data``, pero se espera que esté configurado."
 
 #: ../../admin/config.rst:425
 msgid ":ref:`file-permissions`, :doc:`backup`"
-msgstr ""
+msgstr ":ref:`file-permissions`, :doc:`backup`"
 
 #: ../../admin/config.rst:431
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:435
 msgid ""
@@ -7273,11 +7299,11 @@ msgstr ""
 
 #: ../../admin/config.rst:438
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:439
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"compressed\"``"
 
 #: ../../admin/config.rst:444
 msgid ":ref:`backup`"
@@ -7285,7 +7311,7 @@ msgstr ""
 
 #: ../../admin/config.rst:449
 msgid "DEFAULT_ACCESS_CONTROL"
-msgstr ""
+msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:453
 msgid "The default access control setting for new projects:"
@@ -7329,6 +7355,8 @@ msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"Utilice :guilabel:`Custom` si está gestionando ACL manualmente, lo que "
+"significa no depender de la gestión interna de Weblate."
 
 #: ../../admin/config.rst:469
 msgid ":ref:`acl`, :ref:`project-access_control`"
@@ -7343,6 +7371,9 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"Configura si la etiqueta :guilabel:`Automatically watch projects on "
+"contribution` debe ser activada para los nuevos usuarios. Por defecto es "
+"``True``."
 
 #: ../../admin/config.rst:484
 #, fuzzy
@@ -7352,7 +7383,7 @@ msgstr "Suscripciones de prueba"
 
 #: ../../admin/config.rst:489
 msgid "DEFAULT_RESTRICTED_COMPONENT"
-msgstr ""
+msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:493
 msgid "The default value for component restriction."
@@ -7375,22 +7406,20 @@ msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
 msgstr ""
+"Mensajes de confirmación por defecto para diferentes operaciones, por favor "
+"revise :ref:`componente` para más detalles."
 
 #: ../../admin/config.rst:514
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
-msgstr ""
+msgstr ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 
 #: ../../admin/config.rst:522
 msgid "DEFAULT_ADDONS"
-msgstr ""
+msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:524
-#, fuzzy
-#| msgid "Default addons to install on every created component."
 msgid "Default add-ons to install on every created component."
-msgstr ""
-"Los complementos predeterminados que se instalarán en todos los componentes "
-"que se creen."
+msgstr "Complementos por defecto para instalar en cada componente creado."
 
 #: ../../admin/config.rst:528
 msgid "This setting affects only newly created components."
@@ -7406,15 +7435,17 @@ msgstr "Ejemplo:"
 
 #: ../../admin/config.rst:550
 msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
-msgstr ""
+msgstr ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:557
 msgid "DEFAULT_COMMITER_EMAIL"
-msgstr ""
+msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:561
 msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgstr ""
+"La dirección de correo electrónico del autor por defecto es ``noreply@weblate"
+".org``."
 
 #: ../../admin/config.rst:565
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
@@ -7422,7 +7453,7 @@ msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:570
 msgid "DEFAULT_COMMITER_NAME"
-msgstr ""
+msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:574
 msgid "Committer name defaulting to ``Weblate``."
@@ -7441,22 +7472,24 @@ msgid ""
 "Default source language to use for example in :ref:`component-"
 "source_language`."
 msgstr ""
+"Lenguaje de origen por defecto para utilizar por ejemplo en :ref:`component-"
+"source_language`."
 
 #: ../../admin/config.rst:589
 msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
+"El valor predeterminado es `en`. El objeto de lenguaje correspondiente debe "
+"existir en la base de datos."
 
 #: ../../admin/config.rst:593
-#, fuzzy
-#| msgid ":ref:`component-language_regex`"
 msgid ":ref:`languages`, :ref:`component-source_language`"
-msgstr ":ref:`component-language_regex`"
+msgstr ":ref:`languages`, :ref:`component-source_language`"
 
 #: ../../admin/config.rst:599
 msgid "DEFAULT_MERGE_STYLE"
-msgstr ""
+msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:603
 msgid "Merge style for any new components."
@@ -7464,73 +7497,85 @@ msgstr "Estilo de fusión para cualesquier componentes nuevos."
 
 #: ../../admin/config.rst:605
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - por defecto"
 
 #: ../../admin/config.rst:606
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: ../../admin/config.rst:610
 msgid ":ref:`component`, :ref:`component-merge_style`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-merge_style`"
 
 #: ../../admin/config.rst:616
 msgid "DEFAULT_SHARED_TM"
-msgstr ""
+msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:620
 msgid ""
 "Configures default value of :ref:`project-use_shared_tm` and :ref:`project-"
 "contribute_shared_tm`."
 msgstr ""
+"Configura el valor por defecto de :ref:`project-use_shared_tm` y :ref"
+":`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:625
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
-msgstr ""
+msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 
 #: ../../admin/config.rst:629
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Configuración por defecto para la propagación de la traducción, por defecto "
+"es ``True``."
 
 #: ../../admin/config.rst:633
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
 
 #: ../../admin/config.rst:641
 msgid "DEFAULT_PULL_MESSAGE"
-msgstr ""
+msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:643
 msgid "Configures the default title and message for pull requests."
 msgstr ""
+"Configura el título y el mensaje predeterminados para las solicitudes de "
+"extracción."
 
 #: ../../admin/config.rst:648
 msgid "ENABLE_AVATARS"
-msgstr ""
+msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:650
 msgid ""
 "Whether to turn on Gravatar-based avatars for users. By default this is on."
 msgstr ""
+"Si se activan los avatares basados en Gravatar para los usuarios. Por "
+"defecto está activado."
 
 #: ../../admin/config.rst:652
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Los avatares se obtienen y se almacenan en caché en el servidor, lo que "
+"reduce el riesgo de que se filtre información privada y acelera la "
+"experiencia del usuario."
 
 #: ../../admin/config.rst:657
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 
 #: ../../admin/config.rst:664
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:666
 msgid "Whether to enable anonymous remote hooks."
-msgstr ""
+msgstr "Si se habilitan los ganchos remotos anónimos."
 
 #: ../../admin/config.rst:670
 msgid ":ref:`hooks`"
@@ -7538,13 +7583,15 @@ msgstr ""
 
 #: ../../admin/config.rst:675
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:677
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Si se envían los enlaces a Weblate como HTTPS o HTTP. Esta configuración "
+"afecta a los correos electrónicos enviados y a las URL absolutas generadas."
 
 #: ../../admin/config.rst:680
 msgid ""
@@ -7552,6 +7599,9 @@ msgid ""
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
+"En la configuración por defecto también se utiliza para varias "
+"configuraciones de Django relacionadas con HTTPS - habilita las cookies "
+"seguras, activa HSTS o habilita la redirección a la URL HTTPS."
 
 #: ../../admin/config.rst:684
 msgid ""
@@ -7562,6 +7612,13 @@ msgid ""
 "or ``Forwarded`` headers or configure :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgstr ""
+"La redirección HTTPS puede ser problemática en algunos casos y puedes "
+"encontrarte con un problema de redirección infinita en caso de que estés "
+"utilizando un proxy inverso que haga la terminación SSL y no pase "
+"correctamente las cabeceras de protocolo a Django. Por favor, ajusta la "
+"configuración de tu proxy inverso para que emita las cabeceras ``X-Forwarded-"
+"Proto`` o ``Forwarded`` o configura :setting:`django:SECURE_PROXY_SSL_HEADER`"
+" para que Django detecte correctamente el estado de SSL."
 
 #: ../../admin/config.rst:693
 msgid ""
@@ -7569,20 +7626,25 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:702
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:704
 msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"Activa/desactiva el menú :guilabel:`Compartir` para que los usuarios puedan "
+"compartir el progreso de la traducción en las redes sociales."
 
 #: ../../admin/config.rst:709
 msgid "GET_HELP_URL"
-msgstr ""
+msgstr "GET_HELP_URL"
 
 #: ../../admin/config.rst:713
 msgid "URL where support for your Weblate instance can be found."
@@ -7591,68 +7653,62 @@ msgstr ""
 "Weblate."
 
 #: ../../admin/config.rst:718
-#, fuzzy
-#| msgid "GITLAB_CREDENTIALS"
 msgid "GITEA_CREDENTIALS"
-msgstr "GITLAB_CREDENTIALS"
+msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:722
 msgid "List for credentials for Gitea servers."
-msgstr ""
+msgstr "Lista de credenciales para los servidores de Gitea."
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-#| "`django:EMAIL_USE_TLS`"
 msgid ""
 ":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, :envvar:"
 "`WEBLATE_GITEA_HOST`"
 msgstr ""
-":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-"`django:EMAIL_USE_TLS`"
+":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, "
+":envvar:`WEBLATE_GITEA_HOST`"
 
 #: ../../admin/config.rst:746
 msgid "GITEA_USERNAME"
-msgstr ""
+msgstr "GITEA_USERNAME"
 
 #: ../../admin/config.rst:750 ../../admin/config.rst:768
 msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITEA_CREDENTIALS`."
 msgstr ""
+"Esta configuración es insegura, se recomienda cambiar a "
+":setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/config.rst:754
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid "Gitea username used to send pull requests for translation updates."
-msgstr "El proyecto ahora acepta actualizaciones a las traducciones."
+msgstr ""
+"Nombre de usuario de Gitea utilizado para enviar solicitudes de extracción "
+"para actualizaciones de la traducción."
 
 #: ../../admin/config.rst:758
 msgid ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
-msgstr ""
+msgstr ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
 
 #: ../../admin/config.rst:764
 msgid "GITEA_TOKEN"
-msgstr ""
+msgstr "GITEA_TOKEN"
 
 #: ../../admin/config.rst:772
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Gitea personal access token used to make API calls to send pull requests for "
 "translation updates."
 msgstr ""
-"Ficha de acceso personal de GitLab utilizada para realizar llamadas de API "
-"para obtener actualizaciones de las traducciones."
+"Token de acceso personal de Gitea utilizado para realizar llamadas API para "
+"enviar solicitudes de extracción para actualizaciones de traducción."
 
 #: ../../admin/config.rst:777
 msgid ""
 ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea personal "
 "access token`_"
 msgstr ""
+":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Crear un token de acceso "
+"personal Gitea`_"
 
 #: ../../admin/config.rst:786
 msgid "GITLAB_CREDENTIALS"
@@ -7660,126 +7716,132 @@ msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:790
 msgid "List for credentials for GitLab servers."
-msgstr ""
+msgstr "Lista de credenciales para los servidores de GitLab."
 
 #: ../../admin/config.rst:807
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-#| "`django:EMAIL_USE_TLS`"
 msgid ""
 ":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, :envvar:"
 "`WEBLATE_GITLAB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-"`django:EMAIL_USE_TLS`"
+":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, "
+":envvar:`WEBLATE_GITLAB_HOST`"
 
 #: ../../admin/config.rst:814
 msgid "GITLAB_USERNAME"
-msgstr ""
+msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:818 ../../admin/config.rst:834
 msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITLAB_CREDENTIALS`."
 msgstr ""
+"Esta configuración es insegura, se recomienda cambiar a "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/config.rst:820
 msgid "GitLab username used to send merge requests for translation updates."
 msgstr ""
+"Nombre de usuario de GitLab utilizado para enviar solicitudes de fusión para "
+"actualizaciones de traducción."
 
 #: ../../admin/config.rst:824
 msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
-msgstr ""
+msgstr ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:830
 msgid "GITLAB_TOKEN"
-msgstr ""
+msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:838
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "GitLab personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"Ficha de acceso personal de GitLab utilizada para realizar llamadas de API "
-"para obtener actualizaciones de las traducciones."
+"Token de acceso personal de GitLab utilizado para realizar llamadas a la API "
+"para enviar solicitudes de fusión para las actualizaciones de traducción."
 
 #: ../../admin/config.rst:843
 msgid ""
 ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal access "
 "token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Ficha de acceso "
+"personal <https://docs.gitlab.com/ee/user/profile/personal_access_tokens."
+"html>`_"
 
 #: ../../admin/config.rst:850
 msgid "GITHUB_CREDENTIALS"
-msgstr ""
+msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:854
 msgid "List for credentials for GitHub servers."
-msgstr ""
+msgstr "Lista de credenciales para los servidores de GitHub."
 
 #: ../../admin/config.rst:871
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-#| "`django:EMAIL_USE_TLS`"
 msgid ""
 ":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, :envvar:"
 "`WEBLATE_GITHUB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-"`django:EMAIL_USE_TLS`"
+":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, "
+":envvar:`WEBLATE_GITHUB_HOST`"
 
 #: ../../admin/config.rst:878
 msgid "GITHUB_USERNAME"
-msgstr ""
+msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:882 ../../admin/config.rst:898
 msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITHUB_CREDENTIALS`."
 msgstr ""
+"Esta configuración es insegura, se recomienda cambiar a "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/config.rst:884
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
+"Nombre de usuario de GitHub utilizado para enviar las solicitudes de "
+"traducción."
 
 #: ../../admin/config.rst:888
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
-msgstr ""
+msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 
 #: ../../admin/config.rst:894
 msgid "GITHUB_TOKEN"
-msgstr ""
+msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:902
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
+"Token de acceso personal de GitHub que se usa para realizar llamadas a la "
+"API para enviar las solicitudes de incorporación de las actualizaciones para "
+"la traducción."
 
 #: ../../admin/config.rst:907
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
 "personal access token`_"
 msgstr ""
+":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Crear un token de acceso "
+"personal a GitHub`_"
 
 #: ../../admin/config.rst:916
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:918
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"ID de Google Analytics para activar el seguimiento de Weblate mediante "
+"Google Analytics."
 
 #: ../../admin/config.rst:923
 msgid "HIDE_REPO_CREDENTIALS"
-msgstr ""
+msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:925
 msgid ""
