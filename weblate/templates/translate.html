@@ -615,8 +615,10 @@
     {% empty %}
     <em>{% trans "No screenshot currently associated." %}</em>
     {% endfor %}
+    {% if user_can_add_screenshot %}
     <br />
     <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% trans "Add screenshot" %}</a>
+    {% endif %}
     </div>
     {% endif %}
     {% if unit.source_unit.explanation or user_can_edit_source %}
