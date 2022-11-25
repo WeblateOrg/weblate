@@ -724,7 +724,13 @@ $(function () {
     var $this = $(this);
     $("#imagepreview").attr("src", $this.attr("href"));
     $("#screenshotModal").text($this.attr("title"));
-    $("#modalEditLink").attr("href", $this.data("edit"));
+
+    var detailsLink = $("#modalDetailsLink");
+    detailsLink.attr("href", $this.data("details-url"));
+    if ($this.data("can-edit")) {
+      detailsLink.text(detailsLink.data("edit-text"));
+    }
+
     $("#imagemodal").modal("show");
     return false;
   });
