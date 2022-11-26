@@ -103,13 +103,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("contact"), data)
         self.assertContains(response, "Enter a valid e-mail address.")
 
-    @override_settings(RATELIMIT_ATTEMPTS=0)
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=0)
     def test_contact_rate(self):
         """Test for contact form rate limiting."""
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertContains(response, "Too many messages sent, please try again later.")
 
-    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=0)
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=1, RATELIMIT_WINDOW=0)
     def test_contact_rate_window(self):
         """Test for contact form rate limiting."""
         message = "Too many messages sent, please try again later."
