@@ -389,7 +389,7 @@ class PluralField(forms.CharField):
     enforce the value to be a string.
     """
 
-    def __init__(self, max_length=None, min_length=None, **kwargs):
+    def __init__(self, **kwargs):
         kwargs["label"] = ""
         super().__init__(widget=PluralTextarea, **kwargs)
 
