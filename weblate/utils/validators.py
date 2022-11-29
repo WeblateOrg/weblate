@@ -231,3 +231,18 @@ def validate_language_aliases(value):
     for part in value.split(","):
         if part.count(":") != 1:
             raise ValidationError(_("Syntax error in language aliases."))
+
+
+def validate_project_name(value):
+    """Prohibits some special values."""
+    if settings.PROJECT_NAME_RESTRICT_RE is not None and re.match(
+        settings.PROJECT_NAME_RESTRICT_RE, value
+    ):
+        raise ValidationError(_("This name is prohibited"))
+
+
+def validate_project_web(value):
+    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
+        settings.PROJECT_WEB_RESTRICT_RE, value
+    ):
+        raise ValidationError(_("This URL is prohibited"))

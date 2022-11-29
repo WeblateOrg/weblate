@@ -1430,6 +1430,32 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 
    :ref:`projectbackup`
 
+.. setting:: PROJECT_NAME_RESTRICT_RE
+
+PROJECT_NAME_RESTRICT_RE
+------------------------
+
+.. versionadded:: 4.15
+
+Defines a regular expression to restrict project naming. Any matching names will be rejected.
+
+.. seealso::
+
+   :ref:`project-name`
+
+.. setting:: PROJECT_WEB_RESTRICT_RE
+
+PROJECT_WEB_RESTRICT_RE
+-----------------------
+
+.. versionadded:: 4.15
+
+Defines a regular expression to restrict project websites. Any matching URLs will be rejected.
+
+.. seealso::
+
+   :ref:`project-web`
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS

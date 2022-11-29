@@ -43,7 +43,12 @@ from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
-from weblate.utils.validators import validate_language_aliases, validate_slug
+from weblate.utils.validators import (
+    validate_language_aliases,
+    validate_project_name,
+    validate_project_web,
+    validate_slug,
+)
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -93,6 +98,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
         help_text=gettext_lazy("Display name"),
+        validators=[validate_project_name],
     )
     slug = models.SlugField(
         verbose_name=gettext_lazy("URL slug"),
@@ -105,6 +111,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
+        validators=[validate_project_web],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),

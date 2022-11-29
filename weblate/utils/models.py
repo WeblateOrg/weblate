@@ -87,6 +87,9 @@ class WeblateConf(AppConf):
 
     INTERLEDGER_PAYMENT_POINTERS = ["$ilp.uphold.com/ENU7fREdeZi9"]
 
+    PROJECT_NAME_RESTRICT_RE = None
+    PROJECT_WEB_RESTRICT_RE = None
+
     class Meta:
         prefix = ""
 

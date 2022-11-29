@@ -125,6 +125,10 @@ Project name
 
 Verbose project name, used to display the project name.
 
+.. seealso::
+
+   :setting:`PROJECT_NAME_RESTRICT_RE`
+
 .. _project-slug:
 
 URL slug
@@ -140,6 +144,10 @@ Project website
 URL where translators can find more info about the project.
 
 This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
+
+.. seealso::
+
+   :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. _project-instructions:
 
