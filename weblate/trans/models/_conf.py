@@ -186,5 +186,7 @@ Current translation status:
     PROJECT_BACKUP_KEEP_DAYS = 30
     PROJECT_BACKUP_KEEP_COUNT = 3
 
+    EXTRA_HTML_HEAD = ""
+
     class Meta:
         prefix = ""

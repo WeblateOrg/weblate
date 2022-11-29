@@ -703,6 +703,23 @@ ENABLE_SHARING
 
 Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
+.. setting:: EXTRA_HTML_HEAD
+
+EXTRA_HTML_HEAD
+---------------
+
+.. versionadded:: 4.15
+
+Insert additional markup into HTML header. Can be used for verification of site ownership, for example:
+
+.. code-block:: python
+
+   EXTRA_HTML_HEAD = '<link href="https://fosstodon.org/@weblate" rel="me">'
+
+.. warning::
+
+   No sanitization is performed on the string, it is inserted as is into the HTML header.
+
 .. setting:: GET_HELP_URL
 
 GET_HELP_URL

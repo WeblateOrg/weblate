@@ -870,6 +870,12 @@ Generic settings
 
    Configures :setting:`ENABLE_SHARING`.
 
+.. envvar:: WEBLATE_EXTRA_HTML_HEAD
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`EXTRA_HTML_HEAD`.
+
 .. _docker-machine:
 
 Automatic suggestion settings

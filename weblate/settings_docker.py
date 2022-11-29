@@ -1333,6 +1333,8 @@ BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
 
 ENABLE_SHARING = get_env_bool("WEBLATE_ENABLE_SHARING")
 
+EXTRA_HTML_HEAD = os.environ.get("WEBLATE_EXTRA_HTML_HEAD", "")
+
 # Wildcard loading
 for name in os.environ:
     if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(

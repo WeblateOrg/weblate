@@ -11,6 +11,7 @@ Not yet released.
 * Autogenerate repoweb browsing links for well known code hosting services.
 * Improved performance of several views.
 * Improved listing of strings with plurals.
+* Added support for adding custom markup to HTML head.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
