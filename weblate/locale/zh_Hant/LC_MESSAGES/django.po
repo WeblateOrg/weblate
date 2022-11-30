@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-22 20:36+0000\n"
-"Last-Translator: Supaplex <bejokeup@gmail.com>\n"
+"PO-Revision-Date: 2022-11-30 12:48+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -3985,7 +3985,7 @@ msgstr "解析 TMX 檔失敗！"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr "來源語言未在 TMX 檔案定議！"
+msgstr "未在 TMX 檔案定義來源語言！"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -9184,7 +9184,7 @@ msgstr ""
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
-msgstr "可以透過在字串或元件標記加相對應的標記來啟用檢查。"
+msgstr "可以透過在字串或組件標記加上相對應的標記來啟用檢查。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9387,7 +9387,8 @@ msgstr "要移除的專案"
 msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
-msgstr ""
+msgstr "本組件已經安裝「加入遺漏語言」附加元件，移除的語言可能會被這個附加元件重新加"
+"回。"
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9518,20 +9519,14 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "這會從本專案刪除 <b>%(name)s</b> 團隊。"
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
 msgid_plural ""
 "This team contains %(count)s members. Deleting the team might affect their "
 "access to the project."
-msgstr[0] "這個團隊有 %(count)s 名成員。刪除團隊可能會影響成員存取專案。"
+msgstr[0] "本團隊有 %(count)s 名成員。刪除團隊可能會影響這些成員對專案的存取權。"
 
 #: weblate/templates/trans/project-access.html:215
 msgid "Edit team"
@@ -9802,10 +9797,8 @@ msgid "Apply selected translation to current string"
 msgstr "將所選翻譯套用至目前的字串"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "瀏覽所有變更"
+msgstr "瀏覽所有字串變更"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -11263,17 +11256,13 @@ msgstr "已解除安裝附加元件"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:388
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "移除字串"
+msgstr "已移除字串"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:390
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "解決的評註"
+msgstr "已移除評註"
 
 #: weblate/trans/models/change.py:463
 msgid "New string to translate"
@@ -11881,16 +11870,12 @@ msgid "Could not add new translation file."
 msgstr "無法新增翻譯檔。"
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "指定的語言已由語言過濾器過濾。"
+msgstr "指定語言已當作來源語言使用。"
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "指定的語言已由語言過濾器過濾。"
+msgstr "指定語言已經存在。"
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -12542,12 +12527,10 @@ msgid "Changes in %s"
 msgstr "%s 的更動"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "%s 的更動"
+msgstr "%s 中字串的更改"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
@@ -12852,7 +12835,7 @@ msgstr "已移除專案的語言。"
 #: weblate/trans/views/settings.py:237
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
+msgstr "因為組態中有尚未解決的問題，因此無法重新命名：%s"
 
 #: weblate/trans/views/settings.py:388
 msgid "Backup was triggered, it will be shorly available."
