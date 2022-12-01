@@ -13,6 +13,7 @@ Not yet released.
 * Improved listing of strings with plurals.
 * Added support for adding custom markup to HTML head.
 * Fixed generation of MO files in the add-on to include only translated files.
+* Fixed rendering of regular expression flags.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
