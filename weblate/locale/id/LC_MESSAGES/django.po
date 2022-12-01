@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-11-14 12:34+0000\n"
-"PO-Revision-Date: 2022-11-15 11:00+0000\n"
+"PO-Revision-Date: 2022-12-01 22:48+0000\n"
 "Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -9957,13 +9957,7 @@ msgid "This will delete the team <b>%(name)s</b> from this project."
 msgstr "Ini akan menghapus tim <b>%(name)s</b> dari proyek ini."
 
 #: weblate/templates/trans/project-access.html:197
-#, fuzzy, python-format
-#| msgid ""
-#| "There is %(count)s member of this team. Deleting the team might affect "
-#| "their access to the project."
-#| msgid_plural ""
-#| "There are %(count)s members of this team. Deleting the team might affect "
-#| "their access to the project."
+#, python-format
 msgid ""
 "This team contains %(count)s member. Deleting the team might affect their "
 "access to the project."
@@ -9971,8 +9965,8 @@ msgid_plural ""
 "This team contains %(count)s members. Deleting the team might affect their "
 "access to the project."
 msgstr[0] ""
-"Ada %(count)s anggota di tim ini. Menghapus tim itu mungkin akan "
-"mempengaruhi pengaksesan mereka ke proyek."
+"Tim ini terdiri dari %(count)s anggota. Menghapus tim mungkin akan "
+"memengaruhi akses mereka ke proyek."
 
 #: weblate/templates/trans/project-access.html:215
 msgid "Edit team"
@@ -10253,10 +10247,8 @@ msgid "Apply selected translation to current string"
 msgstr "Terapkan terjemahan yang dipilih ke string saat ini"
 
 #: weblate/templates/translate.html:362
-#, fuzzy
-#| msgid "Browse all changes"
 msgid "Browse all string changes"
-msgstr "Telusuri semua perubahan"
+msgstr "Telusuri semua perubahan string"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -11763,17 +11755,13 @@ msgstr "Pengaya dicopot"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:388
-#, fuzzy
-#| msgid "Remove string"
 msgid "Removed string"
-msgstr "Hapus string"
+msgstr "String yang dihapus"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:390
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "Removed comment"
-msgstr "Komentar yang diselesaikan"
+msgstr "Komentar yang dihapus"
 
 #: weblate/trans/models/change.py:463
 msgid "New string to translate"
@@ -12445,16 +12433,12 @@ msgid "Could not add new translation file."
 msgstr "Tidak bisa menambah berkas terjemahan baru."
 
 #: weblate/trans/models/component.py:3095
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Bahasa yang diberikan disaring oleh penyaring bahasa."
+msgstr "Bahasa yang diberikan digunakan sebagai bahasa sumber."
 
 #: weblate/trans/models/component.py:3100
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Bahasa yang diberikan disaring oleh penyaring bahasa."
+msgstr "Bahasa yang diberikan sudah ada"
 
 #: weblate/trans/models/component.py:3106
 msgid "The given language is filtered by the language filter."
@@ -13122,12 +13106,10 @@ msgid "Changes in %s"
 msgstr "Perubahan dalam %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Perubahan dalam %s"
+msgstr "Perubahan string dalam %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
