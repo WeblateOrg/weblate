@@ -61,6 +61,16 @@
 </td>
 <td>{% trans "Android resource strings, split into several files." %}</td>
 </tr>
+<tr>
+<td><code>(?P&lt;originalHierarchy&gt;.+/)(?P&lt;component&gt;[^/]*)/src/main/resources/ApplicationResources_(?P&lt;language&gt;[^/.]*)\.properties</code></td>
+<td>
+    <code>parent/module1/submodule/src/main/resources/ApplicationResources_fr.properties</code><br />
+    <code>parent/module1/submodule/src/main/resources/ApplicationResource_es.properties</code><br />
+    <code>parent/module2/src/main/resources/ApplicationResource_de.properties</code><br />
+    <code>parent/module2/src/main/resources/ApplicationResource_ro.properties</code><br />
+</td>
+<td>{% trans "Multi-module Maven project with Java properties translations." %}</td>
+</tr>
 </tbody>
 </table>
 
