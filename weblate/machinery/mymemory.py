@@ -59,16 +59,10 @@ class MyMemoryTranslation(MachineTranslation):
 
     def format_match(self, match):
         """Reformat match to (translation, quality) tuple."""
-        if isinstance(match["quality"], int):
-            quality = match["quality"]
-        elif match["quality"] is not None and match["quality"].isdigit():
-            quality = int(match["quality"])
-        else:
-            quality = 0
 
         result = {
             "text": match["translation"],
-            "quality": int(quality * match["match"]),
+            "quality": int(100 * match["match"]),
             "service": self.name,
             "source": match["segment"],
         }
