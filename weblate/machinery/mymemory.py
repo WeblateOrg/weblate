@@ -107,4 +107,6 @@ class MyMemoryTranslation(MachineTranslation):
             "get", "https://mymemory.translated.net/api/get", params=args
         )
         for match in response["matches"]:
-            yield self.format_match(match)
+            result = self.format_match(match)
+            if result["quality"] > threshold:
+                yield result
