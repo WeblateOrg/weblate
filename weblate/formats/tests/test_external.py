@@ -21,7 +21,6 @@
 from io import BytesIO
 from unittest import skipIf
 
-import translate.__version__
 from openpyxl import load_workbook
 
 from weblate.formats.external import XlsxFormat
@@ -55,7 +54,6 @@ class XlsxFormatTest(AutoFormatTest):
             list(newworkbook.active.values), list(testworkbook.active.values)
         )
 
-    @skipIf(translate.__version__.ver <= (3, 5, 4), "broken in older translate-toolkit")
     def test_japanese(self):
         storage = self.FORMAT.parse(JAPANESE_FILE)
         self.assertEqual(len(storage.all_units), 1)
