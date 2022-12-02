@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 
+from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
 from django.utils.translation import gettext_lazy as _
 
@@ -73,7 +73,10 @@ class PlaceholderCheck(TargetCheckParametrized):
         )
 
     def check_target_params(self, sources, targets, unit, value):
-        expected = set(self.get_matches(value, unit.source_string))
+        expected = set(self.get_matches(value, sources[0]))
+        if not expected and len(sources) > 1:
+            expected = set(self.get_matches(value, sources[1]))
+        plural_examples = SimpleLazyObject(lambda: unit.translation.plural.examples)
 
         if "case-insensitive" in unit.all_flags:
             diff_func = self.diff_case_insensitive
@@ -83,10 +86,15 @@ class PlaceholderCheck(TargetCheckParametrized):
         missing = set()
         extra = set()
 
-        for target in targets:
+        for pluralno, target in enumerate(targets):
             found = set(self.get_matches(value, target))
             diff = diff_func(expected, found)
-            missing.update(diff[0])
+            plural_example = plural_examples[pluralno]
+            # Allow to skip format string in case there is single plural or in special
+            # case of 0, 1 plural. It is technically wrong, but in many cases there
+            # won't be 0 so don't trigger too many false positives
+            if len(plural_example) > 1 and plural_example != ["0", "1"]:
+                missing.update(diff[0])
             extra.update(diff[1])
 
         if missing or extra:
