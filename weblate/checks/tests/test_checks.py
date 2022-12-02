@@ -67,6 +67,7 @@ class MockTranslation:
         self.component = MockComponent()
         self.is_template = False
         self.is_source = False
+        self.plural = self.language.plural
 
     @staticmethod
     def log_debug(text, *args):
