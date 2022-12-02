@@ -427,9 +427,6 @@ def confirm(request):
     if not details:
         return redirect("home")
 
-    # Monkey patch request
-    request.user = User.objects.get(pk=details["user_pk"])
-
     if request.method == "POST":
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
