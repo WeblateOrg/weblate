@@ -85,9 +85,12 @@ class TMServerTranslation(MachineTranslation):
         payload = response.json()
 
         for line in payload:
+            quality = int(line["quality"])
+            if quality < threshold:
+                continue
             yield {
                 "text": line["target"],
-                "quality": int(line["quality"]),
+                "quality": quality,
                 "service": self.name,
                 "source": line["source"],
             }
