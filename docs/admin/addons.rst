@@ -665,11 +665,10 @@ Customize XML output
 ---------------------
 
 :Add-on ID: ``weblate.xml.customize``
-:Configuration: +-----------------+-------------------------+-------------------------------------------------------+
-                | ``tags_format`` | XML Closing Tags format | Available choices:                                    |
-                |                 |                         | ``self_closing_tags`` -- Self-closing tags (<note/>)  |
-                |                 |                         | ``closing_tags`` -- Self-closing tags (<note></note>) |
-                +-----------------+-------------------------+-------------------------------------------------------+
+:Configuration: +-----------------+-------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``tags_format`` | XML Closing Tags format | Available choices:                                                                                       |
+                |                 |                         | ``closing_tags`` -- when true, output xml will force closing tags even when tag is empty (<note></note>) |
+                +-----------------+-------------------------+----------------------------------------------------------------------------------------------------------+
 :Triggers: storage post-load
 
 Allows adjusting XML output behavior, for example closing tags.

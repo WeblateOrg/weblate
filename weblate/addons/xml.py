@@ -31,7 +31,7 @@ class XMLCustomizeAddon(StoreBaseAddon):
     name = "weblate.xml.customize"
     verbose = _("Customize XML output")
     description = _(
-        "Allows adjusting XML output behavior, for example indentation or sorting."
+        "Allows adjusting XML output behavior, for example closing tags instead of self-closing tags for empty tags."
     )
     settings_form = XMLCustomizeForm
 
@@ -45,6 +45,4 @@ class XMLCustomizeAddon(StoreBaseAddon):
     def store_post_load(self, translation, store):
         """Hook triggered once component formatter has been loaded."""
         config = self.instance.configuration
-        store.store.XMLSelfClosingTags = (
-            config.get("tags_format", "closing_tags") == "self_closing_tags"
-        )
+        store.store.XMLSelfClosingTags = not config.get("closing_tags", True)
