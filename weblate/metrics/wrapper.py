@@ -238,7 +238,8 @@ class MetricsWrapper:
         numdays = monthrange(year, month)[1]
         daily = self.get_daily_activity(date(year, month, numdays), numdays - 1)
         result = sum(daily.values())
-        cache.set(cache_key, result, None)
+        # Cache for one year
+        cache.set(cache_key, result, 365 * 24 * 3600)
         return result
 
     @cached_property
