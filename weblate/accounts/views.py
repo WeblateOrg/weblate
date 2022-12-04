@@ -428,7 +428,9 @@ def confirm(request):
         return redirect("home")
 
     if request.method == "POST":
-        confirm_form = PasswordConfirmForm(request, request.POST)
+        confirm_form = PasswordConfirmForm(
+            request, request.POST, user=User.objects.get(pk=details["user_pk"])
+        )
         if confirm_form.is_valid():
             request.session.pop("reauthenticate")
             request.session["reauthenticate_done"] = True
