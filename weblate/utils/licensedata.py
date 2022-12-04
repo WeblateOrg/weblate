@@ -1361,12 +1361,6 @@ LICENSES = (
     ),
     ("JSON", "JSON License", "https://spdx.org/licenses/JSON.html", False),
     (
-        "Knuth-CTAN",
-        "Knuth CTAN License",
-        "https://spdx.org/licenses/Knuth-CTAN.html",
-        False,
-    ),
-    (
         "LPPL-1.0",
         "LaTeX Project Public License v1.0",
         "https://spdx.org/licenses/LPPL-1.0.html",
@@ -1423,12 +1417,6 @@ LICENSES = (
         False,
     ),
     ("libtiff", "libtiff License", "https://spdx.org/licenses/libtiff.html", False),
-    (
-        "libutil-David-Nugent",
-        "libutil David Nugent License",
-        "https://spdx.org/licenses/libutil-David-Nugent.html",
-        False,
-    ),
     (
         "LAL-1.2",
         "Licence Art Libre 1.2",
