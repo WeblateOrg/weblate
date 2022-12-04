@@ -582,7 +582,7 @@ Ruby format
 .. seealso::
 
    :ref:`check-formats`,
-   `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+   `Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-sprintf>`_
 
 .. _check-scheme-format:
 
