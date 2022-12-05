@@ -93,7 +93,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             # Allow to skip format string in case there is single plural or in special
             # case of 0, 1 plural. It is technically wrong, but in many cases there
             # won't be 0 so don't trigger too many false positives
-            if len(targets) or (
+            if len(targets) == 1 or (
                 len(plural_example) > 1 and plural_example != ["0", "1"]
             ):
                 missing.update(diff[0])
