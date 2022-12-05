@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-12-01 22:48+0000\n"
-"Last-Translator: Claudio Filho F Filho <filhocf@gmail.com>\n"
+"PO-Revision-Date: 2022-12-06 01:17+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -13313,6 +13313,9 @@ msgid ""
 "`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or :setting:"
 "`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`."
 msgstr ""
+"Configura a integração de merge requests do GitLab alterando "
+":setting:`GITLAB_CREDENTIALS` (se :envvar:`WEBLATE_GITLAB_HOST` estiver "
+"definido) ou :setting:`GITLAB_USERNAME` e :setting:`GITLAB_TOKEN`."
 
 #: ../../admin/install/docker.rst:678
 msgid ""
@@ -13320,6 +13323,9 @@ msgid ""
 "`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or :setting:"
 "`GITEA_USERNAME` and :setting:`GITEA_TOKEN`."
 msgstr ""
+"Configura a integração de pull requests do Gitea alterando "
+":setting:`GITEA_CREDENTIALS` (se :envvar:`WEBLATE_GITEA_HOST` estiver "
+"definido) ou :setting:`GITEA_USERNAME` e :setting:`GITEA_TOKEN`."
 
 #: ../../admin/install/docker.rst:691
 msgid ""
@@ -13327,6 +13333,9 @@ msgid ""
 "`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or :setting:"
 "`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`."
 msgstr ""
+"Configura a integração de merge requests do Pagure alterando "
+":setting:`PAGURE_CREDENTIALS` (se :envvar:`WEBLATE_PAGURE_HOST` estiver "
+"definido) ou :setting:`PAGURE_USERNAME` e :setting:`PAGURE_TOKEN`."
 
 #: ../../admin/install/docker.rst:701
 msgid ""
@@ -13491,10 +13500,8 @@ msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr "Configura :setting:`ENABLE_AVATARS`."
 
 #: ../../admin/install/docker.rst:847
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr "Configura :setting:`STATUS_URL`."
+msgstr "Configura :setting:`AVATAR_URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:853
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
@@ -15847,6 +15854,9 @@ msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"O Weblate oferece suporte à formalidade no DeepL, ele escolherá uma "
+"correspondência com base no idioma (por exemplo, há ``de@formal`` e "
+"``de@informal``)."
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -21125,10 +21135,8 @@ msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgstr "A dependência `jellyfish` foi substituída por `rapidfuzz`."
 
 #: ../../admin/upgrade.rst:349
-#, fuzzy
-#| msgid "Upgrade from 4.4 to 4.5"
 msgid "Upgrade from 4.14 to 4.15"
-msgstr "Atualizar da 4.4 para 4.5"
+msgstr "Atualizar da 4.14 para 4.15"
 
 #: ../../admin/upgrade.rst:353
 msgid ""
@@ -21136,6 +21144,9 @@ msgid ""
 "process will install it if it has sufficent privileges. See :ref:`dbsetup-"
 "postgres` for manual setup."
 msgstr ""
+"O Weblate agora requer a extensão ``btree_gin`` no PostgreSQL. O processo de "
+"migração irá instalá-lo se tiver privilégios suficientes. Veja :ref:`dbsetup-"
+"postgres` para configuração manual."
 
 #: ../../admin/upgrade.rst:361
 msgid "Upgrading from Python 2 to Python 3"
@@ -24007,64 +24018,51 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.15"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.15"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Support for showing changes from previous source string."
 msgid "Added support for browsing changes for a individual string."
-msgstr "Suporte para mostrar alterações do texto fonte anterior."
+msgstr ""
+"Adicionado suporte para alterações de navegação para um texto individual."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed crash in reporting automatic translation progress."
 msgid "Fixed plurals handling in automatic translation from other components."
-msgstr "Corrigida falha em relatar progresso das traduções automáticas."
+msgstr ""
+"Corrigido o tratamento de plurais na tradução automática de outros "
+"componentes."
 
 #: ../../changes.rst:8
 msgid "Added keyboard shortcut Alt+Enter to submit string as a suggestion."
-msgstr ""
+msgstr "Adicionado atalho de teclado Alt+Enter para enviar texto como sugestão."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for placeables in the Fluent format."
-msgstr "Adicionado suporte para o formato Fluent."
+msgstr "Adicionado suporte para objetos colocáveis no formato Fluent."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory."
-msgstr "Melhorado o desempenho de atualizações de memória de tradução."
+msgstr "Melhorado o desempenho da memória de tradução."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/81?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/81?closed=1>`__."
+"milestone/88?closed=1>`__."
 
 #: ../../changes.rst:15
 msgid "Weblate 4.14.2"
 msgstr "Weblate 4.14.2"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Released on November 4th 2020."
 msgid "Released on November 5th 2022."
-msgstr "Lançado em 4 de novembro de 2020."
+msgstr "Lançado em 5 de novembro de 2022."
 
 #: ../../changes.rst:19
 msgid "Added support for removing entries from translation memory."
@@ -24116,333 +24114,244 @@ msgid "Track comment removal/resolving in history."
 msgstr "Acompanha a remoção/resolução de comentários no histórico."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Fixed CodeMirror display issues in some situations."
 msgid "Fixed restoring project backups with linked components."
-msgstr "Corrigidos problemas de exibição do CodeMirror em algumas situações."
+msgstr ""
+"Corrigida a restauração de backups de projetos com componentes vinculados."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Captcha protection for registration."
 msgid "Fixed captcha entering on unsuccessful registration."
-msgstr "Proteção por captcha para registro."
+msgstr "Corrigida a entrada de captcha no registro malsucedido."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Improved language code parsing."
 msgid "Improved languages support in DeepL."
-msgstr "Melhorada a análise de código de idioma."
+msgstr "Melhorado o suporte a idiomas no DeepL."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Improve webhooks compatibility with self hosted environments."
 msgid "Improved webhooks compatibility with authenticated repositories."
-msgstr ""
-"Melhora a compatibilidade dos webhooks com ambientes de hospedagem própria."
+msgstr "Melhorada a compatibilidade dos webhooks com repositórios autenticados."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Added support for Python 3.10."
 msgid "Added support for Python 3.11."
-msgstr "Suporte adicionado para Pyton 3.10."
+msgstr "Suporte adicionado para Pyton 3.11."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/81?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/81?closed=1>`__."
+"milestone/87?closed=1>`__."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.14.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.14.1"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Released on September 10th 2021."
 msgid "Released on September 15th 2022."
-msgstr "Lançado em 10 de setembro de 2021."
+msgstr "Lançado em 15 de setembro de 2022."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Fixed CodeMirror display issues in some situations."
 msgid "Fixed generating project backups in some situations."
-msgstr "Corrigidos problemas de exibição do CodeMirror em algumas situações."
+msgstr "Corrigida a geração de backups d2 projeto em algumas situações."
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "Improved performance of file upload."
 msgid "Improved error reporting on file upload."
-msgstr "Melhorado o desempenho do envio de arquivo."
+msgstr "Melhorado o relatório de erro no envio de arquivo."
 
 #: ../../changes.rst:44
 msgid "Fetch all user verified e-mails from GitHub during authentication."
 msgstr ""
+"Obtém todos os e-mails, verificados pelo usuário, do GitHub durante a "
+"autenticação."
 
 #: ../../changes.rst:45
 msgid "Avoid matching glossary terms on context or keys."
-msgstr ""
+msgstr "Evita corresponder os termos de glossário no contexto ou nas chaves."
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid "Fixed notifications rendering in Gmail."
 msgid "Added notifications for string removals."
-msgstr "Corrigido o processamento de notificações no Gmail."
+msgstr "Adicioonadas notificações para remoções de texto."
 
 #: ../../changes.rst:47
-#, fuzzy
-#| msgid "Improved lookup of related terms in glossary."
 msgid "Improved management of untranslatable terms in glossary."
-msgstr "Melhorada a pesquisa de termos relacionados no glossário."
+msgstr "Melhorado o gerenciamento de termos não traduzidos no glossário."
 
 #: ../../changes.rst:48
 msgid "List number of team members on team management page."
 msgstr ""
+"Lista o número de membros da equipe na página de gerenciamento da equipe."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Use management interface"
 msgid "Add group management interface."
-msgstr "Usar interface de gerenciamento"
+msgstr "Adiciona interface de gerenciamento de grupos."
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "Always show rendered text check if enabled."
 msgid "Always show review stats when reviews are enabled."
-msgstr "Sempre mostra a verificação de texto renderizado se habilitada."
+msgstr ""
+"Sempre mostra as estatísticas de revisão quando revisões estão habilitadas."
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid "Added basic support for Gerrit."
 msgid "Added searching support in units API."
-msgstr "Adicionado suporte básico para Gerrit."
+msgstr "Adicionado suporte de pesquisa em API de unidades."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid "Fixed progress bar display in some corner cases."
 msgid ""
 "Fixed progress bar display for read-only strings in the review workflow."
-msgstr "Corrigida a exibição da barra de progresso em alguns casos complexos."
+msgstr ""
+"Corrigida a exibição da barra de progresso para textos somente leitura no "
+"fluxo de trabalho de revisão."
 
 #: ../../changes.rst:53
-#, fuzzy
-#| msgid "Improved punctuation checks for Burmese."
 msgid "Improved Burmese punctuation check."
-msgstr "Melhoradas as verificações de pontuação para Birmanês."
+msgstr "Melhorada a verificação de pontuação de Birmanês."
 
 #: ../../changes.rst:54
 msgid "Fixed garbage collecting of metrics data."
-msgstr ""
+msgstr "Corrigida a coleta de lixo de dados de métricas."
 
 #: ../../changes.rst:56
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/81?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/81?closed=1>`__."
+"milestone/86?closed=1>`__."
 
 #: ../../changes.rst:59
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.14"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.14"
 
 #: ../../changes.rst:61
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 22nd 2022."
-msgstr "Lançado em 21 de agosto de 2021."
+msgstr "Lançado em 22 de agosto de 2022."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Record source string changes in history."
 msgid "Track add-on changes in a history."
-msgstr "Registra as alterações de texto fonte no histórico."
+msgstr "Rastreia as alterações de extensões em um histórico."
 
 #: ../../changes.rst:64
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
-msgstr "Corrigida a análise do local de arquivos CSV."
+msgstr ""
+"Corrigida a análise da tradução de arquivos do Windows RC, HTML e texto."
 
 #: ../../changes.rst:65
-#, fuzzy
-#| msgid "Extend template language for filename manipulations."
 msgid "Extended language code style configuration options."
-msgstr "Estendida a linguagem do modelo para manipulações de nome de arquivo."
+msgstr "Estendidas as opções de configuração de estilo de código de idioma."
 
 #: ../../changes.rst:66
-#, fuzzy
-#| msgid "Added support for automated daily update of repositories."
 msgid "Added support for plurals updated in the recent CLDR releases."
 msgstr ""
-"Adicionado suporte para atualização diária automatizada de repositórios."
+"Adicionado suporte para plurais atualizado nas versões recentes do CLDR."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Support for starting translation components without existing translations."
 msgid ""
 "Reduced memory usage while updating components with a lot of translations."
-msgstr "Suporte para iniciar componentes de tradução sem traduções existentes."
+msgstr ""
+"Reduzido o uso de memória durante a atualização de componentes com muitas "
+"traduções."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid "Added support for SAP Translation Hub service."
 msgid "Added support for translation domain in SAP Translation Hub."
-msgstr "Adicionado suporte para serviço SAP Translation Hub."
+msgstr "Adicionado suporte para domínio de tradução em SAP Translation Hub."
 
 #: ../../changes.rst:69
-#, fuzzy
-#| msgid "Source string location"
 msgid "Allow absolute links in source string locations."
-msgstr "Local do texto fonte"
+msgstr "Permite links absolutos em locais de texto fonte."
 
 #: ../../changes.rst:70
-#, fuzzy
-#| msgid "Improved notifications on parse errors."
 msgid "Improved operation behind some reverse proxies."
-msgstr "Melhoradas notificações sobre erros de análise."
+msgstr "Melhorada a operação por trás de alguns proxies reversos."
 
 #: ../../changes.rst:71
-#, fuzzy
-#| msgid "Extended API with translation creation."
 msgid "Extended API to cover translation memory."
-msgstr "API estendida com criação de tradução."
+msgstr "Estendida a API para cobrir a memória de tradução."
 
 #: ../../changes.rst:72
-#, fuzzy
-#| msgid "Improved translation locking."
 msgid "Improved document translation workflow."
-msgstr "Melhorado o bloqueio de tradução."
+msgstr "Melhorado o fluxo de tradução de documentos."
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid "Improved reliability of import across file formats."
 msgid "Improved reliability of HTML and text files translation."
-msgstr "Maior confiabilidade de importação em formatos de arquivo."
+msgstr "Nelhorada a confiabilidade da tradução de arquivos HTML e texto."
 
 #: ../../changes.rst:74
-#, fuzzy
-#| msgid "Added support for borgbackup 1.2."
 msgid "Added support for project level backups."
-msgstr "Suporte adicionado para borgbackup 1.2."
+msgstr "Adicionado suporte para backups em nível de projeto."
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance and memory usage of translation memory lookups."
-msgstr "Melhorado o desempenho de atualizações de memória de tradução."
+msgstr ""
+"Melhorado o desempenho e uso de memória de pesquisas de memória de tradução."
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/81?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/81?closed=1>`__."
+"milestone/84?closed=1>`__."
 
 #: ../../changes.rst:80
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.13.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.13.1"
 
 #: ../../changes.rst:82
-#, fuzzy
-#| msgid "Released on July 15th 2021."
 msgid "Released on July 1st 2022."
-msgstr "Lançado em 15 de julho de 2021."
+msgstr "Lançado em 1° de julho de 2022."
 
 #: ../../changes.rst:84
-#, fuzzy
-#| msgid "Fixed user mention suggestions display."
 msgid "Fixed tracking suggestions in history."
-msgstr "Corrigida a menção de usuários na exibição de sugestões."
+msgstr "Corrigidas rastreamento de sugestões no histórico."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing reverse proxy info from Cloudflare."
-msgstr "Corrigida a análise do local de arquivos CSV."
+msgstr "Corrigida a análise de informações de proxy reverso do Cloudflare."
 
 #: ../../changes.rst:86
 msgid "Make parse error lock a component from translating."
-msgstr ""
+msgstr "Faz com que um erro de análise bloqueie a tradução de um componente."
 
 #: ../../changes.rst:87
-#, fuzzy
-#| msgid "Fixed triggering automatically installed add-ons."
 msgid "Fixed configuring intermediate file in the discovery add-on."
-msgstr "Corrigido acionamento automático de extensões instaladas."
+msgstr ""
+"Corrigida a configuração do arquivo intermediário na extensão de descoberta."
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid "Improved machine translation of strings with placeholders."
 msgid "Fixed DeepL translations behavior with placeholders."
-msgstr "Melhorada a tradução de máquina de textos com espaços reservados."
+msgstr ""
+"Corrigido o comportamento das traduções do DeepL com espaços reservados."
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid "Fixed untranslating strings in :ref:`javaprop`."
 msgid "Fixed untranslating strings via API."
-msgstr "Corrigida a não tradução de textos em :ref:`javaprop`."
+msgstr "Corrigida a remoção de tradução de textos por meio de API."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for removing user from a group via API."
-msgstr "Suporte adicionado para remover Fios da Meada."
+msgstr "Suporte adicionado para remover usuário de um grupo por meio de API."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Fixed avatar display in notification e-mails."
 msgid "Fixed audit log for user invitation e-mails."
-msgstr "Corrigida a exibição de avatares em e-mails de notificação."
+msgstr "Corrigido o log de auditoria para e-mails de de convite de usuário."
 
 #: ../../changes.rst:92
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Fixed flag names for Java formatting strings."
-msgstr "Edição em massa de marcadores, etiquetas ou estados."
+msgstr "Corrigidos nomes de sinalizadores para textos de formatação Java."
 
 #: ../../changes.rst:94
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/81?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/81?closed=1>`__."
+"milestone/85?closed=1>`__."
 
 #: ../../changes.rst:97
 msgid "Weblate 4.13"
 msgstr "Weblate 4.13"
 
 #: ../../changes.rst:99
-#, fuzzy
-#| msgid "Released on June 15th 2020."
 msgid "Released on June 15th 2022."
-msgstr "Lançado em 15 de junho de 2020."
+msgstr "Lançado em 15 de junho de 2022."
 
 #: ../../changes.rst:101
 msgid "Changed behavior of updating language names."
@@ -24467,77 +24376,66 @@ msgstr ""
 
 #: ../../changes.rst:105
 msgid "Added fixed encoding variants to CSV formats."
-msgstr ""
+msgstr "Adicionadas variantes de codificação fixa aos formatos CSV."
 
 #: ../../changes.rst:106
 msgid ""
 "Changed handling of context and location for some formats to better fit "
 "underlying implementation."
 msgstr ""
+"Alterado o tratamento de contexto e local para alguns formatos para melhor "
+"adequação à implementação subjacente."
 
 #: ../../changes.rst:107
-#, fuzzy
-#| msgid "Added support for subtitle formats."
 msgid "Added support for ResourceDictionary format."
-msgstr "Adicionado suporte para formatos de legenda."
+msgstr "Adicionado suporte para o formato ResourceDictionary."
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
 msgid "Improved progress bar colors for color blind."
-msgstr "Melhorada a velocidade de pesquisa de glossário para textos grandes."
+msgstr "Melhoradas as cores da barra de progresso para daltônicos."
 
 #: ../../changes.rst:109
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Fixed variants cleanup on string removal."
-msgstr "Melhorado o tratamento de erros na remoção de texto."
+msgstr "Corrigida a limpeza de variantes na remoção de texto."
 
 #: ../../changes.rst:110
-#, fuzzy
-#| msgid "Compatibility with Django 2.1."
 msgid "Compatibility with Django 4.1."
-msgstr "Compatibilidade com Django 2.1."
+msgstr "Compatibilidade com Django 4.1."
 
 #: ../../changes.rst:111
-#, fuzzy
-#| msgid "Added support for searching for resolved comments."
 msgid "Added support for storing escaped XML elements in XLIFF."
-msgstr "Adicionado suporte para pesquisar para comentários resolvidos."
+msgstr "Adicionado suporte para armazenar elementos XML com escape em XLIFF."
 
 #: ../../changes.rst:112
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid "Improved formatting of placeholder check errors."
-msgstr "Melhorado o manuseio de espaços reservados em traduções de máquina."
+msgstr "Melhorada a formatação de erros de verificação de espaço reservado."
 
 #: ../../changes.rst:113
 msgid "Redirect /.well-known/change-password to /accounts/password/."
-msgstr ""
+msgstr "Redireciona /.well-known/change-password para /accounts/password/."
 
 #: ../../changes.rst:114
-#, fuzzy
-#| msgid "Machine translation services no longer block page loading."
 msgid "Machine translation services are now configurable per project."
-msgstr ""
-"Os serviços de tradução de máquina não bloqueiam mais o carregamento da "
-"página."
+msgstr "Os serviços de tradução de máquina agora são configuráveis por projeto."
 
 #: ../../changes.rst:115
 msgid ""
 "Added separate permission for resolving comments and grant it to the :"
 "guilabel:`Review strings` role."
 msgstr ""
+"Adicionada uma permissão separada para resolver comentários e concedê-la à "
+"função :guilabel:`Revisar textos`."
 
 #: ../../changes.rst:116
-#, fuzzy
-#| msgid "Added support for translating and importing CSV files."
 msgid "Added support for storing alternative translations in the CSV file."
-msgstr "Adicionado suporte para tradução e importação de arquivos CSV."
+msgstr ""
+"Adicionado suporte para armazenar traduções alternativas no arquivo CSV."
 
 #: ../../changes.rst:117
 msgid "The placeholders check can now be case-insensitive as well."
 msgstr ""
+"A verificação de espaços reservados agora também não diferencia maiúsculas "
+"de minúsculas."
 
 #: ../../changes.rst:119
 msgid ""
@@ -24965,7 +24863,7 @@ msgstr "Lançado em 16 de dezembro de 2021."
 
 #: ../../changes.rst:243
 msgid "Added support for formality and placeholders with DeepL."
-msgstr "Adicionado suporte para formality e espaços reservados com DeepL."
+msgstr "Adicionado suporte para formalidade e espaços reservados com DeepL."
 
 #: ../../changes.rst:244
 msgid ""
