@@ -814,10 +814,16 @@ class UploadRequestSerializer(ReadOnlySerializer):
         choices=("", "process", "approve"), required=False, default=""
     )
     conflicts = serializers.ChoiceField(
-        choices=("", "replace-translated", "replace-approved"),
+        choices=("", "ignore", "replace-translated", "replace-approved"),
         required=False,
         default="",
     )
+
+    def validate_conflicts(self, value):
+        # These are handled same
+        if value == "ignore":
+            return ""
+        return value
 
     def check_perms(self, user, obj):
         data = self.validated_data

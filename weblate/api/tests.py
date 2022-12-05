@@ -2382,6 +2382,43 @@ class TranslationAPITest(APIBaseTest):
             )
         self.assertEqual(response.status_code, 400)
 
+    def test_upload_conflicts(self):
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "conflicts": ""},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 1,
+                "count": 4,
+                "not_found": 0,
+                "result": True,
+                "skipped": 0,
+                "total": 4,
+            },
+        )
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "conflicts": "ignore"},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 0,
+                "count": 4,
+                "not_found": 0,
+                "result": False,
+                "skipped": 1,
+                "total": 4,
+            },
+        )
+
     def test_upload_overwrite(self):
         self.test_upload()
         with open(TEST_PO, "rb") as handle:
