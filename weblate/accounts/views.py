@@ -166,6 +166,7 @@ class EmailSentView(TemplateView):
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
+        context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
         # This view is not visible for invitation that's
