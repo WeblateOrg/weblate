@@ -305,6 +305,7 @@
     <tr>
       <th></th>
       <th>{% trans "Component" %}</th>
+      <th>{{ unit.translation.component.context_label }}</th>
       <th>{% trans "Translation" %}</th>
       <th>{% trans "Difference to current string" %}</th>
     </tr>
@@ -317,7 +318,7 @@
     </tbody>
     {% endif %}
     {% if others.matching %}
-    <tr><th colspan="4" class="warning">{% blocktrans count count=others.matching|length %}The following string has the same context and source.{% plural %}The following strings have the same context and source.{% endblocktrans %}</th></tr>
+    <tr><th colspan="5" class="warning">{% blocktrans count count=others.matching|length %}The following string has the same context and source.{% plural %}The following strings have the same context and source.{% endblocktrans %}</th></tr>
     <tbody>
     {% for item in others.matching %}
     {% include "trans/other-row.html" %}
@@ -325,7 +326,7 @@
     </tbody>
     {% endif %}
     {% if others.source %}
-    <tr><th colspan="4" class="warning">{% blocktrans count count=others.source|length %}The following string has different context, but the same source.{% plural %}The following strings have different contexts, but the same source.{% endblocktrans %}</th></tr>
+    <tr><th colspan="5" class="warning">{% blocktrans count count=others.source|length %}The following string has different context, but the same source.{% plural %}The following strings have different contexts, but the same source.{% endblocktrans %}</th></tr>
     <tbody>
     {% for item in others.source %}
     {% include "trans/other-row.html" %}
@@ -333,7 +334,7 @@
     </tbody>
     {% endif %}
     {% if others.context %}
-    <tr><th colspan="4" class="warning">{% blocktrans count count=others.context|length %}The following string has a different source, but the same context.{% plural %}The following strings have different sources, but the same context.{% endblocktrans %}</th></tr>
+    <tr><th colspan="5" class="warning">{% blocktrans count count=others.context|length %}The following string has a different source, but the same context.{% plural %}The following strings have different sources, but the same context.{% endblocktrans %}</th></tr>
     <tbody>
     {% for item in others.context %}
     {% include "trans/other-row.html" %}
