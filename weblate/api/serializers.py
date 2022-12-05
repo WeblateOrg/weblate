@@ -844,8 +844,11 @@ class UploadRequestSerializer(ReadOnlySerializer):
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
+            hint = "Check your permissions or use different translation object."
+            if data["method"] == "add" and not obj.is_source:
+                hint = "Try adding to the source instead of the translation."
             raise serializers.ValidationError(
-                {"method": "This method is not available here."}
+                {"method": f"This method is not available here. {hint}"}
             )
 
 
