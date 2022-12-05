@@ -207,18 +207,23 @@ def prefetch_tasks(components):
 class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
-    def prefetch(self):
+    def prefetch(self, alerts: bool = True):
         from weblate.trans.models import Alert
 
-        return self.prefetch_related(
+        result = self
+        if alerts:
+            result = result.prefetch_related(
+                models.Prefetch(
+                    "alert_set",
+                    queryset=Alert.objects.filter(dismissed=False),
+                    to_attr="all_alerts",
+                ),
+            )
+
+        return result.prefetch_related(
             "project",
             "linked_component",
             "linked_component__project",
-            models.Prefetch(
-                "alert_set",
-                queryset=Alert.objects.filter(dismissed=False),
-                to_attr="all_alerts",
-            ),
         )
 
     def get_linked(self, val):

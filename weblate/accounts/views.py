@@ -359,10 +359,10 @@ def user_profile(request):
     new_backends = [
         x for x in sorted(all_backends) if x == "email" or x not in social_names
     ]
-    license_projects = (
+    license_components = (
         Component.objects.filter_access(request.user)
         .exclude(license="")
-        .prefetch()
+        .prefetch(alerts=False)
         .order_by("license")
     )
 
@@ -380,7 +380,7 @@ def user_profile(request):
             "all_forms": forms,
             "profile": profile,
             "title": _("User profile"),
-            "licenses": license_projects,
+            "licenses": license_components,
             "associated": social,
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
