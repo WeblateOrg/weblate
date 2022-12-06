@@ -9,5 +9,27 @@
         "docker"
       ]
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "\\.pre-commit-config\\.yaml"
+      ],
+      "matchStrings": [
+        "(?<depName>[^'\" ]+)==(?<currentValue>[^'\" ,\\s]+)"
+      ],
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
+    },
+    {
+      "fileMatch": [
+        "\\.pre-commit-config\\.yaml"
+      ],
+      "matchStrings": [
+        "(?<depName>[^'\" ]+)@(>=)?(?<currentValue>[^'\" ,\\s]+)"
+      ],
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "npm"
+    }
   ]
 }
