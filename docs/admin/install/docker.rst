@@ -1019,6 +1019,15 @@ GitLab
 
     Enables :ref:`gitlab_auth`.
 
+Gitea
++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_API_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_SECRET
+
+   Enables Gitea authentication.
+
 Azure Active Directory
 ++++++++++++++++++++++
 

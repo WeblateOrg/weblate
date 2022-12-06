@@ -474,11 +474,16 @@ if "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT" in os.environ:
         ]
 
 # Gitea
-if "WEBLATE_SOCIAL_AUTH_GITEA_API_URL" in os.environ:
-    SOCIAL_AUTH_GITEA_API_URL = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_API_URL", "")
+if "WEBLATE_SOCIAL_AUTH_GITEA_KEY" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.gitea.GiteaOAuth2",)
 
-SOCIAL_AUTH_GITEA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_KEY", "")
-SOCIAL_AUTH_GITEA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_SECRET", "")
+    if "WEBLATE_SOCIAL_AUTH_GITEA_API_URL" in os.environ:
+        SOCIAL_AUTH_GITEA_API_URL = os.environ.get(
+            "WEBLATE_SOCIAL_AUTH_GITEA_API_URL", ""
+        )
+
+    SOCIAL_AUTH_GITEA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_KEY", "")
+    SOCIAL_AUTH_GITEA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_SECRET", "")
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
