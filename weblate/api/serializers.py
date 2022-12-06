@@ -944,14 +944,12 @@ class LabelsSerializer(serializers.RelatedField):
         return value.name
 
     def to_internal_value(self, data):
-        unit = self.parent.parent.instance
-        project = unit.translation.component.project
         try:
-            label = project.label_set.get(name=data)
-        except Label.DoesNotExist as ex:
+            label = self.get_queryset().get(name=data)
+        except Label.DoesNotExist as err:
             raise serializers.ValidationError(
                 "Label with this name was not found."
-            ) from ex
+            ) from err
         return label
 
 
