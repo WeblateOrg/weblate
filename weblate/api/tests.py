@@ -2978,7 +2978,8 @@ class UnitAPITest(APIBaseTest):
 
     def test_unit_labels(self):
         other_project = Project.objects.create(
-            name="OtherProject", slug="other-project",
+            name="OtherProject",
+            slug="other-project",
             access_control=Project.ACCESS_PRIVATE,
         )
 
