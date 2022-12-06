@@ -76,7 +76,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
                     return None
                 value = getattr(value, key)
             if self.strip_parts:
-                lookup = "__".join(lookup.split("__")[self.strip_parts:])
+                lookup = "__".join(lookup.split("__")[self.strip_parts :])
             kwargs[lookup] = value
         return self.reverse(view_name, kwargs=kwargs, request=request, format=format)
 
