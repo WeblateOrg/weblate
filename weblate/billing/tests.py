@@ -34,6 +34,7 @@ from weblate.billing.models import Billing, Invoice, Plan
 from weblate.billing.tasks import (
     billing_alert,
     billing_check,
+    billing_notify,
     notify_expired,
     perform_removal,
     schedule_removal,
@@ -132,6 +133,13 @@ class BillingTest(TestCase):
             " * test0, test1 (Basic plan)\n",
         )
         call_command("billing_check", "--notify", stdout=out)
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_billing_notify(self):
+        self.assertEqual(len(mail.outbox), 0)
+        self.add_project()
+        self.add_project()
+        billing_notify()
         self.assertEqual(len(mail.outbox), 1)
 
     def test_invoice_validation(self):

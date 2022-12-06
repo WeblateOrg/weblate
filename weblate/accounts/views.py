@@ -166,6 +166,7 @@ class EmailSentView(TemplateView):
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
+        context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
         # This view is not visible for invitation that's
@@ -293,7 +294,9 @@ def get_notification_forms(request):
                 pass
 
         # Populate scopes from the database
-        for subscription in user.subscription_set.iterator():
+        for subscription in user.subscription_set.select_related(
+            "project", "component"
+        ):
             key = (
                 subscription.scope,
                 subscription.project_id or -1,
@@ -359,10 +362,10 @@ def user_profile(request):
     new_backends = [
         x for x in sorted(all_backends) if x == "email" or x not in social_names
     ]
-    license_projects = (
+    license_components = (
         Component.objects.filter_access(request.user)
         .exclude(license="")
-        .prefetch()
+        .prefetch(alerts=False)
         .order_by("license")
     )
 
@@ -380,7 +383,7 @@ def user_profile(request):
             "all_forms": forms,
             "profile": profile,
             "title": _("User profile"),
-            "licenses": license_projects,
+            "licenses": license_components,
             "associated": social,
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
@@ -427,11 +430,10 @@ def confirm(request):
     if not details:
         return redirect("home")
 
-    # Monkey patch request
-    request.user = User.objects.get(pk=details["user_pk"])
-
     if request.method == "POST":
-        confirm_form = PasswordConfirmForm(request, request.POST)
+        confirm_form = PasswordConfirmForm(
+            request, request.POST, user=User.objects.get(pk=details["user_pk"])
+        )
         if confirm_form.is_valid():
             request.session.pop("reauthenticate")
             request.session["reauthenticate_done"] = True

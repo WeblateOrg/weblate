@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-11 22:49+0000\n"
-"Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
+"PO-Revision-Date: 2022-11-22 20:36+0000\n"
+"Last-Translator: Vin <k3kelm4vw@mozmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1063,7 +1063,7 @@ msgstr "Компонент"
 
 #: ../../admin/access.rst:466
 msgid "Edit component settings"
-msgstr "Правка параметров компонентов"
+msgstr "Правка настроек компонентов"
 
 #: ../../admin/access.rst:468
 msgid "Lock component, preventing translations"
@@ -1120,7 +1120,7 @@ msgstr "Проекты"
 
 #: ../../admin/access.rst:484
 msgid "Edit project settings"
-msgstr "Правка параметров проекта"
+msgstr "Правка настроек проекта"
 
 #: ../../admin/access.rst:486
 msgid "Manage project access"
@@ -3706,7 +3706,7 @@ msgid ""
 "Docker image."
 msgstr ""
 "В разделе :ref:`docker-auth` описано, как настроить аутентификацию в "
-"официальном образе Docker’а."
+"официальном образе Docker."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
@@ -4232,11 +4232,11 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
-"У Python’ьего модуля LDAP версии 3.1.0 есть некоторые несовместимости, "
-"которые могут помешать вам использовать эту версию. Если вы получили ошибку "
-"`AttributeError: 'module' object has no attribute '_trace_level' <https://"
-"github.com/python-ldap/python-ldap/issues/226>`_, то может помочь понижение "
-"версии python-ldap до 3.0.0."
+"У модуля Python LDAP версии 3.1.0 есть некоторые несовместимости, которые "
+"могут помешать вам использовать эту версию. Если вы получили ошибку "
+"`AttributeError: 'module' object has no attribute '_trace_level' "
+"<https://github.com/python-ldap/python-ldap/issues/226>`_, то может помочь "
+"понижение версии python-ldap до 3.0.0."
 
 #: ../../admin/auth.rst:502
 msgid ""
@@ -4844,9 +4844,9 @@ msgid ""
 msgstr ""
 "Если вы выполняете резервное копирование вручную, вы можете подавить "
 "предупреждение Weblate об отсутствии резервного копирования, добавив "
-"проверку ``weblate.I028`` к параметру :setting:`django:"
-"SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к переменной окружения :"
-"envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker’а."
+"проверку ``weblate.I028`` к параметру "
+":setting:`django:SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к "
+"переменной окружения :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker."
 
 #: ../../admin/backup.rst:228
 msgid "Database"
@@ -6273,10 +6273,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/checks.rst:298
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`additional`, :ref:`component-check_flags`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`additional`, :ref:`component-check_flags`"
 
 #: ../../admin/checks.rst:304
 msgid "Managing fonts"
@@ -7633,16 +7631,12 @@ msgid "List for credentials for Gitea servers."
 msgstr "Список учётных данных для серверов Gitea."
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, :envvar:"
 "`WEBLATE_GITEA_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, "
+":envvar:`WEBLATE_GITEA_HOST`"
 
 #: ../../admin/config.rst:746
 msgid "GITEA_USERNAME"
@@ -7695,16 +7689,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Список учётных данных для серверов GitLab."
 
 #: ../../admin/config.rst:807
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, :envvar:"
 "`WEBLATE_GITLAB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, "
+":envvar:`WEBLATE_GITLAB_HOST`"
 
 #: ../../admin/config.rst:814
 msgid "GITLAB_USERNAME"
@@ -7753,19 +7743,15 @@ msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:854
 msgid "List for credentials for GitHub servers."
-msgstr "Список учётных данных для серверов GitHub’а."
+msgstr "Список учётных данных для серверов GitHub."
 
 #: ../../admin/config.rst:871
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, :envvar:"
 "`WEBLATE_GITHUB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, "
+":envvar:`WEBLATE_GITHUB_HOST`"
 
 #: ../../admin/config.rst:878
 msgid "GITHUB_USERNAME"
@@ -8256,16 +8242,12 @@ msgid "List for credentials for Pagure servers."
 msgstr "Список учётных данных для серверов Pagure."
 
 #: ../../admin/config.rst:1303
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, :envvar:"
 "`WEBLATE_PAGURE_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, "
+":envvar:`WEBLATE_PAGURE_HOST`"
 
 #: ../../admin/config.rst:1310
 msgid "PAGURE_USERNAME"
@@ -8676,8 +8658,8 @@ msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
-"На контейнере Docker’а домен сайта настраивается через переменную окружения :"
-"envvar:`WEBLATE_ALLOWED_HOSTS`."
+"В контейнере Docker домен сайта настраивается через переменную окружения "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/config.rst:1635
 msgid ""
@@ -9244,11 +9226,11 @@ msgstr ":ref:`winrc`"
 
 #: ../../admin/continuous.rst:139
 msgid "Automatically receiving changes from GitHub"
-msgstr "Автоматическое получение изменений из GitHub’а"
+msgstr "Автоматическое получение изменений из GitHub"
 
 #: ../../admin/continuous.rst:141
 msgid "Weblate comes with native support for GitHub."
-msgstr "Weblate поставляется со встроенной поддержкой GitHub’а."
+msgstr "Weblate поставляется со встроенной поддержкой GitHub."
 
 #: ../../admin/continuous.rst:143
 msgid ""
@@ -9297,7 +9279,7 @@ msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:167
 msgid "Automatically receiving changes from Bitbucket"
-msgstr "Автоматическое получение изменений из Bitbucket’а"
+msgstr "Автоматическое получение изменений из Bitbucket"
 
 #: ../../admin/continuous.rst:169
 msgid ""
@@ -9317,7 +9299,7 @@ msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:183
 msgid "Automatically receiving changes from GitLab"
-msgstr "Автоматическое получение изменений из GitLab’а"
+msgstr "Автоматическое получение изменений из GitLab"
 
 #: ../../admin/continuous.rst:185
 msgid ""
@@ -9325,9 +9307,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
-"Weblate поддерживает обработчики GitLab’а, добавьте веб-обработчик проекта с "
-"адресом назначения, равным адресу вашей установки Weblate с суффиксом ``/"
-"hooks/gitlab/`` (например, ``https://hosted.weblate.org/hooks/gitlab/``)."
+"Weblate поддерживает обработчики GitLab, добавьте веб-обработчик проекта с "
+"адресом назначения ``/hooks/gitlab/`` в вашей установке Weblate (например, "
+"``https://hosted.weblate.org/hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -9373,19 +9355,14 @@ msgstr ""
 "guilabel:`Service hooks`, расположенное в блоке :guilabel:`Project settings`."
 
 #: ../../admin/continuous.rst:227
-#, fuzzy
-#| msgid ""
-#| "`Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/"
-#| "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
-#| "hooks/azure/`, :ref:`hosted-push`"
 msgid ""
 "`Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/"
 "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
 "hooks/azure/`, :ref:`hosted-push`"
 msgstr ""
-"`Веб-обработчики в руководстве по Azure DevOps <https://docs.microsoft.com/"
-"ru-ru/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_, :"
-"http:post:`/hooks/azure/`, :ref:`hosted-push`"
+"`Веб-обработчики в руководстве Azure DevOps <https://learn.microsoft.com/"
+"ru-ru/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_, "
+":http:post:`/hooks/azure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:233
 msgid "Automatically receiving changes from Gitea Repos"
@@ -9486,13 +9463,6 @@ msgstr ""
 "контроля версий <vcs>`, подробнее об этом читайте в указанной главе."
 
 #: ../../admin/continuous.rst:285
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :"
-#| "ref:`vcs-gerrit` reviews, you can activate these by choosing :guilabel:"
-#| "`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or :guilabel:`Pagure` "
-#| "as :ref:`component-vcs` in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` pull "
@@ -9501,12 +9471,13 @@ msgid ""
 "or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "Если вы не хотите отправлять изменения из Weblate напрямую, то "
-"поддерживается также создание запросов на извлечение для :ref:`GitHub’а <vcs-"
-"github>`, :ref:`GitLab’а <vcs-gitlab>`, :ref:`vcs-pagure` или рецензий :ref:"
-"`vcs-gerrit`. Вы можете активировать их, выбрав в :ref:`конфигурациях "
-"компонента <component>` в качестве :ref:`системы контроля версий <component-"
-"vcs>` :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` или :"
-"guilabel:`Pagure` соответственно."
+"поддерживается также создание запросов на извлечение для :ref:`GitHub <vcs-"
+"github>`, :ref:`GitLab <vcs-gitlab>`, :ref:`Gitea <vcs-gitea>`, :ref:`Pagure "
+"<vcs-pagure>` или рецензий :ref:`vcs-gerrit`. Вы можете активировать их, "
+"выбрав в :ref:`конфигурациях компонента <component>` в качестве :ref:`"
+"системы контроля версий <component-vcs>` :guilabel:`GitHub`, "
+":guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` или "
+":guilabel:`Pagure` соответственно."
 
 #: ../../admin/continuous.rst:291
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -9593,10 +9564,8 @@ msgid "GitLab merge request from branch"
 msgstr "Запрос на слияние в GitLab из ветки"
 
 #: ../../admin/continuous.rst:310
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "Gitea merge request from fork"
-msgstr "Запрос на слияние в GitLab из форка"
+msgstr "Запрос на слияние в Gitea из форка"
 
 #: ../../admin/continuous.rst:310 ../../admin/continuous.rst:312
 #: ../../admin/install/docker.rst:684
@@ -9606,10 +9575,8 @@ msgid ":ref:`vcs-gitea`"
 msgstr ":ref:`vcs-git`"
 
 #: ../../admin/continuous.rst:312
-#, fuzzy
-#| msgid "GitLab merge request from branch"
 msgid "Gitea merge request from branch"
-msgstr "Запрос на слияние в GitLab из ветки"
+msgstr "Запрос на слияние в Gitea из ветки"
 
 #: ../../admin/continuous.rst:314
 msgid "Pagure merge request from fork"
@@ -9694,12 +9661,12 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
-"Поведение Weblate’а заключается в группировке коммитов одного и того же "
-"автора в один коммит (если это возможно). Такая группировка значительно "
-"сокращает количество коммитов, однако вам может понадобиться явно приказать "
-"ему сделать коммиты в случае, если вы хотите синхронизировать репозиторий, "
-"например, для выполнения слияния (по умолчанию это действие разрешено для "
-"группы :guilabel:`Управляющие`, смотрите раздел :ref:`privileges`)."
+"Weblate группирует коммиты одного и того же автора в один коммит, если это "
+"возможно. Такая группировка значительно сокращает количество коммитов, "
+"однако вам может понадобиться явно указать ему сделать коммиты в случае, "
+"если вы хотите синхронизировать репозиторий, например, для выполнения "
+"слияния (по умолчанию это действие разрешено для группы "
+":guilabel:`Управляющие`, смотрите раздел :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:364
 msgid ""
@@ -9762,9 +9729,9 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
-"Настройка взаимодействия Weblate’а с репозиторием заключается в "
-"использовании :ref:`надстроек <addons>`. Для получения информации о том, как "
-"через надстройки выполнять внешние скрипты, обратитесь к разделу :ref:`addon-"
+"Настройка взаимодействия Weblate с репозиторием заключается в использовании "
+":ref:`надстроек <addons>`. Для получения информации о том, как через "
+"надстройки выполнять внешние скрипты, обратитесь к разделу :ref:`addon-"
 "script`."
 
 #: ../../admin/continuous.rst:397
@@ -9876,9 +9843,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
-"Если вы не знакомы с Python’ом, возможно, вы захотите посмотреть статью "
-"`Python для начинающих <https://www.python.org/about/gettingstarted/>`_, в "
-"которой объясняются основы и указаны дальнейшие учебные пособия."
+"Если вы не знакомы с Python, возможно, вы захотите посмотреть статью `Python "
+"для начинающих <https://www.python.org/about/gettingstarted/>`_, в которой "
+"объясняются основы и указаны дальнейшие учебные пособия."
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -10281,10 +10248,10 @@ msgid ""
 "Python 3.6 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblate написан на `Python’е <https://www.python.org/>`_ и поддерживает "
-"Python 3.6 или более новую версию. Вы можете установить зависимости с "
-"помощью команды pip или из пакетов вашего дистрибутива, полный список "
-"зависимостей находится в файле :file:`requirements.txt`."
+"Weblate написан на `Python <https://www.python.org/>`_ и поддерживает Python "
+"3.6 или более новую версию. Вы можете установить зависимости с помощью "
+"команды pip или из пакетов вашего дистрибутива, полный список зависимостей "
+"находится в файле :file:`requirements.txt`."
 
 #: ../../admin/install.rst:72
 msgid "Most notable dependencies:"
@@ -11821,7 +11788,7 @@ msgid ""
 msgstr ""
 "Для кода Python вам будет необходимо настроить запросы на использование "
 "системной цепочки сертификатов вместо использования цепочки, поставляемой с "
-"Python’ом. Этого можно добиться, поместив в :file:`settings.py` следующий "
+"Python. Этого можно добиться, поместив в :file:`settings.py` следующий "
 "фрагмент кода (путь указан для Debian):"
 
 #: ../../admin/install.rst:1121
@@ -12110,11 +12077,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"Для запуска рабочего веб-сервера используйте обертку wsgi, устанавливаемую "
-"вместе с Weblate (в виртуальном окружении она устанавливается в :file:`~/"
-"weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Не забудьте также "
-"поместить ваше виртуальное окружение в пути поиска Python’а (например, "
-"используя установку ``virtualenv = /home/user/weblate-env`` в uWSGI)."
+"Для запуска рабочего веб-сервера используйте обёртку wsgi, устанавливаемую "
+"вместе с Weblate (в виртуальном окружении она устанавливается в :file"
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Не забудьте "
+"также поместить ваше виртуальное окружение в пути поиска Python (например, "
+"используя ``virtualenv = /home/user/weblate-env`` в uWSGI)."
 
 #: ../../admin/install.rst:1280
 msgid ""
@@ -12171,8 +12138,8 @@ msgid ""
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
 "Weblate требует Python 3, поэтому, пожалуйста, убедитесь, что вы используете "
-"вариант modwsgi, собранный с третьим Python’ом. Обычно он доступен в виде "
-"отдельного пакета, например ``libapache2-mod-wsgi-py3``."
+"вариант modwsgi, собранный с Python 3. Обычно он доступен в виде отдельного "
+"пакета, например ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1317
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
@@ -12443,8 +12410,8 @@ msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
-"Для мониторинга метрик Weblate'а вы можете использовать конечную точку API :"
-"http:get:`/api/metrics/`."
+"Для мониторинга метрик Weblate вы можете использовать конечную точку API "
+":http:get:`/api/metrics/`."
 
 #: ../../admin/install.rst:1493
 msgid ""
@@ -12497,7 +12464,7 @@ msgid ""
 msgstr ""
 "Weblate имеет встроенную поддержку `Rollbar <https://rollbar.com/>`_. Для "
 "его использования достаточно следовать инструкциям из документа`Уведомления "
-"Rollbar для Python’а <https://docs.rollbar.com/docs/python/>`_."
+"Rollbar для Python <https://docs.rollbar.com/docs/python/>`_."
 
 #: ../../admin/install.rst:1524
 msgid "In short, you need to adjust :file:`settings.py`:"
@@ -13703,10 +13670,8 @@ msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr "Настраивает параметр :setting:`ENABLE_AVATARS`."
 
 #: ../../admin/install/docker.rst:847
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr "Настраивает параметр :setting:`STATUS_URL`."
+msgstr "Настраивает параметр :setting:`AVATAR_URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:853
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
@@ -13722,10 +13687,8 @@ msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgstr "Настраивает параметр :setting:`BORG_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:871
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_AVATARS`."
 msgid "Configures :setting:`ENABLE_SHARING`."
-msgstr "Настраивает параметр :setting:`ENABLE_AVATARS`."
+msgstr "Настраивает параметр setting:`ENABLE_SHARING`."
 
 #: ../../admin/install/docker.rst:876
 msgid "Automatic suggestion settings"
@@ -21436,10 +21399,8 @@ msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgstr ""
 
 #: ../../admin/upgrade.rst:349
-#, fuzzy
-#| msgid "Upgrade from 4.4 to 4.5"
 msgid "Upgrade from 4.14 to 4.15"
-msgstr "Обновление с версии 4.4 до версии 4.5"
+msgstr "Обновление с версии 4.14 на 4.15"
 
 #: ../../admin/upgrade.rst:353
 msgid ""
@@ -21450,7 +21411,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:361
 msgid "Upgrading from Python 2 to Python 3"
-msgstr "Обновление с Python’а 2 на Python 3"
+msgstr "Обновление с Python 2 на Python 3"
 
 #: ../../admin/upgrade.rst:363
 msgid ""
@@ -21460,12 +21421,12 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
-"Weblate больше не поддерживает Python старше версии 3.6. В случае, если вы "
+"Weblate больше не поддерживает Python старее версии 3.6. В случае, если вы "
 "всё ещё работаете на более старой версии, пожалуйста, сначала выполните "
 "миграцию на Python 3 на существующей версии и обновите её только после "
-"перехода. Смотрите раздел `Обновление с Python’а 2 на Python 3 в "
-"документации к Weblate 3.11.1 <https://docs.weblate.org/ru/weblate-3.11.1/"
-"admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
+"перехода. Смотрите раздел `Обновление с Python 2 на Python 3 в документации "
+"к Weblate 3.11.1 <https://docs.weblate.org/ru/weblate-3.11.1/admin/upgrade."
+"html#upgrading-from-python-2-to-python-3>`_."
 
 #: ../../admin/upgrade.rst:372
 msgid "Migrating from other databases to PostgreSQL"
@@ -27278,8 +27239,7 @@ msgstr "Выпущен 7 мая 2020 года."
 #: ../../changes.rst:774
 msgid "Fixed testsuite execution on some Python 3.8 environments."
 msgstr ""
-"Исправлено выполнение тестового набора в некоторых окружениях с Python’ом "
-"3.8."
+"Исправлено выполнение тестового набора в некоторых окружениях с Python 3.8."
 
 #: ../../changes.rst:775
 msgid "Typo fixes in the documentation."
@@ -28625,7 +28585,7 @@ msgstr "Настраиваемый синтаксис кода языка при
 msgid ""
 "Warn about using Python 2 with planned termination of support in April 2020."
 msgstr ""
-"Предупреждение об использовании Python’а 2 в связи с запланированным "
+"Предупреждение об использовании Python 2 в связи с запланированным "
 "прекращением его поддержки в апреле 2020 года."
 
 #: ../../changes.rst:1162
@@ -35245,7 +35205,7 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
-"Список файлов в репозитории или URL'ов, в которых Weblate будет искать "
+"Список файлов в репозитории или URL-адреса, в которых Weblate будет искать "
 "переводимые строки, смотреть раздел :ref:`cdn-addon-extract`."
 
 #: ../../devel/html.rst:65
@@ -41347,9 +41307,9 @@ msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, :ref:`Формат фигурных скобок в Python’е <python:"
-"formatstrings>`, `строки формата Python <https://www.gnu.org/software/"
-"gettext/manual/html_node/python_002dformat.html>`_"
+":ref:`check-formats`, :ref:`Формат фигурных скобок в Python "
+"<python:formatstrings>`, `строки формата Python <https://www.gnu.org/"
+"software/gettext/manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:507
 msgid "Python format"
@@ -41357,7 +41317,7 @@ msgstr "Python-формат"
 
 #: ../../user/checks.rst:509
 msgid "Python format string does not match source"
-msgstr "Строка в формате Python’а не соответствует источнику"
+msgstr "Строка в формате Python не соответствует источнику"
 
 #: ../../user/checks.rst:511
 msgid "``weblate.checks.format.PythonFormatCheck``"
@@ -41379,9 +41339,9 @@ msgid ""
 "formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, :ref:`Форматирование строк в Python’е <python:old-"
-"string-formatting>`, `Python’ьи строки формата <https://www.gnu.org/software/"
-"gettext/manual/html_node/python_002dformat.html>`_"
+":ref:`check-formats`, :ref:`Форматирование строк в Python <python:old-string-"
+"formatting>`, `Строки в формате Python <https://www.gnu.org/software/gettext/"
+"manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:527
 msgid "Qt format"
@@ -41940,10 +41900,10 @@ msgid "Mismatched \\\\n"
 msgstr "Несовпадающие \\\\n"
 
 #: ../../user/checks.rst:840
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\\\n literals in translation does not match source"
-msgstr "Количество символов новой строки в переводе не соответствует источнику"
+msgstr ""
+"Количество символов \\\\n"
+" в переводе не соответствует источнику"
 
 #: ../../user/checks.rst:842
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
@@ -42939,8 +42899,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1418
 msgid "For example with Gettext in Python it could be:"
-msgstr ""
-"Например, при использовании Python’а и Gettext’а это может выглядеть так:"
+msgstr "Например, при использовании Gettext в Python это может выглядеть так:"
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -45440,9 +45399,8 @@ msgid ""
 "line use`_."
 msgstr ""
 "Для небольших проектов используйте HTTPS-аутентификацию с персональным "
-"токеном доступа и вашей GitHub’овской учётной записью, смотрите подробности "
-"в документации GitHub'а: `Создание токена доступа для использования из "
-"командной строки`_."
+"токеном доступа и вашей учётной записью GitHub, подробности в документации "
+"GitHub: `Создание токена доступа для использования из командной строки`_."
 
 #: ../../vcs.rst:118
 msgid ""
@@ -45720,9 +45678,8 @@ msgid ""
 "the repository."
 msgstr ""
 "Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
-"GitHub'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
-"извлечение вместо того, чтобы выполнять ``push`` непосредственно в "
-"репозиторий."
+"GitHub`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"извлечение, вместо того, чтобы отправлять их непосредственно в репозиторий."
 
 #: ../../vcs.rst:274
 msgid ""
@@ -45760,8 +45717,8 @@ msgid ""
 "directly to the repository."
 msgstr ""
 "Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
-"GitLab'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
-"слияние вместо того, чтобы выполнять ``push`` непосредственно в репозиторий."
+"GitLab`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"слияние вместо того, чтобы отправлять их непосредственно в репозиторий."
 
 #: ../../vcs.rst:303
 msgid ""
@@ -45984,9 +45941,8 @@ msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
 "you to switch to using Git natively with full history of your translations."
 msgstr ""
-"Под ним используется :ref:`vcs-git`. Он требует установленного Git'а и "
-"позволяет вам перейти на использование Git'а нативно с полной историей ваших "
-"переводов."
+"Для них используется :ref:`vcs-git`. Требуется установленный Git и позволяет "
+"вам перейти на его использование нативно с полной историей ваших переводов."
 
 #: ../../vcs.rst:478
 msgid ""

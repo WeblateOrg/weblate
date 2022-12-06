@@ -815,10 +815,16 @@ class UploadRequestSerializer(ReadOnlySerializer):
         choices=("", "process", "approve"), required=False, default=""
     )
     conflicts = serializers.ChoiceField(
-        choices=("", "replace-translated", "replace-approved"),
+        choices=("", "ignore", "replace-translated", "replace-approved"),
         required=False,
         default="",
     )
+
+    def validate_conflicts(self, value):
+        # These are handled same
+        if value == "ignore":
+            return ""
+        return value
 
     def check_perms(self, user, obj):
         data = self.validated_data
@@ -839,8 +845,11 @@ class UploadRequestSerializer(ReadOnlySerializer):
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
+            hint = "Check your permissions or use different translation object."
+            if data["method"] == "add" and not obj.is_source:
+                hint = "Try adding to the source instead of the translation."
             raise serializers.ValidationError(
-                {"method": "This method is not available here."}
+                {"method": f"This method is not available here. {hint}"}
             )
 
 

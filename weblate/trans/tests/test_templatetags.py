@@ -306,13 +306,6 @@ class TranslationFormatTestCase(FixtureTestCase):
         )
 
     def test_diff_whitespace_changed(self):
-        print(
-            format_translation(
-                "Hello  world",
-                self.component.source_language,
-                diff="Hello world",
-            )["items"][0]["content"]
-        )
         self.assertHTMLEqual(
             format_translation(
                 "Hello  world",
@@ -685,6 +678,28 @@ class DiffTestCase(SimpleTestCase):
             )["items"][0]["content"],
             'Hello world!<del><span class="hlspace"><span class="space-space">'
             " </span></span></del>",
+        )
+
+    def test_format_diff_add_space(self):
+        unit = MockUnit(source="Hello.  World.")
+        self.assertHTMLEqual(
+            format_translation(
+                unit.source,
+                unit.translation.component.source_language,
+                diff="Hello. World.",
+            )["items"][0]["content"],
+            """
+            Hello.
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                </span>
+            </ins>
+            <span class="hlspace">
+                <span class="space-space"></span>
+            </span>
+            World.
+            """,
         )
 
     def test_format_entities(self):

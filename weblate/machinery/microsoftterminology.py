@@ -82,9 +82,12 @@ class MicrosoftTerminologyService(MachineTranslation):
         for item in result:
             target = item["Translations"]["Translation"][0]["TranslatedText"]
             source = item["OriginalText"]
+            quality = self.comparer.similarity(text, source)
+            if quality < threshold:
+                continue
             yield {
                 "text": target,
-                "quality": self.comparer.similarity(text, source),
+                "quality": quality,
                 "service": self.name,
                 "source": source,
             }

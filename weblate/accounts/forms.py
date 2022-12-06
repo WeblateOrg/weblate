@@ -518,6 +518,9 @@ class CaptchaForm(forms.Form):
 class EmptyConfirmForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
         self.request = request
+        self.user = request.user
+        if "user" in kwargs:
+            self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
 
 
@@ -530,8 +533,8 @@ class PasswordConfirmForm(EmptyConfirmForm):
 
     def clean_password(self):
         cur_password = self.cleaned_data["password"]
-        if self.request.user.has_usable_password():
-            valid = self.request.user.check_password(cur_password)
+        if self.user.has_usable_password():
+            valid = self.user.check_password(cur_password)
         else:
             valid = cur_password == ""
         if not valid:

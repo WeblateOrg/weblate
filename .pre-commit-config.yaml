@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
+  rev: v4.4.0
   hooks:
   - id: trailing-whitespace
   - id: end-of-file-fixer
@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: isort
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.2.2
+  rev: v3.3.0
   hooks:
   - id: pyupgrade
     args: [--py37-plus]
@@ -40,21 +40,21 @@ repos:
   hooks:
   - id: flake8
     additional_dependencies:
-    - flake8-bugbear
-    - flake8-builtins
-    - flake8-comprehensions
-    - flake8-django
-    - flake8-docstrings
-    - flake8-eradicate
-    - flake8-executable
-    - flake8-logging-format
-    - flake8-mutable
-    - flake8-polyfill
-    - flake8-print
-    - flake8-return
-    - flake8-self
-    - flake8-assertive
-    - pep8-naming
+    - flake8-bugbear==22.10.27
+    - flake8-builtins==2.0.1
+    - flake8-comprehensions==3.10.1
+    - flake8-django==1.1.5
+    - flake8-docstrings==1.6.0
+    - flake8-eradicate==1.4.0
+    - flake8-executable==2.1.2
+    - flake8-logging-format==0.9.0
+    - flake8-mutable==1.2.0
+    - flake8-polyfill==1.0.2
+    - flake8-print==5.0.0
+    - flake8-return==1.2.0
+    - flake8-self==0.2.2
+    - flake8-assertive==2.1.0
+    - pep8-naming==0.13.2
 - repo: https://github.com/asottile/blacken-docs
   rev: v1.12.1
   hooks:
@@ -69,7 +69,7 @@ repos:
   - id: prettier
     types_or: [css, javascript]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.4.0
+  rev: v2.5.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
@@ -78,33 +78,33 @@ repos:
   hooks:
   - id: mdformat
     additional_dependencies:
-    - mdformat-gfm
-    - mdformat-black
-    - mdformat-shfmt
+    - mdformat-gfm==0.3.5
+    - mdformat-black==0.1.1
+    - mdformat-shfmt==0.1.0
 - repo: https://github.com/pre-commit/mirrors-eslint
-  rev: v8.27.0
+  rev: v8.29.0
   hooks:
   - id: eslint
     args: [--format=compact]
     additional_dependencies:
-    - prettier@2.7.1
-    - eslint@>=6.2.2
-    - eslint-plugin-import@>=2.18.0
-    - eslint-plugin-node@>=9.1.0
-    - eslint-plugin-promise@>=4.2.1
-    - eslint-plugin-standard@>=4.0.0
-    - eslint-config-prettier@latest
-    - eslint-plugin-prettier@latest
+    - prettier@2.8.0
+    - eslint@8.29.0
+    - eslint-plugin-import@2.26.0
+    - eslint-plugin-node@11.1.0
+    - eslint-plugin-promise@6.1.1
+    - eslint-plugin-standard@4.1.0
+    - eslint-config-prettier@8.5.0
+    - eslint-plugin-prettier@4.2.1
 - repo: https://github.com/awebdeveloper/pre-commit-stylelint
   rev: 0.0.2
   hooks:
   - id: stylelint
     args: [--formatter=compact]
     additional_dependencies:
-    - stylelint@latest
-    - stylelint-config-prettier@latest
-    - stylelint-prettier@latest
-    - prettier@2.7.1
+    - stylelint@14.16.0
+    - stylelint-config-prettier@9.0.4
+    - stylelint-prettier@2.0.0
+    - prettier@2.8.0
 
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js$
 ci:

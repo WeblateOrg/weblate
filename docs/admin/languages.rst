@@ -224,4 +224,5 @@ applied in reverse.
 .. seealso::
 
     :ref:`language-code`,
+    :ref:`project-language_aliases`,
     :ref:`language-parsing-codes`

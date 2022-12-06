@@ -93,6 +93,7 @@ var _rollbarConfig = {
   <meta name="msapplication-TileColor" content="#144d3f">
   <meta name="msapplication-config" content="/browserconfig.xml">
   <link rel="manifest" href="/site.webmanifest">
+  {{ extra_html_head|safe }}
   {% if matomo_url %}
   <link rel="preconnect" href="{{ matomo_url }}">
   {% endif %}
@@ -231,9 +232,6 @@ var _rollbarConfig = {
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
             {% if offer_hosting %}
               <li role="separator" class="divider"></li>
-              {% if payment_enabled and 0 %}
-                <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
-              {% endif %}
               {% if payment_enabled %}
                 <li><a href="{% url 'trial' %}">{% trans "Try Weblate for free" %}</a></li>
               {% endif %}

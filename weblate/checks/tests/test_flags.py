@@ -115,6 +115,7 @@ class FlagTest(SimpleTestCase):
         values = flags.get_value("placeholders")
         self.assertEqual(len(values), 1)
         self.assertEqual(values[0].pattern, ".*")
+        self.assertEqual(flags.format(), 'placeholders:r".*"')
 
     def test_whitespace(self):
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})

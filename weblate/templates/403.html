@@ -7,6 +7,9 @@
 
 {% block content %}
 
+<div class="container">
+
+<h2>{% trans "Permission Denied" %}</h2>
 <p>
 {% trans "Insufficient privileges to display this page." %}
 </p>
@@ -16,5 +19,7 @@
 {% endif %}
 <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
 <a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
+
+</div>
 
 {% endblock %}

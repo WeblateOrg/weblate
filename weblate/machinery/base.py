@@ -134,7 +134,7 @@ class MachineTranslation:
         try:
             cache.incr(key, delta=delta)
         except ValueError:
-            cache.set(key, delta)
+            cache.set(key, delta, 24 * 3600)
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""

@@ -703,6 +703,23 @@ ENABLE_SHARING
 
 Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
+.. setting:: EXTRA_HTML_HEAD
+
+EXTRA_HTML_HEAD
+---------------
+
+.. versionadded:: 4.15
+
+Insert additional markup into HTML header. Can be used for verification of site ownership, for example:
+
+.. code-block:: python
+
+   EXTRA_HTML_HEAD = '<link href="https://fosstodon.org/@weblate" rel="me">'
+
+.. warning::
+
+   No sanitization is performed on the string, it is inserted as is into the HTML header.
+
 .. setting:: GET_HELP_URL
 
 GET_HELP_URL
@@ -1412,6 +1429,32 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 .. seealso::
 
    :ref:`projectbackup`
+
+.. setting:: PROJECT_NAME_RESTRICT_RE
+
+PROJECT_NAME_RESTRICT_RE
+------------------------
+
+.. versionadded:: 4.15
+
+Defines a regular expression to restrict project naming. Any matching names will be rejected.
+
+.. seealso::
+
+   :ref:`project-name`
+
+.. setting:: PROJECT_WEB_RESTRICT_RE
+
+PROJECT_WEB_RESTRICT_RE
+-----------------------
+
+.. versionadded:: 4.15
+
+Defines a regular expression to restrict project websites. Any matching URLs will be rejected.
+
+.. seealso::
+
+   :ref:`project-web`
 
 .. setting:: RATELIMIT_ATTEMPTS
 

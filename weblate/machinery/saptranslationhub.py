@@ -104,9 +104,12 @@ class SAPTranslationHub(MachineTranslation):
         # prepare the translations for weblate
         for item in payload["units"]:
             for translation in item["translations"]:
+                quality = translation.get("qualityIndex", 100)
+                if quality < threshold:
+                    continue
                 yield {
                     "text": translation["value"],
-                    "quality": translation.get("qualityIndex", 100),
+                    "quality": quality,
                     "show_quality": "qualityIndex" in translation,
                     "service": self.name,
                     "source": text,

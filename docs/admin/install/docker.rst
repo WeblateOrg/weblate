@@ -870,6 +870,12 @@ Generic settings
 
    Configures :setting:`ENABLE_SHARING`.
 
+.. envvar:: WEBLATE_EXTRA_HTML_HEAD
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`EXTRA_HTML_HEAD`.
+
 .. _docker-machine:
 
 Automatic suggestion settings
@@ -1012,6 +1018,15 @@ GitLab
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_API_URL
 
     Enables :ref:`gitlab_auth`.
+
+Gitea
++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_API_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_SECRET
+
+   Enables Gitea authentication.
 
 Azure Active Directory
 ++++++++++++++++++++++

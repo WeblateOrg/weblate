@@ -473,6 +473,17 @@ if "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT" in os.environ:
             "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY"
         ]
 
+# Gitea
+if "WEBLATE_SOCIAL_AUTH_GITEA_KEY" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.gitea.GiteaOAuth2",)
+
+    if "WEBLATE_SOCIAL_AUTH_GITEA_API_URL" in os.environ:
+        SOCIAL_AUTH_GITEA_API_URL = os.environ.get(
+            "WEBLATE_SOCIAL_AUTH_GITEA_API_URL", ""
+        )
+
+    SOCIAL_AUTH_GITEA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_KEY", "")
+    SOCIAL_AUTH_GITEA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_SECRET", "")
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
@@ -1145,6 +1156,7 @@ CACHES = {
             "CONNECTION_POOL_KWARGS": {},
         },
         "KEY_PREFIX": "weblate",
+        "TIMEOUT": 3600,
     },
     "avatar": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
@@ -1332,6 +1344,8 @@ SSH_EXTRA_ARGS = os.environ.get("WEBLATE_SSH_EXTRA_ARGS", "")
 BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
 
 ENABLE_SHARING = get_env_bool("WEBLATE_ENABLE_SHARING")
+
+EXTRA_HTML_HEAD = os.environ.get("WEBLATE_EXTRA_HTML_HEAD", "")
 
 # Wildcard loading
 for name in os.environ:

@@ -147,7 +147,7 @@ C_SHARP_MATCH = re.compile(
         {                               # initial {
         (?P<arg>\d+)                    # variable order
         (?P<width>
-            [,-?\s]+                    # flags
+            [-,?\s]+                    # flags
             (?:\d+)?                    # width
             (?:\.\d+)?                  # precision
         )?

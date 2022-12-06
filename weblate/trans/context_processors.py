@@ -53,6 +53,7 @@ CONTEXT_SETTINGS = [
     "FONTS_CDN_URL",
     "AVATAR_URL_PREFIX",
     "HIDE_VERSION",
+    "EXTRA_HTML_HEAD",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]

@@ -1261,7 +1261,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        if self._invalidate_scheduled and 0:
+        if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
         transaction.on_commit(self._invalidate_triger)

@@ -8,9 +8,9 @@
 </code>
 
 <p>
-{% blocktrans count count=validity %}The confirmation URL will expire after {{ count }} hour.{% plural %}The confirmation URL will expire after {{ count }} hours.{% endblocktrans %}
+{% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
 {% if action == "invite" %}
-  {% blocktrans %}In case the confirmation URL is expired, you can use password reset feature to gain access to your account.{% endblocktrans %}
+  {% blocktrans %}In case the confirmation link is expired, you can use password reset feature to gain access to your account.{% endblocktrans %}
 {% endif %}
 </p>
 

@@ -52,6 +52,8 @@ class WeblateConf(AppConf):
     RATELIMIT_LANGUAGE_WINDOW = 300
     RATELIMIT_LANGUAGE_LOCKOUT = 600
 
+    RATELIMIT_MESSAGE_ATTEMPTS = 2
+
     RATELIMIT_TRIAL_ATTEMPTS = 1
     RATELIMIT_TRIAL_WINDOW = 60
     RATELIMIT_TRIAL_LOCKOUT = 600
@@ -84,6 +86,9 @@ class WeblateConf(AppConf):
     CSP_FONT_SRC = []
 
     INTERLEDGER_PAYMENT_POINTERS = ["$ilp.uphold.com/ENU7fREdeZi9"]
+
+    PROJECT_NAME_RESTRICT_RE = None
+    PROJECT_WEB_RESTRICT_RE = None
 
     class Meta:
         prefix = ""

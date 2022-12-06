@@ -19,12 +19,13 @@
 
 """Tests for placeholder quality checks."""
 
-
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.trans.models import Unit
+from weblate.lang.models import Language, Plural
+from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class PlaceholdersTest(CheckTestCase):
@@ -49,7 +50,21 @@ class PlaceholdersTest(CheckTestCase):
         return
 
     def test_description(self):
-        unit = Unit(source="string $URL$", target="string")
+        unit = Unit(
+            source="string $URL$",
+            target="string",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags("placeholders:$URL$")
         check = Check(unit=unit)
         self.assertHTMLEqual(
@@ -61,7 +76,21 @@ class PlaceholdersTest(CheckTestCase):
         )
 
     def test_regexp(self):
-        unit = Unit(source="string $URL$", target="string $FOO$")
+        unit = Unit(
+            source="string $URL$",
+            target="string $FOO$",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags(r"""placeholders:r"(\$)([^$]*)(\$)" """)
         check = Check(unit=unit)
         self.assertHTMLEqual(
@@ -76,7 +105,21 @@ class PlaceholdersTest(CheckTestCase):
         )
 
     def test_whitespace(self):
-        unit = Unit(source="string {URL} ", target="string {URL}")
+        unit = Unit(
+            source="string {URL} ",
+            target="string {URL}",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\s?{\w+}\s?" """)
         check = Check(unit=unit)
         self.assertHTMLEqual(
@@ -123,6 +166,43 @@ class PlaceholdersTest(CheckTestCase):
                     self.default_lang,
                     "Hello %WORLD%",
                 ),
+            )
+        )
+
+
+class PluralPlaceholdersTest(FixtureTestCase):
+    def test_plural(self):
+        check = PlaceholderCheck()
+        lang = "cs"
+        unit = MockUnit(
+            None,
+            'placeholders:r"%[0-9]"',
+            lang,
+            "1 apple",
+        )
+        unit.translation.language = Language.objects.get(code=lang)
+        unit.translation.plural = unit.translation.language.plural
+        self.assertFalse(
+            check.check_target(
+                ["1 apple", "%1 apples"],
+                ["1 jablko", "%1 jablka", "%1 jablek"],
+                unit,
+            )
+        )
+        unit.check_cache = {}
+        self.assertTrue(
+            check.check_target(
+                ["1 apple", "%1 apples"],
+                ["1 jablko", "1 jablka", "%1 jablek"],
+                unit,
+            )
+        )
+        unit.check_cache = {}
+        self.assertTrue(
+            check.check_target(
+                ["%1 apple", "%1 apples"],
+                ["1 jablko", "1 jablka", "%1 jablek"],
+                unit,
             )
         )
 
