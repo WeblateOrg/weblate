@@ -249,6 +249,8 @@ Using non standard code: ``ia_FOO:ia``
 
 .. seealso::
 
+    :ref:`new-translations`,
+    :ref:`language-code`,
     :ref:`language-parsing-codes`
 
 .. _component:
