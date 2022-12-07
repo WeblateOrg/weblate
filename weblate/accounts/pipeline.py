@@ -71,13 +71,17 @@ def get_github_emails(access_token):
     public = None
     emails = []
     for entry in data:
-        # Skip noreply e-mail
+        # Skip noreply e-mail only if we need deliverable e-mails
         if entry["email"].endswith("@users.noreply.github.com"):
+            # Add E-Mail and set is_deliverable to false
+            emails.append((entry["email"], False))
             continue
         # Skip not verified ones
         if not entry["verified"]:
             continue
-        emails.append(entry["email"])
+
+        # Add E-Mail and set is_deliverable to true
+        emails.append((entry["email"], True))
         if entry.get("visibility") == "public":
             # There is just one public mail, prefer it
             public = entry["email"]
@@ -378,18 +382,26 @@ def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified e-mail."""
     # The email can be empty for some services
     if details.get("verified_emails"):
-        current = set(details["verified_emails"])
-        existing = set(social.verifiedemail_set.values_list("email", flat=True))
+        # For some reasons tuples get converted to lists inside python social auth
+        current = {tuple(verified) for verified in details["verified_emails"]}
+        existing = set(social.verifiedemail_set.values_list("email", "is_deliverable"))
         for remove in existing - current:
-            social.verifiedemail_set.filter(email=remove).delete()
+            social.verifiedemail_set.filter(
+                email=remove[0], is_deliverable=remove[1]
+            ).delete()
         for add in current - existing:
-            social.verifiedemail_set.create(email=add)
+            social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
     elif details.get("email"):
         verified, created = VerifiedEmail.objects.get_or_create(
             social=social, defaults={"email": details["email"]}
         )
-        if not created and verified.email != details["email"]:
+        if (
+            not created
+            and verified.email != details["email"]
+            or not verified.is_deliverable
+        ):
             verified.email = details["email"]
+            verified.is_deliverable = True
             verified.save()
 
 

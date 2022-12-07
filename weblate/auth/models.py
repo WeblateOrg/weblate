@@ -640,9 +640,12 @@ class User(AbstractBaseUser):
         # name as e-mail
         return result.replace("<", "").replace(">", "").replace('"', "")
 
+    def get_commit_email(self) -> str:
+        return self.profile.commit_email or self.email
+
     def get_author_name(self) -> str:
         """Return formatted author name with e-mail."""
-        return f"{self.get_visible_name()} <{self.email}>"
+        return f"{self.get_visible_name()} <{self.get_commit_email()}>"
 
 
 class AutoGroup(models.Model):

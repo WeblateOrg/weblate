@@ -189,11 +189,18 @@ class ProfileForm(ProfileBaseForm):
         required=False,
     )
 
+    commit_email = forms.ChoiceField(
+        label=_("Commit e-mail"),
+        choices=(("", ""),),
+        required=False,
+    )
+
     class Meta:
         model = Profile
         fields = (
             "website",
             "public_email",
+            "commit_email",
             "liberapay",
             "codesite",
             "github",
@@ -209,7 +216,12 @@ class ProfileForm(ProfileBaseForm):
         emails = get_all_user_mails(self.instance.user)
         emails.add("")
 
+        commit_emails = get_all_user_mails(self.instance.user, filter_deliverable=False)
+        commit_emails.add("")
+
         self.fields["public_email"].choices = [(x, x) for x in sorted(emails)]
+        self.fields["commit_email"].choices = [(x, x) for x in sorted(commit_emails)]
+
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
