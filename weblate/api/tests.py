@@ -3001,7 +3001,8 @@ class UnitAPITest(APIBaseTest):
             request={"labels": "test"},
         )
 
-        # Edit on source will fail when label doesn't exist or is not in the same project
+        # Edit on source will fail when label doesn't exist
+        # or is not in the same project
         self.do_request(
             "api:unit-detail",
             kwargs={"pk": unit.pk},
