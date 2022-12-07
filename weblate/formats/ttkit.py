@@ -1985,7 +1985,7 @@ class FluentUnit(MonolingualSimpleUnit):
 
     @cached_property
     def flags(self):
-        # Needs translate-toolkit 3.7.5 or newer
+        # TODO: Needs translate-toolkit 3.7.5 or newer
         if not hasattr(self.mainunit, "getplaceables"):
             return ""
         placeables = self.mainunit.getplaceables()
