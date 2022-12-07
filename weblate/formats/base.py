@@ -53,6 +53,54 @@ APPSTORE_CODES = {
     "pt": "pt-PT",
 }
 
+GOOGLEPLAY_CODES = {
+    "hy": "hy-AM",
+    "az": "az-AZ",
+    "eu": "eu-ES",
+    "my": "my-MM",
+    "zh_Hant_HK": "zh-HK",
+    "zh_Hans": "zh-CN",
+    "zh_Hant": "zh-TW",
+    "cs": "cs-CZ",
+    "da": "da-DK",
+    "nl": "nl-NL",
+    "en": "en-SG",
+    "fi": "fi-FI",
+    "fr": "fr-FR",
+    "gl": "gl-ES",
+    "ka": "ka-GE",
+    "de": "de-DE",
+    "el": "el-GR",
+    "he": "iw-IL",
+    "hi": "hi-IN",
+    "hu": "hu-HU",
+    "is": "is-IS",
+    "it": "it-IT",
+    "ja": "ja-JP",
+    "kn": "kn-IN",
+    "km": "km-KH",
+    "ko": "ko-KR",
+    "ky": "ky-KG",
+    "lo": "lo-LA",
+    "mk": "mk-MK",
+    "ms": "ms-MY",
+    "ml": "ml-IN",
+    "mr": "mr-IN",
+    "mn": "mn-MN",
+    "ne": "ne-NP",
+    "nb_NO": "no-NO",
+    "fa": "fa-AE",
+    "fa": "fa-IR",
+    "pl": "pl-PL",
+    "ru": "ru-RU",
+    "si": "si-LK",
+    "es": "es-ES",
+    "sv": "sv-SE",
+    "ta": "ta-IN",
+    "te": "te-IN",
+    "tr": "tr-TR",
+}
+
 
 class UnitNotFound(Exception):
     def __str__(self):
@@ -505,8 +553,13 @@ class TranslationFormat:
 
     @classmethod
     def get_language_appstore(cls, code: str) -> str:
-        """App store language codes."""
+        """Apple App Store language codes."""
         return cls.get_language_bcp(APPSTORE_CODES.get(code, code))
+
+    @classmethod
+    def get_language_googleplay(cls, code: str) -> str:
+        """Google Play language codes."""
+        return cls.get_language_bcp(GOOGLEPLAY_CODES.get(code, code))
 
     @classmethod
     def get_language_filename(cls, mask: str, code: str) -> str:

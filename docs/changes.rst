@@ -15,6 +15,7 @@ Not yet released.
 * Fixed generation of MO files in the add-on to include only translated files.
 * Fixed rendering of regular expression flags.
 * Improved placeholders check behavior with plurals.
+* Added support for translation files naming suitable for Google Play.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 

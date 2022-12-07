@@ -192,7 +192,7 @@ class AppStoreFormat(TranslationFormat):
     monolingual = True
     unit_class = TextUnit
     simple_filename = False
-    language_format = "appstore"
+    language_format = "googleplay"
     create_style = "directory"
 
     def load(self, storefile, template_store):

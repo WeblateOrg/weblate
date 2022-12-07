@@ -204,9 +204,10 @@ BCP style using hyphen as a separator, legacy language codes
    Uses legacy codes for Chinese and BCP style notation.
 BCP style using hyphen as a separator, lower cased
    BCP style notation, all in lower case (for example ``cs-cz``).
-App store metadata style
-   Style suitable for uploading metadata to appstores. This should be suitable
-   for both Apple App Store and Google Play Store.
+Apple App Store metadata style
+   Style suitable for uploading metadata to Apple App Store.
+Google Play metadata style
+   Style suitable for uploading metadata to Google Play Store.
 Android style
    Only used in Android apps, produces language codes like
    ``pt-rBR``.
