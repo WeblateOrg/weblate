@@ -318,7 +318,7 @@ def perform_translation(unit, form, request):
     project = unit.translation.component.project
     # Remember old checks
     oldchecks = unit.all_checks_names
-    # TODO
+    # Alernative translations handling
     add_alternative = "add_alternative" in request.POST
 
     # Update explanation for glossary
