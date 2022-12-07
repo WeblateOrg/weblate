@@ -348,6 +348,7 @@ class AuditLog(models.Model):
 class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
+    is_deliverable = models.BooleanField(default=True)
     social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
     email = EmailField()
 
@@ -562,6 +563,12 @@ class Profile(models.Model):
     )
     public_email = EmailField(
         verbose_name=_("Public e-mail"),
+        blank=True,
+        max_length=EMAIL_LENGTH,
+    )
+
+    commit_email = EmailField(
+        verbose_name=_("Commit e-mail"),
         blank=True,
         max_length=EMAIL_LENGTH,
     )

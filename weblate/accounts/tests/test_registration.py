@@ -643,10 +643,14 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertEqual(
             set(
                 VerifiedEmail.objects.filter(social__user=user).values_list(
-                    "email", flat=True
+                    "email", "is_deliverable"
                 )
             ),
-            {"noreply-other@example.org", "noreply-weblate@example.org"},
+            {
+                ("noreply-other@example.org", True),
+                ("noreply-weblate@example.org", True),
+                ("noreply@users.noreply.github.com", False),
+            },
         )
 
     def test_github_existing(self):
