@@ -16,6 +16,7 @@ Not yet released.
 * Fixed rendering of regular expression flags.
 * Improved placeholders check behavior with plurals.
 * Added support for translation files naming suitable for Google Play.
+* Added support for labels in API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
