@@ -342,6 +342,10 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   use ``java-printf-format`` instead of ``java-format`` and ``java-format``
   instead of ``java-messageformat``.
 * The `jellyfish` dependency has been replaced by `rapidfuzz`.
+* **Changed in 4.14.2:** Deprecated insecure configuration of VCS service API
+  keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In
+  Docker, please add matching _HOST directive. For example see
+  :envvar:`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
