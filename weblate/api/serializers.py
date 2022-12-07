@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Change,
     Component,
     ComponentList,
+    Label,
     Project,
     Translation,
     Unit,
@@ -932,6 +933,35 @@ class MemorySerializer(serializers.ModelSerializer):
         )
 
 
+class LabelsSerializer(serializers.RelatedField):
+    class Meta:
+        model = Label
+
+    def get_queryset(self):
+        """
+        List of available labels for an unit.
+
+        The queryset argument is only ever required for writable relationship field,
+        in which case it is used for performing the model instance lookup, that maps
+        from the primitive user input, into a model instance.
+        """
+        unit = self.parent.parent.instance
+        project = unit.translation.component.project
+        return project.label_set.all()
+
+    def to_representation(self, value):
+        return value.name
+
+    def to_internal_value(self, data):
+        try:
+            label = self.get_queryset().get(name=data)
+        except Label.DoesNotExist as err:
+            raise serializers.ValidationError(
+                "Label with this name was not found."
+            ) from err
+        return label
+
+
 class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -950,6 +980,7 @@ class UnitSerializer(serializers.ModelSerializer):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
+    labels = LabelsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Unit
@@ -964,6 +995,7 @@ class UnitSerializer(serializers.ModelSerializer):
             "context",
             "note",
             "flags",
+            "labels",
             "state",
             "fuzzy",
             "translated",
@@ -990,6 +1022,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
+    labels = LabelsSerializer(many=True)
 
     class Meta:
         model = Unit
@@ -998,6 +1031,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "state",
             "explanation",
             "extra_flags",
+            "labels",
         )
 
     def to_internal_value(self, data):

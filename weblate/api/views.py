@@ -1254,7 +1254,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def perform_update(self, serializer):
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
-        do_source = "extra_flags" in data or "explanation" in data
+        do_source = "extra_flags" in data or "explanation" in data or "labels" in data
         unit = serializer.instance
         translation = unit.translation
         request = self.request
@@ -1315,6 +1315,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                     setattr(unit, name, data[name])
                 except KeyError:
                     continue
+            if "labels" in data:
+                unit.labels.set(data["labels"])
             unit.save(update_fields=fields)
 
         # Handle translate
