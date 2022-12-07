@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-12-06 01:17+0000\n"
+"PO-Revision-Date: 2022-12-08 09:05+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -4362,7 +4362,7 @@ msgid ""
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
 "Normalmente, a instalação consiste em adicionar uma autenticação de backend "
-"a :setting:`django:AUTHENTICATION_BACKENDS`e a instalar um aplicativo de "
+"a :setting:`django:AUTHENTICATION_BACKENDS` e a instalar um aplicativo de "
 "autenticação (se houver) no :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
@@ -4425,9 +4425,9 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
-"Os backups gerados são mantidos no servidor conforme configurado por :set:"
-"`PROJECT_BACKUP_KEEP_DAYS` e :set:`PROJECT_BACKUP_KEEP_COUNT` (o padrão é "
-"manter no máximo 3 backups por 30 dias)."
+"Os backups gerados são mantidos no servidor conforme configurado por "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` e :setting:`PROJECT_BACKUP_KEEP_COUNT` ("
+"o padrão é manter no máximo 3 backups por 30 dias)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -5643,8 +5643,8 @@ msgid ""
 "`check-placeholders` quality check."
 msgstr ""
 "Ajustar o comportamento de verificação para não diferenciar maiúsculas de "
-"minúsculas. Atualmente, isso afeta apenas a verificação de qualidade :ref:"
-"`check-placeholders `."
+"minúsculas. Atualmente, isso afeta apenas a verificação de qualidade :ref"
+":`check-placeholders`."
 
 #: ../../admin/checks.rst:139 ../../user/checks.rst:1208
 #: ../../user/checks.rst:1209
@@ -5782,7 +5782,7 @@ msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:169
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr "Ignorar a verificação de qualidade :ref:`check-java-printf-format `."
+msgstr "Ignorar a verificação de qualidade :ref:`check-java-printf-format`."
 
 #: ../../admin/checks.rst:170 ../../user/checks.rst:379
 msgid "``ignore-javascript-format``"
@@ -8482,8 +8482,8 @@ msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require authentication for all API endpoints."
 msgstr ""
-"Isso habilita :configuração`URLS_DE_LOGIN_NECESSÁRIOS` e configura o "
-"framework REST a requisitar autenticação para todos os pontos finais da API."
+"Isso habilita :setting:`LOGIN_REQUIRED_URLS` e configura o framework REST a "
+"requisitar autenticação para todos os pontos finais da API."
 
 #: ../../admin/config.rst:1560
 msgid ""
@@ -9384,11 +9384,11 @@ msgid ""
 "or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "No caso de você não querer pushes diretos pelo Weblate, há suporte para pull "
-"requests do :ref:`vcs-github`, do :ref:`vcs-gitlab`, :ref:`vcs-gitea` e do :"
-"ref:`vcs-pagure` ou revisões do :ref:`vcs-gerrit`, você pode ativá-los "
-"escolhendo :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-"guilabel:`Gerrit` ou :guilabel:`Pagure`, como :ref:`component-vcs` em :ref:"
-"`component`."
+"requests do :ref:`vcs-github`, do :ref:`vcs-gitlab`, do :ref:`vcs-gitea` e "
+"do :ref:`vcs-pagure` ou revisões do :ref:`vcs-gerrit`, você pode ativá-los "
+"escolhendo :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit` ou :guilabel:`Pagure`, como :ref:`component-vcs` em "
+":ref:`component`."
 
 #: ../../admin/continuous.rst:291
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -11297,9 +11297,9 @@ msgid ""
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
 "Se o seu site for servido sobre SSL, você deve considerar definir um valor "
-"para :django:`SECURE_HSTS_SECONDS` no :file:`settings.py` para habilitar "
-"HTTP Strict Transport Security. Por padrão, ele está definido para 0 como "
-"mostrado abaixo."
+"para :setting:`django:SECURE_HSTS_SECONDS` no :file:`settings.py` para "
+"habilitar HTTP Strict Transport Security. Por padrão, ele está definido para "
+"0 como mostrado abaixo."
 
 #: ../../admin/install.rst:871
 msgid ""
@@ -14822,10 +14822,10 @@ msgid ""
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"O seguinte assume que o virtualenv utilizado pela Weblate é ativado "
-"(executando ``. ~/weblate-env/bin/bin/activate``). Caso contrário, "
-"especificar o caminho completo para o comando :comando:`weblate` como ``~/"
-"weblate-env/bin/weblate``."
+"O seguinte assume que o virtualenv utilizado pela Weblate é ativado ("
+"executando ``. ~/weblate-env/bin/bin/activate``). Caso contrário, "
+"especificar o caminho completo para o comando :command:`weblate` como "
+"``~/weblate-env/bin/weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -15064,9 +15064,9 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
-"Ao analisar as traduções, o Weblate tenta mapear o código de idioma "
-"(geralmente o ISO 639-1) a partir da :ref: `component-filemask` para "
-"qualquer objeto de idioma existente."
+"Ao analisar as traduções, o Weblate tenta mapear o código de idioma ("
+"geralmente o ISO 639-1) a partir da :ref:`component-filemask` para qualquer "
+"objeto de idioma existente."
 
 #: ../../admin/languages.rst:38
 msgid ""
@@ -15775,7 +15775,7 @@ msgid ""
 msgstr ""
 "DeepL é um serviço pago que fornece boa tradução de máquina para alguns "
 "idiomas. Você precisa comprar a assinatura do :guilabel:`DeepL API` ou pode "
-"usar o plano legado :guilabel:`DeepL Pro (classic) `."
+"usar o plano legado :guilabel:`DeepL Pro (classic)`."
 
 #: ../../admin/machine.rst:130
 msgid ""
@@ -15979,8 +15979,8 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/standard/locations>`_"
 msgstr ""
-"`Documentação do Google Translate <https://cloud.google.com/translate/"
-"docs>`_, `Autenticar os serviços do Cloud usando bibliotecas de cliente\n"
+"`Documentação do Google Translate <https://cloud.google.com/translate/docs>`"
+"_, `Autenticar os serviços do Cloud usando bibliotecas de cliente "
 "<https://cloud.google.com/docs/authentication/client-libraries>`_, `Criando "
 "um projeto Google Translate <https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project>`_, `Regiões do Google Cloud "
@@ -16323,7 +16323,7 @@ msgid ""
 msgstr ""
 "`API do SAP Translation Hub <https://api.sap.com/shell/discover/"
 "contentpackage/SAPTranslationHub/api/translationhub>`_, `Criar URL de base "
-"do SAP Translation Hub https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
+"do SAP Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:429
@@ -16438,8 +16438,8 @@ msgid ""
 "`Yandex Translate API <https://yandex.com/dev/translate/>`_, `Powered by "
 "Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
-"`API do Yandex Tradutor<https://yandex.com/dev/translate/>`_, `Fornecido por "
-"Yandex.Translate <https://translate.yandex.com/>`_"
+"`API do Yandex Tradutor <https://yandex.com/dev/translate/>`_, `Fornecido "
+"por Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:512
 msgid "Youdao Zhiyun"
@@ -20290,8 +20290,8 @@ msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
 msgstr ""
-"Você pode combiná-las com :ref:`controle de acesso <access-control>`para uma "
-"das configurações a seguir:"
+"Você pode combiná-las com :ref:`controle de acesso <access-control>` para "
+"uma das configurações a seguir:"
 
 #: ../../admin/translating.rst:26
 msgid ""
@@ -24331,7 +24331,7 @@ msgstr "Suporte adicionado para remover usuário de um grupo por meio de API."
 
 #: ../../changes.rst:91
 msgid "Fixed audit log for user invitation e-mails."
-msgstr "Corrigido o log de auditoria para e-mails de de convite de usuário."
+msgstr "Corrigido o log de auditoria para e-mails de convite de usuário."
 
 #: ../../changes.rst:92
 msgid "Fixed flag names for Java formatting strings."
@@ -32240,7 +32240,7 @@ msgstr ""
 "Você pode impulsionar o desenvolvimento do Weblate na `página de doação`_. "
 "Os fundos coletados lá são usados para permitir hospedagem de grátis para "
 "projetos de software livre e o desenvolvimento adicional do Weblate. Por "
-"favor, verifique a `página de doação` para obter opções, como metas de "
+"favor, verifique a `página de doação`_ para obter opções, como metas de "
 "financiamento e as recompensas que você obtém como um financiador orgulhoso."
 
 #: ../../../BACKERS.rst:2
@@ -32875,6 +32875,8 @@ msgid ""
 "Check that readthedocs.org did build all translations of the documentation "
 "using :command:`./scripts/rtd-projects`."
 msgstr ""
+"Verificar se o readthedocs.org compilou todas as traduções da documentação "
+"usando o :command:`./scripts/rtd-projects`."
 
 #: ../../contributing/release.rst:50
 msgid ""
@@ -33153,10 +33155,8 @@ msgid "noreply@example.com"
 msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "Formato C"
+msgstr "formato"
 
 #: ../../contributing/schemas.rst:19
 msgid "email"
@@ -33176,7 +33176,7 @@ msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr ""
+msgstr "data-hora"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
@@ -33195,10 +33195,8 @@ msgid "*Language*"
 msgstr "*Idioma*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "^[^ ]+$"
 msgid "^[^ ]\\*$"
-msgstr "^[^ ]+$"
+msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
@@ -33901,7 +33899,7 @@ msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
-"Veja :doc:`django:topics/testing/index`para mais informações sobre a "
+"Veja :doc:`django:topics/testing/index` para mais informações sobre a "
 "execução e escrita de testes para Django."
 
 #: ../../devel/alerts.rst:4
@@ -34016,16 +34014,6 @@ msgid "Building translators community"
 msgstr "Construindo uma comunidade de tradutores"
 
 #: ../../devel/community.rst:4
-#, fuzzy
-#| msgid ""
-#| "Following these recommendations supports the creation of a full, "
-#| "multilingual post-editing tool. Good translations are defined through the "
-#| "systemic-functional model of House which aims at a contextual correct "
-#| "translation. Write your own `post-editing guide <https://www.taus.net/"
-#| "academy/best-practices/postedit-best-practices/machine-translation-post-"
-#| "editing-guidelines>`_ and alter these recommendations to fit your own "
-#| "definitions. In most cases the `browser-plugin of languageTool <https://"
-#| "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgid ""
 "Following these recommendations supports the creation of a full, "
 "multilingual post-editing tool. Good translations are defined through the "
@@ -34038,9 +34026,8 @@ msgstr ""
 "Seguir essas recomendações permite a criação de uma ferramenta de pós-edição "
 "multilíngue completa. Boas traduções são definidas através do modelo "
 "sistêmico-funcional de House que visa uma tradução correta contextual. "
-"Escreva seu próprio `guia de pós-edição <https://www.taus.net/academy/best-"
-"practices/postedit-best-practices/machine-translation-post-editing-"
-"guidelines>`_ e altere essas recomendações para se adequar ao seu próprias "
+"Escreva seu próprio `guia de pós-edição <https://pt.wikipedia.org/wiki/Pós-"
+"edição>`_ e altere essas recomendações para se adequar ao seu próprias "
 "definições. Na maioria dos casos, o `plugin do navegador do languageTool "
 "<https://languagetool.org/#firefox_chrome>`_ é útil como ferramenta de "
 "revisão."
@@ -35771,16 +35758,12 @@ msgstr ""
 "javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:11
-#, fuzzy
-#| msgid ""
-#| "`JWeblate, a Java-based Weblate library <https://github.com/"
-#| "javierllorente/jweblate>`_"
 msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
 "porscheinformatik/weblate-spring>`_"
 msgstr ""
-"`JWeblate, uma bilioteca do Weblate baseada em Java <https://github.com/"
-"javierllorente/jweblate>`_"
+"`Spring MessageSource apoiado por um servidor Weblate <https://github.com/"
+"porscheinformatik/weblate-spring>`_"
 
 #: ../../devel/thirdparty.rst:15
 msgid ""
@@ -36385,10 +36368,8 @@ msgstr ""
 "performance/`` diretamente."
 
 #: ../../faq.rst:252
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
 
 #: ../../faq.rst:257
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
@@ -36567,19 +36548,14 @@ msgstr ""
 "similar."
 
 #: ../../faq.rst:327
-#, fuzzy
-#| msgid ""
-#| "You can set up :ref:`tmserver` with all databases you have and let "
-#| "Weblate use it. This is good when you want to use it several times during "
-#| "translation."
 msgid ""
 "You can set up :ref:`mt-tmserver` with all databases you have and let "
 "Weblate use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
-"Você pode configurar :ref:`tmserver` com todos os bancos de dados que você "
-"tem e deixar o Weblate utilizá-lo. Isto é bom quando você quer utilizá-lo "
-"várias vezes durante a tradução."
+"Você pode configurar :ref:`mt-tmserver` com todos os bancos de dados que "
+"você tem e deixar o Weblate utilizá-lo. Isto é bom quando você quer utilizá-"
+"lo várias vezes durante a tradução."
 
 #: ../../faq.rst:330
 msgid ""
@@ -36774,10 +36750,6 @@ msgstr ""
 "para isso. O arquivo adicional para o mesmo idioma não é processado."
 
 #: ../../faq.rst:465
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the :ref:`component-source_language` in the component settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings. You might "
@@ -36785,7 +36757,9 @@ msgid ""
 "`source-quality-gateway`."
 msgstr ""
 "Caso a tradução para o idioma fonte seja desejada, altere o :ref:`component-"
-"source_language` nas configurações do projeto."
+"source_language` nas configurações do projeto. Você pode querer usar `"
+"English (Developer)` como idioma fonte, ou usar :ref:`source-quality-"
+"gateway`."
 
 #: ../../faq.rst:466
 msgid ""
@@ -37376,7 +37350,7 @@ msgid ""
 "define them, see `Localization in Laravel`_."
 msgstr ""
 "Os plurais são suportados apenas para Laravel, que usa em sintaxe de textos "
-"para defini-los, veja `Localização em Laravel <Localization in Laravel>`_."
+"para defini-los, veja `Localização em Laravel`_."
 
 #: ../../formats.rst:145
 msgid ""
@@ -37523,51 +37497,49 @@ msgstr ""
 "como bilíngue, mas Weblate também tem suporte como monolíngue."
 
 #: ../../formats.rst:281
-#, fuzzy
-#| msgid "Weblate currently supports several variants of JSON translations:"
 msgid "Weblate supports XLIFF in several variants:"
-msgstr ""
-"O Weblate atualmente tem suporte a várias variantes das traduções JSON:"
+msgstr "O Weblate tem suporte a XLIFF em várias variantes:"
 
 #: ../../formats.rst:283
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "`XLIFF translation file`"
-msgstr "Arquivo de tradução XLIFF"
+msgstr "`Arquivo de tradução XLIFF`"
 
 #: ../../formats.rst:284
 msgid ""
 "Simple XLIFF file where content of the elements is stored as plain text (all "
 "XML elements being escaped)."
 msgstr ""
+"Arquivo XLIFF simples onde o conteúdo dos elementos é armazenado como texto "
+"simples (todos os elementos XML sendo escapados)."
 
 #: ../../formats.rst:285
 msgid "`XLIFF with placeables support`"
-msgstr ""
+msgstr "`XLIFF com suporte transponível`"
 
 #: ../../formats.rst:286
 msgid "Standard XLIFF supporting placeables and other XML elements."
 msgstr ""
+"XLIFF padrão que oferece suporte a objetos colocáveis e outros elementos XML."
 
 #: ../../formats.rst:289
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "`XLIFF with gettext extensions`"
-msgstr "XLIFF com extensões gettext"
+msgstr "`XLIFF com extensões gettext`"
 
 #: ../../formats.rst:288
 msgid ""
 "XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to "
 "support plurals."
 msgstr ""
+"XLIFF enriquecido pelo `XLIFF 1.2 Representation Guide for Gettext PO`_ para "
+"oferecer suporte a plurais."
 
 #: ../../formats.rst:293
-#, fuzzy
-#| msgid "`XML Localization Interchange File Format (XLIFF)` specification"
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
 "1.2 Representation Guide for Gettext PO`_"
-msgstr "Especificação do `XML Localization Interchange File Format (XLIFF)`"
+msgstr ""
+"Especificação do `XML Localization Interchange File Format (XLIFF)`_, `XLIFF "
+"1.2 Representation Guide for Gettext PO`_"
 
 #: ../../formats.rst:301 ../../workflows.rst:28
 msgid "Translation states"
@@ -37843,17 +37815,12 @@ msgid "`mi18n lang file`"
 msgstr "`Arquivo lang mi18n`"
 
 #: ../../formats.rst:491
-#, fuzzy
-#| msgid ""
-#| "`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
-#| "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 "`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
-"`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
+"`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 
@@ -38118,6 +38085,8 @@ msgid ""
 "To avoid translating some strings, these can be marked as non-translatable. "
 "This can be especially useful for string references:"
 msgstr ""
+"Para evitar a tradução de alguns textos, eles podem ser marcados como não "
+"traduzíveis. Isso pode ser especialmente útil para referências de textos:"
 
 #: ../../formats.rst:759
 msgid "Apple iOS strings"
@@ -38129,12 +38098,13 @@ msgid ""
 "translation>` applications, but also standardized by PWG 5100.13 and used on "
 "NeXTSTEP/OpenSTEP."
 msgstr ""
+"Formato de arquivo normalmente usado para traduzir aplicativos do Apple "
+":index:`iOS <pair: iOS; translation>`, mas também padronizado pelo PWG "
+"5100.13 e usado no NeXTSTEP/OpenSTEP."
 
 #: ../../formats.rst:768
-#, fuzzy
-#| msgid "Apple iOS strings are usually used as bilingual translations."
 msgid "Apple iOS strings are usually used as monolingual."
-msgstr "Os textos de Apple iOS geralmente são usados como traduções bilíngues."
+msgstr "Os textos de Apple iOS geralmente são usados como monolingue."
 
 #: ../../formats.rst:773
 msgid "``Resources/*.lproj/Localizable.strings``"
@@ -38153,12 +38123,6 @@ msgid "`iOS Strings (UTF-8)`"
 msgstr "`Textos do iOS (UTF-8)`"
 
 #: ../../formats.rst:785
-#, fuzzy
-#| msgid ""
-#| ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
-#| "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-#| "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
-#| "html>`_, :doc:`tt:formats/strings`"
 msgid ""
 ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
 "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
@@ -38170,7 +38134,9 @@ msgstr ""
 ":ref:`stringsdict`, `Documentação de \"arquivos de textos\" da Apple "
 "<https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
 "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
-"html>`_, :doc:`tt:formats/strings`"
+"html>`_, `Message Catalog File Format no PWG 5100.13 <http://ftp.pwg.org/pub/"
+"pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, "
+":doc:`tt:formats/strings`"
 
 #: ../../formats.rst:793
 msgid "PHP strings"
@@ -38214,7 +38180,7 @@ msgstr ""
 
 #: ../../formats.rst:833
 msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
-msgstr ":doc:`tt:formats/php`, `Localização de Laravel`_"
+msgstr ":doc:`tt:formats/php`, `Localização em Laravel`_"
 
 #: ../../formats.rst:841
 msgid "JSON files"
@@ -38552,10 +38518,8 @@ msgstr ""
 "cleanup.generic`"
 
 #: ../../formats.rst:1120
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary files"
-msgstr "Falha no repositório"
+msgstr "Arquivos de ResourceDictionary"
 
 #: ../../formats.rst:1128
 msgid ""
@@ -38563,36 +38527,29 @@ msgid ""
 "localizable string resources for Windows Presentation Foundation (WPF) "
 "applications."
 msgstr ""
+"ResourceDictionary é um formato de arquivo XML monolingue usado para "
+"empacotar recursos de textos localizáveis para aplicativos Windows "
+"Presentation Foundation (WPF)."
 
 #: ../../formats.rst:1135
-#, fuzzy
-#| msgid "``language/*.islu``"
 msgid "``Languages/*.xaml``"
-msgstr "``language/*.islu``"
+msgstr "``Languages/*.xaml``"
 
 #: ../../formats.rst:1137
-#, fuzzy
-#| msgid "``language/en.islu``"
 msgid "``Language/en.xaml``"
-msgstr "``language/en.islu``"
+msgstr "``Language/en.xaml``"
 
 #: ../../formats.rst:1141
-#, fuzzy
-#| msgid "Repository failure"
 msgid "`ResourceDictionary file`"
-msgstr "Falha no repositório"
+msgstr "`Arquivo ResourceDictionary`"
 
 #: ../../formats.rst:1146
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 ":doc:`tt:formats/flatxml`, :ref:`flatxml`, :ref:`updating-target-files`, :"
 "ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
-"cleanup.generic`"
+":doc:`tt:formats/flatxml`, :ref:`flatxml`, :ref:`updating-target-files`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1154
 msgid "CSV files"
@@ -38653,6 +38610,10 @@ msgid ""
 "choose file format variant with encoding to avoid this (for example :"
 "guilabel:`CSV file (UTF-8)`)."
 msgstr ""
+"Por padrão, o formato CSV detecta automaticamente a codificação do arquivo. "
+"Isso pode não ser confiável em alguns casos de canto e causa penalidade de "
+"desempenho. Por favor, escolha a variante de formato de arquivo com "
+"codificação para evitar isso (por exemplo :guilabel:`Arquivo CSV (UTF-8)`)."
 
 #: ../../formats.rst:1186
 msgid ""
@@ -38691,16 +38652,15 @@ msgid "`Simple CSV file`"
 msgstr "`Arquivo CSV simples`"
 
 #: ../../formats.rst:1223
-#, fuzzy
-#| msgid "Simple CSV file (UTF-8)"
 msgid "Multivalue CSV file"
-msgstr "Arquivo CSV simples (UTF-8)"
+msgstr "Arquivo CSV com vários valores"
 
 #: ../../formats.rst:1227
 msgid ""
 "This variant of the CSV files allows storing multiple translations per "
 "string."
 msgstr ""
+"Esta variante dos arquivos CSV permite armazenar várias traduções por texto."
 
 #: ../../formats.rst:1229
 msgid ":doc:`tt:formats/csv`"
@@ -39739,10 +39699,8 @@ msgid "``weblate.checks.markup.BBCodeCheck``"
 msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "change identifier"
 msgid "Check identifier"
-msgstr "identificador da alteração"
+msgstr "Identificador da verificação"
 
 #: ../../user/checks.rst:53
 #, fuzzy
@@ -40062,15 +40020,11 @@ msgid "``There are {0} apples``"
 msgstr "``Há {0} maçãs``"
 
 #: ../../user/checks.rst:212
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `C# String Format <https://docs.microsoft.com/en-us/"
-#| "dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgid ""
 ":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-us/"
 "dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgstr ""
-":ref:`check-formats`, `Formato de string do C# <https://docs.microsoft.com/"
+":ref:`check-formats`, `Formato de string do C# <https://learn.microsoft.com/"
 "pt_BR/dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:218
@@ -40332,6 +40286,8 @@ msgid ""
 "This used to be toggled by ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Isso costumava ser alternado pelo sinalizador ``java-format``, foi alterado "
+"para consistência com GNU gettext."
 
 #: ../../user/checks.rst:342
 msgid ""
@@ -40380,6 +40336,8 @@ msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Isso costumava ser alternado pelo sinalizador ``java-messageformat``, foi "
+"alterado para consistência com GNU gettext."
 
 #: ../../user/checks.rst:366
 msgid ""
@@ -41165,10 +41123,10 @@ msgid "Mismatched \\\\n"
 msgstr "\\\\n não correspondente"
 
 #: ../../user/checks.rst:840
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\\\n literals in translation does not match source"
-msgstr "O número de novas linhas na tradução não corresponde à fonte"
+msgstr ""
+"O número de \\\\n"
+" literais na tradução não corresponde à fonte"
 
 #: ../../user/checks.rst:842
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
@@ -41494,6 +41452,8 @@ msgstr "Você pode usar uma expressão regular como espaço reservado."
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
 msgstr ""
+"Com o sinalizador ``case-insensitive``, os espaços reservados não "
+"diferenciam maiúsculas de minúsculas."
 
 #: ../../user/checks.rst:1019
 msgid ""
@@ -41517,6 +41477,8 @@ msgstr ""
 #: ../../user/checks.rst:1033
 msgid "You can also have case insensitive placeholders:"
 msgstr ""
+"Você também pode ter espaços reservados que não diferenciam maiúsculas de "
+"minúsculas:"
 
 #: ../../user/checks.rst:1041 ../../user/glossary.rst:63
 #: ../../user/glossary.rst:79 ../../user/glossary.rst:95
@@ -42549,13 +42511,6 @@ msgid "Untranslatable terms"
 msgstr "Termos não traduzíveis"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:"
-#| "`Mark as read-only` means they can not be translated. Use this for brand "
-#| "names or other terms that should not be changed in other languages. Such "
-#| "terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -42564,11 +42519,11 @@ msgid ""
 "visually highlighted in the glossary sidebar."
 msgstr ""
 "Marcar certas traduções de termos do glossário como ``read-only`` por meio "
-"de edição massa, digitação do marcador ou uso de :guilabel:`Ferramentas` ↓ :"
-"guilabel:`Marcar como somente leitura` significa que não podem ser "
-"traduzidas. Use-o para nomes de marcas ou outros termos que não devem ser "
-"alterados em outros idiomas. Esses termos são destacados visualmente na "
-"barra lateral do glossário."
+"de edição massa, digitação do marcador ou uso de :guilabel:`Ferramentas` ↓ "
+":guilabel:`Marcar como intraduzível` significa que não podem ser traduzidas. "
+"Use-o para nomes de marcas ou outros termos que não devem ser alterados em "
+"outros idiomas. Esses termos são destacados visualmente na barra lateral do "
+"glossário."
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
@@ -43132,16 +43087,12 @@ msgid "``state:TEXT``"
 msgstr "``state:TEXTO``"
 
 #: ../../user/search.rst:43
-#, fuzzy
-#| msgid ""
-#| "State search (``approved``, ``translated``, ``needs-editing``, ``empty``, "
-#| "``read-only``), supports :ref:`search-operators`."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``), supports :ref:`search-operators`."
 msgstr ""
-"Pesquisa de estado (``approved``, ``translated``, ``needs-editing``, "
-"``empty``, ``read-only``), tem suporte a :ref:`search-operators`."
+"Pesquisa por estados do texto (``approved``, ``translated``, ``needs-"
+"editing``, ``empty``, ``read-only``), tem suporte a :ref:`search-operators`."
 
 #: ../../user/search.rst:44
 msgid "``pending:BOOLEAN``"
@@ -43177,6 +43128,9 @@ msgid ""
 "string states (``approved``, ``translated``, ``untranslated``, ``needs-"
 "editing``, ``read-only``)."
 msgstr ""
+"Pesquisa por traduções pendentes (``pending``). Também pode procurar por "
+"todos os estados de string (``approved``, ``translated``, ``untranslated``, "
+"``needs-editing``, ``read-only``)."
 
 #: ../../user/search.rst:51
 msgid "``language:TEXT``"
@@ -43263,6 +43217,8 @@ msgstr "``check:TEXTO``"
 msgid ""
 "String has failing check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"O texto falhou na verificação, consulte :doc:`/user/checks` para "
+"identificadores de verificação."
 
 #: ../../user/search.rst:72
 msgid "``dismissed_check:TEXT``"
@@ -43272,6 +43228,8 @@ msgstr "``dismissed_check:TEXTO``"
 msgid ""
 "String has dismissed check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"O texto dispensou a verificação, consulte :doc:`/user/checks` para "
+"identificadores de verificação."
 
 #: ../../user/search.rst:74
 msgid "``comment:TEXT``"
@@ -43741,14 +43699,12 @@ msgid ":ref:`plural-formula`"
 msgstr ":ref:`plural-formula`"
 
 #: ../../user/translating.rst:156
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translations"
-msgstr "Criar tradução"
+msgstr "Traduções alternativas"
 
 #: ../../user/translating.rst:162
 msgid "This is currently only supported with :ref:`multivalue-csv`."
-msgstr ""
+msgstr "Isso só tem suporte atualmente em :ref:`multivalue-csv`."
 
 #: ../../user/translating.rst:164
 msgid ""
@@ -43757,6 +43713,10 @@ msgid ""
 "`Tools` menu. Any blank alternative translations will be automatically "
 "removed upon saving."
 msgstr ""
+"Com alguns formatos, é possível ter mais traduções para um único texto. Você "
+"pode adicionar mais traduções alternativas usando o menu "
+":guilabel:`Ferramentas`. Quaisquer traduções alternativas em branco serão "
+"removidas automaticamente ao salvar."
 
 #: ../../user/translating.rst:172
 msgid "Keyboard shortcuts"
@@ -43868,22 +43828,16 @@ msgid ":kbd:`Alt+Enter` or"
 msgstr ":kbd:`Alt+Enter` ou"
 
 #: ../../user/translating.rst:214
-#, fuzzy
-#| msgid ":kbd:`Cmd+Enter`"
 msgid ":kbd:`Option+Enter`"
-msgstr ":kbd:`Cmd+Enter`"
+msgstr ":kbd:`Option+Enter`"
 
 #: ../../user/translating.rst:212
-#, fuzzy
-#| msgid ""
-#| "Submit current form; this is same as pressing :guilabel:`Save and "
-#| "continue` while editing translation."
 msgid ""
 "Submit the string as a suggestion; this is same as pressing :guilabel:"
 "`Suggest` while editing translation."
 msgstr ""
-"Envia o formulário atual; isso é o mesmo que pressionar :guilabel:`Salvar e "
-"continuar` enquanto edita a tradução."
+"Envia o texto como sugestão; isso é o mesmo que pressionar "
+":guilabel:`Sugerir` enquanto edita a tradução."
 
 #: ../../user/translating.rst:216
 msgid ":kbd:`Ctrl+E` or"
@@ -44032,8 +43986,8 @@ msgid ""
 "User configured :ref:`profile-specialchars` defined in the :ref:`user-"
 "profile`"
 msgstr ""
-":ref:`profile-specialchars`configurados pelo usuário definidos em :ref:`user-"
-"profile`"
+":ref:`profile-specialchars` configurados pelo usuário definidos em :ref"
+":`user-profile`"
 
 #: ../../user/translating.rst:269
 msgid ""
@@ -44274,16 +44228,12 @@ msgstr ""
 "(memória de tradução)."
 
 #: ../../user/translating.rst:370
-#, fuzzy
-#| msgid ""
-#| "The automatically translated strings are labelled by :guilabel:"
-#| "`Automatically translated`."
 msgid ""
 "The automatically translated strings are labelled :guilabel:`Automatically "
 "translated`."
 msgstr ""
-"Os textos traduzidos automaticamente são etiquetados como :guilabel:"
-"`Traduzido automaticamente`."
+"Os textos traduzidos automaticamente são etiquetados como :guilabel:`"
+"Traduzido automaticamente`."
 
 #: ../../user/translating.rst:382
 msgid ""
@@ -44411,29 +44361,24 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side` depending on your personal preference."
 msgstr ""
-"Você pode selecionar o editor Zen como seu editor padrão usando a aba :ref:"
-"`profile-preferences` em seu: :ref:`user-profile`. Aqui você também pode "
-"escolher entre ter traduções listadas :guilabel:`De cima para baixo` ou :"
-"guilabel:`Lado a lado` dependendo de sua preferência pessoal."
+"Você pode selecionar o editor Zen como seu editor padrão usando a aba :ref"
+":`profile-preferences` em seu :ref:`user-profile`. Aqui você também pode "
+"escolher entre ter traduções listadas :guilabel:`De cima para baixo` ou "
+":guilabel:`Lado a lado` dependendo de sua preferência pessoal."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
 msgstr "Integração com controle de versão"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
-#| "`vcs-github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and :ref:`vcs-"
-#| "mercurial` as version control back-ends."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit` and :"
 "ref:`vcs-git-svn`) and :ref:`vcs-mercurial` as version control back-ends."
 msgstr ""
-"Weblate atualmente tem suporte a :ref:`vcs-git` (com suporte estendido a :"
-"ref:`vcs-github`, :ref:`vcs-gerrit` e :ref:`vcs-git-svn`) e :ref:`vcs-"
-"mercurial` como back-ends de controle de versão."
+"Weblate atualmente tem suporte a :ref:`vcs-git` (com suporte estendido a :ref"
+":`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit` e :ref"
+":`vcs-git-svn`) e :ref:`vcs-mercurial` como back-ends de controle de versão."
 
 #: ../../vcs.rst:13
 msgid "Accessing repositories"
@@ -44854,7 +44799,7 @@ msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
 msgstr ""
-"Você também pode usar os `auxiliares de remotos` do Git para ter suporte "
+"Você também pode usar os `auxiliares de remotos`_ do Git para ter suporte "
 "adicionalmente a outros sistemas de controle de versão, mas esteja preparado "
 "para depurar problemas que isso pode levar."
 
