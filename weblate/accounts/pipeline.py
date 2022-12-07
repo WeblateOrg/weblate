@@ -385,7 +385,7 @@ def store_email(strategy, backend, user, social, details, **kwargs):
         current = set(details["verified_emails"])
         existing = set(social.verifiedemail_set.values_list("email", "is_deliverable"))
         for remove in existing - current:
-            social.verifiedemail_set.filter(email=remove[0]).delete()
+            social.verifiedemail_set.filter(email=remove[0], is_deliverable=remove[1]).delete()
         for add in current - existing:
             social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
     elif details.get("email"):
