@@ -24,8 +24,8 @@ from unittest import mock
 def immediate_on_commit(cls):
     """Wrapper to make transaction.on_commit execute immediately.
 
-    TODO: Remove when immediate_on_commit function is actually implemented
-    Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
+    This is alternative approach to TestCase.captureOnCommitCallbacks() which
+    was implemented Django Ticket https://code.djangoproject.com/ticket/30457
     """
 
     def handle_immediate_on_commit(func, using=None):
