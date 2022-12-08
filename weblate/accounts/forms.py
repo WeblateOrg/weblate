@@ -185,13 +185,13 @@ class ProfileForm(ProfileBaseForm):
 
     public_email = forms.ChoiceField(
         label=_("Public e-mail"),
-        choices=(("", ""),),
+        choices=[("", _("Do not publicly display e-mail"))],
         required=False,
     )
 
     commit_email = forms.ChoiceField(
         label=_("Commit e-mail"),
-        choices=(("", ""),),
+        choices=[("", _("Use account e-mail"))],
         required=False,
     )
 
@@ -214,13 +214,11 @@ class ProfileForm(ProfileBaseForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         emails = get_all_user_mails(self.instance.user)
-        emails.add("")
 
         commit_emails = get_all_user_mails(self.instance.user, filter_deliverable=False)
-        commit_emails.add("")
 
-        self.fields["public_email"].choices = [(x, x) for x in sorted(emails)]
-        self.fields["commit_email"].choices = [(x, x) for x in sorted(commit_emails)]
+        self.fields["public_email"].choices += [(x, x) for x in sorted(emails)]
+        self.fields["commit_email"].choices += [(x, x) for x in sorted(commit_emails)]
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
