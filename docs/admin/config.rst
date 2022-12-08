@@ -1427,9 +1427,13 @@ PRIVATE_COMMIT_EMAIL_TEMPLATE
 
 Template to generate private commit e-mail for an user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
 
+Set to blank string to disable.
+
 .. note::
 
-   Using different commit e-mail is opt-in for users, this can be configured in the :ref:`profile`.
+   Using different commit e-mail is opt-in for users unless configured by
+   :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in
+   the :ref:`profile`.
 
 .. setting:: PROJECT_BACKUP_KEEP_COUNT
 
