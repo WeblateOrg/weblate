@@ -1,16 +1,26 @@
 {
   "labels": [
-    "dependencies",
-    "automerge"
+    "dependencies"
   ],
+  "rangeStrategy": "widen",
+  "dependencyDashboard": false,
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "platformAutomerge": true,
+  "git-submodules": {
+    "enabled": true
+  },
   "pre-commit": {
     "enabled": true
   },
   "packageRules": [
     {
       "matchDatasources": [
-        "docker"
-      ]
+        "git-refs"
+      ],
+      "automerge": false,
+      "schedule": "on the last day of the month"
     }
   ],
   "regexManagers": [
@@ -29,7 +39,7 @@
         "\\.pre-commit-config\\.yaml"
       ],
       "matchStrings": [
-        "(?<depName>[^'\" ]+)@(>=)?(?<currentValue>[^'\" ,\\s]+)"
+        "(?<depName>[^'\" ]+)@(?<currentValue>[^'\" ,\\s]+)"
       ],
       "datasourceTemplate": "npm",
       "versioningTemplate": "npm"
