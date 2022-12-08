@@ -876,6 +876,18 @@ Generic settings
 
    Configures :setting:`EXTRA_HTML_HEAD`.
 
+.. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`.
+
+.. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+
 .. _docker-machine:
 
 Automatic suggestion settings

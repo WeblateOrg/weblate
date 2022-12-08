@@ -187,12 +187,21 @@ remove your account, or download your user data (see :ref:`schema-userdata`).
 
 .. image:: /screenshots/authentication.png
 
+.. _profile:
+
 Profile
 -------
 
 All of the fields on this page are optional and can be deleted at any time, and
 by filling them out, you're giving us consent to share this data wherever your
 user profile appears.
+
+The commit e-mail will be used instead of your account e-mail in version
+control commits. Use this to avoid leaking your real e-mail there. Be aware
+that using different e-mail can disconnect your contributions on other servers
+(for example your contributions will no longer link to your profile on GitHub).
+The private e-mail can be turned on site-wide using
+:setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
 
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.

@@ -20,6 +20,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
+from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.middleware.csrf import rotate_token
@@ -216,6 +217,12 @@ class ProfileForm(ProfileBaseForm):
         emails = get_all_user_mails(self.instance.user)
 
         commit_emails = get_all_user_mails(self.instance.user, filter_deliverable=False)
+        site_commit_email = self.instance.get_site_commit_email()
+        if site_commit_email:
+            if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+                self.fields["commit_email"].choices = [("", site_commit_email)]
+            else:
+                commit_emails.add(site_commit_email)
 
         self.fields["public_email"].choices += [(x, x) for x in sorted(emails)]
         self.fields["commit_email"].choices += [(x, x) for x in sorted(commit_emails)]

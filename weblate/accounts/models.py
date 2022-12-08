@@ -87,6 +87,9 @@ class WeblateAccountsConf(AppConf):
 
     CONTACT_FORM = "reply-to"
 
+    PRIVATE_COMMIT_EMAIL_TEMPLATE = "{username}@users.noreply.{site_domain}"
+    PRIVATE_COMMIT_EMAIL_OPT_IN = True
+
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
     SOCIAL_AUTH_AUTH0_TITLE = "Auth0"
@@ -753,6 +756,22 @@ class Profile(models.Model):
 
         if fields:
             self.save(update_fields=fields)
+
+    def get_commit_email(self) -> str:
+        email = self.commit_email
+        if not email and not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+            email = self.get_site_commit_email()
+        if not email:
+            email = self.user.email
+        return email
+
+    def get_site_commit_email(self) -> str:
+        if not settings.PRIVATE_COMMIT_EMAIL_TEMPLATE:
+            return ""
+        return settings.PRIVATE_COMMIT_EMAIL_TEMPLATE.format(
+            username=self.user.username,
+            site_domain=settings.SITE_DOMAIN,
+        )
 
 
 def set_lang_cookie(response, profile):

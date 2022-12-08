@@ -1404,6 +1404,33 @@ Example:
 
    :setting:`LEGAL_URL`
 
+.. setting:: PRIVATE_COMMIT_EMAIL_OPT_IN
+
+PRIVATE_COMMIT_EMAIL_OPT_IN
+---------------------------
+
+.. versionadded:: 4.15
+
+Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-out).
+
+.. seealso::
+
+   :ref:`profile`,
+   :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`
+
+.. setting:: PRIVATE_COMMIT_EMAIL_TEMPLATE
+
+PRIVATE_COMMIT_EMAIL_TEMPLATE
+-----------------------------
+
+.. versionadded:: 4.15
+
+Template to generate private commit e-mail for an user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
+
+.. note::
+
+   Using different commit e-mail is opt-in for users, this can be configured in the :ref:`profile`.
+
 .. setting:: PROJECT_BACKUP_KEEP_COUNT
 
 PROJECT_BACKUP_KEEP_COUNT
