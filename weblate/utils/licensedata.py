@@ -2187,6 +2187,7 @@ LICENSES = (
         "https://spdx.org/licenses/Watcom-1.0.html",
         True,
     ),
+    ("Symlinks", "Symlinks License", "https://spdx.org/licenses/Symlinks.html", False),
     (
         "OGDL-Taiwan-1.0",
         "Taiwan Open Government Data License, version 1.0",
