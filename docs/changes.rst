@@ -18,6 +18,7 @@ Not yet released.
 * Added support for translation files naming suitable for Google Play.
 * Added support for labels in API.
 * Added support for choosing different e-mail for commits than for notifications.
+* The Docker image no longer enables debug mode by default.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 

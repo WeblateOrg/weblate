@@ -356,6 +356,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * Weblate now requires ``btree_gin`` extension in PostgreSQL. The migration process
   will install it if it has sufficent privileges. See :ref:`dbsetup-postgres` for manual setup.
+* The Docker image no longer enables debug mode by default. In case you want
+  it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

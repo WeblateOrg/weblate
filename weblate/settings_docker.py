@@ -49,7 +49,7 @@ SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
 # Django settings for Weblate project.
 #
 
-DEBUG = get_env_bool("WEBLATE_DEBUG", True)
+DEBUG = get_env_bool("WEBLATE_DEBUG", False)
 
 ADMINS = (
     (
