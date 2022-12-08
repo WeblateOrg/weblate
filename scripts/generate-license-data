@@ -100,4 +100,6 @@ with open("weblate/utils/licensedata.py", "w") as output:
     output.write(")\n")
 
 # Apply coding style
-subprocess.run(["black", "weblate/utils/licensedata.py"])
+subprocess.run(
+    ["pre-commit", "run", "black", "--files", "weblate/utils/licensedata.py"]
+)
