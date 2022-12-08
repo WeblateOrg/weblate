@@ -24,7 +24,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: ./scripts/yarn-update --no-upgrade
+    - run: ./scripts/yarn-update
     - name: Update branch
       if: github.ref != 'refs/heads/main'
       uses: stefanzweifel/git-auto-commit-action@v4

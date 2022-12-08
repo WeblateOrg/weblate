@@ -5,9 +5,6 @@ set -e
 cd scripts/yarn/
 
 yarn install --check-files
-if [ "$1" != "--no-upgrade" ] ; then
-  yarn upgrade-interactive
-fi
 yarn run build --scripts-prepend-node-path
 
 # Bootstrap Datepicker
