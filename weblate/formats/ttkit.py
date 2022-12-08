@@ -1985,9 +1985,6 @@ class FluentUnit(MonolingualSimpleUnit):
 
     @cached_property
     def flags(self):
-        # TODO: Needs translate-toolkit 3.7.5 or newer
-        if not hasattr(self.mainunit, "getplaceables"):
-            return ""
         placeables = self.mainunit.getplaceables()
         if not placeables:
             return ""
@@ -2022,20 +2019,3 @@ class FluentFormat(TTKitFormat):
         unit = super().create_unit(key, source, target)
         unit.source = unit.target
         return unit
-
-    def is_valid(self):
-        """Check whether store seems to be valid."""
-        # Workaround for https://github.com/translate/translate/issues/4615
-        # TODO: Remove for translate-toolkit 3.8.0
-        for unit in self.store.units:
-            errors = unit.geterrors()
-            if errors:
-                raise ValueError(
-                    "Syntax error: {}".format(
-                        ", ".join(
-                            f"{errorname}: {errortext}"
-                            for errorname, errortext in errors.items()
-                        )
-                    )
-                )
-        return super().is_valid()
