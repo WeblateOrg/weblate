@@ -53,6 +53,7 @@ APPSTORE_CODES = {
     "pt": "pt-PT",
 }
 
+# Based on https://support.google.com/googleplay/android-developer/answer/9844778
 GOOGLEPLAY_CODES = {
     "hy": "hy-AM",
     "az": "az-AZ",
