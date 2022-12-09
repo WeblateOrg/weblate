@@ -804,6 +804,10 @@ Priority
 
 Components with higher priority are offered first to translators.
 
+.. versionchanged:: 4.15
+
+   This now also affects ordering of matched glossary terms.
+
 .. _component-restricted:
 
 Restricted access

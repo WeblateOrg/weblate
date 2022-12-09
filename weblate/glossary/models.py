@@ -70,7 +70,9 @@ def get_glossary_terms(unit):
     source_language = component.source_language
 
     units = (
-        Unit.objects.prefetch().select_related("source_unit").order_by(Lower("source"))
+        Unit.objects.prefetch()
+        .select_related("source_unit")
+        .order_by("translation__component__priority", Lower("source"))
     )
     if language == source_language:
         return units.none()
