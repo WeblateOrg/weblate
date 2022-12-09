@@ -32,9 +32,10 @@ is also added to the interpreter search path.
 
 .. versionadded:: 3.8-5
 
-   You can place Python modules in :file:`/app/data/python/` (see
-   :ref:`docker-volume`), so they can be loaded by Weblate, for example from
-   a :ref:`settings override file <docker-settings-override>`.
+   When :ref:`using Docker <docker-deploy>`, you can place Python modules in
+   :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded
+   by Weblate, for example from a :ref:`settings override file
+   <docker-settings-override>`.
 
 Better yet, turn your customization into a proper Python package:
 
