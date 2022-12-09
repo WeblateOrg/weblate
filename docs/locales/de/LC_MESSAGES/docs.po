@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-14 13:35+0100\n"
-"PO-Revision-Date: 2022-11-21 03:48+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2022-12-09 10:28+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -6821,6 +6821,8 @@ msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
 msgstr ""
+"Passt Leerzeichen am Anfang und Ende der Zeichenkette an die "
+"Ausgangszeichenkette an."
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
@@ -7269,13 +7271,12 @@ msgid "DATABASE_BACKUP"
 msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:435
-#, fuzzy
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
 "Ob die Datenbank-Backups als reiner Text oder komprimiert gespeichert oder "
-"übersprungen werden sollen. Die zulässigen Werte sind:"
+"übersprungen werden sollen, die zulässigen Werte sind:"
 
 #: ../../admin/config.rst:438
 #, fuzzy
@@ -7284,7 +7285,7 @@ msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:439
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"komprimiert\"``"
 
 #: ../../admin/config.rst:444
 msgid ":ref:`backup`"
@@ -7574,6 +7575,9 @@ msgid ""
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
+"In der Grundeinstellung wird dies auch für viele Django-Einstellungen im "
+"Rahmen von HTTPS verwendet - es aktiviert sichere Cookies, schaltet HSTS um "
+"oder aktiviert die Weiterleitung zu einer HTTPS-URL."
 
 #: ../../admin/config.rst:684
 msgid ""
@@ -7594,7 +7598,7 @@ msgstr ""
 
 #: ../../admin/config.rst:702
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:704
 msgid ""
@@ -7619,20 +7623,16 @@ msgid "List for credentials for Gitea servers."
 msgstr ""
 
 #: ../../admin/config.rst:739
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, :envvar:"
 "`WEBLATE_GITEA_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITEA_USERNAME`, :envvar:`WEBLATE_GITEA_TOKEN`, "
+":envvar:`WEBLATE_GITEA_HOST`"
 
 #: ../../admin/config.rst:746
 msgid "GITEA_USERNAME"
-msgstr ""
+msgstr "GITEA_USERNAME"
 
 #: ../../admin/config.rst:750 ../../admin/config.rst:768
 msgid ""
@@ -7660,7 +7660,7 @@ msgstr ""
 
 #: ../../admin/config.rst:764
 msgid "GITEA_TOKEN"
-msgstr ""
+msgstr "GITEA_TOKEN"
 
 #: ../../admin/config.rst:772
 #, fuzzy
@@ -7688,7 +7688,7 @@ msgstr ""
 
 #: ../../admin/config.rst:786
 msgid "GITLAB_CREDENTIALS"
-msgstr ""
+msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:790
 msgid "List for credentials for GitLab servers."
@@ -7708,7 +7708,7 @@ msgstr ""
 
 #: ../../admin/config.rst:814
 msgid "GITLAB_USERNAME"
-msgstr ""
+msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:818 ../../admin/config.rst:834
 msgid ""
@@ -7726,7 +7726,7 @@ msgstr ""
 
 #: ../../admin/config.rst:830
 msgid "GITLAB_TOKEN"
-msgstr ""
+msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:838
 #, fuzzy
@@ -7748,7 +7748,7 @@ msgstr ""
 
 #: ../../admin/config.rst:850
 msgid "GITHUB_CREDENTIALS"
-msgstr ""
+msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:854
 msgid "List for credentials for GitHub servers."
@@ -7768,7 +7768,7 @@ msgstr ""
 
 #: ../../admin/config.rst:878
 msgid "GITHUB_USERNAME"
-msgstr ""
+msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:882 ../../admin/config.rst:898
 msgid ""
@@ -7786,7 +7786,7 @@ msgstr ""
 
 #: ../../admin/config.rst:894
 msgid "GITHUB_TOKEN"
-msgstr ""
+msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:902
 msgid ""
@@ -7804,7 +7804,7 @@ msgstr ""
 
 #: ../../admin/config.rst:916
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:918
 msgid ""
@@ -7813,7 +7813,7 @@ msgstr ""
 
 #: ../../admin/config.rst:923
 msgid "HIDE_REPO_CREDENTIALS"
-msgstr ""
+msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:925
 msgid ""
@@ -7835,7 +7835,7 @@ msgstr ""
 
 #: ../../admin/config.rst:940
 msgid "HIDE_VERSION"
-msgstr ""
+msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:944
 msgid ""
@@ -7856,7 +7856,7 @@ msgstr "Diese Funktion ist standardmäßig ausgeschaltet."
 
 #: ../../admin/config.rst:958
 msgid "INTERLEDGER_PAYMENT_POINTERS"
-msgstr ""
+msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:962
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
@@ -7878,7 +7878,7 @@ msgstr ""
 
 #: ../../admin/config.rst:976
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:980
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -7908,7 +7908,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1004
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:1008
 msgid ""
@@ -7929,7 +7929,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1024
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:1028
 msgid ""
@@ -7967,7 +7967,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1053
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:1057
 msgid "URL where your Weblate instance shows its legal documents."
@@ -7985,7 +7985,7 @@ msgstr ":setting:`PRIVACY_URL`"
 
 #: ../../admin/config.rst:1077
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:1079
 msgid "Additional licenses to include in the license choices."
@@ -8004,7 +8004,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1100
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:1104
 msgid "Setting this to blank value now disables license alert."
@@ -8030,7 +8030,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1132
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:1134
 msgid "Defines whether the license attribute in :ref:`component` is required."
@@ -8042,7 +8042,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1143
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:1145
 msgid ""
@@ -8062,7 +8062,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1160
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL und LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1162
 msgid ""
@@ -8082,7 +8082,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1178
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:1180
 msgid ""
@@ -8106,7 +8106,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1204
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:1206
 msgid ""
@@ -8120,7 +8120,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1227
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1229
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
@@ -8136,7 +8136,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1243
 msgid "MATOMO_URL"
-msgstr ""
+msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:1245
 msgid ""
@@ -8151,7 +8151,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1266
 msgid "NEARBY_MESSAGES"
-msgstr ""
+msgstr "NEARBY_MESSAGES"
 
 #: ../../admin/config.rst:1268
 msgid ""
@@ -8170,7 +8170,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1282
 msgid "PAGURE_CREDENTIALS"
-msgstr ""
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1286
 msgid "List for credentials for Pagure servers."
@@ -8190,7 +8190,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1310
 msgid "PAGURE_USERNAME"
-msgstr ""
+msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1314 ../../admin/config.rst:1332
 msgid ""
@@ -8210,7 +8210,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1328
 msgid "PAGURE_TOKEN"
-msgstr ""
+msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1336
 #, fuzzy
@@ -8245,7 +8245,7 @@ msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1373
 msgid "PROJECT_BACKUP_KEEP_COUNT"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1377
 msgid ""
@@ -8261,7 +8261,7 @@ msgstr "Name der Komponente"
 
 #: ../../admin/config.rst:1386
 msgid "PROJECT_BACKUP_KEEP_DAYS"
-msgstr ""
+msgstr "PROJECT_BACKUP_KEEP_DAYS"
 
 #: ../../admin/config.rst:1390
 msgid ""
@@ -8271,7 +8271,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1399
 msgid "RATELIMIT_ATTEMPTS"
-msgstr ""
+msgstr "RATELIMIT_ATTEMPTS"
 
 #: ../../admin/config.rst:1403
 msgid ""
@@ -8289,7 +8289,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1416
 msgid "RATELIMIT_WINDOW"
-msgstr ""
+msgstr "RATELIMIT_WINDOW"
 
 #: ../../admin/config.rst:1420
 msgid "How long authentication is accepted after rate limiting applies."
@@ -8307,7 +8307,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1433
 msgid "RATELIMIT_LOCKOUT"
-msgstr ""
+msgstr "RATELIMIT_LOCKOUT"
 
 #: ../../admin/config.rst:1437
 msgid "How long authentication is locked after rate limiting applies."
@@ -8324,7 +8324,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1450
 msgid "REGISTRATION_ALLOW_BACKENDS"
-msgstr ""
+msgstr "REGISTRATION_ALLOW_BACKENDS"
 
 #: ../../admin/config.rst:1454
 msgid ""
@@ -8350,7 +8350,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1480
 msgid "REGISTRATION_CAPTCHA"
-msgstr ""
+msgstr "REGISTRATION_CAPTCHA"
 
 #: ../../admin/config.rst:1482
 msgid ""
@@ -8383,7 +8383,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1496
 msgid "REGISTRATION_EMAIL_MATCH"
-msgstr ""
+msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1500
 msgid "Allows you to filter which e-mail addresses can register."
@@ -8399,7 +8399,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1513
 msgid "REGISTRATION_OPEN"
-msgstr ""
+msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1515
 msgid ""
@@ -8429,7 +8429,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1537
 msgid "REPOSITORY_ALERT_THRESHOLD"
-msgstr ""
+msgstr "REPOSITORY_ALERT_THRESHOLD"
 
 #: ../../admin/config.rst:1541
 msgid ""
@@ -8439,7 +8439,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1551
 msgid "REQUIRE_LOGIN"
-msgstr ""
+msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1555
 msgid ""
@@ -8455,7 +8455,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1566
 msgid "SENTRY_DSN"
-msgstr ""
+msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1570
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
@@ -8469,7 +8469,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1579
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1583
 msgid ""
@@ -8483,7 +8483,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1593
 msgid "SIMPLIFY_LANGUAGES"
-msgstr ""
+msgstr "SIMPLIFY_LANGUAGES"
 
 #: ../../admin/config.rst:1595
 msgid ""
@@ -8499,7 +8499,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1605
 msgid "SITE_DOMAIN"
-msgstr ""
+msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1607
 msgid ""
@@ -8533,7 +8533,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1644
 msgid "SITE_TITLE"
-msgstr ""
+msgstr "SITE_TITLE"
 
 #: ../../admin/config.rst:1646
 msgid "Site title to be used for the website and sent e-mails."
@@ -8541,7 +8541,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1651
 msgid "SPECIAL_CHARS"
-msgstr ""
+msgstr "SPECIAL_CHARS"
 
 #: ../../admin/config.rst:1653
 msgid ""
@@ -8555,7 +8555,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1664
 msgid "SINGLE_PROJECT"
-msgstr ""
+msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1668
 msgid ""
@@ -8573,7 +8573,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1687
 msgid "SSH_EXTRA_ARGS"
-msgstr ""
+msgstr "SSH_EXTRA_ARGS"
 
 #: ../../admin/config.rst:1691
 msgid ""
@@ -8601,7 +8601,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1713
 msgid "STATUS_URL"
-msgstr ""
+msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1715
 msgid "The URL where your Weblate instance reports its status."
@@ -8609,7 +8609,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1720
 msgid "SUGGESTION_CLEANUP_DAYS"
-msgstr ""
+msgstr "SUGGESTION_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:1724
 msgid ""
@@ -8619,7 +8619,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1730
 msgid "UPDATE_LANGUAGES"
-msgstr ""
+msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1734
 msgid ""
@@ -8643,7 +8643,7 @@ msgstr "Name der Komponente"
 
 #: ../../admin/config.rst:1751
 msgid "URL_PREFIX"
-msgstr ""
+msgstr "URL_PREFIX"
 
 #: ../../admin/config.rst:1753
 msgid ""
@@ -8670,7 +8670,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1779
 msgid "VCS_BACKENDS"
-msgstr ""
+msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1781
 msgid "Configuration of available VCS backends."
@@ -8690,7 +8690,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1802
 msgid "VCS_CLONE_DEPTH"
-msgstr ""
+msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1806
 msgid "Configures how deep cloning of repositories Weblate should do."
@@ -8714,7 +8714,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1827
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:1829
 msgid ""
@@ -8737,7 +8737,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1880
 msgid "WEBLATE_EXPORTERS"
-msgstr ""
+msgstr "WEBLATE_EXPORTERS"
 
 #: ../../admin/config.rst:1884
 msgid ""
@@ -8751,7 +8751,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1894
 msgid "WEBLATE_FORMATS"
-msgstr ""
+msgstr "WEBLATE_FORMATS"
 
 #: ../../admin/config.rst:1898
 msgid "List of file formats available for use."
@@ -8763,7 +8763,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1912
 msgid "WEBLATE_MACHINERY"
-msgstr ""
+msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:1916
 msgid "List of machinery services available for use."
@@ -8775,7 +8775,7 @@ msgstr ":doc:`/admin/machine`"
 
 #: ../../admin/config.rst:1925
 msgid "WEBLATE_GPG_IDENTITY"
-msgstr ""
+msgstr "WEBLATE_GPG_IDENTITY"
 
 #: ../../admin/config.rst:1929
 msgid "Identity used by Weblate to sign Git commits, for example:"
@@ -8794,7 +8794,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1946
 msgid "WEBSITE_REQUIRED"
-msgstr ""
+msgstr "WEBSITE_REQUIRED"
 
 #: ../../admin/config.rst:1948
 msgid ""
@@ -21847,10 +21847,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.15"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.15"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -21872,43 +21870,32 @@ msgstr ""
 #: ../../changes.rst:8
 msgid "Added keyboard shortcut Alt+Enter to submit string as a suggestion."
 msgstr ""
+"Tastaturkürzel Alt+Eingabe hinzugefügt, um eine Zeichenkette als "
+"Übersetzungsvorschlag zu übermitteln."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for placeables in the Fluent format."
-msgstr "Unterstützung für das Fluent-Format wurde hinzugefügt."
+msgstr "Unterstützung für Platzhalter im Fluent-Format wurde hinzugefügt."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory."
-msgstr ""
-"Die Leistung bei Aktualisierungen des Übersetzungsspeichers wurde verbessert."
+msgstr "Die Leistung des Übersetzungsspeichers wurde verbessert."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/86?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/86?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"88?closed=1>`__."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Weblate 4.4.2"
 msgid "Weblate 4.14.2"
-msgstr "Weblate 4.4.2"
+msgstr "Weblate 4.14.2"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Released on November 4th 2020."
 msgid "Released on November 5th 2022."
-msgstr "Veröffentlicht am 4. November 2020."
+msgstr "Veröffentlicht am 5. November 2022."
 
 #: ../../changes.rst:19
 #, fuzzy
@@ -21923,25 +21910,20 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "Verbesserte Analyse der fehlgeschlagenen Push-Warnung."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Improved accuracy of the consecutive duplicated words check."
 msgid "Improved accurancy of the consecutive duplicated words check."
 msgstr ""
-"Die Genauigkeit der Prüfung auf aufeinanderfolgende doppelte Wörter wurde "
-"verbessert."
+"Verbesserte Genauigkeit bei der Prüfung auf aufeinanderfolgende doppelte "
+"Wörter."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improve placeholders handling in machine translations."
 msgid "Improved scaling of sending many notifications."
-msgstr ""
-"Verbesserung der Behandlung von Platzhaltern in automatischen Übersetzungen."
+msgstr "Verbesserte Skalierung des Versands vieler Benachrichtigungen."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Improved performance when displaying ghost translations."
 msgid "Improved string state handling for subtitle translation."
-msgstr "Verbesserte Leistung bei der Anzeige von Ghost-Übersetzungen."
+msgstr ""
+"Verbesserte Behandlung des Zeichenkettenstatus bei der Übersetzung von "
+"Untertiteln."
 
 #: ../../changes.rst:24
 msgid ""
@@ -21950,10 +21932,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed processing of some uploaded CSV files."
-msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
+msgstr "Die Verarbeitung einiger hochgeladener CSV-Dateien wurde korrigiert."
 
 #: ../../changes.rst:26
 #, fuzzy
@@ -21972,21 +21952,18 @@ msgid "Track comment removal/resolving in history."
 msgstr "Nachverfolgung von Add-On-Änderungen in einem Verlauf."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Fixed generating project backups in some situations."
 msgid "Fixed restoring project backups with linked components."
 msgstr ""
-"Die Erstellung von Projekt-Backups in einigen Situationen wurde korrigiert."
+"Die Wiederherstellung von Projektsicherungen mit verknüpften Komponenten "
+"wurde korrigiert."
 
 #: ../../changes.rst:30
 msgid "Fixed captcha entering on unsuccessful registration."
-msgstr ""
+msgstr "Captcha-Eingabe bei erfolgloser Registrierung behoben."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Improved language definitions."
 msgid "Improved languages support in DeepL."
-msgstr "Verbesserte Sprachdefinitionen."
+msgstr "Verbesserte Sprachunterstützung in DeepL."
 
 #: ../../changes.rst:32
 #, fuzzy
@@ -21995,32 +21972,24 @@ msgid "Improved webhooks compatibility with authenticated repositories."
 msgstr "Verbesserte Hooks-Kompatibilität mit Bitbucket-Server."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Added support for Python 3.10."
 msgid "Added support for Python 3.11."
-msgstr "Unterstützung für Python 3.10 hinzugefügt."
+msgstr "Unterstützung für Python 3.11 hinzugefügt."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/86?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/86?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"87?closed=1>`__."
 
 #: ../../changes.rst:38
 msgid "Weblate 4.14.1"
 msgstr "Weblate 4.14.1"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Released on September 10th 2021."
 msgid "Released on September 15th 2022."
-msgstr "Veröffentlicht am 10. September 2021."
+msgstr "Veröffentlicht am 15. September 2022."
 
 #: ../../changes.rst:42
 msgid "Fixed generating project backups in some situations."
@@ -28671,7 +28640,7 @@ msgstr ""
 
 #: ../../changes.rst:2020
 msgid "List only used languages in preferences."
-msgstr ""
+msgstr "Nur verwendete Sprachen in den Einstellungen anzeigen."
 
 #: ../../changes.rst:2021
 msgid "Improved handling of not known languages when importing project."
@@ -38224,6 +38193,9 @@ msgid ""
 "A space in the beginning of a string is usually used for indentation in the "
 "interface and thus important to keep."
 msgstr ""
+"Ein Leerzeichen am Anfang einer Zeichenkette wird üblicherweise für "
+"Einrückungen in der Darstellung verwendet und sollte deshalb beibehalten "
+"werden."
 
 #: ../../user/checks.rst:1138
 msgid "Trailing newline"
@@ -40117,7 +40089,7 @@ msgstr "Tastaturkürzel"
 
 #: ../../user/translating.rst:184
 msgid ":kbd:`Alt+Home`"
-msgstr ""
+msgstr ":kbd:`Alt+Pos1`"
 
 #: ../../user/translating.rst:184
 #, fuzzy
@@ -40127,7 +40099,7 @@ msgstr "Diese Übersetzungseinheit ist momentan gesperrt."
 
 #: ../../user/translating.rst:186
 msgid ":kbd:`Alt+End`"
-msgstr ""
+msgstr ":kbd:`Alt+Ende`"
 
 #: ../../user/translating.rst:186
 #, fuzzy
@@ -40137,19 +40109,19 @@ msgstr "Diese Übersetzungseinheit ist momentan gesperrt."
 
 #: ../../user/translating.rst:188
 msgid ":kbd:`Alt+PageUp` or"
-msgstr ""
+msgstr ":kbd:`Alt+Bild↑` oder"
 
 #: ../../user/translating.rst:190
 msgid ":kbd:`Ctrl+↑` or"
-msgstr ""
+msgstr ":kbd:`Strg+↑` oder"
 
 #: ../../user/translating.rst:192
 msgid ":kbd:`Alt+↑` or"
-msgstr ""
+msgstr ":kbd:`Alt+↑` oder"
 
 #: ../../user/translating.rst:194
 msgid ":kbd:`Cmd+↑`"
-msgstr ""
+msgstr ":kbd:`Cmd+↑`"
 
 #: ../../user/translating.rst:188
 #, fuzzy
@@ -40159,19 +40131,19 @@ msgstr "Diese Übersetzungseinheit ist momentan gesperrt."
 
 #: ../../user/translating.rst:196
 msgid ":kbd:`Alt+PageDown` or"
-msgstr ""
+msgstr ":kbd:`Alt+Bild↓` oder"
 
 #: ../../user/translating.rst:198
 msgid ":kbd:`Ctrl+↓` or"
-msgstr ""
+msgstr ":kbd:`Strg+↓` oder"
 
 #: ../../user/translating.rst:200
 msgid ":kbd:`Alt+↓` or"
-msgstr ""
+msgstr ":kbd:`Alt+↓` oder"
 
 #: ../../user/translating.rst:202
 msgid ":kbd:`Cmd+↓`"
-msgstr ""
+msgstr ":kbd:`Cmd+↓`"
 
 #: ../../user/translating.rst:196
 #, fuzzy
@@ -40181,11 +40153,11 @@ msgstr "Diese Übersetzungseinheit ist momentan gesperrt."
 
 #: ../../user/translating.rst:204
 msgid ":kbd:`Ctrl+Enter` or"
-msgstr ""
+msgstr ":kbd:`Strg+Eingabe` oder"
 
 #: ../../user/translating.rst:206
 msgid ":kbd:`Cmd+Enter`"
-msgstr ""
+msgstr ":kbd:`Cmd+Eingabe`"
 
 #: ../../user/translating.rst:204
 msgid ""
@@ -40195,11 +40167,11 @@ msgstr ""
 
 #: ../../user/translating.rst:208
 msgid ":kbd:`Ctrl+Shift+Enter` or"
-msgstr ""
+msgstr ":kbd:`Strg+Umschalt+Eingabe` oder"
 
 #: ../../user/translating.rst:210
 msgid ":kbd:`Cmd+Shift+Enter`"
-msgstr ""
+msgstr ":kbd:`Cmd+Umschalt+Eingabe`"
 
 #: ../../user/translating.rst:208
 msgid "Unmark translation as needing edit and submit it."
@@ -40207,11 +40179,11 @@ msgstr "Bearbeitungsmarkierung der Übersetzung aufheben und absenden."
 
 #: ../../user/translating.rst:212
 msgid ":kbd:`Alt+Enter` or"
-msgstr ""
+msgstr ":kbd:`Alt+Eingabe` oder"
 
 #: ../../user/translating.rst:214
 msgid ":kbd:`Option+Enter`"
-msgstr ""
+msgstr ":kbd:`Option+Eingabe`"
 
 #: ../../user/translating.rst:212
 msgid ""
@@ -40221,11 +40193,11 @@ msgstr ""
 
 #: ../../user/translating.rst:216
 msgid ":kbd:`Ctrl+E` or"
-msgstr ""
+msgstr ":kbd:`Strg+E` oder"
 
 #: ../../user/translating.rst:218
 msgid ":kbd:`Cmd+E`"
-msgstr ""
+msgstr ":kbd:`Cmd+E`"
 
 #: ../../user/translating.rst:216
 msgid "Focus translation editor."
@@ -40233,11 +40205,11 @@ msgstr ""
 
 #: ../../user/translating.rst:220
 msgid ":kbd:`Ctrl+U` or"
-msgstr ""
+msgstr ":kbd:`Strg+U` oder"
 
 #: ../../user/translating.rst:222
 msgid ":kbd:`Cmd+U`"
-msgstr ""
+msgstr ":kbd:`Cmd+U`"
 
 #: ../../user/translating.rst:220
 msgid "Focus comment editor."
@@ -40245,11 +40217,11 @@ msgstr ""
 
 #: ../../user/translating.rst:224
 msgid ":kbd:`Ctrl+M` or"
-msgstr ""
+msgstr ":kbd:`Strg+M` oder"
 
 #: ../../user/translating.rst:226
 msgid ":kbd:`Cmd+M`"
-msgstr ""
+msgstr ":kbd:`Cmd+M`"
 
 #: ../../user/translating.rst:224
 msgid ""
@@ -40258,11 +40230,11 @@ msgstr ""
 
 #: ../../user/translating.rst:228
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
-msgstr ""
+msgstr ":kbd:`Strg+1` bis :kbd:`Strg+9` oder"
 
 #: ../../user/translating.rst:230
 msgid ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
-msgstr ""
+msgstr ":kbd:`Cmd+1` bis :kbd:`Cmd+9`"
 
 #: ../../user/translating.rst:228
 msgid "Copies placeable of given number from source string."
@@ -40270,11 +40242,11 @@ msgstr ""
 
 #: ../../user/translating.rst:232
 msgid ":kbd:`Ctrl+M`\\+\\ :kbd:`1` to :kbd:`9` or"
-msgstr ""
+msgstr ":kbd:`Strg+M`\\+\\ :kbd:`1` bis :kbd:`9` oder"
 
 #: ../../user/translating.rst:234
 msgid ":kbd:`Cmd+M`\\+\\ :kbd:`1` to :kbd:`9`"
-msgstr ""
+msgstr ":kbd:`Cmd+M`\\+\\ :kbd:`1` bis :kbd:`9`"
 
 #: ../../user/translating.rst:232
 msgid "Copy the machine translation of given number to current translation."
@@ -40282,11 +40254,11 @@ msgstr ""
 
 #: ../../user/translating.rst:236
 msgid ":kbd:`Ctrl+I`\\+\\ :kbd:`1` to :kbd:`9` or"
-msgstr ""
+msgstr ":kbd:`Strg+I`\\+\\ :kbd:`1` bis :kbd:`9` oder"
 
 #: ../../user/translating.rst:238
 msgid ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
-msgstr ""
+msgstr ":kbd:`Cmd+I`\\+\\ :kbd:`1` bis :kbd:`9`"
 
 #: ../../user/translating.rst:236
 msgid "Ignore one item in the list of failing checks."
@@ -40296,11 +40268,11 @@ msgstr ""
 
 #: ../../user/translating.rst:240
 msgid ":kbd:`Ctrl+J` or"
-msgstr ""
+msgstr ":kbd:`Strg+J` oder"
 
 #: ../../user/translating.rst:242
 msgid ":kbd:`Cmd+J`"
-msgstr ""
+msgstr ":kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:240
 msgid "Shows the :guilabel:`Nearby strings` tab."
@@ -40308,11 +40280,11 @@ msgstr "Zeigt die Registerkarte :guilabel:`Benachbarte Zeichenketten` an."
 
 #: ../../user/translating.rst:244
 msgid ":kbd:`Ctrl+S` or"
-msgstr ""
+msgstr ":kbd:`Strg+S` oder"
 
 #: ../../user/translating.rst:246
 msgid ":kbd:`Cmd+S`"
-msgstr ""
+msgstr ":kbd:`Cmd+S`"
 
 #: ../../user/translating.rst:244
 msgid "Focus search field."
@@ -40320,11 +40292,11 @@ msgstr ""
 
 #: ../../user/translating.rst:248
 msgid ":kbd:`Ctrl+O` or"
-msgstr ""
+msgstr ":kbd:`Strg+O` oder"
 
 #: ../../user/translating.rst:250
 msgid ":kbd:`Cmd+O`"
-msgstr ""
+msgstr ":kbd:`Cmd+O`"
 
 #: ../../user/translating.rst:248
 msgid "Copy source string."
@@ -40332,11 +40304,11 @@ msgstr "Ausgangszeichenkette kopieren."
 
 #: ../../user/translating.rst:252
 msgid ":kbd:`Ctrl+Y` or"
-msgstr ""
+msgstr ":kbd:`Strg+Y` oder"
 
 #: ../../user/translating.rst:254
 msgid ":kbd:`Cmd+Y`"
-msgstr ""
+msgstr ":kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:252
 #, fuzzy
@@ -41514,7 +41486,7 @@ msgstr ""
 
 #: ../../wlc.rst:265
 msgid "Overwrite existing translations upon uploading."
-msgstr ""
+msgstr "Beim Hochladen vorhandene Übersetzungen überschreiben."
 
 #: ../../wlc.rst:269
 msgid ""
