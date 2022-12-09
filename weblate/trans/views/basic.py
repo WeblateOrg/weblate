@@ -395,6 +395,7 @@ def new_language(request, project, component):
 
     form_class = get_new_language_form(request, obj)
     can_add = obj.can_add_new_language(user)
+    added = False
 
     if request.method == "POST":
         form = form_class(obj, request.POST)
@@ -416,6 +417,7 @@ def new_language(request, project, component):
                             language, request, create_translations=False
                         )
                         if translation:
+                            added = True
                             kwargs["translation"] = translation
                             if len(langs) == 1:
                                 result = translation
@@ -434,7 +436,7 @@ def new_language(request, project, component):
                             ),
                         )
                 try:
-                    if not obj.create_translations(request=request):
+                    if added and not obj.create_translations(request=request):
                         messages.warning(
                             request,
                             _("The translation will be updated in the background."),
