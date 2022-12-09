@@ -1677,7 +1677,7 @@ To override settings at the Docker image level instead of from the data volume:
 #.  Extend your custom settings module to define or redefine settings.
 
     You can define settings before or after the import statement above to
-    determine which settings take preference. Settings defined before the
+    determine which settings take precedence. Settings defined before the
     import statement can be overriden by environment variables and setting
     overrides defined in the data volume. Setting defined after the import
     statement cannot be overriden.
