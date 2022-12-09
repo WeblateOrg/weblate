@@ -145,16 +145,22 @@ def get_other_units(unit):
         .order_by("-matches_current")
     )
 
-    units_count = units.count()
+    max_units = 20
+    units_limited = units[:max_units]
+    units_count = len(units_limited)
 
     # Is it only this unit?
     if units_count == 1:
         return result
 
-    result["total"] = units_count
-    result["skipped"] = units_count > 20
+    if units_count == max_units:
+        # Get the real units count from the databse
+        units_count = units.count()
 
-    for item in units[:20]:
+    result["total"] = units_count
+    result["skipped"] = units_count > max_units
+
+    for item in units_limited:
         item.allow_merge = item.differently_translated = (
             item.translated and item.target != unit.target
         )
