@@ -3191,10 +3191,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         # Check if template can be parsed
         if self.has_template():
-            if fast:
-                if not os.path.exists(self.get_template_filename()):
-                    return False
-            else:
+            if not os.path.exists(self.get_template_filename()):
+                return False
+            if not fast:
                 try:
                     self.template_store.check_valid()
                 except (FileParseError, ValueError):
