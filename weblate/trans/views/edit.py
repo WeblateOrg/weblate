@@ -142,6 +142,14 @@ def get_other_units(unit):
                 When(condition=match, then=1), default=0, output_field=IntegerField()
             )
         )
+        .select_related(
+            "translation",
+            "translation__language",
+            "translation__plural",
+            "translation__component",
+            "translation__component__project",
+            "translation__component__source_language",
+        )
         .order_by("-matches_current")
     )
 
