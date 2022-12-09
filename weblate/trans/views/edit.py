@@ -107,6 +107,7 @@ def get_other_units(unit):
         "matching": [],
         "context": [],
         "source": [],
+        "other": [],
     }
 
     allow_merge = False
@@ -119,15 +120,15 @@ def get_other_units(unit):
     if unit.source and unit.context:
         match = Q(source=unit.source) & Q(context=unit.context)
         if component.has_template():
-            query = Q(source=unit.source) | Q(context=unit.context)
+            query = Q(source__iexact=unit.source) | Q(context__iexact=unit.context)
         else:
-            query = Q(source=unit.source)
+            query = Q(source__iexact=unit.source)
     elif unit.source:
         match = Q(source=unit.source) & Q(context="")
-        query = Q(source=unit.source)
+        query = Q(source__iexact=unit.source)
     elif unit.context:
         match = Q(context=unit.context)
-        query = Q(context=unit.context)
+        query = Q(context__iexact=unit.context)
     else:
         return result
 
@@ -190,6 +191,8 @@ def get_other_units(unit):
             result["source"].append(item)
         elif item.context == unit.context:
             result["context"].append(item)
+        else:
+            result["other"].append(item)
 
     # Slightly different logic to allow applying current translation to
     # the propagated strings

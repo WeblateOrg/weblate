@@ -341,6 +341,14 @@
     {% endfor %}
     </tbody>
     {% endif %}
+    {% if others.other %}
+    <tr><th colspan="5" class="warning">{% blocktrans count count=others.other|length %}The following string has a different source and different context.{% plural %}The following strings have different sources and context.{% endblocktrans %}</th></tr>
+    <tbody>
+    {% for item in others.other %}
+    {% include "trans/other-row.html" %}
+    {% endfor %}
+    </tbody>
+    {% endif %}
   </table>
   {% if user_can_translate and others.allow_merge %}
     {% if object.component.allow_translation_propagation %}
