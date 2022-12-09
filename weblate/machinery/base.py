@@ -69,6 +69,7 @@ class MachineTranslation:
     language_map: Dict[str, str] = {}
     same_languages = False
     do_cleanup = True
+    # Batch size is currently used in autotranslate
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False
