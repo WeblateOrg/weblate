@@ -10,6 +10,9 @@ Starting with the codebase
 Familiarize yourself with the Weblate codebase, by having a go at the
 bugs labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_.
 
+You are welcome to start working on these issues without asking. Just announce
+that in the issue, so that it's clear that somebody is working on that issue.
+
 Running Weblate locally
 -----------------------
 
