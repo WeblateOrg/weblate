@@ -812,6 +812,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         self.needs_variants_update = False
         self._invalidate_scheduled = False
         self._template_check_done = False
+        self.new_lang_error_message = None
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -3182,23 +3183,36 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         # The component.edit permission is intentional here as it allows overriding
         # of new_lang configuration for admins and add languages even if adding
         # for users is not configured.
+        self.new_lang_error_message = _("Could not add new translation file.")
         if (
             self.new_lang != "add"
             and user is not None
             and not user.has_perm("component.edit", self)
         ):
+            self.new_lang_error_message = _(
+                "You do not have permissions to add new translation file."
+            )
             return False
 
         # Check if template can be parsed
         if self.has_template():
             if not os.path.exists(self.get_template_filename()):
+                self.new_lang_error_message = _(
+                    "The monolingual base language file is invalid."
+                )
                 return False
             if not fast:
                 try:
                     self.template_store.check_valid()
                 except (FileParseError, ValueError):
+                    self.new_lang_error_message = _(
+                        "The monolingual base language file is invalid."
+                    )
                     return False
 
+        self.new_lang_error_message = _("The template for new translations is invalid.")
+        if self.self.new_base and not os.path.exists(self.get_new_base_filename()):
+            return False
         return self.is_valid_base_for_new(fast=fast)
 
     @transaction.atomic
@@ -3211,7 +3225,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ):
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
-            messages.error(request, _("Could not add new translation file."))
+            messages.error(request, self.new_lang_error_message)
             return None
 
         file_format = self.file_format_cls
