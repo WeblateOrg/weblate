@@ -3211,7 +3211,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     return False
 
         self.new_lang_error_message = _("The template for new translations is invalid.")
-        if self.self.new_base and not os.path.exists(self.get_new_base_filename()):
+        if self.new_base and not os.path.exists(self.get_new_base_filename()):
             return False
         return self.is_valid_base_for_new(fast=fast)
 
