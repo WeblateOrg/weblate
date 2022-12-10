@@ -58,6 +58,7 @@ from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.removal import RemoveComments, RemoveSuggestions
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.addons.tasks import daily_addons
+from weblate.addons.xml import XMLCustomizeAddon
 from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
@@ -541,6 +542,33 @@ class JsonAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('\t\t\t\t\t\t\t\t"try"', commit)
+
+
+class XMLAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_xliff("complex")
+
+    def test_customize_self_closing_tags(self):
+        XMLCustomizeAddon.create(self.component, configuration={"closing_tags": False})
+
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("<target/>", commit)
+
+    def test_customize_closing_tags(self):
+        XMLCustomizeAddon.create(self.component, configuration={"closing_tags": True})
+
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("<target></target>", commit)
 
 
 class YAMLAddonTest(ViewTestCase):
