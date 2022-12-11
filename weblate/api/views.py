@@ -838,7 +838,7 @@ class ComponentViewSet(
                 )
 
             if not obj.can_add_new_language(request.user):
-                self.permission_denied(request, message=self.new_lang_error_message)
+                self.permission_denied(request, message=obj.new_lang_error_message)
 
             translation = obj.add_new_language(language, request)
             serializer = TranslationSerializer(
