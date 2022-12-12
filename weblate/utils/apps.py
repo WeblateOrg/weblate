@@ -83,5 +83,5 @@ class UtilsConfig(AppConfig):
             )
 
         for lookup in lookups:
-            CharField.register_lookup(lookup)
-            TextField.register_lookup(lookup)
+            CharField.register_lookup(*lookup)
+            TextField.register_lookup(*lookup)
