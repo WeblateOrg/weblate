@@ -5090,6 +5090,13 @@ class Scope  {
   /**
    * @inheritDoc
    */
+   getLastBreadcrumb() {
+    return this._breadcrumbs[this._breadcrumbs.length - 1];
+  }
+
+  /**
+   * @inheritDoc
+   */
    clearBreadcrumbs() {
     this._breadcrumbs = [];
     this._notifyScopeListeners();
@@ -5678,7 +5685,7 @@ exports.createTransport = createTransport;
 },{"@sentry/utils":56}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.24.2';
+const SDK_VERSION = '7.25.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -6794,6 +6801,7 @@ const ITEM_TYPE_TO_DATA_CATEGORY_MAP = {
   event: 'error',
   client_report: 'internal',
   user_report: 'default',
+  profile: 'profile',
 };
 
 /**
