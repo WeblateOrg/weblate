@@ -358,6 +358,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   will install it if it has sufficent privileges. See :ref:`dbsetup-postgres` for manual setup.
 * The Docker image no longer enables debug mode by default. In case you want
   it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
+* The database migration make take hours on larger instances due to recreating some
+  of the indexes.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
