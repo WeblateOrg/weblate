@@ -20,7 +20,7 @@
 
 from django.utils.translation import gettext_lazy as _
 
-from weblate.formats.helpers import CONTROLCHARS
+from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
 
@@ -57,9 +57,5 @@ class RemoveControlChars(AutoFix):
     name = _("Control characters")
 
     def fix_single_target(self, target, source, unit):
-        modified = False
-        for char in CONTROLCHARS:
-            if char not in source and char in target:
-                target = target.replace(char, "")
-                modified = True
-        return target, modified
+        result = target.translate(CONTROLCHARS_TRANS)
+        return result, result != target

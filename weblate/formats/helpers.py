@@ -50,6 +50,7 @@ CONTROLCHARS = {
     "\x1e",
     "\x1f",
 }
+CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
 
 
 class BytesIOMode(BytesIO):

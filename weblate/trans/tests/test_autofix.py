@@ -115,7 +115,7 @@ class AutoFixTest(TestCase):
         unit = MockUnit(source="Foo\x1b")
         fix = RemoveControlChars()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
-        self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar\x1b"], False))
+        self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar"], True))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
 
     def test_no_controlchars(self):
