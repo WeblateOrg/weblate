@@ -82,10 +82,6 @@ class MySQLSearchLookup(models.Lookup):
         return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
-class MySQLSubstringLookup(MySQLSearchLookup):
-    lookup_name = "substring"
-
-
 class PostgreSQLSubstringLookup(PatternLookup):
     """
     Case insensitive substring lookup.

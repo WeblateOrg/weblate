@@ -41,7 +41,6 @@ from weblate.utils.errors import init_error_collection
 
 from .db import (
     MySQLSearchLookup,
-    MySQLSubstringLookup,
     PostgreSQLILikeLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
@@ -80,7 +79,7 @@ class UtilsConfig(AppConfig):
             lookups = (
                 (IExact, "ilike"),
                 (MySQLSearchLookup,),
-                (MySQLSubstringLookup,),
+                (MySQLSearchLookup, "substring"),
             )
 
         for lookup in lookups:
