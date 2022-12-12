@@ -230,6 +230,7 @@ class TranslationUnit:
 
     def clone_template(self):
         self.mainunit = self.unit = copy(self.template)
+        self._invalidate_target()
 
 
 class TranslationFormat:
