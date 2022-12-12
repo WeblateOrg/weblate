@@ -20,7 +20,7 @@
 
 from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import PatternLookup
+from django.db.models.lookups import IExact, PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
@@ -101,6 +101,22 @@ class PostgreSQLSubstringLookup(PatternLookup):
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return f"{lhs} ILIKE {rhs}", params
+
+
+class MySQLILikeLookup(IExact):
+    lookup_name = "ilike"
+
+
+class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
+    """
+    Case insensitive string lookup.
+
+    This is essentially same as iexact in Django, but utilizes ILIKE
+    operator which can use pg_trgm index.
+    """
+
+    lookup_name = "ilike"
+    param_pattern = "%s"
 
 
 def re_escape(pattern):

@@ -120,15 +120,15 @@ def get_other_units(unit):
     if unit.source and unit.context:
         match = Q(source=unit.source) & Q(context=unit.context)
         if component.has_template():
-            query = Q(source__iexact=unit.source) | Q(context__iexact=unit.context)
+            query = Q(source__ilike=unit.source) | Q(context__ilike=unit.context)
         else:
-            query = Q(source__iexact=unit.source)
+            query = Q(source__ilike=unit.source)
     elif unit.source:
         match = Q(source=unit.source) & Q(context="")
-        query = Q(source__iexact=unit.source)
+        query = Q(source__ilike=unit.source)
     elif unit.context:
         match = Q(context=unit.context)
-        query = Q(context__iexact=unit.context)
+        query = Q(context__ilike=unit.context)
     else:
         return result
 

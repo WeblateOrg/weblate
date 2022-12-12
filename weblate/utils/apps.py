@@ -39,8 +39,10 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.errors import init_error_collection
 
 from .db import (
+    MySQLILikeLookup,
     MySQLSearchLookup,
     MySQLSubstringLookup,
+    PostgreSQLILikeLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
 )
@@ -69,12 +71,14 @@ class UtilsConfig(AppConfig):
         init_error_collection()
 
         if using_postgresql():
-            CharField.register_lookup(PostgreSQLSearchLookup)
-            TextField.register_lookup(PostgreSQLSearchLookup)
-            CharField.register_lookup(PostgreSQLSubstringLookup)
-            TextField.register_lookup(PostgreSQLSubstringLookup)
+            lookups = (
+                PostgreSQLILikeLookup,
+                PostgreSQLSearchLookup,
+                PostgreSQLSubstringLookup,
+            )
         else:
-            CharField.register_lookup(MySQLSearchLookup)
-            TextField.register_lookup(MySQLSearchLookup)
-            CharField.register_lookup(MySQLSubstringLookup)
-            TextField.register_lookup(MySQLSubstringLookup)
+            lookups = (MySQLILikeLookup, MySQLSearchLookup, MySQLSubstringLookup)
+
+        for lookup in lookups:
+            CharField.register_lookup(lookup)
+            TextField.register_lookup(lookup)
