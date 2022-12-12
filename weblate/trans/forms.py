@@ -403,7 +403,7 @@ class PluralField(forms.CharField):
     def clean(self, value):
         value = super().clean(value)
         if not value or (self.required and not any(value)):
-            raise ValidationError(_("Missing translated string!"))
+            raise ValidationError(self.error_messages["required"], code="required")
         return value
 
 
