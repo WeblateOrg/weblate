@@ -622,11 +622,12 @@ class XliffUnit(TTKitUnit):
         if "xliff_node" in self.__dict__:
             del self.__dict__["xliff_node"]
 
+    @staticmethod
+    def get_unit_node(unit, element: str = "target"):
+        return unit.xmlelement.find(unit.namespaced(element))
+
     def get_xliff_node(self):
-        try:
-            return self.unit.getlanguageNode(lang=None, index=1)
-        except AttributeError:
-            return None
+        return self.get_unit_node(self.unit)
 
     @cached_property
     def xliff_node(self):
@@ -711,6 +712,13 @@ class XliffUnit(TTKitUnit):
 
     def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
+        if self.get_unit_node(self.unit, "source") is None:
+            # Make sure source element is present, otherwise it breaks
+            # translate-toolkit expectations.
+            self.unit.set_source_dom(
+                self.unit.createlanguageNode(self.parent.source_language, "", "source")
+            )
+
         self._invalidate_target()
         if isinstance(target, list):
             target = multistring(target)
@@ -1199,12 +1207,9 @@ class XliffFormat(TTKitFormat):
     def untranslate_unit(self, unit, plural, fuzzy: bool):
         super().untranslate_unit(unit, plural, fuzzy)
         # Delete empty <target/> tag
-        try:
-            xmlnode = self.unit.getlanguageNode(lang=None, index=1)
-            if xmlnode is not None:
-                xmlnode.getparent().remove(xmlnode)
-        except AttributeError:
-            pass
+        xmlnode = self.unit_class.get_unit_node(unit)
+        if xmlnode is not None:
+            xmlnode.getparent().remove(xmlnode)
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
