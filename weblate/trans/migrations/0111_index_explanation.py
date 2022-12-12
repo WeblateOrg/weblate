@@ -9,7 +9,7 @@ def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         # Create GIN trigram index on searched fields
-        schema_editor.execute(PG_TRGM.format("unit", "explanation"))
+        schema_editor.execute(PG_TRGM.format("unit", "explanation", ""))
     elif vendor == "mysql":
         schema_editor.execute(MY_FTX.format("unit", "explanation"))
     else:

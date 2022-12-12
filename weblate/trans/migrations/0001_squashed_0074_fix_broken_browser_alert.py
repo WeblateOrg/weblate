@@ -39,7 +39,7 @@ def create_index(apps, schema_editor):
 
         # Create GIN trigram index on searched fields
         for table, field in FIELDS:
-            schema_editor.execute(PG_TRGM.format(table, field))
+            schema_editor.execute(PG_TRGM.format(table, field, ""))
     elif vendor == "mysql":
         for table, field in FIELDS:
             schema_editor.execute(MY_FTX.format(table, field))
