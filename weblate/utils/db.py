@@ -103,10 +103,6 @@ class PostgreSQLSubstringLookup(PatternLookup):
         return f"{lhs} ILIKE {rhs}", params
 
 
-class MySQLILikeLookup(IExact):
-    lookup_name = "ilike"
-
-
 class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
     """
     Case insensitive string lookup.

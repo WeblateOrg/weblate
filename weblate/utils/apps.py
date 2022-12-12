@@ -20,6 +20,7 @@
 from django.apps import AppConfig
 from django.core.checks import register
 from django.db.models import CharField, TextField
+from django.db.models.lookups import IExact
 
 from weblate.utils.checks import (
     check_cache,
@@ -39,7 +40,6 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.errors import init_error_collection
 
 from .db import (
-    MySQLILikeLookup,
     MySQLSearchLookup,
     MySQLSubstringLookup,
     PostgreSQLILikeLookup,
@@ -72,12 +72,16 @@ class UtilsConfig(AppConfig):
 
         if using_postgresql():
             lookups = (
-                PostgreSQLILikeLookup,
-                PostgreSQLSearchLookup,
-                PostgreSQLSubstringLookup,
+                (PostgreSQLILikeLookup,),
+                (PostgreSQLSearchLookup,),
+                (PostgreSQLSubstringLookup,),
             )
         else:
-            lookups = (MySQLILikeLookup, MySQLSearchLookup, MySQLSubstringLookup)
+            lookups = (
+                (IExact, "ilike"),
+                (MySQLSearchLookup,),
+                (MySQLSubstringLookup,),
+            )
 
         for lookup in lookups:
             CharField.register_lookup(lookup)
