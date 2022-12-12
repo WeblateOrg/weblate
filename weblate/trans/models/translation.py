@@ -21,6 +21,7 @@ import codecs
 import os
 import tempfile
 from datetime import datetime
+from itertools import chain
 from typing import BinaryIO, Dict, List, Optional, Union
 
 from django.core.cache import cache
@@ -36,7 +37,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import UnitNotFound
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import CONTROLCHARS, BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
@@ -1580,6 +1581,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         extra = {}
         if isinstance(source, str):
             source = [source]
+        for text in chain(source, [context]):
+            if any(char in text for char in CONTROLCHARS):
+                raise ValidationError(
+                    _("String contains control character: %s") % repr(text)
+                )
         if context:
             self.component.file_format_cls.validate_context(context)
         if not self.component.has_template():
