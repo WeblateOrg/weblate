@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-11-16 01:16+0000\n"
+"PO-Revision-Date: 2022-12-14 07:24+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -80,20 +80,15 @@ msgstr "Adresse courriel publique"
 
 #: weblate/accounts/forms.py:189
 msgid "Do not publicly display e-mail"
-msgstr ""
+msgstr "Ne pas afficher l'adresse courriel"
 
 #: weblate/accounts/forms.py:194 weblate/accounts/models.py:574
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
-msgstr "Courriel de contact"
+msgstr "Courriel pour les commits"
 
 #: weblate/accounts/forms.py:195
-#, fuzzy
-#| msgid "User e-mail"
 msgid "Use account e-mail"
-msgstr "Courriel de l’utilisateur"
+msgstr "Utiliser l'adresse courriel du compte"
 
 #: weblate/accounts/forms.py:311
 #, python-format
@@ -1171,11 +1166,11 @@ msgstr ""
 
 #: weblate/addons/example.py:36
 msgid "Example add-on"
-msgstr "Module d’exemple"
+msgstr "Extension d’exemple"
 
 #: weblate/addons/example.py:38
 msgid "This add-on does nothing it is just an example."
-msgstr "Ce module ne fait rien, il s’agit seulement d’un exemple."
+msgstr "Cette extension ne fait rien, il s’agit seulement d’un exemple."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
@@ -1183,7 +1178,7 @@ msgstr "Exécuter le script avant le commit"
 
 #: weblate/addons/example_pre.py:35
 msgid "This add-on executes a script."
-msgstr "Ce module lance un script."
+msgstr "Cette extension exécute un script."
 
 #: weblate/addons/flags.py:45
 msgid "Flag new source strings as \"Needs editing\""
@@ -1487,8 +1482,8 @@ msgstr ""
 #: weblate/addons/forms.py:301
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr ""
-"Dupliquer les modules du composant principal vers les éléments nouvellement "
-"créés"
+"Dupliquer les extensions du composant principal vers les éléments "
+"nouvellement créés"
 
 #: weblate/addons/forms.py:306
 msgid "Remove components for inexistent files"
@@ -1754,11 +1749,11 @@ msgstr ""
 
 #: weblate/addons/views.py:85
 msgid "Invalid add-on name specified!"
-msgstr "Nom de module non valide !"
+msgstr "Nom de l'extension non valide !"
 
 #: weblate/addons/views.py:98
 msgid "Add-on installed, please review integration instructions."
-msgstr "Module installé, veuillez vérifier les instructions d’intégration."
+msgstr "Extension installée, veuillez vérifier les instructions d’intégration."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -2049,10 +2044,8 @@ msgstr "Gérer les définitions de langue"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Gérer les utilisateurs"
+msgstr "Gérer les équipes"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143 weblate/templates/manage/users.html:17
@@ -2247,8 +2240,7 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Renvoyer le courriel d’invitation à l’utilisateur"
 
 #: weblate/auth/forms.py:166
-#, fuzzy, python-format
-#| msgid "Changing of %s is prohibited for built-in groups."
+#, python-format
 msgid "Changing of %s is prohibited for built-in teams."
 msgstr "La modification de %s est interdite pour les groupes systèmes."
 
@@ -2357,14 +2349,13 @@ msgid "Internal Weblate group"
 msgstr "Groupe Weblate interne"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Administrateurs"
+msgstr "Administrateurs de l'équipe"
 
 #: weblate/auth/models.py:166
 msgid "The administrator can add or remove users from a team."
 msgstr ""
+"L'administrateur peut ajouter ou supprimer des utilisateurs dans une équipe."
 
 #: weblate/auth/models.py:324 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:174
@@ -4683,16 +4674,12 @@ msgstr ""
 "courriel."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Supprimez votre compte en cliquant sur le lien de confirmation présent dans "
-"le courriel reçu."
+"Supprimez votre compte en cliquant sur le lien de confirmation reçu par "
+"courriel."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -4705,16 +4692,16 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Veuillez consulter votre dossier pourriel s'il n'apparaît pas dans votre "
+"boîte de réception."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "L’URL de confirmation sera valide %(count)s heure."
-msgstr[1] "L’URL de confirmation sera valide %(count)s heures."
+msgstr[0] "Le lien de confirmation sera valide %(count)s heure."
+msgstr[1] "Le lien de confirmation sera valide %(count)s heures."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
@@ -5047,10 +5034,8 @@ msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "Les avatars proviennent de %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "Équipes"
+msgstr "Équipe"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/addons/discovery_help.html:10
@@ -5487,28 +5472,27 @@ msgid "Are you absolutely sure?"
 msgstr "En avez-vous la certitude ?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "Cette action supprimera l’accès de <b>%(user)s</b> à ce projet."
+msgstr "Cette action supprimera l'utilisateur <b>%(user)s</b> de Weblate."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/component.html:98
 msgid "Add-ons"
-msgstr "Modules"
+msgstr "Extensions"
 
 #: weblate/templates/addons/addon_detail.html:26
 msgid "Configure add-on"
-msgstr "Paramétrer le module"
+msgstr "Paramétrer l'extension"
 
 #: weblate/templates/addons/addon_head.html:7
 msgid ""
 "This add-on is used for the whole project, it is enough to install it for "
 "one component."
 msgstr ""
-"Ce module est utilisé pour l’ensemble du projet, l’installer sur un "
-"composant suffit."
+"Cette extension est utilisée pour l’ensemble du projet, l’installer pour un "
+"composant est suffisant."
 
 #: weblate/templates/addons/addon_head.html:7
 msgid "project wide"
@@ -5516,7 +5500,8 @@ msgstr "sur l’ensemble du projet"
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "This add-on is used for all components sharing this repository."
-msgstr "Ce module est utilisé pour tous les composants partageant ce dépôt."
+msgstr ""
+"Cette extension est utilisée pour tous les composants partageant ce dépôt."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "repository wide"
@@ -5524,7 +5509,7 @@ msgstr "au niveau du dépôt"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed add-ons"
-msgstr "Modules installés"
+msgstr "Extensions installées"
 
 #: weblate/templates/addons/addon_list.html:28
 msgid "Uninstall"
@@ -5538,18 +5523,18 @@ msgstr "Paramétrer"
 
 #: weblate/templates/addons/addon_list.html:41
 msgid "There are no add-ons currently installed."
-msgstr "Aucun module n’est actuellement installé."
+msgstr "Aucune extension n’est actuellement installée."
 
 #: weblate/templates/addons/addon_list.html:43
 #, python-format
 msgid "There is currently %(count)s add-on installed."
 msgid_plural "There are currently %(count)s add-ons installed."
-msgstr[0] "%(count)s module installé actuellement."
-msgstr[1] "%(count)s modules installés actuellement."
+msgstr[0] "%(count)s extension installée actuellement."
+msgstr[1] "%(count)s extensions installées actuellement."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available add-ons"
-msgstr "Modules disponibles"
+msgstr "Extensions disponibles"
 
 #: weblate/templates/addons/addon_list.html:61
 #: weblate/templates/machinery/list.html:71
@@ -5561,14 +5546,14 @@ msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
 msgstr ""
-"Impossible de trouver des modules supplémentaires compatibles avec ce "
+"Impossible de trouver des extensions supplémentaires compatibles avec ce "
 "composant de traduction."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr ""
-"Certains modules demanderont une configuration supplémentaire lors de leur "
-"installation."
+"Certaines extensions demanderont une configuration supplémentaire lors de "
+"leur installation."
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -5623,6 +5608,7 @@ msgstr "Ressources Android divisées en plusieurs fichiers."
 #: weblate/templates/addons/discovery_help.html:72
 msgid "Multi-module Maven project with Java properties translations."
 msgstr ""
+"Projet Maven multi-modules avec traductions de fichiers properties Java."
 
 #: weblate/templates/addons/discovery_help.html:77
 msgid ""
@@ -5801,10 +5787,8 @@ msgid "Last sign in"
 msgstr "Dernière connexion"
 
 #: weblate/templates/auth/team.html:93
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "Administrateurs"
+msgstr "Administrateur de l'équipe"
 
 #: weblate/templates/auth/team.html:103
 #: weblate/templates/trans/project-access-row.html:25
@@ -5813,16 +5797,12 @@ msgid "Not yet signed in"
 msgstr "Pas encore connecté"
 
 #: weblate/templates/auth/team.html:110
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "Administration Weblate"
+msgstr "Révoquer le droit d'Administration"
 
 #: weblate/templates/auth/team.html:115
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Administration Weblate"
+msgstr "Accorder le droit d'administration"
 
 #: weblate/templates/auth/team.html:118 weblate/templates/auth/team.html:119
 #: weblate/templates/auth/team.html:168
@@ -7853,16 +7833,12 @@ msgstr ""
 "navigateur Internet."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"Dans le cas où l’URL de confirmation aurait expirée, vous pouvez utiliser la "
-"fonction de réinitialisation du mot de passe pour accéder à votre compte."
+"Dans le cas où le lien de confirmation aurait expiré, vous pouvez utiliser "
+"la fonction de réinitialisation du mot de passe pour accéder à votre compte."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -9529,7 +9505,7 @@ msgstr "Surveiller le composant %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script add-on."
-msgstr "Weblate n’est pas parvenu à exécuter le script du module."
+msgstr "Weblate n’est pas parvenu à exécuter le script de l'extension."
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
 #: weblate/templates/trans/alert/ambiguouslanguage.html:9
@@ -9604,7 +9580,7 @@ msgstr "L’URL du site Web du projet n’est pas une destination valide :"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr "Le module CDN de Weblate n’a pas pu analyser les fichiers HTML."
+msgstr "L'extension CDN de Weblate n’a pas pu analyser les fichiers HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10116,9 +10092,9 @@ msgid ""
 "Add missing languages add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Le module complémentaire « Ajouter les langues manquantes » est installé "
+"L'extension complémentaire « Ajouter les langues manquantes » est installée "
 "pour ce composant, les langues supprimées pourraient être à nouveau ajoutées "
-"par ce module."
+"par cette extension."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10139,7 +10115,7 @@ msgstr "Le format de fichier détecté n’est pas pris en charge."
 
 #: weblate/templates/trans/guide/addon.html:3
 msgid "Enable add-on:"
-msgstr "Activer le module :"
+msgstr "Activer l'extension :"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -10512,15 +10488,12 @@ msgstr[1] ""
 "Les chaînes suivantes ont des sources différentes, mais le même contexte."
 
 #: weblate/templates/translate.html:345
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "The following string has a different source and different context."
 msgid_plural "The following strings have different sources and context."
-msgstr[0] "La chaîne suivante a une source différente, mais le même contexte."
+msgstr[0] "La chaîne suivante a une source différente et un contexte différent."
 msgstr[1] ""
-"Les chaînes suivantes ont des sources différentes, mais le même contexte."
+"Les chaînes suivantes ont des sources différentes et des contextes "
+"différents."
 
 #: weblate/templates/translate.html:355
 msgid "Apply selected translation to all propagated strings"
@@ -10997,10 +10970,8 @@ msgid "Invalid checksum specified!"
 msgstr "Somme de contrôle non valide !"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "Nom d’utilisateur ou adresse courriel"
+msgstr "Nom d’utilisateur ou adresse courriel manquante."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -11285,6 +11256,8 @@ msgstr ""
 #: weblate/trans/forms.py:1184
 msgid "Allow user to add or remove users from a team."
 msgstr ""
+"Autoriser l’utilisateur à ajouter ou supprimer des utilisateurs dans une "
+"équipe."
 
 #: weblate/trans/forms.py:1196
 msgid "Block duration"
@@ -11709,7 +11682,7 @@ msgstr "Informations de licence manquantes."
 #: weblate/trans/models/alert.py:306 weblate/trans/models/alert.py:313
 #: weblate/trans/models/alert.py:321
 msgid "Could not run add-on."
-msgstr "Impossible d’exécuter le module."
+msgstr "Impossible d’exécuter l'extension."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
@@ -12056,17 +12029,17 @@ msgstr "Chaîne mise à jour dans le dépôt"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:397
 msgid "Add-on installed"
-msgstr "Module installé"
+msgstr "Extension installée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:399
 msgid "Add-on configuration changed"
-msgstr "Paramétrage du module modifié"
+msgstr "Paramétrage modifié pour l'extension"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:401
 msgid "Add-on uninstalled"
-msgstr "Module désinstallé"
+msgstr "Extension désinstallée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:403
@@ -12189,16 +12162,12 @@ msgid "Android style"
 msgstr "Style Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Style de métadonnées de l’App Store"
+msgstr "Style des métadonnées de l’App Store"
 
 #: weblate/trans/models/component.py:146
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Style de métadonnées de l’App Store"
+msgstr "Style des métadonnées Google Play"
 
 #: weblate/trans/models/component.py:147
 msgid "Linux style"
@@ -12475,7 +12444,7 @@ msgstr "Message de commit lors de la fusion de la traduction"
 
 #: weblate/trans/models/component.py:579
 msgid "Commit message when add-on makes a change"
-msgstr "Message de commit lorsqu’un module effectue une modification"
+msgstr "Message de commit lorsqu’une extension effectue une modification"
 
 #: weblate/trans/models/component.py:588
 msgid "Merge request message"
@@ -12777,23 +12746,17 @@ msgid "Could not add new translation file."
 msgstr "Impossible d’ajouter un nouveau fichier de traduction."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "Vous n’êtes pas autorisés à démarrer une nouvelle traduction"
+msgstr "Vous n’êtes pas autorisés à ajouter un nouveau fichier de traduction."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Fichier de langue de base mono-langue"
+msgstr "Fichier de langue de base mono-langue est non valide."
 
 #: weblate/trans/models/component.py:3213
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "The template for new translations is invalid."
-msgstr "Modèle pour les nouvelles traductions"
+msgstr "Le modèle pour les nouvelles traductions est non valide."
 
 #: weblate/trans/models/component.py:3246
 msgid "The given language is used as a source language."
@@ -12989,10 +12952,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Impossible de commiter les modifications en attente : %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Caractères de contrôle"
+msgstr "La chaîne contient les caractères de contrôle : %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
@@ -14106,10 +14068,8 @@ msgid "Syntax error in language aliases."
 msgstr "Erreur de syntaxe dans les alias de langue."
 
 #: weblate/utils/validators.py:248
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Ce nom est interdit"
+msgstr "Cette URL est interdite"
 
 #: weblate/utils/views.py:133 weblate/utils/views.py:157
 msgid "Position and priority"
