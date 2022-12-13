@@ -381,6 +381,7 @@ def user_profile(request):
             "userform": forms[5],
             "notification_forms": forms[6:],
             "all_forms": forms,
+            "user_groups": request.user.groups.prefetch_related("roles"),
             "profile": profile,
             "title": _("User profile"),
             "licenses": license_components,

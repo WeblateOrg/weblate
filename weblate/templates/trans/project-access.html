@@ -158,20 +158,10 @@
             {{ group.name }}
           </td>
           <td>
-            {% for role in group.roles.all %}
-              <span class="badge">{{ role }}</span>
-            {% empty %}
-              <em>{% trans "Access only" %}</em>
-            {% endfor %}
+            {% include "auth/teams-roles.html" %}
           </td>
           <td>
-            {% if group.language_selection %}
-              <em>{% trans "All languages" %}</em>
-            {% else %}
-              {% for language in group.languages.all %}
-                <span class="badge">{{ language }}</span>
-              {% endfor %}
-            {% endif %}
+            {% include "auth/teams-languages.html" %}
           </td>
           <td class="number">{{ group.user__count|intcomma }}</td>
           <td>
