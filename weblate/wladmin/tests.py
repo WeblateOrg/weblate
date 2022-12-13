@@ -395,4 +395,4 @@ class AdminTest(ViewTestCase):
                 "project_selection": "1",
             },
         )
-        self.assertContains(response, "prohibited for built-in groups")
+        self.assertContains(response, "prohibited for built-in teams")

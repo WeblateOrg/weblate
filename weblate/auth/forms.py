@@ -163,7 +163,7 @@ class SimpleGroupForm(forms.ModelForm):
                     raise ValidationError(
                         {
                             field: gettext(
-                                "Changing of %s is prohibited for built-in groups."
+                                "Changing of %s is prohibited for built-in teams."
                             )
                             % field
                         }
