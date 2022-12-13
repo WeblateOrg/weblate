@@ -224,7 +224,7 @@
     <tbody>
       {% for group in user_groups %}
         <tr>
-          <td>{{ group }}</td>
+          <td><a href="{{ group.get_absolute_url }}">{{ group }}</a></td>
           <td>
             {% include "auth/teams-roles.html" %}
           </td>
