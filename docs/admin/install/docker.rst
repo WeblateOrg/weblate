@@ -364,7 +364,11 @@ You can find example setup in the ``docker-compose`` repo as
 Docker environment variables
 ----------------------------
 
-Many of Weblate's :ref:`config` can be set in the Docker container using environment variables:
+Many of Weblate's :ref:`config` can be set in the Docker container using
+the environment variables described below.
+
+If you need to define a setting not exposed through Docker environment
+variables, see :ref:`docker-custom-config`.
 
 Generic settings
 ~~~~~~~~~~~~~~~~
@@ -1607,24 +1611,112 @@ as that is user used inside the container.
 
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
 
-Further configuration customization
------------------------------------
-
-You can further customize Weblate installation in the data volume, see
-:ref:`docker-volume`.
 
 .. _docker-custom-config:
 
-Custom configuration files
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configuration beyond environment variables
+------------------------------------------
 
-You can additionally override the configuration in
-:file:`/app/data/settings-override.py` (see :ref:`docker-volume`). This is
-executed at the end of built-in settings, after all environment settings
-are loaded, and you can adjust or override them.
+:ref:`Docker environment variables <docker-environment>` are intended to expose
+most :ref:`configuration settings <config>` of relevance for Weblate
+installations.
+
+If you find a setting that is not exposed as an environment variable, and you
+believe that it should be, feel free to :ref:`ask for it to be exposed in a
+future version of Weblate <report-issue>`.
+
+If you need to modify a setting that is not exposed as a Docker environment
+variable, you can still do so, either :ref:`from the data volume
+<docker-settings-override>` or :ref:`extending the Docker image
+<docker-custom-settings>`.
+
+.. seealso::
+
+   :doc:`../customize`
+
+.. _docker-settings-override:
+
+Overriding settings from the data volume
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create a file at :file:`/app/data/settings-override.py`, i.e. at the
+root of the :ref:`data volume <docker-volume>`, to extend or override settings
+defined through environment variables.
+
+
+.. _docker-custom-settings:
+
+Overriding settings by extending the Docker image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To override settings at the Docker image level instead of from the data volume:
+
+#.  :ref:`Create a custom Python package <custom-module>`.
+
+#.  Add a module to your package that imports all settings from
+    ``weblate.settings_docker``.
+
+    For example, within the example package structure defined at
+    :ref:`custom-module`, you could create a file at
+    ``weblate_customization/weblate_customization/settings.py`` with the
+    following initial code:
+
+    .. code-block:: python
+
+        from weblate.settings_docker import *
+
+#.  Create a custom ``Dockerfile`` that inherits from the official Weblate
+    Docker image, and then installs your package and points the
+    ``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:
+
+    .. code-block:: docker
+
+        FROM weblate/weblate
+
+        USER root
+
+        COPY weblate_customization /usr/src/weblate_customization
+        RUN pip install --no-cache-dir /usr/src/weblate_customization
+        ENV DJANGO_SETTINGS_MODULE=weblate_customization.settings
+
+        USER 1000
+
+#.  Instead of using the official Weblate Docker image, build a custom image
+    from this ``Dockerfile`` file.
+
+    There is `no clean way <https://github.com/docker/compose/issues/7231>`__
+    to do this with ``docker-compose.override.yml``. You *could* add
+    ``build: .`` to the ``weblate`` node in that file, but then your custom
+    image will be tagged as ``weblate/weblate`` in your system, which could be
+    problematic.
+
+    So, instead of using the ``docker-compose.yml`` straight from the `official
+    repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified,
+    and extending it through ``docker-compose.override.yml``, you may want to
+    make a copy of the official ``docker-compose.yml`` file, and edit your copy
+    to replace ``image: weblate/weblate`` with ``build: .``.
+
+    See the `Compose file build reference`_ for details on building images from
+    source when using ``docker-compose``.
+
+    .. _Compose file build reference: https://docs.docker.com/compose/compose-file/build/
+
+#.  Extend your custom settings module to define or redefine settings.
+
+    You can define settings before or after the import statement above to
+    determine which settings take precedence. Settings defined before the
+    import statement can be overriden by environment variables and setting
+    overrides defined in the data volume. Setting defined after the import
+    statement cannot be overriden.
+
+    You can also go further. For example, you can reproduce some of the things
+    that ``weblate.docker_settings`` `does
+    <https://github.com/WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__,
+    such as exposing settings as environment variables, or allow overriding
+    settings from Python files in the data volume.
 
 Replacing logo and other static files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 
 .. versionadded:: 3.8-5
 
@@ -1654,21 +1746,8 @@ it as separate volume to the Docker container, for example:
     environment:
       WEBLATE_ADD_APPS: weblate_customization
 
-Adding own Python modules
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.8-5
-
-You can place own Python modules in :file:`/app/data/python/` (see
-:ref:`docker-volume`) and they can be then loaded by Weblate, most likely by
-using :ref:`docker-custom-config`.
-
-.. seealso::
-
-   :doc:`../customize`
-
 Configuring PostgreSQL server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 The PostgtreSQL container uses default PostgreSQL configuration and it won't
 effectively utilize your CPU cores or memory. It is recommended to customize
