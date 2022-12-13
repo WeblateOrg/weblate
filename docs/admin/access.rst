@@ -64,13 +64,6 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
     `Protected`, and `Private` projects can be redefined by Weblate instance
     administrator using :ref:`custom settings <custom-acl>`.
 
-.. warning::
-
-    By turning on `Custom` access control, Weblate will remove all
-    :ref:`special groups <manage-acl>` it has created for a selected project.
-    If you are doing this without admin permission for the whole Weblate
-    instance, you will instantly lose your access to manage the project.
-
 .. seealso::
 
     :ref:`project-access_control`
