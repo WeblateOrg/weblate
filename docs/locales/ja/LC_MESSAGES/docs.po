@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-11-16 21:46+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2022-12-14 07:25+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -304,16 +304,15 @@ msgstr ""
 "ザー` から操作できる :guilabel:`アクセス制御` のページで設定します。"
 
 #: ../../admin/access.rst:129
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "管理者"
+msgstr "チーム管理者"
 
 #: ../../admin/access.rst:133
 msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
-msgstr ""
+msgstr "各チームには、チーム内のユーザーを追加および削除できるチーム管理者を設置でき"
+"ます。これは、自己管理型チームを構築する場合に便利です。"
 
 #: ../../admin/access.rst:139
 msgid "New user invitation"
@@ -386,14 +385,6 @@ msgstr ""
 "ライベート` に設定することや :ref:`ユーザーの管理 <manage-acl>` ができます。"
 
 #: ../../admin/access.rst:179
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -402,12 +393,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"デフォルトでは、これを有効にしたプロジェクトにおいて、 :ref:`デフォルトグルー"
-"プ <default-groups>` `ユーザー` と `閲覧者` に与えられるアクセス権はこれらの"
-"グループの設定によって無効になります。しかし以下の :ref:`custom-acl` の説明に"
-"あるように、これらのグループの設定を変更したり、新しいグループを作成したり、"
-"コンポーネント単位で追加のカスタム設定を作成したりして、サイト全体でそのよう"
-"なプロジェクトへのアクセス権を付与できます。"
+"デフォルトでは、これを有効にしたプロジェクトにおいて、 :ref:`デフォルト "
+"チーム <default-groups>` `ユーザー` と `閲覧者` "
+"に与えられるアクセス権はこれらのチームの設定によって無効になります。"
+"しかし以下の :ref:`custom-acl` の説明にあるように、これらのチームの設定を変更"
+"したり、新しいチームを作成したり、コンポーネント単位で追加のカスタム設定を作"
+"成したりして、サイト全体でそのようなプロジェクトへのアクセス権を付与できます"
+"。"
 
 #: ../../admin/access.rst:185
 msgid ""
@@ -425,19 +417,14 @@ msgid "Custom access control"
 msgstr "カスタム アクセス制御"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"権限システムはグループとロールに基づいています。ロールはアクセス権の組み合わ"
-"せを設定し、グループはロールをユーザーと翻訳に結び付けます。詳しくは :ref:"
-"`auth-model` を確認してください。"
+"権限システムはチームとロールに基づいています。ロールはアクセス権の組み合わせ"
+"を設定し、チームはロールをユーザーと翻訳に結び付けます。詳しくは :ref:`auth-"
+"model` を確認してください。"
 
 #: ../../admin/access.rst:201
 msgid ""
@@ -481,28 +468,19 @@ msgid "Site-wide permission management"
 msgstr "サイト全体のアクセス権の管理"
 
 #: ../../admin/access.rst:221
-#, fuzzy
-#| msgid ""
-#| "To manage permissions for a whole instance at once, add users to "
-#| "appropriate :ref:`default groups <default-groups>`:"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
-"インスタンス全体のアクセス許可をまとめて管理するためには、ユーザーを適切な :"
-"ref:`デフォルトのグループ <default-groups>` に追加します。"
+"インスタンス全体のアクセス許可をまとめて管理するためには、ユーザーを適切な "
+":ref:`デフォルトのチーム <default-teams>` に追加します。"
 
 #: ../../admin/access.rst:224
-#, fuzzy
-#| msgid ""
-#| "`Users` (this is done by default by the :ref:`automatic group assignment "
-#| "<autogroup>`)."
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
-msgstr ""
-"`ユーザー` （これはデフォルトで、:ref:`automatic group assignment "
-"<autogroup>` により振り分けられます）。"
+msgstr "`ユーザー` （これはデフォルトで、:ref:`自動チーム割り当て <autoteam>` "
+"により割り当てられます）。"
 
 #: ../../admin/access.rst:226
 msgid ""
@@ -519,74 +497,52 @@ msgid ""
 msgstr "`管理者` （管理操作の大部分を他のユーザーに委任する場合）。"
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid ""
-#| "You should keep all projects configured as `Public` (see :ref:`acl`), "
-#| "otherwise the site-wide permissions provided by membership in the `Users` "
-#| "and `Reviewers` groups won’t have any effect."
 msgid ""
 "You should keep all projects configured as `Public` (see :ref:`acl`), "
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"すべてのプロジェクトを `公開` （参照: :ref:`acl`）として設定してください。公"
-"開と設定されていない場合は、 `ユーザー` および `査読` グループの登録者に与え"
-"られたサイト全体のアクセス権は無効になります。"
+"すべてのプロジェクトを `公開` （参照: "
+":ref:`acl`）として設定してください。公開と設定されていない場合は、 `ユーザー`"
+" および `査読` "
+"チームの登録者に与えられたサイト全体のアクセス権は無効になります。"
 
 #: ../../admin/access.rst:235
-#, fuzzy
-#| msgid ""
-#| "You may also grant some additional permissions of your choice to the "
-#| "default groups. For example, you may want to give a permission to manage "
-#| "screenshots to all the `Users`."
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"また、既定のグループに対して選択したアクセス権を追加できます。たとえば、すべ"
-"ての `ユーザー` にスクリーンショットを管理する権限を与えることができます。"
+"また、既定のチームに対して選択したアクセス権を追加できます。たとえば、"
+"すべての `ユーザー` "
+"にスクリーンショットを管理する権限を与えることができます。"
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid ""
-#| "You can define some new custom groups as well. If you want to keep "
-#| "managing your permissions site-wide for these groups, choose an "
-#| "appropriate value for the :guilabel:`Project selection` (e.g. :guilabel:"
-#| "`All projects` or :guilabel:`All public projects`)."
 msgid ""
 "You can define some new custom teams as well. If you want to keep managing "
 "your permissions site-wide for these teams, choose an appropriate value for "
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"新しいカスタム グループも定義できます。このグループの権限をサイト全体で管理す"
-"るには、適切な値をプロジェクトの選択（:guilabel:`すべてのプロジェクト` また"
-"は :guilabel:`すべての公開プロジェクト` など）で指定します。"
+"新しいカスタム チームも定義できます。このチームの権限をサイト全体で管理するに"
+"は、適切な値をプロジェクトの選択（:guilabel:`すべてのプロジェクト` または "
+":guilabel:`すべての公開プロジェクト` など）で指定します。"
 
 #: ../../admin/access.rst:245
 msgid "Custom permissions for languages, components or projects"
 msgstr "言語、コンポーネント、またはプロジェクトの独自のアクセス権"
 
 #: ../../admin/access.rst:247
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"独自の専用グループを作成して、言語、コンポーネント、プロジェクトなどの個別の"
-"オブジェクトのアクセス権を管理できます。これらのグループには、アクセス権を追"
-"加することしかできません。別のカスタム グループを追加して、サイト全体またはプ"
-"ロジェクトごとのグループにより付与されたアクセス権を取り消すことはできませ"
-"ん。"
+"独自の専用チームを作成して、言語、コンポーネント、プロジェクトなどの個別のオ"
+"ブジェクトのアクセス権を管理できます。これらのチームには、アクセス権を追加す"
+"ることしかできません。別のカスタム チームを追加して、サイト全体またはプロジェ"
+"クトごとのチームにより付与されたアクセス権を取り消すことはできません。"
 
 #: ../../admin/access.rst:252 ../../admin/access.rst:382
 #: ../../admin/config.rst:237 ../../admin/config.rst:256
@@ -610,19 +566,14 @@ msgstr ""
 "翻訳者にのみ許可し、他の言語への翻訳を公開する方法:"
 
 #: ../../admin/access.rst:258
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
-"すべてのユーザーから `チェコ語` を翻訳するアクセス権を削除する。デフォルトの"
-"設定では、これは :ref:`デフォルトのグループ <default-groups>` `ユーザー` を変"
-"更することで可能となる。"
+"すべてのユーザーから `チェコ語` "
+"を翻訳するアクセス権を削除する。デフォルトの設定では、これは :ref:`"
+"デフォルトのチーム <default-teams>` `ユーザー` を変更することで可能となる。"
 
 #: ../../admin/access.rst:262
 msgid "Group `Users`"
@@ -641,10 +592,8 @@ msgid "All but `Czech`"
 msgstr "`チェコ語` 以外のすべて"
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid "Add a dedicated group for `Czech` translators."
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "`チェコ語` 翻訳者専用のグループを追加する。"
+msgstr "`チェコ語` 翻訳者専用のチームを追加する。"
 
 #: ../../admin/access.rst:274
 msgid "Group `Czech translators`"
@@ -672,10 +621,8 @@ msgid "`Czech`"
 msgstr "`チェコ語`"
 
 #: ../../admin/access.rst:288
-#, fuzzy
-#| msgid "Add users you wish to give the permissions to into this group."
 msgid "Add users you wish to give the permissions to into this team."
-msgstr "アクセス権を付与したいユーザーを、このグループに追加する。"
+msgstr "アクセス権を付与したいユーザーを、このチームに追加する。"
 
 #: ../../admin/access.rst:290
 msgid ""
@@ -688,10 +635,8 @@ msgstr ""
 "せん。"
 
 #: ../../admin/access.rst:297
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "ユーザー、ロール、グループ、およびアクセス権"
+msgstr "ユーザー、ロール、チーム、およびアクセス権"
 
 #: ../../admin/access.rst:299
 msgid "The authentication models consist of several objects:"
@@ -726,10 +671,8 @@ msgid "`User`"
 msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:308
-#, fuzzy
-#| msgid "User can belong to several groups."
 msgid "User can belong to several teams."
-msgstr "ユーザーは複数のグループに所属できます。"
+msgstr "ユーザーは複数のチームに所属できます。"
 
 #: ../../admin/access.rst:311
 msgid "`Group`"
@@ -744,28 +687,17 @@ msgstr ""
 "ント リスト）を紐づけます。"
 
 #: ../../admin/access.rst:328
-#, fuzzy
-#| msgid ""
-#| "A group can have no roles assigned to it, in that case access to browse "
-#| "the project by anyone is assumed (see below)."
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
-msgstr ""
-"グループには必ずしもロールを割り当てる必要はありません。誰もがプロジェクトを"
-"閲覧できる場合は、アクセス権の割り当ては必要ありません（下記参照）。"
+msgstr "チームには必ずしもロールを割り当てる必要はありません。誰もがプロジェクトを閲"
+"覧できる場合は、アクセス権の割り当ては必要ありません（下記参照）。"
 
 #: ../../admin/access.rst:332
 msgid "Access for browse to a project"
 msgstr "プロジェクトを閲覧するためのアクセス"
 
 #: ../../admin/access.rst:334
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to browse the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a team linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
@@ -773,9 +705,9 @@ msgid ""
 "team, see :ref:`default-teams`)."
 msgstr ""
 "ユーザーは、プロジェクト、またはプロジェクト内のコンポーネントにリンクされた"
-"グループに所属していることが必要です。所属していれば十分であり、プロジェクト"
-"を閲覧するための特定のアクセス権（これはデフォルトの `閲覧者` グループで使用"
-"されています。参照: :ref:`default-groups`）は必要ありません。"
+"チームに所属していることが必要です。所属していれば十分であり、プロジェクトを"
+"閲覧するための特定のアクセス権（これはデフォルトの `閲覧者` "
+"チームで使用されています。参照: :ref:`default-teams`）は必要ありません。"
 
 #: ../../admin/access.rst:340
 msgid "Access for browse to a component"
@@ -797,30 +729,16 @@ msgstr ""
 "ト リスト）に対して個別のアクセス権が必要になります。"
 
 #: ../../admin/access.rst:350
-#, fuzzy
-#| msgid "Scope of groups"
 msgid "Scope of teams"
-msgstr "グループの範囲"
+msgstr "チームの範囲"
 
 #: ../../admin/access.rst:352
-#, fuzzy
-#| msgid ""
-#| "The scope of the permission assigned by the roles in the groups are "
-#| "applied by the following rules:"
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
-msgstr "グループ内のロールが付与するアクセス権の範囲の規則:"
+msgstr "チーム内のロールが付与するアクセス権の範囲の規則:"
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Component list`, all the "
-#| "permissions given to members of that group are granted for all the "
-#| "components in the component lists attached to the group, and an access "
-#| "with no additional permissions is granted for all the projects these "
-#| "components are in. :guilabel:`Components` and :guilabel:`Projects` are "
-#| "ignored."
 msgid ""
 "If the team specifies any :guilabel:`Component list`, all the permissions "
 "given to members of that team are granted for all the components in the "
@@ -828,42 +746,27 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"グループに :guilabel:`コンポーネント リスト` が指定されている場合、そのグルー"
-"プのメンバーに付与されたすべてのアクセス権は、グループに登録したコンポーネン"
-"ト リスト内のすべてのコンポーネントに及びます。また、これらのコンポーネントを"
-"含むすべてのプロジェクトについては、新たにアクセス権を追加しなくてもアクセス"
-"が許可されます。:guilabel:`コンポーネント` および :guilabel:`プロジェクト` は"
-"無視されます。"
+"チームに :guilabel:`コンポーネント リスト` "
+"が指定されている場合、そのチームのメンバーに付与されたすべてのアクセス権は、"
+"チームに登録したコンポーネント リスト内のすべてのコンポーネントに及びます。ま"
+"た、これらのコンポーネントを含むすべてのプロジェクトについては、新たにアクセ"
+"ス権を追加しなくてもアクセスが許可されます。:guilabel:`コンポーネント` "
+"および :guilabel:`プロジェクト` は無視されます。"
 
 #: ../../admin/access.rst:361
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Components`, all the permissions "
-#| "given to the members of that group are granted for all the components "
-#| "attached to the group, and an access with no additional permissions is "
-#| "granted for all the projects these components are in. :guilabel:"
-#| "`Projects` are ignored."
 msgid ""
 "If the team specifies any :guilabel:`Components`, all the permissions given "
 "to the members of that team are granted for all the components attached to "
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"グループに :guilabel:`コンポーネント` が指定されている場合、そのグループのメ"
-"ンバーに付与されたすべてのアクセス権は、グループに登録したすべてのコンポーネ"
-"ントに及びます。また、これらのコンポーネントを含むすべてのプロジェクトについ"
-"ては、新たにアクセス権を追加しなくてもアクセスが許可されます。:guilabel:`プロ"
-"ジェクト` は無視されます。"
+"チームに :guilabel:`コンポーネント` が指定されている場合、そのチームのメンバ"
+"ーに付与されたすべてのアクセス権は、チームに登録したすべてのコンポーネントに"
+"及びます。また、これらのコンポーネントを含むすべてのプロジェクトについては、"
+"新たにアクセス権を追加しなくてもアクセスが許可されます。:guilabel:`プロジェク"
+"ト` は無視されます。"
 
 #: ../../admin/access.rst:366
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -871,20 +774,14 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"それ以外の場合、グループで :guilabel:`プロジェクト` を直接指定するか、:"
-"guilabel:`プロジェクトの選択` から :guilabel:`すべての公開プロジェクト` など"
-"を選択することにより、アクセス権がそれらのプロジェクトに適用され、同じアクセ"
-"ス権がプロジェクト内の :ref:`アクセス制限のないコンポーネント <component-"
-"restricted>` にも及びます。"
+"それ以外の場合、チームで :guilabel:`プロジェクト` "
+"を直接指定するか、:guilabel:`プロジェクトの選択` から "
+":guilabel:`すべての公開プロジェクト` "
+"などを選択することにより、アクセス権がそれらのプロジェクトに適用され、"
+"同じアクセス権がプロジェクト内の :ref:`アクセス制限のないコンポーネント "
+"<component-restricted>` にも及びます。"
 
 #: ../../admin/access.rst:372
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a group’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has an access to perform certain "
@@ -892,9 +789,9 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"グループの :guilabel:`Languages` による制限は、ユーザーが操確認実行するための"
-"アクセス権があるか検証するときに行われます。つまり、査読、翻訳の保存、提案の"
-"追加など、翻訳作業に直接関係する操作にのみ適用されます。"
+"チームの :guilabel:`Languages` による制限は、ユーザーが操確認実行するためのア"
+"クセス権があるか検証するときに行われます。つまり、査読、翻訳の保存、提案の追"
+"加など、翻訳作業に直接関係する操作にのみ適用されます。"
 
 #: ../../admin/access.rst:379
 msgid ""
@@ -905,16 +802,11 @@ msgstr ""
 "ての言語またはプロジェクトを自動的に一括で設定できます。"
 
 #: ../../admin/access.rst:384
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following group:"
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
-msgstr ""
-"``foo`` プロジェクトにはコンポーネント ``foo/bar`` および ``foo/baz`` が含ま"
-"れていて、次のグループがあるとします。"
+msgstr "``foo`` プロジェクトにはコンポーネント ``foo/bar`` および ``foo/baz`` "
+"が含まれていて、次のチームがある場合:"
 
 #: ../../admin/access.rst:387
 msgid "Group `Spanish Admin-Reviewers`"
@@ -937,16 +829,10 @@ msgid "`Spanish`"
 msgstr "`スペイン語`"
 
 #: ../../admin/access.rst:399
-#, fuzzy
-#| msgid ""
-#| "Members of that group will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
-msgstr ""
-"グループの登録者には次のアクセス権が与えられます（既定のロール設定を前提とし"
-"ます）:"
+msgstr "チームの登録者に与えられるアクセス権（既定のロール設定を前提とする）:"
 
 #: ../../admin/access.rst:401
 msgid ""
@@ -969,20 +855,10 @@ msgstr ""
 "れた保留中の変更をコミットする。"
 
 #: ../../admin/access.rst:410
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "自動割り当て"
+msgstr "自動チーム割り当て"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic group assignments`, which is a list of regular expressions "
-#| "used to automatically assign newly created users to a group based on "
-#| "their e-mail addresses. This assignment only happens upon account "
-#| "creation."
 msgid ""
 "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
 "admin interface <admin-interface>`, you can specify :guilabel:"
@@ -990,22 +866,13 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-":ref:`Django admin interface <admin-interface>` の :guilabel:`グループ` 編集"
-"ページの下で、:guilabel:`自動的なグループの割り当て` を指定できます。これは、"
-"新規に作成したユーザーをメールアドレスに基づいてグループに自動的に割り当てる"
-"ために使用する正規表現のリストです。この割り当ては、アカウントの作成時にのみ"
-"行われます。"
+":ref:`Django 管理画面 <admin-interface>` の :guilabel:`グループ` "
+"編集ページの下で、:guilabel:`自動チーム割り当て` を指定できます。これは、新規"
+"に作成したユーザーをメールアドレスに基づいてチームに自動的に割り当てるために"
+"使用する正規表現のリストです。この割り当ては、アカウントの作成時にのみ行われ"
+"ます。"
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default group. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. In order to do so, you will probably want to keep the default "
@@ -1015,78 +882,55 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
-"この機能の最も一般的な使用例は、すべての新規ユーザーをデフォルトのグループに"
-"割り当てることです。そのためには、正規表現フィールドのデフォルト値（``^.*"
-"$``） をそのまま使用します。このオプションの別の使用例としては、デフォルトで"
-"会社の従業員に、アクセス権を追加で付与する場合です。従業員全員が、会社のドメ"
-"インでメールアドレスを使用していると仮定した場合、``^.*@mycompany.com`` のよ"
-"うな正規表現で実現できます。"
+"この機能の最も一般的な使用例は、すべての新規ユーザーをデフォルトのチームに割"
+"り当てることです。そのためには、正規表現フィールドのデフォルト値（``^.*$``） "
+"をそのまま使用します。このオプションの別の使用例としては、デフォルトで会社の"
+"従業員に、アクセス権を追加で付与する場合です。従業員全員が、会社のドメインで"
+"メールアドレスを使用していると仮定した場合、``^.*@mycompany.com`` "
+"のような正規表現で実現できます。"
 
 #: ../../admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "when upgrading from one Weblate version to another. If you want to turn "
-#| "it off, set the regular expression to ``^$`` (which won’t match anything)."
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 "ある Weblate バージョンから別のバージョンにアップグレードすると、`ユーザー` "
-"と `閲覧者` へのグループの自動割り当てが常に再作成されます。これを無効にする"
-"には、正規表現を ``^$`` （何にも一致しない）に設定してください。"
+"と `閲覧者` "
+"へのチームの自動割り当てが常に再作成されます。これを無効にするには、"
+"正規表現を ``^$`` （何にも一致しない）に設定してください。"
 
 #: ../../admin/access.rst:433
-#, fuzzy
-#| msgid ""
-#| "As for now, there is no way to bulk-add already existing users to some "
-#| "group via the user interface. For that, you may resort to using the :ref:"
-#| "`REST API <api>`."
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
-"現在のところ、ユーザー画面から既存のユーザーをグループに一括で追加する方法は"
-"ありません。一括で追加するには、:ref:'REST API <api>'を使用することをお勧めし"
-"ます。"
+"現在のところ、ユーザー画面から既存のユーザーをチームに一括で追加する方法はあ"
+"りません。一括で追加するには、:ref:`REST API <api>` を使用してください。"
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid "Default groups and roles"
 msgid "Default teams and roles"
-msgstr "デフォルトのグループとロール"
+msgstr "デフォルトのチームとロール"
 
 #: ../../admin/access.rst:439
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
-msgstr ""
-"インストール後、デフォルトのグループ セットが生成されます（参照: :ref:"
-"`default-groups`）。"
+msgstr "インストール後、デフォルトのチーム セットが生成されます（参照: :ref:`default-"
+"teams`）。"
 
 #: ../../admin/access.rst:441
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"このロールとグループは、インストール時に生成されます。組み込みのロールは、"
-"アップグレード時にはデータベースを移行して常に最新の状態に保たれます。実際に"
-"変更することはできませんが、独自のアクセス権のセットを設定したい場合は、新し"
-"いロールを作成してください。"
+"このロールとチームは、インストール時に生成されます。組み込みのロールは、アッ"
+"プグレード時にはデータベースを移行して常に最新の状態に保たれます。実際に変更"
+"することはできませんが、独自のアクセス権のセットを設定したい場合は、新しいロ"
+"ールを作成してください。"
 
 #: ../../admin/access.rst:449
 msgid "List of privileges and built-in roles"
@@ -1447,10 +1291,8 @@ msgid "Manage language definitions"
 msgstr "言語定義の管理"
 
 #: ../../admin/access.rst:557
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "ユーザーの管理"
+msgstr "チームの管理"
 
 #: ../../admin/access.rst:559
 msgid "Manage users"
@@ -1487,25 +1329,18 @@ msgstr ""
 "トールした Weblate のプロジェクトすべてに影響します。"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "List of groups"
 msgid "List of teams"
-msgstr "グループ一覧"
+msgstr "チーム一覧"
 
 #: ../../admin/access.rst:584
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will, however, re-create them if you delete or rename them."
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"以下のグループは、インストール時（または :djadmin:`setupgroups` の実行後 ）に"
-"生成され、自由に変更できます。ただし、移行した場合、削除または名前が変更され"
-"ていると、グループが再生成されます。"
+"以下のチームは、インストール時（または :djadmin:`setupgroups` の実行後 ）に生"
+"成され、自由に変更できます。ただし、移行した場合、削除または名前が変更されて"
+"いると、チームが再生成されます。"
 
 #: ../../admin/access.rst:596
 msgid "`Guests`"
@@ -1516,25 +1351,16 @@ msgid "Defines permissions for non-authenticated users."
 msgstr "未認証ユーザーのアクセス権の設定。"
 
 #: ../../admin/access.rst:591
-#, fuzzy
-#| msgid ""
-#| "This group only contains anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
-msgstr ""
-"このグループには、匿名ユーザーのみ含める（参照: :setting:"
-"`ANONYMOUS_USER_NAME`)。"
+msgstr "このチームには、匿名ユーザーのみ含める（参照: "
+":setting:`ANONYMOUS_USER_NAME`)。"
 
 #: ../../admin/access.rst:593
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
-msgstr "このグループからロールを削除して、未認証ユーザーの権限を制限できる。"
+msgstr "このチームからロールを削除して、未認証ユーザーの権限を制限できる。"
 
 #: ../../admin/access.rst:596
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1545,28 +1371,19 @@ msgid "`Viewers`"
 msgstr "`閲覧者`"
 
 #: ../../admin/access.rst:599
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
-msgstr ""
-"このロールにより、すべてのユーザーが公開プロジェクトを参照できる。デフォルト"
-"では、すべてのユーザーがこのグループのメンバーである。"
+msgstr "このロールにより、すべてのユーザーが公開プロジェクトを参照できる。デフォルト"
+"では、すべてのユーザーがこのチームのメンバーである。"
 
 #: ../../admin/access.rst:602 ../../admin/access.rst:610
-#, fuzzy
-#| msgid ""
-#| "By default, :ref:`automatic group assignment <autogroup>` makes all new "
-#| "accounts members of this group when they join."
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"デフォルトでは、:ref:`automatic group assignment <autogroup>` と指定すると、"
-"新しい参加者には自動的にこのグループのメンバーのアカウントが作成されます。"
+"デフォルトでは、:ref:`自動チーム割り当て <autogroup>` と指定すると、新しい参"
+"加者には自動的にこのチームのメンバーのアカウントが作成されます。"
 
 #: ../../admin/access.rst:605
 msgid "Default roles: none"
@@ -1578,10 +1395,8 @@ msgid "`Users`"
 msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:608
-#, fuzzy
-#| msgid "Default group for all users."
 msgid "Default team for all users."
-msgstr "すべてのユーザーのデフォルトのグループ。"
+msgstr "すべてのユーザーのデフォルトのチーム。"
 
 #: ../../admin/access.rst:613
 msgid "Default roles: `Power user`"
@@ -1612,19 +1427,14 @@ msgid "Default roles: `Administration`"
 msgstr "デフォルトのロール: `Administration`"
 
 #: ../../admin/access.rst:627
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
-"想定外の問題が発生することあるので、デフォルトで設定済みの Weblate グループと"
-"ユーザーは決して削除しないでください。これらの権限が不要な場合は、権限をすべ"
-"て削除できます。"
+"想定外の問題が発生することあるので、デフォルトで設定済みの Weblate チームとユ"
+"ーザーは決して削除しないでください。これらの権限が不要な場合は、権限をすべて"
+"削除できます。"
 
 #: ../../admin/access.rst:632
 msgid "Additional access restrictions"
@@ -7533,19 +7343,20 @@ msgstr ""
 
 #: ../../admin/config.rst:709
 msgid "EXTRA_HTML_HEAD"
-msgstr ""
+msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:713
 msgid ""
 "Insert additional markup into HTML header. Can be used for verification of "
 "site ownership, for example:"
-msgstr ""
+msgstr "HTML ヘッダーに追加のマークアップを挿入します。サイトの所有権の確認に使用でき"
+"ます。例:"
 
 #: ../../admin/config.rst:721
 msgid ""
 "No sanitization is performed on the string, it is inserted as is into the "
 "HTML header."
-msgstr ""
+msgstr "文字列に対してサニタイズを実行せずに、そのまま HTML ヘッダーに挿入されます。"
 
 #: ../../admin/config.rst:726
 msgid "GET_HELP_URL"
@@ -7923,22 +7734,19 @@ msgstr ""
 "`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid "AUTO_UPDATE"
 msgid "LEGAL_TOS_DATE"
-msgstr "AUTO_UPDATE"
+msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1076
-#, fuzzy
-#| msgid "You need to configure API credentials to make this work."
 msgid "You need :ref:`legal` installed to make this work."
-msgstr "この機能の動作には、API 認証情報の設定が必要です。"
+msgstr "この機能を動作させるには、:ref:`legal` のインストールが必要です。"
 
 #: ../../admin/config.rst:1078
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the terms of service."
-msgstr ""
+msgstr "利用規約文書の最終更新日。日付が変わるたびに、利用者は利用規約に同意すること"
+"が必要です。"
 
 #: ../../admin/config.rst:1090
 msgid "LEGAL_URL"
@@ -8234,38 +8042,35 @@ msgid ":setting:`LEGAL_URL`"
 msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1410
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1414
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-out)."
-msgstr ""
+msgstr "非公開用のコミット用メールアドレスを、使用するかしないかを設定します（デフォ"
+"ルトでは使用しない）。"
 
 #: ../../admin/config.rst:1418
-#, fuzzy
-#| msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
-msgstr ":ref:`production-site`、:setting:`SITE_DOMAIN`"
+msgstr ":ref:`profile`、:setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1424
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1428
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"ユーザーの非公開用のコミット用メールアドレスを生成するためのテンプレート。デ"
+"フォルトは、``\"{username}@users.noreply.{site_domain}\"``。"
 
 #: ../../admin/config.rst:1430
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Set to blank string to disable."
-msgstr "空白文字列の削除"
+msgstr "無効にするには、空の文字列に設定します。"
 
 #: ../../admin/config.rst:1434
 msgid ""
@@ -8273,6 +8078,9 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` に、非公開用の異なるコミット用メールア"
+"ドレスを設定していないユーザーにはコミット用メールアドレスが公開されます。 "
+"ユーザーは、公開用のコミット用メールアドレスを :ref:`profile` で設定します。"
 
 #: ../../admin/config.rst:1441
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -8306,13 +8114,14 @@ msgstr ""
 
 #: ../../admin/config.rst:1467
 msgid "PROJECT_NAME_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_NAME_RESTRICT_RE"
 
 #: ../../admin/config.rst:1471
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
-msgstr ""
+msgstr "プロジェクトの命名を制限する正規表現を設定します。一致する名前はすべて拒否さ"
+"れます。"
 
 #: ../../admin/config.rst:1475
 #, fuzzy
@@ -8322,13 +8131,14 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1480
 msgid "PROJECT_WEB_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1484
 msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
-msgstr ""
+msgstr "プロジェクトの Web サイトを制限する正規表現を設定します。一致する URL "
+"はすべて拒否されます。"
 
 #: ../../admin/config.rst:1488
 #, fuzzy
@@ -9775,38 +9585,28 @@ msgstr ""
 "さい。"
 
 #: ../../admin/customize.rst:28
-#, fuzzy
-#| msgid ""
-#| "To write some custom Python code (called a module), a place to store it "
-#| "is needed, either in the system path (usually something like :file:`/usr/"
-#| "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
-#| "added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
 "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
-"（モジュールと呼ばれる）Python のカスタム コードを書くには、それを格納する場"
-"所が必要です。システム パス（通常は :file:`/usr/lib/python3.9/site-packages/"
-"` など）か、インタプリタ検索パスに追加された Weblate ディレクトリのどちらかに"
-"なります。"
+"（モジュールと呼ばれる）Python のカスタム "
+"コードを含むファイルを作成するには、それを格納する場所が必要です。システム "
+"パス（通常は :file:`/usr/lib/python3.9/site-packages/` など）か、"
+"インタプリタ検索パスに追加された Weblate ディレクトリのどちらかになります。"
 
 #: ../../admin/customize.rst:35
-#, fuzzy
-#| msgid ""
-#| "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
-#| "`docker-volume`) and they can be then loaded by Weblate, most likely by "
-#| "using :ref:`docker-custom-config`."
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules in :"
 "file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded "
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"独自の Python モジュールを :file:`/app/data/python/`（参照: :ref:`docker-"
-"volume`）に配置し、Weblate から読み込めます。多くの場合、:ref:`docker-custom-"
-"config` を使用します。"
+":ref:`Docker を使用したインストール <docker-deploy>` の場合、Python "
+"モジュールを :file:`/app/data/python/`（参照: :ref:`docker-"
+"volume`）配置できるます。たとえば :ref:`上書き設定ファイル <docker-settings-"
+"override>` から Weblate で読み込めます。"
 
 #: ../../admin/customize.rst:40
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -9859,10 +9659,8 @@ msgstr ""
 "ます（``weblate_customization.checks.FooCheck`` など）。"
 
 #: ../../admin/customize.rst:67
-#, fuzzy
-#| msgid "Your module structure should look like this:"
 msgid "Your package structure should look like this:"
-msgstr "完成したモジュール構造:"
+msgstr "出来上がったパッケージ構造:"
 
 #: ../../admin/customize.rst:78
 msgid ""
@@ -12378,7 +12176,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
-msgstr "Docker を使用するインストール"
+msgstr "Docker を使用したインストール"
 
 #: ../../admin/install/docker.rst:4
 msgid ""
@@ -12962,22 +12760,18 @@ msgid "Docker environment variables"
 msgstr "Docker 環境変数"
 
 #: ../../admin/install/docker.rst:367
-#, fuzzy
-#| msgid ""
-#| "Many of Weblate's :ref:`config` can be set in the Docker container using "
-#| "environment variables:"
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
-msgstr ""
-"Weblate の :ref:`config` の多くは、環境変数を使用して Docker コンテナに設定で"
-"きます。"
+msgstr "Weblate の :ref:`config` の多くは、以下の環境変数を使用して Docker "
+"コンテナに設定できます。"
 
 #: ../../admin/install/docker.rst:370
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
-msgstr ""
+msgstr "Docker 環境変数で公開されていない設定を定義する場合は、:ref:`docker-custom-"
+"config` を確認してください。"
 
 #: ../../admin/install/docker.rst:374
 msgid "Generic settings"
@@ -13500,22 +13294,16 @@ msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr ":setting:`ENABLE_SHARING` を設定します。"
 
 #: ../../admin/install/docker.rst:881
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr ":setting:`SSH_EXTRA_ARGS` を設定します。"
+msgstr ":setting:`EXTRA_HTML_HEAD` を設定します。"
 
 #: ../../admin/install/docker.rst:887
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr ":setting:`DEFAULT_COMMITER_EMAIL` を設定します。"
+msgstr ":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` を設定します。"
 
 #: ../../admin/install/docker.rst:893
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr ":setting:`DEFAULT_COMMITER_EMAIL` を設定します。"
+msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を設定します。"
 
 #: ../../admin/install/docker.rst:898
 msgid "Automatic suggestion settings"
@@ -13619,13 +13407,11 @@ msgstr ":ref:`gitlab_auth` を有効にします。"
 
 #: ../../admin/install/docker.rst:1039
 msgid "Gitea"
-msgstr ""
+msgstr "Gitea"
 
 #: ../../admin/install/docker.rst:1045
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
-msgstr "GitHub 認証"
+msgstr "Gitea 認証を有効にします。"
 
 #: ../../admin/install/docker.rst:1048
 msgid "Azure Active Directory"
@@ -14336,10 +14122,8 @@ msgstr ""
 "`Docker ボリューム ドキュメント <https://docs.docker.com/storage/volumes/>`_"
 
 #: ../../admin/install/docker.rst:1618
-#, fuzzy
-#| msgid "Docker environment variables"
 msgid "Configuration beyond environment variables"
-msgstr "Docker 環境変数"
+msgstr "環境変数以外の設定"
 
 #: ../../admin/install/docker.rst:1620
 msgid ""
@@ -14347,6 +14131,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker 環境変数 <docker-environment>` は、Weblate "
+"インストールに関連するほぼすべての :ref:`システム設定 <config>` "
+"の公開が目的です。"
 
 #: ../../admin/install/docker.rst:1624
 msgid ""
@@ -14354,6 +14141,9 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"環境変数として公開されていない設定を見つけ、その設定が公開されるべきであると"
+"考えた場合は、お気軽に :ref:`Weblate "
+"の将来のバージョンで公開されるように依頼 <report-issue>` してください。"
 
 #: ../../admin/install/docker.rst:1628
 msgid ""
@@ -14362,6 +14152,11 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Docker "
+"環境変数として公開されていない設定を変更することが必要な場合でも、:ref:`"
+"データ ボリュームからの設定のオーバーライド <docker-settings-override>` "
+"または :ref:`Docker イメージの拡張による設定のオーバーライド <docker-custom-"
+"settings>` を使用して変更できます。"
 
 #: ../../admin/install/docker.rst:1635
 msgid ":doc:`../customize`"
@@ -14369,7 +14164,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1640
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "データ ボリュームからの設定のオーバーライド"
 
 #: ../../admin/install/docker.rst:1642
 msgid ""
@@ -14377,26 +14172,31 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"ファイルは、:file:`/app/data/settings-override.py` "
+"に作成できます。つまり、:ref:`データ ボリューム <docker-volume>` "
+"のルートにあり、環境変数で定義した設定を拡張またはオーバーライドします。"
 
 #: ../../admin/install/docker.rst:1650
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Docker イメージの拡張による設定のオーバーライド"
 
 #: ../../admin/install/docker.rst:1652
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
-msgstr ""
+msgstr "データ ボリュームからではなく、Docker "
+"イメージの段階で設定をオーバーライドするには:"
 
 #: ../../admin/install/docker.rst:1654
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`Python モジュールの作成 <custom-module>`。"
 
 #: ../../admin/install/docker.rst:1656
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
-msgstr ""
+msgstr "``weblate.settings_docker`` "
+"からすべての設定をインポートするモジュールをパッケージに追加します。"
 
 #: ../../admin/install/docker.rst:1659
 msgid ""
@@ -14404,6 +14204,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"たとえば、:ref:`custom-module` で設定されているサンプルのパッケージ構造内で、"
+"次の初期コードを使用して ``weblate_customization/weblate_customization/"
+"settings.py`` にファイルを作成します。作成方法:"
 
 #: ../../admin/install/docker.rst:1668
 msgid ""
@@ -14411,12 +14214,17 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"公式 Weblate Docker イメージから継承するカスタム ``Dockerfile`` を作成し、"
+"パッケージをインストールして ``DJANGO_SETTINGS_MODULE`` "
+"環境変数を設定モジュールにポイントします。作成方法:"
 
 #: ../../admin/install/docker.rst:1684
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"公式の Weblate Docker イメージを使用する代わりに、この ``Dockerfile`` "
+"ファイルからカスタム イメージを作成します。"
 
 #: ../../admin/install/docker.rst:1687
 msgid ""
@@ -14425,6 +14233,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"これを ``docker-compose.override.yml`` で行う `綺麗な方法はありません "
+"<https://github.com/docker/compose/issues/7231>`__ 。そのファイルの "
+"``weblate`` ノードに `build: .` を追加できますが、カスタム "
+"イメージがシステム内で ``weblate/weblate`` "
+"としてタグ付けされるため、問題が発生することがあります。"
 
 #: ../../admin/install/docker.rst:1693
 msgid ""
@@ -14434,16 +14247,24 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"そのため、`公開リポジトリ <https://github.com/WeblateOrg/docker-compose>`__ "
+"から直接 ``docker-compose.yml`` を変更せずに使用し、それを ``docker-compose."
+"override.yml`` を通じて拡張する代わりに、公式の ``docker-compose.yml`` "
+"ファイルのコピーを作成し、そのコピーを編集して ``image:weblate/weblate`` を "
+"``build: .`` に置き換えることができます。"
 
 #: ../../admin/install/docker.rst:1699
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"``docker-compose`` "
+"を使用してソースコードからイメージをビルドする方法の詳細については、`Compose "
+"ファイルのビルド リファレンス`_ を確認してください。"
 
 #: ../../admin/install/docker.rst:1704
 msgid "Extend your custom settings module to define or redefine settings."
-msgstr ""
+msgstr "カスタム設定モジュールを拡張して、設定を定義または再定義します。"
 
 #: ../../admin/install/docker.rst:1706
 msgid ""
@@ -14453,6 +14274,11 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overriden."
 msgstr ""
+"上記の import "
+"ステートメントの前後に設定を定義して、どの設定を優先するかを決定できます。"
+"import ステートメントの前に定義された設定は、環境変数およびデータ "
+"ボリュームで定義された設定のオーバーライドによって上書きできます。import "
+"ステートメントの後に定義された設定は上書きできません。"
 
 #: ../../admin/install/docker.rst:1712
 msgid ""
@@ -14462,6 +14288,11 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"さらに詳細な設定もできます。たとえば、設定を環境変数として公開したり、データ "
+"ボリューム内の Python "
+"ファイルからの設定のオーバーライドを許可したりするなど、``weblate."
+"docker_settings`` が行うことを一部 `再現 <https://github.com/WeblateOrg/"
+"weblate/blob/main/weblate/settings_docker.py>`__ できます。"
 
 #: ../../admin/install/docker.rst:1719
 msgid "Replacing logo and other static files"
@@ -14530,10 +14361,8 @@ msgstr ""
 "用して生成できます。"
 
 #: ../../admin/install/docker.rst:1761
-#, fuzzy
-#| msgid "Container settings"
 msgid "Container internals"
-msgstr "コンテナの設定"
+msgstr "コンテナ内部"
 
 #: ../../admin/install/docker.rst:1763
 msgid ""
@@ -14541,10 +14370,13 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"コンテナは :program:`supervisor` "
+"を使用して個々のサービスを開始しています。:ref:`docker-scaling` "
+"の場合、コンテナ内の単一サービスのみを開始します。"
 
 #: ../../admin/install/docker.rst:1766
 msgid "To check the services status use:"
-msgstr ""
+msgstr "サービスのステータスを確認する方法:"
 
 #: ../../admin/install/docker.rst:1772
 msgid ""
@@ -14552,6 +14384,8 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Celery キューごとに個別のサービスがあります（詳細参照: :ref:`celery`）。適切"
+"なワーカーを停止することで、一部のタスクの処理を停止できます。"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -15487,36 +15321,20 @@ msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr "BCP スタイルの記法。全て小文字で表記する（例: ``cs-cz``）。"
 
 #: ../../admin/languages.rst:207
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "アプリストアのメタデータ形式"
+msgstr "Apple App Store のメタデータ形式"
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid ""
-#| "Style suitable for uploading metadata to appstores. This should be "
-#| "suitable for both Apple App Store and Google Play Store."
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr ""
-"メタデータをアプリストアにアップロードするのに適したスタイル。これは Apple "
-"App Store と Google Play Store の両方に適しているでしょう。"
+msgstr "メタデータを Apple App Store にアップロードするのに適したスタイル。"
 
 #: ../../admin/languages.rst:209
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "アプリストアのメタデータ形式"
+msgstr "Google Play のメタデータ形式"
 
 #: ../../admin/languages.rst:210
-#, fuzzy
-#| msgid ""
-#| "Style suitable for uploading metadata to appstores. This should be "
-#| "suitable for both Apple App Store and Google Play Store."
 msgid "Style suitable for uploading metadata to Google Play Store."
-msgstr ""
-"メタデータをアプリストアにアップロードするのに適したスタイル。これは Apple "
-"App Store と Google Play Store の両方に適しているでしょう。"
+msgstr "メタデータを Google Play ストアにアップロードするのに適したスタイル。"
 
 #: ../../admin/languages.rst:212
 msgid "Android style"
@@ -15555,12 +15373,12 @@ msgstr ""
 "の設定は新しいファイルがどのように作成されるかにのみ影響します。"
 
 #: ../../admin/languages.rst:227
-#, fuzzy
-#| msgid ":ref:`language-code`, :ref:`language-parsing-codes`"
 msgid ""
 ":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
 "parsing-codes`"
-msgstr ":ref:`language-code`、:ref:`language-parsing-codes`"
+msgstr ""
+":ref:`language-code`、:ref:`project-language_aliases`、:ref:`language-"
+"parsing-codes`"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -17895,6 +17713,8 @@ msgid ""
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
 msgstr ""
+"利用規約文書を変更する場合は、:setting:`LEGAL_TOS_DATE` "
+"を調整して、ユーザーが更新された文書に同意するように強制してください。"
 
 #: ../../admin/optionals.rst:131
 msgid ""
@@ -18523,10 +18343,8 @@ msgid "Verbose project name, used to display the project name."
 msgstr "プロジェクト名を表示するために使用する、詳細なプロジェクト名。"
 
 #: ../../admin/projects.rst:130
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_NAME_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
@@ -18554,10 +18372,8 @@ msgstr ""
 "す。"
 
 #: ../../admin/projects.rst:150
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_WEB_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:155
 msgid "Translation instructions"
@@ -19600,7 +19416,7 @@ msgstr "優先度の高いコンポーネントから順に翻訳者に提供さ
 
 #: ../../admin/projects.rst:809
 msgid "This now also affects ordering of matched glossary terms."
-msgstr ""
+msgstr "これは、一致した用語集の用語の順序にも影響します。"
 
 #: ../../admin/projects.rst:814
 msgid "Restricted access"
@@ -21118,18 +20934,17 @@ msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgstr "`jellyfish` への依存は `rapidfuzz` に置き換わりました。"
 
 #: ../../admin/upgrade.rst:345
-#, fuzzy
-#| msgid ""
-#| "Deprecated insecure configuration of VCS service API keys via _TOKEN/"
-#| "_USERNAME configuration instead of _CREDENTIALS list."
 msgid ""
 "**Changed in 4.14.2:** Deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In "
 "Docker, please add matching _HOST directive. For example see :envvar:"
 "`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
-"_CREDENTIALS リストの代わりに _TOKEN/_USERNAME 設定による VCS サービス API "
-"キーの安全でない設定を非推奨に変更。"
+"**4.14 .2で変更:** _CREDENTIALS リストの代わりに _TOKEN/_USERNAME "
+"構成を使用した VCS サービス API キーの非推奨の安全な構成。Docker で、"
+"matching_HOST "
+"ディレクティブを追加してください。例として、:envvar:`WEBLATE_GITHUB_HOST` と "
+":setting:`GITHUB_CREDENTIALS` を確認してください。"
 
 #: ../../admin/upgrade.rst:353
 msgid "Upgrade from 4.14 to 4.15"
@@ -21150,12 +20965,16 @@ msgid ""
 "The Docker image no longer enables debug mode by default. In case you want "
 "it, enable it in the environment using :envvar:`WEBLATE_DEBUG`."
 msgstr ""
+"Docker イメージは、デフォルトでデバッグ "
+"モードが有効ではなくなりました。必要に応じて、:envvar:`WEBLATE_DEBUG` "
+"を使用して環境にあわせて有効にしてください。"
 
 #: ../../admin/upgrade.rst:361
 msgid ""
 "The database migration make take hours on larger instances due to recreating "
 "some of the indexes."
-msgstr ""
+msgstr "データベースの移行では、一部のインデックスが再作成されるため、大きなインスタ"
+"ンスでは数時間かかります。"
 
 #: ../../admin/upgrade.rst:369
 msgid "Upgrading from Python 2 to Python 3"
@@ -23234,10 +23053,8 @@ msgid "translation unit flags"
 msgstr "翻訳ユニットのフラグ"
 
 #: ../../api.rst:2073
-#, fuzzy
-#| msgid "String explanation, available on source units, see :ref:`additional`"
 msgid "translation unit labels, available on source units"
-msgstr "文字列の説明、原文ユニットで利用可能、参照: :ref:`additional`"
+msgstr "翻訳単位ラベル、原文単位で使用可能"
 
 #: ../../api.rst:2074
 msgid ""
@@ -23326,7 +23143,7 @@ msgstr ""
 
 #: ../../api.rst:2104 ../../api.rst:2118
 msgid "labels, available on source units"
-msgstr ""
+msgstr "ラベル、原文単位で利用可能"
 
 #: ../../api.rst:2110
 msgid "Performs full update on translation unit."
@@ -24031,84 +23848,63 @@ msgstr "翻訳メモリの更新の性能の改良。"
 #: ../../changes.rst:11
 msgid ""
 "Autogenerate repoweb browsing links for well known code hosting services."
-msgstr ""
+msgstr "既知のコード ホスティングサービスの repoweb "
+"参照リンクを自動生成する機能の追加。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of Matrix view."
 msgid "Improved performance of several views."
-msgstr "マトリックス表示の性能の改善。"
+msgstr "複数の表示画面の性能の改良。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved machine translation of strings with placeholders."
 msgid "Improved listing of strings with plurals."
-msgstr "プレースホルダーを使用した文字列の機械翻訳の改善。"
+msgstr "複数形を含む文字列の一覧の改良。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Added support for removing user from a group via API."
 msgid "Added support for adding custom markup to HTML head."
-msgstr "API を使用したグループからのユーザーの削除に対応。"
+msgstr "HTML ヘッダーへのカスタム マークアップ追加に対応。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed generating of MO files for monolingual translations."
 msgid ""
 "Fixed generation of MO files in the add-on to include only translated files."
-msgstr "モノリンガル翻訳用の MO ファイルの生成の修正。"
+msgstr "アドオンでの MO ファイルの生成を、翻訳されたファイルのみを含むように修正。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed rendering of regular expression flags."
-msgstr "提案の表示の修正。"
+msgstr "正規表現フラグのレンダリングの修正。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved formatting of placeholder check errors."
 msgid "Improved placeholders check behavior with plurals."
-msgstr "プレースホルダの検査エラーのフォーマットの改善。"
+msgstr "複数形のプレースホルダでの動作チェックの改良。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for translating and importing CSV files."
 msgid "Added support for translation files naming suitable for Google Play."
-msgstr "CSV ファイルの翻訳とインポートに対応。"
+msgstr "Google Play に適した翻訳ファイルの命名に対応。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for :ref:`labels`."
 msgid "Added support for labels in API."
-msgstr ":ref:`labels` に対応。"
+msgstr "API でのラベルに対応。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added support for blocking certain e-mails from registration."
 msgid ""
 "Added support for choosing different e-mail for commits than for "
 "notifications."
-msgstr "特定のメールアドレスを登録時にブロックする機能の追加。"
+msgstr "通知用とは異なるコミット用のメールアドレスの選択に対応。"
 
 #: ../../changes.rst:21
 msgid "The Docker image no longer enables debug mode by default."
-msgstr ""
+msgstr "Docker イメージ、デフォルトでのデバッグ モードの動作の変更。デフォルト無効。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improved alerts behavior on glossary components."
 msgid "Order glossary terms based on the glossary component priority."
-msgstr "用語集コンポーネントの警告動作の改善。"
+msgstr "用語集コンポーネントの優先度に基づいて用語集の用語を並べ替えるように改良。"
 
 #: ../../changes.rst:23
 msgid "Added team administrators who can add or remove members of the team."
-msgstr ""
+msgstr "チームのメンバーを追加または削除できるチーム管理者を追加する機能の追加。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added a popup confirmation before deleting users"
-msgstr "プロジェクトからユーザーを削除する前の確認を追加。"
+msgstr "ユーザーを削除する前にポップアップ確認をする機能の追加。"
 
 #: ../../changes.rst:26
 msgid ""
@@ -32175,7 +31971,7 @@ msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:102
 msgid "Django admin interface customization."
-msgstr "カスタマイズした Django の管理画面。"
+msgstr "カスタマイズした Django 管理画面。"
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -33185,6 +32981,9 @@ msgid ""
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
 msgstr ""
+"これらの問題については、質問せずに作業を開始してください。誰かがその問題に取"
+"り組んでいることを明らかにするために、その問題について発表するだけでかまいま"
+"せん。"
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
@@ -39787,6 +39586,11 @@ msgid ""
 "it should be written as ``''``. When not paired, it is treated as beginning "
 "of quoting and will not be shown when rendering the string."
 msgstr ""
+"このチェックは、書式文字列が Java MessageFormat クラスに対して有効であること"
+"を検証します。中括弧内の書式文字列を照合するだけでなく、特別な意味を持つ単一"
+"引用符も検証します。シングル クォーテーションを書くときは常に ``''`` と書くべ"
+"きです。対になっていない場合は、引用の始まりとして扱われ、文字列のレンダリン"
+"グ時に表示されません。"
 
 #: ../../user/checks.rst:372
 msgid ""
@@ -40131,16 +39935,12 @@ msgid "``Your balance is %{amount} %{currency}``"
 msgstr "``Your balance is %{amount} %{currency}``"
 
 #: ../../user/checks.rst:584
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/"
-#| "Kernel.html#method-i-sprintf>`_"
 msgid ""
 ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
 "Kernel.html#method-i-sprintf>`_"
 msgstr ""
-":ref:`check-formats`、`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
-"html#method-i-sprintf>`_"
+":ref:`check-formats`、`Ruby Kernel#sprintf <https://ruby-doc.org/current/"
+"Kernel.html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:590
 msgid "Scheme format"
@@ -42339,6 +42139,13 @@ msgid ""
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
+"バージョン管理のコミットでは、アカウントのメールアドレスの代わりにコミット用"
+"の、メールアドレスが使用されます。これを使用して、実際のメールアドレスの漏洩"
+"を防止します。別のメールアドレスを使用すると、他のサーバーでの投稿が切断され"
+"ることがあるので注意してください（たとえば、投稿が GitHub "
+"のプロファイルにリンクされなくなります）。 "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` "
+"を使用して、プライベートなメールアドレスをサイト全体で有効にできます。"
 
 #: ../../user/profile.rst:206
 msgid ""
