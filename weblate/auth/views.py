@@ -46,13 +46,10 @@ class TeamUpdateView(UpdateView):
         else:
             return SitewideTeamForm
 
-    def get_object(self, queryset=None):
-        result = super().get_object(queryset=queryset)
-
-        if not self.request.user.has_perm("meta:team.edit", result):
-            raise PermissionDenied()
-
-        return result
+    def get_form(self, form_class=None):
+        if not self.request.user.has_perm("meta:team.edit", self.object):
+            return None
+        return super().get_form(form_class)
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
@@ -64,6 +61,10 @@ class TeamUpdateView(UpdateView):
 
     def post(self, request, **kwargs):
         self.object = self.get_object()
+        form = self.get_form()
+        if form is None:
+            return self.form_invalid(form, None)
+
         if "delete" in request.POST:
             if self.object.defining_project:
                 fallback = (
@@ -80,7 +81,6 @@ class TeamUpdateView(UpdateView):
             self.object.delete()
             return redirect_next(request.POST.get("next"), fallback)
 
-        form = self.get_form()
         formset = self.auto_formset(instance=self.object, data=request.POST)
         if form.is_valid() and formset.is_valid():
             formset.save()

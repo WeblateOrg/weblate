@@ -23,13 +23,33 @@
 {% csrf_token %}
 <ul class="nav nav-pills">
   <li role="presentation" class="active"><a href="#basic" role="tab" data-toggle="tab">{% trans "Settings" %}</a></li>
+{% if form %}
   <li role="presentation"><a href="#auto" role="tab" data-toggle="tab">{% trans "Automatic assignments" %}</a></li>
+{% endif %}
   <li role="presentation"><a href="#users" role="tab" data-toggle="tab">{% trans "Members" %}</a></li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane active" id="basic">
-    {{ form | crispy }}
+    {% if form %}
+      {{ form | crispy }}
+    {% else %}
+
+      <table class="table">
+        <tr>
+          <th>{% trans "Roles" %}</th>
+          <td>{% include "auth/teams-roles.html" with group=object %}</td>
+        </tr>
+        <tr>
+          <th>{% trans "Languages" %}</th>
+          <td>{% include "auth/teams-languages.html" with group=object %}</td>
+        </tr>
+        <tr>
+          <th>{% trans "Projects" %}</th>
+          <td>{% include "auth/teams-projects.html" with group=object %}</td>
+        </tr>
+      </table>
+    {% endif %}
   </div>
   <div class="tab-pane" id="auto">
     {{ auto_formset | crispy }}
@@ -45,7 +65,9 @@
   </div>
 </div>
 
-<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+{% if form %}
+  <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+{% endif %}
 </form>
 
 {% endblock %}
