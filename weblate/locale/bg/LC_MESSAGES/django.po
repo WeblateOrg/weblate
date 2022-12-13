@@ -13,13 +13,14 @@
 # 109247019824 <stoyan@gmx.com>, 2021, 2022.
 # Симеон Цветков <sicvetkov@uni-sofia.bg>, 2022.
 # Ishika Jain <ishikajn8126@gmail.com>, 2022.
+# Ясен Арсов <jarsov@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-11-14 14:28+0000\n"
-"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
+"PO-Revision-Date: 2022-12-14 07:24+0000\n"
+"Last-Translator: Ясен Арсов <jarsov@gmail.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -63,20 +64,15 @@ msgstr "Публична е-поща"
 
 #: weblate/accounts/forms.py:189
 msgid "Do not publicly display e-mail"
-msgstr ""
+msgstr "Не показвайте публично имейл"
 
 #: weblate/accounts/forms.py:194 weblate/accounts/models.py:574
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
-msgstr "Е-поща за контакт"
+msgstr "Ангажиране на имейл"
 
 #: weblate/accounts/forms.py:195
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "Use account e-mail"
-msgstr "Регистриране на е-поща"
+msgstr "Използвайте имейл на акаунта"
 
 #: weblate/accounts/forms.py:311
 #, python-format
@@ -1997,10 +1993,8 @@ msgstr "Управление на езиковите дефиниции"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Управление на потребителите"
+msgstr "Управлявайте екипи"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143 weblate/templates/manage/users.html:17
@@ -2195,10 +2189,9 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Повторно изпращане на е-писмото с поканата към потребителя"
 
 #: weblate/auth/forms.py:166
-#, fuzzy, python-format
-#| msgid "Changing of %s is prohibited for built-in groups."
+#, python-format
 msgid "Changing of %s is prohibited for built-in teams."
-msgstr "Промяната на „%s“ е забранена за вградените групи."
+msgstr "Промяната на %s е забранена за вградени екипи."
 
 #: weblate/auth/models.py:79
 #, python-format
@@ -2305,14 +2298,12 @@ msgid "Internal Weblate group"
 msgstr "Вътрешна група на Weblate"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Администратори"
+msgstr "Администратори на екипи"
 
 #: weblate/auth/models.py:166
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "Администраторът може да добавя или премахва потребители от екип."
 
 #: weblate/auth/models.py:324 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:174
@@ -3946,14 +3937,14 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:32
 #: weblate/templates/snippets/login-info.html:12
 msgid "Terms of Service"
-msgstr "Условия на услугата"
+msgstr "Условия за ползване"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:24
 #: weblate/legal/templates/legal/privacy.html:15
 #: weblate/templates/snippets/login-info.html:15
 msgid "Privacy Policy"
-msgstr "Политика на поверителност"
+msgstr "Политика за поверителност"
 
 #: weblate/legal/templates/legal/cookies.html:27
 msgid "Cookies are used on this site for the following:"
@@ -4590,16 +4581,12 @@ msgstr ""
 "на е-пощата Ви."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Изтрийте профила си като посетите препратката за потвърждение в изпратения "
-"имейл."
+"Премахнете акаунта си, като щракнете върху връзката за потвърждение, "
+"изпратена до вашата електронна поща."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -4612,16 +4599,15 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Моля, погледнете папката си със спам, ако не я виждате във входящата си поща."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "Връзката за потвърждение ще изгуби давност след %(count)s час."
-msgstr[1] "Връзката за потвърждение ще изгуби давност след %(count)s часа."
+msgstr[0] "Връзката за потвърждение ще изтече след %(count)s час."
+msgstr[1] "Връзката за потвърждение ще изтече след %(count)s часа."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
@@ -4945,10 +4931,8 @@ msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "Аватарите се предоставят от %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "Екипи"
+msgstr "Екип"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/addons/discovery_help.html:10
@@ -5384,10 +5368,9 @@ msgid "Are you absolutely sure?"
 msgstr "Наистина ли искате това?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "Това ще отнеме достъпа на <b>%(user)s</b> до този проект."
+msgstr "Това ще премахне <b>%(user)s</b> от Weblate."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5514,7 +5497,7 @@ msgstr "Низове от ресурси на Android, разделени в н�
 
 #: weblate/templates/addons/discovery_help.html:72
 msgid "Multi-module Maven project with Java properties translations."
-msgstr ""
+msgstr "Многомодулен проект Maven с преводи на Java свойства."
 
 #: weblate/templates/addons/discovery_help.html:77
 msgid ""
@@ -5694,10 +5677,8 @@ msgid "Last sign in"
 msgstr "Последно влизане"
 
 #: weblate/templates/auth/team.html:93
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "Администратори"
+msgstr "Администратор на екипа"
 
 #: weblate/templates/auth/team.html:103
 #: weblate/templates/trans/project-access-row.html:25
@@ -5706,16 +5687,12 @@ msgid "Not yet signed in"
 msgstr "Все още не е влизал(а)"
 
 #: weblate/templates/auth/team.html:110
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "Администриране на Weblate"
+msgstr "Отмени администрацията"
 
 #: weblate/templates/auth/team.html:115
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Администриране на Weblate"
+msgstr "Администриране на грантове"
 
 #: weblate/templates/auth/team.html:118 weblate/templates/auth/team.html:119
 #: weblate/templates/auth/team.html:168
@@ -7720,17 +7697,12 @@ msgstr ""
 "продължите."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"В случай, че препратката за потвърждение е с изтекъл срок, за да получите "
-"достъп до профила си, можете да използвате възможността за възстановяване на "
-"паролата."
+"В случай, че връзката за потвърждение е изтекла, можете да използвате "
+"функцията за нулиране на паролата, за да получите достъп до вашия акаунт."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -10354,14 +10326,10 @@ msgstr[0] "Следният низ има различен източник, н�
 msgstr[1] "Следните низове имат различен източник, но същия контекст."
 
 #: weblate/templates/translate.html:345
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "The following string has a different source and different context."
 msgid_plural "The following strings have different sources and context."
-msgstr[0] "Следният низ има различен източник, но същия контекст."
-msgstr[1] "Следните низове имат различен източник, но същия контекст."
+msgstr[0] "Следният низ има различен източник и различен контекст."
+msgstr[1] "Следните низове имат различни източници и контекст."
 
 #: weblate/templates/translate.html:355
 msgid "Apply selected translation to all propagated strings"
@@ -10836,10 +10804,8 @@ msgid "Invalid checksum specified!"
 msgstr "Посочена е неправилна контролна сума!"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "Потребителско име или е-поща"
+msgstr "Липсва потребителско име или имейл."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -11112,7 +11078,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1184
 msgid "Allow user to add or remove users from a team."
-msgstr ""
+msgstr "Позволете на потребителя да добавя или премахва потребители от екип."
 
 #: weblate/trans/forms.py:1196
 msgid "Block duration"
@@ -12005,16 +11971,12 @@ msgid "Android style"
 msgstr "Стил Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Стил на мета-данни като на App store"
+msgstr "Стил на метаданни на Apple App Store"
 
 #: weblate/trans/models/component.py:146
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Стил на мета-данни като на App store"
+msgstr "Стил на метаданни в Google Play"
 
 #: weblate/trans/models/component.py:147
 msgid "Linux style"
@@ -12590,23 +12552,17 @@ msgid "Could not add new translation file."
 msgstr "Не може да бъде добавен нов файл за превод."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "Нямате права да започнете нов превод"
+msgstr "Нямате разрешения за добавяне на нов файл за превод."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Едноезичен базов езиков файл"
+msgstr "Едноезичният базов езиков файл е невалиден."
 
 #: weblate/trans/models/component.py:3213
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "The template for new translations is invalid."
-msgstr "Шаблон за новите преводи"
+msgstr "Шаблонът за нови преводи е невалиден."
 
 #: weblate/trans/models/component.py:3246
 msgid "The given language is used as a source language."
@@ -12797,10 +12753,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Чакащите промени не успяха да бъдат подадени: %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Контролни знаци"
+msgstr "Низът съдържа контролен знак: %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
@@ -13905,10 +13860,8 @@ msgid "Syntax error in language aliases."
 msgstr "Синтактична грешка в езиковите псевдоними."
 
 #: weblate/utils/validators.py:248
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Това име е забранено"
+msgstr "Този URL адрес е забранен"
 
 #: weblate/utils/views.py:133 weblate/utils/views.py:157
 msgid "Position and priority"
