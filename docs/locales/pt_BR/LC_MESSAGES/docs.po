@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-08 09:05+0000\n"
+"PO-Revision-Date: 2022-12-14 07:25+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -321,16 +321,17 @@ msgstr ""
 "guilabel:`Usuários`."
 
 #: ../../admin/access.rst:129
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Administradores"
+msgstr "Administradores de equipe"
 
 #: ../../admin/access.rst:133
 msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
 msgstr ""
+"Cada equipe pode ter um administrador de equipe, que pode adicionar e "
+"remover usuários dentro da equipe. Isso é útil no caso de você querer "
+"construir equipes autogovernadas."
 
 #: ../../admin/access.rst:139
 msgid "New user invitation"
@@ -407,14 +408,6 @@ msgstr ""
 "Weblate."
 
 #: ../../admin/access.rst:179
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -423,12 +416,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"Por padrão, isso impede que o Weblate conceda acesso fornecido por :ref:"
-"`grupos padrão <default-groups>` `Usuários` e `Visualizadores` devido à "
-"própria configuração desses grupos. Isso não impede que você conceda "
-"permissões a esses projetos em todo o site, alterando grupos padrão, criando "
-"um novo ou criando configurações personalizadas adicionais para componentes "
-"individuais, conforme descrito em :ref:`custom-acl` abaixo."
+"Por padrão, isso impede que o Weblate conceda acesso fornecido por :ref:`"
+"equipes padrão <default-teams>` `Usuários` e `Visualizadores` devido à "
+"própria configuração dessas equipes. Isso não impede que você conceda "
+"permissões a esses projetos em todo o site, alterando equipes padrão, "
+"criando uma nova ou criando configurações personalizadas adicionais para "
+"componentes individuais, conforme descrito em :ref:`custom-acl` abaixo."
 
 #: ../../admin/access.rst:185
 msgid ""
@@ -447,18 +440,13 @@ msgid "Custom access control"
 msgstr "Controle de acesso personalizado"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"O sistema de permissão é baseado em grupos e funções, onde as funções de "
-"definir um conjunto de permissões, e grupos vinculam-nas para os usuários e "
+"O sistema de permissão é baseado em equipes e funções, onde as funções de "
+"definir um conjunto de permissões, e equipes vinculam-nas para os usuários e "
 "traduções. Veja :ref:`auth-model` para mais detalhes."
 
 #: ../../admin/access.rst:201
@@ -507,28 +495,20 @@ msgid "Site-wide permission management"
 msgstr "Gerenciamento de permissões para todo o site"
 
 #: ../../admin/access.rst:221
-#, fuzzy
-#| msgid ""
-#| "To manage permissions for a whole instance at once, add users to "
-#| "appropriate :ref:`default groups <default-groups>`:"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
 "Para gerenciar permissões para uma instância inteira de uma vez, adicione "
-"usuários aos :ref:`grupos padrão <default-groups>`:"
+"usuários às :ref:`equipes padrão <default-teams>`:"
 
 #: ../../admin/access.rst:224
-#, fuzzy
-#| msgid ""
-#| "`Users` (this is done by default by the :ref:`automatic group assignment "
-#| "<autogroup>`)."
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Usuários` (isso é feito por padrão pela :ref:`associação de grupo "
-"automática <autogroup>`)."
+"`Usuários` (isso é feito por padrão pela :ref:`associação de equipe "
+"automática <autoteam>`)."
 
 #: ../../admin/access.rst:226
 msgid ""
@@ -547,52 +527,36 @@ msgstr ""
 "pessoa)."
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid ""
-#| "You should keep all projects configured as `Public` (see :ref:`acl`), "
-#| "otherwise the site-wide permissions provided by membership in the `Users` "
-#| "and `Reviewers` groups won’t have any effect."
 msgid ""
 "You should keep all projects configured as `Public` (see :ref:`acl`), "
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"Você deve manter todos os projetos configurados como `Públicos` (veja :ref:"
-"`acl`), caso contrário as permissões de todo o site fornecidas pela "
-"participação nos grupos `Usuários` e `Revisores` não terão nenhum efeito."
+"Você deve manter todos os projetos configurados como `Públicos` (veja "
+":ref:`acl`), caso contrário as permissões de todo o site fornecidas pela "
+"participação nas equipes `Usuários` e `Revisores` não terão nenhum efeito."
 
 #: ../../admin/access.rst:235
-#, fuzzy
-#| msgid ""
-#| "You may also grant some additional permissions of your choice to the "
-#| "default groups. For example, you may want to give a permission to manage "
-#| "screenshots to all the `Users`."
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"Você também pode conceder algumas permissões adicionais de sua escolha aos "
-"grupos padrão. Por exemplo, você pode querer dar permissão para gerenciar "
+"Você também pode conceder algumas permissões adicionais de sua escolha às "
+"equipes padrão. Por exemplo, você pode querer dar permissão para gerenciar "
 "capturas de tela para todos os `Usuários`."
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid ""
-#| "You can define some new custom groups as well. If you want to keep "
-#| "managing your permissions site-wide for these groups, choose an "
-#| "appropriate value for the :guilabel:`Project selection` (e.g. :guilabel:"
-#| "`All projects` or :guilabel:`All public projects`)."
 msgid ""
 "You can define some new custom teams as well. If you want to keep managing "
 "your permissions site-wide for these teams, choose an appropriate value for "
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"Você também pode definir alguns novos grupos personalizados. Se você deseja "
-"continuar gerenciando suas permissões em todo o site para esses grupos, "
-"escolha um valor apropriado para :guilabel:`Seleção de projeto` (por "
-"exemplo :guilabel:`Todos os projetos` ou :guilabel:`Todos os projetos "
+"Você também pode definir algumas novas equipes personalizadas. Se você "
+"deseja continuar gerenciando suas permissões em todo o site para essas "
+"equipes, escolha um valor apropriado para :guilabel:`Seleção de projeto` ("
+"por exemplo :guilabel:`Todos os projetos` ou :guilabel:`Todos os projetos "
 "públicos`)."
 
 #: ../../admin/access.rst:245
@@ -600,24 +564,17 @@ msgid "Custom permissions for languages, components or projects"
 msgstr "Permissões personalizadas a idiomas, componentes ou projetos"
 
 #: ../../admin/access.rst:247
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Você pode criar seus próprios grupos dedicados para gerenciar permissões "
-"para objetos distintos, como linguagens, componentes e projetos. Embora "
-"esses grupos só possam conceder privilégios adicionais, você não pode "
-"revogar qualquer permissão concedida por grupos de todo o site ou por "
-"projeto adicionando outro grupo personalizado."
+"Você pode criar suas próprias equipes dedicadas para gerenciar permissões "
+"para objetos distintos, como linguagens, componentes e projetos. Embora essa "
+"equipes só possam conceder privilégios adicionais, você não pode revogar "
+"qualquer permissão concedida por equipes de todo o site ou por projeto "
+"adicionando outra equipe personalizada."
 
 #: ../../admin/access.rst:252 ../../admin/access.rst:382
 #: ../../admin/config.rst:237 ../../admin/config.rst:256
@@ -643,19 +600,14 @@ msgstr ""
 "que:"
 
 #: ../../admin/access.rst:258
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
 "Remover a permissão para traduzir `Tcheco` de todos os usuários. Na "
-"configuração padrão, isso pode ser feito alterando o :ref:`grupo padrão "
-"<default-groups>` `Usuários`."
+"configuração padrão, isso pode ser feito alterando a :ref:`equipe padrão "
+"<default-teams>` `Usuários`."
 
 #: ../../admin/access.rst:262
 msgid "Group `Users`"
@@ -674,10 +626,8 @@ msgid "All but `Czech`"
 msgstr "Todos, exceto `Tcheco`"
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid "Add a dedicated group for `Czech` translators."
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "Adicionar um grupo dedicado para tradutores(as) de `Tcheco`."
+msgstr "Adicionar uma equipe dedicada para tradutores(as) de `Tcheco`."
 
 #: ../../admin/access.rst:274
 msgid "Group `Czech translators`"
@@ -705,10 +655,8 @@ msgid "`Czech`"
 msgstr "`Tcheco`"
 
 #: ../../admin/access.rst:288
-#, fuzzy
-#| msgid "Add users you wish to give the permissions to into this group."
 msgid "Add users you wish to give the permissions to into this team."
-msgstr "Adicionar usuários aos quais deseja conceder permissões a este grupo."
+msgstr "Adicionar usuários aos quais deseja conceder permissões a esta equipe."
 
 #: ../../admin/access.rst:290
 msgid ""
@@ -721,10 +669,8 @@ msgstr ""
 "menos que conceda permissões de superusuário."
 
 #: ../../admin/access.rst:297
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "Usuários, papéis, grupos e permissões"
+msgstr "Usuários, papéis, equipes e permissões"
 
 #: ../../admin/access.rst:299
 msgid "The authentication models consist of several objects:"
@@ -760,10 +706,8 @@ msgid "`User`"
 msgstr "`Usuário`"
 
 #: ../../admin/access.rst:308
-#, fuzzy
-#| msgid "User can belong to several groups."
 msgid "User can belong to several teams."
-msgstr "Usuário pode pertencer a vários grupos."
+msgstr "Usuário pode pertencer a várias equipes."
 
 #: ../../admin/access.rst:311
 msgid "`Group`"
@@ -778,15 +722,11 @@ msgstr ""
 "e listas de componentes)."
 
 #: ../../admin/access.rst:328
-#, fuzzy
-#| msgid ""
-#| "A group can have no roles assigned to it, in that case access to browse "
-#| "the project by anyone is assumed (see below)."
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
-"Um grupo não pode ter papéis atribuídos a ele; nesse caso, o acesso para "
+"Uma equipe não pode ter papéis atribuídos a ela; nesse caso, o acesso para "
 "navegar no projeto por qualquer pessoa é presumido (veja abaixo)."
 
 #: ../../admin/access.rst:332
@@ -794,22 +734,16 @@ msgid "Access for browse to a project"
 msgstr "Acesso para navegar até um projeto"
 
 #: ../../admin/access.rst:334
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to browse the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a team linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"Um usuário tem que ser um membro de um grupo vinculado ao projeto ou "
+"Um usuário tem que ser um membro de uma equipe vinculada ao projeto ou "
 "qualquer componente dentro daquele projeto. Ser membro é suficiente, não são "
-"necessárias permissões específicas para navegar o projeto (isso é usado no "
-"grupo padrão `Visualizadores`, consulte :ref:`default-groups`)."
+"necessárias permissões específicas para navegar o projeto (isso é usado na "
+"equipe padrão `Visualizadores`, consulte :ref:`default-teams`)."
 
 #: ../../admin/access.rst:340
 msgid "Access for browse to a component"
@@ -830,32 +764,18 @@ msgstr ""
 "componente (ou uma lista de componentes na qual o componente está contido)."
 
 #: ../../admin/access.rst:350
-#, fuzzy
-#| msgid "Scope of groups"
 msgid "Scope of teams"
-msgstr "Escopo de grupos"
+msgstr "Escopo de equipes"
 
 #: ../../admin/access.rst:352
-#, fuzzy
-#| msgid ""
-#| "The scope of the permission assigned by the roles in the groups are "
-#| "applied by the following rules:"
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
-"O escopo da permissão atribuída pelas funções nos grupos é aplicado pelas "
+"O escopo da permissão atribuída pelas funções nas equipes é aplicado pelas "
 "seguintes regras:"
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Component list`, all the "
-#| "permissions given to members of that group are granted for all the "
-#| "components in the component lists attached to the group, and an access "
-#| "with no additional permissions is granted for all the projects these "
-#| "components are in. :guilabel:`Components` and :guilabel:`Projects` are "
-#| "ignored."
 msgid ""
 "If the team specifies any :guilabel:`Component list`, all the permissions "
 "given to members of that team are granted for all the components in the "
@@ -863,41 +783,26 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Se o grupo especificar qualquer :guilabel:`Lista de componentes`, todas as "
-"permissões dadas aos membros desse grupo serão concedidas para todos os "
-"componentes nas listas de componentes anexadas ao grupo, e um acesso sem "
+"Se a equipe especificar qualquer :guilabel:`Lista de componentes`, todas as "
+"permissões dadas aos membros dessa equipe serão concedidas para todos os "
+"componentes nas listas de componentes anexadas à equipe, e um acesso sem "
 "permissões adicionais é concedido para todos os projetos estes componentes "
 "estão contidos. :guilabel:`Componentes` e :guilabel:`Projetos` são ignorados."
 
 #: ../../admin/access.rst:361
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Components`, all the permissions "
-#| "given to the members of that group are granted for all the components "
-#| "attached to the group, and an access with no additional permissions is "
-#| "granted for all the projects these components are in. :guilabel:"
-#| "`Projects` are ignored."
 msgid ""
 "If the team specifies any :guilabel:`Components`, all the permissions given "
 "to the members of that team are granted for all the components attached to "
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"Se o grupo especificar quaisquer :guilabel:`Componentes`, todas as "
-"permissões dadas aos membros desse grupo são concedidas para todos os "
-"componentes anexados ao grupo, e um acesso sem permissões adicionais é "
-"concedido para todos os projetos nos quais que esses componentes estão. :"
-"guilabel:`Projetos` são ignorados."
+"Se a equipe especificar quaisquer :guilabel:`Componentes`, todas as "
+"permissões dadas aos membros dessa equipe são concedidas para todos os "
+"componentes anexados à equipe, e um acesso sem permissões adicionais é "
+"concedido para todos os projetos nos quais que esses componentes estão. "
+":guilabel:`Projetos` são ignorados."
 
 #: ../../admin/access.rst:366
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -905,7 +810,7 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"Caso contrário, se o grupo especificar :guilabel:`Projetos`, seja listando-"
+"Caso contrário, se a equipe especificar :guilabel:`Projetos`, seja listando-"
 "os diretamente ou tendo :guilabel:`Seleção de projetos` definida com um "
 "valor como :guilabel:`Todos os projetos públicos`, todas essas permissões "
 "são aplicadas a todos os projetos, que efetivamente concede as mesmas "
@@ -913,13 +818,6 @@ msgstr ""
 "restricted>` dos projetos."
 
 #: ../../admin/access.rst:372
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a group’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has an access to perform certain "
@@ -927,7 +825,7 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"As restrições impostas pelos :guilabel:`Idiomas` de um grupo são aplicadas "
+"As restrições impostas pelos :guilabel:`Idiomas` de uma equipe são aplicadas "
 "separadamente, quando é verificado se um usuário tem acesso para realizar "
 "determinadas ações. Ou seja, é aplicado apenas a ações diretamente "
 "relacionadas ao próprio processo de tradução, como revisar, salvar "
@@ -942,16 +840,12 @@ msgstr ""
 "automatizar a inclusão de todos os idiomas ou projetos."
 
 #: ../../admin/access.rst:384
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following group:"
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
 msgstr ""
 "Digamos que haja um projeto ``foo`` com os componentes ``foo/bar`` e ``foo/"
-"baz`` e o seguinte grupo:"
+"baz`` e a seguinte equipe:"
 
 #: ../../admin/access.rst:387
 msgid "Group `Spanish Admin-Reviewers`"
@@ -974,15 +868,11 @@ msgid "`Spanish`"
 msgstr "`Espanhol`"
 
 #: ../../admin/access.rst:399
-#, fuzzy
-#| msgid ""
-#| "Members of that group will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
-"Membros deste grupo terão as seguintes permissões (presumindo as "
+"Membros desta equipe terão as seguintes permissões (presumindo as "
 "configurações padrão de papeis):"
 
 #: ../../admin/access.rst:401
@@ -1007,20 +897,10 @@ msgstr ""
 "de alterações pendentes feitas por tradutores de todos os idiomas."
 
 #: ../../admin/access.rst:410
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "Atribuições automáticas"
+msgstr "Atribuições de equipe automáticas"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic group assignments`, which is a list of regular expressions "
-#| "used to automatically assign newly created users to a group based on "
-#| "their e-mail addresses. This assignment only happens upon account "
-#| "creation."
 msgid ""
 "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
 "admin interface <admin-interface>`, you can specify :guilabel:"
@@ -1029,22 +909,13 @@ msgid ""
 "addresses. This assignment only happens upon account creation."
 msgstr ""
 "Na parte inferior da página de edição :guilabel:`Grupo` na :ref:`interface "
-"administrativa do Django <admin-interface>`, você pode especificar :guilabel:"
-"`Associações automáticas de grupo`, que é uma lista de expressões regulares "
-"usadas para atribuir automaticamente usuários recém-criados a um grupo com "
-"base em seus endereços de e-mail. Esta associação só acontece após a criação "
-"da conta."
+"administrativa do Django <admin-interface>`, você pode especificar "
+":guilabel:`Associações automáticas de equipe`, que é uma lista de expressões "
+"regulares usadas para atribuir automaticamente usuários recém-criados a uma "
+"equipe com base em seus endereços de e-mail. Esta associação só acontece "
+"após a criação da conta."
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default group. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. In order to do so, you will probably want to keep the default "
@@ -1055,7 +926,7 @@ msgid ""
 "*@mycompany.com``."
 msgstr ""
 "O caso de uso mais comum para o recurso é atribuir todos os novos usuários a "
-"algum grupo padrão. Para fazer isso, você provavelmente desejará manter o "
+"alguma equipe padrão. Para fazer isso, você provavelmente desejará manter o "
 "valor padrão (``^.*$``) No campo da expressão regular. Outro caso de uso "
 "para essa opção pode ser conceder alguns privilégios adicionais aos "
 "funcionários de sua empresa por padrão. Supondo que todos eles usem "
@@ -1063,69 +934,47 @@ msgstr ""
 "expressão como ``^.*@minhaempresa.com``."
 
 #: ../../admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "when upgrading from one Weblate version to another. If you want to turn "
-#| "it off, set the regular expression to ``^$`` (which won’t match anything)."
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"Associação automática de grupo para `Usuários` e `Visualizadores` sempre "
+"Associação automática de equipe para `Usuários` e `Visualizadores` sempre "
 "será recriada ao atualizar de uma versão anterior do Weblate para outra. Se "
 "você deseja desativá-los, defina a expressão regular para ``^$`` (que nunca "
 "corresponderá)."
 
 #: ../../admin/access.rst:433
-#, fuzzy
-#| msgid ""
-#| "As for now, there is no way to bulk-add already existing users to some "
-#| "group via the user interface. For that, you may resort to using the :ref:"
-#| "`REST API <api>`."
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
-"Por enquanto, não há como adicionar em massa usuários já existentes a algum "
-"grupo por meio da interface do usuário. Para isso, você pode recorrer ao uso "
-"da :ref:`API REST <api>`."
+"Por enquanto, não há como adicionar em massa usuários já existentes a alguma "
+"equipe por meio da interface do usuário. Para isso, você pode recorrer ao "
+"uso da :ref:`API REST <api>`."
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid "Default groups and roles"
 msgid "Default teams and roles"
-msgstr "Grupos e funções padrão"
+msgstr "Equipes e funções padrão"
 
 #: ../../admin/access.rst:439
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
-"Após a instalação, um conjunto padrão de grupos é criado (veja :ref:`default-"
-"groups`)."
+"Após a instalação, um conjunto padrão de equipes é criado (veja :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:441
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"Esses funções e grupos são criados após a instalação. As funções embutidas "
-"são sempre mantidas atualizadas pela migração do banco de dados ao "
+"Esses funções e essas equipes são criados após a instalação. As funções "
+"embutidas são sempre mantidas atualizadas pela migração do banco de dados ao "
 "atualizar. Você não pode alterá-las. Defina uma nova função caso você queira "
 "definir seu próprio conjunto de permissões."
 
@@ -1493,10 +1342,8 @@ msgid "Manage language definitions"
 msgstr "Gerenciar definições de idiomas"
 
 #: ../../admin/access.rst:557
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Gerenciar usuários"
+msgstr "Gerenciar equipes"
 
 #: ../../admin/access.rst:559
 msgid "Manage users"
@@ -1533,25 +1380,18 @@ msgstr ""
 "deles afetam todos os projetos de sua instalação do Weblate."
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "List of groups"
 msgid "List of teams"
-msgstr "Lista de grupos"
+msgstr "Lista de equipes"
 
 #: ../../admin/access.rst:584
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will, however, re-create them if you delete or rename them."
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"Os seguintes grupos são criados após a instalação (ou após a execução de :"
-"djadmin:`setupgroups`) e você está livre para modificá-los. A migração irá, "
-"no entanto, recriá-los se você excluí-los ou renomeá-los."
+"As seguintes equipes são criadas após a instalação (ou após a execução de "
+":djadmin:`setupgroups`) e você está livre para modificá-las. A migração irá, "
+"no entanto, recriá-las se você excluí-las ou renomeá-las."
 
 #: ../../admin/access.rst:596
 msgid "`Guests`"
@@ -1562,26 +1402,18 @@ msgid "Defines permissions for non-authenticated users."
 msgstr "Define permissões para usuários não autenticados."
 
 #: ../../admin/access.rst:591
-#, fuzzy
-#| msgid ""
-#| "This group only contains anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Este grupo contém apenas usuários anônimos (consulte :setting:"
-"`ANONYMOUS_USER_NAME`)."
+"Esta equipe contém apenas usuários anônimos (consulte "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:593
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
-"Você pode remover funções deste grupo para limitar as permissões para "
+"Você pode remover funções desta equipe para limitar as permissões para "
 "usuários não autenticados."
 
 #: ../../admin/access.rst:596
@@ -1593,28 +1425,20 @@ msgid "`Viewers`"
 msgstr "`Visualizadores`"
 
 #: ../../admin/access.rst:599
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
 msgstr ""
 "Essa função garante a visibilidade de projetos públicos para todos os "
-"usuários. Por padrão, todos os usuários são membros deste grupo."
+"usuários. Por padrão, todos os usuários são membros desta equipe."
 
 #: ../../admin/access.rst:602 ../../admin/access.rst:610
-#, fuzzy
-#| msgid ""
-#| "By default, :ref:`automatic group assignment <autogroup>` makes all new "
-#| "accounts members of this group when they join."
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Por padrão, :ref:`associação automática de grupo <autogroup>` faz com que "
-"todos os novos membros de contas deste grupo quando eles entram."
+"Por padrão, :ref:`associação automática de equipe <autoteam>` faz com que "
+"todos os novos membros de contas desta equipe quando eles entram."
 
 #: ../../admin/access.rst:605
 msgid "Default roles: none"
@@ -1626,10 +1450,8 @@ msgid "`Users`"
 msgstr "`Usuários`"
 
 #: ../../admin/access.rst:608
-#, fuzzy
-#| msgid "Default group for all users."
 msgid "Default team for all users."
-msgstr "Grupo padrão para todos os usuários."
+msgstr "Equipe padrão para todos os usuários."
 
 #: ../../admin/access.rst:613
 msgid "Default roles: `Power user`"
@@ -1660,17 +1482,12 @@ msgid "Default roles: `Administration`"
 msgstr "Funções padrão: `Administração`"
 
 #: ../../admin/access.rst:627
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
-"Nunca remova os grupos e usuários predefinidos do Weblate, pois isso pode "
+"Nunca remova as equipes e usuários predefinidos do Weblate, pois isso pode "
 "levar a problemas inesperados! Se você não tiver uso para eles, você pode "
 "remover todos os privilégios deles."
 
@@ -7740,19 +7557,23 @@ msgstr ""
 
 #: ../../admin/config.rst:709
 msgid "EXTRA_HTML_HEAD"
-msgstr ""
+msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:713
 msgid ""
 "Insert additional markup into HTML header. Can be used for verification of "
 "site ownership, for example:"
 msgstr ""
+"Insira marcações adicionais no cabeçalho HTML. Pode ser usado para "
+"verificação da propriedade do site, por exemplo:"
 
 #: ../../admin/config.rst:721
 msgid ""
 "No sanitization is performed on the string, it is inserted as is into the "
 "HTML header."
 msgstr ""
+"Nenhuma sanitização é executada no texto, ele é inserido como está no "
+"cabeçalho HTML."
 
 #: ../../admin/config.rst:726
 msgid "GET_HELP_URL"
@@ -8135,22 +7956,20 @@ msgstr ""
 "`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid "AUTO_UPDATE"
 msgid "LEGAL_TOS_DATE"
-msgstr "AUTO_UPDATE"
+msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1076
-#, fuzzy
-#| msgid "You need to configure API credentials to make this work."
 msgid "You need :ref:`legal` installed to make this work."
-msgstr "Você precisa configurar credenciais de API para fazer isso funcionar."
+msgstr "Você precisa de :ref:`Legal` instalado para fazer isso funcionar."
 
 #: ../../admin/config.rst:1078
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the terms of service."
 msgstr ""
+"Data da última atualização dos documentos de termos de serviço. Sempre que a "
+"data muda, os usuários são obrigados a concordar com os termos de serviço."
 
 #: ../../admin/config.rst:1090
 msgid "LEGAL_URL"
@@ -8453,38 +8272,36 @@ msgid ":setting:`LEGAL_URL`"
 msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1410
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1414
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-out)."
 msgstr ""
+"Configura se o e-mail de commit privado foi optado ou não (por padrão é não "
+"optado)."
 
 #: ../../admin/config.rst:1418
-#, fuzzy
-#| msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
-msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
+msgstr ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1424
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1428
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"Modelo para gerar e-mail de commit privado para um usuário. O padrão é ``\""
+"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1430
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Set to blank string to disable."
-msgstr "Remover textos vazios"
+msgstr "Defina para texto vazio para desabilitar."
 
 #: ../../admin/config.rst:1434
 msgid ""
@@ -8492,6 +8309,9 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+"O uso de e-mail de commit diferente é opcional para os usuários, a menos que "
+"configurado por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Os usuários podem "
+"configurar o e-mail de commit no :ref:`profile`."
 
 #: ../../admin/config.rst:1441
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -8525,13 +8345,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1467
 msgid "PROJECT_NAME_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_NAME_RESTRICT_RE"
 
 #: ../../admin/config.rst:1471
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Define uma expressão regular para restringir a nomenclatura do projeto. "
+"Quaisquer nomes correspondentes serão rejeitados."
 
 #: ../../admin/config.rst:1475
 #, fuzzy
@@ -8541,13 +8363,15 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1480
 msgid "PROJECT_WEB_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1484
 msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
 msgstr ""
+"Define uma expressão regular para restringir os sites do projeto. Quaisquer "
+"URLs correspondentes serão rejeitados."
 
 #: ../../admin/config.rst:1488
 #, fuzzy
@@ -10044,38 +9868,30 @@ msgstr ""
 "explicando o básico e apontando para os tutoriais adicionais."
 
 #: ../../admin/customize.rst:28
-#, fuzzy
-#| msgid ""
-#| "To write some custom Python code (called a module), a place to store it "
-#| "is needed, either in the system path (usually something like :file:`/usr/"
-#| "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
-#| "added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
 "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
-"Para escrever algum código Python personalizado (chamado de módulo), é "
-"necessário um lugar para armazená-lo, seja no caminho do sistema (geralmente "
-"algo como :file:`/usr/lib/python3.9/site-packages/`) ou no diretório "
-"Weblate, que também é adicionado ao caminho de pesquisa do interpretador."
+"Para escrever um arquivo com código Python personalizado (chamado de módulo)"
+", é necessário um lugar para armazená-lo, seja no caminho do sistema ("
+"geralmente algo como :file:`/usr/lib/python3.9/site-packages/`) ou no "
+"diretório Weblate, que também é adicionado ao caminho de pesquisa do "
+"interpretador."
 
 #: ../../admin/customize.rst:35
-#, fuzzy
-#| msgid ""
-#| "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
-#| "`docker-volume`) and they can be then loaded by Weblate, most likely by "
-#| "using :ref:`docker-custom-config`."
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules in :"
 "file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded "
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"Você pode colocar os próprios módulos Python em :file:`/app/data/python/` "
-"(veja :ref:`docker-volume`) e eles podem ser carregados pelo Weblate, "
-"provavelmente usando :ref:`docker-custom -config`."
+"Quando se está :ref:`usando Docker <docker-deploy>` você pode colocar os "
+"módulos Python em :file:`/app/data/python/` (veja :ref:`docker-volume`), de "
+"forma que eles podem ser carregados pelo Weblate. Por exemplo, a partir de "
+"um :ref:`arquivo de substituição de configurações <docker-settings-"
+"override>`."
 
 #: ../../admin/customize.rst:40
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -10123,10 +9939,8 @@ msgstr ""
 "exemplo, ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:67
-#, fuzzy
-#| msgid "Your module structure should look like this:"
 msgid "Your package structure should look like this:"
-msgstr "Sua estrutura de módulo deve ser assim:"
+msgstr "Sua estrutura de pacotes deve ser assim:"
 
 #: ../../admin/customize.rst:78
 msgid ""
@@ -13299,22 +13113,20 @@ msgid "Docker environment variables"
 msgstr "Variáveis de ambiente do Docker"
 
 #: ../../admin/install/docker.rst:367
-#, fuzzy
-#| msgid ""
-#| "Many of Weblate's :ref:`config` can be set in the Docker container using "
-#| "environment variables:"
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
 "Muitas das :ref:`Configurações <config>` do Weblate podem ser definidas no "
-"contêiner Docker usando variáveis de ambiente:"
+"contêiner Docker usando as variáveis de ambiente descritas abaixo."
 
 #: ../../admin/install/docker.rst:370
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
+"Se você precisar definir uma configuração não exposta por meio de variáveis "
+"de ambiente do Docker, consulte :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:374
 msgid "Generic settings"
@@ -13843,22 +13655,16 @@ msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr "Configura :setting:`ENABLE_SHARING`."
 
 #: ../../admin/install/docker.rst:881
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr "Configura :setting:`SSH_EXTRA_ARGS`."
+msgstr "Configura :setting:`EXTRA_HTML_HEAD`."
 
 #: ../../admin/install/docker.rst:887
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr "Configura :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:893
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr "Configura :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:898
 msgid "Automatic suggestion settings"
@@ -13962,13 +13768,11 @@ msgstr "Habilita :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:1039
 msgid "Gitea"
-msgstr ""
+msgstr "Gitea"
 
 #: ../../admin/install/docker.rst:1045
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
-msgstr "Autenticação por GitHub"
+msgstr "Habilita autenticação por Gitea."
 
 #: ../../admin/install/docker.rst:1048
 msgid "Azure Active Directory"
@@ -14691,17 +14495,19 @@ msgstr ""
 "volumes/>`_"
 
 #: ../../admin/install/docker.rst:1618
-#, fuzzy
-#| msgid "Docker environment variables"
 msgid "Configuration beyond environment variables"
-msgstr "Variáveis de ambiente do Docker"
+msgstr "Configuração além das variáveis de ambiente"
 
 #: ../../admin/install/docker.rst:1620
+#, fuzzy
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`As variáveis de ambiente do Docker <docker-environment>` destinam-se a "
+"expor a maioria das :ref:`definições de configuração <config>` de relevância "
+"para as instalações do Weblate."
 
 #: ../../admin/install/docker.rst:1624
 msgid ""
@@ -14709,6 +14515,9 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Se você encontrar uma configuração que não está exposta como uma variável de "
+"ambiente, e você acredita que deveria estar, sinta-se à vontade para :ref:`"
+"pedir que ela seja exposta em uma versão futura do Weblate <report-issue>`."
 
 #: ../../admin/install/docker.rst:1628
 msgid ""
@@ -14717,6 +14526,10 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Se você precisar modificar uma configuração que não está exposta como uma "
+"variável de ambiente do Docker, ainda poderá fazê-lo :ref:`a partir do "
+"volume de dados <docker-settings-override>` ou :ref:`estendendo a imagem do "
+"Docker < docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:1635
 msgid ":doc:`../customize`"
@@ -14724,7 +14537,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1640
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "Substituindo as configurações do volume de dados"
 
 #: ../../admin/install/docker.rst:1642
 msgid ""
@@ -14732,16 +14545,21 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"Você pode criar um arquivo em :file:`/app/data/settings-override.py`, ou "
+"seja, na raiz do :ref:`volume de dados <docker-volume>`, para estender ou "
+"substituir as configurações definidas por meio de variáveis de ambiente ."
 
 #: ../../admin/install/docker.rst:1650
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Substituindo as configurações estendendo a imagem do Docker"
 
 #: ../../admin/install/docker.rst:1652
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
+"Para substituir as configurações no nível da imagem do Docker em vez do "
+"volume de dados:"
 
 #: ../../admin/install/docker.rst:1654
 msgid ":ref:`Create a custom Python package <custom-module>`."
@@ -15871,10 +15689,8 @@ msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr "notação estilo BCP, toda em minúsculas (por exemplo ``cs-cz``)."
 
 #: ../../admin/languages.rst:207
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Estilo de metadados da App store"
+msgstr "Estilo de metadados da Apple App Store"
 
 #: ../../admin/languages.rst:208
 #, fuzzy
@@ -15887,10 +15703,8 @@ msgstr ""
 "adequado tanto pra Apple App Store quanto Google Play Store."
 
 #: ../../admin/languages.rst:209
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Estilo de metadados da App store"
+msgstr "Estilo de metadados do Google Play"
 
 #: ../../admin/languages.rst:210
 #, fuzzy
