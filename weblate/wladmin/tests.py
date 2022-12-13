@@ -340,13 +340,13 @@ class AdminTest(ViewTestCase):
 
     def test_groups(self):
         name = "Test group"
-        url = reverse("manage-groups")
+        url = reverse("manage-teams")
         response = self.client.get(url)
         self.assertNotContains(response, name)
 
         # Create
         response = self.client.post(
-            reverse("manage-groups"),
+            reverse("manage-teams"),
             {
                 "name": name,
                 "language_selection": "1",
@@ -359,7 +359,7 @@ class AdminTest(ViewTestCase):
 
         # Edit
         response = self.client.post(
-            reverse("manage-group", kwargs={"pk": Group.objects.get(name=name).pk}),
+            reverse("manage-team", kwargs={"pk": Group.objects.get(name=name).pk}),
             {
                 "name": name,
                 "language_selection": "1",
@@ -376,7 +376,7 @@ class AdminTest(ViewTestCase):
 
         # Delete
         response = self.client.post(
-            reverse("manage-group", kwargs={"pk": group.pk}),
+            reverse("manage-team", kwargs={"pk": group.pk}),
             {
                 "delete": 1,
             },
@@ -388,7 +388,7 @@ class AdminTest(ViewTestCase):
 
     def test_edit_internal_group(self):
         response = self.client.post(
-            reverse("manage-group", kwargs={"pk": Group.objects.get(name="Users").pk}),
+            reverse("manage-team", kwargs={"pk": Group.objects.get(name="Users").pk}),
             {
                 "name": "Other",
                 "language_selection": "1",

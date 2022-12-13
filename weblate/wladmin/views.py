@@ -40,7 +40,7 @@ from django.views.generic.edit import FormMixin
 
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
-from weblate.auth.forms import AdminGroupForm, AdminInviteUserForm
+from weblate.auth.forms import AdminInviteUserForm, AdminTeamForm
 from weblate.auth.models import AutoGroup, Group, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
@@ -84,7 +84,7 @@ MENU = (
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
-    ("groups", "manage-groups", gettext_lazy("Groups")),
+    ("teams", "manage-teams", gettext_lazy("Teams")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
     ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
@@ -503,11 +503,11 @@ def billing(request):
 
 
 @method_decorator(management_access, name="dispatch")
-class GroupListView(FormMixin, ListView):
-    template_name = "manage/groups.html"
+class TeamListView(FormMixin, ListView):
+    template_name = "manage/teams.html"
     paginate_by = 50
     model = Group
-    form_class = AdminGroupForm
+    form_class = AdminTeamForm
 
     def get_queryset(self):
         return (
@@ -522,11 +522,11 @@ class GroupListView(FormMixin, ListView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         result["menu_items"] = MENU
-        result["menu_page"] = "groups"
+        result["menu_page"] = "teams"
         return result
 
     def get_success_url(self):
-        return reverse("manage-groups")
+        return reverse("manage-teams")
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -540,10 +540,10 @@ class GroupListView(FormMixin, ListView):
         return super().form_valid(form)
 
 
-class GroupUpdateView(UpdateView):
+class TeamUpdateView(UpdateView):
     model = Group
-    form_class = AdminGroupForm
-    template_name = "manage/group.html"
+    form_class = AdminTeamForm
+    template_name = "manage/team.html"
 
     auto_formset = inlineformset_factory(
         Group,
@@ -554,12 +554,12 @@ class GroupUpdateView(UpdateView):
     )
 
     def get_success_url(self):
-        return reverse("manage-groups")
+        return reverse("manage-teams")
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         result["menu_items"] = MENU
-        result["menu_page"] = "groups"
+        result["menu_page"] = "teams"
 
         if "auto_formset" not in result:
             result["auto_formset"] = self.auto_formset(instance=self.object)

@@ -8,8 +8,8 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-groups' %}">{% trans "Groups" %}</a></li>
-<li><a href="{% url 'manage-group' pk=object.pk %}">{{ object.name }}</a></li>
+<li><a href="{% url 'manage-teams' %}">{% trans "Teams" %}</a></li>
+<li><a href="{% url 'manage-team' pk=object.pk %}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block content %}

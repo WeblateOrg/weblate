@@ -190,7 +190,7 @@ class SimpleGroupForm(forms.ModelForm):
         return self.instance
 
 
-class AdminGroupForm(SimpleGroupForm):
+class AdminTeamForm(SimpleGroupForm):
     class Meta:
         model = Group
         fields = [
