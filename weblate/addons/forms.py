@@ -201,6 +201,16 @@ class JSONCustomizeForm(BaseAddonForm):
     )
 
 
+class XMLCustomizeForm(BaseAddonForm):
+    """Class defining user Form to configure XML Formatting AddOn"""
+
+    closing_tags = forms.BooleanField(
+        label=_("Include closing tag for blank XML tags"),
+        required=False,
+        initial=True,
+    )
+
+
 class YAMLCustomizeForm(BaseAddonForm):
     indent = forms.IntegerField(
         label=_("YAML indentation"), min_value=1, max_value=10, initial=2, required=True
