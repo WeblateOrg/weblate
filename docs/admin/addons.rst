@@ -659,20 +659,6 @@ Customize JSON output
 
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
-.. _addon-weblate.xml.customize:
-
-Customize XML output
----------------------
-
-:Add-on ID: ``weblate.xml.customize``
-:Configuration: +-----------------+-------------------------+----------------------------------------------------------------------------------------------------------+
-                | ``tags_format`` | XML Closing Tags format | Available choices:                                                                                       |
-                |                 |                         | ``closing_tags`` -- when true, output xml will force closing tags even when tag is empty (<note></note>) |
-                +-----------------+-------------------------+----------------------------------------------------------------------------------------------------------+
-:Triggers: storage post-load
-
-Allows adjusting XML output behavior, for example closing tags.
-
 .. _addon-weblate.properties.sort:
 
 Format the Java properties file
@@ -752,6 +738,22 @@ Unused strings are removed, and new ones added as copies of the source string.
 .. seealso::
 
    :ref:`faq-cleanup`
+
+.. _addon-weblate.xml.customize:
+
+Customize XML output
+--------------------
+
+.. versionadded:: 4.15
+
+:Add-on ID: ``weblate.xml.customize``
+:Configuration: +------------------+----------------------------------------+--+
+                | ``closing_tags`` | Include closing tag for blank XML tags |  |
+                +------------------+----------------------------------------+--+
+:Triggers: storage post-load
+
+Allows adjusting XML output behavior, for example closing tags instead of self-
+closing tags for empty tags.
 
 .. _addon-weblate.yaml.customize:
 
