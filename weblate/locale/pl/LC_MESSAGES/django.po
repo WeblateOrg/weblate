@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-12-04 02:42+0000\n"
+"PO-Revision-Date: 2022-12-14 07:24+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -78,20 +78,15 @@ msgstr "Publiczny adres e-mail"
 
 #: weblate/accounts/forms.py:189
 msgid "Do not publicly display e-mail"
-msgstr ""
+msgstr "Nie wyświetlaj publicznie adresu e-mail"
 
 #: weblate/accounts/forms.py:194 weblate/accounts/models.py:574
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
-msgstr "Kontakt e-mail"
+msgstr "E-mail do commitów"
 
 #: weblate/accounts/forms.py:195
-#, fuzzy
-#| msgid "User e-mail"
 msgid "Use account e-mail"
-msgstr "E-mail użytkownika"
+msgstr "Używaj adresu e-mail konta"
 
 #: weblate/accounts/forms.py:311
 #, python-format
@@ -2010,10 +2005,8 @@ msgstr "Zarządzaj definicjami języków"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Zarządzaj użytkownikami"
+msgstr "Zarządzaj zespołami"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143 weblate/templates/manage/users.html:17
@@ -2208,10 +2201,9 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Wyślij ponownie e-mail z zaproszeniem do użytkownika"
 
 #: weblate/auth/forms.py:166
-#, fuzzy, python-format
-#| msgid "Changing of %s is prohibited for built-in groups."
+#, python-format
 msgid "Changing of %s is prohibited for built-in teams."
-msgstr "Zmiana %s jest zabroniona dla wbudowanych grup."
+msgstr "Zmiana %s jest zabroniona dla wbudowanych zespołów."
 
 #: weblate/auth/models.py:79
 #, python-format
@@ -2318,14 +2310,12 @@ msgid "Internal Weblate group"
 msgstr "Wewnętrzna grupa Weblate"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Administratorzy"
+msgstr "Administratorzy zespołu"
 
 #: weblate/auth/models.py:166
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "Administrator może dodawać lub usuwać użytkowników z zespołu."
 
 #: weblate/auth/models.py:324 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:174
@@ -4603,16 +4593,12 @@ msgstr ""
 "skrzynkę e-mail."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Usuń swoje konto, klikając link potwierdzający w wysłanej do Ciebie "
-"wiadomości e-mail."
+"Usuń swoje konto, klikając link potwierdzający wysłany na Twoją skrzynkę "
+"e-mail."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -4625,17 +4611,17 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Zajrzyj do folderu ze spamem, jeśli nie widzisz go w swojej skrzynce "
+"odbiorczej."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "Adres URL potwierdzenia wygaśnie po %(count)s godzinie."
-msgstr[1] "Adres URL potwierdzenia wygaśnie po %(count)s godzinach."
-msgstr[2] "Adres URL potwierdzenia wygaśnie po %(count)s godzinach."
+msgstr[0] "Link potwierdzający wygaśnie po %(count)s godzinie."
+msgstr[1] "Link potwierdzający wygaśnie po %(count)s godzinach."
+msgstr[2] "Link potwierdzający wygaśnie po %(count)s godzinach."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
@@ -4958,10 +4944,8 @@ msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "Awatary są dostarczane za pomocą %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "Zespoły"
+msgstr "Zespół"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/addons/discovery_help.html:10
@@ -5401,10 +5385,9 @@ msgid "Are you absolutely sure?"
 msgstr "Czy jesteś absolutnie pewien?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "Spowoduje to usunięcie <b>%(user)s</b> dostępu do tego projektu."
+msgstr "Spowoduje to usunięcie <b>%(user)s</b> z Weblate."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5532,7 +5515,7 @@ msgstr "Ciągi zasobów Androida podzielone na kilka plików."
 
 #: weblate/templates/addons/discovery_help.html:72
 msgid "Multi-module Maven project with Java properties translations."
-msgstr ""
+msgstr "Wielomodułowy projekt Maven z tłumaczeniami właściwości Java."
 
 #: weblate/templates/addons/discovery_help.html:77
 msgid ""
@@ -5710,10 +5693,8 @@ msgid "Last sign in"
 msgstr "Ostatnie logowanie"
 
 #: weblate/templates/auth/team.html:93
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "Administratorzy"
+msgstr "Administrator zespołu"
 
 #: weblate/templates/auth/team.html:103
 #: weblate/templates/trans/project-access-row.html:25
@@ -5722,16 +5703,12 @@ msgid "Not yet signed in"
 msgstr "Jeszcze nie zalogowany"
 
 #: weblate/templates/auth/team.html:110
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "Administracja Weblate"
+msgstr "Odwołaj prawa administratora"
 
 #: weblate/templates/auth/team.html:115
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Administracja Weblate"
+msgstr "Nadaj prawa administratora"
 
 #: weblate/templates/auth/team.html:118 weblate/templates/auth/team.html:119
 #: weblate/templates/auth/team.html:168
@@ -7757,15 +7734,11 @@ msgstr ""
 "paska adresu przeglądarki, aby kontynuować."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"W przypadku gdy adres URL potwierdzenia wygaśnie, możesz użyć funkcji "
+"W przypadku gdy link potwierdzający wygaśnie, możesz użyć funkcji "
 "resetowania hasła, aby uzyskać dostęp do swojego konta."
 
 #: weblate/templates/mail/shared-registration.html:19
@@ -10407,15 +10380,11 @@ msgstr[1] "Poniższe ciągi znaków mają inne źródło, ale ten sam kontekst."
 msgstr[2] "Poniższych ciągów znaków ma inne źródło, ale ten sam kontekst."
 
 #: weblate/templates/translate.html:345
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "The following string has a different source and different context."
 msgid_plural "The following strings have different sources and context."
-msgstr[0] "Poniższy ciąg znaków ma inne źródło, ale ten sam kontekst."
-msgstr[1] "Poniższe ciągi znaków mają inne źródło, ale ten sam kontekst."
-msgstr[2] "Poniższych ciągów znaków ma inne źródło, ale ten sam kontekst."
+msgstr[0] "Następujący ciąg ma inne źródło i inny kontekst."
+msgstr[1] "Następujące ciągi mają inne źródła i kontekst."
+msgstr[2] "Następujące ciągi mają inne źródła i kontekst."
 
 #: weblate/templates/translate.html:355
 msgid "Apply selected translation to all propagated strings"
@@ -10899,10 +10868,8 @@ msgid "Invalid checksum specified!"
 msgstr "Określono nieprawidłową sumę kontrolną!"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "Nazwa użytkownika lub e-mail"
+msgstr "Brak nazwy użytkownika lub adresu e-mail."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -11173,6 +11140,7 @@ msgstr "Wpisz istniejącą nazwę konta Weblate lub adres e-mail."
 #: weblate/trans/forms.py:1184
 msgid "Allow user to add or remove users from a team."
 msgstr ""
+"Zezwalaj użytkownikowi na dodawanie lub usuwanie użytkowników z zespołu."
 
 #: weblate/trans/forms.py:1196
 msgid "Block duration"
@@ -12062,16 +12030,12 @@ msgid "Android style"
 msgstr "Styl Android"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Styl metadanych sklepu z aplikacjami"
+msgstr "Styl metadanych Apple App Store"
 
 #: weblate/trans/models/component.py:146
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Styl metadanych sklepu z aplikacjami"
+msgstr "Styl metadanych Google Play"
 
 #: weblate/trans/models/component.py:147
 msgid "Linux style"
@@ -12641,23 +12605,17 @@ msgid "Could not add new translation file."
 msgstr "Nie udało się dodać nowego pliku tłumaczenia."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "Nie masz uprawnień do rozpoczynania nowego tłumaczenia"
+msgstr "Nie masz uprawnień do dodawania nowego pliku tłumaczenia."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Jednojęzyczny bazowy plik języka"
+msgstr "Jednojęzyczny bazowy plik języka jest nieprawidłowy."
 
 #: weblate/trans/models/component.py:3213
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "The template for new translations is invalid."
-msgstr "Szablon dla nowych tłumaczeń"
+msgstr "Szablon dla nowych tłumaczeń jest nieprawidłowy."
 
 #: weblate/trans/models/component.py:3246
 msgid "The given language is used as a source language."
@@ -12848,10 +12806,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Nie udało się scommitować oczekujących zmian: %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Kontrola znaków"
+msgstr "Ciąg zawiera znak kontrolny: %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
@@ -13974,10 +13931,8 @@ msgid "Syntax error in language aliases."
 msgstr "Błąd składni w aliasach językowych."
 
 #: weblate/utils/validators.py:248
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Ta nazwa jest zabroniona"
+msgstr "Ten adres URL jest zabroniony"
 
 #: weblate/utils/views.py:133 weblate/utils/views.py:157
 msgid "Position and priority"
