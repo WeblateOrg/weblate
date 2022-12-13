@@ -30,6 +30,7 @@ import weblate.accounts.urls
 import weblate.accounts.views
 import weblate.addons.views
 import weblate.api.urls
+import weblate.auth.views
 import weblate.checks.views
 import weblate.fonts.views
 import weblate.glossary.views
@@ -411,19 +412,9 @@ real_patterns = [
         name="set-groups",
     ),
     path(
-        "access/<name:project>/team/delete/",
-        weblate.trans.views.acl.delete_group,
-        name="delete-project-group",
-    ),
-    path(
         "access/<name:project>/team/create/",
         weblate.trans.views.acl.create_group,
         name="create-project-group",
-    ),
-    path(
-        "access/<name:project>/team/<int:pk>/",
-        weblate.trans.views.acl.edit_group,
-        name="edit-project-group",
     ),
     path(
         "token/<name:project>/create/",
@@ -1007,9 +998,9 @@ real_patterns = [
         name="manage-teams",
     ),
     path(
-        "manage/teams/<int:pk>/",
-        weblate.wladmin.views.TeamUpdateView.as_view(),
-        name="manage-team",
+        "teams/<int:pk>/",
+        weblate.auth.views.TeamUpdateView.as_view(),
+        name="team",
     ),
     path(
         "manage/users/check/",

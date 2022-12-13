@@ -7,9 +7,14 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-teams' %}">{% trans "Teams" %}</a></li>
-<li><a href="{% url 'manage-team' pk=object.pk %}">{{ object.name }}</a></li>
+{% if object.defining_project %}
+  <li><a href="{{ object.defining_project.get_absolute_url }}">{{ object.defining_project }}</a></li>
+  <li><a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% trans "Access control" %}</a></li>
+{% else %}
+  <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+  <li><a href="{% url 'manage-teams' %}">{% trans "Teams" %}</a></li>
+{% endif %}
+<li><a href="{% url 'team' pk=object.pk %}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block content %}

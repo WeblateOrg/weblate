@@ -349,8 +349,8 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         group = self.project.defined_groups.get(name="Memory")
         response = self.client.post(
-            reverse("delete-project-group", kwargs=self.kw_project),
-            {"group": group.pk},
+            group.get_absolute_url(),
+            {"delete": group.pk},
         )
         self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
@@ -409,11 +409,8 @@ class ACLTest(FixtureTestCase):
     def test_edit_group(self):
         group = self.test_create_group()
 
-        kwargs = {"pk": group.pk}
-        kwargs.update(self.kw_project)
-
         response = self.client.post(
-            reverse("edit-project-group", kwargs=kwargs),
+            group.get_absolute_url(),
             {
                 "name": "Global team",
                 "roles": list(
@@ -423,9 +420,11 @@ class ACLTest(FixtureTestCase):
                 "languages": list(
                     Language.objects.filter(code="cs").values_list("pk", flat=True)
                 ),
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
             },
         )
-        self.assertRedirects(response, self.access_url + "#teams")
+        self.assertRedirects(response, group.get_absolute_url())
         group = Group.objects.get(name="Global team")
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 1)

@@ -165,15 +165,15 @@
           </td>
           <td class="number">{{ group.user__count|intcomma }}</td>
           <td>
-            <a href="#" data-toggle="modal" data-target="#edit_group_{{ group.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
+            <a href="{{ group.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
               {% icon 'pencil.svg' %}
             </a>
             <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
               {% icon 'delete.svg' %}
             </a>
-            <form action="{% url "delete-project-group" project=object.slug %}" method="post" class="inlineform">
+            <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
               {% csrf_token %}
-              <input type="hidden" name="group" value="{{ group.id }}" />
+              <input type="hidden" name="next" value="{{request.get_full_path}}" />
               <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -188,27 +188,7 @@
                       {% endif %}
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
-                    </div>
-                  </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-              </div><!-- /.modal -->
-            </form>
-            <form action="{% url "edit-project-group" project=object.slug pk=group.id %}" method="post" class="inlineform">
-              {% csrf_token %}
-              <input type="hidden" name="group" value="{{ group.id }}" />
-              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_group_title_{{ group.id }}" aria-describedby="edit_group_body_{{ group.id }}" id="edit_group_{{ group.id }}">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="edit_group_title_{{ group.id }}">{% trans "Edit team" %}</h4>
-                    </div>
-                    <div class="modal-body" id="edit_group_body_{{ group.id }}">
-                      {% crispy group.edit_form %}
-                    </div>
-                    <div class="modal-footer">
-                      <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+                      <input type="submit" class="btn btn-danger" name="delete" value="{% trans "Delete" %}" />
                     </div>
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

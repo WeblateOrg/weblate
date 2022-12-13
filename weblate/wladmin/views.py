@@ -25,7 +25,6 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count, Q
-from django.forms import inlineformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -40,7 +39,7 @@ from django.views.generic.edit import FormMixin
 
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
-from weblate.auth.forms import AdminInviteUserForm, AdminTeamForm
+from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
 from weblate.auth.models import AutoGroup, Group, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
@@ -67,7 +66,6 @@ from weblate.wladmin.forms import (
     ActivateForm,
     AppearanceForm,
     BackupForm,
-    ChangedCharField,
     SSHAddForm,
     TestMailForm,
     UserSearchForm,
@@ -507,7 +505,7 @@ class TeamListView(FormMixin, ListView):
     template_name = "manage/teams.html"
     paginate_by = 50
     model = Group
-    form_class = AdminTeamForm
+    form_class = SitewideTeamForm
 
     def get_queryset(self):
         return (
@@ -538,50 +536,3 @@ class TeamListView(FormMixin, ListView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-
-
-class TeamUpdateView(UpdateView):
-    model = Group
-    form_class = AdminTeamForm
-    template_name = "manage/team.html"
-
-    auto_formset = inlineformset_factory(
-        Group,
-        AutoGroup,
-        fields=("match",),
-        extra=0,
-        field_classes={"match": ChangedCharField},
-    )
-
-    def get_success_url(self):
-        return reverse("manage-teams")
-
-    def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
-        result["menu_items"] = MENU
-        result["menu_page"] = "teams"
-
-        if "auto_formset" not in result:
-            result["auto_formset"] = self.auto_formset(instance=self.object)
-
-        return result
-
-    def post(self, request, **kwargs):
-        self.object = self.get_object()
-        if "delete" in request.POST:
-            success_url = self.get_success_url()
-            self.object.delete()
-            return HttpResponseRedirect(success_url)
-        form = self.get_form()
-        formset = self.auto_formset(instance=self.object, data=request.POST)
-        if form.is_valid() and formset.is_valid():
-            formset.save()
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form, formset)
-
-    def form_invalid(self, form, formset):
-        """If the form is invalid, render the invalid form."""
-        return self.render_to_response(
-            self.get_context_data(form=form, auto_formset=formset)
-        )

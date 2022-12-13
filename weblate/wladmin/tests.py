@@ -358,8 +358,9 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, name)
 
         # Edit
+        group = Group.objects.get(name=name)
         response = self.client.post(
-            reverse("manage-team", kwargs={"pk": Group.objects.get(name=name).pk}),
+            group.get_absolute_url(),
             {
                 "name": name,
                 "language_selection": "1",
@@ -369,14 +370,14 @@ class AdminTest(ViewTestCase):
                 "autogroup_set-0-match": "^.*$",
             },
         )
-        self.assertRedirects(response, url)
+        self.assertRedirects(response, group.get_absolute_url())
         group = Group.objects.get(name=name)
 
         self.assertEqual(group.autogroup_set.count(), 1)
 
         # Delete
         response = self.client.post(
-            reverse("manage-team", kwargs={"pk": group.pk}),
+            group.get_absolute_url(),
             {
                 "delete": 1,
             },
@@ -388,7 +389,7 @@ class AdminTest(ViewTestCase):
 
     def test_edit_internal_group(self):
         response = self.client.post(
-            reverse("manage-team", kwargs={"pk": Group.objects.get(name="Users").pk}),
+            Group.objects.get(name="Users").get_absolute_url(),
             {
                 "name": "Other",
                 "language_selection": "1",

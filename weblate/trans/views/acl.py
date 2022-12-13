@@ -32,7 +32,7 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import InviteUserForm, SimpleGroupForm, send_invitation
+from weblate.auth.forms import InviteUserForm, ProjectTeamForm, send_invitation
 from weblate.auth.models import Group, User
 from weblate.trans.forms import (
     ProjectGroupDeleteForm,
@@ -269,7 +269,7 @@ def manage_access(request, project):
         obj.defined_groups.order().annotate(Count("user")).prefetch_related("languages")
     )
     for group in groups:
-        group.edit_form = SimpleGroupForm(
+        group.edit_form = ProjectTeamForm(
             instance=group, auto_id=f"id_group_{group.id}_%s"
         )
     users = (
@@ -316,7 +316,7 @@ def manage_access(request, project):
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
             "create_project_token_form": ProjectTokenCreateForm(obj),
-            "create_team_form": SimpleGroupForm(
+            "create_team_form": ProjectTeamForm(
                 initial={"language_selection": SELECTION_ALL}
             ),
             "block_user_form": UserBlockForm(
@@ -355,46 +355,6 @@ def create_token(request, project):
 
 @require_POST
 @login_required
-def delete_group(request, project):
-    """Delete project group."""
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
-
-    form = ProjectGroupDeleteForm(obj, request.POST)
-
-    if form.is_valid():
-        form.cleaned_data["group"].delete()
-    else:
-        show_form_errors(request, form)
-
-    return redirect_param("manage-access", "#teams", project=obj.slug)
-
-
-@require_POST
-@login_required
-def edit_group(request, project, pk: int):
-    """Delete project group."""
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
-
-    group = get_object_or_404(obj.defined_groups.all(), pk=pk)
-
-    form = SimpleGroupForm(instance=group, data=request.POST)
-
-    if form.is_valid():
-        form.save()
-    else:
-        show_form_errors(request, form)
-
-    return redirect_param("manage-access", "#teams", project=obj.slug)
-
-
-@require_POST
-@login_required
 def create_group(request, project):
     """Delete project group."""
     obj = get_project(request, project)
@@ -402,7 +362,7 @@ def create_group(request, project):
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
-    form = SimpleGroupForm(request.POST)
+    form = ProjectTeamForm(request.POST)
 
     if form.is_valid():
         form.save(project=obj)

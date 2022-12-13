@@ -137,7 +137,7 @@ class UserEditForm(AdminInviteUserForm):
         fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
 
-class SimpleGroupForm(forms.ModelForm):
+class ProjectTeamForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["name", "roles", "language_selection", "languages"]
@@ -190,7 +190,7 @@ class SimpleGroupForm(forms.ModelForm):
         return self.instance
 
 
-class AdminTeamForm(SimpleGroupForm):
+class SitewideTeamForm(ProjectTeamForm):
     class Meta:
         model = Group
         fields = [

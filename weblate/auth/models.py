@@ -195,6 +195,9 @@ class Group(models.Model):
                 clear=True,
             )
 
+    def get_absolute_url(self):
+        return reverse("team", kwargs={"pk": self.pk})
+
     def long_name(self):
         if self.defining_project:
             return f"{self.defining_project} / {self}"
