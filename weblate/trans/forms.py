@@ -157,8 +157,8 @@ class ChecksumField(forms.CharField):
 
 class UserField(forms.CharField):
     def clean(self, value):
-        if not value:
-            return None
+        if not value and self.required:
+            raise ValidationError(_("Missing username or e-mail."))
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
@@ -1170,9 +1170,18 @@ class ContextForm(forms.ModelForm):
 class UserManageForm(forms.Form):
     user = UserField(
         label=_("User to add"),
+        required=True,
         help_text=_(
             "Please type in an existing Weblate account name or e-mail address."
         ),
+    )
+
+
+class UserAddTeamForm(UserManageForm):
+    make_admin = forms.BooleanField(
+        required=False,
+        initial=False,
+        label=_("Allow user to add or remove users from a team."),
     )
 
 

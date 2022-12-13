@@ -20,6 +20,7 @@ Not yet released.
 * Added support for choosing different e-mail for commits than for notifications.
 * The Docker image no longer enables debug mode by default.
 * Order glossary terms based on the glossary component priority.
+* Added team administrators who can add or remove members of the team.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 

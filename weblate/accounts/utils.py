@@ -62,6 +62,7 @@ def remove_user(user, request):
 
     # Remove user from all groups
     user.groups.clear()
+    user.administered_group_set.clear()
 
     # Remove user translation memory
     user.memory_set.all().delete()

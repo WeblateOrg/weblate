@@ -375,6 +375,13 @@ def check_team_edit(user, permission, obj):
     )
 
 
+@register_perm("meta:team.users")
+def check_team_edit_users(user, permission, obj):
+    return (
+        check_team_edit(user, permission, obj) or obj.pk in user.administered_group_ids
+    )
+
+
 @register_perm("billing.view")
 def check_billing_view(user, permission, obj):
     if hasattr(obj, "all_projects"):

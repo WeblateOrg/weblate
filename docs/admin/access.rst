@@ -125,6 +125,14 @@ Billing
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
+Team administrators
+^^^^^^^^^^^^^^^^^^^
+
+.. versionadded:: 4.15
+
+Each team can have team administrator, who can add and remove users within the
+team. This is useful in case you want to build self-governed teams.
+
 .. _invite-user:
 
 New user invitation

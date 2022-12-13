@@ -159,6 +159,14 @@ class Group(models.Model):
         verbose_name=_("Internal Weblate group"), default=False
     )
 
+    admins = models.ManyToManyField(
+        "User",
+        verbose_name=_("Team administrators"),
+        blank=True,
+        help_text=_("The administrator can add or remove users from a team."),
+        related_name="administered_group_set",
+    )
+
     objects = GroupQuerySet.as_manager()
 
     class Meta:
@@ -554,6 +562,10 @@ class User(AbstractBaseUser):
     def managed_projects(self):
         return self.projects_with_perm("project.edit")
 
+    @cached_property
+    def administered_group_ids(self):
+        return set(self.administered_group_set.values_list("id", flat=True))
+
     def _fetch_permissions(self):
         """Fetch all user permissions into a dictionary."""
         projects = defaultdict(list)
@@ -748,6 +760,20 @@ def change_componentlist(sender, instance, action, **kwargs):
         group.projects.set(
             Project.objects.filter(component__componentlist=instance), clear=True
         )
+
+
+@receiver(m2m_changed, sender=User.groups.through)
+def remove_group_admin(sender, instance, action, pk_set, **kwargs):
+    if not action == "post_remove":
+        return
+    pk = pk_set.pop()
+    if reverse:
+        group = Group.objects.get(pk=pk)
+        user = instance
+    else:
+        group = instance
+        user = User.objects.get(pk=pk)
+    group.admins.remove(user)
 
 
 @receiver(post_save, sender=User)
