@@ -48,16 +48,11 @@ class TeamUpdateView(UpdateView):
 
     def get_object(self, queryset=None):
         result = super().get_object(queryset=queryset)
-        # Add permission check
-        if self.request.user.has_perm("group.edit") or (
-            result.defining_project
-            and self.request.user.has_perm(
-                "project.permissions", result.defining_project
-            )
-        ):
-            return result
 
-        raise PermissionDenied()
+        if not self.request.user.has_perm("meta:team.edit", result):
+            raise PermissionDenied()
+
+        return result
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
