@@ -211,12 +211,12 @@ class EditValidationTest(ViewTestCase):
     def test_edit_invalid(self):
         """Editing with invalid params."""
         response = self.edit()
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_suggest_invalid(self):
         """Suggesting with invalid params."""
         response = self.edit(suggest="1")
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_merge(self):
         """Merging with invalid parameter."""
