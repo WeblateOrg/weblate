@@ -1443,6 +1443,7 @@ class ComponentSettingsForm(
         widgets = {
             "enforced_checks": SelectChecksWidget,
             "source_language": SortedSelect,
+            "language_code_style": SortedSelect,
         }
         field_classes = {"enforced_checks": SelectChecksField}
 
@@ -1617,7 +1618,10 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "source_language",
             "is_glossary",
         ]
-        widgets = {"source_language": SortedSelect}
+        widgets = {
+            "source_language": SortedSelect,
+            "language_code_style": SortedSelect,
+        }
 
 
 class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
