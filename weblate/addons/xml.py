@@ -41,7 +41,10 @@ class XMLCustomizeAddon(StoreBaseAddon):
         """Hook triggered to determine if add-on is compatible with component."""
         # component are attached to a file format which is defined by a loader
         # we want to provide this package only for component using LISAfile as loader
-        return issubclass(component.file_format_cls.loader, LISAfile)
+        if not hasattr(component.file_format_cls, "get_class"):
+            # Non translate-toolkit based formats
+            return False
+        return issubclass(component.file_format_cls.get_class(), LISAfile)
 
     def store_post_load(self, translation, store):
         """Hook triggered once component formatter has been loaded."""
