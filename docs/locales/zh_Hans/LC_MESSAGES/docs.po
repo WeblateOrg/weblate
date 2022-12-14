@@ -11,13 +11,14 @@
 # Xu ZhuoHan <yylteam@hotmail.com>, 2022.
 # Eric <hamburger1024@mailbox.org>, 2022.
 # Xiang Heng Wei <yylteam@hotmail.com>, 2022.
+# Eric <hamburger1024@duck.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-12 08:49+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2022-12-14 07:25+0000\n"
+"Last-Translator: Eric <hamburger1024@duck.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -297,10 +298,8 @@ msgstr ""
 "理` ↓ :guilabel:`用户` 进入。"
 
 #: ../../admin/access.rst:129
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "管理员"
+msgstr "团队管理员"
 
 #: ../../admin/access.rst:133
 msgid ""
@@ -375,14 +374,6 @@ msgstr ""
 "的 :ref:`用户管理 <manage-acl>`。"
 
 #: ../../admin/access.rst:179
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -391,9 +382,9 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"默认情况下，这可防止 Weblate 因 `用户` 和 `查看者` :ref:`默认群组 <default-"
+"默认情况下，这可防止 Weblate 因 `用户` 和 `查看者` :ref:`默认团队 <default-"
 "groups>` 本身的配置而授予其提供的访问权限。但这并不妨碍您向这些项目授予站点范"
-"围的权限，可用的方法有改变默认群组、创建一个新的组，或如下方 :ref:`custom-"
+"围的权限，可用的方法有改变默认团队、创建一个新团队，或如下方 :ref:`custom-"
 "acl` 中所述为单个部件创建额外的自定义设置。"
 
 #: ../../admin/access.rst:185
@@ -412,18 +403,12 @@ msgid "Custom access control"
 msgstr "自定义访问控制"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
-msgstr ""
-"权限系统基于组和角色，其中角色定义了一组权限，组将它们链接到用户和翻译，请参"
-"阅 :ref:`auth-model` 获取更多详细信息。"
+msgstr "权限系统基于团队和角色，其中角色定义了一组权限，团队将它们链接到用户和翻译，"
+"请参阅 :ref:`auth-model` 获取更多详细信息。"
 
 #: ../../admin/access.rst:201
 msgid ""
@@ -464,26 +449,17 @@ msgid "Site-wide permission management"
 msgstr "站点范围内的权限管理"
 
 #: ../../admin/access.rst:221
-#, fuzzy
-#| msgid ""
-#| "To manage permissions for a whole instance at once, add users to "
-#| "appropriate :ref:`default groups <default-groups>`:"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
-msgstr ""
-"要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`默认群组 <default-"
+msgstr "要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`默认团队 <default-"
 "groups>`："
 
 #: ../../admin/access.rst:224
-#, fuzzy
-#| msgid ""
-#| "`Users` (this is done by default by the :ref:`automatic group assignment "
-#| "<autogroup>`)."
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
-msgstr "`用户` （默认情况下，这是由 :ref:`自动群组分配 <autogroup>` 完成的）。"
+msgstr "`用户` （默认情况下，这是由 :ref:`自动团队分配 <autoteam>` 完成的）。"
 
 #: ../../admin/access.rst:226
 msgid ""
@@ -499,71 +475,47 @@ msgid ""
 msgstr "`管理者` （如果您想把大部分的管理操作委托给别人）。"
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid ""
-#| "You should keep all projects configured as `Public` (see :ref:`acl`), "
-#| "otherwise the site-wide permissions provided by membership in the `Users` "
-#| "and `Reviewers` groups won’t have any effect."
 msgid ""
 "You should keep all projects configured as `Public` (see :ref:`acl`), "
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"您应该将所有项目配置为 `公开的`\\ （参见 :ref:`acl`），否则 `用户` 和 `审校员"
-"` 群组成员资格提供的站点范围权限将不起任何作用。"
+"您应该将所有项目配置为 `公开的`\\ （参见 :ref:`acl`），否则 `用户` 和 "
+"`审校员` 团队成员资格提供的站点范围权限将不起任何作用。"
 
 #: ../../admin/access.rst:235
-#, fuzzy
-#| msgid ""
-#| "You may also grant some additional permissions of your choice to the "
-#| "default groups. For example, you may want to give a permission to manage "
-#| "screenshots to all the `Users`."
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
-msgstr ""
-"您还可以向默认群组授予一些您选择的额外权限。例如，你可能想给所有 `用户` 管理"
-"截图的权限。"
+msgstr "您还可以向默认团队授予一些您选择的额外权限。例如，你可能想给所有 `用户` "
+"管理截图的权限。"
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid ""
-#| "You can define some new custom groups as well. If you want to keep "
-#| "managing your permissions site-wide for these groups, choose an "
-#| "appropriate value for the :guilabel:`Project selection` (e.g. :guilabel:"
-#| "`All projects` or :guilabel:`All public projects`)."
 msgid ""
 "You can define some new custom teams as well. If you want to keep managing "
 "your permissions site-wide for these teams, choose an appropriate value for "
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"您还可以定义一些新的自定义组。如果希望继续在站点范围内管理这些组的权限，请"
-"为 :guilabel:`项目选择` 选择一个合适的值（如 :guilabel:`所有项目` 或 :"
-"guilabel:`所有公开项目` ）。"
+"您还可以定义一些新的自定义团队。如果希望继续在站点范围内管理这些团队的权限，"
+"请为 :guilabel:`项目选择` 选择一个合适的值（如 :guilabel:`所有项目` 或 "
+":guilabel:`所有公开项目` ）。"
 
 #: ../../admin/access.rst:245
 msgid "Custom permissions for languages, components or projects"
 msgstr "语言、部件或项目的自定义权限"
 
 #: ../../admin/access.rst:247
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"您可以创建自己的专用组来管理不同对象（如语言、部件和项目）的权限。虽然这些组"
-"只能授予额外的权限，但您不能通过添加另一个自定义组来撤销全站或每个项目组授予"
-"的任意权限。"
+"您可以创建自己的专门团队来管理不同对象（如语言、部件和项目）的权限。虽然这些"
+"团队只能授予额外的权限，但您不能通过添加另一个自定义团队来撤销全站或每个项目"
+"团队授予的任意权限。"
 
 #: ../../admin/access.rst:252 ../../admin/access.rst:382
 #: ../../admin/config.rst:237 ../../admin/config.rst:256
@@ -587,18 +539,12 @@ msgstr ""
 "捷克语`）的翻译，同时将其他语言的翻译保持公开，你必须："
 
 #: ../../admin/access.rst:258
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
-msgstr ""
-"移除所有用户翻译 `捷克语` 的权限。在默认配置中，这可以通过修改 `用户` :ref:`"
-"默认群组 <default-groups>` 来实现。"
+msgstr "移除所有用户翻译 `捷克语` 的权限。在默认配置中，这可以通过修改 `用户` :ref:`"
+"默认团队 <default-teams>` 来实现。"
 
 #: ../../admin/access.rst:262
 msgid "Group `Users`"
@@ -617,10 +563,8 @@ msgid "All but `Czech`"
 msgstr "除 `捷克语` 之外的所有语言"
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid "Add a dedicated group for `Czech` translators."
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "为 `捷克语` 译者添加一个专门的小组。"
+msgstr "为 `捷克语` 译者添加一个专门的团队。"
 
 #: ../../admin/access.rst:274
 msgid "Group `Czech translators`"
@@ -648,10 +592,8 @@ msgid "`Czech`"
 msgstr "`捷克语`"
 
 #: ../../admin/access.rst:288
-#, fuzzy
-#| msgid "Add users you wish to give the permissions to into this group."
 msgid "Add users you wish to give the permissions to into this team."
-msgstr "将您希望授予此权限的用户添加到此组中。"
+msgstr "将您希望授予此权限的用户添加到此团队中。"
 
 #: ../../admin/access.rst:290
 msgid ""
@@ -663,10 +605,8 @@ msgstr ""
 "委托给其他用户，除非授予超级用户权限。"
 
 #: ../../admin/access.rst:297
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "用户、角色、群组和权限"
+msgstr "用户、角色、团队和权限"
 
 #: ../../admin/access.rst:299
 msgid "The authentication models consist of several objects:"
@@ -697,10 +637,8 @@ msgid "`User`"
 msgstr "`用户`"
 
 #: ../../admin/access.rst:308
-#, fuzzy
-#| msgid "User can belong to several groups."
 msgid "User can belong to several teams."
-msgstr "用户可以属于多个组。"
+msgstr "用户可以属于多个团队。"
 
 #: ../../admin/access.rst:311
 msgid "`Group`"
@@ -713,36 +651,25 @@ msgid ""
 msgstr "分组连接角色、用户和身份验证对象（项目、语言和部件列表）。"
 
 #: ../../admin/access.rst:328
-#, fuzzy
-#| msgid ""
-#| "A group can have no roles assigned to it, in that case access to browse "
-#| "the project by anyone is assumed (see below)."
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
-msgstr ""
-"一个组可以不分配任何角色，但在这种情况下任何人都可以浏览它的项目（见下文）。"
+msgstr "团队可以不分配任何角色，但在这种情况下任何人都可以浏览它的项目（见下文）。"
 
 #: ../../admin/access.rst:332
 msgid "Access for browse to a project"
 msgstr "浏览到项目的访问权限"
 
 #: ../../admin/access.rst:334
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to browse the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a team linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"用户必须是链接到项目的组或项目中的任何部件的成员。拥有成员身份就足够了，浏览"
-"项目不需要特定的权限 （这被用于默认的 `查看者` 小组，见 :ref:`default-"
-"groups` ）。"
+"用户必须是链接到项目的团队或项目中的任何部件的成员。拥有成员身份就足够了，"
+"浏览项目不需要特定的权限 （这被用于默认的 `查看者` 团队，见 :ref:`default-"
+"teams` ）。"
 
 #: ../../admin/access.rst:340
 msgid "Access for browse to a component"
@@ -761,30 +688,16 @@ msgstr ""
 "件（或该部件所在的部件列表）具有显式权限。"
 
 #: ../../admin/access.rst:350
-#, fuzzy
-#| msgid "Scope of groups"
 msgid "Scope of teams"
-msgstr "群组范围"
+msgstr "团队范围"
 
 #: ../../admin/access.rst:352
-#, fuzzy
-#| msgid ""
-#| "The scope of the permission assigned by the roles in the groups are "
-#| "applied by the following rules:"
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
-msgstr "组内角色分配的权限范围适用如下规则："
+msgstr "团队内角色分配的权限范围适用如下规则："
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Component list`, all the "
-#| "permissions given to members of that group are granted for all the "
-#| "components in the component lists attached to the group, and an access "
-#| "with no additional permissions is granted for all the projects these "
-#| "components are in. :guilabel:`Components` and :guilabel:`Projects` are "
-#| "ignored."
 msgid ""
 "If the team specifies any :guilabel:`Component list`, all the permissions "
 "given to members of that team are granted for all the components in the "
@@ -792,37 +705,22 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"如果群组指定了任何 :guilabel:`部件列表`，则授予该组成员的所有权限都适用于附加"
-"到该组的部件列表中的所有部件，并为这些部件所在的所有项目授予没有额外权限的访"
-"问权限。 :guilabel:`部件` 和 :guilabel:`项目` 将被忽略。"
+"如果团队指定了任何 :guilabel:`部件列表`，则授予该团队成员的所有权限都适用于附"
+"加到该团队的部件列表中的所有部件，并为这些部件所在的所有项目授予没有额外权限"
+"的访问权限。 :guilabel:`部件` 和 :guilabel:`项目` 将被忽略。"
 
 #: ../../admin/access.rst:361
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Components`, all the permissions "
-#| "given to the members of that group are granted for all the components "
-#| "attached to the group, and an access with no additional permissions is "
-#| "granted for all the projects these components are in. :guilabel:"
-#| "`Projects` are ignored."
 msgid ""
 "If the team specifies any :guilabel:`Components`, all the permissions given "
 "to the members of that team are granted for all the components attached to "
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"如果该群组指定了任何 :guilabel:`部件`，则授予该组成员的所有权限都适用于附加到"
-"该组的所有部件，并为这些部件所在的所有项目授予没有额外权限的访问权限。 :"
-"guilabel:`项目` 将被忽略。"
+"如果该团队指定了任何 :guilabel:`部件`，则授予该团队成员的所有权限都适用于附加"
+"到该团队的所有部件，并为这些部件所在的所有项目授予没有额外权限的访问权限。 "
+":guilabel:`项目` 将被忽略。"
 
 #: ../../admin/access.rst:366
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -830,19 +728,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"否则，如果群组指定了任何 :guilabel:`项目`，通过直接列出它们或通过将 :"
-"guilabel:`项目选择` 设置为类似 :guilabel:`所有公开项目` 的值，所有这些权限将"
-"应用于所有项目，它有效地授予访问所有项目的相同权限 :ref:`不受限制的部件 "
-"<component-restricted>`。"
+"否则，如果团队指定了任何 :guilabel:`项目`，通过直接列出它们或通过将 "
+":guilabel:`项目选择` 设置为类似 :guilabel:`所有公开项目` "
+"的值，所有这些权限将应用于所有项目，它有效地授予访问所有项目的相同权限 :ref:`"
+"不受限制的部件 <component-restricted>`。"
 
 #: ../../admin/access.rst:372
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a group’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has an access to perform certain "
@@ -850,9 +741,9 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"当验证用户是否有权限执行某些操作时，由群组的 :guilabel:`语言` 施加的限制将单"
-"独应用。也就是说，它仅适用于与翻译过程本身直接相关的操作，例如审校、保存翻"
-"译、添加建议等。"
+"当验证用户是否有权限执行某些操作时，由团队的 :guilabel:`语言` 施加的限制将单"
+"独应用。也就是说，它仅适用于与翻译过程本身直接相关的操作，例如审校、保存翻译"
+"、添加建议等。"
 
 #: ../../admin/access.rst:379
 msgid ""
@@ -862,16 +753,11 @@ msgstr ""
 "使用 :guilabel:`语言选择` 或 :guilabel:`项目选择` 来自动包括所有语言或项目。"
 
 #: ../../admin/access.rst:384
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following group:"
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
-msgstr ""
-"假设有一个项目 ``foo`` 包含以下部件：\\ ``foo/bar`` 和 ``foo/baz``，以及以下"
-"群组："
+msgstr "假设有一个项目 ``foo`` 包含以下部件：\\ ``foo/bar`` 和 ``foo/"
+"baz``，以及以下团队："
 
 #: ../../admin/access.rst:387
 msgid "Group `Spanish Admin-Reviewers`"
@@ -894,14 +780,10 @@ msgid "`Spanish`"
 msgstr "`西班牙语`"
 
 #: ../../admin/access.rst:399
-#, fuzzy
-#| msgid ""
-#| "Members of that group will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
-msgstr "该组的成员将具有以下权限（假设是默认的角色设置）："
+msgstr "该团队的成员将具有以下权限（假设是默认的角色设置）："
 
 #: ../../admin/access.rst:401
 msgid ""
@@ -924,20 +806,10 @@ msgstr ""
 "待处理更改。"
 
 #: ../../admin/access.rst:410
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "自动分配"
+msgstr "自动团队分配"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic group assignments`, which is a list of regular expressions "
-#| "used to automatically assign newly created users to a group based on "
-#| "their e-mail addresses. This assignment only happens upon account "
-#| "creation."
 msgid ""
 "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
 "admin interface <admin-interface>`, you can specify :guilabel:"
@@ -945,20 +817,12 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"在 :ref:`Django 管理界面 <admin-interface>` 的 :guilabel:`群组` 编辑页面的底"
-"部，可以指定 :guilabel:`自动群组分配`，这是一个正则表达式列表，用于根据他们的"
-"电子邮箱地址自动将新创建的用户分配到群组。此分配仅在创建账户时发生。"
+"在 :ref:`Django 管理界面 <admin-interface>` 的 :guilabel:`群组` "
+"编辑页面的底部，可以指定 :guilabel:`自动团队分配`，这是一个正则表达式列表，用"
+"于根据他们的电子邮箱地址自动将新创建的用户分配到团队。此分配仅在创建账户时发"
+"生。"
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default group. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. In order to do so, you will probably want to keep the default "
@@ -968,69 +832,47 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
-"该功能最常见的用例是将所有新用户分配到某个默认群组。为此，您可能希望在正则表"
+"该功能最常见的用例是将所有新用户分配到某个默认团队。为此，您可能希望在正则表"
 "达式字段中保留默认值（``^.*$``）。此选项的另一个用例可能是默认为您公司的员工"
-"提供一些额外的权限。假设他们都使用您域中的公司电子邮箱地址，这可以通过像 ``^."
-"*@mycompany.com`` 这样的表达式来完成。"
+"提供一些额外的权限。假设他们都使用您域中的公司电子邮箱地址，这可以通过像 "
+"``^.*@mycompany.com`` 这样的表达式来完成。"
 
 #: ../../admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "when upgrading from one Weblate version to another. If you want to turn "
-#| "it off, set the regular expression to ``^$`` (which won’t match anything)."
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"从一个 Weblate 版本升级到另一个版本时，总是会重新创建对 `用户` 和 `查看者` 的"
-"自动群组分配。如果你想关闭它，将正则表达式设置为 ``^$`` （不匹配任何内容）。"
+"从一个 Weblate 版本升级到另一个版本时，总是会重新创建对 `用户` 和 `查看者` "
+"的自动团队分配。如果你想关闭它，将正则表达式设置为 ``^$`` "
+"（不匹配任何内容）。"
 
 #: ../../admin/access.rst:433
-#, fuzzy
-#| msgid ""
-#| "As for now, there is no way to bulk-add already existing users to some "
-#| "group via the user interface. For that, you may resort to using the :ref:"
-#| "`REST API <api>`."
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
-msgstr ""
-"就目前而言，还没有办法通过用户界面将现有用户批量添加到某个组。为此，您可以通"
-"过 :ref:`REST API <api>` 来实现。"
+msgstr "就目前而言，还没有办法通过用户界面将现有用户批量添加到某个团队。为此，"
+"您可以通过 :ref:`REST API <api>` 来实现。"
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid "Default groups and roles"
 msgid "Default teams and roles"
-msgstr "默认群组和角色"
+msgstr "默认团队和角色"
 
 #: ../../admin/access.rst:439
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
-msgstr "安装完成后，将创建一组默认群组（参见 :ref:`default-groups`）。"
+msgstr "安装完成后，将创建一组默认团队（参见 :ref:`default-teams`）。"
 
 #: ../../admin/access.rst:441
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"这些角色和群组是在安装时创建的。升级时，内置角色始终通过数据库迁移保持最新状"
+"这些角色和团队是在安装时创建的。升级时，内置角色始终通过数据库迁移保持最新状"
 "态。实际上你无法更改它们，如果要定义自己的权限组合，请定义一个新角色。"
 
 #: ../../admin/access.rst:449
@@ -1390,10 +1232,8 @@ msgid "Manage language definitions"
 msgstr "管理语言定义"
 
 #: ../../admin/access.rst:557
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "管理用户"
+msgstr "管理团队"
 
 #: ../../admin/access.rst:559
 msgid "Manage users"
@@ -1429,24 +1269,17 @@ msgstr ""
 "它们中的大多数都会影响到你的 Weblate 安装中的所有项目。"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "List of groups"
 msgid "List of teams"
-msgstr "群组列表"
+msgstr "团队列表"
 
 #: ../../admin/access.rst:584
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will, however, re-create them if you delete or rename them."
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后）, 您可以自由修改"
-"它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
+"下面的团队在安装时建立（或在执行 :djadmin:`setupgroups` 后）, "
+"您可以自由修改它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
 
 #: ../../admin/access.rst:596
 msgid "`Guests`"
@@ -1457,23 +1290,15 @@ msgid "Defines permissions for non-authenticated users."
 msgstr "定义非授权用户的权限。"
 
 #: ../../admin/access.rst:591
-#, fuzzy
-#| msgid ""
-#| "This group only contains anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
-msgstr "这个群组只包括匿名用户（请参见 :setting:`ANONYMOUS_USER_NAME` ）。"
+msgstr "这个团队只包括匿名用户（请参见 :setting:`ANONYMOUS_USER_NAME` ）。"
 
 #: ../../admin/access.rst:593
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
-msgstr "你可以从群组中去掉角色，来限制非授权用户的权限。"
+msgstr "你可以从团队中去掉角色，来限制非授权用户的权限。"
 
 #: ../../admin/access.rst:596
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1484,27 +1309,17 @@ msgid "`Viewers`"
 msgstr "`查看者`"
 
 #: ../../admin/access.rst:599
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
-msgstr ""
-"这一角色确保公开项目对所有用户可见。默认情况下，所有用户都是该组的成员。"
+msgstr "这一角色确保公开项目对所有用户可见。默认情况下，所有用户都是该团队的成员。"
 
 #: ../../admin/access.rst:602 ../../admin/access.rst:610
-#, fuzzy
-#| msgid ""
-#| "By default, :ref:`automatic group assignment <autogroup>` makes all new "
-#| "accounts members of this group when they join."
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
-msgstr ""
-"默认情况下，\\ :ref:`自动群组分配 <autogroup>` 将会使所有新账户在加入时成为该"
-"组的成员。"
+msgstr "默认情况下，\\ :ref:`自动团队分配 <autoteam>` "
+"将会使所有新账户在加入时成为该团队的成员。"
 
 #: ../../admin/access.rst:605
 msgid "Default roles: none"
@@ -1516,10 +1331,8 @@ msgid "`Users`"
 msgstr "`用户`"
 
 #: ../../admin/access.rst:608
-#, fuzzy
-#| msgid "Default group for all users."
 msgid "Default team for all users."
-msgstr "所有用户的默认群组。"
+msgstr "所有用户的默认团队。"
 
 #: ../../admin/access.rst:613
 msgid "Default roles: `Power user`"
@@ -1550,17 +1363,11 @@ msgid "Default roles: `Administration`"
 msgstr "默认角色：`管理`"
 
 #: ../../admin/access.rst:627
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
-msgstr ""
-"切勿移除预先定义的 Weblate 群组和用户，因为这可能会导致意想不到的问题！如果你"
+msgstr "切勿移除预先定义的 Weblate 团队和用户，因为这可能会导致意想不到的问题！如果你"
 "用不到它们，你可以移除它们的全部权限。"
 
 #: ../../admin/access.rst:632
@@ -7533,16 +7340,12 @@ msgstr ""
 "`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid "AUTO_UPDATE"
 msgid "LEGAL_TOS_DATE"
-msgstr "AUTO_UPDATE"
+msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1076
-#, fuzzy
-#| msgid "You need to configure API credentials to make this work."
 msgid "You need :ref:`legal` installed to make this work."
-msgstr "你需要配置API凭证以使其生效。"
+msgstr "你需要安装 :ref:`legal` 才能让其生效。"
 
 #: ../../admin/config.rst:1078
 msgid ""
@@ -7831,10 +7634,8 @@ msgid ":setting:`LEGAL_URL`"
 msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1410
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1414
 msgid ""
@@ -7843,10 +7644,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1418
-#, fuzzy
-#| msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
-msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
+msgstr ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1424
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
@@ -7859,10 +7658,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1430
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Set to blank string to disable."
-msgstr "移除空白字符串"
+msgstr "留空禁用该功能。"
 
 #: ../../admin/config.rst:1434
 msgid ""
@@ -9290,37 +9087,27 @@ msgstr ""
 "python.org/about/gettingstarted/>`_ ，它解释了其基本内容并指向了高级教程。"
 
 #: ../../admin/customize.rst:28
-#, fuzzy
-#| msgid ""
-#| "To write some custom Python code (called a module), a place to store it "
-#| "is needed, either in the system path (usually something like :file:`/usr/"
-#| "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
-#| "added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
 "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
-"为了写出一些定制 Python 代码（被称为模块），需要一个地方进行存储，或者在系统"
-"路径（通常像 :file:`/usr/lib/python3.9/site-packages/` 的地方），或者在 "
-"Weblate 目录下，同样也添加到解释程序搜索路径下。"
+"要写入有定制 Python "
+"代码（被称为模块）的文件，需要一个地方存储它，或者在系统路径（通常像 :file:`/"
+"usr/lib/python3.9/site-packages/` 的地方），或者在 Weblate "
+"目录下，同样也添加到解释程序搜索路径下。"
 
 #: ../../admin/customize.rst:35
-#, fuzzy
-#| msgid ""
-#| "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
-#| "`docker-volume`) and they can be then loaded by Weblate, most likely by "
-#| "using :ref:`docker-custom-config`."
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules in :"
 "file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded "
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"您可以将自己的 Python 模块放置在 :file:`/app/data/python/` 中（请参阅 :ref:"
-"`docker-volume`），然后可以由 Weblate 加载它们，很可能是使用 :ref:`docker-"
-"custom-config`。"
+"使用 :ref:`using Docker <docker-deploy>` 时，你可将 Python 模块置于 :file:`/"
+"app/data/python/` (见 :ref:`docker-volume`) 以便它们可以由 Weblate 从 :ref:`"
+"settings override file <docker-settings-override>`等处进行加载。"
 
 #: ../../admin/customize.rst:40
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -9364,10 +9151,8 @@ msgstr ""
 "FooCheck`` ）。"
 
 #: ../../admin/customize.rst:67
-#, fuzzy
-#| msgid "Your module structure should look like this:"
 msgid "Your package structure should look like this:"
-msgstr "你的模块结构应该看起来像这样："
+msgstr "你的包结构应该看起来像这样："
 
 #: ../../admin/customize.rst:78
 msgid ""
@@ -12295,14 +12080,10 @@ msgid "Docker environment variables"
 msgstr "Docker 环境变量"
 
 #: ../../admin/install/docker.rst:367
-#, fuzzy
-#| msgid ""
-#| "Many of Weblate's :ref:`config` can be set in the Docker container using "
-#| "environment variables:"
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
-msgstr "可以使用环境变量在 Docker 容器中设置许多 Weblate 的 :ref:`config` ："
+msgstr "可以使用下述环境变量在 Docker 容器中设置 Weblate 的许多 :ref:`config`。"
 
 #: ../../admin/install/docker.rst:370
 msgid ""
@@ -12806,22 +12587,16 @@ msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr "配置 :setting:`ENABLE_SHARING`."
 
 #: ../../admin/install/docker.rst:881
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr "配置 :setting:`SSH_EXTRA_ARGS`。"
+msgstr "配置 :setting:`EXTRA_HTML_HEAD`."
 
 #: ../../admin/install/docker.rst:887
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr "配置 :setting:`DEFAULT_COMMITER_EMAIL`。"
+msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:893
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr "配置 :setting:`DEFAULT_COMMITER_EMAIL`。"
+msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:898
 msgid "Automatic suggestion settings"
@@ -12927,10 +12702,8 @@ msgid "Gitea"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1045
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
-msgstr "GitHub 身份验证"
+msgstr "启用 Gitea 身份验证。"
 
 #: ../../admin/install/docker.rst:1048
 msgid "Azure Active Directory"
@@ -13601,10 +13374,8 @@ msgid ""
 msgstr "`Docker 卷文档 <https://docs.docker.com/storage/volumes/>`_"
 
 #: ../../admin/install/docker.rst:1618
-#, fuzzy
-#| msgid "Docker environment variables"
 msgid "Configuration beyond environment variables"
-msgstr "Docker 环境变量"
+msgstr "修改未暴露为 Docker 环境变量的设置项"
 
 #: ../../admin/install/docker.rst:1620
 msgid ""
@@ -13791,10 +13562,8 @@ msgstr ""
 "匹配你的环境的配置可以使用https://pgtune.leopard.in.ua/。"
 
 #: ../../admin/install/docker.rst:1761
-#, fuzzy
-#| msgid "Container settings"
 msgid "Container internals"
-msgstr "容器设置"
+msgstr "容器内部构件"
 
 #: ../../admin/install/docker.rst:1763
 msgid ""
@@ -14682,36 +14451,20 @@ msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr "BCP 样式表示法，全部为小写（例如 ``cs-cz`` ）。"
 
 #: ../../admin/languages.rst:207
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "应用商店元数据样式"
+msgstr "Apple 应用商店元数据样式"
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid ""
-#| "Style suitable for uploading metadata to appstores. This should be "
-#| "suitable for both Apple App Store and Google Play Store."
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr ""
-"适用于将元数据上传到应用商店的样式，这应该适用于 Apple App Store 和Google "
-"Play Store。"
+msgstr "适用于将元数据上传到 Apple 应用商店的样式。"
 
 #: ../../admin/languages.rst:209
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "应用商店元数据样式"
+msgstr "Google Play 元数据样式"
 
 #: ../../admin/languages.rst:210
-#, fuzzy
-#| msgid ""
-#| "Style suitable for uploading metadata to appstores. This should be "
-#| "suitable for both Apple App Store and Google Play Store."
 msgid "Style suitable for uploading metadata to Google Play Store."
-msgstr ""
-"适用于将元数据上传到应用商店的样式，这应该适用于 Apple App Store 和Google "
-"Play Store。"
+msgstr "适用于将元数据上传到 Google Play 应用商店的样式。"
 
 #: ../../admin/languages.rst:212
 msgid "Android style"
@@ -14746,12 +14499,12 @@ msgstr ""
 "式。"
 
 #: ../../admin/languages.rst:227
-#, fuzzy
-#| msgid ":ref:`language-code`, :ref:`language-parsing-codes`"
 msgid ""
 ":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
 "parsing-codes`"
-msgstr ":ref:`language-code`, :ref:`language-parsing-codes`"
+msgstr ""
+":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
+"parsing-codes`"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -17529,10 +17282,8 @@ msgid "Verbose project name, used to display the project name."
 msgstr "详细的项目名称，用于显示项目名称。"
 
 #: ../../admin/projects.rst:130
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_NAME_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
@@ -17558,10 +17309,8 @@ msgid ""
 msgstr "这是一个必须的参数，除非通过 :setting:`WEBSITE_REQUIRED`关闭。"
 
 #: ../../admin/projects.rst:150
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_WEB_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:155
 msgid "Translation instructions"
@@ -19975,18 +19724,16 @@ msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgstr "`jellyfish` 依赖项已被 `rapidfuzz` 取代。"
 
 #: ../../admin/upgrade.rst:345
-#, fuzzy
-#| msgid ""
-#| "Deprecated insecure configuration of VCS service API keys via _TOKEN/"
-#| "_USERNAME configuration instead of _CREDENTIALS list."
 msgid ""
 "**Changed in 4.14.2:** Deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In "
 "Docker, please add matching _HOST directive. For example see :envvar:"
 "`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
-"已弃用通过 _TOKEN/_USERNAME 配置而不是 _CREDENTIALS 列表对 版本控制系统"
-"（VCS）服务 API 密钥进行不安全配置。"
+"**4.14.2 版变更内容:** 弃用通过 _TOKEN/_USERNAME 配置而不是 _CREDENTIALS "
+"列表对版本控制系统（VCS）服务 API 密钥进行不安全配置。在 Docker 中，"
+"请添加匹配的 _HOST 指令。如见 :envvar:`WEBLATE_GITHUB_HOST` 和 "
+":setting:`GITHUB_CREDENTIALS`。"
 
 #: ../../admin/upgrade.rst:353
 msgid "Upgrade from 4.14 to 4.15"
@@ -22021,10 +21768,8 @@ msgid "translation unit flags"
 msgstr "翻译单元的标记"
 
 #: ../../api.rst:2073
-#, fuzzy
-#| msgid "String explanation, available on source units, see :ref:`additional`"
 msgid "translation unit labels, available on source units"
-msgstr "字符串的解释，可在源单元获得，请参见 :ref:`additional`"
+msgstr "译文单元标签，在原文单元上可用"
 
 #: ../../api.rst:2074
 msgid ""
@@ -22781,81 +22526,59 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of Matrix view."
 msgid "Improved performance of several views."
-msgstr "改进了矩阵视图的性能。"
+msgstr "改进了几个视图的性能。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved machine translation of strings with placeholders."
 msgid "Improved listing of strings with plurals."
-msgstr "改进了带有占位符的字符串的机器翻译。"
+msgstr "改进了含复数的字符串的列表。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Added support for removing user from a group via API."
 msgid "Added support for adding custom markup to HTML head."
-msgstr "添加了对通过 API 从群组中删除用户的支持。"
+msgstr "新增支持将自定义标记添加到 HTML 头。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed generating of MO files for monolingual translations."
 msgid ""
 "Fixed generation of MO files in the add-on to include only translated files."
-msgstr "修复了为单语言翻译生成 MO 文件。"
+msgstr "修复了附加组件中 MO 文件生成的问题，现在只包含已翻译文件。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed rendering of regular expression flags."
-msgstr "修复了建议的呈现问题。"
+msgstr "修复了正则表达式标记渲染的问题。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved formatting of placeholder check errors."
 msgid "Improved placeholders check behavior with plurals."
-msgstr "改进了占位符检查错误的格式化。"
+msgstr "改进了复数的占位符检查行为。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for translating and importing CSV files."
 msgid "Added support for translation files naming suitable for Google Play."
-msgstr "为翻译并导入 CSV 文件添加了支持。"
+msgstr "新增支持适合 Google Play 商店的翻译文件命名。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for :ref:`labels`."
 msgid "Added support for labels in API."
-msgstr "为 :ref:`labels` 添加了支持。"
+msgstr "新增支持 API 中的标签。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added support for blocking certain e-mails from registration."
 msgid ""
 "Added support for choosing different e-mail for commits than for "
 "notifications."
-msgstr "为阻挡注册的某个电子邮箱地址添加了支持。"
+msgstr "新增支持为译文提交和通知选择不同的电子邮箱。"
 
 #: ../../changes.rst:21
 msgid "The Docker image no longer enables debug mode by default."
 msgstr ""
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improved alerts behavior on glossary components."
 msgid "Order glossary terms based on the glossary component priority."
-msgstr "改进了术语表部件的警报行为。"
+msgstr "根据术语表部件优先级对术语表术语进行排序。"
 
 #: ../../changes.rst:23
 msgid "Added team administrators who can add or remove members of the team."
 msgstr ""
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added a popup confirmation before deleting users"
-msgstr "增加了将一名用户从一个项目移除前的确认功能。"
+msgstr "增加了删除用户前的弹窗确认"
 
 #: ../../changes.rst:26
 msgid ""
@@ -38304,16 +38027,12 @@ msgid "``Your balance is %{amount} %{currency}``"
 msgstr "``您的余额是 %{amount} %{currency}``"
 
 #: ../../user/checks.rst:584
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/"
-#| "Kernel.html#method-i-sprintf>`_"
 msgid ""
 ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
 "Kernel.html#method-i-sprintf>`_"
 msgstr ""
-":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
-"html#method-i-sprintf>`_"
+":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
+"Kernel.html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:590
 msgid "Scheme format"
