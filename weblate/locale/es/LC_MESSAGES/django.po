@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-12-14 16:31+0000\n"
+"PO-Revision-Date: 2022-12-14 20:03+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -4182,12 +4182,12 @@ msgstr "¡Error al analizar el archivo TMX!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr "El idioma de origen no se ha definido en el archivo TMX."
+msgstr "¡El idioma de origen no está definido en el archivo TMX!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
 msgid "Failed to find language %s!"
-msgstr "No se pudo encontrar el idioma %s."
+msgstr "¡Error al encontrar el idioma %s!"
 
 #: weblate/memory/models.py:263
 msgctxt "Translation memory category"
@@ -12060,10 +12060,8 @@ msgid "Apple App Store metadata style"
 msgstr "Estilo a los metadatos de la App Store de Apple"
 
 #: weblate/trans/models/component.py:146
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Estilo de los metadatos de la tienda de aplicaciones"
+msgstr "Estilo de los metadatos de Google Play"
 
 #: weblate/trans/models/component.py:147
 msgid "Linux style"
@@ -12640,23 +12638,17 @@ msgid "Could not add new translation file."
 msgstr "No se pudo añadir el archivo de traducción nuevo."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "No tiene permiso para empezar una traducción nueva"
+msgstr "No tiene permisos para añadir un nuevo archivo de traducción."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Archivo de base monolingüe"
+msgstr "El archivo de idioma de origen monolingüe no es válido."
 
 #: weblate/trans/models/component.py:3213
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "The template for new translations is invalid."
-msgstr "Plantilla para traducciones nuevas"
+msgstr "La plantilla para nuevas traducciones no es válida."
 
 #: weblate/trans/models/component.py:3246
 msgid "The given language is used as a source language."
@@ -12850,10 +12842,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Error al confirmar los cambios pendientes: %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Caracteres de control"
+msgstr "La cadena contiene un carácter de control: %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
@@ -13966,10 +13957,8 @@ msgid "Syntax error in language aliases."
 msgstr "Error de sintaxis en los alias de idiomas."
 
 #: weblate/utils/validators.py:248
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Este nombre está prohibido"
+msgstr "Esta dirección URL está prohibida"
 
 #: weblate/utils/views.py:133 weblate/utils/views.py:157
 msgid "Position and priority"
