@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-14 07:25+0000\n"
-"Last-Translator: Eric <hamburger1024@duck.com>\n"
+"PO-Revision-Date: 2022-12-14 14:35+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -305,7 +305,8 @@ msgstr "团队管理员"
 msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
-msgstr ""
+msgstr "每个团队都可以有团队管理员，他们可以在团队中添加和删除用户。这在您想要构建自"
+"治团队时很有用。"
 
 #: ../../admin/access.rst:139
 msgid "New user invitation"
@@ -6978,19 +6979,19 @@ msgstr ""
 
 #: ../../admin/config.rst:709
 msgid "EXTRA_HTML_HEAD"
-msgstr ""
+msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:713
 msgid ""
 "Insert additional markup into HTML header. Can be used for verification of "
 "site ownership, for example:"
-msgstr ""
+msgstr "将附加标记插入 HTML 标头。可用于验证站点所有权，示例："
 
 #: ../../admin/config.rst:721
 msgid ""
 "No sanitization is performed on the string, it is inserted as is into the "
 "HTML header."
-msgstr ""
+msgstr "不对字符串进行整理，它按原样插入到 HTML 标头中。"
 
 #: ../../admin/config.rst:726
 msgid "GET_HELP_URL"
@@ -7351,7 +7352,7 @@ msgstr "你需要安装 :ref:`legal` 才能让其生效。"
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the terms of service."
-msgstr ""
+msgstr "服务条款文件的最后更新日期。每当日期更改时，用户都需要同意服务条款。"
 
 #: ../../admin/config.rst:1090
 msgid "LEGAL_URL"
@@ -7641,7 +7642,7 @@ msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-out)."
-msgstr ""
+msgstr "配置专用提交电子邮箱是选择加入还是选择退出（默认情况下是选择退出）。"
 
 #: ../../admin/config.rst:1418
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -7649,13 +7650,14 @@ msgstr ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1424
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1428
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
-msgstr ""
+msgstr "为用户生成专用提交电子邮箱的模板。默认为 ``\"{username}@users."
+"noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1430
 msgid "Set to blank string to disable."
@@ -7667,6 +7669,9 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+"除非通过 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 配置，"
+"否则用户可以选择使用不同的提交电子邮件 。用户可以在 :ref:`profile` "
+"中配置提交电子邮件。"
 
 #: ../../admin/config.rst:1441
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -7696,13 +7701,13 @@ msgstr "定义项目备份将在服务器上保留多长时间，默认值为 30
 
 #: ../../admin/config.rst:1467
 msgid "PROJECT_NAME_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_NAME_RESTRICT_RE"
 
 #: ../../admin/config.rst:1471
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
-msgstr ""
+msgstr "定义用于限制项目命名的正则表达式。任何匹配的名称都将被拒绝。"
 
 #: ../../admin/config.rst:1475
 #, fuzzy
@@ -7712,13 +7717,13 @@ msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1480
 msgid "PROJECT_WEB_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1484
 msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
-msgstr ""
+msgstr "定义用于限制项目网站的正则表达式。任何匹配的 URL 都将被拒绝。"
 
 #: ../../admin/config.rst:1488
 #, fuzzy
@@ -8356,8 +8361,7 @@ msgstr "开发人员进行更改并将其推送到版本控制系统（VCS）仓
 msgid ""
 "Optionally the translation files are updated (this depends on the file "
 "format, see :ref:`translations-update`)."
-msgstr ""
-"可以选择更新翻译文件（这取决于文件格式，请参阅 :ref:`translations-update`）。"
+msgstr "可以选择更新翻译文件（这取决于文件格式，请参阅 :ref:`translations-update`）。"
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
@@ -8474,10 +8478,11 @@ msgid ""
 msgstr ""
 "对于单语文件来说，第一种方法很简单——您可以在 Weblate 中添加新字符串，并将文件"
 "的整个编辑留在那里。对于双语文件，通常存在某种信息提取过程可以从源代码生成可"
-"翻译文件。在一些情况下，这可以分成两部分——一部分是提取生成模板（例如使用 :"
-"program:`xgettext` 生成 gettex POT ），然后下一步处理将其合并到真正的翻译中"
-"（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。您可以在 Weblate 中执"
-"行第二步，它将确保在此操作之前包含所有的待处理更改。"
+"翻译文件。在一些情况下，这可以分成两部分——一部分是提取生成模板（例如使用 "
+":program:`xgettext` 生成 gettex POT "
+"），然后下一步处理将其合并到真正的翻译中（例如使用 :program:`msgmerge` 更新 "
+"gettext PO 文件）。您可以在 Weblate "
+"中执行第二步，它将确保在此操作之前包含所有的待处理更改。"
 
 #: ../../admin/continuous.rst:92
 msgid ""
@@ -12699,7 +12704,7 @@ msgstr "允许 :ref:`gitlab_auth`。"
 
 #: ../../admin/install/docker.rst:1039
 msgid "Gitea"
-msgstr ""
+msgstr "Gitea"
 
 #: ../../admin/install/docker.rst:1045
 msgid "Enables Gitea authentication."
@@ -13383,6 +13388,8 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker 环境变量 <docker-environment>`旨在公开与 Weblate "
+"安装相关的大多数 :ref:`配置设置 <config>`。"
 
 #: ../../admin/install/docker.rst:1624
 msgid ""
@@ -13390,6 +13397,8 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"如果您发现没有作为环境变量公开的设置，并且您认为它应该公开，请随时 :ref:`"
+"要求在未来版本的 Weblate <report-issue>` 中公开它。"
 
 #: ../../admin/install/docker.rst:1628
 msgid ""
@@ -13398,6 +13407,9 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"如果您需要修改未公开为 Docker 环境变量的设置，您仍然可以这样做 :ref:`"
+"来自数据卷 <docker-settings-override>` 或者 :ref:`扩展 Docker 镜像 <docker-"
+"custom-settings>`。"
 
 #: ../../admin/install/docker.rst:1635
 msgid ":doc:`../customize`"
@@ -13405,7 +13417,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1640
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "覆盖数据卷的设置"
 
 #: ../../admin/install/docker.rst:1642
 msgid ""
@@ -13413,26 +13425,28 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"您可以在 :file:`/app/data/settings-override.py`创建一个文件，即在 :ref:`"
+"数据卷 <docker-volume>`的根目录，以扩展或覆盖通过环境变量定义的设置。"
 
 #: ../../admin/install/docker.rst:1650
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "通过扩展 Docker 镜像覆盖设置"
 
 #: ../../admin/install/docker.rst:1652
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
-msgstr ""
+msgstr "要在 Docker 镜像级别而不是从数据卷覆盖设置："
 
 #: ../../admin/install/docker.rst:1654
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`创建自定义 Python 包 <custom-module>`。"
 
 #: ../../admin/install/docker.rst:1656
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
-msgstr ""
+msgstr "将一个模块添加到您的包中，该模块从 ``weblate.settings_docker`` 导入所有设置。"
 
 #: ../../admin/install/docker.rst:1659
 msgid ""
@@ -13440,6 +13454,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"例如，在 :ref:`custom-module`， ``weblate_customization/"
+"weblate_customization/settings.py`` 定义的示例包结构中，"
+"您可以使用以下初始代码创建一个文件 ："
 
 #: ../../admin/install/docker.rst:1668
 msgid ""
@@ -13447,12 +13464,14 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"创建一个 ``Dockerfile`` 继承自官方 Weblate Docker 镜像的自定义，"
+"然后安装您的包并将 ``DJANGO_SETTINGS_MODULE`` 环境变量指向您的设置模块："
 
 #: ../../admin/install/docker.rst:1684
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
-msgstr ""
+msgstr "``Dockerfile`` 不使用官方 Weblate Docker 镜像，而是从该文件构建自定义镜像。"
 
 #: ../../admin/install/docker.rst:1687
 msgid ""
@@ -17085,9 +17104,10 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
-"在 :ref:`component` 上方有单独的翻译，当版本控制系统（VCS）仓库中出现翻译文件"
-"（与 :ref:`component` 中定义的 :ref:`component-filemask` 匹配）时，Weblate 会"
-"自动处理这些翻译。"
+"在 :ref:`component` "
+"上方有单独的翻译，当版本控制系统（VCS）仓库中出现翻译文件（与 "
+":ref:`component` 中定义的 :ref:`component-filemask` 匹配）时，Weblate "
+"会自动处理这些翻译。"
 
 #: ../../admin/projects.rst:20
 msgid ""
@@ -17998,19 +18018,18 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
-"对于双语格式，字符串通常是从源代码中提取的（例如通过使用 :program:"
-"`xgettext`），在Weblate中添加新的字符串应该被禁用（下次更新翻译文件时，它们会"
-"被丢弃）。在Weblate中，你可以为每个翻译管理字符串，但它并不强制要求所有翻译中"
-"的字符串都是一致的。"
+"对于双语格式，字符串通常是从源代码中提取的（例如通过使用 :program:`xgettext`"
+"），在Weblate中添加新的字符串应该被禁用（下次更新翻译文件时，它们会被丢弃）。"
+"在Weblate中，你可以为每个翻译管理字符串，但它并不强制要求所有翻译中的字符串都"
+"是一致的。"
 
 #: ../../admin/projects.rst:625
 msgid ""
 "For monolingual formats, the strings are managed only on source language and "
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
-msgstr ""
-"对于单语格式，字符串只在源语言上管理，并在翻译中自动添加或删除。一旦翻译完"
-"毕，这些字符串就会出现在翻译文件中。"
+msgstr "对于单语格式，字符串只在源语言上管理，并在翻译中自动添加或删除。一旦翻译完毕"
+"，这些字符串就会出现在翻译文件中。"
 
 #: ../../admin/projects.rst:631
 msgid ""
@@ -21576,8 +21595,8 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
-"下载存储在版本控制系统（VCS）中的当前翻翻译件（不带 ``format`` 参数）或将其转"
-"换为另一格式（见 :ref:`download`）。"
+"下载存储在版本控制系统（VCS）中的当前翻译文件（不带 ``format`` "
+"参数）或将其转换为另一格式（见 :ref:`download`）。"
 
 #: ../../api.rst:1915
 msgid ""
@@ -28254,7 +28273,7 @@ msgstr "添加了对 Microsoft .resx 文件的支持。"
 
 #: ../../changes.rst:1796
 msgid "Tuned default robots.txt to disallow big crawling of translations."
-msgstr "微调了默认的 robots.txt 文件而不允许译文特别缓慢地进行。"
+msgstr "微调了默认的 robots.txt 文件而不允许翻译特别缓慢地进行。"
 
 #: ../../changes.rst:1797
 msgid "Simplified workflow for accepting suggestions."
@@ -28326,7 +28345,7 @@ msgstr "改进了翻译文件名的处理。"
 
 #: ../../changes.rst:1819
 msgid "Added support for monolingual JSON translations."
-msgstr "为单语言 JSON 译文添加了支持。"
+msgstr "为单语言 JSON 翻译添加了支持。"
 
 #: ../../changes.rst:1820
 msgid "Record component locking in a history."
@@ -28335,7 +28354,7 @@ msgstr "在历史中记录部件锁定。"
 #: ../../changes.rst:1821
 msgid ""
 "Support for editing source (template) language for monolingual translations."
-msgstr "支持为单语言译文编辑源（模板）语言。"
+msgstr "支持为单语言翻译编辑源（模板）语言。"
 
 #: ../../changes.rst:1822
 msgid "Added basic support for Gerrit."
@@ -28391,7 +28410,7 @@ msgstr "每个源字符串可定制的质量检查。"
 
 #: ../../changes.rst:1840
 msgid "Allow to hide completed translations from dashboard."
-msgstr "允许隐藏操作面板上已完成的译文。"
+msgstr "允许隐藏操作面板上已完成的翻译。"
 
 #: ../../changes.rst:1843
 msgid "Weblate 2.0"
@@ -28491,7 +28510,7 @@ msgstr "不再维护与 Django 1.4 的兼容性。"
 
 #: ../../changes.rst:1876
 msgid "Management commands for locking/unlocking translations."
-msgstr "用于锁定/解锁译文的管理命令。"
+msgstr "用于锁定/解锁翻译的管理命令。"
 
 #: ../../changes.rst:1877
 msgid "Improved support for Qt TS files."
@@ -28600,7 +28619,7 @@ msgstr "支持新语言请求的订阅。"
 
 #: ../../changes.rst:1913
 msgid "Support for adding new translations."
-msgstr "支持添加新的译文。"
+msgstr "支持添加新的翻译。"
 
 #: ../../changes.rst:1914
 msgid ""
@@ -28757,7 +28776,7 @@ msgstr "重写了搜索实现更好的性能与用户体验。"
 
 #: ../../changes.rst:1961
 msgid "New interface for machine translations."
-msgstr "机器译文的新界面。"
+msgstr "机器翻译的新界面。"
 
 #: ../../changes.rst:1962
 msgid "Added support for monolingual po files."
@@ -28785,7 +28804,7 @@ msgstr "修复了删除字符串时检查/评论的删除问题。"
 
 #: ../../changes.rst:1972
 msgid "Added option to disable automatic propagation of translations."
-msgstr "添加了选项来禁止自动传播译文。"
+msgstr "添加了选项来禁止自动传播翻译。"
 
 #: ../../changes.rst:1973
 msgid "Added option to subscribe for merge failures."
@@ -28922,7 +28941,7 @@ msgstr "检查源字符串，并支持源字符串复查。"
 
 #: ../../changes.rst:2011
 msgid "Support for user comments for both translations and source strings."
-msgstr "支持译文和源字符串的用户评论。"
+msgstr "支持翻译和源字符串的用户评论。"
 
 #: ../../changes.rst:2012
 msgid "Better changes log tracking."
@@ -28969,15 +28988,15 @@ msgstr "添加了选项将仓库重置为原始状态（对于有特权的用户
 
 #: ../../changes.rst:2026
 msgid "Project or component can now be locked for translations."
-msgstr "现在可以为译文锁定项目和部件。"
+msgstr "现在可以为翻译锁定项目和部件。"
 
 #: ../../changes.rst:2027
 msgid "Possibility to disable some translations."
-msgstr "禁止一些译文的可能性。"
+msgstr "禁止一些翻译的可能性。"
 
 #: ../../changes.rst:2028
 msgid "Configurable options for adding new translations."
-msgstr "添加新译文的可配置选项。"
+msgstr "添加新翻译的可配置选项。"
 
 #: ../../changes.rst:2029
 msgid "Configuration of git commits per project."
@@ -29041,7 +29060,7 @@ msgstr "发布于 2012 年 7 月 4 日。"
 
 #: ../../changes.rst:2049
 msgid "Improved several translations."
-msgstr "改进了几个译文。"
+msgstr "改进了几个翻译。"
 
 #: ../../changes.rst:2050 ../../changes.rst:2085
 msgid "Better validation while creating component."
@@ -29218,7 +29237,7 @@ msgstr "从 web 界面将更改推送给远程 repo 的能力。"
 
 #: ../../changes.rst:2110
 msgid "Added review of translations done by others."
-msgstr "添加了对其他人完成的译文进行复查。"
+msgstr "添加了对其他人完成的翻译进行复查。"
 
 #: ../../changes.rst:2113
 msgid "Weblate 0.7"
@@ -29234,7 +29253,7 @@ msgstr "对 GitHub 通知的直接支持。"
 
 #: ../../changes.rst:2118
 msgid "Added support for cleaning up orphaned checks and translations."
-msgstr "添加了对清洁孤立的检查与译文的支持。"
+msgstr "添加了对清洁孤立的检查与翻译的支持。"
 
 #: ../../changes.rst:2119
 msgid "Displays nearby strings while translating."
@@ -29266,7 +29285,7 @@ msgstr "可调整的访问控制。"
 
 #: ../../changes.rst:2130
 msgid "Improved handling of translations with new lines."
-msgstr "改进了对新一行译文的处理。"
+msgstr "改进了对新一行翻译的处理。"
 
 #: ../../changes.rst:2131
 msgid "Added client side sorting of tables."
@@ -29294,7 +29313,7 @@ msgstr "Apertium"
 
 #: ../../changes.rst:2143
 msgid "Several new translations."
-msgstr "几个新的译文。"
+msgstr "几个新的翻译。"
 
 #: ../../changes.rst:2144
 msgid "Improved merging of upstream changes."
@@ -29338,7 +29357,7 @@ msgstr "Weblate 0.3"
 
 #: ../../changes.rst:2163
 msgid "Better display of source for plural translations."
-msgstr "优化复数译文原文的显示。"
+msgstr "优化复数翻译原文的显示。"
 
 #: ../../changes.rst:2164
 msgid "New documentation in Sphinx format."
@@ -30410,7 +30429,7 @@ msgstr "``trans``"
 
 #: ../../contributing/internals.rst:90
 msgid "Main module handling translations."
-msgstr "处理译文的主模块。"
+msgstr "处理翻译的主模块。"
 
 #: ../../contributing/internals.rst:92
 msgid "``utils``"
@@ -30701,7 +30720,7 @@ msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
-"合并任何可能挂起的译文 :command:`wlc push; git remote update; git merge "
+"合并任何可能挂起的翻译 :command:`wlc push; git remote update; git merge "
 "origin/weblate`"
 
 #: ../../contributing/release.rst:35
@@ -30755,9 +30774,8 @@ msgstr "通过 :command:`./scripts/set-version` 在仓库中增加版本。"
 msgid ""
 "Check that readthedocs.org did build all translations of the documentation "
 "using :command:`./scripts/rtd-projects`."
-msgstr ""
-"检查 readthedocs.org 是否使用 :command:`./scripts/rtd-projects`。构建了文档的"
-"所有译文。"
+msgstr "检查 readthedocs.org 是否使用 :command:`./scripts/rtd-"
+"projects`。构建了文档的所有翻译。"
 
 #: ../../contributing/release.rst:50
 msgid ""
@@ -31105,7 +31123,7 @@ msgstr "**hide\\_completed**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide completed translations on the dashboard*"
-msgstr "*在操作面板上隐藏已完成的译文*"
+msgstr "*在操作面板上隐藏已完成的翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
@@ -31121,7 +31139,7 @@ msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "*在禅模式下显示第二语言译文*"
+msgstr "*在禅模式下显示第二语言翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
@@ -31532,8 +31550,8 @@ msgid ""
 "You might want to use :djadmin:`import_demo` to create demo translations "
 "and :djadmin:`createadmin` to make an admin user."
 msgstr ""
-"您会想要使用 :djadmin:`import_demo` 来新建演示译文，并且使用 :djadmin:"
-"`createadmin` 来创建一名管理用户。"
+"您会想要使用 :djadmin:`import_demo` 来新建演示翻译，并且使用 "
+":djadmin:`createadmin` 来创建一名管理用户。"
 
 #: ../../contributing/start.rst:132
 msgid "Coding Weblate with PyCharm"
@@ -31756,7 +31774,7 @@ msgstr "翻译文件中重复的源字符串"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr "译文中重复的语言"
+msgstr "翻译中重复的语言"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge, update, or push failures in the repository"
@@ -31849,11 +31867,11 @@ msgid ""
 "definitions. In most cases the `browser-plugin of languageTool <https://"
 "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgstr ""
-"遵循这些建议支持创建完整的多语言后期编辑工具。好的译文是通过 House 的系统功能"
-"模型定义的，该模型旨在实现上下文正确的译文。编写您自己的`后期编辑指南 "
-"<https://en.wikipedia.org/wiki/Postediting>`_ 并更改这些建议以适合您自己的定"
-"义。大多数情况下，languageTool 的`browser-plugin <https://languagetool.org/"
-"#firefox_chrome>`_ 可用作校对工具。"
+"遵循这些建议支持创建完整的多语言后期编辑工具。好的翻译是通过 House "
+"的系统功能模型定义的，该模型旨在实现上下文正确的翻译。编写您自己的`"
+"后期编辑指南 <https://en.wikipedia.org/wiki/Postediting>`_ "
+"并更改这些建议以适合您自己的定义。大多数情况下，languageTool 的`browser-"
+"plugin <https://languagetool.org/#firefox_chrome>`_ 可用作校对工具。"
 
 #: ../../devel/community.rst:7
 msgid "Community localization checklist"
@@ -31907,7 +31925,7 @@ msgstr ""
 
 #: ../../devel/community.rst:27
 msgid "Review translations"
-msgstr "复查译文"
+msgstr "复查翻译"
 
 #: ../../devel/community.rst:28
 msgid ""
@@ -31926,8 +31944,7 @@ msgstr "结构化的反馈"
 msgid ""
 "There are many :doc:`/user/checks` in Weblate which provide structured "
 "feedback on quality of the translations."
-msgstr ""
-"在Weblate中有许多 :doc:`/user/checks`它们对译文的质量提供结构化的反馈。"
+msgstr "在Weblate中有许多 :doc:`/user/checks`它们对翻译的质量提供结构化的反馈。"
 
 #: ../../devel/community.rst:35
 msgid "Translation definition"
@@ -32132,8 +32149,9 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
-"这新建了模板文件，您可以用它来开始新的译文（使用 `msginit`_），或在代码更改后"
-"更新现有的译文（为此您将使用 `msgmerge`_）。结果文件是简单的结构化文本文件："
+"这新建了模板文件，您可以用它来开始新的翻译（使用 "
+"`msginit`_），或在代码更改后更新现有的翻译（为此您将使用 "
+"`msgmerge`_）。结果文件是简单的结构化文本文件："
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -32275,9 +32293,8 @@ msgid ""
 "Upon installation into your component it will push committed translations "
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
-msgstr ""
-"在安装到您的部件后，它会将已提交的译文（请参见 :ref:`lazy-commit`）推送到 "
-"CDN，这些译文可以在您的网页中用于本地化。"
+msgstr "在安装到您的部件后，它会将已提交的翻译（请参见 :ref:`lazy-commit`）推送到 "
+"CDN，这些翻译可以在您的网页中用于本地化。"
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
@@ -32309,9 +32326,8 @@ msgstr ""
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
-msgstr ""
-"在您已有译文的情况下，您可以将其放置在语言 JSON 文件中，而那些将在 Weblate 中"
-"使用。"
+msgstr "在您已有翻译的情况下，您可以将其放置在语言 JSON 文件中，而那些将在 Weblate "
+"中使用。"
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -32336,7 +32352,7 @@ msgstr ":ref:`addon-weblate.cdn.cdnjs` 附加组件提供了一些配置选项�
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr "在这个阈值之上的译文将包含在 CDN 中。"
+msgstr "在这个阈值之上的翻译将包含在 CDN 中。"
 
 #: ../../devel/html.rst:52
 msgid ""
@@ -32443,9 +32459,8 @@ msgstr "JavaScript本地化"
 msgid ""
 "The individual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
-msgstr ""
-"单独的译文在内容分发网络下暴露为双语 JSON 文件。要获取一个，你可以使用以下代"
-"码:"
+msgstr "单独的翻译在内容分发网络下暴露为双语 JSON "
+"文件。要获取一个，你可以使用以下代码:"
 
 #: ../../devel/html.rst:131
 msgid "The actual localization logic needs to be implemented in this case."
@@ -32472,10 +32487,10 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
-"在 Weblate 中，译文被组织成项目和部件。每个项目可以包含多个部件，这些部件又包"
-"含各个语言的译文。部件对应的是一个可译文的文件（例如 :ref:`gettext` 或 :ref:"
-"`aresource`）。项目可以帮助您将部件组织成逻辑集合（例如，将一个应用中用到的所"
-"有译文集合在一起）。"
+"在 Weblate 中，翻译被组织成项目和部件。每个项目可以包含多个部件，这些部件又包"
+"含各个语言的翻译。部件对应的是一个可翻译的文件（例如 :ref:`gettext` 或 :ref:`"
+"aresource`）。项目可以帮助您将部件组织成逻辑集合（例如，将一个应用中用到的所"
+"有翻译集合在一起）。"
 
 #: ../../snippets/basics.rst:14
 msgid ""
@@ -32485,9 +32500,9 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
-"默认情况下，每个项目内都有对跨部件传播的公共字符串的译文。这减轻了重复和多版"
-"本译文的负担。但假如译文应当有所不同，可以使用 :ref:`component-"
-"allow_translation_propagation` 通过 :ref:`component` 禁用译文传播。"
+"默认情况下，每个项目内都有对跨部件传播的公共字符串的翻译。这减轻了重复和多版"
+"本翻译的负担。但假如翻译应当有所不同，可以使用 :ref:`component-"
+"allow_translation_propagation` 通过 :ref:`component` 禁用翻译传播。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -32500,14 +32515,14 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
-"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，最简单的"
-"方法是授予 Weblate 访问仓库的权限。导入过程将指导您将译文配置进部件。"
+"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，"
+"最简单的方法是授予 Weblate 访问仓库的权限。导入过程将指导您将翻译配置进部件。"
 
 #: ../../devel/integration.rst:13
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
-msgstr "或者，您可以使用 Weblate 设置一个包含所有译文的本地仓库，无需集成。"
+msgstr "或者，您可以使用 Weblate 设置一个包含所有翻译的本地仓库，无需集成。"
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -32515,7 +32530,7 @@ msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:22
 msgid "Fetching updated translations from Weblate"
-msgstr "从 Weblate 获取更新的译文"
+msgstr "从 Weblate 获取更新的翻译"
 
 #: ../../devel/integration.rst:24
 msgid ""
@@ -32544,7 +32559,7 @@ msgstr ""
 msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
-msgstr "另外，您还可以使用 :doc:`/api` 来更新译文以匹配最新版本。"
+msgstr "另外，您还可以使用 :doc:`/api` 来更新翻译以匹配最新版本。"
 
 #: ../../devel/integration.rst:38
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -32577,9 +32592,8 @@ msgstr ""
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
-msgstr ""
-"如果你没在用一个版本管理系统（VCS）集成，可以使用 UI 或 :doc:`/api` 来更新译"
-"文，从而与您的码基匹配。"
+msgstr "如果你没在用一个版本管理系统（VCS）集成，可以使用 UI 或 :doc:`/api` "
+"来更新翻译，从而与您的码基匹配。"
 
 #: ../../devel/integration.rst:57
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -32651,10 +32665,10 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` add-on which will handle "
 "the cleanup according to your requirements."
 msgstr ""
-"对于单语言文件（请参见 :ref:`formats`），Weblate 也许会添加不在 :ref:"
-"`component-template` 和实际译文中的新译文字符串。然而它不会对任何旧的字符串执"
-"行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装附加组件 :ref:"
-"`addon-weblate.cleanup.generic` 根据您的要求处理清理工作。"
+"对于单语言文件（请参见 :ref:`formats`），Weblate 也许会添加不在 :ref"
+":`component-template` 和实际翻译中的新翻译字符串。然而它不会对任何旧的字符串"
+"执行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装附加组件 :ref"
+":`addon-weblate.cleanup.generic` 根据您的要求处理清理工作。"
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -32754,9 +32768,8 @@ msgid ""
 "Resets any changes done in Weblate to match upstream repository. This will "
 "discard all translations done in Weblate and not present in the upstream "
 "repository."
-msgstr ""
-"重置 Weblate 中所做的任何更改以匹配上游仓库。这将丢弃在 Weblate 中完成的所有"
-"译文，并且不存在于上游仓库中。"
+msgstr "重置 Weblate 中所做的任何更改以匹配上游仓库。这将丢弃在 Weblate "
+"中完成的所有翻译，并且不存在于上游仓库中。"
 
 #: ../../devel/integration.rst:153
 msgid ":guilabel:`Cleanup` from :guilabel:`Maintenance`"
@@ -32944,7 +32957,7 @@ msgstr "活动报告"
 msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
-msgstr "活动报告检查项目、部件或独立用户的译文的更改。"
+msgstr "活动报告检查项目、部件或独立用户的翻译的更改。"
 
 #: ../../devel/review.rst:13
 msgid ""
@@ -33013,8 +33026,8 @@ msgid ""
 "this is a string which translators have problems translating properly."
 msgstr ""
 "这里一个最有趣的检查是 :ref:`check-multiple-failures` ——只要给定字符串的多个"
-"译文有一个未通过检查，就会触发它。通常情况下，这是要寻找的东西，因为这是一个"
-"译者在正常译文时遇到问题的字符串。"
+"翻译有一个未通过检查，就会触发它。通常情况下，这是要寻找的东西，因为这是一个"
+"译者在正常翻译时遇到问题的字符串。"
 
 #: ../../devel/review.rst:52
 msgid "The detailed listing is a per language overview:"
@@ -33447,7 +33460,7 @@ msgstr ""
 
 #: ../../devel/translations.rst:2
 msgid "Managing translations"
-msgstr "管理译文"
+msgstr "管理翻译"
 
 #: ../../devel/translations.rst:9
 msgid ""
@@ -33457,9 +33470,9 @@ msgid ""
 "case with most monolingual translation flows, you can start with empty "
 "files)."
 msgstr ""
-"当新字符串出现在被称为 :guilabel:`新译文的译文模版` 的译文模版文件中时，就可"
-"以对其进行译文（请参见 :ref:`component`）。如果您的文件格式不需要这样的文件，"
-"那么和大多数单语译文流程一样，您可以从空文件开始）。"
+"当新字符串出现在被称为 :guilabel:`新翻译的翻译模版` "
+"的翻译模版文件中时，就可以对其进行翻译（请参见 :ref:`component`）。如果您的文"
+"件格式不需要这样的文件，那么和大多数单语翻译流程一样，您可以从空文件开始）。"
 
 #: ../../devel/translations.rst:14
 msgid ""
@@ -33568,8 +33581,7 @@ msgstr "将基于变体的键自动化"
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
-msgstr ""
-"可以定义正则表达式，基于 :ref:`component` 的单语言译文的键将字符串分组："
+msgstr "可以定义正则表达式，基于 :ref:`component` 的单语言翻译的键将字符串分组："
 
 #: ../../devel/translations.rst:83
 msgid ""
@@ -33630,7 +33642,7 @@ msgid ""
 "should be considered together when translating."
 msgstr ""
 "可以使用 ``variant:SOURCE`` 标记手动连接特定字符串。这对没有键将字符串自动分"
-"组，或者需要将键不匹配但在译文时应一起考虑的字符串进行分组的双语译文很有用。"
+"组，或者需要将键不匹配但在翻译时应一起考虑的字符串进行分组的双语翻译很有用。"
 
 #: ../../devel/translations.rst:108
 msgid ""
@@ -33690,9 +33702,8 @@ msgid ""
 "Weblate can handle all the translation things semi-automatically for you. If "
 "you give it push access to your repository, the translations can happen "
 "without interaction, unless some merge conflict occurs."
-msgstr ""
-"Weblate 可以为您半自动处理所有译文工作。如果授予它对仓库的推送访问权限，则译"
-"文可以在没有交互的情况下进行，除非发生某些合并冲突。"
+msgstr "Weblate 可以为您半自动处理所有翻译工作。如果授予它对仓库的推送访问权限，则翻"
+"译可以在没有交互的情况下进行，除非发生某些合并冲突。"
 
 #: ../../faq.rst:16
 msgid ""
@@ -33733,7 +33744,7 @@ msgstr "设置 SSH 密钥的信息请参阅 :ref:`vcs-repos`。"
 
 #: ../../faq.rst:36
 msgid "How to fix merge conflicts in translations?"
-msgstr "如何修复译文中的合并冲突？"
+msgstr "如何修复翻译中的合并冲突？"
 
 #: ../../faq.rst:38
 msgid ""
@@ -33745,10 +33756,11 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
-"当 Weblate 和上游仓库的译文文件同时被更改时，合并冲突时有发生。通常可以通过在"
-"对译文文件进行更改前（例如在运行 msgmerge 前）先合并 Weblate 的译文来避免这种"
-"情况。只需告诉 Weblate 提交所有待处理的译文（可以在 :guilabel:`管理` 菜单中"
-"的 :guilabel:`仓库维护` 中执行此操作），并合并仓库（如果没有开启自动推送）。"
+"当 Weblate 和上游仓库的翻译文件同时被更改时，合并冲突时有发生。通常可以通过在"
+"对翻译文件进行更改前（例如在运行 msgmerge 前）先合并 Weblate "
+"的翻译来避免这种情况。只需告诉 Weblate 提交所有待处理的翻译（可以在 "
+":guilabel:`管理` 菜单中的 :guilabel:`仓库维护` "
+"中执行此操作），并合并仓库（如果没有开启自动推送）。"
 
 #: ../../faq.rst:46
 msgid ""
@@ -33813,9 +33825,9 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblate 支持在一个 :ref:`project` 内推送译文更改。对于每个将其打开的 :ref:"
-"`component` （默认行为），所作的更改自动传递给其它部件。即使分支本身已经非常"
-"多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并译文更改。"
+"Weblate 支持在一个 :ref:`project` 内推送翻译更改。对于每个将其打开的 "
+":ref:`component` （默认行为），所作的更改自动传递给其它部件。即使分支本身已经"
+"非常多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并翻译更改。"
 
 #: ../../faq.rst:158
 msgid ""
@@ -33919,15 +33931,14 @@ msgstr "当然您可以按您的意愿自由混用所有这些方法。"
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
-msgstr "如何限制 Weblate 仅访问译文，而不向其暴露源代码？"
+msgstr "如何限制 Weblate 仅访问翻译，而不向其暴露源代码？"
 
 #: ../../faq.rst:219
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
-msgstr ""
-"可以使用 `git submodule`_ 将译文从源代码中分离出来，而仍将它们至于版本控制之"
-"下。"
+msgstr "可以使用 `git submodule`_ "
+"将翻译从源代码中分离出来，而仍将它们至于版本控制之下。"
 
 #: ../../faq.rst:222
 msgid "Create a repository with your translation files."
@@ -33945,7 +33956,7 @@ msgstr "将 Weblate 连接到这个仓库上，它不再需要访问包含您源
 
 #: ../../faq.rst:231
 msgid "You can update the main repository with translations from Weblate by:"
-msgstr "可以从 Weblate 更新带有译文的主仓库，通过："
+msgstr "可以从 Weblate 更新带有翻译的主仓库，通过："
 
 #: ../../faq.rst:237
 msgid "Please consult the `git submodule`_ documentation for more details."
@@ -34014,7 +34025,7 @@ msgid ""
 msgstr ""
 "要在更改文件位置后保留链接到字符串的历史记录，注释或屏幕截图，您需要确保这些"
 "字符串永远不会在Weblate中删除。如果 Weblate 仓库已更新，但组件配置仍指向旧文"
-"件，则可能会发生这些删除操作。这使得Weblate认为它应该删除所有译文。"
+"件，则可能会发生这些删除操作。这使得Weblate认为它应该删除所有翻译。"
 
 #: ../../faq.rst:283
 msgid "The solution to this is to perform the operation in sync with Weblate:"
@@ -34058,7 +34069,7 @@ msgstr "解锁部件并重新启用项目配置中的挂钩。"
 
 #: ../../faq.rst:296
 msgid "How do I review the translations of others?"
-msgstr "如何复查其他人的译文？"
+msgstr "如何复查其他人的翻译？"
 
 #: ../../faq.rst:298
 msgid ""
@@ -34079,8 +34090,7 @@ msgid ""
 "There is a review tool available at the bottom of the translation view, "
 "where you can choose to browse translations made by others since a given "
 "date."
-msgstr ""
-"在译文视图底部有个复查工具，可以在那里选择浏览给定时间以来其他人进行的译文。"
+msgstr "在翻译视图底部有个复查工具，可以在那里选择浏览给定时间以来其他人进行的翻译。"
 
 #: ../../faq.rst:306
 msgid ":ref:`workflows`"
@@ -34100,13 +34110,13 @@ msgstr ""
 
 #: ../../faq.rst:320
 msgid "How can I use existing translations while translating?"
-msgstr "译文时如何使用现有的译文？"
+msgstr "翻译时如何使用现有的翻译？"
 
 #: ../../faq.rst:322
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "得益于共享的译文记忆库，Weblate 中的所有译文都可以使用。"
+msgstr "得益于共享的翻译记忆库，Weblate 中的所有翻译都可以使用。"
 
 #: ../../faq.rst:323
 msgid "You can import existing translation memory files into Weblate."
@@ -34117,9 +34127,8 @@ msgid ""
 "Use the import functionality to load compendium as translations, suggestions "
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
-msgstr ""
-"使用导入功能将概要导入作为译文、建议或需要复查的译文。这是使用概要或相似的译"
-"文数据库一次性译文的最好方法。"
+msgstr "使用导入功能将概要导入作为翻译、建议或需要复查的翻译。这是使用概要或相似的翻"
+"译数据库一次性翻译的最好方法。"
 
 #: ../../faq.rst:327
 msgid ""
@@ -34135,9 +34144,8 @@ msgid ""
 "Another option is to translate all related projects in a single Weblate "
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
-msgstr ""
-"另一个选项是在单一 Weblate 实例中译文所有相关项目，这样同样可以从其它项目中自"
-"动地获取译文。"
+msgstr "另一个选项是在单一 Weblate "
+"实例中翻译所有相关项目，这样同样可以从其它项目中自动地获取翻译。"
 
 #: ../../faq.rst:336
 msgid ""
@@ -34147,7 +34155,7 @@ msgstr ""
 
 #: ../../faq.rst:343
 msgid "Does Weblate update translation files besides translations?"
-msgstr "Weblate 除了更新译文，还更新译文文件吗？"
+msgstr "Weblate 除了更新翻译，还更新翻译文件吗？"
 
 #: ../../faq.rst:345
 msgid ""
@@ -34203,8 +34211,7 @@ msgstr ""
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
-msgstr ""
-"对于单语言译文，Weblate 可以通过 ID 找到之前的字符串，因此可以自动显示差异。"
+msgstr "对于单语言翻译，Weblate 可以通过 ID 找到之前的字符串，因此可以自动显示差异。"
 
 #: ../../faq.rst:386
 msgid ""
@@ -34547,9 +34554,8 @@ msgid ""
 "Weblate can automatically detect several widespread file formats, but this "
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
-msgstr ""
-"Weblate 可以自动检测几种常用的文件格式，但是这种检测会损害您的性能，并且会限"
-"制特定于给定文件格式的功能（例如，自动添加新译文）。"
+msgstr "Weblate 可以自动检测几种常用的文件格式，但是这种检测会损害您的性能，并且会限"
+"制特定于给定文件格式的功能（例如，自动添加新翻译）。"
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
@@ -35224,11 +35230,11 @@ msgstr "Java 属性"
 
 #: ../../formats.rst:428
 msgid "Native Java format for translations."
-msgstr "Java 原生译文格式。"
+msgstr "Java 原生翻译格式。"
 
 #: ../../formats.rst:430
 msgid "Java properties are usually used as monolingual translations."
-msgstr "Java 属性通常用作单语言译文。"
+msgstr "Java 属性通常用作单语言翻译。"
 
 #: ../../formats.rst:432
 msgid ""
@@ -35313,11 +35319,11 @@ msgstr "GWT 属性"
 
 #: ../../formats.rst:508
 msgid "Native GWT format for translations."
-msgstr "GWT 原生译文格式。"
+msgstr "GWT 原生翻译格式。"
 
 #: ../../formats.rst:510
 msgid "GWT properties are usually used as monolingual translations."
-msgstr "GWT 属性通常用作单语言译文。"
+msgstr "GWT 属性通常用作单语言翻译。"
 
 #: ../../formats.rst:521
 msgid "`GWT Properties`"
@@ -35339,15 +35345,15 @@ msgstr ""
 
 #: ../../formats.rst:536
 msgid "INI translations"
-msgstr "INI 译文"
+msgstr "INI 翻译"
 
 #: ../../formats.rst:543
 msgid "INI file format for translations."
-msgstr "用于译文的 INI 文件格式。"
+msgstr "用于翻译的 INI 文件格式。"
 
 #: ../../formats.rst:545
 msgid "INI translations are usually used as monolingual translations."
-msgstr "INI 译文通常用作单语言译文。"
+msgstr "INI 翻译通常用作单语言翻译。"
 
 #: ../../formats.rst:550
 msgid "``language/*.ini``"
@@ -35377,16 +35383,16 @@ msgstr ""
 
 #: ../../formats.rst:575
 msgid "Inno Setup INI translations"
-msgstr "Inno Setup INI 译文"
+msgstr "Inno Setup INI 翻译"
 
 #: ../../formats.rst:582
 msgid "Inno Setup INI file format for translations."
-msgstr "用于译文的 Inno Setup INI 文件格式。"
+msgstr "用于翻译的 Inno Setup INI 文件格式。"
 
 #: ../../formats.rst:584
 msgid ""
 "Inno Setup INI translations are usually used as monolingual translations."
-msgstr "Inno Setup INI 译文，通常用作单语言译文。"
+msgstr "Inno Setup INI 翻译，通常用作单语言翻译。"
 
 #: ../../formats.rst:588
 msgid ""
@@ -35421,15 +35427,15 @@ msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
 
 #: ../../formats.rst:617
 msgid "Joomla translations"
-msgstr "Joomla 译文"
+msgstr "Joomla 翻译"
 
 #: ../../formats.rst:624
 msgid "Native Joomla format for translations."
-msgstr "Joomla 原生译文格式。"
+msgstr "Joomla 原生翻译格式。"
 
 #: ../../formats.rst:626
 msgid "Joomla translations are usually used as monolingual translations."
-msgstr "Joomla 译文通常用作单语言译文。"
+msgstr "Joomla 翻译通常用作单语言翻译。"
 
 #: ../../formats.rst:631
 msgid "``language/*/com_foobar.ini``"
@@ -35458,7 +35464,7 @@ msgstr "基于 Qt 的应用中使用的翻译格式。"
 #: ../../formats.rst:657
 msgid ""
 "Qt Linguist files are used as both bilingual and monolingual translations."
-msgstr "Qt Linguist 文件既用作双语译文，也用作单语译文。"
+msgstr "Qt Linguist 文件既用作双语翻译，也用作单语翻译。"
 
 #: ../../formats.rst:660
 msgid "Typical Weblate :ref:`component` when using as bilingual"
@@ -35553,8 +35559,7 @@ msgstr ""
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
-msgstr ""
-"这个脚本可以帮助预处理现有的 strings.xml 文件和译文：https://gist.github.com/"
+msgstr "这个脚本可以帮助预处理现有的 strings.xml 文件和翻译：https://gist.github.com/"
 "paour/11291062"
 
 #: ../../formats.rst:750
@@ -35621,8 +35626,7 @@ msgstr "PHP 字符串"
 msgid ""
 "PHP translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
-msgstr ""
-"PHP译文通常只包含一种语言，因此建议指定(最常见的)带英语字符串的模板文件。"
+msgstr "PHP翻译通常只包含一种语言，因此建议指定(最常见的)带英语字符串的模板文件。"
 
 #: ../../formats.rst:802 ../../formats.rst:873 ../../formats.rst:947
 #: ../../formats.rst:1061 ../../formats.rst:1191
@@ -35679,7 +35683,7 @@ msgstr "JSON 格式主要用于翻译用 JavaScript 实现的应用程序。"
 
 #: ../../formats.rst:861
 msgid "Weblate currently supports several variants of JSON translations:"
-msgstr "Weblate 目前支持 JSON 译文的几种变体："
+msgstr "Weblate 目前支持 JSON 翻译的几种变体："
 
 #: ../../formats.rst:863
 msgid ""
@@ -35694,8 +35698,7 @@ msgstr "具有嵌套键的文件。"
 msgid ""
 "JSON translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
-msgstr ""
-"JSON 译文通常是单语言的，因此推荐指定带有（最经常使用的）英语字符串的译文模板"
+msgstr "JSON 翻译通常是单语言的，因此推荐指定带有（最经常使用的）英语字符串的翻译模板"
 "文件。"
 
 #: ../../formats.rst:878
@@ -35768,9 +35771,8 @@ msgstr ""
 msgid ""
 "i18next translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
-msgstr ""
-"i18next 译文是单语的，因此建议使用英语字符串（最常见的是英语字符串）指定基本"
-"文件。"
+msgstr "i18next "
+"翻译是单语的，因此建议使用英语字符串（最常见的是英语字符串）指定基本文件。"
 
 #: ../../formats.rst:942
 msgid ""
@@ -35816,8 +35818,7 @@ msgstr "go-i18n JSON 文件"
 msgid ""
 "go-i18n translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
-msgstr ""
-"go-i18n 译文是单语言的因此建议使用（最常见的）英文字符串指定一个基本文件。"
+msgstr "go-i18n 翻译是单语言的因此建议使用（最常见的）英文字符串指定一个基本文件。"
 
 #: ../../formats.rst:987
 msgid ""
@@ -35849,7 +35850,7 @@ msgstr "ARB 文件"
 msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
-msgstr "ARB 译文是单语言的，因此建议使用（通常是）英文字符串指定一个基本文件。"
+msgstr "ARB 翻译是单语言的，因此建议使用（通常是）英文字符串指定一个基本文件。"
 
 #: ../../formats.rst:1026
 msgid "``lib/l10n/intl_*.arb``"
@@ -36098,7 +36099,7 @@ msgstr "多值 CSV 文件"
 msgid ""
 "This variant of the CSV files allows storing multiple translations per "
 "string."
-msgstr "CSV文件的这种变体允许每个字符串存储多个译文。"
+msgstr "CSV文件的这种变体允许每个字符串存储多个翻译。"
 
 #: ../../formats.rst:1229
 msgid ":doc:`tt:formats/csv`"
@@ -36358,10 +36359,11 @@ msgid ""
 "string). If you use the XLSX download for exporting the translations into an "
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
-"上传 XLSX 文件进行译文时，请注意只考虑活动工作表，并且必须至少有一个名为 "
-"``source`` （包含源字符串）的列和一个名为 ``target`` （包含译文）的列此外应该"
-"有一个名为的列 ``context`` （其中包含译文字符串的上下文路径）。如果您使用 "
-"XLSX 下载将译文导出到 Excel 工作簿，您已经获得了具有正确文件格式的文件。"
+"上传 XLSX 文件进行翻译时，请注意只考虑活动工作表，并且必须至少有一个名为 "
+"``source`` （包含源字符串）的列和一个名为 ``target`` （包含翻译）"
+"的列此外应该有一个名为的列 ``context`` （其中包含翻译字符串的上下文路径）。"
+"如果您使用 XLSX 下载将翻译导出到 Excel "
+"工作簿，您已经获得了具有正确文件格式的文件。"
 
 #: ../../formats.rst:1474
 msgid "HTML files"
@@ -36715,9 +36717,8 @@ msgid ""
 "The Hosted Weblate service has not been audited for compliance with ITAR or "
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
-msgstr ""
-"Hosted Weblate 服务未经过 ITAR 或其他出口管制合规性审核，目前不提供按国家/地"
-"区限制译文访问的功能。"
+msgstr "Hosted Weblate 服务未经过 ITAR "
+"或其他出口管制合规性审核，目前不提供按国家/地区限制翻译访问的功能。"
 
 #: ../../legal.rst:24
 msgid "US encryption controls"
@@ -37021,7 +37022,7 @@ msgstr "译文检查"
 msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
-msgstr "在每次译文更改时执行，帮助译者提交高质量的译文。"
+msgstr "在每次翻译更改时执行，帮助译者提交高质量的翻译。"
 
 #: ../../user/checks.rst:48
 msgid "BBCode markup"
@@ -38146,8 +38147,7 @@ msgstr "已翻译"
 msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
-msgstr ""
-"表示一个字符串已经被翻译。当译文已在版本控制系统（VCS）中恢复或以其他方式丢失"
+msgstr "表示一个字符串已经被翻译。当翻译已在版本控制系统（VCS）中恢复或以其他方式丢失"
 "时，可能会发生这种情况。"
 
 #: ../../user/checks.rst:645
@@ -38174,8 +38174,7 @@ msgstr "``ignore-inconsistent``"
 msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
-msgstr ""
-"Weblate 检查一个项目内所有译文中相同字符串的译文，以帮助您保持译文的一致性。"
+msgstr "Weblate 检查一个项目内所有翻译中相同字符串的翻译，以帮助您保持翻译的一致性。"
 
 #: ../../user/checks.rst:656
 msgid ""
@@ -38183,8 +38182,8 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
-"在一个项目中对一个字符串的不同译文，检查会失败。这也会导致检查结果的不一致。"
-"你可以在 :guilabel:`其它的出现位置` 选项卡上找到这个字符串的其他译文。"
+"在一个项目中对一个字符串的不同翻译，检查会失败。这也会导致检查结果的不一致。"
+"你可以在 :guilabel:`其它的出现位置` 选项卡上找到这个字符串的其他翻译。"
 
 #: ../../user/checks.rst:660
 msgid ""
@@ -38353,7 +38352,7 @@ msgstr "``max-length:N``"
 msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
-msgstr "检查译文的长度是否符合可用空间的要求。这只会检查译文字符的长度。"
+msgstr "检查翻译的长度是否符合可用空间的要求。这只会检查翻译字符的长度。"
 
 #: ../../user/checks.rst:782
 msgid ""
@@ -39296,9 +39295,8 @@ msgid ""
 "Numerous translations of this string have failing quality checks. This is "
 "usually an indication that something could be done to improve the source "
 "string."
-msgstr ""
-"该字符串的许多译文都未通过质量检查。这通常表明可以采取一些措施来改进源字符"
-"串。"
+msgstr "该字符串的许多翻译都未通过质量检查。这通常表明可以采取一些措施来改进源字符串"
+"。"
 
 #: ../../user/checks.rst:1387
 msgid ""
@@ -39406,8 +39404,7 @@ msgid ""
 "stored in the repository. In this case, any pending changes in the "
 "translation are getting committed and the up-to-date file is yield without "
 "any conversions."
-msgstr ""
-"第一个选项是下载存储在仓库中的原始格式的文件。在这种情况下，将提交译文中的任"
+msgstr "第一个选项是下载存储在仓库中的原始格式的文件。在这种情况下，将提交翻译中的任"
 "何挂起更改，并且生成最新文件而不进行任何转换。"
 
 #: ../../user/files.rst:25
@@ -39452,15 +39449,15 @@ msgstr "CSV"
 
 #: ../../user/files.rst:38
 msgid "JSON (only available for monolingual translations)"
-msgstr "JSON（仅适用于单语译文）"
+msgstr "JSON（仅适用于单语翻译）"
 
 #: ../../user/files.rst:39
 msgid "Android String Resource (only available for monolingual translations)"
-msgstr "Android 字符串资源（仅适用于单语译文）"
+msgstr "Android 字符串资源（仅适用于单语翻译）"
 
 #: ../../user/files.rst:40
 msgid "iOS strings (only available for monolingual translations)"
-msgstr "iOS 字符串（仅适用于单语译文）"
+msgstr "iOS 字符串（仅适用于单语翻译）"
 
 #: ../../user/files.rst:44
 msgid ""
@@ -39543,8 +39540,7 @@ msgstr "添加为需要编辑的译文（``fuzzy``）"
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
-msgstr ""
-"导入的字符串将添加为需要编辑的译文。当您希望使用译文并进行审阅时，这可能很有"
+msgstr "导入的字符串将添加为需要编辑的翻译。当您希望使用翻译并进行审阅时，这可能很有"
 "用。"
 
 #: ../../user/files.rst:100
@@ -39586,9 +39582,8 @@ msgstr "将新字符串添加到翻译中。它将跳过已经存在的那个。
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
-msgstr ""
-"如果您想添加新字符串并更新现有译文，请使用 :guilabel:`添加为译文` 第二次上传"
-"文件。"
+msgstr "如果您想添加新字符串并更新现有翻译，请使用 :guilabel:`添加为翻译` "
+"第二次上传文件。"
 
 #: ../../user/files.rst:113
 msgid ""
@@ -39640,9 +39635,8 @@ msgid ""
 "This can be useful in case you've received the file in another way and want "
 "to merge it into existing translations while properly crediting the actual "
 "author."
-msgstr ""
-"使用管理员权限，您还可以指定上传文件的作者身份。如果您以其他方式收到文件并希"
-"望将其合并到现有译文中，同时正确注明实际作者，这可能很有用。"
+msgstr "使用管理员权限，您还可以指定上传文件的作者身份。如果您以其他方式收到文件并希"
+"望将其合并到现有翻译中，同时正确注明实际作者，这可能很有用。"
 
 #: ../../user/glossary.rst:6
 msgid ""
@@ -39733,10 +39727,10 @@ msgid ""
 "or other terms that should not be changed in other languages. Such terms are "
 "visually highlighted in the glossary sidebar."
 msgstr ""
-"通过批量编辑、输入标记或使用 :guilabel:`工具` ↓ :guilabel:`标记为不可翻译` 来"
-"标记某些术语的译文为 ``read-only`` 意味着它们不能被翻译。对于品牌名称或其他不"
-"应该在其他语言中被改变的术语，可以使用这个方法。这样的术语会在术语表侧边栏中"
-"直观地突出显示。"
+"通过批量编辑、输入标记或使用 :guilabel:`工具` ↓ :guilabel:`标记为不可翻译` "
+"来标记某些术语的翻译为 ``read-only`` 意味着它们不能被翻译。对于品牌名称或其他"
+"不应该在其他语言中被改变的术语，可以使用这个方法。这样的术语会在术语表侧边栏"
+"中直观地突出显示。"
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
@@ -39750,9 +39744,9 @@ msgid ""
 "clarify translation when some words are ambiguous or could have unexpected "
 "meanings."
 msgstr ""
-"通过批量编辑、输入标记或使用 :guilabel:`工具` ↓ :guilabel:`标记为禁止的译文` "
-"来将某些术语表术语译文标记为 ``forbidden`` 意味着它们 **不能** 被使用。当某些"
-"单词模棱两可或可能具有意想不到的含义时，使用它来澄清译文。"
+"通过批量编辑、输入标记或使用 :guilabel:`工具` ↓ :guilabel:`标记为禁止的翻译` "
+"来将某些术语表术语翻译标记为 ``forbidden`` 意味着它们 **不能** "
+"被使用。当某些单词模棱两可或可能具有意想不到的含义时，使用它来澄清翻译。"
 
 #: ../../user/glossary.rst:84
 msgid "Terminology"
@@ -39800,9 +39794,8 @@ msgid ""
 "Everybody can browse projects, view translations or suggest translations by "
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
-msgstr ""
-"默认情况下，每个人都可以浏览项目、查看译文或建议译文。只有注册用户才能实际保"
-"存更改，并且每次译文都会获得积分。"
+msgstr "默认情况下，每个人都可以浏览项目、查看翻译或建议翻译。只有注册用户才能实际保"
+"存更改，并且每次翻译都会获得积分。"
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
@@ -39866,9 +39859,8 @@ msgid ""
 ":guilabel:`Watched translations` in the Dashboard will show translation "
 "status of only those projects you are watching, filtered by your primary "
 "languages."
-msgstr ""
-":guilabel:`观察的译文` 在操作面板中将仅显示您正在观看的项目的译文状态，按您的"
-"主要语言过滤。"
+msgstr ":guilabel:`观察的翻译` "
+"在操作面板中将仅显示您正在观看的项目的翻译状态，按您的主要语言过滤。"
 
 #: ../../user/profile.rst:45
 msgid ""
@@ -39945,9 +39937,8 @@ msgid ""
 "Choose which languages you prefer to translate, and they will be offered on "
 "the main page of watched projects, so that you have easier access to these "
 "all translations in each of those languages."
-msgstr ""
-"选择您喜欢译文的语言，它们将在观看项目的主页上提供，以便您可以更轻松地访问每"
-"种语言的所有译文。"
+msgstr "选择您喜欢翻译的语言，它们将在观看项目的主页上提供，以便您可以更轻松地访问每"
+"种语言的所有翻译。"
 
 #: ../../user/profile.rst:97
 msgid "Secondary languages"
@@ -40300,7 +40291,7 @@ msgid ""
 "string states (``approved``, ``translated``, ``untranslated``, ``needs-"
 "editing``, ``read-only``)."
 msgstr ""
-"搜索待处理的译文 ( ``pending``)。还可以搜索所有字符串状态 (``approved``, "
+"搜索待处理的翻译 ( ``pending``)。还可以搜索所有字符串状态 (``approved``, "
 "``translated``, ``untranslated``, ``needs-editing``, ``read-only``)。"
 
 #: ../../user/search.rst:51
@@ -40596,7 +40587,7 @@ msgstr "总体而言，有两种翻译模式："
 
 #: ../../user/translating.rst:10
 msgid "The project accepts direct translations"
-msgstr "该项目接受直接译文"
+msgstr "该项目接受直接翻译"
 
 #: ../../user/translating.rst:11
 msgid ""
@@ -40821,7 +40812,7 @@ msgstr ""
 
 #: ../../user/translating.rst:158
 msgid "Alternative translations"
-msgstr "备选译文"
+msgstr "备选翻译"
 
 #: ../../user/translating.rst:164
 msgid "This is currently only supported with :ref:`multivalue-csv`."
@@ -40833,9 +40824,8 @@ msgid ""
 "string. You can add more alternative translations using the :guilabel:"
 "`Tools` menu. Any blank alternative translations will be automatically "
 "removed upon saving."
-msgstr ""
-"对于某些格式，单个字符串可以有多种译文。您可以使用 :guilabel:`工具` 菜单添加"
-"更多替代译文。保存后将自动删除任何空白的替代译文。"
+msgstr "对于某些格式，单个字符串可以有多种翻译。您可以使用 :guilabel:`工具` "
+"菜单添加更多替代翻译。保存后将自动删除任何空白的替代翻译。"
 
 #: ../../user/translating.rst:172
 msgid "Keyboard shortcuts"
@@ -41244,8 +41234,8 @@ msgid ""
 "memory`. All machine translations are available in a single tab of each "
 "translation page."
 msgstr ""
-"根据配置和您的译文语言，Weblate 提供来自多个机器译文工具和 :ref:`translation-"
-"memory` 的建议。所有机器译文都在每个译文页面的一个选项卡中提供。"
+"根据配置和您的翻译语言，Weblate 提供来自多个机器翻译工具和 :ref:`translation-"
+"memory` 的建议。所有机器翻译都在每个翻译页面的一个选项卡中提供。"
 
 #: ../../user/translating.rst:339
 msgid ""
@@ -41268,13 +41258,13 @@ msgstr "有两种操作模式可供选择："
 
 #: ../../user/translating.rst:354
 msgid "Using other Weblate components as a source for translations."
-msgstr "使用其他 Weblate 部件作为译文的来源。"
+msgstr "使用其他 Weblate 部件作为翻译的来源。"
 
 #: ../../user/translating.rst:355
 msgid ""
 "Using selected machine translation services with translations above a "
 "certain quality threshold."
-msgstr "使用选定的机器译文服务，译文高于特定质量阈值。"
+msgstr "使用选定的机器翻译服务，翻译高于特定质量阈值。"
 
 #: ../../user/translating.rst:358
 msgid "You can also choose which strings are to be auto-translated."
@@ -41284,9 +41274,8 @@ msgstr "您还可以选择要自动翻译的字符串。"
 msgid ""
 "Be mindful that this will overwrite existing translations if employed with "
 "wide filters such as :guilabel:`All strings`."
-msgstr ""
-"请注意，如果使用诸如 :guilabel:`所有字符串` 之类的宽过滤器，这将覆盖现有的译"
-"文。"
+msgstr "请注意，如果使用诸如 :guilabel:`所有字符串` "
+"之类的宽过滤器，这将覆盖现有的翻译。"
 
 #: ../../user/translating.rst:365
 msgid ""
@@ -41392,8 +41381,7 @@ msgstr ""
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages and quickly add them from one view."
-msgstr ""
-"矩阵视图也是一个非常好的起点，可以找到不同语言中缺少的译文，并从一个视图中快"
+msgstr "矩阵视图也是一个非常好的起点，可以找到不同语言中缺少的翻译，并从一个视图中快"
 "速添加它们。"
 
 #: ../../user/translating.rst:436
@@ -41418,9 +41406,9 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side` depending on your personal preference."
 msgstr ""
-"您可以使用 :ref:`user-profile` 上的 :ref:`profile-preferences` 选项卡选择禅编"
-"辑器作为默认编辑器。在这里，您还可以根据您的个人喜好选择到底是 :guilabel:`从"
-"上到下` 还是 :guilabel:`并排` 列出译文。"
+"您可以使用 :ref:`user-profile` 上的 :ref:`profile-preferences` "
+"选项卡选择禅编辑器作为默认编辑器。在这里，您还可以根据您的个人喜好选择到底是 "
+":guilabel:`从上到下` 还是 :guilabel:`并排` 列出翻译。"
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -41776,9 +41764,8 @@ msgid ""
 "This behaves exactly like Git itself, the only difference being that it "
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
-msgstr ""
-"这与 Git 本身的行为完全一样，唯一的区别是它总是强制推送。这仅适用于使用单独的"
-"译文仓库的情况。"
+msgstr "这与 Git 本身的行为完全一样，唯一的区别是它总是强制推送。这仅适用于使用单独的"
+"翻译仓库的情况。"
 
 #: ../../vcs.rst:219
 msgid ""
@@ -42403,7 +42390,7 @@ msgstr "上传翻译文件。"
 
 #: ../../wlc.rst:265
 msgid "Overwrite existing translations upon uploading."
-msgstr "上传时覆盖现有译文。"
+msgstr "上传时覆盖现有翻译。"
 
 #: ../../wlc.rst:269
 msgid ""
