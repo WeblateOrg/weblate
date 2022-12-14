@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-14 07:25+0000\n"
+"PO-Revision-Date: 2022-12-14 14:35+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3031,11 +3031,11 @@ msgstr "Tira linhas em branco e comentários."
 
 #: ../../admin/addons.rst:676
 msgid "Sorts the strings by the keys."
-msgstr "Ordena as strings pelas chaves."
+msgstr "Ordena os textos pelas chaves."
 
 #: ../../admin/addons.rst:677
 msgid "Drops duplicate strings."
-msgstr "Solta strings duplicadas."
+msgstr "Descarta textos duplicados."
 
 #: ../../admin/addons.rst:682
 msgid "Stale comment removal"
@@ -4181,8 +4181,8 @@ msgid ""
 "The example above and the Docker image define an IDP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
-"O exemplo acima e a imagem do Docker definem um IDP chamado``weblate``. Pode "
-"ser preciso configurar esta string como :guilabel:`Relay` em seu IDP."
+"O exemplo acima e a imagem do Docker definem um IDP chamado ``weblate``. "
+"Pode ser preciso configurar este texto como :guilabel:`Relay` em seu IDP."
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -5219,7 +5219,7 @@ msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
-"A texto é somente leitura e não deve ser editado no Weblate, veja :ref:`read-"
+"O texto é somente leitura e não deve ser editado no Weblate, veja :ref:`read-"
 "only-strings`."
 
 #: ../../admin/checks.rst:57
@@ -14499,13 +14499,12 @@ msgid "Configuration beyond environment variables"
 msgstr "Configuração além das variáveis de ambiente"
 
 #: ../../admin/install/docker.rst:1620
-#, fuzzy
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
-":ref:`As variáveis de ambiente do Docker <docker-environment>` destinam-se a "
+"As :ref:`variáveis de ambiente do Docker <docker-environment>` destinam-se a "
 "expor a maioria das :ref:`definições de configuração <config>` de relevância "
 "para as instalações do Weblate."
 
@@ -14563,13 +14562,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1654
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`Crie um pacote Python personalizado <custom-module>`."
 
 #: ../../admin/install/docker.rst:1656
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
+"Adicione um módulo ao seu pacote que importe todas as configurações de "
+"``weblate.settings_docker``."
 
 #: ../../admin/install/docker.rst:1659
 msgid ""
@@ -14577,6 +14578,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Por exemplo, dentro da estrutura de pacote de exemplo definida em :ref"
+":`custom-module`, você pode criar um arquivo em ``weblate_customization/"
+"weblate_customization/settings.py`` com o seguinte código inicial:"
 
 #: ../../admin/install/docker.rst:1668
 msgid ""
@@ -14584,12 +14588,17 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"Crie um ``Dockerfile`` personalizado que herde da imagem oficial do Weblate "
+"Docker e, em seguida, instale seu pacote e aponte a variável de ambiente "
+"``DJANGO_SETTINGS_MODULE`` para seu módulo de configurações:"
 
 #: ../../admin/install/docker.rst:1684
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"Em vez de usar a imagem Docker oficial do Weblate, construa uma imagem "
+"personalizada a partir deste arquivo ``Dockerfile``."
 
 #: ../../admin/install/docker.rst:1687
 msgid ""
@@ -14598,6 +14607,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"Não existe ``nenhuma maneira limpa <https://github.com/docker/compose/issues/"
+"7231>`__ de fazer isso com ``docker-compose.override.yml``. Você *poderia* "
+"adicionar ``build: .`` ao nó ``weblate`` nesse arquivo, mas sua imagem "
+"personalizada será marcada como ``weblate/weblate`` em seu sistema, o que "
+"pode ser problemático."
 
 #: ../../admin/install/docker.rst:1693
 msgid ""
@@ -14607,16 +14621,26 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"Então, ao invés de usar o ``docker-compose.yml`` direto do `repositório "
+"oficial <https://github.com/WeblateOrg/docker-compose>`__, não modificado, e "
+"estendê-lo através do ``docker-compose .override.yml``, você pode querer "
+"fazer uma cópia do arquivo ``docker-compose.yml`` oficial, e editar sua "
+"cópia para substituir ``image: weblate/weblate`` por ``build: .``."
 
 #: ../../admin/install/docker.rst:1699
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"Consulte a `Referência de compilação do arquivo Compose`_ para obter "
+"detalhes sobre como criar imagens a partir da fonte ao usar ``docker-"
+"compose``."
 
 #: ../../admin/install/docker.rst:1704
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
+"Estenda seu módulo de configurações personalizadas para definir ou redefinir "
+"as configurações."
 
 #: ../../admin/install/docker.rst:1706
 msgid ""
@@ -14626,6 +14650,12 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overriden."
 msgstr ""
+"Você pode definir as configurações antes ou depois da instrução de "
+"importação acima para determinar quais configurações têm precedência. As "
+"configurações definidas antes da instrução de importação podem ser "
+"substituídas por variáveis de ambiente e substituições de configuração "
+"definidas no volume de dados. A configuração definida após a instrução de "
+"importação não pode ser substituída."
 
 #: ../../admin/install/docker.rst:1712
 msgid ""
@@ -14635,6 +14665,11 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"Você também pode ir mais longe. Por exemplo, você pode reproduzir algumas "
+"das coisas que ``weblate.docker_settings`` `faz <https://github.com/"
+"WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__, como expor "
+"configurações como variáveis de ambiente ou permitir a substituição de "
+"configurações de arquivos Python no volume de dados."
 
 #: ../../admin/install/docker.rst:1719
 msgid "Replacing logo and other static files"
@@ -14706,10 +14741,8 @@ msgstr ""
 "in.ua/."
 
 #: ../../admin/install/docker.rst:1761
-#, fuzzy
-#| msgid "Container settings"
 msgid "Container internals"
-msgstr "Configurações do contêiner"
+msgstr "Partes internas do contêiner"
 
 #: ../../admin/install/docker.rst:1763
 msgid ""
@@ -14717,10 +14750,13 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"O contêiner está usando :program:`supervisor` para iniciar serviços "
+"individuais. No caso de :ref:`docker-scaling`, ele inicia apenas um único "
+"serviço em um contêiner."
 
 #: ../../admin/install/docker.rst:1766
 msgid "To check the services status use:"
-msgstr ""
+msgstr "Para verificar o status dos serviços, use:"
 
 #: ../../admin/install/docker.rst:1772
 msgid ""
@@ -14728,6 +14764,9 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Existem serviços individuais para cada fila Celery (veja :ref:`celery` para "
+"detalhes). Você pode interromper o processamento de algumas tarefas parando "
+"o worker apropriado:"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -15693,28 +15732,16 @@ msgid "Apple App Store metadata style"
 msgstr "Estilo de metadados da Apple App Store"
 
 #: ../../admin/languages.rst:208
-#, fuzzy
-#| msgid ""
-#| "Style suitable for uploading metadata to appstores. This should be "
-#| "suitable for both Apple App Store and Google Play Store."
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr ""
-"Estilo próprio pra subir metadados para lojas de apps. Este deve ser "
-"adequado tanto pra Apple App Store quanto Google Play Store."
+msgstr "Estilo próprio para enviar metadados para Apple App Store."
 
 #: ../../admin/languages.rst:209
 msgid "Google Play metadata style"
 msgstr "Estilo de metadados do Google Play"
 
 #: ../../admin/languages.rst:210
-#, fuzzy
-#| msgid ""
-#| "Style suitable for uploading metadata to appstores. This should be "
-#| "suitable for both Apple App Store and Google Play Store."
 msgid "Style suitable for uploading metadata to Google Play Store."
-msgstr ""
-"Estilo próprio pra subir metadados para lojas de apps. Este deve ser "
-"adequado tanto pra Apple App Store quanto Google Play Store."
+msgstr "Estilo próprio para enviar metadados para Google Play Store."
 
 #: ../../admin/languages.rst:212
 msgid "Android style"
@@ -15755,12 +15782,12 @@ msgstr ""
 "configurações acima apenas influenciam como os novos arquivos são criados."
 
 #: ../../admin/languages.rst:227
-#, fuzzy
-#| msgid ":ref:`language-code`, :ref:`language-parsing-codes`"
 msgid ""
 ":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
 "parsing-codes`"
-msgstr ":ref:`language-code`, :ref:`language-parsing-codes`"
+msgstr ""
+":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
+"parsing-codes`"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -18136,6 +18163,9 @@ msgid ""
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
 msgstr ""
+"Ao alterar os documentos dos termos de serviço, ajuste "
+":setting:`LEGAL_TOS_DATE` para que os usuários sejam forçados a concordar "
+"com os documentos atualizados."
 
 #: ../../admin/optionals.rst:131
 msgid ""
@@ -18779,10 +18809,8 @@ msgid "Verbose project name, used to display the project name."
 msgstr "Nome detalhado do projeto, usado para exibir o nome do projeto."
 
 #: ../../admin/projects.rst:130
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_NAME_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
@@ -18811,10 +18839,8 @@ msgstr ""
 "`WEBSITE_REQUIRED`."
 
 #: ../../admin/projects.rst:150
-#, fuzzy
-#| msgid ":setting:`SECRET_KEY`"
 msgid ":setting:`PROJECT_WEB_RESTRICT_RE`"
-msgstr ":setting:`SECRET_KEY`"
+msgstr ":setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:155
 msgid "Translation instructions"
@@ -19902,6 +19928,7 @@ msgstr ""
 #: ../../admin/projects.rst:809
 msgid "This now also affects ordering of matched glossary terms."
 msgstr ""
+"Isso agora também afeta a ordem dos termos correspondentes do glossário."
 
 #: ../../admin/projects.rst:814
 msgid "Restricted access"
@@ -21449,18 +21476,17 @@ msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgstr "A dependência `jellyfish` foi substituída por `rapidfuzz`."
 
 #: ../../admin/upgrade.rst:345
-#, fuzzy
-#| msgid ""
-#| "Deprecated insecure configuration of VCS service API keys via _TOKEN/"
-#| "_USERNAME configuration instead of _CREDENTIALS list."
 msgid ""
 "**Changed in 4.14.2:** Deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In "
 "Docker, please add matching _HOST directive. For example see :envvar:"
 "`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
-"Descontinuada a configuração insegura de chaves de API do serviço VCS por "
-"meio da configuração _TOKEN/_USERNAME em vez da lista _CREDENTIALS."
+"**Alterado no 4.14.2:** Descontinuada a configuração insegura de chaves de "
+"API do serviço VCS por meio da configuração _TOKEN/_USERNAME em vez da lista "
+"_CREDENTIALS. No Docker, adicionar a diretiva _HOST correspondente. Por "
+"exemplo, confira :envvar:`WEBLATE_GITHUB_HOST` e "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/upgrade.rst:353
 msgid "Upgrade from 4.14 to 4.15"
@@ -21481,12 +21507,16 @@ msgid ""
 "The Docker image no longer enables debug mode by default. In case you want "
 "it, enable it in the environment using :envvar:`WEBLATE_DEBUG`."
 msgstr ""
+"A imagem do Docker não habilita mais o modo de depuração por padrão. Caso "
+"queira, habilite-o no ambiente usando :envvar:`WEBLATE_DEBUG`."
 
 #: ../../admin/upgrade.rst:361
 msgid ""
 "The database migration make take hours on larger instances due to recreating "
 "some of the indexes."
 msgstr ""
+"A migração do banco de dados pode levar horas em instâncias maiores devido à "
+"recriação de alguns dos índices."
 
 #: ../../admin/upgrade.rst:369
 msgid "Upgrading from Python 2 to Python 3"
@@ -23594,11 +23624,8 @@ msgid "translation unit flags"
 msgstr "marcadores da unidade de tradução"
 
 #: ../../api.rst:2073
-#, fuzzy
-#| msgid "String explanation, available on source units, see :ref:`additional`"
 msgid "translation unit labels, available on source units"
-msgstr ""
-"Expansão de texto, disponível em unidades fonte, veja :ref:`additional`"
+msgstr "rótulos de unidade de tradução, disponíveis em unidades fonte"
 
 #: ../../api.rst:2074
 msgid ""
@@ -23691,7 +23718,7 @@ msgstr ""
 
 #: ../../api.rst:2104 ../../api.rst:2118
 msgid "labels, available on source units"
-msgstr ""
+msgstr "rótulos, disponíveis nas unidades fonte"
 
 #: ../../api.rst:2110
 msgid "Performs full update on translation unit."
@@ -24404,83 +24431,75 @@ msgstr "Melhorado o desempenho da memória de tradução."
 msgid ""
 "Autogenerate repoweb browsing links for well known code hosting services."
 msgstr ""
+"Gera automaticamente links de navegação do repoweb para serviços de "
+"hospedagem de código conhecidos."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of Matrix view."
 msgid "Improved performance of several views."
-msgstr "Melhorado o desempenho da visão Matriz."
+msgstr "Melhorado o desempenho de várias visões."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved machine translation of strings with placeholders."
 msgid "Improved listing of strings with plurals."
-msgstr "Melhorada a tradução de máquina de textos com espaços reservados."
+msgstr "Melhorada a listagem de textos com plurais."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Added support for removing user from a group via API."
 msgid "Added support for adding custom markup to HTML head."
-msgstr "Suporte adicionado para remover usuário de um grupo por meio de API."
+msgstr ""
+"Adicionado suporte para adicionar marcação personalizada ao cabeçalho HTML."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed generating of MO files for monolingual translations."
 msgid ""
 "Fixed generation of MO files in the add-on to include only translated files."
-msgstr "Corrigida a geração de arquivos MO para traduções monolíngues."
+msgstr ""
+"Corrigida a geração de arquivos MO na extensão para incluir apenas arquivos "
+"traduzidos."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed rendering of regular expression flags."
-msgstr "Corrigida a renderização de sugestões."
+msgstr "Corrigida a renderização de marcadores de expressão regular."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved formatting of placeholder check errors."
 msgid "Improved placeholders check behavior with plurals."
-msgstr "Melhorada a formatação de erros de verificação de espaço reservado."
+msgstr ""
+"Melhorado o comportamento de verificação de espaços reservados com plurais."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for translating and importing CSV files."
 msgid "Added support for translation files naming suitable for Google Play."
-msgstr "Adicionado suporte para tradução e importação de arquivos CSV."
+msgstr ""
+"Adicionado suporte para nomenclatura de arquivos de tradução adequados para "
+"Google Play."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for :ref:`labels`."
 msgid "Added support for labels in API."
-msgstr "Adicionado suporte para :ref:`labels`."
+msgstr "Adicionado suporte para etiquetas em API."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added support for blocking certain e-mails from registration."
 msgid ""
 "Added support for choosing different e-mail for commits than for "
 "notifications."
-msgstr "Adicionado suporte para bloquear o registro de certos e-mails."
+msgstr ""
+"Adicionado suporte para escolher e-mail de commits diferente do de "
+"notificações."
 
 #: ../../changes.rst:21
 msgid "The Docker image no longer enables debug mode by default."
-msgstr ""
+msgstr "A imagem do Docker não habilita mais o modo de depuração por padrão."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Improved alerts behavior on glossary components."
 msgid "Order glossary terms based on the glossary component priority."
-msgstr "Melhorada o comportamento de alertas em componentes de glossário."
+msgstr ""
+"Ordena os termos do glossário com base na prioridade do componente do "
+"glossário."
 
 #: ../../changes.rst:23
 msgid "Added team administrators who can add or remove members of the team."
 msgstr ""
+"Adicionados administradores de equipe que podem adicionar ou remover membros "
+"da equipe."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added a popup confirmation before deleting users"
-msgstr "Adicionada confirmação antes de remover um usuário de um projeto."
+msgstr "Adicionada um pop-up de confirmação antes de excluir usuários"
 
 #: ../../changes.rst:26
 msgid ""
@@ -24770,7 +24789,7 @@ msgstr "Corrigido o log de auditoria para e-mails de convite de usuário."
 
 #: ../../changes.rst:106
 msgid "Fixed flag names for Java formatting strings."
-msgstr "Corrigidos nomes de sinalizadores para textos de formatação Java."
+msgstr "Corrigidos nomes de marcadores para textos de formatação Java."
 
 #: ../../changes.rst:108
 msgid ""
@@ -33982,6 +34001,9 @@ msgid ""
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
 msgstr ""
+"Você é muito bem-vindo(a) a começar a trabalhar nessas questões sem "
+"perguntar. Apenas anuncie isso no relatório de problema, para que fique "
+"claro que alguém está trabalhando nesse relatório de problema."
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
@@ -35353,7 +35375,7 @@ msgstr ""
 "Para arquivos monolíngues (veja :ref:`formats`), o Weblate pode adicionar "
 "novos textos de tradução não presentes no :ref:`component-template`, e não "
 "nas traduções reais. No entanto, ele não executa nenhuma limpeza automática "
-"de strings obsoletas, pois isso pode ter resultados inesperados. Se você "
+"de textos obsoletos, pois isso pode ter resultados inesperados. Se você "
 "quiser fazer isso, instale a extensão :ref:`addon-weblate.cleanup.generic` "
 "que fará a limpeza de acordo com seus requisitos."
 
@@ -40729,7 +40751,7 @@ msgid ""
 "This used to be toggled by ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
-"Isso costumava ser alternado pelo sinalizador ``java-format``, foi alterado "
+"Isso costumava ser alternado pelo marcador ``java-format``, foi alterado "
 "para consistência com GNU gettext."
 
 #: ../../user/checks.rst:342
@@ -40779,7 +40801,7 @@ msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
-"Isso costumava ser alternado pelo sinalizador ``java-messageformat``, foi "
+"Isso costumava ser alternado pelo marcador ``java-messageformat``, foi "
 "alterado para consistência com GNU gettext."
 
 #: ../../user/checks.rst:364
@@ -40790,6 +40812,12 @@ msgid ""
 "it should be written as ``''``. When not paired, it is treated as beginning "
 "of quoting and will not be shown when rendering the string."
 msgstr ""
+"Essa verificação valida se o texto de formato é válido para a classe Java "
+"MessageFormat. Além de corresponder aos textos de formato nas chaves, ele "
+"também verifica as aspas simples, pois elas têm um significado especial. "
+"Sempre que escrever aspas simples, deve-se escrever como ``''``. Quando não "
+"emparelhado, é tratado como início de aspas e não será mostrado ao "
+"renderizar o texto."
 
 #: ../../user/checks.rst:372
 msgid ""
@@ -41134,16 +41162,12 @@ msgid "``Your balance is %{amount} %{currency}``"
 msgstr "``Seu saldo é %{amount} %{currency}``"
 
 #: ../../user/checks.rst:584
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/"
-#| "Kernel.html#method-i-sprintf>`_"
 msgid ""
 ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
 "Kernel.html#method-i-sprintf>`_"
 msgstr ""
-":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
-"html#method-i-sprintf>`_"
+":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
+"Kernel.html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:590
 msgid "Scheme format"
@@ -41906,8 +41930,8 @@ msgstr "Você pode usar uma expressão regular como espaço reservado."
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
 msgstr ""
-"Com o sinalizador ``case-insensitive``, os espaços reservados não "
-"diferenciam maiúsculas de minúsculas."
+"Com o marcador ``case-insensitive``, os espaços reservados não diferenciam "
+"maiúsculas de minúsculas."
 
 #: ../../user/checks.rst:1025
 msgid ""
@@ -43398,6 +43422,12 @@ msgid ""
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
+"O e-mail de commit será usado em vez do e-mail da sua conta em commits de "
+"controle de versão. Use isso para evitar o vazamento de seu e-mail real lá. "
+"Esteja ciente de que o uso de e-mail diferente pode desconectar suas "
+"contribuições em outros servidores (por exemplo, suas contribuições não "
+"serão mais vinculadas ao seu perfil no GitHub). O e-mail privado pode ser "
+"ativado em todo o site usando :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../user/profile.rst:206
 msgid ""
@@ -43593,7 +43623,7 @@ msgid ""
 "editing``, ``read-only``)."
 msgstr ""
 "Pesquisa por traduções pendentes (``pending``). Também pode procurar por "
-"todos os estados de string (``approved``, ``translated``, ``untranslated``, "
+"todos os estados de texto (``approved``, ``translated``, ``untranslated``, "
 "``needs-editing``, ``read-only``)."
 
 #: ../../user/search.rst:51
