@@ -21,7 +21,7 @@ Not yet released.
 * The Docker image no longer enables debug mode by default.
 * Order glossary terms based on the glossary component priority.
 * Added team administrators who can add or remove members of the team.
-* Added a popup confirmation before deleting users
+* Added a popup confirmation before deleting users.
 * Added add-on to customize XML output.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
