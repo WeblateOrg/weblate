@@ -40,7 +40,9 @@ class AutoFix:
             target_plural = unit.translation.plural
             source_examples = {tuple(l): i for i, l in source_plural.examples.items()}
             plurals_map = [
-                source_examples.get(tuple(target_plural.examples.get(target_index)), -1)
+                source_examples.get(
+                    tuple(target_plural.examples.get(target_index, [])), -1
+                )
                 for target_index in range(target_plural.number)
             ]
             results = [
