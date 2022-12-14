@@ -429,6 +429,7 @@ const helpers = require('./helpers.js');
 const client = require('./client.js');
 require('./transports/index.js');
 const stackParsers = require('./stack-parsers.js');
+const eventbuilder = require('./eventbuilder.js');
 const sdk = require('./sdk.js');
 require('./integrations/index.js');
 
@@ -469,6 +470,8 @@ exports.geckoStackLineParser = stackParsers.geckoStackLineParser;
 exports.opera10StackLineParser = stackParsers.opera10StackLineParser;
 exports.opera11StackLineParser = stackParsers.opera11StackLineParser;
 exports.winjsStackLineParser = stackParsers.winjsStackLineParser;
+exports.eventFromException = eventbuilder.eventFromException;
+exports.eventFromMessage = eventbuilder.eventFromMessage;
 exports.close = sdk.close;
 exports.defaultIntegrations = sdk.defaultIntegrations;
 exports.flush = sdk.flush;
@@ -480,7 +483,7 @@ exports.showReportDialog = sdk.showReportDialog;
 exports.wrap = sdk.wrap;
 
 
-},{"./client.js":1,"./helpers.js":4,"./integrations/index.js":10,"./sdk.js":13,"./stack-parsers.js":14,"./transports/index.js":16,"@sentry/core":24}],4:[function(require,module,exports){
+},{"./client.js":1,"./eventbuilder.js":2,"./helpers.js":4,"./integrations/index.js":10,"./sdk.js":13,"./stack-parsers.js":14,"./transports/index.js":16,"@sentry/core":24}],4:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -652,6 +655,7 @@ const client = require('./client.js');
 const fetch = require('./transports/fetch.js');
 const xhr = require('./transports/xhr.js');
 const stackParsers = require('./stack-parsers.js');
+const eventbuilder = require('./eventbuilder.js');
 const sdk = require('./sdk.js');
 const globalhandlers = require('./integrations/globalhandlers.js');
 const trycatch = require('./integrations/trycatch.js');
@@ -707,6 +711,8 @@ exports.geckoStackLineParser = stackParsers.geckoStackLineParser;
 exports.opera10StackLineParser = stackParsers.opera10StackLineParser;
 exports.opera11StackLineParser = stackParsers.opera11StackLineParser;
 exports.winjsStackLineParser = stackParsers.winjsStackLineParser;
+exports.eventFromException = eventbuilder.eventFromException;
+exports.eventFromMessage = eventbuilder.eventFromMessage;
 exports.close = sdk.close;
 exports.defaultIntegrations = sdk.defaultIntegrations;
 exports.flush = sdk.flush;
@@ -725,7 +731,7 @@ exports.Dedupe = dedupe.Dedupe;
 exports.Integrations = INTEGRATIONS;
 
 
-},{"./client.js":1,"./exports.js":3,"./helpers.js":4,"./integrations/breadcrumbs.js":6,"./integrations/dedupe.js":7,"./integrations/globalhandlers.js":8,"./integrations/httpcontext.js":9,"./integrations/index.js":10,"./integrations/linkederrors.js":11,"./integrations/trycatch.js":12,"./sdk.js":13,"./stack-parsers.js":14,"./transports/fetch.js":15,"./transports/xhr.js":18,"@sentry/core":24}],6:[function(require,module,exports){
+},{"./client.js":1,"./eventbuilder.js":2,"./exports.js":3,"./helpers.js":4,"./integrations/breadcrumbs.js":6,"./integrations/dedupe.js":7,"./integrations/globalhandlers.js":8,"./integrations/httpcontext.js":9,"./integrations/index.js":10,"./integrations/linkederrors.js":11,"./integrations/trycatch.js":12,"./sdk.js":13,"./stack-parsers.js":14,"./transports/fetch.js":15,"./transports/xhr.js":18,"@sentry/core":24}],6:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -5685,7 +5691,7 @@ exports.createTransport = createTransport;
 },{"@sentry/utils":56}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.25.0';
+const SDK_VERSION = '7.26.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
