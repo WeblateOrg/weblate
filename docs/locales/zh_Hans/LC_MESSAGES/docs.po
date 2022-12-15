@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-14 16:31+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"PO-Revision-Date: 2022-12-15 06:51+0000\n"
+"Last-Translator: Eric <hamburger1024@duck.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -13494,16 +13494,21 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"因此，比起原封不动直接套用来自 `官方仓库 <https://github.com/WeblateOrg/"
+"docker-compose>`__ 的 ``docker-compose.yml``,并通过 ``docker-compose.override"
+".yml`` 进行扩展，你或许想要复制一份 ``docker-compose.yml`` 文件对其进行编辑，"
+"然后借助 ``build: .`` 用编辑后的文件替换 ``image: weblate/weblate``."
 
 #: ../../admin/install/docker.rst:1699
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
-msgstr ""
+msgstr "有关使用 ``docker-compose`` 时从源代码构建镜像的详情请见 `Compose file build "
+"reference`_."
 
 #: ../../admin/install/docker.rst:1704
 msgid "Extend your custom settings module to define or redefine settings."
-msgstr ""
+msgstr "扩展你的自定义设置模块来定义或重新定义设置。"
 
 #: ../../admin/install/docker.rst:1706
 msgid ""
@@ -13513,6 +13518,9 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overriden."
 msgstr ""
+"你可以定义上方 import 语句之前或之后的设置，以确定哪些设置优先。import "
+"语句之前定义的设置可以被环境变量和数据卷中定义的设置覆盖所覆盖。不能覆盖 "
+"import 语句后定义的设置。"
 
 #: ../../admin/install/docker.rst:1712
 msgid ""
@@ -13522,6 +13530,9 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"你也可以更进一步。比如，你可以重现一些 ``weblate.docker_settings`` 所做的事 "
+"<https://github.com/WeblateOrg/weblate/blob/main/weblate/settings_docker."
+"py>`__，如将设置暴露为环境变量，或允许在数据卷中覆盖来自 Python 文件的设置。"
 
 #: ../../admin/install/docker.rst:1719
 msgid "Replacing logo and other static files"
@@ -13595,17 +13606,20 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"容器在使用 :program:`supervisor`来启动单独服务。遇到 :ref:`docker-"
+"scaling`，它只在容器中启动一个服务。"
 
 #: ../../admin/install/docker.rst:1766
 msgid "To check the services status use:"
-msgstr ""
+msgstr "要检查服务状态，请使用："
 
 #: ../../admin/install/docker.rst:1772
 msgid ""
 "There are individual services for each Celery queue (see :ref:`celery` for "
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
-msgstr ""
+msgstr "每个 Celery 队列有单独服务（详见 :ref:`celery`）。你可以停止相应的 worker "
+"来停止处理某些任务："
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -16712,7 +16726,7 @@ msgid ""
 "On changing the terms of service documents, please adjust :setting:"
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
-msgstr ""
+msgstr "更改服务条款文档时，请调整 :setting:`LEGAL_TOS_DATE` 迫使用户接受更新的文档。"
 
 #: ../../admin/optionals.rst:131
 msgid ""
@@ -18324,7 +18338,7 @@ msgstr "高优先级的部件将最先提供给译者。"
 
 #: ../../admin/projects.rst:809
 msgid "This now also affects ordering of matched glossary terms."
-msgstr ""
+msgstr "这同样影响匹配的术语表术语的顺序。"
 
 #: ../../admin/projects.rst:814
 msgid "Restricted access"
@@ -19775,13 +19789,14 @@ msgstr ""
 msgid ""
 "The Docker image no longer enables debug mode by default. In case you want "
 "it, enable it in the environment using :envvar:`WEBLATE_DEBUG`."
-msgstr ""
+msgstr "该 Docker 镜像不再默认启用调试模式。如果你想要它，使用 "
+":envvar:`WEBLATE_DEBUG` 在环境中启用。"
 
 #: ../../admin/upgrade.rst:361
 msgid ""
 "The database migration make take hours on larger instances due to recreating "
 "some of the indexes."
-msgstr ""
+msgstr "由于要重新创建一些索引，数据库迁移在较大的实例上可能需要花费数小时。"
 
 #: ../../admin/upgrade.rst:369
 msgid "Upgrading from Python 2 to Python 3"
@@ -21879,7 +21894,7 @@ msgstr ""
 
 #: ../../api.rst:2104 ../../api.rst:2118
 msgid "labels, available on source units"
-msgstr ""
+msgstr "标签，在源单元上可用"
 
 #: ../../api.rst:2110
 msgid "Performs full update on translation unit."
@@ -22546,7 +22561,7 @@ msgstr "改进了翻译记忆库的性能。"
 #: ../../changes.rst:11
 msgid ""
 "Autogenerate repoweb browsing links for well known code hosting services."
-msgstr ""
+msgstr "为知名的代码托管服务自动生成 repoweb 浏览链接。"
 
 #: ../../changes.rst:12
 msgid "Improved performance of several views."
@@ -22589,7 +22604,7 @@ msgstr "新增支持为译文提交和通知选择不同的电子邮箱。"
 
 #: ../../changes.rst:21
 msgid "The Docker image no longer enables debug mode by default."
-msgstr ""
+msgstr "该 Docker 镜像不再默认启用调试模式。"
 
 #: ../../changes.rst:22
 msgid "Order glossary terms based on the glossary component priority."
@@ -22597,7 +22612,7 @@ msgstr "根据术语表部件优先级对术语表术语进行排序。"
 
 #: ../../changes.rst:23
 msgid "Added team administrators who can add or remove members of the team."
-msgstr ""
+msgstr "添加了可以添加或删除团队成员的管理员。"
 
 #: ../../changes.rst:24
 msgid "Added a popup confirmation before deleting users"
@@ -31426,7 +31441,8 @@ msgid ""
 "You are welcome to start working on these issues without asking. Just "
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
-msgstr ""
+msgstr "欢迎你在无人请求的情况下开始处理这些问题。只要在相关 issue "
+"中宣布一下，让别人知道有人正在处理它。"
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
@@ -37688,6 +37704,9 @@ msgid ""
 "it should be written as ``''``. When not paired, it is treated as beginning "
 "of quoting and will not be shown when rendering the string."
 msgstr ""
+"该检查验证格式字符串对Java MessageFormat 类有效。除了匹配花括号中的格式字符串"
+"外，它还验证单引号，因为它们具有特殊含义。无论何时，都应把单引号写成 ``''``. "
+"如果没有配对，它将被视为引用的开始，并且在呈现字符串时不会显示。"
 
 #: ../../user/checks.rst:372
 msgid ""
@@ -40112,6 +40131,10 @@ msgid ""
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
+"在版本控制提交中，将使用代码提交电子邮箱而不是您的账户电子邮箱。使用这个可以"
+"避免泄露你的真实电子邮箱。请注意，使用不同的电子邮箱可能会断开你在其他服务器"
+"上的做出的贡献（例如您的贡献将不再链接到你的 Github 个人资料）。可使用 "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 在全站范围内开启私密电子邮箱。"
 
 #: ../../user/profile.rst:206
 msgid ""
