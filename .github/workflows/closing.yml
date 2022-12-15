@@ -17,7 +17,12 @@ jobs:
     steps:
     - name: Add closed question comment
       uses: peter-evans/create-or-update-comment@v2
-      if: ${{ github.event.issue.state_reason == 'completed' && (contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'wontfix')) || join(github.event.issue.labels.*.name) == '' }}
+      if: >
+        ${{
+          github.actor != 'renovate[bot]' &&
+          github.event.issue.state_reason == 'completed' &&
+          (contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'wontfix')) || join(github.event.issue.labels.*.name) == ''
+        }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
@@ -28,7 +33,18 @@ jobs:
           * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
     - name: Add closed issue comment
       uses: peter-evans/create-or-update-comment@v2
-      if: ${{ github.event.issue.state_reason == 'completed' && ! contains(github.event.issue.labels.*.name, 'invalid') && ! contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'undecided') && ! contains(github.event.issue.labels.*.name, 'needinfo') && join(github.event.issue.labels.*.name) != '' }}
+      if: >
+        ${{
+          github.actor != 'renovate[bot]' &&
+          github.event.issue.state_reason == 'completed' &&
+          ! contains(github.event.issue.labels.*.name, 'invalid') &&
+          ! contains(github.event.issue.labels.*.name, 'question') &&
+          ! contains(github.event.issue.labels.*.name, 'wontfix') &&
+          ! contains(github.event.issue.labels.*.name, 'duplicate') &&
+          ! contains(github.event.issue.labels.*.name, 'undecided') &&
+          ! contains(github.event.issue.labels.*.name, 'needinfo') &&
+          join(github.event.issue.labels.*.name) != ''
+        }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
