@@ -222,7 +222,7 @@ def backups(request):
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:
+        elif "remove" in request.POST:  # noqa: R505
             service = BackupService.objects.get(pk=request.POST["service"])
             service.delete()
             return redirect("manage-backups")
@@ -530,8 +530,7 @@ class TeamListView(FormMixin, ListView):
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        return self.form_invalid(form)
 
     def form_valid(self, form):
         form.save()

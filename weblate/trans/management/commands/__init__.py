@@ -90,13 +90,7 @@ class WeblateComponentCommand(BaseCommand):
                 result = Component.objects.exclude(repo__startswith="weblate:/")
             else:
                 result = Component.objects.all()
-        elif not options["component"]:
-            # no arguments to filter projects
-            self.stderr.write(
-                "Please specify either --all or at least one <project/component>"
-            )
-            raise CommandError("Nothing to process!")
-        else:
+        elif options["component"]:
             # start with none and add found
             result = Component.objects.none()
 
@@ -119,6 +113,12 @@ class WeblateComponentCommand(BaseCommand):
 
                 # merge results
                 result |= found
+        else:
+            # no arguments to filter projects
+            self.stderr.write(
+                "Please specify either --all or at least one <project/component>"
+            )
+            raise CommandError("Nothing to process!")
 
         return result
 

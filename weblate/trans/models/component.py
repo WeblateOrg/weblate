@@ -1043,10 +1043,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 # Fetch one by one for case getting for single unit, if not prefetch
                 # was done, this will raise an exception in case of error
                 source = source_units.get(id_hash=id_hash)
-            elif not create:
-                # We are not supposed to create new one
-                raise Unit.DoesNotExist("Could not find source unit")
-            else:
+            elif create:
                 # Create in case of parsing translations
                 # Set correct state depending on template editing
                 if self.template and self.edit_template:
@@ -1063,6 +1060,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
                 )
                 self.updated_sources[source.id] = source
+            else:
+                # We are not supposed to create new one
+                raise Unit.DoesNotExist("Could not find source unit")
 
             self._sources[id_hash] = source
             return source

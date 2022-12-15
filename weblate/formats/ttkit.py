@@ -467,11 +467,11 @@ class TTKitFormat(TranslationFormat):
                 callback(store)
             store.untranslate_store(language)
             store.store.savefile(filename)
-        elif cls.new_translation is None:
-            raise ValueError("Not supported")
-        else:
+        elif cls.new_translation is not None:
             with open(filename, "wb") as output:
                 output.write(cls.get_new_file_content())
+        else:
+            raise ValueError("Not supported")
 
     @classmethod
     def is_valid_base_for_new(

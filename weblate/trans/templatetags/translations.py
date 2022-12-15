@@ -143,7 +143,7 @@ class Formatter:
                         self.tags[offset][pos] = SPACE_MIDDLE_1
                         move_space = True
                         break
-                    elif tag == SPACE_START:
+                    if tag == SPACE_START:
                         start_space = pos
                         break
 
@@ -157,7 +157,7 @@ class Formatter:
                                 # Whitespace ends within <ins>
                                 start_space = -1
                                 break
-                            elif tag == SPACE_MIDDLE_2:
+                            if tag == SPACE_MIDDLE_2:
                                 last_middle = (tagoffset, pos)
                         if start_space == -1:
                             break

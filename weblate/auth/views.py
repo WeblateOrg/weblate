@@ -46,8 +46,7 @@ class TeamUpdateView(UpdateView):
     def get_form_class(self):
         if self.object.defining_project:
             return ProjectTeamForm
-        else:
-            return SitewideTeamForm
+        return SitewideTeamForm
 
     def get_form(self, form_class=None):
         if not self.request.user.has_perm("meta:team.edit", self.object):
