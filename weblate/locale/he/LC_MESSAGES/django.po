@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-12-15 09:26+0000\n"
+"PO-Revision-Date: 2022-12-15 16:41+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -4456,10 +4456,6 @@ msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr "יש למלא אחר הנחיות איפוס הסיסמה שנשלחו לתיבת הדוא״ל הנכנס שלך."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
@@ -4481,15 +4477,13 @@ msgstr "נא לעיין בתיקיית הספאם אם זה לא מופיע בת
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "כתובת האימות תפוג לאחר שעה."
-msgstr[1] "כתובת האימות תפוג לאחר שעתיים."
-msgstr[2] "כתובת האימות תפוג לאחר %(count)s שעות."
-msgstr[3] "כתובת האימות תפוג לאחר %(count)s שעות."
+msgstr[0] "קישור האימות יפוג לאחר שעה."
+msgstr[1] "קישור האימות יפוג לאחר שעתיים."
+msgstr[2] "קישור האימות יפוג לאחר %(count)s שעות."
+msgstr[3] "קישור האימות יפוג לאחר %(count)s שעות."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
@@ -4798,10 +4792,8 @@ msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "תמונות משתמש מסופקות דרך %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "צוותים"
+msgstr "צוות"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/addons/discovery_help.html:10
@@ -5235,10 +5227,9 @@ msgid "Are you absolutely sure?"
 msgstr "להמשיך בפעולה הזאת?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "פעולה זו תסיר את <b>%(user)s</b> מהמיזם."
+msgstr "פעולה זו תסיר את <b>%(user)s</b> מ־Weblate."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5535,10 +5526,8 @@ msgid "Last sign in"
 msgstr "כניסה אחרונה"
 
 #: weblate/templates/auth/team.html:93
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "מנהלים"
+msgstr "הנהלת צוות"
 
 #: weblate/templates/auth/team.html:103
 #: weblate/templates/trans/project-access-row.html:25
@@ -5547,16 +5536,12 @@ msgid "Not yet signed in"
 msgstr "עדיין לא נכנסת"
 
 #: weblate/templates/auth/team.html:110
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "ניהול Weblate"
+msgstr "שלילת הרשאות ניהול"
 
 #: weblate/templates/auth/team.html:115
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "ניהול Weblate"
+msgstr "הענקת הרשאות ניהול"
 
 #: weblate/templates/auth/team.html:118 weblate/templates/auth/team.html:119
 #: weblate/templates/auth/team.html:168
@@ -7547,15 +7532,11 @@ msgstr ""
 "הכתובות של הדפדפן כדי להמשיך."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"אם תוקף כתובת האימות פג, ניתן להשתמש בתכונת איפוס הסיסמה כדי להחזיר את "
+"אם תוקף קישור האימות פג, ניתן להשתמש בתכונת איפוס הסיסמה כדי להחזיר את "
 "השליטה בחשבון שלך."
 
 #: weblate/templates/mail/shared-registration.html:19
@@ -10090,16 +10071,12 @@ msgstr[2] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
 msgstr[3] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
 
 #: weblate/templates/translate.html:345
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "The following string has a different source and different context."
 msgid_plural "The following strings have different sources and context."
-msgstr[0] "למחרוזת הזו יש מקור שונה אך הקשר זהה."
-msgstr[1] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
-msgstr[2] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
-msgstr[3] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
+msgstr[0] "למחרוזת הזו יש מקור שונה והקשר שונה."
+msgstr[1] "למחרוזות אלו יש מקור והקשר שונים."
+msgstr[2] "למחרוזות אלו יש מקור והקשר שונים."
+msgstr[3] "למחרוזות אלו יש מקור והקשר שונים."
 
 #: weblate/templates/translate.html:355
 msgid "Apply selected translation to all propagated strings"
@@ -10565,10 +10542,8 @@ msgid "Invalid checksum specified!"
 msgstr "מחרוזת הבדיקה שסופקה שגויה!"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "שם משתמש או דוא״ל"
+msgstr "שם משתמש או דוא״ל חסרים."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -10830,7 +10805,7 @@ msgstr "נא להקליד שם חשבון קיים או כתובת דוא״ל ב
 
 #: weblate/trans/forms.py:1184
 msgid "Allow user to add or remove users from a team."
-msgstr ""
+msgstr "לאפשר למשתמש להוסיף או להסיר משתמשים מהצוות."
 
 #: weblate/trans/forms.py:1196
 msgid "Block duration"
