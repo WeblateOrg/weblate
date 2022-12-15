@@ -81,10 +81,8 @@ def aggregate(stats, item, stats_obj):
         if stats_obj.last_changed and (not last or last < stats_obj.last_changed):
             stats["last_changed"] = stats_obj.last_changed
             stats["last_author"] = stats_obj.last_author
-    elif item == "last_author":
-        # Already handled above
-        return
-    else:
+    elif item != "last_author":
+        # The last_author is calculated with last_changed
         stats[item] += getattr(stats_obj, item)
 
 
