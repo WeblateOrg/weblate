@@ -90,7 +90,6 @@ GOOGLEPLAY_CODES = {
     "mn": "mn-MN",
     "ne": "ne-NP",
     "nb_NO": "no-NO",
-    "fa": "fa-AE",
     "fa": "fa-IR",
     "pl": "pl-PL",
     "ru": "ru-RU",
