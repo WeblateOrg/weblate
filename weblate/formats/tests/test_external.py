@@ -19,7 +19,6 @@
 """File format specific behavior."""
 
 from io import BytesIO
-from unittest import skipIf
 
 from openpyxl import load_workbook
 

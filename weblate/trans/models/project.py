@@ -20,7 +20,6 @@
 import os
 import os.path
 from datetime import datetime
-from glob import glob
 from typing import Optional
 
 from django.conf import settings

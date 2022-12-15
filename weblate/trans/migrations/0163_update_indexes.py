@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-from weblate.utils.db import MY_DROP, MY_FTX, PG_DROP, PG_TRGM
+from weblate.utils.db import PG_DROP, PG_TRGM
 
 FIELDS = (
     ("unit", "source", ", translation_id"),

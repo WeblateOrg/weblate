@@ -59,7 +59,6 @@ class MyMemoryTranslation(MachineTranslation):
 
     def format_match(self, match):
         """Reformat match to (translation, quality) tuple."""
-
         result = {
             "text": match["translation"],
             "quality": int(100 * match["match"]),

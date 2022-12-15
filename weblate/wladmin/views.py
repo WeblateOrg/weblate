@@ -25,7 +25,7 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count, Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -34,13 +34,13 @@ from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
-from weblate.auth.models import AutoGroup, Group, User
+from weblate.auth.models import Group, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm

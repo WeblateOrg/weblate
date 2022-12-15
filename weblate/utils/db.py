@@ -20,7 +20,7 @@
 
 from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import IExact, PatternLookup
+from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 

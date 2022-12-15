@@ -23,7 +23,7 @@ from itertools import chain
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Prefetch
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -35,7 +35,6 @@ from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import InviteUserForm, ProjectTeamForm, send_invitation
 from weblate.auth.models import Group, User
 from weblate.trans.forms import (
-    ProjectGroupDeleteForm,
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,

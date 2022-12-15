@@ -17,11 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from functools import reduce
-from typing import Set
-
 from django.conf import settings
-from django.db.models import Q
 
 from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
