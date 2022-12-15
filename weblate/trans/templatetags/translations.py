@@ -120,7 +120,7 @@ class Formatter:
         if self.diff:
             self.parse_diff()
 
-    def parse_diff(self):
+    def parse_diff(self):  # noqa: C901
         """Highlights diff, including extra whitespace."""
         dmp = self.dmp
         diff = dmp.diff_main(self.diff[self.idx], self.value)

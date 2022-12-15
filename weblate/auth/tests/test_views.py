@@ -35,7 +35,6 @@ class TeamsTest(ViewTestCase):
             "autogroup_set-TOTAL_FORMS": "0",
             "autogroup_set-INITIAL_FORMS": "0",
         }
-        group_id = group.id
         response = self.client.get(group.get_absolute_url())
         self.assertEqual(response.status_code, 403)
 
@@ -62,7 +61,6 @@ class TeamsTest(ViewTestCase):
             "autogroup_set-TOTAL_FORMS": "0",
             "autogroup_set-INITIAL_FORMS": "0",
         }
-        group_id = group.id
         response = self.client.get(group.get_absolute_url())
         self.assertEqual(response.status_code, 403)
 

@@ -378,7 +378,7 @@ class ProjectBackup:
         data[field] = self.restore_user(data[field])
         return data
 
-    def restore_component(self, zipfile, data):
+    def restore_component(self, zipfile, data):  # noqa: C901
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]

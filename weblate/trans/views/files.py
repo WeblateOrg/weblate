@@ -209,7 +209,7 @@ def upload_translation(request, project, component, lang):
             _("Plural forms in the uploaded file do not match current translation."),
         )
     except FailedCommitError as error:
-        messages.error(request, str(error))
+        messages.error(request, str(error))  # noqa: G200
         report_error(cause="Upload error")
     except Exception as error:
         messages.error(

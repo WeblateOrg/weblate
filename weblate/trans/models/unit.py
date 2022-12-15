@@ -603,7 +603,7 @@ class Unit(models.Model, LoggerMixin):
         for text in texts:
             if any(char in text for char in CONTROLCHARS):
                 raise ValueError(
-                    _("String contains control character: %s") % repr(text)
+                    gettext("String contains control character: %s") % repr(text)
                 )
 
     def update_source_unit(

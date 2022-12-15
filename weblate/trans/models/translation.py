@@ -1150,7 +1150,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
-    def handle_upload(
+    def handle_upload(  # noqa: C901
         self,
         request,
         fileobj: BinaryIO,

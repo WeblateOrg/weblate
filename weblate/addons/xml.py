@@ -26,7 +26,7 @@ from weblate.addons.forms import XMLCustomizeForm
 
 
 class XMLCustomizeAddon(StoreBaseAddon):
-    """Class providing XML formatting changes as a component AddOn"""
+    """Class providing XML formatting changes as a component AddOn."""
 
     name = "weblate.xml.customize"
     verbose = _("Customize XML output")
