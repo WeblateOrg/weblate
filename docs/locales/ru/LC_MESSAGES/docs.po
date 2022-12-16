@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-11-22 20:36+0000\n"
+"PO-Revision-Date: 2022-12-17 14:10+0000\n"
 "Last-Translator: Vin <k3kelm4vw@mozmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -24,9 +24,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -325,10 +325,8 @@ msgstr ""
 "`Пользователи`."
 
 #: ../../admin/access.rst:129
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Администраторы"
+msgstr "Администраторы команд"
 
 #: ../../admin/access.rst:133
 msgid ""
@@ -412,14 +410,6 @@ msgstr ""
 "интерфейс Weblate."
 
 #: ../../admin/access.rst:179
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -429,11 +419,12 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "По умолчанию это не позволяет Weblate предоставлять доступ, предоставляемый "
-"`Пользователям` и `Просматривающим` :ref:`default groups <default-groups>` "
-"из-за собственной настройки этих групп. Это не мешает вам предоставлять "
-"права доступа к этим проектам в масштабах всего сайта, изменив группы по "
-"умолчанию, создав новую или создав дополнительные пользовательские настройки "
-"для отдельного компонента, как описано ниже в :ref:`custom-acl`."
+"`Пользователям` и `Просматривающим` :ref:`команды по умолчанию <default-"
+"teams>` из-за собственной настройки в этих командах. Это не мешает вам "
+"предоставлять права доступа к этим проектам в масштабах всего сайта, изменив "
+"команды по умолчанию, создав новую или создав дополнительные "
+"пользовательские настройки для отдельного компонента, как описано ниже в :ref"
+":`custom-acl`."
 
 #: ../../admin/access.rst:185
 msgid ""
@@ -452,19 +443,14 @@ msgid "Custom access control"
 msgstr "Настраиваемый контроль доступа"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"Система разрешений построена на основе групп и ролей. Роли определяют набор "
-"разрешений, а группы назначают их пользователям и переводчикам. Для "
-"получения более подробной информации смотреть раздел :ref:`auth-model`."
+"Система разрешений построена на основе команд и ролей. Роли определяют набор "
+"разрешений, а команды назначают их пользователям и переводчикам. Для "
+"получения более подробной информации смотрите раздел :ref:`auth-model`."
 
 #: ../../admin/access.rst:201
 msgid ""
@@ -511,29 +497,20 @@ msgid "Site-wide permission management"
 msgstr "Управление разрешениями по всему сайту"
 
 #: ../../admin/access.rst:221
-#, fuzzy
-#| msgid ""
-#| "To manage permissions for a whole instance at once, add users to "
-#| "appropriate :ref:`default groups <default-groups>`:"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
 "Чтобы управлять разрешениями сразу для всего экземпляра, добавьте "
-"пользователей в соответствующие группы :ref:`default groups <default-"
-"groups>`:"
+"пользователей в соответствующие :ref:`команды по умолчанию <default-groups>`:"
 
 #: ../../admin/access.rst:224
-#, fuzzy
-#| msgid ""
-#| "`Users` (this is done by default by the :ref:`automatic group assignment "
-#| "<autogroup>`)."
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Пользователи` (это делается по умолчанию с помощью :ref:`automatic group "
-"assignment <autogroup>`)."
+"`Пользователи` (по умолчанию это делается с помощью :ref:`автоматического "
+"назначения команды <autoteam>`)."
 
 #: ../../admin/access.rst:226
 msgid ""
@@ -552,33 +529,23 @@ msgstr ""
 "управлению кому-то другому)."
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid ""
-#| "You should keep all projects configured as `Public` (see :ref:`acl`), "
-#| "otherwise the site-wide permissions provided by membership in the `Users` "
-#| "and `Reviewers` groups won’t have any effect."
 msgid ""
 "You should keep all projects configured as `Public` (see :ref:`acl`), "
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"Вы должны держать все проекты настроенными как `Публичные` (смотреть раздел :"
-"ref:`acl`), иначе разрешения, предоставляемые членством в группах "
+"Вы должны сохранять все проекты настроенными как `Публичные` (смотрите "
+"раздел :ref:`acl`), иначе разрешения, предоставляемые участием в командах "
 "`Пользователи` и `Рецензенты`, не будут иметь никакого эффекта."
 
 #: ../../admin/access.rst:235
-#, fuzzy
-#| msgid ""
-#| "You may also grant some additional permissions of your choice to the "
-#| "default groups. For example, you may want to give a permission to manage "
-#| "screenshots to all the `Users`."
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
 "Вы также можете предоставить некоторые дополнительные разрешения по своему "
-"выбору группам по умолчанию. Например, вы можете дать разрешение на "
+"выбору командам по умолчанию. Например, вы можете дать разрешение на "
 "управление снимками экрана всем `Пользователям`."
 
 #: ../../admin/access.rst:239
@@ -6454,6 +6421,8 @@ msgid ""
 "Turning on check enforcing doesn't enable it automatically. The check can be "
 "turned on by adding the corresponding flag to string or component flags."
 msgstr ""
+"Включение принудительной проверки не делает ее автоматической. Проверку "
+"можно включить, добавив соответствующий флаг к флагам строки или компонента."
 
 #: ../../admin/checks.rst:298
 msgid ":ref:`additional`, :ref:`component-check_flags`"
@@ -7799,19 +7768,21 @@ msgstr ""
 
 #: ../../admin/config.rst:709
 msgid "EXTRA_HTML_HEAD"
-msgstr ""
+msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:713
 msgid ""
 "Insert additional markup into HTML header. Can be used for verification of "
 "site ownership, for example:"
 msgstr ""
+"Вставить дополнительную разметку в заголовок HTML. Может использоваться для "
+"подтверждения права собственности на сайт, например:"
 
 #: ../../admin/config.rst:721
 msgid ""
 "No sanitization is performed on the string, it is inserted as is into the "
 "HTML header."
-msgstr ""
+msgstr "Строка не обрабатывается, она вставляется в заголовок HTML как есть."
 
 #: ../../admin/config.rst:726
 msgid "GET_HELP_URL"
@@ -7904,6 +7875,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITLAB_CREDENTIALS`."
 msgstr ""
+"Эта конфигурация небезопасна, рекомендуется использовать "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/config.rst:837
 msgid "GitLab username used to send merge requests for translation updates."
@@ -7961,6 +7934,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITHUB_CREDENTIALS`."
 msgstr ""
+"Эта конфигурация небезопасна, рекомендуется использовать "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/config.rst:901
 msgid "GitHub username used to send pull requests for translation updates."
@@ -8475,6 +8450,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`PAGURE_CREDENTIALS`."
 msgstr ""
+"Эта конфигурация небезопасна, рекомендуется использовать "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/config.rst:1355
 msgid "Pagure username used to send merge requests for translation updates."
@@ -8549,10 +8526,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1430
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Set to blank string to disable."
-msgstr "Удаление пустых строк"
+msgstr "Установите пустую строку, чтобы отключить."
 
 #: ../../admin/config.rst:1434
 msgid ""
@@ -13468,16 +13443,12 @@ msgid "Docker environment variables"
 msgstr "Переменные окружения Docker"
 
 #: ../../admin/install/docker.rst:367
-#, fuzzy
-#| msgid ""
-#| "Many of Weblate's :ref:`config` can be set in the Docker container using "
-#| "environment variables:"
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
 "Многие :ref:`параметры конфигурации <config>` Weblate в контейнере Docker "
-"могут быть установлены через переменные окружения:"
+"могут быть установлены через переменные окружения, описанные ниже."
 
 #: ../../admin/install/docker.rst:370
 msgid ""
@@ -14136,10 +14107,8 @@ msgid "Gitea"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1045
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
-msgstr "Аутентификация GitHub"
+msgstr "Включает аутентификацию Gitea."
 
 #: ../../admin/install/docker.rst:1048
 msgid "Azure Active Directory"
@@ -24944,10 +24913,8 @@ msgid "Added team administrators who can add or remove members of the team."
 msgstr ""
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added a popup confirmation before deleting users"
-msgstr "Добавлено подтверждение перед удалением пользователей из проекта."
+msgstr "Добавлено всплывающее подтверждение перед удалением пользователей."
 
 #: ../../changes.rst:26
 #, fuzzy
