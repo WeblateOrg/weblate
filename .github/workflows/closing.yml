@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Add closed question comment
       uses: peter-evans/create-or-update-comment@v2
-      if: >
+      if: |
         ${{
           github.actor != 'renovate[bot]' &&
           github.event.issue.state_reason == 'completed' &&
@@ -33,7 +33,7 @@ jobs:
           * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
     - name: Add closed issue comment
       uses: peter-evans/create-or-update-comment@v2
-      if: >
+      if: |
         ${{
           github.actor != 'renovate[bot]' &&
           github.event.issue.state_reason == 'completed' &&
