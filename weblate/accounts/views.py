@@ -77,6 +77,7 @@ from social_django.views import complete, disconnect
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
     CaptchaForm,
+    CommitForm,
     ContactForm,
     DashboardSettingsForm,
     EmailForm,
@@ -329,6 +330,7 @@ def user_profile(request):
         UserSettingsForm,
         DashboardSettingsForm,
         ProfileForm,
+        CommitForm,
         UserForm,
     ]
     forms = [form.from_request(request) for form in form_classes]
@@ -374,8 +376,9 @@ def user_profile(request):
             "usersettingsform": forms[2],
             "dashboardsettingsform": forms[3],
             "profileform": forms[4],
-            "userform": forms[5],
-            "notification_forms": forms[6:],
+            "commitform": forms[5],
+            "userform": forms[6],
+            "notification_forms": forms[7:],
             "all_forms": forms,
             "user_groups": request.user.groups.prefetch_related("roles"),
             "profile": profile,
