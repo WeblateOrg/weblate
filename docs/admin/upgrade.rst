@@ -355,7 +355,7 @@ Upgrade from 4.14 to 4.15
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * Weblate now requires ``btree_gin`` extension in PostgreSQL. The migration process
-  will install it if it has sufficent privileges. See :ref:`dbsetup-postgres` for manual setup.
+  will install it if it has sufficient privileges. See :ref:`dbsetup-postgres` for manual setup.
 * The Docker image no longer enables debug mode by default. In case you want
   it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
 * The database migration make take hours on larger instances due to recreating some
