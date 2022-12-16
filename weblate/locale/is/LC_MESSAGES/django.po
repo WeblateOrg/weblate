@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-11-16 21:46+0000\n"
+"PO-Revision-Date: 2022-12-17 14:10+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -56,20 +56,15 @@ msgstr "Opinbera tölvupóstfangið þitt"
 
 #: weblate/accounts/forms.py:189
 msgid "Do not publicly display e-mail"
-msgstr ""
+msgstr "Ekki birta tölvupóstfang opinberlega"
 
 #: weblate/accounts/forms.py:194 weblate/accounts/models.py:574
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
 msgstr "Tölvupóstfang tengiliðar"
 
 #: weblate/accounts/forms.py:195
-#, fuzzy
-#| msgid "User e-mail"
 msgid "Use account e-mail"
-msgstr "Tölvupóstur notanda"
+msgstr "Nota tölvupóst notandans"
 
 #: weblate/accounts/forms.py:311
 #, python-format
@@ -1955,10 +1950,8 @@ msgstr "Sýsla með skilgreiningar tungumáls"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Sýsla með notendur"
+msgstr "Sýsla með teymi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143 weblate/templates/manage/users.html:17
@@ -2262,10 +2255,8 @@ msgid "Internal Weblate group"
 msgstr "Innri Weblate-hópur"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Stjórnendur"
+msgstr "Stjórnendur teymis"
 
 #: weblate/auth/models.py:166
 msgid "The administrator can add or remove users from a team."
@@ -4841,8 +4832,6 @@ msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "Auðkennismyndir koma frá %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
 msgstr "Þýðingateymi"
 
@@ -5272,10 +5261,9 @@ msgid "Are you absolutely sure?"
 msgstr "Ertu alveg viss?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "Þetta mun eyða endanlega <b>%(user)s</b> notendum úr verkefninu."
+msgstr "Þetta mun eyða endanlega <b>%(user)s</b> notendum úr Weblate."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5564,10 +5552,8 @@ msgid "Last sign in"
 msgstr "Síðasta innskráning"
 
 #: weblate/templates/auth/team.html:93
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "Stjórnendur"
+msgstr "Stjórnandi teymisins"
 
 #: weblate/templates/auth/team.html:103
 #: weblate/templates/trans/project-access-row.html:25
@@ -5576,16 +5562,12 @@ msgid "Not yet signed in"
 msgstr "Ekki skráð(ur) inn ennþá"
 
 #: weblate/templates/auth/team.html:110
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "Stjórnun Weblate"
+msgstr "Afturkalla stjórnunarréttindi"
 
 #: weblate/templates/auth/team.html:115
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Stjórnun Weblate"
+msgstr "Veita stjórnunarréttindi"
 
 #: weblate/templates/auth/team.html:118 weblate/templates/auth/team.html:119
 #: weblate/templates/auth/team.html:168
@@ -9969,14 +9951,10 @@ msgstr[0] "Eftirfarandi strengur er með annan upprunastreng en sama samhengi."
 msgstr[1] "Eftirfarandi strengur er með aðra upprunastrengi en sama samhengi."
 
 #: weblate/templates/translate.html:345
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "The following string has a different source and different context."
 msgid_plural "The following strings have different sources and context."
-msgstr[0] "Eftirfarandi strengur er með annan upprunastreng en sama samhengi."
-msgstr[1] "Eftirfarandi strengur er með aðra upprunastrengi en sama samhengi."
+msgstr[0] "Eftirfarandi strengur er með annan upprunastreng og annað samhengi."
+msgstr[1] "Eftirfarandi strengir eru með aðra upprunastrengi og samhengi."
 
 #: weblate/templates/translate.html:355
 msgid "Apply selected translation to all propagated strings"
@@ -9987,10 +9965,8 @@ msgid "Apply selected translation to current string"
 msgstr "Beita valinni þýðingu á fyrirliggjandi þýðingastreng"
 
 #: weblate/templates/translate.html:371
-#, fuzzy
-#| msgid "Browse all translation changes"
 msgid "Browse all string changes"
-msgstr "Skoða allar breytingar á þýðingum"
+msgstr "Skoða allar breytingar á strengjum"
 
 #: weblate/templates/translate.html:389
 msgid "Origin"
@@ -10441,10 +10417,8 @@ msgid "Invalid checksum specified!"
 msgstr "Ógild gátsumma tilgreind!"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "Notandanafn eða tölvupóstfang"
+msgstr "Vantar notandanafn eða tölvupóstfang."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -11515,7 +11489,7 @@ msgstr "%(action)s kl. %(time)s í %(translation)s af %(user)s"
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
 msgstr[0] "%d nýr strengur til að þýða kom fram í þýðingunni."
-msgstr[1] "%d nýjir strengir til að þýða komu fram í þýðingunni."
+msgstr[1] "%d nýir strengir til að þýða komu fram í þýðingunni."
 
 #: weblate/trans/models/change.py:683
 msgid "The \"{}\" file was changed."
@@ -11596,16 +11570,12 @@ msgid "Android style"
 msgstr "Android-stíll"
 
 #: weblate/trans/models/component.py:145
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Stíll lýsigagna App Store forritasafns"
+msgstr "Stíll lýsigagna Apple App Store forritasafns"
 
 #: weblate/trans/models/component.py:146
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Stíll lýsigagna App Store forritasafns"
+msgstr "Stíll lýsigagna Google Play forritasafns"
 
 #: weblate/trans/models/component.py:147
 msgid "Linux style"
@@ -12112,35 +12082,25 @@ msgid "Could not add new translation file."
 msgstr "Ekki tókst að bæta við nýrri þýðingaskrá."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "Þú hefur ekki heimild til að hefja nýja þýðingu"
+msgstr "Þú hefur ekki heimild til að bæta við nýrri þýðingaskrá."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Eins-tungumáls grunntungumálsskrá"
+msgstr "Eins-tungumáls grunntungumálsskráin er ógild."
 
 #: weblate/trans/models/component.py:3213
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "The template for new translations is invalid."
-msgstr "Sniðmát fyrir nýjar þýðingar"
+msgstr "Sniðmátið fyrir nýjar þýðingar er ógilt."
 
 #: weblate/trans/models/component.py:3246
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "The given language is used as a source language."
-msgstr "Þetta tungumál er notað fyrir upprunalega strengi."
+msgstr "Þetta tungumál er notað sem upprunatungumál."
 
 #: weblate/trans/models/component.py:3251
-#, fuzzy
-#| msgid "Font with the same name already exists."
 msgid "The given language already exists."
-msgstr "Letur með sama heiti er þegar til."
+msgstr "Uppgefið tungumál er þegar til."
 
 #: weblate/trans/models/component.py:3257
 msgid "The given language is filtered by the language filter."
@@ -12312,10 +12272,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Mistókst að senda inn breytingar sem bíða: %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Stýristafir"
+msgstr "Strengur inniheldur stýristaf: %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
@@ -12820,12 +12779,10 @@ msgid "Changes in %s"
 msgstr "Breytingar í %s"
 
 #: weblate/trans/views/changes.py:84
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Breytingar í %s"
+msgstr "Breytingar á streng í %s"
 
 #: weblate/trans/views/changes.py:95
 #, python-format
@@ -13415,10 +13372,8 @@ msgid "Syntax error in language aliases."
 msgstr "Formvilla í samheitum tungumáls."
 
 #: weblate/utils/validators.py:248
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Þetta nafn er bannað"
+msgstr "Þessi slóð er bönnuð"
 
 #: weblate/utils/views.py:133 weblate/utils/views.py:157
 msgid "Position and priority"
