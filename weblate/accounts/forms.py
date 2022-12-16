@@ -184,7 +184,7 @@ class LanguagesForm(ProfileBaseForm):
 class CommitForm(ProfileBaseForm):
     commit_email = forms.ChoiceField(
         label=_("Commit e-mail"),
-        choices=[("", _("Use account e-mail"))],
+        choices=[("", _("Use account e-mail address"))],
         required=False,
     )
 
@@ -215,7 +215,7 @@ class ProfileForm(ProfileBaseForm):
 
     public_email = forms.ChoiceField(
         label=_("Public e-mail"),
-        choices=[("", _("Do not publicly display e-mail"))],
+        choices=[("", _("Do not publicly display e-mail address"))],
         required=False,
     )
 
