@@ -1,7 +1,7 @@
 Weblate 4.15
 ------------
 
-Not yet released.
+Released on December 16th 2022.
 
 * Added support for browsing changes for a individual string.
 * Fixed plurals handling in automatic translation from other components.
