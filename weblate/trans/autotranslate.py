@@ -66,7 +66,11 @@ class AutoTranslate:
             )
 
     def update(self, unit, state, target):
-        if self.mode == "suggest" or len(target) > unit.get_max_length():
+        if isinstance(target, str):
+            target = [target]
+        if self.mode == "suggest" or any(
+            len(item) > unit.get_max_length() for item in target
+        ):
             Suggestion.objects.add(unit, target, None, False)
         else:
             unit.is_batch_update = True
