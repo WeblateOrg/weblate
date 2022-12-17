@@ -5,13 +5,14 @@
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2022.
 # amano <amano.hajime@gmail.com>, 2022.
 # Yang Yulin <yylteam@icloud.com>, 2022.
+# amano <amano@users.noreply.hosted.weblate.org>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-14 07:25+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2022-12-17 14:10+0000\n"
+"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -2731,9 +2732,8 @@ msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the add-on configuration."
 msgstr ""
-"新しい変更がアップストリーム リポジトリから新しい変更をプルするたびに起動しま"
-"す。大部分の msgmerge のコマンド ライン オプションはアドオンの設定から設定で"
-"きます。"
+"新しい変更が上流リポジトリから新しい変更をプルするたびに起動します。大部分の "
+"msgmerge のコマンド ライン オプションはアドオンの設定から設定できます。"
 
 #: ../../admin/addons.rst:601
 msgid "Squash Git commits"
@@ -3169,7 +3169,7 @@ msgstr "使用中のバージョン管理システム。"
 
 #: ../../admin/addons.rst:823
 msgid "Upstream repository URL."
-msgstr "アップストリーム リポジトリの URL。"
+msgstr "上流リポジトリの URL。"
 
 #: ../../admin/addons.rst:827
 msgid "Absolute path to VCS repository."
@@ -3246,10 +3246,10 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"VCS のアップストリーム ソースが変更されたときに翻訳ファイルを更新するために使"
-"用できます。これを実現するには、 Weblate は VCS にコミットされたファイルだけ"
-"を確認するので、スクリプトの一部として変更をコミットすることが必要であること"
-"に注意してください。"
+"VCS の上流ソースが変更されたときに翻訳ファイルを更新するために使用できます。"
+"これを実現するには、 Weblate は VCS にコミットされたファイルだけを確認するの"
+"で、スクリプトの一部として変更をコミットすることが必要であることに注意してく"
+"ださい。"
 
 #: ../../admin/addons.rst:910
 msgid "For example with Gulp you can do it using following code:"
@@ -8049,8 +8049,8 @@ msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-out)."
-msgstr "非公開用のコミット用メールアドレスを、使用するかしないかを設定します（デフォ"
-"ルトでは使用しない）。"
+msgstr "ユーザーごとのコミット用メールアドレスを、使用するかしないかを設定します（デ"
+"フォルトでは使用しない）。"
 
 #: ../../admin/config.rst:1418
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -8065,8 +8065,8 @@ msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"ユーザーの非公開用のコミット用メールアドレスを生成するためのテンプレート。デ"
-"フォルトは、``\"{username}@users.noreply.{site_domain}\"``。"
+"ユーザーごとのコミット用メールアドレスを生成するためのテンプレート。デフォル"
+"トは、``\"{username}@users.noreply.{site_domain}\"``。"
 
 #: ../../admin/config.rst:1430
 msgid "Set to blank string to disable."
@@ -8078,9 +8078,9 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
-":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` に、非公開用の異なるコミット用メールア"
-"ドレスを設定していないユーザーにはコミット用メールアドレスが公開されます。 "
-"ユーザーは、公開用のコミット用メールアドレスを :ref:`profile` で設定します。"
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` で無効化していない限り、ユーザーはコミ"
+"ット用に別のメールアドレスを使うことができます。 ユーザーは、"
+"コミット用メールアドレスを :ref:`profile` で設定します。"
 
 #: ../../admin/config.rst:1441
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -22068,11 +22068,11 @@ msgstr "コミットが必要な保留中の変更があるかどうか"
 
 #: ../../api.rst:892 ../../api.rst:1497
 msgid "whether there are any upstream changes to merge"
-msgstr "マージが必要なアップストリームに変更があるかどうか"
+msgstr "マージが必要な変更が上流にあるかどうか"
 
 #: ../../api.rst:893 ../../api.rst:1498
 msgid "whether there are any local changes to push"
-msgstr "プッシュが必要なローカルに変更があるかどうか"
+msgstr "プッシュが必要な変更がローカルにあるかどうか"
 
 #: ../../api.rst:908 ../../api.rst:1971
 msgid "Performs given operation on the VCS repository."
@@ -30997,12 +30997,12 @@ msgstr "変更がリポジトリにコミットされた後にフックが起動
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
 msgid "Hook triggered after repository is pushed upstream."
-msgstr "リポジトリがアップストリームにプッシュされた後にフックが起動します。"
+msgstr "リポジトリが上流にプッシュされた後にフックが起動します。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
 msgid "Hook triggered after repository is updated from upstream."
-msgstr "リポジトリがアップストリームから更新された後に起動するフック。"
+msgstr "リポジトリが上流から更新された後に起動するフック。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
@@ -31016,9 +31016,9 @@ msgid ""
 "you can pass this to underlying methods as ``commit_and_push`` or "
 "``commit_pending``."
 msgstr ""
-"アドオン操作でアップストリームへの変更のプッシュをスキップさせるどうかを指定"
-"します。通常、これは ``commit_and_push`` または ``commit_pending`` として基底"
-"クラスのメソッドに渡せます。"
+"アドオン操作で上流への変更のプッシュをスキップさせるどうかを指定します。通常"
+"、これは ``commit_and_push`` または ``commit_pending`` "
+"として基底クラスのメソッドに渡せます。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
@@ -31028,12 +31028,12 @@ msgstr "変更がリポジトリにコミットされる前にフックが起動
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_push:1
 msgid "Hook triggered before repository is pushed upstream."
-msgstr "リポジトリがアップストリームにプッシュされる前に起動するフック。"
+msgstr "リポジトリが上流にプッシュされる前に起動するフック。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
 msgid "Hook triggered before repository is updated from upstream."
-msgstr "リポジトリがアップストリームから更新される前に起動するフック。"
+msgstr "リポジトリが上流から更新される前に起動するフック。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
@@ -32330,7 +32330,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:52
 msgid "GnuPG with private key used to sign the release"
-msgstr "リリースの署名に使用する秘密鍵がある GnuPG"
+msgstr "リリースの署名に使用するための GnuPG と秘密鍵"
 
 #: ../../contributing/release.rst:53
 msgid "Push access to Weblate git repositories (it pushes tags)"
@@ -35454,11 +35454,11 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
-"マージの競合は、Weblate とアップストリーム リポジトリの両方で翻訳ファイルが同"
-"時に変更されたとき、たまに発生します。通常、翻訳ファイルに変更を加える前に"
-"（msgmerge を実行する前）Weblate 翻訳をマージすることで、これを回避できます。"
-"Weblate に、保留中の翻訳をすべてコミットして（:guilabel:`管理` メニューの :"
-"guilabel:`リポジトリのメンテナンス` から操作）、リポジトリをマージするように"
+"マージの競合は、Weblate と上流リポジトリの両方で翻訳ファイルが同時に変更され"
+"たとき、たまに発生します。通常、翻訳ファイルに変更を加える前に（msgmerge "
+"を実行する前）Weblate 翻訳をマージすることで、これを回避できます。Weblate "
+"に、保留中の翻訳をすべてコミットして（:guilabel:`管理` メニューの "
+":guilabel:`リポジトリのメンテナンス` から操作）、リポジトリをマージするように"
 "指示するだけです（自動プッシュが無効のとき）。"
 
 #: ../../faq.rst:46
@@ -35470,9 +35470,9 @@ msgid ""
 "actions."
 msgstr ""
 "マージの競合が既に発生している場合、マシン上のすべての競合をローカルで解決す"
-"る最も簡単な方法は、Weblate をリモート リポジトリとして追加し、アップストリー"
-"ムにマージして競合を修正することです。変更を元に戻すと、Weblate はそのままで"
-"マージされたバージョンを使用できます。"
+"る最も簡単な方法は、Weblate をリモート リポジトリとして追加し、上流にマージし"
+"て競合を修正することです。変更を元に戻すと、Weblate "
+"はそのままでマージされたバージョンを使用できます。"
 
 #: ../../faq.rst:54
 msgid ""
@@ -35504,9 +35504,9 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
-"Weblate Git リポジトリのローカル クローンを取得して保持します。また、アップス"
-"トリームの Git リポジトリの最新のローカル クローンも取得します（例: 上流の "
-"Git リポジトリのコピーが 2 つ必要。最新のコピーと作業用コピー）。操作方法:"
+"Weblate Git リポジトリのローカル クローンを取得して保持します。また、上流の "
+"Git リポジトリの最新のローカル クローンも取得します（例: 上流の Git "
+"リポジトリのコピーが 2 つ必要。最新のコピーと作業用コピー）。操作方法:"
 
 #: ../../faq.rst:144
 msgid ""
@@ -42139,13 +42139,13 @@ msgid ""
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
-"バージョン管理のコミットでは、アカウントのメールアドレスの代わりにコミット用"
-"の、メールアドレスが使用されます。これを使用して、実際のメールアドレスの漏洩"
-"を防止します。別のメールアドレスを使用すると、他のサーバーでの投稿が切断され"
-"ることがあるので注意してください（たとえば、投稿が GitHub "
-"のプロファイルにリンクされなくなります）。 "
-":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` "
-"を使用して、プライベートなメールアドレスをサイト全体で有効にできます。"
+"コミット用メールアドレスは、アカウントのメールアドレスの代わりにバージョン管"
+"理システムへのコミットで使われます。これを使用すると、実際のメールアドレスの"
+"漏洩を防止できます。別のメールアドレスを使用すると、他のサーバーでの貢献と紐"
+"づかなくなることがあるので注意してください（たとえば、翻訳が GitHub "
+"のプロフィールに紐づかなくなります）。 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`"
+" を使用して、ユーザーごとのコミット用メールアドレスをサイト全体で有効にできま"
+"す。"
 
 #: ../../user/profile.rst:206
 msgid ""
@@ -43597,9 +43597,9 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
-"プライベート リポジトリに接続するために最もよく使用される方法は、SSH による接"
-"続です。SSH でアップストリーム リポジトリに接続するために、Weblate SSH 公開鍵"
-"（参照: :ref:`weblate-ssh-key`）を承認します。"
+"プライベート リポジトリに接続するために最もよく使用される方法は、SSH "
+"による接続です。SSH で上流リポジトリに接続するために、Weblate SSH "
+"公開鍵（参照: :ref:`weblate-ssh-key`）を承認します。"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -43706,9 +43706,9 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
-":ref:`component-push_branch` を設定していない場合、プロジェクトはフォークさ"
-"れ、変更はフォークを通してプッシュされます。設定されている場合、変更はアップ"
-"ストリーム リポジトリと選択したブランチにプッシュされます。"
+":ref:`component-push_branch` を設定していない場合、プロジェクトはフォークされ"
+"、変更はフォークを通してプッシュされます。設定されている場合、変更は上流リポ"
+"ジトリと選択したブランチにプッシュされます。"
 
 #: ../../vcs.rst:113
 msgid ""
@@ -43903,9 +43903,7 @@ msgstr ""
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
-msgstr ""
-"アップストリーム のリポジトリではコミットが失われやすいので、注意して使用して"
-"ください。"
+msgstr "上流のリポジトリではコミットが失われやすいので、注意して使用してください。"
 
 #: ../../vcs.rst:223
 msgid "Customizing Git configuration"
