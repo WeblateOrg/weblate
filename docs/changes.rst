@@ -3,6 +3,8 @@ Weblate 4.15.1
 
 Not yet released.
 
+* Fixed suggestions from automatic translation.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
 
 Weblate 4.15

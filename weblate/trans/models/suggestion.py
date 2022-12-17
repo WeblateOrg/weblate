@@ -27,7 +27,7 @@ from django.utils.translation import gettext as _
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
-from weblate.trans.util import split_plural
+from weblate.trans.util import join_plural, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
@@ -41,6 +41,9 @@ class SuggestionManager(models.Manager):
     def add(self, unit, target, request, vote=False):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
+
+        if isinstance(target, [list, tuple]):
+            target = join_plural(target)
 
         user = request.user if request else get_anonymous()
 

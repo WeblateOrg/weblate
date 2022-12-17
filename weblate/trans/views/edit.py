@@ -64,7 +64,7 @@ from weblate.trans.templatetags.translations import (
     unit_state_class,
     unit_state_title,
 )
-from weblate.trans.util import join_plural, redirect_next, render, split_plural
+from weblate.trans.util import redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -314,7 +314,7 @@ def perform_suggestion(unit, form, request):
     # Create the suggestion
     result = Suggestion.objects.add(
         unit,
-        join_plural(form.cleaned_data["target"]),
+        form.cleaned_data["target"],
         request,
         request.user.has_perm("suggestion.vote", unit),
     )
