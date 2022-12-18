@@ -42,7 +42,7 @@ class SuggestionManager(models.Manager):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
 
-        if isinstance(target, [list, tuple]):
+        if isinstance(target, (list, tuple)):
             target = join_plural(target)
 
         user = request.user if request else get_anonymous()
