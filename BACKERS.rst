@@ -14,5 +14,6 @@ List of Weblate supporters:
 * `BallotReady <https://www.ballotready.org>`_
 * Richard Nespithal
 * MyExpenses.Mobi
+* Michael Totschnig
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
