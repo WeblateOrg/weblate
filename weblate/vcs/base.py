@@ -121,6 +121,7 @@ class Repository:
             "http.response",
             status_code=response.status_code,
             text=response.text,
+            headers=response.headers,
         )
 
     @classmethod
