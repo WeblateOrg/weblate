@@ -38,8 +38,7 @@ class WeblateTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
-        threshold: int = 75,
+        threshold: int = 10,
     ):
         """Download list of possible translations from a service."""
         # Filter based on user access
@@ -69,7 +68,7 @@ class WeblateTranslation(MachineTranslation):
             if "forbidden" in munit.all_flags:
                 continue
             quality = self.comparer.similarity(text, source)
-            if quality < 10 or (quality < threshold and not search):
+            if quality < threshold:
                 continue
             yield {
                 "text": munit.get_target_plurals()[0],

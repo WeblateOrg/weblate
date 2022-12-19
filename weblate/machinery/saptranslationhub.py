@@ -61,7 +61,6 @@ class SAPTranslationHub(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""

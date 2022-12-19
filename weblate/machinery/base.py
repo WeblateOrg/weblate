@@ -177,7 +177,6 @@ class MachineTranslation:
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service.
@@ -356,7 +355,26 @@ class MachineTranslation:
             return cache_key, result
         return cache_key, None
 
-    def translate(self, unit, user=None, search=None, threshold: int = 75):
+    def search(self, unit, text, user):
+        """Search for known translations of `text`.
+        """
+        translation = unit.translation
+        try:
+            source, language = self.get_languages(
+                translation.component.source_language, translation.language
+            )
+        except UnsupportedLanguage:
+            unit.translation.log_debug(
+                "machinery failed: not supported language pair: %s - %s",
+                translation.component.source_language.code,
+                translation.language.code,
+            )
+            return []
+
+        self.account_usage(translation.component.project)
+        return self._translate(source, language, text, unit, user)
+
+    def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
         translation = unit.translation
         try:
@@ -372,56 +390,49 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        if search:
-            return self._translate(
-                source, language, search, unit, user, search=True, threshold=threshold
-            )
+
+        source_strings = unit.get_source_plurals()
+        source_plural = translation.component.source_language.plural
+        target_plural = translation.plural
+        if len(source_strings) == 1 or source_plural.same_as(target_plural):
+            strings_to_translate = source_strings
+        elif target_plural.number == 1:
+            strings_to_translate = [source_strings[-1]]
         else:
-            source_strings = unit.get_source_plurals()
-            source_plural = translation.component.source_language.plural
-            target_plural = translation.plural
-            if len(source_strings) == 1 or source_plural.same_as(target_plural):
-                strings_to_translate = source_strings
-            elif target_plural.number == 1:
-                strings_to_translate = [source_strings[-1]]
-            else:
-                source_map = {
-                    examples[0]: i for i, examples in source_plural.examples.items()
-                    if len(examples) == 1
-                }
-                format_check = next((
-                    check for check in CHECKS.values() if (
-                        isinstance(check, BaseFormatCheck)
-                        and check.enable_string in unit.all_flags
+            source_map = {
+                examples[0]: i for i, examples in source_plural.examples.items()
+                if len(examples) == 1
+            }
+            format_check = next((
+                check for check in CHECKS.values() if (
+                    isinstance(check, BaseFormatCheck)
+                    and check.enable_string in unit.all_flags
+                )
+            ), None)
+            strings_to_translate = []
+            last = target_plural.number - 1
+            for i in range(target_plural.number):
+                examples = target_plural.examples.get(i, ())
+                if format_check and len(examples) == 1:
+                    number = examples[0]
+                    strings_to_translate.append(
+                        source_strings[source_map[number]]
+                        if number in source_map else
+                        format_check.interpolate_number(source_strings[-1], number)
                     )
-                ), None)
-                strings_to_translate = []
-                last = target_plural.number - 1
-                for i in range(target_plural.number):
-                    examples = target_plural.examples.get(i, ())
-                    if format_check and len(examples) == 1:
-                        number = examples[0]
-                        strings_to_translate.append(
-                            source_strings[source_map[number]]
-                            if number in source_map else
-                            format_check.interpolate_number(source_strings[-1], number)
-                        )
-                    elif i == last:
-                        strings_to_translate.append(source_strings[-1])
-                    else:
-                        strings_to_translate.append("")
-            return [
-                self._translate(source, language, text, unit, user, threshold=threshold)
-                for text in strings_to_translate
-            ]
+                elif i == last:
+                    strings_to_translate.append(source_strings[-1])
+                else:
+                    strings_to_translate.append("")
+        return [
+            self._translate(source, language, text, unit, user, threshold=threshold)
+            for text in strings_to_translate
+        ]
 
     def _translate(
-        self, source, language, text, unit, user=None, search=False, threshold: int = 75
+        self, source, language, text, unit, user=None, threshold: int = 75
     ):
-        if search:
-            replacements = {}
-        else:
-            text, replacements = self.cleanup_text(text, unit)
+        text, replacements = self.cleanup_text(text, unit)
 
         if not text or self.is_rate_limited():
             return []
@@ -440,7 +451,6 @@ class MachineTranslation:
                     text,
                     unit,
                     user,
-                    search=search,
                     threshold=threshold,
                 ) if item["quality"] >= threshold
             ]
