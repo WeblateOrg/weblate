@@ -37,8 +37,7 @@ class WeblateMemory(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
-        threshold: int = 75,
+        threshold: int = 10,
     ):
         """Download list of possible translations from a service."""
         for result in Memory.objects.lookup(
@@ -50,7 +49,7 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project.use_shared_tm,
         ).iterator():
             quality = self.comparer.similarity(text, result.source)
-            if quality < 10 or (quality < threshold and not search):
+            if quality < threshold:
                 continue
             yield {
                 "text": result.target,

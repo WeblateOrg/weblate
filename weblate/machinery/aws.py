@@ -130,7 +130,6 @@ class AWSTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         response = self.client.translate_text(

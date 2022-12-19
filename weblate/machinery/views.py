@@ -318,13 +318,16 @@ def handle_machinery(request, service, unit, search=None):
         response["responseDetails"] = _("Service is currently not available.")
     else:
         try:
-            translations = translation_service.translate(
-                unit, request.user, search=search
-            )
-            for plural_form, possible_translations in enumerate(translations):
-                for item in possible_translations:
-                    item["plural_form"] = plural_form
-            response["translations"] = reduce(list.extend, translations, [])
+            if search:
+                response["translations"] = translation_service.search(
+                    search, unit, request.user
+                )
+            else:
+                translations = translation_service.translate(unit, request.user)
+                for plural_form, possible_translations in enumerate(translations):
+                    for item in possible_translations:
+                        item["plural_form"] = plural_form
+                response["translations"] = reduce(list.extend, translations, [])
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)

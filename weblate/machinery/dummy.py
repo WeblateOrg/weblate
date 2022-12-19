@@ -21,7 +21,6 @@ class DummyTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Dummy translation supports just single phrase."""
