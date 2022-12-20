@@ -220,7 +220,14 @@ ES_TEMPLATE_MATCH = re.compile(
 PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
 VUE_MATCH = re.compile(
-    r"(%?{([^}]+)}|@(?:\.[a-z]+)?:(?:\([^)]+\)|[a-z_.]+))", re.IGNORECASE
+    r"""
+    (
+    %?{([^}]+)}
+    |
+    (?:@(?:\.[a-z]+)?:(?:[\w\-_|./]+|\([\w\-_:|./]+\))) # See https://github.com/kazupon/vue-i18n/blob/44ff0b9c273870c1adb43968d0f9cf7ce95e09f0/src/index.js#L30 but without case
+    )
+    """, 
+    re.IGNORECASE | re.VERBOSE,
 )
 
 WHITESPACE = re.compile(r"\s+")
