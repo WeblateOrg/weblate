@@ -18,10 +18,8 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from requests.exceptions import HTTPError
 
-from weblate.checks.format import BaseFormatCheck
-from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
-from weblate.lang.models import Language
+from weblate.lang.models import Language, PluralMapper
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
@@ -391,42 +389,12 @@ class MachineTranslation:
 
         self.account_usage(translation.component.project)
 
-        source_strings = unit.get_source_plurals()
         source_plural = translation.component.source_language.plural
         target_plural = translation.plural
-        if len(source_strings) == 1 or source_plural.same_as(target_plural):
-            strings_to_translate = source_strings
-        elif target_plural.number == 1:
-            strings_to_translate = [source_strings[-1]]
-        else:
-            source_map = {
-                examples[0]: i for i, examples in source_plural.examples.items()
-                if len(examples) == 1
-            }
-            format_check = next((
-                check for check in CHECKS.values() if (
-                    isinstance(check, BaseFormatCheck)
-                    and check.enable_string in unit.all_flags
-                )
-            ), None)
-            strings_to_translate = []
-            last = target_plural.number - 1
-            for i in range(target_plural.number):
-                examples = target_plural.examples.get(i, ())
-                if format_check and len(examples) == 1:
-                    number = examples[0]
-                    strings_to_translate.append(
-                        source_strings[source_map[number]]
-                        if number in source_map else
-                        format_check.interpolate_number(source_strings[-1], number)
-                    )
-                elif i == last:
-                    strings_to_translate.append(source_strings[-1])
-                else:
-                    strings_to_translate.append("")
+        plural_mapper = PluralMapper(source_plural, target_plural)
         return [
             self._translate(source, language, text, unit, user, threshold=threshold)
-            for text in strings_to_translate
+            for text in plural_mapper.map(unit)
         ]
 
     def _translate(
@@ -493,16 +461,20 @@ class MachineTranslation:
             return
 
         self.account_usage(translation.component.project, delta=len(units))
-        self._batch_translate(source, language, units, user=user, threshold=threshold)
 
-    def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
+        source_plural = translation.component.source_language.plural
+        target_plural = translation.plural
+        plural_mapper = PluralMapper(source_plural, target_plural)
         for unit in units:
             result = unit.machinery
             if result is None:
                 result = unit.machinery = {}
             elif min(*result.get("quality", (-1,))) >= self.max_score:
                 continue
-            translation_lists = self.translate(unit, user=user, threshold=threshold)
+            translation_lists = [
+                self._translate(source, language, text, unit, user, threshold=threshold)
+                for text in plural_mapper.map(unit)
+            ]
             n = len(translation_lists)
             translation = result.setdefault("translation", [""] * n)
             quality = result.setdefault("quality", [-1] * n)

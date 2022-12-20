@@ -6,6 +6,7 @@ import gettext
 import re
 from collections import defaultdict
 from itertools import chain
+from weakref import WeakValueDictionary
 
 from appconf import AppConf
 from django.conf import settings
@@ -23,6 +24,8 @@ from weblate_language_data.countries import DEFAULT_LANGS
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 from weblate_language_data.rtl import RTL_LANGS
 
+from weblate.checks.format import BaseFormatCheck
+from weblate.checks.models import CHECKS
 from weblate.lang import data
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
@@ -856,6 +859,68 @@ class Plural(models.Model):
                 "name": self.get_plural_name(i),
                 "examples": ", ".join(self.examples.get(i, [])),
             }
+
+
+class PluralMapper:
+
+    instances = WeakValueDictionary()
+
+    def __new__(cls, source_plural, target_plural):
+        key = (source_plural.formula, target_plural.formula)
+        obj = cls.instances.get(key)
+        if obj is None:
+            obj = cls.instances[key] = super().__new__(cls)
+        return obj
+
+    def __init__(self, source_plural, target_plural):
+        self.source_plural = source_plural
+        self.target_plural = target_plural
+        self.same_plurals = source_plural.same_as(target_plural)
+
+    @cached_property
+    def _target_map(self):
+        source_map = {
+            examples[0]: i for i, examples in self.source_plural.examples.items()
+            if len(examples) == 1
+        }
+        target_plural = self.target_plural
+        target_map = []
+        last = target_plural.number - 1
+        for i in range(target_plural.number):
+            examples = target_plural.examples.get(i, ())
+            if len(examples) == 1:
+                number = examples[0]
+                if number in source_map:
+                    target_map.append((source_map[number], None))
+                else:
+                    target_map.append((-1, number))
+            elif i == last:
+                target_map.append((-1, None))
+            else:
+                target_map.append((None, None))
+        return tuple(target_map)
+
+    def map(self, unit):
+        source_strings = unit.get_source_plurals()
+        if self.same_plurals or len(source_strings) == 1:
+            strings_to_translate = source_strings
+        elif self.target_plural.number == 1:
+            strings_to_translate = [source_strings[-1]]
+        else:
+            strings_to_translate = []
+            format_check = next((
+                check for check in CHECKS.values() if (
+                    isinstance(check, BaseFormatCheck)
+                    and check.enable_string in unit.all_flags
+                    and check.plural_parameter_regexp
+                )
+            ), None)
+            for source_index, number_to_interpolate in self._target_map:
+                s = "" if source_index is None else source_strings[source_index]
+                if s and number_to_interpolate is not None and format_check:
+                    s = format_check.interpolate_number(s, number_to_interpolate)
+                strings_to_translate.append(s)
+        return strings_to_translate
 
 
 class WeblateLanguagesConf(AppConf):
