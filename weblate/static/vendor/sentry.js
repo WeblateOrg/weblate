@@ -5700,7 +5700,7 @@ exports.createTransport = createTransport;
 },{"@sentry/utils":130}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.27.0';
+const SDK_VERSION = '7.28.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -17458,7 +17458,7 @@ async function getReplayEvent({
 
   preparedEvent.sdk = {
     ...preparedEvent.sdk,
-    version: "7.27.0",
+    version: "7.28.0",
     name,
   };
 
@@ -18752,6 +18752,47 @@ function concatBuffers(buffers) {
 }
 
 /**
+ * Parses an envelope
+ */
+function parseEnvelope(
+  env,
+  textEncoder,
+  textDecoder,
+) {
+  let buffer = typeof env === 'string' ? textEncoder.encode(env) : env;
+
+  function readBinary(length) {
+    const bin = buffer.subarray(0, length);
+    // Replace the buffer with the remaining data excluding trailing newline
+    buffer = buffer.subarray(length + 1);
+    return bin;
+  }
+
+  function readJson() {
+    let i = buffer.indexOf(0xa);
+    // If we couldn't find a newline, we must have found the end of the buffer
+    if (i < 0) {
+      i = buffer.length;
+    }
+
+    return JSON.parse(textDecoder.decode(readBinary(i))) ;
+  }
+
+  const envelopeHeader = readJson();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const items = [];
+
+  while (buffer.length) {
+    const itemHeader = readJson();
+    const binaryLength = typeof itemHeader.length === 'number' ? itemHeader.length : undefined;
+
+    items.push([itemHeader, binaryLength ? readBinary(binaryLength) : readJson()]);
+  }
+
+  return [envelopeHeader, items];
+}
+
+/**
  * Creates attachment envelope items
  */
 function createAttachmentEnvelopeItem(
@@ -18830,6 +18871,7 @@ exports.createEventEnvelopeHeaders = createEventEnvelopeHeaders;
 exports.envelopeItemTypeToDataCategory = envelopeItemTypeToDataCategory;
 exports.forEachEnvelopeItem = forEachEnvelopeItem;
 exports.getSdkMetadataForEnvelopeHeader = getSdkMetadataForEnvelopeHeader;
+exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
@@ -19001,6 +19043,7 @@ exports.createEventEnvelopeHeaders = envelope.createEventEnvelopeHeaders;
 exports.envelopeItemTypeToDataCategory = envelope.envelopeItemTypeToDataCategory;
 exports.forEachEnvelopeItem = envelope.forEachEnvelopeItem;
 exports.getSdkMetadataForEnvelopeHeader = envelope.getSdkMetadataForEnvelopeHeader;
+exports.parseEnvelope = envelope.parseEnvelope;
 exports.serializeEnvelope = envelope.serializeEnvelope;
 exports.createClientReportEnvelope = clientreport.createClientReportEnvelope;
 exports.DEFAULT_RETRY_AFTER = ratelimit.DEFAULT_RETRY_AFTER;
