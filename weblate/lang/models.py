@@ -804,28 +804,24 @@ class Plural(models.Model):
 
     def same_as(self, other):
         """Check whether the given plurals are equivalent."""
-        if self.formula != other.formula:
-            ours, theirs = self.plural_function, other.plural_function
-            for i in range(-10, 200):
-                if ours(i) != theirs(i):
-                    return False
-        return True
+        return self._same_plural(other.number, other.formula, other.plural_function)
 
     def same_plural(self, number, formula):
         """Compare whether given plurals formula matches."""
-        if number != self.number or not formula:
+        return self._same_plural(number, formula, gettext.c2py(formula))
+
+    def _same_plural(self, number, formula, plural_function):
+        if number != self.number:
             return False
-
-        # Convert formulas to functions
-        ours = self.plural_function
-        theirs = gettext.c2py(formula)
-
+        if formula == self.formula:
+            return True
         # Compare formula results
         # It would be better to compare formulas,
         # but this was easier to implement and the performance
         # is still okay.
+        ours = self.plural_function
         for i in range(-10, 200):
-            if ours(i) != theirs(i):
+            if ours(i) != plural_function(i):
                 return False
 
         return True
