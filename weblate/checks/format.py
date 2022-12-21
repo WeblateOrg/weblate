@@ -224,7 +224,9 @@ VUE_MATCH = re.compile(
     (
     %?{([^}]+)}
     |
-    (?:@(?:\.[a-z]+)?:(?:[\w\-_|./]+|\([\w\-_:|./]+\))) # See https://github.com/kazupon/vue-i18n/blob/44ff0b9c273870c1adb43968d0f9cf7ce95e09f0/src/index.js#L30 but without case
+# See https://github.com/kazupon/vue-i18n/blob/44ff0b9/src/index.js#L30
+# but without case
+    (?:@(?:\.[a-z]+)?:(?:[\w\-_|./]+|\([\w\-_:|./]+\)))
     )
     """,
     re.IGNORECASE | re.VERBOSE,
