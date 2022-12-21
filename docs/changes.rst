@@ -4,6 +4,7 @@ Weblate 4.15.1
 Not yet released.
 
 * Fixed suggestions from automatic translation.
+* Added add-on page crash in some corner cases.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
 
