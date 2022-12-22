@@ -2848,6 +2848,23 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
 
+    def test_translate_unit_whitespace(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        target = "Test translation \n"
+        # Performing update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            request={"state": "20", "target": target},
+        )
+        # Verify string was not stripped
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, target)
+
     def test_untranslate_unit(self):
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"
