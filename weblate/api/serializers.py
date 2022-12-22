@@ -911,7 +911,7 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
-    child = serializers.CharField()
+    child = serializers.CharField(trim_whitespace=False)
 
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
