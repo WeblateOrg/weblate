@@ -5700,7 +5700,7 @@ exports.createTransport = createTransport;
 },{"@sentry/utils":130}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.28.0';
+const SDK_VERSION = '7.28.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -16828,6 +16828,12 @@ class ReplayContainer  {
     };
 
     const replayEvent = await getReplayEvent.getReplayEvent({ scope, client, replayId, event: baseEvent });
+
+    if (!replayEvent) {
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] An event processor returned null, will not send replay.');
+      return;
+    }
+
     replayEvent.tags = {
       ...replayEvent.tags,
       sessionSampleRate: this._options.sessionSampleRate,
@@ -17452,15 +17458,17 @@ async function getReplayEvent({
   // @ts-ignore private api
   const preparedEvent = await client._prepareEvent(event, { event_id }, scope);
 
-  // extract the SDK name because `client._prepareEvent` doesn't add it to the event
-  const metadata = client.getOptions() && client.getOptions()._metadata;
-  const { name } = (metadata && metadata.sdk) || {};
+  if (preparedEvent) {
+    // extract the SDK name because `client._prepareEvent` doesn't add it to the event
+    const metadata = client.getOptions() && client.getOptions()._metadata;
+    const { name } = (metadata && metadata.sdk) || {};
 
-  preparedEvent.sdk = {
-    ...preparedEvent.sdk,
-    version: "7.28.0",
-    name,
-  };
+    preparedEvent.sdk = {
+      ...preparedEvent.sdk,
+      version: "7.28.1",
+      name,
+    };
+  }
 
   return preparedEvent;
 }
