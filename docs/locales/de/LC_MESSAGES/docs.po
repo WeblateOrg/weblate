@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-18 11:53+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2022-12-24 13:33+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -333,6 +333,9 @@ msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
 msgstr ""
+"Jedes Team kann einen Teamadministrator haben, der Benutzer innerhalb des "
+"Teams hinzufügen und entfernen kann. Dies ist nützlich, wenn Sie "
+"selbstverwaltete Teams aufbauen wollen."
 
 #: ../../admin/access.rst:139
 msgid "New user invitation"
@@ -4756,7 +4759,7 @@ msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
-"Sichern Sie Ihre Borg-Anmeldedaten, um die Backups wiederherstellen zu "
+"Sichern Sie Ihre Borg-Zugangsdaten, um die Backups wiederherstellen zu "
 "können, siehe :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:96
@@ -7245,7 +7248,7 @@ msgstr ""
 
 #: ../../admin/config.rst:336 ../../admin/translating.rst:91
 msgid ":ref:`checks`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:341
 msgid "COMMENT_CLEANUP_DAYS"
@@ -7568,7 +7571,7 @@ msgstr ""
 
 #: ../../admin/config.rst:514
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
-msgstr ""
+msgstr ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 
 #: ../../admin/config.rst:522
 msgid "DEFAULT_ADDONS"
@@ -7593,7 +7596,7 @@ msgstr "Beispiel:"
 
 #: ../../admin/config.rst:550
 msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
-msgstr ""
+msgstr ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:557
 msgid "DEFAULT_COMMITER_EMAIL"
@@ -7607,7 +7610,7 @@ msgstr ""
 
 #: ../../admin/config.rst:565
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:570
 msgid "DEFAULT_COMMITER_NAME"
@@ -7619,7 +7622,7 @@ msgstr "Der Name des Committers ist standardmäßig ``Weblate``."
 
 #: ../../admin/config.rst:578
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
 
 #: ../../admin/config.rst:583
 msgid "DEFAULT_LANGUAGE"
@@ -7630,6 +7633,8 @@ msgid ""
 "Default source language to use for example in :ref:`component-"
 "source_language`."
 msgstr ""
+"Standard-Quellsprache, die zum Beispiel in :ref:`component-source_language` "
+"zu verwenden ist."
 
 #: ../../admin/config.rst:589
 msgid ""
@@ -7661,7 +7666,7 @@ msgstr "`merge`"
 
 #: ../../admin/config.rst:610
 msgid ":ref:`component`, :ref:`component-merge_style`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-merge_style`"
 
 #: ../../admin/config.rst:616
 msgid "DEFAULT_SHARED_TM"
@@ -7672,6 +7677,8 @@ msgid ""
 "Configures default value of :ref:`project-use_shared_tm` and :ref:`project-"
 "contribute_shared_tm`."
 msgstr ""
+"Konfiguriert den Standardwert von :ref:`project-use_shared_tm` und :ref"
+":`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:625
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
@@ -7685,7 +7692,7 @@ msgstr ""
 
 #: ../../admin/config.rst:633
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
 
 #: ../../admin/config.rst:641
 msgid "DEFAULT_PULL_MESSAGE"
@@ -7721,6 +7728,7 @@ msgstr ""
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 
 #: ../../admin/config.rst:664
 msgid "ENABLE_HOOKS"
@@ -7766,6 +7774,14 @@ msgid ""
 "or ``Forwarded`` headers or configure :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgstr ""
+"Die HTTPS-Umleitung könnte in einigen Fällen problematisch sein und Sie "
+"könnten auf das Problem einer unendlichen Umleitung stoßen, wenn Sie einen "
+"Reverse-Proxy verwenden, der die SSL-Terminierung vornimmt und die Protokoll-"
+"Header nicht korrekt an Django weitergibt. Bitte passen Sie Ihre Reverse-"
+"Proxy-Konfiguration so an, dass ``X-Forwarded-Proto``- oder ``Forwarded``-"
+"Header ausgegeben werden oder konfigurieren Sie "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, damit Django den SSL-Status "
+"korrekt erkennt."
 
 #: ../../admin/config.rst:693
 msgid ""
@@ -7773,6 +7789,9 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:702
 msgid "ENABLE_SHARING"
@@ -7783,38 +7802,44 @@ msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"Schalten Sie das Menü :guilabel:`Teilen` ein oder aus, damit Benutzer den "
+"Übersetzungsfortschritt in sozialen Netzwerken teilen können."
 
 #: ../../admin/config.rst:709
 msgid "EXTRA_HTML_HEAD"
-msgstr ""
+msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:713
 msgid ""
 "Insert additional markup into HTML header. Can be used for verification of "
 "site ownership, for example:"
 msgstr ""
+"Fügen Sie zusätzliches Markup in den HTML-Header ein. Kann z. B. für die "
+"Überprüfung der Eigentümerschaft einer Website verwendet werden:"
 
 #: ../../admin/config.rst:721
 msgid ""
 "No sanitization is performed on the string, it is inserted as is into the "
 "HTML header."
 msgstr ""
+"Die Zeichenfolge wird nicht bereinigt, sondern unverändert in den HTML-"
+"Header eingefügt."
 
 #: ../../admin/config.rst:726
 msgid "GET_HELP_URL"
-msgstr ""
+msgstr "GET_HELP_URL"
 
 #: ../../admin/config.rst:730
 msgid "URL where support for your Weblate instance can be found."
-msgstr ""
+msgstr "URL, unter der Unterstützung für Ihre Weblate-Instanz zu finden ist."
 
 #: ../../admin/config.rst:735
 msgid "GITEA_CREDENTIALS"
-msgstr ""
+msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:739
 msgid "List for credentials for Gitea servers."
-msgstr ""
+msgstr "Liste der Zugangsdaten für Gitea-Server."
 
 #: ../../admin/config.rst:756
 msgid ""
@@ -7833,6 +7858,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITEA_CREDENTIALS`."
 msgstr ""
+"Diese Konfiguration ist unsicher, es wird empfohlen, zu "
+":setting:`GITEA_CREDENTIALS` zu wechseln."
 
 #: ../../admin/config.rst:771
 #, fuzzy
@@ -7843,14 +7870,8 @@ msgstr ""
 "Übersetzungsaktualisierungen zu senden."
 
 #: ../../admin/config.rst:775
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Erstellen eines "
-"persönlichen GitHub-Zugangstokens`_"
+msgstr ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
 
 #: ../../admin/config.rst:781
 msgid "GITEA_TOKEN"
@@ -7869,16 +7890,12 @@ msgstr ""
 "von Übersetzungen verwendet wird."
 
 #: ../../admin/config.rst:794
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ""
 ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea personal "
 "access token`_"
 msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Erstellen eines "
-"persönlichen GitHub-Zugangstokens`_"
+":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-gitea`, `Erstellen eines "
+"persönlichen Gitea-Zugangstokens`_"
 
 #: ../../admin/config.rst:803
 msgid "GITLAB_CREDENTIALS"
@@ -7886,7 +7903,7 @@ msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:807
 msgid "List for credentials for GitLab servers."
-msgstr ""
+msgstr "Liste der Zugangsdaten für GitLab-Server."
 
 #: ../../admin/config.rst:824
 #, fuzzy
@@ -7909,14 +7926,18 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITLAB_CREDENTIALS`."
 msgstr ""
+"Diese Konfiguration ist unsicher, es wird empfohlen, zu "
+":setting:`GITLAB_CREDENTIALS` zu wechseln."
 
 #: ../../admin/config.rst:837
 msgid "GitLab username used to send merge requests for translation updates."
 msgstr ""
+"GitLab-Benutzername, der zum Senden von Merge-Requests für "
+"Übersetzungsaktualisierungen verwendet wird."
 
 #: ../../admin/config.rst:841
 msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
-msgstr ""
+msgstr ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:847
 msgid "GITLAB_TOKEN"
@@ -7939,6 +7960,9 @@ msgid ""
 ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal access "
 "token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Persönliche "
+"Zugangs-Token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens"
+".html>`_"
 
 #: ../../admin/config.rst:867
 msgid "GITHUB_CREDENTIALS"
@@ -7946,7 +7970,7 @@ msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:871
 msgid "List for credentials for GitHub servers."
-msgstr ""
+msgstr "Liste für Zugangsdaten für GitHub-Server."
 
 #: ../../admin/config.rst:888
 #, fuzzy
@@ -7969,14 +7993,18 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITHUB_CREDENTIALS`."
 msgstr ""
+"Diese Konfiguration ist unsicher, es wird empfohlen, zu "
+":setting:`GITHUB_CREDENTIALS` zu wechseln."
 
 #: ../../admin/config.rst:901
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
+"GitHub-Benutzername, um Pull-Requests für Übersetzungsaktualisierungen zu "
+"senden."
 
 #: ../../admin/config.rst:905
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
-msgstr ""
+msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 
 #: ../../admin/config.rst:911
 msgid "GITHUB_TOKEN"
@@ -7987,6 +8015,8 @@ msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
+"Persönliches GitHub-Zugangs-Token, das für API-Aufrufe verwendet wird, um "
+"Pull-Anfragen für Übersetzungsaktualisierungen zu senden."
 
 #: ../../admin/config.rst:924
 msgid ""
@@ -8004,6 +8034,8 @@ msgstr "GOOGLE_ANALYTICS_ID"
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"Google Analytics-ID, um die Überwachung von Weblate mit Google Analytics zu "
+"aktivieren."
 
 #: ../../admin/config.rst:940
 msgid "HIDE_REPO_CREDENTIALS"
@@ -8015,6 +8047,9 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
+"Ausblenden der Repository-Zugangsdaten auf der Weboberfläche. Falls Sie eine "
+"Repository-URL mit Benutzer und Passwort haben, wird Weblate diese "
+"ausblenden, wenn zugehörige Informationen den Benutzern angezeigt werden."
 
 #: ../../admin/config.rst:946
 msgid ""
@@ -8022,10 +8057,13 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"Zum Beispiel wird anstelle von ``https://Benutzer:Passwort@git.beispiel.de/"
+"repo.git`` nur ``https://git.beispiel.de/repo.git`` angezeigt. In ähnlicher "
+"Weise versucht es auch, VCS-Fehlermeldungen zu bereinigen."
 
 #: ../../admin/config.rst:952
 msgid "This is turned on by default."
-msgstr ""
+msgstr "Diese Funktion ist standardmäßig eingeschaltet."
 
 #: ../../admin/config.rst:957
 msgid "HIDE_VERSION"
@@ -8037,12 +8075,19 @@ msgid ""
 "documentation links point to latest version instead of the documentation "
 "matching currently installed version."
 msgstr ""
+"Versteckt Versionsinformationen vor nicht authentifizierten Benutzern. Dies "
+"führt auch dazu, dass alle Links zur Dokumentation auf die neueste Version "
+"verweisen, anstatt auf die Dokumentation, die der aktuell installierten "
+"Version entspricht."
 
 #: ../../admin/config.rst:965
 msgid ""
 "Hiding version is recommended security practice in some corporations, but it "
 "doesn't prevent attacker to figure out version by probing the behavior."
 msgstr ""
+"Das Verstecken der Version ist in einigen Unternehmen eine empfohlene "
+"Sicherheitspraxis, aber es verhindert nicht, dass Angreifer die Version "
+"durch Ausprobieren des Verhaltens herausfinden können."
 
 #: ../../admin/config.rst:970
 msgid "This is turned off by default."
@@ -8061,14 +8106,16 @@ msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
+"Wenn mehrere angegeben werden, wird eine probabilistische Aufteilung der "
+"Einnahmen durch zufällige Auswahl erreicht."
 
 #: ../../admin/config.rst:984
 msgid "Please check <https://webmonetization.org/> for more details."
-msgstr ""
+msgstr "Weitere Einzelheiten finden Sie unter <https://webmonetization.org/>."
 
 #: ../../admin/config.rst:988
 msgid "The default value lets users fund Weblate itself."
-msgstr ""
+msgstr "Mit dem Standardwert können Benutzer Weblate selbst finanzieren."
 
 #: ../../admin/config.rst:993
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -8076,29 +8123,36 @@ msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:997
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Gibt an, ob Weblate hinter einem Reverse-Proxy ausgeführt wird."
 
 #: ../../admin/config.rst:999
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Wenn auf ``True`` gesetzt, bezieht Weblate die IP-Adresse aus einem Header, "
+"der durch :setting:`IP_PROXY_HEADER` definiert ist."
 
 #: ../../admin/config.rst:1004
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Vergewissern Sie sich, dass Sie tatsächlich einen Reverse-Proxy verwenden "
+"und dass dieser diesen Header setzt, da die Benutzer sonst die IP-Adresse "
+"fälschen können."
 
 #: ../../admin/config.rst:1009
 msgid "This is not on by default."
-msgstr ""
+msgstr "Diese Funktion ist nicht standardmäßig eingeschaltet."
 
 #: ../../admin/config.rst:1013
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1021
 msgid "IP_PROXY_HEADER"
@@ -8109,10 +8163,12 @@ msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+"Gibt an, aus welchem Header Weblate die IP-Adresse beziehen soll, wenn "
+":setting:`IP_BEHIND_REVERSE_PROXY` eingeschaltet ist."
 
 #: ../../admin/config.rst:1028
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Die Standardeinstellung ist ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:1032
 msgid ""
@@ -8120,6 +8176,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1041
 msgid "IP_PROXY_OFFSET"
@@ -8130,6 +8189,8 @@ msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
+"Gibt an, welcher Teil von :setting:`IP_PROXY_HEADER` als Client-IP-Adresse "
+"verwendet wird."
 
 #: ../../admin/config.rst:1048
 msgid ""
@@ -8147,10 +8208,13 @@ msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
 msgstr ""
+"Diese Einstellung wirkt sich auf die Sicherheit Ihrer Installation aus. Sie "
+"sollten sie nur so konfigurieren, dass vertrauenswürdige Proxys zur "
+"Ermittlung der IP-Adresse verwendet werden."
 
 #: ../../admin/config.rst:1057
 msgid "Defaults to 0."
-msgstr ""
+msgstr "Der Standardwert ist 0."
 
 #: ../../admin/config.rst:1061
 msgid ""
@@ -8158,6 +8222,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1070
 #, fuzzy
@@ -8167,13 +8234,16 @@ msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:1076
 msgid "You need :ref:`legal` installed to make this work."
-msgstr ""
+msgstr "Sie müssen :ref:`legal` installiert haben, damit dies funktioniert."
 
 #: ../../admin/config.rst:1078
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the terms of service."
 msgstr ""
+"Datum der letzten Aktualisierung der Dokumente zu den Nutzungsbedingungen. "
+"Immer, wenn sich das Datum ändert, müssen die Nutzer den Nutzungsbedingungen "
+"zustimmen."
 
 #: ../../admin/config.rst:1090
 msgid "LEGAL_URL"
@@ -8182,12 +8252,16 @@ msgstr "LEGAL_URL"
 #: ../../admin/config.rst:1094
 msgid "URL where your Weblate instance shows its legal documents."
 msgstr ""
+"URL, unter der Ihre Weblate-Instanz ihre juristischen Dokumente anzeigt."
 
 #: ../../admin/config.rst:1098 ../../admin/config.rst:1394
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Nützlich, wenn Sie Ihre juristischen Dokumente außerhalb von Weblate hosten, "
+"um sie in Weblate einzubetten. Bitte schauen Sie sich :ref:`legal` für "
+"Details an."
 
 #: ../../admin/config.rst:1109
 msgid ":setting:`PRIVACY_URL`"
@@ -8200,17 +8274,20 @@ msgstr "LICENSE_EXTRA"
 #: ../../admin/config.rst:1116
 msgid "Additional licenses to include in the license choices."
 msgstr ""
+"Zusätzliche Lizenzen, die in die Lizenzauswahl einbezogen werden sollen."
 
 #: ../../admin/config.rst:1120
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
+"Jede Lizenzdefinition sollte ein Tupel aus einem Kurznamen, einem Langnamen "
+"und einer URL sein."
 
 #: ../../admin/config.rst:1122 ../../admin/config.rst:1150
 #: ../../admin/config.rst:1289 ../../formats.rst:342
 msgid "For example:"
-msgstr ""
+msgstr "Zum Beispiel:"
 
 #: ../../admin/config.rst:1137
 msgid "LICENSE_FILTER"
@@ -8219,20 +8296,24 @@ msgstr "LICENSE_FILTER"
 #: ../../admin/config.rst:1141
 msgid "Setting this to blank value now disables license alert."
 msgstr ""
+"Wenn Sie diesen Wert auf einen leeren Wert setzen, wird die Lizenzwarnung "
+"deaktiviert."
 
 #: ../../admin/config.rst:1143
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr ""
+"Liste der anzuzeigenden Lizenzen filtern. Dadurch wird auch die "
+"Lizenzwarnung deaktiviert, wenn sie auf leer gesetzt ist."
 
 #: ../../admin/config.rst:1148
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Dieser Filter verwendet die kurzen Lizenznamen."
 
 #: ../../admin/config.rst:1156
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "Folgendes deaktiviert die Lizenzwarnung:"
 
 #: ../../admin/config.rst:1164 ../../admin/config.rst:1640
 msgid ":ref:`alerts`"
@@ -8244,11 +8325,11 @@ msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:1171
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr "Legt fest, ob das Lizenzattribut in :ref:`component` erforderlich ist."
 
 #: ../../admin/config.rst:1175
 msgid "This is off by default."
-msgstr ""
+msgstr "Diese Funktion ist standardmäßig deaktiviert."
 
 #: ../../admin/config.rst:1180
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
@@ -8259,16 +8340,20 @@ msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
+"Ob die Länge einer bestimmten Übersetzung begrenzt werden soll. Die "
+"Beschränkung ist die Länge der Ausgangszeichenkette × 10 Zeichen."
 
 #: ../../admin/config.rst:1187
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
 msgstr ""
+"Setzen Sie dies auf ``False``, um längere Übersetzungen (bis zu 10.000 "
+"Zeichen) unabhängig von der Länge der Quellzeichenfolge zu ermöglichen."
 
 #: ../../admin/config.rst:1191
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "Der Standardwert ist ''True''."
 
 #: ../../admin/config.rst:1197
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
@@ -8281,14 +8366,19 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"Diese Einstellungen konfigurieren das :ref:`addon-weblate.cdn.cdnjs`-Add-on. "
+":setting:`LOCALIZE_CDN_URL` definiert die Root-URL, unter der das "
+"Lokalisierungs-CDN verfügbar ist und :setting:`LOCALIZE_CDN_PATH` definiert "
+"den Pfad, unter dem Weblate die erzeugten Dateien speichern soll, die unter "
+"der :setting:`LOCALIZE_CDN_URL` ausgeliefert werden."
 
 #: ../../admin/config.rst:1206
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Hosted Weblate verwendet ``https://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:1210
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:1215
 msgid "LOGIN_REQUIRED_URLS"
@@ -8299,20 +8389,24 @@ msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
+"Eine Liste von URLs, für die eine Anmeldung erforderlich sein soll. (Neben "
+"den in Weblate eingebauten Standardregeln)."
 
 #: ../../admin/config.rst:1221
 msgid "This allows you to password protect a whole installation using:"
-msgstr ""
+msgstr "Damit können Sie eine ganze Installation mit einem Passwort schützen:"
 
 #: ../../admin/config.rst:1232
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
+"Es ist wünschenswert, auch den API-Zugang zu sperren, wie im obigen Beispiel "
+"gezeigt."
 
 #: ../../admin/config.rst:1236
 msgid ":setting:`REQUIRE_LOGIN`"
-msgstr ""
+msgstr ":setting:`REQUIRE_LOGIN`"
 
 #: ../../admin/config.rst:1241
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
@@ -8323,10 +8417,12 @@ msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign in page."
 msgstr ""
+"Liste der Ausnahmen für :setting:'LOGIN_REQUIRED_URLS'. Wenn nicht "
+"angegeben, können Benutzer auf die Anmeldeseite zugreifen."
 
 #: ../../admin/config.rst:1246
 msgid "Some of exceptions you might want to include:"
-msgstr ""
+msgstr "Einige Ausnahmen, die Sie möglicherweise einschließen möchten:"
 
 #: ../../admin/config.rst:1264
 msgid "MATOMO_SITE_ID"
@@ -8334,15 +8430,15 @@ msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1266
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
-msgstr ""
+msgstr "ID einer Website in Matomo (ehemals Piwik), die Sie verfolgen möchten."
 
 #: ../../admin/config.rst:1270 ../../admin/config.rst:1287
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "Diese Integration unterstützt den Matomo Tag Manager nicht."
 
 #: ../../admin/config.rst:1274
 msgid ":setting:`MATOMO_URL`"
-msgstr ""
+msgstr ":setting:`MATOMO_URL`"
 
 #: ../../admin/config.rst:1280
 msgid "MATOMO_URL"
@@ -8384,7 +8480,7 @@ msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1323
 msgid "List for credentials for Pagure servers."
-msgstr ""
+msgstr "Liste der Zugangsdaten für Pagure-Server."
 
 #: ../../admin/config.rst:1340
 #, fuzzy
@@ -33209,8 +33305,8 @@ msgstr ""
 "bewerben. Es gibt auch eine nette Willkommensseite für neue Mitwirkende, um "
 "ihnen grundlegende Informationen über die Übersetzung zu geben. Außerdem "
 "können Sie Informationen über die Übersetzung über Facebook oder Twitter "
-"weitergeben. All diese Möglichkeiten finden Sie auf der Reiterkarte :"
-"guilabel:`Share`:"
+"weitergeben. All diese Möglichkeiten finden Sie auf der Reiterkarte "
+":guilabel:`Teilen`:"
 
 #: ../../devel/share.rst:14
 msgid ""
