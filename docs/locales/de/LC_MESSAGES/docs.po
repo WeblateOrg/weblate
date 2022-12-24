@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-24 13:33+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2022-12-26 09:02+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -8451,10 +8451,13 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"Vollständige URL (einschließlich nachgestelltem Schrägstrich) einer Matomo ("
+"ehemals Piwik)-Installation, mit der Sie die Nutzung von Weblate verfolgen "
+"möchten. Weitere Einzelheiten finden Sie unter <https://matomo.org/>."
 
 #: ../../admin/config.rst:1298
 msgid ":setting:`MATOMO_SITE_ID`"
-msgstr ""
+msgstr ":setting:`MATOMO_SITE_ID`"
 
 #: ../../admin/config.rst:1303
 msgid "NEARBY_MESSAGES"
@@ -8465,6 +8468,9 @@ msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
+"Wie viele Zeichenfolgen um die aktuell übersetzte Zeichenfolge herum "
+"angezeigt werden sollen. Dies ist nur ein Standardwert, Benutzer können dies "
+"in :ref:`Benutzerprofil` anpassen."
 
 #: ../../admin/config.rst:1310
 msgid "DEFAULT_PAGE_LIMIT"
@@ -8504,6 +8510,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`PAGURE_CREDENTIALS`."
 msgstr ""
+"Diese Konfiguration ist unsicher, es wird empfohlen, zu "
+":setting:`PAGURE_CREDENTIALS` zu wechseln."
 
 #: ../../admin/config.rst:1355
 msgid "Pagure username used to send merge requests for translation updates."
@@ -8513,7 +8521,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1359
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
-msgstr ""
+msgstr ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
 
 #: ../../admin/config.rst:1365
 msgid "PAGURE_TOKEN"
@@ -8536,6 +8544,8 @@ msgid ""
 ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
 "pagure.io/api/0/>`_"
 msgstr ""
+":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure-API <https://pagure"
+".io/api/0/>`_"
 
 #: ../../admin/config.rst:1386
 msgid "PRIVACY_URL"
@@ -8561,20 +8571,25 @@ msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-out)."
 msgstr ""
+"Legt fest, ob es sich bei der privaten Übermittlungs-E-Mail um eine Opt-In- "
+"oder Opt-Out-E-Mail handelt (standardmäßig ist sie Opt-Out)."
 
 #: ../../admin/config.rst:1418
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
-msgstr ""
+msgstr ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
 
 #: ../../admin/config.rst:1424
 msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
-msgstr ""
+msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1428
+#, fuzzy
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"Vorlage zur Erstellung einer privaten E-Mail für einen Benutzer. Der "
+"Standardwert ist ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1430
 #, fuzzy
@@ -8588,6 +8603,9 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+"Die Verwendung anderer Commit-E-Mails ist für Benutzer freiwillig, es sei "
+"denn, sie werden durch :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` konfiguriert. "
+"Benutzer können Commit-E-Mails im :ref:`Profil` konfigurieren."
 
 #: ../../admin/config.rst:1441
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -8598,6 +8616,8 @@ msgid ""
 "Defines how many backups per project are kept on the server. It defaults to "
 "3."
 msgstr ""
+"Legt fest, wie viele Backups pro Projekt auf dem Server gespeichert werden. "
+"Der Standardwert ist 3."
 
 #: ../../admin/config.rst:1449 ../../admin/config.rst:1462
 #, fuzzy
@@ -8614,16 +8634,20 @@ msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Legt fest, wie lange die Projekt-Backups auf dem Server aufbewahrt werden "
+"sollen. Die Standardeinstellung ist 30 Tage."
 
 #: ../../admin/config.rst:1467
 msgid "PROJECT_NAME_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_NAME_RESTRICT_RE"
 
 #: ../../admin/config.rst:1471
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Definiert einen regulären Ausdruck zur Einschränkung der Projektbenennung. "
+"Alle übereinstimmenden Namen werden abgelehnt."
 
 #: ../../admin/config.rst:1475
 #, fuzzy
@@ -8633,13 +8657,15 @@ msgstr "Name der Komponente"
 
 #: ../../admin/config.rst:1480
 msgid "PROJECT_WEB_RESTRICT_RE"
-msgstr ""
+msgstr "PROJECT_WEB_RESTRICT_RE"
 
 #: ../../admin/config.rst:1484
 msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
 msgstr ""
+"Definiert einen regulären Ausdruck zur Einschränkung von Projekt-Websites. "
+"Alle übereinstimmenden URLs werden abgelehnt."
 
 #: ../../admin/config.rst:1488
 #, fuzzy
@@ -8655,15 +8681,18 @@ msgstr "RATELIMIT_ATTEMPTS"
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
+"Maximale Anzahl von Authentifizierungsversuchen, bevor eine Ratenbegrenzung "
+"angewendet wird."
 
 #: ../../admin/config.rst:1499
 msgid "Defaults to 5."
-msgstr ""
+msgstr "Der Standardwert ist 5."
 
 #: ../../admin/config.rst:1503
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1510
 msgid "RATELIMIT_WINDOW"
@@ -8672,16 +8701,19 @@ msgstr "RATELIMIT_WINDOW"
 #: ../../admin/config.rst:1514
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
+"Wie lange die Authentifizierung nach der Ratenbegrenzung akzeptiert wird."
 
 #: ../../admin/config.rst:1516
 msgid "An amount of seconds defaulting to 300 (5 minutes)."
-msgstr ""
+msgstr "Eine Anzahl von Sekunden, die standardmäßig 300 (5 Minuten) beträgt."
 
 #: ../../admin/config.rst:1520
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, "
+":setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1527
 msgid "RATELIMIT_LOCKOUT"
@@ -8690,15 +8722,17 @@ msgstr "RATELIMIT_LOCKOUT"
 #: ../../admin/config.rst:1531
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
+"Wie lange die Authentifizierung nach der Ratenbegrenzung akzeptiert wird."
 
 #: ../../admin/config.rst:1533
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr ""
+msgstr "Eine Anzahl von Sekunden, die standardmäßig 600 (10 Minuten) beträgt."
 
 #: ../../admin/config.rst:1537
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 
 #: ../../admin/config.rst:1544
 msgid "REGISTRATION_ALLOW_BACKENDS"
@@ -8710,6 +8744,10 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"Liste der Authentifizierungs-Backends, von denen aus die Registrierung "
+"erlaubt werden soll. Dies schränkt nur neue Registrierungen ein, Benutzer "
+"können sich weiterhin über alle konfigurierten Authentifizierungs-Backends "
+"authentifizieren und Authentifizierungen hinzufügen."
 
 #: ../../admin/config.rst:1552
 msgid ""
@@ -8717,14 +8755,20 @@ msgid ""
 "limiting registration backends, otherwise users will be able to register, "
 "but Weblate will not show links to register in the user interface."
 msgstr ""
+"Es wird empfohlen, :setting:`REGISTRATION_OPEN` aktiviert zu lassen, während "
+"die Registrierungs-Backends eingeschränkt werden. Andernfalls können sich "
+"Nutzer zwar registrieren, aber Weblate zeigt keine Links zur Registrierung "
+"in der Benutzeroberfläche an."
 
 #: ../../admin/config.rst:1564
 msgid "The backend names match names used in URL for authentication."
 msgstr ""
+"Die Backend-Namen entsprechen den in der URL für die Authentifizierung "
+"verwendeten Namen."
 
 #: ../../admin/config.rst:1568
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ""
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1574
 msgid "REGISTRATION_CAPTCHA"
@@ -8736,28 +8780,34 @@ msgid ""
 "new accounts is protected by CAPTCHA. This setting is optional, and a "
 "default of ``True`` will be assumed if it is not supplied."
 msgstr ""
+"Ein Wert von entweder ``True`` oder ``False``, der angibt, ob die "
+"Registrierung neuer Konten durch CAPTCHA geschützt ist. Diese Einstellung "
+"ist optional, und der Standardwert ``True`` wird angenommen, wenn er nicht "
+"angegeben wird."
 
 #: ../../admin/config.rst:1580
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
+"Wenn diese Option aktiviert ist, wird ein CAPTCHA zu allen Seiten "
+"hinzugefügt, auf denen ein Benutzer seine E-Mail-Adresse eingibt:"
 
 #: ../../admin/config.rst:1582
 msgid "New account registration."
-msgstr ""
+msgstr "Registrierung eines neuen Kontos."
 
 #: ../../admin/config.rst:1583
 msgid "Password recovery."
-msgstr ""
+msgstr "Passwortwiederherstellung."
 
 #: ../../admin/config.rst:1584
 msgid "Adding e-mail to an account."
-msgstr ""
+msgstr "E-Mail zu einem Konto hinzufügen."
 
 #: ../../admin/config.rst:1585
 msgid "Contact form for users that are not signed in."
-msgstr ""
+msgstr "Kontaktformular für nicht angemeldete Benutzer."
 
 #: ../../admin/config.rst:1590
 msgid "REGISTRATION_EMAIL_MATCH"
@@ -8766,14 +8816,19 @@ msgstr "REGISTRATION_EMAIL_MATCH"
 #: ../../admin/config.rst:1594
 msgid "Allows you to filter which e-mail addresses can register."
 msgstr ""
+"Hier können Sie filtern, welche E-Mail-Adressen sich registrieren können."
 
 #: ../../admin/config.rst:1596
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
+"Die Standardeinstellung ist ``.*``, sodass sich jede beliebige E-Mail-"
+"Adresse registrieren kann."
 
 #: ../../admin/config.rst:1598
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
+"Sie können damit die Registrierung auf eine einzige E-Mail-Domäne "
+"beschränken:"
 
 #: ../../admin/config.rst:1607
 msgid "REGISTRATION_OPEN"
@@ -8784,6 +8839,9 @@ msgid ""
 "Whether registration of new accounts is currently permitted. This optional "
 "setting can remain the default ``True``, or changed to ``False``."
 msgstr ""
+"Ob die Registrierung von neuen Konten derzeit erlaubt ist. Diese optionale "
+"Einstellung kann den Standardwert ``True`` beibehalten oder in ``False`` "
+"geändert werden."
 
 #: ../../admin/config.rst:1612
 msgid ""
@@ -8791,6 +8849,10 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"Diese Einstellung wirkt sich auf die integrierte Authentifizierung per E"
+"-Mail-Adresse oder über Python Social Auth aus (Sie können bestimmte "
+"Backends mit :setting:`REGISTRATION_ALLOW_BACKENDS` auf eine Positivliste "
+"setzen)."
 
 #: ../../admin/config.rst:1618
 msgid ""
@@ -8798,12 +8860,18 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
+"Bei der Verwendung von Authentifizierungsmethoden von Drittanbietern, wie z. "
+"B. :ref:`ldap-auth`, wird lediglich das Registrierungsformular ausgeblendet, "
+"aber neue Benutzer können sich möglicherweise trotzdem anmelden und Konten "
+"erstellen."
 
 #: ../../admin/config.rst:1624
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1631
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -8814,6 +8882,8 @@ msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
+"Schwellenwert für die Auslösung eines Alarms bei veralteten Repositorys oder "
+"Repositorys, die zu viele Änderungen enthalten. Der Standardwert ist 25."
 
 #: ../../admin/config.rst:1645
 msgid "REQUIRE_LOGIN"
@@ -8824,12 +8894,17 @@ msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require authentication for all API endpoints."
 msgstr ""
+"Dies aktiviert :setting:`LOGIN_REQUIRED_URLS` und konfiguriert das REST-"
+"Framework so, dass eine Authentifizierung für alle API-Endpunkte "
+"erforderlich ist."
 
 #: ../../admin/config.rst:1654
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Dies ist in der :ref:`sample-configuration` implementiert. Für Docker, "
+"verwenden Sie :envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1660
 msgid "SENTRY_DSN"
@@ -8837,13 +8912,15 @@ msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1664
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
-msgstr ""
+msgstr "Sentry-DSN zur Verwendung für :ref:'collecting-errors'."
 
 #: ../../admin/config.rst:1668
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "guides/django/>`_"
 msgstr ""
+"`Django-Integration für Sentry <https://docs.sentry.io/platforms/python/"
+"guides/django/>`_"
 
 #: ../../admin/config.rst:1673
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -8854,10 +8931,13 @@ msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
+"Setzt den Sitzungsablauf für authentifizierte Benutzer. Dies ergänzt "
+":setting:`django:SESSION_COOKIE_AGE`, das für nicht authentifizierte "
+"Benutzer verwendet wird."
 
 #: ../../admin/config.rst:1682
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
-msgstr ""
+msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
 #: ../../admin/config.rst:1687
 msgid "SIMPLIFY_LANGUAGES"
@@ -8870,10 +8950,16 @@ msgid ""
 "usually the desired behavior, as it simplifies listing languages for these "
 "default combinations."
 msgstr ""
+"Verwenden Sie einfache Sprachcodes für Standard-Sprach/Länder-Kombinationen. "
+"Zum Beispiel wird eine ``fr_FR``-Übersetzung den ``fr`` Sprachcode "
+"verwenden. Dies ist normalerweise das gewünschte Verhalten, da es die "
+"Auflistung von Sprachen für diese Standardkombinationen vereinfacht."
 
 #: ../../admin/config.rst:1694
 msgid "Turn this off if you want to different translations for each variant."
 msgstr ""
+"Deaktivieren Sie diese Option, wenn Sie für jede Variante eine andere "
+"Übersetzung wünschen."
 
 #: ../../admin/config.rst:1699
 msgid "SITE_DOMAIN"
@@ -8884,11 +8970,16 @@ msgid ""
 "Configures site domain. This is necessary to produce correct absolute links "
 "in many scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
+"Konfiguriert die Site-Domäne. Dies ist notwendig, um in vielen Bereichen (z. "
+"B. Aktivierungs-E-Mails, Benachrichtigungen oder RSS-Feeds) korrekte "
+"absolute Links zu erzeugen."
 
 #: ../../admin/config.rst:1704
 msgid ""
 "In case Weblate is running on non-standard port, include it here as well."
 msgstr ""
+"Falls Weblate auf einem Nicht-Standard-Port läuft, geben Sie ihn hier "
+"ebenfalls an."
 
 #: ../../admin/config.rst:1718
 msgid ""
@@ -8896,18 +8987,26 @@ msgid ""
 "(enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing "
 "URL, use :setting:`URL_PREFIX`."
 msgstr ""
+"Diese Einstellung sollte nur den Domänennamen enthalten. Für die "
+"Konfiguration des Protokolls (Aktivierung und Erzwingung von HTTPS) "
+"verwenden Sie :setting:`ENABLE_HTTPS` und zum Ändern der URL verwenden Sie "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/config.rst:1724
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"In einem Docker-Container wird die Site-Domäne über "
+":envvar:`WEBLATE_ALLOWED_HOSTS` konfiguriert."
 
 #: ../../admin/config.rst:1729
 msgid ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
+":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/config.rst:1738
 msgid "SITE_TITLE"
@@ -8916,6 +9015,8 @@ msgstr "SITE_TITLE"
 #: ../../admin/config.rst:1740
 msgid "Site title to be used for the website and sent e-mails."
 msgstr ""
+"Website-Titel, der für die Website und gesendete E-Mails verwendet werden "
+"soll."
 
 #: ../../admin/config.rst:1745
 msgid "SPECIAL_CHARS"
@@ -8926,10 +9027,12 @@ msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr ""
+"Zusätzliche Zeichen, die in die visuelle Tastatur aufgenommen werden sollen, "
+":ref:'visual-keyboard'."
 
 #: ../../admin/config.rst:1749
 msgid "The default value is:"
-msgstr ""
+msgstr "Der Standardwert ist:"
 
 #: ../../admin/config.rst:1758
 msgid "SINGLE_PROJECT"
@@ -8942,12 +9045,19 @@ msgid ""
 "in case there is actually only single project in Weblate. Alternatively set "
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
+"Leitet Benutzer direkt zu einem Projekt oder einer Komponente um, anstatt "
+"die Übersichtsseite anzuzeigen. Sie können es entweder auf ``True`` setzen "
+"und in diesem Fall funktioniert es nur, wenn es tatsächlich nur ein einziges "
+"Projekt in Weblate gibt. Stattdessen können Sie den Projekt-Slug setzen, "
+"dann wird die Umleitung bedingungslos zu diesem Projekt erfolgen."
 
 #: ../../admin/config.rst:1769
 msgid ""
 "The setting now also accepts a project slug, to force displaying that single "
 "project."
 msgstr ""
+"Die Einstellung akzeptiert jetzt auch einen Projekt-Slug, um die Anzeige des "
+"einzelnen Projekts zu erzwingen."
 
 #: ../../admin/config.rst:1781
 msgid "SSH_EXTRA_ARGS"
@@ -8959,6 +9069,10 @@ msgid ""
 "when connecting to servers using legacy encryption or other non-standard "
 "features."
 msgstr ""
+"Ermöglicht das Hinzufügen benutzerdefinierter Parameter, wenn Weblate SSH "
+"aufruft. Dies ist nützlich, wenn Sie sich mit Servern verbinden, die eine "
+"ältere Verschlüsselung oder andere nicht standardisierte Funktionen "
+"verwenden."
 
 #: ../../admin/config.rst:1788
 msgid ""
@@ -8966,16 +9080,21 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can enable that using:"
 msgstr ""
+"Wenn zum Beispiel die SSH-Verbindung in Weblate mit der Meldung \"Unable to "
+"negotiate with legacyhost: no matching key exchange method found. Their "
+"offer: diffie-hellman-group1-sha1`, können Sie dies aktivieren mit:"
 
 #: ../../admin/config.rst:1797
 msgid ""
 "The string is evaluated by shell, so make sure to quote any whitespace and "
 "special characters."
 msgstr ""
+"Die Zeichenkette wird von der Shell ausgewertet. Stellen Sie daher sicher, "
+"dass alle Leer- und Sonderzeichen in Anführungszeichen gesetzt werden."
 
 #: ../../admin/config.rst:1802
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
-msgstr ""
+msgstr "`OpenSSH-Legacy-Optionen <https://www.openssh.com/legacy.html>`_"
 
 #: ../../admin/config.rst:1807
 msgid "STATUS_URL"
@@ -8983,7 +9102,7 @@ msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1809
 msgid "The URL where your Weblate instance reports its status."
-msgstr ""
+msgstr "Die URL, unter der Ihre Weblate-Instanz ihren Status meldet."
 
 #: ../../admin/config.rst:1814
 msgid "SUGGESTION_CLEANUP_DAYS"
@@ -8994,6 +9113,9 @@ msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
+"Löscht Vorschläge automatisch nach einer bestimmten Anzahl von Tagen. Der "
+"Standardwert ist ``None``, was bedeutet, dass keine Löschungen vorgenommen "
+"werden."
 
 #: ../../admin/config.rst:1824
 msgid "UPDATE_LANGUAGES"
@@ -9005,6 +9127,9 @@ msgid ""
 "migration and is enabled by default. This setting has no effect on "
 "invocation of :djadmin:`setuplang`."
 msgstr ""
+"Steuert, ob die Sprachdatenbank bei der Datenbankmigration aktualisiert "
+"werden soll und ist standardmäßig aktiviert. Diese Einstellung hat keinen "
+"Einfluss auf den Aufruf von :djadmin:`setuplang`."
 
 #: ../../admin/config.rst:1834
 msgid ""
@@ -9012,6 +9137,9 @@ msgid ""
 "definitions extend over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"Die Anzeige der Sprachen kann dadurch inkonsistent werden. Die "
+"Sprachdefinitionen von Weblate werden im Laufe der Zeit erweitert und es "
+"werden keine Sprachcodes für die definierten Sprachen angezeigt."
 
 #: ../../admin/config.rst:1840
 #, fuzzy
@@ -9028,6 +9156,8 @@ msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
+"Mit dieser Einstellung können Sie Weblate unter einem bestimmten Pfad "
+"ausführen (andernfalls muss es vom Webserver-Root aus gestartet werden)."
 
 #: ../../admin/config.rst:1852
 msgid ""
@@ -9035,16 +9165,21 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
+"Um diese Einstellung zu verwenden, müssen Sie auch Ihren Server so "
+"konfigurieren, dass er dieses Präfix entfernt. Bei WSGI kann dies zum "
+"Beispiel durch die Einstellung ``WSGIScriptAlias`` erreicht werden."
 
 #: ../../admin/config.rst:1857
 msgid "The prefix should start with a ``/``."
-msgstr ""
+msgstr "Das Präfix sollte mit einem ``/`` beginnen."
 
 #: ../../admin/config.rst:1867
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
+"Diese Einstellung funktioniert nicht mit dem in Django eingebauten Server, "
+"Sie müssen :file:`urls.py` so anpassen, dass es dieses Präfix enthält."
 
 #: ../../admin/config.rst:1873
 msgid "VCS_BACKENDS"
@@ -9052,15 +9187,19 @@ msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1875
 msgid "Configuration of available VCS backends."
-msgstr ""
+msgstr "Konfiguration der verfügbaren VCS-Backends."
 
 #: ../../admin/config.rst:1879
 msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr ""
+"Weblate versucht, alle unterstützten Back-Ends zu nutzen, für die Sie "
+"Werkzeuge haben."
 
 #: ../../admin/config.rst:1883
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
+"Sie können damit die Auswahl einschränken oder eigene VCS-Backends "
+"hinzufügen."
 
 #: ../../admin/config.rst:1891 ../../faq.rst:503
 msgid ":ref:`vcs`"
@@ -9072,7 +9211,7 @@ msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1900
 msgid "Configures how deep cloning of repositories Weblate should do."
-msgstr ""
+msgstr "Legt fest, wie tief das Klonen von Repositories in Weblate gehen soll."
 
 #: ../../admin/config.rst:1904
 msgid ""
@@ -9082,6 +9221,11 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
+"Derzeit wird dies nur in :ref:`vcs-git` unterstützt. Standardmäßig führt "
+"Weblate flache Klone der Repositorys durch, um das Klonen zu beschleunigen "
+"und Speicherplatz zu sparen. Je nach Nutzung (z.B. bei der Verwendung von "
+":ref:`addons`) kann es sinnvoll sein, die Tiefe zu erhöhen oder flache Klone "
+"komplett abzuschalten, indem man den Wert 0 setzt."
 
 #: ../../admin/config.rst:1911
 msgid ""
@@ -9089,6 +9233,9 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
+"Falls Sie beim Pushen von Weblate die Fehlermeldung ``fatal: protocol error: "
+"expected old/new/ref, got 'shallow <commit hash>'`` erhalten, schalten Sie "
+"flache Klone komplett aus, durch Einstellung von:"
 
 #: ../../admin/config.rst:1921
 msgid "WEBLATE_ADDONS"
@@ -9101,6 +9248,11 @@ msgid ""
 "ons, when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
+"Liste der zur Verwendung verfügbaren Erweiterungen. Um sie zu verwenden, "
+"müssen sie für eine bestimmte Übersetzungskomponente aktiviert werden. "
+"Standardmäßig sind alle integrierten Erweiterungen enthalten. Wenn Sie die "
+"Liste erweitern, werden Sie wahrscheinlich bestehende Erweiterungen "
+"aktiviert lassen wollen, z.B.:"
 
 #: ../../admin/config.rst:1962
 msgid ""
@@ -9108,10 +9260,14 @@ msgid ""
 "Weblate will crash in that case. Please uninstall add-on from all components "
 "prior to removing it from this list."
 msgstr ""
+"Wenn Sie die Erweiterung aus der Liste entfernen, wird es nicht aus den "
+"Komponenten deinstalliert. Weblate wird in diesem Fall abstürzen. Bitte "
+"deinstallieren Sie die Erweiterung aus allen Komponenten, bevor Sie es aus "
+"dieser Liste entfernen."
 
 #: ../../admin/config.rst:1968
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
-msgstr ""
+msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 
 #: ../../admin/config.rst:1974
 msgid "WEBLATE_EXPORTERS"
@@ -9122,6 +9278,8 @@ msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr ""
+"Liste der verfügbaren Exporteure, die das Herunterladen von Übersetzungen "
+"oder Glossaren in verschiedenen Dateiformaten anbieten."
 
 #: ../../admin/config.rst:1983 ../../admin/config.rst:2000
 msgid ":ref:`formats`"
@@ -9133,11 +9291,11 @@ msgstr "WEBLATE_FORMATS"
 
 #: ../../admin/config.rst:1992
 msgid "List of file formats available for use."
-msgstr ""
+msgstr "Liste der Dateiformate, die verwendet werden können."
 
 #: ../../admin/config.rst:1996
 msgid "The default list already has the common formats."
-msgstr ""
+msgstr "Die Standardliste enthält bereits die gängigen Formate."
 
 #: ../../admin/config.rst:2006
 msgid "WEBLATE_MACHINERY"
@@ -9145,7 +9303,7 @@ msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:2010
 msgid "List of machinery services available for use."
-msgstr ""
+msgstr "Liste der zur Verfügung stehenden Maschinendienste."
 
 #: ../../admin/config.rst:2014
 msgid ":doc:`/admin/machine`"
@@ -9158,6 +9316,8 @@ msgstr "WEBLATE_GPG_IDENTITY"
 #: ../../admin/config.rst:2023
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
+"Identität, die von Weblate zum Signieren von Git-Commits verwendet wird, z. "
+"B.:"
 
 #: ../../admin/config.rst:2029
 msgid ""
@@ -9165,6 +9325,10 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
+"Der Weblate GPG-Schlüsselbund wird nach einem passenden Schlüssel durchsucht "
+"(:file:`home/.gnupg` unter :setting:`DATA_DIR`). Wenn er nicht gefunden "
+"wird, wird ein Schlüssel generiert, siehe :ref:`gpg-sign` für weitere "
+"Details."
 
 #: ../../admin/config.rst:2035 ../../admin/install/docker.rst:750
 msgid ":ref:`gpg-sign`"
@@ -9179,6 +9343,9 @@ msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. Turned on by default as that suits public server setups."
 msgstr ""
+"Legt fest, ob :ref:`project-web` beim Erstellen eines Projekts angegeben "
+"werden muss. Standardmäßig aktiviert, da dies für öffentliche "
+"Serverkonfigurationen geeignet ist."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -9190,42 +9357,56 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
+"Es gibt eine Infrastruktur, die dafür sorgt, dass Ihre Übersetzung genau der "
+"Entwicklung folgt. Auf diese Weise können die Übersetzer die ganze Zeit an "
+"den Übersetzungen arbeiten, anstatt kurz vor der Veröffentlichung eine große "
+"Menge an neuem Text durchzuarbeiten."
 
 #: ../../admin/continuous.rst:12
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate."
 msgstr ""
+":doc:`/devel/integration` beschreibt grundlegende Möglichkeiten zur "
+"Integration Ihrer Entwicklung mit Weblate."
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
-msgstr ""
+msgstr "Dies ist der Prozess:"
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
 msgstr ""
+"Die Entwickler nehmen Änderungen vor und pushen sie an das VCS-Repository."
 
 #: ../../admin/continuous.rst:18
 msgid ""
 "Optionally the translation files are updated (this depends on the file "
 "format, see :ref:`translations-update`)."
 msgstr ""
+"Optional werden die Übersetzungsdateien aktualisiert (dies hängt vom "
+"Dateiformat ab, siehe :ref:`translations-update`)."
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
 msgstr ""
+"Weblate zieht die Änderungen aus dem VCS-Repository, siehe :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
 "Once Weblate detects changes in translations, translators are notified based "
 "on their subscription settings."
 msgstr ""
+"Sobald Weblate Änderungen an Übersetzungen feststellt, werden die Übersetzer "
+"entsprechend ihrer Abonnementeinstellungen benachrichtigt."
 
 #: ../../admin/continuous.rst:21
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
 msgstr ""
+"Übersetzer übermitteln ihre Übersetzungen über die Weblate-Weboberfläche "
+"oder laden Änderungen offline hoch."
 
 #: ../../admin/continuous.rst:22
 msgid ""
@@ -9233,21 +9414,28 @@ msgid ""
 "repository (see :ref:`lazy-commit`) and pushes them back if it has "
 "permissions to do so (see :ref:`push-changes`)."
 msgstr ""
+"Sobald die Übersetzer fertig sind, überträgt Weblate die Änderungen in das "
+"lokale Repository (siehe :ref:`lazy-commit`) und pushed sie zurück, wenn es "
+"dazu berechtigt ist (siehe :ref:`push-changes`)."
 
 #: ../../admin/continuous.rst:50
 msgid "Updating repositories"
-msgstr ""
+msgstr "Repositorys werden aktualisiert"
 
 #: ../../admin/continuous.rst:52
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
 msgstr ""
+"Sie sollten eine Möglichkeit einrichten, Backend-Repositories von ihrer "
+"Quelle aus zu aktualisieren."
 
 #: ../../admin/continuous.rst:55
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
+"Verwenden Sie :ref:`hooks` zur Integration mit den meisten gängigen Code-"
+"Hosting-Diensten:"
 
 #: ../../admin/continuous.rst:57 ../../api.rst:2507
 msgid ":ref:`github-setup`"
@@ -9274,28 +9462,36 @@ msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
+"Manuelles Auslösen der Aktualisierung entweder in der Repository-Verwaltung "
+"oder mit :ref:`api` oder :ref:`wlc`"
 
 #: ../../admin/continuous.rst:65
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Aktivieren Sie :setting:`AUTO_UPDATE`, um alle Komponenten in Ihrer Weblate-"
+"Installation automatisch zu aktualisieren"
 
 #: ../../admin/continuous.rst:67
 msgid ""
 "Execute :djadmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
+"Führen Sie :djadmin:`updategit` aus (mit Auswahl des Projekts oder ``--all``"
+", um alle zu aktualisieren)"
 
 #: ../../admin/continuous.rst:69
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Wann immer Weblate das Repository aktualisiert, werden die Post-Update-"
+"Erweiterungen ausgelöst, siehe :ref:`addons`."
 
 #: ../../admin/continuous.rst:75
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Vermeiden von Zusammenführungskonflikten"
 
 #: ../../admin/continuous.rst:77
 msgid ""
@@ -9348,12 +9544,15 @@ msgstr ""
 #: ../../admin/continuous.rst:96
 msgid "The script for doing updates can look like this:"
 msgstr ""
+"Das Skript zur Durchführung von Aktualisierungen kann wie folgt aussehen:"
 
 #: ../../admin/continuous.rst:117
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
 msgstr ""
+"Wenn mehrere Komponenten dasselbe Repository teilen, müssen Sie sie alle "
+"separat sperren:"
 
 #: ../../admin/continuous.rst:128
 msgid ""
