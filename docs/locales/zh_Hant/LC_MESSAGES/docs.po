@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
 "PO-Revision-Date: 2022-12-26 09:02+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"Last-Translator: Toomore Chiang <toomore0929@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -2683,6 +2683,10 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"使用變數部分可以查找在本地化之後可能無法適合使用者界面的字串 - "
+"它基於來源字串長度來擴充。變數部分可以藉由重複字數來表達。例如：使用 ``_`` "
+"當作 ``你好`` 的後綴字及其數量代表長度可為 ``你好___________`` - 這裡的 ``_``"
+" 重複幾次代表相對於來源字串多少字。"
 
 #: ../../admin/addons.rst:455
 msgid "The strings will be generated using following pattern:"
@@ -2694,6 +2698,9 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
+":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` "
+":guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:`"
+"Fixed string suffix`"
 
 #: ../../admin/addons.rst:465
 msgid ""
@@ -2711,12 +2718,15 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"您可以使用這個擴充套件來開始翻譯現有或相似的語言。一旦您加入翻譯到這組件，也"
+"將會套用擴充套件。*例如*：您有 `fr` 且想加入 `fr_CA` 翻譯，只需要將 `fr` "
+"設定來源語言，`fr_CA` 為目標翻譯，並將前後綴留空。"
 
 #: ../../admin/addons.rst:476
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
-msgstr ""
+msgstr "在填滿新翻譯後卸載擴充套件以防止 Weblate 更改複製後的翻譯。"
 
 #: ../../admin/addons.rst:483
 msgid "Contributors in comment"
@@ -2804,7 +2814,7 @@ msgstr "不要換列"
 #: ../../admin/addons.rst:530 ../../admin/addons.rst:658
 #: ../../admin/addons.rst:773
 msgid "storage post-load"
-msgstr ""
+msgstr "儲存後載入"
 
 #: ../../admin/addons.rst:532
 msgid ""
@@ -3140,12 +3150,12 @@ msgstr "格式化並排序 Java properties 檔案。"
 
 #: ../../admin/addons.rst:673
 msgid "Consolidates newlines to Unix ones."
-msgstr ""
+msgstr "將新行合併為 Unix ones。"
 
 #: ../../admin/addons.rst:674
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
-msgstr ""
+msgstr "Unicode 跳脫符號的大寫格式（如果有的話）。"
 
 #: ../../admin/addons.rst:675
 #, fuzzy
@@ -3183,7 +3193,7 @@ msgstr "保留的天數"
 
 #: ../../admin/addons.rst:690 ../../admin/addons.rst:711
 msgid "daily"
-msgstr ""
+msgstr "每日"
 
 #: ../../admin/addons.rst:692
 msgid "Set a timeframe for removal of comments."
@@ -3366,7 +3376,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:796
 msgid ":doc:`../contributing/addons`"
-msgstr ""
+msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:801
 #, fuzzy
@@ -3405,7 +3415,7 @@ msgstr "使用的版本控制系統。"
 
 #: ../../admin/addons.rst:823
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "上游儲存庫的 URL。"
 
 #: ../../admin/addons.rst:827
 msgid "Absolute path to VCS repository."
@@ -3467,7 +3477,7 @@ msgstr "組件 URL。"
 
 #: ../../admin/addons.rst:897
 msgid "Project engage URL."
-msgstr ""
+msgstr "專案參與 URL。"
 
 #: ../../admin/addons.rst:901 ../../faq.rst:272
 msgid ":ref:`component`"
@@ -3530,7 +3540,7 @@ msgstr "它包括您 Weblate 的基本視圖："
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "支援狀態，參閱 :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
@@ -3600,7 +3610,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:47
 msgid "Adding a project"
-msgstr ""
+msgstr "加入一個專案"
 
 #: ../../admin/admin.rst:49
 msgid ""
@@ -3687,7 +3697,7 @@ msgstr ""
 msgid ""
 "Image showing an announcement that reads: \"Translations will be used only "
 "if they reach 60%\" atop the dashboard view."
-msgstr ""
+msgstr "圖片顯示一個公告在控制面板上，其公告內文為：當達到 60% 以上其翻譯才會被使用。"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -3699,7 +3709,7 @@ msgstr "然後根據特定的語境顯示公告："
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "無指定的語境"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
@@ -3738,7 +3748,7 @@ msgstr "這就是語言全景頁面上的樣子："
 msgid ""
 "Image showing an announcement that reads: \"Czech translators rock!\" atop "
 "the Czech language overview."
-msgstr ""
+msgstr "圖片顯示一個公告在 Czech 語言摘要上，其內容為：\"Czech translators rock!\"。"
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -3847,6 +3857,9 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"大部分的後端授權需要 HTTPS。一旦啟用網頁服務上的 HTTPS，請設定 Weblate "
+"環境參數 :setting:`ENABLE_HTTPS` 或 Docker 環境參數 "
+":envvar:`WEBLATE_ENABLE_HTTPS`。"
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -9650,7 +9663,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:356
 msgid "Lazy commits"
-msgstr "惰性提交"
+msgstr "簡易提交"
 
 #: ../../admin/continuous.rst:358
 msgid ""
@@ -19292,9 +19305,9 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
-"是否提交更改應該被自動推送到上游倉庫。當允許時，一旦 Weblate 將更改提交給基礎"
-"倉庫，推動就被啟動（請參見 :ref:`lazy-commit`）。為了真正允許推送，還要配置 :"
-"guilabel:`Repository push URL`。"
+"是否自動推送已提交的項目到上游倉庫。啟用時，當 Weblate "
+"將更改提交到其基礎存儲庫中，就會啟動推送。（請參見 :ref:`lazy-"
+"commit`）。為了能真正啟用推送功能，需配置 :guilabel:`Repository push URL`。"
 
 #: ../../admin/projects.rst:710
 msgid "Age of changes to commit"
@@ -35280,13 +35293,11 @@ msgid ":guilabel:`Commit`"
 msgstr ":guilabel:`Custom`"
 
 #: ../../devel/integration.rst:130
-#, fuzzy
-#| msgid ""
-#| "Commit all pending changes in Weblate and lock the translation component."
 msgid ""
 "Commits any pending changes present in Weblate database and not in the "
 "repository, see :ref:`lazy-commit`."
-msgstr "提交 Weblate 所有待提交的變更並鎖定翻譯組件。"
+msgstr "提交在 Weblate 資料庫而不在儲存庫中任何未處理的變更，參閱 :ref:`lazy-"
+"commit`。"
 
 #: ../../devel/integration.rst:133
 #, fuzzy
