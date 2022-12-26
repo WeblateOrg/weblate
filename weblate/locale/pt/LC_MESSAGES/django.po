@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-11-26 17:23+0000\n"
+"PO-Revision-Date: 2022-12-27 09:20+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -69,18 +69,13 @@ msgstr "E-mail público"
 
 #: weblate/accounts/forms.py:189
 msgid "Do not publicly display e-mail"
-msgstr ""
+msgstr "Não exibir e-mails publicamente"
 
 #: weblate/accounts/forms.py:194 weblate/accounts/models.py:574
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
 msgstr "E-mail de contacto"
 
 #: weblate/accounts/forms.py:195
-#, fuzzy
-#| msgid "User e-mail"
 msgid "Use account e-mail"
 msgstr "E-mail do utilizador"
 
@@ -2003,10 +1998,8 @@ msgstr "Gerir definições de idioma"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Gerir utilizadores"
+msgstr "Gerir equipas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143 weblate/templates/manage/users.html:17
@@ -2201,8 +2194,7 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Reenvie o convite por e-mail ao utilizador"
 
 #: weblate/auth/forms.py:166
-#, fuzzy, python-format
-#| msgid "Changing of %s is prohibited for built-in groups."
+#, python-format
 msgid "Changing of %s is prohibited for built-in teams."
 msgstr "A alteração de %s é proibida para os grupos integrados."
 
@@ -2311,14 +2303,12 @@ msgid "Internal Weblate group"
 msgstr "Grupo interno do Weblate"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Administradores"
+msgstr "Administradores de equipa"
 
 #: weblate/auth/models.py:166
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "O administrador pode adicionar ou remover utilizadores de uma equipa."
 
 #: weblate/auth/models.py:324 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:174
@@ -2625,10 +2615,10 @@ msgid "Mismatched \\n"
 msgstr "Não correspondido \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "A quantidade de novas linhas na tradução não corresponde ao da fonte"
+msgstr ""
+"A quantidade de literais \\n"
+" na tradução não corresponde ao da fonte"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -2795,16 +2785,12 @@ msgid "Font spacing"
 msgstr "Espaçamento da letra"
 
 #: weblate/checks/flags.py:69
-#, fuzzy
-#| msgid "ICU MessageFormat Flags"
 msgid "ICU MessageFormat flags"
-msgstr "Marcadores de MessageFormat do ICU"
+msgstr "Sinalizadores de MessageFormat do ICU"
 
 #: weblate/checks/flags.py:71
-#, fuzzy
-#| msgid "ICU MessageFormat Tag Prefix"
 msgid "ICU MessageFormat tag prefix"
-msgstr "Prefixo de Marcação de MessageFormat do ICU"
+msgstr "Prefixo de sinalizadores de MessageFormat do ICU"
 
 #: weblate/checks/flags.py:73 weblate/trans/models/component.py:650
 #: weblate/utils/views.py:135
@@ -2825,10 +2811,9 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Marca de tradução inválida: \"%s\""
 
 #: weblate/checks/flags.py:272
-#, fuzzy, python-format
-#| msgid "Translation flag has no parameters: \"%s\""
+#, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "A bandeira de tradução não tem parâmetros: \"%s\""
+msgstr "O sinalizador de tradução não tem parâmetros: \"%s\""
 
 #: weblate/checks/flags.py:278
 #, python-format
@@ -4170,10 +4155,9 @@ msgid "Source language not defined in the TMX file!"
 msgstr "Idioma de origem não definido no ficheiro TMX!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "Não foi possível encontrar o idioma fonte!"
+msgstr "Falha ao encontrar o idioma %s!"
 
 #: weblate/memory/models.py:263
 msgctxt "Translation memory category"
@@ -4599,15 +4583,12 @@ msgstr ""
 "entrada do seu e-mail."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Remova a sua conta a clicar na ligação de confirmação no e-mail lhe enviado."
+"Remova a sua conta a clicar na ligação de confirmação enviado à sua caixa de "
+"entrada de e-mail."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -4620,6 +4601,8 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Por favor, olhe na sua pasta de spam se não o pode ver na sua caixa de "
+"entrada."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
