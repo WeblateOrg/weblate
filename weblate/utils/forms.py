@@ -113,6 +113,7 @@ class SearchField(Field):
             "fuzzy",
             "suggestions",
             "variants",
+            "screenshots",
             "labels",
             "context",
             "nosuggestions",
