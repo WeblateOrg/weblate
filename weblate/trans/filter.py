@@ -38,6 +38,7 @@ class FilterRegistry:
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
             ("variants", _("Strings with variants"), "has:variant"),
+            ("screenshots", _("Strings with screenshots"), "has:screenshot"),
             ("labels", _("Strings with labels"), "has:label"),
             ("context", _("Strings with context"), "has:context"),
             (
@@ -64,6 +65,7 @@ class FilterRegistry:
                 "state:approved AND has:suggestion",
             ),
             ("unapproved", _("Strings waiting for review"), "state:translated"),
+            ("noscreenshot", _("Strings without screenshots"), "NOT has:screenshot"),
             ("unlabeled", _("Strings without a label"), "NOT has:label"),
             ("pluralized", _("Pluralized string"), "has:plural"),
         ]
