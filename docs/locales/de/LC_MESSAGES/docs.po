@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-28 09:41+0000\n"
+"PO-Revision-Date: 2022-12-28 18:43+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1542,26 +1542,19 @@ msgstr ""
 "von ihnen betreffen alle Projekte in Ihrer Weblate-Installation."
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "List of groups"
 msgid "List of teams"
-msgstr "Liste der Gruppen"
+msgstr "Liste der Teams"
 
 #: ../../admin/access.rst:584
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will, however, re-create them if you delete or rename them."
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"Die folgenden Gruppen werden bei der Installation (oder nach dem Ausführen "
-"von :djadmin:`setupgroups`) erstellt, und Sie können diese nach Belieben "
-"ändern. Wenn Sie die Gruppen jedoch löschen oder umbenennen, werden sie bei "
-"der Migration neu erstellt."
+"Die folgenden Teams werden bei der Installation (oder nach dem Ausführen von "
+":djadmin:`setupgroups`) erstellt, und Sie können diese nach Belieben ändern. "
+"Wenn Sie die Gruppen jedoch löschen oder umbenennen, werden sie bei der "
+"Migration neu erstellt."
 
 #: ../../admin/access.rst:596
 msgid "`Guests`"
@@ -1572,27 +1565,19 @@ msgid "Defines permissions for non-authenticated users."
 msgstr "Legt die Berechtigungen für nicht authentifizierte Benutzer fest."
 
 #: ../../admin/access.rst:591
-#, fuzzy
-#| msgid ""
-#| "This group only contains anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Diese Gruppe enthält ausschließlich anonyme Benutzer (siehe :setting:"
-"`ANONYMOUS_USER_NAME`)."
+"Dieses Team enthält ausschließlich anonyme Benutzer (siehe "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:593
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
-"Sie können Rollen aus dieser Gruppe entfernen, um die Berechtigungen für "
-"nicht-authentifizierte Benutzer einzuschränken."
+"Sie können Rollen aus diesem Team entfernen, um die Berechtigungen für nicht-"
+"authentifizierte Benutzer einzuschränken."
 
 #: ../../admin/access.rst:596
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1603,28 +1588,20 @@ msgid "`Viewers`"
 msgstr "`Betrachter`"
 
 #: ../../admin/access.rst:599
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
 msgstr ""
 "Diese Rolle stellt die Sichtbarkeit der öffentlichen Projekte für alle "
-"Benutzer sicher. Standardmäßig sind alle Benutzer Mitglieder dieser Gruppe."
+"Benutzer sicher. Standardmäßig sind alle Benutzer Mitglieder dieses Teams."
 
 #: ../../admin/access.rst:602 ../../admin/access.rst:610
-#, fuzzy
-#| msgid ""
-#| "By default, :ref:`automatic group assignment <autogroup>` makes all new "
-#| "accounts members of this group when they join."
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Standardmäßig werden alle neuen Konten durch :ref:`automatic group "
-"assignment <autogroup>` zu Mitgliedern dieser Gruppe, wenn sie ihr beitreten."
+"Standardmäßig werden alle neuen Konten durch :ref:`automatic team assignment "
+"<autoteam>` zu Mitgliedern dieses Teams, wenn sie ihr beitreten."
 
 #: ../../admin/access.rst:605
 msgid "Default roles: none"
@@ -1636,10 +1613,8 @@ msgid "`Users`"
 msgstr "`Benutzer`"
 
 #: ../../admin/access.rst:608
-#, fuzzy
-#| msgid "Default group for all users."
 msgid "Default team for all users."
-msgstr "Standardgruppe für alle Benutzer."
+msgstr "Standardteam für alle Benutzer."
 
 #: ../../admin/access.rst:613
 msgid "Default roles: `Power user`"
@@ -7855,12 +7830,10 @@ msgstr ""
 ":setting:`GITEA_CREDENTIALS` zu wechseln."
 
 #: ../../admin/config.rst:771
-#, fuzzy
-#| msgid "Pagure username used to send merge requests for translation updates."
 msgid "Gitea username used to send pull requests for translation updates."
 msgstr ""
-"Pagure-Benutzername, der verwendet wird, um Merge Requests für "
-"Übersetzungsaktualisierungen zu senden."
+"Gitea-Benutzername, um Pull-Anfragen für Übersetzungsaktualisierungen zu "
+"senden."
 
 #: ../../admin/config.rst:775
 msgid ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`"
@@ -7871,16 +7844,12 @@ msgid "GITEA_TOKEN"
 msgstr "GITEA_TOKEN"
 
 #: ../../admin/config.rst:789
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Gitea personal access token used to make API calls to send pull requests for "
 "translation updates."
 msgstr ""
-"Persönliches GitLab-Zugriffstoken, das für API-Aufrufe zur Aktualisierung "
-"von Übersetzungen verwendet wird."
+"Persönliches Gitea-Zugriffstoken, das für API-Aufrufe zur Aktualisierung von "
+"Übersetzungen verwendet wird."
 
 #: ../../admin/config.rst:794
 msgid ""
@@ -7899,16 +7868,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Liste der Zugangsdaten für GitLab-Server."
 
 #: ../../admin/config.rst:824
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, :envvar:"
 "`WEBLATE_GITLAB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITLAB_USERNAME`, :envvar:`WEBLATE_GITLAB_TOKEN`, "
+":envvar:`WEBLATE_GITLAB_HOST`"
 
 #: ../../admin/config.rst:831
 msgid "GITLAB_USERNAME"
@@ -7937,16 +7902,12 @@ msgid "GITLAB_TOKEN"
 msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:855
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "GitLab personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"Persönliches GitLab-Zugriffstoken, das für API-Aufrufe zur Aktualisierung "
-"von Übersetzungen verwendet wird."
+"Persönliches GitLab-Zugriffstoken, das für API-Aufrufe verwendet wird, um "
+"Merge-Anfragen für Übersetzungsaktualisierungen zu senden."
 
 #: ../../admin/config.rst:860
 msgid ""
@@ -7966,16 +7927,12 @@ msgid "List for credentials for GitHub servers."
 msgstr "Liste für Zugangsdaten für GitHub-Server."
 
 #: ../../admin/config.rst:888
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, :envvar:"
 "`WEBLATE_GITHUB_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_GITHUB_USERNAME`, :envvar:`WEBLATE_GITHUB_TOKEN`, "
+":envvar:`WEBLATE_GITHUB_HOST`"
 
 #: ../../admin/config.rst:895
 msgid "GITHUB_USERNAME"
@@ -8482,16 +8439,12 @@ msgid "List for credentials for Pagure servers."
 msgstr "Liste der Zugangsdaten für Pagure-Server."
 
 #: ../../admin/config.rst:1340
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, :envvar:"
 "`WEBLATE_PAGURE_HOST`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_PAGURE_USERNAME`, :envvar:`WEBLATE_PAGURE_TOKEN`, "
+":envvar:`WEBLATE_PAGURE_HOST`"
 
 #: ../../admin/config.rst:1347
 msgid "PAGURE_USERNAME"
@@ -11133,6 +11086,9 @@ msgid ""
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ""
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install.rst:587
 msgid "HTTP proxy"
@@ -11178,7 +11134,7 @@ msgstr ""
 
 #: ../../admin/install.rst:626
 msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
-msgstr ""
+msgstr ":setting:`django:ADMINS`, :ref:`production-admins`"
 
 #: ../../admin/install.rst:631
 msgid "``ALLOWED_HOSTS``"
@@ -11199,6 +11155,8 @@ msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:654
 msgid "``SESSION_ENGINE``"
@@ -11219,7 +11177,7 @@ msgstr ""
 
 #: ../../admin/install.rst:670
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
-msgstr ""
+msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:675
 msgid "``DATABASES``"
@@ -11236,6 +11194,8 @@ msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:688
 msgid "``DEBUG``"
@@ -11256,7 +11216,7 @@ msgstr ""
 
 #: ../../admin/install.rst:699
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
 #: ../../admin/install.rst:704
 msgid "``DEFAULT_FROM_EMAIL``"
@@ -11269,7 +11229,7 @@ msgstr ""
 
 #: ../../admin/install.rst:710
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:714
 msgid "``SECRET_KEY``"
@@ -11283,7 +11243,7 @@ msgstr ""
 
 #: ../../admin/install.rst:721
 msgid ":setting:`django:SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`django:SECRET_KEY`"
 
 #: ../../admin/install.rst:725
 msgid "``SERVER_EMAIL``"
@@ -11297,7 +11257,7 @@ msgstr ""
 
 #: ../../admin/install.rst:732
 msgid ":setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:737
 msgid "Filling up the database"
@@ -11407,6 +11367,8 @@ msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
+":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/install.rst:839
 msgid "Correctly configure HTTPS"
@@ -11429,6 +11391,7 @@ msgstr ""
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install.rst:861
 msgid "Set properly SECURE_HSTS_SECONDS"
@@ -11522,6 +11485,8 @@ msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:974
 msgid "Configure e-mail sending"
@@ -11552,6 +11517,8 @@ msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:1006
 msgid "Allowed hosts setup"
@@ -11580,6 +11547,8 @@ msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:1028
 msgid "Django secret key"
@@ -11600,7 +11569,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1038
 msgid ":setting:`SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`SECRET_KEY`"
 
 #: ../../admin/install.rst:1043
 msgid "Running maintenance tasks"
@@ -11923,6 +11892,8 @@ msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgstr ""
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`"
+", :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
 #: ../../admin/install.rst:1271
 msgid "Sample configuration for NGINX and uWSGI"
@@ -12871,7 +12842,7 @@ msgstr "Konfiguriert die Seitendomain. Dieser Parameter ist erforderlich."
 
 #: ../../admin/install/docker.rst:409
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
-msgstr ""
+msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 
 #: ../../admin/install/docker.rst:415
 msgid ""
@@ -12882,7 +12853,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:429
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
-msgstr ""
+msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:435
 msgid "Sets the password for the `admin` user."
@@ -12938,7 +12909,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:473
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
-msgstr ""
+msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:478
 msgid "Configures the address for outgoing e-mails."
@@ -12946,7 +12917,7 @@ msgstr "Legt die Adresse für ausgehende E-Mails fest."
 
 #: ../../admin/install/docker.rst:482
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
-msgstr ""
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:487
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
@@ -12966,6 +12937,7 @@ msgstr ""
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install/docker.rst:510
 msgid ""
@@ -13021,7 +12993,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:584
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
-msgstr ""
+msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
 #: ../../admin/install/docker.rst:588
 msgid ""
@@ -13159,15 +13131,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:730
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ""
+msgstr "Konfiguriert :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: ../../admin/install/docker.rst:734
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
+msgstr "Konfiguriert :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/install/docker.rst:738
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
+msgstr "Konfiguriert :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/install/docker.rst:742
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -13197,6 +13169,8 @@ msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgstr ""
+":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
 #: ../../admin/install/docker.rst:780
 msgid "Configures :setting:`LICENSE_FILTER`."
@@ -13204,23 +13178,23 @@ msgstr "Konfiguriert :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:784
 msgid "Configures :setting:`LICENSE_REQUIRED`"
-msgstr ""
+msgstr "Konfiguriert :setting:`LICENSE_REQUIRED`"
 
 #: ../../admin/install/docker.rst:788
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
-msgstr ""
+msgstr "Konfiguriert :setting:`WEBSITE_REQUIRED`"
 
 #: ../../admin/install/docker.rst:792
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr ""
+msgstr "Konfiguriert :setting:`HIDE_VERSION`."
 
 #: ../../admin/install/docker.rst:796
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr ""
+msgstr "Konfiguriert :setting:`BASIC_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:800
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr ""
+msgstr "Konfiguriert :setting:`DEFAULT_AUTO_WATCH`."
 
 #: ../../admin/install/docker.rst:808
 msgid "Configures rate limiter."
@@ -13237,6 +13211,8 @@ msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
+", :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/install/docker.rst:828
 msgid ""
@@ -13669,6 +13645,8 @@ msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
 #: ../../admin/install/docker.rst:1318
 msgid "Mail server port, defaults to 25."
@@ -13676,7 +13654,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1320
 msgid ":setting:`django:EMAIL_PORT`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:1324
 msgid "E-mail authentication user."
@@ -13684,7 +13662,7 @@ msgstr "Benutzer der E-Mail-Authentifizierung."
 
 #: ../../admin/install/docker.rst:1326
 msgid ":setting:`django:EMAIL_HOST_USER`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_USER`"
 
 #: ../../admin/install/docker.rst:1330
 msgid "E-mail authentication password."
@@ -13692,7 +13670,7 @@ msgstr "Passwort für die E-Mail-Authentifizierung."
 
 #: ../../admin/install/docker.rst:1332
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1336
 msgid "Path to the file containing the e-mail authentication password."
@@ -13723,6 +13701,8 @@ msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`"
 
 #: ../../admin/install/docker.rst:1360
 msgid ""
@@ -13746,7 +13726,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1383
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
-msgstr ""
+msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1388
 msgid "Configures if and how Weblate should update repositories."
@@ -13766,15 +13746,15 @@ msgstr "Integration der Website"
 
 #: ../../admin/install/docker.rst:1401
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr ""
+msgstr "Konfiguriert :setting:`GET_HELP_URL`."
 
 #: ../../admin/install/docker.rst:1405
 msgid "Configures :setting:`STATUS_URL`."
-msgstr ""
+msgstr "Konfiguriert :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:1409
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr ""
+msgstr "Konfiguriert :setting:`LEGAL_URL`."
 
 #: ../../admin/install/docker.rst:1413
 msgid "Configures :setting:`PRIVACY_URL`."
@@ -13844,6 +13824,7 @@ msgstr ""
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
+":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1475
 msgid "Changing enabled apps, checks, add-ons or autofixes"
@@ -13860,6 +13841,8 @@ msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 msgstr ""
+":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, "
+":setting:`django:INSTALLED_APPS`"
 
 #: ../../admin/install/docker.rst:1507
 msgid "Container settings"
@@ -15207,7 +15190,7 @@ msgstr "Automatische Übersetzung"
 
 #: ../../admin/machine.rst:31
 msgid "Amagama"
-msgstr ""
+msgstr "Amagama"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -15238,7 +15221,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:48
 msgid "Apertium APy"
-msgstr ""
+msgstr "Apertium APy"
 
 #: ../../admin/machine.rst:50
 msgid "``apertium-apy``"
@@ -15255,21 +15238,27 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Eine Libre-Software-Plattform für maschinelle Übersetzung, die Übersetzungen "
+"in eine begrenzte Anzahl von Sprachen liefert."
 
 #: ../../admin/machine.rst:58
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"Der empfohlene Weg, Apertium zu nutzen, ist der Betrieb eines eigenen "
+"Apertium-APy-Servers."
 
 #: ../../admin/machine.rst:62
 msgid ""
 "`Apertium website <https://www.apertium.org/>`_, `Apertium APy documentation "
 "<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+"`Apertium-Website <https://www.apertium.org/>`_, `Apertium APy-Dokumentation "
+"<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:70
 msgid "AWS"
-msgstr ""
+msgstr "AWS"
 
 #: ../../admin/machine.rst:74
 msgid "``aws``"
@@ -15312,16 +15301,15 @@ msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages."
 msgstr ""
+"Amazon Translate ist ein neuronaler maschineller Übersetzungsdienst für die "
+"Übersetzung von Texten aus dem und ins Englische in einer Vielzahl von "
+"unterstützten Sprachen."
 
 #: ../../admin/machine.rst:88
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
 msgstr ""
-"`Dokumentation der Docker-Volumes <https://docs.docker.com/storage/volumes/"
-">`_"
+"`Amazon Translate Dokumentation <https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:93
 msgid "Baidu"
@@ -15343,18 +15331,21 @@ msgstr "Client-Geheimnis"
 
 #: ../../admin/machine.rst:104
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Maschineller Übersetzungsdienst von Baidu."
 
 #: ../../admin/machine.rst:106
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Dieser Dienst verwendet eine API und Sie müssen eine ID und einen API-"
+"Schlüssel von Baidu erhalten, um ihn zu nutzen."
 
 #: ../../admin/machine.rst:110
 msgid ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+"`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:115
 msgid "DeepL"
@@ -15377,6 +15368,10 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL ist ein kostenpflichtiger Dienst, der eine gute maschinelle "
+"Übersetzung für einige Sprachen bietet. Sie müssen ein :guilabel:`DeepL API`-"
+"Abonnement erwerben oder Sie können den alten :guilabel:`DeepL Pro "
+"(classic)`-Plan verwenden."
 
 #: ../../admin/machine.rst:130
 msgid ""
@@ -15426,6 +15421,10 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"Früher wurde Weblate von DeepL als CAT-Tool eingestuft und sollte daher die "
+"v1-API verwenden, aber jetzt soll es die v2-API verwenden. Daher ist v2 "
+"voreingestellt, und Sie können es auf v1 ändern, falls Sie ein bestehendes "
+"CAT-Abonnement haben und möchten, dass Weblate dieses nutzt."
 
 #: ../../admin/machine.rst:145
 msgid ""
@@ -15455,6 +15454,8 @@ msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"Weblate unterstützt DeepL-Formalität, es wählt eine passende basierend auf "
+"der Sprache (zum Beispiel gibt es ``de@formal`` und ``de@informal``)."
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -15466,7 +15467,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:165
 msgid "Glosbe"
-msgstr ""
+msgstr "Glosbe"
 
 #: ../../admin/machine.rst:167
 msgid "``glosbe``"
@@ -15476,6 +15477,8 @@ msgstr ""
 msgid ""
 "Free dictionary and translation memory for almost every living language."
 msgstr ""
+"Kostenloses Wörterbuch und Übersetzungsspeicher für fast alle lebenden "
+"Sprachen."
 
 #: ../../admin/machine.rst:172
 msgid ""
@@ -15483,10 +15486,14 @@ msgid ""
 "license of the used data source. There is a limit of calls that may be done "
 "from one IP in a set period of time, to prevent abuse."
 msgstr ""
+"Die Nutzung der API ist kostenlos, aber die Verwendung der Übersetzungen "
+"unterliegt der Lizenz der verwendeten Datenquelle. Es gibt eine Begrenzung "
+"der Aufrufe, die von einer IP in einem bestimmten Zeitraum durchgeführt "
+"werden können, um Missbrauch zu verhindern."
 
 #: ../../admin/machine.rst:178
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Glosbe-Website <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:183
 msgid "Google Translate"
@@ -15505,6 +15512,9 @@ msgid ""
 "This service uses the Google Translation API, and you need to obtain an API "
 "key and turn on billing in the Google API console."
 msgstr ""
+"Dieser Dienst verwendet die Google Translation API, und Sie müssen einen API-"
+"Schlüssel erhalten und die Rechnungsstellung in der Google-API-Konsole "
+"aktivieren."
 
 #: ../../admin/machine.rst:197
 msgid ""
@@ -15514,7 +15524,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:202
 msgid "Google Translate API v3"
-msgstr "Google Translate-API v3"
+msgstr "Google Translate API v3"
 
 #: ../../admin/machine.rst:204
 msgid "``google-translate-api-v3``"
@@ -15582,7 +15592,7 @@ msgid ""
 "The public instance requires an API key, but LibreTranslate can be self-"
 "hosted and there are several mirrors available to use the API for free."
 msgstr ""
-"LibreTranslate ist ein freier und quelloffener Dienst für maschinelle "
+"LibreTranslate ist ein freier und quelloffener Dienst für automatische "
 "Übersetzungen. Die öffentliche Instanz erfordert einen API-Schlüssel, aber "
 "LibreTranslate kann selbst gehostet werden, und es gibt mehrere Mirrors, "
 "welche die API kostenlos nutzen."
@@ -15609,10 +15619,8 @@ msgstr ""
 "LibreTranslate#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:252
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Microsoft Terminology"
-msgstr "Als Terminologie markieren"
+msgstr "Microsoft Terminology"
 
 #: ../../admin/machine.rst:256
 #, fuzzy
@@ -15626,16 +15634,21 @@ msgid ""
 "the terminology, definitions and user interface (UI) strings available in "
 "the Language Portal through a web service."
 msgstr ""
+"Die Microsoft-Terminologiedienst-API ermöglicht Ihnen den "
+"programmgesteuerten Zugriff auf die im Sprachportal verfügbare Terminologie, "
+"Definitionen und Benutzeroberflächen-Zeichenfolgen über einen Webdienst."
 
 #: ../../admin/machine.rst:265
 msgid ""
 "`Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/"
 "Microsoft-Terminology-API>`_"
 msgstr ""
+"`Microsoft-Terminologiedienst-API <https://www.microsoft.com/en-us/language/"
+"Microsoft-Terminology-API>`_"
 
 #: ../../admin/machine.rst:271 ../../changes.rst:2141
 msgid "Microsoft Translator"
-msgstr ""
+msgstr "Microsoft Translator"
 
 #: ../../admin/machine.rst:275
 msgid "``microsoft-translator``"
@@ -15659,23 +15672,23 @@ msgstr "Basis-URL der Anwendung"
 
 #: ../../admin/machine.rst:283
 msgid "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
-msgstr ""
+msgstr "`api.cognitive.microsofttranslator.com`-- Global (nicht regional)"
 
 #: ../../admin/machine.rst:285
 msgid "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific"
-msgstr ""
+msgstr "`api-apc.cognitive.microsofttranslator.com`-- Asien-Pazifik"
 
 #: ../../admin/machine.rst:287
 msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
-msgstr ""
+msgstr "`api-eur.cognitive.microsofttranslator.com`` -- Europa"
 
 #: ../../admin/machine.rst:289
 msgid "``api-nam.cognitive.microsofttranslator.com`` -- North America"
-msgstr ""
+msgstr "`api-nam.cognitive.microsofttranslator.com`-- Nordamerika"
 
 #: ../../admin/machine.rst:291
 msgid "``api.translator.azure.cn`` -- China"
-msgstr ""
+msgstr "`api.translator.azure.cn`` -- China"
 
 #: ../../admin/machine.rst:293
 msgid "Application region"
@@ -15686,32 +15699,40 @@ msgid ""
 "Machine translation service provided by Microsoft in Azure portal as a one "
 "of Cognitive Services."
 msgstr ""
+"Maschineller Übersetzungsdienst, der von Microsoft im Azure-Portal als einer "
+"der Cognitive-Services bereitgestellt wird."
 
 #: ../../admin/machine.rst:299
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate implementiert Translator API V3."
 
 #: ../../admin/machine.rst:302
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Translator Text API V2"
 
 #: ../../admin/machine.rst:303
 msgid "The key you use with Translator API V2 can be used with API 3."
 msgstr ""
+"Der Schlüssel, den Sie mit Translator-API V2 verwenden, kann auch mit API 3 "
+"verwendet werden."
 
 #: ../../admin/machine.rst:306
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Translator Text API V3"
 
 #: ../../admin/machine.rst:307
 msgid ""
 "You need to register at Azure portal and use the key you obtain there. With "
 "new Azure keys, you also need to set ``region`` to locale of your service."
 msgstr ""
+"Sie müssen sich im Azure-Portal registrieren und den Schlüssel verwenden, "
+"den Sie dort erhalten. Bei neuen Azure-Schlüsseln müssen Sie auch ``region`` "
+"auf das Gebietsschema Ihres Dienstes einstellen."
 
 #: ../../admin/machine.rst:312
 msgid "For Azure China, please use your endpoint from the Azure Portal."
 msgstr ""
+"Für Azure China verwenden Sie bitte Ihren Endpunkt aus dem Azure-Portal."
 
 #: ../../admin/machine.rst:316
 msgid ""
@@ -15726,6 +15747,16 @@ msgid ""
 "cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
 "an-access-token>`_"
 msgstr ""
+"`Cognitive-Services - Text-Translation-API <https://azure.microsoft.com/"
+"en-us/products/cognitive-services/translator/>`_, `Microsoft-Azure-Portal "
+"<https://portal.azure.com/>`_, `Basis-URLs <https://learn.microsoft.com/"
+"en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-"
+"urls>`_, `\"Authentifizierung mit einer Multi-Service-Ressource\" "
+"<https://learn.microsoft.com/en-us/azure/cognitive-services/translator/"
+"reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_ ` "
+"\"Authentifizierung mit einem Zugriffstoken\" Abschnitt <https://learn."
+"microsoft.com/en-us/azure/cognitive-services/translator/reference/"
+"v3-0-reference#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:325
 msgid "ModernMT"
@@ -15763,7 +15794,7 @@ msgstr "Dateiname"
 
 #: ../../admin/machine.rst:355
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Großer Übersetzungsspeicher mit automatischer Übersetzung."
 
 #: ../../admin/machine.rst:357
 msgid ""
@@ -15771,14 +15802,17 @@ msgid ""
 "requests/day when you provide a contact e-mail address in ``email``. You can "
 "also ask them for more."
 msgstr ""
+"Die kostenlose, anonyme Nutzung ist derzeit auf 100 Anfragen/Tag oder auf "
+"1000 Anfragen/Tag begrenzt, wenn Sie eine Kontakt-E-Mail-Adresse in ``email``"
+" angeben. Sie können auch mehr Anfragen stellen."
 
 #: ../../admin/machine.rst:364
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
-msgstr ""
+msgstr "`MyMemory-Website <https://mymemory.translated.net/>`_"
 
 #: ../../admin/machine.rst:369
 msgid "Netease Sight"
-msgstr ""
+msgstr "Netease Sight"
 
 #: ../../admin/machine.rst:373
 msgid "``netease-sight``"
@@ -15796,18 +15830,12 @@ msgstr ""
 "NetEase abrufen."
 
 #: ../../admin/machine.rst:386
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
-#| "Translation Platform <https://sight.youdao.com/>`_"
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
-msgstr ""
-":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
-"Translation Platform <https://sight.youdao.com/>`_"
+msgstr "`NetEase Sight Übersetzungsplattform <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:391
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:393
 msgid "``sap-translation-hub``"
@@ -15835,11 +15863,11 @@ msgstr "aktiviert"
 
 #: ../../admin/machine.rst:403
 msgid "Enable machine translation"
-msgstr "Maschinelle Übersetzung aktivieren"
+msgstr "Automatische Übersetzung aktivieren"
 
 #: ../../admin/machine.rst:406
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "Maschineller Übersetzungsdienst von SAP."
 
 #: ../../admin/machine.rst:408
 msgid ""
@@ -15855,6 +15883,8 @@ msgid ""
 "You can also configure whether to also use machine translation services, in "
 "addition to the term database."
 msgstr ""
+"Sie können auch festlegen, ob neben der Begriffsdatenbank auch maschinelle "
+"Übersetzungsdienste verwendet werden sollen."
 
 #: ../../admin/machine.rst:416
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
@@ -15926,10 +15956,13 @@ msgid ""
 "that are already translated inside Weblate. It looks for exact matches in "
 "the existing strings."
 msgstr ""
+"Der maschinelle Übersetzungsdienst von Weblate kann Übersetzungen für "
+"Zeichenketten liefern, die bereits in Weblate übersetzt wurden. Es wird nach "
+"exakten Übereinstimmungen in den vorhandenen Zeichenfolgen gesucht."
 
 #: ../../admin/machine.rst:479
 msgid "Weblate Translation Memory"
-msgstr "Weblate-Übersetzungsspeicher"
+msgstr "Weblate Translation Memory"
 
 #: ../../admin/machine.rst:483
 #, fuzzy
@@ -15943,6 +15976,10 @@ msgid ""
 "that has been translated in past (or uploaded to the translation memory) can "
 "be translated in this way."
 msgstr ""
+"Verwenden Sie :ref:`translation-memory` als maschinellen Übersetzungsdienst. "
+"Jede Zeichenkette, die in der Vergangenheit übersetzt (oder in den "
+"Übersetzungsspeicher hochgeladen) wurde, kann auf diese Weise übersetzt "
+"werden."
 
 #: ../../admin/machine.rst:493
 msgid "Yandex"
@@ -15980,7 +16017,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:523
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Maschineller Übersetzungsdienst bereitgestellt von Yandex."
 
 #: ../../admin/machine.rst:525
 msgid ""
@@ -15993,10 +16030,12 @@ msgid ""
 "`Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/"
 "product-fanyi-text.s>`_"
 msgstr ""
+"`Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/"
+"product-fanyi-text.s>`_"
 
 #: ../../admin/machine.rst:532
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Benutzerdefinierte maschinelle Übersetzung"
 
 #: ../../admin/machine.rst:534
 msgid ""
@@ -16004,17 +16043,17 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"Sie können auch Ihre eigenen maschinellen Übersetzungsdienste mit ein paar "
+"Zeilen Python-Code implementieren. Dieses Beispiel implementiert maschinelle "
+"Übersetzung in einer festen Liste von Sprachen mit dem Python-Modul "
+"``dictionary``:"
 
 #: ../../admin/machine.rst:541
-#, fuzzy
-#| msgid ""
-#| "You can list your own class in :setting:`MT_SERVICES` and Weblate will "
-#| "start using that."
 msgid ""
 "You can list your own class in :setting:`WEBLATE_MACHINERY` and Weblate will "
 "start using that."
 msgstr ""
-"Sie können Ihre eigene Klasse in :setting:`MT_SERVICES` auflisten und "
+"Sie können Ihre eigene Klasse in :setting:`WEBLATE_MACHINERY` auflisten und "
 "Weblate wird diese dann verwenden."
 
 #: ../../admin/management.rst:4
@@ -17239,6 +17278,8 @@ msgid ""
 ":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`, :envvar:"
 "`WEBLATE_AKISMET_API_KEY`"
 msgstr ""
+":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`, "
+":envvar:`WEBLATE_AKISMET_API_KEY`"
 
 #: ../../admin/optionals.rst:222
 msgid "Signing Git commits with GnuPG"
@@ -17272,7 +17313,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:243
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
-msgstr ""
+msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:248 ../../user/translating.rst:380
 msgid "Rate limiting"
@@ -19559,12 +19600,6 @@ msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgstr ""
 
 #: ../../admin/upgrade.rst:151
-#, fuzzy
-#| msgid ""
-#| "The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. "
-#| "The :ref:`deepl` machine translation now uses the new :setting:"
-#| "`MT_DEEPL_API_URL` instead. You might need to adjust :setting:"
-#| "`MT_DEEPL_API_URL` to match your subscription."
 msgid ""
 "The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :"
 "ref:`mt-deepl` machine translation now uses the new ``MT_DEEPL_API_URL`` "
@@ -19572,9 +19607,9 @@ msgid ""
 "subscription."
 msgstr ""
 "Die Einstellung ``MT_DEEPL_API_VERSION`` wurde in Version 4.7 entfernt. Die "
-"automatische Übersetzung :ref:`deepl` verwendet nun stattdessen die neue :"
-"Einstellung:`MT_DEEPL_API_URL`. Möglicherweise müssen Sie die Einstellung :"
-"setting:`MT_DEEPL_API_URL` an Ihre Abonnements anpassen."
+"automatische Übersetzung :ref:`mt-deepl` verwendet nun stattdessen "
+"``MT_DEEPL_API_URL``. Möglicherweise müssen Sie ``MT_DEEPL_API_URL`` an Ihre "
+"Abonnements anpassen."
 
 #: ../../admin/upgrade.rst:153 ../../admin/upgrade.rst:170
 #: ../../admin/upgrade.rst:194 ../../admin/upgrade.rst:212
@@ -19775,20 +19810,18 @@ msgid ""
 "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
 "settings accordingly."
 msgstr ""
+"Es gibt mehrere Änderungen in :file:`settings_example.py`, vor allem in der "
+"Middleware (:setting:`django:MIDDLEWARE`), bitte passen Sie Ihre "
+"Einstellungen entsprechend an."
 
 #: ../../admin/upgrade.rst:253
-#, fuzzy
-#| msgid ""
-#| "The :ref:`deepl` machine translation now has a generic :setting:"
-#| "`MT_DEEPL_API_URL` setting to adapt to different subscription models more "
-#| "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgid ""
 "The :ref:`mt-deepl` machine translation now has a generic "
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
 "Die automatische Übersetzung :ref:`deepl` hat jetzt eine generische "
-"Einstellung :setting:`MT_DEEPL_API_URL`, um sich flexibler an verschiedene "
+"Einstellung ``MT_DEEPL_API_URL``, um sich flexibler an verschiedene "
 "Abonnementmodelle anzupassen. Die Einstellung ``MT_DEEPL_API_VERSION`` wird "
 "nicht mehr verwendet."
 
@@ -19911,7 +19944,7 @@ msgid ""
 "interface, settings from the configuration file will be imported during the "
 "database migration."
 msgstr ""
-"Die maschinellen Übersetzungsdienste werden nun über die Benutzeroberfläche "
+"Die automatischen Übersetzungsdienste werden nun über die Benutzeroberfläche "
 "konfiguriert, die Einstellungen aus der Konfigurationsdatei werden bei der "
 "Datenbankmigration importiert."
 
@@ -22517,7 +22550,7 @@ msgstr "Allgemeine Informationen zu GitHub-Webhooks"
 #: ../../api.rst:2511 ../../api.rst:2525 ../../api.rst:2539 ../../api.rst:2555
 #: ../../api.rst:2576 ../../api.rst:2592 ../../api.rst:2608
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2512 ../../api.rst:2526 ../../api.rst:2540 ../../api.rst:2556
 #: ../../api.rst:2577 ../../api.rst:2593 ../../api.rst:2609
@@ -23240,10 +23273,8 @@ msgid "Redirect /.well-known/change-password to /accounts/password/."
 msgstr ""
 
 #: ../../changes.rst:128
-#, fuzzy
-#| msgid "Machine translation service provided by NetEase."
 msgid "Machine translation services are now configurable per project."
-msgstr "Automatische Übersetzung bereitgestellt von NetEase."
+msgstr "Maschinelle Übersetzungsdienste sind jetzt pro Projekt konfigurierbar."
 
 #: ../../changes.rst:129
 msgid ""
@@ -23883,13 +23914,11 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:298
-#, fuzzy
-#| msgid "Added support for customizing navigation text color."
 msgid ""
 "Added support for customizing SSH invocation via :setting:`SSH_EXTRA_ARGS`."
 msgstr ""
-"Unterstützung für die Anpassung der Textfarbe der Navigation wurde "
-"hinzugefügt."
+"Unterstützung für die Anpassung des SSH-Aufrufs über "
+":setting:`SSH_EXTRA_ARGS` hinzugefügt."
 
 #: ../../changes.rst:299
 msgid "Added checks for ICU MessageFormat."
@@ -23913,13 +23942,11 @@ msgstr ""
 "bleiben."
 
 #: ../../changes.rst:303
-#, fuzzy
-#| msgid "Added support for customizing navigation text color."
 msgid ""
 "Added support for customizing Borg invocation via :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
-"Unterstützung für die Anpassung der Textfarbe der Navigation wurde "
-"hinzugefügt."
+"Unterstützung für die Anpassung des Borg-Aufrufs über "
+":setting:`BORG_EXTRA_ARGS` hinzugefügt."
 
 #: ../../changes.rst:304
 msgid "Fixed generating of MO files for monolingual translations."
@@ -25610,7 +25637,7 @@ msgstr ""
 
 #: ../../changes.rst:776
 msgid "Added support for Google Translate V3 API (Advanced)."
-msgstr ""
+msgstr "Unterstützung für Google Translate V3 API (Advanced) hinzugefügt."
 
 #: ../../changes.rst:777
 msgid "Added ability to restrict access on component level."
@@ -27565,6 +27592,8 @@ msgstr ""
 msgid ""
 "Added support for automatic translation using machine translation services."
 msgstr ""
+"Unterstützung für die automatische Übersetzung durch maschinelle "
+"Übersetzungsdienste wurde hinzugefügt."
 
 #: ../../changes.rst:1390
 msgid "Added support for HTML markup in whiteboard messages."
@@ -27593,6 +27622,8 @@ msgstr ""
 #: ../../changes.rst:1395
 msgid "Added support for DeepL machine translation service."
 msgstr ""
+"Unterstützung für den maschinellen Übersetzungsdienst DeepL wurde "
+"hinzugefügt."
 
 #: ../../changes.rst:1396
 msgid "Machine translation results are now cached inside Weblate."
@@ -29429,6 +29460,7 @@ msgstr ""
 #: ../../changes.rst:1984
 msgid "Fixed error handling with machine translation services."
 msgstr ""
+"Die Fehlerbehandlung bei maschinellen Übersetzungsdiensten wurde korrigiert."
 
 #: ../../changes.rst:1985
 msgid "Improved automatic translation locking behaviour."
@@ -29779,6 +29811,7 @@ msgstr ""
 #: ../../changes.rst:2101
 msgid "Machine translation services no longer block page loading."
 msgstr ""
+"Maschinelle Übersetzungsdienste blockieren das Laden von Seiten nicht mehr."
 
 #: ../../changes.rst:2102
 msgid "Management interface now contains also useful actions to update data."
@@ -30348,7 +30381,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:62
 msgid "Not receiving e-mails from Weblate"
-msgstr ""
+msgstr "Keine E-Mails von Weblate erhalten"
 
 #: ../../contributing/debugging.rst:64
 msgid ""
@@ -30368,7 +30401,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:75
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "Analyse von Anwendungsabstürzen"
 
 #: ../../contributing/debugging.rst:77
 msgid ""
@@ -30380,7 +30413,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:83
 msgid "Silent failures"
-msgstr ""
+msgstr "Stille Ausfälle"
 
 #: ../../contributing/debugging.rst:85
 msgid ""
@@ -30392,7 +30425,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:90
 msgid "Performance issues"
-msgstr ""
+msgstr "Leistungsprobleme"
 
 #: ../../contributing/debugging.rst:92
 msgid ""
@@ -30415,10 +30448,13 @@ msgid ""
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
 msgstr ""
+"Falls die langsame Leistung mit der Datenbank zusammenhängt, können Sie auch "
+"die Protokollierung aller Datenbankabfragen aktivieren, indem Sie nach der "
+"Aktivierung von :setting:`DEBUG` die folgende Konfiguration verwenden:"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Weblate-Frontend"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
@@ -30500,7 +30536,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:79
 msgid "Icons"
-msgstr ""
+msgstr "Symbole"
 
 #: ../../contributing/frontend.rst:81
 msgid ""
@@ -34710,7 +34746,7 @@ msgstr ""
 
 #: ../../faq.rst:439 ../../vcs.rst:460
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../faq.rst:443
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
@@ -37316,7 +37352,7 @@ msgstr ""
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
-msgstr ""
+msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:29
 msgid "Quality checks"
@@ -37335,7 +37371,7 @@ msgstr ""
 
 #: ../../user/checks.rst:37
 msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:40
 msgid "Translation checks"
@@ -38691,10 +38727,8 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ""
 
 #: ../../user/checks.rst:844
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched \\\\n"
-msgstr "Unterschiedliche Menge \\n"
+msgstr "Unterschiedliche Menge \\\\n"
 
 #: ../../user/checks.rst:846
 #, fuzzy
@@ -40345,7 +40379,7 @@ msgid ""
 "servers (for example your contributions will no longer link to your profile "
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr ""
+msgstr " "
 
 #: ../../user/profile.rst:206
 msgid ""
@@ -41484,6 +41518,8 @@ msgid ""
 "Using selected machine translation services with translations above a "
 "certain quality threshold."
 msgstr ""
+"Nutzung ausgewählter maschineller Übersetzungsdienste mit Übersetzungen "
+"oberhalb einer bestimmten Qualitätsschwelle."
 
 #: ../../user/translating.rst:358
 msgid "You can also choose which strings are to be auto-translated."
@@ -42008,6 +42044,8 @@ msgid ""
 ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
 "setting:`GITHUB_CREDENTIALS`"
 msgstr ""
+":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, "
+":setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:295
 msgid "GitLab merge requests"
@@ -42040,6 +42078,8 @@ msgid ""
 ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
 "setting:`GITLAB_CREDENTIALS`"
 msgstr ""
+":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, "
+":setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:325
 #, fuzzy
@@ -42068,12 +42108,18 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Damit dies funktioniert, müssen Sie die API-Anmeldeinformationen "
+"(:setting:`GITEA_CREDENTIALS`) in den Weblate-Einstellungen konfigurieren. "
+"Nach der Konfiguration sehen Sie die Option :guilabel:`Gitea`, wenn Sie :ref"
+":`component-vcs` auswählen."
 
 #: ../../vcs.rst:344
 msgid ""
 ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
 "setting:`GITEA_CREDENTIALS`"
 msgstr ""
+":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, "
+":setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:355
 msgid "Pagure merge requests"
@@ -42106,6 +42152,8 @@ msgid ""
 ":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :"
 "setting:`PAGURE_CREDENTIALS`"
 msgstr ""
+":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
+":setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:384
 msgid "Gerrit"
