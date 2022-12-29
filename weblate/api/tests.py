@@ -2861,6 +2861,20 @@ class UnitAPITest(APIBaseTest):
             request={"state": "0", "target": ""},
         )
 
+    def test_untranslate_unit_invalid(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # JSON payload passed as string
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            format="json",
+            request='{"state": "0", "target": [""]}',
+        )
+
     def test_unit_review(self):
         self.component.project.translation_review = True
         self.component.project.save()
