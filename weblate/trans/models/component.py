@@ -1220,27 +1220,28 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def get_git_repoweb_template(self):
         """Method to return the template link for a specific vcs."""
-        parsed_url = urlparse(self.repo)
+        repo = self.repo
+        if repo == "local:":
+            return None
 
-        if (
-            self.repo.startswith("git@bitbucket.org")
-            or parsed_url.hostname == "bitbucket.org"
-        ):
+        parsed_url = urlparse(repo)
+
+        # Make sure this is a string
+        parsed_hostname = parsed_url.hostname or ""
+
+        if repo.startswith("git@bitbucket.org") or parsed_hostname == "bitbucket.org":
             return self.get_bitbucket_git_repoweb_template()
 
-        if (
-            self.repo.startswith("git@github.com")
-            or parsed_url.hostname == "github.com"
-        ):
+        if repo.startswith("git@github.com") or parsed_hostname == "github.com":
             return self.get_github_repoweb_template()
 
-        if parsed_url.hostname == "pagure.io":
+        if parsed_hostname == "pagure.io":
             return self.get_pagure_repoweb_template()
 
         if (
-            self.repo.startswith("git@ssh.dev.azure.com:v3")
-            or parsed_url.hostname == "dev.azure.com"
-            or parsed_url.hostname.split(".", 1)[-1] == "visualstudio.com"
+            repo.startswith("git@ssh.dev.azure.com:v3")
+            or parsed_hostname == "dev.azure.com"
+            or parsed_hostname.endswith("visualstudio.com")
         ):
             return self.get_azure_repoweb_template()
 
