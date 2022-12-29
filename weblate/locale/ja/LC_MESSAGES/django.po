@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-12-21 23:58+0000\n"
+"PO-Revision-Date: 2022-12-31 08:01+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1163,9 +1163,9 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、"
-"Weblate は \"要編集\" フラグを付けます。特に、未翻訳の文字列は原文で埋める"
-"ファイル形式では分かりやすくなります。"
+"VCS からインポートされた新しい翻訳可能な文字列が原文と同一のとき、Weblate は "
+"\"要編集\" フラグを付けます。特に、未翻訳の文字列は原文で埋めるファイル形式で"
+"は有用です。"
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:68
 #: weblate/templates/component.html:212
@@ -3134,7 +3134,7 @@ msgstr "原文と翻訳文が同一"
 
 #: weblate/checks/source.py:41
 msgid "Unpluralised"
-msgstr "定形外の複数形"
+msgstr "複数形の書式になっていない"
 
 #: weblate/checks/source.py:42
 msgid "The string is used as plural, but not using plural forms"
@@ -3150,7 +3150,7 @@ msgstr "文字列では省略記号 (…) の代わりに 3 つのドット (...
 
 #: weblate/checks/source.py:67
 msgid "Multiple failing checks"
-msgstr "検査不合格となった複数の項目"
+msgstr "複数言語での検査不合格"
 
 #: weblate/checks/source.py:68
 msgid "The translations in several languages have failing checks"
@@ -3200,8 +3200,7 @@ msgstr "フォントグループ名"
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
-msgstr ""
-"このフォントグループの選択を識別するための識別子。空白や特殊記号は避けてくだ"
+msgstr "検査でこのフォントグループを選択するための識別子。空白や特殊記号は避けてくだ"
 "さい。"
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
@@ -9196,7 +9195,7 @@ msgstr "監視中"
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "%(project)s プロジェクト の監視解除"
+msgstr "%(project)s プロジェクトの監視解除"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
@@ -9212,7 +9211,7 @@ msgstr "%(object)s の通知無効化"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
 msgid "Not watching"
-msgstr "監視していない"
+msgstr "監視していません"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, python-format
@@ -9357,9 +9356,8 @@ msgstr ""
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"原文用の翻訳ファイルが必要だが、Weblate で無効にする場合は、言語フィルタを調"
-"整して除外してください。"
+msgstr "原文の言語の翻訳ファイルが必要だが Weblate "
+"では無視する場合は、言語フィルタを調整して除外してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -10883,7 +10881,7 @@ msgstr "翻訳文へのコメント。他の翻訳者との話し合い"
 #: weblate/trans/forms.py:1043 weblate/trans/models/announcement.py:86
 #: weblate/trans/models/project.py:119
 msgid "You can use Markdown and mention users by @username."
-msgstr "Markdown が使用でき、@username でユーザーを指定できます。"
+msgstr "Markdown が使用でき、@username でユーザーにメンションできます。"
 
 #: weblate/trans/forms.py:1058
 msgid "All components"
@@ -10931,7 +10929,7 @@ msgstr "レポート形式"
 
 #: weblate/trans/forms.py:1210
 msgid "Choose a file format for the report"
-msgstr "レポートのファイル形式を選択"
+msgstr "レポートのファイル形式を選んでください"
 
 #: weblate/trans/forms.py:1218
 msgid "Report period"
@@ -11875,7 +11873,7 @@ msgstr "翻訳するリポジトリブランチ"
 
 #: weblate/trans/models/component.py:365
 msgid "Push branch"
-msgstr "ブランチにプッシュ"
+msgstr "プッシュ先のブランチ"
 
 #: weblate/trans/models/component.py:368
 msgid "Branch for pushing changes, leave empty to use repository branch"
