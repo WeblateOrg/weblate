@@ -141,6 +141,7 @@ SORT_CHOICES = {
     "num_comments": gettext_lazy("Number of comments"),
     "num_failing_checks": gettext_lazy("Number of failing checks"),
     "context": pgettext_lazy("Translation key", "Key"),
+    "location": gettext_lazy("String location"),
 }
 
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}

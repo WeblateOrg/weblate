@@ -176,6 +176,7 @@ class UnitQuerySet(models.QuerySet):
             "timestamp",
             "source",
             "target",
+            "location",
         ]
         countable_sort_choices = {
             "num_comments": {"order_by": "comment__count", "filter": None},
