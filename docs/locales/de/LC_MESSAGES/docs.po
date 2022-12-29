@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
 "PO-Revision-Date: 2022-12-31 08:01+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -9946,6 +9946,9 @@ msgid ""
 "Please review your own customizations for every upgrade, the interfaces or "
 "their semantics might change without notice."
 msgstr ""
+"Weder interne Schnittstellen noch Vorlagen gelten als stabile API. Bitte "
+"überprüfen Sie bei jedem Upgrade Ihre eigenen Anpassungen, da sich die "
+"Schnittstellen oder ihre Semantik ohne Vorankündigung ändern können."
 
 #: ../../admin/customize.rst:17
 msgid ":ref:`contributing`"
@@ -9953,7 +9956,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Erstellung eines Python-Moduls"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -9961,6 +9964,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Wenn Sie mit Python noch nicht vertraut sind, sollten Sie sich `Python für "
+"Anfänger <https://www.python.org/about/gettingstarted/>`_ ansehen, wo die "
+"Grundlagen erklärt werden und auf weitere Tutorials verwiesen wird."
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -9969,6 +9975,10 @@ msgid ""
 "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
+"Um eine Datei mit benutzerdefiniertem Python-Code (Modul genannt) zu "
+"schreiben, wird ein Speicherort benötigt, entweder im Systempfad ("
+"normalerweise etwas wie :file:`/usr/lib/python3.9/site-packages/`) oder im "
+"Weblate-Verzeichnis, das auch dem Suchpfad des Interpreters hinzugefügt wird."
 
 #: ../../admin/customize.rst:35
 msgid ""
@@ -9977,186 +9987,228 @@ msgid ""
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
+"Wenn Sie :ref:`Docker <docker-deploy>` verwenden, können Sie Python-Module "
+"in :file:`/app/data/python/` ablegen (siehe :ref:`docker-volume`), sodass "
+"sie von Weblate geladen werden können, zum Beispiel von einer :ref:`Settings-"
+"Override-Datei <docker-settings-override>`-Datei."
 
 #: ../../admin/customize.rst:40
 msgid "Better yet, turn your customization into a proper Python package:"
 msgstr ""
+"Noch besser ist es, wenn Sie Ihre Anpassungen in ein richtiges Python-Paket "
+"verwandeln:"
 
 #: ../../admin/customize.rst:42
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr ""
+"Erstellen Sie einen Ordner für Ihr Paket (wir werden `weblate_customization` "
+"verwenden)."
 
 #: ../../admin/customize.rst:43
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgstr ""
+"Erstellen Sie darin eine Datei :file:`setup.py`, um das Paket zu beschreiben:"
 
 #: ../../admin/customize.rst:60
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
+"Erstellen Sie einen Ordner für das Python-Modul (auch "
+"``weblate_customization`` genannt) für den Anpassungscode."
 
 #: ../../admin/customize.rst:62
 msgid ""
 "Within it, create a :file:`__init__.py` file to make sure Python can import "
 "the module."
 msgstr ""
+"Erstellen Sie darin eine :file:`__init__.py`-Datei, um sicherzustellen, dass "
+"Python das Modul importieren kann."
 
 #: ../../admin/customize.rst:63
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
+"Dieses Paket kann nun mit :command:`pip install -e` installiert werden. "
+"Weitere Informationen sind in :ref:`pip:editable-installs` zu finden."
 
 #: ../../admin/customize.rst:64
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"Nach der Installation kann das Modul in der Weblate-Konfiguration verwendet "
+"werden (zum Beispiel ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:67
 msgid "Your package structure should look like this:"
-msgstr ""
+msgstr "Die Struktur Ihres Pakets sollte wie folgt aussehen:"
 
 #: ../../admin/customize.rst:78
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"Ein Beispiel für die Anpassung von Weblate finden Sie unter <https://github."
+"com/WeblateOrg/customize-example>, es deckt alle unten beschriebenen Themen "
+"ab."
 
 #: ../../admin/customize.rst:83
 msgid "Changing the logo"
-msgstr ""
+msgstr "Ändern des Logos"
 
 #: ../../admin/customize.rst:85
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Erstellen Sie eine einfache Django-App, die die statischen Dateien enthält, "
+"die Sie überschreiben möchten (siehe :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:88
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "Das Branding erscheint in den folgenden Dateien:"
 
 #: ../../admin/customize.rst:90
 msgid ":file:`icons/weblate.svg`"
-msgstr ""
+msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:91
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "Das Logo wird in der Navigationsleiste angezeigt."
 
 #: ../../admin/customize.rst:92
 msgid ":file:`logo-*.png`"
-msgstr ""
+msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:93
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "Web-Symbole je nach Bildschirmauflösung und Webbrowser."
 
 #: ../../admin/customize.rst:94
 msgid ":file:`favicon.ico`"
-msgstr ""
+msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:95
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Von älteren Browsern verwendetes Websymbol."
 
 #: ../../admin/customize.rst:96
 msgid ":file:`weblate-*.png`"
-msgstr ""
+msgstr ":file:`weblate-*.png`"
 
 #: ../../admin/customize.rst:97
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Avatare für Bots oder anonyme Benutzer. Einige Webbrowser verwenden diese "
+"als Shortcut-Symbole."
 
 #: ../../admin/customize.rst:99
 msgid ":file:`email-logo.png`"
-msgstr ""
+msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:99
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Wird in Benachrichtigungs-E-Mails verwendet."
 
 #: ../../admin/customize.rst:101
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr ""
+msgstr "Zu :setting:'django:INSTALLED_APPS' hinzufügen:"
 
 #: ../../admin/customize.rst:111
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
+"Führen Sie :samp:`weblate collectstatic --noinput` aus, um statische Dateien "
+"zu sammeln, die an Clients geliefert werden."
 
 #: ../../admin/customize.rst:116
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
-msgstr ""
+msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:123
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr ""
+"Benutzerdefinierte Qualitätsprüfungen, Erweiterungen und automatische "
+"Korrekturen"
 
 #: ../../admin/customize.rst:125
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` in Weblate:"
 msgstr ""
+"So installieren Sie Ihren Code für :ref:`custom-autofix`, :ref:`own-checks` "
+"oder :ref:`own-addon` in Weblate:"
 
 #: ../../admin/customize.rst:128
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Platzieren Sie die Dateien in Ihr Python-Modul, das die Weblate-Anpassung "
+"enthält (siehe :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:130
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
+"Fügen Sie den vollqualifizierten Pfad zur Python-Klasse in den "
+"entsprechenden Einstellungen (:setting:`WEBLATE_ADDONS`, "
+":setting:`CHECK_LIST` oder :setting:`AUTOFIX_LIST`) hinzu:"
 
 #: ../../admin/customize.rst:146
 msgid ""
 ":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
 msgstr ""
+":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
+"script`"
 
 #: ../../admin/deployments.rst:4
 msgid "Weblate deployments"
-msgstr ""
+msgstr "Weblate-Bereitstellungen"
 
 #: ../../admin/deployments.rst:6
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
 msgstr ""
+"Weblate lässt sich einfach in Ihrer Cloud installieren. Hier finden Sie eine "
+"detaillierte Anleitung für Ihre Plattform:"
 
 #: ../../admin/deployments.rst:8
 msgid ":doc:`install/docker`"
-msgstr ""
+msgstr ":doc:`install/docker`"
 
 #: ../../admin/deployments.rst:9 ../../admin/install.rst:36
 msgid ":doc:`install/openshift`"
-msgstr ""
+msgstr ":doc:`install/openshift`"
 
 #: ../../admin/deployments.rst:10 ../../admin/install.rst:37
 msgid ":doc:`install/kubernetes`"
-msgstr ""
+msgstr ":doc:`install/kubernetes`"
 
 #: ../../admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
-msgstr ""
+msgstr "Drittanbieterbereitstellungen für Weblate"
 
 #: ../../admin/deployments.rst:17
 msgid ""
 "Following deployments are not developed or supported by Weblate team. Parts "
 "of the setup might vary from what is described in this documentation."
 msgstr ""
+"Die folgenden Bereitstellungen werden nicht vom Weblate-Team entwickelt oder "
+"unterstützt. Teile der Einrichtung können von der Beschreibung in dieser "
+"Dokumentation abweichen."
 
 #: ../../admin/deployments.rst:21
 msgid "Bitnami Weblate stack"
-msgstr ""
+msgstr "Bitnami Weblate-Stack"
 
 #: ../../admin/deployments.rst:23
 msgid ""
@@ -10164,6 +10216,10 @@ msgid ""
 "stack/weblate>. The setup will be adjusted during installation, see <https://"
 "bitnami.com/stack/weblate/README.txt> for more documentation."
 msgstr ""
+"Bitnami bietet einen Weblate-Stack für viele Plattformen unter "
+"<https://bitnami.com/stack/weblate>. Das Setup wird während der Installation "
+"angepasst, siehe <https://bitnami.com/stack/weblate/README.txt> für weitere "
+"Dokumentation."
 
 #: ../../admin/deployments.rst:29
 msgid "Weblate Cloudron Package"
@@ -10176,6 +10232,11 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
+"`Cloudron <https://cloudron.io/>`_ ist eine Plattform für das Selbsthosten "
+"von Webanwendungen. Weblate, das mit Cloudron installiert wird, wird "
+"automatisch auf dem neuesten Stand gehalten. Das Paket wird vom Cloudron-"
+"Team in seinem `Weblate-Paket-Repository <https://git.cloudron.io/cloudron/"
+"weblate-app>`_ gepflegt."
 
 #: ../../admin/deployments.rst:-1
 msgid "Install Weblate with Cloudron"
@@ -10183,7 +10244,7 @@ msgstr "Weblate mit Cloudron installieren"
 
 #: ../../admin/deployments.rst:40
 msgid "Weblate in YunoHost"
-msgstr ""
+msgstr "Weblate in YunoHost"
 
 #: ../../admin/deployments.rst:42
 msgid ""
@@ -10193,12 +10254,20 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
+"Das Self-Hosting-Projekt `YunoHost <https://yunohost.org/>`_ bietet ein "
+"Paket für Weblate. Sobald Sie Ihre YunoHost-Installation haben, können Sie "
+"Weblate wie jede andere Anwendung installieren. Sie erhalten damit einen "
+"voll funktionsfähigen Stack mit Backup und Wiederherstellung, müssen aber "
+"möglicherweise noch Ihre Einstellungsdatei für bestimmte Verwendungszwecke "
+"bearbeiten."
 
 #: ../../admin/deployments.rst:48
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr ""
+"Sie können Ihre Verwaltungsschnittstelle oder diese Schaltfläche verwenden ("
+"sie bringt Sie zu Ihrem Server):"
 
 #: ../../admin/deployments.rst:-1
 msgid "Install Weblate with YunoHost"
@@ -10206,53 +10275,55 @@ msgstr "Weblate mit YunoHost installieren"
 
 #: ../../admin/deployments.rst:54
 msgid "It also is possible to use the command-line interface:"
-msgstr ""
+msgstr "Es ist auch möglich, die Befehlszeilenschnittstelle zu verwenden:"
 
 #: ../../admin/install.rst:9
 msgid "Quick setup guide"
-msgstr ""
+msgstr "Kurzanleitung zur Einrichtung"
 
 #: ../../admin/install.rst:4
 msgid "Configuration instructions"
-msgstr ""
+msgstr "Konfigurationsanweisungen"
 
 #: ../../admin/install.rst:7
 msgid "Installing Weblate"
-msgstr ""
+msgstr "Weblate installieren"
 
 #: ../../admin/install.rst:23
 msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
 msgstr ""
+"Wählen Sie je nach Ihren Gegebenheiten und Ihrer Erfahrung eine für Sie "
+"geeignete Installationsmethode:"
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ""
+msgstr ":doc:`install/docker`, empfohlen für Produktionssysteme."
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr ""
+msgstr "Virtualenv-Installation, empfohlen für Produktionssysteme:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
-msgstr ""
+msgstr ":doc:`install/venv-debian`"
 
 #: ../../admin/install.rst:30
 msgid ":doc:`install/venv-suse`"
-msgstr ""
+msgstr ":doc:`install/venv-suse`"
 
 #: ../../admin/install.rst:31
 msgid ":doc:`install/venv-redhat`"
-msgstr ""
+msgstr ":doc:`install/venv-redhat`"
 
 #: ../../admin/install.rst:32
 msgid ":doc:`install/venv-macos`"
-msgstr ""
+msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ""
+msgstr ":doc:`install/source`, empfohlen für die Entwicklung."
 
 #: ../../admin/install.rst:42
 msgid "Software requirements"
@@ -10267,12 +10338,17 @@ msgid ""
 "Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
 "systems will most likely work too."
 msgstr ""
+"Von Weblate ist bekannt, dass es unter Linux, FreeBSD und macOS "
+"funktioniert. Andere Unix-ähnliche Systeme werden höchstwahrscheinlich auch "
+"funktionieren."
 
 #: ../../admin/install.rst:50
 msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
 msgstr ""
+"Weblate wird unter Windows nicht unterstützt. Aber es kann trotzdem "
+"funktionieren und Patches werden gerne angenommen."
 
 #: ../../admin/install.rst:54
 msgid "Other services"
@@ -10283,18 +10359,20 @@ msgid ""
 "Weblate is using other services for its operation. You will need at least "
 "following services running:"
 msgstr ""
+"Weblate nutzt andere Dienste für seinen Betrieb. Sie müssen mindestens die "
+"folgenden Dienste ausführen:"
 
 #: ../../admin/install.rst:59
 msgid "PostgreSQL database server, see :ref:`database-setup`."
-msgstr ""
+msgstr "PostgreSQL-Datenbank-Server, siehe :ref:`database-setup`."
 
 #: ../../admin/install.rst:60
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
-msgstr ""
+msgstr "Redis-Server für Cache und Aufgabenwarteschlange, siehe :ref:`celery`."
 
 #: ../../admin/install.rst:61
 msgid "SMTP server for outgoing e-mail, see :ref:`out-mail`."
-msgstr ""
+msgstr "SMTP-Server für ausgehende E-Mails, siehe :ref:`out-mail`."
 
 #: ../../admin/install.rst:66
 msgid "Python dependencies"
@@ -10306,10 +10384,14 @@ msgid ""
 "Python 3.6 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
+"Weblate ist in `Python <https://www.python.org/>`_ geschrieben und "
+"unterstützt Python 3.6 oder neuer. Sie können die Abhängigkeiten mit pip "
+"oder aus Ihren Distributionspaketen installieren, eine vollständige Liste "
+"finden Sie in :file:`requirements.txt`."
 
 #: ../../admin/install.rst:72
 msgid "Most notable dependencies:"
-msgstr ""
+msgstr "Wichtigste Abhängigkeiten:"
 
 #: ../../admin/install.rst:74
 msgid "Django"
@@ -10317,7 +10399,7 @@ msgstr "Django"
 
 #: ../../admin/install.rst:75
 msgid "https://www.djangoproject.com/"
-msgstr ""
+msgstr "https://www.djangoproject.com/"
 
 #: ../../admin/install.rst:76
 msgid "Celery"
@@ -10325,7 +10407,7 @@ msgstr "Celery"
 
 #: ../../admin/install.rst:77
 msgid "https://docs.celeryq.dev/"
-msgstr ""
+msgstr "https://docs.celeryq.dev/"
 
 #: ../../admin/install.rst:78
 msgid "Translate Toolkit"
@@ -10333,15 +10415,15 @@ msgstr "Translate Toolkit"
 
 #: ../../admin/install.rst:79
 msgid "https://toolkit.translatehouse.org/"
-msgstr ""
+msgstr "https://toolkit.translatehouse.org/"
 
 #: ../../admin/install.rst:80
 msgid "translation-finder"
-msgstr ""
+msgstr "translation-finder"
 
 #: ../../admin/install.rst:81
 msgid "https://github.com/WeblateOrg/translation-finder"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/translation-finder"
 
 #: ../../admin/install.rst:82
 msgid "Python Social Auth"
@@ -10349,15 +10431,15 @@ msgstr ""
 
 #: ../../admin/install.rst:83
 msgid "https://python-social-auth.readthedocs.io/"
-msgstr ""
+msgstr "https://python-social-auth.readthedocs.io/"
 
 #: ../../admin/install.rst:85
 msgid "Django REST Framework"
-msgstr ""
+msgstr "Django REST-Framework"
 
 #: ../../admin/install.rst:85
 msgid "https://www.django-rest-framework.org/"
-msgstr ""
+msgstr "https://www.django-rest-framework.org/"
 
 #: ../../admin/install.rst:90
 msgid "Optional dependencies"
@@ -10368,22 +10450,26 @@ msgid ""
 "Following modules are necessary for some Weblate features. You can find all "
 "of them in :file:`requirements-optional.txt`."
 msgstr ""
+"Die folgenden Module sind für einige Weblate-Funktionen erforderlich. Sie "
+"finden sie alle in :file:`requirements-optional.txt`."
 
 #: ../../admin/install.rst:95
 msgid "``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)"
 msgstr ""
+"`Mercurial`(optional für die Unterstützung von :ref:`vcs-"
+"mercurial`-Repositories)"
 
 #: ../../admin/install.rst:96
 msgid "https://www.mercurial-scm.org/"
-msgstr ""
+msgstr "https://www.mercurial-scm.org/"
 
 #: ../../admin/install.rst:97
 msgid "``phply`` (optional for :ref:`php`)"
-msgstr ""
+msgstr "``phply`` (optional für :ref:`php`)"
 
 #: ../../admin/install.rst:98
 msgid "https://github.com/viraptor/phply"
-msgstr ""
+msgstr "https://github.com/viraptor/phply"
 
 #: ../../admin/install.rst:99
 msgid "``tesserocr`` (optional for OCR in :ref:`screenshots`)"
@@ -10391,23 +10477,23 @@ msgstr "``tesserocr`` (optional für OCR in :ref:`Bildschirmfotos`)"
 
 #: ../../admin/install.rst:100
 msgid "https://github.com/sirfz/tesserocr"
-msgstr ""
+msgstr "https://github.com/sirfz/tesserocr"
 
 #: ../../admin/install.rst:101
 msgid "``python-akismet`` (optional for :ref:`spam-protection`)"
-msgstr ""
+msgstr "``python-akismet`` (optional für :ref:`spam-protection`)"
 
 #: ../../admin/install.rst:102
 msgid "https://github.com/Nekmo/python-akismet"
-msgstr ""
+msgstr "https://github.com/Nekmo/python-akismet"
 
 #: ../../admin/install.rst:103
 msgid "``ruamel.yaml`` (optional for :ref:`yaml`)"
-msgstr ""
+msgstr "``ruamel.yaml`` (optional für :ref:`yaml`)"
 
 #: ../../admin/install.rst:104
 msgid "https://pypi.org/project/ruamel.yaml/"
-msgstr ""
+msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:105
 msgid "``Zeep`` (optional for :ref:`mt-microsoft-terminology`)"
@@ -10415,15 +10501,15 @@ msgstr "``Zeep`` (optional für :ref:`mt-microsoft-terminology`)"
 
 #: ../../admin/install.rst:106
 msgid "https://docs.python-zeep.org/"
-msgstr ""
+msgstr "https://docs.python-zeep.org/"
 
 #: ../../admin/install.rst:107
 msgid "``aeidon`` (optional for :ref:`subtitles`)"
-msgstr ""
+msgstr "``aeidon`` (optional für :ref:`subtitles`)"
 
 #: ../../admin/install.rst:108
 msgid "https://pypi.org/project/aeidon/"
-msgstr ""
+msgstr "https://pypi.org/project/aeidon/"
 
 #: ../../admin/install.rst:110
 msgid "``fluent.syntax`` (optional for :ref:`fluent`)"
@@ -10438,32 +10524,36 @@ msgid ""
 "When installing using pip, you can directly specify desired features when "
 "installing:"
 msgstr ""
+"Wenn Sie mit pip installieren, können Sie die gewünschten Funktionen direkt "
+"bei der Installation angeben:"
 
 #: ../../admin/install.rst:120
 msgid "Or you can install Weblate with all optional features:"
-msgstr ""
+msgstr "Oder Sie können Weblate mit allen optionalen Funktionen installieren:"
 
 #: ../../admin/install.rst:126
 msgid "Or you can install Weblate without any optional features:"
-msgstr ""
+msgstr "Oder Sie können Weblate ohne optionale Funktionen installieren:"
 
 #: ../../admin/install.rst:133
 msgid "Database backend dependencies"
-msgstr ""
+msgstr "Datenbank-Backend-Abhängigkeiten"
 
 #: ../../admin/install.rst:135
 msgid ""
 "Weblate supports PostgreSQL, MySQL and MariaDB, see :ref:`database-setup` "
 "and backends documentation for more details."
 msgstr ""
+"Weblate unterstützt PostgreSQL, MySQL und MariaDB, siehe :ref:`database-"
+"setup` und Backend-Dokumentation für weitere Details."
 
 #: ../../admin/install.rst:139
 msgid "Other system requirements"
-msgstr ""
+msgstr "Weitere Systemanforderungen"
 
 #: ../../admin/install.rst:141
 msgid "The following dependencies have to be installed on the system:"
-msgstr ""
+msgstr "Die folgenden Abhängigkeiten müssen auf dem System installiert sein:"
 
 #: ../../admin/install.rst:143
 msgid "``Git``"
@@ -10471,32 +10561,34 @@ msgstr ""
 
 #: ../../admin/install.rst:144
 msgid "https://git-scm.com/"
-msgstr ""
+msgstr "https://git-scm.com/"
 
 #: ../../admin/install.rst:145
 msgid "Pango, Cairo and related header files and GObject introspection data"
 msgstr ""
+"Pango, Cairo und zugehörige Header-Dateien sowie GObject-Introspektionsdaten"
 
 #: ../../admin/install.rst:146
 msgid ""
 "https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`"
 msgstr ""
+"https://cairographics.org/, https://pango.gnome.org/, siehe :ref:`Pangokairo`"
 
 #: ../../admin/install.rst:147
 msgid "``git-review`` (optional for Gerrit support)"
-msgstr ""
+msgstr "`git-review`\" (optional für Gerrit-Unterstützung)"
 
 #: ../../admin/install.rst:148
 msgid "https://pypi.org/project/git-review/"
-msgstr ""
+msgstr "https://pypi.org/project/git-review/"
 
 #: ../../admin/install.rst:149
 msgid "``git-svn`` (optional for Subversion support)"
-msgstr ""
+msgstr "``git-svn`` (optional für Subversion-Unterstützung)"
 
 #: ../../admin/install.rst:150
 msgid "https://git-scm.com/docs/git-svn"
-msgstr ""
+msgstr "https://git-scm.com/docs/git-svn"
 
 #: ../../admin/install.rst:151
 msgid "``tesseract`` and its data (optional for screenshots OCR)"
@@ -10504,19 +10596,20 @@ msgstr "``tesseract`` und seine Daten (optional für Bildschirmfotos-OCR)"
 
 #: ../../admin/install.rst:152
 msgid "https://github.com/tesseract-ocr/tesseract"
-msgstr ""
+msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:154
 msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr ""
+"`licensee`(optional zur Erkennung der Lizenz beim Erstellen der Komponente)"
 
 #: ../../admin/install.rst:154
 msgid "https://github.com/licensee/licensee"
-msgstr ""
+msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:157
 msgid "Build-time dependencies"
-msgstr ""
+msgstr "Build-Zeit-Abhängigkeiten"
 
 #: ../../admin/install.rst:159
 msgid ""
@@ -10526,10 +10619,16 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
+"Um einige der :ref:`python-deps` zu bauen, müssen Sie möglicherweise deren "
+"Abhängigkeiten installieren. Dies hängt davon ab, wie Sie sie installieren, "
+"also konsultieren Sie bitte die Dokumentation der einzelnen Pakete. Sie "
+"werden diese nicht benötigen, wenn Sie das vorgefertigte ``Wheels`` "
+"verwenden, während Sie ``pip`` installieren oder wenn Sie "
+"Distributionspakete verwenden."
 
 #: ../../admin/install.rst:167
 msgid "Pango and Cairo"
-msgstr ""
+msgstr "Pango und Kairo"
 
 #: ../../admin/install.rst:171
 msgid ""
@@ -10539,22 +10638,34 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
+"Weblate verwendet Pango und Cairo für die Darstellung von Bitmap-Widgets ("
+"siehe :ref:`promotion`) und für die Darstellung von Qualitätsprüfungen ("
+"siehe :ref:`fonts`). Um die Python-Bindings dafür richtig zu installieren, "
+"müssen Sie zuerst die Systembibliotheken installieren - Sie brauchen sowohl "
+"Cairo als auch Pango, die wiederum GLib benötigen. Alle diese Bibliotheken "
+"sollten zusammen mit Entwicklungsdateien und GObject-Introspektionsdaten "
+"installiert werden."
 
 #: ../../admin/install.rst:180
 msgid "Verifying release signatures"
-msgstr ""
+msgstr "Überprüfen von Release-Signaturen"
 
 #: ../../admin/install.rst:182
 msgid ""
 "Weblate release are cryptographically signed by the releasing developer. "
 "Currently this is Michal Čihař. Fingerprint of his PGP key is:"
 msgstr ""
+"Weblate-Veröffentlichungen werden vom veröffentlichenden Entwickler "
+"kryptografisch signiert. Derzeit ist dies Michal Čihař. Der Fingerabdruck "
+"seines PGP-Schlüssels lautet:"
 
 #: ../../admin/install.rst:189
 msgid ""
 "and you can get more identification information from <https://keybase.io/"
 "nijel>."
 msgstr ""
+"und weitere Informationen zur Identifizierung erhalten Sie unter "
+"<https://keybase.io/nijel>."
 
 #: ../../admin/install.rst:191
 msgid ""
@@ -10563,6 +10674,11 @@ msgid ""
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
 msgstr ""
+"Sie sollten überprüfen, ob die Signatur mit dem heruntergeladenen Archiv "
+"übereinstimmt. Auf diese Weise können Sie sicher sein, dass Sie denselben "
+"Code verwenden, der veröffentlicht wurde. Sie sollten auch das Datum der "
+"Signatur überprüfen, um sicherzustellen, dass Sie die neueste Version "
+"heruntergeladen haben."
 
 #: ../../admin/install.rst:196
 msgid ""
@@ -10570,26 +10686,36 @@ msgid ""
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
 msgstr ""
+"Jedem Archiv liegen ``.asc`` Dateien bei, die die PGP-Signatur für das "
+"Archiv enthalten. Sobald Sie beide Dateien im selben Ordner haben, können "
+"Sie die Signatur überprüfen:"
 
 #: ../../admin/install.rst:207
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
 msgstr ""
+"Wie Sie sehen können, beschwert sich GPG, dass es den öffentlichen Schlüssel "
+"nicht kennt. An diesem Punkt sollten Sie einen der folgenden Schritte "
+"durchführen:"
 
 #: ../../admin/install.rst:210
 msgid "Use `wkd` to download the key:"
-msgstr ""
+msgstr "Verwenden Sie 'wkd', um den Schlüssel herunterzuladen:"
 
 #: ../../admin/install.rst:225
 msgid ""
 "Download the keyring from `Michal's server <https://cihar.com/.well-known/"
 "openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:"
 msgstr ""
+"Laden Sie den Schlüsselbund von `Michal's Server <https://cihar.com/."
+"well-known/openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_ herunter und "
+"importieren Sie ihn mit:"
 
 #: ../../admin/install.rst:231
 msgid "Download and import the key from one of the key servers:"
 msgstr ""
+"Herunterladen und Importieren des Schlüssels von einem der Schlüsselserver:"
 
 #: ../../admin/install.rst:240
 msgid ""
@@ -10597,6 +10723,10 @@ msgid ""
 "the signature from the given key is correct but you still can not trust the "
 "name used in the key:"
 msgstr ""
+"Dies verbessert die Situation ein wenig - zu diesem Zeitpunkt können Sie "
+"zwar überprüfen, ob die Signatur des angegebenen Schlüssels korrekt ist, "
+"aber Sie können dem im Schlüssel verwendeten Namen immer noch nicht "
+"vertrauen:"
 
 #: ../../admin/install.rst:258
 msgid ""
@@ -10608,20 +10738,33 @@ msgid ""
 "web of trust. This way you can trust the key transitively through signatures "
 "of others, who have met the developer in person."
 msgstr ""
+"Das Problem dabei ist, dass jeder einen Schlüssel mit diesem Namen "
+"ausstellen könnte.  Sie müssen sicherstellen, dass der Schlüssel tatsächlich "
+"der genannten Person gehört.  Das GNU Privacy Handbook behandelt dieses "
+"Thema im Kapitel `Validating other keys on your public keyring`_. Die "
+"zuverlässigste Methode ist es, den Entwickler persönlich zu treffen und die "
+"Fingerabdrücke der Schlüssel auszutauschen, aber Sie können sich auch auf "
+"das Netz des Vertrauens verlassen. Auf diese Weise können Sie dem Schlüssel "
+"durch die Unterschriften anderer Personen, die den Entwickler persönlich "
+"getroffen haben, vertrauen."
 
 #: ../../admin/install.rst:266
 msgid "Once the key is trusted, the warning will not occur:"
 msgstr ""
+"Sobald der Schlüssel vertrauenswürdig ist, wird die Warnung nicht angezeigt:"
 
 #: ../../admin/install.rst:280
 msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
 msgstr ""
+"Sollte die Signatur ungültig sein (das Archiv wurde geändert), erhalten Sie "
+"eine eindeutige Fehlermeldung, unabhängig davon, ob der Schlüssel "
+"vertrauenswürdig ist oder nicht:"
 
 #: ../../admin/install.rst:296
 msgid "Filesystem permissions"
-msgstr ""
+msgstr "Dateisystemberechtigungen"
 
 #: ../../admin/install.rst:298
 msgid ""
@@ -10630,6 +10773,11 @@ msgid ""
 "should be owned and writable by the user running all Weblate processes "
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
+"Der Weblate-Prozess muss in der Lage sein, vom und ins Verzeichnis zu lesen "
+"und zu schreiben, in dem er Daten speichert - :setting:`DATA_DIR`. Alle "
+"Dateien in diesem Verzeichnis sollten dem Benutzer gehören, der alle Weblate-"
+"Prozesse ausführt (in der Regel WSGI und Celery, siehe :ref:`server` und "
+":ref:`celery`)."
 
 #: ../../admin/install.rst:302
 msgid ""
@@ -10637,12 +10785,17 @@ msgid ""
 "sources, however you might prefer to move these to a better location such "
 "as: :file:`/var/lib/weblate`."
 msgstr ""
+"Die Standardkonfiguration platziert sie im selben Baum wie die Weblate-"
+"Quellen, aber Sie könnten es vorziehen, sie an einen besseren Ort zu "
+"verschieben, wie zum Beispiel: :file:`/var/lib/weblate`."
 
 #: ../../admin/install.rst:306
 msgid ""
 "Weblate tries to create these directories automatically, but it will fail "
 "when it does not have permissions to do so."
 msgstr ""
+"Weblate versucht, diese Verzeichnisse automatisch zu erstellen, aber es wird "
+"scheitern, wenn es keine entsprechenden Rechte hat."
 
 #: ../../admin/install.rst:309
 msgid ""
@@ -10650,12 +10803,18 @@ msgid ""
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
 msgstr ""
+"Sie sollten auch vorsichtig sein, wenn Sie :ref:`manage` ausführen, da sie "
+"unter demselben Benutzer ausgeführt werden sollten, unter dem auch Weblate "
+"selbst läuft, da sonst die Berechtigungen für einige Dateien falsch sein "
+"könnten."
 
 #: ../../admin/install.rst:313
 msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by the ``weblate`` user inside the container (UID 1000)."
 msgstr ""
+"Im Docker-Container müssen alle Dateien im Volume :file:'/app/data' dem "
+"Benutzer ''weblate'' innerhalb des Containers gehören (UID 1000)."
 
 #: ../../admin/install.rst:318
 msgid ":ref:`static-files`"
@@ -10663,17 +10822,20 @@ msgstr ""
 
 #: ../../admin/install.rst:323
 msgid "Database setup for Weblate"
-msgstr ""
+msgstr "Datenbankeinrichtung für Weblate"
 
 #: ../../admin/install.rst:325
 msgid "It is recommended to run Weblate with a PostgreSQL database server."
 msgstr ""
+"Es wird empfohlen, Weblate mit einem PostgreSQL-Datenbankserver zu betreiben."
 
 #: ../../admin/install.rst:329
 msgid ""
 ":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
 "migration`"
 msgstr ""
+":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
+"migration`"
 
 #: ../../admin/install.rst:336
 msgid "PostgreSQL"
@@ -10684,26 +10846,34 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
+"PostgreSQL ist normalerweise die beste Wahl für Django-basierte Websites. Es "
+"ist die Referenzdatenbank, die für die Implementierung der Django-"
+"Datenbankschicht verwendet wird."
 
 #: ../../admin/install.rst:343
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
+"Weblate verwendet die Trigram-Erweiterung, die in einigen Fällen separat "
+"installiert werden muss. Suchen Sie nach ``postgresql-contrib`` oder einem "
+"ähnlich benannten Paket."
 
 #: ../../admin/install.rst:348
 msgid ":ref:`django:postgresql-notes`"
-msgstr ""
+msgstr ":ref:`django:postgresql-notes`"
 
 #: ../../admin/install.rst:353 ../../admin/upgrade.rst:389
 msgid "Creating a database in PostgreSQL"
-msgstr ""
+msgstr "Erstellen einer Datenbank in PostgreSQL"
 
 #: ../../admin/install.rst:355 ../../admin/upgrade.rst:391
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
 msgstr ""
+"Normalerweise ist es eine gute Idee, Weblate in einer separaten Datenbank "
+"und unter einem separaten Benutzerkonto laufen zu lassen:"
 
 #: ../../admin/install.rst:370
 msgid ""
