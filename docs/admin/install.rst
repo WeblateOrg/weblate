@@ -1559,21 +1559,14 @@ Migrating database
 ++++++++++++++++++
 
 Depending on your database backend, you might have several options to migrate
-the database. The most straightforward one is to dump the database on one
-server and import it on the new one. Alternatively you can use replication in
+the database. The most straightforward approach is to use database native
+tools, as they are usually the most effective (e.g. :command:`mysqldump` or
+:command:`pg_dump`). Alternatively you can use replication in
 case your database supports it.
 
-The best approach is to use database native tools, as they are usually the most
-effective (e.g. :command:`mysqldump` or :command:`pg_dump`). If you want to
-migrate between different databases, the only option might be to use Django
-management to dump and import the database:
+.. seealso::
 
-.. code-block:: sh
-
-    # Export current data
-    weblate dumpdata > /tmp/weblate.dump
-    # Import dump
-    weblate loaddata /tmp/weblate.dump
+   Migrating between databases described in :ref:`database-migration`.
 
 Migrating VCS repositories
 +++++++++++++++++++++++++++
