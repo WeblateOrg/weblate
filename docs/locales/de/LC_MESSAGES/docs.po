@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-28 18:43+0000\n"
+"PO-Revision-Date: 2022-12-31 08:01+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -415,14 +415,6 @@ msgstr ""
 "`manage users <manage-acl>` pro Projekt in der Weblate-Benutzeroberfläche."
 
 #: ../../admin/access.rst:179
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -432,12 +424,12 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Standardmäßig verhindert dies, dass Weblate den Zugriff von `Benutzer` und "
-"`Betrachter` :ref:`default groups <default-groups>` aufgrund der eigenen "
-"Konfiguration dieser Gruppen gewährt. Dies hindert Sie jedoch nicht daran, "
-"die Berechtigungen für diese Projekte plattformweit zu gewähren, indem Sie "
-"die Standardgruppen ändern, eine neue Gruppe erstellen oder zusätzliche "
-"benutzerdefinierte Einstellungen für einzelne Komponenten vornehmen, wie in :"
-"ref:`custom-acl` unten beschrieben."
+"`Betrachter` :ref:`default teams <default-teams>` aufgrund der eigenen "
+"Konfiguration dieser Teams gewährt. Dies hindert Sie jedoch nicht daran, die "
+"Berechtigungen für diese Projekte plattformweit zu gewähren, indem Sie die "
+"Standardteams ändern, eine neue erstellen oder zusätzliche "
+"benutzerdefinierte Einstellungen für einzelne Komponenten vornehmen, wie in "
+":ref:`custom-acl` unten beschrieben."
 
 #: ../../admin/access.rst:185
 msgid ""
@@ -456,18 +448,13 @@ msgid "Custom access control"
 msgstr "Benutzerdefinierte Zugriffssteuerung"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"Die Berechtigungsstruktur basiert auf Gruppen und Rollen, wobei Rollen eine "
-"Reihe von Berechtigungen festlegen und Gruppen sie mit Benutzern und "
+"Die Berechtigungsstruktur basiert auf Teams und Rollen, wobei Rollen eine "
+"Reihe von Berechtigungen festlegen und Teams sie mit Benutzern und "
 "Übersetzungen verknüpfen, weitere Einzelheiten dazu unter :ref:`auth-model`."
 
 #: ../../admin/access.rst:201
@@ -548,11 +535,6 @@ msgstr ""
 "delegieren wollen)."
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid ""
-#| "You should keep all projects configured as `Public` (see :ref:`acl`), "
-#| "otherwise the site-wide permissions provided by membership in the `Users` "
-#| "and `Reviewers` groups won’t have any effect."
 msgid ""
 "You should keep all projects configured as `Public` (see :ref:`acl`), "
 "otherwise the site-wide permissions provided by membership in the `Users` "
@@ -560,65 +542,46 @@ msgid ""
 msgstr ""
 "Sie sollten alle Projekte als `Public` konfigurieren (siehe :ref:`acl`), da "
 "sonst die plattformweiten Berechtigungen, die durch die Mitgliedschaft in "
-"den Gruppen `Benutzer` und `Prüfer` gegeben sind, keine Wirkung haben."
+"den Teams `Benutzer` und `Prüfer` gegeben sind, keine Wirkung haben."
 
 #: ../../admin/access.rst:235
-#, fuzzy
-#| msgid ""
-#| "You may also grant some additional permissions of your choice to the "
-#| "default groups. For example, you may want to give a permission to manage "
-#| "screenshots to all the `Users`."
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"Sie können den Standardgruppen auch einige zusätzliche Berechtigungen Ihrer "
+"Sie können den Standardteams auch einige zusätzliche Berechtigungen Ihrer "
 "Wahl erteilen. So können Sie z. B. allen \"Benutzern\" die Berechtigung zum "
 "Verwalten von Bildschirmfotos erteilen."
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid ""
-#| "You can define some new custom groups as well. If you want to keep "
-#| "managing your permissions site-wide for these groups, choose an "
-#| "appropriate value for the :guilabel:`Project selection` (e.g. :guilabel:"
-#| "`All projects` or :guilabel:`All public projects`)."
 msgid ""
 "You can define some new custom teams as well. If you want to keep managing "
 "your permissions site-wide for these teams, choose an appropriate value for "
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"Sie können auch einige neue benutzerdefinierte Gruppen definieren. Wenn Sie "
-"Ihre Berechtigungen für diese Gruppen weiterhin plattformweit verwalten "
-"möchten, wählen Sie einen geeigneten Wert für :guilabel:`Projektauswahl` (z."
-"B. :guilabel:`Alle Projekte` oder :guilabel:`Alle öffentlichen Projekte`)."
+"Sie können auch einige neue benutzerdefinierte Teams definieren. Wenn Sie "
+"Ihre Berechtigungen für diese Teams weiterhin plattformweit verwalten "
+"möchten, wählen Sie einen geeigneten Wert für :guilabel:`Projektauswahl` ("
+"z.B. :guilabel:`Alle Projekte` oder :guilabel:`Alle öffentlichen Projekte`)."
 
 #: ../../admin/access.rst:245
 msgid "Custom permissions for languages, components or projects"
 msgstr "Eigene Berechtigungen für Sprachen, Komponenten oder Projekte"
 
 #: ../../admin/access.rst:247
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Sie können Ihre eigenen Gruppen erstellen, um die Berechtigungen für "
-"bestimmte Objekte wie Sprachen, Komponenten und Projekte zu verwalten. "
-"Obwohl diese Gruppen nur zusätzliche Berechtigungen gewähren, können Sie "
-"keine Berechtigung, die von plattformweiten oder projektspezifischen Gruppen "
-"gewährt wurde, durch Hinzufügen einer anderen benutzerdefinierten Gruppe "
-"aufheben."
+"Sie können Ihre eigenen Teams erstellen, um die Berechtigungen für bestimmte "
+"Objekte wie Sprachen, Komponenten und Projekte zu verwalten. Obwohl diese "
+"Teams nur zusätzliche Berechtigungen gewähren, können Sie keine "
+"Berechtigung, die von plattformweiten oder projektspezifischen Teams gewährt "
+"wurde, durch Hinzufügen einer anderen benutzerdefinierten Team aufheben."
 
 #: ../../admin/access.rst:252 ../../admin/access.rst:382
 #: ../../admin/config.rst:237 ../../admin/config.rst:256
@@ -644,19 +607,14 @@ msgstr ""
 "andere Sprachen öffentlich bleiben, müssen Sie das tun:"
 
 #: ../../admin/access.rst:258
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
 "Entziehen Sie allen Benutzern die Erlaubnis, `Tschechisch` zu übersetzen. In "
-"der Standardkonfiguration kann dies durch Ändern der `Benutzer` :ref:"
-"`default group <default-groups>` erfolgen."
+"der Standardkonfiguration kann dies durch Ändern der `Benutzer` :ref:`"
+"default team <default-teams>` erfolgen."
 
 #: ../../admin/access.rst:262
 msgid "Group `Users`"
@@ -675,10 +633,8 @@ msgid "All but `Czech`"
 msgstr "Alle außer `Tschechisch`"
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid "Add a dedicated group for `Czech` translators."
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "Fügen Sie eine eigene Gruppe für `Tschechisch`-Übersetzer hinzu."
+msgstr "Fügen Sie eine eigenes Team für `Tschechisch`-Übersetzer hinzu."
 
 #: ../../admin/access.rst:274
 msgid "Group `Czech translators`"
@@ -706,12 +662,10 @@ msgid "`Czech`"
 msgstr "`Tschechisch`"
 
 #: ../../admin/access.rst:288
-#, fuzzy
-#| msgid "Add users you wish to give the permissions to into this group."
 msgid "Add users you wish to give the permissions to into this team."
 msgstr ""
 "Fügen Sie die Benutzer, denen Sie die Berechtigungen erteilen möchten, zu "
-"dieser Gruppe hinzu."
+"diesem Team hinzu."
 
 #: ../../admin/access.rst:290
 msgid ""
@@ -725,10 +679,8 @@ msgstr ""
 "Superuser-Berechtigungen."
 
 #: ../../admin/access.rst:297
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "Benutzer, Rollen, Gruppen, und Berechtigungen"
+msgstr "Benutzer, Rollen, Teams, und Berechtigungen"
 
 #: ../../admin/access.rst:299
 msgid "The authentication models consist of several objects:"
@@ -743,9 +695,9 @@ msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
 msgstr ""
-"Durch Weblate bestimmte individuelle Berechtigung. Sie können keine "
-"individuellen Berechtigungen zuteilen, dies kann nur durch Rollenzuordnungen "
-"geschehen."
+"Durch Weblate bestimmte individuelle Berechtigung. Berechtigungen können "
+"nicht an Benutzer vergeben werden. Dies kann nur über die Zuweisung von "
+"Rollen erfolgen."
 
 #: ../../admin/access.rst:305
 msgid "`Role`"
@@ -765,10 +717,8 @@ msgid "`User`"
 msgstr "`Benutzer`"
 
 #: ../../admin/access.rst:308
-#, fuzzy
-#| msgid "User can belong to several groups."
 msgid "User can belong to several teams."
-msgstr "Der Benutzer kann zu mehreren Gruppen gehören."
+msgstr "Der Benutzer kann zu mehreren Teams gehören."
 
 #: ../../admin/access.rst:311
 msgid "`Group`"
@@ -783,15 +733,11 @@ msgstr ""
 "Sprachen, und Komponentenlisten)."
 
 #: ../../admin/access.rst:328
-#, fuzzy
-#| msgid ""
-#| "A group can have no roles assigned to it, in that case access to browse "
-#| "the project by anyone is assumed (see below)."
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
-"Einer Gruppe können auch keine Rollen zugewiesen werden. In diesem Fall wird "
+"Einem Team können auch keine Rollen zugewiesen werden. In diesem Fall wird "
 "davon ausgegangen, dass jeder das Projekt durchsuchen kann (siehe unten)."
 
 #: ../../admin/access.rst:332
@@ -799,23 +745,17 @@ msgid "Access for browse to a project"
 msgstr "Kontrolle des Zugriffs auf ein Projekt"
 
 #: ../../admin/access.rst:334
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to browse the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a team linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"Ein Benutzer muss Mitglied einer Gruppe sein, die mit dem Projekt oder einer "
+"Ein Benutzer muss Mitglied eines Teams sein, die mit dem Projekt oder einer "
 "Komponente in diesem Projekt verknüpft ist. Eine Mitgliedschaft allein "
 "genügt, es sind keine speziellen Genehmigungen erforderlich, um ein Projekt "
-"zu durchsuchen (dies wird in der Standardgruppe `Betrachter` angewendet, "
-"siehe :ref:`default-groups`)."
+"zu durchsuchen (dies wird in dem Standardteam `Betrachter` angewendet, siehe "
+":ref:`default-teams`)."
 
 #: ../../admin/access.rst:340
 msgid "Access for browse to a component"
@@ -837,32 +777,18 @@ msgstr ""
 "der die Komponente enthalten ist)."
 
 #: ../../admin/access.rst:350
-#, fuzzy
-#| msgid "Scope of groups"
 msgid "Scope of teams"
-msgstr "Umfang der Gruppen"
+msgstr "Umfang der Teams"
 
 #: ../../admin/access.rst:352
-#, fuzzy
-#| msgid ""
-#| "The scope of the permission assigned by the roles in the groups are "
-#| "applied by the following rules:"
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
-"Der Umfang der von den Rollen in den Gruppen zugewiesenen Berechtigungen "
-"wird nach den folgenden Regeln angewendet:"
+"Der Umfang der von den Rollen in den Teams zugewiesenen Berechtigungen wird "
+"nach den folgenden Regeln angewendet:"
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Component list`, all the "
-#| "permissions given to members of that group are granted for all the "
-#| "components in the component lists attached to the group, and an access "
-#| "with no additional permissions is granted for all the projects these "
-#| "components are in. :guilabel:`Components` and :guilabel:`Projects` are "
-#| "ignored."
 msgid ""
 "If the team specifies any :guilabel:`Component list`, all the permissions "
 "given to members of that team are granted for all the components in the "
@@ -870,42 +796,27 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Wenn die Gruppe eine :guilabel:`Komponentenliste` angibt, werden alle "
-"Berechtigungen, die Mitgliedern dieser Gruppe gewährt werden, für alle "
-"Komponenten in den Komponentenlisten, die der Gruppe zugeordnet sind, "
-"gewährt, und ein Zugriff ohne zusätzliche Berechtigungen wird für alle "
-"Projekte gewährt, in denen sich diese Komponenten befinden. :guilabel:"
-"`Komponenten` und :guilabel:`Projekte` werden ignoriert."
+"Wenn das Team eine :guilabel:`Komponentenliste` angibt, werden alle "
+"Berechtigungen, die den Mitgliedern dieses Teams gewährt werden, für alle "
+"Komponenten in den Komponentenlisten, die dem Team zugeordnet sind, gewährt, "
+"und ein Zugriff ohne zusätzliche Berechtigungen wird für alle Projekte "
+"gewährt, in denen sich diese Komponenten befinden. :guilabel:`Komponenten` "
+"und :guilabel:`Projekte` werden ignoriert."
 
 #: ../../admin/access.rst:361
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Components`, all the permissions "
-#| "given to the members of that group are granted for all the components "
-#| "attached to the group, and an access with no additional permissions is "
-#| "granted for all the projects these components are in. :guilabel:"
-#| "`Projects` are ignored."
 msgid ""
 "If the team specifies any :guilabel:`Components`, all the permissions given "
 "to the members of that team are granted for all the components attached to "
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"Wenn die Gruppe einen :guilabel:`Komponenten` angibt, werden alle "
-"Berechtigungen, die den Mitgliedern dieser Gruppe erteilt wurden, für alle "
-"Komponenten gewährt, die der Gruppe zugeordnet sind, und ein Zugriff ohne "
+"Wenn das Team ein :guilabel:`Komponenten` angibt, werden alle "
+"Berechtigungen, die den Mitgliedern dieses Teams erteilt wurden, für alle "
+"Komponenten gewährt, die dem Team zugeordnet sind, und ein Zugriff ohne "
 "zusätzliche Berechtigungen wird für alle Projekte gewährt, in denen diese "
 "Komponenten enthalten sind. :guilabel:`Projekte` werden ignoriert."
 
 #: ../../admin/access.rst:366
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -913,7 +824,7 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"Andernfalls, wenn die Gruppe irgendwelche :guilabel:`Projekte` angibt, "
+"Andernfalls, wenn das Team irgendwelche :guilabel:`Projekte` angibt, "
 "entweder durch direkte Auflistung oder indem :guilabel:`Projektauswahl` auf "
 "einen Wert wie :guilabel:`Alle öffentlichen Projekte` gesetzt wird, werden "
 "alle diese Berechtigungen auf alle Projekte angewandt, was effektiv die "
@@ -921,13 +832,6 @@ msgstr ""
 "components <component-restricted>` gewährt."
 
 #: ../../admin/access.rst:372
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a group’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has an access to perform certain "
@@ -935,7 +839,7 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"Die durch das :guilabel:`Sprachen` einer Gruppe auferlegten Einschränkungen, "
+"Die durch das :guilabel:`Sprachen` eines Teams auferlegten Einschränkungen, "
 "werden separat angewandt, wenn überprüft wird, ob ein Benutzer die "
 "Berechtigung für bestimmte durchzuführende Aktionen hat. Sie werden nämlich "
 "nur auf Aktionen angewendet, die direkt mit dem Übersetzungsprozess selbst "
@@ -951,16 +855,12 @@ msgstr ""
 "automatisch alle Sprachen oder Projekte einzuschließen."
 
 #: ../../admin/access.rst:384
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following group:"
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
 msgstr ""
 "Angenommen, es gibt ein Projekt ``foo`` mit den Komponenten: ``foo/bar`` und "
-"``foo/baz`` und die folgende Gruppe:"
+"``foo/baz`` und das folgende Team:"
 
 #: ../../admin/access.rst:387
 msgid "Group `Spanish Admin-Reviewers`"
@@ -983,15 +883,11 @@ msgid "`Spanish`"
 msgstr "`Spanisch`"
 
 #: ../../admin/access.rst:399
-#, fuzzy
-#| msgid ""
-#| "Members of that group will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
-"Die Mitglieder dieser Gruppe haben folgende Rechte (unter Annahme der "
+"Die Mitglieder dieses Teams haben folgende Rechte (unter Annahme der "
 "Standardrolleneinstellungen):"
 
 #: ../../admin/access.rst:401
@@ -1017,20 +913,10 @@ msgstr ""
 "Änderungen von Übersetzern für alle Sprachen committen."
 
 #: ../../admin/access.rst:410
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "Automatische Zuordnungen"
+msgstr "Automatische Teamzuweisungen"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic group assignments`, which is a list of regular expressions "
-#| "used to automatically assign newly created users to a group based on "
-#| "their e-mail addresses. This assignment only happens upon account "
-#| "creation."
 msgid ""
 "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
 "admin interface <admin-interface>`, you can specify :guilabel:"
@@ -1039,22 +925,13 @@ msgid ""
 "addresses. This assignment only happens upon account creation."
 msgstr ""
 "Unten auf der Bearbeitungsseite :guilabel:`Gruppe` in der :ref:`Django-"
-"Administrationsoberfläche <admin-interface>` können Sie :guilabel:"
-"`Automatische Gruppenzuweisungen` angeben, das ist eine Liste regulärer "
+"Administrationsoberfläche <admin-interface>` können Sie :guilabel:`"
+"Automatische Teamzuweisungen` angeben, das ist eine Liste regulärer "
 "Ausdrücke, die verwendet wird, um neu erstellte Benutzer anhand ihrer E-Mail-"
-"Adressen automatisch einer Gruppe zuzuordnen. Diese Zuordnung erfolgt nur "
-"bei der Benutzerkontoerstellung."
+"Adressen automatisch einem Team zuzuordnen. Diese Zuweisung erfolgt nur bei "
+"der Benutzerkontoerstellung."
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default group. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. In order to do so, you will probably want to keep the default "
@@ -1065,7 +942,7 @@ msgid ""
 "*@mycompany.com``."
 msgstr ""
 "Der häufigste Anwendungsfall für diese Funktion besteht darin, alle neuen "
-"Benutzer einer Standardgruppe zuzuordnen. Um dies zu erreichen, werden Sie "
+"Benutzer einem Standardteam zuzuordnen. Um dies zu erreichen, werden Sie "
 "wahrscheinlich den Standardwert (``^.*$``) im Feld für den regulären "
 "Ausdruck beibehalten wollen. Ein weiterer Anwendungsfall für diese Option "
 "könnte darin bestehen, den Mitarbeitern Ihres Unternehmens standardmäßig "
@@ -1074,72 +951,49 @@ msgstr ""
 "dies mit einem Ausdruck wie ``^.*@mycompany.com`` bewerkstelligen."
 
 #: ../../admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "when upgrading from one Weblate version to another. If you want to turn "
-#| "it off, set the regular expression to ``^$`` (which won’t match anything)."
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"Die automatische Gruppenzuordnung zu 'Benutzer' und 'Betrachter' wird immer "
-"neu erstellt, wenn Sie von einer Weblate-Version auf eine andere "
-"aktualisieren. Wenn Sie dies abstellen möchten, setzen Sie den regulären "
-"Ausdruck auf ``^$`` (der auf nichts zutrifft)."
+"Die automatische Teamzuweisung zu 'Benutzer' und 'Betrachter' wird immer neu "
+"erstellt, wenn Sie von einer Weblate-Version auf eine andere aktualisieren. "
+"Wenn Sie dies abstellen möchten, setzen Sie den regulären Ausdruck auf ``^$``"
+" (der auf nichts zutrifft)."
 
 #: ../../admin/access.rst:433
-#, fuzzy
-#| msgid ""
-#| "As for now, there is no way to bulk-add already existing users to some "
-#| "group via the user interface. For that, you may resort to using the :ref:"
-#| "`REST API <api>`."
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
 "Im Moment gibt es noch keine Möglichkeit, bereits bestehende Benutzer über "
-"die Benutzeroberfläche zu einer Gruppe hinzuzufügen. Hierfür können Sie auf "
+"die Benutzeroberfläche zu einem Team hinzuzufügen. Hierfür können Sie auf "
 "die :ref:`REST API <api>` zurückgreifen."
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid "Default groups and roles"
 msgid "Default teams and roles"
-msgstr "Standardgruppen und -rollen"
+msgstr "Standardteams und -rollen"
 
 #: ../../admin/access.rst:439
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
-"Nach der Installation wird ein Standardsatz von Gruppen erstellt (Siehe :ref:"
-"`default-groups`)."
+"Nach der Installation wird ein Standardsatz von Teams erstellt (Siehe :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:441
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"Diese Rollen und Gruppen werden bei der Installation erstellt. Die "
-"eingebauten Rollen werden durch die Datenbankmigration beim Upgrade immer "
-"auf dem neuesten Stand gehalten. Sie können sie nicht ändern. Bitte "
-"definieren Sie eine neue Rolle, wenn Sie Ihre eigenen Berechtigungen "
-"festlegen möchten."
+"Diese Rollen und Teams werden bei der Installation erstellt. Die eingebauten "
+"Rollen werden durch die Datenbankmigration beim Upgrade immer auf dem "
+"neuesten Stand gehalten. Sie können sie nicht ändern. Bitte definieren Sie "
+"eine neue Rolle, wenn Sie Ihre eigenen Berechtigungen festlegen möchten."
 
 #: ../../admin/access.rst:449
 msgid "List of privileges and built-in roles"
@@ -1197,7 +1051,8 @@ msgstr "Kommentar erstellen"
 msgid ""
 "`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
 msgstr ""
-"`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
+"`Administration`, `Edit source`, `Hauptbenutzer`, `Review strings`, "
+"`Translate`"
 
 #: ../../admin/access.rst:463
 msgid "Delete comment"
@@ -1645,17 +1500,12 @@ msgid "Default roles: `Administration`"
 msgstr "Standard-Rollen: `Verwaltung`"
 
 #: ../../admin/access.rst:627
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
-"Entfernen Sie niemals die vordefinierten Weblate-Gruppen und -Benutzer, da "
+"Entfernen Sie niemals die vordefinierten Weblate-Teams und -Benutzer, da "
 "dies zu unerwarteten Problemen führen kann! Wenn Sie keine Verwendung für "
 "sie haben, können Sie stattdessen alle ihre Berechtigungen entfernen."
 
@@ -5489,24 +5339,24 @@ msgid "``icu-flags:FLAGS``"
 msgstr "``icu-flags:FLAGS``"
 
 #: ../../admin/checks.rst:72
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-messageformat` quality check."
 msgid ""
 "Define flags for customizing the behavior of the :ref:`check-icu-message-"
 "format` quality check."
-msgstr "Aktiviere Qualitätsprüfung :ref:`check-java-messageformat`."
+msgstr ""
+"Definieren Sie Markierungen, um das Verhalten der Qualitätsprüfung :ref"
+":`check-icu-message-format` anzupassen."
 
 #: ../../admin/checks.rst:73
 msgid "``icu-tag-prefix:PREFIX``"
 msgstr "``icu-tag-prefix:PREFIX``"
 
 #: ../../admin/checks.rst:74
-#, fuzzy
-#| msgid "Skip the :ref:`check-java-messageformat` quality check."
 msgid ""
 "Set a required prefix for XML tags for the :ref:`check-icu-message-format` "
 "quality check."
-msgstr "Überspringe Qualitätsprüfung :ref:`check-java-messageformat`."
+msgstr ""
+"Setzen Sie ein erforderliches Präfix für XML-Tags für die Qualitätsprüfung "
+":ref:`check-icu-message-format`."
 
 #: ../../admin/checks.rst:75
 msgid "``placeholders:NAME:NAME2:...``"
@@ -5659,10 +5509,8 @@ msgid "``java-printf-format``"
 msgstr "JavaScript-Format"
 
 #: ../../admin/checks.rst:105
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enable the :ref:`check-java-printf-format` quality check."
-msgstr "Aktiviere Qualitätsprüfung :ref:`check-javascript-format`."
+msgstr "Aktiviere Qualitätsprüfung :ref:`check-java-printf-format`."
 
 #: ../../admin/checks.rst:106 ../../user/checks.rst:355
 #, fuzzy
@@ -7036,7 +6884,6 @@ msgstr ""
 "ausgelöst werden sollen."
 
 #: ../../admin/config.rst:201
-#, fuzzy
 msgid "Right now this controls:"
 msgstr "Im Moment steuert dies:"
 
@@ -7045,9 +6892,8 @@ msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` Erweiterung"
 
 #: ../../admin/config.rst:204
-#, fuzzy
 msgid ":doc:`checks` recalculation"
-msgstr ":doc:`überprüft` die Neuberechnung"
+msgstr ":doc:`checks` Neuberechnung"
 
 #: ../../admin/config.rst:206
 msgid "Possible choices:"
@@ -7428,7 +7274,6 @@ msgstr ""
 "übersprungen werden sollen, die zulässigen Werte sind:"
 
 #: ../../admin/config.rst:438
-#, fuzzy
 msgid "``\"plain\"``"
 msgstr "``\"plain\"``"
 
@@ -8177,10 +8022,8 @@ msgstr ""
 ", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1070
-#, fuzzy
-#| msgid "AUTO_UPDATE"
 msgid "LEGAL_TOS_DATE"
-msgstr "AUTO_UPDATE"
+msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1076
 msgid "You need :ref:`legal` installed to make this work."
@@ -8473,16 +8316,12 @@ msgid "PAGURE_TOKEN"
 msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1373
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Pagure personal access token used to make API calls to send merge requests "
 "for translation updates."
 msgstr ""
-"Persönliches GitLab-Zugriffstoken, das für API-Aufrufe zur Aktualisierung "
-"von Übersetzungen verwendet wird."
+"Persönliches Pagure-Zugriffstoken, das für API-Aufrufe verwendet wird, um "
+"Merge-Anforderungen für Übersetzungsaktualisierungen zu senden."
 
 #: ../../admin/config.rst:1378
 msgid ""
@@ -8506,10 +8345,8 @@ msgid ":setting:`LEGAL_URL`"
 msgstr ":setting:`LEGAL_URL`"
 
 #: ../../admin/config.rst:1410
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1414
 msgid ""
@@ -8528,7 +8365,6 @@ msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1428
-#, fuzzy
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
@@ -8537,10 +8373,8 @@ msgstr ""
 "Standardwert ist ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1430
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Set to blank string to disable."
-msgstr "Entferne leere Zeichenketten"
+msgstr "Zum Deaktivieren ein leere Zeichenkette einsetzen."
 
 #: ../../admin/config.rst:1434
 msgid ""
@@ -9645,17 +9479,14 @@ msgstr ""
 "settings` erfolgen."
 
 #: ../../admin/continuous.rst:227
-#, fuzzy
-#| msgid ""
-#| "https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/"
-#| "webhooks?view=azure-devops"
 msgid ""
 "`Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/"
 "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
 "hooks/azure/`, :ref:`hosted-push`"
 msgstr ""
-"https://docs.microsoft.com/de-de/azure/devops/service-hooks/services/"
-"webhooks?view=azure-devops"
+"`Web-Hooks in Azure DevOps Handbuch <https://learn.microsoft.com/en-us/azure/"
+"devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
+"hooks/azure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:233
 msgid "Automatically receiving changes from Gitea Repos"
@@ -9856,10 +9687,8 @@ msgid "GitLab merge request from branch"
 msgstr "GitLab-Merge-Anfrage vom Branch"
 
 #: ../../admin/continuous.rst:310
-#, fuzzy
-#| msgid "GitLab merge request"
 msgid "Gitea merge request from fork"
-msgstr "GitLab-Merge-Request"
+msgstr "Gitea-Merge-Anfrage vom Fork"
 
 #: ../../admin/continuous.rst:310 ../../admin/continuous.rst:312
 #: ../../admin/install/docker.rst:688
@@ -9869,10 +9698,8 @@ msgid ":ref:`vcs-gitea`"
 msgstr "Name der Komponente"
 
 #: ../../admin/continuous.rst:312
-#, fuzzy
-#| msgid "GitLab merge request"
 msgid "Gitea merge request from branch"
-msgstr "GitLab-Merge-Request"
+msgstr "Gitea-Merge-Anfrage vom Branch"
 
 #: ../../admin/continuous.rst:314
 msgid "Pagure merge request from fork"
@@ -10583,10 +10410,8 @@ msgid "https://pypi.org/project/ruamel.yaml/"
 msgstr ""
 
 #: ../../admin/install.rst:105
-#, fuzzy
-#| msgid "``tesserocr`` (optional for OCR in :ref:`screenshots`)"
 msgid "``Zeep`` (optional for :ref:`mt-microsoft-terminology`)"
-msgstr "``tesserocr`` (optional für OCR in :ref:`Bildschirmfotos`)"
+msgstr "``Zeep`` (optional für :ref:`mt-microsoft-terminology`)"
 
 #: ../../admin/install.rst:106
 msgid "https://docs.python-zeep.org/"
@@ -12159,12 +11984,12 @@ msgstr ""
 "metrics/` API-Endpunkt verwenden."
 
 #: ../../admin/install.rst:1493
-#, fuzzy
-#| msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
-msgstr "`Weblate-Plugin für Munin <https://github.com/WeblateOrg/munin>`_"
+msgstr ""
+":ref:`faq-monitoring`, :ref:`monitoring-celery`,`Weblate-Plugin für Munin "
+"<https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1500
 msgid "Collecting error reports"
@@ -12615,23 +12440,17 @@ msgstr ""
 "und es sollten keine weiteren manuellen Maßnahmen erforderlich sein."
 
 #: ../../admin/install/docker.rst:221
-#, fuzzy
-#| msgid ""
-#| "Upgrades across 3.0 are not supported by Weblate. If you are on 2.x "
-#| "series and want to upgrade to 3.x, first upgrade to the latest 3.0.1-x "
-#| "(at time of writing this it is the ``3.0.1-7``) image, which will do the "
-#| "migration and then continue upgrading to newer versions."
 msgid ""
 "Upgrades across major versions are not supported by Weblate. For example, if "
 "you are on 3.x series and want to upgrade to 4.x, first upgrade to the "
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
-"Upgrades auf 3.0 werden von Weblate nicht unterstützt. Wenn Sie mit der 2.x-"
-"Serie arbeiten und auf 3.x aktualisieren möchten, aktualisieren Sie zunächst "
-"auf das neueste Image 3.0.1-x (zum Zeitpunkt der Erstellung dieses Artikels "
-"ist es das Image ``3.0.1-7``), das die Migration durchführt, und fahren Sie "
-"dann mit dem Upgrade auf neuere Versionen fort."
+"Upgrades über Hauptversionen hinweg werden von Weblate nicht unterstützt. "
+"Wenn Sie z. B. mit der 3.x-Serie arbeiten und auf 4.x aktualisieren möchten, "
+"aktualisieren Sie zunächst auf das neueste 4.0.x-y-Image (zum Zeitpunkt der "
+"Erstellung dieses Artikels ist es das ``4.0.4-5``), das die Migration "
+"durchführt, und fahren Sie dann mit dem Upgrade auf neuere Versionen fort."
 
 #: ../../admin/install/docker.rst:226
 msgid ""
@@ -13291,17 +13110,12 @@ msgid "LDAP"
 msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:923
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
-msgstr ""
-"Pfad zu der Datei, die das Kennwort für die E-Mail-Authentifizierung enthält."
+msgstr "Pfad zu der Datei, die das LDAP-Server-Verbindungskennwort enthält."
 
 #: ../../admin/install/docker.rst:925
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
 
 #: ../../admin/install/docker.rst:933
 msgid "LDAP authentication configuration."
@@ -13372,10 +13186,8 @@ msgid "Gitea"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1045
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
-msgstr "GitHub-Authentifizierung"
+msgstr "Aktiviert die Gitea-Authentifizierung."
 
 #: ../../admin/install/docker.rst:1048
 msgid "Azure Active Directory"
@@ -13593,17 +13405,12 @@ msgid "The Redis server password, not used by default."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1262
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the Redis server password."
-msgstr ""
-"Pfad zu der Datei, die das Kennwort für die E-Mail-Authentifizierung enthält."
+msgstr "Pfad zu der Datei, die das Passwort für den Redis-Server enthält."
 
 #: ../../admin/install/docker.rst:1264
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`REDIS_PASSWORD`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`REDIS_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1268
 msgid "Enables using SSL for Redis connection."
@@ -14035,10 +13842,8 @@ msgstr ""
 ">`_"
 
 #: ../../admin/install/docker.rst:1618
-#, fuzzy
-#| msgid "Docker environment variables"
 msgid "Configuration beyond environment variables"
-msgstr "Docker-Umgebungsvariablen"
+msgstr "Konfiguration über Umgebungsvariablen hinaus"
 
 #: ../../admin/install/docker.rst:1620
 msgid ""
@@ -14203,10 +14008,8 @@ msgstr ""
 "customize`) und es z.B. als separates Volume dem Docker-Container hinzufügen:"
 
 #: ../../admin/install/docker.rst:1750
-#, fuzzy
-#| msgid "Upgrading PostgreSQL container"
 msgid "Configuring PostgreSQL server"
-msgstr "Aktualisieren des PostgreSQL-Containers"
+msgstr "Konfigurieren des PostgreSQL-Servers"
 
 #: ../../admin/install/docker.rst:1752
 msgid ""
@@ -14223,10 +14026,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1761
-#, fuzzy
-#| msgid "Container settings"
 msgid "Container internals"
-msgstr "Container-Einstellungen"
+msgstr "Container-Interna"
 
 #: ../../admin/install/docker.rst:1763
 msgid ""
@@ -14407,13 +14208,12 @@ msgid "Installing from sources"
 msgstr "Installieren aus Quellen"
 
 #: ../../admin/install/source.rst:4
-#, fuzzy
-#| msgid "Please follow the installation instructions for your system first:"
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
-"Bitte befolgen Sie zunächst die Installationsanweisungen für Ihr System:"
+"Bitte folgen Sie zunächst den Installationsanweisungen für Ihr System, bevor "
+"Sie Weblate installieren:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -15074,16 +14874,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:227
-#, fuzzy
-#| msgid ""
-#| ":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-#| "translations`"
 msgid ""
 ":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
 "parsing-codes`"
 msgstr ""
-":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-"translations`"
+":ref:`language-code`, :ref:`project-language_aliases`, :ref:`language-"
+"parsing-codes`"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -15147,10 +14943,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:4
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Configuring automatic suggestions"
-msgstr "Automatische Vorschläge verwenden"
+msgstr "Automatische Vorschläge konfigurieren"
 
 #: ../../admin/machine.rst:8
 msgid ""
@@ -15171,16 +14965,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:21
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "The services translate from the source language as configured at :ref:"
 "`component`, see :ref:`component-source_language`."
 msgstr ""
-"Falls die Übersetzung in die Ausgangssprache gewünscht wird, ändern Sie "
-"bitte die Ausgangssprache in den Projekteinstellungen."
+"Die Dienste übersetzen aus der Ausgangssprache, die unter :ref:`component` "
+"konfiguriert ist, siehe :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:26
 #, fuzzy
@@ -15203,10 +14993,8 @@ msgstr ""
 #: ../../admin/machine.rst:34 ../../admin/machine.rst:168
 #: ../../admin/machine.rst:257 ../../admin/machine.rst:469
 #: ../../admin/machine.rst:484
-#, fuzzy
-#| msgid "`This add-on has no configuration.`"
 msgid "`This service has no configuration.`"
-msgstr "`Diese Erweiterung hat keine Konfiguration.`"
+msgstr "`Dieser Dienst hat keine Konfiguration.`"
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -16342,6 +16130,7 @@ msgstr ""
 #: ../../admin/management.rst:285
 msgid "Export a JSON file containing Weblate Translation Memory content."
 msgstr ""
+"Exportieren Sie eine JSON-Datei mit Weblate-Übersetzungsspeicher-Inhalten."
 
 #: ../../admin/management.rst:289 ../../admin/management.rst:381
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
@@ -16426,12 +16215,16 @@ msgstr ""
 #: ../../admin/management.rst:366
 msgid "Imports a TMX or JSON file into the Weblate translation memory."
 msgstr ""
+"Importiert eine TMX- oder JSON-Datei in den Weblate-Übersetzungsspeicher."
 
 #: ../../admin/management.rst:370
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
 msgstr ""
+"Ermöglicht die Zuordnung von Sprachen im TMX zum Weblate-"
+"Übersetzungsspeicher. Die Sprachcodes werden nach der Normalisierung, die "
+"normalerweise von Weblate vorgenommen wird, zugeordnet."
 
 #: ../../admin/management.rst:373
 msgid ""
@@ -17754,6 +17547,8 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Ob Weblate den ``Language-Team`` Header verwalten soll (dies ist zur Zeit "
+"nur eine :ref:`gettext` Funktion)."
 
 #: ../../admin/projects.rst:171
 msgid "Use shared translation memory"
@@ -18311,6 +18106,10 @@ msgid ""
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
 msgstr ""
+"Der Benutzer erhält einen Link zu einer Seite, die den Prozess des Beginns "
+"neuer Übersetzungen beschreibt. Verwenden Sie diese Seite, wenn ein "
+"formellerer Prozess gewünscht wird (z. B. die Bildung eines Teams von "
+"Personen vor dem Beginn der eigentlichen Übersetzung)."
 
 #: ../../admin/projects.rst:592
 msgid "Create new language file"
@@ -18445,10 +18244,8 @@ msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr ""
 
 #: ../../admin/projects.rst:687
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
-msgstr "Commit-Nachricht, wenn das Addon eine Änderung vornimmt"
+msgstr "Commit-, Add-, Delete-, Merge-, Add-On- und Merge-Anfrage-Nachrichten"
 
 #: ../../admin/projects.rst:689
 msgid "Message used when committing a translation, see :ref:`markup`."
@@ -20465,10 +20262,10 @@ msgid "whether the user is active"
 msgstr "Ob der Benutzer aktiv ist"
 
 #: ../../api.rst:280 ../../api.rst:315 ../../api.rst:329
-#, fuzzy
-#| msgid "whether the user is a super user"
 msgid "whether the user is bot (used for project scoped tokens)"
-msgstr "Ob der Benutzer ein Superuser ist"
+msgstr ""
+"ob es sich bei dem Benutzer um einen Bot handelt (wird für "
+"projektspezifische Token verwendet)"
 
 #: ../../api.rst:281 ../../api.rst:316 ../../api.rst:330
 msgid "date the user is created"
@@ -21780,23 +21577,16 @@ msgid "Add new unit."
 msgstr "Neue Einheit hinzufügen."
 
 #: ../../api.rst:1882
-#, fuzzy
-#| msgid "Number of translations by user"
 msgid "Name of translation unit (used as key or context)"
-msgstr "Anzahl der Übersetzungen des Benutzers"
+msgstr "Name der Übersetzungseinheit (verwendet als Schlüssel oder Kontext)"
 
 #: ../../api.rst:1883
 msgid "Source strings (use single string if not creating plural)"
 msgstr ""
 
 #: ../../api.rst:1884
-#, fuzzy
-#| msgid ""
-#| "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
-"Reihe von Komponenten-Bildschirmfotos; siehe :http:get:`/api/screenshots/"
-"(int:id)/`"
+msgstr "neu erstellte Einheit; siehe :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1888
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
@@ -21912,16 +21702,12 @@ msgid "URL to access the translation (real translation URL)"
 msgstr ""
 
 #: ../../api.rst:2020
-#, fuzzy
-#| msgid "Returns a list of component screenshots."
 msgid "Returns a list of memory results."
-msgstr "Gibt eine Liste von Komponenten-Bildschirmfotos zurück."
+msgstr "Gibt eine Liste der Speicherergebnisse zurück."
 
 #: ../../api.rst:2024
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Deletes a memory object"
-msgstr "Übersetzungsspeicher löschen"
+msgstr "Löscht ein Speicherobjekt"
 
 #: ../../api.rst:2026
 msgid "Memory Object ID"
@@ -22072,14 +21858,10 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:2089
-#, fuzzy
-#| msgid "whether the unit is fuzzy or marked for review"
 msgid "whether the unit is pending for write"
-msgstr "ob die Einheit fragwürdig oder zur Überprüfung markiert ist"
+msgstr "ob die Einheit zum Schreiben aussteht"
 
 #: ../../api.rst:2090
-#, fuzzy
-#| msgid "String age"
 msgid "string age"
 msgstr "Alter der Zeichenkette"
 
@@ -22239,10 +22021,8 @@ msgstr ""
 "Bildschirmfoto."
 
 #: ../../api.rst:2234
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string unit ID"
-msgstr "Ausgangszeichenketten in %s"
+msgstr "Ausgangszeichenkette-Einheitenkennung"
 
 #: ../../api.rst:2239
 msgid "Creates a new screenshot."
@@ -22274,14 +22054,10 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2297
-#, fuzzy
-#| msgid "Returns information about addon information."
 msgid "Returns information about add-on information."
 msgstr "Gibt Informationen über Erweiterungen zurück."
 
 #: ../../api.rst:2301 ../../api.rst:2315
-#, fuzzy
-#| msgid "name of an addon"
 msgid "name of an add-on"
 msgstr "Name einer Erweiterung"
 
@@ -22356,7 +22132,7 @@ msgstr ""
 
 #: ../../api.rst:2367
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "automatische Zuweisungsregeln"
 
 #: ../../api.rst:2371 ../../api.rst:2381
 msgid "Changes the component list parameters."
@@ -22756,10 +22532,10 @@ msgid "Not yet released."
 msgstr "Noch nicht veröffentlicht."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Added support for browsing changes for a individual string."
-msgstr "Unterstützung für die Gruppierung von Zeichenketten wurde hinzugefügt."
+msgstr ""
+"Unterstützung für das Durchsuchen von Änderungen für eine einzelne "
+"Zeichenkette hinzugefügt."
 
 #: ../../changes.rst:7
 #, fuzzy
@@ -22776,7 +22552,7 @@ msgstr ""
 
 #: ../../changes.rst:9
 msgid "Added support for placeables in the Fluent format."
-msgstr "Unterstützung für Platzhalter im Fluent-Format wurde hinzugefügt."
+msgstr "Unterstützung für Platzhalter im Fluent-Format hinzugefügt."
 
 #: ../../changes.rst:10
 msgid "Improved performance of translation memory."
@@ -22794,10 +22570,8 @@ msgid "Improved performance of several views."
 msgstr "Verbesserte Leistung der Matrixansicht."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Overwrite existing strings with upload"
 msgid "Improved listing of strings with plurals."
-msgstr "Vorhandene Zeichenketten mit Hochladung überschreiben"
+msgstr "Verbesserte Auflistung von Zeichenketten mit Pluralformen."
 
 #: ../../changes.rst:14
 #, fuzzy
@@ -22806,18 +22580,15 @@ msgid "Added support for adding custom markup to HTML head."
 msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed generating of MO files for monolingual translations."
 msgid ""
 "Fixed generation of MO files in the add-on to include only translated files."
 msgstr ""
-"Die Erzeugung von MO-Dateien für einsprachige Übersetzungen wurde korrigiert."
+"Die Erzeugung von MO-Dateien in der Erweiterung korrigiert, so dass nur noch "
+"übersetzte Dateien enthalten sind."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Variants regular expression"
 msgid "Fixed rendering of regular expression flags."
-msgstr "Varianten regulärer Ausdruck"
+msgstr "Die Darstellung von Markierungen für reguläre Ausdrücke korrigiert."
 
 #: ../../changes.rst:17
 #, fuzzy
@@ -22827,12 +22598,10 @@ msgstr ""
 "Verbesserung der Behandlung von Platzhaltern in automatischen Übersetzungen."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for restricting translation file downloads."
 msgid "Added support for translation files naming suitable for Google Play."
 msgstr ""
-"Unterstützung für die Einschränkung des Downloads von Übersetzungsdateien "
-"wurde hinzugefügt."
+"Unterstützung für die Benennung von Übersetzungsdateien, die für Google Play "
+"geeignet sind, hinzugefügt."
 
 #: ../../changes.rst:19
 #, fuzzy
@@ -22862,13 +22631,12 @@ msgstr ""
 #: ../../changes.rst:23
 msgid "Added team administrators who can add or remove members of the team."
 msgstr ""
+"Es wurden Teamadministratoren hinzugefügt, die Mitglieder des Teams "
+"hinzufügen oder entfernen können."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added a popup confirmation before deleting users"
-msgstr ""
-"Bestätigung vor dem Entfernen eines Benutzers aus einem Projekt hinzugefügt."
+msgstr "Popup-Bestätigung vor dem Löschen von Benutzern hinzugefügt."
 
 #: ../../changes.rst:26
 msgid ""
@@ -22922,7 +22690,7 @@ msgstr ""
 
 #: ../../changes.rst:39
 msgid "Fixed processing of some uploaded CSV files."
-msgstr "Die Verarbeitung einiger hochgeladener CSV-Dateien wurde korrigiert."
+msgstr "Die Verarbeitung einiger hochgeladener CSV-Dateien korrigiert."
 
 #: ../../changes.rst:40
 #, fuzzy
@@ -22944,7 +22712,7 @@ msgstr "Nachverfolgung von Add-On-Änderungen in einem Verlauf."
 msgid "Fixed restoring project backups with linked components."
 msgstr ""
 "Die Wiederherstellung von Projektsicherungen mit verknüpften Komponenten "
-"wurde korrigiert."
+"korrigiert."
 
 #: ../../changes.rst:44
 msgid "Fixed captcha entering on unsuccessful registration."
@@ -22982,8 +22750,7 @@ msgstr "Veröffentlicht am 15. September 2022."
 
 #: ../../changes.rst:56
 msgid "Fixed generating project backups in some situations."
-msgstr ""
-"Die Erstellung von Projekt-Backups in einigen Situationen wurde korrigiert."
+msgstr "Die Erstellung von Projekt-Backups in einigen Situationen korrigiert."
 
 #: ../../changes.rst:57
 msgid "Improved error reporting on file upload."
@@ -23009,7 +22776,7 @@ msgstr "Verbesserte Verwaltung von nicht übersetzbaren Begriffen im Glossar."
 
 #: ../../changes.rst:62
 msgid "List number of team members on team management page."
-msgstr ""
+msgstr "Auflistung der Teammitgliederanzahl auf der Teamverwaltungsseite."
 
 #: ../../changes.rst:63
 msgid "Add group management interface."
@@ -23020,10 +22787,8 @@ msgid "Always show review stats when reviews are enabled."
 msgstr "Überprüfungsstatus immer anzeigen, wenn Überprüfungen aktiviert sind."
 
 #: ../../changes.rst:65
-#, fuzzy
-#| msgid "Fixed search string validation in API."
 msgid "Added searching support in units API."
-msgstr "Die Validierung der Suchbegriffe in der API wurde korrigiert."
+msgstr "Unterstützung für die Suche in der Einheiten-API hinzugefügt."
 
 #: ../../changes.rst:66
 msgid ""
@@ -23063,8 +22828,7 @@ msgstr "Nachverfolgung von Add-On-Änderungen in einem Verlauf."
 #: ../../changes.rst:78
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
 msgstr ""
-"Das Parsen der Übersetzung aus Windows RC-, HTML- und Textdateien wurde "
-"korrigiert."
+"Das Parsen der Übersetzung aus Windows RC-, HTML- und Textdateien korrigiert."
 
 #: ../../changes.rst:79
 msgid "Extended language code style configuration options."
@@ -23142,26 +22906,21 @@ msgid "Fixed tracking suggestions in history."
 msgstr "Tracking-Vorschläge im Verlauf behoben."
 
 #: ../../changes.rst:99
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing reverse proxy info from Cloudflare."
-msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
+msgstr "Das Parsen von Reverse-Proxy-Informationen von Cloudflare korrigiert."
 
 #: ../../changes.rst:100
 msgid "Make parse error lock a component from translating."
 msgstr ""
 
 #: ../../changes.rst:101
-#, fuzzy
-#| msgid "Fixed triggering automatically installed add-ons."
 msgid "Fixed configuring intermediate file in the discovery add-on."
 msgstr ""
-"Das Auslösen von automatisch installierten Erweiterungen wurde behoben."
+"Die Konfiguration der Zwischendatei in der Discovery-Erweiterung korrigiert."
 
 #: ../../changes.rst:102
 msgid "Fixed DeepL translations behavior with placeholders."
-msgstr ""
-"Das Verhalten von DeepL bei Übersetzungen mit Platzhaltern wurde korrigiert."
+msgstr "Das Verhalten von DeepL bei Übersetzungen mit Platzhaltern korrigiert."
 
 #: ../../changes.rst:103
 #, fuzzy
@@ -23176,10 +22935,8 @@ msgid "Added support for removing user from a group via API."
 msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed audit log for user invitation e-mails."
-msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
+msgstr "Das Audit-Protokoll für Einladungs-E-Mails für Benutzer korrigiert."
 
 #: ../../changes.rst:106
 #, fuzzy
@@ -23209,10 +22966,8 @@ msgid "Changed behavior of updating language names."
 msgstr ""
 
 #: ../../changes.rst:116
-#, fuzzy
-#| msgid "Fixed displaying help for project settings."
 msgid "Added pagination to projects listing."
-msgstr "Die Anzeige der Hilfe für Projekteinstellungen wurde korrigiert."
+msgstr "Paginierung zur Projektliste hinzugefügt."
 
 #: ../../changes.rst:117
 msgid ""
@@ -23236,10 +22991,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:121
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for ResourceDictionary format."
-msgstr "Unterstützung für das Fluent-Format wurde hinzugefügt."
+msgstr "Unterstützung für das ResourceDictionary-Format hinzugefügt."
 
 #: ../../changes.rst:122
 msgid "Improved progress bar colors for color blind."
@@ -23262,11 +23015,8 @@ msgid "Added support for storing escaped XML elements in XLIFF."
 msgstr "Unterstützung für die Suche nach geklärten Kommentaren ergänzt."
 
 #: ../../changes.rst:126
-#, fuzzy
-#| msgid "Improve placeholders handling in machine translations."
 msgid "Improved formatting of placeholder check errors."
-msgstr ""
-"Verbesserung der Behandlung von Platzhaltern in automatischen Übersetzungen."
+msgstr "Verbesserte Formatierung von Fehlern bei Platzhalterprüfungen."
 
 #: ../../changes.rst:127
 msgid "Redirect /.well-known/change-password to /accounts/password/."
@@ -23283,12 +23033,10 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:130
-#, fuzzy
-#| msgid "Added support for restricting translation file downloads."
 msgid "Added support for storing alternative translations in the CSV file."
 msgstr ""
-"Unterstützung für die Einschränkung des Downloads von Übersetzungsdateien "
-"wurde hinzugefügt."
+"Unterstützung für die Speicherung alternativer Übersetzungen in der CSV-"
+"Datei hinzugefügt."
 
 #: ../../changes.rst:131
 msgid "The placeholders check can now be case-insensitive as well."
@@ -23311,10 +23059,10 @@ msgid "Released on May 11th 2022."
 msgstr "Veröffentlicht am 11. Mai 2022."
 
 #: ../../changes.rst:140
-#, fuzzy
-#| msgid "Added built-in translation memory."
 msgid "Fixed rebuilding project translation memory for some components."
-msgstr "Integrierter Übersetzungsspeicher hinzugefügt."
+msgstr ""
+"Die Wiederherstellung des Projektübersetzungsspeichers für einige "
+"Komponenten korrigiert."
 
 #: ../../changes.rst:141
 msgid "Fixed sorting components by untranslated strings."
@@ -23323,12 +23071,10 @@ msgstr ""
 "behoben."
 
 #: ../../changes.rst:142
-#, fuzzy
-#| msgid "Fixed possible loss of newly added strings on replace upload."
 msgid "Fixed possible loss of translations while adding new language."
 msgstr ""
-"Möglicher Verlust von neu hinzugefügten Zeichenketten beim Ersetzen des "
-"Hochladens behoben."
+"Möglicher Verlust von Übersetzungen beim Hinzufügen einer neuen Sprache "
+"behoben."
 
 #: ../../changes.rst:143
 msgid "Ensure Weblate SSH key is generated during migrations."
@@ -23351,28 +23097,20 @@ msgid "Released on April 29th 2022."
 msgstr "Veröffentlicht am 29. April 2022."
 
 #: ../../changes.rst:152
-#, fuzzy
-#| msgid "Fixed creating pull requests on Pagure."
 msgid "Fixed pull request message title."
-msgstr "Die Erstellung von Pull-Anfragen auf Pagure wurde behoben."
+msgstr "Nachrichtentitel der Pull-Anfrage korrigiert."
 
 #: ../../changes.rst:153
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Improved syntax error handling in Fluent format."
-msgstr "Verbesserte Leistung beim Hinzufügen neuer Zeichenketten."
+msgstr "Verbesserte Syntaxfehlerbehandlung im Fluent-Format."
 
 #: ../../changes.rst:154
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed avatar display in notification e-mails."
-msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
+msgstr "Die Anzeige vom Profilbild in Benachrichtigungs-E-Mails korrigiert."
 
 #: ../../changes.rst:155
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Add support for web monetization."
-msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
+msgstr "Unterstützung für Web-Monetarisierung hinzugefügt."
 
 #: ../../changes.rst:156
 msgid "Fixed removal of stale source strings when removing translations."
@@ -23397,28 +23135,26 @@ msgid "Released on April 20th 2022."
 msgstr "Veröffentlicht am 20. April 2022."
 
 #: ../../changes.rst:165
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for Amharic in :ref:`check-end-stop`."
-msgstr "Unterstützung für :ref:`txt` hinzugefügt."
+msgstr "Unterstützung für Amharisch in :ref:`check-end-stop` hinzugefügt."
 
 #: ../../changes.rst:166
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Burmese in :ref:`check-end-question`."
-msgstr "Unterstützung für Pagure-Pull-Anfragen hinzugefügt."
+msgstr "Unterstützung für Birmanisch in :ref:`check-end-question` hinzugefügt."
 
 #: ../../changes.rst:167
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid ""
 "Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on."
-msgstr "Neue Erweiterung :ref:`addon-weblate.generate.prefill`."
+msgstr ""
+"Erweiterte Optionen der Erweiterung: :ref:`addon-weblate.generate."
+"pseudolocale`."
 
 #: ../../changes.rst:168
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
 msgstr ""
+"Markierung ``ignore-all-checks`` hinzugefügt, um alle Qualitätsprüfungen für "
+"eine Zeichenkette zu ignorieren."
 
 #: ../../changes.rst:169
 #, fuzzy
@@ -23433,10 +23169,8 @@ msgstr ""
 "autotranslate.autotranslate` repariert."
 
 #: ../../changes.rst:170
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for :ref:`vcs-gitea`."
-msgstr "Unterstützung für :ref:`txt` hinzugefügt."
+msgstr "Unterstützung für :ref:`vcs-gitea` hinzugefügt."
 
 #: ../../changes.rst:171
 msgid ""
@@ -23473,10 +23207,8 @@ msgid "Improved maximal length restriction behavior with XML tags."
 msgstr ""
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Fixed generating XLSX files with special chars."
 msgid "Fixed loading Fluent files with additional comments."
-msgstr "Das Erzeugen von XLSX-Dateien mit Sonderzeichen wurde korrigiert."
+msgstr "Das Laden von Fluent-Dateien mit zusätzlichen Kommentaren korrigiert."
 
 #: ../../changes.rst:179
 msgid ""
@@ -23496,7 +23228,7 @@ msgstr "Veröffentlicht am 4. März 2022."
 
 #: ../../changes.rst:186
 msgid "Fixed corrupted MO files in the binary release."
-msgstr ""
+msgstr "Beschädigte MO-Dateien in der Binärversion behoben."
 
 #: ../../changes.rst:188
 msgid ""
@@ -23518,16 +23250,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:196
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed loading fuzzy strings from CSV files."
-msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
+msgstr "Das Laden von fragwürdigen Zeichenketten aus CSV-Dateien korrigiert."
 
 #: ../../changes.rst:197
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for creating teams using the API."
-msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
+msgstr "Unterstützung für die Erstellung von Teams über die API hinzugefügt."
 
 #: ../../changes.rst:198
 #, fuzzy
@@ -23611,7 +23339,7 @@ msgstr ""
 msgid "Fixed string state tracking when the strings changes in the repository."
 msgstr ""
 "Die Nachverfolgung des Zeichenkettenstatus bei Änderungen der Zeichenkette "
-"im Repository wurde korrigiert."
+"im Repository korrigiert."
 
 #: ../../changes.rst:220
 msgid "Track string changes from the repository."
@@ -23684,7 +23412,7 @@ msgstr "Unterstützung für borgbackup 1.2 hinzugefügt."
 
 #: ../../changes.rst:233
 msgid "Fixed applying of :guilabel:`Automatically translated` label."
-msgstr "Die Verwendung von :guilabel:`Automatisch übersetzt` wurde korrigiert."
+msgstr "Die Verwendung von :guilabel:`Automatisch übersetzt` korrigiert."
 
 #: ../../changes.rst:235
 msgid ""
@@ -23710,13 +23438,13 @@ msgstr ""
 
 #: ../../changes.rst:243
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
-msgstr "Die Anzeige von :guilabel:`Automatisch übersetzt` wurde korrigiert."
+msgstr "Die Anzeige von :guilabel:`Automatisch übersetzt` korrigiert."
 
 #: ../../changes.rst:244
 msgid "Fixed API display of branch in components with a shared repository."
 msgstr ""
 "Die API-Anzeige einer Branch in Komponenten mit einem gemeinsamen Repository "
-"wurde korrigiert."
+"korrigiert."
 
 #: ../../changes.rst:245
 msgid "Improved analysis on the failed push alert."
@@ -23725,8 +23453,7 @@ msgstr "Verbesserte Analyse der fehlgeschlagenen Push-Warnung."
 #: ../../changes.rst:246
 msgid "Fixed manually editing page when browsing changes."
 msgstr ""
-"Das manuelle Bearbeiten der Seite beim Durchsuchen von Änderungen wurde "
-"behoben."
+"Das manuelle Bearbeiten der Seite beim Durchsuchen von Änderungen behoben."
 
 #: ../../changes.rst:247
 msgid "Improved accuracy of :ref:`check-kashida`."
@@ -23782,13 +23509,16 @@ msgstr ""
 
 #: ../../changes.rst:262
 msgid "Fixed generating XLSX files with special chars."
-msgstr "Das Erzeugen von XLSX-Dateien mit Sonderzeichen wurde korrigiert."
+msgstr "Das Erzeugen von XLSX-Dateien mit Sonderzeichen korrigiert."
 
 #: ../../changes.rst:263
 msgid ""
 "Added ability to the GitHub authentication backend to check if the user "
 "belongs to a specific GitHub organization or team."
 msgstr ""
+"Dem GitHub-Authentifizierungs-Backend wurde die Möglichkeit hinzugefügt, zu "
+"prüfen, ob der Benutzer zu einer bestimmten GitHub-Organisation oder einem "
+"Team gehört."
 
 #: ../../changes.rst:264
 msgid "Improved feedback on invalid parameters passed to API."
@@ -23808,7 +23538,7 @@ msgstr "Die Entfernung von Einheiten wurde in einigen Fällen korrigiert."
 
 #: ../../changes.rst:267
 msgid "Fixed translating newly added strings."
-msgstr "Die Übersetzung neu hinzugefügter Zeichenketten wurde korrigiert."
+msgstr "Die Übersetzung neu hinzugefügter Zeichenketten korrigiert."
 
 #: ../../changes.rst:268
 #, fuzzy
@@ -23852,8 +23582,7 @@ msgstr "Unterstützung für die Filterung in der Download-API hinzugefügt."
 
 #: ../../changes.rst:280
 msgid "Fixed statistics display when adding new translations."
-msgstr ""
-"Die Statistikanzeige beim Hinzufügen neuer Übersetzungen wurde korrigiert."
+msgstr "Die Statistikanzeige beim Hinzufügen neuer Übersetzungen korrigiert."
 
 #: ../../changes.rst:281
 msgid "Mitigate issues with GitHub SSH key change."
@@ -23891,7 +23620,7 @@ msgstr "Verbesserte Leistung der Übersetzungsseiten."
 msgid "Added support for restricting translation file downloads."
 msgstr ""
 "Unterstützung für die Einschränkung des Downloads von Übersetzungsdateien "
-"wurde hinzugefügt."
+"hinzugefügt."
 
 #: ../../changes.rst:294
 msgid ""
@@ -23950,8 +23679,7 @@ msgstr ""
 
 #: ../../changes.rst:304
 msgid "Fixed generating of MO files for monolingual translations."
-msgstr ""
-"Die Erzeugung von MO-Dateien für einsprachige Übersetzungen wurde korrigiert."
+msgstr "Die Erzeugung von MO-Dateien für einsprachige Übersetzungen korrigiert."
 
 #: ../../changes.rst:305
 msgid ""
@@ -23963,14 +23691,11 @@ msgid "Added support for Python 3.10."
 msgstr "Unterstützung für Python 3.10 hinzugefügt."
 
 #: ../../changes.rst:307
-#, fuzzy
-#| msgid ""
-#| "Added support for appearance customization in the management interface."
 msgid ""
 "Added support for resending e-mail invitation from the management interface."
 msgstr ""
-"Unterstützung für die Anpassung des Erscheinungsbilds in der "
-"Verwaltungsoberfläche wurde hinzugefügt."
+"Unterstützung für den erneuten Versand von E-Mail-Einladungen über die "
+"Verwaltungsschnittstelle hinzugefügt."
 
 #: ../../changes.rst:309
 msgid ""
@@ -23990,8 +23715,7 @@ msgstr "Veröffentlicht am 10. September 2021."
 
 #: ../../changes.rst:316
 msgid "Fixed user removal in Django admin interface."
-msgstr ""
-"Das Entfernen von Benutzern in der Django-Adminoberfläche wurde behoben."
+msgstr "Das Entfernen von Benutzern in der Django-Adminoberfläche behoben."
 
 #: ../../changes.rst:317
 #, fuzzy
@@ -24018,15 +23742,15 @@ msgstr ""
 
 #: ../../changes.rst:321
 msgid "Fixed creating add-ons using API."
-msgstr "Die Erstellung von Erweiterungen über die API wurde behoben."
+msgstr "Die Erstellung von Erweiterungen über die API behoben."
 
 #: ../../changes.rst:322
 msgid ""
 "Added :setting:`PRIVACY_URL` setting to add privacy policy link to the "
 "footer."
 msgstr ""
-"Die Einstellung :setting:`PRIVACY_URL` wurde hinzugefügt, um einen Link zur "
-"Datenschutzrichtlinie in die Fußzeile einzufügen."
+"Die Einstellung :setting:`PRIVACY_URL` hinzugefügt, um einen Link zur "
+"Datenschutzbestimmungen in die Fußzeile einzufügen."
 
 #: ../../changes.rst:323
 msgid "Hide member e-mail addresses from project admins."
@@ -24066,7 +23790,7 @@ msgstr "Veröffentlicht am 21. August 2021."
 
 #: ../../changes.rst:336
 msgid "Added support for Apple stringsdict format."
-msgstr "Unterstützung für das Apple-Stringsdict-Format wurde hinzugefügt."
+msgstr "Unterstützung für das Apple-Stringsdict-Format hinzugefügt."
 
 #: ../../changes.rst:337
 msgid "The exact search operator is now case-sensitive with PostgreSQL."
@@ -24092,7 +23816,7 @@ msgstr "Leistungsverbesserungen."
 #: ../../changes.rst:342
 msgid "Fixed adding strings to monolingual glossary components."
 msgstr ""
-"Das Hinzufügen von Zeichenketten zu einsprachigen Glossarkomponenten wurde "
+"Das Hinzufügen von Zeichenketten zu einsprachigen Glossarkomponenten "
 "korrigiert."
 
 #: ../../changes.rst:343
@@ -24111,13 +23835,13 @@ msgstr "Dateierweiterung für Downloads beibehalten."
 
 #: ../../changes.rst:346
 msgid "Added support for the Fluent format."
-msgstr "Unterstützung für das Fluent-Format wurde hinzugefügt."
+msgstr "Unterstützung für das Fluent-Format hinzugefügt."
 
 #: ../../changes.rst:347
 msgid "Added support for using tabs to indent JSON formats."
 msgstr ""
 "Unterstützung für die Verwendung von Tabulatoren zum Einrücken von JSON-"
-"Formaten wurde hinzugefügt."
+"Formaten hinzugefügt."
 
 #: ../../changes.rst:349
 msgid ""
@@ -24143,7 +23867,7 @@ msgstr ""
 
 #: ../../changes.rst:357
 msgid "Fixed search string validation in API."
-msgstr "Die Validierung der Suchbegriffe in der API wurde korrigiert."
+msgstr "Die Validierung der Suchbegriffe in der API korrigiert."
 
 #: ../../changes.rst:358
 msgid "Fixed Git exporter URLs after a domain change."
@@ -24239,8 +23963,8 @@ msgstr "Verbesserte Integration der SAML-Authentifizierung."
 #: ../../changes.rst:386
 msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
 msgstr ""
-"Die Integration von :ref:`vcs-gerrit` wurde korrigiert, um Eckfälle besser "
-"zu behandeln."
+"Die Integration von :ref:`vcs-gerrit` korrigiert, um Eckfälle besser zu "
+"behandeln."
 
 #: ../../changes.rst:387
 msgid "Weblate now requires Django 3.2."
@@ -24249,8 +23973,8 @@ msgstr "Weblate benötigt jetzt Django 3.2."
 #: ../../changes.rst:388
 msgid "Fixed inviting users when e-mail authentication is disabled."
 msgstr ""
-"Das Einladen von Benutzern, wenn die E-Mail-Authentifizierung deaktiviert "
-"ist, wurde behoben."
+"Das Einladen von Benutzern bei deaktivierter E-Mail-Authentifizierung "
+"behoben."
 
 #: ../../changes.rst:389
 msgid "Improved language definitions."
@@ -24260,11 +23984,11 @@ msgstr "Verbesserte Sprachdefinitionen."
 msgid "Added support for blocking users from contributing to a project."
 msgstr ""
 "Unterstützung für das Sperren von Benutzern für Beiträge zu einem Projekt "
-"wurde hinzugefügt."
+"hinzugefügt."
 
 #: ../../changes.rst:391
 msgid "Fixed automatic creation of glossary languages."
-msgstr "Die automatische Erstellung von Glossarsprachen wurde korrigiert."
+msgstr "Die automatische Erstellung von Glossarsprachen korrigiert."
 
 #: ../../changes.rst:392
 msgid "Extended documentation about add-ons."
@@ -24307,12 +24031,11 @@ msgstr ""
 #: ../../changes.rst:405
 msgid "Fixed adding new strings to empty properties files."
 msgstr ""
-"Das Hinzufügen neuer Zeichenketten zu leeren Eigenschaftendateien wurde "
-"korrigiert."
+"Das Hinzufügen neuer Zeichenketten zu leeren Eigenschaftendateien korrigiert."
 
 #: ../../changes.rst:406
 msgid "Fixed copy icon alignment in RTL languages."
-msgstr "Die Ausrichtung der Kopiersymbole in RTL-Sprachen wurde korrigiert."
+msgstr "Die Ausrichtung der Kopiersymbole in RTL-Sprachen korrigiert."
 
 #: ../../changes.rst:407
 msgid "Extended string statistics on the Info tab."
@@ -24320,8 +24043,7 @@ msgstr "Erweiterte Zeichenkettenstatistik auf der Information-Reiterkarte."
 
 #: ../../changes.rst:408
 msgid "Fixed handling of translation files ignored in Git."
-msgstr ""
-"Die Behandlung von in Git ignorierten Übersetzungsdateien wurde korrigiert."
+msgstr "Die Behandlung von in Git ignorierten Übersetzungsdateien korrigiert."
 
 #: ../../changes.rst:409
 msgid "Improved metrics performance."
@@ -24336,7 +24058,7 @@ msgid ""
 "Fixed consistency check behavior on languages with different plural rules."
 msgstr ""
 "Das Verhalten der Konsistenzprüfung bei Sprachen mit unterschiedlichen "
-"Pluralregeln wurde korrigiert."
+"Pluralregeln korrigiert."
 
 #: ../../changes.rst:413
 msgid ""
@@ -24373,12 +24095,11 @@ msgstr "Verbesserte Fehlermeldungen beim Erstellen von Pull-Anfragen."
 
 #: ../../changes.rst:424
 msgid "Fixed creating pull requests on Pagure."
-msgstr "Die Erstellung von Pull-Anfragen auf Pagure wurde behoben."
+msgstr "Die Erstellung von Pull-Anfragen auf Pagure behoben."
 
 #: ../../changes.rst:425
 msgid "Fixed triggering automatically installed add-ons."
-msgstr ""
-"Das Auslösen von automatisch installierten Erweiterungen wurde behoben."
+msgstr "Das Auslösen von automatisch installierten Erweiterungen behoben."
 
 #: ../../changes.rst:426
 msgid "Fixed possible caching issues on upgrade."
@@ -24387,8 +24108,8 @@ msgstr "Mögliche Caching-Probleme beim Upgrade behoben."
 #: ../../changes.rst:427
 msgid "Fixed adding new units to monolingual translations using upload."
 msgstr ""
-"Das Hinzufügen neuer Einheiten zu einsprachigen Übersetzungen mittels "
-"Hochladen wurde behoben."
+"Das Hinzufügen neuer Einheiten zu einsprachigen Übersetzungen mittels Upload "
+"behoben."
 
 #: ../../changes.rst:429
 msgid ""
@@ -24423,8 +24144,6 @@ msgid "Added trends and metrics for all objects."
 msgstr "Trends und Metriken für alle Objekte hinzugefügt."
 
 #: ../../changes.rst:439
-#, fuzzy
-#| msgid "Added support for direct copying text from secondary languages."
 msgid "Added support for directly copying text from secondary languages."
 msgstr ""
 "Unterstützung für direktes Kopieren von Text aus Zweitsprachen hinzugefügt."
@@ -24483,7 +24202,7 @@ msgstr ""
 
 #: ../../changes.rst:452
 msgid "Fixed saving string state to XLIFF."
-msgstr "Das Speichern des Zeichenkettenstatus in XLIFF wurde korrigiert."
+msgstr "Das Speichern des Zeichenkettenstatus in XLIFF korrigiert."
 
 #: ../../changes.rst:453
 msgid "Added language-wide search."
@@ -24699,8 +24418,8 @@ msgstr "Unterstützung für TermBase eXchange-Dateien hinzugefügt."
 #: ../../changes.rst:518
 msgid "Added support for manually defining string variants using a flag."
 msgstr ""
-"Unterstützung für die manuelle Definition von Varianten einer Zeichenkette "
-"unter Verwendung einer Markierung wurde hinzugefügt."
+"Unterstützung für die manuelle Definition von Zeichenketten-Varianten mit "
+"Hilfe einer Markierung hinzugefügt."
 
 #: ../../changes.rst:519
 msgid "Improved performance of consistency checks."
@@ -24759,7 +24478,7 @@ msgstr ""
 #: ../../changes.rst:531
 msgid "Added support for defining terminology in a glossary."
 msgstr ""
-"Unterstützung für die Definition von Terminologie in einem Glossar wurde "
+"Unterstützung für die Definition von Terminologie in einem Glossar "
 "hinzugefügt."
 
 #: ../../changes.rst:532
@@ -24780,9 +24499,7 @@ msgstr ""
 
 #: ../../changes.rst:535
 msgid "Added support for customizing navigation text color."
-msgstr ""
-"Unterstützung für die Anpassung der Textfarbe der Navigation wurde "
-"hinzugefügt."
+msgstr "Unterstützung für die Anpassung der Navigationstextfarbe hinzugefügt."
 
 #: ../../changes.rst:537
 msgid ""
@@ -24818,7 +24535,7 @@ msgstr ""
 
 #: ../../changes.rst:552
 msgid "Fixed displaying help for project settings."
-msgstr "Die Anzeige der Hilfe für Projekteinstellungen wurde korrigiert."
+msgstr "Die Anzeige der Hilfe für Projekteinstellungen korrigiert."
 
 #: ../../changes.rst:553
 msgid "Improved administration of users."
@@ -24833,11 +24550,11 @@ msgid ""
 "Fixed cleanup add-on behavior with HTML, ODF, IDML and Windows RC formats."
 msgstr ""
 "Das Verhalten der Bereinigungsvorgang-Erweiterung bei den Formaten HTML, "
-"ODF, IDML und Windows RC wurde korrigiert."
+"ODF, IDML und Windows RC korrigiert."
 
 #: ../../changes.rst:556
 msgid "Fixed parsing of location from CSV files."
-msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
+msgstr "Das Parsen des Speicherorts aus CSV-Dateien korrigiert."
 
 #: ../../changes.rst:557
 msgid "Use content compression for file downloads."
@@ -24866,8 +24583,8 @@ msgstr ""
 #: ../../changes.rst:563
 msgid "Fixed cleanup add-on breaking adding new strings."
 msgstr ""
-"Es wurde behoben, dass die Erweiterung für den Bereinigungsvorgang beim "
-"Hinzufügen von neuen Zeichenketten nicht mehr funktioniert."
+"Fehlerhafte Funktion der Erweiterung für den Bereinigungsvorgang beim "
+"Hinzufügen von neuen Zeichenketten behoben."
 
 #: ../../changes.rst:564
 msgid "Added API for add-ons."
@@ -24901,7 +24618,7 @@ msgstr "Weblate benötigt jetzt Django 3.1."
 msgid "Added support for appearance customization in the management interface."
 msgstr ""
 "Unterstützung für die Anpassung des Erscheinungsbilds in der "
-"Verwaltungsoberfläche wurde hinzugefügt."
+"Verwaltungsoberfläche hinzugefügt."
 
 #: ../../changes.rst:576
 msgid "Fixed read-only state handling in bulk edit."
@@ -25190,7 +24907,7 @@ msgstr "Suchmaschinen werden jetzt als automatische Vorschläge bezeichnet."
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
 msgstr ""
 "Unterstützung für die Interaktion mit mehreren GitLab- oder GitHub-Instanzen "
-"wurde hinzugefügt."
+"hinzugefügt."
 
 #: ../../changes.rst:653
 msgid ""
@@ -25240,7 +24957,7 @@ msgstr "Automatisches Aktivieren des Java-Formats für Android."
 
 #: ../../changes.rst:664
 msgid "Added support for localized screenshots."
-msgstr "Unterstützung für lokalisierte Bildschirmfotos wurde hinzugefügt."
+msgstr "Unterstützung für lokalisierte Bildschirmfotos hinzugefügt."
 
 #: ../../changes.rst:665
 msgid "Added support for Python 3.9."
@@ -25249,7 +24966,8 @@ msgstr "Unterstützung für Python 3.9 hinzugefügt."
 #: ../../changes.rst:666
 msgid "Fixed translating HTML files under certain conditions."
 msgstr ""
-"Die Übersetzung von HTML-Dateien unter bestimmten Bedingungen wurde behoben."
+"Die Übersetzung von HTML-Dateien wurde unter bestimmten Bedingungen "
+"korrigiert."
 
 #: ../../changes.rst:668
 msgid ""
@@ -25269,19 +24987,17 @@ msgstr "Veröffentlicht am 2. September 2020."
 
 #: ../../changes.rst:675
 msgid "Fixed matching of source strings for JSON formats."
-msgstr ""
-"Die Übereinstimmung von Ausgangszeichenketten für JSON-Formate wurde "
-"korrigiert."
+msgstr "Abgleich von Ausgangszeichenketten für JSON-Formate korrigiert."
 
 #: ../../changes.rst:676
 msgid "Fixed login redirect for some authentication configurations."
 msgstr ""
 "Die Umleitung der Anmeldung für einige Authentifizierungskonfigurationen "
-"wurde korrigiert."
+"korrigiert."
 
 #: ../../changes.rst:677
 msgid "Fixed LDAP authentication with group sync."
-msgstr "LDAP-Authentifizierung mit Gruppensynchronisierung wurde korrigiert."
+msgstr "LDAP-Authentifizierung mit Gruppensynchronisierung korrigiert."
 
 #: ../../changes.rst:678
 msgid "Fixed crash in reporting automatic translation progress."
@@ -25294,7 +25010,7 @@ msgstr ""
 
 #: ../../changes.rst:680
 msgid "Fixed creating local VCS components using API."
-msgstr "Die Erstellung lokaler VCS-Komponenten über die API wurde korrigiert."
+msgstr "Die Erstellung lokaler VCS-Komponenten über die API korrigiert."
 
 #: ../../changes.rst:683
 msgid "Weblate 4.2.1"
@@ -25347,7 +25063,7 @@ msgstr ""
 msgid "Added support for locking components experiencing repository errors."
 msgstr ""
 "Unterstützung für das Sperren von Komponenten, bei denen Repository-Fehler "
-"auftreten, wurde hinzugefügt."
+"auftreten, hinzugefügt."
 
 #: ../../changes.rst:702
 msgid "Simplified main navigation (replaced buttons with icons)."
@@ -25587,7 +25303,7 @@ msgstr ""
 msgid "Add support for configuring default add-ons to enable."
 msgstr ""
 "Unterstützung für die Aktivierung der Konfiguration von "
-"Standarderweiterungen wurde hinzugefügt."
+"Standarderweiterungen hinzugefügt."
 
 #: ../../changes.rst:765
 msgid "Fixed editor keyboard shortcut to dismiss checks."
@@ -25691,7 +25407,7 @@ msgstr ""
 
 #: ../../changes.rst:793
 msgid "Fixed screenshots listing."
-msgstr "Die Auflistung der Bildschirmfotos wurde korrigiert."
+msgstr "Die Auflistung der Bildschirmfotos korrigiert."
 
 #: ../../changes.rst:794
 msgid "Fixed monthly digest notifications."
@@ -26011,7 +25727,7 @@ msgstr ""
 
 #: ../../changes.rst:894
 msgid "Fixed authentication using some third party providers."
-msgstr "Die Authentifizierung bei einigen Drittanbietern wurde korrigiert."
+msgstr "Die Authentifizierung bei einigen Drittanbietern korrigiert."
 
 #: ../../changes.rst:897
 msgid "Weblate 3.11.2"
@@ -26096,7 +25812,7 @@ msgstr ""
 
 #: ../../changes.rst:927
 msgid "Added support for grouping string shapings."
-msgstr "Unterstützung für die Gruppierung von Zeichenketten wurde hinzugefügt."
+msgstr "Unterstützung für die Gruppierung von Zeichenketten hinzugefügt."
 
 #: ../../changes.rst:928
 msgid "Recommend upgrade to new Weblate versions in the system checks."
@@ -26614,7 +26330,7 @@ msgstr ""
 #: ../../changes.rst:1083
 msgid "Add support for cloning add-ons to discovered components."
 msgstr ""
-"Unterstützung des Klonens von Erweiterungen für erkannte Komponenten wurde "
+"Unterstützung des Klonens von Erweiterungen für erkannte Komponenten "
 "hinzugefügt."
 
 #: ../../changes.rst:1084
@@ -26783,8 +26499,7 @@ msgstr ""
 #: ../../changes.rst:1132
 msgid "Add support for configuring msgmerge add-on."
 msgstr ""
-"Unterstützung für die Konfiguration der msgmerge-Erweiterung wurde "
-"hinzugefügt."
+"Unterstützung für die Konfiguration der msgmerge-Erweiterung hinzugefügt."
 
 #: ../../changes.rst:1133
 msgid "Delay opening SMTP connection when sending notifications."
@@ -26946,6 +26661,8 @@ msgstr ""
 msgid ""
 "Fixed description of toggle disabling ``Language-Team`` header manipulation."
 msgstr ""
+"Die Beschreibung der Umschaltfunktion zur Deaktivierung der ``Language-Team``"
+" Header-Manipulation korrigiert."
 
 #: ../../changes.rst:1180
 msgid "Notify users mentioned in comments."
@@ -27546,7 +27263,7 @@ msgstr ""
 
 #: ../../changes.rst:1375
 msgid "Weblate 2.x series"
-msgstr ""
+msgstr "Weblate 2.x-Reihe"
 
 #: ../../changes.rst:1378
 msgid "Weblate 2.20"
@@ -27593,7 +27310,7 @@ msgid ""
 "Added support for automatic translation using machine translation services."
 msgstr ""
 "Unterstützung für die automatische Übersetzung durch maschinelle "
-"Übersetzungsdienste wurde hinzugefügt."
+"Übersetzungsdienste hinzugefügt."
 
 #: ../../changes.rst:1390
 msgid "Added support for HTML markup in whiteboard messages."
@@ -27622,8 +27339,7 @@ msgstr ""
 #: ../../changes.rst:1395
 msgid "Added support for DeepL machine translation service."
 msgstr ""
-"Unterstützung für den maschinellen Übersetzungsdienst DeepL wurde "
-"hinzugefügt."
+"Unterstützung für den maschinellen Übersetzungsdienst DeepL hinzugefügt."
 
 #: ../../changes.rst:1396
 msgid "Machine translation results are now cached inside Weblate."
@@ -27632,8 +27348,7 @@ msgstr ""
 #: ../../changes.rst:1397
 msgid "Added support for reordering committed changes."
 msgstr ""
-"Unterstützung für die Neuordnung von bestätigten Änderungen wurde "
-"hinzugefügt."
+"Unterstützung für die Neuordnung von bestätigten Änderungen hinzugefügt."
 
 #: ../../changes.rst:1400
 msgid "Weblate 2.19.1"
@@ -27645,11 +27360,11 @@ msgstr "Veröffentlicht am 20. Februar 2018."
 
 #: ../../changes.rst:1404
 msgid "Fixed migration issue on upgrade from 2.18."
-msgstr ""
+msgstr "Migrationsproblem beim Upgrade von 2.18 behoben."
 
 #: ../../changes.rst:1405
 msgid "Improved file upload API validation."
-msgstr ""
+msgstr "Verbesserte Validierung der Dateiupload-API."
 
 #: ../../changes.rst:1408
 msgid "Weblate 2.19"
@@ -27706,15 +27421,15 @@ msgstr "Verbesserte integrierte automatische Übersetzung."
 
 #: ../../changes.rst:1423
 msgid "Added support for SAP Translation Hub service."
-msgstr ""
+msgstr "Unterstützung für den SAP Translation Hub Dienst hinzugefügt."
 
 #: ../../changes.rst:1424
 msgid "Added support for Microsoft Terminology service."
-msgstr ""
+msgstr "Unterstützung für den Microsoft Terminology Dienst hinzugefügt."
 
 #: ../../changes.rst:1425
 msgid "Removed support for advertisement in notification e-mails."
-msgstr ""
+msgstr "Unterstützung für Werbung in Benachrichtigungs-E-Mails entfernt."
 
 #: ../../changes.rst:1426
 msgid "Improved translation progress reporting at language level."
@@ -27871,7 +27586,7 @@ msgstr ""
 
 #: ../../changes.rst:1482
 msgid "Fixed git exporter authentication."
-msgstr "Die Authentifizierung des Git-Exporters wurde korrigiert."
+msgstr "Die Authentifizierung des Git-Exporters korrigiert."
 
 #: ../../changes.rst:1483
 msgid "Improved CSV import in certain situations."
@@ -27896,7 +27611,7 @@ msgstr ""
 #: ../../changes.rst:1488
 msgid "Fixed component/project/site wide search for translations."
 msgstr ""
-"Die Komponenten-, Projekt- und plattformweite Suche nach Übersetzungen wurde "
+"Die Komponenten-, Projekt- und plattformweite Suche nach Übersetzungen "
 "korrigiert."
 
 #: ../../changes.rst:1491
@@ -28138,7 +27853,7 @@ msgstr ""
 
 #: ../../changes.rst:1567
 msgid "Added more fine grained privileges control."
-msgstr "Eine feinere Kontrolle der Berechtigungen wurde hinzugefügt."
+msgstr "Eine feinere Kontrolle der Berechtigungen hinzugefügt."
 
 #: ../../changes.rst:1568
 msgid "Various minor UI improvements."
@@ -28408,7 +28123,7 @@ msgid ""
 "Added support for uploading visual context (screenshots) for translations."
 msgstr ""
 "Unterstützung für das Hochladen von visuellem Kontext (Bildschirmfotos) für "
-"Übersetzungen wurde hinzugefügt."
+"Übersetzungen hinzugefügt."
 
 #: ../../changes.rst:1655
 msgid "Weblate 2.8"
@@ -28618,8 +28333,7 @@ msgstr ""
 #: ../../changes.rst:1722
 msgid "Fixed site wide search for failing checks."
 msgstr ""
-"Die plattformweite Suche nach fehlgeschlagenen Qualitätsprüfungen wurde "
-"korrigiert."
+"Die plattformweite Suche nach fehlgeschlagenen Qualitätsprüfungen korrigiert."
 
 #: ../../changes.rst:1723
 msgid "Added option to specify source language."
@@ -28711,6 +28425,8 @@ msgstr ""
 #: ../../changes.rst:1747
 msgid "Added support for configurable automatic group assignments."
 msgstr ""
+"Unterstützung für konfigurierbare automatische Gruppenzuweisungen "
+"hinzugefügt."
 
 #: ../../changes.rst:1748
 msgid "Improved adding of new translations."
@@ -29459,8 +29175,7 @@ msgstr ""
 
 #: ../../changes.rst:1984
 msgid "Fixed error handling with machine translation services."
-msgstr ""
-"Die Fehlerbehandlung bei maschinellen Übersetzungsdiensten wurde korrigiert."
+msgstr "Die Fehlerbehandlung bei maschinellen Übersetzungsdiensten korrigiert."
 
 #: ../../changes.rst:1985
 msgid "Improved automatic translation locking behaviour."
@@ -31592,6 +31307,7 @@ msgstr "Sprachdefinitionen hinzufügen"
 msgid ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 msgstr ""
+":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:-1
 #, fuzzy
@@ -31601,7 +31317,7 @@ msgstr "Daten exportieren"
 
 #: ../../contributing/schemas.rst:19
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
@@ -41540,12 +41256,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:370
-#, fuzzy
-#| msgid "Fixed displaying of :guilabel:`Automatically translated` label."
 msgid ""
 "The automatically translated strings are labelled :guilabel:`Automatically "
 "translated`."
-msgstr "Die Anzeige von :guilabel:`Automatisch übersetzt` wurde korrigiert."
+msgstr ""
+"Die automatisch übersetzten Zeichenfolgen sind mit :guilabel:`Automatisch "
+"übersetzt` gekennzeichnet."
 
 #: ../../user/translating.rst:382
 msgid ""
