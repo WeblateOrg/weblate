@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-31 08:01+0000\n"
+"PO-Revision-Date: 2022-12-31 09:56+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -10881,14 +10881,18 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
+"Wenn Sie den Weblate-Benutzer nicht zu einem Superuser in PostgreSQL machen "
+"wollen, können Sie das weglassen. In diesem Fall müssen Sie einige der "
+"Migrationsschritte manuell als PostgreSQL-Superuser im Schema durchführen, "
+"das Weblate verwenden wird:"
 
 #: ../../admin/install.rst:382
 msgid "Configuring Weblate to use PostgreSQL"
-msgstr ""
+msgstr "Weblate für die Verwendung von PostgreSQL konfigurieren"
 
 #: ../../admin/install.rst:384
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr ""
+msgstr "Das :file:`settings.py`-Snippet für PostgreSQL:"
 
 #: ../../admin/install.rst:408
 msgid ""
@@ -10902,10 +10906,21 @@ msgid ""
 "set ``ALTER_ROLE`` to change name of the role Weblate should alter during "
 "the database migration."
 msgstr ""
+"Die Datenbankmigration führt `ALTER ROLE <https://www.postgresql.org/docs/12/"
+"sql-alterrole.html>`_ für die von Weblate verwendete Datenbankrolle durch. "
+"In den meisten Fällen stimmt der Name der Rolle mit dem Benutzernamen "
+"überein. In komplexeren Setups unterscheidet sich der Rollenname vom "
+"Benutzernamen und Sie erhalten eine Fehlermeldung über eine nicht "
+"existierende Rolle während der Datenbankmigration (``psycopg2.errors."
+"UndefinedObject: role \"weblate@hostname\" does not exist``). Es ist "
+"bekannt, dass dies mit Azure Database for PostgreSQL passiert, aber es ist "
+"nicht auf diese Umgebung beschränkt. Bitte setzen Sie ``ALTER_ROLE``, um den "
+"Namen der Rolle zu ändern, die Weblate während der Datenbankmigration ändern "
+"soll."
 
 #: ../../admin/install.rst:421
 msgid "MySQL and MariaDB"
-msgstr ""
+msgstr "MySQL und MariaDB"
 
 #: ../../admin/install.rst:425
 msgid ""
@@ -10913,6 +10928,9 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
+"Einige Weblate-Funktionen werden mit :ref:`postgresql` besser funktionieren. "
+"Dazu gehören die Suche und das Translation Memory, die Volltextfunktionen in "
+"der Datenbank nutzen, wobei die PostgreSQL-Implementierung besser ist."
 
 #: ../../admin/install.rst:429
 msgid ""
@@ -10921,34 +10939,44 @@ msgid ""
 "those. Because of the limitations it is recommended to use :ref:`postgresql` "
 "for new installations."
 msgstr ""
+"Weblate kann auch mit MySQL oder MariaDB verwendet werden, bitte lesen Sie "
+":ref:`django:mysql-notes` und :ref:`django:mariadb-notes` für Hinweise zur "
+"Verwendung von Django mit diesen. Aufgrund der Einschränkungen wird "
+"empfohlen, :ref:`postgresql` für neue Installationen zu verwenden."
 
 #: ../../admin/install.rst:434
 msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
 msgstr ""
+"Weblate benötigt MySQL mindestens in der Version 5.7.8 oder MariaDB "
+"mindestens in der Version 10.2.7."
 
 #: ../../admin/install.rst:436
 msgid "Following configuration is recommended for Weblate:"
-msgstr ""
+msgstr "Die folgende Konfiguration wird für Weblate empfohlen:"
 
 #: ../../admin/install.rst:438
 msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
+"Verwenden Sie den Zeichensatz ``utf8mb4``, um die Darstellung höherer "
+"Unicode-Ebenen (zum Beispiel Emojis) zu ermöglichen."
 
 #: ../../admin/install.rst:439
 msgid ""
 "Configure the server with ``innodb_large_prefix`` to allow longer indices on "
 "text fields."
 msgstr ""
+"Konfigurieren Sie den Server mit ``innodb_large_prefix``, um längere Indizes "
+"für Textfelder zu ermöglichen."
 
 #: ../../admin/install.rst:440
 msgid "Set the isolation level to ``READ COMMITTED``."
-msgstr ""
+msgstr "Setzen Sie die Isolationsstufe auf ``READ COMMITTED``."
 
 #: ../../admin/install.rst:441
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
-msgstr ""
+msgstr "Der SQL-Modus sollte auf ``STRICT_TRANS_TABLES`` eingestellt werden."
 
 #: ../../admin/install.rst:443
 msgid ""
@@ -10956,6 +10984,9 @@ msgid ""
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
 msgstr ""
+"MySQL 8.x, MariaDB 10.5.x oder neuer haben eine vernünftige "
+"Standardkonfiguration, sodass keine Serveranpassung notwendig sein sollte "
+"und alles, was benötigt wird, auf der Client-Seite konfiguriert werden kann."
 
 #: ../../admin/install.rst:447
 msgid ""
@@ -10966,6 +10997,13 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
+"Im Folgenden finden Sie ein Beispiel für die :Datei:`/etc/my.cnf.d/server."
+"cnf` für einen Server mit 8 GB RAM. Diese Einstellungen sollten für die "
+"meisten Installationen ausreichend sein. MySQL und MariaDB verfügen über "
+"Einstellungen, die die Leistung Ihres Servers erhöhen, die aber nicht als "
+"notwendig erachtet werden, es sei denn, Sie planen, dass eine große Anzahl "
+"von Benutzern gleichzeitig auf das System zugreift. Einzelheiten hierzu "
+"finden Sie in der Dokumentation des jeweiligen Anbieters."
 
 #: ../../admin/install.rst:454
 msgid ""
@@ -10973,6 +11011,9 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
+"Um Probleme bei der Installation zu vermeiden, ist es absolut wichtig, dass "
+"die Einstellung ``innodb_file_per_table`` richtig gesetzt ist und MySQL/"
+"MariaDB neu gestartet wurde, bevor Sie Ihre Weblate-Installation starten."
 
 #: ../../admin/install.rst:477
 msgid ""
@@ -10980,12 +11021,18 @@ msgid ""
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
+"Falls Sie den Fehler ``#1071 - Specified key was too long; max key length is "
+"767 bytes`` erhalten, aktualisieren Sie bitte Ihre Konfiguration, um die "
+"obigen Einstellungen ``innodb`` zu übernehmen und starten Sie Ihre "
+"Installation neu."
 
 #: ../../admin/install.rst:483
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
+"Falls Sie den Fehler ``#2006 - MySQL server has gone away`` erhalten, könnte "
+"die Konfiguration von :setting:`django:CONN_MAX_AGE` helfen."
 
 #: ../../admin/install.rst:487
 msgid "Configuring Weblate to use MySQL/MariaDB"
@@ -10993,21 +11040,24 @@ msgstr "Weblate für die Verwendung von MySQL/MariaDB konfigurieren"
 
 #: ../../admin/install.rst:489
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
-msgstr ""
+msgstr "Das :file:`settings.py`-Snippet für MySQL und MariaDB:"
 
 #: ../../admin/install.rst:513
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
 msgstr ""
+"Sie sollten auch das Benutzerkonto ``weblate`` in MySQL oder MariaDB "
+"erstellen, bevor Sie mit der Installation beginnen. Verwenden Sie dazu die "
+"folgenden Befehle:"
 
 #: ../../admin/install.rst:522
 msgid "Other configurations"
-msgstr ""
+msgstr "Andere Konfigurationen"
 
 #: ../../admin/install.rst:527
 msgid "Configuring outgoing e-mail"
-msgstr ""
+msgstr "Konfigurieren ausgehender E-Mail"
 
 #: ../../admin/install.rst:529
 msgid ""
@@ -11015,6 +11065,9 @@ msgid ""
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
 msgstr ""
+"Weblate verschickt zu verschiedenen Anlässen E-Mails - zur Kontoaktivierung "
+"und zu verschiedenen vom Nutzer konfigurierten Benachrichtigungen. Hierfür "
+"benötigt es Zugang zu einem SMTP-Server."
 
 #: ../../admin/install.rst:533
 msgid ""
@@ -11024,6 +11077,12 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"Das Mailserver-Setup wird mit diesen Einstellungen konfiguriert: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER` und :setting:`django:EMAIL_PORT`. Ihre "
+"Namen sind ziemlich selbsterklärend, aber Sie können mehr Informationen in "
+"der Django-Dokumentation finden."
 
 #: ../../admin/install.rst:542
 msgid ""
@@ -11032,16 +11091,23 @@ msgid ""
 "insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
+"Falls Sie die Fehlermeldung erhalten, dass die Authentifizierung nicht "
+"unterstützt wird (z.B. ``SMTP AUTH extension not supported by server``), "
+"liegt das wahrscheinlich daran, dass Sie eine unsichere Verbindung verwenden "
+"und der Server sich weigert, sich auf diese Weise zu authentifizieren. "
+"Versuchen Sie in diesem Fall :setting:`django:EMAIL_USE_TLS` zu aktivieren."
 
 #: ../../admin/install.rst:549
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
+":ref:`debug-mails`, :ref:`Konfiguration der ausgehenden E-Mails im Docker-"
+"Container <docker-mail>`"
 
 #: ../../admin/install.rst:555
 msgid "Running behind reverse proxy"
-msgstr ""
+msgstr "Hinter einem Reverse-Proxy laufen"
 
 #: ../../admin/install.rst:557
 msgid ""
