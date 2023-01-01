@@ -9,7 +9,7 @@
 # Ettore Atalan <atalanttore@googlemail.com>, 2022.
 # Vri 🌈 <weblate@vrifox.cc>, 2022.
 # Anonynonymouse <tom.spaine60388@gmail.com>, 2022.
-# ssantos <ssantos@web.de>, 2022.
+# ssantos <ssantos@web.de>, 2022, 2023.
 # Jean-Luc Tibaux <eugentoptic@outlook.de>, 2022.
 # Justin Nogossek <justmegaliga10000@gmail.com>, 2022.
 # Felix Herold <felix@herold.solutions>, 2022.
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-31 09:56+0000\n"
+"PO-Revision-Date: 2023-01-01 12:05+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -11114,12 +11114,17 @@ msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
+"Mehrere Funktionen in Weblate sind darauf angewiesen, dass die IP-Adresse "
+"des Clients ermittelt werden kann. Dazu gehören :ref:`rate-limit`, :ref"
+":`Spam-protection` oder :ref:`audit-log`."
 
 #: ../../admin/install.rst:560
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
 msgstr ""
+"In der Standardkonfiguration parst Weblate die IP-Adresse von ``REMOTE_ADDR``"
+", die durch den WSGI-Handler gesetzt wird."
 
 #: ../../admin/install.rst:563
 msgid ""
@@ -11131,6 +11136,15 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
+"Falls Sie einen Reverse-Proxy verwenden, enthält dieses Feld "
+"höchstwahrscheinlich dessen Adresse. Sie müssen Weblate so konfigurieren, "
+"dass es zusätzlichen HTTP-Headern vertraut und die IP-Adresse aus diesen "
+"auswertet. Dies kann nicht standardmäßig aktiviert werden, da dies bei "
+"Installationen, die keinen Reverse-Proxy verwenden, IP-Adress-Spoofing "
+"ermöglichen würde. Die Aktivierung von :setting:`IP_BEHIND_REVERSE_PROXY` "
+"dürfte für die meisten üblichen Installationen ausreichen, aber "
+"möglicherweise müssen Sie auch :setting:`IP_PROXY_HEADER` und "
+":setting:`IP_PROXY_OFFSET` anpassen."
 
 #: ../../admin/install.rst:571
 msgid ""
@@ -11140,6 +11154,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Eine weitere Sache, auf die Sie achten müssen, ist der :http:header:`Host`-"
+"Header. Er sollte mit dem übereinstimmen, der als :setting:`SITE_DOMAIN` "
+"konfiguriert ist. Möglicherweise ist eine zusätzliche Konfiguration in Ihrem "
+"Reverse-Proxy erforderlich (verwenden Sie zum Beispiel ``ProxyPreserveHost "
+"On`` für Apache oder ``proxy_set_header Host $host;`` für nginx)."
 
 #: ../../admin/install.rst:578
 msgid ""
@@ -11153,7 +11172,7 @@ msgstr ""
 
 #: ../../admin/install.rst:587
 msgid "HTTP proxy"
-msgstr ""
+msgstr "HTTP-Proxy"
 
 #: ../../admin/install.rst:589
 msgid ""
@@ -11161,16 +11180,21 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
+"Weblate führt VCS-Befehle aus und diese akzeptieren die Proxy-Konfiguration "
+"aus der Umgebung. Es wird empfohlen, die Proxy-Einstellungen in "
+":file:`settings.py` zu definieren:"
 
 #: ../../admin/install.rst:602
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr ""
+"`Proxy-Umgebungsvariablen <https://everything.curl.dev/usingcurl/proxies/"
+"env>`_"
 
 #: ../../admin/install.rst:607
 msgid "Adjusting configuration"
-msgstr ""
+msgstr "Anpassen der Konfiguration"
 
 #: ../../admin/install.rst:611
 msgid ":ref:`sample-configuration`"
@@ -11182,6 +11206,9 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
+"Kopieren Sie :file:`weblate/settings_example.py` nach :file:`weblate/settings"
+".py` und passen Sie es an Ihre Einrichtung an. Wahrscheinlich werden Sie die "
+"folgenden Optionen anpassen:"
 
 #: ../../admin/install.rst:619
 msgid "``ADMINS``"
@@ -11192,6 +11219,9 @@ msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
+"Liste der Website-Administratoren, die Benachrichtigungen erhalten sollen, "
+"wenn etwas schiefläuft, z. B. Benachrichtigungen über fehlgeschlagene Merges "
+"oder Django-Fehler."
 
 #: ../../admin/install.rst:626
 msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
@@ -11206,10 +11236,12 @@ msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
+"Sie müssen hier die Hosts auflisten, die Ihre Website bedienen soll. Zum "
+"Beispiel:"
 
 #: ../../admin/install.rst:640
 msgid "Alternatively you can include wildcard:"
-msgstr ""
+msgstr "Alternativ können Sie auch einen Platzhalter einfügen:"
 
 #: ../../admin/install.rst:648
 msgid ""
@@ -11229,12 +11261,18 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
+"Konfigurieren Sie, wie Ihre Sitzungen gespeichert werden sollen. Wenn Sie "
+"die Standard-Datenbank-Backend-Engine beibehalten, sollten Sie Folgendes "
+"einplanen: :command:`weblate clearsessions`, um veraltete Sitzungsdaten aus "
+"der Datenbank zu entfernen."
 
 #: ../../admin/install.rst:661
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
+"Wenn Sie Redis als Cache verwenden (siehe :ref:`production-cache`), ist es "
+"empfehlenswert, ihn auch für Sitzungen zu verwenden:"
 
 #: ../../admin/install.rst:670
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
@@ -11249,6 +11287,8 @@ msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
+"Verbindung zum Datenbankserver, bitte lesen Sie die Django-Dokumentation für "
+"weitere Details."
 
 #: ../../admin/install.rst:682
 msgid ""
@@ -11268,12 +11308,18 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"Deaktivieren Sie dies für alle Produktionsserver. Wenn der Debug-Modus "
+"aktiviert ist, zeigt Django den Benutzern im Falle eines Fehlers Backtraces "
+"an. Wenn Sie ihn deaktivieren, werden Fehler per E-Mail an ``ADMINS`` (siehe "
+"oben) gesendet."
 
 #: ../../admin/install.rst:694
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
+"Der Debug-Modus verlangsamt auch Weblate, da Django in diesem Fall viel mehr "
+"Informationen intern speichert."
 
 #: ../../admin/install.rst:699
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
@@ -11287,6 +11333,7 @@ msgstr ""
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
+"E-Mail-Absenderadresse für ausgehende E-Mails, z. B. Registrierungs-E-Mails."
 
 #: ../../admin/install.rst:710
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
@@ -11301,6 +11348,8 @@ msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
+"Schlüssel, der von Django verwendet wird, um einige Informationen in Cookies "
+"zu signieren, siehe :ref:`production-secret` für weitere Informationen."
 
 #: ../../admin/install.rst:721
 msgid ":setting:`django:SECRET_KEY`"
@@ -11315,6 +11364,9 @@ msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
+"E-Mail, die als Absenderadresse für den Versand von E-Mails an den "
+"Administrator verwendet wird, z. B. für Benachrichtigungen über "
+"fehlgeschlagene Merges."
 
 #: ../../admin/install.rst:732
 msgid ":setting:`django:SERVER_EMAIL`"
@@ -11322,7 +11374,7 @@ msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:737
 msgid "Filling up the database"
-msgstr ""
+msgstr "Füllen der Datenbank"
 
 #: ../../admin/install.rst:739
 msgid ""
@@ -11330,6 +11382,9 @@ msgid ""
 "create the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
+"Nachdem Ihre Konfiguration fertig ist, können Sie :samp:`weblate migrate` "
+"ausführen, um die Datenbankstruktur zu erstellen. Nun sollten Sie in der "
+"Lage sein, Übersetzungsprojekte über die Adminoberfläche zu erstellen."
 
 #: ../../admin/install.rst:743
 msgid ""
@@ -11337,6 +11392,9 @@ msgid ""
 "`weblate migrate --noinput`, and then create an admin user using :djadmin:"
 "`createadmin` command."
 msgstr ""
+"Wenn Sie die Installation nicht interaktiv durchführen möchten, können Sie "
+":samp:`weblate migrate --noinput` verwenden und dann mit dem Befehl "
+":djadmin:`createadmin` einen Administrator-Benutzer anlegen."
 
 #: ../../admin/install.rst:747
 msgid ""
@@ -11344,14 +11402,17 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
+"Wenn Sie fertig sind, sollten Sie auch den :guilabel:`Performance report` in "
+"der Verwaltungsoberfläche überprüfen, der Ihnen Hinweise auf eine "
+"möglicherweise nicht optimale Konfiguration Ihrer Website gibt."
 
 #: ../../admin/install.rst:753
 msgid ":ref:`config`, :ref:`privileges`"
-msgstr ""
+msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:759
 msgid "Production setup"
-msgstr ""
+msgstr "Produktionseinrichtung"
 
 #: ../../admin/install.rst:761
 msgid ""
@@ -11360,36 +11421,48 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
+"Für eine Produktionseinrichtung sollten Sie die in den folgenden Abschnitten "
+"beschriebenen Anpassungen vornehmen. Die kritischsten Einstellungen lösen "
+"eine Warnung aus, die durch ein Ausrufezeichen in der oberen Leiste "
+"angezeigt wird, wenn Sie als Superuser angemeldet sind:"
 
 #: ../../admin/install.rst:767
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr ""
+"Es wird auch empfohlen, die von Django ausgelösten Prüfungen zu "
+"kontrollieren (auch wenn Sie nicht alle korrigieren müssen):"
 
 #: ../../admin/install.rst:774
 msgid ""
 "You can also review the very same checklist from the :ref:`management-"
 "interface`."
 msgstr ""
+"Sie können die gleiche Checkliste auch über die :ref:`management-interface` "
+"einsehen."
 
 #: ../../admin/install.rst:778
 msgid ":doc:`django:howto/deployment/checklist`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/checklist`"
 
 #: ../../admin/install.rst:783
 msgid "Disable debug mode"
-msgstr ""
+msgstr "Debugmodus deaktivieren"
 
 #: ../../admin/install.rst:785
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr ""
+"Deaktivieren Sie den Debug-Modus von Django (:Einstellung:`DEBUG`) durch:"
 
 #: ../../admin/install.rst:791
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
+"Wenn der Debug-Modus aktiviert ist, speichert Django alle ausgeführten "
+"Abfragen und zeigt den Benutzern Rückverfolgungen von Fehlern an, was in "
+"einer Produktionsumgebung nicht erwünscht ist."
 
 #: ../../admin/install.rst:796 ../../admin/install.rst:812
 msgid ":ref:`configuration`"
@@ -11397,7 +11470,7 @@ msgstr ""
 
 #: ../../admin/install.rst:801
 msgid "Properly configure admins"
-msgstr ""
+msgstr "Administratoren richtig konfigurieren"
 
 #: ../../admin/install.rst:803
 msgid ""
@@ -11405,10 +11478,13 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Setzen Sie die richtigen Administrator-Adressen in die Einstellung "
+":setting:`ADMINS`, um festzulegen, wer E-Mails erhalten soll, wenn z.B. auf "
+"dem Server etwas schiefläuft:"
 
 #: ../../admin/install.rst:817
 msgid "Set correct site domain"
-msgstr ""
+msgstr "Stellen Sie die richtige Websitedomäne ein"
 
 #: ../../admin/install.rst:819
 msgid ""
@@ -11416,12 +11492,18 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"Passen Sie den Plattform-Namen und die Domain in der "
+"Verwaltungsschnittstelle an, da sonst die Links in RSS oder Registrierungs-E-"
+"Mails nicht funktionieren. Dies wird mit :setting:`SITE_DOMAIN` "
+"konfiguriert, das die Seitendomain enthalten sollte."
 
 #: ../../admin/install.rst:825
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
+"Vor der Version 4.2 wurde stattdessen das Django Sites Framework verwendet, "
+"siehe :doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:830
 msgid ""
@@ -11433,7 +11515,7 @@ msgstr ""
 
 #: ../../admin/install.rst:839
 msgid "Correctly configure HTTPS"
-msgstr ""
+msgstr "HTTPS richtig konfigurieren"
 
 #: ../../admin/install.rst:841
 msgid ""
@@ -11441,12 +11523,17 @@ msgid ""
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
+"Es wird dringend empfohlen, Weblate über das verschlüsselte HTTPS-Protokoll "
+"laufen zu lassen. Nachdem Sie es aktiviert haben, sollten Sie "
+":setting:`ENABLE_HTTPS` in den Einstellungen setzen:"
 
 #: ../../admin/install.rst:850
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
+"Vielleicht möchten Sie auch HSTS einrichten, siehe :ref:'django:security-"
+"recommendation-ssl' für weitere Details."
 
 #: ../../admin/install.rst:855
 msgid ""
@@ -11456,7 +11543,7 @@ msgstr ""
 
 #: ../../admin/install.rst:861
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "SECURE_HSTS_SECONDS richtig einstellen"
 
 #: ../../admin/install.rst:863
 msgid ""
