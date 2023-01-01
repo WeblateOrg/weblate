@@ -213,6 +213,12 @@ LICENSES = (
     ("Barr", "Barr License", "https://spdx.org/licenses/Barr.html", False),
     ("Beerware", "Beerware License", "https://spdx.org/licenses/Beerware.html", True),
     (
+        "Bitstream-Charter",
+        "Bitstream Charter Font License",
+        "https://spdx.org/licenses/Bitstream-Charter.html",
+        False,
+    ),
+    (
         "Bitstream-Vera",
         "Bitstream Vera Font License",
         "https://spdx.org/licenses/Bitstream-Vera.html",
@@ -481,6 +487,7 @@ LICENSES = (
         "https://spdx.org/licenses/CDL-1.0.html",
         False,
     ),
+    ("LOOP", "Common Lisp LOOP License", "https://spdx.org/licenses/LOOP.html", False),
     (
         "CPAL-1.0",
         "Common Public Attribution License 1.0",
@@ -1263,6 +1270,12 @@ LICENSES = (
         False,
     ),
     (
+        "Graphics-Gems",
+        "Graphics Gems License",
+        "https://spdx.org/licenses/Graphics-Gems.html",
+        False,
+    ),
+    (
         "gSOAP-1.3b",
         "gSOAP Public License v1.3b",
         "https://spdx.org/licenses/gSOAP-1.3b.html",
@@ -1290,6 +1303,12 @@ LICENSES = (
         "HPND-sell-variant",
         "Historical Permission Notice and Disclaimer - sell variant",
         "https://spdx.org/licenses/HPND-sell-variant.html",
+        False,
+    ),
+    (
+        "HPND-export-US",
+        "HPND with US Government export control warning",
+        "https://spdx.org/licenses/HPND-export-US.html",
         False,
     ),
     ("HTMLTIDY", "HTML Tidy License", "https://spdx.org/licenses/HTMLTIDY.html", False),
@@ -1324,6 +1343,12 @@ LICENSES = (
         "Independent JPEG Group License",
         "https://spdx.org/licenses/IJG.html",
         True,
+    ),
+    (
+        "IJG-short",
+        "Independent JPEG Group License - short",
+        "https://spdx.org/licenses/IJG-short.html",
+        False,
     ),
     ("Info-ZIP", "Info-ZIP License", "https://spdx.org/licenses/Info-ZIP.html", False),
     (
@@ -1541,6 +1566,7 @@ LICENSES = (
         "https://spdx.org/licenses/MIT-open-group.html",
         False,
     ),
+    ("MIT-Wu", "MIT Tom Wu Variant", "https://spdx.org/licenses/MIT-Wu.html", False),
     ("Motosoto", "Motosoto License", "https://spdx.org/licenses/Motosoto.html", True),
     (
         "MPL-1.0",
@@ -2219,6 +2245,7 @@ LICENSES = (
         "https://spdx.org/licenses/TU-Berlin-2.0.html",
         False,
     ),
+    ("TTWL", "Text-Tabs+Wrap License", "https://spdx.org/licenses/TTWL.html", False),
     ("MirOS", "The MirOS Licence", "https://spdx.org/licenses/MirOS.html", True),
     (
         "Parity-6.0.0",
@@ -2233,6 +2260,7 @@ LICENSES = (
         False,
     ),
     ("Unlicense", "The Unlicense", "https://spdx.org/licenses/Unlicense.html", True),
+    ("TPDL", "Time::ParseDate License", "https://spdx.org/licenses/TPDL.html", False),
     (
         "TMate",
         "TMate Open Source License",
