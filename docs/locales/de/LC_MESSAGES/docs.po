@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2023-01-01 12:05+0000\n"
+"PO-Revision-Date: 2023-01-01 13:56+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -11551,29 +11551,43 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"Wenn Ihre Website über SSL bereitgestellt wird, müssen Sie einen Wert für "
+":setting:`django:SECURE_HSTS_SECONDS` in der :file:`settings.py` setzen, um "
+"HTTP Strict Transport Security zu aktivieren. Standardmäßig ist dieser Wert "
+"auf 0 gesetzt, wie unten gezeigt."
 
 #: ../../admin/install.rst:871
+#, fuzzy
 msgid ""
 "If set to a non-zero integer value, the :class:`django:django.middleware."
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"Wenn auf einen Integer-Wert ungleich Null gesetzt, setzt die "
+":class:`django:django.middleware.security.SecurityMiddleware` den "
+":ref:`django:http-strict-transport-security`-Header auf alle Antworten, die "
+"ihn nicht bereits haben."
 
 #: ../../admin/install.rst:876
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
+"Eine falsche Einstellung kann Ihre Website unwiderruflich (für einige Zeit) "
+"zerstören. Lesen Sie zuerst die :ref:`django:http-strict-transport-security` "
+"Dokumentation."
 
 #: ../../admin/install.rst:883
 msgid "Use a powerful database engine"
-msgstr ""
+msgstr "Verwenden Sie eine leistungsstarke Datenbank-Engine"
 
 #: ../../admin/install.rst:885
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
+"Bitte verwenden Sie PostgreSQL für eine Produktionsumgebung, siehe :ref"
+":`database-setup` für weitere Informationen."
 
 #: ../../admin/install.rst:887
 msgid ""
@@ -11597,26 +11611,32 @@ msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:902
 msgid "Enable caching"
-msgstr ""
+msgstr "Aktivieren Sie Caching"
 
 #: ../../admin/install.rst:904
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
+"Wenn möglich, verwenden Sie Redis von Django aus, indem Sie z.B. die "
+"Konfigurationsvariable ``CACHES`` anpassen:"
 
 #: ../../admin/install.rst:925
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
+"Falls Sie die Redis-Einstellungen für den Cache ändern, müssen Sie diese "
+"möglicherweise auch für Celery anpassen, siehe :ref:`celery`."
 
 #: ../../admin/install.rst:930
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ""
+msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:936
 msgid "Avatar caching"
@@ -11627,6 +11647,9 @@ msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
+"Neben der Zwischenspeicherung von Django führt Weblate auch eine "
+"Zwischenspeicherung von Avataren durch. Es wird empfohlen, für diesen Zweck "
+"einen separaten, dateibasierten Cache zu verwenden:"
 
 #: ../../admin/install.rst:965
 msgid ""
@@ -11638,7 +11661,7 @@ msgstr ""
 
 #: ../../admin/install.rst:974
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "Konfigurieren Sie den E-Mail-Versand"
 
 #: ../../admin/install.rst:976
 msgid ""
@@ -11647,18 +11670,27 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate muss bei verschiedenen Gelegenheiten E-Mails verschicken und diese E-"
+"Mails sollten eine korrekte Absenderadresse haben. Bitte konfigurieren Sie "
+":setting:`SERVER_EMAIL` und :setting:`DEFAULT_FROM_EMAIL` so, dass sie zu "
+"Ihrer Umgebung passen, z.B.:"
 
 #: ../../admin/install.rst:988
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"Um den Versand von E-Mails durch Weblate zu deaktivieren, setzen Sie "
+":setting:`django:EMAIL_BACKEND` auf ``django.core.mail.backends.dummy."
+"EmailBackend``."
 
 #: ../../admin/install.rst:991
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Dies deaktiviert *alle* E-Mails, einschließlich der E-Mails zur "
+"Registrierung oder zum Zurücksetzen des Passworts."
 
 #: ../../admin/install.rst:996
 msgid ""
@@ -11670,13 +11702,16 @@ msgstr ""
 
 #: ../../admin/install.rst:1006
 msgid "Allowed hosts setup"
-msgstr ""
+msgstr "Einrichtung zulässiger Hosts"
 
 #: ../../admin/install.rst:1008
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django benötigt :setting:`ALLOWED_HOSTS`, um eine Liste von Domänennamen zu "
+"speichern, die Ihre Seite bedienen darf. Wenn Sie die Liste leer lassen, "
+"werden alle Anfragen blockiert."
 
 #: ../../admin/install.rst:1011
 msgid ""
