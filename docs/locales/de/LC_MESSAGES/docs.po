@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2023-01-03 16:02+0000\n"
+"PO-Revision-Date: 2023-01-05 10:24+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -12206,36 +12206,47 @@ msgstr ""
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"In der folgenden Konfiguration wird Weblate als uWSGI unter dem NGINX-"
+"Webserver ausgeführt."
 
 #: ../../admin/install.rst:1282
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"Konfiguration für NGINX (auch verfügbar als :file:`weblate/examples/weblate."
+"nginx.conf`):"
 
 #: ../../admin/install.rst:1287
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"Konfiguration für uWSGI (auch verfügbar als :file:`weblate/examples/weblate."
+"uwsgi.ini`):"
 
 #: ../../admin/install.rst:1294
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1299
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Beispielkonfiguration für Apache"
 
 #: ../../admin/install.rst:1301 ../../admin/install.rst:1341
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr ""
+"Es wird empfohlen, prefork MPM zu verwenden, wenn WSGI mit Weblate genutzt "
+"wird."
 
 #: ../../admin/install.rst:1303
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"Die folgende Konfiguration lässt Weblate als WSGI laufen, Sie müssen "
+"``mod_wsgi`` aktiviert haben (verfügbar als :file:`weblate/examples/apache."
+"conf`):"
 
 #: ../../admin/install.rst:1311
 msgid ""
@@ -12243,28 +12254,33 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate erfordert Python 3, also stellen Sie bitte sicher, dass Sie die "
+"Python 3-Variante des modwsgi verwenden. Normalerweise ist es als separates "
+"Paket verfügbar, zum Beispiel ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1317
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
-msgstr ""
+msgstr ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1323
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Beispielkonfiguration für Apache und Gunicorn"
 
 #: ../../admin/install.rst:1325
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"Die folgende Konfiguration führt Weblate in Gunicorn und Apache 2.4 aus ("
+"verfügbar als :file:'weblate/examples/apache.gunicorn.conf'):"
 
 #: ../../admin/install.rst:1333
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1337
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Weblate unter Pfad ausführen"
 
 #: ../../admin/install.rst:1343
 msgid ""
@@ -12272,14 +12288,17 @@ msgid ""
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
+"Eine beispielhafte Apache-Konfiguration für die Bereitstellung von Weblate "
+"unter ``/weblate``. Wiederum unter ``mod_wsgi`` (auch verfügbar als :file:`"
+"weblate/examples/apache-path.conf`):"
 
 #: ../../admin/install.rst:1349
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Zusätzlich müssen Sie :file:`weblate/settings.py` anpassen:"
 
 #: ../../admin/install.rst:1358
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Hintergrundaufgaben mit Celery"
 
 #: ../../admin/install.rst:1362
 msgid ""
@@ -12287,16 +12306,23 @@ msgid ""
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
+"Weblate verwendet Celery, um regelmäßige Aufgaben und Hintergrundaufgaben "
+"auszuführen. Sie sollten einen Celery-Dienst laufen lassen, der diese "
+"ausführt. Er ist zum Beispiel für die folgenden Vorgänge zuständig (diese "
+"Liste ist nicht vollständig):"
 
 #: ../../admin/install.rst:1366
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr ""
+msgstr "Empfang von Webhooks von externen Diensten (siehe :ref:`hooks`)."
 
 #: ../../admin/install.rst:1367
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"Durchführung regelmäßiger Wartungsaufgaben wie Sicherungen, Bereinigungen, "
+"tägliche Erweiterungen oder Aktualisierungen (siehe :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
 #: ../../admin/install.rst:1369
 msgid "Running :ref:`auto-translation`."
@@ -12308,7 +12334,7 @@ msgstr "Zusammenfassungs-Benachrichtigungen senden."
 
 #: ../../admin/install.rst:1371
 msgid "Offloading expensive operations from the wsgi process."
-msgstr ""
+msgstr "Auslagerung kostspieliger Operationen aus dem wsgi-Prozess."
 
 #: ../../admin/install.rst:1372
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -12316,13 +12342,15 @@ msgstr "Übergabe ausstehender Änderungen (siehe :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1374
 msgid "A typical setup using Redis as a backend looks like this:"
-msgstr ""
+msgstr "Eine typische Einrichtung mit Redis als Backend sieht wie folgt aus:"
 
 #: ../../admin/install.rst:1384
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Redis-Broker-Konfiguration in Celery <celery:broker-redis-"
+"configuration>`"
 
 #: ../../admin/install.rst:1386
 msgid ""
@@ -12330,6 +12358,9 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"Sie sollten auch den Celery-Worker starten, um die Aufgaben zu verarbeiten "
+"und geplante Aufgaben zu starten. Dies kann direkt auf der Befehlszeile "
+"erfolgen (was vor allem beim Debuggen oder Entwickeln nützlich ist):"
 
 #: ../../admin/install.rst:1397
 msgid ""
@@ -12337,14 +12368,19 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
+"Der Celery-Prozess muss unter demselben Benutzer wie der WSGI-Prozess "
+"ausgeführt werden, sonst werden die Dateien im :setting:`DATA_DIR` mit "
+"unterschiedlichen Besitzverhältnissen gespeichert, was zu Laufzeitproblemen "
+"führt."
 
 #: ../../admin/install.rst:1401
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "Siehe auch :ref:`file-permissions` und :ref:`celery`."
 
 #: ../../admin/install.rst:1404
 msgid "Executing Celery tasks in the wsgi using eager mode"
 msgstr ""
+"Ausführung von Celery-Aufgaben in der wsgi unter Verwendung des Eager-Modus"
 
 #: ../../admin/install.rst:1408
 msgid ""
@@ -12612,12 +12648,18 @@ msgid ""
 "words. Storage space needed for cloned repositories varies, but Weblate "
 "tries to keep their size minimal by doing shallow clones."
 msgstr ""
+"Dies hat schwerwiegende Auswirkungen auf die Leistung der Weboberfläche und "
+"beeinträchtigt Funktionen, die von regelmäßigen Auslösern abhängen (z. B. "
+"das Übertragen ausstehender Änderungen, Digest-Benachrichtigungen oder "
+"Sicherungen)."
 
 #: ../../admin/install/steps/hw.rst:25
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Die tatsächlichen Anforderungen an Ihre Weblate-Installation hängen stark "
+"von der Größe der darin verwalteten Übersetzungen ab."
 
 #: ../../../README.rst:46 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -12625,7 +12667,7 @@ msgstr ""
 #: ../../admin/optionals.rst:138 ../../python.rst:11 ../../wlc.rst:18
 #: ../../admin/install/steps/install-system-devel.rst:2
 msgid "Installation"
-msgstr ""
+msgstr "Installation"
 
 #: ../../admin/install/docker.rst:15
 msgid ""
@@ -12633,22 +12675,31 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"Die folgenden Beispiele gehen davon aus, dass Sie eine funktionierende "
+"Docker-Umgebung haben, in der ``docker-compose`` installiert ist. "
+"Anweisungen hierzu finden Sie in der Docker-Dokumentation."
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "Klonen Sie das Weblate-Docker-Repository:"
 
 #: ../../admin/install/docker.rst:25
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Erstellen Sie eine Datei :file:`docker-compose.override.yml` mit Ihren "
+"Einstellungen. Siehe :ref:`docker-environment` für eine vollständige Liste "
+"der Umgebungsvariablen."
 
 #: ../../admin/install/docker.rst:47
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Wenn :envvar:`WEBLATE_ADMIN_PASSWORD` nicht gesetzt ist, wird der Benutzer "
+"admin mit einem zufälligen Passwort angelegt, das beim ersten Start "
+"angezeigt wird."
 
 #: ../../admin/install/docker.rst:50
 msgid ""
