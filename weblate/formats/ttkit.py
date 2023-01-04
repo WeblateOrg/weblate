@@ -63,7 +63,12 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.errors import report_error
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
@@ -171,6 +176,13 @@ class TTKitUnit(TranslationUnit):
         if hasattr(self.template, "xmlelement"):
             flags.merge(self.template.xmlelement)
         return flags.format()
+
+    def untranslate(self, language):
+        target = ""
+        if self.mainunit.hasplural():
+            target = [target] * language.plural.number
+        self.set_target(target)
+        self.set_state(STATE_EMPTY)
 
 
 class KeyValueUnit(TTKitUnit):
@@ -424,25 +436,13 @@ class TTKitFormat(TranslationFormat):
 
         return unit
 
-    def untranslate_unit(self, unit, plural, fuzzy: bool):
-        if hasattr(unit, "markapproved"):
-            # Xliff only
-            unit.markapproved(False)
-        else:
-            unit.markfuzzy(fuzzy)
-        if unit.hasplural():
-            unit.target = [""] * plural.number
-        else:
-            unit.target = ""
-
-    def untranslate_store(self, language, fuzzy: bool = False):
+    def untranslate_store(self, language):
         """Remove translations from Translate Toolkit store."""
         self.store.settargetlanguage(self.get_language_code(language.code))
-        plural = language.plural
 
-        for unit in self.store.units:
-            if unit.istranslatable() and (unit.istranslated() or unit.isfuzzy()):
-                self.untranslate_unit(unit, plural, fuzzy)
+        for unit in self.content_units:
+            if unit.is_translated():
+                unit.untranslate(language)
 
     @classmethod
     def get_new_file_content(cls):
@@ -710,6 +710,13 @@ class XliffUnit(TTKitUnit):
             and not self.mainunit.isobsolete()
         )
 
+    def untranslate(self, language):
+        super().untranslate(language)
+        # Delete empty <target/> tag
+        xmlnode = self.get_xliff_node()
+        if xmlnode is not None:
+            xmlnode.getparent().remove(xmlnode)
+
     def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
         if self.get_unit_node(self.unit, "source") is None:
@@ -880,6 +887,15 @@ class TSUnit(MonolingualIDUnit):
             return False
         # For Qt ts, empty translated string means source should be used
         return not self.unit.isreview() or self.unit.istranslated()
+
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
+        super().set_state(state)
+        if state == STATE_EMPTY:
+            # We need to mark all units as fuzzy to get
+            # type="unfinished" on empty strings, which are otherwise
+            # treated as translated same as source
+            self.unit.markfuzzy(True)
 
 
 class MonolingualSimpleUnit(MonolingualIDUnit):
@@ -1064,9 +1080,9 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             formula=formula,
         )
 
-    def untranslate_store(self, language, fuzzy=False):
+    def untranslate_store(self, language):
         """Remove translations from Translate Toolkit store."""
-        super().untranslate_store(language, fuzzy)
+        super().untranslate_store(language)
         plural = language.plural
 
         self.store.updateheader(
@@ -1187,13 +1203,6 @@ class TSFormat(TTKitFormat):
     unit_class = TSUnit
     set_context_bilingual = False
 
-    def untranslate_store(self, language, fuzzy: bool = False):
-        """Remove translations from Translate Toolkit store."""
-        # We need to mark all units as fuzzy to get
-        # type="unfinished" on empty strings, which are otherwise
-        # treated as translated same as source
-        super().untranslate_store(language, True)
-
 
 class XliffFormat(TTKitFormat):
     name = _("XLIFF translation file")
@@ -1203,13 +1212,6 @@ class XliffFormat(TTKitFormat):
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
-
-    def untranslate_unit(self, unit, plural, fuzzy: bool):
-        super().untranslate_unit(unit, plural, fuzzy)
-        # Delete empty <target/> tag
-        xmlnode = self.unit_class.get_unit_node(unit)
-        if xmlnode is not None:
-            xmlnode.getparent().remove(xmlnode)
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
