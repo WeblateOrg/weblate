@@ -10,13 +10,13 @@
 # pan93412 <pan93412@gmail.com>, 2022.
 # Dragon Taki <synasaivaltos@gmail.com>, 2022.
 # Chang-Chia Tseng <pswo10680@gmail.com>, 2022.
-# Toomore Chiang <toomore0929@gmail.com>, 2022.
+# Toomore Chiang <toomore0929@gmail.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2022-12-26 09:02+0000\n"
+"PO-Revision-Date: 2023-01-05 10:24+0000\n"
 "Last-Translator: Toomore Chiang <toomore0929@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hant/>\n"
@@ -3909,6 +3909,12 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"這裡有與 Github 組織版及團隊版類似的後端授權方式。他們的設定名稱為 "
+"``SOCIAL_AUTH_GITHUB_ORG_*`` 與 ``SOCIAL_AUTH_GITHUB_TEAM_*`` "
+"並且需要額外的設定參數 ``SOCIAL_AUTH_GITHUB_ORG_NAME`` 或 "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID`` 其返回應答網址（callback "
+"URLs）為：``https://example.com/accounts/complete/github-org/`` 與 "
+"``https://example.com/accounts/complete/github-teams/``。"
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -3939,7 +3945,7 @@ msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:158
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:160
 msgid ""
@@ -4061,6 +4067,9 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"你可以複寫認證方式的顯示名稱與圖示使用 ``SOCIAL_AUTH_<NAME>_IMAGE`` 與 "
+"``SOCIAL_AUTH_<NAME>_TITLE`` 參數設定。例如複寫 Auth0 "
+"的名稱可以看起來像這樣："
 
 #: ../../admin/auth.rst:343
 msgid "Turning off password authentication"
@@ -4195,11 +4204,11 @@ msgstr "配置的例子："
 msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IDP to provide them:"
-msgstr ""
+msgstr "預設的設定檔會萃取出使用者資訊透過以下的屬性值，請設定你的 IDP 來提估給他們："
 
 #: ../../admin/auth.rst:451
 msgid "Attribute"
-msgstr ""
+msgstr "屬性值"
 
 #: ../../admin/auth.rst:451
 #, fuzzy
@@ -4254,6 +4263,8 @@ msgid ""
 "The example above and the Docker image define an IDP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
+"在以上的範例中與被定義為 IDP 的 Docker 映像檔名為 ``weblate``。"
+"你可能需要設定此字串為 :guilabel:`Relay` 在你的 IDP 中。"
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -4316,7 +4327,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:548
 msgid "Using bind password"
-msgstr ""
+msgstr "使用 Bind Password"
 
 #: ../../admin/auth.rst:550
 msgid ""
@@ -4360,7 +4371,7 @@ msgstr "第二步更新 Weblate，來使用 CAS 服務器和屬性。"
 
 #: ../../admin/auth.rst:615
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "安裝 `django-cas-ng`："
 
 #: ../../admin/auth.rst:621
 msgid ""
@@ -4437,14 +4448,15 @@ msgstr "執行備份"
 msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
-msgstr ""
+msgstr "恢復備份功能只支援使用 PostgreSQL 或 MariaDB 10.5+ 的資料庫。"
 
 #: ../../admin/backup.rst:17
 msgid ""
 "The project backups all translation content from Weblate (project, "
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
-msgstr ""
+msgstr "專案會從 Weblate 備份所有翻譯內容（專案、組件、翻譯、字串評註、建議或查核）。"
+"這適合用在轉移專案到另一個 Weblate 翻譯平台。"
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -4452,18 +4464,22 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"你可以執行一個專案的備份，透過 :guilabel:`Manage` ↓ "
+":guilabel:`Backups`。而備份可以在建立新專案的時候恢復（參閱： :ref:`adding-"
+"projects`）。"
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
-msgstr ""
+msgstr "目前備份資料不包含存取控制與歷史資訊。"
 
 #: ../../admin/backup.rst:27
 msgid ""
 "The comments and suggestions are backed up with an username of user who did "
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
-msgstr ""
+msgstr "評註與建議會與其建立者之名稱一同備份。匯入時若有相符則指定到其使用者。若無相"
+"符使用者，將會指定為匿名者名稱。"
 
 #: ../../admin/backup.rst:31
 msgid ""
