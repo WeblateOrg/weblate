@@ -120,6 +120,10 @@ class MultiUnit(TranslationUnit):
             if not unit.has_unit():
                 unit.clone_template()
 
+    def untranslate(self, language):
+        for unit in self.units:
+            unit.untranslate(language)
+
 
 class MultiFormatMixin:
     has_multiple_strings: bool = True
