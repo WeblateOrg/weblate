@@ -2,10 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import timedelta
+from datetime import date, timedelta
 
 from celery.schedules import crontab
-from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -35,6 +34,19 @@ def collect_metrics():
 @app.task(trail=False)
 def cleanup_metrics():
     """Remove stale metrics."""
+    # Remove past metrics, but we need data for last 24 months
+    Metric.objects.filter(date__lte=date.today() - timedelta(days=800)).delete()
+
+    # Remove detailed data for past metrics, we need details only for two months
+    # - avoid filtering on data field as that one is not indexed
+    # - wipe only interval of data with assumption that this task is executed daily
+    Metric.objects.filter(
+        date__range=(
+            date.today() - timedelta(days=75),
+            date.today() - timedelta(days=65),
+        )
+    ).update(data=None)
+
     # Remove metrics for deleted objects
     projects = Project.objects.values_list("pk", flat=True)
     Metric.objects.filter(scope=Metric.SCOPE_PROJECT).exclude(
@@ -58,10 +70,6 @@ def cleanup_metrics():
     Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE).exclude(
         relation__in=Language.objects.values_list("pk", flat=True)
     ).delete()
-
-    # Remove past metrics, but we need data for last 24 months
-    cutoff = timezone.now() - timedelta(days=800)
-    Metric.objects.filter(date__lte=cutoff).delete()
 
 
 @app.on_after_finalize.connect

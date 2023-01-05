@@ -381,6 +381,18 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.16 to 4.17
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Migration to rewritten metrics storage might take considerable time on larger
+  Weblate instance. To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start the migration
+  in the background. Once it is completed, perform full upgrade as ususal.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
