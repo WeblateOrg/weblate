@@ -2747,8 +2747,8 @@ const utils = require('@sentry/utils');
 const api = require('./api.js');
 const envelope = require('./envelope.js');
 const integration = require('./integration.js');
-const scope = require('./scope.js');
 const session = require('./session.js');
+const prepareEvent = require('./utils/prepareEvent.js');
 
 const ALREADY_SEEN_ERROR = "Not capturing exception because it's already been captured.";
 
@@ -2925,6 +2925,15 @@ class BaseClient {
   }
 
   /**
+   * @see SdkMetadata in @sentry/types
+   *
+   * @return The metadata of the SDK
+   */
+   getSdkMetadata() {
+    return this._options._metadata;
+  }
+
+  /**
    * @inheritDoc
    */
    getTransport() {
@@ -3024,7 +3033,7 @@ class BaseClient {
     // Note: we use `event` in replay, where we overwrite this hook.
 
     if (this._options.sendClientReports) {
-      // We want to track each category (error, transaction, session) separately
+      // We want to track each category (error, transaction, session, replay_event) separately
       // but still keep the distinction between different type of outcomes.
       // We could use nested maps, but it's much easier to read and type this way.
       // A correct type for map-based implementation if we want to go that route
@@ -3120,167 +3129,9 @@ class BaseClient {
    * @param scope A scope containing event metadata.
    * @returns A new event with more information.
    */
-   _prepareEvent(event, hint, scope$1) {
-    const { normalizeDepth = 3, normalizeMaxBreadth = 1000 } = this.getOptions();
-    const prepared = {
-      ...event,
-      event_id: event.event_id || hint.event_id || utils.uuid4(),
-      timestamp: event.timestamp || utils.dateTimestampInSeconds(),
-    };
-
-    this._applyClientOptions(prepared);
-    this._applyIntegrationsMetadata(prepared);
-
-    // If we have scope given to us, use it as the base for further modifications.
-    // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
-    let finalScope = scope$1;
-    if (hint.captureContext) {
-      finalScope = scope.Scope.clone(finalScope).update(hint.captureContext);
-    }
-
-    // We prepare the result here with a resolved Event.
-    let result = utils.resolvedSyncPromise(prepared);
-
-    // This should be the last thing called, since we want that
-    // {@link Hub.addEventProcessor} gets the finished prepared event.
-    //
-    // We need to check for the existence of `finalScope.getAttachments`
-    // because `getAttachments` can be undefined if users are using an older version
-    // of `@sentry/core` that does not have the `getAttachments` method.
-    // See: https://github.com/getsentry/sentry-javascript/issues/5229
-    if (finalScope && finalScope.getAttachments) {
-      // Collect attachments from the hint and scope
-      const attachments = [...(hint.attachments || []), ...finalScope.getAttachments()];
-
-      if (attachments.length) {
-        hint.attachments = attachments;
-      }
-
-      // In case we have a hub we reassign it.
-      result = finalScope.applyToEvent(prepared, hint);
-    }
-
-    return result.then(evt => {
-      if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
-        return this._normalizeEvent(evt, normalizeDepth, normalizeMaxBreadth);
-      }
-      return evt;
-    });
-  }
-
-  /**
-   * Applies `normalize` function on necessary `Event` attributes to make them safe for serialization.
-   * Normalized keys:
-   * - `breadcrumbs.data`
-   * - `user`
-   * - `contexts`
-   * - `extra`
-   * @param event Event
-   * @returns Normalized event
-   */
-   _normalizeEvent(event, depth, maxBreadth) {
-    if (!event) {
-      return null;
-    }
-
-    const normalized = {
-      ...event,
-      ...(event.breadcrumbs && {
-        breadcrumbs: event.breadcrumbs.map(b => ({
-          ...b,
-          ...(b.data && {
-            data: utils.normalize(b.data, depth, maxBreadth),
-          }),
-        })),
-      }),
-      ...(event.user && {
-        user: utils.normalize(event.user, depth, maxBreadth),
-      }),
-      ...(event.contexts && {
-        contexts: utils.normalize(event.contexts, depth, maxBreadth),
-      }),
-      ...(event.extra && {
-        extra: utils.normalize(event.extra, depth, maxBreadth),
-      }),
-    };
-
-    // event.contexts.trace stores information about a Transaction. Similarly,
-    // event.spans[] stores information about child Spans. Given that a
-    // Transaction is conceptually a Span, normalization should apply to both
-    // Transactions and Spans consistently.
-    // For now the decision is to skip normalization of Transactions and Spans,
-    // so this block overwrites the normalized event to add back the original
-    // Transaction information prior to normalization.
-    if (event.contexts && event.contexts.trace && normalized.contexts) {
-      normalized.contexts.trace = event.contexts.trace;
-
-      // event.contexts.trace.data may contain circular/dangerous data so we need to normalize it
-      if (event.contexts.trace.data) {
-        normalized.contexts.trace.data = utils.normalize(event.contexts.trace.data, depth, maxBreadth);
-      }
-    }
-
-    // event.spans[].data may contain circular/dangerous data so we need to normalize it
-    if (event.spans) {
-      normalized.spans = event.spans.map(span => {
-        // We cannot use the spread operator here because `toJSON` on `span` is non-enumerable
-        if (span.data) {
-          span.data = utils.normalize(span.data, depth, maxBreadth);
-        }
-        return span;
-      });
-    }
-
-    return normalized;
-  }
-
-  /**
-   *  Enhances event using the client configuration.
-   *  It takes care of all "static" values like environment, release and `dist`,
-   *  as well as truncating overly long values.
-   * @param event event instance to be enhanced
-   */
-   _applyClientOptions(event) {
+   _prepareEvent(event, hint, scope) {
     const options = this.getOptions();
-    const { environment, release, dist, maxValueLength = 250 } = options;
-
-    if (!('environment' in event)) {
-      event.environment = 'environment' in options ? environment : 'production';
-    }
-
-    if (event.release === undefined && release !== undefined) {
-      event.release = release;
-    }
-
-    if (event.dist === undefined && dist !== undefined) {
-      event.dist = dist;
-    }
-
-    if (event.message) {
-      event.message = utils.truncate(event.message, maxValueLength);
-    }
-
-    const exception = event.exception && event.exception.values && event.exception.values[0];
-    if (exception && exception.value) {
-      exception.value = utils.truncate(exception.value, maxValueLength);
-    }
-
-    const request = event.request;
-    if (request && request.url) {
-      request.url = utils.truncate(request.url, maxValueLength);
-    }
-  }
-
-  /**
-   * This function adds all used integrations to the SDK info in the event.
-   * @param event The event that will be filled with all integrations.
-   */
-   _applyIntegrationsMetadata(event) {
-    const integrationsArray = Object.keys(this._integrations);
-    if (integrationsArray.length > 0) {
-      event.sdk = event.sdk || {};
-      event.sdk.integrations = [...(event.sdk.integrations || []), ...integrationsArray];
-    }
+    return prepareEvent.prepareEvent(options, event, hint, scope);
   }
 
   /**
@@ -3527,7 +3378,7 @@ function isTransactionEvent(event) {
 exports.BaseClient = BaseClient;
 
 
-},{"./api.js":19,"./envelope.js":21,"./integration.js":25,"./scope.js":29,"./session.js":31,"@sentry/utils":130}],21:[function(require,module,exports){
+},{"./api.js":19,"./envelope.js":21,"./integration.js":25,"./session.js":31,"./utils/prepareEvent.js":34,"@sentry/utils":130}],21:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4357,6 +4208,7 @@ const base = require('./transports/base.js');
 const version = require('./version.js');
 const integration = require('./integration.js');
 const index = require('./integrations/index.js');
+const prepareEvent = require('./utils/prepareEvent.js');
 const functiontostring = require('./integrations/functiontostring.js');
 const inboundfilters = require('./integrations/inboundfilters.js');
 
@@ -4396,11 +4248,12 @@ exports.createTransport = base.createTransport;
 exports.SDK_VERSION = version.SDK_VERSION;
 exports.getIntegrationsToSetup = integration.getIntegrationsToSetup;
 exports.Integrations = index;
+exports.prepareEvent = prepareEvent.prepareEvent;
 exports.FunctionToString = functiontostring.FunctionToString;
 exports.InboundFilters = inboundfilters.InboundFilters;
 
 
-},{"./api.js":19,"./baseclient.js":20,"./exports.js":22,"./hub.js":23,"./integration.js":25,"./integrations/functiontostring.js":26,"./integrations/inboundfilters.js":27,"./integrations/index.js":28,"./scope.js":29,"./sdk.js":30,"./session.js":31,"./sessionflusher.js":32,"./transports/base.js":33,"./version.js":34}],25:[function(require,module,exports){
+},{"./api.js":19,"./baseclient.js":20,"./exports.js":22,"./hub.js":23,"./integration.js":25,"./integrations/functiontostring.js":26,"./integrations/inboundfilters.js":27,"./integrations/index.js":28,"./scope.js":29,"./sdk.js":30,"./session.js":31,"./sessionflusher.js":32,"./transports/base.js":33,"./utils/prepareEvent.js":34,"./version.js":35}],25:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5700,57 +5553,208 @@ exports.createTransport = createTransport;
 },{"@sentry/utils":130}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.28.1';
+const utils = require('@sentry/utils');
+const scope = require('../scope.js');
+
+/**
+ * Adds common information to events.
+ *
+ * The information includes release and environment from `options`,
+ * breadcrumbs and context (extra, tags and user) from the scope.
+ *
+ * Information that is already present in the event is never overwritten. For
+ * nested objects, such as the context, keys are merged.
+ *
+ * Note: This also triggers callbacks for `addGlobalEventProcessor`, but not `beforeSend`.
+ *
+ * @param event The original event.
+ * @param hint May contain additional information about the original exception.
+ * @param scope A scope containing event metadata.
+ * @returns A new event with more information.
+ * @hidden
+ */
+function prepareEvent(
+  options,
+  event,
+  hint,
+  scope$1,
+) {
+  const { normalizeDepth = 3, normalizeMaxBreadth = 1000 } = options;
+  const prepared = {
+    ...event,
+    event_id: event.event_id || hint.event_id || utils.uuid4(),
+    timestamp: event.timestamp || utils.dateTimestampInSeconds(),
+  };
+
+  applyClientOptions(prepared, options);
+  applyIntegrationsMetadata(
+    prepared,
+    options.integrations.map(i => i.name),
+  );
+
+  // If we have scope given to us, use it as the base for further modifications.
+  // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
+  let finalScope = scope$1;
+  if (hint.captureContext) {
+    finalScope = scope.Scope.clone(finalScope).update(hint.captureContext);
+  }
+
+  // We prepare the result here with a resolved Event.
+  let result = utils.resolvedSyncPromise(prepared);
+
+  // This should be the last thing called, since we want that
+  // {@link Hub.addEventProcessor} gets the finished prepared event.
+  //
+  // We need to check for the existence of `finalScope.getAttachments`
+  // because `getAttachments` can be undefined if users are using an older version
+  // of `@sentry/core` that does not have the `getAttachments` method.
+  // See: https://github.com/getsentry/sentry-javascript/issues/5229
+  if (finalScope) {
+    // Collect attachments from the hint and scope
+    if (finalScope.getAttachments) {
+      const attachments = [...(hint.attachments || []), ...finalScope.getAttachments()];
+
+      if (attachments.length) {
+        hint.attachments = attachments;
+      }
+    }
+
+    // In case we have a hub we reassign it.
+    result = finalScope.applyToEvent(prepared, hint);
+  }
+
+  return result.then(evt => {
+    if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
+      return normalizeEvent(evt, normalizeDepth, normalizeMaxBreadth);
+    }
+    return evt;
+  });
+}
+
+/**
+ *  Enhances event using the client configuration.
+ *  It takes care of all "static" values like environment, release and `dist`,
+ *  as well as truncating overly long values.
+ * @param event event instance to be enhanced
+ */
+function applyClientOptions(event, options) {
+  const { environment, release, dist, maxValueLength = 250 } = options;
+
+  if (!('environment' in event)) {
+    event.environment = 'environment' in options ? environment : 'production';
+  }
+
+  if (event.release === undefined && release !== undefined) {
+    event.release = release;
+  }
+
+  if (event.dist === undefined && dist !== undefined) {
+    event.dist = dist;
+  }
+
+  if (event.message) {
+    event.message = utils.truncate(event.message, maxValueLength);
+  }
+
+  const exception = event.exception && event.exception.values && event.exception.values[0];
+  if (exception && exception.value) {
+    exception.value = utils.truncate(exception.value, maxValueLength);
+  }
+
+  const request = event.request;
+  if (request && request.url) {
+    request.url = utils.truncate(request.url, maxValueLength);
+  }
+}
+
+/**
+ * This function adds all used integrations to the SDK info in the event.
+ * @param event The event that will be filled with all integrations.
+ */
+function applyIntegrationsMetadata(event, integrationNames) {
+  if (integrationNames.length > 0) {
+    event.sdk = event.sdk || {};
+    event.sdk.integrations = [...(event.sdk.integrations || []), ...integrationNames];
+  }
+}
+
+/**
+ * Applies `normalize` function on necessary `Event` attributes to make them safe for serialization.
+ * Normalized keys:
+ * - `breadcrumbs.data`
+ * - `user`
+ * - `contexts`
+ * - `extra`
+ * @param event Event
+ * @returns Normalized event
+ */
+function normalizeEvent(event, depth, maxBreadth) {
+  if (!event) {
+    return null;
+  }
+
+  const normalized = {
+    ...event,
+    ...(event.breadcrumbs && {
+      breadcrumbs: event.breadcrumbs.map(b => ({
+        ...b,
+        ...(b.data && {
+          data: utils.normalize(b.data, depth, maxBreadth),
+        }),
+      })),
+    }),
+    ...(event.user && {
+      user: utils.normalize(event.user, depth, maxBreadth),
+    }),
+    ...(event.contexts && {
+      contexts: utils.normalize(event.contexts, depth, maxBreadth),
+    }),
+    ...(event.extra && {
+      extra: utils.normalize(event.extra, depth, maxBreadth),
+    }),
+  };
+
+  // event.contexts.trace stores information about a Transaction. Similarly,
+  // event.spans[] stores information about child Spans. Given that a
+  // Transaction is conceptually a Span, normalization should apply to both
+  // Transactions and Spans consistently.
+  // For now the decision is to skip normalization of Transactions and Spans,
+  // so this block overwrites the normalized event to add back the original
+  // Transaction information prior to normalization.
+  if (event.contexts && event.contexts.trace && normalized.contexts) {
+    normalized.contexts.trace = event.contexts.trace;
+
+    // event.contexts.trace.data may contain circular/dangerous data so we need to normalize it
+    if (event.contexts.trace.data) {
+      normalized.contexts.trace.data = utils.normalize(event.contexts.trace.data, depth, maxBreadth);
+    }
+  }
+
+  // event.spans[].data may contain circular/dangerous data so we need to normalize it
+  if (event.spans) {
+    normalized.spans = event.spans.map(span => {
+      // We cannot use the spread operator here because `toJSON` on `span` is non-enumerable
+      if (span.data) {
+        span.data = utils.normalize(span.data, depth, maxBreadth);
+      }
+      return span;
+    });
+  }
+
+  return normalized;
+}
+
+exports.prepareEvent = prepareEvent;
+
+
+},{"../scope.js":29,"@sentry/utils":130}],35:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const SDK_VERSION = '7.29.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
 
-},{}],35:[function(require,module,exports){
-(function (global){(function (){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-function getDefaultExportFromCjs (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
-
-function getDefaultExportFromNamespaceIfPresent (n) {
-	return n && Object.prototype.hasOwnProperty.call(n, 'default') ? n['default'] : n;
-}
-
-function getDefaultExportFromNamespaceIfNotNamed (n) {
-	return n && Object.prototype.hasOwnProperty.call(n, 'default') && Object.keys(n).length === 1 ? n['default'] : n;
-}
-
-function getAugmentedNamespace(n) {
-	if (n.__esModule) return n;
-	var a = Object.defineProperty({}, '__esModule', {value: true});
-	Object.keys(n).forEach(function (k) {
-		var d = Object.getOwnPropertyDescriptor(n, k);
-		Object.defineProperty(a, k, d.get ? d : {
-			enumerable: true,
-			get: function () {
-				return n[k];
-			}
-		});
-	});
-	return a;
-}
-
-function commonjsRequire (path) {
-	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
-}
-
-exports.commonjsGlobal = commonjsGlobal;
-exports.commonjsRequire = commonjsRequire;
-exports.getAugmentedNamespace = getAugmentedNamespace;
-exports.getDefaultExportFromCjs = getDefaultExportFromCjs;
-exports.getDefaultExportFromNamespaceIfNotNamed = getDefaultExportFromNamespaceIfNotNamed;
-exports.getDefaultExportFromNamespaceIfPresent = getDefaultExportFromNamespaceIfPresent;
-
-
-}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],36:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -5783,10 +5787,18 @@ const DEFAULT_SESSION_SAMPLE_RATE = 0.1;
 const DEFAULT_ERROR_SAMPLE_RATE = 1.0;
 
 /** The select to use for the `maskAllText` option  */
-const MASK_ALL_TEXT_SELECTOR = 'body *:not(style,script)';
+const MASK_ALL_TEXT_SELECTOR = 'body *:not(style), body *:not(script)';
+
+/** Default flush delays */
+const DEFAULT_FLUSH_MIN_DELAY = 5000;
+const DEFAULT_FLUSH_MAX_DELAY = 15000;
+const INITIAL_FLUSH_DELAY = 5000;
 
 exports.DEFAULT_ERROR_SAMPLE_RATE = DEFAULT_ERROR_SAMPLE_RATE;
+exports.DEFAULT_FLUSH_MAX_DELAY = DEFAULT_FLUSH_MAX_DELAY;
+exports.DEFAULT_FLUSH_MIN_DELAY = DEFAULT_FLUSH_MIN_DELAY;
 exports.DEFAULT_SESSION_SAMPLE_RATE = DEFAULT_SESSION_SAMPLE_RATE;
+exports.INITIAL_FLUSH_DELAY = INITIAL_FLUSH_DELAY;
 exports.MASK_ALL_TEXT_SELECTOR = MASK_ALL_TEXT_SELECTOR;
 exports.MAX_SESSION_LIFE = MAX_SESSION_LIFE;
 exports.RECORDING_EVENT_NAME = RECORDING_EVENT_NAME;
@@ -5866,7 +5878,7 @@ function isEventWithTarget(event) {
 exports.handleDom = handleDom;
 
 
-},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":56,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":66,"../util/createBreadcrumb.js":95,"@sentry/utils":130}],39:[function(require,module,exports){
+},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":65,"../util/createBreadcrumb.js":94,"@sentry/utils":130}],39:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createPerformanceSpans = require('../util/createPerformanceSpans.js');
@@ -5925,7 +5937,7 @@ exports.handleFetch = handleFetch;
 exports.handleFetchSpanListener = handleFetchSpanListener;
 
 
-},{"../util/createPerformanceSpans.js":97,"../util/shouldFilterRequest.js":107}],40:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":96,"../util/shouldFilterRequest.js":107}],40:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -6078,7 +6090,7 @@ function handleHistorySpanListener(replay) {
 exports.handleHistorySpanListener = handleHistorySpanListener;
 
 
-},{"../util/createPerformanceSpans.js":97}],42:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":96}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createBreadcrumb = require('../util/createBreadcrumb.js');
@@ -6110,7 +6122,7 @@ function handleScope(scope) {
 exports.handleScope = handleScope;
 
 
-},{"../util/createBreadcrumb.js":95}],43:[function(require,module,exports){
+},{"../util/createBreadcrumb.js":94}],43:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -6190,7 +6202,7 @@ function handleXhrSpanListener(replay) {
 exports.handleXhrSpanListener = handleXhrSpanListener;
 
 
-},{"../util/createPerformanceSpans.js":97,"../util/shouldFilterRequest.js":107,"@sentry/utils/cjs/buildPolyfills":124}],44:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":96,"../util/shouldFilterRequest.js":107,"@sentry/utils/cjs/buildPolyfills":124}],44:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dedupePerformanceEntries = require('../util/dedupePerformanceEntries.js');
@@ -6382,7 +6394,7 @@ exports.createMemoryEntry = createMemoryEntry;
 exports.createPerformanceEntries = createPerformanceEntries;
 
 
-},{"./constants.js":36,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":56,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":66,"@sentry/utils":130}],46:[function(require,module,exports){
+},{"./constants.js":36,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":65,"@sentry/utils":130}],46:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -6619,14 +6631,15 @@ class Replay  {
   }
 
   constructor({
-    flushMinDelay = 5000,
-    flushMaxDelay = 15000,
-    initialFlushDelay = 5000,
+    flushMinDelay = constants.DEFAULT_FLUSH_MIN_DELAY,
+    flushMaxDelay = constants.DEFAULT_FLUSH_MAX_DELAY,
+    initialFlushDelay = constants.INITIAL_FLUSH_DELAY,
     stickySession = true,
     useCompression = true,
     sessionSampleRate,
     errorSampleRate,
-    maskAllText = true,
+    maskAllText,
+    maskTextSelector,
     maskAllInputs = true,
     blockAllMedia = true,
     _experiments = {},
@@ -6641,6 +6654,7 @@ class Replay  {
       blockClass,
       ignoreClass,
       maskTextClass,
+      maskTextSelector,
       blockSelector,
       ...recordingOptions,
     };
@@ -6653,7 +6667,7 @@ class Replay  {
       sessionSampleRate: constants.DEFAULT_SESSION_SAMPLE_RATE,
       errorSampleRate: constants.DEFAULT_ERROR_SAMPLE_RATE,
       useCompression,
-      maskAllText,
+      maskAllText: typeof maskAllText === 'boolean' ? maskAllText : !maskTextSelector,
       blockAllMedia,
       _experiments,
     };
@@ -6779,393 +6793,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
 exports.Replay = Replay;
 
 
-},{"./constants.js":36,"./replay.js":86,"./util/isBrowser.js":101,"@sentry/core":24}],49:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const _commonjsHelpers = require('../../_virtual/_commonjsHelpers.js');
-
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof _commonjsHelpers.commonjsGlobal == 'object' && _commonjsHelpers.commonjsGlobal && _commonjsHelpers.commonjsGlobal.Object === Object && _commonjsHelpers.commonjsGlobal;
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        result = wait - timeSinceLastCall;
-
-    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-}
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-var lodash_debounce = debounce;
-
-exports.default = lodash_debounce;
-
-
-},{"../../_virtual/_commonjsHelpers.js":35}],50:[function(require,module,exports){
+},{"./constants.js":36,"./replay.js":85,"./util/isBrowser.js":101,"@sentry/core":24}],49:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*! *****************************************************************************
@@ -7189,7 +6817,7 @@ exports.createMachine = s;
 exports.interpret = v;
 
 
-},{}],51:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -7244,7 +6872,7 @@ exports.decode = decode;
 exports.encode = encode;
 
 
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // DEFLATE is a complex format; to read this code, you should probably check the RFC first:
@@ -8029,7 +7657,7 @@ exports.unzlibSync = unzlibSync;
 exports.zlibSync = zlibSync;
 
 
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 //
@@ -8090,7 +7718,7 @@ function mitt(all                 ) {
 exports.default = mitt;
 
 
-},{}],54:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 exports.NodeType = void 0;
@@ -9740,7 +9368,7 @@ exports.snapshot = snapshot;
 exports.transformAttribute = transformAttribute;
 
 
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*! *****************************************************************************
@@ -9826,7 +9454,7 @@ exports.__spreadArray = __spreadArray;
 exports.__values = __values;
 
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('../index.js');
@@ -9873,7 +9501,7 @@ Object.defineProperty(exports, 'mirror', {
 exports.utils = utils;
 
 
-},{"../index.js":57,"../packer/pack.js":59,"../packer/unpack.js":60,"../plugins/console/record/index.js":62,"../plugins/console/replay/index.js":64,"../record/index.js":66,"../replay/index.js":78,"../types.js":84,"../utils.js":85}],57:[function(require,module,exports){
+},{"../index.js":56,"../packer/pack.js":58,"../packer/unpack.js":59,"../plugins/console/record/index.js":61,"../plugins/console/replay/index.js":63,"../record/index.js":65,"../replay/index.js":77,"../types.js":83,"../utils.js":84}],56:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./record/index.js');
@@ -9911,7 +9539,7 @@ exports.addCustomEvent = addCustomEvent;
 exports.freezePage = freezePage;
 
 
-},{"./record/index.js":66,"./replay/index.js":78,"./types.js":84,"./utils.js":85}],58:[function(require,module,exports){
+},{"./record/index.js":65,"./replay/index.js":77,"./types.js":83,"./utils.js":84}],57:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var MARK = 'v1';
@@ -9919,7 +9547,7 @@ var MARK = 'v1';
 exports.MARK = MARK;
 
 
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -9934,7 +9562,7 @@ var pack = function (event) {
 exports.pack = pack;
 
 
-},{"../../../../ext/fflate/esm/browser.js":52,"../../ext/tslib/tslib.es6.js":55,"./base.js":58}],60:[function(require,module,exports){
+},{"../../../../ext/fflate/esm/browser.js":51,"../../ext/tslib/tslib.es6.js":54,"./base.js":57}],59:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('../../../../ext/fflate/esm/browser.js');
@@ -9968,7 +9596,7 @@ var unpack = function (raw) {
 exports.unpack = unpack;
 
 
-},{"../../../../ext/fflate/esm/browser.js":52,"./base.js":58}],61:[function(require,module,exports){
+},{"../../../../ext/fflate/esm/browser.js":51,"./base.js":57}],60:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var StackFrame = (function () {
@@ -10153,7 +9781,7 @@ exports.ErrorStackParser = ErrorStackParser;
 exports.StackFrame = StackFrame;
 
 
-},{}],62:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -10293,7 +9921,7 @@ exports.PLUGIN_NAME = PLUGIN_NAME;
 exports.getRecordConsolePlugin = getRecordConsolePlugin;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55,"../../../utils.js":85,"./error-stack-parser.js":61,"./stringify.js":63}],63:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54,"../../../utils.js":84,"./error-stack-parser.js":60,"./stringify.js":62}],62:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -10439,7 +10067,7 @@ function stringify(obj, stringifyOptions) {
 exports.stringify = stringify;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55}],64:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54}],63:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -10555,7 +10183,7 @@ var getReplayConsolePlugin = function (options) {
 exports.getReplayConsolePlugin = getReplayConsolePlugin;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55,"../../../types.js":84,"../record/index.js":62}],65:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54,"../../../types.js":83,"../record/index.js":61}],64:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var IframeManager = (function () {
@@ -10592,7 +10220,7 @@ var IframeManager = (function () {
 exports.IframeManager = IframeManager;
 
 
-},{}],66:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -10979,7 +10607,7 @@ record.mirror = mirror;
 exports.default = record;
 
 
-},{"../../../rrweb-snapshot/es/rrweb-snapshot.js":54,"../../ext/tslib/tslib.es6.js":55,"../types.js":84,"../utils.js":85,"./iframe-manager.js":65,"./observer.js":68,"./observers/canvas/canvas-manager.js":70,"./shadow-dom-manager.js":74}],67:[function(require,module,exports){
+},{"../../../rrweb-snapshot/es/rrweb-snapshot.js":53,"../../ext/tslib/tslib.es6.js":54,"../types.js":83,"../utils.js":84,"./iframe-manager.js":64,"./observer.js":67,"./observers/canvas/canvas-manager.js":69,"./shadow-dom-manager.js":73}],66:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -11500,7 +11128,7 @@ function isAncestorInSet(set, n) {
 exports.default = MutationBuffer;
 
 
-},{"../../../rrweb-snapshot/es/rrweb-snapshot.js":54,"../../ext/tslib/tslib.es6.js":55,"../utils.js":85}],68:[function(require,module,exports){
+},{"../../../rrweb-snapshot/es/rrweb-snapshot.js":53,"../../ext/tslib/tslib.es6.js":54,"../utils.js":84}],67:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -12173,7 +11801,7 @@ exports.initScrollObserver = initScrollObserver;
 exports.mutationBuffers = mutationBuffers;
 
 
-},{"../../../rrweb-snapshot/es/rrweb-snapshot.js":54,"../../ext/tslib/tslib.es6.js":55,"../types.js":84,"../utils.js":85,"./mutation.js":67}],69:[function(require,module,exports){
+},{"../../../rrweb-snapshot/es/rrweb-snapshot.js":53,"../../ext/tslib/tslib.es6.js":54,"../types.js":83,"../utils.js":84,"./mutation.js":66}],68:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -12256,7 +11884,7 @@ function initCanvas2DMutationObserver(cb, win, blockClass, mirror) {
 exports.default = initCanvas2DMutationObserver;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55,"../../../types.js":84,"../../../utils.js":85}],70:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54,"../../../types.js":83,"../../../utils.js":84}],69:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -12354,7 +11982,7 @@ var CanvasManager = (function () {
 exports.CanvasManager = CanvasManager;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55,"./2d.js":69,"./canvas.js":71,"./webgl.js":73}],71:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54,"./2d.js":68,"./canvas.js":70,"./webgl.js":72}],70:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -12389,7 +12017,7 @@ function initCanvasContextObserver(win, blockClass) {
 exports.default = initCanvasContextObserver;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55,"../../../utils.js":85}],72:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54,"../../../utils.js":84}],71:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -12514,7 +12142,7 @@ exports.serializeArgs = serializeArgs;
 exports.variableListFor = variableListFor;
 
 
-},{"../../../../../../ext/base64-arraybuffer/dist/base64-arraybuffer.es5.js":51,"../../../../ext/tslib/tslib.es6.js":55}],73:[function(require,module,exports){
+},{"../../../../../../ext/base64-arraybuffer/dist/base64-arraybuffer.es5.js":50,"../../../../ext/tslib/tslib.es6.js":54}],72:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../../ext/tslib/tslib.es6.js');
@@ -12597,7 +12225,7 @@ function initCanvasWebGLMutationObserver(cb, win, blockClass, mirror) {
 exports.default = initCanvasWebGLMutationObserver;
 
 
-},{"../../../../ext/tslib/tslib.es6.js":55,"../../../types.js":84,"../../../utils.js":85,"./serialize-args.js":72}],74:[function(require,module,exports){
+},{"../../../../ext/tslib/tslib.es6.js":54,"../../../types.js":83,"../../../utils.js":84,"./serialize-args.js":71}],73:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -12647,7 +12275,7 @@ var ShadowDomManager = (function () {
 exports.ShadowDomManager = ShadowDomManager;
 
 
-},{"../../ext/tslib/tslib.es6.js":55,"../utils.js":85,"./observer.js":68}],75:[function(require,module,exports){
+},{"../../ext/tslib/tslib.es6.js":54,"../utils.js":84,"./observer.js":67}],74:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function canvasMutation(_a) {
@@ -12677,7 +12305,7 @@ function canvasMutation(_a) {
 exports.default = canvasMutation;
 
 
-},{}],76:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const types = require('../../types.js');
@@ -12717,7 +12345,7 @@ function canvasMutation(_a) {
 exports.default = canvasMutation;
 
 
-},{"../../types.js":84,"./2d.js":75,"./webgl.js":77}],77:[function(require,module,exports){
+},{"../../types.js":83,"./2d.js":74,"./webgl.js":76}],76:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../../ext/tslib/tslib.es6.js');
@@ -12847,7 +12475,7 @@ exports.deserializeArg = deserializeArg;
 exports.variableListFor = variableListFor;
 
 
-},{"../../../../../ext/base64-arraybuffer/dist/base64-arraybuffer.es5.js":51,"../../../ext/tslib/tslib.es6.js":55,"../../types.js":84}],78:[function(require,module,exports){
+},{"../../../../../ext/base64-arraybuffer/dist/base64-arraybuffer.es5.js":50,"../../../ext/tslib/tslib.es6.js":54,"../../types.js":83}],77:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -14565,7 +14193,7 @@ var Replayer = (function () {
 exports.Replayer = Replayer;
 
 
-},{"../../../../ext/mitt/dist/mitt.es.js":53,"../../../rrweb-snapshot/es/rrweb-snapshot.js":54,"../../ext/tslib/tslib.es6.js":55,"../types.js":84,"../utils.js":85,"./canvas/index.js":76,"./machine.js":79,"./smoothscroll.js":80,"./styles/inject-style.js":81,"./timer.js":82,"./virtual-styles.js":83}],79:[function(require,module,exports){
+},{"../../../../ext/mitt/dist/mitt.es.js":52,"../../../rrweb-snapshot/es/rrweb-snapshot.js":53,"../../ext/tslib/tslib.es6.js":54,"../types.js":83,"../utils.js":84,"./canvas/index.js":75,"./machine.js":78,"./smoothscroll.js":79,"./styles/inject-style.js":80,"./timer.js":81,"./virtual-styles.js":82}],78:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -14846,7 +14474,7 @@ exports.createSpeedService = createSpeedService;
 exports.discardPriorSnapshots = discardPriorSnapshots;
 
 
-},{"../../../../ext/@xstate/fsm/es/index.js":50,"../../ext/tslib/tslib.es6.js":55,"../types.js":84,"./timer.js":82}],80:[function(require,module,exports){
+},{"../../../../ext/@xstate/fsm/es/index.js":49,"../../ext/tslib/tslib.es6.js":54,"../types.js":83,"./timer.js":81}],79:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function polyfill(w, d) {
@@ -15072,7 +14700,7 @@ function polyfill(w, d) {
 exports.polyfill = polyfill;
 
 
-},{}],81:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var rules = function (blockClass) { return [
@@ -15083,7 +14711,7 @@ var rules = function (blockClass) { return [
 exports.default = rules;
 
 
-},{}],82:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const types = require('../types.js');
@@ -15179,7 +14807,7 @@ exports.Timer = Timer;
 exports.addDelay = addDelay;
 
 
-},{"../types.js":84}],83:[function(require,module,exports){
+},{"../types.js":83}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../../ext/tslib/tslib.es6.js');
@@ -15308,7 +14936,7 @@ exports.getPositionsAndIndex = getPositionsAndIndex;
 exports.storeCSSRules = storeCSSRules;
 
 
-},{"../../ext/tslib/tslib.es6.js":55}],84:[function(require,module,exports){
+},{"../../ext/tslib/tslib.es6.js":54}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 exports.EventType = void 0;
@@ -15386,7 +15014,7 @@ exports.ReplayerEvents = void 0;
 })(exports.ReplayerEvents || (exports.ReplayerEvents = {}));
 
 
-},{}],85:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const tslib_es6 = require('../ext/tslib/tslib.es6.js');
@@ -15906,7 +15534,7 @@ exports.queueToResolveTrees = queueToResolveTrees;
 exports.throttle = throttle;
 
 
-},{"../../rrweb-snapshot/es/rrweb-snapshot.js":54,"../ext/tslib/tslib.es6.js":55,"./types.js":84}],86:[function(require,module,exports){
+},{"../../rrweb-snapshot/es/rrweb-snapshot.js":53,"../ext/tslib/tslib.es6.js":54,"./types.js":83}],85:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -15915,7 +15543,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
-const index = require('./node_modules/lodash.debounce/index.js');
 require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js');
 const constants = require('./constants.js');
 const breadcrumbHandler = require('./coreHandlers/breadcrumbHandler.js');
@@ -15935,11 +15562,12 @@ const createBreadcrumb = require('./util/createBreadcrumb.js');
 const createPayload = require('./util/createPayload.js');
 const createPerformanceSpans = require('./util/createPerformanceSpans.js');
 const createReplayEnvelope = require('./util/createReplayEnvelope.js');
+const debounce = require('./util/debounce.js');
 const getReplayEvent = require('./util/getReplayEvent.js');
 const isExpired = require('./util/isExpired.js');
 const isSessionExpired = require('./util/isSessionExpired.js');
 const monkeyPatchRecordDroppedEvent = require('./util/monkeyPatchRecordDroppedEvent.js');
-const index$1 = require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js');
+const index = require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js');
 const types = require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js');
 
 /* eslint-disable max-lines */ // TODO: We might want to split this file up
@@ -16018,7 +15646,7 @@ class ReplayContainer  {
     this._recordingOptions = recordingOptions;
     this._options = options;
 
-    this._debouncedFlush = index.default(() => this.flush(), this._options.flushMinDelay, {
+    this._debouncedFlush = debounce.debounce(() => this.flush(), this._options.flushMinDelay, {
       maxWait: this._options.flushMaxDelay,
     });
   }
@@ -16096,7 +15724,7 @@ class ReplayContainer  {
    */
   startRecording() {
     try {
-      this._stopRecording = index$1.default({
+      this._stopRecording = index.default({
         ...this._recordingOptions,
         // When running in error sampling mode, we need to overwrite `checkoutEveryNth`
         // Without this, it would record forever, until an error happens, which we don't want
@@ -16522,7 +16150,7 @@ class ReplayContainer  {
    */
   triggerFullSnapshot() {
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Taking full rrweb snapshot');
-    index$1.default.takeFullSnapshot(true);
+    index.default.takeFullSnapshot(true);
   }
 
   /**
@@ -16747,7 +16375,6 @@ class ReplayContainer  {
     // A flush is about to happen, cancel any queued flushes
     _optionalChain([this, 'access', _30 => _30._debouncedFlush, 'optionalAccess', _31 => _31.cancel, 'call', _32 => _32()]);
 
-    // No existing flush in progress, proceed with flushing.
     // this._flushLock acts as a lock so that future calls to `flush()`
     // will be blocked until this promise resolves
     if (!this._flushLock) {
@@ -16780,8 +16407,8 @@ class ReplayContainer  {
    */
   flushImmediate() {
     this._debouncedFlush();
-    // `.flush` is provided by lodash.debounce
-    return this._debouncedFlush.flush();
+    // `.flush` is provided by the debounced function, analogously to lodash.debounce
+    return this._debouncedFlush.flush() ;
   }
 
   /**
@@ -16830,7 +16457,9 @@ class ReplayContainer  {
     const replayEvent = await getReplayEvent.getReplayEvent({ scope, client, replayId, event: baseEvent });
 
     if (!replayEvent) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] An event processor returned null, will not send replay.');
+      // Taken from baseclient's `_processEvent` method, where this is handled for errors/transactions
+      client.recordDroppedEvent('event_processor', 'replay_event', baseEvent);
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('An event processor returned `null`, will not send event.');
       return;
     }
 
@@ -16880,7 +16509,7 @@ class ReplayContainer  {
     const envelope = createReplayEnvelope.createReplayEnvelope(replayEvent, payloadWithSequence, dsn, client.getOptions().tunnel);
 
     try {
-      return transport.send(envelope);
+      return await transport.send(envelope);
     } catch (e) {
       throw new Error(constants.UNABLE_TO_SEND_REPLAY);
     }
@@ -16963,7 +16592,7 @@ class ReplayContainer  {
 exports.ReplayContainer = ReplayContainer;
 
 
-},{"./constants.js":36,"./coreHandlers/breadcrumbHandler.js":37,"./coreHandlers/handleFetch.js":39,"./coreHandlers/handleGlobalEvent.js":40,"./coreHandlers/handleHistory.js":41,"./coreHandlers/handleXhr.js":43,"./coreHandlers/performanceObserver.js":44,"./createPerformanceEntry.js":45,"./eventBuffer.js":46,"./node_modules/lodash.debounce/index.js":49,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":56,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":66,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":84,"./session/deleteSession.js":89,"./session/getSession.js":91,"./session/saveSession.js":92,"./util/addEvent.js":93,"./util/addMemoryEntry.js":94,"./util/createBreadcrumb.js":95,"./util/createPayload.js":96,"./util/createPerformanceSpans.js":97,"./util/createReplayEnvelope.js":98,"./util/getReplayEvent.js":100,"./util/isExpired.js":102,"./util/isSessionExpired.js":105,"./util/monkeyPatchRecordDroppedEvent.js":106,"@sentry/core":24,"@sentry/utils":130,"@sentry/utils/cjs/buildPolyfills":124}],87:[function(require,module,exports){
+},{"./constants.js":36,"./coreHandlers/breadcrumbHandler.js":37,"./coreHandlers/handleFetch.js":39,"./coreHandlers/handleGlobalEvent.js":40,"./coreHandlers/handleHistory.js":41,"./coreHandlers/handleXhr.js":43,"./coreHandlers/performanceObserver.js":44,"./createPerformanceEntry.js":45,"./eventBuffer.js":46,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":65,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":83,"./session/deleteSession.js":88,"./session/getSession.js":90,"./session/saveSession.js":91,"./util/addEvent.js":92,"./util/addMemoryEntry.js":93,"./util/createBreadcrumb.js":94,"./util/createPayload.js":95,"./util/createPerformanceSpans.js":96,"./util/createReplayEnvelope.js":97,"./util/debounce.js":98,"./util/getReplayEvent.js":100,"./util/isExpired.js":102,"./util/isSessionExpired.js":105,"./util/monkeyPatchRecordDroppedEvent.js":106,"@sentry/core":24,"@sentry/utils":130,"@sentry/utils/cjs/buildPolyfills":124}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17001,7 +16630,7 @@ exports.getSessionSampleType = getSessionSampleType;
 exports.makeSession = makeSession;
 
 
-},{"../util/isSampled.js":104,"@sentry/utils":130}],88:[function(require,module,exports){
+},{"../util/isSampled.js":104,"@sentry/utils":130}],87:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17031,7 +16660,7 @@ function createSession({ sessionSampleRate, errorSampleRate, stickySession = fal
 exports.createSession = createSession;
 
 
-},{"./Session.js":87,"./saveSession.js":92,"@sentry/utils":130}],89:[function(require,module,exports){
+},{"./Session.js":86,"./saveSession.js":91,"@sentry/utils":130}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -17056,7 +16685,7 @@ function deleteSession() {
 exports.deleteSession = deleteSession;
 
 
-},{"../constants.js":36}],90:[function(require,module,exports){
+},{"../constants.js":36}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -17091,7 +16720,7 @@ function fetchSession() {
 exports.fetchSession = fetchSession;
 
 
-},{"../constants.js":36,"./Session.js":87}],91:[function(require,module,exports){
+},{"../constants.js":36,"./Session.js":86}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17138,7 +16767,7 @@ function getSession({
 exports.getSession = getSession;
 
 
-},{"../util/isSessionExpired.js":105,"./createSession.js":88,"./fetchSession.js":90,"@sentry/utils":130}],92:[function(require,module,exports){
+},{"../util/isSessionExpired.js":105,"./createSession.js":87,"./fetchSession.js":89,"@sentry/utils":130}],91:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -17159,7 +16788,7 @@ function saveSession(session) {
 exports.saveSession = saveSession;
 
 
-},{"../constants.js":36}],93:[function(require,module,exports){
+},{"../constants.js":36}],92:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -17208,7 +16837,7 @@ function addEvent(replay, event, isCheckout) {
 exports.addEvent = addEvent;
 
 
-},{"../constants.js":36,"@sentry/utils/cjs/buildPolyfills":124}],94:[function(require,module,exports){
+},{"../constants.js":36,"@sentry/utils/cjs/buildPolyfills":124}],93:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -17233,7 +16862,7 @@ function addMemoryEntry(replay) {
 exports.addMemoryEntry = addMemoryEntry;
 
 
-},{"../constants.js":36,"./createPerformanceSpans.js":97}],95:[function(require,module,exports){
+},{"../constants.js":36,"./createPerformanceSpans.js":96}],94:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function createBreadcrumb(
@@ -17249,7 +16878,7 @@ function createBreadcrumb(
 exports.createBreadcrumb = createBreadcrumb;
 
 
-},{}],96:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function createPayload({
@@ -17282,7 +16911,7 @@ function createPayload({
 exports.createPayload = createPayload;
 
 
-},{}],97:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 require('../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js');
@@ -17314,30 +16943,27 @@ function createPerformanceSpans(replay, entries) {
 exports.createPerformanceSpans = createPerformanceSpans;
 
 
-},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":56,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":84,"./addEvent.js":93}],98:[function(require,module,exports){
+},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":83,"./addEvent.js":92}],97:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 
 function createReplayEnvelope(
   replayEvent,
-  payloadWithSequence,
+  recordingData,
   dsn,
   tunnel,
 ) {
   return utils.createEnvelope(
     utils.createEventEnvelopeHeaders(replayEvent, utils.getSdkMetadataForEnvelopeHeader(replayEvent), tunnel, dsn),
     [
-      // @ts-ignore New types
       [{ type: 'replay_event' }, replayEvent],
       [
         {
-          // @ts-ignore setting envelope
           type: 'replay_recording',
-          length: payloadWithSequence.length,
+          length: recordingData.length,
         },
-        // @ts-ignore: Type 'string' is not assignable to type 'ClientReport'.ts(2322)
-        payloadWithSequence,
+        recordingData,
       ],
     ],
   );
@@ -17346,7 +16972,76 @@ function createReplayEnvelope(
 exports.createReplayEnvelope = createReplayEnvelope;
 
 
-},{"@sentry/utils":130}],99:[function(require,module,exports){
+},{"@sentry/utils":130}],98:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * Heavily simplified debounce function based on lodash.debounce.
+ *
+ * This function takes a callback function (@param fun) and delays its invocation
+ * by @param wait milliseconds. Optionally, a maxWait can be specified in @param options,
+ * which ensures that the callback is invoked at least once after the specified max. wait time.
+ *
+ * @param func the function whose invocation is to be debounced
+ * @param wait the minimum time until the function is invoked after it was called once
+ * @param options the options object, which can contain the `maxWait` property
+ *
+ * @returns the debounced version of the function, which needs to be called at least once to start the
+ *          debouncing process. Subsequent calls will reset the debouncing timer and, in case @paramfunc
+ *          was already invoked in the meantime, return @param func's return value.
+ *          The debounced function has two additional properties:
+ *          - `flush`: Invokes the debounced function immediately and returns its return value
+ *          - `cancel`: Cancels the debouncing process and resets the debouncing timer
+ */
+function debounce(func, wait, options) {
+  let callbackReturnValue;
+
+  let timerId;
+  let maxTimerId;
+
+  const maxWait = options && options.maxWait ? Math.max(options.maxWait, wait) : 0;
+
+  function invokeFunc() {
+    cancelTimers();
+    callbackReturnValue = func();
+    return callbackReturnValue;
+  }
+
+  function cancelTimers() {
+    timerId !== undefined && clearTimeout(timerId);
+    maxTimerId !== undefined && clearTimeout(maxTimerId);
+    timerId = maxTimerId = undefined;
+  }
+
+  function flush() {
+    if (timerId !== undefined || maxTimerId !== undefined) {
+      return invokeFunc();
+    }
+    return callbackReturnValue;
+  }
+
+  function debounced() {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(invokeFunc, wait);
+
+    if (maxWait && maxTimerId === undefined) {
+      maxTimerId = setTimeout(invokeFunc, maxWait);
+    }
+
+    return callbackReturnValue;
+  }
+
+  debounced.cancel = cancelTimers;
+  debounced.flush = flush;
+  return debounced;
+}
+
+exports.debounce = debounce;
+
+
+},{}],99:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const NAVIGATION_ENTRY_KEYS = [
@@ -17446,6 +17141,8 @@ exports.dedupePerformanceEntries = dedupePerformanceEntries;
 },{}],100:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const core = require('@sentry/core');
+
 async function getReplayEvent({
   client,
   scope,
@@ -17454,21 +17151,27 @@ async function getReplayEvent({
 }
 
 ) {
-  // XXX: This event does not trigger `beforeSend` in SDK
-  // @ts-ignore private api
-  const preparedEvent = await client._prepareEvent(event, { event_id }, scope);
+  const preparedEvent = (await core.prepareEvent(client.getOptions(), event, { event_id }, scope)) ;
 
-  if (preparedEvent) {
-    // extract the SDK name because `client._prepareEvent` doesn't add it to the event
-    const metadata = client.getOptions() && client.getOptions()._metadata;
-    const { name } = (metadata && metadata.sdk) || {};
-
-    preparedEvent.sdk = {
-      ...preparedEvent.sdk,
-      version: "7.28.1",
-      name,
-    };
+  // If e.g. a global event processor returned null
+  if (!preparedEvent) {
+    return null;
   }
+
+  // This normally happens in browser client "_prepareEvent"
+  // but since we do not use this private method from the client, but rather the plain import
+  // we need to do this manually.
+  preparedEvent.platform = preparedEvent.platform || 'javascript';
+
+  // extract the SDK name because `client._prepareEvent` doesn't add it to the event
+  const metadata = client.getSdkMetadata && client.getSdkMetadata();
+  const name = (metadata && metadata.sdk && metadata.sdk.name) || 'sentry.javascript.unknown';
+
+  preparedEvent.sdk = {
+    ...preparedEvent.sdk,
+    version: "7.29.0",
+    name,
+  };
 
   return preparedEvent;
 }
@@ -17476,7 +17179,7 @@ async function getReplayEvent({
 exports.getReplayEvent = getReplayEvent;
 
 
-},{}],101:[function(require,module,exports){
+},{"@sentry/core":24}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17610,7 +17313,7 @@ function overwriteRecordDroppedEvent(errorIds) {
     category,
     event,
   ) => {
-    if (event && event.event_id) {
+    if (event && !event.type && event.event_id) {
       errorIds.delete(event.event_id);
     }
 
@@ -18830,6 +18533,8 @@ const ITEM_TYPE_TO_DATA_CATEGORY_MAP = {
   client_report: 'internal',
   user_report: 'default',
   profile: 'profile',
+  replay_event: 'replay_event',
+  replay_recording: 'replay_recording',
 };
 
 /**
