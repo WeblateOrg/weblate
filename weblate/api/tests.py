@@ -2852,7 +2852,10 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"
         )
-        target = "Test translation \n"
+        unit.source = "Hello test "
+        # Avoid doing all what .save() does:
+        Unit.objects.filter(pk=unit.pk).update(source=unit.source)
+        target = "Test translation "
         # Performing update
         self.do_request(
             "api:unit-detail",
