@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2023-01-06 18:52+0000\n"
+"PO-Revision-Date: 2023-01-09 12:22+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -440,8 +440,8 @@ msgid ""
 msgstr ""
 "Einer der Hauptvorteile der Verwaltung von Berechtigungen über die Weblate-"
 "Benutzeroberfläche ist, dass Sie sie an andere Benutzer delegieren können, "
-"ohne ihnen das Superuser-Recht zu geben. Dazu, fügen Sie sie zum "
-"`Administration` Team des Projektes hinzu."
+"ohne ihnen das Superuser-Recht zu geben. Dazu fügen Sie sie dem Team "
+"`Administration` des Projekts hinzu."
 
 #: ../../admin/access.rst:193
 msgid "Custom access control"
@@ -1929,8 +1929,8 @@ msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
-"Automatisches Übersetzen der neu hinzugefügten Zeichenfolgen mit :ref:`addon-"
-"weblate.autotranslate.autotranslate`."
+"Übersetzen Sie automatisch die neu hinzugefügten Zeichenketten mit :ref"
+":`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/addons.rst:178
 msgid "Component discovery"
@@ -9858,7 +9858,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:397
 msgid "Keeping translations same across components"
-msgstr "Übersetzungen über Komponenten hinweg gleich halten"
+msgstr "Übersetzungen für alle Komponenten gleich halten"
 
 #: ../../admin/continuous.rst:399
 msgid ""
@@ -26189,8 +26189,9 @@ msgid "Extended download options for platform wide translation memory."
 msgstr ""
 
 #: ../../changes.rst:870
+#, fuzzy
 msgid "Weblate 3.x series"
-msgstr ""
+msgstr "Weblate 3.x-Reihe"
 
 #: ../../changes.rst:873
 msgid "Weblate 3.11.3"
@@ -29364,7 +29365,7 @@ msgstr ""
 
 #: ../../changes.rst:1867
 msgid "Weblate 1.x series"
-msgstr ""
+msgstr "Weblate 1.x-Reihe"
 
 #: ../../changes.rst:1870
 msgid "Weblate 1.9"
@@ -29986,7 +29987,7 @@ msgstr ""
 
 #: ../../changes.rst:2067
 msgid "Weblate 0.x series"
-msgstr ""
+msgstr "Weblate 0.x-Reihe"
 
 #: ../../changes.rst:2070
 msgid "Weblate 0.9"
@@ -30360,10 +30361,8 @@ msgstr ""
 "haben Tausende von Menschen dazu beigetragen."
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Available add-ons"
 msgid "Developing add-ons"
-msgstr "Verfügbare Erweiterungen"
+msgstr "Erweiterungen entwickeln"
 
 #: ../../contributing/addons.rst:4
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
@@ -30487,7 +30486,7 @@ msgstr "Hier ein Beispiel für eine Erweiterung:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
-msgstr ""
+msgstr "Weblate-Quellcode"
 
 #: ../../contributing/code.rst:4
 msgid ""
@@ -30558,7 +30557,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
-msgstr ""
+msgstr "Fehlersuche in Weblate"
 
 #: ../../contributing/debugging.rst:4
 msgid ""
@@ -30733,6 +30732,8 @@ msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
 msgstr ""
+"Das Frontend wird derzeit mit Bootstrap, jQuery und einigen Bibliotheken von "
+"Drittanbietern erstellt."
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
@@ -30743,6 +30744,8 @@ msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
 msgstr ""
+"Weblate unterstützt die neuesten, stabilen Versionen aller gängigen Browser "
+"und Plattformen."
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -30751,14 +30754,20 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"Alternative Browser, welche die neueste Version von WebKit, Blink oder Gecko "
+"verwenden, ob direkt oder über die Web View API der Plattform, werden nicht "
+"explizit unterstützt. Weblate sollte jedoch (in den meisten Fällen) auch in "
+"diesen Browsern korrekt angezeigt werden und funktionieren."
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
 msgstr ""
+"Ältere Browser könnten funktionieren, aber einige Funktionen sind "
+"möglicherweise eingeschränkt."
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
-msgstr ""
+msgstr "Verwaltung von Abhängigkeiten"
 
 #: ../../contributing/frontend.rst:22
 msgid ""
@@ -30770,24 +30779,36 @@ msgid ""
 "directly in :file:`weblate/static` or feature specific subdirectories (for "
 "example :file:`weblate/static/editor`)."
 msgstr ""
+"Der Yarn-Paketmanager wird verwendet, um Bibliotheken von Drittanbietern zu "
+"aktualisieren. Die Konfiguration befindet sich in :file:`scripts/yarn` und "
+"es gibt ein Wrapper-Skript :file:`scripts/yarn-update`, um die Bibliotheken "
+"zu aktualisieren, sie zu bauen und an die richtigen Stellen in :file:`"
+"weblate/static/vendor` zu kopieren, wo sich der gesamte Frontend-Code von "
+"Drittanbietern befindet. Der Weblate-spezifische Code sollte direkt in "
+":file:`weblate/static` oder in funktionsspezifische Unterverzeichnisse (zum "
+"Beispiel :file:`weblate/static/editor`) kopiert werden."
 
 #: ../../contributing/frontend.rst:30
 msgid "Adding new third-party library typically consists of:"
 msgstr ""
+"Das Hinzufügen einer neuen Bibliothek eines Drittanbieters besteht in der "
+"Regel aus:"
 
 #: ../../contributing/frontend.rst:44
 msgid "Coding style"
-msgstr ""
+msgstr "Programmierstil"
 
 #: ../../contributing/frontend.rst:46
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
 msgstr ""
+"Weblate verwendet `Prettier`_ für die Code-Formatierung von JavaScript- und "
+"CSS-Dateien."
 
 #: ../../contributing/frontend.rst:48
 msgid "We also use `ESLint`_ to check the JavaScript code."
-msgstr ""
+msgstr "Außerdem verwenden wir `ESLint`_, um den JavaScript-Code zu überprüfen."
 
 #: ../../contributing/frontend.rst:55
 msgid "Localization"
@@ -30799,12 +30820,18 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"Sollten Sie einen für den Benutzer sichtbaren Text im Frontend-Code "
+"benötigen, sollte dieser lokalisierbar sein. In den meisten Fällen genügt "
+"es, den Text in die Funktion ``gettext`` einzuschließen, aber es sind auch "
+"komplexere Funktionen verfügbar:"
 
 #: ../../contributing/frontend.rst:76
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Übersetzungsthema in der Django-Dokumentation <django:topics/i18n/"
+"translation>`"
 
 #: ../../contributing/frontend.rst:79
 msgid "Icons"
@@ -30815,6 +30842,9 @@ msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
+"Weblate verwendet derzeit Material Design Symbole. Falls Sie auf der Suche "
+"nach neuen Symbolen sind, schauen Sie unter `Material Design Icons`_ oder `"
+"Material Design Resources`_."
 
 #: ../../contributing/frontend.rst:84
 msgid ""
@@ -30822,10 +30852,13 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"Zusätzlich gibt es :file:`scripts/optimize-svg`, um die Größe der SVG zu "
+"reduzieren, da die meisten Symbole in das HTML eingebettet sind, um die "
+"Gestaltung der Pfade zu ermöglichen."
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
-msgstr ""
+msgstr "Zu Weblate beitragen"
 
 #: ../../contributing/index.rst:7
 msgid ""
@@ -30833,6 +30866,9 @@ msgid ""
 "comfortable with, be it coding, graphics design, documentation, sponsorship, "
 "or an idea:"
 msgstr ""
+"Es gibt Dutzende von Möglichkeiten, Weblate zu verbessern. Sie können das "
+"auswählen, womit Sie sich wohl fühlen, sei es Programmierung, Grafikdesign, "
+"Dokumentation, Sponsoring oder eine Idee:"
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
@@ -30868,7 +30904,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:21
 msgid "Translating Weblate"
-msgstr ""
+msgstr "Weblate übersetzen"
 
 #: ../../contributing/index.rst:23
 msgid ""
@@ -30877,8 +30913,8 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
-"Weblate wird laufend mit Hilfe von Weblate selbst <https://hosted.weblate."
-"org/>`_übersetzt. Helfen Sie mit, Weblate in so vielen Sprachen wie möglich "
+"Weblate wird laufend mit Hilfe von Weblate selbst `übersetzt <https://hosted."
+"weblate.org/>`. Helfen Sie mit, Weblate in so vielen Sprachen wie möglich "
 "verfügbar zu machen. Das bringt Weblate näher an seine Benutzer!"
 
 #: ../../contributing/index.rst:27
@@ -30888,6 +30924,11 @@ msgid ""
 "If you’re certain, you can also click on the link in the :guilabel:`Source "
 "string location` section and submit a PR with your correction."
 msgstr ""
+"Wenn Sie einen möglichen Fehler in der Ausgangszeichenkette finden, können "
+"Sie ihn im Weblate-Editor mit einem Kommentar markieren. Auf diese Weise "
+"kann er diskutiert und korrigiert werden. Wenn Sie sich sicher sind, können "
+"Sie auch auf den Link im Abschnitt :guilabel:`Ort der Ausgangszeichenkette` "
+"klicken und einen Pull Request mit Ihrer Korrektur einreichen."
 
 #: ../../contributing/index.rst:34
 msgid "Contribute to Weblate documentation"
@@ -32370,7 +32411,7 @@ msgstr ":ref:`acl`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr ""
+msgstr "Code für Weblate beisteuern"
 
 #: ../../contributing/start.rst:4
 msgid ""
@@ -41131,6 +41172,9 @@ msgid ""
 "set up for direct translation, or by way of accepting suggestions made by "
 "users without accounts."
 msgstr ""
+"Vielen Dank für Ihr Interesse, mit Weblate zu übersetzen. Projekte können "
+"entweder für die direkte Übersetzung eingerichtet werden oder durch die "
+"Annahme von Vorschlägen von Benutzern ohne Konto."
 
 #: ../../user/translating.rst:8
 msgid "Overall, there are two modes of translation:"
