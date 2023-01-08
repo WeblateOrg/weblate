@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
 "PO-Revision-Date: 2023-01-09 12:22+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -12401,7 +12401,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1422
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "Celery als Systemdienst ausführen"
 
 #: ../../admin/install.rst:1424
 msgid ""
@@ -12410,28 +12410,38 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
+"Höchstwahrscheinlich werden Sie Celery als Daemon laufen lassen wollen, und "
+"das wird in :doc:`celery:userguide/daemonizing` behandelt. Für die "
+"gebräuchlichste Linux-Konfiguration mit systemd können Sie die "
+"Beispieldateien verwenden, die, wie im Ordner :file:`examples` unten "
+"aufgelistet, geliefert werden."
 
 #: ../../admin/install.rst:1429
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
+"Die Systemd-Unit muss als :file:`/etc/systemd/system/celery-weblate.service` "
+"abgelegt werden:"
 
 #: ../../admin/install.rst:1434
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
+"Umgebungskonfiguration als :file:`/etc/default/celery-weblate`abzulegen:"
 
 #: ../../admin/install.rst:1439
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
+"Zusätzliche Konfiguration für die Rotation der Celery-Logs mit "
+":command:`logrotate`, die als :file:`/etc/logrotate.d/celery` abgelegt wird:"
 
 #: ../../admin/install.rst:1446
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Regelmäßige Aufgaben mit Celery Beat"
 
 #: ../../admin/install.rst:1448
 msgid ""
@@ -12439,6 +12449,9 @@ msgid ""
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
 "commit`."
 msgstr ""
+"Weblate wird mit integrierten Einstellungen für geplante Aufgaben geliefert. "
+"Sie können jedoch zusätzliche Aufgaben in :file:`settings.py` definieren, "
+"siehe zum Beispiel :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1451
 msgid ""
@@ -12446,10 +12459,14 @@ msgid ""
 "not working properly, it might not be running or its database was corrupted. "
 "Check the Celery startup logs in such case to figure out root cause."
 msgstr ""
+"Die Aufgaben sollen vom Celery Beats Daemon ausgeführt werden. Wenn er nicht "
+"richtig funktioniert, läuft er möglicherweise nicht oder seine Datenbank "
+"wurde beschädigt. Überprüfen Sie in einem solchen Fall die Startprotokolle "
+"von Celery, um die Ursache herauszufinden."
 
 #: ../../admin/install.rst:1458
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Überwachung des Celery-Status"
 
 #: ../../admin/install.rst:1460
 msgid ""
@@ -12458,6 +12475,10 @@ msgid ""
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
+"Sie können die aktuelle Länge der Celery-Aufgabenwarteschlangen im :ref"
+":`management-interface` finden oder Sie können :djadmin:`celery_queues` auf "
+"der Kommandozeile verwenden. Falls die Warteschlange zu lang wird, erhalten "
+"Sie auch einen Konfigurationsfehler in der Verwaltungsoberfläche."
 
 #: ../../admin/install.rst:1467
 msgid ""
@@ -12465,6 +12486,10 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
+"Die Celery-Fehler werden standardmäßig nur im Celery-Log protokolliert und "
+"sind für den Benutzer nicht sichtbar. Falls Sie einen Überblick über solche "
+"Fehler haben möchten, wird empfohlen, :ref:`collecting-errors` zu "
+"konfigurieren."
 
 #: ../../admin/install.rst:1473
 msgid ""
@@ -12472,10 +12497,13 @@ msgid ""
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 msgstr ""
+":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
+"configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 
 #: ../../admin/install.rst:1484
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Weblate überwachen"
 
 #: ../../admin/install.rst:1486
 msgid ""
@@ -12483,6 +12511,10 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
+"Weblate stellt die URL ``/healthz/`` zur Verfügung, die für einfache "
+"Gesundheitsprüfungen verwendet werden kann, zum Beispiel mit Kubernetes. Der "
+"Docker-Container verfügt über integrierte Gesundheitsprüfungen, die diese "
+"URL verwenden."
 
 #: ../../admin/install.rst:1489
 msgid ""
@@ -12502,7 +12534,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1500
 msgid "Collecting error reports"
-msgstr ""
+msgstr "Sammeln von Fehlerberichten"
 
 #: ../../admin/install.rst:1502
 msgid ""
@@ -12512,6 +12544,12 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"Weblate kann, wie jede andere Software auch, ausfallen. Um nützliche "
+"Fehlermeldungen zu sammeln, empfehlen wir die Nutzung von Diensten Dritter, "
+"um solche Informationen zu sammeln. Dies ist besonders nützlich bei "
+"fehlgeschlagenen Celery-Aufgaben, die sonst nur Fehler in den Logs melden "
+"würden und über die Sie nicht benachrichtigt werden. Weblate bietet "
+"Unterstützung für die folgenden Dienste:"
 
 #: ../../admin/install.rst:1509
 msgid "Sentry"
@@ -12522,6 +12560,9 @@ msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate hat integrierte Unterstützung für `Sentry <https://sentry.io/>`_. Um "
+"sie zu nutzen, genügt es, :setting:`SENTRY_DSN` in der :file:`settings.py` "
+"zu setzen:"
 
 #: ../../admin/install.rst:1519
 msgid "Rollbar"
@@ -12533,20 +12574,25 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate hat integrierte Unterstützung für `Rollbar <https://rollbar.com/>`_. "
+"Um sie zu nutzen, genügt es, den Anweisungen für `Rollbar-Notifier für "
+"Python <https://docs.rollbar.com/docs/python/>`_ zu folgen."
 
 #: ../../admin/install.rst:1524
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "Kurz gesagt, Sie müssen :file:'settings.py' anpassen:"
 
 #: ../../admin/install.rst:1543
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
+"Alles andere wird automatisch integriert, Sie werden jetzt sowohl server- "
+"als auch clientseitige Fehler sammeln."
 
 #: ../../admin/install.rst:1552
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Migration von Weblate auf einen anderen Server"
 
 #: ../../admin/install.rst:1554
 msgid ""
@@ -12554,10 +12600,14 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
+"Die Migration von Weblate auf einen anderen Server sollte ziemlich einfach "
+"sein, es speichert jedoch Daten an wenigen Orten, die Sie sorgfältig "
+"migrieren sollten. Der beste Ansatz ist, Weblate für die Migration zu "
+"stoppen."
 
 #: ../../admin/install.rst:1559
 msgid "Migrating database"
-msgstr ""
+msgstr "Migration der Datenbank"
 
 #: ../../admin/install.rst:1561
 msgid ""
@@ -12578,10 +12628,15 @@ msgid ""
 "want to migrate between different databases, the only option might be to use "
 "Django management to dump and import the database:"
 msgstr ""
+"Der beste Ansatz ist die Verwendung von datenbankeigenen Tools, da diese "
+"normalerweise am effektivsten sind (z. B. :command:`mysqldump` oder "
+":command:`pg_dump`). Wenn Sie zwischen verschiedenen Datenbanken migrieren "
+"möchten, besteht die einzige Option möglicherweise darin, die Django-"
+"Verwaltung zum Sichern und Importieren der Datenbank zu verwenden:"
 
 #: ../../admin/install.rst:1579
 msgid "Migrating VCS repositories"
-msgstr ""
+msgstr "Migrieren von VCS-Repositories"
 
 #: ../../admin/install.rst:1581
 msgid ""
@@ -12589,20 +12644,26 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
+"Die VCS-Repositorys, die unter :setting:'DATA_DIR' gespeichert sind, müssen "
+"ebenfalls migriert werden. Sie können sie einfach kopieren oder :command:"
+"'rsync' verwenden, um die Migration effektiver durchzuführen."
 
 #: ../../admin/install.rst:1586
 msgid "Other notes"
-msgstr ""
+msgstr "Sonstige Anmerkungen"
 
 #: ../../admin/install.rst:1588
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
 msgstr ""
+"Vergessen Sie nicht, andere Dienste zu verschieben, die Weblate "
+"möglicherweise verwendet hat, wie Redis, Cron-Jobs oder benutzerdefinierte "
+"Authentifizierungs-Backends."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
-msgstr ""
+msgstr "Installation über Docker"
 
 #: ../../admin/install/docker.rst:4
 msgid ""
