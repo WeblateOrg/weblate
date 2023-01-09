@@ -39,6 +39,7 @@ from git.config import GitConfigParser
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, remove_tree
+from weblate.utils.lock import WeblateLock, WeblateLockTimeout
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
@@ -915,19 +916,33 @@ class GitMergeRequestBase(GitForcePushRepository):
         data: Optional[Dict] = None,
         params: Optional[Dict] = None,
         json: Optional[Dict] = None,
+        retry: int = 0,
     ):
+        lock = WeblateLock(
+            data_dir("home"), "vcs-api", 0, self.get_identifier(), timeout=15
+        )
         try:
-            response = requests.request(
-                method,
-                url,
-                headers=self.get_headers(credentials),
-                data=data,
-                params=params,
-                json=json,
-            )
-        except OSError as error:
-            report_error(cause="request")
-            raise RepositoryException(0, str(error))
+            with lock:
+                try:
+                    response = requests.request(
+                        method,
+                        url,
+                        headers=self.get_headers(credentials),
+                        data=data,
+                        params=params,
+                        json=json,
+                    )
+                except OSError as error:
+                    report_error(cause="request")
+                    raise RepositoryException(0, str(error))
+        except WeblateLockTimeout:
+            retry += 1
+            if retry > 10:
+                raise
+            # GitHub recommends a delay between 2 github requests of at least 1s.
+            sleep(retry * 1)
+            return self.request(method, credentials, url, data, params, json, retry)
+
         self.add_response_breadcrumb(response)
         try:
             response_data = response.json()
