@@ -864,6 +864,80 @@ class GitMergeRequestBase(GitForcePushRepository):
     def format_api_host(self, host):
         return host
 
+    def get_headers(self, credentials: Dict):
+        return {
+            "Accept": "application/json",
+            "Authorization": f"token {credentials['token']}",
+        }
+
+    def get_error_message(self, response_data: Dict) -> str:
+        """
+        Log and parse all errors.
+
+        Sometimes GitHub returns the error
+        messages in an errors list instead of the message. Sometimes, there
+        is no errors list. Hence the different logics.
+        """
+        if not isinstance(response_data, dict):
+            return ""
+        errors = []
+        for extra in ("message", "error", "error_description", "errors"):
+            messages = response_data.get(extra)
+            if isinstance(messages, str):
+                errors.append(messages)
+            elif isinstance(messages, list):
+                for error in messages:
+                    if isinstance(error, str):
+                        line = error
+                    else:
+                        line = error.get("message", str(error))
+                    errors.append(line)
+            elif isinstance(messages, dict):
+                for key, error in messages.items():
+                    errors.append(f"{key}: {error}")
+            else:
+                self.log(
+                    f"failed to parse response line: {messages!r}",
+                    level=logging.WARNING,
+                )
+
+        if errors:
+            for error in errors:
+                self.log(error, level=logging.DEBUG)
+
+        return ", ".join(errors)
+
+    def request(
+        self,
+        method: str,
+        credentials: Dict,
+        url: str,
+        data: Optional[Dict] = None,
+        params: Optional[Dict] = None,
+        json: Optional[Dict] = None,
+    ):
+        try:
+            response = requests.request(
+                method,
+                url,
+                headers=self.get_headers(credentials),
+                data=data,
+                params=params,
+                json=json,
+            )
+        except OSError as error:
+            report_error(cause="request")
+            raise RepositoryException(0, str(error))
+        self.add_response_breadcrumb(response)
+        try:
+            response_data = response.json()
+        except JSONDecodeError as error:
+            report_error(cause="request json decoding")
+            response.raise_for_status()
+            raise RepositoryException(0, str(error))
+
+        return response_data, self.get_error_message(response_data)
+
 
 class GithubRepository(GitMergeRequestBase):
 
@@ -881,46 +955,10 @@ class GithubRepository(GitMergeRequestBase):
             return f"{host}/api/v3"
         return "api.github.com"
 
-    def request(self, method: str, credentials: Dict, url: str, json: Dict):
-        try:
-            response = requests.request(
-                method,
-                url,
-                headers={
-                    "Accept": "application/vnd.github.v3+json",
-                    "Authorization": "token {}".format(credentials["token"]),
-                },
-                json=json,
-            )
-        except OSError as error:
-            report_error(cause="request")
-            raise RepositoryException(0, str(error))
-        self.add_response_breadcrumb(response)
-        try:
-            data = response.json()
-        except JSONDecodeError as error:
-            report_error(cause="request json decoding")
-            response.raise_for_status()
-            raise RepositoryException(0, str(error))
-
-        # Log and parase all errors. Sometimes GitHub returns the error
-        # messages in an errors list instead of the message. Sometimes, there
-        # is no errors list. Hence the different logics
-        error_message = ""
-        if "message" in data:
-            error_message = data["message"]
-            self.log(data["message"], level=logging.INFO)
-        if "errors" in data:
-            messages = []
-            for error in data["errors"]:
-                line = error.get("message", str(error))
-                messages.append(line)
-                self.log(line, level=logging.WARNING)
-            if error_message:
-                error_message += ": "
-            error_message += ", ".join(messages)
-
-        return data, error_message
+    def get_headers(self, credentials: Dict):
+        headers = super().get_headers(credentials)
+        headers["Accept"] = "application/vnd.github.v3+json"
+        return headers
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
@@ -928,7 +966,7 @@ class GithubRepository(GitMergeRequestBase):
         # GitHub API returns the entire data of the fork, in case the fork
         # already exists. Hence this is perfectly handled, if the fork already
         # exists in the remote side.
-        response, error = self.request("post", credentials, fork_url, {})
+        response, error = self.request("post", credentials, fork_url)
         if "ssh_url" not in response:
             raise RepositoryException(0, f"Fork creation failed: {error}")
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
@@ -957,7 +995,9 @@ class GithubRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response, error_message = self.request("post", credentials, pr_url, request)
+        response, error_message = self.request(
+            "post", credentials, pr_url, json=request
+        )
 
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
@@ -995,42 +1035,13 @@ class GiteaRepository(GitMergeRequestBase):
     _version = None
     API_TEMPLATE = "https://{host}/api/v1/repos/{owner}/{slug}"
 
-    def request(self, method: str, credentials: Dict, url: str, json: Dict):
-        try:
-            response = requests.request(
-                method,
-                url,
-                headers={
-                    "Authorization": "token {}".format(credentials["token"]),
-                },
-                json=json,
-            )
-        except OSError as error:
-            report_error(cause="request")
-            raise RepositoryException(0, str(error))
-        self.add_response_breadcrumb(response)
-        try:
-            data = response.json()
-        except JSONDecodeError as error:
-            report_error(cause="request json decoding")
-            response.raise_for_status()
-            raise RepositoryException(0, str(error))
-
-        # Log and parse all errors.
-        error_message = ""
-        if "message" in data:
-            error_message = data["message"]
-            self.log(data["message"], level=logging.INFO)
-
-        return data, error_message
-
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
 
-        response, error = self.request("post", credentials, fork_url, {})
+        response, error = self.request("post", credentials, fork_url)
         if "message" in response and "repository is already forked by user" in error:
             # we have to get the repository again if it is already forked
-            response, error = self.request("get", credentials, credentials["url"], {})
+            response, error = self.request("get", credentials, credentials["url"])
         if "ssh_url" not in response:
             raise RepositoryException(0, f"Fork creation failed: {error}")
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
@@ -1059,7 +1070,9 @@ class GiteaRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response, error_message = self.request("post", credentials, pr_url, request)
+        response, error_message = self.request(
+            "post", credentials, pr_url, json=request
+        )
 
         # Check for an error. If the error has a message saying pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
@@ -1198,29 +1211,10 @@ class GitLabRepository(GitMergeRequestBase):
         )
         return credentials["url"].replace(target_path, fork_path)
 
-    def request(
-        self, method: str, credentials: Dict, url: str, json: Optional[Dict] = None
-    ):
-        response = requests.request(
-            method,
-            url,
-            headers={"Authorization": "Bearer {}".format(credentials["token"])},
-            json=json,
-        )
-        self.add_response_breadcrumb(response)
-        data = response.json()
-        error_message = ""
-        if "error" in data:
-            error_message = str(data["error"])
-            self.log(error_message, level=logging.INFO)
-        for extra in ("message", "error_description"):
-            if extra in data:
-                if error_message:
-                    error_message += ": "
-                message = str(data[extra])
-                error_message += message
-                self.log(message, level=logging.INFO)
-        return data, error_message
+    def get_headers(self, credentials: Dict):
+        headers = super().get_headers(credentials)
+        headers["Authorization"] = f"Bearer {credentials['token']}"
+        return headers
 
     def get_target_project_id(self, credentials: Dict):
         response, error = self.request("get", credentials, credentials["url"])
@@ -1245,7 +1239,7 @@ class GitLabRepository(GitMergeRequestBase):
             "pages_access_level": "disabled",
         }
         response, error = self.request(
-            "put", credentials, forked_url, access_level_dict
+            "put", credentials, forked_url, json=access_level_dict
         )
         if "web_url" not in response:
             raise RepositoryException(0, f"Failed to modify fork {error}")
@@ -1278,7 +1272,7 @@ class GitLabRepository(GitMergeRequestBase):
                     "post",
                     credentials,
                     fork_url,
-                    {"name": fork_name, "path": fork_name},
+                    json={"name": fork_name, "path": fork_name},
                 )
 
             if "ssh_url_to_repo" not in forked_repo:
@@ -1328,40 +1322,6 @@ class PagureRepository(GitMergeRequestBase):
     identifier = "pagure"
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
-
-    def request(
-        self,
-        method: str,
-        credentials: Dict,
-        url: str,
-        data: Optional[Dict] = None,
-        params: Optional[Dict] = None,
-    ):
-        response = requests.request(
-            method,
-            url,
-            headers={
-                "Accept": "application/json",
-                "Authorization": "token {}".format(credentials["token"]),
-            },
-            data=data,
-            params=params,
-        )
-        self.add_response_breadcrumb(response)
-        response_data = response.json()
-
-        # Log and parase all errors. Sometimes GitHub returns the error
-        # messages in an errors list instead of the message. Sometimes, there
-        # is no errors list. Hence the different logics
-        error_message = ""
-        if "message" in response_data:
-            error_message = response_data["message"]
-        if "error" in response_data:
-            if error_message:
-                error_message += ", "
-            error_message += response_data["error"]
-
-        return response_data, error_message
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
