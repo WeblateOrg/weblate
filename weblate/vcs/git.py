@@ -26,12 +26,13 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from datetime import datetime
 from json import JSONDecodeError, dumps
-from time import sleep
+from time import sleep, time
 from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
 from django.conf import settings
+from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
@@ -926,11 +927,15 @@ class GitMergeRequestBase(GitForcePushRepository):
         json: Optional[Dict] = None,
         retry: int = 0,
     ):
-        lock = WeblateLock(
-            data_dir("home"), "vcs-api", 0, self.get_identifier(), timeout=15
-        )
+        vcs_id = self.get_identifier()
+        cache_id = f"vcs:request:{vcs_id}"
+        lock = WeblateLock(data_dir("home"), "vcs-api", 0, vcs_id, timeout=30)
         try:
             with lock:
+                last_api = cache.get(cache_id)
+                if last_api is not None and time() - last_api < 1:
+                    # GitHub recommends a delay between 2 requests of at least 1s.
+                    sleep(1)
                 try:
                     response = requests.request(
                         method,
@@ -943,12 +948,11 @@ class GitMergeRequestBase(GitForcePushRepository):
                 except OSError as error:
                     report_error(cause="request")
                     raise RepositoryException(0, str(error))
+                cache.set(cache_id, time())
         except WeblateLockTimeout:
             retry += 1
             if retry > 10:
                 raise
-            # GitHub recommends a delay between 2 github requests of at least 1s.
-            sleep(retry * 1)
             return self.request(method, credentials, url, data, params, json, retry)
 
         if self.should_retry(response):
