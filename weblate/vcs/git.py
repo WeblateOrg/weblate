@@ -908,6 +908,14 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
+    def should_retry(self, response):
+        retry_after = response.headers.get("Retry-After")
+        if retry_after and retry_after.isdigit():
+            # Cap sleeping to 30 seconds
+            sleep(min(int(retry_after), 30))
+            return True
+        return False
+
     def request(
         self,
         method: str,
@@ -942,6 +950,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             # GitHub recommends a delay between 2 github requests of at least 1s.
             sleep(retry * 1)
             return self.request(method, credentials, url, data, params, json, retry)
+
+        if self.should_retry(response):
+            return self.request(method, credentials, url, data, params, json, retry + 1)
 
         self.add_response_breadcrumb(response)
         try:
