@@ -1,5 +1,6 @@
 #
-# Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #

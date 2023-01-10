@@ -118,7 +118,7 @@ setup(
         "Funding": "https://weblate.org/donate/",
     },
     author="Michal Čihař",
-    author_email="michal@cihar.com",
+    author_email="michal@weblate.org",
     install_requires=REQUIRES,
     zip_safe=False,
     extras_require=EXTRAS,

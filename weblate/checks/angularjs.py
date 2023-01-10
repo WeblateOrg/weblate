@@ -1,6 +1,6 @@
 #
 # Copyright © Michal Čihař <michal@weblate.org>
-# Copyright © 2015 Philipp Wolfer <ph.wolfer@gmail.com>
+# Copyright © Philipp Wolfer <ph.wolfer@gmail.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #

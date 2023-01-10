@@ -1,5 +1,5 @@
 #
-# Copyright © 2021 Christian Köberl
+# Copyright © Christian Köberl
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # This file is part of Weblate <https://weblate.org/>

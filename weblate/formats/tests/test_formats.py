@@ -1,6 +1,6 @@
 #
 # Copyright © Michal Čihař <michal@weblate.org>
-# Copyright © 2022 WofWca <wofwca@protonmail.com>
+# Copyright © WofWca <wofwca@protonmail.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #

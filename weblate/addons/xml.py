@@ -1,5 +1,6 @@
 #
-# Copyright © 2022–2023 Loïc LEUILLIOT <loic.leuilliot@gmail.com>
+# Copyright © Loïc LEUILLIOT <loic.leuilliot@gmail.com>
+# Copyright © Michal Čihař <michal@weblate.org>
 #
 # This file is part of Weblate <https://weblate.org/>
 #

@@ -493,7 +493,7 @@ The PO file header will look like this:
 
 .. code-block:: po
 
-    # Michal Čihař <michal@cihar.com>, 2012, 2018, 2019, 2020.
+    # Michal Čihař <michal@weblate.org>, 2012, 2018, 2019, 2020.
     # Pavel Borecki <pavel@example.com>, 2018, 2019.
     # Filip Hron <filip@example.com>, 2018, 2019.
     # anonymous <noreply@weblate.org>, 2019.

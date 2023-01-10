@@ -1,5 +1,6 @@
 #
-# Copyright ©  2018 Manuel Laggner <manuel.laggner@egger.com>
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © Manuel Laggner <manuel.laggner@egger.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
