@@ -44,7 +44,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2023-01-09 12:22+0000\n"
+"PO-Revision-Date: 2023-01-12 19:52+0000\n"
 "Last-Translator: Xiang Heng Wei <yylteam@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -1774,7 +1774,7 @@ msgstr "添加新字符串"
 #. Translators: Permission name
 #: weblate/auth/data.py:79
 msgid "Remove a string"
-msgstr "移除一个字符串"
+msgstr "移除一条字符串"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
@@ -2599,7 +2599,7 @@ msgstr "曾被翻译过"
 
 #: weblate/checks/consistency.py:153
 msgid "This string has been translated in the past"
-msgstr "这个字符串在过去曾被翻译过"
+msgstr "这条字符串在过去曾被翻译过"
 
 #: weblate/checks/consistency.py:162
 #, python-format
@@ -3083,7 +3083,7 @@ msgstr "未复数化"
 
 #: weblate/checks/source.py:42
 msgid "The string is used as plural, but not using plural forms"
-msgstr "这个字符串应该用作复数，但未使用其复数形式"
+msgstr "这条字符串应该用作复数，但未使用其复数形式"
 
 #: weblate/checks/source.py:54
 msgid "Ellipsis"
@@ -3091,7 +3091,7 @@ msgstr "省略号"
 
 #: weblate/checks/source.py:56
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr "这个字符串使用三个句点 (...) 代替了省略号 (…)"
+msgstr "这条字符串使用三个句点 (...) 代替了省略号 (…)"
 
 #: weblate/checks/source.py:67
 msgid "Multiple failing checks"
@@ -3111,7 +3111,7 @@ msgstr "长期未翻译"
 
 #: weblate/checks/source.py:108
 msgid "The string has not been translated for a long time"
-msgstr "这个字符串已经很长时间未被翻译了"
+msgstr "这条字符串已经很长时间未被翻译了"
 
 #: weblate/checks/views.py:85 weblate/templates/component.html:71
 #: weblate/templates/language-project.html:47
@@ -6461,8 +6461,8 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"%(project)s 的翻译项目当前包含 <strong>%(count)s 个需翻译字符串</strong>，并"
-"且翻译<strong>已完成了 %(percent)s%%</strong>。"
+"%(project)s 的翻译项目当前包含 <strong>%(count)s 条需翻译字符串</strong>，"
+"并且翻译<strong>已完成了 %(percent)s%%</strong>。"
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -6472,8 +6472,7 @@ msgid ""
 msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
-msgstr[0] ""
-"%(project)s 的翻译项目当前包含 <strong>%(count)s 个需翻译字符串</strong>。"
+msgstr[0] "%(project)s 的翻译项目当前包含 <strong>%(count)s 条需翻译字符串</strong>。"
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -8666,7 +8665,7 @@ msgstr "%(filter_pos)s / %(filter_count)s"
 #, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s 个字符串"
+msgstr[0] "%(count)s 条字符串"
 
 #: weblate/templates/snippets/position-field.html:25
 #, python-format
@@ -9718,7 +9717,7 @@ msgstr "删除字符串"
 
 #: weblate/templates/translate.html:189
 msgid "Add variant of this string"
-msgstr "添加这个字符串的变体"
+msgstr "添加这条字符串的变体"
 
 #: weblate/templates/translate.html:192
 msgid "Add alternative translation"
@@ -9959,12 +9958,12 @@ msgstr "源字符串添加时间"
 #: weblate/templates/translate.html:717
 #, python-format
 msgid "%(filename)s, string %(position)s"
-msgstr "%(filename)s，第 %(position)s 个字符串"
+msgstr "%(filename)s，第 %(position)s 条字符串"
 
 #: weblate/templates/translate.html:719
 #, python-format
 msgid "string %(position)s"
-msgstr "第 %(position)s 个字符串"
+msgstr "第 %(position)s 条字符串"
 
 #: weblate/templates/translate.html:722
 msgid "pending"
@@ -12252,7 +12251,7 @@ msgstr "自动翻译已完成，没有字符串被更新。"
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "自动翻译已完成，%d 个字符串已更新。"
+msgstr[0] "自动翻译已完成，%d 条字符串已更新。"
 
 #: weblate/trans/templatetags/translations.py:84
 msgid "Good configuration"
@@ -12812,8 +12811,7 @@ msgid ""
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] ""
-"已处理上传文件中的 {0} 个字符串（跳过：{1}，未找到：{2}，更新：{3}）。"
+msgstr[0] "已处理上传文件中的 {0} 条字符串（跳过：{1}，未找到：{2}，更新：{3}）。"
 
 #: weblate/trans/views/files.py:209
 msgid "Plural forms in the uploaded file do not match current translation."
@@ -12876,7 +12874,7 @@ msgstr "搜索并替换已完成，未更新任何字符串。"
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "搜索并替换已完成，%d 个字符串已更新。"
+msgstr[0] "搜索并替换已完成，%d 条字符串已更新。"
 
 #: weblate/trans/views/search.py:225
 #, python-format
@@ -12899,7 +12897,7 @@ msgstr "批量编辑已完成，未更新任何字符串。"
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "批量编辑已完成，已更新 %d 个字符串。"
+msgstr[0] "批量编辑已完成，已更新 %d 条字符串。"
 
 #: weblate/trans/views/settings.py:73 weblate/trans/views/settings.py:101
 msgid "Settings saved"
