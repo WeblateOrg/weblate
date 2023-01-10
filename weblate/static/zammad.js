@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 $(function () {
   $("#support-form").ZammadForm({
     messageTitle: gettext("Weblate feedback"),

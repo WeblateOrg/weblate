@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# SPDX-FileCopyrightText: Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # setting non-durable options
 # https://www.postgresql.org/docs/current/static/non-durability.html
 echo "Configuring postgres non-durable options."
