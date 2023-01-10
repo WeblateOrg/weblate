@@ -105,6 +105,10 @@ repos:
     - stylelint-config-prettier@9.0.4
     - stylelint-prettier@2.0.0
     - prettier@2.8.2
+- repo: https://github.com/fsfe/reuse-tool
+  rev: v1.0.0
+  hooks:
+  - id: reuse
 
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js$
 ci:
