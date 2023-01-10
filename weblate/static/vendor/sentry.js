@@ -1550,7 +1550,7 @@ class HttpContext  {constructor() { HttpContext.prototype.__init.call(this); }
           ...(referrer && { Referer: referrer }),
           ...(userAgent && { 'User-Agent': userAgent }),
         };
-        const request = { ...(url && { url }), headers };
+        const request = { ...event.request, ...(url && { url }), headers };
 
         return { ...event, request };
       }
@@ -2122,7 +2122,6 @@ function showReportDialog(options = {}, hub = core.getCurrentHub()) {
   script.src = core.getReportDialogEndpoint(dsn, options);
 
   if (options.onLoad) {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     script.onload = options.onLoad;
   }
 
@@ -2998,6 +2997,13 @@ class BaseClient {
   /**
    * @inheritDoc
    */
+   addIntegration(integration$1) {
+    integration.setupIntegration(integration$1, this._integrations);
+  }
+
+  /**
+   * @inheritDoc
+   */
    sendEvent(event, hint = {}) {
     if (this._dsn) {
       let env = envelope.createEventEnvelope(event, this._dsn, this._options._metadata, this._options.tunnel);
@@ -3429,7 +3435,15 @@ function createEventEnvelope(
   tunnel,
 ) {
   const sdkInfo = utils.getSdkMetadataForEnvelopeHeader(metadata);
-  const eventType = event.type || 'event';
+
+  /*
+    Note: Due to TS, event.type may be `replay_event`, theoretically.
+    In practice, we never call `createEventEnvelope` with `replay_event` type,
+    and we'd have to adjut a looot of types to make this work properly.
+    We want to avoid casting this around, as that could lead to bugs (e.g. when we add another type)
+    So the safe choice is to really guard against the replay_event type here.
+  */
+  const eventType = event.type && event.type !== 'replay_event' ? event.type : 'event';
 
   enhanceEventWithSdkInfo(event, metadata && metadata.sdk);
 
@@ -3816,7 +3830,7 @@ class Hub  {
    */
    captureEvent(event, hint) {
     const eventId = hint && hint.event_id ? hint.event_id : utils.uuid4();
-    if (event.type !== 'transaction') {
+    if (!event.type) {
       this._lastEventId = eventId;
     }
 
@@ -3841,7 +3855,6 @@ class Hub  {
 
     if (!scope || !client) return;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     const { beforeBreadcrumb = null, maxBreadcrumbs = DEFAULT_BREADCRUMBS } =
       (client.getOptions && client.getOptions()) || {};
 
@@ -4335,20 +4348,26 @@ function setupIntegrations(integrations) {
   const integrationIndex = {};
 
   integrations.forEach(integration => {
-    integrationIndex[integration.name] = integration;
-
-    if (installedIntegrations.indexOf(integration.name) === -1) {
-      integration.setupOnce(scope.addGlobalEventProcessor, hub.getCurrentHub);
-      installedIntegrations.push(integration.name);
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Integration installed: ${integration.name}`);
-    }
+    setupIntegration(integration, integrationIndex);
   });
 
   return integrationIndex;
 }
 
+/** Setup a single integration.  */
+function setupIntegration(integration, integrationIndex) {
+  integrationIndex[integration.name] = integration;
+
+  if (installedIntegrations.indexOf(integration.name) === -1) {
+    integration.setupOnce(scope.addGlobalEventProcessor, hub.getCurrentHub);
+    installedIntegrations.push(integration.name);
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Integration installed: ${integration.name}`);
+  }
+}
+
 exports.getIntegrationsToSetup = getIntegrationsToSetup;
 exports.installedIntegrations = installedIntegrations;
+exports.setupIntegration = setupIntegration;
 exports.setupIntegrations = setupIntegrations;
 
 
@@ -5466,7 +5485,9 @@ const DEFAULT_TRANSPORT_BUFFER_SIZE = 30;
 function createTransport(
   options,
   makeRequest,
-  buffer = utils.makePromiseBuffer(options.bufferSize || DEFAULT_TRANSPORT_BUFFER_SIZE),
+  buffer = utils.makePromiseBuffer(
+    options.bufferSize || DEFAULT_TRANSPORT_BUFFER_SIZE,
+  ),
 ) {
   let rateLimits = {};
 
@@ -5511,10 +5532,11 @@ function createTransport(
           }
 
           rateLimits = utils.updateRateLimits(rateLimits, response);
+          return response;
         },
         error => {
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Failed while sending event:', error);
           recordEnvelopeLoss('network_error');
+          throw error;
         },
       );
 
@@ -5750,7 +5772,7 @@ exports.prepareEvent = prepareEvent;
 },{"../scope.js":29,"@sentry/utils":130}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.29.0';
+const SDK_VERSION = '7.30.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -5816,6 +5838,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const handleDom = require('./handleDom.js');
 const handleScope = require('./handleScope.js');
 
+/**
+ * An event handler to react to breadcrumbs.
+ */
 function breadcrumbHandler(type, handlerData) {
   if (type === 'scope') {
     return handleScope.handleScope(handlerData );
@@ -5835,6 +5860,9 @@ require('../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js');
 const createBreadcrumb = require('../util/createBreadcrumb.js');
 const index = require('../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js');
 
+/**
+ * An event handler to react to DOM events.
+ */
 function handleDom(handlerData) {
   // Taken from https://github.com/getsentry/sentry-javascript/blob/master/packages/browser/src/integrations/breadcrumbs.ts#L112
   let target;
@@ -5937,7 +5965,7 @@ exports.handleFetch = handleFetch;
 exports.handleFetchSpanListener = handleFetchSpanListener;
 
 
-},{"../util/createPerformanceSpans.js":96,"../util/shouldFilterRequest.js":107}],40:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":95,"../util/shouldFilterRequest.js":107}],40:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -5955,10 +5983,7 @@ const isRrwebError = require('../util/isRrwebError.js');
 function handleGlobalEventListener(replay) {
   return (event) => {
     // Do not apply replayId to the root event
-    if (
-      // @ts-ignore new event type
-      event.type === constants.REPLAY_EVENT_NAME
-    ) {
+    if (event.type === constants.REPLAY_EVENT_NAME) {
       // Replays have separate set of breadcrumbs, do not include breadcrumbs
       // from core SDK
       delete event.breadcrumbs;
@@ -5974,7 +5999,7 @@ function handleGlobalEventListener(replay) {
 
     // Only tag transactions with replayId if not waiting for an error
     // @ts-ignore private
-    if (event.type !== 'transaction' || replay.recordingMode === 'session') {
+    if (!event.type || replay.recordingMode === 'session') {
       event.tags = { ...event.tags, replayId: _optionalChain([replay, 'access', _5 => _5.session, 'optionalAccess', _6 => _6.id]) };
     }
 
@@ -6039,7 +6064,7 @@ function addInternalBreadcrumb(arg) {
 exports.handleGlobalEventListener = handleGlobalEventListener;
 
 
-},{"../constants.js":36,"../util/isRrwebError.js":103,"@sentry/core":24,"@sentry/utils":130,"@sentry/utils/cjs/buildPolyfills":124}],41:[function(require,module,exports){
+},{"../constants.js":36,"../util/isRrwebError.js":102,"@sentry/core":24,"@sentry/utils":130,"@sentry/utils/cjs/buildPolyfills":124}],41:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createPerformanceSpans = require('../util/createPerformanceSpans.js');
@@ -6090,13 +6115,16 @@ function handleHistorySpanListener(replay) {
 exports.handleHistorySpanListener = handleHistorySpanListener;
 
 
-},{"../util/createPerformanceSpans.js":96}],42:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":95}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createBreadcrumb = require('../util/createBreadcrumb.js');
 
 let _LAST_BREADCRUMB = null;
 
+/**
+ * An event handler to handle scope changes.
+ */
 function handleScope(scope) {
   const newBreadcrumb = scope.getLastBreadcrumb();
 
@@ -6202,7 +6230,7 @@ function handleXhrSpanListener(replay) {
 exports.handleXhrSpanListener = handleXhrSpanListener;
 
 
-},{"../util/createPerformanceSpans.js":96,"../util/shouldFilterRequest.js":107,"@sentry/utils/cjs/buildPolyfills":124}],44:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":95,"../util/shouldFilterRequest.js":107,"@sentry/utils/cjs/buildPolyfills":124}],44:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dedupePerformanceEntries = require('../util/dedupePerformanceEntries.js');
@@ -6268,9 +6296,12 @@ const ENTRY_TYPES = {
   // @ts-ignore TODO: entry type does not fit the create* functions entry type
   navigation: createNavigationEntry,
   // @ts-ignore TODO: entry type does not fit the create* functions entry type
-  ['largest-contentful-paint']: createLargestContentfulPaint,
+  'largest-contentful-paint': createLargestContentfulPaint,
 };
 
+/**
+ * Create replay performance entries from the browser performance entries.
+ */
 function createPerformanceEntries(entries) {
   return entries.map(createPerformanceEntry).filter(Boolean) ;
 }
@@ -6289,8 +6320,6 @@ function getAbsoluteTime(time) {
   return ((utils.browserPerformanceTimeOrigin || constants.WINDOW.performance.timeOrigin) + time) / 1000;
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createPaintEntry(entry) {
   const { duration, entryType, name, startTime } = entry;
 
@@ -6303,8 +6332,6 @@ function createPaintEntry(entry) {
   };
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createNavigationEntry(entry) {
   // TODO: There looks to be some more interesting bits in here (domComplete, domContentLoaded)
   const { entryType, name, duration, domComplete, startTime, transferSize, type } = entry;
@@ -6326,8 +6353,6 @@ function createNavigationEntry(entry) {
   };
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createResourceEntry(entry) {
   const { entryType, initiatorType, name, responseEnd, startTime, encodedBodySize, transferSize } = entry;
 
@@ -6348,9 +6373,9 @@ function createResourceEntry(entry) {
   };
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function createLargestContentfulPaint(entry) {
+function createLargestContentfulPaint(
+  entry,
+) {
   const { duration, entryType, startTime, size } = entry;
 
   const start = getAbsoluteTime(startTime);
@@ -6370,27 +6395,6 @@ function createLargestContentfulPaint(entry) {
   };
 }
 
-function createMemoryEntry(memoryEntry) {
-  const { jsHeapSizeLimit, totalJSHeapSize, usedJSHeapSize } = memoryEntry;
-  // we don't want to use `getAbsoluteTime` because it adds the event time to the
-  // time origin, so we get the current timestamp instead
-  const time = new Date().getTime() / 1000;
-  return {
-    type: 'memory',
-    name: 'memory',
-    start: time,
-    end: time,
-    data: {
-      memory: {
-        jsHeapSizeLimit,
-        totalJSHeapSize,
-        usedJSHeapSize,
-      },
-    },
-  };
-}
-
-exports.createMemoryEntry = createMemoryEntry;
 exports.createPerformanceEntries = createPerformanceEntries;
 
 
@@ -6407,6 +6411,9 @@ const worker = require('./worker/worker.js');
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+/**
+ * Create an event buffer for replays.
+ */
 function createEventBuffer({ useCompression }) {
   // eslint-disable-next-line no-restricted-globals
   if (useCompression && window.Worker) {
@@ -6437,12 +6444,12 @@ class EventBufferArray  {
     this._events = [];
   }
 
-   destroy() {
-    this._events = [];
-  }
-
    get length() {
     return this._events.length;
+  }
+
+   destroy() {
+    this._events = [];
   }
 
    addEvent(event, isCheckout) {
@@ -6466,7 +6473,10 @@ class EventBufferArray  {
   }
 }
 
-// exporting for testing
+/**
+ * Event buffer that uses a web worker to compress events.
+ * Exported only for testing.
+ */
 class EventBufferCompressionWorker  {
 
    __init() {this._eventBufferItemLength = 0;}
@@ -6474,12 +6484,6 @@ class EventBufferCompressionWorker  {
 
    constructor(worker) {;EventBufferCompressionWorker.prototype.__init.call(this);EventBufferCompressionWorker.prototype.__init2.call(this);
     this._worker = worker;
-  }
-
-   destroy() {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Destroying compression worker');
-    _optionalChain([this, 'access', _ => _._worker, 'optionalAccess', _2 => _2.terminate, 'call', _3 => _3()]);
-    this._worker = null;
   }
 
   /**
@@ -6490,6 +6494,18 @@ class EventBufferCompressionWorker  {
     return this._eventBufferItemLength;
   }
 
+  /**
+   * Destroy the event buffer.
+   */
+   destroy() {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Destroying compression worker');
+    _optionalChain([this, 'access', _ => _._worker, 'optionalAccess', _2 => _2.terminate, 'call', _3 => _3()]);
+    this._worker = null;
+  }
+
+  /**
+   * Add an event to the event buffer.
+   */
    async addEvent(event, isCheckout) {
     if (isCheckout) {
       // This event is a checkout, make sure worker buffer is cleared before
@@ -6504,6 +6520,9 @@ class EventBufferCompressionWorker  {
     return this._sendEventToWorker(event);
   }
 
+  /**
+   * Finish the event buffer and return the compressed data.
+   */
    finish() {
     return this._finishRequest(this._getAndIncrementId());
   }
@@ -6554,6 +6573,9 @@ class EventBufferCompressionWorker  {
     });
   }
 
+  /**
+   * Send the event to the worker.
+   */
    _sendEventToWorker(event) {
     const promise = this._postMessage({
       id: this._getAndIncrementId(),
@@ -6567,6 +6589,9 @@ class EventBufferCompressionWorker  {
     return promise;
   }
 
+  /**
+   * Finish the request and return the compressed data from the worker.
+   */
    async _finishRequest(id) {
     const promise = this._postMessage({ id, method: 'finish', args: [] });
 
@@ -6576,6 +6601,7 @@ class EventBufferCompressionWorker  {
     return promise ;
   }
 
+  /** Get the current ID and increment it for the next call. */
    _getAndIncrementId() {
     return this._id++;
   }
@@ -6607,6 +6633,9 @@ const MEDIA_SELECTORS = 'img,image,svg,path,rect,area,video,object,picture,embed
 
 let _initialized = false;
 
+/**
+ * The main replay integration class, to be passed to `init({  integrations: [] })`.
+ */
 class Replay  {
   /**
    * @inheritDoc
@@ -6621,14 +6650,6 @@ class Replay  {
   /**
    * Options to pass to `rrweb.record()`
    */
-
-   get _isInitialized() {
-    return _initialized;
-  }
-
-   set _isInitialized(value) {
-    _initialized = value;
-  }
 
   constructor({
     flushMinDelay = constants.DEFAULT_FLUSH_MIN_DELAY,
@@ -6711,11 +6732,21 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
         : `${this.recordingOptions.blockSelector},${MEDIA_SELECTORS}`;
     }
 
-    if (isBrowser.isBrowser() && this._isInitialized) {
+    if (this._isInitialized && isBrowser.isBrowser()) {
       throw new Error('Multiple Sentry Session Replay instances are not supported');
     }
 
     this._isInitialized = true;
+  }
+
+  /** If replay has already been initialized */
+   get _isInitialized() {
+    return _initialized;
+  }
+
+  /** Update _isInitialized */
+   set _isInitialized(value) {
+    _initialized = value;
   }
 
   /**
@@ -6765,6 +6796,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
     this._replay.stop();
   }
 
+  /** Setup the integration. */
    _setup() {
     // Client is not available in constructor, so we need to wait until setupOnce
     this._loadReplayOptionsFromClient();
@@ -6793,7 +6825,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
 exports.Replay = Replay;
 
 
-},{"./constants.js":36,"./replay.js":85,"./util/isBrowser.js":101,"@sentry/core":24}],49:[function(require,module,exports){
+},{"./constants.js":36,"./replay.js":85,"./util/isBrowser.js":100,"@sentry/core":24}],49:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*! *****************************************************************************
@@ -15559,14 +15591,14 @@ const saveSession = require('./session/saveSession.js');
 const addEvent = require('./util/addEvent.js');
 const addMemoryEntry = require('./util/addMemoryEntry.js');
 const createBreadcrumb = require('./util/createBreadcrumb.js');
-const createPayload = require('./util/createPayload.js');
 const createPerformanceSpans = require('./util/createPerformanceSpans.js');
+const createRecordingData = require('./util/createRecordingData.js');
 const createReplayEnvelope = require('./util/createReplayEnvelope.js');
 const debounce = require('./util/debounce.js');
-const getReplayEvent = require('./util/getReplayEvent.js');
 const isExpired = require('./util/isExpired.js');
 const isSessionExpired = require('./util/isSessionExpired.js');
 const monkeyPatchRecordDroppedEvent = require('./util/monkeyPatchRecordDroppedEvent.js');
+const prepareReplayEvent = require('./util/prepareReplayEvent.js');
 const index = require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js');
 const types = require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js');
 
@@ -15579,6 +15611,9 @@ const types = require('./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js
 const BASE_RETRY_INTERVAL = 5000;
 const MAX_RETRY_COUNT = 3;
 
+/**
+ * The main replay container class, which holds all the state and methods for recording and sending replays.
+ */
 class ReplayContainer  {
    __init() {this.eventBuffer = null;}
 
@@ -16421,7 +16456,7 @@ class ReplayContainer  {
     includeReplayStartTimestamp,
     eventContext,
   }) {
-    const payloadWithSequence = createPayload.createPayload({
+    const recordingData = createRecordingData.createRecordingData({
       events,
       headers: {
         segment_id,
@@ -16438,7 +16473,7 @@ class ReplayContainer  {
     const transport = client && client.getTransport();
     const dsn = _optionalChain([client, 'optionalAccess', _33 => _33.getDsn, 'call', _34 => _34()]);
 
-    if (!client || !scope || !transport || !dsn) {
+    if (!client || !scope || !transport || !dsn || !this.session || !this.session.sampled) {
       return;
     }
 
@@ -16452,9 +16487,10 @@ class ReplayContainer  {
       urls,
       replay_id: replayId,
       segment_id,
+      replay_type: this.session.sampled,
     };
 
-    const replayEvent = await getReplayEvent.getReplayEvent({ scope, client, replayId, event: baseEvent });
+    const replayEvent = await prepareReplayEvent.prepareReplayEvent({ scope, client, replayId, event: baseEvent });
 
     if (!replayEvent) {
       // Taken from baseclient's `_processEvent` method, where this is handled for errors/transactions
@@ -16467,7 +16503,6 @@ class ReplayContainer  {
       ...replayEvent.tags,
       sessionSampleRate: this._options.sessionSampleRate,
       errorSampleRate: this._options.errorSampleRate,
-      replayType: _optionalChain([this, 'access', _35 => _35.session, 'optionalAccess', _36 => _36.sampled]),
     };
 
     /*
@@ -16486,6 +16521,7 @@ class ReplayContainer  {
         ],
         "replay_id": "eventId",
         "segment_id": 3,
+        "replay_type": "error",
         "platform": "javascript",
         "event_id": "eventId",
         "environment": "production",
@@ -16501,12 +16537,11 @@ class ReplayContainer  {
         "tags": {
             "sessionSampleRate": 1,
             "errorSampleRate": 0,
-            "replayType": "error"
         }
     }
     */
 
-    const envelope = createReplayEnvelope.createReplayEnvelope(replayEvent, payloadWithSequence, dsn, client.getOptions().tunnel);
+    const envelope = createReplayEnvelope.createReplayEnvelope(replayEvent, recordingData, dsn, client.getOptions().tunnel);
 
     try {
       return await transport.send(envelope);
@@ -16515,6 +16550,9 @@ class ReplayContainer  {
     }
   }
 
+  /**
+   * Reset the counter of retries for sending replays.
+   */
   resetRetries() {
     this._retryCount = 0;
     this._retryInterval = BASE_RETRY_INTERVAL;
@@ -16592,7 +16630,7 @@ class ReplayContainer  {
 exports.ReplayContainer = ReplayContainer;
 
 
-},{"./constants.js":36,"./coreHandlers/breadcrumbHandler.js":37,"./coreHandlers/handleFetch.js":39,"./coreHandlers/handleGlobalEvent.js":40,"./coreHandlers/handleHistory.js":41,"./coreHandlers/handleXhr.js":43,"./coreHandlers/performanceObserver.js":44,"./createPerformanceEntry.js":45,"./eventBuffer.js":46,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":65,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":83,"./session/deleteSession.js":88,"./session/getSession.js":90,"./session/saveSession.js":91,"./util/addEvent.js":92,"./util/addMemoryEntry.js":93,"./util/createBreadcrumb.js":94,"./util/createPayload.js":95,"./util/createPerformanceSpans.js":96,"./util/createReplayEnvelope.js":97,"./util/debounce.js":98,"./util/getReplayEvent.js":100,"./util/isExpired.js":102,"./util/isSessionExpired.js":105,"./util/monkeyPatchRecordDroppedEvent.js":106,"@sentry/core":24,"@sentry/utils":130,"@sentry/utils/cjs/buildPolyfills":124}],86:[function(require,module,exports){
+},{"./constants.js":36,"./coreHandlers/breadcrumbHandler.js":37,"./coreHandlers/handleFetch.js":39,"./coreHandlers/handleGlobalEvent.js":40,"./coreHandlers/handleHistory.js":41,"./coreHandlers/handleXhr.js":43,"./coreHandlers/performanceObserver.js":44,"./createPerformanceEntry.js":45,"./eventBuffer.js":46,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":65,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":83,"./session/deleteSession.js":88,"./session/getSession.js":90,"./session/saveSession.js":91,"./util/addEvent.js":92,"./util/addMemoryEntry.js":93,"./util/createBreadcrumb.js":94,"./util/createPerformanceSpans.js":95,"./util/createRecordingData.js":96,"./util/createReplayEnvelope.js":97,"./util/debounce.js":98,"./util/isExpired.js":101,"./util/isSessionExpired.js":104,"./util/monkeyPatchRecordDroppedEvent.js":105,"./util/prepareReplayEvent.js":106,"@sentry/core":24,"@sentry/utils":130,"@sentry/utils/cjs/buildPolyfills":124}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16630,7 +16668,7 @@ exports.getSessionSampleType = getSessionSampleType;
 exports.makeSession = makeSession;
 
 
-},{"../util/isSampled.js":104,"@sentry/utils":130}],87:[function(require,module,exports){
+},{"../util/isSampled.js":103,"@sentry/utils":130}],87:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16767,11 +16805,14 @@ function getSession({
 exports.getSession = getSession;
 
 
-},{"../util/isSessionExpired.js":105,"./createSession.js":87,"./fetchSession.js":89,"@sentry/utils":130}],91:[function(require,module,exports){
+},{"../util/isSessionExpired.js":104,"./createSession.js":87,"./fetchSession.js":89,"@sentry/utils":130}],91:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
 
+/**
+ * Save a session to session storage.
+ */
 function saveSession(session) {
   const hasSessionStorage = 'sessionStorage' in constants.WINDOW;
   if (!hasSessionStorage) {
@@ -16859,12 +16900,35 @@ function addMemoryEntry(replay) {
   }
 }
 
+function createMemoryEntry(memoryEntry) {
+  const { jsHeapSizeLimit, totalJSHeapSize, usedJSHeapSize } = memoryEntry;
+  // we don't want to use `getAbsoluteTime` because it adds the event time to the
+  // time origin, so we get the current timestamp instead
+  const time = new Date().getTime() / 1000;
+  return {
+    type: 'memory',
+    name: 'memory',
+    start: time,
+    end: time,
+    data: {
+      memory: {
+        jsHeapSizeLimit,
+        totalJSHeapSize,
+        usedJSHeapSize,
+      },
+    },
+  };
+}
+
 exports.addMemoryEntry = addMemoryEntry;
 
 
-},{"../constants.js":36,"./createPerformanceSpans.js":96}],94:[function(require,module,exports){
+},{"../constants.js":36,"./createPerformanceSpans.js":95}],94:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/**
+ * Create a breadcrumb for a replay.
+ */
 function createBreadcrumb(
   breadcrumb,
 ) {
@@ -16879,39 +16943,6 @@ exports.createBreadcrumb = createBreadcrumb;
 
 
 },{}],95:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function createPayload({
-  events,
-  headers,
-}
-
-) {
-  let payloadWithSequence;
-
-  // XXX: newline is needed to separate sequence id from events
-  const replayHeaders = `${JSON.stringify(headers)}
-`;
-
-  if (typeof events === 'string') {
-    payloadWithSequence = `${replayHeaders}${events}`;
-  } else {
-    const enc = new TextEncoder();
-    // XXX: newline is needed to separate sequence id from events
-    const sequence = enc.encode(replayHeaders);
-    // Merge the two Uint8Arrays
-    payloadWithSequence = new Uint8Array(sequence.length + events.length);
-    payloadWithSequence.set(sequence);
-    payloadWithSequence.set(events, sequence.length);
-  }
-
-  return payloadWithSequence;
-}
-
-exports.createPayload = createPayload;
-
-
-},{}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 require('../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js');
@@ -16943,11 +16974,51 @@ function createPerformanceSpans(replay, entries) {
 exports.createPerformanceSpans = createPerformanceSpans;
 
 
-},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":83,"./addEvent.js":92}],97:[function(require,module,exports){
+},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":55,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":83,"./addEvent.js":92}],96:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * Create the recording data ready to be sent.
+ */
+function createRecordingData({
+  events,
+  headers,
+}
+
+) {
+  let payloadWithSequence;
+
+  // XXX: newline is needed to separate sequence id from events
+  const replayHeaders = `${JSON.stringify(headers)}
+`;
+
+  if (typeof events === 'string') {
+    payloadWithSequence = `${replayHeaders}${events}`;
+  } else {
+    const enc = new TextEncoder();
+    // XXX: newline is needed to separate sequence id from events
+    const sequence = enc.encode(replayHeaders);
+    // Merge the two Uint8Arrays
+    payloadWithSequence = new Uint8Array(sequence.length + events.length);
+    payloadWithSequence.set(sequence);
+    payloadWithSequence.set(events, sequence.length);
+  }
+
+  return payloadWithSequence;
+}
+
+exports.createRecordingData = createRecordingData;
+
+
+},{}],97:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 
+/**
+ * Create a replay envelope ready to be sent.
+ * This includes both the replay event, as well as the recording data.
+ */
 function createReplayEnvelope(
   replayEvent,
   recordingData,
@@ -17139,60 +17210,29 @@ exports.dedupePerformanceEntries = dedupePerformanceEntries;
 
 
 },{}],100:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const core = require('@sentry/core');
-
-async function getReplayEvent({
-  client,
-  scope,
-  replayId: event_id,
-  event,
-}
-
-) {
-  const preparedEvent = (await core.prepareEvent(client.getOptions(), event, { event_id }, scope)) ;
-
-  // If e.g. a global event processor returned null
-  if (!preparedEvent) {
-    return null;
-  }
-
-  // This normally happens in browser client "_prepareEvent"
-  // but since we do not use this private method from the client, but rather the plain import
-  // we need to do this manually.
-  preparedEvent.platform = preparedEvent.platform || 'javascript';
-
-  // extract the SDK name because `client._prepareEvent` doesn't add it to the event
-  const metadata = client.getSdkMetadata && client.getSdkMetadata();
-  const name = (metadata && metadata.sdk && metadata.sdk.name) || 'sentry.javascript.unknown';
-
-  preparedEvent.sdk = {
-    ...preparedEvent.sdk,
-    version: "7.29.0",
-    name,
-  };
-
-  return preparedEvent;
-}
-
-exports.getReplayEvent = getReplayEvent;
-
-
-},{"@sentry/core":24}],101:[function(require,module,exports){
+(function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 
+/**
+ * Returns true if we are in the browser.
+ */
 function isBrowser() {
   // eslint-disable-next-line no-restricted-globals
-  return typeof window !== 'undefined' && !utils.isNodeEnv();
+  return typeof window !== 'undefined' && (!utils.isNodeEnv() || isElectronNodeRenderer());
+}
+
+// Electron renderers with nodeIntegration enabled are detected as Node.js so we specifically test for them
+function isElectronNodeRenderer() {
+  return typeof process !== 'undefined' && (process ).type === 'renderer';
 }
 
 exports.isBrowser = isBrowser;
 
 
-},{"@sentry/utils":130}],102:[function(require,module,exports){
+}).call(this)}).call(this,require('_process'))
+},{"@sentry/utils":130,"_process":152}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -17220,13 +17260,16 @@ function isExpired(
 exports.isExpired = isExpired;
 
 
-},{}],103:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/**
+ * Returns true if we think the given event is an error originating inside of rrweb.
+ */
 function isRrwebError(event) {
   if (event.type || !_optionalChain([event, 'access', _ => _.exception, 'optionalAccess', _2 => _2.values, 'optionalAccess', _3 => _3.length])) {
     return false;
@@ -17245,7 +17288,7 @@ function isRrwebError(event) {
 exports.isRrwebError = isRrwebError;
 
 
-},{"@sentry/utils/cjs/buildPolyfills":124}],104:[function(require,module,exports){
+},{"@sentry/utils/cjs/buildPolyfills":124}],103:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -17266,7 +17309,7 @@ function isSampled(sampleRate) {
 exports.isSampled = isSampled;
 
 
-},{}],105:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -17292,13 +17335,16 @@ function isSessionExpired(session, idleTimeout, targetTime = +new Date()) {
 exports.isSessionExpired = isSessionExpired;
 
 
-},{"../constants.js":36,"./isExpired.js":102,"@sentry/utils/cjs/buildPolyfills":124}],106:[function(require,module,exports){
+},{"../constants.js":36,"./isExpired.js":101,"@sentry/utils/cjs/buildPolyfills":124}],105:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 
 let _originalRecordDroppedEvent;
 
+/**
+ * Overwrite the `recordDroppedEvent` method on the client, so we can find out which events were dropped.
+ * */
 function overwriteRecordDroppedEvent(errorIds) {
   const client = core.getCurrentHub().getClient();
 
@@ -17324,6 +17370,9 @@ function overwriteRecordDroppedEvent(errorIds) {
   _originalRecordDroppedEvent = _originalCallback;
 }
 
+/**
+ * Restore the original method.
+ * */
 function restoreRecordDroppedEvent() {
   const client = core.getCurrentHub().getClient();
 
@@ -17336,6 +17385,50 @@ function restoreRecordDroppedEvent() {
 
 exports.overwriteRecordDroppedEvent = overwriteRecordDroppedEvent;
 exports.restoreRecordDroppedEvent = restoreRecordDroppedEvent;
+
+
+},{"@sentry/core":24}],106:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+
+/**
+ * Prepare a replay event & enrich it with the SDK metadata.
+ */
+async function prepareReplayEvent({
+  client,
+  scope,
+  replayId: event_id,
+  event,
+}
+
+) {
+  const preparedEvent = (await core.prepareEvent(client.getOptions(), event, { event_id }, scope)) ;
+
+  // If e.g. a global event processor returned null
+  if (!preparedEvent) {
+    return null;
+  }
+
+  // This normally happens in browser client "_prepareEvent"
+  // but since we do not use this private method from the client, but rather the plain import
+  // we need to do this manually.
+  preparedEvent.platform = preparedEvent.platform || 'javascript';
+
+  // extract the SDK name because `client._prepareEvent` doesn't add it to the event
+  const metadata = client.getSdkMetadata && client.getSdkMetadata();
+  const name = (metadata && metadata.sdk && metadata.sdk.name) || 'sentry.javascript.unknown';
+
+  preparedEvent.sdk = {
+    ...preparedEvent.sdk,
+    version: "7.30.0",
+    name,
+  };
+
+  return preparedEvent;
+}
+
+exports.prepareReplayEvent = prepareReplayEvent;
 
 
 },{"@sentry/core":24}],107:[function(require,module,exports){
@@ -20318,9 +20411,7 @@ function urlEncode(object) {
  * @returns An Event or Error turned into an object - or the value argurment itself, when value is neither an Event nor
  *  an Error.
  */
-function convertToPlainObject(
-  value,
-)
+function convertToPlainObject(value)
 
  {
   if (is.isError(value)) {
@@ -21305,6 +21396,14 @@ function createStackParser(...parsers) {
     const frames = [];
 
     for (const line of stack.split('\n').slice(skipFirst)) {
+      // Ignore lines over 1kb as they are unlikely to be stack frames.
+      // Many of the regular expressions use backtracking which results in run time that increases exponentially with
+      // input size. Huge strings can result in hangs/Denial of Service:
+      // https://github.com/getsentry/sentry-javascript/issues/2286
+      if (line.length > 1024) {
+        continue;
+      }
+
       // https://github.com/getsentry/sentry-javascript/issues/5459
       // Remove webpack (error: *) wrappers
       const cleanedLine = line.replace(/\(error: (.*)\)/, '$1');
