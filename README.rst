@@ -20,9 +20,9 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
     :alt: CII Best Practices
     :target: https://bestpractices.coreinfrastructure.org/projects/552
 
-.. image:: (https://api.reuse.software/badge/github.com/WeblateOrg/weblate
+.. image:: https://api.reuse.software/badge/github.com/WeblateOrg/weblate
     :alt: REUSE status
-    :target: https://api.reuse.software/info/github.com/WeblateOrg/weblate)
+    :target: https://api.reuse.software/info/github.com/WeblateOrg/weblate
 
 .. image:: https://img.shields.io/pypi/v/weblate.svg
     :target: https://pypi.org/project/Weblate/
