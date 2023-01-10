@@ -1,7 +1,7 @@
 <!--
-Copyright © Michal Čihař <michal@cihar.com>
+Copyright © Michal Čihař <michal@weblate.org>
 
-SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: CC0-1.0
 
 This file is maintained in https://github.com/WeblateOrg/meta/
 -->
