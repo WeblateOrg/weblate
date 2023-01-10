@@ -1,4 +1,10 @@
-<!-- This file is maintained in https://github.com/WeblateOrg/meta/ -->
+<!--
+Copyright © Michal Čihař <michal@cihar.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+
+This file is maintained in https://github.com/WeblateOrg/meta/
+-->
 
 # Weblate Security
 

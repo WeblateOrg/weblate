@@ -1,5 +1,5 @@
 #
-# Copyright © 2012–2023 Michal Čihař <michal@cihar.com>
+# Copyright © Michal Čihař <michal@weblate.org>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
