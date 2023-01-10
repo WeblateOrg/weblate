@@ -5,7 +5,7 @@
 # Tuomas Hietala <tuomas.hietala@iki.fi>, 2019, 2020, 2021, 2022.
 # Nikolay Korotkiy <sikmir@gmail.com>, 2019.
 # Toni Lähdekorpi <toni@lygon.net>, 2019.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2019, 2020, 2022.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2019, 2020, 2022, 2023.
 # Hannu Martinet <swann.ranskassa@laposte.net>, 2019.
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-11-11 22:49+0000\n"
-"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
+"PO-Revision-Date: 2023-01-12 19:52+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -72,7 +72,7 @@ msgstr "Julkinen sähköposti"
 
 #: weblate/accounts/forms.py:189
 msgid "Do not publicly display e-mail"
-msgstr ""
+msgstr "Älä näytä julkisesti sähköpostiosoitetta"
 
 #: weblate/accounts/forms.py:194 weblate/accounts/models.py:574
 #, fuzzy
@@ -82,10 +82,8 @@ msgid "Commit e-mail"
 msgstr "Yhteyshenkilön sähköpostiosoite"
 
 #: weblate/accounts/forms.py:195
-#, fuzzy
-#| msgid "User e-mail"
 msgid "Use account e-mail"
-msgstr "Käyttäjän sähköposti"
+msgstr "Käytä tilin sähköpostiosoitetta"
 
 #: weblate/accounts/forms.py:311
 #, python-format
@@ -4162,7 +4160,7 @@ msgstr "TMX-tiedoston jäsentäminen epäonnistui!"
 
 #: weblate/memory/models.py:171
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "Lähdekieltä ei ole määritetty TMX-tiedostossa!"
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
 #, python-format
@@ -4592,16 +4590,12 @@ msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr "Noudata salasanan palautusohjeita, jotka on lähetetty sähköpostiisi."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Poista käyttäjätilisi napsauttamalla vahvistuslinkkiä sinulle lähetetyssä "
-"sähköpostissa."
+"Poista käyttäjätilisi napsauttamalla sinulle lähetetyssä sähköpostissa "
+"olevaa vahvistuslinkkiä."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -4614,16 +4608,16 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Tarkista roskapostikansio, jos et löydä viestiä saapuneiden viestien "
+"joukosta."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "Vahvistuksen URL-osoite vanhenee %(count)s tunnin kuluttua."
-msgstr[1] "Vahvistuksen URL-osoite vanhenee %(count)s tunnin kuluttua."
+msgstr[0] "Vahvistuslinkki vanhenee %(count)s tunnin kuluttua."
+msgstr[1] "Vahvistuslinkki vanhenee %(count)s tunnin kuluttua."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
@@ -5385,10 +5379,9 @@ msgid "Are you absolutely sure?"
 msgstr "Oletko ehdottoman varma?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "Tämä poistaa käyttäjän <b>%(user)s</b> pääsyn projektiin."
+msgstr "Tämä poistaa käyttäjän <b>%(user)s</b> Weblatesta."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -7723,15 +7716,11 @@ msgstr ""
 "jatkaaksesi."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"Jos vahvistuksen URL-osoite on vanhentunut, pääset takaisin käyttäjätiliisi "
+"Jos vahvistuslinkki on vanhentunut, pääset takaisin käyttäjätiliisi "
 "salasanan palautustoiminnolla."
 
 #: weblate/templates/mail/shared-registration.html:19
@@ -10810,10 +10799,8 @@ msgid "Invalid checksum specified!"
 msgstr "Virheellinen tarkistussumma!"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "Käyttäjänimi tai sähköpostiosoite"
+msgstr "Puuttuva käyttäjänimi tai sähköpostiosoite."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -12538,17 +12525,13 @@ msgid "Could not add new translation file."
 msgstr "Käännöstiedoston lisääminen epäonnistui."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "Sinulla ei ole oikeuksia aloittaa uutta käännöstä"
+msgstr "Sinulla ei ole oikeutta lisätä uutta käännöstiedostoa."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Yksikielinen kantakielitiedosto"
+msgstr "Yksikielinen kantakielitiedosto on virheellinen."
 
 #: weblate/trans/models/component.py:3213
 #, fuzzy
@@ -12557,16 +12540,12 @@ msgid "The template for new translations is invalid."
 msgstr "Malline uusille käännöksille"
 
 #: weblate/trans/models/component.py:3246
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Annettu kieli on suodatettu kielisuodattimella."
+msgstr "Annettua kieltä käytetään lähdekielenä."
 
 #: weblate/trans/models/component.py:3251
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Annettu kieli on suodatettu kielisuodattimella."
+msgstr "Annettu kieli on jo olemassa."
 
 #: weblate/trans/models/component.py:3257
 msgid "The given language is filtered by the language filter."
@@ -12744,10 +12723,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Odottavien muutosten kommitointi epäonnistui: %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Ohjausmerkit"
+msgstr "Merkkijono sisältää ohjausmerkin: %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
