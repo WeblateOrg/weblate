@@ -99,6 +99,10 @@ class WeblateConf(AppConf):
     MT_NETEASE_KEY = None
     MT_NETEASE_SECRET = None
 
+    # IBM Watson Language Translator
+    MT_IBM_API_URL = None
+    MT_IBM_KEY = None
+
     # List of machine translations
     MT_SERVICES = (
         "weblate.machinery.weblatetm.WeblateTranslation",
@@ -125,6 +129,7 @@ class WeblateConf(AppConf):
         "weblate.machinery.yandex.YandexTranslation",
         "weblate.machinery.saptranslationhub.SAPTranslationHub",
         "weblate.machinery.youdao.YoudaoTranslation",
+        "weblate.machinery.ibm.IBMTranslation",
         "weblate.machinery.weblatetm.WeblateTranslation",
         "weblate.memory.machine.WeblateMemory",
     )
