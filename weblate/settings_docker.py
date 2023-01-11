@@ -895,6 +895,12 @@ MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
 if MT_SAP_BASE_URL:
     MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
 
+# IBM Watson Language Translator
+MT_IBM_API_URL = os.environ.get("WEBLATE_MT_IBM_API_URL")
+MT_IBM_KEY = os.environ.get("WEBLATE_MT_IBM_KEY")
+if MT_IBM_API_URL and MT_IBM_KEY:
+    MT_SERVICES += ("weblate.machinery.ibm.IBMTranslation",)
+
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
 # https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
