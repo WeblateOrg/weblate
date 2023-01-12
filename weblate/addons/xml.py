@@ -29,7 +29,8 @@ class XMLCustomizeAddon(StoreBaseAddon):
         if not hasattr(component.file_format_cls, "get_class"):
             # Non translate-toolkit based formats
             return False
-        return issubclass(component.file_format_cls.get_class(), LISAfile)
+        format_class = component.file_format_cls.get_class()
+        return format_class is not None and issubclass(format_class, LISAfile)
 
     def store_post_load(self, translation, store):
         """Hook triggered once component formatter has been loaded."""
