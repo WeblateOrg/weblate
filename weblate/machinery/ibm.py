@@ -25,7 +25,7 @@ class IBMTranslation(MachineTranslation):
         }
 
     def get_authentication(self):
-        b64 = str(b64encode(f"apikey:{settings.MT_IBM_KEY}".encode("UTF-8")), "UTF-8")
+        b64 = str(b64encode(f"apikey:{self.settings['key']}".encode("UTF-8")), "UTF-8")
         return {
             "Authorization": f"Basic {b64}",
             "Content-Type": "application/json",
