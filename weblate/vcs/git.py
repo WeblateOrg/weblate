@@ -900,10 +900,18 @@ class GitMergeRequestBase(GitForcePushRepository):
     def should_retry(self, response, response_data):
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
-            # Cap sleeping to 30 seconds
-            sleep(min(int(retry_after), 30))
+            # Cap sleeping to 60 seconds
+            self.set_next_request_time(min(int(retry_after), 60))
             return True
         return False
+
+    @cached_property
+    def request_time_cache_key(self):
+        vcs_id = self.get_identifier()
+        return f"vcs:request-time:{vcs_id}"
+
+    def set_next_request_time(self, delay: int):
+        cache.set(self.request_time_cache_key, time() + delay)
 
     def request(
         self,
@@ -916,14 +924,14 @@ class GitMergeRequestBase(GitForcePushRepository):
         retry: int = 0,
     ):
         vcs_id = self.get_identifier()
-        cache_id = f"vcs:request:{vcs_id}"
+        cache_id = self.request_time_cache_key()
         lock = WeblateLock(data_dir("home"), "vcs-api", 0, vcs_id, timeout=30)
         try:
             with lock:
                 last_api = cache.get(cache_id)
-                if last_api is not None and time() - last_api < 10:
-                    # GitHub recommends a delay between 2 requests of at least 1s,
-                    # but in reality this hits secondary rate limits.
+                now = time()
+                if last_api is not None and now < last_api:
+                    sleep(now - last_api)
                     sleep(10)
                 try:
                     response = requests.request(
@@ -937,7 +945,9 @@ class GitMergeRequestBase(GitForcePushRepository):
                 except OSError as error:
                     report_error(cause="request")
                     raise RepositoryException(0, str(error))
-                cache.set(cache_id, time())
+                # GitHub recommends a delay between 2 requests of at least 1s,
+                # but in reality this hits secondary rate limits.
+                self.set_next_request_time(10)
         except WeblateLockTimeout:
             retry += 1
             if retry > 10:
@@ -987,7 +997,7 @@ class GithubRepository(GitMergeRequestBase):
             "message" in response_data
             and "You have exceeded a secondary rate limit" in response_data["message"]
         ):
-            sleep(60)
+            self.set_next_request_time(60)
             return True
         return False
 
