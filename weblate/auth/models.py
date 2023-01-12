@@ -789,15 +789,32 @@ def setup_project_groups(
 ):
     """Set up group objects upon saving project."""
     # Handle group automation to set project visibility
-    auto_projects = Group.objects.filter(
-        project_selection__in=(
+    if instance.access_control == Project.ACCESS_PUBLIC:
+        add = (
             SELECTION_ALL,
             SELECTION_ALL_PUBLIC,
             SELECTION_ALL_PROTECTED,
         )
-    )
-    for group in auto_projects:
-        group.save()
+        remove = ()
+    elif instance.access_control == Project.ACCESS_PROTECTED:
+        add = (
+            SELECTION_ALL,
+            SELECTION_ALL_PROTECTED,
+        )
+        remove = (SELECTION_ALL_PUBLIC,)
+    else:
+        add = (SELECTION_ALL,)
+        remove = (
+            SELECTION_ALL_PUBLIC,
+            SELECTION_ALL_PROTECTED,
+        )
+
+    for group in Group.objects.filter(project_selection__in=add).exclude(
+        projects=instance
+    ):
+        group.projects.add(instance)
+    for group in Group.objects.filter(project_selection__in=remove, projects=instance):
+        group.projects.remove(instance)
 
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
