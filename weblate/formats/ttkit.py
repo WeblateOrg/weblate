@@ -917,10 +917,16 @@ class PlaceholdersJSONUnit(JSONUnit):
         placeholders = self.mainunit.placeholders
         if not placeholders:
             return ""
-        return "placeholders:{},case-insensitive".format(
-            ":".join(
-                Flags.format_value(f"${key.upper()}$") for key in placeholders.keys()
-            )
+        flags = ""
+        if isinstance(placeholders, list):
+            # golang placeholders
+            placeholder_ids = [f"{{{p['id']}}}" for p in placeholders]
+        else:
+            # WebExtension placeholders
+            placeholder_ids = [f"${key.upper()}$" for key in placeholders.keys()]
+            flags = ",case-insensitive"
+        return "placeholders:{}{}".format(
+            ":".join(Flags.format_value(key) for key in placeholder_ids), flags
         )
 
 
