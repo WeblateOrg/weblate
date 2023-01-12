@@ -1,10 +1,11 @@
+from base64 import b64encode
+
 from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation
 
 from .forms import KeyURLMachineryForm
 
-from base64 import b64encode
 
 class IBMTranslation(MachineTranslation):
     """IBM Watson machine translation support."""
@@ -25,7 +26,7 @@ class IBMTranslation(MachineTranslation):
         }
 
     def get_authentication(self):
-        b64 = str(b64encode(f"apikey:{self.settings['key']}".encode("UTF-8")), "UTF-8")
+        b64 = str(b64encode(f"apikey:{self.settings['key']}".encode()), "UTF-8")
         return {
             "Authorization": f"Basic {b64}",
             "Content-Type": "application/json",
