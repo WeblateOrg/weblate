@@ -930,7 +930,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     ):
         do_retry = False
         vcs_id = self.get_identifier()
-        cache_id = self.request_time_cache_key()
+        cache_id = self.request_time_cache_key
         lock = WeblateLock(data_dir("home"), "vcs-api", 0, vcs_id, timeout=30)
         try:
             with lock:
