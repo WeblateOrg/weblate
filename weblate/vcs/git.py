@@ -871,6 +871,8 @@ class GitMergeRequestBase(GitForcePushRepository):
         errors = []
         for extra in ("message", "error", "error_description", "errors"):
             messages = response_data.get(extra)
+            if messages is None:
+                continue
             if isinstance(messages, str):
                 errors.append(messages)
             elif isinstance(messages, list):
@@ -885,7 +887,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                     errors.append(f"{key}: {error}")
             else:
                 self.log(
-                    f"failed to parse response line: {messages!r}",
+                    f"failed to parse HTTP response message: {messages!r}",
                     level=logging.WARNING,
                 )
 
