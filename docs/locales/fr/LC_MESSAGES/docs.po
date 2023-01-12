@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2023-01-12 19:52+0000\n"
+"PO-Revision-Date: 2023-01-15 09:52+0000\n"
 "Last-Translator: Nifou <nifou@mailfence.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -1012,6 +1012,9 @@ msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Gérer le système de contrôle des versions pour le dépôt ``foo/bar`` complet, "
+"par exemple valider les changements en attente effectués par les traducteurs "
+"pour toutes les langues."
 
 #: ../../admin/access.rst:410
 #, fuzzy
@@ -1052,6 +1055,14 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
+"L'utilisation la plus courante de la fonctionnalité est d'affecter tous les "
+"nouveaux utilisateurs à une équipe par défaut. Pour faire cela, vous voudrez "
+"probablement garder la valeur par défaut (``^.*$``) dans le champ de "
+"l'expression rationnelle. Une autre utilisation de cette option peut être de "
+"donner, par défaut, des privilèges supplémentaires aux employés de votre "
+"entreprise. En supposant qu'ils utilisent tous des adresses e-mail avec "
+"votre nom de domaine, cela peut être accompli en utilisant une expression "
+"rationnelle comme ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:427
 #, fuzzy
@@ -1589,6 +1600,8 @@ msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
+"Par défaut, :ref:`automatic team assignment <autoteam>` rend tous les "
+"nouveaux comptes membres de cette équipe lorsqu'ils la rejoignent."
 
 #: ../../admin/access.rst:605
 msgid "Default roles: none"
@@ -1662,6 +1675,15 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Si vous voulez utiliser votre installation de Weblate d'une manière moins "
+"publique, c'est à dire autoriser les nouveaux utilisateurs sur invitation "
+"uniquement, cela peut être fait en configurant Weblate de manière à ce que "
+"seuls les utilisateurs connus y aient accès. Pour ce faire, vous pouvez "
+"définir :setting:`REGISTRATION_OPEN` à ``False`` pour empêcher "
+"l'enregistrement de tout nouvel utilisateur, et définir "
+":setting:`REQUIRE_LOGIN` à ``/.*`` pour exiger une connexion pour accéder à "
+"toutes les pages du site. C'est essentiellement la manière de verrouiller "
+"votre installation de Weblate."
 
 #: ../../admin/access.rst:643
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -1736,10 +1758,8 @@ msgid "``translate`` -- Add as translation"
 msgstr "``translate`` -- Ajouter comme traduction"
 
 #: ../../admin/addons.rst:38
-#, fuzzy
-#| msgid "``fuzzy`` -- Add as needing edit"
 msgid "``fuzzy`` -- Add as \"Needing edit\""
-msgstr "``fuzzy`` -- Ajouter comme À vérifier"
+msgstr "``fuzzy`` -- Ajouter comme « À éditer »"
 
 #: ../../admin/addons.rst:40
 #, fuzzy
@@ -1930,7 +1950,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:97
 msgid "daily, repository post-commit, repository post-update"
-msgstr ""
+msgstr "quotidien, après le commit du dépôt, après la mise-à-jour du dépôt"
 
 #: ../../admin/addons.rst:99
 msgid ""
@@ -1984,7 +2004,7 @@ msgstr "`Ce module ne possède aucun paramètre.`"
 
 #: ../../admin/addons.rst:124
 msgid "repository post-commit, repository post-update"
-msgstr ""
+msgstr "après le commit du dépôt, après la mise-à-jour du dépôt"
 
 #: ../../admin/addons.rst:126
 msgid "Removes strings without a translation from translation files."
@@ -2015,7 +2035,7 @@ msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:143
 msgid "repository pre-commit, repository post-update"
-msgstr ""
+msgstr "avant le commit du dépôt, après la mise-à-jour du dépôt"
 
 #: ../../admin/addons.rst:145
 msgid ""
@@ -2037,7 +2057,7 @@ msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:160
 msgid "daily, repository post-add"
-msgstr ""
+msgstr "quotidien, après l'ajout du dépôt"
 
 #: ../../admin/addons.rst:162
 msgid ""
@@ -2370,22 +2390,15 @@ msgstr ""
 "Modifier en masse les drapeaux, les libellés ou les statuts des chaînes."
 
 #: ../../admin/addons.rst:267
-#, fuzzy
-#| msgid ""
-#| "Automating the labeling of new strings can be useful (start out with "
-#| "search query ``NOT has:label`` and add desired labels till all strings "
-#| "are properly labeled). You can also carry out any other automated "
-#| "operations for Weblate metadata."
 msgid ""
 "Automate labeling by starting out with the search query ``NOT has:label`` "
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
-"Il peut être utile d’automatiser l’étiquetage des nouvelles chaînes "
-"(commencez par la requête ``NOT has:label`` et ajoutez les étiquettes "
-"souhaitées jusqu’à ce que toutes les chaînes soient correctement "
-"étiquetées). Vous pouvez également effectuer toute autre opération "
-"automatisée pour les métadonnées Weblate."
+"Automatise l’étiquetage en commençant la requête par ``NOT has:label`` et "
+"ajoute les étiquettes souhaitées jusqu’à ce que toutes les chaînes soient "
+"correctement étiquetées. Toute autre opération liée aux métadonnées Weblate "
+"peut également être automatisée."
 
 #: ../../admin/addons.rst:271 ../../admin/config.rst:1706
 msgid "**Examples:**"
@@ -2436,7 +2449,7 @@ msgstr "``weblate.flags.same_edit``"
 #: ../../admin/addons.rst:306 ../../admin/addons.rst:328
 #: ../../admin/addons.rst:345
 msgid "unit post-create"
-msgstr ""
+msgstr "unité après la création"
 
 #: ../../admin/addons.rst:308
 msgid ""
@@ -2455,6 +2468,9 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Il se peut que vous vouliez également renforcer la vérification de :ref"
+":`check-same` en ajoutant l'indicateur ``strict-same`` à :ref:`component-"
+"check_flags`."
 
 #: ../../admin/addons.rst:319 ../../admin/addons.rst:336
 #: ../../admin/addons.rst:353
@@ -2689,12 +2705,19 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Les pseudo-traductions sont utiles pour trouver les chaînes de caractères "
+"qui ne sont pas préparées pour la traduction. Pour ce faire, toutes les "
+"chaînes sources sont modifiées afin de faciliter la détection des chaînes "
+"non-modifiées lors de l'exécution de l'application en utilisant la pseudo-"
+"traduction."
 
 #: ../../admin/addons.rst:445
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Il est également possible de trouver les chaînes de caractères dont les "
+"équivalents traduits pourraient ne pas correspondre à la mise en page."
 
 #: ../../admin/addons.rst:448
 msgid ""
@@ -3070,6 +3093,8 @@ msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr ""
+"Les commits de Git peuvent êtres écrasés avant de pousser les changements "
+"dans l'un des modes suivants :"
 
 #: ../../admin/addons.rst:626
 msgid "All commits into one"
@@ -3183,12 +3208,14 @@ msgstr "Formate et ordonne le fichier de propriétés Java."
 
 #: ../../admin/addons.rst:673
 msgid "Consolidates newlines to Unix ones."
-msgstr ""
+msgstr "Consolide les nouvelles lignes en celles d'Unix."
 
 #: ../../admin/addons.rst:674
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
 msgstr ""
+"Formatage en majuscules des séquences d'échappements d'Unicode (si elles "
+"sont présentes)."
 
 #: ../../admin/addons.rst:675
 msgid "Strips blank lines and comments."
@@ -3761,6 +3788,8 @@ msgid ""
 "Image showing an announcement that reads: \"Translations will be used only "
 "if they reach 60%\" atop the dashboard view."
 msgstr ""
+"Image montrant une annonce indiquant : « Les traductions ne seront utilisées "
+"que si elles atteignent 60 % » en haut de la vue du tableau de bord."
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -3816,6 +3845,8 @@ msgid ""
 "Image showing an announcement that reads: \"Czech translators rock!\" atop "
 "the Czech language overview."
 msgstr ""
+"Image montrant une annonce indiquant : « Les traducteurs tchèques sont "
+"géniaux ! » en haut de l'aperçu de la langue tchèque."
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -3939,6 +3970,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"La plupart des \"backends\" d'authentification nécessitent HTTPS. Une fois "
+"que HTTPS est activé sur votre serveur web, veuillez configurer Weblate pour "
+"qu'il l'annonce correctement en utilisant :setting:`ENABLE_HTTPS`, ou "
+":envvar:`WEBLATE_ENABLE_HTTPS` dans un conteneur Docker."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3991,6 +4026,13 @@ msgid ""
 "Their callback URLs are ``https://example.com/accounts/complete/github-org/"
 "`` and ``https://example.com/accounts/complete/github-teams/``."
 msgstr ""
+"Il existe des \"backends\" d'authentification similaires pour \"Github for "
+"Organizations\" et \"Github for Teams\". Leurs paramètres sont appelés "
+"``SOCIAL_AUTH_GITHUB_ORG_*``, ``SOCIAL_AUTH_GITHUB_TEAM_*``, et ils "
+"nécessitent un paramétrage supplémentaire de ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
+"ou ``SOCIAL_AUTH_GITHUB_TEAM_ID``. Leurs adresses de rappel sont "
+"``https://example.com/accounts/complete/github-org/`` et ``https://example."
+"com/accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -4154,6 +4196,11 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Vous pouvez remplacer le nom affiché et l'icône de la méthode "
+"d'authentification en utilisant des paramètres comme "
+"``SOCIAL_AUTH_<NAME>_IMAGE`` et ``SOCIAL_AUTH_<NAME>_TITLE``. Par exemple le "
+"remplacement du nom pour la méthode d'authentification utilisant Auth0 "
+"ressemblerait à ceci :"
 
 #: ../../admin/auth.rst:343
 msgid "Turning off password authentication"
@@ -6871,6 +6918,8 @@ msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
 msgstr ""
+"Vérifie à l'aide des infos de la langue que les deux formes plurielles en "
+"Tchèque ne sont pas les mêmes."
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
@@ -6882,12 +6931,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Spécifie plusieurs listes de composants à afficher comme options sur le "
+"tableau de bord de l'utilisateur, parmi lesquelles les utilisateurs peuvent "
+"choisir une vue par défaut. Voir :ref:`dashboard` pour en savoir plus."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Un statut sera présenté pour chaque liste de composants présentée sur le "
+"tableau de bord."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -6896,22 +6950,32 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"Les noms et le contenu des listes de composants peuvent être spécifiés dans "
+"l'interface d’administration, dans la section :guilabel:`Component lists`. "
+"Chaque liste de composants doit avoir un nom qui est affiché à l'utilisateur "
+"et une abréviation le représentant dans l'adresse de la page."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Modifie les paramètres du tableau de bord pour les utilisateurs anonymes "
+"depuis l'interface d'administration, en altérant le tableau de bord présenté "
+"aux utilisateurs non-authentifiés."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Listes automatiques de composants"
 
 #: ../../admin/componentlists.rst:30
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Ajoute automatiquement des composants à la liste en fonction de leur "
+"abbréviation en créant des règles :guilabel:`Affectation automatique de la "
+"liste des composants`."
 
 #: ../../admin/componentlists.rst:33
 msgid ""
@@ -6919,12 +6983,17 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"Utile pour maintenir les listes de composants pour de grosses installations, "
+"ou si vous voulez avoir une liste de composants avec tous les composants de "
+"votre installation de Weblate."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
+"Crée une liste de composants contenant tous les composants de votre "
+"installation de Weblate."
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -6932,35 +7001,48 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Définir :guilabel:`Affectation automatique de la liste des composants` à "
+"``^.*$`` comme expression régulière dans les champs du projet et du "
+"composant, comme indiqué sur cette image :"
 
 #: ../../admin/componentlists.rst:-1
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
 msgstr ""
+"Image montrant le panneau d'administration de Weblate avec la configuration "
+"ci-dessus remplie."
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Tous les paramètres sont stockés dans :file:`settings.py` (comme "
+"habituellement avec Django)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
 msgstr ""
+"Après avoir changé l'un de ces paramètres, vous devez redémarrer Weblate - à "
+"la fois le processus WSGI que Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"S'il est exécuté en tant que ``mod_wsgi``, vous devez redémarrer Apache pour "
+"recharger la configuration."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Veuillez également consulter :doc:`la documentation de Django <django:ref/"
+"settings>` pour les paramètres configurant spécialement Django."
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
@@ -6972,6 +7054,9 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate peut utiliser Akismet pour vérifier que les suggestions anonymes "
+"proposées ne soient pas des spams. Consultez `akismet.com <https://akismet."
+"com/>`_ pour acheter une clé API et pour l'associer à un site."
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
@@ -6979,7 +7064,7 @@ msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "Le nom des utilisateurs qui ne sont pas connectés."
 
 #: ../../admin/config.rst:39
 #, fuzzy
@@ -6996,10 +7081,12 @@ msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
 msgstr ""
+"Le nombre de jours durant lesquels Weblate conserve les journaux d'audit, "
+"qui contiennent des informations sur l'activité du compte."
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "La valeur par défaut est de 180 jours."
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
@@ -7010,26 +7097,33 @@ msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Le nombre maximal de tentatives d'authentification échouées avant que la "
+"limitation de débit ne soit appliquée."
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Ce paramètre est actuellement appliqué dans les emplacements suivants :"
 
 #: ../../admin/config.rst:64
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Lors de la connexion. Supprime le mot de passe du compte, empêchant "
+"l'utilisateur de se connecter sans demander un nouveau mot de passe."
 
 #: ../../admin/config.rst:66
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
 msgstr ""
+"Lors de la réinitialisation du mot de passe. Empêche l'envoi de nouveaux e-"
+"mails évitant ainsi de spammer les utilisateurs avec trop de tentatives de "
+"réinitialisation de mot de passe."
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "La valeur par défaut est 10."
 
 #: ../../admin/config.rst:73
 #, fuzzy
@@ -7046,22 +7140,28 @@ msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
 msgstr ""
+"L'option originale on/off a été modifiée pour différencier les chaînes de "
+"caractères acceptées."
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Met quotidiennement à jour tous les dépôts."
 
 #: ../../admin/config.rst:90
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Utile si vous n'utilisez pas les :ref:`hooks` pour mettre automatiquement à "
+"jour les dépôts de Weblate."
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"L'option on/off existe en plus de l'utilisation d'une chaîne de caractères "
+"pour la rétrocompatibilité."
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
@@ -7073,7 +7173,7 @@ msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "Pas de mises à jour quotidiennes."
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
@@ -7081,7 +7181,7 @@ msgstr "``\"remote\"`` et ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "Met à jour uniquement les dépôts distants."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
@@ -7089,13 +7189,15 @@ msgstr "``\"full\"`` et ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Met à jour les dépôts distants et fusionne la copie de travail."
 
 #: ../../admin/config.rst:107
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Ce paramètre exige que :ref:`celery` fonctionne, et prendra effet après son "
+"redémarrage."
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
