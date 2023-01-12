@@ -921,9 +921,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         try:
             with lock:
                 last_api = cache.get(cache_id)
-                if last_api is not None and time() - last_api < 1:
-                    # GitHub recommends a delay between 2 requests of at least 1s.
-                    sleep(1)
+                if last_api is not None and time() - last_api < 10:
+                    # GitHub recommends a delay between 2 requests of at least 1s,
+                    # but in reality this hits secondary rate limits.
+                    sleep(10)
                 try:
                     response = requests.request(
                         method,
