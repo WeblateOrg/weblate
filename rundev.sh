@@ -28,7 +28,7 @@ build() {
     # Build the container
     docker-compose build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)
 
-    DOCKER_PYTHON="$(docker inspect weblate/weblate:bleeding | jq -r '.[].Config.Env[]|select(match("^PYVERSION"))|.[index("=")+1:]')"
+    DOCKER_PYTHON="$(docker inspect weblate-dev:latest | jq -r '.[].Config.Env[]|select(match("^PYVERSION"))|.[index("=")+1:]')"
     echo "DOCKER_PYTHON=$DOCKER_PYTHON" > .env
 }
 
