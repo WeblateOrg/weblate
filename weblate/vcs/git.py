@@ -897,7 +897,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
-    def should_retry(self, response):
+    def should_retry(self, response, response_data):
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
             # Cap sleeping to 30 seconds
@@ -944,9 +944,6 @@ class GitMergeRequestBase(GitForcePushRepository):
                 raise
             return self.request(method, credentials, url, data, params, json, retry)
 
-        if self.should_retry(response):
-            return self.request(method, credentials, url, data, params, json, retry + 1)
-
         self.add_response_breadcrumb(response)
         try:
             response_data = response.json()
@@ -954,6 +951,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             report_error(cause="request json decoding")
             response.raise_for_status()
             raise RepositoryException(0, str(error))
+
+        if self.should_retry(response, response_data):
+            return self.request(method, credentials, url, data, params, json, retry + 1)
 
         return response_data, self.get_error_message(response_data)
 
@@ -978,6 +978,18 @@ class GithubRepository(GitMergeRequestBase):
         headers = super().get_headers(credentials)
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
+
+    def should_retry(self, response, response_data):
+        if super().should_retry(response, response_data):
+            return True
+        # https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits
+        if (
+            "message" in response_data
+            and "You have exceeded a secondary rate limit" in response_data["message"]
+        ):
+            sleep(60)
+            return True
+        return False
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
