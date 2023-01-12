@@ -59,7 +59,8 @@ class TeamUpdateView(UpdateView):
 
         if self.request.user.has_perm("meta:team.users", self.object):
             result["users"] = get_paginator(
-                self.request, self.object.user_set.filter(is_active=True, is_bot=False)
+                self.request,
+                self.object.user_set.filter(is_active=True, is_bot=False).order(),
             )
             result["add_user_form"] = UserAddTeamForm()
             result["admins"] = self.object.admins.all()

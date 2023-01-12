@@ -7,6 +7,7 @@ Not yet released.
 * Added add-on page crash in some corner cases.
 * Fixed untranslating template for new translations in some cases.
 * Documented licensing using `REUSE 3.0 <https://reuse.software/>`_.
+* Fixed users pagination on team management.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
 
