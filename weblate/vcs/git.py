@@ -521,7 +521,12 @@ class GitWithGerritRepository(GitRepository):
 
     def push(self, branch):
         if self.needs_push():
-            self.execute(["review", "--yes", self.branch])
+            try:
+                self.execute(["review", "--yes", self.branch])
+            except RepositoryException as error:
+                if "(no new changes)" in str(error):
+                    return
+                raise
 
 
 class SubversionRepository(GitRepository):
