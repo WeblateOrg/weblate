@@ -933,7 +933,6 @@ class GitMergeRequestBase(GitForcePushRepository):
                 now = time()
                 if last_api is not None and now < last_api:
                     sleep(now - last_api)
-                    sleep(10)
                 try:
                     response = requests.request(
                         method,
