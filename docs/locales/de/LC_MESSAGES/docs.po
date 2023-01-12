@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-13 14:24+0100\n"
-"PO-Revision-Date: 2023-01-09 13:31+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2023-01-15 09:52+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -12671,10 +12671,14 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
+"Mit der Bereitstellung von Weblate per Docker können Sie Ihre persönliche "
+"Weblate-Instanz in Sekundenschnelle zum Laufen bringen. Alle Abhängigkeiten "
+"von Weblate sind bereits enthalten. PostgreSQL ist als Standarddatenbank "
+"eingerichtet."
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
-msgstr ""
+msgstr "Hardwareanforderungen"
 
 #: ../../admin/install/steps/hw.rst:4
 msgid ""
@@ -12682,6 +12686,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
+"Weblate sollte auf jeder zeitgemäßen Hardware problemlos laufen. Nachfolgend "
+"finden Sie die minimale Konfiguration, die erforderlich ist, um Weblate auf "
+"einem einzelnen Host zu betreiben (Weblate, Datenbank und Webserver):"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -12689,23 +12696,28 @@ msgstr "2 GB Arbeitsspeicher"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
-msgstr ""
+msgstr "2 CPU-Kerne"
 
 #: ../../admin/install/steps/hw.rst:10
 msgid "1 GB of storage space"
-msgstr ""
+msgstr "1 GB Speicherplatz"
 
 #: ../../admin/install/steps/hw.rst:12
 msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
 msgstr ""
+"Je mehr Speicher, desto besser - er wird für das Caching auf allen Ebenen ("
+"Dateisystem, Datenbank und Weblate) verwendet."
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
 msgstr ""
+"Viele gleichzeitige Benutzer erhöhen die Anzahl der benötigten CPU-Kerne. "
+"Für Hunderte von Übersetzungskomponenten werden mindestens 4 GB RAM "
+"empfohlen."
 
 #: ../../admin/install/steps/hw.rst:19
 msgid ""
@@ -12771,28 +12783,39 @@ msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"Das mitgelieferte Beispiel lässt Weblate auf Port 80 lauschen. Bearbeiten "
+"Sie die Portzuordnung in der Datei :file:`docker-compose.override.yml`, um "
+"sie zu ändern."
 
 #: ../../admin/install/docker.rst:53
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Weblate-Container starten:"
 
 #: ../../admin/install/docker.rst:59
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Viel Spaß beim Einsatz von Weblate, es ist über Port 80 des Containers "
+"``weblate`` erreichbar."
 
 #: ../../admin/install/docker.rst:63
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"Die Einrichtung hat sich kürzlich geändert, vorher gab es einen separaten "
+"Webserver-Container, seit 2.15-2 ist der Webserver in den Weblate-Container "
+"eingebettet."
 
 #: ../../admin/install/docker.rst:69
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers are not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"Im Juli 2019 (beginnend mit dem Tag 3.7.1-6) werden die Container nicht als "
+"Root-Benutzer ausgeführt. Dadurch hat sich der exponierte Port von 80 auf "
+"8080 geändert."
 
 #: ../../admin/install/docker.rst:72
 msgid ":ref:`invoke-manage`"
@@ -12822,7 +12845,7 @@ msgstr "Beschreibung"
 
 #: ../../admin/install/docker.rst:80 ../../devel/translations.rst:91
 msgid "Use case"
-msgstr ""
+msgstr "Anwendungsfall"
 
 #: ../../admin/install/docker.rst:82
 #, fuzzy
@@ -12914,6 +12937,9 @@ msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Bitte lesen Sie :ref:'docker-deploy' für allgemeine "
+"Bereitstellungsanweisungen, dieser Abschnitt erwähnt nur Unterschiede im "
+"Vergleich dazu."
 
 #: ../../admin/install/docker.rst:106
 msgid "Using own SSL certificates"
@@ -12933,10 +12959,12 @@ msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
+":file:`ssl/fullchain.pem`, das das Zertifikat enthält, einschließlich aller "
+"erforderlichen CA-Zertifikate"
 
 #: ../../admin/install/docker.rst:114
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ""
+msgstr ":file:`ssl/privkey.pem` mit dem privaten Schlüssel"
 
 #: ../../admin/install/docker.rst:116
 msgid ""
@@ -12944,6 +12972,9 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
+"Beide Dateien müssen demselben Benutzer gehören wie demjenigen, der den "
+"Docker-Container startet und die Dateimaske muss auf ``600`` gesetzt sein ("
+"nur lesbar und schreibbar für den besitzenden Benutzer)."
 
 #: ../../admin/install/docker.rst:118
 msgid ""
@@ -12951,6 +12982,9 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
+"Außerdem akzeptiert der Weblate-Container jetzt SSL-Verbindungen auf Port "
+"4443. Sie müssen die Port-Weiterleitung für HTTPS in den Docker Compose "
+"Override aufnehmen:"
 
 #: ../../admin/install/docker.rst:130
 msgid ""
@@ -12959,12 +12993,18 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Wenn Sie bereits andere Sites auf demselben Server hosten, werden die Ports "
+"``80`` und ``443`` wahrscheinlich von einem Reverse-Proxy wie NGINX "
+"verwendet. Um die HTTPS-Verbindung von NGINX an den Docker-Container zu "
+"übergeben, können Sie die folgende Konfiguration verwenden:"
 
 #: ../../admin/install/docker.rst:152
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Ersetzen Sie ``<SITE_URL>``, ``<SITE>`` und ``<EXPOSED_DOCKER_PORT>`` durch "
+"tatsächliche Werte aus Ihrer Umgebung."
 
 #: ../../admin/install/docker.rst:155
 msgid "Automatic SSL certificates using Let’s Encrypt"
@@ -12979,12 +13019,22 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file.  Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"Für den Fall, dass Sie automatisch generierte `Let's Encrypt "
+"<https://letsencrypt.org/>`_ SSL-Zertifikate auf der öffentlichen "
+"Installation verwenden möchten, müssen Sie einen Reverse-HTTPS-Proxy in "
+"einem zusätzlichen Docker-Container hinzufügen, `https-portal <https://hub."
+"docker.com/r/steveltn/https-portal/>`_ wird dafür verwendet. Dieser wird in "
+"der Datei :file:`docker-compose-https.yml` verwendet.  Anschließend "
+"erstellen Sie eine Datei :file:`docker-compose-https.override.yml` mit Ihren "
+"Einstellungen:"
 
 #: ../../admin/install/docker.rst:179
 msgid ""
 "Whenever invoking :program:`docker-compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
+"Bei jedem Aufruf von :program:`docker-compose` müssen Sie beide Dateien "
+"übergeben und dann:"
 
 #: ../../admin/install/docker.rst:190
 msgid "Upgrading the Docker container"
@@ -13007,6 +13057,10 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`."
 msgstr ""
+"Seit Weblate 4.10-1 verwendet der Docker-Container Django 4.0, was "
+"PostgreSQL 10 oder neuer erfordert. Bitte aktualisieren Sie es vor dem "
+"Upgrade von Weblate. Siehe :ref:`upgrade-4.10` und :ref:`docker-postgres-"
+"upgrade`."
 
 #: ../../admin/install/docker.rst:202
 msgid ""
@@ -13043,6 +13097,9 @@ msgid ""
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
+"Sie können auch das ``docker-compose`` Repository aktualisieren, obwohl dies "
+"in den meisten Fällen nicht notwendig ist. Siehe :ref:`docker-postgres-"
+"upgrade` für die Aktualisierung des PostgreSQL-Servers."
 
 #: ../../admin/install/docker.rst:232
 msgid "Upgrading PostgreSQL container"
@@ -13054,10 +13111,13 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
+"PostgreSQL-Container unterstützen kein automatisches Upgrade zwischen "
+"Versionen, Sie müssen das Upgrade manuell durchführen. Die folgenden "
+"Schritte zeigen eine der Möglichkeiten des Upgrades."
 
 #: ../../admin/install/docker.rst:240
 msgid "https://github.com/docker-library/postgres/issues/37"
-msgstr ""
+msgstr "https://github.com/docker-library/postgres/issues/37"
 
 #: ../../admin/install/docker.rst:242
 msgid "Stop Weblate container:"
@@ -13065,7 +13125,7 @@ msgstr "Weblate-Container stoppen:"
 
 #: ../../admin/install/docker.rst:248
 msgid "Backup the database:"
-msgstr ""
+msgstr "Datenbank sichern:"
 
 #: ../../admin/install/docker.rst:254
 msgid "Stop the database container:"
@@ -13078,6 +13138,8 @@ msgstr "Entfernen des PostgreSQL-Volumes:"
 #: ../../admin/install/docker.rst:267
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
+"Passen Sie :file:`docker-compose.yml` an, um die neue PostgreSQL-Version zu "
+"verwenden."
 
 #: ../../admin/install/docker.rst:269
 msgid "Start the database container:"
@@ -13209,12 +13271,16 @@ msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
+"Viele von Weblates :ref:`config` können mit den unten beschriebenen "
+"Umgebungsvariablen im Docker-Container eingestellt werden."
 
 #: ../../admin/install/docker.rst:370
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
+"Wenn Sie eine Einstellung definieren müssen, die nicht über Docker-"
+"Umgebungsvariablen zugänglich ist, siehe :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:374
 msgid "Generic settings"
@@ -13222,7 +13288,7 @@ msgstr "Allgemeine Einstellungen"
 
 #: ../../admin/install/docker.rst:378
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr "Konfiguriert den Debug-Modus von Django mit :setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:389 ../../admin/projects.rst:993
 msgid ":ref:`production-debug`"
@@ -13230,15 +13296,17 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:393
 msgid "Configures the logging verbosity."
-msgstr ""
+msgstr "Konfiguriert die Ausführlichkeit der Protokollierung."
 
 #: ../../admin/install/docker.rst:397
 msgid "Configures the logging of the database queries verbosity."
 msgstr ""
+"Konfiguriert die Protokollierung der Ausführlichkeit der Datenbankabfragen."
 
 #: ../../admin/install/docker.rst:401
 msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
+"Ändert den Plattform-Titel, der in der Kopfzeile aller Seiten angezeigt wird."
 
 #: ../../admin/install/docker.rst:405
 msgid "Configures the site domain. This parameter is required."
@@ -13254,6 +13322,10 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"Legt den Namen und die E-Mail des Plattform-Administrators fest. Es wird "
+"sowohl für die :setting:`ADMINS`-Einstellung als auch für die Erstellung des "
+"`admin`-Benutzers verwendet (siehe :envvar:`WEBLATE_ADMIN_PASSWORD` für "
+"weitere Informationen dazu)."
 
 #: ../../admin/install/docker.rst:429
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
@@ -13261,17 +13333,22 @@ msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:435
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Setzt das Passwort für den Benutzer `admin`."
 
 #: ../../admin/install/docker.rst:437
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Wenn nicht gesetzt und der Benutzer `admin` nicht existiert, wird er mit "
+"einem zufälligen Passwort erstellt, das beim ersten Start des Containers "
+"angezeigt wird."
 
 #: ../../admin/install/docker.rst:439
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Wenn nicht gesetzt und der Benutzer `admin` existiert, wird keine Aktion "
+"durchgeführt."
 
 #: ../../admin/install/docker.rst:440
 msgid ""
@@ -13279,6 +13356,9 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Wenn gesetzt, wird der `admin`-Benutzer bei jedem Start des Containers "
+"angepasst, um :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` "
+"und :envvar:`WEBLATE_ADMIN_EMAIL` zu entsprechen."
 
 #: ../../admin/install/docker.rst:446
 msgid ""
