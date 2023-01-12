@@ -1,5 +1,5 @@
 #
-# Copyright ©2023 Kao, Ming-Yang <vincent0629@gmail.com>
+# Copyright © 2012-2023 Kao, Ming-Yang <vincent0629@gmail.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
