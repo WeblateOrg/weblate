@@ -923,6 +923,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         json: Optional[Dict] = None,
         retry: int = 0,
     ):
+        do_retry = False
         vcs_id = self.get_identifier()
         cache_id = self.request_time_cache_key()
         lock = WeblateLock(data_dir("home"), "vcs-api", 0, vcs_id, timeout=30)
@@ -945,25 +946,29 @@ class GitMergeRequestBase(GitForcePushRepository):
                 except OSError as error:
                     report_error(cause="request")
                     raise RepositoryException(0, str(error))
+
                 # GitHub recommends a delay between 2 requests of at least 1s,
                 # but in reality this hits secondary rate limits.
                 self.set_next_request_time(10)
+
+                self.add_response_breadcrumb(response)
+                try:
+                    response_data = response.json()
+                except JSONDecodeError as error:
+                    report_error(cause="request json decoding")
+                    response.raise_for_status()
+                    raise RepositoryException(0, str(error))
+
+                if self.should_retry(response, response_data):
+                    do_retry = True
         except WeblateLockTimeout:
+            do_retry = True
+
+        if do_retry:
             retry += 1
             if retry > 10:
-                raise
+                raise RepositoryException(0, "Too many retries")
             return self.request(method, credentials, url, data, params, json, retry)
-
-        self.add_response_breadcrumb(response)
-        try:
-            response_data = response.json()
-        except JSONDecodeError as error:
-            report_error(cause="request json decoding")
-            response.raise_for_status()
-            raise RepositoryException(0, str(error))
-
-        if self.should_retry(response, response_data):
-            return self.request(method, credentials, url, data, params, json, retry + 1)
 
         return response_data, self.get_error_message(response_data)
 
