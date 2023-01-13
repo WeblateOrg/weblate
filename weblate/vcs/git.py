@@ -934,10 +934,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         lock = WeblateLock(data_dir("home"), "vcs-api", 0, vcs_id, timeout=30)
         try:
             with lock:
-                last_api = cache.get(cache_id)
+                next_api_time = cache.get(cache_id)
                 now = time()
-                if last_api is not None and now < last_api:
-                    sleep(now - last_api)
+                if next_api_time is not None and now > next_api_time:
+                    sleep(next_api_time - now)
                 try:
                     response = requests.request(
                         method,
