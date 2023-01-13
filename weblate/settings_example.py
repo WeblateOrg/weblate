@@ -525,7 +525,6 @@ MT_SERVICES = (
     #     "weblate.machinery.yandex.YandexTranslation",
     #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
     #     "weblate.machinery.youdao.YoudaoTranslation",
-    #     "weblate.machinery.ibm.IBMTranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
 )
@@ -589,10 +588,6 @@ MT_SAP_SANDBOX_APIKEY = None
 MT_SAP_USERNAME = None
 MT_SAP_PASSWORD = None
 MT_SAP_USE_MT = True
-
-# IBM Watson Language Translator
-MT_IBM_API_URL = None
-MT_IBM_KEY = None
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
