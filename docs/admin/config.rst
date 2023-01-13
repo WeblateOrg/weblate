@@ -1867,6 +1867,22 @@ Example:
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+.. setting:: VCS_API_DELAY
+
+VCS_API_DELAY
+-------------
+
+.. versionadded:: 4.15.1
+
+Configures minimal delay in seconds between third-party API calls in
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`.
+
+This rate-limits API calls from Weblate to these services to avoid overloading them.
+
+If you are being limited by secondary rate limiter at GitHub, increasing this might help.
+
+The default value is 10.
+
 .. setting:: VCS_BACKENDS
 
 VCS_BACKENDS

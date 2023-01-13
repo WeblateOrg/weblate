@@ -906,7 +906,9 @@ class GitMergeRequestBase(GitForcePushRepository):
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
             # Cap sleeping to 60 seconds
-            self.set_next_request_time(min(int(retry_after), 60))
+            self.set_next_request_time(
+                min(int(retry_after), 6 * max(settings.VCS_API_DELAY, 10))
+            )
             return True
         return False
 
@@ -931,12 +933,18 @@ class GitMergeRequestBase(GitForcePushRepository):
         do_retry = False
         vcs_id = self.get_identifier()
         cache_id = self.request_time_cache_key
-        lock = WeblateLock(data_dir("home"), "vcs-api", 0, vcs_id, timeout=30)
+        lock = WeblateLock(
+            data_dir("home"),
+            "vcs-api",
+            0,
+            vcs_id,
+            timeout=3 * max(settings.VCS_API_DELAY, 10),
+        )
         try:
             with lock:
                 next_api_time = cache.get(cache_id)
                 now = time()
-                if next_api_time is not None and now > next_api_time:
+                if next_api_time is not None and now < next_api_time:
                     sleep(next_api_time - now)
                 try:
                     response = requests.request(
@@ -953,7 +961,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
                 # GitHub recommends a delay between 2 requests of at least 1s,
                 # but in reality this hits secondary rate limits.
-                self.set_next_request_time(10)
+                self.set_next_request_time(settings.VCS_API_DELAY)
 
                 self.add_response_breadcrumb(response)
                 try:
@@ -1006,7 +1014,7 @@ class GithubRepository(GitMergeRequestBase):
             "message" in response_data
             and "You have exceeded a secondary rate limit" in response_data["message"]
         ):
-            self.set_next_request_time(60)
+            self.set_next_request_time(6 * max(settings.VCS_API_DELAY, 10))
             return True
         return False
 

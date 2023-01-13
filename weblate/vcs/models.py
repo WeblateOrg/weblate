@@ -21,6 +21,7 @@ class VCSConf(AppConf):
         "weblate.vcs.mercurial.HgRepository",
     )
     VCS_CLONE_DEPTH = 1
+    VCS_API_DELAY = 10
 
     # GitHub username for sending pull requests
     GITHUB_USERNAME = None

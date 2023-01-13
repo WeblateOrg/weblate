@@ -62,6 +62,8 @@ CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
 
+VCS_API_DELAY = 0
+
 # Localize CDN addon
 LOCALIZE_CDN_URL = "https://cdn.example.com/"
 LOCALIZE_CDN_PATH = os.path.join(DATA_DIR, "l10n-cdn")
