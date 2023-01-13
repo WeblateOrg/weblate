@@ -1,6 +1,9 @@
 License
 -------
 
+More detailed licensing information is available in the Weblate source code and
+follows `REUSE 3.0 specification <https://reuse.software/>`_.
+
 Copyright © Michal Čihař michal@weblate.org
 
 This program is free software: you can redistribute it and/or modify it under
