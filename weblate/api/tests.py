@@ -100,10 +100,15 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request, format)
+        if hasattr(response, "content"):
+            content = response.content
+        else:
+            content = "<stream>"
+
         self.assertEqual(
             response.status_code,
             code,
-            f"Unexpected status code {response.status_code}: {response.content}",
+            f"Unexpected status code {response.status_code}: {content}",
         )
         if data is not None:
             for item in skip:
@@ -2215,21 +2220,49 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.data["language_code"], "cs")
 
     def test_download(self):
-        response = self.client.get(
-            reverse("api:translation-file", kwargs=self.translation_kwargs)
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
 
-    def test_download_invalid_format(self):
+    def test_download_args(self):
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            request={"q": 'source:r".*world.*"'},
+            code=400,
+        )
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            request={"q": 'source:r".*world.*"', "format": "po"},
+            code=200,
+        )
+        self.assertContains(response, 'msgid ""')
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            request={"q": 'source:r".*world.*"', "format": "invalid"},
+            code=400,
+        )
+        self.assertContains(response, "File format not supported", status_code=400)
+
+    def test_download_invalid_format_url(self):
         args = {"format": "invalid"}
         args.update(self.translation_kwargs)
         response = self.client.get(reverse("api:translation-file", kwargs=args))
         self.assertEqual(response.status_code, 404)
 
-    def test_download_format(self):
+    def test_download_format_url(self):
         args = {"format": "xliff"}
         args.update(self.translation_kwargs)
-        response = self.client.get(reverse("api:translation-file", kwargs=args))
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=args,
+            code=200,
+        )
         self.assertContains(response, "<xliff")
 
     def test_upload_denied(self):

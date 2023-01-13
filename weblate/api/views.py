@@ -165,7 +165,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
         if request.resolver_match.url_name in self.raw_urls:
-            fmt = self.format_kwarg or request.query_params.get("format")
+            fmt = self.format_kwarg
             if fmt is None or fmt in self.raw_formats:
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
@@ -1022,12 +1022,17 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 raise PermissionDenied()
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
+            if query_string and not fmt:
+                raise ValidationError({"q": "Query string is ignored without format"})
             try:
                 parse_query(query_string)
             except Exception as error:
                 report_error()
                 raise ValidationError({"q": f"Failed to parse query string: {error}"})
-            return download_translation_file(request, obj, fmt, query_string)
+            try:
+                return download_translation_file(request, obj, fmt, query_string)
+            except Http404 as error:
+                raise ValidationError({"format": str(error)})
 
         if not user.has_perm("upload.perform", obj):
             raise PermissionDenied()
@@ -1327,6 +1332,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     queryset = Screenshot.objects.none()
     serializer_class = ScreenshotSerializer
     raw_urls = ("screenshot-file",)
+    raw_formats = ()
 
     def get_queryset(self):
         return Screenshot.objects.filter_access(self.request.user).order_by("id")
