@@ -11,6 +11,7 @@ Not yet released.
 * Improved performance of project creation and saving.
 * Added support for gotext JSON files.
 * Added support for i18next v4 files.
+* Pagination in the API is now customizable.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
 

@@ -37,6 +37,7 @@ from rest_framework.viewsets import ViewSet
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
@@ -1212,6 +1213,8 @@ class LanguageViewSet(viewsets.ModelViewSet):
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
+
+    pagination_class = LargePagination
 
     queryset = Unit.objects.none()
 
