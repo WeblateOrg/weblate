@@ -1918,7 +1918,7 @@ Translations
         as stored in VCS.
 
     :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``
-    :query string q: Filter downloaded strings, see :ref:`search`.
+    :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
 
     :param project: Project URL slug
     :type project: string
