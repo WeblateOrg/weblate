@@ -1453,6 +1453,14 @@ class ARBFormat(JSONFormat):
     check_flags = ("icu-message-format",)
 
 
+class GoTextFormat(JSONFormat):
+    name = _("gotext JSON file")
+    format_id = "gotext"
+    loader = ("jsonl10n", "GoTextJsonFile")
+    autoload = ()
+    unit_class = PlaceholdersJSONUnit
+
+
 class CSVFormat(TTKitFormat):
     name = _("CSV file")
     format_id = "csv"

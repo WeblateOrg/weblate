@@ -86,6 +86,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`go-i18n-json` | mono             | yes           | no                 | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
+| :ref:`gotext-json`  | mono             | yes           | no                 | no            | no             | no             |                         |
++---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`arb`          | mono             | yes           | yes                | no            | no             | no             |                         |
 +---------------------+------------------+---------------+--------------------+---------------+----------------+----------------+-------------------------+
 | :ref:`webex`        | mono             | yes           | yes                | no            | no             | no             |                         |
@@ -864,6 +866,7 @@ Weblate currently supports several variants of JSON translations:
 * Files with nested keys.
 * :ref:`js-i18next`
 * :ref:`go-i18n-json`
+* :ref:`gotext-json`
 * :ref:`webex`
 * :ref:`arb`
 
@@ -1003,6 +1006,39 @@ with (what is most often the) English strings.
 
     :doc:`tt:formats/json`,
     `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _gotext-json:
+
+gotext JSON files
+-----------------
+
+.. index::
+    pair: gotext; file format
+
+.. versionadded:: 4.15.1
+
+gotext translations are monolingual, so it is recommended to specify a base file
+with (what is most often the) English strings.
+
++--------------------------------+-----------------------------------------------------------+
+| Typical Weblate :ref:`component`                                                           |
++================================+===========================================================+
+| File mask                      | ``internal/translations/locales/*/out.gotext.json``       |
++--------------------------------+-----------------------------------------------------------+
+| Monolingual base language file | ``internal/translations/locales/en-GB/out.gotext.json``   |
++--------------------------------+-----------------------------------------------------------+
+| Template for new translations  | `Empty`                                                   |
++--------------------------------+-----------------------------------------------------------+
+| File format                    | `gotext JSON file`                                        |
++--------------------------------+-----------------------------------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    `I18n in Go: Managing Translations <https://www.alexedwards.net/blog/i18n-managing-translations>`_,
     :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,

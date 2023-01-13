@@ -9,6 +9,7 @@ Not yet released.
 * Documented licensing using `REUSE 3.0 <https://reuse.software/>`_.
 * Fixed users pagination on team management.
 * Improved performance of project creation and saving.
+* Added support for gotext JSON files.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
 
