@@ -744,6 +744,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-SA-2.0-DE",
+        "Creative Commons Attribution Non Commercial Share Alike 2.0 Germany",
+        "https://spdx.org/licenses/CC-BY-NC-SA-2.0-DE.html",
+        False,
+    ),
+    (
         "CC-BY-NC-SA-2.5",
         "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
         "https://spdx.org/licenses/CC-BY-NC-SA-2.5.html",
