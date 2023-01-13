@@ -154,6 +154,13 @@ Gettext compatible plural formula used to determine which plural form is used fo
 
 .. _Language Plural Rules by the Unicode Consortium: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
 
+.. _language-population:
+
+Number of speakers
+++++++++++++++++++
+
+Number of worldwide speakers of this language.
+
 .. _new-translations:
 
 Adding new translations
