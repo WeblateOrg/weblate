@@ -360,6 +360,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
 * The database migration make take hours on larger instances due to recreating some
   of the indexes.
+* **Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in
+  rest framework settings was changed.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -1186,8 +1186,8 @@ REST_FRAMEWORK = {
         "anon": os.environ.get("WEBLATE_API_RATELIMIT_ANON", "100/day"),
         "user": os.environ.get("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
     },
-    "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),
-    "PAGE_SIZE": 20,
+    "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
+    "PAGE_SIZE": 50,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
