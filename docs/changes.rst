@@ -10,6 +10,7 @@ Not yet released.
 * Fixed users pagination on team management.
 * Improved performance of project creation and saving.
 * Added support for gotext JSON files.
+* Added support for i18next v4 files.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
 

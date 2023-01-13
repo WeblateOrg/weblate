@@ -1437,6 +1437,12 @@ class I18NextFormat(JSONFormat):
     check_flags = ("i18next-interpolation",)
 
 
+class I18NextV4Format(I18NextFormat):
+    name = _("i18next JSON file v4")
+    format_id = "i18nextv4"
+    loader = ("jsonl10n", "I18NextV4File")
+
+
 class GoI18JSONFormat(JSONFormat):
     name = _("go-i18n JSON file")
     format_id = "go-i18n-json"

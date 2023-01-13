@@ -933,6 +933,10 @@ JSON i18next files
     Since Weblate 2.17 and with `translate-toolkit`_ at-least 2.2.5, i18next
     JSON files with plurals are supported as well.
 
+.. versionchanged:: 4.15.1
+
+    Support for v4 variant of this format was added.
+
 `i18next <https://www.i18next.com/>`_ is an internationalization framework
 written in and for JavaScript. Weblate supports its localization files with
 features such as plurals.
@@ -942,10 +946,11 @@ with (what is most often the) English strings.
 
 .. note::
 
-   Weblate supports the i18next JSON v3 format. The v2 and v1 variants are mostly
-   compatible, with exception of how plurals are handled.
+   Weblate supports the i18next JSON v3 and v4 variants. Please choose correct file format
+   matching your environment.
 
-   The v4 variant uses different approach for storing plurals and is currently not supported.
+   The v2 and v1 variants are mostly compatible with v3, with exception of how
+   plurals are handled.
 
 Example file:
 
@@ -961,7 +966,7 @@ Example file:
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `i18next JSON file`              |
+| File format                    | `i18next JSON file v3`           |
 +--------------------------------+----------------------------------+
 
 .. seealso::
