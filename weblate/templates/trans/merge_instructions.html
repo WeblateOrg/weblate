@@ -18,6 +18,12 @@
 {% trans "Merge Weblate changes and resolve any conflicts." %}<br />
 <code>git merge weblate/{{ component.branch }}</code>
 </li>
+{% if component.merge_style == "rebase" %}
+  <li>
+  {% trans "Rebase Weblate changes on top of upstream and resolve any conflicts." %}<br />
+  <code>git rebase origin/{{ component.branch }}</code>
+  </li>
+{% endif %}
 <li>
 {% trans "Push changes into upstream repository." %}<br />
 <code>git push origin {{ component.branch }}</code>

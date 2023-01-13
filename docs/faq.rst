@@ -78,6 +78,9 @@ actions.
     …
     git commit
 
+    # Rebase changes (if Weblate is configured to do rebases)
+    git rebase origin/main
+
     # Push changes to upstream repository, Weblate will fetch merge from there:
     git push
 
