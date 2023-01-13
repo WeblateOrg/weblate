@@ -4,8 +4,6 @@
 
 from base64 import b64encode
 
-from django.conf import settings
-
 from weblate.machinery.base import MachineTranslation
 
 from .forms import KeyURLMachineryForm

@@ -1285,7 +1285,8 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     ENGLISH = "en"
     SUPPORTED = "zh_Hant"
     CONFIGURATION = {
-        "url": "https://api.region.language-translator.watson.cloud.ibm.com/instances/id",
+        "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
+               "instances/id",
         "key": "",
     }
 
@@ -1298,12 +1299,14 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     def mock_response(self):
         responses.add(
             responses.GET,
-            "https://api.region.language-translator.watson.cloud.ibm.com/instances/id/v3/languages?version=2018-05-01",
+            "https://api.region.language-translator.watson.cloud.ibm.com/"
+            "instances/id/v3/languages?version=2018-05-01",
             json={"languages": [{"language": "en"}, {"language": "zh-TW"}]},
         )
         responses.add(
             responses.POST,
-            "https://api.region.language-translator.watson.cloud.ibm.com/instances/id/v3/translate?version=2018-05-01",
+            "https://api.region.language-translator.watson.cloud.ibm.com/"
+            "instances/id/v3/translate?version=2018-05-01",
             json={"text": ["window"], "source": "en", "target": "zh-TW"},
         )
 
