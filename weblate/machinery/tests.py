@@ -1286,7 +1286,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     SUPPORTED = "zh_Hant"
     CONFIGURATION = {
         "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
-               "instances/id",
+        "instances/id",
         "key": "",
     }
 
