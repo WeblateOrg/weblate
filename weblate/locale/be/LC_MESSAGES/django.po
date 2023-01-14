@@ -9,22 +9,23 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # Ivan <goz9ae93qun@temp.mailbox.org>, 2021.
+# Antikruk <nashtlumach@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2022-12-13 13:23+0000\n"
-"PO-Revision-Date: 2022-10-17 00:03+0000\n"
-"Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
+"PO-Revision-Date: 2023-01-15 09:52+0000\n"
+"Last-Translator: Antikruk <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:100
 msgctxt "No known user"
@@ -2623,10 +2624,10 @@ msgid "Mismatched \\n"
 msgstr "Неадпаведнасць \\n"
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "Колькасць новых радкоў у перакладзе не адпавядае крыніцы"
+msgstr ""
+"Колькасць \\n"
+" літаратараў у перакладзе не адпавядае крыніцы"
 
 #: weblate/checks/chars.py:342
 msgid "Mismatching line breaks"
@@ -4276,10 +4277,9 @@ msgid "Source language not defined in the TMX file!"
 msgstr ""
 
 #: weblate/memory/models.py:175 weblate/memory/models.py:192
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to find language %s!"
-msgstr "Не атрымалася знайсці зыходную мову!"
+msgstr "Не ўдалося знайсці мову %s!"
 
 #: weblate/memory/models.py:263
 msgctxt "Translation memory category"
@@ -11322,10 +11322,8 @@ msgid "Invalid checksum specified!"
 msgstr "Вызначана хібная кантрольная сума!"
 
 #: weblate/trans/forms.py:161
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Missing username or e-mail."
-msgstr "Імя карыстальніка альбо эл. пошта"
+msgstr "Няма імя карыстальніка або адраса электроннай пошты."
 
 #: weblate/trans/forms.py:167
 msgid "More possible users were found."
@@ -13188,23 +13186,17 @@ msgid "Could not add new translation file."
 msgstr "Не атрымалася дадаць новы файл перакладу."
 
 #: weblate/trans/models/component.py:3193
-#, fuzzy
-#| msgid "You don't have permission to start a new translation"
 msgid "You do not have permissions to add new translation file."
-msgstr "У вас няма дазволаў, каб распачаць новы пераклад"
+msgstr "У вас няма правоў доступу на даданне новага файла перакладу."
 
 #: weblate/trans/models/component.py:3201
 #: weblate/trans/models/component.py:3209
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "The monolingual base language file is invalid."
-msgstr "Базавы аднамоўны файл"
+msgstr "Хібны базавы аднамоўны файл перакладу."
 
 #: weblate/trans/models/component.py:3213
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "The template for new translations is invalid."
-msgstr "Шаблон для новых перакладаў"
+msgstr "Хібны шаблон для новых перакладаў."
 
 #: weblate/trans/models/component.py:3246
 #, fuzzy
@@ -13400,10 +13392,9 @@ msgid "Failed to commit pending changes: %s"
 msgstr "Не атрымалася зацвердзіць змены: %s"
 
 #: weblate/trans/models/translation.py:1587 weblate/trans/models/unit.py:606
-#, fuzzy, python-format
-#| msgid "Control characters"
+#, python-format
 msgid "String contains control character: %s"
-msgstr "Кіроўныя знакі"
+msgstr "Радок змяшчае кіроўны знак: %s"
 
 #: weblate/trans/models/translation.py:1594
 msgid "This string seems to already exist."
