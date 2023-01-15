@@ -214,7 +214,7 @@ class Formatter:
         if self.match == "search":
             tag = "hlmatch"
 
-        start_tag = f'<span class="{tag}">'
+        start_tag = format_html('<span class="{}">', tag)
         end_tag = "</span>"
 
         for match in re.finditer(
@@ -240,7 +240,9 @@ class Formatter:
                 cls = "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                f'<span class="hlspace"><span class="{cls}" title="{title}">'
+                format_html(
+                    '<span class="hlspace"><span class="{}" title="{}">', cls, title
+                )
             )
             self.tags[match.end()].insert(0, "</span></span>")
 
