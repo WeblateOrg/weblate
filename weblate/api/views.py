@@ -183,7 +183,9 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
             filename = os.path.basename(filename)
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        response[
+            "Content-Disposition"
+        ] = f'attachment; filename="{filename}"'  # noqa: B028
         return response
 
 
@@ -820,7 +822,7 @@ class ComponentViewSet(
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
                 raise ValidationError(
-                    f"No language code '{language_code}' found!", "invalid"
+                    f"No language code {language_code!r} found!", "invalid"
                 )
 
             if not obj.can_add_new_language(request.user):
@@ -922,7 +924,7 @@ class ComponentViewSet(
                     pk=instance.project_id
                 ).get(slug=project_slug)
             except Project.DoesNotExist:
-                raise ValidationError(f"No project slug '{project_slug}' found!")
+                raise ValidationError(f"No project slug {project_slug!r} found!")
 
             instance.links.add(project)
             serializer = self.serializer_class(instance, context={"request": request})

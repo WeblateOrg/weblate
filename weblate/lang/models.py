@@ -735,7 +735,7 @@ class Plural(models.Model):
         try:
             return gettext.c2py(self.formula if self.formula else "0")
         except ValueError as error:
-            raise ValueError(f"Failed to compile formula '{self.formula}': {error}")
+            raise ValueError(f"Failed to compile formula {self.formula!r}: {error}")
 
     @cached_property
     def examples(self):

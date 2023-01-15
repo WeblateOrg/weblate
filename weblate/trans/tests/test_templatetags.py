@@ -70,7 +70,7 @@ class NaturalTimeTest(SimpleTestCase):
             self.assertEqual(
                 expected,
                 result,
-                f'naturaltime({testdate}) "{result}" != "{expected}"',
+                f"naturaltime({testdate}) {result!r} != {expected!r}",
             )
 
 

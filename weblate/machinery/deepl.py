@@ -116,4 +116,4 @@ class DeepLTranslation(MachineTranslation):
 
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
-        return f'<x id="{h_start}"></x>'
+        return f'<x id="{h_start}"></x>'  # noqa: B028

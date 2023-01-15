@@ -234,7 +234,7 @@ class Command(BaseCommand):
                     component = component.linked_component
             except Component.DoesNotExist:
                 raise CommandError(
-                    f'Component "{repo}" not found, please create it first!'
+                    f"Component {repo!r} not found, please create it first!"
                 )
         else:
             component = self.import_initial(project, repo, branch)

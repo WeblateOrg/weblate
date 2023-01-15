@@ -206,7 +206,7 @@ class GitRepository(Repository):
             cmd = [
                 "merge",
                 "--message",
-                message or f"Merge branch '{remote}' into Weblate",
+                message or f"Merge branch {remote!r} into Weblate",
             ]
             if no_ff:
                 cmd.append("--no-ff")
@@ -398,7 +398,7 @@ class GitRepository(Repository):
             self.execute(["checkout", "-b", branch, f"origin/{branch}"])
         else:
             # Ensure it tracks correct upstream
-            self.config_update((f'branch "{branch}"', "remote", "origin"))
+            self.config_update((f'branch "{branch}"', "remote", "origin"))  # noqa: B028
 
         # Checkout
         self.execute(["checkout", branch])
@@ -808,7 +808,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """Configure fork remote repository."""
         self.config_update(
             # Push url
-            (f'remote "{remote_name}"', "pushurl", push_url),
+            (f'remote "{remote_name}"', "pushurl", push_url),  # noqa: B028
         )
 
     def fork(self, credentials: Dict):
