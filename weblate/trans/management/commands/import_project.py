@@ -197,7 +197,7 @@ class Command(BaseCommand):
                 compiled = re.compile(self.filemask)
             except re.error as error:
                 raise CommandError(
-                    f'Failed to compile regular expression "{self.filemask}": {error}'
+                    f"Failed to compile regular expression {self.filemask!r}: {error}"
                 )
             if (
                 "component" not in compiled.groupindex

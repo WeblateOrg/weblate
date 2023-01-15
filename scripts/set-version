@@ -56,8 +56,8 @@ if milestone_url is None:
 
 # Set version in the files
 replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
-replace_file("docs/conf.py", "release =.*", f'release = "{version}"')
-replace_file("setup.py", "version=.*", f'version="{version}",')
+replace_file("docs/conf.py", "release =.*", f"release = {version!r}")
+replace_file("setup.py", "version=.*", f"version={version!r},")
 
 # Update changelog
 title = f"Weblate {version}"

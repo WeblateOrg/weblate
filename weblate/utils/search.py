@@ -166,7 +166,7 @@ class TermExpr:
             self.fixup()
 
     def __repr__(self):
-        return f"<TermExpr: '{self.field}', '{self.operator}', '{self.match}'>"
+        return f"<TermExpr: {self.field!r}, {self.operator!r}, {self.match!r}>"
 
     def fixup(self):
         # Avoid unwanted lt/gt searches on plain text fields

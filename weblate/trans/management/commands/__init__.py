@@ -94,7 +94,7 @@ class WeblateComponentCommand(BaseCommand):
 
                 # warn on no match
                 if not found.exists():
-                    self.stderr.write(f'"{arg}" did not match any components')
+                    self.stderr.write(f"{arg!r} did not match any components")
                     raise CommandError("Nothing to process!")
 
                 # merge results
