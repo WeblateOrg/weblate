@@ -128,17 +128,8 @@
             {% include "paginator.html" with page_obj=users anchor="users" %}
           </div>
         {% endif %}
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="panel-title">
-          {% documentation_icon 'admin/access' 'invite-user' right=True %}
-          {% trans "Add a user" %}
-        </h4></div>
-        <div class="panel-body">
-          {{ add_user_form|crispy }}
-        </div>
         <div class="panel-footer">
-        <input type="submit" class="btn btn-primary" name="add_user" value="{% trans "Add" %}" />
+          <a href="#" data-toggle="modal" data-target="#add_user_popup" class="btn btn-primary">{% trans "Add a user" %}</a>
         </div>
       </div>
     </div>
@@ -172,4 +163,25 @@
       </div><!-- /.modal -->
     </form>
 {% endfor %}
+
+  <form  method="post" class="inlineform">
+    {% csrf_token %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="add_user_popup">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            {% trans "Add a user" %}
+            {% documentation_icon 'admin/access' 'invite-user' %}
+          </div>
+          <div class="modal-body">
+            {{ add_user_form|crispy }}
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" name="add_user" value="{% trans "Add" %}" />
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </form>
 {% endblock %}
