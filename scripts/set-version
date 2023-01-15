@@ -72,15 +72,26 @@ Not yet released.
 """
 prepend_file("docs/changes.rst", header)
 
+files = [
+    "weblate/utils/version.py",
+    "docs/conf.py",
+    "docs/changes.rst",
+    "setup.py",
+]
+subprocess.run(
+    [
+        "pre-commit",
+        "run",
+        "--files",
+    ]
+    + files
+)
 subprocess.check_call(
     [
         "git",
         "commit",
         "-m",
         f"Setting version to {version}",
-        "weblate/utils/version.py",
-        "docs/conf.py",
-        "docs/changes.rst",
-        "setup.py",
     ]
+    + files
 )
