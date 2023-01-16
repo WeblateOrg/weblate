@@ -25,7 +25,7 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # Jonas Leder <jonas@jonasled.de>, 2020.
 # mv87 <mv87@dismail.de>, 2020.
-# nautilusx <translate@disroot.org>, 2020, 2021, 2022.
+# nautilusx <translate@disroot.org>, 2020, 2021, 2022, 2023.
 # J. Lavoie <j.lavoie@net-c.ca>, 2020, 2021.
 # reloxx13 <reloxx@interia.pl>, 2020.
 # Mirian Margiani <mixosaurus+weblate@pm.me>, 2021.
@@ -44,8 +44,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 09:12+0000\n"
-"PO-Revision-Date: 2023-01-09 12:22+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2023-01-16 12:58+0000\n"
+"Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -91,20 +91,16 @@ msgid "Commit e-mail"
 msgstr "Commit E-Mail"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "E-Mail des Kontos verwenden"
+msgstr "E-Mail-Adresse des Kontos verwenden"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "Öffentliche E-Mail-Adresse"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
-msgstr "E-Mail nicht öffentlich anzeigen"
+msgstr "E-Mail-Adresse nicht öffentlich anzeigen"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -1386,7 +1382,7 @@ msgstr "Tabulatoren"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Schließendes Tag für leere XML-Tags einschließen"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1773,22 +1769,16 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Erweiterung installiert, bitte lesen Sie die Integrationsanweisungen."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "YAML-Ausgabe anpassen"
+msgstr "XML-Ausgabe anpassen"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"Ermöglicht die Anpassung des YAML-Ausgabeverhaltens, z. B. Zeilenlänge oder "
-"Zeilenvorschübe."
+"Ermöglicht die Anpassung des XML-Ausgabeverhaltens, z. B. z. B. das "
+"Schließen von Tags anstelle von selbstschließenden Tags für leere Tags."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3596,10 +3586,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next-JSON-Datei v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next-JSON-Datei v3"
+msgstr "i18next-JSON-Datei v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3610,10 +3598,8 @@ msgid "ARB file"
 msgstr "ARB-Datei"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "gettext PO-Datei"
+msgstr "gotext JSON-Datei"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -10176,16 +10162,12 @@ msgid "Project to remove"
 msgstr "Zu entfernendes Projekt"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Wenn das Add-on fehlende Sprachen hinzufügen auf dieser Komponente "
-"installiert ist, kann die entfernte Sprache wieder hinzugefügt werden."
+"Das Add-on \"Fehlende Sprachen hinzufügen\" ist in dieser Komponente "
+"installiert, die entfernte Sprache kann dadurch wieder hinzugefügt werden."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10228,10 +10210,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Weblate-Änderungen zusammenführen und Konflikte beheben."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Weblate-Änderungen zusammenführen und Konflikte beheben."
+msgstr ""
+"Aktualisieren Sie die Weblate-Änderungen auf den Upstream und beheben Sie "
+"alle Konflikte."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -11033,10 +11015,8 @@ msgid "Strings with variants"
 msgstr "Zeichenketten mit Varianten"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Zeichenketten mit Kommentaren"
+msgstr "Zeichenketten mit Bildschirmfotos"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -11067,10 +11047,8 @@ msgid "Strings waiting for review"
 msgstr "Zeichenketten warten auf Überprüfung"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Zeichenketten mit Kommentaren"
+msgstr "Zeichenketten ohne Bildschirmfotos"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13911,46 +13889,32 @@ msgid "Settings saved"
 msgstr "Einstellungen gespeichert"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "Ungültige Einstellungen, überprüfen Sie bitte das Formular auf Fehler!"
+msgstr "Ungültige Einstellungen. Bitte überprüfen Sie das Formular auf Fehler."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Das Repository ist veraltet, Sie erhalten möglicherweise erst nach der "
+"Das Repository ist veraltet. Sie erhalten möglicherweise erst nach der "
 "Aktualisierung die erwarteten Ergebnisse."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
-msgstr "Übersetzung wurde gelöscht."
+msgstr "Die Übersetzung wurde entfernt."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "Die Übersetzungskomponente wurde für die Entfernung vorgesehen."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
-msgstr "Projekt wurde zur Entfernung geplant."
+msgstr "Das Projekt wurde zur Entfernung vorgesehen."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Sprache des Projekts wurde entfernt."
+msgstr "Eine Sprache des Projekts wurde entfernt."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13960,10 +13924,8 @@ msgstr ""
 "nicht möglich: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "Sicherung wurde ausgelöst, sie wird in Kürze verfügbar sein."
+msgstr "Sicherung geplant. Sie wird bald verfügbar sein."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -14260,10 +14222,8 @@ msgid "Number of failing checks"
 msgstr "Anzahl fehlgeschlagener Qualitätsprüfungen"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Ort der Ausgangszeichenkette"
+msgstr "Ort der Zeichenkette"
 
 #: weblate/utils/views.py:375
 #, python-format
