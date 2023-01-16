@@ -2,7 +2,7 @@
 # Copyright (C) 2012 - 2021 Michal Čihař
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
-# Yuri Chornoivan <yurchor@ukr.net>, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2022, 2023.
 # Ihor Hordiichuk <igor_ck@outlook.com>, 2022.
 # Artem <artem@molotov.work>, 2022.
 # Dan <denqwerta@gmail.com>, 2022.
@@ -11,17 +11,17 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 10:13+0100\n"
-"PO-Revision-Date: 2022-12-16 08:44+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2023-01-16 12:59+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -3145,16 +3145,12 @@ msgstr ""
 "вилучити застарілі переклади."
 
 #: ../../admin/addons.rst:745
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Налагодити виведення YAML"
+msgstr "Налагодити виведення XML"
 
 #: ../../admin/addons.rst:749
-#, fuzzy
-#| msgid "``weblate.yaml.customize``"
 msgid "``weblate.xml.customize``"
-msgstr "``weblate.yaml.customize``"
+msgstr "``weblate.xml.customize``"
 
 #: ../../admin/addons.rst:751
 #, fuzzy
@@ -3164,19 +3160,15 @@ msgstr "``ignore-xml-tags``"
 
 #: ../../admin/addons.rst:751
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Включати завершальний теґ для порожніх теґів XML"
 
 #: ../../admin/addons.rst:755
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self- closing tags for empty tags."
 msgstr ""
-"Дозволяє налаштовувати поведінку виводу YAML, наприклад, довжину рядка або "
-"нові рядки."
+"Дозволяє налаштовувати поведінку виводу XML, наприклад, завершальні теґи "
+"замість самозавершених теґів для порожнього вмісту."
 
 #: ../../admin/addons.rst:761
 msgid "Customize YAML output"
@@ -8938,31 +8930,36 @@ msgstr ""
 
 #: ../../admin/config.rst:1873
 msgid "VCS_API_DELAY"
-msgstr ""
+msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1877
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgstr ""
+"Налаштовує мінімальну затримку у секундах для викликів стороннього "
+"програмного інтерфейсу у :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
+"gitea` і :ref:`vcs-pagure`."
 
 #: ../../admin/config.rst:1880
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
+"Це обмежує частоту викликів програмного інтерфейсу з Weblate до цих служб, "
+"щоб уникнути перевантаження."
 
 #: ../../admin/config.rst:1882
 msgid ""
 "If you are being limited by secondary rate limiter at GitHub, increasing "
 "this might help."
 msgstr ""
+"Якщо вашу роботу обмежує вторинний засіб обмеження частоти на GitHub, може "
+"допомогти збільшення цього значення."
 
 #: ../../admin/config.rst:1884
-#, fuzzy
-#| msgid "The default value is:"
 msgid "The default value is 10."
-msgstr "Типове значення:"
+msgstr "Типове значення: 10."
 
 #: ../../admin/config.rst:1889
 msgid "VCS_BACKENDS"
@@ -12597,12 +12594,6 @@ msgid "Migrating database"
 msgstr "Перенесення бази даних"
 
 #: ../../admin/install.rst:1561
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward one is to dump the "
-#| "database on one server and import it on the new one. Alternatively you "
-#| "can use replication in case your database supports it."
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -12612,17 +12603,16 @@ msgid ""
 msgstr ""
 "Залежно від модуля обробки вашої бази даних, ви можете вибрати один із "
 "декількох варіантів перенесення бази даних. Найприроднішим з цих варіантів є "
-"створення дампу бази даних на одному сервері з наступним імпортуванням його "
-"на іншому сервері. Ви також можете скористатися реплікацією, якщо у базі "
-"даних передбачено її підтримку."
+"використання власних інструментів бази даних, оскільки, зазвичай, вони є "
+"найефективнішими (приклад :command:`mysqldump` або :command:`pg_dump`). Ви "
+"також можете скористатися реплікацією, якщо у базі даних передбачено її "
+"підтримку."
 
 #: ../../admin/install.rst:1569
-#, fuzzy
-#| msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
-"Створіть базу даних, яка використовуватиметься Weblate, див. :ref:`database-"
-"setup`."
+"Перенесення даних між базами даних описано у розділі :ref:`database-"
+"migration`."
 
 #: ../../admin/install.rst:1572
 msgid "Migrating VCS repositories"
@@ -15767,8 +15757,6 @@ msgid "Number of speakers"
 msgstr "Кількість мовців"
 
 #: ../../admin/languages.rst:162
-#, fuzzy
-#| msgid "Number of people speaking this language."
 msgid "Number of worldwide speakers of this language."
 msgstr "Кількість людей, які розмовляють цією мовою."
 
@@ -21784,6 +21772,8 @@ msgid ""
 "**Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in "
 "rest framework settings was changed."
 msgstr ""
+"**Змінено у 4.15.1:** було змінено типове значення для "
+"``DEFAULT_PAGINATION_CLASS`` у решті параметрів бібліотек."
 
 #: ../../admin/upgrade.rst:371
 msgid "Upgrading from Python 2 to Python 3"
@@ -23712,6 +23702,8 @@ msgid ""
 "Filter downloaded strings, see :ref:`search`, only applicable when "
 "conversion is in place (``format`` is specified)."
 msgstr ""
+"Фільтрувати отримані рядки, див. :ref:`search`, можна застосувати, лише якщо "
+"перетворення відбувається на місці (вказано ``format``)."
 
 #: ../../api.rst:1932
 msgid "Upload new file with translations."
@@ -24656,58 +24648,50 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.15.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.15.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Trigger automatic translation."
 msgid "Fixed suggestions from automatic translation."
-msgstr "Перемкнути автоматичний переклад."
+msgstr "Виправлено пропозиції автоматичного перекладу."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed digest notifications in some corner cases."
 msgid "Added add-on page crash in some corner cases."
-msgstr "Виправлено сповіщення-резюме у деяких рідкісних випадках."
+msgstr ""
+"Виправлено аварійне завершення роботи сторінки додатків у деяких рідкісних "
+"випадках."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed saving glossary explanations in some cases."
 msgid "Fixed untranslating template for new translations in some cases."
-msgstr "Виправлено збереження пояснень глосарію в деяких випадках."
+msgstr ""
+"Виправлено неможливість перекладу шаблона для нових перекладів у деяких "
+"випадках."
 
 #: ../../changes.rst:9
 msgid "Documented licensing using `REUSE 3.0 <https://reuse.software/>`_."
 msgstr ""
+"Документовано ліцензування з використанням `REUSE 3.0 <https://reuse."
+"software/>`_."
 
 #: ../../changes.rst:10
 msgid "Fixed users pagination on team management."
-msgstr ""
+msgstr "Виправлено поділ списку користувачів при керуванні командами."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved performance of translation stats."
 msgid "Improved performance of project creation and saving."
-msgstr "Удосконалено швидкодію обробки статистики перекладу."
+msgstr "Удосконалено швидкодію створення і збереження проєктів."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added support for JSON file format."
 msgid "Added support for gotext JSON files."
-msgstr "Додано підтримку формату файлів JSON."
+msgstr "Додано підтримку формату файлів JSON gotext."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added support for YAML files."
 msgid "Added support for i18next v4 files."
-msgstr "Додано підтримку файлів YAML."
+msgstr "Додано підтримку файлів i18next v4."
 
 #: ../../changes.rst:14
 msgid "Pagination in the API is now customizable."
