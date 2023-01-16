@@ -27,7 +27,7 @@
 # pjammo <adrianoghr@hotmail.it>, 2020.
 # giuseppe <g.pecoraro@odissea.at>, 2021.
 # J. Lavoie <j.lavoie@net-c.ca>, 2021.
-# bovirus <roberto.boriotti@canon.it>, 2021, 2022.
+# bovirus <roberto.boriotti@canon.it>, 2021, 2022, 2023.
 # Lorenzo Milesi <lorenzo@mile.si>, 2022.
 # Massimo Pissarello <mapi68@gmail.com>, 2022.
 # jackyesde6fa4de3bfc4d14 <jackyes89@protonmail.com>, 2023.
@@ -36,8 +36,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 09:12+0000\n"
-"PO-Revision-Date: 2023-01-15 09:52+0000\n"
-"Last-Translator: jackyesde6fa4de3bfc4d14 <jackyes89@protonmail.com>\n"
+"PO-Revision-Date: 2023-01-16 12:58+0000\n"
+"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -80,20 +80,16 @@ msgid "Commit e-mail"
 msgstr "Email commit"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "Usa email acoount"
+msgstr "Usa indirizzo email account"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "Email pubblica"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
-msgstr "Non visualizza pubblicamente la posta elettronica"
+msgstr "Non visualizzare pubblicamente l'indirizzo email"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -1342,7 +1338,7 @@ msgstr "Tabulazioni"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Includi tag di chiusura per tag XML vuoti"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1730,22 +1726,16 @@ msgstr ""
 "Componente aggiuntivo installato. Consulta le istruzioni di integrazione."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Personalizza output YAML"
+msgstr "Personalizza output XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"Permette di personalizzare il comportamento dell'output YAML, per esempio la "
-"lunghezza linee o i ritorni a capo."
+"Permette di personalizzare il comportamento dell'output XAML, ad esempio tag "
+"di chiusura anziché tag di chiusura automatica per tag vuoti."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3528,10 +3518,8 @@ msgid "i18next JSON file v3"
 msgstr "File JSON i18next v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "File JSON i18next v3"
+msgstr "File JSON i18next v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3542,10 +3530,8 @@ msgid "ARB file"
 msgstr "File ARB"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "File PO gettext"
+msgstr "File JSON gotext"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -10011,17 +9997,12 @@ msgid "Project to remove"
 msgstr "Progetto da rimuovere"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"in questo componente è installato il modulo aggiuntivo 'Aggiungi lingue "
-"mancanti', quindi la lingua rimossa potrebbe essere nuovamente aggiunta dal "
-"componente aggiuntivo."
+"In questo componente è installato Il componente aggiuntivo \"Aggiungi lingue "
+"mancanti\", la lingua rimossa potrebbe essere aggiunta nuovamente da esso."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10064,10 +10045,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Unisci le modifiche Weblate e risolvi tutti i conflitti."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Unisci le modifiche Weblate e risolvi tutti i conflitti."
+msgstr ""
+"Ripristina le modifiche di Weblate sopra l'upstream e risolvi eventuali "
+"conflitti."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10855,10 +10836,8 @@ msgid "Strings with variants"
 msgstr "Stringhe con varianti"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Stringhe con commenti"
+msgstr "Stringhe con schermate"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10889,10 +10868,8 @@ msgid "Strings waiting for review"
 msgstr "Stringhe in attesa di revisione"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Stringhe con commenti"
+msgstr "Stringhe senza schermate"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13680,46 +13657,32 @@ msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "Impostazioni non valide. Controlla il modulo per gli errori!"
+msgstr "Impostazioni non valide. Verifica la presenza di errori nel modulo."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Il repository non è aggiornato. Potresti non ottenere i risultati previsti "
-"fino a quando non lo aggiorni."
+"Il repository è obsoleto. Potresti non ottenere i risultati previsti fino a "
+"quando non lo aggiorni."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "La traduzione è stata rimossa."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
-msgstr "Rimozione pianificata per il componente di traduzione."
+msgstr "È stata pianificata la rimozione del componente di traduzione."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
-msgstr "Rimozione pianificata per il progetto."
+msgstr "Il progetto era programmato per la rimozione."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "La lingua del progetto è stata rimossa."
+msgstr "Una lingua nel progetto è stata rimossa."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13729,10 +13692,8 @@ msgstr ""
 "configurazione: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "Il backup è stato attivato, sarà disponibile a breve."
+msgstr "Backup pianificato. Sarà presto disponibile."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -14023,10 +13984,8 @@ msgid "Number of failing checks"
 msgstr "Numero controlli non superati"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Posizione stringa sorgente"
+msgstr "Posizione stringa"
 
 #: weblate/utils/views.py:375
 #, python-format
