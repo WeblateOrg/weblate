@@ -24,7 +24,7 @@
 # Anna Osińska <dzana000@gmail.com>, 2021.
 # Hubert Urbański <urbanskihubert059@gmail.com>, 2021.
 # Damian Tokarski <damianwolennicy@gmail.com>, 2021.
-# Agnieszka C <aga_04@o2.pl>, 2021, 2022.
+# Agnieszka C <aga_04@o2.pl>, 2021, 2022, 2023.
 # Andrzej Ochodek <andrzej.ochodek@gmail.com>, 2022.
 # Robert Korulczyk <robert@korulczyk.pl>, 2022.
 msgid ""
@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 09:12+0000\n"
-"PO-Revision-Date: 2022-12-23 10:48+0000\n"
+"PO-Revision-Date: 2023-01-16 12:58+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -77,8 +77,6 @@ msgid "Commit e-mail"
 msgstr "E-mail do commitów"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
 msgstr "Używaj adresu e-mail konta"
 
@@ -87,8 +85,6 @@ msgid "Public e-mail"
 msgstr "Publiczny adres e-mail"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
 msgstr "Nie wyświetlaj publicznie adresu e-mail"
 
@@ -1342,7 +1338,7 @@ msgstr "Tabulatory"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Dołącz tag zamykający do pustych tagów XML"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1724,22 +1720,16 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Dodatek został zainstalowany, zapoznaj się z instrukcjami integracji."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Dostosuj wyjście YAML"
+msgstr "Dostosuj wyjście XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"Umożliwia dostosowanie zachowania wyjściowego YAML, na przykład długość "
-"linii lub nowe linie."
+"Umożliwia dostosowanie zachowania wyjściowego XML, na przykład tagów "
+"zamykających zamiast samozamykających się pustych tagów."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3119,7 +3109,7 @@ msgstr "Znaczniki XML"
 
 #: weblate/checks/markup.py:175
 msgid "XML tags in translation do not match source"
-msgstr "Znaczniki XML w przetłumaczonym tekście nie pasują do źródła"
+msgstr "Tagi XML w tłumaczeniu nie pasują do źródła"
 
 #: weblate/checks/markup.py:234
 msgid "Markdown references"
@@ -3516,10 +3506,8 @@ msgid "i18next JSON file v3"
 msgstr "Plik JSON i18next v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "Plik JSON i18next v3"
+msgstr "Plik JSON i18next v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3530,10 +3518,8 @@ msgid "ARB file"
 msgstr "Plik ARB"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "Plik gettext PO"
+msgstr "Plik gotext JSON"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -10016,15 +10002,11 @@ msgid "Project to remove"
 msgstr "Projekt do usunięcia"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Dodatek Dodaj brakujące języki jest zainstalowany w tym komponencie, "
+"Dodatek „Dodaj brakujące języki” jest zainstalowany w tym komponencie, "
 "usunięty język może zostać ponownie przez niego dodany."
 
 #: weblate/templates/trans/delete-translation.html:11
@@ -10068,10 +10050,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Połącz zmiany Weblate i rozwiąż wszelkie konflikty."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Połącz zmiany Weblate i rozwiąż wszelkie konflikty."
+msgstr ""
+"Wykonaj rebase zmian Weblate na repozytorium nadrzędnym i rozwiąż wszelkie "
+"konflikty."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10864,10 +10846,8 @@ msgid "Strings with variants"
 msgstr "Ciągi z wariantami"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Ciągi z komentarzami"
+msgstr "Ciągi ze zrzutami ekranu"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10898,10 +10878,8 @@ msgid "Strings waiting for review"
 msgstr "Ciągi oczekujące na sprawdzenie"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Ciągi z komentarzami"
+msgstr "Ciągi bez zrzutów ekranu"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13690,48 +13668,32 @@ msgid "Settings saved"
 msgstr "Ustawienia zapisane"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr ""
-"Nieprawidłowe ustawienia, prosimy o sprawdzenie czy w formularzu nie ma "
-"błędów!"
+msgstr "Nieprawidłowe ustawienia. Sprawdź formularz pod kątem błędów."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Repozytorium jest nieaktualne, możesz nie uzyskać oczekiwanych wyników, "
+"Repozytorium jest nieaktualne. Możesz nie uzyskać oczekiwanych wyników, "
 "dopóki go nie zaktualizujesz."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
-msgstr "Usunięto tłumaczenie."
+msgstr "Tłumaczenie zostało usunięte."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "Komponent tłumaczenia został zaplanowany do usunięcia."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "Projekt został zaplanowany do usunięcia."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Język projektu został usunięty."
+msgstr "Język w projekcie został usunięty."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13741,10 +13703,8 @@ msgstr ""
 "konfiguracji: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "Kopia zapasowa została uruchomiona, wkrótce będzie dostępna."
+msgstr "Zaplanowano kopię zapasową. Będzie dostępna wkrótce."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -14035,10 +13995,8 @@ msgid "Number of failing checks"
 msgstr "Liczba nieudanych kontroli"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Położenie ciągu źródłowego"
+msgstr "Położenie ciągu"
 
 #: weblate/utils/views.py:375
 #, python-format
