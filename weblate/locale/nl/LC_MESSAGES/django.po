@@ -12,7 +12,7 @@
 # Heimen Stoffels <vistausss@outlook.com>, 2020, 2021.
 # Feiko van Andel <feiko.vanandel@live.nl>, 2020.
 # eol <joshua.de.clercq@gmail.com>, 2021.
-# Heimen Stoffels <vistausss@fastmail.com>, 2021, 2022.
+# Heimen Stoffels <vistausss@fastmail.com>, 2021, 2022, 2023.
 # BudsieBuds <bas_hubers@hotmail.com>, 2021.
 # mm4c <oldblue@vivaldi.net>, 2022.
 msgid ""
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 09:12+0000\n"
-"PO-Revision-Date: 2022-12-14 07:24+0000\n"
+"PO-Revision-Date: 2023-01-16 12:58+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -63,18 +63,14 @@ msgid "Commit e-mail"
 msgstr "Commitadres"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "Accountadres gebruiken"
+msgstr "E-mailadres van account gebruiken"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "Openbaar e-mailadres"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
 msgstr "E-mailadres niet openbaarmaken"
 
@@ -1326,7 +1322,7 @@ msgstr "Tabs"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Sluittag toevoegen aan blanco xml-tags"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1712,24 +1708,20 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "De uitbreiding is geïnstalleerd - neem de integratie-instructies door."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "YAML-uitvoer aanpassen"
+msgstr "Xml-uitvoer aanpassen"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
-msgstr "Pas het yaml-uitvoergedrag aan, zoals de regellengte of regeleinden."
+msgstr ""
+"Pas het xml-uitvoergedrag aan, zoals het al dan niet toevoegen van sluittags "
+"aan blanco tags."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
-msgstr "YAML-uitvoer aanpassen"
+msgstr "Yaml-uitvoer aanpassen"
 
 #: weblate/addons/yaml.py:17
 msgid ""
@@ -3500,10 +3492,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next json-bestand (v3)"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next json-bestand (v3)"
+msgstr "i18next json-bestand (v4)"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3514,10 +3504,8 @@ msgid "ARB file"
 msgstr "ARB-bestand"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "gettext PO-bestand"
+msgstr "gotext json-bestand"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -9967,16 +9955,12 @@ msgid "Project to remove"
 msgstr "Te verwijderen project"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Voeg de ontbrekende taaluitbreiding toe aan dit onderdeel. Verwijderde talen "
-"kunnen zo opnieuw worden toegevoegd."
+"De uitbreiding ‘Ontbrekende talen toevoegen’ is geïnstalleerd op dit "
+"onderdeel. Verwijderde talen kunnen zo opnieuw worden toegevoegd."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10019,10 +10003,8 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Voeg Weblate-wijzigingen samen en los conflicten op."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Voeg Weblate-wijzigingen samen en los conflicten op."
+msgstr "Herbaseer Weblate-wijzigingen op stroomopwaartse en los conflicten op."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10810,10 +10792,8 @@ msgid "Strings with variants"
 msgstr "Tekenreeksen met varianten"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Tekenreeksen met opmerkingen"
+msgstr "Tekenreeksen met schermfoto's"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10844,10 +10824,8 @@ msgid "Strings waiting for review"
 msgstr "Te beoordelen tekenreeksen"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Tekenreeksen met opmerkingen"
+msgstr "Tekenreeksen zonder schermfoto's"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13634,17 +13612,11 @@ msgid "Settings saved"
 msgstr "De instellingen zijn opgeslagen."
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
 msgstr ""
-"Er zijn ongeldige instellingen - controleer het formulier op foutmeldingen!"
+"Er zijn ongeldige instellingen - controleer het formulier op foutmeldingen."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
@@ -13653,28 +13625,20 @@ msgstr ""
 "totdat u deze bijwerkt."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "De vertaling is verwijderd."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "Het vertaalonderdeel staat gepland voor verwijdering."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "Het project staat gepland voor verwijdering."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "De projecttaal is verwijderd."
+msgstr "Er is een projecttaal verwijderd."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13682,10 +13646,8 @@ msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr "De naam kan niet worden gewijzigd wegens een configuratiefout: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "De back-up wordt uitgevoerd en is z.s.m. beschikbaar."
+msgstr "De back-up is ingepland en is z.s.m. beschikbaar."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -13978,10 +13940,8 @@ msgid "Number of failing checks"
 msgstr "Aantal foutmeldingen"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Locatie van brontekenreeks"
+msgstr "Locatie van tekenreeks"
 
 #: weblate/utils/views.py:375
 #, python-format
