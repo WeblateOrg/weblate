@@ -4,7 +4,7 @@ Weblate 4.15.1
 Not yet released.
 
 * Fixed suggestions from automatic translation.
-* Added add-on page crash in some corner cases.
+* Fixed add-on page crash in some corner cases.
 * Fixed untranslating template for new translations in some cases.
 * Documented licensing using `REUSE 3.0 <https://reuse.software/>`_.
 * Fixed users pagination on team management.
