@@ -18,21 +18,21 @@ class LoadClassTest(TestCase):
     def test_invalid_name(self):
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            'Error importing class unittest in TEST: .*"' "(not enough|need more than)",
+            "Error importing class 'unittest' in TEST: (not enough|need more than)",
         ):
             load_class("unittest", "TEST")
 
     def test_invalid_module(self):
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            'weblate.trans.tests.missing in TEST: "' "No module named .*missing[\"']",
+            "'weblate.trans.tests.missing' in TEST: No module named .*missing",
         ):
             load_class("weblate.trans.tests.missing.Foo", "TEST")
 
     def test_invalid_class(self):
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            '"weblate.utils.tests.test_classloader"' ' does not define a "Foo" class',
+            "'weblate.utils.tests.test_classloader' does not define a 'Foo' class",
         ):
             load_class("weblate.utils.tests.test_classloader.Foo", "TEST")
 

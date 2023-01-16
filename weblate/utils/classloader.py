@@ -15,13 +15,13 @@ def load_class(name, setting):
         module, attr = name.rsplit(".", 1)
     except ValueError as error:
         raise ImproperlyConfigured(
-            f"Error importing class {name} in {setting}: {error}"
+            f"Error importing class {name!r} in {setting}: {error}"
         )
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
-            f"Error importing module {module} in {setting}: {error}"
+            f"Error importing module {module!r} in {setting}: {error}"
         )
     try:
         return getattr(mod, attr)
