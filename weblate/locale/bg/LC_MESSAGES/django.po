@@ -7,7 +7,7 @@
 # Anonymous <noreply@weblate.org>, 2020.
 # Whod <whodizhod@gmail.com>, 2020.
 # Пламен <plamen_mbx@yahoo.com>, 2020.
-# Любомир Василев <lyubomirv@gmx.com>, 2020, 2021, 2022.
+# Любомир Василев <lyubomirv@gmx.com>, 2020, 2021, 2022, 2023.
 # Georgi <g.georgiev.shumen@gmail.com>, 2021.
 # Georgi Georgiev <g.georgiev.shumen@gmail.com>, 2021.
 # 109247019824 <stoyan@gmx.com>, 2021, 2022.
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 09:12+0000\n"
-"PO-Revision-Date: 2022-12-14 14:35+0000\n"
+"PO-Revision-Date: 2023-01-16 12:58+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -63,20 +63,16 @@ msgid "Commit e-mail"
 msgstr "Е-поща за подаванията"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "Да се използва е-пощата на профила"
+msgstr "Да се използва адресът на е-пощата на профила"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "Публична е-поща"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
-msgstr "Е-пощата да не се показва публично"
+msgstr "Адресът на е-пощата да не се показва публично"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -1325,7 +1321,7 @@ msgstr "Табулатори"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Да се добавя затварящ елемент за празните елементи в XML"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1712,22 +1708,17 @@ msgstr ""
 "Добавката е инсталирана. Моля, прегледайте инструкциите за интегриране."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Настройка на изхода на YAML"
+msgstr "Настройка на изхода на XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"Позволява да нагласяне на изхода в YAML, например дължината на редовете или "
-"знака за нов ред."
+"Позволява да нагласяне на изхода в XML, например дали да се добавят "
+"затварящи елементи вместо самозатварящи се такива, когато елементите нямат "
+"съдържание."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3504,10 +3495,8 @@ msgid "i18next JSON file v3"
 msgstr "Файл JSON на i18next – v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "Файл JSON на i18next – v3"
+msgstr "Файл JSON на i18next – v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3518,10 +3507,8 @@ msgid "ARB file"
 msgstr "Файл ARB"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "Файл gettext PO"
+msgstr "Файл gotext JSON"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -9967,10 +9954,6 @@ msgid "Project to remove"
 msgstr "Проект за премахване"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
@@ -10020,10 +10003,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Слейте промените на Weblate и разрешете конфликтите, ако има такива."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Слейте промените на Weblate и разрешете конфликтите, ако има такива."
+msgstr ""
+"Пребазирайте промените на Weblate върху отдалеченото хранилище и разрешете "
+"конфликтите, ако има такива."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10801,10 +10784,8 @@ msgid "Strings with variants"
 msgstr "Низове с варианти"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Низове с коментари"
+msgstr "Низове с екранни снимки"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10835,10 +10816,8 @@ msgid "Strings waiting for review"
 msgstr "Низове, чакащи за преглед"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Низове с коментари"
+msgstr "Низове без екранни снимки"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13621,16 +13600,10 @@ msgid "Settings saved"
 msgstr "Настройките са запазени"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "Грешни настройки! Моля, проверете формуляра за грешки!"
+msgstr "Грешни настройки! Проверете формуляра за грешки."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
@@ -13639,28 +13612,20 @@ msgstr ""
 "докато не го обновите."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "Преводът е премахнат."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "Компонентът за превод е заплануван за премахване."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "Проектът е заплануван за премахване."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Езикът на проекта е премахнат."
+msgstr "От проекта е премахнат език."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13669,10 +13634,8 @@ msgstr ""
 "Преименуването е невъзможно, поради неразрешен проблем в настройката: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "Създаването на резервно копие е стартирано. След малко ще бъде готово."
+msgstr "Създаването на резервно копие е насрочено. Скоро ще бъде готово."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -13965,10 +13928,8 @@ msgid "Number of failing checks"
 msgstr "Брой неуспешни проверки"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Местоположение на изходния низ"
+msgstr "Местоположение на низа"
 
 #: weblate/utils/views.py:375
 #, python-format
