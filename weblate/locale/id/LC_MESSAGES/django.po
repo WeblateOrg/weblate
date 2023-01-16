@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 09:12+0000\n"
-"PO-Revision-Date: 2023-01-15 09:52+0000\n"
+"PO-Revision-Date: 2023-01-16 12:58+0000\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -75,18 +75,14 @@ msgid "Commit e-mail"
 msgstr "Surel komit"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "Gunakan surel akun"
+msgstr "Gunakan alamat surel akun"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "Surel publik"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
 msgstr "Jangan tampilkan alamat surel secara publik"
 
@@ -1343,7 +1339,7 @@ msgstr "Tab"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Sertakan tag penutup untuk tag XML yang kosong"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1727,22 +1723,16 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Pengaya terpasang, silakan tinjau instruksi integrasi."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Sesuaikan keluaran YAML"
+msgstr "Sesuaikan keluaran XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"Izinkan penyesuaian perilaku keluaran YAML, contohnya panjang baris atau "
-"baris baru."
+"Izinkan penyesuaian perilaku keluaran XML, contohnya tag penutup daripada "
+"tag yang ditutup sendiri untuk tag yang kosong."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3514,10 +3504,8 @@ msgid "i18next JSON file v3"
 msgstr "Berkas i18next JSON v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "Berkas i18next JSON v3"
+msgstr "Berkas i18next JSON v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3528,10 +3516,8 @@ msgid "ARB file"
 msgstr "Berkas ARB"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "berkas gettext PO"
+msgstr "berkas gotext JSON"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -9939,16 +9925,12 @@ msgid "Project to remove"
 msgstr "Proyek untuk dihapus"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Menambahkan pengaya bahasa yang kurang dipasang pada komponen ini, bahasa "
-"yang dihapus mungkin akan ditambahkan kembali."
+"Tambahan “Tambahkan bahasa yang hilang” diinstal di komponen ini, bahasa "
+"yang dihapus mungkin ditambahkan lagi oleh itu."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9990,10 +9972,9 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Menggabungkan perubahan Weblate dan menyelesaikan konflik apapun."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Menggabungkan perubahan Weblate dan menyelesaikan konflik apapun."
+msgstr ""
+"Basis ulang perubahan Weblate di atas sumber dan selesaikan konflik apa pun."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10763,10 +10744,8 @@ msgid "Strings with variants"
 msgstr "String dengan varian"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "String dengan komentar"
+msgstr "String dengan tangkapan layar"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10797,10 +10776,8 @@ msgid "Strings waiting for review"
 msgstr "String menunggu tinjauan"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "String dengan komentar"
+msgstr "String tanpa tangkapan layar"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13541,46 +13518,32 @@ msgid "Settings saved"
 msgstr "Pengaturan disimpan"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "Pengaturan tidak valid, silakan periksa formulir kesalahannya!"
+msgstr "Pengaturan tidak valid. Silakan periksa formulir untuk kesalahan."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Repositori sudah usang, Anda mungkin tidak mendapatkan hasil yang diharapkan "
+"Repositori sudah usang. Anda mungkin tidak mendapatkan hasil yang diharapkan "
 "sampai Anda memperbaruinya."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "Penerjemahan telah dihapus."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "Komponen terjemahan dijadwalkan untuk penghapusan."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "Proyek dijadwalkan untuk dihapus."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Bahasa proyek telah dihapus."
+msgstr "Sebuah bahasa proyek telah dihapus."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13588,10 +13551,8 @@ msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr "Tidak dapat mengganti nama karena adanya masalah dalam pengaturan: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "Pencadangan dilakukan, akan tersedia setelah ini."
+msgstr "Pencadangan dijadwalkan. Cadangannya akan tersedia setelah ini."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -13883,10 +13844,8 @@ msgid "Number of failing checks"
 msgstr "Jumlah pemeriksaan yang gagal"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Lokasi string sumber"
+msgstr "Lokasi string"
 
 #: weblate/utils/views.py:375
 #, python-format
