@@ -1,8 +1,4 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Sentry = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -84,7 +80,9 @@ class BrowserClient extends core.BaseClient {
     const breadcrumbIntegration = this.getIntegrationById(breadcrumbs.BREADCRUMB_INTEGRATION_ID) ;
     // We check for definedness of `addSentryBreadcrumb` in case users provided their own integration with id
     // "Breadcrumbs" that does not have this function.
-    _optionalChain([breadcrumbIntegration, 'optionalAccess', _ => _.addSentryBreadcrumb, 'optionalCall', _2 => _2(event)]);
+    if (breadcrumbIntegration && breadcrumbIntegration.addSentryBreadcrumb) {
+      breadcrumbIntegration.addSentryBreadcrumb(event);
+    }
 
     super.sendEvent(event, hint);
   }
@@ -140,7 +138,7 @@ class BrowserClient extends core.BaseClient {
 exports.BrowserClient = BrowserClient;
 
 
-},{"./eventbuilder.js":2,"./helpers.js":4,"./integrations/breadcrumbs.js":6,"@sentry/core":24,"@sentry/utils":131,"@sentry/utils/cjs/buildPolyfills":125}],2:[function(require,module,exports){
+},{"./eventbuilder.js":2,"./helpers.js":4,"./integrations/breadcrumbs.js":6,"@sentry/core":24,"@sentry/utils":117}],2:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -426,7 +424,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"@sentry/core":24,"@sentry/utils":131}],3:[function(require,module,exports){
+},{"@sentry/core":24,"@sentry/utils":117}],3:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -649,7 +647,7 @@ exports.shouldIgnoreOnError = shouldIgnoreOnError;
 exports.wrap = wrap;
 
 
-},{"@sentry/core":24,"@sentry/utils":131}],5:[function(require,module,exports){
+},{"@sentry/core":24,"@sentry/utils":117}],5:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 require('./exports.js');
@@ -1050,7 +1048,7 @@ exports.BREADCRUMB_INTEGRATION_ID = BREADCRUMB_INTEGRATION_ID;
 exports.Breadcrumbs = Breadcrumbs;
 
 
-},{"../helpers.js":4,"@sentry/core":24,"@sentry/utils":131}],7:[function(require,module,exports){
+},{"../helpers.js":4,"@sentry/core":24,"@sentry/utils":117}],7:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -1259,7 +1257,7 @@ function _getFramesFromEvent(event) {
 exports.Dedupe = Dedupe;
 
 
-},{"@sentry/utils":131}],8:[function(require,module,exports){
+},{"@sentry/utils":117}],8:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -1511,7 +1509,7 @@ function getHubAndOptions() {
 exports.GlobalHandlers = GlobalHandlers;
 
 
-},{"../eventbuilder.js":2,"../helpers.js":4,"@sentry/core":24,"@sentry/utils":131}],9:[function(require,module,exports){
+},{"../eventbuilder.js":2,"../helpers.js":4,"@sentry/core":24,"@sentry/utils":117}],9:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -1675,7 +1673,7 @@ exports._handler = _handler;
 exports._walkErrorTree = _walkErrorTree;
 
 
-},{"../eventbuilder.js":2,"@sentry/core":24,"@sentry/utils":131}],12:[function(require,module,exports){
+},{"../eventbuilder.js":2,"@sentry/core":24,"@sentry/utils":117}],12:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -1960,7 +1958,7 @@ function _wrapEventTarget(target) {
 exports.TryCatch = TryCatch;
 
 
-},{"../helpers.js":4,"@sentry/utils":131}],13:[function(require,module,exports){
+},{"../helpers.js":4,"@sentry/utils":117}],13:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2257,7 +2255,7 @@ exports.showReportDialog = showReportDialog;
 exports.wrap = wrap;
 
 
-},{"./client.js":1,"./helpers.js":4,"./integrations/breadcrumbs.js":6,"./integrations/dedupe.js":7,"./integrations/globalhandlers.js":8,"./integrations/httpcontext.js":9,"./integrations/index.js":10,"./integrations/linkederrors.js":11,"./integrations/trycatch.js":12,"./stack-parsers.js":14,"./transports/fetch.js":15,"./transports/index.js":16,"./transports/xhr.js":18,"@sentry/core":24,"@sentry/utils":131}],14:[function(require,module,exports){
+},{"./client.js":1,"./helpers.js":4,"./integrations/breadcrumbs.js":6,"./integrations/dedupe.js":7,"./integrations/globalhandlers.js":8,"./integrations/httpcontext.js":9,"./integrations/index.js":10,"./integrations/linkederrors.js":11,"./integrations/trycatch.js":12,"./stack-parsers.js":14,"./transports/fetch.js":15,"./transports/index.js":16,"./transports/xhr.js":18,"@sentry/core":24,"@sentry/utils":117}],14:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -2437,7 +2435,7 @@ exports.opera11StackLineParser = opera11StackLineParser;
 exports.winjsStackLineParser = winjsStackLineParser;
 
 
-},{"@sentry/utils":131}],15:[function(require,module,exports){
+},{"@sentry/utils":117}],15:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2490,7 +2488,7 @@ function makeFetchTransport(
 exports.makeFetchTransport = makeFetchTransport;
 
 
-},{"./utils.js":17,"@sentry/core":24,"@sentry/utils":131}],16:[function(require,module,exports){
+},{"./utils.js":17,"@sentry/core":24,"@sentry/utils":117}],16:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const fetch = require('./fetch.js');
@@ -2592,7 +2590,7 @@ exports.clearCachedFetchImplementation = clearCachedFetchImplementation;
 exports.getNativeFetchImplementation = getNativeFetchImplementation;
 
 
-},{"../helpers.js":4,"@sentry/utils":131}],18:[function(require,module,exports){
+},{"../helpers.js":4,"@sentry/utils":117}],18:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2648,7 +2646,7 @@ function makeXHRTransport(options) {
 exports.makeXHRTransport = makeXHRTransport;
 
 
-},{"@sentry/core":24,"@sentry/utils":131}],19:[function(require,module,exports){
+},{"@sentry/core":24,"@sentry/utils":117}],19:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -2739,7 +2737,7 @@ exports.getEnvelopeEndpointWithUrlEncodedAuth = getEnvelopeEndpointWithUrlEncode
 exports.getReportDialogEndpoint = getReportDialogEndpoint;
 
 
-},{"@sentry/utils":131}],20:[function(require,module,exports){
+},{"@sentry/utils":117}],20:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -3384,7 +3382,7 @@ function isTransactionEvent(event) {
 exports.BaseClient = BaseClient;
 
 
-},{"./api.js":19,"./envelope.js":21,"./integration.js":25,"./session.js":31,"./utils/prepareEvent.js":34,"@sentry/utils":131}],21:[function(require,module,exports){
+},{"./api.js":19,"./envelope.js":21,"./integration.js":25,"./session.js":31,"./utils/prepareEvent.js":34,"@sentry/utils":117}],21:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -3463,7 +3461,7 @@ exports.createEventEnvelope = createEventEnvelope;
 exports.createSessionEnvelope = createSessionEnvelope;
 
 
-},{"@sentry/utils":131}],22:[function(require,module,exports){
+},{"@sentry/utils":117}],22:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const hub = require('./hub.js');
@@ -4206,7 +4204,7 @@ exports.makeMain = makeMain;
 exports.setHubOnCarrier = setHubOnCarrier;
 
 
-},{"./scope.js":29,"./session.js":31,"@sentry/utils":131}],24:[function(require,module,exports){
+},{"./scope.js":29,"./session.js":31,"@sentry/utils":117}],24:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const exports$1 = require('./exports.js');
@@ -4371,7 +4369,7 @@ exports.setupIntegration = setupIntegration;
 exports.setupIntegrations = setupIntegrations;
 
 
-},{"./hub.js":23,"./scope.js":29,"@sentry/utils":131}],26:[function(require,module,exports){
+},{"./hub.js":23,"./scope.js":29,"@sentry/utils":117}],26:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4408,7 +4406,7 @@ class FunctionToString  {constructor() { FunctionToString.prototype.__init.call(
 exports.FunctionToString = FunctionToString;
 
 
-},{"@sentry/utils":131}],27:[function(require,module,exports){
+},{"@sentry/utils":117}],27:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4594,7 +4592,7 @@ exports._mergeOptions = _mergeOptions;
 exports._shouldDropEvent = _shouldDropEvent;
 
 
-},{"@sentry/utils":131}],28:[function(require,module,exports){
+},{"@sentry/utils":117}],28:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const functiontostring = require('./functiontostring.js');
@@ -5159,7 +5157,7 @@ exports.Scope = Scope;
 exports.addGlobalEventProcessor = addGlobalEventProcessor;
 
 
-},{"./session.js":31,"@sentry/utils":131}],30:[function(require,module,exports){
+},{"./session.js":31,"@sentry/utils":117}],30:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5200,7 +5198,7 @@ function initAndBind(
 exports.initAndBind = initAndBind;
 
 
-},{"./hub.js":23,"@sentry/utils":131}],31:[function(require,module,exports){
+},{"./hub.js":23,"@sentry/utils":117}],31:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5361,7 +5359,7 @@ exports.makeSession = makeSession;
 exports.updateSession = updateSession;
 
 
-},{"@sentry/utils":131}],32:[function(require,module,exports){
+},{"@sentry/utils":117}],32:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5469,7 +5467,7 @@ class SessionFlusher  {
 exports.SessionFlusher = SessionFlusher;
 
 
-},{"./hub.js":23,"@sentry/utils":131}],33:[function(require,module,exports){
+},{"./hub.js":23,"@sentry/utils":117}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5572,7 +5570,7 @@ exports.DEFAULT_TRANSPORT_BUFFER_SIZE = DEFAULT_TRANSPORT_BUFFER_SIZE;
 exports.createTransport = createTransport;
 
 
-},{"@sentry/utils":131}],34:[function(require,module,exports){
+},{"@sentry/utils":117}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5769,10 +5767,10 @@ function normalizeEvent(event, depth, maxBreadth) {
 exports.prepareEvent = prepareEvent;
 
 
-},{"../scope.js":29,"@sentry/utils":131}],35:[function(require,module,exports){
+},{"../scope.js":29,"@sentry/utils":117}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.31.0';
+const SDK_VERSION = '7.31.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -5837,7 +5835,7 @@ exports.VISIBILITY_CHANGE_TIMEOUT = VISIBILITY_CHANGE_TIMEOUT;
 exports.WINDOW = WINDOW;
 
 
-},{"@sentry/utils":131}],37:[function(require,module,exports){
+},{"@sentry/utils":117}],37:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const handleDom = require('./handleDom.js');
@@ -5911,7 +5909,7 @@ function isEventWithTarget(event) {
 exports.handleDom = handleDom;
 
 
-},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":54,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":64,"../util/createBreadcrumb.js":92,"@sentry/utils":131}],39:[function(require,module,exports){
+},{"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":54,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":64,"../util/createBreadcrumb.js":92,"@sentry/utils":117}],39:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createPerformanceSpans = require('../util/createPerformanceSpans.js');
@@ -5971,10 +5969,6 @@ exports.handleFetchSpanListener = handleFetchSpanListener;
 
 
 },{"../util/createPerformanceSpans.js":94,"../util/shouldFilterRequest.js":108}],40:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -5997,7 +5991,7 @@ function handleGlobalEventListener(replay) {
 
     // Unless `captureExceptions` is enabled, we want to ignore errors coming from rrweb
     // As there can be a bunch of stuff going wrong in internals there, that we don't want to bubble up to users
-    if (isRrwebError.isRrwebError(event) && !_optionalChain([replay, 'access', _ => _.getOptions, 'call', _2 => _2(), 'access', _3 => _3._experiments, 'optionalAccess', _4 => _4.captureExceptions])) {
+    if (isRrwebError.isRrwebError(event) && !replay.getOptions()._experiments.captureExceptions) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
       return null;
     }
@@ -6005,7 +5999,7 @@ function handleGlobalEventListener(replay) {
     // Only tag transactions with replayId if not waiting for an error
     // @ts-ignore private
     if (!event.type || replay.recordingMode === 'session') {
-      event.tags = { ...event.tags, replayId: _optionalChain([replay, 'access', _5 => _5.session, 'optionalAccess', _6 => _6.id]) };
+      event.tags = { ...event.tags, replayId: replay.getSessionId() };
     }
 
     // Collect traceIds in _context regardless of `recordingMode` - if it's true,
@@ -6020,12 +6014,10 @@ function handleGlobalEventListener(replay) {
       replay.getContext().errorIds.add(event.event_id );
     }
 
-    const exc = _optionalChain([event, 'access', _7 => _7.exception, 'optionalAccess', _8 => _8.values, 'optionalAccess', _9 => _9[0]]);
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && _optionalChain([replay, 'access', _10 => _10.getOptions, 'call', _11 => _11(), 'access', _12 => _12._experiments, 'optionalAccess', _13 => _13.traceInternals])) {
+    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
+      const exc = getEventExceptionValues(event);
       addInternalBreadcrumb({
-        message: `Tagging event (${event.event_id}) - ${event.message} - ${_optionalChain([exc, 'optionalAccess', _14 => _14.type]) || 'Unknown'}: ${
-          _optionalChain([exc, 'optionalAccess', _15 => _15.value]) || 'n/a'
-        }`,
+        message: `Tagging event (${event.event_id}) - ${event.message} - ${exc.type}: ${exc.value}`,
       });
     }
 
@@ -6066,10 +6058,18 @@ function addInternalBreadcrumb(arg) {
   });
 }
 
+function getEventExceptionValues(event) {
+  return {
+    type: 'Unknown',
+    value: 'n/a',
+    ...(event.exception && event.exception.values && event.exception.values[0]),
+  };
+}
+
 exports.handleGlobalEventListener = handleGlobalEventListener;
 
 
-},{"../constants.js":36,"../util/isRrwebError.js":100,"@sentry/core":24,"@sentry/utils":131,"@sentry/utils/cjs/buildPolyfills":125}],41:[function(require,module,exports){
+},{"../constants.js":36,"../util/isRrwebError.js":100,"@sentry/core":24,"@sentry/utils":117}],41:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createPerformanceSpans = require('../util/createPerformanceSpans.js');
@@ -6156,10 +6156,6 @@ exports.handleScope = handleScope;
 
 
 },{"../util/createBreadcrumb.js":92}],43:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const createPerformanceSpans = require('../util/createPerformanceSpans.js');
@@ -6191,11 +6187,15 @@ function handleXhr(handlerData) {
     return null;
   }
 
+  const timestamp = handlerData.xhr.__sentry_xhr__
+    ? handlerData.xhr.__sentry_xhr__.startTimestamp || 0
+    : handlerData.endTimestamp;
+
   return {
     type: 'resource.xhr',
     name: url,
-    start: (_optionalChain([handlerData, 'access', _ => _.xhr, 'access', _2 => _2.__sentry_xhr__, 'optionalAccess', _3 => _3.startTimestamp]) || 0) / 1000 || handlerData.endTimestamp / 1000.0,
-    end: handlerData.endTimestamp / 1000.0,
+    start: timestamp / 1000,
+    end: handlerData.endTimestamp / 1000,
     data: {
       method,
       statusCode,
@@ -6235,7 +6235,7 @@ function handleXhrSpanListener(replay) {
 exports.handleXhrSpanListener = handleXhrSpanListener;
 
 
-},{"../util/createPerformanceSpans.js":94,"../util/shouldFilterRequest.js":108,"@sentry/utils/cjs/buildPolyfills":125}],44:[function(require,module,exports){
+},{"../util/createPerformanceSpans.js":94,"../util/shouldFilterRequest.js":108}],44:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dedupePerformanceEntries = require('../util/dedupePerformanceEntries.js');
@@ -6285,10 +6285,6 @@ exports.setupPerformanceObserver = setupPerformanceObserver;
 
 
 },{"../util/dedupePerformanceEntries.js":97}],45:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6408,8 +6404,7 @@ class EventBufferCompressionWorker  {
    */
    destroy() {
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Destroying compression worker');
-    _optionalChain([this, 'access', _ => _._worker, 'optionalAccess', _2 => _2.terminate, 'call', _3 => _3()]);
-    this._worker = null;
+    this._worker.terminate();
   }
 
   /**
@@ -6461,7 +6456,7 @@ class EventBufferCompressionWorker  {
         }
 
         // At this point, we'll always want to remove listener regardless of result status
-        _optionalChain([this, 'access', _4 => _4._worker, 'optionalAccess', _5 => _5.removeEventListener, 'call', _6 => _6('message', listener)]);
+        this._worker.removeEventListener('message', listener);
 
         if (!data.success) {
           // TODO: Do some error handling, not sure what
@@ -6484,8 +6479,8 @@ class EventBufferCompressionWorker  {
 
       // Note: we can't use `once` option because it's possible it needs to
       // listen to multiple messages
-      _optionalChain([this, 'access', _7 => _7._worker, 'optionalAccess', _8 => _8.addEventListener, 'call', _9 => _9('message', listener)]);
-      _optionalChain([this, 'access', _10 => _10._worker, 'optionalAccess', _11 => _11.postMessage, 'call', _12 => _12({ id, method, args: stringifiedArgs })]);
+      this._worker.addEventListener('message', listener);
+      this._worker.postMessage({ id, method, args: stringifiedArgs });
     });
   }
 
@@ -6531,7 +6526,7 @@ exports.EventBufferCompressionWorker = EventBufferCompressionWorker;
 exports.createEventBuffer = createEventBuffer;
 
 
-},{"./worker/worker.js":109,"@sentry/core":24,"@sentry/utils":131,"@sentry/utils/cjs/buildPolyfills":125}],46:[function(require,module,exports){
+},{"./worker/worker.js":109,"@sentry/core":24,"@sentry/utils":117}],46:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const integration = require('./integration.js');
@@ -15487,10 +15482,6 @@ exports.throttle = throttle;
 
 
 },{"../../rrweb-snapshot/es/rrweb-snapshot.js":52,"../ext/tslib/tslib.es6.js":53,"./types.js":82}],84:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -15705,8 +15696,8 @@ class ReplayContainer  {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Stopping Replays');
       this._isEnabled = false;
       this._removeListeners();
-      _optionalChain([this, 'access', _8 => _8._stopRecording, 'optionalCall', _9 => _9()]);
-      _optionalChain([this, 'access', _10 => _10.eventBuffer, 'optionalAccess', _11 => _11.destroy, 'call', _12 => _12()]);
+      this._stopRecording && this._stopRecording();
+      this.eventBuffer && this.eventBuffer.destroy();
       this.eventBuffer = null;
       this._debouncedFlush.cancel();
     } catch (err) {
@@ -15752,7 +15743,7 @@ class ReplayContainer  {
    */
    addUpdate(cb) {
     // We need to always run `cb` (e.g. in the case of `this.recordingMode == 'error'`)
-    const cbResult = _optionalChain([cb, 'optionalCall', _13 => _13()]);
+    const cbResult = cb();
 
     // If this option is turned on then we will only want to call `flush`
     // explicitly
@@ -15809,6 +15800,11 @@ class ReplayContainer  {
     return this._debouncedFlush.flush() ;
   }
 
+  /** Get the current sesion (=replay) ID */
+   getSessionId() {
+    return this.session && this.session.id;
+  }
+
   /** A wrapper to conditionally capture exceptions. */
    _handleException(error) {
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay]', error);
@@ -15837,8 +15833,9 @@ class ReplayContainer  {
       this._setInitialState();
     }
 
-    if (session.id !== _optionalChain([this, 'access', _14 => _14.session, 'optionalAccess', _15 => _15.id])) {
-      session.previousSessionId = _optionalChain([this, 'access', _16 => _16.session, 'optionalAccess', _17 => _17.id]);
+    const currentSessionId = this.getSessionId();
+    if (session.id !== currentSessionId) {
+      session.previousSessionId = currentSessionId;
     }
 
     this.session = session;
@@ -15879,7 +15876,9 @@ class ReplayContainer  {
       if (!this._hasInitializedCoreListeners) {
         // Listeners from core SDK //
         const scope = core.getCurrentHub().getScope();
-        _optionalChain([scope, 'optionalAccess', _18 => _18.addScopeListener, 'call', _19 => _19(this._handleCoreBreadcrumbListener('scope'))]);
+        if (scope) {
+          scope.addScopeListener(this._handleCoreBreadcrumbListener('scope'));
+        }
         utils.addInstrumentationHandler('dom', this._handleCoreBreadcrumbListener('dom'));
         utils.addInstrumentationHandler('fetch', handleFetch.handleFetchSpanListener(this));
         utils.addInstrumentationHandler('xhr', handleXhr.handleXhrSpanListener(this));
@@ -15966,7 +15965,7 @@ class ReplayContainer  {
       // of the previous session. Do not immediately flush in this case
       // to avoid capturing only the checkout and instead the replay will
       // be captured if they perform any follow-up actions.
-      if (_optionalChain([this, 'access', _20 => _20.session, 'optionalAccess', _21 => _21.previousSessionId])) {
+      if (this.session && this.session.previousSessionId) {
         return true;
       }
 
@@ -16181,7 +16180,7 @@ class ReplayContainer  {
    * Returns true if session is not expired, false otherwise.
    */
    _checkAndHandleExpiredSession({ expiry = constants.SESSION_IDLE_DURATION } = {}) {
-    const oldSessionId = _optionalChain([this, 'access', _22 => _22.session, 'optionalAccess', _23 => _23.id]);
+    const oldSessionId = this.getSessionId();
 
     // Prevent starting a new session if the last user activity is older than
     // MAX_SESSION_LIFE. Otherwise non-user activity can trigger a new
@@ -16198,7 +16197,7 @@ class ReplayContainer  {
     this._loadSession({ expiry });
 
     // Session was expired if session ids do not match
-    const expired = oldSessionId !== _optionalChain([this, 'access', _24 => _24.session, 'optionalAccess', _25 => _25.id]);
+    const expired = oldSessionId !== this.getSessionId();
 
     if (!expired) {
       return true;
@@ -16262,19 +16261,25 @@ class ReplayContainer  {
    * Should never be called directly, only by `flush`
    */
    async _runFlush() {
-    if (!this.session) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] No session found to flush.');
+    if (!this.session || !this.eventBuffer) {
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] No session or eventBuffer found to flush.');
       return;
     }
 
     await this._addPerformanceEntries();
 
-    if (!_optionalChain([this, 'access', _26 => _26.eventBuffer, 'optionalAccess', _27 => _27.pendingLength])) {
+    // Check eventBuffer again, as it could have been stopped in the meanwhile
+    if (!this.eventBuffer || !this.eventBuffer.pendingLength) {
       return;
     }
 
     // Only attach memory event if eventBuffer is not empty
     await addMemoryEntry.addMemoryEntry(this);
+
+    // Check eventBuffer again, as it could have been stopped in the meanwhile
+    if (!this.eventBuffer) {
+      return;
+    }
 
     try {
       // Note this empties the event buffer regardless of outcome of sending replay
@@ -16327,13 +16332,13 @@ class ReplayContainer  {
       return;
     }
 
-    if (!_optionalChain([this, 'access', _28 => _28.session, 'optionalAccess', _29 => _29.id])) {
+    if (!this.session) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] No session found to flush.');
       return;
     }
 
     // A flush is about to happen, cancel any queued flushes
-    _optionalChain([this, 'access', _30 => _30._debouncedFlush, 'optionalAccess', _31 => _31.cancel, 'call', _32 => _32()]);
+    this._debouncedFlush.cancel();
 
     // this._flushLock acts as a lock so that future calls to `_flush()`
     // will be blocked until this promise resolves
@@ -16395,7 +16400,7 @@ class ReplayContainer  {
 exports.ReplayContainer = ReplayContainer;
 
 
-},{"./constants.js":36,"./coreHandlers/breadcrumbHandler.js":37,"./coreHandlers/handleFetch.js":39,"./coreHandlers/handleGlobalEvent.js":40,"./coreHandlers/handleHistory.js":41,"./coreHandlers/handleXhr.js":43,"./coreHandlers/performanceObserver.js":44,"./eventBuffer.js":45,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":54,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":64,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":82,"./session/getSession.js":88,"./session/saveSession.js":89,"./util/addEvent.js":90,"./util/addMemoryEntry.js":91,"./util/createBreadcrumb.js":92,"./util/createPerformanceEntries.js":93,"./util/createPerformanceSpans.js":94,"./util/debounce.js":96,"./util/isExpired.js":99,"./util/isSessionExpired.js":102,"./util/monkeyPatchRecordDroppedEvent.js":103,"./util/sendReplay.js":106,"./util/sendReplayRequest.js":107,"@sentry/core":24,"@sentry/utils":131,"@sentry/utils/cjs/buildPolyfills":125}],85:[function(require,module,exports){
+},{"./constants.js":36,"./coreHandlers/breadcrumbHandler.js":37,"./coreHandlers/handleFetch.js":39,"./coreHandlers/handleGlobalEvent.js":40,"./coreHandlers/handleHistory.js":41,"./coreHandlers/handleXhr.js":43,"./coreHandlers/performanceObserver.js":44,"./eventBuffer.js":45,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":54,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":64,"./node_modules/rrweb/es/rrweb/packages/rrweb/src/types.js":82,"./session/getSession.js":88,"./session/saveSession.js":89,"./util/addEvent.js":90,"./util/addMemoryEntry.js":91,"./util/createBreadcrumb.js":92,"./util/createPerformanceEntries.js":93,"./util/createPerformanceSpans.js":94,"./util/debounce.js":96,"./util/isExpired.js":99,"./util/isSessionExpired.js":102,"./util/monkeyPatchRecordDroppedEvent.js":103,"./util/sendReplay.js":106,"./util/sendReplayRequest.js":107,"@sentry/core":24,"@sentry/utils":117}],85:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16433,7 +16438,7 @@ exports.getSessionSampleType = getSessionSampleType;
 exports.makeSession = makeSession;
 
 
-},{"../util/isSampled.js":101,"@sentry/utils":131}],86:[function(require,module,exports){
+},{"../util/isSampled.js":101,"@sentry/utils":117}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16463,7 +16468,7 @@ function createSession({ sessionSampleRate, errorSampleRate, stickySession = fal
 exports.createSession = createSession;
 
 
-},{"./Session.js":85,"./saveSession.js":89,"@sentry/utils":131}],87:[function(require,module,exports){
+},{"./Session.js":85,"./saveSession.js":89,"@sentry/utils":117}],87:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -16545,7 +16550,7 @@ function getSession({
 exports.getSession = getSession;
 
 
-},{"../util/isSessionExpired.js":102,"./createSession.js":86,"./fetchSession.js":87,"@sentry/utils":131}],89:[function(require,module,exports){
+},{"../util/isSessionExpired.js":102,"./createSession.js":86,"./fetchSession.js":87,"@sentry/utils":117}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -16570,10 +16575,6 @@ exports.saveSession = saveSession;
 
 
 },{"../constants.js":36}],90:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -16612,7 +16613,7 @@ async function addEvent(
   // Only record earliest event if a new session was created, otherwise it
   // shouldn't be relevant
   const earliestEvent = replay.getContext().earliestEvent;
-  if (_optionalChain([replay, 'access', _ => _.session, 'optionalAccess', _2 => _2.segmentId]) === 0 && (!earliestEvent || timestampInMs < earliestEvent)) {
+  if (replay.session && replay.session.segmentId === 0 && (!earliestEvent || timestampInMs < earliestEvent)) {
     replay.getContext().earliestEvent = timestampInMs;
   }
 
@@ -16622,7 +16623,7 @@ async function addEvent(
 exports.addEvent = addEvent;
 
 
-},{"../constants.js":36,"@sentry/utils/cjs/buildPolyfills":125}],91:[function(require,module,exports){
+},{"../constants.js":36}],91:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -16814,7 +16815,7 @@ function createLargestContentfulPaint(entry) {
 exports.createPerformanceEntries = createPerformanceEntries;
 
 
-},{"../constants.js":36,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":54,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":64,"@sentry/utils":131}],94:[function(require,module,exports){
+},{"../constants.js":36,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js":54,"../node_modules/rrweb/es/rrweb/packages/rrweb/src/record/index.js":64,"@sentry/utils":117}],94:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 require('../node_modules/rrweb/es/rrweb/packages/rrweb/src/entries/all.js');
@@ -16886,7 +16887,7 @@ function createReplayEnvelope(
 exports.createReplayEnvelope = createReplayEnvelope;
 
 
-},{"@sentry/utils":131}],96:[function(require,module,exports){
+},{"@sentry/utils":117}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -17075,7 +17076,7 @@ exports.isBrowser = isBrowser;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@sentry/utils":131,"_process":153}],99:[function(require,module,exports){
+},{"@sentry/utils":117,"_process":139}],99:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -17104,34 +17105,30 @@ exports.isExpired = isExpired;
 
 
 },{}],100:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
  * Returns true if we think the given event is an error originating inside of rrweb.
  */
 function isRrwebError(event) {
-  if (event.type || !_optionalChain([event, 'access', _ => _.exception, 'optionalAccess', _2 => _2.values, 'optionalAccess', _3 => _3.length])) {
+  if (event.type || !event.exception || !event.exception.values || !event.exception.values.length) {
     return false;
   }
 
   // Check if any exception originates from rrweb
   return event.exception.values.some(exception => {
-    if (!_optionalChain([exception, 'access', _4 => _4.stacktrace, 'optionalAccess', _5 => _5.frames, 'optionalAccess', _6 => _6.length])) {
+    if (!exception.stacktrace || !exception.stacktrace.frames || !exception.stacktrace.frames.length) {
       return false;
     }
 
-    return exception.stacktrace.frames.some(frame => _optionalChain([frame, 'access', _7 => _7.filename, 'optionalAccess', _8 => _8.includes, 'call', _9 => _9('/rrweb/src/')]));
+    return exception.stacktrace.frames.some(frame => frame.filename && frame.filename.includes('/rrweb/src/'));
   });
 }
 
 exports.isRrwebError = isRrwebError;
 
 
-},{"@sentry/utils/cjs/buildPolyfills":125}],101:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -17153,10 +17150,6 @@ exports.isSampled = isSampled;
 
 
 },{}],102:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('../constants.js');
@@ -17171,14 +17164,14 @@ function isSessionExpired(session, idleTimeout, targetTime = +new Date()) {
     isExpired.isExpired(session.started, constants.MAX_SESSION_LIFE, targetTime) ||
     // check that the idle timeout has not been exceeded (i.e. user has
     // performed an action within the last `idleTimeout` ms)
-    isExpired.isExpired(_optionalChain([session, 'optionalAccess', _ => _.lastActivity]), idleTimeout, targetTime)
+    isExpired.isExpired(session.lastActivity, idleTimeout, targetTime)
   );
 }
 
 exports.isSessionExpired = isSessionExpired;
 
 
-},{"../constants.js":36,"./isExpired.js":99,"@sentry/utils/cjs/buildPolyfills":125}],103:[function(require,module,exports){
+},{"../constants.js":36,"./isExpired.js":99}],103:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -17300,7 +17293,7 @@ async function prepareReplayEvent({
 
   preparedEvent.sdk = {
     ...preparedEvent.sdk,
-    version: "7.31.0",
+    version: "7.31.1",
     name,
   };
 
@@ -17377,10 +17370,6 @@ exports.sendReplay = sendReplay;
 
 
 },{"../constants.js":36,"./sendReplayRequest.js":107,"@sentry/core":24}],107:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -17416,7 +17405,7 @@ async function sendReplayRequest({
   const client = hub.getClient();
   const scope = hub.getScope();
   const transport = client && client.getTransport();
-  const dsn = _optionalChain([client, 'optionalAccess', _ => _.getDsn, 'call', _2 => _2()]);
+  const dsn = client && client.getDsn();
 
   if (!client || !scope || !transport || !dsn || !session.sampled) {
     return;
@@ -17539,11 +17528,7 @@ exports.TransportStatusCodeError = TransportStatusCodeError;
 exports.sendReplayRequest = sendReplayRequest;
 
 
-},{"../constants.js":36,"./createReplayEnvelope.js":95,"./prepareRecordingData.js":104,"./prepareReplayEvent.js":105,"@sentry/core":24,"@sentry/utils":131,"@sentry/utils/cjs/buildPolyfills":125}],108:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
-
+},{"../constants.js":36,"./createReplayEnvelope.js":95,"./prepareRecordingData.js":104,"./prepareReplayEvent.js":105,"@sentry/core":24,"@sentry/utils":117}],108:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -17553,7 +17538,7 @@ const core = require('@sentry/core');
  */
 function shouldFilterRequest(replay, url) {
   // If we enabled the `traceInternals` experiment, we want to trace everything
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && _optionalChain([replay, 'access', _ => _.getOptions, 'call', _2 => _2(), 'access', _3 => _3._experiments, 'optionalAccess', _4 => _4.traceInternals])) {
+  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
     return false;
   }
 
@@ -17564,14 +17549,15 @@ function shouldFilterRequest(replay, url) {
  * Checks wether a given URL belongs to the configured Sentry DSN.
  */
 function _isSentryRequest(url) {
-  const dsn = _optionalChain([core.getCurrentHub, 'call', _5 => _5(), 'access', _6 => _6.getClient, 'call', _7 => _7(), 'optionalAccess', _8 => _8.getDsn, 'call', _9 => _9()]);
+  const client = core.getCurrentHub().getClient();
+  const dsn = client && client.getDsn();
   return dsn ? url.includes(dsn.host) : false;
 }
 
 exports.shouldFilterRequest = shouldFilterRequest;
 
 
-},{"@sentry/core":24,"@sentry/utils/cjs/buildPolyfills":125}],109:[function(require,module,exports){
+},{"@sentry/core":24}],109:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const workerString = `/*! pako 2.1.0 https://github.com/nodeca/pako @license (MIT AND Zlib) */
@@ -17734,7 +17720,7 @@ exports.baggageHeaderToDynamicSamplingContext = baggageHeaderToDynamicSamplingCo
 exports.dynamicSamplingContextToSentryBaggageHeader = dynamicSamplingContextToSentryBaggageHeader;
 
 
-},{"./is.js":133,"./logger.js":134}],111:[function(require,module,exports){
+},{"./is.js":119,"./logger.js":120}],111:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -17892,504 +17878,7 @@ exports.getLocationHref = getLocationHref;
 exports.htmlTreeAsString = htmlTreeAsString;
 
 
-},{"./is.js":133,"./worldwide.js":152}],112:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const _nullishCoalesce = require('./_nullishCoalesce.js');
-
-// adapted from Sucrase (https://github.com/alangpierce/sucrase)
-
-/**
- * Polyfill for the nullish coalescing operator (`??`), when used in situations where at least one of the values is the
- * result of an async operation.
- *
- * Note that the RHS is wrapped in a function so that if it's a computed value, that evaluation won't happen unless the
- * LHS evaluates to a nullish value, to mimic the operator's short-circuiting behavior.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- *
- * @param lhs The value of the expression to the left of the `??`
- * @param rhsFn A function returning the value of the expression to the right of the `??`
- * @returns The LHS value, unless it's `null` or `undefined`, in which case, the RHS value
- */
-// eslint-disable-next-line @sentry-internal/sdk/no-async-await
-async function _asyncNullishCoalesce(lhs, rhsFn) {
-  return _nullishCoalesce._nullishCoalesce(lhs, rhsFn);
-}
-
-// Sucrase version:
-// async function _asyncNullishCoalesce(lhs, rhsFn) {
-//   if (lhs != null) {
-//     return lhs;
-//   } else {
-//     return await rhsFn();
-//   }
-// }
-
-exports._asyncNullishCoalesce = _asyncNullishCoalesce;
-
-
-},{"./_nullishCoalesce.js":122}],113:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Polyfill for the optional chain operator, `?.`, given previous conversion of the expression into an array of values,
- * descriptors, and functions, for situations in which at least one part of the expression is async.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase) See
- * https://github.com/alangpierce/sucrase/blob/265887868966917f3b924ce38dfad01fbab1329f/src/transformers/OptionalChainingNullishTransformer.ts#L15
- *
- * @param ops Array result of expression conversion
- * @returns The value of the expression
- */
-// eslint-disable-next-line @sentry-internal/sdk/no-async-await
-async function _asyncOptionalChain(ops) {
-  let lastAccessLHS = undefined;
-  let value = ops[0];
-  let i = 1;
-  while (i < ops.length) {
-    const op = ops[i] ;
-    const fn = ops[i + 1] ;
-    i += 2;
-    // by checking for loose equality to `null`, we catch both `null` and `undefined`
-    if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
-      // really we're meaning to return `undefined` as an actual value here, but it saves bytes not to write it
-      return;
-    }
-    if (op === 'access' || op === 'optionalAccess') {
-      lastAccessLHS = value;
-      value = await fn(value);
-    } else if (op === 'call' || op === 'optionalCall') {
-      value = await fn((...args) => (value ).call(lastAccessLHS, ...args));
-      lastAccessLHS = undefined;
-    }
-  }
-  return value;
-}
-
-// Sucrase version:
-// async function _asyncOptionalChain(ops) {
-//   let lastAccessLHS = undefined;
-//   let value = ops[0];
-//   let i = 1;
-//   while (i < ops.length) {
-//     const op = ops[i];
-//     const fn = ops[i + 1];
-//     i += 2;
-//     if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
-//       return undefined;
-//     }
-//     if (op === 'access' || op === 'optionalAccess') {
-//       lastAccessLHS = value;
-//       value = await fn(value);
-//     } else if (op === 'call' || op === 'optionalCall') {
-//       value = await fn((...args) => value.call(lastAccessLHS, ...args));
-//       lastAccessLHS = undefined;
-//     }
-//   }
-//   return value;
-// }
-
-exports._asyncOptionalChain = _asyncOptionalChain;
-
-
-},{}],114:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const _asyncOptionalChain = require('./_asyncOptionalChain.js');
-
-/**
- * Polyfill for the optional chain operator, `?.`, given previous conversion of the expression into an array of values,
- * descriptors, and functions, in cases where the value of the expression is to be deleted.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase) See
- * https://github.com/alangpierce/sucrase/blob/265887868966917f3b924ce38dfad01fbab1329f/src/transformers/OptionalChainingNullishTransformer.ts#L15
- *
- * @param ops Array result of expression conversion
- * @returns The return value of the `delete` operator: `true`, unless the deletion target is an own, non-configurable
- * property (one which can't be deleted or turned into an accessor, and whose enumerability can't be changed), in which
- * case `false`.
- */
-// eslint-disable-next-line @sentry-internal/sdk/no-async-await
-async function _asyncOptionalChainDelete(ops) {
-  const result = (await _asyncOptionalChain._asyncOptionalChain(ops)) ;
-  // If `result` is `null`, it means we didn't get to the end of the chain and so nothing was deleted (in which case,
-  // return `true` since that's what `delete` does when it no-ops). If it's non-null, we know the delete happened, in
-  // which case we return whatever the `delete` returned, which will be a boolean.
-  return result == null ? true : (result );
-}
-
-// Sucrase version:
-// async function asyncOptionalChainDelete(ops) {
-//   const result = await ASYNC_OPTIONAL_CHAIN_NAME(ops);
-//   return result == null ? true : result;
-// }
-
-exports._asyncOptionalChainDelete = _asyncOptionalChainDelete;
-
-
-},{"./_asyncOptionalChain.js":113}],115:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Copy a property from the given object into `exports`, under the given name.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- *
- * @param obj The object containing the property to copy.
- * @param localName The name under which to export the property
- * @param importedName The name under which the property lives in `obj`
- */
-function _createNamedExportFrom(obj, localName, importedName) {
-  exports[localName] = obj[importedName];
-}
-
-// Sucrase version:
-// function _createNamedExportFrom(obj, localName, importedName) {
-//   Object.defineProperty(exports, localName, {enumerable: true, get: () => obj[importedName]});
-// }
-
-exports._createNamedExportFrom = _createNamedExportFrom;
-
-
-},{}],116:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Copy properties from an object into `exports`.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- *
- * @param obj The object containing the properties to copy.
- */
-function _createStarExport(obj) {
-  Object.keys(obj)
-    .filter(key => key !== 'default' && key !== '__esModule' && !(key in exports))
-    .forEach(key => (exports[key] = obj[key]));
-}
-
-// Sucrase version:
-// function _createStarExport(obj) {
-//   Object.keys(obj)
-//     .filter(key => key !== 'default' && key !== '__esModule')
-//     .forEach(key => {
-//       if (exports.hasOwnProperty(key)) {
-//         return;
-//       }
-//       Object.defineProperty(exports, key, { enumerable: true, get: () => obj[key] });
-//     });
-// }
-
-exports._createStarExport = _createStarExport;
-
-
-},{}],117:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Unwraps a module if it has been wrapped in an object under the key `default`.
- *
- * Adapted from Rollup (https://github.com/rollup/rollup)
- *
- * @param requireResult The result of calling `require` on a module
- * @returns The full module, unwrapped if necessary.
- */
-function _interopDefault$1(requireResult) {
-  return requireResult.__esModule ? (requireResult.default ) : requireResult;
-}
-
-// Rollup version:
-// function _interopDefault(e) {
-//   return e && e.__esModule ? e['default'] : e;
-// }
-
-exports._interopDefault = _interopDefault$1;
-
-
-},{}],118:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Adds a self-referential `default` property to CJS modules which aren't the result of transpilation from ESM modules.
- *
- * Adapted from Rollup (https://github.com/rollup/rollup)
- *
- * @param requireResult The result of calling `require` on a module
- * @returns Either `requireResult` or a copy of `requireResult` with an added self-referential `default` property
- */
-function _interopNamespace$1(requireResult) {
-  return requireResult.__esModule ? requireResult : { ...requireResult, default: requireResult };
-}
-
-// Rollup version (with `output.externalLiveBindings` and `output.freeze` both set to false)
-// function _interopNamespace(e) {
-//   if (e && e.__esModule) return e;
-//   var n = Object.create(null);
-//   if (e) {
-//     for (var k in e) {
-//       n[k] = e[k];
-//     }
-//   }
-//   n["default"] = e;
-//   return n;
-// }
-
-exports._interopNamespace = _interopNamespace$1;
-
-
-},{}],119:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Wrap a module in an object, as the value under the key `default`.
- *
- * Adapted from Rollup (https://github.com/rollup/rollup)
- *
- * @param requireResult The result of calling `require` on a module
- * @returns An object containing the key-value pair (`default`, `requireResult`)
- */
-function _interopNamespaceDefaultOnly$1(requireResult) {
-  return {
-    __proto__: null,
-    default: requireResult,
-  };
-}
-
-// Rollup version
-// function _interopNamespaceDefaultOnly(e) {
-//   return {
-//     __proto__: null,
-//     'default': e
-//   };
-// }
-
-exports._interopNamespaceDefaultOnly = _interopNamespaceDefaultOnly$1;
-
-
-},{}],120:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Wraps modules which aren't the result of transpiling an ESM module in an object under the key `default`
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- *
- * @param requireResult The result of calling `require` on a module
- * @returns `requireResult` or `requireResult` wrapped in an object, keyed as `default`
- */
-function _interopRequireDefault(requireResult) {
-  return requireResult.__esModule ? requireResult : { default: requireResult };
-}
-
-// Sucrase version
-// function _interopRequireDefault(obj) {
-//   return obj && obj.__esModule ? obj : { default: obj };
-// }
-
-exports._interopRequireDefault = _interopRequireDefault;
-
-
-},{}],121:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Adds a `default` property to CJS modules which aren't the result of transpilation from ESM modules.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- *
- * @param requireResult The result of calling `require` on a module
- * @returns Either `requireResult` or a copy of `requireResult` with an added self-referential `default` property
- */
-function _interopRequireWildcard(requireResult) {
-  return requireResult.__esModule ? requireResult : { ...requireResult, default: requireResult };
-}
-
-// Sucrase version
-// function _interopRequireWildcard(obj) {
-//   if (obj && obj.__esModule) {
-//     return obj;
-//   } else {
-//     var newObj = {};
-//     if (obj != null) {
-//       for (var key in obj) {
-//         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-//           newObj[key] = obj[key];
-//         }
-//       }
-//     }
-//     newObj.default = obj;
-//     return newObj;
-//   }
-// }
-
-exports._interopRequireWildcard = _interopRequireWildcard;
-
-
-},{}],122:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Polyfill for the nullish coalescing operator (`??`).
- *
- * Note that the RHS is wrapped in a function so that if it's a computed value, that evaluation won't happen unless the
- * LHS evaluates to a nullish value, to mimic the operator's short-circuiting behavior.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- *
- * @param lhs The value of the expression to the left of the `??`
- * @param rhsFn A function returning the value of the expression to the right of the `??`
- * @returns The LHS value, unless it's `null` or `undefined`, in which case, the RHS value
- */
-function _nullishCoalesce(lhs, rhsFn) {
-  // by checking for loose equality to `null`, we catch both `null` and `undefined`
-  return lhs != null ? lhs : rhsFn();
-}
-
-// Sucrase version:
-// function _nullishCoalesce(lhs, rhsFn) {
-//   if (lhs != null) {
-//     return lhs;
-//   } else {
-//     return rhsFn();
-//   }
-// }
-
-exports._nullishCoalesce = _nullishCoalesce;
-
-
-},{}],123:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Polyfill for the optional chain operator, `?.`, given previous conversion of the expression into an array of values,
- * descriptors, and functions.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase)
- * See https://github.com/alangpierce/sucrase/blob/265887868966917f3b924ce38dfad01fbab1329f/src/transformers/OptionalChainingNullishTransformer.ts#L15
- *
- * @param ops Array result of expression conversion
- * @returns The value of the expression
- */
-function _optionalChain(ops) {
-  let lastAccessLHS = undefined;
-  let value = ops[0];
-  let i = 1;
-  while (i < ops.length) {
-    const op = ops[i] ;
-    const fn = ops[i + 1] ;
-    i += 2;
-    // by checking for loose equality to `null`, we catch both `null` and `undefined`
-    if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
-      // really we're meaning to return `undefined` as an actual value here, but it saves bytes not to write it
-      return;
-    }
-    if (op === 'access' || op === 'optionalAccess') {
-      lastAccessLHS = value;
-      value = fn(value);
-    } else if (op === 'call' || op === 'optionalCall') {
-      value = fn((...args) => (value ).call(lastAccessLHS, ...args));
-      lastAccessLHS = undefined;
-    }
-  }
-  return value;
-}
-
-// Sucrase version
-// function _optionalChain(ops) {
-//   let lastAccessLHS = undefined;
-//   let value = ops[0];
-//   let i = 1;
-//   while (i < ops.length) {
-//     const op = ops[i];
-//     const fn = ops[i + 1];
-//     i += 2;
-//     if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
-//       return undefined;
-//     }
-//     if (op === 'access' || op === 'optionalAccess') {
-//       lastAccessLHS = value;
-//       value = fn(value);
-//     } else if (op === 'call' || op === 'optionalCall') {
-//       value = fn((...args) => value.call(lastAccessLHS, ...args));
-//       lastAccessLHS = undefined;
-//     }
-//   }
-//   return value;
-// }
-
-exports._optionalChain = _optionalChain;
-
-
-},{}],124:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const _optionalChain = require('./_optionalChain.js');
-
-/**
- * Polyfill for the optional chain operator, `?.`, given previous conversion of the expression into an array of values,
- * descriptors, and functions, in cases where the value of the expression is to be deleted.
- *
- * Adapted from Sucrase (https://github.com/alangpierce/sucrase) See
- * https://github.com/alangpierce/sucrase/blob/265887868966917f3b924ce38dfad01fbab1329f/src/transformers/OptionalChainingNullishTransformer.ts#L15
- *
- * @param ops Array result of expression conversion
- * @returns The return value of the `delete` operator: `true`, unless the deletion target is an own, non-configurable
- * property (one which can't be deleted or turned into an accessor, and whose enumerability can't be changed), in which
- * case `false`.
- */
-function _optionalChainDelete(ops) {
-  const result = _optionalChain._optionalChain(ops) ;
-  // If `result` is `null`, it means we didn't get to the end of the chain and so nothing was deleted (in which case,
-  // return `true` since that's what `delete` does when it no-ops). If it's non-null, we know the delete happened, in
-  // which case we return whatever the `delete` returned, which will be a boolean.
-  return result == null ? true : result;
-}
-
-// Sucrase version:
-// function _optionalChainDelete(ops) {
-//   const result = _optionalChain(ops);
-//   // by checking for loose equality to `null`, we catch both `null` and `undefined`
-//   return result == null ? true : result;
-// }
-
-exports._optionalChainDelete = _optionalChainDelete;
-
-
-},{"./_optionalChain.js":123}],125:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const _asyncNullishCoalesce = require('./_asyncNullishCoalesce.js');
-const _asyncOptionalChain = require('./_asyncOptionalChain.js');
-const _asyncOptionalChainDelete = require('./_asyncOptionalChainDelete.js');
-const _createNamedExportFrom = require('./_createNamedExportFrom.js');
-const _createStarExport = require('./_createStarExport.js');
-const _interopDefault$1 = require('./_interopDefault.js');
-const _interopNamespace$1 = require('./_interopNamespace.js');
-const _interopNamespaceDefaultOnly$1 = require('./_interopNamespaceDefaultOnly.js');
-const _interopRequireDefault = require('./_interopRequireDefault.js');
-const _interopRequireWildcard = require('./_interopRequireWildcard.js');
-const _nullishCoalesce = require('./_nullishCoalesce.js');
-const _optionalChain = require('./_optionalChain.js');
-const _optionalChainDelete = require('./_optionalChainDelete.js');
-
-
-
-exports._asyncNullishCoalesce = _asyncNullishCoalesce._asyncNullishCoalesce;
-exports._asyncOptionalChain = _asyncOptionalChain._asyncOptionalChain;
-exports._asyncOptionalChainDelete = _asyncOptionalChainDelete._asyncOptionalChainDelete;
-exports._createNamedExportFrom = _createNamedExportFrom._createNamedExportFrom;
-exports._createStarExport = _createStarExport._createStarExport;
-exports._interopDefault = _interopDefault$1._interopDefault;
-exports._interopNamespace = _interopNamespace$1._interopNamespace;
-exports._interopNamespaceDefaultOnly = _interopNamespaceDefaultOnly$1._interopNamespaceDefaultOnly;
-exports._interopRequireDefault = _interopRequireDefault._interopRequireDefault;
-exports._interopRequireWildcard = _interopRequireWildcard._interopRequireWildcard;
-exports._nullishCoalesce = _nullishCoalesce._nullishCoalesce;
-exports._optionalChain = _optionalChain._optionalChain;
-exports._optionalChainDelete = _optionalChainDelete._optionalChainDelete;
-
-
-},{"./_asyncNullishCoalesce.js":112,"./_asyncOptionalChain.js":113,"./_asyncOptionalChainDelete.js":114,"./_createNamedExportFrom.js":115,"./_createStarExport.js":116,"./_interopDefault.js":117,"./_interopNamespace.js":118,"./_interopNamespaceDefaultOnly.js":119,"./_interopRequireDefault.js":120,"./_interopRequireWildcard.js":121,"./_nullishCoalesce.js":122,"./_optionalChain.js":123,"./_optionalChainDelete.js":124}],126:[function(require,module,exports){
+},{"./is.js":119,"./worldwide.js":138}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const envelope = require('./envelope.js');
@@ -18418,7 +17907,7 @@ function createClientReportEnvelope(
 exports.createClientReportEnvelope = createClientReportEnvelope;
 
 
-},{"./envelope.js":129,"./time.js":149}],127:[function(require,module,exports){
+},{"./envelope.js":115,"./time.js":135}],113:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -18533,7 +18022,7 @@ exports.dsnToString = dsnToString;
 exports.makeDsn = makeDsn;
 
 
-},{"./error.js":130}],128:[function(require,module,exports){
+},{"./error.js":116}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -18563,7 +18052,7 @@ function isBrowserBundle() {
 exports.isBrowserBundle = isBrowserBundle;
 
 
-},{}],129:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dsn = require('./dsn.js');
@@ -18792,7 +18281,7 @@ exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
-},{"./dsn.js":127,"./normalize.js":138,"./object.js":139}],130:[function(require,module,exports){
+},{"./dsn.js":113,"./normalize.js":124,"./object.js":125}],116:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -18814,7 +18303,7 @@ class SentryError extends Error {
 exports.SentryError = SentryError;
 
 
-},{}],131:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -18979,7 +18468,7 @@ exports.parseUrl = url.parseUrl;
 exports.stripUrlQueryAndFragment = url.stripUrlQueryAndFragment;
 
 
-},{"./baggage.js":110,"./browser.js":111,"./clientreport.js":126,"./dsn.js":127,"./env.js":128,"./envelope.js":129,"./error.js":130,"./instrument.js":132,"./is.js":133,"./logger.js":134,"./memo.js":135,"./misc.js":136,"./node.js":137,"./normalize.js":138,"./object.js":139,"./path.js":140,"./promisebuffer.js":141,"./ratelimit.js":142,"./requestdata.js":143,"./severity.js":144,"./stacktrace.js":145,"./string.js":146,"./supports.js":147,"./syncpromise.js":148,"./time.js":149,"./tracing.js":150,"./url.js":151,"./worldwide.js":152}],132:[function(require,module,exports){
+},{"./baggage.js":110,"./browser.js":111,"./clientreport.js":112,"./dsn.js":113,"./env.js":114,"./envelope.js":115,"./error.js":116,"./instrument.js":118,"./is.js":119,"./logger.js":120,"./memo.js":121,"./misc.js":122,"./node.js":123,"./normalize.js":124,"./object.js":125,"./path.js":126,"./promisebuffer.js":127,"./ratelimit.js":128,"./requestdata.js":129,"./severity.js":130,"./stacktrace.js":131,"./string.js":132,"./supports.js":133,"./syncpromise.js":134,"./time.js":135,"./tracing.js":136,"./url.js":137,"./worldwide.js":138}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -19557,7 +19046,7 @@ function instrumentUnhandledRejection() {
 exports.addInstrumentationHandler = addInstrumentationHandler;
 
 
-},{"./is.js":133,"./logger.js":134,"./object.js":139,"./stacktrace.js":145,"./supports.js":147,"./worldwide.js":152}],133:[function(require,module,exports){
+},{"./is.js":119,"./logger.js":120,"./object.js":125,"./stacktrace.js":131,"./supports.js":133,"./worldwide.js":138}],119:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -19753,7 +19242,7 @@ exports.isSyntheticEvent = isSyntheticEvent;
 exports.isThenable = isThenable;
 
 
-},{}],134:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('./worldwide.js');
@@ -19841,7 +19330,7 @@ exports.CONSOLE_LEVELS = CONSOLE_LEVELS;
 exports.consoleSandbox = consoleSandbox;
 
 
-},{"./worldwide.js":152}],135:[function(require,module,exports){
+},{"./worldwide.js":138}],121:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -19890,7 +19379,7 @@ function memoBuilder() {
 exports.memoBuilder = memoBuilder;
 
 
-},{}],136:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -20098,7 +19587,7 @@ exports.parseSemver = parseSemver;
 exports.uuid4 = uuid4;
 
 
-},{"./object.js":139,"./string.js":146,"./worldwide.js":152}],137:[function(require,module,exports){
+},{"./object.js":125,"./string.js":132,"./worldwide.js":138}],123:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -20172,7 +19661,7 @@ exports.loadModule = loadModule;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./env.js":128,"_process":153}],138:[function(require,module,exports){
+},{"./env.js":114,"_process":139}],124:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -20422,7 +19911,7 @@ exports.walk = visit;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is.js":133,"./memo.js":135,"./object.js":139,"./stacktrace.js":145}],139:[function(require,module,exports){
+},{"./is.js":119,"./memo.js":121,"./object.js":125,"./stacktrace.js":131}],125:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -20713,7 +20202,7 @@ exports.objectify = objectify;
 exports.urlEncode = urlEncode;
 
 
-},{"./browser.js":111,"./is.js":133,"./string.js":146}],140:[function(require,module,exports){
+},{"./browser.js":111,"./is.js":119,"./string.js":132}],126:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -20911,7 +20400,7 @@ exports.relative = relative;
 exports.resolve = resolve;
 
 
-},{}],141:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -21017,7 +20506,7 @@ function makePromiseBuffer(limit) {
 exports.makePromiseBuffer = makePromiseBuffer;
 
 
-},{"./error.js":130,"./syncpromise.js":148}],142:[function(require,module,exports){
+},{"./error.js":116,"./syncpromise.js":134}],128:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Intentionally keeping the key broad, as we don't know for sure what rate limit headers get returned from backend
@@ -21122,11 +20611,7 @@ exports.parseRetryAfterHeader = parseRetryAfterHeader;
 exports.updateRateLimits = updateRateLimits;
 
 
-},{}],143:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('./buildPolyfills');
-
+},{}],129:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -21366,13 +20851,13 @@ function addRequestDataToEvent(
 ) {
   const include = {
     ...DEFAULT_INCLUDES,
-    ..._optionalChain([options, 'optionalAccess', _ => _.include]),
+    ...(options && options.include),
   };
 
   if (include.request) {
     const extractedRequestData = Array.isArray(include.request)
-      ? extractRequestData(req, { include: include.request, deps: _optionalChain([options, 'optionalAccess', _2 => _2.deps]) })
-      : extractRequestData(req, { deps: _optionalChain([options, 'optionalAccess', _3 => _3.deps]) });
+      ? extractRequestData(req, { include: include.request, deps: options && options.deps })
+      : extractRequestData(req, { deps: options && options.deps });
 
     event.request = {
       ...event.request,
@@ -21447,7 +20932,7 @@ exports.extractPathForTransaction = extractPathForTransaction;
 exports.extractRequestData = extractRequestData;
 
 
-},{"./buildPolyfills":125,"./is.js":133,"./normalize.js":138,"./url.js":151}],144:[function(require,module,exports){
+},{"./is.js":119,"./normalize.js":124,"./url.js":137}],130:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Note: Ideally the `SeverityLevel` type would be derived from `validSeverityLevels`, but that would mean either
@@ -21489,11 +20974,7 @@ exports.severityLevelFromString = severityLevelFromString;
 exports.validSeverityLevels = validSeverityLevels;
 
 
-},{}],145:[function(require,module,exports){
-var {
-  _optionalChain
-} = require('./buildPolyfills');
-
+},{}],131:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const STACKTRACE_LIMIT = 50;
@@ -21662,7 +21143,7 @@ function node(getModule) {
       functionName = typeName ? `${typeName}.${methodName}` : methodName;
     }
 
-    const filename = _optionalChain([lineMatch, 'access', _ => _[2], 'optionalAccess', _2 => _2.startsWith, 'call', _3 => _3('file://')]) ? lineMatch[2].slice(7) : lineMatch[2];
+    const filename = lineMatch[2] && lineMatch[2].startsWith('file://') ? lineMatch[2].slice(7) : lineMatch[2];
     const isNative = lineMatch[5] === 'native';
     const isInternal =
       isNative || (filename && !filename.startsWith('/') && !filename.startsWith('.') && filename.indexOf(':\\') !== 1);
@@ -21674,7 +21155,7 @@ function node(getModule) {
 
     return {
       filename,
-      module: _optionalChain([getModule, 'optionalCall', _4 => _4(filename)]),
+      module: getModule ? getModule(filename) : undefined,
       function: functionName,
       lineno: parseInt(lineMatch[3], 10) || undefined,
       colno: parseInt(lineMatch[4], 10) || undefined,
@@ -21700,7 +21181,7 @@ exports.stackParserFromStackParserOptions = stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stripSentryFramesAndReverse;
 
 
-},{"./buildPolyfills":125}],146:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -21858,7 +21339,7 @@ exports.stringMatchesSomePattern = stringMatchesSomePattern;
 exports.truncate = truncate;
 
 
-},{"./is.js":133}],147:[function(require,module,exports){
+},{"./is.js":119}],133:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const logger = require('./logger.js');
@@ -22051,7 +21532,7 @@ exports.supportsReferrerPolicy = supportsReferrerPolicy;
 exports.supportsReportingObserver = supportsReportingObserver;
 
 
-},{"./logger.js":134,"./worldwide.js":152}],148:[function(require,module,exports){
+},{"./logger.js":120,"./worldwide.js":138}],134:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -22248,7 +21729,7 @@ exports.rejectedSyncPromise = rejectedSyncPromise;
 exports.resolvedSyncPromise = resolvedSyncPromise;
 
 
-},{"./is.js":133}],149:[function(require,module,exports){
+},{"./is.js":119}],135:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const node = require('./node.js');
@@ -22434,7 +21915,7 @@ exports.timestampWithMs = timestampWithMs;
 exports.usingPerformanceAPI = usingPerformanceAPI;
 
 
-},{"./node.js":137,"./worldwide.js":152}],150:[function(require,module,exports){
+},{"./node.js":123,"./worldwide.js":138}],136:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const TRACEPARENT_REGEXP = new RegExp(
@@ -22478,7 +21959,7 @@ exports.TRACEPARENT_REGEXP = TRACEPARENT_REGEXP;
 exports.extractTraceparentData = extractTraceparentData;
 
 
-},{}],151:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -22536,7 +22017,7 @@ exports.parseUrl = parseUrl;
 exports.stripUrlQueryAndFragment = stripUrlQueryAndFragment;
 
 
-},{}],152:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -22614,7 +22095,7 @@ exports.getGlobalSingleton = getGlobalSingleton;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],153:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
