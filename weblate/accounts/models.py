@@ -538,6 +538,7 @@ class Profile(models.Model):
         help_text=_("Your LinkedIn profile name from linkedin.com/in/profilename"),
         blank=True,
         db_index=False,
+        allow_unicode=True,
     )
     location = models.CharField(
         verbose_name=_("Location"),
