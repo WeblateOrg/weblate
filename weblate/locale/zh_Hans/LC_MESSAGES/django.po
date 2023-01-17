@@ -44,7 +44,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-01-12 19:52+0000\n"
+"PO-Revision-Date: 2023-01-17 20:52+0000\n"
 "Last-Translator: Xiang Heng Wei <yylteam@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -87,20 +87,16 @@ msgid "Commit e-mail"
 msgstr "代码提交电子邮箱"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "使用账户电子邮箱"
+msgstr "使用账户电子邮箱地址"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "公开的电子邮箱"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
-msgstr "不公开显示电子邮箱"
+msgstr "不公开显示电子邮箱地址"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -1270,7 +1266,7 @@ msgstr "制表符"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "包括空白 XML 标记的结束标记"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1634,20 +1630,14 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "附加组件已安装，请查看集成说明。"
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "自定义 YAML 输出"
+msgstr "自定义 XML 输出"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
-msgstr "允许调整 YAML 的输出，例如自定义缩进或自定义换行。"
+msgstr "允许调整 XML 输出行为，例如结束标记而不是空标记的自关闭标记。"
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3393,10 +3383,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next JSON 文件 v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next JSON 文件 v3"
+msgstr "i18next JSON 文件 v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3407,10 +3395,8 @@ msgid "ARB file"
 msgstr "ARB 文件"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "gettext PO 文件"
+msgstr "gotext JSON 文件"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -9518,14 +9504,10 @@ msgid "Project to remove"
 msgstr "要删除的项目"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
-msgstr "此部件安装了添加缺少的语言附加组件，删除的语言可能会再次被它重新添加。"
+msgstr "此部件安装了“添加缺少的语言”附加组件，删除的语言可能会再次被它重新添加。"
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9564,10 +9546,8 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "合并 Weblate 更改并解决所有冲突。"
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "合并 Weblate 更改并解决所有冲突。"
+msgstr "变基 Weblate 在上游的更改并解决所有冲突。"
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10296,10 +10276,8 @@ msgid "Strings with variants"
 msgstr "有变体的字符串"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "带有评论的字符串"
+msgstr "带有屏幕截图的字符串"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10330,10 +10308,8 @@ msgid "Strings waiting for review"
 msgstr "待审校的字符串"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "带有评论的字符串"
+msgstr "没有屏幕截图的字符串"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -12961,44 +12937,30 @@ msgid "Settings saved"
 msgstr "设置已保存"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "无效设置，请检查表单是否有错误！"
+msgstr "无效设置。请检查表单是否有错误！"
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
-msgstr "仓库已过期，您可能无法获得预期的结果，除非对齐进行更新。"
+msgstr "仓库已过期。您可能无法获得预期的结果，除非对齐进行更新。"
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "翻译已移除。"
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "翻译部件已计划删除。"
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "项目已计划删除。"
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "项目的语言被删除了。"
+msgstr "项目的语言已被删除。"
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13006,10 +12968,8 @@ msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr "配置中未解决的问题造成无法重命名：%s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "备份被触发，它将很快可用。"
+msgstr "已计划备份。它将很快可用。"
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -13296,10 +13256,8 @@ msgid "Number of failing checks"
 msgstr "未通过检查的数量"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "源字符串位置"
+msgstr "字符串位置"
 
 #: weblate/utils/views.py:375
 #, python-format
