@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-01-16 15:26+0000\n"
+"PO-Revision-Date: 2023-01-17 20:52+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1535,8 +1535,8 @@ msgstr ""
 #: ../../admin/access.rst:643
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
-"Sie können integrierte ::ref:`invite-user` verwenden, um neue Benutzer "
-"hinzuzufügen."
+"Sie können die integrierte Funktion :ref:`invite-user` verwenden, um neue "
+"Benutzer hinzuzufügen."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2283
 msgid "Add-ons"
@@ -3144,10 +3144,8 @@ msgid "Customize XML output"
 msgstr "XML-Ausgabe anpassen"
 
 #: ../../admin/addons.rst:749
-#, fuzzy
-#| msgid "``weblate.yaml.customize``"
 msgid "``weblate.xml.customize``"
-msgstr "``weblate.yaml.customize``"
+msgstr "``weblate.xml.customize``"
 
 #: ../../admin/addons.rst:751
 #, fuzzy
@@ -3160,16 +3158,12 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Schließendes Tag für leere XML-Tags einschließen"
 
 #: ../../admin/addons.rst:755
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self- closing tags for empty tags."
 msgstr ""
-"Ermöglicht die Anpassung des YAML-Ausgabeverhaltens, z. B. Zeilenlänge oder "
-"Zeilenvorschübe."
+"Ermöglicht die Anpassung des XML-Ausgabeverhaltens, z. B. das Schließen von "
+"Tags anstelle von selbstschließenden Tags für leere Tags."
 
 #: ../../admin/addons.rst:761
 msgid "Customize YAML output"
@@ -8993,13 +8987,16 @@ msgstr ""
 
 #: ../../admin/config.rst:1873
 msgid "VCS_API_DELAY"
-msgstr ""
+msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1877
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgstr ""
+"Konfiguriert die minimale Verzögerung in Sekunden zwischen API-Aufrufen von "
+"Drittanbietern in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, "
+"und :ref:`vcs-pagure`."
 
 #: ../../admin/config.rst:1880
 msgid ""
@@ -11367,7 +11364,7 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"Deaktivieren Sie dies für alle Produktionsserver. Wenn der Debug-Modus "
+"Deaktivieren Sie dies für alle Produktionsserver. Wenn der Debugmodus "
 "aktiviert ist, zeigt Django den Benutzern im Falle eines Fehlers Backtraces "
 "an. Wenn Sie ihn deaktivieren, werden Fehler per E-Mail an ``ADMINS`` (siehe "
 "oben) gesendet."
@@ -11377,7 +11374,7 @@ msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
-"Der Debug-Modus verlangsamt auch Weblate, da Django in diesem Fall viel mehr "
+"Der Debugmodus verlangsamt auch Weblate, da Django in diesem Fall viel mehr "
 "Informationen intern speichert."
 
 #: ../../admin/install.rst:699
@@ -11512,14 +11509,14 @@ msgstr "Debugmodus deaktivieren"
 #: ../../admin/install.rst:785
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr ""
-"Deaktivieren Sie den Debug-Modus von Django (:Einstellung:`DEBUG`) durch:"
+"Deaktivieren Sie den Debugmodus von Django (:Einstellung:`DEBUG`) durch:"
 
 #: ../../admin/install.rst:791
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
-"Wenn der Debug-Modus aktiviert ist, speichert Django alle ausgeführten "
+"Wenn der Debugmodus aktiviert ist, speichert Django alle ausgeführten "
 "Abfragen und zeigt den Benutzern Rückverfolgungen von Fehlern an, was in "
 "einer Produktionsumgebung nicht erwünscht ist."
 
@@ -12670,12 +12667,6 @@ msgid "Migrating database"
 msgstr "Migration der Datenbank"
 
 #: ../../admin/install.rst:1561
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward one is to dump the "
-#| "database on one server and import it on the new one. Alternatively you "
-#| "can use replication in case your database supports it."
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -12683,14 +12674,16 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
-"Je nach Ihrem Datenbank-Backend haben Sie mehrere Möglichkeiten, die "
-"Datenbank zu migrieren. Die einfachste ist, die Datenbank auf einem Server "
-"zu löschen und sie auf dem neuen Server zu importieren. Alternativ können "
-"Sie auch die Replikation verwenden, sofern Ihre Datenbank dies unterstützt."
+"Abhängig von Ihrem Datenbank-Backend haben Sie mehrere Möglichkeiten, die "
+"Datenbank zu migrieren. Der einfachste Ansatz ist die Verwendung "
+"datenbankeigener Tools, da diese in der Regel am effektivsten sind (z. B. "
+":command:`mysqldump` oder :command:`pg_dump`). Alternativ können Sie auch "
+"die Replikation verwenden, falls Ihre Datenbank dies unterstützt."
 
 #: ../../admin/install.rst:1569
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
+"Migration zwischen Datenbanken, beschrieben in :ref:`database-migration`."
 
 #: ../../admin/install.rst:1572
 msgid "Migrating VCS repositories"
@@ -13346,7 +13339,7 @@ msgstr "Allgemeine Einstellungen"
 
 #: ../../admin/install/docker.rst:378
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr "Konfiguriert den Debug-Modus von Django mit :setting:`DEBUG`."
+msgstr "Konfiguriert den Debugmodus von Django mit :setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:389 ../../admin/projects.rst:993
 msgid ":ref:`production-debug`"
@@ -14782,7 +14775,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1766
 msgid "To check the services status use:"
-msgstr ""
+msgstr "Um den Status der Dienste zu überprüfen, verwenden Sie:"
 
 #: ../../admin/install/docker.rst:1772
 msgid ""
@@ -15247,7 +15240,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:98
 msgid "Language definitions"
-msgstr ""
+msgstr "Sprachdefinitionen"
 
 #: ../../admin/languages.rst:6
 msgid ""
@@ -15352,7 +15345,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:72
 msgid "Changing language definitions"
-msgstr ""
+msgstr "Ändern von Sprachdefinitionen"
 
 #: ../../admin/languages.rst:74
 msgid ""
@@ -15379,6 +15372,12 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macrolanguages."
 msgstr ""
+"In vielen Fällen ist es keine gute Idee, einen Makrosprachencode für eine "
+"Übersetzung zu verwenden. Ein typischer Problemfall ist die kurdische "
+"Sprache, die je nach Variante in arabischer oder lateinischer Schrift "
+"geschrieben werden kann. Um ein korrektes Verhalten in Weblate zu erreichen, "
+"wird empfohlen, nur einzelne Sprachcodes zu verwenden und Makrosprachen zu "
+"vermeiden."
 
 #: ../../admin/languages.rst:94
 msgid ""
@@ -15386,10 +15385,13 @@ msgid ""
 "scope#Macrolanguages>`_, `List of macrolanguages <https://iso639-3.sil.org/"
 "code_tables/macrolanguage_mappings/data>`_"
 msgstr ""
+"`Makrosprachen-Definition <https://iso639-3.sil.org/about/"
+"scope#Macrolanguages>`_, `Liste der Makrosprachen <https://iso639-3.sil.org/"
+"code_tables/macrolanguage_mappings/data>`_"
 
 #: ../../admin/languages.rst:100
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Jede Sprache besteht aus den folgenden Feldern:"
 
 #: ../../admin/languages.rst:105 ../../admin/projects.rst:894 ../../api.rst:702
 #: ../../api.rst:704 ../../api.rst:771 ../../api.rst:2245
@@ -15413,7 +15415,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:117
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
-msgstr ""
+msgstr ":ref:`language-parsing-codes`, :ref:`new-translations`"
 
 #: ../../admin/languages.rst:123 ../../admin/projects.rst:896 ../../api.rst:687
 #: ../../api.rst:689 ../../api.rst:744 ../../api.rst:755
@@ -15425,6 +15427,8 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Sichtbarer Name der Sprache. Die in Weblate enthaltenen Sprachennamen werden "
+"auch je nach Sprache der Benutzeroberfläche lokalisiert."
 
 #: ../../admin/languages.rst:130 ../../api.rst:691 ../../api.rst:705
 #: ../../api.rst:745 ../../api.rst:756
@@ -15436,14 +15440,17 @@ msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
 msgstr ""
+"Bestimmt, ob die Sprache von rechts nach links oder von links nach rechts "
+"geschrieben wird. Diese Eigenschaft wird für die meisten Sprachen "
+"automatisch richtig erkannt."
 
 #: ../../admin/languages.rst:138
 msgid "Plural number"
-msgstr ""
+msgstr "Anzahl der Pluralformen"
 
 #: ../../admin/languages.rst:140
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Anzahl der in der Sprache verwendeten Pluralformen."
 
 #: ../../admin/languages.rst:145
 msgid "Plural formula"
@@ -15468,25 +15475,26 @@ msgid "Number of speakers"
 msgstr "Anzahl der Sprecher"
 
 #: ../../admin/languages.rst:162
-#, fuzzy
-#| msgid "Number of people speaking this language."
 msgid "Number of worldwide speakers of this language."
-msgstr "Anzahl der Menschen, die diese Sprache sprechen."
+msgstr "Anzahl der weltweiten Sprecher dieser Sprache."
 
 #: ../../admin/languages.rst:167 ../../devel/translations.rst:7
 msgid "Adding new translations"
-msgstr ""
+msgstr "Neue Übersetzungen hinzufügen"
 
 #: ../../admin/languages.rst:171
 msgid ""
 "In versions prior to 2.18 the behaviour of adding new translations was file "
 "format specific."
 msgstr ""
+"In Versionen vor 2.18 war das Verhalten beim Hinzufügen neuer Übersetzungen "
+"dateiformatspezifisch."
 
 #: ../../admin/languages.rst:174
 msgid ""
 "Weblate can automatically start new translation for all of the file formats."
 msgstr ""
+"Weblate kann automatisch eine neue Übersetzung für alle Dateiformate starten."
 
 #: ../../admin/languages.rst:177
 msgid ""
@@ -20464,6 +20472,8 @@ msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
+"**Geändert in 4.11.1:** Es gibt eine Änderung in ``REST_FRAMEWORK`` ("
+"Entfernung eines der Backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: ../../admin/upgrade.rst:312
 msgid "Upgrade from 4.11 to 4.12"
@@ -20482,6 +20492,8 @@ msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, use :setting:"
 "`UPDATE_LANGUAGES` to disable that."
 msgstr ""
+"Die :ref:`languages` werden nun automatisch bei einem Upgrade aktualisiert, "
+"verwenden Sie :setting:`UPDATE_LANGUAGES` um dies zu deaktivieren."
 
 #: ../../admin/upgrade.rst:326
 msgid ""
@@ -20543,6 +20555,9 @@ msgid ""
 "The Docker image no longer enables debug mode by default. In case you want "
 "it, enable it in the environment using :envvar:`WEBLATE_DEBUG`."
 msgstr ""
+"Das Docker-Image aktiviert den Debugmodus nicht mehr standardmäßig. Falls "
+"Sie ihn wünschen, aktivieren Sie ihn in der Einsatzumgebung mit "
+":envvar:`WEBLATE_DEBUG`."
 
 #: ../../admin/upgrade.rst:361
 msgid ""
@@ -20557,6 +20572,8 @@ msgid ""
 "**Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in "
 "rest framework settings was changed."
 msgstr ""
+"**Geändert in 4.15.1:** Der Standardwert für ``DEFAULT_PAGINATION_CLASS`` in "
+"den Rest-Framework-Einstellungen wurde geändert."
 
 #: ../../admin/upgrade.rst:371
 msgid "Upgrading from Python 2 to Python 3"
@@ -22984,7 +23001,7 @@ msgstr "Anzahl der Projekte"
 
 #: ../../api.rst:2453
 msgid "Number of components"
-msgstr "Gleiche Pluralformen"
+msgstr "Anzahl der Komponenten"
 
 #: ../../api.rst:2454
 msgid "Number of translations"
@@ -23298,8 +23315,6 @@ msgid "Fixed suggestions from automatic translation."
 msgstr "Die Übersetzungsvorschläge der automatischen Übersetzung korrigiert."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Added add-on page crash in some corner cases."
 msgid "Fixed add-on page crash in some corner cases."
 msgstr "Absturz der Erweiterungsseite in einigen Ausnahmefällen behoben."
 
@@ -23357,11 +23372,10 @@ msgstr ""
 "Zeichenkette hinzugefügt."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Fixed crash in reporting automatic translation progress."
 msgid "Fixed plurals handling in automatic translation from other components."
 msgstr ""
-"Absturz bei der Meldung des automatischen Übersetzungsfortschritts behoben."
+"Die Behandlung von Pluralen bei der automatischen Übersetzung aus anderen "
+"Komponenten korrigiert."
 
 #: ../../changes.rst:25
 msgid "Added keyboard shortcut Alt+Enter to submit string as a suggestion."
@@ -23375,28 +23389,28 @@ msgstr "Unterstützung für Platzhalter im Fluent-Format hinzugefügt."
 
 #: ../../changes.rst:27
 msgid "Improved performance of translation memory."
-msgstr "Die Leistung des Übersetzungsspeichers wurde verbessert."
+msgstr "Verbesserte Leistung des Übersetzungsspeichers."
 
 #: ../../changes.rst:28
 msgid ""
 "Autogenerate repoweb browsing links for well known code hosting services."
 msgstr ""
+"Automatische Generierung von Repoweb-Browsing-Links für bekannte Code-"
+"Hosting-Dienste."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Improved performance of Matrix view."
 msgid "Improved performance of several views."
-msgstr "Verbesserte Leistung der Matrixansicht."
+msgstr "Verbesserte Leistung mehrerer Ansichten."
 
 #: ../../changes.rst:30
 msgid "Improved listing of strings with plurals."
 msgstr "Verbesserte Auflistung von Zeichenketten mit Pluralformen."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for adding custom markup to HTML head."
-msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
+msgstr ""
+"Unterstützung für das Hinzufügen von benutzerdefiniertem Markup zum HTML-"
+"Header hinzugefügt."
 
 #: ../../changes.rst:32
 msgid ""
@@ -23410,11 +23424,8 @@ msgid "Fixed rendering of regular expression flags."
 msgstr "Die Darstellung von Markierungen für reguläre Ausdrücke korrigiert."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Improve placeholders handling in machine translations."
 msgid "Improved placeholders check behavior with plurals."
-msgstr ""
-"Verbesserung der Behandlung von Platzhaltern in automatischen Übersetzungen."
+msgstr "Verbessertes Prüfverhalten von Platzhaltern bei Pluralformen."
 
 #: ../../changes.rst:35
 msgid "Added support for translation files naming suitable for Google Play."
@@ -23423,35 +23434,32 @@ msgstr ""
 "geeignet sind, hinzugefügt."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Added support for free DeepL API."
 msgid "Added support for labels in API."
-msgstr "Unterstützung für kostenlose DeepL-API hinzugefügt."
+msgstr "Unterstützung für Labels in der API hinzugefügt."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid ""
 "Added support for choosing different e-mail for commits than for "
 "notifications."
-msgstr "Unterstützung für die Suche in Erklärungen hinzugefügt."
+msgstr ""
+"Unterstützung für die Auswahl einer anderen E-Mail für Commits als für "
+"Benachrichtigungen hinzugefügt."
 
 #: ../../changes.rst:38
 msgid "The Docker image no longer enables debug mode by default."
-msgstr ""
+msgstr "Das Docker-Image aktiviert nicht mehr standardmäßig den Debugmodus."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Improved alerts behavior on glossary components."
 msgid "Order glossary terms based on the glossary component priority."
 msgstr ""
-"Das Verhalten von Warnmeldungen bei Glossarkomponenten wurde verbessert."
+"Die Glossarbegriffe werden basierend auf der Priorität der Glossarkomponente "
+"sortiert."
 
 #: ../../changes.rst:40
 msgid "Added team administrators who can add or remove members of the team."
 msgstr ""
-"Es wurden Teamadministratoren hinzugefügt, die Mitglieder des Teams "
-"hinzufügen oder entfernen können."
+"Teamadministratoren hinzugefügt, die Mitglieder des Teams hinzufügen oder "
+"entfernen können."
 
 #: ../../changes.rst:41
 msgid "Added a popup confirmation before deleting users."
@@ -23478,10 +23486,10 @@ msgid "Released on November 5th 2022."
 msgstr "Veröffentlicht am 5. November 2022."
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid "Added built-in translation memory."
 msgid "Added support for removing entries from translation memory."
-msgstr "Integrierter Übersetzungsspeicher hinzugefügt."
+msgstr ""
+"Unterstützung für das Entfernen von Einträgen aus dem Übersetzungsspeicher "
+"hinzugefügt."
 
 #: ../../changes.rst:52
 #, fuzzy
@@ -27765,7 +27773,7 @@ msgstr ""
 
 #: ../../changes.rst:1284
 msgid "Updated language definitions."
-msgstr ""
+msgstr "Sprachdefinitionen aktualisiert."
 
 #: ../../changes.rst:1285
 msgid "Improve documentation for add-ons, LDAP and Celery."
@@ -28273,7 +28281,7 @@ msgstr ""
 
 #: ../../changes.rst:1445
 msgid "Improved support for different plural formulas."
-msgstr ""
+msgstr "Verbesserte Unterstützung für verschiedene Pluralformeln."
 
 #: ../../changes.rst:1446
 msgid "Added support for Subversion repositories not using stdlayout."
@@ -30861,6 +30869,10 @@ msgid ""
 "production environment because it has performance consequences and might "
 "leak private data."
 msgstr ""
+"Wenn Sie den Debugmodus aktivieren, werden die Ausnahmen im Webbrowser "
+"angezeigt. Dies ist nützlich, um Probleme in der Weboberfläche zu beheben, "
+"eignet sich aber nicht für eine Produktionsumgebung, da es Auswirkungen auf "
+"die Leistung hat und möglicherweise private Daten preisgibt."
 
 #: ../../contributing/debugging.rst:15
 msgid ""
@@ -41058,13 +41070,23 @@ msgid ""
 "servers (for example your contributions will no longer link to your profile "
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr " "
+msgstr ""
+"Die Commit-E-Mail wird anstelle Ihrer Konto-E-Mail in Versionsverwaltungs-"
+"Commits verwendet. Verwenden Sie dies, um zu vermeiden, dass Ihre echte E-"
+"Mail dort durchsickert. Seien Sie sich bewusst, dass die Verwendung einer "
+"anderen E-Mail Ihre Beiträge auf anderen Servern trennen kann (zum Beispiel "
+"werden Ihre Beiträge nicht mehr mit Ihrem Profil auf GitHub verlinkt). Die "
+"private E-Mail kann mit :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` plattformweit "
+"aktiviert werden."
 
 #: ../../user/profile.rst:206
 msgid ""
 "Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`). "
 "These images are obtained using https://gravatar.com/."
 msgstr ""
+"Für jeden Benutzer kann ein Avatar angezeigt werden (abhängig von "
+":setting:`ENABLE_AVATARS`). Diese Bilder werden über https://gravatar.com/ "
+"bezogen."
 
 #: ../../user/profile.rst:210
 msgid "Licenses"
@@ -41127,7 +41149,7 @@ msgstr ""
 
 #: ../../user/search.rst:26
 msgid "``source:TEXT``"
-msgstr ""
+msgstr "``source:TEXT``"
 
 #: ../../user/search.rst:27
 msgid "Source string case-insensitive search."
@@ -41137,7 +41159,7 @@ msgstr ""
 
 #: ../../user/search.rst:28
 msgid "``target:TEXT``"
-msgstr ""
+msgstr "``target:TEXT``"
 
 #: ../../user/search.rst:29
 msgid "Target string case-insensitive search."
@@ -41145,7 +41167,7 @@ msgstr ""
 
 #: ../../user/search.rst:30
 msgid "``context:TEXT``"
-msgstr ""
+msgstr "``context:TEXT``"
 
 #: ../../user/search.rst:31
 msgid "Context string case-insensitive search."
@@ -41153,7 +41175,7 @@ msgstr ""
 
 #: ../../user/search.rst:32
 msgid "``key:TEXT``"
-msgstr ""
+msgstr "``key:TEXT``"
 
 #: ../../user/search.rst:33
 msgid "Key string case-insensitive search."
@@ -41161,7 +41183,7 @@ msgstr ""
 
 #: ../../user/search.rst:34
 msgid "``note:TEXT``"
-msgstr ""
+msgstr "``note:TEXT``"
 
 #: ../../user/search.rst:35
 msgid "Source string description case-insensitive search."
@@ -41171,7 +41193,7 @@ msgstr ""
 
 #: ../../user/search.rst:36
 msgid "``location:TEXT``"
-msgstr ""
+msgstr "``location:TEXT``"
 
 #: ../../user/search.rst:37
 msgid "Location string case-insensitive search."
@@ -41179,7 +41201,7 @@ msgstr ""
 
 #: ../../user/search.rst:38
 msgid "``priority:NUMBER``"
-msgstr ""
+msgstr "``priority:NUMMER``"
 
 #: ../../user/search.rst:39
 msgid "String priority."
@@ -41187,7 +41209,7 @@ msgstr ""
 
 #: ../../user/search.rst:40
 msgid "``added:DATETIME``"
-msgstr ""
+msgstr "``added:DATUMZEIT``"
 
 #: ../../user/search.rst:41
 msgid "Timestamp for when the string was added to Weblate."
@@ -41195,7 +41217,7 @@ msgstr ""
 
 #: ../../user/search.rst:42
 msgid "``state:TEXT``"
-msgstr ""
+msgstr "``state:TEXT``"
 
 #: ../../user/search.rst:43
 msgid ""
@@ -41213,7 +41235,7 @@ msgstr ""
 
 #: ../../user/search.rst:46
 msgid "``has:TEXT``"
-msgstr ""
+msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:47
 #, fuzzy
@@ -41230,7 +41252,7 @@ msgstr ""
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
-msgstr ""
+msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:49
 msgid ""
@@ -41241,7 +41263,7 @@ msgstr ""
 
 #: ../../user/search.rst:51
 msgid "``language:TEXT``"
-msgstr ""
+msgstr "``language:TEXT``"
 
 #: ../../user/search.rst:52
 msgid "String target language."
@@ -41249,7 +41271,7 @@ msgstr ""
 
 #: ../../user/search.rst:53
 msgid "``component:TEXT``"
-msgstr ""
+msgstr "``component:TEXT``"
 
 #: ../../user/search.rst:54
 #, fuzzy
@@ -41265,7 +41287,7 @@ msgstr ""
 
 #: ../../user/search.rst:55
 msgid "``project:TEXT``"
-msgstr ""
+msgstr "``project:TEXT``"
 
 #: ../../user/search.rst:56
 msgid "Project slug, see :ref:`project-slug`."
@@ -41273,7 +41295,7 @@ msgstr ""
 
 #: ../../user/search.rst:57
 msgid "``changed_by:TEXT``"
-msgstr ""
+msgstr "``changed_by:TEXT``"
 
 #: ../../user/search.rst:58
 msgid "String was changed by author with given username."
@@ -41281,7 +41303,7 @@ msgstr ""
 
 #: ../../user/search.rst:59
 msgid "``changed:DATETIME``"
-msgstr ""
+msgstr "``changed:DATUMZEIT``"
 
 #: ../../user/search.rst:60
 msgid "String content was changed on date, supports :ref:`search-operators`."
@@ -41289,7 +41311,7 @@ msgstr ""
 
 #: ../../user/search.rst:63
 msgid "``change_time:DATETIME``"
-msgstr ""
+msgstr "``change_time:DATUMZEIT``"
 
 #: ../../user/search.rst:62
 msgid ""
@@ -41300,7 +41322,7 @@ msgstr ""
 
 #: ../../user/search.rst:68
 msgid "``change_action:TEXT``"
-msgstr ""
+msgstr "``change_action:TEXT``"
 
 #: ../../user/search.rst:66
 msgid ""
@@ -41312,7 +41334,7 @@ msgstr ""
 
 #: ../../user/search.rst:70
 msgid "``check:TEXT``"
-msgstr ""
+msgstr "``check:TEXT``"
 
 #: ../../user/search.rst:71
 msgid ""
@@ -41321,7 +41343,7 @@ msgstr ""
 
 #: ../../user/search.rst:72
 msgid "``dismissed_check:TEXT``"
-msgstr ""
+msgstr "``dismissed_check:TEXT``"
 
 #: ../../user/search.rst:73
 msgid ""
@@ -41330,17 +41352,15 @@ msgstr ""
 
 #: ../../user/search.rst:74
 msgid "``comment:TEXT``"
-msgstr ""
+msgstr "``comment:TEXT``"
 
 #: ../../user/search.rst:75
 msgid "Search in user comments."
 msgstr ""
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "``resolved_comment:TEXT``"
-msgstr "Kommentar geklärt"
+msgstr "``resolved_comment:TEXT``"
 
 #: ../../user/search.rst:77
 msgid "Search in resolved comments."
@@ -41348,7 +41368,7 @@ msgstr "Suche in geklärten Kommentaren."
 
 #: ../../user/search.rst:78
 msgid "``comment_author:TEXT``"
-msgstr ""
+msgstr "``comment_author:TEXT``"
 
 #: ../../user/search.rst:79
 msgid "Filter by comment author."
@@ -41356,7 +41376,7 @@ msgstr ""
 
 #: ../../user/search.rst:80
 msgid "``suggestion:TEXT``"
-msgstr ""
+msgstr "``suggestion:TEXT``"
 
 #: ../../user/search.rst:81
 msgid "Search in suggestions."
@@ -41364,27 +41384,23 @@ msgstr ""
 
 #: ../../user/search.rst:82
 msgid "``suggestion_author:TEXT``"
-msgstr ""
+msgstr "``suggestion_author:TEXT``"
 
 #: ../../user/search.rst:83
 msgid "Filter by suggestion author."
 msgstr ""
 
 #: ../../user/search.rst:84
-#, fuzzy
-#| msgid "Explanation"
 msgid "``explanation:TEXT``"
-msgstr "Erläuterung"
+msgstr "``explanation:TEXT``"
 
 #: ../../user/search.rst:85
 msgid "Search in explanations."
 msgstr "Suche in Erklärungen."
 
 #: ../../user/search.rst:86
-#, fuzzy
-#| msgid "Explanation"
 msgid "``label:TEXT``"
-msgstr "Erläuterung"
+msgstr "``label:TEXT``"
 
 #: ../../user/search.rst:87
 #, fuzzy
@@ -41393,10 +41409,8 @@ msgid "Search in labels."
 msgstr "Suche in Erklärungen."
 
 #: ../../user/search.rst:89
-#, fuzzy
-#| msgid "Explanation"
 msgid "``screenshot:TEXT``"
-msgstr "Erläuterung"
+msgstr "``screenshot:TEXT``"
 
 #: ../../user/search.rst:89
 msgid "Search in screenshots."
