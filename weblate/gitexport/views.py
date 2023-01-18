@@ -135,7 +135,7 @@ def run_git_http(request, obj, path):
         try:
             raise Exception(f"Git http backend error: {output_err.splitlines()[0]}")
         except Exception:
-            report_error(cause="Git backend failure")
+            report_error(cause="Git backend failure", project=obj.project)
 
     # Handle failure
     if retcode:

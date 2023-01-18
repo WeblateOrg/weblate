@@ -33,6 +33,7 @@ def report_error(
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str = None,
+    project=None,
 ):
     """Wrapper for error reporting.
 
@@ -45,6 +46,8 @@ def report_error(
     if not skip_sentry and settings.SENTRY_DSN:
         with sentry_sdk.push_scope() as scope:
             scope.set_tag("cause", cause)
+            if project is not None:
+                scope.set_tag("project", project.slug)
             scope.set_tag("user.locale", get_language())
             scope.level = level
             sentry_sdk.capture_exception()

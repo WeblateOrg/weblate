@@ -293,6 +293,7 @@ def handle_machinery(request, service, unit, search=None):
         raise Http404("Invalid service specified")
 
     translation = unit.translation
+    component = translation.component
     if not request.user.has_perm("machinery.view", translation):
         raise PermissionDenied()
 
@@ -308,7 +309,7 @@ def handle_machinery(request, service, unit, search=None):
         "service": translation_service_class.name,
     }
 
-    machinery_settings = translation.component.project.get_machinery_settings()
+    machinery_settings = component.project.get_machinery_settings()
 
     try:
         translation_service = translation_service_class(machinery_settings[service])
@@ -323,7 +324,7 @@ def handle_machinery(request, service, unit, search=None):
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
         except Exception as error:
-            report_error()
+            report_error(project=component.project)
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:
