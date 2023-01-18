@@ -142,7 +142,10 @@ AUTH_PASSWORD_DAYS
 
 .. versionadded:: 2.15
 
-How many days using the same password should be allowed.
+How many days will Weblate reject reusing the same password.
+
+The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to be
+at least same as this.
 
 .. note::
 
