@@ -1739,6 +1739,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
         components = {}
 
+        if not translations:
+            return True
+
         # Validate template is valid
         if self.has_template():
             try:
