@@ -1399,7 +1399,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         pass
             return True
         except RepositoryException as error:
-            report_error(cause="Could not update the repository")
+            report_error(cause="Could not update the repository", project=self.project)
             error_text = self.error_text(error)
             if validate:
                 self.handle_update_error(error_text, retry)
@@ -1570,7 +1570,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 return True
             except RepositoryException as error:
                 error_text = self.error_text(error)
-                report_error(cause="Could not push the repo")
+                report_error(cause="Could not push the repo", project=self.project)
                 Change.objects.create(
                     action=Change.ACTION_FAILED_PUSH,
                     component=self,
@@ -1589,7 +1589,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                             self.repository.unshallow()
                             return self.push_repo(request, retry=False)
                         except RepositoryException:
-                            report_error(cause="Could not unshallow the repo")
+                            report_error(
+                                cause="Could not unshallow the repo",
+                                project=self.project,
+                            )
             messages.error(request, _("Could not push to remote branch on %s.") % self)
             self.add_alert("PushFailure", error=error_text)
             return False
@@ -1658,7 +1661,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.log_info("resetting to remote repo")
                 self.repository.reset()
             except RepositoryException:
-                report_error(cause="Could not reset the repository")
+                report_error(
+                    cause="Could not reset the repository", project=self.project
+                )
                 messages.error(
                     request,
                     _("Could not reset to remote branch on %s.") % self,
@@ -1689,7 +1694,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryException:
-                report_error(cause="Could not clean the repository")
+                report_error(
+                    cause="Could not clean the repository", project=self.project
+                )
                 messages.error(
                     request,
                     _("Could not clean the repository on %s.") % self,
@@ -1883,7 +1890,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 )
             except RepositoryException as error:
                 # Report error
-                report_error(cause=f"Failed {method}")
+                report_error(cause=f"Failed {method}", project=self.project)
 
                 # In case merge has failure recover
                 error = self.error_text(error)
@@ -2247,7 +2254,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     force, langs, request=request, from_link=True
                 )
             except FileParseError:
-                report_error(cause="Failed linked component update")
+                report_error(
+                    cause="Failed linked component update", project=self.project
+                )
                 continue
 
         # Run source checks on updated source strings
@@ -3040,7 +3049,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         try:
             return self.repository.count_missing()
         except RepositoryException as error:
-            report_error(cause="Could check merge needed")
+            report_error(cause="Could check merge needed", project=self.project)
             self.add_alert("MergeFailure", error=self.error_text(error))
             return 0
 
@@ -3052,7 +3061,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             if retry and "Host key verification failed" in error_text:
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
-            report_error(cause="Could check push needed")
+            report_error(cause="Could check push needed", project=self.project)
             self.add_alert("PushFailure", error=error_text)
             return 0
 
@@ -3147,7 +3156,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         try:
             return self.load_template_store()
         except Exception as error:
-            report_error(cause="Template parse error")
+            report_error(cause="Template parse error", project=self.project)
             self.handle_parse_error(error, filename=self.template)
 
     @cached_property

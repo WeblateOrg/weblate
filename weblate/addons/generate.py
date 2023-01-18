@@ -145,7 +145,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation = self.get_target_translation(component)
         except Translation.DoesNotExist:
             # Uninstall misconfigured add-on
-            report_error(cause="add-on error")
+            report_error(cause="add-on error", project=component.project)
             self.instance.disable()
             return
         self.generate_translation(

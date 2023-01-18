@@ -290,7 +290,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         except FileParseError:
             raise
         except Exception as exc:
-            report_error(cause="Translation parse error")
+            report_error(
+                cause="Translation parse error", project=self.component.project
+            )
             self.component.handle_parse_error(exc, self)
 
     def sync_unit(
@@ -349,7 +351,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         try:
             new_revision = self.get_git_blob_hash()
         except Exception as exc:
-            report_error(cause="Translation parse error")
+            report_error(
+                cause="Translation parse error", project=self.component.project
+            )
             self.component.handle_parse_error(exc, self)
         if not self.revision:
             self.reason = "new file"
@@ -467,7 +471,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
 
         except FileParseError as error:
-            report_error(cause="Failed to parse file on update")
+            report_error(
+                cause="Failed to parse file on update", project=self.component.project
+            )
             self.log_warning("skipping update due to parse error: %s", error)
             self.store_update_changes()
             return
@@ -588,14 +594,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         try:
             store = self.store
         except FileParseError as error:
-            report_error(cause="Failed to parse file on commit")
+            report_error(
+                cause="Failed to parse file on commit", project=self.component.project
+            )
             self.log_error("skipping commit due to error: %s", error)
             return False
 
         try:
             store.ensure_index()
         except ValueError as error:
-            report_error(cause="Failed to parse file on commit")
+            report_error(
+                cause="Failed to parse file on commit", project=self.component.project
+            )
             self.log_error("skipping commit due to error: %s", error)
             return False
 
@@ -723,7 +733,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     pounit, add = store.find_unit(unit.context, unit.source)
                 except UnitNotFound:
                     # Bail out if we have not found anything
-                    report_error(cause="String disappeared")
+                    report_error(
+                        cause="String disappeared", project=self.component.project
+                    )
                     self.log_error(
                         "string %s disappeared from the file, removing", unit
                     )
@@ -744,7 +756,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                         pounit.set_target(unit.target)
                 except Exception as error:
                     self.component.handle_parse_error(error, self, reraise=False)
-                    report_error(cause="Failed to update unit")
+                    report_error(
+                        cause="Failed to update unit", project=self.component.project
+                    )
                     continue
 
                 updated = True

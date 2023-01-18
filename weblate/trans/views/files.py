@@ -13,7 +13,7 @@ from django.views.decorators.http import require_POST
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatch
 from weblate.trans.forms import DownloadForm, get_upload_form
-from weblate.trans.models import ComponentList, Translation
+from weblate.trans.models import ComponentList, Project, Translation
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -35,7 +35,10 @@ def download_multi(translations, commit_objs, fmt=None, name="translations"):
         try:
             obj.commit_pending("download", None)
         except Exception:
-            report_error(cause="Download commit")
+            if isinstance(obj, Project):
+                report_error(cause="Download commit", project=obj)
+            else:
+                report_error(cause="Download commit", project=obj.project)
 
     for translation in translations:
         # Add translation files
@@ -195,13 +198,13 @@ def upload_translation(request, project, component, lang):
         )
     except FailedCommitError as error:
         messages.error(request, str(error))  # noqa: G200
-        report_error(cause="Upload error")
+        report_error(cause="Upload error", project=project)
     except Exception as error:
         messages.error(
             request,
             _("File upload has failed: %s")
             % str(error).replace(obj.component.full_path, ""),
         )
-        report_error(cause="Upload error")
+        report_error(cause="Upload error", project=project)
 
     return redirect(obj)

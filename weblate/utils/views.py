@@ -325,7 +325,7 @@ def download_translation_file(
         try:
             translation.commit_pending("download", None)
         except Exception:
-            report_error(cause="Download commit")
+            report_error(cause="Download commit", project=translation.component.project)
 
         filenames = translation.filenames
 

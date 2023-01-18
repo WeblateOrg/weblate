@@ -1030,7 +1030,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             try:
                 parse_query(query_string)
             except Exception as error:
-                report_error()
+                report_error(project=obj.component.project)
                 raise ValidationError({"q": f"Failed to parse query string: {error}"})
             try:
                 return download_translation_file(request, obj, fmt, query_string)
@@ -1075,7 +1075,9 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 }
             )
         except Exception as error:
-            report_error(cause="Upload error", print_tb=True)
+            report_error(
+                cause="Upload error", print_tb=True, project=obj.component.project
+            )
             raise ValidationError({"file": str(error)})
 
     @action(detail=True, methods=["get"])

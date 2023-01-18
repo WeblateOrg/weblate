@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from weblate.trans.models import Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -26,7 +27,12 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
             request,
             _("Failed to lock the repository, another operation is in progress."),
         )
-        report_error()
+        if isinstance(obj, Project):
+            report_error(project=obj)
+        elif isinstance(obj, Component):
+            report_error(project=obj.project)
+        else:
+            report_error(project=obj.component.project)
 
     return redirect_param(obj, "#repository")
 
