@@ -234,7 +234,7 @@ class AuditLogQuerySet(models.QuerySet):
             kwargs = {}
         return self.filter(user=user, activity=activity, **kwargs)
 
-    def get_password(self, user):
+    def get_past_passwords(self, user):
         """Get user activities with password change."""
         start = timezone.now() - datetime.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
