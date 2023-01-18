@@ -1739,6 +1739,19 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
         components = {}
 
+        # Validate template is valid
+        if self.has_template():
+            try:
+                self.template_store
+            except FileParseError as error:
+                report_error(
+                    cause="Failed to parse template file on commit",
+                    project=self.project,
+                )
+                self.log_error("skipping commit due to error: %s", error)
+                self.update_import_alerts(delete=False)
+                return False
+
         # Commit pending changes
         with self.repository.lock:
             for translation in translations:
