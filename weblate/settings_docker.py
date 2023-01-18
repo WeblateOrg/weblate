@@ -226,6 +226,10 @@ GITEA_CREDENTIALS = get_env_credentials("GITEA")
 # Please see the documentation for more details.
 PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
 
+# Bitbucket username and token for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETSERVER_CREDENTIALS = get_env_credentials("BITBUCKETSERVER")
+
 # Default pull request message.
 # Please see the documentation for more details.
 if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:

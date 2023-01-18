@@ -1462,3 +1462,126 @@ class PagureRepository(GitMergeRequestBase):
 
         if "id" not in response:
             raise RepositoryException(0, f"Pull request failed: {error_message}")
+
+
+class BitbucketServerRepository(GitMergeRequestBase):
+    name = gettext_lazy("Bitbucket Server pull request")
+    identifier = "bitbucketserver"
+    _version = None
+    API_TEMPLATE = "https://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
+    bb_fork: Dict = {}
+
+    def get_headers(self, credentials: Dict):
+        headers = super().get_headers(credentials)
+        headers["Authorization"] = f"Bearer {credentials['token']}"
+        return headers
+
+    def create_fork(self, credentials: Dict):
+        fork_url, owner, slug = self.get_api_url()
+        bb_fork, error_message = self.request("post", credentials, fork_url, json={})
+        self.bb_fork = bb_fork
+
+        # If fork already exists, get forks from origin and find the user's fork.
+        # Since Bitbucket uses projectKey which can be any string(that is not
+        # at all related to its name) we need to compare user's forks against
+        # remote.
+        if "This repository URL is already taken." in error_message:
+            page = 0
+            self.bb_fork = {}
+            forks_url = f'{credentials["url"]}/forks'
+            while True:
+                forks, error_message = self.request(
+                    "get", credentials, forks_url, params={"limit": 1000, "start": page}
+                )
+                if "values" in forks:
+                    for f in forks["values"]:
+                        fork_slug = f["origin"]["slug"]
+                        fork_project_key = f["origin"]["project"]["key"]
+                        if (
+                            fork_slug == slug
+                            and fork_project_key.upper() == owner.upper()
+                        ):
+                            self.bb_fork = f
+                            break
+
+                if self.bb_fork or forks["isLastPage"] or not forks["values"]:
+                    break
+
+                page += 1
+
+        remote_url = None
+        if "links" in self.bb_fork:
+            clone_urls = self.bb_fork["links"]["clone"]
+            for link in clone_urls:
+                if link["name"] == "ssh":
+                    remote_url = link["href"]
+
+        if not remote_url:
+            raise RepositoryException(
+                0, f"Failed to create or find bitbucket fork. {error_message}"
+            )
+
+        self.configure_fork_remote(remote_url, credentials["username"])
+
+    def get_default_reviewers(self, credentials: Dict, fork_branch: str):
+        target_repo, error_message = self.request(
+            "get", credentials, credentials["url"]
+        )
+        if "id" not in target_repo:
+            return []
+
+        url = credentials["url"].replace("/rest/api/", "/rest/default-reviewers/")
+        url = f"{url}/reviewers"
+        params = {
+            "targetRepoId": target_repo["id"],
+            "sourceRepoId": self.bb_fork["id"],
+            "targetRefId": self.branch,
+            "sourceRefId": fork_branch,
+        }
+        users, error_message = self.request("get", credentials, url, params=params)
+        if error_message or not users:
+            return []
+
+        reviewers = []
+        for user in users:
+            reviewers.append({"user": user})
+
+        return reviewers
+
+    def create_pull_request(
+        self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
+    ):
+        # Make sure there's always a fork reference
+        if not self.bb_fork:
+            self.create_fork(credentials)
+
+        pr_url = f'{credentials["url"]}/pull-requests'
+        title, description = self.get_merge_message()
+        request_body = {
+            "title": title,
+            "description": description,
+            "toRef": {
+                "id": f"refs/heads/{origin_branch}",
+                "repository": {
+                    "slug": credentials["slug"],
+                    "project": {
+                        "key": credentials["owner"].upper(),
+                    },
+                },
+            },
+            "fromRef": {
+                "id": f"refs/heads/{fork_branch}",
+                "repository": {
+                    "slug": self.bb_fork["slug"],
+                    "project": {"key": self.bb_fork["project"]["key"].upper()},
+                },
+            },
+            "reviewers": self.get_default_reviewers(credentials, fork_branch),
+        }
+
+        response, error_message = self.request(
+            "post", credentials, pr_url, json=request_body
+        )
+
+        if "id" not in response:
+            raise RepositoryException(0, f"Pull request failed: {error_message}")

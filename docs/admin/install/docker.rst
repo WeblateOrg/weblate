@@ -696,6 +696,15 @@ Generic settings
 
        :ref:`vcs-pagure`
 
+.. envvar:: WEBLATE_BITBUCKETSERVER_HOST
+
+    Configures Bitbucket Server pull-requests integration by changing
+    :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+    .. seealso::
+
+       :ref:`vcs-bitbucket-server`
+
 .. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
 
     Configures the default title and message for pull requests via API by changing

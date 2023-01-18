@@ -835,6 +835,29 @@ List for credentials for GitHub servers.
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
+.. setting:: BITBUCKETSERVER_CREDENTIALS
+
+BITBUCKETSERVER_CREDENTIALS
+---------------------------
+
+.. versionadded:: 4.16
+
+List for credentials for Bitbucket servers.
+
+.. code-block:: python
+
+    BITBUCKETSERVER_CREDENTIALS = {
+        "git.self-hosted.com": {
+            "username": "weblate",
+            "token": "http-access-token",
+        },
+    }
+
+.. seealso::
+
+   :ref:`vcs-bitbucket-server`,
+   `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
+
 .. setting:: GOOGLE_ANALYTICS_ID
 
 GOOGLE_ANALYTICS_ID
