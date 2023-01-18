@@ -5,6 +5,7 @@
 """Base code for machine translation services."""
 
 import random
+import re
 import time
 from hashlib import md5
 from itertools import chain
@@ -273,6 +274,11 @@ class MachineTranslation:
         """Escaping of the text with replacements."""
         return text
 
+    def make_re_placeholder(self, text: str):
+        """Convert placeholder into a regular expression."""
+        # Allow addditional space before ]
+        return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
+
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
         return f"[X{h_start}X]"
@@ -308,7 +314,7 @@ class MachineTranslation:
             for key in keys:
                 text = result[key]
                 for source, target in replacements.items():
-                    text = text.replace(source, target)
+                    text = re.sub(self.make_re_placeholder(source), target, text)
                 result[key] = self.unescape_text(text)
 
     def get_variants(self, language):

@@ -40,7 +40,7 @@ class DummyTranslation(MachineTranslation):
             }
         if source == "en" and text.strip() == "Hello, [X7X]!":
             yield {
-                "text": "Nazdar [X7X]!",
+                "text": "Nazdar [X7X ]!",
                 "quality": self.max_score,
                 "service": "Dummy",
                 "source": text,

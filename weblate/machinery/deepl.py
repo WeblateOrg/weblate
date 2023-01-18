@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import re
 from html import escape, unescape
 
 from django.conf import settings
@@ -117,3 +118,6 @@ class DeepLTranslation(MachineTranslation):
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
         return f'<x id="{h_start}"></x>'  # noqa: B028
+
+    def make_re_placeholder(self, text: str):
+        return re.escape(text)
