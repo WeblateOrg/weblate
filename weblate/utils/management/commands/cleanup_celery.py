@@ -29,7 +29,8 @@ class Command(BaseCommand):
         try:
             self.setup_schedule()
         except Exception as error:
-            self.stderr.write(f"Removing corrupted schedule file: {error!r}")
-            self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
-            self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + ".db")
-            self.setup_schedule()
+            if os.path.exists(settings.CELERY_BEAT_SCHEDULE_FILENAME):
+                self.stderr.write(f"Removing corrupted schedule file: {error!r}")
+                self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
+                self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + ".db")
+                self.setup_schedule()
