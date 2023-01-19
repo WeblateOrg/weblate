@@ -17,7 +17,7 @@ if [ "${1:-latest}" = migrations ] ; then
     # shellcheck disable=SC2046
     pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements.txt)
     # shellcheck disable=SC2046
-    pip install $(grep -E '^(psycopg2|mysqlclient)' requirements-optional.txt)
+    pip install $(grep -E '^(psycopg|mysqlclient)' requirements-optional.txt)
     # shellcheck disable=SC2046
     pip install $(grep -E '^coverage[>=<]' requirements-test.txt)
     pip install -r requirements.txt

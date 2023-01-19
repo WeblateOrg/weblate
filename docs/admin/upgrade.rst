@@ -405,6 +405,16 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.17 to 4.18
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3.
+* Dropped support for Python 3.7.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
