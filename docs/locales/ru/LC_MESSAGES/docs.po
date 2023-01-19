@@ -8,7 +8,7 @@
 # Vik <k3kelm4vw@mozmail.com>, 2022.
 # Coool (github.com/Coool) <coool@mail.lv>, 2022.
 # Evgeniy Khramov <thejenjagamertjg@gmail.com>, 2022.
-# Vin <k3kelm4vw@mozmail.com>, 2022.
+# Vin <k3kelm4vw@mozmail.com>, 2022, 2023.
 # Сергей Б <qwemtu@gmail.com>, 2022.
 # Темак <artemkotlubai@yandex.ru>, 2022.
 # S3aBreeze <S3aBreeze@users.noreply.hosted.weblate.org>, 2022.
@@ -18,17 +18,17 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-01-06 18:52+0000\n"
-"Last-Translator: Артём Котлубай <artemkotlubai@yandex.ru>\n"
+"PO-Revision-Date: 2023-01-19 13:45+0000\n"
+"Last-Translator: Vin <k3kelm4vw@mozmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -462,11 +462,11 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
-"Самые мощные возможности системы контроля доступа Weblate пока доступны "
-"только через :ref:`Django admin interface <admin-interface>`. Вы можете "
-"использовать его для управления разрешениями любого проекта. Вам не "
-"обязательно переключать на `Пользовательский` :ref:`access control <acl>`, "
-"чтобы использовать его. Однако для его использования у вас должны быть "
+"Самые мощные возможности системы контроля доступа Weblate доступны пока "
+"только через :ref:`интерфейс администратора Django <admin-interface>`. Вы "
+"можете использовать его для управления разрешениями любого проекта. Вам не "
+"обязательно переключать его на `Пользовательский` :ref:`контроль доступа "
+"<acl>`, чтобы применить его. Однако для его использования у вас должны быть "
 "привилегии суперпользователя."
 
 #: ../../admin/access.rst:207
@@ -519,7 +519,7 @@ msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
-"`Рецензенты` (если вы используете :ref:`review workflow <reviews>` с "
+"`Рецензенты` (если вы используете :ref:`процесс рецензирования <reviews>` с "
 "выделенными рецензентами)."
 
 #: ../../admin/access.rst:228
@@ -551,22 +551,16 @@ msgstr ""
 "управление снимками экрана всем `Пользователям`."
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid ""
-#| "You can define some new custom groups as well. If you want to keep "
-#| "managing your permissions site-wide for these groups, choose an "
-#| "appropriate value for the :guilabel:`Project selection` (e.g. :guilabel:"
-#| "`All projects` or :guilabel:`All public projects`)."
 msgid ""
 "You can define some new custom teams as well. If you want to keep managing "
 "your permissions site-wide for these teams, choose an appropriate value for "
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"Вы также можете определить некоторые новые пользовательские группы. Если вы "
-"хотите продолжать управлять сайтом разрешений для этих групп, выберите "
-"соответствующее значение для :guilabel:`Выбора проекта` (например, :guilabel:"
-"`Все проекты` или :guilabel:`Все публичные проекты`)."
+"Вы также можете определить некоторые новые пользовательские команды. Если вы "
+"хотите продолжать управлять всеми разрешениями на сайте для этих команд, "
+"выберите соответствующее значение для :guilabel:`Выбора проекта` (например, "
+":guilabel:`Все проекты` или :guilabel:`Все публичные проекты`)."
 
 #: ../../admin/access.rst:245
 msgid "Custom permissions for languages, components or projects"
@@ -615,19 +609,14 @@ msgstr ""
 "переводы на другие языки оставить открытыми, вам придётся сделать следующее:"
 
 #: ../../admin/access.rst:258
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
-"Снимите разрешение на перевод `чешского` со всех пользователей. В настройках "
-"по умолчанию это можно сделать, изменив `Пользователей` :ref:`default group "
-"<default-groups>`."
+"Отзовите разрешение на перевод `чешского` у всех пользователей. В настройках "
+"по умолчанию это можно сделать, изменив `Пользователей` :ref:`команды по "
+"умолчанию <default-teams>`."
 
 #: ../../admin/access.rst:262
 msgid "Group `Users`"
@@ -646,10 +635,8 @@ msgid "All but `Czech`"
 msgstr "Все, кроме `чешского`"
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid "Add a dedicated group for `Czech` translators."
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "Добавлена специальная группа для `чешских` переводчиков."
+msgstr "Добавите специальную команду для переводчиков на `чешский`."
 
 #: ../../admin/access.rst:274
 msgid "Group `Czech translators`"
@@ -677,12 +664,10 @@ msgid "`Czech`"
 msgstr "`Чешский`"
 
 #: ../../admin/access.rst:288
-#, fuzzy
-#| msgid "Add users you wish to give the permissions to into this group."
 msgid "Add users you wish to give the permissions to into this team."
 msgstr ""
 "Добавьте пользователей, которым вы хотите предоставить разрешения, в эту "
-"группу."
+"команду."
 
 #: ../../admin/access.rst:290
 msgid ""
@@ -695,10 +680,8 @@ msgstr ""
 "другому пользователю, если только не предоставите права суперпользователя."
 
 #: ../../admin/access.rst:297
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "Пользователи, роли, группы и разрешения"
+msgstr "Пользователи, роли, команды и разрешения"
 
 #: ../../admin/access.rst:299
 msgid "The authentication models consist of several objects:"
@@ -3303,10 +3286,8 @@ msgstr ""
 "надстройку :ref:`addon-weblate.cleanup.generic`."
 
 #: ../../admin/addons.rst:745
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Настройка вывода в YAML"
+msgstr "Настройка вывода XML"
 
 #: ../../admin/addons.rst:749
 #, fuzzy
@@ -9158,10 +9139,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1884
-#, fuzzy
-#| msgid "The default value is:"
 msgid "The default value is 10."
-msgstr "Значение по умолчанию:"
+msgstr "Значение по умолчанию — 10."
 
 #: ../../admin/config.rst:1889
 msgid "VCS_BACKENDS"
@@ -16121,20 +16100,16 @@ msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr ""
 
 #: ../../admin/languages.rst:214
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Стиль метаданных App Store"
+msgstr "Стиль метаданных App Store от Apple"
 
 #: ../../admin/languages.rst:215
 msgid "Style suitable for uploading metadata to Apple App Store."
 msgstr ""
 
 #: ../../admin/languages.rst:216
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Стиль метаданных App Store"
+msgstr "Стиль метаданных Google Play"
 
 #: ../../admin/languages.rst:217
 msgid "Style suitable for uploading metadata to Google Play Store."
@@ -40638,18 +40613,12 @@ msgid "`Stringsdict file`"
 msgstr "`Файл Stringsdict`"
 
 #: ../../formats.rst:1639
-#, fuzzy
-#| msgid ""
-#| ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
-#| "library/archive/documentation/MacOSX/Conceptual/BPInternational/"
-#| "StringsdictFileFormat/StringsdictFileFormat.html>`_"
 msgid ""
 ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
 "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 msgstr ""
-":ref:`apple`, `Формат файла Stringsdict <https://developer.apple.com/library/"
-"archive/documentation/MacOSX/Conceptual/BPInternational/"
-"StringsdictFileFormat/StringsdictFileFormat.html>`_"
+":ref:`apple`, `Формат файла Stringsdict <https://developer.apple.com/"
+"documentation/xcode/localizing-strings-that-contain-plurals>`_"
 
 #: ../../formats.rst:1646
 msgid "Fluent format"
