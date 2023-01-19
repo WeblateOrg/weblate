@@ -1031,7 +1031,7 @@ with (what is most often the) English strings.
 +--------------------------------+--------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                                              |
 +================================+==============================================================+
-| File mask                      | ``internal/translations/locales/*/mesages.gotext.json``      |
+| File mask                      | ``internal/translations/locales/*/messages.gotext.json``     |
 +--------------------------------+--------------------------------------------------------------+
 | Monolingual base language file | ``internal/translations/locales/en-GB/messages.gotext.json`` |
 +--------------------------------+--------------------------------------------------------------+
