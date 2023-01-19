@@ -33,7 +33,7 @@ check
 git checkout "$TAG"
 check
 # Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-virtualenv ".venv-$TAG"
+virtualenv --python python3.7 ".venv-$TAG"
 check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
@@ -47,7 +47,7 @@ pip install selenium==4.0.0a6.post2
 pip install importlib-metadata==4.12.0
 pip install -r requirements.txt
 # shellcheck disable=SC2046
-pip install $(grep -E '^(psycopg2|mysqlclient)' requirements-optional.txt)
+pip install $(grep -E '^(psycopg|mysqlclient)' requirements-optional.txt)
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check
