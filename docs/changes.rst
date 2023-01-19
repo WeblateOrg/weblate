@@ -1,7 +1,7 @@
 Weblate 4.15.1
 --------------
 
-Not yet released.
+Released on January 19th 2023.
 
 * Fixed suggestions from automatic translation.
 * Fixed add-on page crash in some corner cases.
