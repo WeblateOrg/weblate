@@ -5,6 +5,7 @@ Not yet released.
 
 * Format string checks now also detects duplicated formats.
 * Improved search performance for some specially formatted strings.
+* Celery beat is now stroring the tasks schedule in the database.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
 

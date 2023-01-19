@@ -28,9 +28,11 @@ else
     pip install --upgrade-strategy eager -U -r requirements-test.txt
     if [ ${1:-latest} = edge ] ; then
         # Install from git / pre-release
-        pip install --upgrade https://github.com/translate/translate/archive/master.zip
-        pip install --upgrade https://github.com/WeblateOrg/language-data/archive/main.zip
-        pip install --upgrade https://github.com/WeblateOrg/translation-finder/archive/main.zip
+        pip install --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
+        pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip
+        pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/translation-finder/archive/main.zip
+        # Needed for Django 4.2 support
+        pip install --no-deps --upgrade --force-reinstall https://github.com/celery/django-celery-beat/archive/main.zip
         pip install --upgrade --pre Django
     fi
 fi

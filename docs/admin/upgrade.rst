@@ -365,6 +365,17 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.15 to 4.16
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Celery beat is now stroring the tasks schedule in the database,
+  ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
+  changed for that.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3

@@ -11,6 +11,15 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
+from django_celery_beat.admin import (
+    ClockedSchedule,
+    ClockedScheduleAdmin,
+    CrontabSchedule,
+    IntervalSchedule,
+    PeriodicTask,
+    PeriodicTaskAdmin,
+    SolarSchedule,
+)
 from rest_framework.authtoken.admin import TokenAdmin
 from rest_framework.authtoken.models import Token
 from social_django.admin import AssociationOption, NonceOption, UserSocialAuthOption
@@ -159,6 +168,13 @@ class WeblateAdminSite(AdminSite):
 
         # Django REST Framework
         self.register(Token, TokenAdmin)
+
+        # Django Celery Beat
+        self.register(IntervalSchedule)
+        self.register(CrontabSchedule)
+        self.register(SolarSchedule)
+        self.register(ClockedSchedule, ClockedScheduleAdmin)
+        self.register(PeriodicTask, PeriodicTaskAdmin)
 
         # Simple SSO
         if "simple_sso.sso_server" in settings.INSTALLED_APPS:
