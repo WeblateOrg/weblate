@@ -267,6 +267,21 @@ You can pass additional arguments to :command:`borg create` when built-in backup
    :ref:`backup`,
    :doc:`borg:usage/create`
 
+.. setting:: CACHE_DIR
+
+CACHE_DIR
+---------
+
+.. versionadded:: 4.16
+
+Directory where Weblate stores cache files. Defaults to :file:`cache` subfolder
+in :setting:`DATA_DIR`.
+
+Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
+network filesystem.
+
+The Docker container uses a separate volume for this, see :ref:`docker-volume`.
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC
@@ -409,6 +424,10 @@ The following subdirectories usually exist:
     Celery scheduler data, see :ref:`celery`.
 :file:`fonts`:
     User-uploaded  fonts, see :ref:`fonts`.
+:file:`cache`
+    Various caches, can be placed elsewhere using :setting:`CACHE_DIR`.
+
+    The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 .. note::
 
@@ -426,7 +445,8 @@ Defaults to ``/home/weblate/data``, but it is expected to be configured.
 .. seealso::
 
     :ref:`file-permissions`,
-    :doc:`backup`
+    :doc:`backup`,
+    :setting:`CACHE_DIR`
 
 .. setting:: DATABASE_BACKUP
 

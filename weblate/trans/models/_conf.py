@@ -9,6 +9,9 @@ class WeblateConf(AppConf):
     # Data directory
     DATA_DIR = None
 
+    # Cache directory
+    CACHE_DIR = None
+
     # Akismet API key
     AKISMET_API_KEY = None
 
