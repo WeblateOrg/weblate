@@ -53,7 +53,9 @@ class ConfigurationError(models.Model):
     ignored = models.BooleanField(default=False, db_index=True)
 
     class Meta:
-        index_together = [("ignored", "timestamp")]
+        indexes = [
+            models.Index(fields=["ignored", "timestamp"]),
+        ]
         verbose_name = "Configuration error"
         verbose_name_plural = "Configuration errors"
 
