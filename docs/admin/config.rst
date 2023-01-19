@@ -420,8 +420,6 @@ The following subdirectories usually exist:
     Version control repositories for translations.
 :file:`backups`
     Daily backup data, please check :ref:`backup-dumps` for details.
-:file:`celery`
-    Celery scheduler data, see :ref:`celery`.
 :file:`fonts`:
     User-uploaded  fonts, see :ref:`fonts`.
 :file:`cache`

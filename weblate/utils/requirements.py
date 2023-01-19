@@ -41,6 +41,7 @@ REQUIRES = [
     "rapidfuzz",
     "openpyxl",
     "celery",
+    "django-celery-beat",
     "kombu",
     "translation-finder",
     "weblate-language-data",

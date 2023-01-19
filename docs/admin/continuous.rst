@@ -377,10 +377,11 @@ fulfilled:
    :ref:`addon-weblate.git.squash` add-on in that case.
 
 If you want to commit changes more frequently and without checking of age, you
-can schedule a regular task to perform a commit:
-
-.. literalinclude:: ../../weblate/examples/beat-settings.py
-    :language: python
+can schedule a regular task to perform a commit. This can be done using
+:guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired
+:guilabel:`Iterval` (for example 120 seconds). Then add new periodic task and
+choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with
+``{"hours": 0}`` as :guilabel:`Keyword Arguments` and desired interval.
 
 .. _processing:
 

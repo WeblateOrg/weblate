@@ -383,7 +383,6 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir("home"),
         data_dir("ssh"),
         data_dir("vcs"),
-        data_dir("celery"),
         data_dir("backups"),
         data_dir("fonts"),
         data_dir("cache", "fonts"),
