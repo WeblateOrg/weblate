@@ -50,7 +50,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-01-19 12:18+0000\n"
+"PO-Revision-Date: 2023-01-19 13:45+0000\n"
 "Last-Translator: Vin <k3kelm4vw@mozmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -94,8 +94,6 @@ msgid "Commit e-mail"
 msgstr "Адрес эл. почты для коммитов"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
 msgstr "Использовать адрес эл. почты учётной записи"
 
@@ -104,8 +102,6 @@ msgid "Public e-mail"
 msgstr "Общедоступная электронная почта"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
 msgstr "Не отображать адрес эл. почты публично"
 
@@ -1748,22 +1744,16 @@ msgstr ""
 "интеграции."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "Настройка вывода в YAML"
+msgstr "Настройка вывода XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"Позволяет подправить поведение вывода в YAML, например, длину строк и "
-"символы перевода строк."
+"Позволяет подправить поведение вывода XML, например, закрывающие теги вместо "
+"самозакрывающихся для одинарных тегов."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2250,10 +2240,9 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Повторная отправка приглашения по эл. почте пользователю"
 
 #: weblate/auth/forms.py:151
-#, fuzzy, python-format
-#| msgid "Changing of %s is prohibited for built-in groups."
+#, python-format
 msgid "Changing of %s is prohibited for built-in teams."
-msgstr "Изменение %s запрещено для встроенных групп."
+msgstr "Изменение %s запрещено для встроенных команд."
 
 #: weblate/auth/models.py:64
 #, python-format
@@ -2365,7 +2354,7 @@ msgstr "Администраторы команд"
 
 #: weblate/auth/models.py:151
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "Администратор может добавлять или удалять пользователей из команды."
 
 #: weblate/auth/models.py:309 weblate/utils/forms.py:24
 #: weblate/utils/validators.py:159
@@ -3544,10 +3533,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next JSON-файл v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next JSON-файл v3"
+msgstr "Файл JSON i18next v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3558,10 +3545,8 @@ msgid "ARB file"
 msgstr "Файл ARB"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "PO-файл gettext"
+msgstr "Файл JSON gotext"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -4658,16 +4643,12 @@ msgstr ""
 "электронный ящик."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Remove your account by clicking the confirmation link in the e-mail sent "
-#| "to you."
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Удалите свою учётную запись, нажав на ссылку подтверждения в отправленном "
-"вам электронном письме."
+"Удалите свою учётную запись, нажав на ссылку подтверждения, отправленную вам "
+"на электронную почту."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -4680,23 +4661,16 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Пожалуйста, проверьте папку со спамом, если вы не видите его во входящих."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] ""
-"Ссылка для подтверждения будет действительна в течение следующего %(count)s "
-"часа."
-msgstr[1] ""
-"Ссылка для подтверждения будет действительна в течение следующих %(count)s "
-"часов."
-msgstr[2] ""
-"Ссылка для подтверждения будет действительна в течение следующих %(count)s "
-"часов."
+msgstr[0] "Ссылка для подтверждения будет действительна в течение %(count)s часа."
+msgstr[1] "Ссылка для подтверждения будет действительна в течение %(count)s часов."
+msgstr[2] "Ссылка для подтверждения будет действительна в течение %(count)s часов."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
@@ -5014,10 +4988,8 @@ msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "Аватары предоставляются сервисом %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "Команды"
+msgstr "Команда"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/addons/discovery_help.html:10
@@ -5458,12 +5430,9 @@ msgid "Are you absolutely sure?"
 msgstr "Вы абсолютно уверены?"
 
 #: weblate/templates/accounts/user.html:304
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr ""
-"Это действие отнимет у пользователя <b>%(user)s</b> право доступа к данному "
-"проекту."
+msgstr "Это действие удалит пользователя <b>%(user)s</b> из Weblate."
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5772,10 +5741,8 @@ msgid "Last sign in"
 msgstr "Последний вход"
 
 #: weblate/templates/auth/team.html:93
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrator"
-msgstr "Администраторы"
+msgstr "Администратор команды"
 
 #: weblate/templates/auth/team.html:103
 #: weblate/templates/trans/project-access-row.html:25
@@ -5784,16 +5751,12 @@ msgid "Not yet signed in"
 msgstr "Ещё не вошли в систему"
 
 #: weblate/templates/auth/team.html:110
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Revoke administration"
-msgstr "Администрирование Weblate"
+msgstr "Отменить администрирование"
 
 #: weblate/templates/auth/team.html:115
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Администрирование Weblate"
+msgstr "Предоставить администрирование"
 
 #: weblate/templates/auth/team.html:118 weblate/templates/auth/team.html:119
 #: weblate/templates/auth/team.html:159
@@ -7807,16 +7770,12 @@ msgstr ""
 "адресную строку браузера, чтобы продолжить."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
-"Если ссылка для подтверждения истекла, то вы можете использоваться сброс "
-"пароля, чтобы восстановить доступ к своему аккаунту."
+"Если ссылка для подтверждения истекла, вы можете использоваться сброс "
+"пароля, чтобы восстановить доступ к своей учётной записи."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -10059,16 +10018,12 @@ msgid "Project to remove"
 msgstr "Удаляемый проект"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Для этого компонента установлено приложение добавления языков, которых не "
-"хватает. Удаленный язык может быть повторно добавлен этим приложением."
+"Для этого компонента установлена надстройка \"Добавление отсутствующих "
+"языков\". Удалённый язык может быть снова добавлен этой надстройкой."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -10112,10 +10067,10 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Объединить изменения Weblate и разрешить любые конфликты."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Объединить изменения Weblate и разрешить любые конфликты."
+msgstr ""
+"Внесите изменения Weblate поверх остальных в репозитории и разрешите любые "
+"конфликты."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10909,10 +10864,8 @@ msgid "Strings with variants"
 msgstr "Строки с вариантами"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Строки с комментариями"
+msgstr "Строки со снимками экрана"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10943,10 +10896,8 @@ msgid "Strings waiting for review"
 msgstr "Строки, ожидающие рецензирования"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Строки с комментариями"
+msgstr "Строки без снимков экрана"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -11245,7 +11196,7 @@ msgstr "Введите имя или эл. почту существующей �
 
 #: weblate/trans/forms.py:1169
 msgid "Allow user to add or remove users from a team."
-msgstr ""
+msgstr "Разрешить пользователю добавлять или удалять пользователей из команды."
 
 #: weblate/trans/forms.py:1181
 msgid "Block duration"
@@ -12140,16 +12091,12 @@ msgid "Android style"
 msgstr "Стиль Android"
 
 #: weblate/trans/models/component.py:130
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Стиль метаданных App Store"
+msgstr "Стиль метаданных App Store от Apple"
 
 #: weblate/trans/models/component.py:131
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Стиль метаданных App Store"
+msgstr "Стиль метаданных Google Play"
 
 #: weblate/trans/models/component.py:132
 msgid "Linux style"
@@ -12731,16 +12678,12 @@ msgid "The template for new translations is invalid."
 msgstr "Шаблон для новых переводов недействителен."
 
 #: weblate/trans/models/component.py:3232
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Указанный язык отфильтрован языковым фильтром."
+msgstr "Данный язык используется в качестве исходного языка."
 
 #: weblate/trans/models/component.py:3237
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Указанный язык отфильтрован языковым фильтром."
+msgstr "Данный язык уже существует."
 
 #: weblate/trans/models/component.py:3243
 msgid "The given language is filtered by the language filter."
@@ -13450,12 +13393,10 @@ msgid "Changes in %s"
 msgstr "Изменения в %s"
 
 #: weblate/trans/views/changes.py:69
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "Изменения в %s"
+msgstr "Изменения строки в %s"
 
 #: weblate/trans/views/changes.py:80
 #, python-format
@@ -13761,10 +13702,6 @@ msgid "Invalid settings. Please check the form for errors."
 msgstr "Неверные настройки. Пожалуйста, проверьте форму на ошибки."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
@@ -13773,28 +13710,20 @@ msgstr ""
 "пока не обновите его."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "Перевод был удалён."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
-msgstr "Компонент перевода запланирован для удаления."
+msgstr "Компонент перевода запланирован к удалению."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
-msgstr "Проект запланирован для удаления."
+msgstr "Проект запланирован к удалению."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Язык проекта был удалён."
+msgstr "Язык в проекте был удалён."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13802,11 +13731,8 @@ msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr "Не удаётся переименовать из-за нерешенной проблемы в настройках: %s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr ""
-"Было запущено резервное копирование, копия станет доступна в ближайшее время."
+msgstr "Запланировано резервное копирование. Скоро оно будет доступно."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -14078,10 +14004,8 @@ msgid "Syntax error in language aliases."
 msgstr "Синтаксическая ошибка в псевдонимах языка."
 
 #: weblate/utils/validators.py:233
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Это имя запрещено"
+msgstr "Этот URL-адрес запрещён"
 
 #: weblate/utils/views.py:119 weblate/utils/views.py:144
 msgid "Position and priority"
@@ -14104,10 +14028,8 @@ msgid "Number of failing checks"
 msgstr "Количество неудачных проверок"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Расположение исходной строки"
+msgstr "Расположение строки"
 
 #: weblate/utils/views.py:375
 #, python-format
