@@ -8,13 +8,14 @@
 # Luiz Carlos Lucasv <csversut@gmail.com>, 2022.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2022.
 # Claudio Filho F Filho <filhocf@gmail.com>, 2022.
+# Elizandro Baldin <ejbaldin@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2022-12-21 23:58+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2023-01-21 09:04+0000\n"
+"Last-Translator: Elizandro Baldin <ejbaldin@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.15.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -3135,14 +3136,10 @@ msgstr ""
 "tradução obsoletas."
 
 #: ../../admin/addons.rst:745
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
 msgstr "Personalizar saída YAML"
 
 #: ../../admin/addons.rst:749
-#, fuzzy
-#| msgid "``weblate.yaml.customize``"
 msgid "``weblate.xml.customize``"
 msgstr "``weblate.yaml.customize``"
 
@@ -3154,19 +3151,15 @@ msgstr "``ignore-xml-tags``"
 
 #: ../../admin/addons.rst:751
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Incluir tag de fechamento para tags XML em branco"
 
 #: ../../admin/addons.rst:755
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self- closing tags for empty tags."
 msgstr ""
-"Permite ajustar o comportamento de saída do YAML, por exemplo comprimento de "
-"linha e novas linhas."
+"Permite ajustar o comportamento da saída XML, por exemplo, fechar tags em "
+"vez de tags de fechamento automático para tags vazias."
 
 #: ../../admin/addons.rst:761
 msgid "Customize YAML output"
@@ -3881,7 +3874,7 @@ msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:158
 msgid "Google OAuth 2"
-msgstr "OAuth 2 do Google"
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:160
 msgid ""
@@ -8907,31 +8900,36 @@ msgstr ""
 
 #: ../../admin/config.rst:1873
 msgid "VCS_API_DELAY"
-msgstr ""
+msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1877
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgstr ""
+"Configura atraso mínimo em segundos entre chamadas de API de terceiros em "
+":ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-"
+"pagure`."
 
 #: ../../admin/config.rst:1880
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
+"Limitador de chamadas de API do Weblate para esses serviços para evitar "
+"sobrecarregá-los."
 
 #: ../../admin/config.rst:1882
 msgid ""
 "If you are being limited by secondary rate limiter at GitHub, increasing "
 "this might help."
 msgstr ""
+"Se você estiver sendo afetado pelo limitador de taxa secundário no GitHub, "
+"aumentar isso pode ajudar."
 
 #: ../../admin/config.rst:1884
-#, fuzzy
-#| msgid "The default value is:"
 msgid "The default value is 10."
-msgstr "O valor padrão é:"
+msgstr "O valor padrão é 10."
 
 #: ../../admin/config.rst:1889
 msgid "VCS_BACKENDS"
@@ -12528,12 +12526,6 @@ msgid "Migrating database"
 msgstr "Migrando banco de dados"
 
 #: ../../admin/install.rst:1561
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward one is to dump the "
-#| "database on one server and import it on the new one. Alternatively you "
-#| "can use replication in case your database supports it."
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -12541,16 +12533,15 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
-"Dependendo do backend do seu banco de dados, você pode ter várias opções "
-"para migrar o banco de dados. O mais simples é despejar o banco de dados em "
-"um servidor e importá-lo no novo. Alternativamente, você pode usar a "
-"replicação no caso de seu banco de dados ter suporte a isso."
+"Dependendo do back-end do seu banco de dados, você pode ter várias opções "
+"para migrar o banco de dados. A abordagem mais direta é usar ferramentas "
+"nativas de banco de dados, pois elas são geralmente as mais eficazes (por "
+"exemplo, :command:`mysqldump` ou :command:`pg_dump`). Como alternativa, você "
+"pode usar a replicação caso seu banco de dados suporte isso."
 
 #: ../../admin/install.rst:1569
-#, fuzzy
-#| msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgid "Migrating between databases described in :ref:`database-migration`."
-msgstr "Crie o banco de dados usado pelo Weblate, veja :ref:`database-setup`."
+msgstr "Migração entre bancos de dados descritos em :ref:`database-migration`."
 
 #: ../../admin/install.rst:1572
 msgid "Migrating VCS repositories"
@@ -15656,10 +15647,8 @@ msgid "Number of speakers"
 msgstr "Número de apresentadores"
 
 #: ../../admin/languages.rst:162
-#, fuzzy
-#| msgid "Number of people speaking this language."
 msgid "Number of worldwide speakers of this language."
-msgstr "Número de pessoas que falam esta língua."
+msgstr "Número de falantes deste idioma em todo o mundo."
 
 #: ../../admin/languages.rst:167 ../../devel/translations.rst:7
 msgid "Adding new translations"
@@ -16675,7 +16664,7 @@ msgstr "habilitado"
 
 #: ../../admin/machine.rst:403
 msgid "Enable machine translation"
-msgstr "Habilitar tradução de máquina"
+msgstr "Ativar tradução automática"
 
 #: ../../admin/machine.rst:406
 msgid "Machine translation service provided by SAP."
@@ -21596,6 +21585,8 @@ msgid ""
 "**Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in "
 "rest framework settings was changed."
 msgstr ""
+"**Alterado no 4.15.1:** O valor padrão para ``DEFAULT_PAGINATION_CLASS`` nas "
+"configurações do framework foi alterado."
 
 #: ../../admin/upgrade.rst:371
 msgid "Upgrading from Python 2 to Python 3"
@@ -23529,6 +23520,8 @@ msgid ""
 "Filter downloaded strings, see :ref:`search`, only applicable when "
 "conversion is in place (``format`` is specified)."
 msgstr ""
+"Filtre as strings baixadas, consulte :ref:`search`, aplicável somente quando "
+"a conversão estiver em vigor (``format`` estiver especificado)."
 
 #: ../../api.rst:1932
 msgid "Upload new file with translations."
@@ -24473,84 +24466,65 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.15.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.15.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Trigger automatic translation."
 msgid "Fixed suggestions from automatic translation."
-msgstr "Aciona a tradução automática."
+msgstr "Sugestões corrigidas da tradução automática."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed digest notifications in some corner cases."
 msgid "Fixed add-on page crash in some corner cases."
-msgstr "Corrigidas as notificações de resumo em alguns casos complexos."
+msgstr "Corrigida a falha da página de complemento em alguns casos específicos."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed saving glossary explanations in some cases."
 msgid "Fixed untranslating template for new translations in some cases."
-msgstr "Corrigido o salvamento das explicações do glossário em alguns casos."
+msgstr "Corrigido modelo sem tradução para novas traduções em alguns casos."
 
 #: ../../changes.rst:9
 msgid "Documented licensing using `REUSE 3.0 <https://reuse.software/>`_."
 msgstr ""
+"Licenciamento documentado usando `REUSE 3.0 <https://reuse.software/>`_."
 
 #: ../../changes.rst:10
 msgid "Fixed users pagination on team management."
-msgstr ""
+msgstr "Paginação fixa dos usuários na gestão da equipe."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved performance of translation stats."
 msgid "Improved performance of project creation and saving."
-msgstr "Melhorado o desempenho das estatísticas de tradução."
+msgstr "Melhorado o desempenho de criação e salvamento de projetos."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added support for JSON file format."
 msgid "Added support for gotext JSON files."
-msgstr "Adicionado suporte ao formato de arquivo JSON."
+msgstr "Adicionado suporte para arquivos JSON gotext."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added support for YAML files."
 msgid "Added support for i18next v4 files."
-msgstr "Adicionado suporte para arquivos YAML."
+msgstr "Adicionado suporte para arquivos i18next v4."
 
 #: ../../changes.rst:14
 msgid "Pagination in the API is now customizable."
-msgstr ""
+msgstr "A paginação na API agora é personalizável."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"milestone/90?closed=1>`__."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.15"
 msgstr "Weblate 4.15"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "Released on December 16th 2022."
-msgstr "Lançado em 16 de dezembro de 2021."
+msgstr "Lançado em 16 de dezembro de 2022."
 
 #: ../../changes.rst:23
 msgid "Added support for browsing changes for a individual string."
@@ -24647,17 +24621,12 @@ msgstr ""
 "da equipe."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Added a popup confirmation before deleting users"
 msgid "Added a popup confirmation before deleting users."
-msgstr "Adicionada um pop-up de confirmação antes de excluir usuários"
+msgstr "Adicionada um pop-up de confirmação antes de excluir usuários."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Added add-ons to customize translation workflows."
 msgid "Added add-on to customize XML output."
-msgstr ""
-"Adicionadas extensões para personalizar fluxos de trabalho de tradução."
+msgstr "Adicionado add-on para personalizar a saída XML."
 
 #: ../../changes.rst:44
 msgid ""
@@ -32047,16 +32016,12 @@ msgid "Leadership"
 msgstr "Liderança"
 
 #: ../../contributing/about.rst:31
-#, fuzzy
-#| msgid ""
-#| "This project is maintained by Michal Čihař, who can be reached at "
-#| "michal@cihar.com."
 msgid ""
 "This project is maintained by Michal Čihař, who can be reached at "
 "michal@weblate.org."
 msgstr ""
-"Este projeto é mantido por Michal Čihař, que pode ser alcançado em "
-"michal@cihar.com."
+"Este projeto é mantido por Michal Čihař, que pode ser contatado em "
+"michal@weblate.org."
 
 #: ../../contributing/about.rst:34
 msgid "Authors"
@@ -32914,7 +32879,7 @@ msgstr "MyExpenses.Mobi"
 
 #: ../../../BACKERS.rst:17
 msgid "Michael Totschnig"
-msgstr ""
+msgstr "Michael Totschnig"
 
 #: ../../../BACKERS.rst:19
 msgid ""
@@ -33212,23 +33177,17 @@ msgstr ""
 "também."
 
 #: ../../contributing/issues.rst:29
-#, fuzzy
-#| msgid ""
-#| "If you don't want to use HackerOne, for whatever reason, you can send the "
-#| "report by e-mail to michal@cihar.com. You can choose to encrypt it using "
-#| "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can "
-#| "also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you don't want to use HackerOne, for whatever reason, you can send the "
 "report by e-mail to michal@weblate.org. You can choose to encrypt it using "
 "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can "
 "also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
-"Se você não quiser usar o HackerOne, por qualquer motivo, você pode enviar o "
-"relatório por e-mail para michal@cihar.com. Você pode optar por criptografá-"
-"lo usando esta chave PGP `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 "
-"511D`. Você também pode obter a chave PGP em `Keybase <https://keybase.io/"
-"nijel>`_."
+"Se você não quiser usar o HackerOne, por qualquer motivo, pode enviar o "
+"relatório por e-mail para michal@weblate.org. Você pode optar por "
+"criptografá-lo usando esta chave PGP `3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 "
+"42B7 511D`. Você também pode obter a chave PGP em `Keybase <https://keybase."
+"io/nijel>`_."
 
 #: ../../contributing/issues.rst:36
 msgid ""
@@ -33268,12 +33227,12 @@ msgid ""
 "More detailed licensing information is available in the Weblate source code "
 "and follows `REUSE 3.0 specification <https://reuse.software/>`_."
 msgstr ""
+"Informações de licenciamento mais detalhadas estão disponíveis no código-"
+"fonte Weblate e seguem a especificação REUSE 3.0 <https://reuse.software/>`_."
 
 #: ../../../README.rst:72 ../../contributing/license.rst:7
-#, fuzzy
-#| msgid "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
 msgid "Copyright © Michal Čihař michal@weblate.org"
-msgstr "Copyright © 2012–2022 Michal Čihař michal@cihar.com"
+msgstr "Direitos autorais © Michal Čihař michal@weblate.org"
 
 #: ../../../README.rst:74 ../../contributing/license.rst:9
 msgid ""
@@ -38952,7 +38911,7 @@ msgstr ""
 
 #: ../../formats.rst:938
 msgid "Support for v4 variant of this format was added."
-msgstr ""
+msgstr "O suporte para a variante v4 deste formato foi adicionado."
 
 #: ../../formats.rst:940
 msgid ""
@@ -38973,28 +38932,20 @@ msgstr ""
 "arquivo base com (o que é mais frequentemente os) textos em inglês."
 
 #: ../../formats.rst:949
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
-#| "mostly compatible, with exception of how plurals are handled."
 msgid ""
 "Weblate supports the i18next JSON v3 and v4 variants. Please choose correct "
 "file format matching your environment."
 msgstr ""
-"Weblate tem suporte ao formato v3 de I18next de JSON. As variantes V2 e V1 "
-"são em sua maioria compatíveis, com exceção de como os plurais são tratados."
+"O Weblate suporta as variantes i18next JSON v3 e v4. Escolha o formato de "
+"arquivo correto que corresponda ao seu ambiente."
 
 #: ../../formats.rst:952
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
-#| "mostly compatible, with exception of how plurals are handled."
 msgid ""
 "The v2 and v1 variants are mostly compatible with v3, with exception of how "
 "plurals are handled."
 msgstr ""
-"Weblate tem suporte ao formato v3 de I18next de JSON. As variantes V2 e V1 "
-"são em sua maioria compatíveis, com exceção de como os plurais são tratados."
+"As variantes v2 e v1 são em sua maioria compatíveis com v3, com exceção de "
+"como os plurais são tratados."
 
 #: ../../formats.rst:963 ../../formats.rst:1001
 msgid "``langs/*.json``"
@@ -39005,8 +38956,6 @@ msgid "``langs/en.json``"
 msgstr "``langs/en.json``"
 
 #: ../../formats.rst:969
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "`i18next JSON file v3`"
 msgstr "Arquivo JSON i18next v3"
 
@@ -39055,56 +39004,40 @@ msgstr ""
 "`addon-weblate.cleanup.generic`,"
 
 #: ../../formats.rst:1021
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON files"
-msgstr "arquivo PO gettext"
+msgstr "arquivos gotext JSON"
 
 #: ../../formats.rst:1028
-#, fuzzy
-#| msgid ""
-#| "i18next translations are monolingual, so it is recommended to specify a "
-#| "base file with (what is most often the) English strings."
 msgid ""
 "gotext translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
-"As traduções i18next são monolíngues, por isso é recomendável especificar um "
-"arquivo base com (o que é mais frequentemente os) textos em inglês."
+"As traduções do gotext são monolíngues, por isso é recomendável especificar "
+"um arquivo base com (o que é mais comum) strings em inglês."
 
 #: ../../formats.rst:1034
-#, fuzzy
-#| msgid "``_locales/*/messages.json``"
 msgid "``internal/translations/locales/*/mesages.gotext.json``"
-msgstr "``_locales/*/messages.json``"
+msgstr "``internal/translations/locales/*/mesages.gotext.json``"
 
 #: ../../formats.rst:1036
-#, fuzzy
-#| msgid "``_locales/en/messages.json``"
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
-msgstr "``_locales/en/messages.json``"
+msgstr "``internal/translations/locales/en-GB/messages.gotext.json``"
 
 #: ../../formats.rst:1040
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "`gotext JSON file`"
-msgstr "arquivo PO gettext"
+msgstr "`arquivo JSON gotext `"
 
 #: ../../formats.rst:1045
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `i18next JSON Format <https://www.i18next.com/"
-#| "misc/json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate."
-#| "json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgid ""
 ":doc:`tt:formats/json`, `I18n in Go: Managing Translations <https://www."
 "alexedwards.net/blog/i18n-managing-translations>`_, :ref:`updating-target-"
 "files`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup."
 "generic`,"
 msgstr ""
-":doc:`tt:formats/json`, `JSON Format de i18next <https://www.i18next.com/"
-"misc/json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
-"customize`, :ref:`addon-weblate.cleanup.generic`"
+":doc:`tt:formats/json`, `I18n in Go: Gerenciando Traduções <https://www."
+"alexedwards.net/blog/i18n-managing-translations>`_, :ref:`updating-target-"
+"files` , :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup."
+"generic`,"
 
 #: ../../formats.rst:1054
 msgid "ARB File"
@@ -39784,18 +39717,12 @@ msgid "`Stringsdict file`"
 msgstr "`Arquivo Stringsdict`"
 
 #: ../../formats.rst:1639
-#, fuzzy
-#| msgid ""
-#| ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
-#| "library/archive/documentation/MacOSX/Conceptual/BPInternational/"
-#| "StringsdictFileFormat/StringsdictFileFormat.html>`_"
 msgid ""
 ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
 "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 msgstr ""
-":ref:`apple`, `Formato de Arquivo Stringsdict <https://developer.apple.com/"
-"library/archive/documentation/MacOSX/Conceptual/BPInternational/"
-"StringsdictFileFormat/StringsdictFileFormat.html>`_"
+"ref:`apple`, `Formato de arquivo Stringsdict <https://developer.apple.com/"
+"documentation/xcode/localizing-strings-that-contain-plurals>`_"
 
 #: ../../formats.rst:1646
 msgid "Fluent format"
@@ -39899,10 +39826,8 @@ msgid "CII Best Practices"
 msgstr "CII Best Practices"
 
 #: ../../../README.rst:-1
-#, fuzzy
-#| msgid "Status"
 msgid "REUSE status"
-msgstr "Status"
+msgstr "Status REUSE"
 
 #: ../../../README.rst:38
 msgid "Support"
@@ -39967,22 +39892,16 @@ msgstr ""
 "IRC instalado em seu computador."
 
 #: ../../../README.rst:79
-#, fuzzy
-#| msgid ""
-#| "This program is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#| "Public License for more details."
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
 "FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General Public License`_ for "
 "more details."
 msgstr ""
-"Este programa é distribuído na esperança de que ele seja útil, mas sem "
-"qualquer garantia; sem sequer a garantia implícita de COMERCIALIZAÇÃO ou "
-"ADEQUAÇÃO PARA UM PROPÓSITO ESPECÍFICO. Consulte a Licença Pública Geral GNU "
-"para obter mais detalhes."
+"Este programa é distribuído na esperança de que seja útil, mas SEM QUALQUER "
+"GARANTIA; mesmo sem a garantia implícita de COMERCIABILIDADE ou ADEQUAÇÃO "
+"PARA UM FIM ESPECÍFICO. Veja a `GNU General Public License`_ para mais "
+"detalhes."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
@@ -40027,16 +39946,16 @@ msgstr ""
 "conformidade com todas as leis e regulamentos aplicáveis."
 
 #: ../../legal.rst:13
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Licensing compliance"
-msgstr "Licenciando traduções"
+msgstr "Conformidade de licenciamento"
 
 #: ../../legal.rst:15
 msgid ""
 "Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant license "
 "specification."
 msgstr ""
+"O Weblate vem com especificação de licença compatível com `REUSE 3.0 "
+"<https://reuse.software/>`_."
 
 #: ../../legal.rst:19
 msgid "ITAR and other export controls"
