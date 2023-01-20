@@ -937,6 +937,12 @@ JSON i18next files
 
     Support for v4 variant of this format was added.
 
+.. hint::
+
+    In case you use plurals, it is recommended to use v4 as that aligned plural
+    handling with CLDR. Older versions have different plural rules for some
+    languages which are not correct.
+
 `i18next <https://www.i18next.com/>`_ is an internationalization framework
 written in and for JavaScript. Weblate supports its localization files with
 features such as plurals.
