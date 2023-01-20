@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-01-09 12:22+0000\n"
+"PO-Revision-Date: 2023-01-20 09:05+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.15.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -67,20 +67,16 @@ msgid "Commit e-mail"
 msgstr "İşleme e-postası"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "Hesap e-postasını kullan"
+msgstr "Hesap e-postası kullanılsın"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "Herkese açık e-posta"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
-msgstr "E-postayı açıkça gösterme"
+msgstr "E-posta herkese açık olarak görüntülenmesin"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -1319,7 +1315,7 @@ msgstr "Sekmeler"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "Boş XML kod imlerine kapanış kod imi eklensin"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1700,22 +1696,16 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Eklenti yüklendi. Lütfen bütünleştirme yönergelerini gözden geçirin."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "YAML çıktısı özelleştirilsin"
+msgstr "XML çıktısı özelleştirilsin"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
 msgstr ""
-"YAML çıktısında satır uzunluğu veya yeni satır gibi davranışların "
-"ayarlanmasını sağlar."
+"XML çıktısında boş kod imleri için otomatik kapatma kod imleri yerine "
+"kapatma kod imleri gibi davranışların ayarlanmasını sağlar."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3484,10 +3474,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next JSON dosyası v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next JSON dosyası v3"
+msgstr "i18next JSON dosyası v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3498,10 +3486,8 @@ msgid "ARB file"
 msgstr "ARB dosyası"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "gettext PO dosyası"
+msgstr "gotext JSON dosyası"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -9913,16 +9899,12 @@ msgid "Project to remove"
 msgstr "Silinecek proje"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
 msgstr ""
-"Eksik dilleri ekle eklentisi bu bileşende kurulu, kaldırılan dil bu onun "
-"tarafından yeniden eklenebilir."
+"Bu bileşende “Eksik diller ekleme” eklentisi kurulu. Kaldırılan dil bu "
+"eklenti tarafından yeniden eklenebilir."
 
 #: weblate/templates/trans/delete-translation.html:11
 #, python-format
@@ -9965,10 +9947,8 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "Weblate değişikliklerini birleştirin ve çakışmaları giderin."
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Weblate değişikliklerini birleştirin ve çakışmaları giderin."
+msgstr "Weblate değişikliklerini yukarı akıma aktarın ve çakışmaları giderin."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -10742,10 +10722,8 @@ msgid "Strings with variants"
 msgstr "Çeşitleri olan dizgeler"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "Yorum yapılmış dizgeler"
+msgstr "Ekran görüntüsü olan dizgeler"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10776,10 +10754,8 @@ msgid "Strings waiting for review"
 msgstr "Gözden geçirilmeyi bekleyen dizgeler"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "Yorum yapılmış dizgeler"
+msgstr "Ekran görüntüsü olmayan dizgeler"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -13535,46 +13511,32 @@ msgid "Settings saved"
 msgstr "Ayarlar kaydedildi"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "Ayarlar geçersiz. Lütfen formu hatalara karşı gözden geçirin!"
+msgstr "Ayarlar geçersiz. Lütfen formu hatalara karşı gözden geçirin."
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Depo güncel değil. Siz onu güncelleştirene kadar beklenen sonuçları "
-"alamayabilirsin."
+"Depo güncel değil. Siz güncelleştirene kadar beklenen sonuçları "
+"alamayabilirsiniz."
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "Çeviri silindi."
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
-msgstr "Çeviri bileşeninin silinmesi zamanlandı."
+msgstr "Çeviri bileşeni silinmek üzere zamanlandı."
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
-msgstr "Projenin silinmesi zamanlandı."
+msgstr "Proje silinmek üzere zamanlandı."
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Projenin dili silindi."
+msgstr "Projedeki bir dil silindi."
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -13584,10 +13546,8 @@ msgstr ""
 "%s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "Yedekleme tetiklendi, kısa süre sonra hazır olacak."
+msgstr "Yedekleme zamanlandı. Kısa süre sonra hazır olacak."
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -13879,10 +13839,8 @@ msgid "Number of failing checks"
 msgstr "Denetim hataları sayısı"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Kaynak dizge konumu"
+msgstr "Dizge konumu"
 
 #: weblate/utils/views.py:375
 #, python-format
