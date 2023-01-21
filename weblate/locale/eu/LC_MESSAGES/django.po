@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-01-21 09:04+0000\n"
+"PO-Revision-Date: 2023-01-22 09:18+0000\n"
 "Last-Translator: Aitor Salaberria <trslbrr@gmail.com>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/weblate/"
 "application/eu/>\n"
@@ -62,20 +62,16 @@ msgid "Commit e-mail"
 msgstr "Helbide-elektronikoa baieztatu"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Use account e-mail address"
-msgstr "Erabiltzaile-izena edo e-maila"
+msgstr "Kontuaren helbide-elektronikoa erabili"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
 msgstr "E-mail publikoa"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Do not publicly display e-mail address"
-msgstr "Sartu baliozko e-mail helbide bat."
+msgstr "Helbide-elektronikoa publikoki ez erakutsi"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -266,27 +262,21 @@ msgstr ""
 "jakinarazpen horiek baino ez ditu jasoko."
 
 #: weblate/accounts/forms.py:792
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Zaindutako proiektuetan itzulitako hizkuntzen jakinarazpen horiek bakarrik "
+"Soilik %(project)s-(e)n itzultzen dituzun hizkuntzen jakinarazpen hauek "
 "jasoko dituzu."
 
 #: weblate/accounts/forms.py:796
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Zaindutako proiektuetan itzulitako hizkuntzen jakinarazpen horiek bakarrik "
+"Soilik %(component)s-(e)n itzultzen dituzun hizkuntzen jakinarazpen hauek "
 "jasoko dituzu."
 
 #: weblate/accounts/forms.py:836 weblate/auth/models.py:305
@@ -297,39 +287,35 @@ msgstr "Erabiltzaile-izena"
 
 #: weblate/accounts/forms.py:838 weblate/auth/models.py:345
 msgid "Date joined"
-msgstr ""
+msgstr "Elkartze-data"
 
 #: weblate/accounts/forms.py:839
 msgid "Translations made"
-msgstr ""
+msgstr "Egindako itzulpenak"
 
 #: weblate/accounts/forms.py:840
 msgid "Suggestions made"
-msgstr ""
+msgstr "Egindako proposamenak"
 
 #: weblate/accounts/forms.py:841
-#, fuzzy
-#| msgid "Comments"
 msgid "Comments made"
-msgstr "Iruzkinak"
+msgstr "Egindako iruzkinak"
 
 #: weblate/accounts/forms.py:842
 msgid "Screenshots uploaded"
-msgstr ""
+msgstr "Igotako pantaila-argazkiak"
 
 #: weblate/accounts/forms.py:865
-#, fuzzy
-#| msgid "Watched translations"
 msgid "Chosen sorting is not supported."
-msgstr "Ikuskatutako itzulpenak"
+msgstr "Aukeratutako ordenatzeko modua ez da bateragarria."
 
 #: weblate/accounts/forms.py:877
 msgid "Add user to a group"
-msgstr ""
+msgstr "Erabiltzaile bat talde batera gehitu"
 
 #: weblate/accounts/forms.py:889
 msgid "Add group"
-msgstr ""
+msgstr "Talde bat gehitu"
 
 #: weblate/accounts/models.py:136
 msgid "Password changed."
@@ -338,17 +324,17 @@ msgstr "Pasahitza aldatu da."
 #: weblate/accounts/models.py:137
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Erabiltzaile-izena {old}-(e)tik {new}-(e)ra aldatu da."
 
 #: weblate/accounts/models.py:138
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "Helbide-elektronikoa {old}-(e)tik {new}-(e)ra aldatu da."
 
 #: weblate/accounts/models.py:139
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Izen osoa {old}-(e)tik {new}-(e)ra aldatu da."
 
 #: weblate/accounts/models.py:140
 msgid "Password reset requested."
@@ -359,114 +345,106 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Pasahitza berrezarri da, pasahitza desgaituta dago."
 
 #: weblate/accounts/models.py:142
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Saioa hasita {method} ({name}) erabiliz."
+msgstr "Saio-hasiera konfiguratua {method} ({name}) erabiliz."
 
 #: weblate/accounts/models.py:143
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Saioa hasita {method} ({name}) erabiliz."
+msgstr "Saio-hasiera ezabatua {method} ({name}) erabiliz."
 
 #: weblate/accounts/models.py:144
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Saioa hasita {method} ({name}) erabiliz."
 
 #: weblate/accounts/models.py:145
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Saioa hasita {method} ({name}) erabiliz."
+msgstr "Saioa gailu berri batetik hasita {method} ({name}) erabiliz."
 
 #: weblate/accounts/models.py:146
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Norbaitek zure posta elektronikoarekin erregistratzen saiatu da."
+msgstr "Norbait zure helbide-elektronikoarekin erregistratzen saiatu da."
 
 #: weblate/accounts/models.py:147
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Norbaitek zure helbide elektronikoa erabiliz erregistratzen saiatu da."
+msgstr "Norbait zure helbide-elektronikoa erabiliz erregistratzen saiatu da."
 
 #: weblate/accounts/models.py:148
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Saioa hasita {method} ({name}) erabiliz."
+msgstr "Ezin izan da saioa hasi {method} ({name}) erabiliz."
 
 #: weblate/accounts/models.py:149
 msgid "Account locked due to many failed sign in attempts."
 msgstr ""
+"Kontua blokeatua izan da saioa hasteko gehiegizko saiakera okerrengatik."
 
 #: weblate/accounts/models.py:150
 msgid "Account and all private data removed."
-msgstr ""
+msgstr "Kontua eta datu pribatu guztiak ezabatuak izan dira."
 
 #: weblate/accounts/models.py:151
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Zerbitzuaren baldintzen onespena {date}."
 
 #: weblate/accounts/models.py:152
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr ""
+msgstr "{username}-(e)k {site_title}-(e)ra gonbidatu zaitu."
 
 #: weblate/accounts/models.py:153
 msgid "Started trial period."
-msgstr ""
+msgstr "Probaldia hasi da."
 
 #: weblate/accounts/models.py:154
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Berresteko mezua {email} helbidera bidali da."
 
 #: weblate/accounts/models.py:156
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Sistemak beste erabiltzaileen itzulpenen egilea trazatzeko erabiltzaile bat "
+"sortu du."
 
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "{project} proiekturako sarrera blokeatu da"
 
 #: weblate/accounts/models.py:164
-#, fuzzy
-#| msgid "Current password"
 msgid "Configured password to sign in."
-msgstr "Oraingo pasahitza"
+msgstr "Saioa hasteko konfiguratutako pasahitza."
 
 #: weblate/accounts/models.py:165
-#, fuzzy
-#| msgid "You can now log in using password."
 msgid "Signed in using password."
-msgstr "Orain saioa hasi dezakezu pasahitza erabiliz."
+msgstr "Saioa pasahitza baten bidez hasi da."
 
 #: weblate/accounts/models.py:166
 msgid "Signed in using password from a new device."
-msgstr ""
+msgstr "Saioa gailu berri batetik eta pasahitza baten bidez hasi da."
 
 #: weblate/accounts/models.py:167
-#, fuzzy
-#| msgid "You can now log in using password."
 msgid "Could not sign in using password."
-msgstr "Orain saioa hasi dezakezu pasahitza erabiliz."
+msgstr "Ezin izan da saioa pasahitza bidez hasi."
 
 #: weblate/accounts/models.py:172
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Zure konturako sarrera berreskuratzeko, mesedez, zure pasahitza berrezar "
+"ezazu."
 
 #: weblate/accounts/models.py:174
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Hau desegoki iruditzen bazaizu, mesedez, proiektuko arduradunekin "
+"harremanetan jar zaitez."
 
 #: weblate/accounts/models.py:298 weblate/templates/accounts/profile.html:257
 #: weblate/templates/accounts/user.html:223
