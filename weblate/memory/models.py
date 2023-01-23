@@ -112,12 +112,12 @@ class MemoryManager(models.Manager):
             data = json.loads(force_str(content))
         except ValueError as error:
             report_error(cause="Failed to parse memory")
-            raise MemoryImportError(_("Failed to parse JSON file: {!s}").format(error))
+            raise MemoryImportError(_("Failed to parse JSON file: %s") % error)
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
             report_error(cause="Failed to validate memory")
-            raise MemoryImportError(_("Failed to parse JSON file: {!s}").format(error))
+            raise MemoryImportError(_("Failed to parse JSON file: %s") % error)
         found = 0
         lang_cache = {}
         for entry in data:
