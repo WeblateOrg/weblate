@@ -20,7 +20,7 @@ import requests
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
 
 from weblate.utils.data import data_dir
@@ -505,6 +505,17 @@ class GitRepository(Repository):
         # Strip action prefix we do not use
         for line in lines:
             yield from line.split("\t")[1:]
+
+    def status(self):
+        result = [super().status()]
+        cleanups = self.execute(["clean", "-f", "-d", "-n"], needs_lock=False)
+        if cleanups:
+            result.append("")
+            result.append(gettext("Possible cleanups:"))
+            result.append("")
+            result.append(cleanups)
+
+        return "\n".join(result)
 
 
 class GitWithGerritRepository(GitRepository):
