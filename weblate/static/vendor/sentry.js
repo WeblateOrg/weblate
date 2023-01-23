@@ -5694,7 +5694,7 @@ exports.prepareEvent = prepareEvent;
 },{"../scope.js":27,"@sentry/utils":42}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.32.0';
+const SDK_VERSION = '7.32.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
