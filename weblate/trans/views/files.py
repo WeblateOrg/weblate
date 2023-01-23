@@ -198,13 +198,13 @@ def upload_translation(request, project, component, lang):
         )
     except FailedCommitError as error:
         messages.error(request, str(error))  # noqa: G200
-        report_error(cause="Upload error", project=project)
+        report_error(cause="Upload error", project=obj.component.project)
     except Exception as error:
         messages.error(
             request,
             _("File upload has failed: %s")
             % str(error).replace(obj.component.full_path, ""),
         )
-        report_error(cause="Upload error", project=project)
+        report_error(cause="Upload error", project=obj.component.project)
 
     return redirect(obj)
