@@ -147,12 +147,24 @@ class LanguageQuerySet(models.QuerySet):
         ]
         if expanded_code:
             codes.append(expanded_code)
+
+        # Lookup in aliases
         for newcode in codes:
             if newcode in ALIASES:
-                newcode = ALIASES[newcode]
-                ret = self.try_get(code=newcode)
+                testcode = ALIASES[newcode]
+                ret = self.try_get(code=testcode)
                 if ret is not None:
                     return ret
+
+        # Alias language code only
+        for newcode in codes:
+            language, _sep, country = newcode.partition("_")
+            if country and language in ALIASES:
+                testcode = f"{ALIASES[language]}_{country}"
+                ret = self.fuzzy_get(code=testcode)
+                if ret is not None:
+                    return ret
+
         return None
 
     def fuzzy_get(self, code, strict=False):
