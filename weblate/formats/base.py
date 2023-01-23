@@ -295,6 +295,11 @@ class TranslationFormat:
             is_template=is_template,
         )
 
+    def _invalidate_units(self):
+        for key in ("all_units", "template_units", "_unit_index", "_template_index"):
+            if key in self.__dict__:
+                del self.__dict__[key]
+
     def check_valid(self):
         """Check store validity."""
         if not self.is_valid():
@@ -688,6 +693,7 @@ class TranslationFormat:
 
         if changed:
             self.save()
+        self._invalidate_units()
         return result
 
     def cleanup_blank(self) -> List[str]:
@@ -711,6 +717,7 @@ class TranslationFormat:
 
         if changed:
             self.save()
+        self._invalidate_units()
         return result
 
     def remove_unit(self, ttkit_unit) -> List[str]:
@@ -727,6 +734,7 @@ class TranslationFormat:
 
         if changed:
             self.save()
+        self._invalidate_units()
         return result
 
     @staticmethod
