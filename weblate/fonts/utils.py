@@ -76,6 +76,12 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
             <const>bold</const>
         </edit>
     </match>
+    <!--
+      Enable slight hinting for better sub-pixel rendering
+    -->
+    <match target="pattern">
+      <edit name="hintstyle" mode="append"><const>hintslight</const></edit>
+    </match>
 </fontconfig>
 """
 
