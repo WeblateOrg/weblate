@@ -65,7 +65,7 @@ class AutoFixTest(TestCase):
         )
         self.assertEqual(
             fix.fix_target(["<https://weblate.org>"], unit),
-            (["&lt;https://weblate.org&gt;"], True),
+            ([""], True),
         )
 
     def test_html_markdown(self):

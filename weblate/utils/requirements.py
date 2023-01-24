@@ -26,7 +26,7 @@ REQUIRES = [
     "translate-toolkit",
     "lxml",
     "Pillow",
-    "bleach",
+    "nh3",
     "python-dateutil",
     "social-auth-core",
     "social-auth-app-django",

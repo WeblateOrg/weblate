@@ -2,12 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import bleach
+import nh3
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.markup import MD_LINK
 from weblate.trans.autofixes.base import AutoFix
-from weblate.utils.html import extract_bleach
+from weblate.utils.html import extract_html_tags
 
 
 class BleachHTML(AutoFix):
@@ -37,7 +37,7 @@ class BleachHTML(AutoFix):
         if "md-text" in flags:
             target = MD_LINK.sub(handle_replace, target)
 
-        new_target = bleach.clean(target, **extract_bleach(source))
+        new_target = nh3.clean(target, link_rel=None, **extract_html_tags(source))
         for text, replace in replacements.items():
             new_target = new_target.replace(text, replace)
         return new_target, new_target != old_target

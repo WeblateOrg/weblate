@@ -1225,8 +1225,8 @@ autofixer which can automatically sanitize the markup.
 
 .. seealso::
 
-   The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
-   library developed by Mozilla.
+   The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/ammonia>`_
+   library.
 
 
 

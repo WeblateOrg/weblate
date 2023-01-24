@@ -21,8 +21,8 @@ class MarkupExtractor:
         self.found_attributes[tag].update(attrs.keys())
 
 
-def extract_bleach(text):
-    """Extract tags from text in a form suitable for bleach."""
+def extract_html_tags(text):
+    """Extract tags from text in a form suitable for HTML sanitization."""
     extractor = MarkupExtractor()
     parser = HTMLParser(collect_ids=False, target=extractor)
     parser.feed(text)
