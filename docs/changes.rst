@@ -3,6 +3,8 @@ Weblate 4.16
 
 Not yet released.
 
+* Format string checks now also detects duplicated formats.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
 
 Weblate 4.15.1

@@ -179,6 +179,26 @@ class PythonFormatCheckTest(CheckTestCase):
             "Following format strings are wrongly ordered: %d, %s",
         )
 
+    def test_duplicated_format(self):
+        self.assertEqual(
+            self.check.check_format(
+                "%(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                "%(classF)s %(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                False,
+                None,
+            ),
+            {"missing": [], "extra": ["(classF)s"]},
+        )
+        self.assertEqual(
+            self.check.check_format(
+                "%(test)s%(test)s%(test)s%(test)s",
+                "%(test)s%(test)s%(test)s",
+                False,
+                None,
+            ),
+            {"missing": ["(test)s"], "extra": []},
+        )
+
 
 class PHPFormatCheckTest(CheckTestCase):
     check = PHPFormatCheck()
@@ -337,8 +357,9 @@ class CFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.check_format("%s string", "%c string", False, None))
 
     def test_wrong_named_format(self):
-        self.assertTrue(
-            self.check.check_format("%10s string", "%20s string", False, None)
+        self.assertEqual(
+            self.check.check_format("%10s string", "%20s string", False, None),
+            {"missing": ["10s"], "extra": ["20s"]},
         )
 
     def test_reorder_format(self):
@@ -352,13 +373,14 @@ class CFormatCheckTest(CheckTestCase):
         )
 
     def test_ld_format(self):
-        self.assertFalse(
+        self.assertEqual(
             self.check.check_format(
                 "%ld bytes (free %ld bytes, used %ld bytes)",
                 "%l octets (%l octets libres, %l octets utilisés)",
                 True,
                 None,
-            )
+            ),
+            {"missing": ["ld", "ld", "ld"], "extra": ["l", "l", "l"]},
         )
 
     def test_parenthesis(self):
@@ -549,8 +571,9 @@ class CSharpFormatCheckTest(CheckTestCase):
         )
 
     def test_wrong_format(self):
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, None)
+        self.assertEqual(
+            self.check.check_format("{0} string", "{1} string", False, None),
+            {"missing": ["0"], "extra": ["1"]},
         )
 
     def test_missing_named_format_ignore(self):
@@ -560,8 +583,9 @@ class CSharpFormatCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_format("{{ 0 }}", "string", False, None))
 
     def test_wrong_attribute_format(self):
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, None)
+        self.assertEqual(
+            self.check.check_format("{0} string", "{1} string", False, None),
+            {"missing": ["0"], "extra": ["1"]},
         )
 
     def test_reordered_format(self):

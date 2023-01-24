@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from typing import Optional, Pattern
 
 from django.utils.functional import SimpleLazyObject
@@ -260,6 +260,7 @@ class BaseFormatCheck(TargetCheck):
 
     regexp: Optional[Pattern[str]] = None
     default_disabled = True
+    normalize_remove = None
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
@@ -313,7 +314,12 @@ class BaseFormatCheck(TargetCheck):
         return text
 
     def normalize(self, matches):
-        return matches
+        if self.normalize_remove is None:
+            return matches
+        if isinstance(matches, Counter):
+            matches.pop(self.normalize_remove, None)
+            return matches
+        return [m for m in matches if m != self.normalize_remove]
 
     def extract_matches(self, string):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
@@ -333,16 +339,12 @@ class BaseFormatCheck(TargetCheck):
         tgt_matches = self.extract_matches(target)
 
         if not uses_position:
-            src_matches = set(src_matches)
-            tgt_matches = set(tgt_matches)
+            src_matches = Counter(src_matches)
+            tgt_matches = Counter(tgt_matches)
 
         if src_matches != tgt_matches:
             # Ignore mismatch in percent position
             if self.normalize(src_matches) == self.normalize(tgt_matches):
-                return False
-            # We can ignore missing format strings
-            # for first of plurals
-            if ignore_missing and tgt_matches < src_matches:
                 return False
             if not uses_position:
                 missing = sorted(src_matches - tgt_matches)
@@ -356,6 +358,10 @@ class BaseFormatCheck(TargetCheck):
                         extra.append(tgt_matches[i])
                 missing.extend(src_matches[len(tgt_matches) :])
                 extra.extend(tgt_matches[len(src_matches) :])
+            # We can ignore missing format strings
+            # for first of plurals
+            if ignore_missing and missing and not extra:
+                return False
             return {"missing": missing, "extra": extra}
         return False
 
@@ -417,15 +423,14 @@ class BaseFormatCheck(TargetCheck):
 class BasePrintfCheck(BaseFormatCheck):
     """Base class for printf based format checks."""
 
+    normalize_remove = "%"
+
     def __init__(self):
         super().__init__()
         self.regexp, self._is_position_based = FLAG_RULES[self.enable_string]
 
     def is_position_based(self, string):
         return self._is_position_based(string)
-
-    def normalize(self, matches):
-        return [m for m in matches if m != "%"]
 
     def format_string(self, string):
         return f"%{string}"
@@ -500,9 +505,7 @@ class SchemeFormatCheck(BasePrintfCheck):
     check_id = "scheme_format"
     name = _("Scheme format")
     description = _("Scheme format string does not match source")
-
-    def normalize(self, matches):
-        return [m for m in matches if m != "~"]
+    normalize_remove = "~"
 
     def format_string(self, string):
         return f"~{string}"
