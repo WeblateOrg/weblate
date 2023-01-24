@@ -4,14 +4,14 @@
 
 import re
 
-import bleach
+import nh3
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.html import extract_bleach
+from weblate.utils.html import extract_html_tags
 from weblate.utils.xml import parse_xml
 
 BBCODE_MATCH = re.compile(
@@ -340,4 +340,4 @@ class SafeHTMLCheck(TargetCheck):
         if "md-text" in unit.all_flags:
             target = MD_LINK.sub("", target)
 
-        return bleach.clean(target, **extract_bleach(source)) != target
+        return nh3.clean(target, link_rel=None, **extract_html_tags(source)) != target
