@@ -6,7 +6,7 @@
 
 from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import PatternLookup
+from django.db.models.lookups import IContains, IExact, PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
@@ -47,13 +47,27 @@ def adjust_similarity_threshold(value: float):
             connection.weblate_similarity = value
 
 
-class PostgreSQLSearchLookup(PatternLookup):
+class PostgreSQLFallbackLookup(PatternLookup):
+    def __init__(self, lhs, rhs):
+        self.orig_lhs = lhs
+        self.orig_rhs = rhs
+        super().__init__(lhs, rhs)
+
+    def needs_fallback(self):
+        return isinstance(self.orig_rhs, str) and not any(
+            char.isalnum() for char in self.orig_rhs
+        )
+
+
+class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     lookup_name = "search"
     param_pattern = "%s"
 
-    def as_sql(self, qn, connection):
-        lhs, lhs_params = self.process_lhs(qn, connection)
-        rhs, rhs_params = self.process_rhs(qn, connection)
+    def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return IContains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return f"{lhs} %% {rhs} = true", params
 
@@ -68,7 +82,7 @@ class MySQLSearchLookup(models.Lookup):
         return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
-class PostgreSQLSubstringLookup(PatternLookup):
+class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
     """
     Case insensitive substring lookup.
 
@@ -79,6 +93,8 @@ class PostgreSQLSubstringLookup(PatternLookup):
     lookup_name = "substring"
 
     def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return IContains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
@@ -95,6 +111,11 @@ class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
 
     lookup_name = "ilike"
     param_pattern = "%s"
+
+    def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return IExact(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+        return super().as_sql(compiler, connection)
 
 
 def re_escape(pattern):
