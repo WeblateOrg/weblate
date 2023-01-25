@@ -5694,7 +5694,7 @@ exports.prepareEvent = prepareEvent;
 },{"../scope.js":27,"@sentry/utils":42}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.32.1';
+const SDK_VERSION = '7.33.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -5724,12 +5724,6 @@ const VISIBILITY_CHANGE_TIMEOUT = SESSION_IDLE_DURATION;
 
 // The maximum length of a session
 const MAX_SESSION_LIFE = 3600000; // 60 minutes
-
-/**
- * Defaults for sampling rates
- */
-const DEFAULT_SESSION_SAMPLE_RATE = 0.1;
-const DEFAULT_ERROR_SAMPLE_RATE = 1.0;
 
 /** The select to use for the `maskAllText` option  */
 const MASK_ALL_TEXT_SELECTOR = 'body *:not(style), body *:not(script)';
@@ -8991,458 +8985,6 @@ record.takeFullSnapshot = function (isCheckout) {
 };
 record.mirror = mirror;
 
-/**
- * Create a breadcrumb for a replay.
- */
-function createBreadcrumb(
-  breadcrumb,
-) {
-  return {
-    timestamp: new Date().getTime() / 1000,
-    type: 'default',
-    ...breadcrumb,
-  };
-}
-
-/**
- * An event handler to react to DOM events.
- */
-function handleDom(handlerData) {
-  // Taken from https://github.com/getsentry/sentry-javascript/blob/master/packages/browser/src/integrations/breadcrumbs.ts#L112
-  let target;
-  let targetNode;
-
-  // Accessing event.target can throw (see getsentry/raven-js#838, #768)
-  try {
-    targetNode = getTargetNode(handlerData);
-    target = utils.htmlTreeAsString(targetNode);
-  } catch (e) {
-    target = '<unknown>';
-  }
-
-  if (target.length === 0) {
-    return null;
-  }
-
-  return createBreadcrumb({
-    category: `ui.${handlerData.name}`,
-    message: target,
-    data: {
-      // Not sure why this errors, Node should be correct (Argument of type 'Node' is not assignable to parameter of type 'INode')
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...(targetNode ? { nodeId: record.mirror.getId(targetNode ) } : {}),
-    },
-  });
-}
-
-function getTargetNode(handlerData) {
-  if (isEventWithTarget(handlerData.event)) {
-    return handlerData.event.target;
-  }
-
-  return handlerData.event;
-}
-
-function isEventWithTarget(event) {
-  return !!(event ).target;
-}
-
-let _LAST_BREADCRUMB = null;
-
-/**
- * An event handler to handle scope changes.
- */
-function handleScope(scope) {
-  const newBreadcrumb = scope.getLastBreadcrumb();
-
-  // Listener can be called when breadcrumbs have not changed, so we store the
-  // reference to the last crumb and only return a crumb if it has changed
-  if (_LAST_BREADCRUMB === newBreadcrumb || !newBreadcrumb) {
-    return null;
-  }
-
-  _LAST_BREADCRUMB = newBreadcrumb;
-
-  if (
-    newBreadcrumb.category &&
-    (['fetch', 'xhr', 'sentry.event', 'sentry.transaction'].includes(newBreadcrumb.category) ||
-      newBreadcrumb.category.startsWith('ui.'))
-  ) {
-    return null;
-  }
-
-  return createBreadcrumb(newBreadcrumb);
-}
-
-/**
- * An event handler to react to breadcrumbs.
- */
-function breadcrumbHandler(type, handlerData) {
-  if (type === 'scope') {
-    return handleScope(handlerData );
-  }
-
-  return handleDom(handlerData );
-}
-
-/**
- * Add an event to the event buffer
- */
-async function addEvent(
-  replay,
-  event,
-  isCheckout,
-) {
-  if (!replay.eventBuffer) {
-    // This implies that `_isEnabled` is false
-    return null;
-  }
-
-  if (replay.isPaused()) {
-    // Do not add to event buffer when recording is paused
-    return null;
-  }
-
-  // TODO: sadness -- we will want to normalize timestamps to be in ms -
-  // requires coordination with frontend
-  const isMs = event.timestamp > 9999999999;
-  const timestampInMs = isMs ? event.timestamp : event.timestamp * 1000;
-
-  // Throw out events that happen more than 5 minutes ago. This can happen if
-  // page has been left open and idle for a long period of time and user
-  // comes back to trigger a new session. The performance entries rely on
-  // `performance.timeOrigin`, which is when the page first opened.
-  if (timestampInMs + SESSION_IDLE_DURATION < new Date().getTime()) {
-    return null;
-  }
-
-  // Only record earliest event if a new session was created, otherwise it
-  // shouldn't be relevant
-  const earliestEvent = replay.getContext().earliestEvent;
-  if (replay.session && replay.session.segmentId === 0 && (!earliestEvent || timestampInMs < earliestEvent)) {
-    replay.getContext().earliestEvent = timestampInMs;
-  }
-
-  return replay.eventBuffer.addEvent(event, isCheckout);
-}
-
-/**
- * Create a "span" for each performance entry. The parent transaction is `this.replayEvent`.
- */
-function createPerformanceSpans(
-  replay,
-  entries,
-) {
-  return entries.map(({ type, start, end, name, data }) =>
-    addEvent(replay, {
-      type: EventType.Custom,
-      timestamp: start,
-      data: {
-        tag: 'performanceSpan',
-        payload: {
-          op: type,
-          description: name,
-          startTimestamp: start,
-          endTimestamp: end,
-          data,
-        },
-      },
-    }),
-  );
-}
-
-/**
- * Check whether a given request URL should be filtered out.
- */
-function shouldFilterRequest(replay, url) {
-  // If we enabled the `traceInternals` experiment, we want to trace everything
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
-    return false;
-  }
-
-  return !_isSentryRequest(url);
-}
-
-/**
- * Checks wether a given URL belongs to the configured Sentry DSN.
- */
-function _isSentryRequest(url) {
-  const client = core.getCurrentHub().getClient();
-  const dsn = client && client.getDsn();
-  return dsn ? url.includes(dsn.host) : false;
-}
-
-/** only exported for tests */
-function handleFetch(handlerData) {
-  if (!handlerData.endTimestamp) {
-    return null;
-  }
-
-  const { startTimestamp, endTimestamp, fetchData, response } = handlerData;
-
-  return {
-    type: 'resource.fetch',
-    start: startTimestamp / 1000,
-    end: endTimestamp / 1000,
-    name: fetchData.url,
-    data: {
-      method: fetchData.method,
-      statusCode: response.status,
-    },
-  };
-}
-
-/**
- * Returns a listener to be added to `addInstrumentationHandler('fetch', listener)`.
- */
-function handleFetchSpanListener(replay) {
-  return (handlerData) => {
-    if (!replay.isEnabled()) {
-      return;
-    }
-
-    const result = handleFetch(handlerData);
-
-    if (result === null) {
-      return;
-    }
-
-    if (shouldFilterRequest(replay, result.name)) {
-      return;
-    }
-
-    replay.addUpdate(() => {
-      createPerformanceSpans(replay, [result]);
-      // Returning true will cause `addUpdate` to not flush
-      // We do not want network requests to cause a flush. This will prevent
-      // recurring/polling requests from keeping the replay session alive.
-      return true;
-    });
-  };
-}
-
-/**
- * Returns true if we think the given event is an error originating inside of rrweb.
- */
-function isRrwebError(event) {
-  if (event.type || !event.exception || !event.exception.values || !event.exception.values.length) {
-    return false;
-  }
-
-  // Check if any exception originates from rrweb
-  return event.exception.values.some(exception => {
-    if (!exception.stacktrace || !exception.stacktrace.frames || !exception.stacktrace.frames.length) {
-      return false;
-    }
-
-    return exception.stacktrace.frames.some(frame => frame.filename && frame.filename.includes('/rrweb/src/'));
-  });
-}
-
-/**
- * Returns a listener to be added to `addGlobalEventProcessor(listener)`.
- */
-function handleGlobalEventListener(replay) {
-  return (event) => {
-    // Do not apply replayId to the root event
-    if (event.type === REPLAY_EVENT_NAME) {
-      // Replays have separate set of breadcrumbs, do not include breadcrumbs
-      // from core SDK
-      delete event.breadcrumbs;
-      return event;
-    }
-
-    // Unless `captureExceptions` is enabled, we want to ignore errors coming from rrweb
-    // As there can be a bunch of stuff going wrong in internals there, that we don't want to bubble up to users
-    if (isRrwebError(event) && !replay.getOptions()._experiments.captureExceptions) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
-      return null;
-    }
-
-    // Only tag transactions with replayId if not waiting for an error
-    // @ts-ignore private
-    if (!event.type || replay.recordingMode === 'session') {
-      event.tags = { ...event.tags, replayId: replay.getSessionId() };
-    }
-
-    // Collect traceIds in _context regardless of `recordingMode` - if it's true,
-    // _context gets cleared on every checkout
-    if (event.type === 'transaction' && event.contexts && event.contexts.trace && event.contexts.trace.trace_id) {
-      replay.getContext().traceIds.add(event.contexts.trace.trace_id );
-      return event;
-    }
-
-    // no event type means error
-    if (!event.type) {
-      replay.getContext().errorIds.add(event.event_id );
-    }
-
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
-      const exc = getEventExceptionValues(event);
-      addInternalBreadcrumb({
-        message: `Tagging event (${event.event_id}) - ${event.message} - ${exc.type}: ${exc.value}`,
-      });
-    }
-
-    // Need to be very careful that this does not cause an infinite loop
-    if (
-      replay.recordingMode === 'error' &&
-      event.exception &&
-      event.message !== UNABLE_TO_SEND_REPLAY // ignore this error because otherwise we could loop indefinitely with trying to capture replay and failing
-    ) {
-      setTimeout(async () => {
-        // Allow flush to complete before resuming as a session recording, otherwise
-        // the checkout from `startRecording` may be included in the payload.
-        // Prefer to keep the error replay as a separate (and smaller) segment
-        // than the session replay.
-        await replay.flushImmediate();
-
-        if (replay.stopRecording()) {
-          // Reset all "capture on error" configuration before
-          // starting a new recording
-          replay.recordingMode = 'session';
-          replay.startRecording();
-        }
-      });
-    }
-
-    return event;
-  };
-}
-
-function addInternalBreadcrumb(arg) {
-  const { category, level, message, ...rest } = arg;
-
-  core.addBreadcrumb({
-    category: category || 'console',
-    level: level || 'debug',
-    message: `[debug]: ${message}`,
-    ...rest,
-  });
-}
-
-function getEventExceptionValues(event) {
-  return {
-    type: 'Unknown',
-    value: 'n/a',
-    ...(event.exception && event.exception.values && event.exception.values[0]),
-  };
-}
-
-function handleHistory(handlerData) {
-  const { from, to } = handlerData;
-
-  const now = new Date().getTime() / 1000;
-
-  return {
-    type: 'navigation.push',
-    start: now,
-    end: now,
-    name: to,
-    data: {
-      previous: from,
-    },
-  };
-}
-
-/**
- * Returns a listener to be added to `addInstrumentationHandler('history', listener)`.
- */
-function handleHistorySpanListener(replay) {
-  return (handlerData) => {
-    if (!replay.isEnabled()) {
-      return;
-    }
-
-    const result = handleHistory(handlerData);
-
-    if (result === null) {
-      return;
-    }
-
-    // Need to collect visited URLs
-    replay.getContext().urls.push(result.name);
-    replay.triggerUserActivity();
-
-    replay.addUpdate(() => {
-      createPerformanceSpans(replay, [result]);
-      // Returning false to flush
-      return false;
-    });
-  };
-}
-
-// From sentry-javascript
-// e.g. https://github.com/getsentry/sentry-javascript/blob/c7fc025bf9fa8c073fdb56351808ce53909fbe45/packages/utils/src/instrument.ts#L180
-
-function handleXhr(handlerData) {
-  if (handlerData.xhr.__sentry_own_request__) {
-    // Taken from sentry-javascript
-    // Only capture non-sentry requests
-    return null;
-  }
-
-  if (handlerData.startTimestamp) {
-    // TODO: See if this is still needed
-    handlerData.xhr.__sentry_xhr__ = handlerData.xhr.__sentry_xhr__ || {};
-    handlerData.xhr.__sentry_xhr__.startTimestamp = handlerData.startTimestamp;
-  }
-
-  if (!handlerData.endTimestamp) {
-    return null;
-  }
-
-  const { method, url, status_code: statusCode } = handlerData.xhr.__sentry_xhr__ || {};
-
-  if (url === undefined) {
-    return null;
-  }
-
-  const timestamp = handlerData.xhr.__sentry_xhr__
-    ? handlerData.xhr.__sentry_xhr__.startTimestamp || 0
-    : handlerData.endTimestamp;
-
-  return {
-    type: 'resource.xhr',
-    name: url,
-    start: timestamp / 1000,
-    end: handlerData.endTimestamp / 1000,
-    data: {
-      method,
-      statusCode,
-    },
-  };
-}
-
-/**
- * Returns a listener to be added to `addInstrumentationHandler('xhr', listener)`.
- */
-function handleXhrSpanListener(replay) {
-  return (handlerData) => {
-    if (!replay.isEnabled()) {
-      return;
-    }
-
-    const result = handleXhr(handlerData);
-
-    if (result === null) {
-      return;
-    }
-
-    if (shouldFilterRequest(replay, result.name)) {
-      return;
-    }
-
-    replay.addUpdate(() => {
-      createPerformanceSpans(replay, [result]);
-      // Returning true will cause `addUpdate` to not flush
-      // We do not want network requests to cause a flush. This will prevent
-      // recurring/polling requests from keeping the replay session alive.
-      return true;
-    });
-  };
-}
-
 const NAVIGATION_ENTRY_KEYS = [
   'name',
   'type',
@@ -10075,6 +9617,529 @@ function getSession({
 }
 
 /**
+ * Add an event to the event buffer
+ */
+async function addEvent(
+  replay,
+  event,
+  isCheckout,
+) {
+  if (!replay.eventBuffer) {
+    // This implies that `_isEnabled` is false
+    return null;
+  }
+
+  if (replay.isPaused()) {
+    // Do not add to event buffer when recording is paused
+    return null;
+  }
+
+  // TODO: sadness -- we will want to normalize timestamps to be in ms -
+  // requires coordination with frontend
+  const isMs = event.timestamp > 9999999999;
+  const timestampInMs = isMs ? event.timestamp : event.timestamp * 1000;
+
+  // Throw out events that happen more than 5 minutes ago. This can happen if
+  // page has been left open and idle for a long period of time and user
+  // comes back to trigger a new session. The performance entries rely on
+  // `performance.timeOrigin`, which is when the page first opened.
+  if (timestampInMs + SESSION_IDLE_DURATION < new Date().getTime()) {
+    return null;
+  }
+
+  // Only record earliest event if a new session was created, otherwise it
+  // shouldn't be relevant
+  const earliestEvent = replay.getContext().earliestEvent;
+  if (replay.session && replay.session.segmentId === 0 && (!earliestEvent || timestampInMs < earliestEvent)) {
+    replay.getContext().earliestEvent = timestampInMs;
+  }
+
+  return replay.eventBuffer.addEvent(event, isCheckout);
+}
+
+/**
+ * Create a breadcrumb for a replay.
+ */
+function createBreadcrumb(
+  breadcrumb,
+) {
+  return {
+    timestamp: new Date().getTime() / 1000,
+    type: 'default',
+    ...breadcrumb,
+  };
+}
+
+/**
+ * Add a breadcrumb event to replay.
+ */
+function addBreadcrumbEvent(replay, breadcrumb) {
+  if (breadcrumb.category === 'sentry.transaction') {
+    return;
+  }
+
+  if (breadcrumb.category === 'ui.click') {
+    replay.triggerUserActivity();
+  } else {
+    replay.checkAndHandleExpiredSession();
+  }
+
+  replay.addUpdate(() => {
+    void addEvent(replay, {
+      type: EventType.Custom,
+      // TODO: We were converting from ms to seconds for breadcrumbs, spans,
+      // but maybe we should just keep them as milliseconds
+      timestamp: (breadcrumb.timestamp || 0) * 1000,
+      data: {
+        tag: 'breadcrumb',
+        payload: breadcrumb,
+      },
+    });
+
+    // Do not flush after console log messages
+    return breadcrumb.category === 'console';
+  });
+}
+
+const handleDomListener =
+  (replay) =>
+  (handlerData) => {
+    if (!replay.isEnabled()) {
+      return;
+    }
+
+    const result = handleDom(handlerData);
+
+    if (!result) {
+      return;
+    }
+
+    addBreadcrumbEvent(replay, result);
+  };
+
+/**
+ * An event handler to react to DOM events.
+ */
+function handleDom(handlerData) {
+  // Taken from https://github.com/getsentry/sentry-javascript/blob/master/packages/browser/src/integrations/breadcrumbs.ts#L112
+  let target;
+  let targetNode;
+
+  // Accessing event.target can throw (see getsentry/raven-js#838, #768)
+  try {
+    targetNode = getTargetNode(handlerData);
+    target = utils.htmlTreeAsString(targetNode);
+  } catch (e) {
+    target = '<unknown>';
+  }
+
+  if (target.length === 0) {
+    return null;
+  }
+
+  return createBreadcrumb({
+    category: `ui.${handlerData.name}`,
+    message: target,
+    data: {
+      // Not sure why this errors, Node should be correct (Argument of type 'Node' is not assignable to parameter of type 'INode')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...(targetNode ? { nodeId: record.mirror.getId(targetNode ) } : {}),
+    },
+  });
+}
+
+function getTargetNode(handlerData) {
+  if (isEventWithTarget(handlerData.event)) {
+    return handlerData.event.target;
+  }
+
+  return handlerData.event;
+}
+
+function isEventWithTarget(event) {
+  return !!(event ).target;
+}
+
+/**
+ * Create a "span" for each performance entry. The parent transaction is `this.replayEvent`.
+ */
+function createPerformanceSpans(
+  replay,
+  entries,
+) {
+  return entries.map(({ type, start, end, name, data }) =>
+    addEvent(replay, {
+      type: EventType.Custom,
+      timestamp: start,
+      data: {
+        tag: 'performanceSpan',
+        payload: {
+          op: type,
+          description: name,
+          startTimestamp: start,
+          endTimestamp: end,
+          data,
+        },
+      },
+    }),
+  );
+}
+
+/**
+ * Check whether a given request URL should be filtered out.
+ */
+function shouldFilterRequest(replay, url) {
+  // If we enabled the `traceInternals` experiment, we want to trace everything
+  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
+    return false;
+  }
+
+  return !_isSentryRequest(url);
+}
+
+/**
+ * Checks wether a given URL belongs to the configured Sentry DSN.
+ */
+function _isSentryRequest(url) {
+  const client = core.getCurrentHub().getClient();
+  const dsn = client && client.getDsn();
+  return dsn ? url.includes(dsn.host) : false;
+}
+
+/** only exported for tests */
+function handleFetch(handlerData) {
+  if (!handlerData.endTimestamp) {
+    return null;
+  }
+
+  const { startTimestamp, endTimestamp, fetchData, response } = handlerData;
+
+  return {
+    type: 'resource.fetch',
+    start: startTimestamp / 1000,
+    end: endTimestamp / 1000,
+    name: fetchData.url,
+    data: {
+      method: fetchData.method,
+      statusCode: response.status,
+    },
+  };
+}
+
+/**
+ * Returns a listener to be added to `addInstrumentationHandler('fetch', listener)`.
+ */
+function handleFetchSpanListener(replay) {
+  return (handlerData) => {
+    if (!replay.isEnabled()) {
+      return;
+    }
+
+    const result = handleFetch(handlerData);
+
+    if (result === null) {
+      return;
+    }
+
+    if (shouldFilterRequest(replay, result.name)) {
+      return;
+    }
+
+    replay.addUpdate(() => {
+      createPerformanceSpans(replay, [result]);
+      // Returning true will cause `addUpdate` to not flush
+      // We do not want network requests to cause a flush. This will prevent
+      // recurring/polling requests from keeping the replay session alive.
+      return true;
+    });
+  };
+}
+
+/**
+ * Returns true if we think the given event is an error originating inside of rrweb.
+ */
+function isRrwebError(event) {
+  if (event.type || !event.exception || !event.exception.values || !event.exception.values.length) {
+    return false;
+  }
+
+  // Check if any exception originates from rrweb
+  return event.exception.values.some(exception => {
+    if (!exception.stacktrace || !exception.stacktrace.frames || !exception.stacktrace.frames.length) {
+      return false;
+    }
+
+    return exception.stacktrace.frames.some(frame => frame.filename && frame.filename.includes('/rrweb/src/'));
+  });
+}
+
+/**
+ * Returns a listener to be added to `addGlobalEventProcessor(listener)`.
+ */
+function handleGlobalEventListener(replay) {
+  return (event) => {
+    // Do not apply replayId to the root event
+    if (event.type === REPLAY_EVENT_NAME) {
+      // Replays have separate set of breadcrumbs, do not include breadcrumbs
+      // from core SDK
+      delete event.breadcrumbs;
+      return event;
+    }
+
+    // Unless `captureExceptions` is enabled, we want to ignore errors coming from rrweb
+    // As there can be a bunch of stuff going wrong in internals there, that we don't want to bubble up to users
+    if (isRrwebError(event) && !replay.getOptions()._experiments.captureExceptions) {
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
+      return null;
+    }
+
+    // Only tag transactions with replayId if not waiting for an error
+    // @ts-ignore private
+    if (!event.type || replay.recordingMode === 'session') {
+      event.tags = { ...event.tags, replayId: replay.getSessionId() };
+    }
+
+    // Collect traceIds in _context regardless of `recordingMode` - if it's true,
+    // _context gets cleared on every checkout
+    if (event.type === 'transaction' && event.contexts && event.contexts.trace && event.contexts.trace.trace_id) {
+      replay.getContext().traceIds.add(event.contexts.trace.trace_id );
+      return event;
+    }
+
+    // no event type means error
+    if (!event.type) {
+      replay.getContext().errorIds.add(event.event_id );
+    }
+
+    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
+      const exc = getEventExceptionValues(event);
+      addInternalBreadcrumb({
+        message: `Tagging event (${event.event_id}) - ${event.message} - ${exc.type}: ${exc.value}`,
+      });
+    }
+
+    // Need to be very careful that this does not cause an infinite loop
+    if (
+      replay.recordingMode === 'error' &&
+      event.exception &&
+      event.message !== UNABLE_TO_SEND_REPLAY // ignore this error because otherwise we could loop indefinitely with trying to capture replay and failing
+    ) {
+      setTimeout(async () => {
+        // Allow flush to complete before resuming as a session recording, otherwise
+        // the checkout from `startRecording` may be included in the payload.
+        // Prefer to keep the error replay as a separate (and smaller) segment
+        // than the session replay.
+        await replay.flushImmediate();
+
+        if (replay.stopRecording()) {
+          // Reset all "capture on error" configuration before
+          // starting a new recording
+          replay.recordingMode = 'session';
+          replay.startRecording();
+        }
+      });
+    }
+
+    return event;
+  };
+}
+
+function addInternalBreadcrumb(arg) {
+  const { category, level, message, ...rest } = arg;
+
+  core.addBreadcrumb({
+    category: category || 'console',
+    level: level || 'debug',
+    message: `[debug]: ${message}`,
+    ...rest,
+  });
+}
+
+function getEventExceptionValues(event) {
+  return {
+    type: 'Unknown',
+    value: 'n/a',
+    ...(event.exception && event.exception.values && event.exception.values[0]),
+  };
+}
+
+function handleHistory(handlerData) {
+  const { from, to } = handlerData;
+
+  const now = new Date().getTime() / 1000;
+
+  return {
+    type: 'navigation.push',
+    start: now,
+    end: now,
+    name: to,
+    data: {
+      previous: from,
+    },
+  };
+}
+
+/**
+ * Returns a listener to be added to `addInstrumentationHandler('history', listener)`.
+ */
+function handleHistorySpanListener(replay) {
+  return (handlerData) => {
+    if (!replay.isEnabled()) {
+      return;
+    }
+
+    const result = handleHistory(handlerData);
+
+    if (result === null) {
+      return;
+    }
+
+    // Need to collect visited URLs
+    replay.getContext().urls.push(result.name);
+    replay.triggerUserActivity();
+
+    replay.addUpdate(() => {
+      createPerformanceSpans(replay, [result]);
+      // Returning false to flush
+      return false;
+    });
+  };
+}
+
+let _LAST_BREADCRUMB = null;
+
+const handleScopeListener =
+  (replay) =>
+  (scope) => {
+    if (!replay.isEnabled()) {
+      return;
+    }
+
+    const result = handleScope(scope);
+
+    if (!result) {
+      return;
+    }
+
+    addBreadcrumbEvent(replay, result);
+  };
+
+/**
+ * An event handler to handle scope changes.
+ */
+function handleScope(scope) {
+  const newBreadcrumb = scope.getLastBreadcrumb();
+
+  // Listener can be called when breadcrumbs have not changed, so we store the
+  // reference to the last crumb and only return a crumb if it has changed
+  if (_LAST_BREADCRUMB === newBreadcrumb || !newBreadcrumb) {
+    return null;
+  }
+
+  _LAST_BREADCRUMB = newBreadcrumb;
+
+  if (
+    newBreadcrumb.category &&
+    (['fetch', 'xhr', 'sentry.event', 'sentry.transaction'].includes(newBreadcrumb.category) ||
+      newBreadcrumb.category.startsWith('ui.'))
+  ) {
+    return null;
+  }
+
+  return createBreadcrumb(newBreadcrumb);
+}
+
+// From sentry-javascript
+// e.g. https://github.com/getsentry/sentry-javascript/blob/c7fc025bf9fa8c073fdb56351808ce53909fbe45/packages/utils/src/instrument.ts#L180
+
+function handleXhr(handlerData) {
+  if (handlerData.xhr.__sentry_own_request__) {
+    // Taken from sentry-javascript
+    // Only capture non-sentry requests
+    return null;
+  }
+
+  if (handlerData.startTimestamp) {
+    // TODO: See if this is still needed
+    handlerData.xhr.__sentry_xhr__ = handlerData.xhr.__sentry_xhr__ || {};
+    handlerData.xhr.__sentry_xhr__.startTimestamp = handlerData.startTimestamp;
+  }
+
+  if (!handlerData.endTimestamp) {
+    return null;
+  }
+
+  const { method, url, status_code: statusCode } = handlerData.xhr.__sentry_xhr__ || {};
+
+  if (url === undefined) {
+    return null;
+  }
+
+  const timestamp = handlerData.xhr.__sentry_xhr__
+    ? handlerData.xhr.__sentry_xhr__.startTimestamp || 0
+    : handlerData.endTimestamp;
+
+  return {
+    type: 'resource.xhr',
+    name: url,
+    start: timestamp / 1000,
+    end: handlerData.endTimestamp / 1000,
+    data: {
+      method,
+      statusCode,
+    },
+  };
+}
+
+/**
+ * Returns a listener to be added to `addInstrumentationHandler('xhr', listener)`.
+ */
+function handleXhrSpanListener(replay) {
+  return (handlerData) => {
+    if (!replay.isEnabled()) {
+      return;
+    }
+
+    const result = handleXhr(handlerData);
+
+    if (result === null) {
+      return;
+    }
+
+    if (shouldFilterRequest(replay, result.name)) {
+      return;
+    }
+
+    replay.addUpdate(() => {
+      createPerformanceSpans(replay, [result]);
+      // Returning true will cause `addUpdate` to not flush
+      // We do not want network requests to cause a flush. This will prevent
+      // recurring/polling requests from keeping the replay session alive.
+      return true;
+    });
+  };
+}
+
+/**
+ * Add global listeners that cannot be removed.
+ */
+function addGlobalListeners(replay) {
+  // Listeners from core SDK //
+  const scope = core.getCurrentHub().getScope();
+  if (scope) {
+    scope.addScopeListener(handleScopeListener(replay));
+  }
+  utils.addInstrumentationHandler('dom', handleDomListener(replay));
+  utils.addInstrumentationHandler('fetch', handleFetchSpanListener(replay));
+  utils.addInstrumentationHandler('xhr', handleXhrSpanListener(replay));
+  utils.addInstrumentationHandler('history', handleHistorySpanListener(replay));
+
+  // Tag all (non replay) events that get sent to Sentry with the current
+  // replay ID so that we can reference them later in the UI
+  core.addGlobalEventProcessor(handleGlobalEventListener(replay));
+}
+
+/**
  * Create a "span" for the total amount of memory being used by JS objects
  * (including v8 internal objects).
  */
@@ -10698,7 +10763,7 @@ class ReplayContainer  {
     recordingOptions,
   }
 
-) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);ReplayContainer.prototype.__init7.call(this);ReplayContainer.prototype.__init8.call(this);ReplayContainer.prototype.__init9.call(this);ReplayContainer.prototype.__init10.call(this);ReplayContainer.prototype.__init11.call(this);ReplayContainer.prototype.__init12.call(this);ReplayContainer.prototype.__init13.call(this);ReplayContainer.prototype.__init14.call(this);ReplayContainer.prototype.__init15.call(this);ReplayContainer.prototype.__init16.call(this);ReplayContainer.prototype.__init17.call(this);
+) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);ReplayContainer.prototype.__init7.call(this);ReplayContainer.prototype.__init8.call(this);ReplayContainer.prototype.__init9.call(this);ReplayContainer.prototype.__init10.call(this);ReplayContainer.prototype.__init11.call(this);ReplayContainer.prototype.__init12.call(this);ReplayContainer.prototype.__init13.call(this);ReplayContainer.prototype.__init14.call(this);ReplayContainer.prototype.__init15.call(this);ReplayContainer.prototype.__init16.call(this);
     this._recordingOptions = recordingOptions;
     this._options = options;
 
@@ -10796,12 +10861,18 @@ class ReplayContainer  {
    * Returns true if it was stopped, else false.
    */
    stopRecording() {
-    if (this._stopRecording) {
-      this._stopRecording();
-      return true;
-    }
+    try {
+      if (this._stopRecording) {
+        this._stopRecording();
+        this._stopRecording = undefined;
+        return true;
+      }
 
-    return false;
+      return false;
+    } catch (err) {
+      this._handleException(err);
+      return false;
+    }
   }
 
   /**
@@ -10813,7 +10884,7 @@ class ReplayContainer  {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Stopping Replays');
       this._isEnabled = false;
       this._removeListeners();
-      this._stopRecording && this._stopRecording();
+      this.stopRecording();
       this.eventBuffer && this.eventBuffer.destroy();
       this.eventBuffer = null;
       this._debouncedFlush.cancel();
@@ -10829,14 +10900,7 @@ class ReplayContainer  {
    */
    pause() {
     this._isPaused = true;
-    try {
-      if (this._stopRecording) {
-        this._stopRecording();
-        this._stopRecording = undefined;
-      }
-    } catch (err) {
-      this._handleException(err);
-    }
+    this.stopRecording();
   }
 
   /**
@@ -10900,7 +10964,7 @@ class ReplayContainer  {
     }
 
     // Otherwise... recording was never suspended, continue as normalish
-    this._checkAndHandleExpiredSession();
+    this.checkAndHandleExpiredSession();
 
     this._updateSessionActivity();
   }
@@ -10920,6 +10984,44 @@ class ReplayContainer  {
   /** Get the current sesion (=replay) ID */
    getSessionId() {
     return this.session && this.session.id;
+  }
+
+  /**
+   * Checks if recording should be stopped due to user inactivity. Otherwise
+   * check if session is expired and create a new session if so. Triggers a new
+   * full snapshot on new session.
+   *
+   * Returns true if session is not expired, false otherwise.
+   * @hidden
+   */
+   checkAndHandleExpiredSession({ expiry = SESSION_IDLE_DURATION } = {}) {
+    const oldSessionId = this.getSessionId();
+
+    // Prevent starting a new session if the last user activity is older than
+    // MAX_SESSION_LIFE. Otherwise non-user activity can trigger a new
+    // session+recording. This creates noisy replays that do not have much
+    // content in them.
+    if (this._lastActivity && isExpired(this._lastActivity, MAX_SESSION_LIFE)) {
+      // Pause recording
+      this.pause();
+      return;
+    }
+
+    // --- There is recent user activity --- //
+    // This will create a new session if expired, based on expiry length
+    this._loadSession({ expiry });
+
+    // Session was expired if session ids do not match
+    const expired = oldSessionId !== this.getSessionId();
+
+    if (!expired) {
+      return true;
+    }
+
+    // Session is expired, trigger a full snapshot (which will create a new session)
+    this._triggerFullSnapshot();
+
+    return false;
   }
 
   /** A wrapper to conditionally capture exceptions. */
@@ -10991,19 +11093,7 @@ class ReplayContainer  {
 
       // There is no way to remove these listeners, so ensure they are only added once
       if (!this._hasInitializedCoreListeners) {
-        // Listeners from core SDK //
-        const scope = core.getCurrentHub().getScope();
-        if (scope) {
-          scope.addScopeListener(this._handleCoreBreadcrumbListener('scope'));
-        }
-        utils.addInstrumentationHandler('dom', this._handleCoreBreadcrumbListener('dom'));
-        utils.addInstrumentationHandler('fetch', handleFetchSpanListener(this));
-        utils.addInstrumentationHandler('xhr', handleXhrSpanListener(this));
-        utils.addInstrumentationHandler('history', handleHistorySpanListener(this));
-
-        // Tag all (non replay) events that get sent to Sentry with the current
-        // replay ID so that we can reference them later in the UI
-        core.addGlobalEventProcessor(handleGlobalEventListener(this));
+        addGlobalListeners(this);
 
         this._hasInitializedCoreListeners = true;
       }
@@ -11050,7 +11140,7 @@ class ReplayContainer  {
     isCheckout,
   ) => {
     // If this is false, it means session is expired, create and a new session and wait for checkout
-    if (!this._checkAndHandleExpiredSession()) {
+    if (!this.checkAndHandleExpiredSession()) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Received replay event after session expired.');
 
       return;
@@ -11146,51 +11236,6 @@ class ReplayContainer  {
   };}
 
   /**
-   * Handler for Sentry Core SDK events.
-   *
-   * These events will create breadcrumb-like objects in the recording.
-   */
-   __init16() {this._handleCoreBreadcrumbListener =
-    (type) =>
-    (handlerData) => {
-      if (!this._isEnabled) {
-        return;
-      }
-
-      const result = breadcrumbHandler(type, handlerData);
-
-      if (result === null) {
-        return;
-      }
-
-      if (result.category === 'sentry.transaction') {
-        return;
-      }
-
-      if (result.category === 'ui.click') {
-        this.triggerUserActivity();
-      } else {
-        this._checkAndHandleExpiredSession();
-      }
-
-      this.addUpdate(() => {
-        void addEvent(this, {
-          type: EventType.Custom,
-          // TODO: We were converting from ms to seconds for breadcrumbs, spans,
-          // but maybe we should just keep them as milliseconds
-          timestamp: (result.timestamp || 0) * 1000,
-          data: {
-            tag: 'breadcrumb',
-            payload: result,
-          },
-        });
-
-        // Do not flush after console log messages
-        return result.category === 'console';
-      });
-    };}
-
-  /**
    * Tasks to run when we consider a page to be hidden (via blurring and/or visibility)
    */
    _doChangeToBackgroundTasks(breadcrumb) {
@@ -11218,7 +11263,7 @@ class ReplayContainer  {
       return;
     }
 
-    const isSessionActive = this._checkAndHandleExpiredSession({
+    const isSessionActive = this.checkAndHandleExpiredSession({
       expiry: VISIBILITY_CHANGE_TIMEOUT,
     });
 
@@ -11240,8 +11285,12 @@ class ReplayContainer  {
    * create a new Replay event.
    */
    _triggerFullSnapshot() {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Taking full rrweb snapshot');
-    record.takeFullSnapshot(true);
+    try {
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Taking full rrweb snapshot');
+      record.takeFullSnapshot(true);
+    } catch (err) {
+      this._handleException(err);
+    }
   }
 
   /**
@@ -11287,43 +11336,6 @@ class ReplayContainer  {
     this.performanceEvents = [];
 
     return Promise.all(createPerformanceSpans(this, createPerformanceEntries(entries)));
-  }
-
-  /**
-   * Checks if recording should be stopped due to user inactivity. Otherwise
-   * check if session is expired and create a new session if so. Triggers a new
-   * full snapshot on new session.
-   *
-   * Returns true if session is not expired, false otherwise.
-   */
-   _checkAndHandleExpiredSession({ expiry = SESSION_IDLE_DURATION } = {}) {
-    const oldSessionId = this.getSessionId();
-
-    // Prevent starting a new session if the last user activity is older than
-    // MAX_SESSION_LIFE. Otherwise non-user activity can trigger a new
-    // session+recording. This creates noisy replays that do not have much
-    // content in them.
-    if (this._lastActivity && isExpired(this._lastActivity, MAX_SESSION_LIFE)) {
-      // Pause recording
-      this.pause();
-      return;
-    }
-
-    // --- There is recent user activity --- //
-    // This will create a new session if expired, based on expiry length
-    this._loadSession({ expiry });
-
-    // Session was expired if session ids do not match
-    const expired = oldSessionId !== this.getSessionId();
-
-    if (!expired) {
-      return true;
-    }
-
-    // Session is expired, trigger a full snapshot (which will create a new session)
-    this._triggerFullSnapshot();
-
-    return false;
   }
 
   /**
@@ -11438,13 +11450,13 @@ class ReplayContainer  {
    * Flush recording data to Sentry. Creates a lock so that only a single flush
    * can be active at a time. Do not call this directly.
    */
-   __init17() {this._flush = async () => {
+   __init16() {this._flush = async () => {
     if (!this._isEnabled) {
       // This can happen if e.g. the replay was stopped because of exceeding the retry limit
       return;
     }
 
-    if (!this._checkAndHandleExpiredSession()) {
+    if (!this.checkAndHandleExpiredSession()) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Attempting to finish replay event after session expired.');
       return;
     }
@@ -11581,8 +11593,8 @@ class Replay  {
       flushMinDelay,
       flushMaxDelay,
       stickySession,
-      sessionSampleRate: DEFAULT_SESSION_SAMPLE_RATE,
-      errorSampleRate: DEFAULT_ERROR_SAMPLE_RATE,
+      sessionSampleRate: 0,
+      errorSampleRate: 0,
       useCompression,
       maskAllText: typeof maskAllText === 'boolean' ? maskAllText : !maskTextSelector,
       blockAllMedia,
