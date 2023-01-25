@@ -170,12 +170,6 @@ Reviews can be turned on in the project configuration, from the
 
 .. image:: /screenshots/project-workflow.png
 
-.. note::
-
-    Depending on Weblate configuration, the setting might not be available to
-    you. For example on Hosted Weblate this is not available for projects hosted
-    for free.
-
 .. _source-quality-gateway:
 
 Quality gateway for the source strings
