@@ -1,7 +1,7 @@
 Weblate 4.15.2
 --------------
 
-Not yet released.
+Released on January 25th 2023.
 
 * Enabled gotext JSON and i18next v4 formats in the default configuration.
 * Fixed crash on uploading corrupted files.
