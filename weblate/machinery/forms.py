@@ -131,12 +131,12 @@ class MicrosoftMachineryForm(KeyMachineryForm):
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Application base URL"
         ),
-        initial="api.cognitive.microsofttranslator.com",
+        initial="api.cognitive.microsoft.com",
         choices=(
-            ("api.cognitive.microsofttranslator.com", "Global (non-regional)"),
-            ("api-apc.cognitive.microsofttranslator.com", "Asia Pacific"),
-            ("api-eur.cognitive.microsofttranslator.com", "Europe"),
-            ("api-nam.cognitive.microsofttranslator.com", "North America"),
+            ("api.cognitive.microsoft.com", "Global (non-regional)"),
+            ("api-apc.cognitive.microsoft.com", "Asia Pacific"),
+            ("api-eur.cognitive.microsoft.com", "Europe"),
+            ("api-nam.cognitive.microsoft.com", "North America"),
             ("api.translator.azure.cn", "China"),
         ),
     )
