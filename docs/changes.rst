@@ -4,6 +4,8 @@ Weblate 4.15.2
 Not yet released.
 
 * Enabled gotext JSON and i18next v4 formats in the default configuration.
+* Fixed crash on uploading corrupted files.
+* Show stale directories in Git repository status.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?closed=1>`__.
 
