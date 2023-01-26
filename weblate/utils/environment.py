@@ -5,6 +5,8 @@
 import os
 from typing import Dict, List, Optional, Tuple
 
+from rest_framework.throttling import AnonRateThrottle
+
 
 def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
     """Helper to get list from environment."""
@@ -71,3 +73,13 @@ def get_env_credentials(
     if host:
         return None, None, {host: {"username": username, "token": token}}
     return username, token, {}
+
+
+def get_env_ratelimit(name: str, default: str) -> str:
+    value = os.environ.get(name, default)
+    rate = AnonRateThrottle()
+    try:
+        rate.parse_rate(value)
+    except Exception as error:
+        raise ValueError(f"Failed to parse {name}: {error}")
+    return value

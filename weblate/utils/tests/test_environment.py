@@ -12,6 +12,7 @@ from weblate.utils.environment import (
     get_env_int,
     get_env_list,
     get_env_map,
+    get_env_ratelimit,
     modify_env_list,
 )
 
@@ -80,3 +81,14 @@ class EnvTest(SimpleTestCase):
         del os.environ["WEBLATE_TEST_USERNAME"]
         del os.environ["WEBLATE_TEST_TOKEN"]
         del os.environ["WEBLATE_TEST_HOST"]
+
+    def test_get_env_ratelimit(self):
+        os.environ["WEBLATE_API_RATELIMIT_ANON"] = "1/hour"
+        self.assertEqual(
+            get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", ""),
+            "1/hour",
+        )
+        os.environ["WEBLATE_API_RATELIMIT_ANON"] = "1"
+        with self.assertRaises(ValueError):
+            get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "")
+        del os.environ["WEBLATE_API_RATELIMIT_ANON"]
