@@ -25,8 +25,8 @@ The Django admin interface
 
 .. warning::
 
-   Use with caution as this is the low level interface. You should not need it
-   in most cases.
+   Use with caution as this is a low level interface. You should not need it
+   in most cases as most things are comfortably approachable through Weblate UI or API.
 
 Here you can manage objects stored in the database, such as users, translations
 and other settings:
