@@ -83,12 +83,12 @@ class EnvTest(SimpleTestCase):
         del os.environ["WEBLATE_TEST_HOST"]
 
     def test_get_env_ratelimit(self):
-        os.environ["WEBLATE_API_RATELIMIT_ANON"] = "1/hour"
+        os.environ["RATELIMIT_ANON"] = "1/hour"
         self.assertEqual(
-            get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", ""),
+            get_env_ratelimit("RATELIMIT_ANON", ""),
             "1/hour",
         )
-        os.environ["WEBLATE_API_RATELIMIT_ANON"] = "1"
+        os.environ["RATELIMIT_ANON"] = "1"
         with self.assertRaises(ValueError):
-            get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "")
-        del os.environ["WEBLATE_API_RATELIMIT_ANON"]
+            get_env_ratelimit("RATELIMIT_ANON", "")
+        del os.environ["RATELIMIT_ANON"]

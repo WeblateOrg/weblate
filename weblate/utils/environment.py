@@ -5,8 +5,6 @@
 import os
 from typing import Dict, List, Optional, Tuple
 
-from rest_framework.throttling import AnonRateThrottle
-
 
 def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
     """Helper to get list from environment."""
@@ -77,9 +75,18 @@ def get_env_credentials(
 
 def get_env_ratelimit(name: str, default: str) -> str:
     value = os.environ.get(name, default)
-    rate = AnonRateThrottle()
+
+    # Taken from rest_framework.throttling.SimpleRateThrottle.parse_rate
+    # it can not be imported here as that breaks config loading for
+    # rest_framework
+
     try:
-        rate.parse_rate(value)
-    except Exception as error:
+        num, period = value.split("/")
+    except ValueError as error:
         raise ValueError(f"Failed to parse {name}: {error}")
+    if not num.isdigit():
+        raise ValueError(f"Failed to parse {name}: rate is not numeric: {num}")
+    if period[0] not in ("s", "m", "h", "d"):
+        raise ValueError(f"Failed to parse {name}: unknown period: {period}")
+
     return value

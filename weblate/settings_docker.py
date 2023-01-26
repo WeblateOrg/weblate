@@ -15,6 +15,7 @@ from weblate.utils.environment import (
     get_env_int,
     get_env_list,
     get_env_map,
+    get_env_ratelimit,
     modify_env_list,
 )
 
@@ -1183,8 +1184,8 @@ REST_FRAMEWORK = {
         "weblate.api.throttling.AnonRateThrottle",
     ),
     "DEFAULT_THROTTLE_RATES": {
-        "anon": os.environ.get("WEBLATE_API_RATELIMIT_ANON", "100/day"),
-        "user": os.environ.get("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
+        "anon": get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "100/day"),
+        "user": get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
     },
     "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
     "PAGE_SIZE": 50,
