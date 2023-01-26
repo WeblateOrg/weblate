@@ -44,7 +44,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-01-22 09:18+0000\n"
+"PO-Revision-Date: 2023-01-28 17:56+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -53,7 +53,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -578,10 +578,9 @@ msgid ""
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
-"Sie können zusätzliche Sonderzeichen angeben, die auf der Bildschirmtastatur "
-"während der Übersetzung angezeigt werden. Dies kann hilfreich sein für "
-"Zeichen, die Sie oft verwenden, die aber schwer auf der Tastatur einzugeben "
-"sind."
+"Sie können zusätzliche visuelle Tastatur-Sonderzeichen angeben, die beim "
+"Übersetzen angezeigt werden sollen. Dies kann für Zeichen nützlich sein, die "
+"Sie häufig verwenden, die aber auf Ihrer Tastatur schwer zu tippen sind."
 
 #: weblate/accounts/models.py:441
 msgid "Number of nearby strings"
@@ -1156,7 +1155,7 @@ msgstr ""
 
 #: weblate/addons/cleanup.py:48
 msgid "Remove blank strings"
-msgstr "Entferne leere Zeichenketten"
+msgstr "Leere Zeichenketten entfernen"
 
 #: weblate/addons/cleanup.py:49
 msgid "Removes strings without a translation from translation files."
@@ -1337,7 +1336,7 @@ msgstr "Pro Übersetzer"
 
 #: weblate/addons/forms.py:143
 msgid "Append trailers to squashed commit message"
-msgstr "Fügen Sie der zusammengeführten Commit-Nachricht Endzeilen hinzu"
+msgstr "Endzeilen der zusammengefassten Commit-Nachricht hinzufügen"
 
 #: weblate/addons/forms.py:147
 msgid ""
@@ -1357,7 +1356,7 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Diese Commit-Nachricht wird anstelle der zusammengeführten Commit-"
+"Diese Commit-Nachricht wird anstelle der zusammengefassten Commit-"
 "Nachrichten verwendet."
 
 #: weblate/addons/forms.py:174
@@ -1499,7 +1498,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:296
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Addons der Hauptkomponente zu den neu erstellten klonen"
+msgstr "Erweiterungen der Hauptkomponente zu den neu erstellten klonen"
 
 #: weblate/addons/forms.py:301
 msgid "Remove components for inexistent files"
@@ -1705,11 +1704,11 @@ msgstr ""
 
 #: weblate/addons/git.py:19
 msgid "Squash Git commits"
-msgstr "Git-Commits konsolidieren"
+msgstr "Git-Commits zusammenfassen"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Git-Commits vor dem Pushen der Änderungen konsolidieren."
+msgstr "Git-Commits vor dem Pushen der Änderungen zusammenfassen."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -1893,7 +1892,7 @@ msgstr "Projekteinstellungen bearbeiten"
 #. Translators: Permission name
 #: weblate/auth/data.py:51
 msgid "Manage project access"
-msgstr "Projektzugang verwalten"
+msgstr "Projektzugriff verwalten"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:53
@@ -2875,7 +2874,7 @@ msgstr "Zeichenabstand"
 
 #: weblate/checks/flags.py:54
 msgid "ICU MessageFormat flags"
-msgstr "ICU MessageFormat-Flags"
+msgstr "ICU MessageFormat-Markierungen"
 
 #: weblate/checks/flags.py:56
 msgid "ICU MessageFormat tag prefix"
@@ -3062,7 +3061,7 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
-"Es existieren mehrere unbenannte Variablen in der Zeichenfolge, so dass es "
+"Es existieren mehrere unbenannte Variablen in der Zeichenkette, so dass es "
 "für Übersetzer unmöglich ist, sie neu zu ordnen"
 
 #: weblate/checks/glossary.py:17
@@ -3348,14 +3347,14 @@ msgstr "OpenType- und TrueType-Schriften werden unterstützt."
 
 #: weblate/fonts/models.py:91
 msgid "Font group name"
-msgstr "Name der Schriftgruppe"
+msgstr "Name der Schriftartgruppe"
 
 #: weblate/fonts/models.py:94
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"Bezeichner, den Sie in Prüfungen verwenden werden, um diese Schriftgruppe "
+"Bezeichner, den Sie in Prüfungen verwenden werden, um diese Schriftartgruppe "
 "auszuwählen. Vermeiden Sie Leerzeichen und Sonderzeichen."
 
 #: weblate/fonts/models.py:100 weblate/templates/fonts/font_list.html:26
@@ -3412,7 +3411,7 @@ msgstr "Keine Korrektur gefunden."
 
 #: weblate/fonts/views.py:147
 msgid "Font group deleted."
-msgstr "Schriftartengruppe gelöscht."
+msgstr "Schriftartgruppe gelöscht."
 
 #: weblate/formats/base.py:302
 msgid "Failed to load strings from the file, try choosing other format."
@@ -3506,7 +3505,7 @@ msgstr "gettext PO-Datei"
 
 #: weblate/formats/ttkit.py:1167
 msgid "gettext PO file (monolingual)"
-msgstr "gettext PO-Datei (monolingual)"
+msgstr "gettext PO-Datei (einsprachig)"
 
 #: weblate/formats/ttkit.py:1191
 msgid "Qt Linguist translation file"
@@ -3615,7 +3614,7 @@ msgstr "Einfache CSV-Datei"
 
 #: weblate/formats/ttkit.py:1582
 msgid "Simple CSV file (ISO-8859-1)"
-msgstr "Einfache CSV-Datei (ISO-8859-1)"
+msgstr "Einfache CSV-Datei (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1589
 msgid "Simple CSV file (UTF-8)"
@@ -4440,7 +4439,7 @@ msgstr "Unzureichende Rechte, um diese Seite anzuzeigen."
 #: weblate/templates/403.html:20 weblate/templates/404.html:20
 #: weblate/templates/base.html:131 weblate/templates/base.html:302
 msgid "Dashboard"
-msgstr "Übersicht"
+msgstr "Übersichtsseite"
 
 #: weblate/templates/403.html:21 weblate/templates/404.html:21
 #: weblate/templates/base.html:145
@@ -4732,8 +4731,8 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
-"Bitte schauen Sie in Ihren Spam-Ordner, wenn Sie ihn nicht in Ihrem "
-"Posteingang sehen können."
+"Bitte sehen Sie in Ihrem Spam-Ordner nach, wenn Sie die Nachricht nicht in "
+"Ihrem Posteingang finden."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
@@ -5617,9 +5616,9 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
-"Der reguläre Ausdruck zum Abgleich von Übersetzungsdateien muss zwei "
-"benannte Gruppen enthalten, um Komponente und Sprache abzugleichen, z.B. "
-"Beispiel:"
+"Der reguläre Ausdruck für den Abgleich von Übersetzungsdateien muss zwei "
+"benannte Gruppen enthalten, um die Komponente und die Sprache abzugleichen, "
+"einige Beispiele:"
 
 #: weblate/templates/addons/discovery_help.html:9
 msgid "Example matched files"
@@ -5657,7 +5656,7 @@ msgid ""
 "monolingual base filename, for example:"
 msgstr ""
 "Sie können Django-Template-Markup sowohl im Komponentennamen als auch im "
-"einsprachigen Basisdateinamen verwenden, z.B.:"
+"einsprachigen Basisdateinamen verwenden, zum Beispiel:"
 
 #: weblate/templates/addons/discovery_help.html:81
 msgid "Component filename match"
@@ -5718,8 +5717,8 @@ msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
-"Sie können z.B. Django-Templates-Markup sowohl im Dateinamen als auch im "
-"Inhalt verwenden:"
+"Sie können Django-Templates-Markup sowohl im Dateinamen als auch im Inhalt "
+"verwenden, zum Beispiel:"
 
 #: weblate/templates/addons/generate_help.html:14
 msgid "Percents translated"
@@ -5774,7 +5773,7 @@ msgstr "Ausgangszeichenkette"
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
-"Weblate-Commits aus Komponenten in diesem Repository werden zusammengeführt."
+"Weblate-Commits aus Komponenten in diesem Repository werden zusammengefasst."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -8111,7 +8110,7 @@ msgid ""
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
 "Sie können Fehler zu Funktionen, die Sie nicht zu verwenden beabsichtigen, "
-"problemlos dauerhaft ignorieren. Diese werden in der Regel durch fehlende "
+"problemlos dauerhaft ignorieren. Diese werden normalerweise durch fehlende "
 "oder veraltete Abhängigkeiten verursacht."
 
 #: weblate/templates/manage/performance.html:66
@@ -8174,7 +8173,7 @@ msgstr "Status der Repositorys"
 
 #: weblate/templates/manage/repos.html:14
 msgid "This repository is linked to:"
-msgstr "Dieses Repositorium ist verknüpft mit:"
+msgstr "Dieses Repository ist verknüpft mit:"
 
 #: weblate/templates/manage/snippets/activation-form.html:10
 msgid "Activate support package"
@@ -9732,7 +9731,7 @@ msgid ""
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
 "Vermeiden Sie Übersetzungsdateien sowohl für den Sprachcode als auch die "
-"entsprechende Gebietsbezeichnung (z.B. de und de_DE)."
+"entsprechende Gebietsbezeichnung (z. B. de und de_DE)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
 msgid "Language codes"
@@ -10617,8 +10616,8 @@ msgstr "Folgendes prüfen"
 #, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Es gibt %(count)s Vorschlag für diese Zeichenfolge."
-msgstr[1] "Es gibt %(count)s Vorschläge für diese Zeichenfolge."
+msgstr[0] "Es gibt %(count)s Vorschlag für diese Zeichenkette."
+msgstr[1] "Es gibt %(count)s Vorschläge für diese Zeichenkette."
 
 #: weblate/templates/translate.html:479
 msgid "Enforced"
@@ -10626,7 +10625,7 @@ msgstr "Erzwungen"
 
 #: weblate/templates/translate.html:492
 msgid "Fix string"
-msgstr "Zeichenfolge beheben"
+msgstr "Zeichenkette beheben"
 
 #: weblate/templates/translate.html:502
 msgid "For all languages"
@@ -10642,8 +10641,8 @@ msgstr ""
 #, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "Es gibt %(count)s ungelösten Kommentar für diese Zeichenfolge."
-msgstr[1] "Es gibt %(count)s ungelöste Kommentare für diese Zeichenfolge."
+msgstr[0] "Es gibt %(count)s ungeklärten Kommentar für diese Zeichenkette."
+msgstr[1] "Es gibt %(count)s ungeklärte Kommentare für diese Zeichenkette."
 
 #: weblate/templates/translate.html:545
 #, python-format
@@ -11085,7 +11084,7 @@ msgstr "Fehlende Abfragezeichenkette."
 
 #: weblate/trans/forms.py:172
 msgid "Could not parse query string: {}"
-msgstr "Abfragezeichenfolge konnte nicht analysiert werden: {}"
+msgstr "Abfragezeichenkette konnte nicht analysiert werden: {}"
 
 #: weblate/trans/forms.py:225 weblate/trans/forms.py:233
 msgid "Toggle text direction"
@@ -11117,9 +11116,9 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Zeichenketten werden in der Regel nach dem Aktualisieren der "
-"Ausgangszeichenkette als \"Muss bearbeitet werden\" gekennzeichnet oder "
-"manuell als solche gekennzeichnet."
+"Zeichenketten werden normalerweise nach dem Aktualisieren der "
+"Ausgangszeichenkette als „bearbeitungsbedürftig“ gekennzeichnet oder manuell "
+"als solche gekennzeichnet."
 
 #: weblate/trans/forms.py:465
 msgid "Review state"
@@ -11585,7 +11584,7 @@ msgstr "Ausgangssprache"
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
-"Diese können Sie später wie jede andere Zeichenkette in der Quellsprache "
+"Diese können Sie später wie jede andere Zeichenkette in der Ausgangssprache "
 "bearbeiten."
 
 #. Translators: Translation context for Gettext
@@ -12381,9 +12380,9 @@ msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Pfad der zu übersetzendenen Dateien relativ zum Repository-Root, verwenden "
-"Sie * anstelle des Sprach-Codes, z.B.: po/*.po oder locale/*/LC_MESSAGE/"
-"django.po."
+"Pfad der zu übersetzenden Dateien relativ zum Repository-Root, verwenden Sie "
+"* anstelle des Sprachcodes, z. B.: po/*.po oder locale/*/LC_MESSAGES/django."
+"po."
 
 #: weblate/trans/models/component.py:373
 msgid ""
@@ -12774,7 +12773,7 @@ msgstr "Nicht erkannte Basisdatei für neue Übersetzungen."
 
 #: weblate/trans/models/component.py:2531
 msgid "You can not use a base file for bilingual translation."
-msgstr "Basisdatei kann nicht für bilinguale Übersetzungen verwendet werden."
+msgstr "Basisdatei kann nicht für zweisprachige Übersetzungen verwendet werden."
 
 #: weblate/trans/models/component.py:2537
 #: weblate/trans/models/component.py:2553
@@ -13732,7 +13731,7 @@ msgstr "Automatische Übersetzung wird durchgeführt"
 
 #: weblate/trans/views/edit.py:775
 msgid "Source needs review"
-msgstr "Quelle muss überprüft werden"
+msgstr "Ausgangszeichenkette muss überprüft werden"
 
 #: weblate/trans/views/edit.py:778
 msgid "Posted new comment"
