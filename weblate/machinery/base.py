@@ -376,15 +376,16 @@ class MachineTranslation:
     ):
         if search:
             replacements = {}
-            text = search
+            source_string = text = search
         else:
             text, replacements = self.cleanup_text(unit)
+            source_string = unit.source_string
 
         if not text or self.is_rate_limited():
             return []
 
         cache_key, result = self.get_cached(
-            source, language, text, threshold, replacements
+            source, language, source_string, threshold, replacements
         )
         if result is not None:
             return result
