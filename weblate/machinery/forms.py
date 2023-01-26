@@ -121,12 +121,6 @@ class SAPMachineryForm(URLMachineryForm):
 
 
 class MicrosoftMachineryForm(KeyMachineryForm):
-    endpoint_url = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Application endpoint URL"
-        ),
-        initial="api.cognitive.microsoft.com",
-    )
     base_url = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Application base URL"
@@ -138,11 +132,27 @@ class MicrosoftMachineryForm(KeyMachineryForm):
             ("api-eur.cognitive.microsofttranslator.com", "Europe"),
             ("api-nam.cognitive.microsofttranslator.com", "North America"),
             ("api.translator.azure.cn", "China"),
+            ("api.cognitive.microsofttranslator.us", "Azure US Government cloud"),
+        ),
+    )
+    endpoint_url = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Authentication service URL"
+        ),
+        initial="api.cognitive.microsoft.com",
+        choices=(
+            ("api.cognitive.microsoft.com", "Global"),
+            ("api.cognitive.azure.cn", "China"),
+            ("api.cognitive.microsoft.us", "Azure US Government cloud"),
+        ),
+        help_text=gettext_lazy(
+            "Regional or multi-service can be spcified using region field below."
         ),
     )
     region = forms.CharField(
         label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Application region"
+            "Automatic suggestion service configuration",
+            "Authentication service region",
         ),
         required=False,
     )

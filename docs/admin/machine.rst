@@ -273,25 +273,35 @@ Microsoft Translator
 .. versionadded:: 2.10
 
 :Service ID: ``microsoft-translator``
-:Configuration: +------------------+--------------------------+----------------------------------------------------------+
-                | ``key``          | API key                  |                                                          |
-                +------------------+--------------------------+----------------------------------------------------------+
-                | ``endpoint_url`` | Application endpoint URL |                                                          |
-                +------------------+--------------------------+----------------------------------------------------------+
-                | ``base_url``     | Application base URL     | Available choices:                                       |
-                |                  |                          |                                                          |
-                |                  |                          | ``api.cognitive.microsoft.com`` -- Global (non-regional) |
-                |                  |                          |                                                          |
-                |                  |                          | ``api-apc.cognitive.microsoft.com`` -- Asia Pacific      |
-                |                  |                          |                                                          |
-                |                  |                          | ``api-eur.cognitive.microsoft.com`` -- Europe            |
-                |                  |                          |                                                          |
-                |                  |                          | ``api-nam.cognitive.microsoft.com`` -- North America     |
-                |                  |                          |                                                          |
-                |                  |                          | ``api.translator.azure.cn`` -- China                     |
-                +------------------+--------------------------+----------------------------------------------------------+
-                | ``region``       | Application region       |                                                          |
-                +------------------+--------------------------+----------------------------------------------------------+
+:Configuration: +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``key``          | API key                       |                                                                       |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``base_url``     | Application base URL          | Available choices:                                                    |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional)    |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific         |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api-eur.cognitive.microsofttranslator.com`` -- Europe               |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api-nam.cognitive.microsofttranslator.com`` -- North America        |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.translator.azure.cn`` -- China                                  |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be spcified using region field below.   |
+                |                  |                               |                                                                       |
+                |                  |                               | Available choices:                                                    |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsoft.com`` -- Global                             |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.azure.cn`` -- China                                   |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsoft.us`` -- Azure US Government cloud           |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``region``       | Authentication service region |                                                                       |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
 
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
