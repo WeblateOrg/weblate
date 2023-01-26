@@ -932,6 +932,10 @@ class LabelsSerializer(serializers.RelatedField):
         from the primitive user input, into a model instance.
         """
         unit = self.parent.parent.instance
+        if unit is None:
+            # HTTP 404 Not Found on HTML page still shows the form
+            # but it has no unit attached
+            return Label.objects.none()
         project = unit.translation.component.project
         return project.label_set.all()
 
