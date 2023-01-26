@@ -191,8 +191,8 @@ class ComponentDiscovery:
             return result
 
         # Get name and slug
-        name = get_val("name")
-        slug = get_val("slug")
+        name = get_val("name") or "Component"
+        slug = get_val("slug") or "component"
 
         # Copy attributes from main component
         for key in COPY_ATTRIBUTES:
