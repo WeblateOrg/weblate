@@ -6,7 +6,7 @@
 
 from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import IContains, IExact, PatternLookup
+from django.db.models.lookups import Contains, Exact, PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
@@ -65,7 +65,7 @@ class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():
-            return IContains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+            return Contains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
@@ -94,7 +94,7 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():
-            return IContains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+            return Contains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
@@ -114,7 +114,7 @@ class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():
-            return IExact(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+            return Exact(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
         return super().as_sql(compiler, connection)
 
 
