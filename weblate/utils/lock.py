@@ -66,7 +66,7 @@ class WeblateLock:
             try:
                 if not self._lock.acquire(timeout=self._timeout):
                     raise WeblateLockTimeout(
-                        f"Lock could not be acquired in {self._timeout}"
+                        f"Lock could not be acquired in {self._timeout}s"
                     )
             except AlreadyAcquired:
                 pass
