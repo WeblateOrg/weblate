@@ -1239,11 +1239,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
-                with component.lock:
-                    return self.merge_translations(
-                        request, store, conflicts, method, fuzzy
-                    )
-            elif method == "add":
+                return self.merge_translations(request, store, conflicts, method, fuzzy)
+            if method == "add":
                 with component.lock:
                     return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
