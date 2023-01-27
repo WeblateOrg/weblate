@@ -163,9 +163,17 @@ def discovery(request):
 @management_access
 @require_POST
 def activate(request):
-    form = ActivateForm(request.POST)
-    if form.is_valid():
-        support = SupportStatus(**form.cleaned_data)
+    support = None
+    if "refresh" in request.POST:
+        support = SupportStatus.objects.get_current()
+    else:
+        form = ActivateForm(request.POST)
+        if form.is_valid():
+            support = SupportStatus(**form.cleaned_data)
+        else:
+            show_form_errors(request, form)
+
+    if support is not None:
         try:
             support.refresh()
             support.save()
@@ -179,8 +187,6 @@ def activate(request):
                     "Please ensure your activation token is correct."
                 ),
             )
-    else:
-        show_form_errors(request, form)
     return redirect("manage")
 
 
