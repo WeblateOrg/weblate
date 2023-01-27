@@ -274,7 +274,7 @@ var _rollbarConfig = {
             <span class="visible-xs-inline">{% trans "Help" %}</span>
           </a>
           <ul class="dropdown-menu">
-            {% if not has_support %}
+            {% if not support_status.has_support %}
               <li><a href="https://weblate.org/support/">{% trans "Get support" %}</a></li>
             {% endif %}
             {% if get_help_url %}
@@ -308,6 +308,11 @@ var _rollbarConfig = {
 </header>
 
 <div class="main-content {% block content_class %}{% endblock %}">
+
+{% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
+  {% trans 'Your Weblate is exceeding service limits. Please uprade the subscription.' as msg %}
+  {% show_message 'warning' msg %}
+{% endif %}
 
 {% if messages %}
 {% for message in messages %}

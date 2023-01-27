@@ -14,6 +14,7 @@ from django.utils.translation import gettext as _
 import weblate.screenshots.views
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
@@ -130,19 +131,21 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    if hasattr(request, "_weblate_has_support"):
-        has_support = request._weblate_has_support
+    if hasattr(request, "_weblate_support_status"):
+        support_status = request._weblate_support_status
     else:
-        has_support_cache_key = "weblate:has:support"
-        has_support = cache.get(has_support_cache_key)
-        if has_support is None:
-            support_status = SupportStatus.objects.get_current()
-            has_support = support_status.name != "community"
-            cache.set(has_support_cache_key, has_support, 86400)
-        request._weblate_has_support = has_support
+        support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
+        if support_status is None:
+            support_status_instance = SupportStatus.objects.get_current()
+            support_status = {
+                "has_support": support_status_instance.name != "community",
+                "in_limits": support_status_instance.in_limits,
+            }
+            cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
+        request._weblate_support_status = support_status
 
     context = {
-        "has_support": has_support,
+        "support_status": support_status,
         "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
         if not settings.COMPRESS_ENABLED
         else "",

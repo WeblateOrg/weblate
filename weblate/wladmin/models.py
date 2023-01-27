@@ -8,6 +8,7 @@ import dateutil.parser
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin import ModelAdmin
+from django.core.cache import cache
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -24,6 +25,7 @@ from weblate.utils.backup import (
     prune,
     supports_cleanup,
 )
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
@@ -136,6 +138,8 @@ class SupportStatus(models.Model):
             BackupService.objects.get_or_create(
                 repository=payload["backup_repository"], defaults={"enabled": False}
             )
+        # Invalidate support status cache
+        cache.delete(SUPPORT_STATUS_CACHE_KEY)
 
 
 class BackupService(models.Model):
