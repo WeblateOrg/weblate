@@ -893,6 +893,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-update.lock",
+            timeout=5,
         )
 
     @cached_property
