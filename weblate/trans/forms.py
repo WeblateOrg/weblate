@@ -2381,7 +2381,7 @@ class CachedModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
     state = forms.ChoiceField(
-        label=_("State to set"), choices=((-1, _("Do not change")),) + STATE_CHOICES
+        label=_("State to set"), choices=[(-1, _("Do not change"))]
     )
     add_flags = FlagField(label=_("Translation flags to add"), required=False)
     remove_flags = FlagField(label=_("Translation flags to remove"), required=False)
@@ -2408,13 +2408,21 @@ class BulkEditForm(forms.Form):
             self.fields["add_labels"].queryset = labels
 
         excluded = {STATE_EMPTY, STATE_READONLY}
+        show_review = True
         if user is not None and not user.has_perm("unit.review", obj):
+            show_review = False
             excluded.add(STATE_APPROVED)
 
         # Filter offered states
-        self.fields["state"].choices = [
-            x for x in self.fields["state"].choices if x[0] not in excluded
-        ]
+        choices = self.fields["state"].choices
+        for value, label in STATE_CHOICES:
+            if value in excluded:
+                continue
+            if value == STATE_TRANSLATED and show_review:
+                label = gettext("Waiting for review")
+
+            choices.append((value, label))
+        self.fields["state"].choices = choices
 
         self.helper = FormHelper(self)
         self.helper.form_tag = False
