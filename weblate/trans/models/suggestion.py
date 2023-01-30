@@ -82,7 +82,7 @@ class SuggestionQuerySet(models.QuerySet):
         if user.is_superuser:
             return self
         return self.filter(
-            Q(unit__translation__component__project_id__in=user.allowed_project_ids)
+            Q(unit__translation__component__project__in=user.allowed_projects)
             & (
                 Q(unit__translation__component__restricted=False)
                 | Q(unit__translation__component_id__in=user.component_permissions)

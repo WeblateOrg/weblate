@@ -13,6 +13,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.http import Http404
@@ -41,7 +42,6 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
-from weblate.lang.models import Language
 from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
@@ -166,20 +166,13 @@ class Group(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
-            self.languages.set(Language.objects.all())
-        if self.project_selection == SELECTION_ALL:
-            self.projects.set(Project.objects.all())
-        elif self.project_selection == SELECTION_ALL_PUBLIC:
-            self.projects.set(
-                Project.objects.filter(access_control=Project.ACCESS_PUBLIC), clear=True
-            )
-        elif self.project_selection == SELECTION_ALL_PROTECTED:
-            self.projects.set(
-                Project.objects.filter(
-                    access_control__in=(Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED)
-                ),
-                clear=True,
-            )
+            self.languages.clear()
+        if self.project_selection in (
+            SELECTION_ALL,
+            SELECTION_ALL_PUBLIC,
+            SELECTION_ALL_PROTECTED,
+        ):
+            self.projects.clear()
         elif self.project_selection == SELECTION_COMPONENT_LIST:
             self.projects.set(
                 Project.objects.filter(
@@ -226,7 +219,8 @@ class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
         """All users having explicit permission on a project.
 
-        Note: This intentionally does not list superusers.
+        Note: This intentionally does not list superusers or site-wide permissions
+        given using project_selection.
         """
         return self.filter(
             groups__roles__permissions__codename=perm, groups__projects=project
@@ -404,7 +398,6 @@ class User(AbstractBaseUser):
             "project_permissions",
             "component_permissions",
             "allowed_projects",
-            "allowed_project_ids",
             "watched_projects",
             "owned_projects",
             "managed_projects",
@@ -491,7 +484,22 @@ class User(AbstractBaseUser):
         """Check access to given project."""
         if self.is_superuser:
             return True
-        return project.pk in self.project_permissions
+        return self.get_project_permissions(project) != []
+
+    def get_project_permissions(self, project):
+        # Build a fresh list as we need to merge them
+        result = []
+        # This relies on project_permission being defaultdict(list)
+        result.extend(self.project_permissions[project.pk])
+        # Apply blocking
+        if result == [(None, None)]:
+            return []
+        if project.access_control == Project.ACCESS_PUBLIC:
+            result.extend(self.project_permissions[-SELECTION_ALL_PUBLIC])
+        elif project.access_control == Project.ACCESS_PROTECTED:
+            result.extend(self.project_permissions[-SELECTION_ALL_PROTECTED])
+        result.extend(self.project_permissions[-SELECTION_ALL])
+        return result
 
     def check_access(self, project):
         """Raise an error if user is not allowed to access this project."""
@@ -516,18 +524,22 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
-        return Project.objects.filter(pk__in=self.allowed_project_ids).order()
+        # All public and protected projects are accessible
+        condition = Q(
+            access_control__in={Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
+        )
 
-    @cached_property
-    def allowed_project_ids(self):
-        """
-        Set with IDs of allowed projects.
+        # Add project-specific allowance
+        project_ids = {
+            key
+            for key in self.project_permissions.keys()
+            if key
+            not in {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
+        }
+        if project_ids:
+            condition |= Q(pk__in=project_ids)
 
-        This is more effective to use in queries than doing complex joins.
-        """
-        if self.is_superuser:
-            return set(Project.objects.values_list("id", flat=True))
-        return set(self.project_permissions.keys())
+        return Project.objects.filter(condition).order()
 
     @cached_property
     def watched_projects(self):
@@ -537,7 +549,7 @@ class User(AbstractBaseUser):
         Ensure ACL filtering applies (the user could have been removed
         from the project meanwhile)
         """
-        return self.profile.watched.filter(id__in=self.allowed_project_ids).order()
+        return (self.profile.watched.all() & self.allowed_projects).order()
 
     @cached_property
     def owned_projects(self):
@@ -561,6 +573,7 @@ class User(AbstractBaseUser):
                 "componentlists__components",
                 "components",
                 "projects",
+                "languages",
             ):
                 if group.language_selection == SELECTION_ALL:
                     languages = None
@@ -572,6 +585,7 @@ class User(AbstractBaseUser):
                         role.permissions.all() for role in group.roles.all()
                     )
                 }
+
                 # Component list specific permissions
                 componentlist_values = {
                     (component.id, component.project_id)
@@ -585,6 +599,7 @@ class User(AbstractBaseUser):
                         # Grant access to the project
                         projects[project].append(((), languages))
                     continue
+
                 # Component specific permissions
                 component_values = {
                     (component.id, component.project_id)
@@ -596,9 +611,18 @@ class User(AbstractBaseUser):
                         # Grant access to the project
                         projects[project].append(((), languages))
                     continue
-                # Project specific permissions
-                for project in group.projects.all():
-                    projects[project.id].append((permissions, languages))
+
+                # Handle project selection
+                if group.project_selection in (
+                    SELECTION_ALL_PUBLIC,
+                    SELECTION_ALL_PROTECTED,
+                    SELECTION_ALL,
+                ):
+                    projects[-group.project_selection].append((permissions, languages))
+                else:
+                    # Project specific permissions
+                    for project in group.projects.all():
+                        projects[project.id].append((permissions, languages))
         # Apply blocking
         now = timezone.now()
         for block in self.userblock_set.all():
@@ -607,10 +631,8 @@ class User(AbstractBaseUser):
                 block.delete()
             else:
                 # Remove all permissions for blocked user
-                projects[block.project_id] = [
-                    ((), languages)
-                    for permissions, languages in projects[block.project_id]
-                ]
+                projects[block.project_id] = [(None, None)]
+
         self._permissions = {"projects": projects, "components": components}
 
     @cached_property
@@ -630,8 +652,25 @@ class User(AbstractBaseUser):
     def projects_with_perm(self, perm: str, explicit: bool = False):
         if not explicit and self.is_superuser:
             return Project.objects.all().order()
-        groups = Group.objects.filter(user=self, roles__permissions__codename=perm)
-        return Project.objects.filter(group__in=groups).distinct().order()
+        # Explicit permissions
+        condition = Q(group__user=self) & Q(group__roles__permissions__codename=perm)
+
+        # Site-wide permissions
+        if not explicit:
+            for access, selection in (
+                (Project.ACCESS_PUBLIC, -SELECTION_ALL_PUBLIC),
+                (Project.ACCESS_PROTECTED, -SELECTION_ALL_PROTECTED),
+                (None, -SELECTION_ALL),
+            ):
+                if any(
+                    perm in permissions
+                    for permissions, _langs in self.project_permissions[selection]
+                ):
+                    if access is None:
+                        condition = Q()
+                        break
+                    condition |= Q(access_control=access)
+        return Project.objects.filter(condition).distinct().order()
 
     def get_visible_name(self) -> str:
         """Get full name from database or username."""
@@ -769,15 +808,6 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
         auto_assign_group(instance)
 
 
-@receiver(post_save, sender=Language)
-@disable_for_loaddata
-def setup_language_groups(sender, instance, **kwargs):
-    """Set up group objects upon saving language."""
-    auto_languages = Group.objects.filter(language_selection=SELECTION_ALL)
-    for group in auto_languages:
-        group.languages.add(instance)
-
-
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_project_groups(
@@ -788,34 +818,6 @@ def setup_project_groups(
     **kwargs,
 ):
     """Set up group objects upon saving project."""
-    # Handle group automation to set project visibility
-    if instance.access_control == Project.ACCESS_PUBLIC:
-        add = (
-            SELECTION_ALL,
-            SELECTION_ALL_PUBLIC,
-            SELECTION_ALL_PROTECTED,
-        )
-        remove = ()
-    elif instance.access_control == Project.ACCESS_PROTECTED:
-        add = (
-            SELECTION_ALL,
-            SELECTION_ALL_PROTECTED,
-        )
-        remove = (SELECTION_ALL_PUBLIC,)
-    else:
-        add = (SELECTION_ALL,)
-        remove = (
-            SELECTION_ALL_PUBLIC,
-            SELECTION_ALL_PROTECTED,
-        )
-
-    for group in Group.objects.filter(project_selection__in=add).exclude(
-        projects=instance
-    ):
-        group.projects.add(instance)
-    for group in Group.objects.filter(project_selection__in=remove, projects=instance):
-        group.projects.remove(instance)
-
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
 

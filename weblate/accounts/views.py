@@ -595,7 +595,7 @@ class UserPage(UpdateView):
         user = self.object
         request = self.request
 
-        allowed_project_ids = request.user.allowed_project_ids
+        allowed_projects = request.user.allowed_projects
 
         # Filter all user activity
         all_changes = Change.objects.last_changes(request.user).filter(user=user)
@@ -609,7 +609,7 @@ class UserPage(UpdateView):
             Translation.objects.prefetch()
             .filter(
                 id__in=user_translation_ids,
-                component__project_id__in=allowed_project_ids,
+                component__project__in=allowed_projects,
             )
             .order()
         )
@@ -619,14 +619,10 @@ class UserPage(UpdateView):
         context["last_changes_url"] = urlencode({"user": user.username})
         context["page_user_translations"] = prefetch_stats(user_translations)
         context["page_owned_projects"] = prefetch_project_flags(
-            prefetch_stats(
-                user.owned_projects.filter(id__in=allowed_project_ids).order()
-            )
+            prefetch_stats((user.owned_projects & allowed_projects.distinct()).order())
         )
         context["page_watched_projects"] = prefetch_project_flags(
-            prefetch_stats(
-                user.watched_projects.filter(id__in=allowed_project_ids).order()
-            )
+            prefetch_stats((user.watched_projects & allowed_projects).order())
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()

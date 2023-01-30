@@ -1488,7 +1488,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return (
             ComponentList.objects.filter(
-                Q(components__project_id__in=self.request.user.allowed_project_ids)
+                Q(components__project__in=self.request.user.allowed_projects)
                 | Q(components__isnull=True)
             )
             .order_by("id")

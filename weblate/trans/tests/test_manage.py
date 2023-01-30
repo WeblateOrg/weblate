@@ -92,6 +92,7 @@ class RenameTest(ViewTestCase):
     def test_move_component(self):
         self.make_manager()
         other = Project.objects.create(name="Other project", slug="other")
+        # Other project should be visible as target for moving
         self.assertContains(
             self.client.get(reverse("component", kwargs=self.kw_component)),
             "Other project",

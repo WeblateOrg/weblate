@@ -154,7 +154,7 @@ class ChangeQuerySet(models.QuerySet):
                 result = result.none()
         elif not user.is_superuser:
             result = result.filter(
-                Q(project_id__in=user.allowed_project_ids)
+                Q(project__in=user.allowed_projects)
                 & (
                     Q(component__isnull=True)
                     | Q(component__restricted=False)

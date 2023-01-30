@@ -234,7 +234,7 @@ class ComponentQuerySet(models.QuerySet):
         if user.is_superuser:
             return self
         return self.filter(
-            Q(project_id__in=user.allowed_project_ids)
+            Q(project__in=user.allowed_projects)
             & (Q(restricted=False) | Q(id__in=user.component_permissions))
         )
 
