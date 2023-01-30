@@ -654,7 +654,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "unit": unit,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
-            "others": get_other_units(unit),
+            "others": get_other_units(unit) if user.is_authenticated else {"total": 0},
             "search_url": search_result["url"],
             "search_items": search_result["items"],
             "search_query": search_result["query"],
