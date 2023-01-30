@@ -117,13 +117,19 @@ def get_other_units(unit):
     else:
         return result
 
+    units = Unit.objects.filter(
+        query,
+        translation__component__project=component.project,
+        translation__language=translation.language,
+    )
+    # Use memory_db for the query in case it exists. This is supposed
+    # to be a read-only replica for offloading expensive translation
+    # queries.
+    if "memory_db" in settings.DATABASES:
+        units = units.using("memory_db")
+
     units = (
-        Unit.objects.filter(
-            query,
-            translation__component__project=component.project,
-            translation__language=translation.language,
-        )
-        .annotate(
+        units.annotate(
             matches_current=Case(
                 When(condition=match, then=1), default=0, output_field=IntegerField()
             )
