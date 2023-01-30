@@ -1307,7 +1307,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
             responses.POST,
             "https://api.region.language-translator.watson.cloud.ibm.com/"
             "instances/id/v3/translate?version=2018-05-01",
-            json={"translations": [{      "translation": "window"    }  ],  word_count": 1,  "character_count": 6},
+            json={"translations": [{      "translation": "window"    }  ],  "word_count": 1,  "character_count": 6},
         )
 
 
