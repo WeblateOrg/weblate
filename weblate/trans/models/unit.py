@@ -921,6 +921,16 @@ class Unit(models.Model, LoggerMixin):
             result = True
         return result
 
+    def commit_if_pending(self, author):
+        """Commit possible previous changes on this unit."""
+        if self.pending:
+            change_author = self.get_last_content_change()[0]
+            if change_author != author:
+                # This intentionally discards user - the translating user
+                # has no control on what this does (it can even trigger update
+                # of the repo)
+                self.translation.commit_pending("pending unit", None)
+
     def save_backend(
         self,
         user,
@@ -941,13 +951,7 @@ class Unit(models.Model, LoggerMixin):
         author = author or user
 
         # Commit possible previous changes on this unit
-        if self.pending:
-            change_author = self.get_last_content_change()[0]
-            if change_author != author:
-                # This intentionally discards user - the translating user
-                # has no control on what this does (it can even trigger update
-                # of the repo)
-                self.translation.commit_pending("pending unit", None)
+        self.commit_if_pending(author)
 
         # Propagate to other projects
         # This has to be done before changing source for template
@@ -1017,6 +1021,7 @@ class Unit(models.Model, LoggerMixin):
         """
         # Find relevant units
         for unit in self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk():
+            unit.commit_if_pending(author)
             # Update source and number of words
             unit.source = self.target
             unit.num_words = self.num_words
