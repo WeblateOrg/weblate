@@ -4,6 +4,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -32,7 +33,14 @@ def project_labels(request, project):
         form = LabelForm()
 
     return render(
-        request, "project-labels.html", {"object": obj, "project": obj, "form": form}
+        request,
+        "project-labels.html",
+        {
+            "object": obj,
+            "project": obj,
+            "form": form,
+            "labels": obj.label_set.annotate(string_count=Count("unit__id")),
+        },
     )
 
 
