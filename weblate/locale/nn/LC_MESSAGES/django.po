@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# tryvseu <tryvseu@tuta.io>, 2022.
+# tryvseu <tryvseu@tuta.io>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2022-12-02 09:26+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-02-01 03:03+0000\n"
+"Last-Translator: tryvseu <tryvseu@tuta.io>\n"
 "Language-Team: Norwegian Nynorsk <https://hosted.weblate.org/projects/"
 "weblate/application/nn/>\n"
 "Language: nn\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -64,7 +64,7 @@ msgstr "Offentleg e-post"
 
 #: weblate/accounts/forms.py:203
 msgid "Do not publicly display e-mail address"
-msgstr ""
+msgstr "Vis ikkje e-postadressa mi til andre"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -169,15 +169,16 @@ msgstr ""
 
 #: weblate/accounts/forms.py:694
 msgid "Translation notifications"
-msgstr ""
+msgstr "Omsetjingsvarsel"
 
 #: weblate/accounts/forms.py:713
+#, fuzzy
 msgid "Use default setting"
-msgstr ""
+msgstr "Nytt forvald innstilling"
 
 #: weblate/accounts/forms.py:739
 msgid "Other projects"
-msgstr ""
+msgstr "Andre prosjekt"
 
 #: weblate/accounts/forms.py:741 weblate/accounts/models.py:491
 #: weblate/templates/accounts/profile.html:68
@@ -187,11 +188,11 @@ msgstr ""
 
 #: weblate/accounts/forms.py:743 weblate/templates/accounts/user.html:142
 msgid "Managed projects"
-msgstr ""
+msgstr "Leidde prosjekt"
 
 #: weblate/accounts/forms.py:745
 msgid "Project: {}"
-msgstr ""
+msgstr "Prosjekt: {}"
 
 #: weblate/accounts/forms.py:746
 msgid "Component: {}"
@@ -280,7 +281,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:842
 msgid "Screenshots uploaded"
-msgstr ""
+msgstr "Utlagde skjermbilete"
 
 #: weblate/accounts/forms.py:865
 msgid "Chosen sorting is not supported."
@@ -374,7 +375,7 @@ msgstr "Innboden til  {site_title} av {username}."
 
 #: weblate/accounts/models.py:153
 msgid "Started trial period."
-msgstr "Byrja røynabolk."
+msgstr "Byrja røynebolk."
 
 #: weblate/accounts/models.py:154
 #, python-brace-format
@@ -388,9 +389,9 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/models.py:159
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Fekk ikkje tilgjenge til prosjektet {project}"
 
 #: weblate/accounts/models.py:164
 msgid "Configured password to sign in."
@@ -439,7 +440,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:378
 msgid "Secondary languages"
-msgstr ""
+msgstr "Andre mål"
 
 #: weblate/accounts/models.py:380
 msgid ""
@@ -449,7 +450,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:392
 msgid "Hide completed translations on the dashboard"
-msgstr ""
+msgstr "Ikkje vis fullgjorde omsetjingar i oversynet"
 
 #: weblate/accounts/models.py:395
 msgid "Show secondary translations in the Zen mode"
@@ -488,15 +489,15 @@ msgstr ""
 
 #: weblate/accounts/models.py:424
 msgid "Top to bottom"
-msgstr ""
+msgstr "Topp til botn"
 
 #: weblate/accounts/models.py:425
 msgid "Side by side"
-msgstr ""
+msgstr "Side om side"
 
 #: weblate/accounts/models.py:433
 msgid "Special characters"
-msgstr ""
+msgstr "Særteikn"
 
 #: weblate/accounts/models.py:435
 msgid ""
@@ -504,6 +505,9 @@ msgid ""
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
+"Her kan du leggja til fleire særteikn som vert vist ved omsetjing. Det er "
+"greitt å ha for teikn du nyttar ofte, men som er vanskeleg å rite med "
+"tastaturet ditt."
 
 #: weblate/accounts/models.py:441
 msgid "Number of nearby strings"
@@ -537,11 +541,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:465 weblate/templates/dashboard/user.html:23
 msgid "Suggested translations"
-msgstr ""
+msgstr "Tilrådde omsetjingar"
 
 #: weblate/accounts/models.py:477
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Forvald oversynsvising"
 
 #: weblate/accounts/models.py:483
 msgid "Default component list"
@@ -589,28 +593,28 @@ msgstr ""
 
 #: weblate/accounts/models.py:527
 msgid "GitHub username"
-msgstr ""
+msgstr "GitHub-brukarnamn"
 
 #: weblate/accounts/models.py:532
 msgid "Twitter username"
-msgstr ""
+msgstr "Twitter-brukarnamn"
 
 #: weblate/accounts/models.py:537
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "LinkedIn-profilnamn"
 
 #: weblate/accounts/models.py:538
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "LinkedIn-profilnamnet ditt ifrå linkedin.com/in/profilename"
 
 #: weblate/accounts/models.py:543
 #: weblate/templates/snippets/embed-units.html:64
 msgid "Location"
-msgstr ""
+msgstr "Stad"
 
 #: weblate/accounts/models.py:548
 msgid "Company"
-msgstr ""
+msgstr "Verksemd"
 
 #: weblate/accounts/models.py:609
 msgid ""
@@ -636,23 +640,23 @@ msgstr ""
 
 #: weblate/accounts/notifications.py:38
 msgid "Do not notify"
-msgstr ""
+msgstr "Ikkje varsl"
 
 #: weblate/accounts/notifications.py:39
 msgid "Instant notification"
-msgstr ""
+msgstr "Varsl med ein gong"
 
 #: weblate/accounts/notifications.py:40
 msgid "Daily digest"
-msgstr ""
+msgstr "Daglege samandrag"
 
 #: weblate/accounts/notifications.py:41
 msgid "Weekly digest"
-msgstr ""
+msgstr "Eit samandrag i veka"
 
 #: weblate/accounts/notifications.py:42
 msgid "Monthly digest"
-msgstr ""
+msgstr "Månadlege samandrag"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:405
@@ -730,7 +734,7 @@ msgstr ""
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:636
 msgid "New language"
-msgstr ""
+msgstr "Nytt mål"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:653
