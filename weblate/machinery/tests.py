@@ -1283,7 +1283,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = IBMTranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
-    SUPPORTED = "zh_Hant"
+    SUPPORTED = "zh-TW"
     CONFIGURATION = {
         "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
         "instances/id",
