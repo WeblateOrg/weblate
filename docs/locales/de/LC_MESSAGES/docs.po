@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-01-31 06:42+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2023-02-01 03:03+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -13566,12 +13566,17 @@ msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
+"Ermöglicht es Weblate, die IP-Adresse aus einem beliebigen HTTP-Header zu "
+"holen. Verwenden Sie dies, wenn Sie einen Reverse-Proxy vor dem Weblate-"
+"Container einsetzen."
 
 #: ../../admin/install/docker.rst:591
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
+"Aktiviert :setting:`IP_BEHIND_REVERSE_PROXY` und setzt "
+":setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/install/docker.rst:595
 msgid ""
@@ -13579,22 +13584,26 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
+"Das Format muss mit den Erwartungen von Django übereinstimmen. Django `"
+"wandelt <https://docs.djangoproject.com/en/2.2/ref/request-response/#django."
+"http.HttpRequest.META>`_ rohe HTTP-Header-Namen wie folgt um:"
 
 #: ../../admin/install/docker.rst:599
 msgid "converts all characters to uppercase"
-msgstr ""
+msgstr "wandelt alle Zeichen in Großbuchstaben um"
 
 #: ../../admin/install/docker.rst:600
 msgid "replaces any hyphens with underscores"
-msgstr ""
+msgstr "ersetzt alle Bindestriche durch Unterstriche"
 
 #: ../../admin/install/docker.rst:601
 msgid "prepends ``HTTP_`` prefix"
-msgstr ""
+msgstr "stellt den``HTTP_`` Präfix voran"
 
 #: ../../admin/install/docker.rst:603
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
+"So würde ``X-Forwarded-For`` auf ``HTTP_X_FORWARDED_FOR`` abgebildet werden."
 
 #: ../../admin/install/docker.rst:615
 msgid ""
@@ -13602,6 +13611,10 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"Ein Tupel, das eine HTTP-Header/Wert-Kombination darstellt, die bedeutet, "
+"dass eine Anfrage sicher ist. Dies wird benötigt, wenn Weblate hinter einem "
+"Reverse-Proxy läuft, der die SSL-Terminierung durchführt und keine Standard-"
+"HTTPS-Header weitergibt."
 
 #: ../../admin/install/docker.rst:628
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
@@ -13611,24 +13624,33 @@ msgstr ""
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
+"Aktiviert :setting:`REQUIRE_LOGIN`, um die Authentifizierung auf dem "
+"gesamten Weblate zu erzwingen."
 
 #: ../../admin/install/docker.rst:645
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
+"Fügt URL-Ausnahmen für die Authentifizierung hinzu, die für die gesamte "
+"Weblate-Installation durch :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` "
+"erforderlich ist."
 
 #: ../../admin/install/docker.rst:648
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
+"Sie können entweder ganze Einstellungen ersetzen oder den Standardwert "
+"mittels der Variablen ``ADD`` und ``REMOVE`` ändern."
 
 #: ../../admin/install/docker.rst:652
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
+"Konfiguriert die ID für Google Analytics durch Ändern von "
+":setting:`GOOGLE_ANALYTICS_ID`."
 
 #: ../../admin/install/docker.rst:658
 msgid ""
@@ -13689,18 +13711,24 @@ msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
+"Konfiguriert die Richtlinie zur Sprachvereinfachung, siehe "
+":setting:'SIMPLIFY_LANGUAGES'."
 
 #: ../../admin/install/docker.rst:718
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Konfiguriert das standardmäßige :ref:`project-access_control` für neue "
+"Projekte, siehe :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/install/docker.rst:722
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Legt den Standardwert für :ref:`component-restricted` für neue Komponenten "
+"fest, siehe :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/install/docker.rst:726
 msgid ""
@@ -13708,6 +13736,8 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"Legt den Standardwert für :ref:`component-allow_translation_propagation` für "
+"neue Komponenten fest, siehe :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:730
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
@@ -13724,25 +13754,32 @@ msgstr "Konfiguriert :setting:`DEFAULT_SHARED_TM`."
 #: ../../admin/install/docker.rst:742
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
+"Konfiguriert den Akismet-API-Schlüssel, siehe :setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:746
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Konfiguriert die GPG-Signierung von Commits, siehe "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:754
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
+"Konfiguriert den URL-Präfix, unter dem Weblate läuft, siehe "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:758
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"Konfiguriert Prüfungen, die nicht angezeigt werden sollen, siehe "
+":setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:767
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
-msgstr ""
+msgstr "Ermöglicht die Anpassung des ``Content-Security-Policy`` HTTP-Headers."
 
 #: ../../admin/install/docker.rst:771
 msgid ""
