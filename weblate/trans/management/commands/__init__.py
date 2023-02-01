@@ -26,6 +26,10 @@ class WeblateComponentCommand(BaseCommand):
             help="process all components",
         )
         parser.add_argument(
+            "--file-format",
+            help="process all components using given file format",
+        )
+        parser.add_argument(
             "component",
             nargs="*",
             help="Slug <project/component> of component to process",
@@ -70,12 +74,16 @@ class WeblateComponentCommand(BaseCommand):
 
     def get_components(self, **options):
         """Return list of components matching parameters."""
+        if self.needs_repo:
+            base = Component.objects.exclude(repo__startswith="weblate:/")
+        else:
+            base = Component.objects.all()
         if options["all"]:
             # all components
-            if self.needs_repo:
-                result = Component.objects.exclude(repo__startswith="weblate:/")
-            else:
-                result = Component.objects.all()
+            result = base
+        elif options["file_format"]:
+            # all components
+            result = base.filter(file_format=options["file_format"])
         elif options["component"]:
             # start with none and add found
             result = Component.objects.none()
@@ -86,7 +94,7 @@ class WeblateComponentCommand(BaseCommand):
                 parts = arg.split("/")
 
                 # filter by project
-                found = Component.objects.filter(project__slug=parts[0])
+                found = base.filter(project__slug=parts[0])
 
                 # filter by component if available
                 if len(parts) == 2:
@@ -101,9 +109,10 @@ class WeblateComponentCommand(BaseCommand):
                 result |= found
         else:
             # no arguments to filter projects
-            self.stderr.write(
-                "Please specify either --all or at least one <project/component>"
-            )
+            self.stderr.write("Missing component selection!")
+            self.stderr.write(" * Use --all to select all components")
+            self.stderr.write(" * Use --file-format to filter based on the file format")
+            self.stderr.write(" * Specify at least one <project/component> argument")
             raise CommandError("Nothing to process!")
 
         return result

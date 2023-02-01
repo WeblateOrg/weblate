@@ -184,7 +184,8 @@ commitgit
 Commits any possible pending changes to the back-end Git repository.
 
 You can either define which project or component to update (for example
-``weblate/application``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components,
+or use ``--file-format`` to filter based on the file format.
 
 commit_pending
 --------------
