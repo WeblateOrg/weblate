@@ -774,45 +774,6 @@ List for credentials for Gitea servers.
 
 .. seealso::
 
-   :envvar:`WEBLATE_GITEA_USERNAME`,
-   :envvar:`WEBLATE_GITEA_TOKEN`,
-   :envvar:`WEBLATE_GITEA_HOST`
-
-.. setting:: GITEA_USERNAME
-
-GITEA_USERNAME
---------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`GITEA_CREDENTIALS`.
-
-.. versionadded:: 4.12
-
-Gitea username used to send pull requests for translation updates.
-
-.. seealso::
-
-   :setting:`GITEA_CREDENTIALS`,
-   :ref:`vcs-gitea`
-
-.. setting:: GITEA_TOKEN
-
-GITEA_TOKEN
------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`GITEA_CREDENTIALS`.
-
-.. versionadded:: 4.12
-
-Gitea personal access token used to make API calls to send pull requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`GITEA_CREDENTIALS`,
    :ref:`vcs-gitea`,
    `Creating a Gitea personal access token`_
 
@@ -842,43 +803,6 @@ List for credentials for GitLab servers.
 
 .. seealso::
 
-   :envvar:`WEBLATE_GITLAB_USERNAME`,
-   :envvar:`WEBLATE_GITLAB_TOKEN`,
-   :envvar:`WEBLATE_GITLAB_HOST`
-
-.. setting:: GITLAB_USERNAME
-
-GITLAB_USERNAME
----------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`GITLAB_CREDENTIALS`.
-
-GitLab username used to send merge requests for translation updates.
-
-.. seealso::
-
-   :setting:`GITLAB_CREDENTIALS`,
-   :ref:`vcs-gitlab`
-
-.. setting:: GITLAB_TOKEN
-
-GITLAB_TOKEN
-------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`GITLAB_CREDENTIALS`.
-
-.. versionadded:: 4.3
-
-GitLab personal access token used to make API calls to send merge requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`GITLAB_CREDENTIALS`,
    :ref:`vcs-gitlab`,
    `GitLab: Personal access token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_
 
@@ -906,43 +830,6 @@ List for credentials for GitHub servers.
 
 .. seealso::
 
-   :envvar:`WEBLATE_GITHUB_USERNAME`,
-   :envvar:`WEBLATE_GITHUB_TOKEN`,
-   :envvar:`WEBLATE_GITHUB_HOST`
-
-.. setting:: GITHUB_USERNAME
-
-GITHUB_USERNAME
----------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`GITHUB_CREDENTIALS`.
-
-GitHub username used to send pull requests for translation updates.
-
-.. seealso::
-
-   :setting:`GITHUB_CREDENTIALS`,
-   :ref:`vcs-github`
-
-.. setting:: GITHUB_TOKEN
-
-GITHUB_TOKEN
-------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`GITHUB_CREDENTIALS`.
-
-.. versionadded:: 4.3
-
-GitHub personal access token used to make API calls to send pull requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
    `Creating a GitHub personal access token`_
 
@@ -1358,45 +1245,6 @@ List for credentials for Pagure servers.
 
 .. seealso::
 
-   :envvar:`WEBLATE_PAGURE_USERNAME`,
-   :envvar:`WEBLATE_PAGURE_TOKEN`,
-   :envvar:`WEBLATE_PAGURE_HOST`
-
-.. setting:: PAGURE_USERNAME
-
-PAGURE_USERNAME
----------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`PAGURE_CREDENTIALS`.
-
-.. versionadded:: 4.3.2
-
-Pagure username used to send merge requests for translation updates.
-
-.. seealso::
-
-   :setting:`PAGURE_CREDENTIALS`,
-   :ref:`vcs-pagure`
-
-.. setting:: PAGURE_TOKEN
-
-PAGURE_TOKEN
-------------
-
-.. deprecated:: 4.14.2
-
-   This configuration is insecure, it is recommended to switch to :setting:`PAGURE_CREDENTIALS`.
-
-.. versionadded:: 4.3.2
-
-Pagure personal access token used to make API calls to send merge requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`PAGURE_CREDENTIALS`,
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
 

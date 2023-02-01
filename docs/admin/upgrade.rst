@@ -332,6 +332,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _up-4-14:
+
 Upgrade from 4.13 to 4.14
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -373,6 +375,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * Celery beat is now stroring the tasks schedule in the database,
   ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
   changed for that.
+* The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

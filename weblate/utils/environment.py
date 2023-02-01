@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 
 def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
@@ -62,15 +62,17 @@ def modify_env_list(current: List[str], name: str) -> List[str]:
 
 def get_env_credentials(
     name: str,
-) -> Tuple[Optional[str], Optional[str], Dict[str, Dict[str, str]]]:
+) -> Dict[str, Dict[str, str]]:
     """Parses VCS integration credentials."""
     username = os.environ.get(f"WEBLATE_{name}_USERNAME")
     token = os.environ.get(f"WEBLATE_{name}_TOKEN")
     host = os.environ.get(f"WEBLATE_{name}_HOST")
 
-    if host:
-        return None, None, {host: {"username": username, "token": token}}
-    return username, token, {}
+    if not host and (username or token):
+        raise ValueError(
+            f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
+        )
+    return {host: {"username": username, "token": token}}
 
 
 def get_env_ratelimit(name: str, default: str) -> str:

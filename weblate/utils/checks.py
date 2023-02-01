@@ -90,7 +90,7 @@ DOC_LINKS = {
     "weblate.C037": ("admin/install", "production-database"),
     "weblate.C038": ("admin/install", "production-database"),
     "weblate.W039": ("admin/machine",),
-    "weblate.W040": ("vcs",),
+    "weblate.C040": ("vcs",),
 }
 
 
