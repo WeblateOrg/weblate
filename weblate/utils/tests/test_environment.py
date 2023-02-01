@@ -70,12 +70,13 @@ class EnvTest(SimpleTestCase):
     def test_get_env_credentials(self):
         os.environ["WEBLATE_TEST_USERNAME"] = "user"
         os.environ["WEBLATE_TEST_TOKEN"] = "token"
-        self.assertEqual(get_env_credentials("TEST"), ("user", "token", {}))
+        with self.assertRaises(ValueError):
+            get_env_credentials("TEST")
 
         os.environ["WEBLATE_TEST_HOST"] = "host"
         self.assertEqual(
             get_env_credentials("TEST"),
-            (None, None, {"host": {"username": "user", "token": "token"}}),
+            {"host": {"username": "user", "token": "token"}},
         )
 
         del os.environ["WEBLATE_TEST_USERNAME"]

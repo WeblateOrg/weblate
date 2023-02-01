@@ -5,7 +5,7 @@
 import os
 
 from django.apps import AppConfig
-from django.core.checks import Warning, register
+from django.core.checks import Critical, Warning, register
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
@@ -47,10 +47,10 @@ def check_vcs_deprecated(app_configs, **kwargs):
 
     return [
         weblate_check(
-            f"weblate.W040.{key}",
-            f"{key} uses deprecated configuration, please switch "
+            f"weblate.C040.{key}",
+            f"{key} uses not supported configuration, please switch "
             f"to {cls.identifier.upper()}_CREDENTIALS",
-            Warning,
+            Critical,
         )
         for key, cls in VCS_REGISTRY.items()
         if cls.uses_deprecated_setting()

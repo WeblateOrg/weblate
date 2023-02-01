@@ -212,19 +212,19 @@ TEMPLATES = [
 
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
-GITHUB_USERNAME, GITHUB_TOKEN, GITHUB_CREDENTIALS = get_env_credentials("GITHUB")
+GITHUB_CREDENTIALS = get_env_credentials("GITHUB")
 
 # GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
-GITLAB_USERNAME, GITLAB_TOKEN, GITLAB_CREDENTIALS = get_env_credentials("GITLAB")
+GITLAB_CREDENTIALS = get_env_credentials("GITLAB")
 
 # Gitea username and token for sending pull requests.
 # Please see the documentation for more details.
-GITEA_USERNAME, GITEA_TOKEN, GITEA_CREDENTIALS = get_env_credentials("GITEA")
+GITEA_CREDENTIALS = get_env_credentials("GITEA")
 
 # Pagure username and token for sending merge requests.
 # Please see the documentation for more details.
-PAGURE_USERNAME, PAGURE_TOKEN, PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
+PAGURE_CREDENTIALS = get_env_credentials("PAGURE")
 
 # Default pull request message.
 # Please see the documentation for more details.

@@ -282,8 +282,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`GITHUB_USERNAME`,
-   :setting:`GITHUB_TOKEN`,
    :setting:`GITHUB_CREDENTIALS`
 
 .. _GitHub API: https://docs.github.com/en/rest
@@ -312,8 +310,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`GITLAB_USERNAME`,
-   :setting:`GITLAB_TOKEN`,
    :setting:`GITLAB_CREDENTIALS`
 
 .. _GitLab API: https://docs.gitlab.com/ee/api/
@@ -342,8 +338,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`GITEA_USERNAME`,
-   :setting:`GITEA_TOKEN`,
    :setting:`GITEA_CREDENTIALS`
 
 .. _Gitea API: https://docs.gitea.io/en-us/api-usage/
@@ -372,8 +366,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`PAGURE_USERNAME`,
-   :setting:`PAGURE_TOKEN`,
    :setting:`PAGURE_CREDENTIALS`
 
 .. _Pagure API: https://pagure.io/api/0/

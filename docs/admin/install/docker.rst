@@ -656,8 +656,7 @@ Generic settings
 .. envvar:: WEBLATE_GITHUB_HOST
 
     Configures GitHub pull-requests integration by changing
-    :setting:`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or
-    :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`.
+    :setting:`GITHUB_CREDENTIALS`.
 
     .. seealso::
 
@@ -668,8 +667,7 @@ Generic settings
 .. envvar:: WEBLATE_GITLAB_HOST
 
     Configures GitLab merge-requests integration  by changing
-    :setting:`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or
-    :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
+    :setting:`GITLAB_CREDENTIALS`.
 
     .. seealso::
 
@@ -680,8 +678,7 @@ Generic settings
 .. envvar:: WEBLATE_GITEA_HOST
 
     Configures Gitea pull-requests integration by changing
-    :setting:`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or
-    :setting:`GITEA_USERNAME` and :setting:`GITEA_TOKEN`.
+    :setting:`GITEA_CREDENTIALS`.
 
     .. seealso::
 
@@ -693,8 +690,7 @@ Generic settings
 .. envvar:: WEBLATE_PAGURE_HOST
 
     Configures Pagure merge-requests integration  by changing
-    :setting:`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or
-    :setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`.
+    :setting:`PAGURE_CREDENTIALS`.
 
     .. seealso::
 
