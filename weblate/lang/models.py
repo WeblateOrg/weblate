@@ -672,6 +672,10 @@ class Plural(models.Model):
             pgettext_lazy("Plural type", "One/many/other"),
         ),
         (
+            data.PLURAL_ZERO_ONE_MANY_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/many/other"),
+        ),
+        (
             data.PLURAL_UNKNOWN,
             pgettext_lazy("Plural type", "Unknown"),
         ),
