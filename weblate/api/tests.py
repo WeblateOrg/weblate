@@ -2269,6 +2269,19 @@ class TranslationAPITest(APIBaseTest):
         self.authenticate()
         # Remove all permissions
         self.user.groups.clear()
+        self.user.clear_cache()
+
+        # Public project should fail with 403
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+        self.assertEqual(response.status_code, 403)
+
+        # Private one with 404
+        self.component.project.access_control = Project.ACCESS_PRIVATE
+        self.component.project.save()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),

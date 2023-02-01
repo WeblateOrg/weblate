@@ -678,7 +678,7 @@ class Profile(models.Model):
     def allowed_dashboard_component_lists(self):
         return ComponentList.objects.filter(
             show_dashboard=True,
-            components__project_id__in=self.user.allowed_project_ids,
+            components__project__in=self.user.allowed_projects,
         ).distinct()
 
     @cached_property

@@ -182,7 +182,7 @@ def fetch_componentlists(user, user_translations):
     componentlists = list(
         ComponentList.objects.filter(
             show_dashboard=True,
-            components__project_id__in=user.allowed_project_ids,
+            components__project__in=user.allowed_projects,
         )
         .distinct()
         .order()
@@ -268,7 +268,7 @@ def dashboard_user(request):
             "componentlists": componentlists,
             "all_componentlists": prefetch_stats(
                 ComponentList.objects.filter(
-                    components__project_id__in=request.user.allowed_project_ids
+                    components__project__in=request.user.allowed_projects
                 )
                 .distinct()
                 .order()

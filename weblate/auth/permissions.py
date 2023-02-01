@@ -42,7 +42,7 @@ def check_permission(user, permission, obj):
     if isinstance(obj, Project):
         return any(
             permission in permissions
-            for permissions, _langs in user.project_permissions[obj.pk]
+            for permissions, _langs in user.get_project_permissions(obj)
         )
     if isinstance(obj, ComponentList):
         return all(
@@ -54,7 +54,7 @@ def check_permission(user, permission, obj):
             not obj.restricted
             and any(
                 permission in permissions
-                for permissions, _langs in user.project_permissions[obj.project_id]
+                for permissions, _langs in user.get_project_permissions(obj.project)
             )
         ) or any(
             permission in permissions
@@ -66,9 +66,9 @@ def check_permission(user, permission, obj):
             not obj.component.restricted
             and any(
                 permission in permissions and (langs is None or lang in langs)
-                for permissions, langs in user.project_permissions[
-                    obj.component.project_id
-                ]
+                for permissions, langs in user.get_project_permissions(
+                    obj.component.project
+                )
             )
         ) or any(
             permission in permissions and (langs is None or lang in langs)
