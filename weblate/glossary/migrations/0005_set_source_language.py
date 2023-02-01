@@ -16,7 +16,6 @@ def set_source_language(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("glossary", "0004_glossary_source_language"),
     ]

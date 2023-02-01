@@ -16,7 +16,6 @@ def rename_java_language(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0152_alter_change_action"),
     ]

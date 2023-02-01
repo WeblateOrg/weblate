@@ -23,7 +23,6 @@ def drop_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0010_migrate_componentlist"),
     ]

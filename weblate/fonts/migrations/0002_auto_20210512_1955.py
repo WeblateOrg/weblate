@@ -8,7 +8,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("fonts", "0001_squashed_0007_auto_20190517_1907"),
     ]

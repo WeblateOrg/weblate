@@ -23,7 +23,6 @@ def fixup_non_unique(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("metrics", "0002_import_user_metrics"),
     ]

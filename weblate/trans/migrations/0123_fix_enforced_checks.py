@@ -17,7 +17,6 @@ def fixup_enforced_checks(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0122_auto_20210228_1846"),
     ]

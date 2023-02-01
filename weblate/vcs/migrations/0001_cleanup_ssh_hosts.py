@@ -10,7 +10,6 @@ from weblate.vcs.ssh import cleanup_host_keys
 
 
 class Migration(migrations.Migration):
-
     dependencies = []
 
     operations = [

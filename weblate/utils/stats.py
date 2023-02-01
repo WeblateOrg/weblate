@@ -969,7 +969,6 @@ class GlobalStats(BaseStats):
         return prefetch_stats(Project.objects.iterator())
 
     def _prefetch_basic(self):
-
         stats = zero_stats(self.basic_keys)
         for project in self.project_set:
             stats_obj = project.stats

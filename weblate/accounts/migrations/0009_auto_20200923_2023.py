@@ -9,7 +9,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0104_update_source_unit_source"),
         ("accounts", "0008_auto_20200923_1216"),

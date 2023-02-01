@@ -22,7 +22,6 @@ def migrate_machinery(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("configuration", "0003_alter_setting_category"),
         ("trans", "0151_project_machinery_settings"),

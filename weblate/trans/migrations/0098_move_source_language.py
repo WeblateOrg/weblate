@@ -15,7 +15,6 @@ def migrate_source_language(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0097_component_source_language"),
     ]

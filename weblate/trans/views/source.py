@@ -48,7 +48,6 @@ def edit_context(request, pk):
             unit.extra_flags = new_flags
             unit.save(same_content=True, update_fields=["extra_flags"])
     else:
-
         if not request.user.has_perm("source.edit", unit.translation):
             raise PermissionDenied()
 

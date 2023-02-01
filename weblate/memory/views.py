@@ -56,7 +56,6 @@ class MemoryFormView(ErrorFormView):
 
 
 class DeleteView(MemoryFormView):
-
     form_class = DeleteForm
 
     def form_valid(self, form):
@@ -71,7 +70,6 @@ class DeleteView(MemoryFormView):
 
 
 class RebuildView(MemoryFormView):
-
     form_class = DeleteForm
 
     def form_valid(self, form):

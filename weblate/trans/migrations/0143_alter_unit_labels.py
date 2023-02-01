@@ -10,7 +10,6 @@ import weblate.trans.models.unit
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0142_projecttoken"),
     ]

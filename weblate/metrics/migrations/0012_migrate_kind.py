@@ -21,7 +21,6 @@ def migrate_kind(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("metrics", "0011_metric_kind"),
     ]

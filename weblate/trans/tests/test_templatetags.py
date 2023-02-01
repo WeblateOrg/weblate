@@ -227,7 +227,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_basic(self):
         self.assertEqual(
-            format_translation("Hello world", self.component.source_language,)["items"][
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+            )["items"][
                 0
             ]["content"],
             "Hello world",
@@ -479,7 +482,11 @@ class TranslationFormatTestCase(FixtureTestCase):
     def test_highlight(self):
         unit = self.translation.unit_set.get(id_hash=2097404709965985808)
         self.assertHTMLEqual(
-            format_translation(unit.source, unit.translation.language, unit=unit,)[
+            format_translation(
+                unit.source,
+                unit.translation.language,
+                unit=unit,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -506,7 +513,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_whitespace(self):
         self.assertHTMLEqual(
-            format_translation(" Hello world", self.component.source_language,)[
+            format_translation(
+                " Hello world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -519,7 +529,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
         self.assertHTMLEqual(
-            format_translation("  Hello world", self.component.source_language,)[
+            format_translation(
+                "  Hello world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -534,7 +547,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
         self.assertHTMLEqual(
-            format_translation("Hello   world", self.component.source_language,)[
+            format_translation(
+                "Hello   world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -551,7 +567,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
         self.assertHTMLEqual(
-            format_translation("Hello world ", self.component.source_language,)[
+            format_translation(
+                "Hello world ",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -565,7 +584,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_whitespace_special(self):
         self.assertHTMLEqual(
-            format_translation("Hello\u00A0world", self.component.source_language,)[
+            format_translation(
+                "Hello\u00A0world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -581,7 +603,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_whitespace_newline(self):
         self.assertHTMLEqual(
-            format_translation("Hello\n world", self.component.source_language,)[
+            format_translation(
+                "Hello\n world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """

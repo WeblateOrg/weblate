@@ -13,7 +13,6 @@ def remove_blank(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("memory", "0011_alter_memory_options"),
     ]

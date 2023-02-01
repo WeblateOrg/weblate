@@ -8,7 +8,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("billing", "0001_squashed_0020_auto_20200320_1007"),
     ]

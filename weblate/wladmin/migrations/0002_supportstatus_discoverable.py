@@ -8,7 +8,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("wladmin", "0001_squashed_0008_auto_20191011_0816"),
     ]

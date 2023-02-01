@@ -10,7 +10,6 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0093_auto_20200730_1432"),
     ]

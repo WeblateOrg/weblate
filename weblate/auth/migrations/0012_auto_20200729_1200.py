@@ -11,7 +11,6 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0011_unique_case_insensitive"),
     ]

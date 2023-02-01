@@ -8,7 +8,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0157_alter_alert_details_alter_component_enforced_checks"),
     ]

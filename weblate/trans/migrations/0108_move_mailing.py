@@ -17,7 +17,6 @@ def move_mailing(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0107_component_links"),
     ]

@@ -8,7 +8,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0085_change_glossary_term"),
         ("glossary", "0002_migrate_dictionary"),

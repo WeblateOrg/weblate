@@ -9,7 +9,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0104_update_source_unit_source"),
         ("screenshots", "0001_squashed_0006_remove_screenshot_sources"),

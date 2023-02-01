@@ -46,7 +46,6 @@ def fix_convert_context(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0149_component_pull_message"),
     ]

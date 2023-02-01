@@ -283,7 +283,6 @@ class ICUMessageFormatCheckTest(CheckTestCase):
 # This is a sub-class of our existing test set because this format is an extension
 # of the other format and it should handle all existing syntax properly.
 class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
-
     flags = "xml"
 
     def test_tags(self):
@@ -376,7 +375,6 @@ class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
 
 
 class ICUXMLStrictFormatCheckTest(ICUXMLFormatCheckTest):
-
     flags = "strict-xml"
 
     def test_tag_prefix(self):

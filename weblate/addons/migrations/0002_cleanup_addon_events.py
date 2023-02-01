@@ -22,7 +22,6 @@ def update_cleanup_addon(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("addons", "0001_squashed_0021_linguas_daily"),
     ]

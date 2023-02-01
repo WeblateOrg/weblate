@@ -12,7 +12,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("legal", "0001_squashed_0004_copy_auditlog"),
         ("legal", "0002_auto_20190516_1224"),

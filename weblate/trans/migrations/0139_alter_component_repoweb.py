@@ -10,7 +10,6 @@ import weblate.utils.render
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0138_alter_component_report_source_bugs"),
     ]

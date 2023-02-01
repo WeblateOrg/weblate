@@ -56,7 +56,6 @@ def update_source_unit(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0102_unit_source_unit"),
     ]

@@ -119,7 +119,6 @@ class Formatter:
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == dmp.DIFF_INSERT:
-
                 # Rearrange space highlighting
                 move_space = False
                 start_space = -1

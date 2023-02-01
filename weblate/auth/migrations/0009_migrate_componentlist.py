@@ -16,7 +16,6 @@ def migrate_componentlist(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0008_auto_20200611_1232"),
     ]

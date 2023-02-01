@@ -189,7 +189,6 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0115_auto_20210201_1305"),
         ("glossary", "0005_set_source_language"),

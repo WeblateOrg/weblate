@@ -31,7 +31,6 @@ def drop_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0110_auto_20210120_0845"),
     ]

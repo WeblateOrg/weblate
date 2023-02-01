@@ -55,7 +55,6 @@ def migrate_bots(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0023_user_is_bot"),
         ("trans", "0144_projecttoken_user"),

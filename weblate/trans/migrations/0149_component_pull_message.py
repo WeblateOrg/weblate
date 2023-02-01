@@ -11,7 +11,6 @@ import weblate.utils.render
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0148_alter_component_language_code_style"),
     ]

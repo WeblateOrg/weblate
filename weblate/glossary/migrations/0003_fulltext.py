@@ -44,7 +44,6 @@ def drop_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("glossary", "0002_migrate_dictionary"),
     ]

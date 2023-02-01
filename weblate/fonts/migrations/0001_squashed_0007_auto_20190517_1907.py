@@ -15,7 +15,6 @@ from weblate.utils.data import data_dir
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [

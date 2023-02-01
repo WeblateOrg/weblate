@@ -1837,7 +1837,6 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
             # If the translation unit is missing and the current unit is not
             # only about comment.
             if unit.unit is None and unit.has_content():
-
                 # We first check if the unit has not been translated as part of a
                 # new language: in that case the unit is not linked yet.
                 found_store_unit = None

@@ -242,7 +242,6 @@ class SubscriptionForm(ProfileBaseForm):
         widgets = {"watched": forms.SelectMultiple}
 
     def __init__(self, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
         user = kwargs["instance"].user
         self.fields["watched"].required = False

@@ -10,7 +10,6 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lang", "0012_alter_plural_type"),
     ]

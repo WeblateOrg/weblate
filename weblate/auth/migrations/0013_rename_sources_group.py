@@ -18,7 +18,6 @@ def update_name(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0012_auto_20200729_1200"),
     ]

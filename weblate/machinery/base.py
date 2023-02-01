@@ -327,7 +327,6 @@ class MachineTranslation:
             yield code.split("_")[0]
 
     def get_languages(self, source_language, target_language):
-
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 

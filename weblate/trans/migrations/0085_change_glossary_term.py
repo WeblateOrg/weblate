@@ -9,7 +9,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("glossary", "0001_initial"),
         ("trans", "0084_auto_20200605_0648"),

@@ -8,7 +8,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lang", "0017_alter_plural_type"),
         ("trans", "0159_alter_change_index_together_alter_change_timestamp_and_more"),

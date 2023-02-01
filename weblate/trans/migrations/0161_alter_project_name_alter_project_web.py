@@ -11,7 +11,6 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0160_alter_change_index_together"),
     ]

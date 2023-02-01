@@ -123,7 +123,6 @@ def test_word(word, extra_ignore):
 
 
 def strip_placeholders(msg, unit):
-
     return re.sub(
         "|".join(
             re.escape(param) if isinstance(param, str) else param.pattern

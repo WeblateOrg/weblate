@@ -12,7 +12,6 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("billing", "0001_squashed_0016_remove_billing_user"),
         ("billing", "0002_auto_20180905_1400"),

@@ -167,7 +167,6 @@ class MemoryViewTest(FixtureTestCase):
     def test_memory(
         self, match="Number of your entries", fail=False, prefix: str = "", **kwargs
     ):
-
         is_project_scoped = "kwargs" in kwargs and "project" in kwargs["kwargs"]
         # Test wipe without confirmation
         response = self.client.get(reverse(f"{prefix}memory-delete", **kwargs))

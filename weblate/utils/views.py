@@ -98,7 +98,6 @@ def get_paginator(request, object_list, page_limit=None):
 
 
 class ComponentViewMixin:
-
     # This should be done in setup once we drop support for older Django
     def get_component(self):
         return get_component(

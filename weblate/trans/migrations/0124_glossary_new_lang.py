@@ -16,7 +16,6 @@ def disable_glossary_new_lang(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0123_fix_enforced_checks"),
     ]
