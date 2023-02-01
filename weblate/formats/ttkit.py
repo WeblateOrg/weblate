@@ -222,6 +222,10 @@ class TTKitFormat(TranslationFormat):
     # Use settarget/setsource to set language as well
     use_settarget = False
     force_encoding = None
+    plural_preference = (
+        Plural.SOURCE_CLDR,
+        Plural.SOURCE_DEFAULT,
+    )
 
     def __init__(
         self,
@@ -1045,6 +1049,7 @@ class INIUnit(TTKitUnit):
 
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
+    plural_preference = None
 
     @classmethod
     def get_plural(cls, language, store=None):

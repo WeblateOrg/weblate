@@ -309,6 +309,12 @@ class VerifyPluralsTest(TestCase):
                 f"Can not guess plural type for {code}: {plural_formula}",
             )
 
+    def test_with_zero(self):
+        for _code, _name, _nplurals, plural_formula in CLDRPLURALS:
+            self.assertIn(plural_formula, data.FORMULA_WITH_ZERO)
+            with_zero = data.FORMULA_WITH_ZERO[plural_formula]
+            gettext.c2py(with_zero)
+
     def test_formula(self):
         """Validate that all formulas can be parsed by gettext."""
         # Verify we get an error on invalid syntax
