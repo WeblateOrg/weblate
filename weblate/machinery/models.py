@@ -110,6 +110,7 @@ class WeblateConf(AppConf):
         "weblate.machinery.yandex.YandexTranslation",
         "weblate.machinery.saptranslationhub.SAPTranslationHub",
         "weblate.machinery.youdao.YoudaoTranslation",
+        "weblate.machinery.ibm.IBMTranslation",
         "weblate.machinery.weblatetm.WeblateTranslation",
         "weblate.memory.machine.WeblateMemory",
     )

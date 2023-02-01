@@ -472,6 +472,26 @@ amaGama server, which is an enhanced version of tmserver.
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
+.. _mt-ibm:
+
+IBM Watson Language Translator
+------------------------------
+
+:Service ID: ``ibm``
+:Configuration: +---------+---------+--+
+                | ``url`` | API URL |  |
+                +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+IBM Watson Language Translator translates text from one language to another.
+The service offers multiple domain-specific models.
+
+.. seealso::
+
+    `Watson Language Translator <https://www.ibm.com/cloud/watson-language-translator>`_,
+    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
+
 .. _mt-weblate:
 
 Weblate

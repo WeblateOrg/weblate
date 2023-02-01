@@ -35,6 +35,7 @@ from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
+from weblate.machinery.ibm import IBMTranslation
 from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
@@ -1276,6 +1277,42 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
             )
             super().test_batch(machine=machine)
+
+
+class IBMTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = IBMTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "zh-TW"
+    CONFIGURATION = {
+        "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
+        "instances/id",
+        "key": "",
+    }
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://api.region.language-translator.watson.cloud.ibm.com/"
+            "instances/id/v3/languages?version=2018-05-01",
+            json={"languages": [{"language": "en"}, {"language": "zh-TW"}]},
+        )
+        responses.add(
+            responses.POST,
+            "https://api.region.language-translator.watson.cloud.ibm.com/"
+            "instances/id/v3/translate?version=2018-05-01",
+            json={
+                "translations": [{"translation": "window"}],
+                "word_count": 1,
+                "character_count": 6,
+            },
+        )
 
 
 class WeblateTranslationTest(FixtureTestCase):
