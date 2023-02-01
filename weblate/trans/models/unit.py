@@ -1392,12 +1392,16 @@ class Unit(models.Model, LoggerMixin):
         except ParseException:
             unit_flags = None
 
+        # Ordering is important here as that defines overriding
         return Flags(
+            # Base on translation + component flags
             self.translation.all_flags,
-            self.extra_flags,
+            # Apply unit flags from the file format
+            unit_flags,
             # The source_unit is None before saving the object for the first time
             getattr(self.source_unit, "extra_flags", ""),
-            unit_flags,
+            # This unit flag overrides
+            self.extra_flags,
         )
 
     @cached_property
