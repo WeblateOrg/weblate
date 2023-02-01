@@ -15,7 +15,6 @@ def component_new_unit(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0112_component_new_unit"),
     ]

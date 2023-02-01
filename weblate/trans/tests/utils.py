@@ -78,7 +78,6 @@ class RepoTestMixin:
         if not os.path.exists(output) or os.path.getmtime(output) < os.path.getmtime(
             tarname
         ):
-
             # Remove directory if outdated
             if os.path.exists(output):
                 remove_tree(output)

@@ -8,7 +8,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0139_alter_component_repoweb"),
         ("checks", "0005_alter_check_options"),

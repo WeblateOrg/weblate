@@ -398,7 +398,6 @@ def users_check(request):
 
 @management_access
 def appearance(request):
-
     current = Setting.objects.get_settings_dict(Setting.CATEGORY_UI)
     form = AppearanceForm(initial=current)
 

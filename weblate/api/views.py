@@ -250,7 +250,6 @@ class WeblateViewSet(DownloadViewSet):
                 "api:project-repository", kwargs={"slug": obj.slug}, request=request
             )
         else:
-
             if isinstance(obj, Translation):
                 component = obj.component
                 data["url"] = reverse(
@@ -1629,7 +1628,6 @@ class TasksViewSet(ViewSet):
 
 
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
-
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 

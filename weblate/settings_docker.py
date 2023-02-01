@@ -494,7 +494,6 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
         )
 
     if "WEBLATE_AUTH_LDAP_USER_SEARCH_UNION" in os.environ:
-
         SEARCH_FILTER = os.environ.get(
             "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
         )

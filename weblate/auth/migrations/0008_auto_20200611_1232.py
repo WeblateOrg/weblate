@@ -8,7 +8,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0086_auto_20200609_1134"),
         ("weblate_auth", "0007_group_components"),

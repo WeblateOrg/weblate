@@ -37,7 +37,6 @@ def migrate_json_units(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0094_project_language_aliases"),
     ]

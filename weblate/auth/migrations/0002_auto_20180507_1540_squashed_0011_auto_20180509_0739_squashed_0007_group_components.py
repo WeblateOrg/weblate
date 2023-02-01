@@ -13,7 +13,6 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("weblate_auth", "0002_auto_20180507_1540_squashed_0011_auto_20180509_0739"),
         ("weblate_auth", "0003_auto_20180724_1120"),

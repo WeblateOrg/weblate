@@ -10,7 +10,6 @@ from weblate.checks.base import TargetCheck
 
 
 class PluralCzechCheck(TargetCheck):
-
     # Used as identifier for check, should be unique
     # Has to be shorter than 50 characters
     check_id = "foo"

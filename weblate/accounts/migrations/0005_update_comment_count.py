@@ -18,7 +18,6 @@ def update_counts(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0004_profile_commented"),
     ]

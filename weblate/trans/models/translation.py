@@ -1099,7 +1099,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if self.git_commit(
                 request.user, request.user.get_author_name(), store_hash=False
             ):
-
                 # Drop store cache
                 self.handle_store_change(
                     request,

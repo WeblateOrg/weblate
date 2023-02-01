@@ -27,7 +27,6 @@ def migrate_componentlist(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0090_alert_updated"),
     ]

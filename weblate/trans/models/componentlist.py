@@ -21,7 +21,6 @@ class ComponentListQuerySet(models.QuerySet):
 
 
 class ComponentList(models.Model, CacheKeyMixin):
-
     name = models.CharField(
         verbose_name=_("Component list name"),
         max_length=100,

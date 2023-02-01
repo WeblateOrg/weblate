@@ -279,7 +279,6 @@ class LabelsField(models.ManyToManyField):
 
 
 class Unit(models.Model, LoggerMixin):
-
     translation = models.ForeignKey("Translation", on_delete=models.deletion.CASCADE)
     id_hash = models.BigIntegerField()
     location = models.TextField(default="", blank=True)

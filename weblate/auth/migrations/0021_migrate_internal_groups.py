@@ -28,7 +28,6 @@ def migrate_internal_groups(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0020_group_defining_project"),
     ]

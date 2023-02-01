@@ -65,7 +65,6 @@ def migrate_glossaries(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0132_alter_unit_state"),
     ]

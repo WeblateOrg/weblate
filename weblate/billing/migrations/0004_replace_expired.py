@@ -15,7 +15,6 @@ def update_expired(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("billing", "0003_auto_20201118_1217"),
     ]

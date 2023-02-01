@@ -75,7 +75,6 @@ def get_glossary_terms(unit):
     matches = set()
     automaton = project.glossary_automaton
     if automaton.kind == ahocorasick.AHOCORASICK:
-
         # Extract terms present in the source
         for end, term in automaton.iter(source):
             if uses_ngram or (

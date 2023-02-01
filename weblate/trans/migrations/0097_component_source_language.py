@@ -11,7 +11,6 @@ import weblate.lang.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lang", "0010_auto_20200627_0508"),
         ("trans", "0096_fix_enforced_checks"),

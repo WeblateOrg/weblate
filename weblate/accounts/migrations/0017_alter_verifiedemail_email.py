@@ -10,7 +10,6 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0016_alter_auditlog_activity"),
     ]

@@ -22,7 +22,6 @@ def fix_enforced_checks(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0095_fix_json_units"),
     ]

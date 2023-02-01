@@ -19,7 +19,6 @@ def fixup_changes(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0117_remove_change_glossary_term"),
     ]

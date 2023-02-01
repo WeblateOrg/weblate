@@ -10,7 +10,6 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0092_alert_dismissed"),
     ]

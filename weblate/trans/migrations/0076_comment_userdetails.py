@@ -10,7 +10,6 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0075_auto_20200501_1428"),
     ]

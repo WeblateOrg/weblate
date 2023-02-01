@@ -16,7 +16,6 @@ def rename_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("memory", "0013_reindex"),
     ]

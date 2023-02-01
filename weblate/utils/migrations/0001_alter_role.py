@@ -21,7 +21,6 @@ def alter_role(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = []
 
     operations = [

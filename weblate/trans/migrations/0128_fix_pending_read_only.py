@@ -22,7 +22,6 @@ def fixup_readonly(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0127_fix_source_glossary"),
     ]

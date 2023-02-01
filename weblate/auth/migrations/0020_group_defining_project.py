@@ -9,7 +9,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0146_alter_component_merge_style"),
         ("weblate_auth", "0019_alter_role_name"),

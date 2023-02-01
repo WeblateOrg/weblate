@@ -23,7 +23,6 @@ def create_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("memory", "0012_remove_blank"),
     ]

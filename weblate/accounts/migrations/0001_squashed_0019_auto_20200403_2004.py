@@ -13,7 +13,6 @@ import weblate.utils.render
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("accounts", "0001_squashed_0037_auto_20180416_1406"),
         ("accounts", "0002_profile_uploaded"),

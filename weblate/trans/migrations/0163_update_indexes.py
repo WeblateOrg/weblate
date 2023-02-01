@@ -35,7 +35,6 @@ def create_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0162_alter_component_language_code_style"),
     ]

@@ -37,7 +37,6 @@ def migrate_dictionary(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("glossary", "0001_initial"),
         ("trans", "0085_change_glossary_term"),

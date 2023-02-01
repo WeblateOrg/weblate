@@ -10,7 +10,6 @@ import weblate.trans.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0109_remove_project_mail"),
     ]

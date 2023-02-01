@@ -12,7 +12,6 @@ import weblate.screenshots.fields
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("screenshots", "0001_squashed_0003_auto_20170215_1633"),
         ("screenshots", "0002_auto_20180826_0839"),

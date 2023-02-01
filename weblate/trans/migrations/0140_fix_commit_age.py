@@ -15,7 +15,6 @@ def fix_commit_age(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0139_alter_component_repoweb"),
     ]

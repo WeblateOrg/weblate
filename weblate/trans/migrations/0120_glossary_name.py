@@ -29,7 +29,6 @@ def glossary_name(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0119_auto_20210206_1141"),
     ]

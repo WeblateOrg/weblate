@@ -10,7 +10,6 @@ import weblate.trans.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0135_component_local_revision"),
     ]

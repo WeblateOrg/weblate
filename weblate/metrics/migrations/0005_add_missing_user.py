@@ -9,7 +9,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("metrics", "0004_auto_20210330_0633"),
         ("trans", "0130_glossary_target"),

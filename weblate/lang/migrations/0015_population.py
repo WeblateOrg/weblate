@@ -27,7 +27,6 @@ def fill_population(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lang", "0014_language_population"),
     ]

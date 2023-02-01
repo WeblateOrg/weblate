@@ -55,7 +55,6 @@ def fix_java_format(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0154_alter_component_language_code_style"),
     ]

@@ -519,7 +519,6 @@ class GitRepository(Repository):
 
 
 class GitWithGerritRepository(GitRepository):
-
     name = "Gerrit"
     req_version = "1.27.0"
 
@@ -541,7 +540,6 @@ class GitWithGerritRepository(GitRepository):
 
 
 class SubversionRepository(GitRepository):
-
     name = "Subversion"
     req_version = "2.12"
     default_branch = "master"
@@ -997,14 +995,12 @@ class GitMergeRequestBase(GitForcePushRepository):
 
 
 class GithubRepository(GitMergeRequestBase):
-
     name = gettext_lazy("GitHub pull request")
     identifier = "github"
     _version = None
     API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
 
     def format_api_host(self, host):
-
         # In case the hostname of the repository does not point to "github.com" assume
         # that it is on a GitHub Enterprise server, which has uses a different base URL
         # for the API:
@@ -1257,7 +1253,6 @@ class LocalRepository(GitRepository):
 
 
 class GitLabRepository(GitMergeRequestBase):
-
     name = gettext_lazy("GitLab merge request")
     identifier = "gitlab"
     _version = None
@@ -1386,7 +1381,6 @@ class GitLabRepository(GitMergeRequestBase):
 
 
 class PagureRepository(GitMergeRequestBase):
-
     name = gettext_lazy("Pagure merge request")
     identifier = "pagure"
     _version = None

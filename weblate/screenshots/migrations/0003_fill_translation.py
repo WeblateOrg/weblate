@@ -19,7 +19,6 @@ def migrate_screenshot(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("screenshots", "0002_screenshot_translation"),
         ("trans", "0099_remove_project_source_language"),

@@ -26,7 +26,6 @@ def fix_rename_changes(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0100_auto_20200912_1131"),
     ]

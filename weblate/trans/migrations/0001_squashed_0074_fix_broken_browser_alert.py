@@ -72,7 +72,6 @@ def drop_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("trans", "0001_squashed_0143_auto_20180609_1655"),
         ("trans", "0002_delete_indexupdate"),

@@ -8,7 +8,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lang", "0017_alter_plural_type"),
         ("trans", "0158_alter_change_action"),

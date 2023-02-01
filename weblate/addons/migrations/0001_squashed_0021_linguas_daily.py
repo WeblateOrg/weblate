@@ -11,7 +11,6 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("addons", "0001_squashed_0006_addon_project_scope"),
         ("addons", "0007_auto_20180629_1736"),

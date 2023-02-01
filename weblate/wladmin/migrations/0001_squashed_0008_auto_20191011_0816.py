@@ -12,7 +12,6 @@ import weblate.utils.backup
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("wladmin", "0001_squashed_0003_auto_20180215_1127"),
         ("wladmin", "0002_auto_20181127_2116"),

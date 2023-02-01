@@ -9,7 +9,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("screenshots", "0004_auto_20201002_1423"),
         ("trans", "0128_fix_pending_read_only"),

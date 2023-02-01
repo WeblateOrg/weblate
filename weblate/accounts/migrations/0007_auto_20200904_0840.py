@@ -10,7 +10,6 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0006_auto_20200903_0817"),
     ]

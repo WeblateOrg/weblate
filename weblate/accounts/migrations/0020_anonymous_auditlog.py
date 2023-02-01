@@ -24,7 +24,6 @@ def update_auditlog(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0019_alter_auditlog_user"),
     ]

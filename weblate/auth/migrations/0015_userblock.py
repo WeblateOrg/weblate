@@ -10,7 +10,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("trans", "0135_component_local_revision"),
         ("weblate_auth", "0014_auto_20210512_1955"),

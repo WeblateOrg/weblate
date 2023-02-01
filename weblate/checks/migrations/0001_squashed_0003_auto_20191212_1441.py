@@ -11,7 +11,6 @@ from weblate.checks.models import CHECKS
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("checks", "0001_squashed_0002_auto_20180416_1509"),
         ("checks", "0002_check_unit"),

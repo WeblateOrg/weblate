@@ -36,7 +36,6 @@ def fixup_role(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0017_alter_user_email"),
     ]

@@ -10,7 +10,6 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0016_alter_userblock_unique_together"),
     ]
