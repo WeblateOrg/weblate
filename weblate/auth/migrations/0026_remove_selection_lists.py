@@ -33,7 +33,6 @@ def cleanup_selection(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("weblate_auth", "0025_group_admins"),
     ]
