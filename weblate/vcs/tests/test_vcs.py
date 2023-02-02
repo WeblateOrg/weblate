@@ -1351,6 +1351,7 @@ class VCSLocalTest(VCSGitTest):
     def test_configure_remote_no_push(self):
         raise SkipTest("Not supported")
 
+
 @override_settings(BITBUCKETSERVER_USERNAME="test", BITBUCKETSERVER_TOKEN="token")
 class VCSBitbucketServerTest(VCSGitUpstreamTest):
     _class = BitbucketServerFakeRepository
