@@ -95,12 +95,8 @@ git reset --hard
 check
 git checkout $HEAD_COMMIT
 check
-# Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-virtualenv .venv-$TAG-upgrade
-check
-. .venv-$TAG-upgrade/bin/activate
-# Workaround for SystemError: ffi_prep_closure(): bad user_data
-./ci/pip-install migrations
+# Use CI environment
+deactivate
 check
 run_coverage ./manage.py migrate
 check
