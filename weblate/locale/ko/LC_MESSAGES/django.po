@@ -24,13 +24,14 @@
 # jackfrost <jackfrost5446@gmail.com>, 2022.
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2022.
 # Hoseok Seo <ddinghoya@gmail.com>, 2022, 2023.
+# Yi Yunseok <ironyunseok@protonmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-01-15 09:52+0000\n"
-"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
+"PO-Revision-Date: 2023-02-02 13:19+0000\n"
+"Last-Translator: Yi Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -38,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -73,20 +74,16 @@ msgid "Commit e-mail"
 msgstr "e-mail 커밋"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
-msgstr "계정 전자우편을 사용"
+msgstr "계정의 전자우편 주소를 사용"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:553
 msgid "Public e-mail"
-msgstr "공개 전자우편"
+msgstr "전자우편 공개"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
-msgstr "전자 메일을 공개적으로 표시하지 마세요"
+msgstr "전자우편 주소를 공개하지 않음"
 
 #: weblate/accounts/forms.py:309
 #, python-format
@@ -1284,7 +1281,7 @@ msgstr "탭"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "빈 XML 태그에 대한 닫기 태그를 포함"
 
 #: weblate/addons/forms.py:201
 msgid "YAML indentation"
@@ -1656,20 +1653,14 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "애드온이 설치되었습니다. 통합 지침을 검토하십시오."
 
 #: weblate/addons/xml.py:17
-#, fuzzy
-#| msgid "Customize YAML output"
 msgid "Customize XML output"
-msgstr "YAML 출력 사용자 정의"
+msgstr "XML 출력 사용자 정의"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
-msgstr "길이나 줄바꿈같은 YAML 출력 방식을 조정하도록 합니다."
+msgstr "빈 태그에 닫는 태그를 사용하는 것처럼 XML 출력 방식을 조정하도록 합니다."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3422,10 +3413,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next JSON 파일 v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next JSON 파일 v3"
+msgstr "i18next JSON 파일 v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3436,10 +3425,8 @@ msgid "ARB file"
 msgstr "ARB 파일"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "gettext PO 파일"
+msgstr "gettext JSON 파일"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -7112,10 +7099,9 @@ msgid ""
 msgstr "일부 서비스는 설치 과정에 추가 구성 요소를 요청할 수 있습니다."
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
-msgstr "%(site_title)s 에서 당신의 계정이 변경되었습니다:"
+msgstr "%(site_title)s 에서 다음 활동이 발생했습니다:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7218,16 +7204,12 @@ msgstr ""
 "거됩니다."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If your libre trial will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
-msgstr ""
-"리브르 평가판이 승인되지 않으면 %(date)s에 이 요금제에 포함된 모든 프로젝트"
-"가 제거됩니다."
+msgstr "리브르 호스팅이 승인되지 않으면 %(date)s에 이 요금제에 포함된 모든 "
+"프로젝트가 제거됩니다."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -7519,11 +7501,8 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s에 비밀번호 재설정됨"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid "If this was not done by you, report it by clicking the button below."
-msgstr "이 변경을 요청하지 않은 경우 가능한 빨리 보고하십시오."
+msgstr "당신이 한 것이 아닌 경우 가능한 빨리 보고하십시오."
 
 #: weblate/templates/mail/shared-activity.html:19
 msgid "Please request support through other means."
@@ -7539,8 +7518,6 @@ msgstr ""
 "할 수 있습니다."
 
 #: weblate/templates/mail/shared-activity.html:24
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
 msgstr "보고"
 
@@ -7554,16 +7531,11 @@ msgstr ""
 "라우저 주소 표시줄에 복사해야 할 수 있습니다."
 
 #: weblate/templates/mail/shared-registration.html:13
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation URL is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "In case the confirmation link is expired, you can use password reset feature "
 "to gain access to your account."
-msgstr ""
-"확인 URL이 만료된 경우 비밀번호 재설정을 사용하여 계정에 액세스할 수 있습니"
-"다."
+msgstr "확인 링크가 만료된 경우 비밀번호 재설정을 사용하여 계정에 액세스할 수 "
+"있습니다."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7581,10 +7553,8 @@ msgstr "회원 가입 확인"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:21
 #: weblate/templates/translate.html:657
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "원본 문자열 위치"
+msgstr "원본 문자열 설명"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:693
@@ -7597,20 +7567,16 @@ msgid "Screenshot context"
 msgstr "갈무리 문맥"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(component)s에서 대기 중인 %(count)s개의 제안"
+msgstr[0] "%(component)s에서 완료되지 않은 %(count)s개 문자열"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "%(count)s string"
-#| msgid_plural "%(count)s strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "%(count)s개 문자열"
+msgstr[0] "%(count)s개의 완료되지 않은 문자열"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -7699,10 +7665,8 @@ msgid "Weblate support status"
 msgstr "웨블레이트 지원 상태"
 
 #: weblate/templates/manage/index.html:28
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate version"
-msgstr "웨블레이트 번역"
+msgstr "웨블레이트 버전"
 
 #: weblate/templates/manage/index.html:40
 msgid "Support status"
@@ -7718,39 +7682,31 @@ msgstr "지원 만기"
 
 #: weblate/templates/manage/index.html:58
 msgid "Discover Weblate"
-msgstr "웨블레이트 탐색하기"
+msgstr "웨블레이트 탐색"
 
 #: weblate/templates/manage/index.html:60
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "구성 요소 발견"
+msgstr "탐색하기"
 
 #: weblate/templates/manage/index.html:62
 msgid "Your Weblate is listed on weblate.org"
-msgstr "여러분의 웨블레이트는 weblate.org에 나열되어 있습니다"
+msgstr "귀하의 웨블레이트가 weblate.org에 나열됨"
 
 #: weblate/templates/manage/index.html:64
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable discovery"
-msgstr "사용할 수 없음"
+msgstr "탐색 비활성화"
 
 #: weblate/templates/manage/index.html:65
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "당신의 언어 관리"
+msgstr "리스팅 관리"
 
 #: weblate/templates/manage/index.html:67
 msgid "Your Weblate is not listed on weblate.org"
-msgstr "귀하의 Weblate는 weblate.org에 나열되어 있습니다"
+msgstr "귀하의 웨블레이트가 weblate.org에 나열되지 않음"
 
 #: weblate/templates/manage/index.html:69
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "구성 요소 발견"
+msgstr "탐색 활성화"
 
 #: weblate/templates/manage/index.html:77
 msgid "Manage support package"
