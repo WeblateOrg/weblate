@@ -696,6 +696,8 @@ Generic settings
 
        :ref:`vcs-pagure`
 
+.. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
+.. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
 .. envvar:: WEBLATE_BITBUCKETSERVER_HOST
 
     Configures Bitbucket Server pull-requests integration by changing

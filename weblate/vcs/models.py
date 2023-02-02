@@ -46,8 +46,6 @@ class VCSConf(AppConf):
 
     # Bitbucket username for sending pull requests
     BITBUCKETSERVER_CREDENTIALS = {}
-    BITBUCKETSERVER_USERNAME = None
-    BITBUCKETSERVER_TOKEN = None
 
     SSH_EXTRA_ARGS = ""
 
