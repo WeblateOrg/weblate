@@ -49,7 +49,7 @@ jobs:
         cache-dependency-path: '**/requirements*.txt'
     - name: Install pip dependencies
       run: |
-        ./ci/pip-install
+        ./ci/pip-install migrations
     - name: Check missing migrations
       run: ./ci/run-checkmigrate
     - name: Migrate from 4.0
