@@ -206,6 +206,10 @@ GITHUB_CREDENTIALS = {}
 # Please see the documentation for more details.
 GITLAB_CREDENTIALS = {}
 
+# Bitbucket username and token for sending merge requests.
+# Please see the documentation for more details.
+BITBUCKETSERVER_CREDENTIALS = {}
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.email.EmailAuth",

@@ -18,6 +18,7 @@ class VCSConf(AppConf):
         "weblate.vcs.git.PagureRepository",
         "weblate.vcs.git.LocalRepository",
         "weblate.vcs.git.GitForcePushRepository",
+        "weblate.vcs.git.BitbucketServerRepository",
         "weblate.vcs.mercurial.HgRepository",
     )
     VCS_CLONE_DEPTH = 1
@@ -34,6 +35,9 @@ class VCSConf(AppConf):
 
     # Gitea username for sending pull requests
     GITEA_CREDENTIALS = {}
+
+    # Bitbucket username for sending pull requests
+    BITBUCKETSERVER_CREDENTIALS = {}
 
     SSH_EXTRA_ARGS = ""
 

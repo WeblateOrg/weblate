@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import copy
 import os.path
 import shutil
 import tempfile
@@ -18,6 +19,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
+    BitbucketServerRepository,
     GiteaRepository,
     GitForcePushRepository,
     GithubRepository,
@@ -47,6 +49,11 @@ class GiteaFakeRepository(GiteaRepository):
 
 
 class PagureFakeRepository(PagureRepository):
+    _is_supported = None
+    _version = None
+
+
+class BitbucketServerFakeRepository(BitbucketServerRepository):
     _is_supported = None
     _version = None
 
@@ -1351,3 +1358,296 @@ class VCSLocalTest(VCSGitTest):
 
     def test_configure_remote_no_push(self):
         raise SkipTest("Not supported")
+
+
+@override_settings(
+    BITBUCKETSERVER_CREDENTIALS={
+        "api.selfhosted.com": {"username": "test", "token": "token"}
+    }
+)
+class VCSBitbucketServerTest(VCSGitUpstreamTest):
+    _class = BitbucketServerFakeRepository
+    _vcs = "git"
+    _sets_push = False
+
+    _bbhost = "https://api.selfhosted.com"
+    _bb_api_error_stub = {"errors": [{"context": "<string>", "message": "<string>"}]}
+    _bb_fork_stub = {
+        "id": "222",
+        "slug": "bb_fork",
+        "project": {"key": "bb_fork_pk"},
+        "links": {
+            "clone": [
+                {
+                    "name": "ssh",
+                    "href": "https://api.selfhosted.com/bb_fork_pk/bb_fork.git",
+                }
+            ]
+        },
+    }
+
+    def mock_fork_response(self, status: int):
+        if status == 201:
+            body = self._bb_fork_stub
+        elif status == 409:
+            body = {
+                "errors": [
+                    {
+                        "context": "name",
+                        "message": "This repository URL is already taken.",
+                    }
+                ]
+            }
+        else:
+            body = self._bb_api_error_stub
+
+        responses.add(
+            responses.POST,
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+            json=body,
+            status=status,
+        )
+
+    def mock_repo_response(self, status: int):
+        if status == 200:
+            body = {"id": 111}
+        else:
+            body = self._bb_api_error_stub
+
+        responses.add(  # get remote repo id
+            responses.GET,
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+            json=body,
+            status=status,
+        )
+
+    def mock_repo_forks_response(self, status: int, pages: int = 0):
+        path = "rest/api/1.0/projects/bb_pk/repos/bb_repo/forks"
+        if status == 200:
+            origin = copy.deepcopy(self._bb_fork_stub)
+            origin["slug"] = "bb_repo"
+            origin["project"]["key"] = "bb_pk"
+            fork = copy.deepcopy(self._bb_fork_stub)
+            fork["origin"] = origin
+            body = {"values": [fork], "isLastPage": True}
+        elif status == 204:
+            body = {"values": [], "isLastPage": True}
+        else:
+            body = self._bb_api_error_stub
+
+        if pages > 0:  # Add paginated irrelevant reponses
+            while pages > 0:
+                fork_stub = copy.deepcopy(self._bb_fork_stub)
+                fork_stub["slug"] = "not_the_slug_youre_looking_for"
+                page_body = {"values": [{"origin": fork_stub}], "isLastPage": False}
+
+                params = f"limit=1000&start={pages}"
+                responses.add(  # get remote repo id
+                    responses.GET,
+                    f"{self._bbhost}/{path}?{params}",
+                    json=page_body,
+                    status=status,
+                )
+                pages -= 1
+
+        params = f"limit=1000&start={pages}"
+        responses.add(  # add actual relevant response
+            responses.GET,
+            f"{self._bbhost}/{path}?{params}",
+            json=body,
+            status=status,
+        )
+
+    def mock_reviewer_reponse(self, status, branch=""):
+        path = "rest/default-reviewers/1.0/projects/bb_pk/repos/bb_repo/reviewers"
+        if status == 200:
+            body = {"name": "user name", "id": 123}
+        elif status == 400:
+            body = self._bb_api_error_stub
+        else:
+            body = []
+
+        if branch == "":
+            branch = "weblate-test-test"
+        params = "targetRepoId=111&sourceRepoId=222"
+        params += f"&targetRefId=main&sourceRefId={branch}"
+        responses.add(
+            responses.GET,
+            f"{self._bbhost}/{path}?{params}",
+            json=body,
+            status=status,
+        )
+
+    def mock_pr_response(self, status):
+        if status == 201:
+            body = {
+                "id": "333",
+            }
+        else:
+            body = self._bb_api_error_stub
+
+        responses.add(
+            responses.POST,
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo/pull-requests",
+            json=body,
+            status=status,
+        )
+
+    def test_api_url(self):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+        )
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+        )
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo/"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+        )
+        self.repo.component.repo = "git@api.selfhosted.com:bb_pk/bb_repo.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+        )
+        self.repo.component.repo = "api.selfhosted.com:bb_pk/bb_repo.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+        )
+        self.repo.component.repo = "api.selfhosted.com:bb_pk/bb_repo.com"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo.com",
+        )
+
+    def test_get_headers(self):
+        stub_credentials = {"token": "bbs_token"}
+        self.assertEqual(
+            self.repo.get_headers(stub_credentials)["Authorization"], "Bearer bbs_token"
+        )
+
+    @responses.activate
+    def test_default_reviewers_repo_error(self):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_repo_response(400)  # get target repo info
+        credentials = {
+            "url": f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+            "token": "bbs_token",
+        }
+        self.assertEqual(
+            self.repo.get_default_reviewers(credentials, "test-branch"), []
+        )
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_default_reviewers_error(self):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_repo_response(200)  # get target repo info
+        self.mock_reviewer_reponse(400)  # get default reviewers
+        self.repo.bb_fork = {"id": "222"}
+        credentials = {
+            "url": f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
+            "token": "bbs_token",
+        }
+        self.assertEqual(
+            self.repo.get_default_reviewers(credentials, "weblate-test-test"), []
+        )
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_fork_response(201)  # fork created
+        self.mock_repo_response(200)  # get target repo info
+        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_pr_response(201)  # create pr ok
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push_with_existing_fork(self, branch=""):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_fork_response(status=409)  # fork already exists
+        self.mock_repo_forks_response(status=200, pages=3)  # simulate pagination
+        self.mock_repo_response(200)  # get target repo info
+        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_pr_response(201)  # create pr ok
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_create_fork_unexpected_fail(self, branch=""):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_fork_response(status=401)
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_existing_fork_not_found(self, branch=""):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_fork_response(status=409)  # fork already exists
+        # can't find fork that should exist
+        self.mock_repo_forks_response(status=204, pages=3)
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
+        mock_push_to_fork.stop()
