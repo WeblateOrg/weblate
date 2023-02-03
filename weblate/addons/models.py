@@ -208,7 +208,7 @@ class AddonsConf(AppConf):
 
 
 def handle_addon_error(addon, component):
-    report_error(cause="add-on error", project=component.project)
+    report_error(cause=f"add-on {addon.name} failed", project=component.project)
     # Uninstall no longer compatible add-ons
     if not addon.addon.can_install(component, None):
         addon.disable()

@@ -25,23 +25,15 @@ class VCSConf(AppConf):
     VCS_API_DELAY = 10
 
     # GitHub username for sending pull requests
-    GITHUB_USERNAME = None
-    GITHUB_TOKEN = None
     GITHUB_CREDENTIALS = {}
 
     # GitLab username for sending merge requests
-    GITLAB_USERNAME = None
-    GITLAB_TOKEN = None
     GITLAB_CREDENTIALS = {}
 
     # Pagure username for sending merge requests
-    PAGURE_USERNAME = None
-    PAGURE_TOKEN = None
     PAGURE_CREDENTIALS = {}
 
     # Gitea username for sending pull requests
-    GITEA_USERNAME = None
-    GITEA_TOKEN = None
     GITEA_CREDENTIALS = {}
 
     # Bitbucket username for sending pull requests

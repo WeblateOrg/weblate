@@ -192,7 +192,7 @@ class TermExpr:
 
     def has_field(self, text, context: Dict):  # noqa: C901
         if text == "plural":
-            return Q(source__contains=PLURAL_SEPARATOR)
+            return Q(source__search=PLURAL_SEPARATOR)
         if text == "suggestion":
             return Q(suggestion__isnull=False)
         if text == "explanation":

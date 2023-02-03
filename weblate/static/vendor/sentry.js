@@ -3060,6 +3060,10 @@ class BaseClient {
    */
    _prepareEvent(event, hint, scope) {
     const options = this.getOptions();
+    const integrations = Object.keys(this._integrations);
+    if (!hint.integrations && integrations.length > 0) {
+      hint.integrations = integrations;
+    }
     return prepareEvent.prepareEvent(options, event, hint, scope);
   }
 
@@ -5672,12 +5676,10 @@ function prepareEvent(
     event_id: event.event_id || hint.event_id || utils.uuid4(),
     timestamp: event.timestamp || utils.dateTimestampInSeconds(),
   };
+  const integrations = hint.integrations || options.integrations.map(i => i.name);
 
   applyClientOptions(prepared, options);
-  applyIntegrationsMetadata(
-    prepared,
-    options.integrations.map(i => i.name),
-  );
+  applyIntegrationsMetadata(prepared, integrations);
 
   // If we have scope given to us, use it as the base for further modifications.
   // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
@@ -5837,7 +5839,7 @@ exports.prepareEvent = prepareEvent;
 },{"../scope.js":27,"@sentry/utils":43}],34:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.35.0';
+const SDK_VERSION = '7.36.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -10706,7 +10708,16 @@ async function prepareReplayEvent({
 }
 
 ) {
-  const preparedEvent = (await core.prepareEvent(client.getOptions(), event, { event_id }, scope)) ;
+  const integrations =
+    typeof client._integrations === 'object' && client._integrations !== null && !Array.isArray(client._integrations)
+      ? Object.keys(client._integrations)
+      : undefined;
+  const preparedEvent = (await core.prepareEvent(
+    client.getOptions(),
+    event,
+    { event_id, integrations },
+    scope,
+  )) ;
 
   // If e.g. a global event processor returned null
   if (!preparedEvent) {
@@ -10847,28 +10858,12 @@ async function sendReplayRequest({
     return response;
   }
 
-  const rateLimits = utils.updateRateLimits({}, response);
-  if (utils.isRateLimited(rateLimits, 'replay')) {
-    throw new RateLimitError(rateLimits);
-  }
-
   // If the status code is invalid, we want to immediately stop & not retry
   if (typeof response.statusCode === 'number' && (response.statusCode < 200 || response.statusCode >= 300)) {
     throw new TransportStatusCodeError(response.statusCode);
   }
 
   return response;
-}
-
-/**
- * This error indicates that we hit a rate limit API error.
- */
-class RateLimitError extends Error {
-
-   constructor(rateLimits) {
-    super('Rate limit hit');
-    this.rateLimits = rateLimits;
-  }
 }
 
 /**
@@ -10901,7 +10896,7 @@ async function sendReplay(
     await sendReplayRequest(replayData);
     return true;
   } catch (err) {
-    if (err instanceof RateLimitError || err instanceof TransportStatusCodeError) {
+    if (err instanceof TransportStatusCodeError) {
       throw err;
     }
 
@@ -11365,8 +11360,8 @@ class ReplayContainer  {
       this._handleException(err);
     }
 
-    // _performanceObserver //
-    if (!('_performanceObserver' in WINDOW)) {
+    // PerformanceObserver //
+    if (!('PerformanceObserver' in WINDOW)) {
       return;
     }
 
@@ -11698,11 +11693,6 @@ class ReplayContainer  {
     } catch (err) {
       this._handleException(err);
 
-      if (err instanceof RateLimitError) {
-        this._handleRateLimit(err.rateLimits);
-        return;
-      }
-
       // This means we retried 3 times, and all of them failed
       // In this case, we want to completely stop the replay - otherwise, we may get inconsistent segments
       this.stop();
@@ -11760,31 +11750,6 @@ class ReplayContainer  {
    _maybeSaveSession() {
     if (this.session && this._options.stickySession) {
       saveSession(this.session);
-    }
-  }
-
-  /**
-   * Pauses the replay and resumes it after the rate-limit duration is over.
-   */
-   _handleRateLimit(rateLimits) {
-    // in case recording is already paused, we don't need to do anything, as we might have already paused because of a
-    // rate limit
-    if (this.isPaused()) {
-      return;
-    }
-
-    const rateLimitEnd = utils.disabledUntil(rateLimits, 'replay');
-    const rateLimitDuration = rateLimitEnd - Date.now();
-
-    if (rateLimitDuration > 0) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Replay]', `Rate limit hit, pausing replay for ${rateLimitDuration}ms`);
-      this.pause();
-      this._debouncedFlush.cancel();
-
-      setTimeout(() => {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.info('[Replay]', 'Resuming replay after rate limit');
-        this.resume();
-      }, rateLimitDuration);
     }
   }
 }
@@ -11936,6 +11901,8 @@ class Replay  {
     // eslint-disable-next-line deprecation/deprecation
     blockSelector,
     // eslint-disable-next-line deprecation/deprecation
+    maskInputOptions,
+    // eslint-disable-next-line deprecation/deprecation
     maskTextClass,
     // eslint-disable-next-line deprecation/deprecation
     maskTextSelector,
@@ -11944,6 +11911,7 @@ class Replay  {
   } = {}) {Replay.prototype.__init.call(this);
     this._recordingOptions = {
       maskAllInputs,
+      maskInputOptions: { ...(maskInputOptions || {}), password: true },
       maskTextFn: maskFn,
       maskInputFn: maskFn,
 

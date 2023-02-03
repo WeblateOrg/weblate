@@ -45,7 +45,8 @@ pip install psycopg2-binary==2.7.7
 pip install selenium==4.0.0a6.post2
 # The 5.0.0 release removed some compatibility shims used by Celery
 pip install importlib-metadata==4.12.0
-pip install -r requirements-test.txt -r docs/requirements.txt
+pip install -r requirements.txt
+pip install $(grep -E '^(psycopg2|mysqlclient)' requirements-optional.txt)
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check
@@ -94,13 +95,8 @@ git reset --hard
 check
 git checkout $HEAD_COMMIT
 check
-# Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-virtualenv .venv-$TAG-upgrade
-check
-. .venv-$TAG-upgrade/bin/activate
-# Workaround for SystemError: ffi_prep_closure(): bad user_data
-pip install --no-binary :all: cffi
-pip install -r requirements-test.txt -r docs/requirements.txt
+# Use CI environment
+deactivate
 check
 run_coverage ./manage.py migrate
 check
