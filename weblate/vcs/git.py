@@ -769,16 +769,12 @@ class GitMergeRequestBase(GitForcePushRepository):
         hostname = urllib.parse.urlparse(url).hostname.lower()
 
         credentials = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
-        if hostname in credentials:
-            username = credentials[hostname]["username"]
-            token = credentials[hostname]["token"]
-        else:
-            username = getattr(settings, f"{self.identifier.upper()}_USERNAME")
-            token = getattr(settings, f"{self.identifier.upper()}_TOKEN")
-            if not username or not token:
-                raise RepositoryException(
-                    0, f"{self.name} API access for {hostname} is not configured"
-                )
+        if hostname not in credentials:
+            raise RepositoryException(
+                0, f"{self.name} API access for {hostname} is not configured"
+            )
+        username = credentials[hostname]["username"]
+        token = credentials[hostname]["token"]
 
         return {
             "url": url,
@@ -792,13 +788,13 @@ class GitMergeRequestBase(GitForcePushRepository):
     @classmethod
     def uses_deprecated_setting(cls) -> bool:
         return not getattr(settings, f"{cls.identifier.upper()}_CREDENTIALS") and (
-            getattr(settings, f"{cls.identifier.upper()}_USERNAME")
-            or getattr(settings, f"{cls.identifier.upper()}_TOKEN")
+            getattr(settings, f"{cls.identifier.upper()}_USERNAME", None)
+            or getattr(settings, f"{cls.identifier.upper()}_TOKEN", None)
         )
 
     @classmethod
     def is_configured(cls) -> bool:
-        return getattr(settings, f"{cls.identifier.upper()}_USERNAME") or getattr(
+        return getattr(settings, f"{cls.identifier.upper()}_USERNAME", None) or getattr(
             settings, f"{cls.identifier.upper()}_CREDENTIALS"
         )
 

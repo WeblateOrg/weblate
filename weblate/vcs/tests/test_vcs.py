@@ -510,7 +510,9 @@ class VCSGitUpstreamTest(VCSGitTest):
             self._class = backup
 
 
-@override_settings(GITEA_USERNAME="test", GITEA_TOKEN="token")
+@override_settings(
+    GITEA_CREDENTIALS={"try.gitea.io": {"username": "test", "token": "token"}}
+)
 class VCSGiteaTest(VCSGitUpstreamTest):
     _class = GiteaFakeRepository
     _vcs = "git"
@@ -624,7 +626,9 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
 
-@override_settings(GITHUB_USERNAME="test", GITHUB_TOKEN="token")
+@override_settings(
+    GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+)
 class VCSGitHubTest(VCSGitUpstreamTest):
     _class = GithubFakeRepository
     _vcs = "git"
@@ -777,7 +781,9 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
 
 
-@override_settings(GITLAB_USERNAME="test", GITLAB_TOKEN="token")
+@override_settings(
+    GITLAB_CREDENTIALS={"gitlab.com": {"username": "test", "token": "token"}}
+)
 class VCSGitLabTest(VCSGitUpstreamTest):
     _class = GitLabFakeRepository
     _vcs = "git"
@@ -1078,7 +1084,9 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
 
-@override_settings(PAGURE_USERNAME="test", PAGURE_TOKEN="token")
+@override_settings(
+    PAGURE_CREDENTIALS={"pagure.io": {"username": "test", "token": "token"}}
+)
 class VCSPagureTest(VCSGitUpstreamTest):
     _class = PagureFakeRepository
     _vcs = "git"
