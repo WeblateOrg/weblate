@@ -1360,7 +1360,11 @@ class VCSLocalTest(VCSGitTest):
         raise SkipTest("Not supported")
 
 
-@override_settings(BITBUCKETSERVER_CREDENTIALS={"api.selfhosted.com":{"username": "test", "token": "token"}})
+@override_settings(
+    BITBUCKETSERVER_CREDENTIALS={
+        "api.selfhosted.com": {"username": "test", "token": "token"}
+    }
+)
 class VCSBitbucketServerTest(VCSGitUpstreamTest):
     _class = BitbucketServerFakeRepository
     _vcs = "git"
