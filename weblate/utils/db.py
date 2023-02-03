@@ -59,13 +59,31 @@ class PostgreSQLFallbackLookup(PatternLookup):
         )
 
 
+class FallbackStringMixin:
+    """Avoid using index for lhs by concatenating to a string."""
+
+    def process_lhs(self, compiler, connection, lhs=None):
+        lhs_sql, params = super().process_lhs(compiler, connection, lhs)
+        return f"{lhs_sql} || ''", params
+
+
+class PostgreContainsFallbackLookup(FallbackStringMixin, Contains):
+    pass
+
+
+class PostgreExactFallbackLookup(FallbackStringMixin, Exact):
+    pass
+
+
 class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     lookup_name = "search"
     param_pattern = "%s"
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():
-            return Contains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+            return PostgreContainsFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
@@ -94,7 +112,9 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():
-            return Contains(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+            return PostgreContainsFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
@@ -114,7 +134,9 @@ class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():
-            return Exact(self.orig_lhs, self.orig_rhs).as_sql(compiler, connection)
+            return PostgreExactFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
         return super().as_sql(compiler, connection)
 
 
