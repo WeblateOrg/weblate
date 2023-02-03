@@ -8,6 +8,7 @@ Not yet released.
 * Celery beat is now stroring the tasks schedule in the database.
 * Added support for IBM Watson Language Translator.
 * Dropped support for VCS integration settings deprecated in 4.14.
+* Added support for Bitbucket Server pull requests.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
 
