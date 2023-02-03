@@ -130,9 +130,17 @@ class ProjectBackup:
 
     def generate_filename(self, project):
         backup_dir = data_dir("projectbackups", f"{project.pk}")
+        backup_info = os.path.join(backup_dir, "README.txt")
         timestamp = int(self.timestamp.timestamp())
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
+        if not os.path.exists(backup_info):
+            with open(backup_info, "w") as handle:
+                handle.write(f"# Weblate project backups for {project.name}\n")
+                handle.write(f"slug={project.slug}\n")
+                handle.write(f"web={project.web}\n")
+                for billing in project.billings:
+                    handle.write(f"billing={billing.id}\n")
         while os.path.exists(
             os.path.join(backup_dir, f"{timestamp}.zip")
         ) or os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip.part")):

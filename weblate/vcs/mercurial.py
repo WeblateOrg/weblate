@@ -11,6 +11,7 @@ from configparser import RawConfigParser
 from datetime import datetime
 from typing import Iterator, List, Optional
 
+from weblate.auth.utils import format_address
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -87,7 +88,7 @@ class HgRepository(Repository):
 
     def set_committer(self, name, mail):
         """Configure committer name."""
-        self.set_config("ui.username", f"{name} <{mail}>")
+        self.set_config("ui.username", format_address(name, mail))
 
     def reset(self):
         """Reset working copy to match remote branch."""

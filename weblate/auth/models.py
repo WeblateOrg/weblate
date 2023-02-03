@@ -37,6 +37,7 @@ from weblate.auth.data import (
 from weblate.auth.permissions import SPECIALS, check_global_permission, check_permission
 from weblate.auth.utils import (
     create_anonymous,
+    format_address,
     is_django_permission,
     migrate_groups,
     migrate_permissions,
@@ -674,14 +675,13 @@ class User(AbstractBaseUser):
 
     def get_visible_name(self) -> str:
         """Get full name from database or username."""
-        result = self.full_name or self.username
-        # The < > are replace to avoid tricking Git to use
-        # name as e-mail
-        return result.replace("<", "").replace(">", "").replace('"', "")
+        return self.full_name or self.username
 
-    def get_author_name(self) -> str:
+    def get_author_name(self, address: Optional[str] = None) -> str:
         """Return formatted author name with e-mail."""
-        return f"{self.get_visible_name()} <{self.profile.get_commit_email()}>"
+        return format_address(
+            self.get_visible_name(), address or self.profile.get_commit_email()
+        )
 
 
 class AutoGroup(models.Model):

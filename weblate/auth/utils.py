@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from email.headerregistry import Address
 from typing import Set
 
 from django.conf import settings
@@ -104,3 +105,8 @@ def create_anonymous(model, group_model, update=True):
         user.groups.set(
             group_model.objects.filter(name__in=("Guests", "Viewers")), clear=True
         )
+
+
+def format_address(display_name, email):
+    """Format e-mail address with display name."""
+    return str(Address(display_name=display_name, addr_spec=email))
