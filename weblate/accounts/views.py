@@ -6,7 +6,6 @@ import os
 import re
 from collections import defaultdict
 from datetime import timedelta
-from email.utils import formataddr
 from importlib import import_module
 from typing import Optional
 
@@ -98,6 +97,7 @@ from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAss
 from weblate.accounts.utils import remove_user
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import User
+from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
 from weblate.trans.models.project import prefetch_project_flags
@@ -460,7 +460,7 @@ def contact(request):
                 "%(subject)s",
                 CONTACT_TEMPLATE,
                 form.cleaned_data,
-                formataddr((form.cleaned_data["name"], form.cleaned_data["email"])),
+                format_address(form.cleaned_data["name"], form.cleaned_data["email"]),
                 settings.ADMINS_CONTACT,
             )
             return redirect("home")

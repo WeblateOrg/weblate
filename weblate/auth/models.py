@@ -4,7 +4,6 @@
 
 import re
 from collections import defaultdict
-from email.utils import formataddr
 from itertools import chain
 from typing import Optional, Set
 
@@ -38,6 +37,7 @@ from weblate.auth.data import (
 from weblate.auth.permissions import SPECIALS, check_global_permission, check_permission
 from weblate.auth.utils import (
     create_anonymous,
+    format_address,
     is_django_permission,
     migrate_groups,
     migrate_permissions,
@@ -679,8 +679,8 @@ class User(AbstractBaseUser):
 
     def get_author_name(self, address: Optional[str] = None) -> str:
         """Return formatted author name with e-mail."""
-        return formataddr(
-            (self.get_visible_name(), address or self.profile.get_commit_email())
+        return format_address(
+            self.get_visible_name(), address or self.profile.get_commit_email()
         )
 
 
