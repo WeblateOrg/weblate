@@ -9,6 +9,7 @@ import os.path
 import re
 from configparser import RawConfigParser
 from datetime import datetime
+from email.utils import formataddr
 from typing import Iterator, List, Optional
 
 from weblate.vcs.base import Repository, RepositoryException
@@ -87,7 +88,7 @@ class HgRepository(Repository):
 
     def set_committer(self, name, mail):
         """Configure committer name."""
-        self.set_config("ui.username", f"{name} <{mail}>")
+        self.set_config("ui.username", formataddr((name, mail)))
 
     def reset(self):
         """Reset working copy to match remote branch."""

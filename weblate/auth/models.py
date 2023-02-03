@@ -4,6 +4,7 @@
 
 import re
 from collections import defaultdict
+from email.utils import formataddr
 from itertools import chain
 from typing import Optional, Set
 
@@ -674,14 +675,13 @@ class User(AbstractBaseUser):
 
     def get_visible_name(self) -> str:
         """Get full name from database or username."""
-        result = self.full_name or self.username
-        # The < > are replace to avoid tricking Git to use
-        # name as e-mail
-        return result.replace("<", "").replace(">", "").replace('"', "")
+        return self.full_name or self.username
 
-    def get_author_name(self) -> str:
+    def get_author_name(self, address: Optional[str] = None) -> str:
         """Return formatted author name with e-mail."""
-        return f"{self.get_visible_name()} <{self.profile.get_commit_email()}>"
+        return formataddr(
+            (self.get_visible_name(), address or self.profile.get_commit_email())
+        )
 
 
 class AutoGroup(models.Model):

@@ -6,7 +6,7 @@ import os
 import re
 from collections import defaultdict
 from datetime import timedelta
-from email.headerregistry import Address
+from email.utils import formataddr
 from importlib import import_module
 from typing import Optional
 
@@ -460,12 +460,7 @@ def contact(request):
                 "%(subject)s",
                 CONTACT_TEMPLATE,
                 form.cleaned_data,
-                str(
-                    Address(
-                        display_name=form.cleaned_data["name"],
-                        addr_spec=form.cleaned_data["email"],
-                    )
-                ),
+                formataddr((form.cleaned_data["name"], form.cleaned_data["email"])),
                 settings.ADMINS_CONTACT,
             )
             return redirect("home")
