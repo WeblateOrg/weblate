@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-03 21:45+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2023-02-04 14:03+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -686,7 +686,7 @@ msgstr "Benutzer, Rollen, Teams, und Berechtigungen"
 
 #: ../../admin/access.rst:299
 msgid "The authentication models consist of several objects:"
-msgstr "Die Legitimierungsmodelle bestehen aus verschiedenen Objekten:"
+msgstr "Die Authentifizierungsmodelle bestehen aus verschiedenen Objekten:"
 
 #: ../../admin/access.rst:302
 msgid "`Permission`"
@@ -731,8 +731,8 @@ msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
 msgstr ""
-"Die Gruppe verbindet Rollen, Benutzer und Legitimierungsobjekte (Projekte, "
-"Sprachen, und Komponentenlisten)."
+"Die Gruppe verbindet Rollen, Benutzer und Authentifizierungsobjekte ("
+"Projekte, Sprachen und Komponentenlisten)."
 
 #: ../../admin/access.rst:328
 msgid ""
@@ -3671,7 +3671,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
-msgstr "Legitimierung"
+msgstr "Authentifizierung"
 
 #: ../../admin/auth.rst:5
 msgid "User registration"
@@ -13823,6 +13823,9 @@ msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"Sie können die Konfiguration für beliebige Ratenbegrenzer-Bereiche "
+"festlegen. Fügen Sie dazu das Präfix ``WEBLATE_`` zu einer der in :ref:`Rate-"
+"Limit` beschriebenen Einstellungen hinzu."
 
 #: ../../admin/install/docker.rst:817
 msgid ""
@@ -14026,28 +14029,34 @@ msgid ""
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 msgstr ""
+"Aktiviert die Keycloak-Authentifizierung, siehe 'Dokumentation "
+"<https://github.com/python-social-auth/social-core/blob/master/social_core/"
+"backends/keycloak.py>'_."
 
 #: ../../admin/install/docker.rst:1081
 msgid "Linux vendors"
-msgstr ""
+msgstr "Linux-Anbieter"
 
 #: ../../admin/install/docker.rst:1083
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
+"Sie können die Authentifizierung über die Authentifizierungsdienste von "
+"Linux-Anbietern aktivieren, indem Sie die folgenden Variablen auf einen "
+"beliebigen Wert setzen."
 
 #: ../../admin/install/docker.rst:1096
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr ""
+msgstr "Aktiviert die Slack-Authentifizierung, siehe :ref:`slack-auth`."
 
 #: ../../admin/install/docker.rst:1100
 msgid "OpenID Connect"
-msgstr ""
+msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1109
 msgid "Configures generic OpenID Connect intergration."
-msgstr ""
+msgstr "Konfiguriert die allgemeine OpenID Connect-Integration."
 
 #: ../../admin/install/docker.rst:1113
 msgid ":doc:`psa:backends/oidc`"
@@ -14055,7 +14064,7 @@ msgstr ":doc:`psa:backends/oidc`"
 
 #: ../../admin/install/docker.rst:1118
 msgid "SAML"
-msgstr ""
+msgstr "SAML"
 
 #: ../../admin/install/docker.rst:1120
 msgid ""
@@ -14063,30 +14072,38 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Selbstsignierte SAML-Schlüssel werden beim ersten Start des Containers "
+"automatisch erzeugt. Wenn Sie eigene Schlüssel verwenden möchten, legen Sie "
+"das Zertifikat und den privaten Schlüssel in :file:`/app/data/ssl/saml.crt` "
+"und :file:`/app/data/ssl/saml.key` ab."
 
 #: ../../admin/install/docker.rst:1130
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "SAML-Identitätsanbietereinstellungen, siehe :ref:'saml-auth'."
 
 #: ../../admin/install/docker.rst:1134
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Weitere Authentifizierungseinstellungen"
 
 #: ../../admin/install/docker.rst:1138
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
+"Deaktiviert die E-Mail-Authentifizierung, wenn auf einen beliebigen Wert "
+"gesetzt. Siehe :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1143
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Einrichtung der PostgreSQL-Datenbank"
 
 #: ../../admin/install/docker.rst:1145
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"Die Datenbank wird von :file:`docker-compose.yml` erstellt, daher betreffen "
+"diese Einstellungen sowohl Weblate- als auch PostgreSQL-Container."
 
 #: ../../admin/install/docker.rst:1148
 msgid ":ref:`database-setup`"
@@ -14101,6 +14118,8 @@ msgid ""
 "Path to the file containing the PostgreSQL password. Use as an alternative "
 "to POSTGRES_PASSWORD."
 msgstr ""
+"Pfad zu der Datei, die das PostgreSQL-Passwort enthält. Verwendung als "
+"Alternative zu POSTGRES_PASSWORD."
 
 #: ../../admin/install/docker.rst:1160
 msgid "PostgreSQL username."
@@ -14113,10 +14132,14 @@ msgstr "PostgreSQL-Datenbankname."
 #: ../../admin/install/docker.rst:1168
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Hostname oder IP-Adresse des PostgreSQL-Servers. Der Standardwert ist "
+"``database``."
 
 #: ../../admin/install/docker.rst:1172
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"PostgreSQL-Serverport. Der Standardwert ist none (verwendet den "
+"Standardwert)."
 
 #: ../../admin/install/docker.rst:1176
 msgid ""
@@ -14124,12 +14147,17 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 msgstr ""
+"Konfigurieren Sie, wie PostgreSQL SSL bei der Verbindung zum Server "
+"handhabt, für mögliche Auswahlen siehe `SSL Mode Descriptions <https://www."
+"postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 
 #: ../../admin/install/docker.rst:1181
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
 msgstr ""
+"Konfiguriert den Namen der Rolle, der bei Migrationen geändert werden soll, "
+"siehe :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1187
 msgid ""
@@ -14161,6 +14189,8 @@ msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
+"Deaktiviert serverseitige Cursor in der Datenbank. Dies ist bei einigen "
+":command:`pgbouncer`-Setups notwendig."
 
 #: ../../admin/install/docker.rst:1221
 msgid ""
@@ -14174,7 +14204,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1226
 msgid "Database backup settings"
-msgstr ""
+msgstr "Einstellungen für die Datenbanksicherung"
 
 #: ../../admin/install/docker.rst:1229
 msgid ":ref:`backup-dumps`"
@@ -14185,16 +14215,20 @@ msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
+"Konfiguriert den täglichen Datenbank-Dump mit :setting:`DATABASE_BACKUP`. "
+"Die Voreinstellung ist ``plain``."
 
 #: ../../admin/install/docker.rst:1237
 msgid "Caching server setup"
-msgstr ""
+msgstr "Einrichtung eines Caching-Servers"
 
 #: ../../admin/install/docker.rst:1239
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
 msgstr ""
+"Die Verwendung von Redis wird von Weblate dringend empfohlen und Sie müssen "
+"eine Redis-Instanz bereitstellen, wenn Sie Weblate in Docker ausführen."
 
 #: ../../admin/install/docker.rst:1242 ../../admin/projects.rst:991
 msgid ":ref:`production-cache`"
@@ -14203,18 +14237,20 @@ msgstr ""
 #: ../../admin/install/docker.rst:1246
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr ""
+"Der Hostname oder die IP-Adresse des Redis-Servers. Der Standardwert ist "
+"``cache``."
 
 #: ../../admin/install/docker.rst:1250
 msgid "The Redis server port. Defaults to ``6379``."
-msgstr ""
+msgstr "Der Port des Redis-Servers. Der Standardwert ist ``6379``."
 
 #: ../../admin/install/docker.rst:1254
 msgid "The Redis database number, defaults to ``1``."
-msgstr ""
+msgstr "Die Nummer der Redis-Datenbank, der Standardwert ist ``1``."
 
 #: ../../admin/install/docker.rst:1258
 msgid "The Redis server password, not used by default."
-msgstr ""
+msgstr "Das Redis Server-Passwort, nicht standardmäßig verwendet."
 
 #: ../../admin/install/docker.rst:1262
 msgid "Path to the file containing the Redis server password."
@@ -14226,12 +14262,14 @@ msgstr ":envvar:`REDIS_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1268
 msgid "Enables using SSL for Redis connection."
-msgstr ""
+msgstr "Ermöglicht die Verwendung von SSL für Redis-Verbindungen."
 
 #: ../../admin/install/docker.rst:1272
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
+"Kann verwendet werden, um die SSL-Zertifikatsüberprüfung für Redis-"
+"Verbindungen zu deaktivieren."
 
 #: ../../admin/install/docker.rst:1277
 msgid "Email server setup"
@@ -23608,10 +23646,8 @@ msgstr ""
 "hinzugefügt."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid "Improved analysis on the failed push alert."
 msgid "Improved analysis on the duplicate language alert."
-msgstr "Verbesserte Analyse der fehlgeschlagenen Push-Warnung."
+msgstr "Verbesserte Analyse der Warnung bei doppelter Sprache."
 
 #: ../../changes.rst:53
 msgid "Improved accurancy of the consecutive duplicated words check."
@@ -23640,20 +23676,16 @@ msgid "Fixed processing of some uploaded CSV files."
 msgstr "Die Verarbeitung einiger hochgeladener CSV-Dateien korrigiert."
 
 #: ../../changes.rst:58
-#, fuzzy
-#| msgid "Improved performance in handling variants."
 msgid "Improved whitespace changes handling in diff display."
-msgstr "Verbesserte Leistung bei der Handhabung von Varianten."
+msgstr "Verbesserte Handhabung von Leerzeichenänderungen in der Diff-Anzeige."
 
 #: ../../changes.rst:59
 msgid "Added automatic suggestions management link to management pages."
 msgstr ""
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid "Track add-on changes in a history."
 msgid "Track comment removal/resolving in history."
-msgstr "Nachverfolgung von Add-On-Änderungen in einem Verlauf."
+msgstr "Verfolgen der Entfernung/Lösung von Kommentaren in der Historie."
 
 #: ../../changes.rst:61
 msgid "Fixed restoring project backups with linked components."
@@ -23711,10 +23743,8 @@ msgid "Avoid matching glossary terms on context or keys."
 msgstr ""
 
 #: ../../changes.rst:78
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Added notifications for string removals."
-msgstr "Verbesserte Leistung beim Hinzufügen neuer Zeichenketten."
+msgstr "Benachrichtigungen für das Entfernen von Zeichenfolgen hinzugefügt."
 
 #: ../../changes.rst:79
 msgid "Improved management of untranslatable terms in glossary."
@@ -23742,8 +23772,6 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Improved punctionation checks for Burmese."
 msgid "Improved Burmese punctuation check."
 msgstr "Verbesserte Interpunktionsprüfung für Burmesisch."
 
@@ -23794,12 +23822,9 @@ msgstr ""
 "Übersetzungen."
 
 #: ../../changes.rst:100
-#, fuzzy
-#| msgid "Added support for LibreTranslate machine translation service."
 msgid "Added support for translation domain in SAP Translation Hub."
 msgstr ""
-"Unterstützung für den automatischen Übersetzungsdienst LibreTranslate "
-"hinzugefügt."
+"Unterstützung für die Übersetzungsdomäne im SAP Translation Hub hinzugefügt."
 
 #: ../../changes.rst:101
 msgid "Allow absolute links in source string locations."
