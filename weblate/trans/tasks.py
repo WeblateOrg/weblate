@@ -342,8 +342,11 @@ def component_removal(pk, uid):
 
 
 @app.task(trail=False)
-def project_removal(pk, uid):
-    user = User.objects.get(pk=uid)
+def project_removal(pk: int, uid: Optional[int]):
+    if uid is None:
+        user = get_anonymous()
+    else:
+        user = User.objects.get(pk=uid)
     try:
         project = Project.objects.get(pk=pk)
         create_project_backup(pk)
@@ -353,6 +356,7 @@ def project_removal(pk, uid):
             user=user,
             author=user,
         )
+        project.stats.invalidate()
         project.delete()
     except Project.DoesNotExist:
         return

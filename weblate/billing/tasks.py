@@ -12,6 +12,7 @@ from django.utils.translation import gettext as _
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing
+from weblate.trans.tasks import project_removal
 from weblate.utils.celery import app
 
 
@@ -125,8 +126,7 @@ def perform_removal():
             )
         for prj in bill.projects.iterator():
             prj.log_warning("removing due to unpaid billing")
-            prj.stats.invalidate()
-            prj.delete()
+            project_removal(prj.id, None)
         bill.removal = None
         bill.state = Billing.STATE_TERMINATED
         bill.save()
