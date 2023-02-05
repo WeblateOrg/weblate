@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
 "PO-Revision-Date: 2023-02-05 13:19+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -4292,9 +4292,8 @@ msgstr ""
 "anmelden, wenn Sie es erstellt haben (z. B. mit :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:548
-#, fuzzy
 msgid "Using bind password"
-msgstr "Bind-Passwort verwenden"
+msgstr "Bindungs-Passwort verwenden"
 
 #: ../../admin/auth.rst:550
 msgid ""
@@ -12983,8 +12982,8 @@ msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
-"Jedes Bild wird vor der Veröffentlichung von unserer CI getestet, so dass "
-"selbst die `bleeding`-Version sicher zu verwenden ist."
+"Jedes Image wird vor der Veröffentlichung von unserer CI getestet, sodass "
+"selbst die `bleeding`-Version sicher verwendbar ist."
 
 #: ../../admin/install/docker.rst:100
 msgid "Docker container with HTTPS support"
@@ -13939,7 +13938,7 @@ msgstr "**Beispiel für Suche und Bindung:**"
 
 #: ../../admin/install/docker.rst:958
 msgid "**Example for union search and bind:**"
-msgstr ""
+msgstr "**Beispiel für Vereinigungssuche und Bindung:**"
 
 #: ../../admin/install/docker.rst:970
 msgid "**Example with search and bind against Active Directory:**"
@@ -14295,7 +14294,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1307
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "Hostname oder IP-Adresse des Mailservers."
 
 #: ../../admin/install/docker.rst:1311
 msgid ""
@@ -14307,7 +14306,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1318
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "Mailserver-Port, standardmäßig 25."
 
 #: ../../admin/install/docker.rst:1320
 msgid ":setting:`django:EMAIL_PORT`"
@@ -14346,12 +14345,19 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"Ob eine implizite TLS-Verbindung (sicher) für die Kommunikation mit dem SMTP-"
+"Server verwendet werden soll. In den meisten E-Mail-Dokumentationen wird "
+"diese Art der TLS-Verbindung als SSL bezeichnet. Sie wird im Allgemeinen auf "
+"Port 465 eingesetzt. Wenn Sie Probleme haben, lesen Sie bitte die explizite "
+"TLS-Einstellung :envvar:`WEBLATE_EMAIL_USE_TLS`."
 
 #: ../../admin/install/docker.rst:1349 ../../admin/install/docker.rst:1367
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
+"Die SSL/TLS-Unterstützung wird automatisch auf der Grundlage der "
+":envvar:`WEBLATE_EMAIL_PORT` aktiviert."
 
 #: ../../admin/install/docker.rst:1354
 msgid ""
@@ -14368,6 +14374,11 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"Ob eine TLS-Verbindung (sicher) verwendet werden soll, wenn mit dem SMTP-"
+"Server kommuniziert wird. Dies wird für explizite TLS-Verbindungen "
+"verwendet, im Allgemeinen auf Port 587 oder 25. Wenn Sie feststellen, dass "
+"Verbindungen hängen bleiben, lesen Sie die implizite TLS-Einstellung "
+":envvar:`WEBLATE_EMAIL_USE_SSL`."
 
 #: ../../admin/install/docker.rst:1372
 msgid ""
@@ -14436,18 +14447,20 @@ msgstr ""
 #: ../../admin/install/docker.rst:1421
 msgid "To enable support for Rollbar, set the following:"
 msgstr ""
+"Um die Unterstützung für Rollbar zu aktivieren, stellen Sie Folgendes ein:"
 
 #: ../../admin/install/docker.rst:1425
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "Ihr Rollbar-Postserver-Zugriffstoken."
 
 #: ../../admin/install/docker.rst:1429
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Ihre Rollbar-Umgebung, standardmäßig ``production``."
 
 #: ../../admin/install/docker.rst:1431
 msgid "To enable support for Sentry, set following:"
 msgstr ""
+"Um die Unterstützung für Sentry zu aktivieren, stellen Sie Folgendes ein:"
 
 #: ../../admin/install/docker.rst:1435
 msgid "Your Sentry DSN."
@@ -14455,7 +14468,7 @@ msgstr "Ihr Sentry-DSN."
 
 #: ../../admin/install/docker.rst:1439
 msgid "Your Sentry Environment (optional)."
-msgstr ""
+msgstr "Ihre Sentry-Umgebung (optional)."
 
 #: ../../admin/install/docker.rst:1442
 msgid "Localization CDN"
@@ -14463,23 +14476,29 @@ msgstr "Lokalisierung CDN"
 
 #: ../../admin/install/docker.rst:1449
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
-msgstr ""
+msgstr "Konfiguration für :ref:`addon-weblate.cdn.cdnjs`."
 
 #: ../../admin/install/docker.rst:1451
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
+"Der :envvar:`WEBLATE_LOCALIZE_CDN_PATH` ist ein Pfad innerhalb des "
+"Containers. Er sollte auf dem dauerhaften Volume und nicht im transienten "
+"Speicher gespeichert werden."
 
 #: ../../admin/install/docker.rst:1454
 msgid "One of possibilities is storing that inside the Weblate data dir:"
-msgstr ""
+msgstr "Eine der Möglichkeiten ist die Speicherung im Weblate-Datenverzeichnis:"
 
 #: ../../admin/install/docker.rst:1464
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr ""
+"Sie sind für die Einrichtung der Bereitstellung der von Weblate generierten "
+"Dateien verantwortlich, es speichert nur die Dateien am konfigurierten "
+"Speicherort."
 
 #: ../../admin/install/docker.rst:1469
 msgid ""
@@ -14490,12 +14509,16 @@ msgstr ""
 #: ../../admin/install/docker.rst:1475
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
+"Ändern aktivierter Apps, Qualitätsprüfungen, Erweiterungen oder Autofixes"
 
 #: ../../admin/install/docker.rst:1479
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
+"Die integrierte Konfiguration der aktivierten Qualitätsprüfungen, "
+"Erweiterungen oder Autofixes kann durch die folgenden Variablen angepasst "
+"werden:"
 
 #: ../../admin/install/docker.rst:1501
 msgid ""
@@ -14714,6 +14737,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker-Umgebungsvariablen <docker-environment>` sind dazu gedacht, die "
+"meisten :ref:`Konfigurationseinstellungen <config>`, die für Weblate-"
+"Installationen von Bedeutung sind, sichtbar zu machen."
 
 #: ../../admin/install/docker.rst:1624
 msgid ""
@@ -14721,6 +14747,10 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Wenn Sie eine Einstellung finden, die nicht als Umgebungsvariable verfügbar "
+"ist und Sie glauben, dass sie es sein sollte, können Sie :ref:`fordern, dass "
+"sie in einer zukünftigen Version von Weblate <report-issue>` verfügbar "
+"gemacht wird."
 
 #: ../../admin/install/docker.rst:1628
 msgid ""
@@ -14729,6 +14759,10 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Wenn Sie eine Einstellung ändern müssen, die nicht als Docker-"
+"Umgebungsvariable verfügbar ist, können Sie dies trotzdem tun, entweder "
+":ref:`vom Daten-Volume <docker-settings-override>` oder :ref:`Erweitern des "
+"Docker-Images <docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:1635
 msgid ":doc:`../customize`"
@@ -14736,7 +14770,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1640
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "Überschreiben von Einstellungen des Daten-Volumes"
 
 #: ../../admin/install/docker.rst:1642
 msgid ""
@@ -14744,26 +14778,35 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"Sie können eine Datei unter :file:`/app/data/settings-override.py` "
+"erstellen, d.h. in der Wurzel des :ref:`data volume <docker-volume>`, um "
+"Einstellungen zu erweitern oder zu überschreiben, die durch "
+"Umgebungsvariablen definiert wurden."
 
 #: ../../admin/install/docker.rst:1650
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Überschreiben von Einstellungen durch Erweitern des Docker-Images"
 
 #: ../../admin/install/docker.rst:1652
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
+"Um Einstellungen auf der Ebene des Docker-Images statt des Daten-Volumes zu "
+"überschreiben:"
 
 #: ../../admin/install/docker.rst:1654
 msgid ":ref:`Create a custom Python package <custom-module>`."
 msgstr ""
+":ref:'Erstellen Sie ein benutzerdefiniertes Python-Paket <custom-module>'."
 
 #: ../../admin/install/docker.rst:1656
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
+"Fügen Sie ein Modul zu Ihrem Paket hinzu, das alle Einstellungen von "
+"``weblate.settings_docker`` importiert."
 
 #: ../../admin/install/docker.rst:1659
 msgid ""
@@ -14771,6 +14814,10 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Innerhalb der Beispiel-Paketstruktur, die unter :ref:`custom-module` "
+"definiert ist, könnten Sie zum Beispiel eine Datei unter ``"
+"weblate_customization/weblate_customization/settings.py`` mit dem folgenden "
+"Anfangscode erstellen:"
 
 #: ../../admin/install/docker.rst:1668
 msgid ""
@@ -14778,12 +14825,18 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"Erstellen Sie ein benutzerdefiniertes ``Dockerfile``, das vom offiziellen "
+"Weblate-Docker-Image erbt, dann Ihr Paket installiert und die "
+"Umgebungsvariable ``DJANGO_SETTINGS_MODULE`` auf Ihr Einstellungsmodul "
+"verweist:"
 
 #: ../../admin/install/docker.rst:1684
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"Anstatt das offizielle Weblate-Docker-Image zu verwenden, erstellen Sie ein "
+"benutzerdefiniertes Image aus dieser ``Dockerfile``-Datei."
 
 #: ../../admin/install/docker.rst:1687
 msgid ""
@@ -14792,6 +14845,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"Es gibt `keine saubere Möglichkeit <https://github.com/docker/compose/issues/"
+"7231>`__, dies mit ``docker-compose.override.yml`` zu tun. Sie *könnten* "
+"``build: .`` zu dem ``weblate`` Knoten in dieser Datei hinzufügen, aber dann "
+"wird Ihr benutzerdefiniertes Image als ``weblate/weblate`` in Ihrem System "
+"markiert, was problematisch sein könnte."
 
 #: ../../admin/install/docker.rst:1693
 msgid ""
@@ -14801,16 +14859,26 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"Anstatt also ``docker-compose.yml`` direkt unverändert aus dem offiziellen `"
+"Repository <https://github.com/WeblateOrg/docker-compose>`__ zu verwenden "
+"und es durch ``docker-compose.override.yml`` zu erweitern, sollten Sie eine "
+"Kopie der offiziellen ``docker-compose.yml`` Datei erstellen und Ihre Kopie "
+"so bearbeiten, dass ``image: weblate/weblate`` durch ``build: .`` ersetzt "
+"wird."
 
 #: ../../admin/install/docker.rst:1699
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"Weitere Informationen zum Erstellen von Images aus der Quelle bei Verwendung "
+"von ``docker-compose`` finden Sie in der 'Compose-Datei-Build-Referenz'_."
 
 #: ../../admin/install/docker.rst:1704
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
+"Erweitern Sie Ihr benutzerdefiniertes Einstellungsmodul, um Einstellungen zu "
+"definieren oder neu zu definieren."
 
 #: ../../admin/install/docker.rst:1706
 msgid ""
@@ -14913,13 +14981,15 @@ msgstr ""
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
-msgstr ""
+msgstr "Unter Kubernetes installieren"
 
 #: ../../admin/install/kubernetes.rst:6
 msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
 msgstr ""
+"Diese Anleitung sucht Mitwirkende, die Erfahrung mit Kubernetes haben und "
+"die Einrichtung im Detail beschreiben."
 
 #: ../../admin/install/kubernetes.rst:9
 msgid ""
@@ -14928,6 +14998,10 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Mit dem Kubernetes Helm-Diagramm können Sie Ihre persönliche Weblate-Instanz "
+"in Sekundenschnelle zum Laufen bringen. Alle Abhängigkeiten von Weblate sind "
+"bereits enthalten. PostgreSQL ist als Standarddatenbank eingerichtet und es "
+"werden persistente Volume-Claims verwendet."
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
@@ -15064,7 +15138,7 @@ msgid ""
 "`docker-environment` for full list of environment variables."
 msgstr ""
 "Durch die Verarbeitung des Templates wird eine entsprechende ``ConfigMap`` "
-"erstellt, die zur Anpassung des Weblate-Bildes verwendet werden kann. Die "
+"erstellt, die zur Anpassung des Weblate-Images verwendet werden kann. Die "
 "``ConfigMap`` wird direkt als Umgebungsvariable eingebunden und löst bei "
 "jeder Änderung eine neue Bereitstellung aus. Für weitere "
 "Konfigurationsoptionen siehe :ref:`docker-environment` für eine vollständige "
@@ -15185,27 +15259,38 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"Sie können Einstellungen vor oder nach der obigen Importanweisung "
+"definieren, um festzulegen, welche Einstellungen Vorrang haben. Vor der "
+"Importanweisung definierte Einstellungen können durch Umgebungsvariablen und "
+"im Daten-Volume definierte Einstellungsüberschreibungen außer Kraft gesetzt "
+"werden. Einstellungen, die nach der Importanweisung definiert werden, können "
+"nicht überschrieben werden."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Erstellen Sie die Virtualenv für Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Aktivieren Sie die Virtualenv für Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
 msgstr ""
+"Installieren Sie Weblate einschließlich aller optionalen Abhängigkeiten:"
 
 #: ../../admin/install/steps/install-python.rst:29
 msgid ""
 "Please check :ref:`optional-deps` for fine-tuning of optional dependencies."
 msgstr ""
+"Bitte prüfen Sie :ref:`optional-deps` für die Feinabstimmung der optionalen "
+"Abhängigkeiten."
 
 #: ../../admin/install/steps/install-python.rst:33
 msgid "On some Linux distributions running Weblate fails with libffi error:"
 msgstr ""
+"Auf einigen Linux-Distributionen schlägt die Ausführung von Weblate mit "
+"einem libffi-Fehler fehl:"
 
 #: ../../admin/install/steps/install-python.rst:39
 msgid ""
@@ -15213,10 +15298,13 @@ msgid ""
 "with the distribution. To address this, you need to rebuild the package on "
 "your system:"
 msgstr ""
+"Dies wird durch die Inkompatibilität von Binärpaketen verursacht, die über "
+"PyPI mit der Distribution verteilt werden. Um dies zu beheben, müssen Sie "
+"das Paket auf Ihrem System neu erstellen:"
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Weblate konfigurieren"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -15224,6 +15312,10 @@ msgid ""
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
+"Im Folgenden wird davon ausgegangen, dass die von Weblate verwendete "
+"Virtualenv aktiviert ist (durch Ausführung von ``. ~/weblate-env/bin/"
+"activate``). Falls nicht, geben Sie den vollständigen Pfad zum Befehl "
+":command:`weblate` als ``~/weblate-env/bin/weblate`` an."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -15231,6 +15323,9 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+"Kopieren Sie die Datei :file:`~/weblate-env/lib/python3.9/site-packages/"
+"weblate/settings_example.py` nach :file:`~/weblate-env/lib/python3.9/"
+"site-packages/weblate/settings.py`."
 
 #: ../../admin/install/steps/install-configure.rst:16
 msgid ""
@@ -15271,6 +15366,9 @@ msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
+"Starten Sie die Celery-Arbeiter. Dies ist für Entwicklungszwecke nicht "
+"notwendig, wird aber ansonsten dringend empfohlen. :ref:`celery` hat mehr "
+"Informationen:"
 
 #: ../../admin/install/steps/install-configure.rst:49
 msgid ""
@@ -22958,7 +23056,7 @@ msgstr "Laden Sie das Bildschirmfoto herunter."
 
 #: ../../api.rst:2201
 msgid "Replace screenshot image."
-msgstr "Ersetzen Sie das Bildschirmfoto."
+msgstr "Bildschirmfoto ersetzen."
 
 #: ../../api.rst:2218
 msgid "Associate source string with screenshot."
@@ -23893,27 +23991,22 @@ msgid "Fixed DeepL translations behavior with placeholders."
 msgstr "Das Verhalten von DeepL bei Übersetzungen mit Platzhaltern korrigiert."
 
 #: ../../changes.rst:121
-#, fuzzy
-#| msgid "Fixed untranslating strings in :ref:`javaprop`."
 msgid "Fixed untranslating strings via API."
-msgstr "Nicht übersetzte Zeichenketten in :ref:`javaprop` behoben."
+msgstr "Nichtübersetzen von Zeichenfolgen über die API behoben."
 
 #: ../../changes.rst:122
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for removing user from a group via API."
-msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
+msgstr ""
+"Unterstützung für das Entfernen von Benutzern aus einer Gruppe über die API "
+"hinzugefügt."
 
 #: ../../changes.rst:123
 msgid "Fixed audit log for user invitation e-mails."
 msgstr "Das Audit-Protokoll für Einladungs-E-Mails für Benutzer korrigiert."
 
 #: ../../changes.rst:124
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Fixed flag names for Java formatting strings."
-msgstr ""
-"Massenbearbeitung von Markierungen, Labels oder den Status von Zeichenketten."
+msgstr "Markierungsnamen für Java-Formatierungszeichenketten korrigiert."
 
 #: ../../changes.rst:126
 msgid ""
@@ -23969,20 +24062,18 @@ msgid "Improved progress bar colors for color blind."
 msgstr ""
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Fixed variants cleanup on string removal."
-msgstr "Verbesserte Leistung beim Hinzufügen neuer Zeichenketten."
+msgstr "Bereinigung von Varianten beim Entfernen von Zeichenfolgen behoben."
 
 #: ../../changes.rst:142
 msgid "Compatibility with Django 4.1."
 msgstr "Kompatibilität mit Django 4.1."
 
 #: ../../changes.rst:143
-#, fuzzy
-#| msgid "Added support for searching for resolved comments."
 msgid "Added support for storing escaped XML elements in XLIFF."
-msgstr "Unterstützung für die Suche nach geklärten Kommentaren ergänzt."
+msgstr ""
+"Unterstützung für das Speichern von XML-Elementen mit Escapezeichen in XLIFF "
+"hinzugefügt."
 
 #: ../../changes.rst:144
 msgid "Improved formatting of placeholder check errors."
@@ -24127,16 +24218,12 @@ msgstr ""
 "eine Zeichenkette zu ignorieren."
 
 #: ../../changes.rst:187
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 "Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing "
 "checks."
 msgstr ""
-"Erweiterungstrigger für neu hinzugefügte Zeichenketten :ref:`addon-weblate."
-"autotranslate.autotranslate` repariert."
+"Die Erweiterung :ref:`addon-weblate.generate.pseudolocale` meiden, um "
+"fehlende Qualitätsprüfungen auszulösen."
 
 #: ../../changes.rst:188
 msgid "Added support for :ref:`vcs-gitea`."
@@ -24149,24 +24236,20 @@ msgstr ""
 "Sprachcode im Linux-Stil zu :ref:`component-language_code_style` hinzugefügt."
 
 #: ../../changes.rst:190
-#, fuzzy
-#| msgid "Added built-in translation memory."
 msgid "Added support for rebuilding project translation memory."
-msgstr "Integrierter Übersetzungsspeicher hinzugefügt."
+msgstr ""
+"Unterstützung für den Wiederaufbau von Projektübersetzungsspeichern wurde "
+"hinzugefügt."
 
 #: ../../changes.rst:191
-#, fuzzy
-#| msgid "Improved validation when creating a component."
 msgid "Improved API for creating components from a file."
-msgstr "Verbesserte Validierung beim Erstellen einer Komponente."
+msgstr "Verbesserte API für die Erstellung von Komponenten aus einer Datei."
 
 #: ../../changes.rst:192
-#, fuzzy
-#| msgid "Added automatic translation add-on to bootstrap translations."
 msgid "Add copy and clone buttons to other translations."
 msgstr ""
-"Erweiterung für automatische Übersetzung zu Bootstrap-Übersetzungen "
-"hinzugefügt."
+"Hinzufügen von Schaltflächen zum Kopieren und Klonen zu anderen "
+"Übersetzungen."
 
 #: ../../changes.rst:193
 msgid "Make merge request message configurable at component level."
@@ -24229,11 +24312,8 @@ msgid "Added support for creating teams using the API."
 msgstr "Unterstützung für die Erstellung von Teams über die API hinzugefügt."
 
 #: ../../changes.rst:216
-#, fuzzy
-#| msgid "Fixed stats counts after removing suggestion."
 msgid "Fixed user mention suggestions display."
-msgstr ""
-"Behobene Statistikzählungen nach dem Entfernen eines Übersetzungsvorschlags."
+msgstr "Die Anzeige von Vorschlägen für Benutzererwähnungen wurde korrigiert."
 
 #: ../../changes.rst:217
 msgid "The project tokens access can now be customized."
@@ -24296,10 +24376,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:234
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Improved error handling on string removal."
-msgstr "Verbesserte Leistung beim Hinzufügen neuer Zeichenketten."
+msgstr "Verbesserte Fehlerbehandlung beim Entfernen von Zeichenketten."
 
 #: ../../changes.rst:236
 msgid "Fixed some write operations with project token authentication."
@@ -24348,8 +24426,6 @@ msgstr ""
 "autotranslate.autotranslate` repariert."
 
 #: ../../changes.rst:245
-#, fuzzy
-#| msgid "Improved punctionation checks for Burmese."
 msgid "Improved punctuation checks for Burmese."
 msgstr "Verbesserte Interpunktionsprüfung für Burmesisch."
 
@@ -24510,14 +24586,10 @@ msgid "Fixed translating newly added strings."
 msgstr "Die Übersetzung neu hinzugefügter Zeichenketten korrigiert."
 
 #: ../../changes.rst:286
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid "Label automatically translated strings to ease their filtering."
 msgstr ""
-"Übersetzt automatisch Zeichenketten mithilfe maschineller Übersetzung oder "
-"Übersetzungen aus anderen Komponenten."
+"Kennzeichnung automatisch übersetzter Zeichenketten, um ihre Filterung zu "
+"erleichtern."
 
 #: ../../changes.rst:288
 msgid ""
@@ -24540,10 +24612,8 @@ msgid "Fixed upload of monolingual files after changing template."
 msgstr ""
 
 #: ../../changes.rst:296
-#, fuzzy
-#| msgid "Improved handling of context in monolingual PO files."
 msgid "Improved handling of whitespace in flags."
-msgstr "Verbesserte Handhabung des Kontexts in einsprachigen PO-Dateien."
+msgstr "Verbesserte Handhabung von Leerzeichen in Flags."
 
 #: ../../changes.rst:297
 msgid "Add support for filtering in download API."
@@ -24623,11 +24693,10 @@ msgid "Added checks for ICU MessageFormat."
 msgstr "Qualitätsprüfungen für ICU-MessageFormat hinzugefügt."
 
 #: ../../changes.rst:318
-#, fuzzy
-#| msgid "Improve placeholders handling in machine translations."
 msgid "Improved error condition handling in machine translation backends."
 msgstr ""
-"Verbesserung der Behandlung von Platzhaltern in automatischen Übersetzungen."
+"Verbesserte Behandlung von Fehlerbedingungen in automatischen Übersetzungs-"
+"Backends."
 
 #: ../../changes.rst:319
 msgid "Highlight unusual whitespace characters in the strings."
@@ -24688,14 +24757,10 @@ msgid "Fixed user removal in Django admin interface."
 msgstr "Das Entfernen von Benutzern in der Django-Adminoberfläche behoben."
 
 #: ../../changes.rst:335
-#, fuzzy
-#| msgid "Document add-on parameters in more detail."
 msgid "Document add-on parameters in greater detail."
-msgstr "Parameter der Erweiterungen ausführlicher dokumentiert."
+msgstr "Ausführlichere Dokumentation von Erweiterungsparametern."
 
 #: ../../changes.rst:336
-#, fuzzy
-#| msgid "Fixed JavaScript error on glossary."
 msgid "Fixed JavaScript error in glossary."
 msgstr "JavaScript-Fehler im Glossar behoben."
 
@@ -24704,8 +24769,6 @@ msgid "Add limit to number of matches in consistency check."
 msgstr "Begrenzung der Anzahl von Übereinstimmungen bei der Konsistenzprüfung."
 
 #: ../../changes.rst:338
-#, fuzzy
-#| msgid "Improve placeholders handling in machine translations."
 msgid "Improve handling of placeholders in machine translations."
 msgstr ""
 "Verbesserung der Behandlung von Platzhaltern in automatischen Übersetzungen."
@@ -25700,12 +25763,8 @@ msgid "Released on November 4th 2020."
 msgstr "Veröffentlicht am 4. November 2020."
 
 #: ../../changes.rst:622
-#, fuzzy
-#| msgid "Fixed crash after moving shared component between projects."
 msgid "Fixed crash on certain component file masks."
-msgstr ""
-"Absturz nach dem Verschieben einer gemeinsamen Komponente zwischen Projekten "
-"behoben."
+msgstr "Absturz bei bestimmten Komponentendateimasken behoben."
 
 #: ../../changes.rst:623
 msgid "Improved accuracy of the consecutive duplicated words check."
@@ -26098,6 +26157,8 @@ msgstr ""
 #: ../../changes.rst:734
 msgid "Removed separate Celery queue for translation memory."
 msgstr ""
+"Die separate Celery-Warteschlange für den Übersetzungsspeicher wurde "
+"entfernt."
 
 #: ../../changes.rst:735
 msgid "Allow translating all components a language at once."
@@ -26996,10 +27057,8 @@ msgid "Avoid sending auditlog notifications to deleted e-mails."
 msgstr ""
 
 #: ../../changes.rst:1013
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for read-only strings."
-msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
+msgstr "Unterstützung für schreibgeschützte Zeichenketten hinzugefügt."
 
 #: ../../changes.rst:1014
 msgid "Added support for Markdown in comments."
@@ -29961,10 +30020,8 @@ msgid "Changes in dictionary are now logged in history."
 msgstr ""
 
 #: ../../changes.rst:1936
-#, fuzzy
-#| msgid "Performance improvements."
 msgid "Performance improvements for translation view."
-msgstr "Leistungsverbesserungen."
+msgstr "Leistungsverbesserungen für die Übersetzungsansicht."
 
 #: ../../changes.rst:1939
 msgid "Weblate 1.6"
@@ -31500,8 +31557,6 @@ msgid ""
 msgstr ""
 
 #: ../../../BACKERS.rst:2
-#, fuzzy
-#| msgid "Backers who have funded Weblate"
 msgid "Supporters who have funded Weblate"
 msgstr "Unterstützer, die Weblate finanziert haben"
 
@@ -31934,10 +31989,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/modules.rst:2
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Contributing to Weblate modules"
-msgstr "Zu Weblate beitragen"
+msgstr "Mitarbeit an Weblate-Modulen"
 
 #: ../../contributing/modules.rst:4
 msgid ""
@@ -32783,10 +32836,8 @@ msgstr ""
 ":doc:`frontend` und :doc:`internals` durchgehen."
 
 #: ../../contributing/start.rst:8
-#, fuzzy
-#| msgid "Starting date"
 msgid "Starting with the codebase"
-msgstr "Startdatum"
+msgstr "Mit der Codebasis beginnen"
 
 #: ../../contributing/start.rst:10
 msgid ""
@@ -32818,10 +32869,8 @@ msgid "Clone the Weblate source code:"
 msgstr "Klonen des Weblate-Quellcodes:"
 
 #: ../../contributing/start.rst:30
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create a virtualenv:"
-msgstr "Erstellen Sie ein Konto mit:"
+msgstr "Erstellen Sie eine virtualenv:"
 
 #: ../../contributing/start.rst:37
 msgid ""
@@ -33125,10 +33174,8 @@ msgid "Duplicated languages within translations"
 msgstr ""
 
 #: ../../devel/alerts.rst:13
-#, fuzzy
-#| msgid "There has been a merge failure in the repository"
 msgid "Merge, update, or push failures in the repository"
-msgstr "Es gab einen Fehler beim Zusammenführen im Repository"
+msgstr "Merge-, update- oder push-Fehler im Repository"
 
 #: ../../devel/alerts.rst:14
 msgid "Parse errors in the translation files"
@@ -33139,16 +33186,12 @@ msgid "Billing limits (see :ref:`billing`)"
 msgstr "Abrechnungsgrenzen (siehe :ref:`Abrechnung`)"
 
 #: ../../devel/alerts.rst:16
-#, fuzzy
-#| msgid "Repository containing Weblate translations"
 msgid "Repository containing too many outgoing or missing commits"
-msgstr "Repository mit Weblate-Übersetzungen"
+msgstr "Repository mit zu vielen ausgehenden oder fehlenden Commits"
 
 #: ../../devel/alerts.rst:17
-#, fuzzy
-#| msgid "Missing license"
 msgid "Missing licenses"
-msgstr "Fehlende Lizenz"
+msgstr "Fehlende Lizenzen"
 
 #: ../../devel/alerts.rst:18
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
@@ -33159,9 +33202,8 @@ msgid "Misconfigured monolingual translation."
 msgstr "Falsch konfigurierte einsprachige Übersetzung."
 
 #: ../../devel/alerts.rst:20
-#, fuzzy
 msgid "Broken :ref:`component`"
-msgstr "Broken :ref:`component`"
+msgstr "Defekte :ref:`component`"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
@@ -33234,10 +33276,8 @@ msgstr ""
 "Ihren Lokalisierungsprozess für Community-Übersetzer einfach zu gestalten."
 
 #: ../../devel/community.rst:18
-#, fuzzy
-#| msgid "Terminology"
 msgid "Terminology management"
-msgstr "Terminologie"
+msgstr "Terminologieverwaltung"
 
 #: ../../devel/community.rst:19
 msgid ""
@@ -33265,10 +33305,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/community.rst:27
-#, fuzzy
-#| msgid "New translation"
 msgid "Review translations"
-msgstr "Neue Übersetzung"
+msgstr "Übersetzungen überprüfen"
 
 #: ../../devel/community.rst:28
 msgid ""
@@ -33278,10 +33316,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/community.rst:31
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Structured feedback"
-msgstr "reStructuredText"
+msgstr "Strukturierte Rückmeldungen"
 
 #: ../../devel/community.rst:32
 msgid ""
@@ -33290,10 +33326,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/community.rst:35
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Translation definition"
-msgstr "Übersetzungsanweisungen"
+msgstr "Übersetzungsdefinition"
 
 #: ../../devel/community.rst:36
 msgid ""
@@ -33383,10 +33417,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/gettext.rst:29
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Workflow overview"
-msgstr "Leistungsbericht"
+msgstr "Übersicht über den Arbeitsablauf"
 
 #: ../../devel/gettext.rst:31
 msgid "The GNU gettext uses several files to manage the localization:"
@@ -33535,10 +33567,8 @@ msgid "``po/hello.pot``"
 msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "Choose :guilabel:`gettext PO file`"
-msgstr "gettext PO-Datei"
+msgstr "Wählen Sie die :guilabel:`gettext PO`-Datei"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -33563,16 +33593,12 @@ msgid "Translating HTML and JavaScript using Weblate CDN"
 msgstr "HTML und JavaScript mit Weblate CDN übersetzen"
 
 #: ../../devel/html.rst:6
-#, fuzzy
-#| msgid ""
-#| "New add-on to help with HTML or JavaScript localization, see :ref:`addon-"
-#| "weblate.cdn.cdnjs`."
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgstr ""
-"Neue Erweiterung zur Hilfe bei der HTML- oder JavaScript-Lokalisierung, "
-"siehe :ref:`addon-weblate.cdn.cdnjs`."
+"Ab Weblate 4.2 ist es möglich, die Übersetzung in ein CDN zu exportieren, "
+"indem man das Add-on :ref:`addon-weblate.cdn.cdnjs` verwendet."
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -33589,10 +33615,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:20
-#, fuzzy
-#| msgid "Create component"
 msgid "Creating component"
-msgstr "Komponente erstellen"
+msgstr "Erstellung einer Komponente"
 
 #: ../../devel/html.rst:22
 msgid ""
@@ -33625,10 +33649,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configuring Weblate CDN add-on"
-msgstr "Erweiterung konfigurieren"
+msgstr "Konfigurieren der Weblate CDN-Erweiterung"
 
 #: ../../devel/html.rst:47
 msgid ""
@@ -33660,10 +33682,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:65
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "String extraction for Weblate CDN"
-msgstr "Zeichenketten mit Handlungsbedarf"
+msgstr "Zeichenkettenextraktion für Weblate CDN"
 
 #: ../../devel/html.rst:67
 msgid ""
@@ -33694,10 +33714,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:101
-#, fuzzy
-#| msgid "Localization"
 msgid "HTML localization using Weblate CDN"
-msgstr "Lokalisierung"
+msgstr "HTML-Übersetzung mit Weblate CDN"
 
 #: ../../devel/html.rst:103
 msgid ""
@@ -33725,10 +33743,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:120
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization"
-msgstr "JavaScript-Format"
+msgstr "JavaScript-Übersetzung"
 
 #: ../../devel/html.rst:122
 msgid ""
@@ -34460,10 +34476,8 @@ msgid "`gettext PO file`"
 msgstr "`gettext PO-Datei`"
 
 #: ../../devel/sphinx.rst:43
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery configuration"
-msgstr "Komponentenerkennung"
+msgstr "Konfiguration der Komponentenerkennung"
 
 #: ../../devel/sphinx.rst:46
 msgid ""
@@ -34694,10 +34708,8 @@ msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgstr ":doc:`integration`, :ref:`continuous-translation`"
 
 #: ../../devel/thirdparty.rst:2
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization libraries and packages"
-msgstr "Lokalisierungsleitfaden"
+msgstr "Übersetzungsbibliotheken und -pakete"
 
 #: ../../devel/thirdparty.rst:4
 msgid ""
@@ -34706,12 +34718,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/thirdparty.rst:7
-#, fuzzy
-#| msgid "Weblate Translation Memory Schema"
 msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
-msgstr "Weblate-Übersetzungsspeicher-Schema"
+msgstr ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 
 #: ../../devel/thirdparty.rst:8
 msgid ""
@@ -34786,10 +34798,8 @@ msgid ":ref:`component-new_lang`, :ref:`new-translations`"
 msgstr ":ref:`component-new_lang`, :ref:`new-translations`"
 
 #: ../../devel/translations.rst:33
-#, fuzzy
-#| msgid "Import existing translations"
 msgid "Removing existing translations"
-msgstr "Vorhandene Übersetzungen importieren"
+msgstr "Entfernen vorhandener Übersetzungen"
 
 #: ../../devel/translations.rst:35
 msgid ""
@@ -34932,10 +34942,8 @@ msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
 msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:124
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Variants while translating"
-msgstr "Automatische Übersetzung"
+msgstr "Varianten beim Übersetzen"
 
 #: ../../devel/translations.rst:126
 msgid "The variant is later grouped when translating:"
@@ -35287,12 +35295,16 @@ msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
+"Deaktivieren Sie den Empfang von Webhooks für :ref:`project`; dies "
+"verhindert, dass Weblate Änderungen im Repository sofort sieht."
 
 #: ../../faq.rst:291
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Führen Sie alle notwendigen Änderungen im Projektarchiv durch (z.B. mit "
+":command:`git mv`) und pushen Sie sie in das Upstream-Repository."
 
 #: ../../faq.rst:292
 msgid ""
@@ -35300,22 +35312,28 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
+"Ändern Sie :ref:`component` so, dass es mit der neuen Konfiguration "
+"übereinstimmt; wenn Sie die Konfiguration ändern, wird Weblate das "
+"aktualisierte Repository abrufen und die geänderten Orte bemerken, während "
+"die bestehenden Zeichenketten erhalten bleiben."
 
 #: ../../faq.rst:293
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "Unlock the component and re-enable hooks in the project configuration."
-msgstr "Die Komponente enthält nicht unterstützte Konfigurationen."
+msgstr ""
+"Entsperren Sie die Komponente und aktivieren Sie die Hooks in der "
+"Projektkonfiguration wieder."
 
 #: ../../faq.rst:299
 msgid "How do I review the translations of others?"
-msgstr ""
+msgstr "Wie überprüfe ich die Übersetzungen anderer?"
 
 #: ../../faq.rst:301
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr ""
+"Es gibt mehrere überprüfungsbasierte Arbeitsabläufe in Weblate, siehe "
+":ref:'workflows'."
 
 #: ../../faq.rst:302
 msgid ""
@@ -35331,6 +35349,9 @@ msgid ""
 "where you can choose to browse translations made by others since a given "
 "date."
 msgstr ""
+"Am unteren Rand der Übersetzungsansicht steht ein Überprüfungstool zur "
+"Verfügung, mit dem Sie Übersetzungen durchsuchen können, die seit einem "
+"bestimmten Datum von anderen erstellt wurden."
 
 #: ../../faq.rst:309
 #, fuzzy
@@ -35531,18 +35552,16 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:468
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings. You might "
 "want to use `English (Developer)` as a source language, or utilize :ref:"
 "`source-quality-gateway`."
 msgstr ""
-"Falls die Übersetzung in die Ausgangssprache gewünscht wird, ändern Sie "
-"bitte die Ausgangssprache in den Projekteinstellungen."
+"Falls die Übersetzung in die Ausgangssprache gewünscht ist, ändern Sie bitte "
+"die :ref:`component-source_language` in den Komponenteneinstellungen. "
+"Vielleicht möchten Sie `English (Developer)` als Ausgangssprache verwenden, "
+"oder :ref:`source-quality-gateway` nutzen."
 
 #: ../../faq.rst:469
 msgid ""
@@ -35553,18 +35572,14 @@ msgstr ""
 "entfernen Sie diese bitte aus dem Repository."
 
 #: ../../faq.rst:470
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but shoud "
-#| "be ignored by Weblate, please adjust the language filter to exclude it."
 msgid ""
 "In case the translation file for the source language is needed, but should "
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
 "Falls die Übersetzungsdatei für die Ausgangssprache benötigt wird, aber von "
-"Weblate ignoriert werden soll, stellen Sie bitte den Sprachfilter so ein, "
-"dass er sie ausschliesst."
+"Weblate ignoriert werden soll, stellen Sie bitte den :ref:`component-"
+"language_regex` so ein, dass er sie ausschließt."
 
 #: ../../faq.rst:474
 msgid ""
@@ -36096,10 +36111,9 @@ msgid "GNU gettext"
 msgstr ""
 
 #: ../../formats.rst:170
-#, fuzzy
-#| msgid "Unrecognized base file for new translations."
 msgid "Most widely used format for translating libre software."
-msgstr "Nicht erkannte Basisdatei für neue Übersetzungen."
+msgstr ""
+"Das am weitesten verbreitete Format für die Übersetzung von freier Software."
 
 #: ../../formats.rst:172
 msgid ""
@@ -36340,10 +36354,8 @@ msgstr ""
 ":ref:`fonts`)."
 
 #: ../../formats.rst:379
-#, fuzzy
-#| msgid "Strings"
 msgid "String keys"
-msgstr "Zeichenketten"
+msgstr "Zeichenkettenschlüssel"
 
 #: ../../formats.rst:381
 msgid ""
@@ -38251,10 +38263,8 @@ msgid "``weblate.checks.markup.BBCodeCheck``"
 msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "unit identifier"
 msgid "Check identifier"
-msgstr "Einheitenkennung"
+msgstr "Prüfungskennung"
 
 #: ../../user/checks.rst:53
 msgid "``bbcode``"
@@ -38682,10 +38692,8 @@ msgid "``-highlight``"
 msgstr ""
 
 #: ../../user/checks.rst:287
-#, fuzzy
-#| msgid "Highlight placeables in translation editor."
 msgid "Disable highlighting placeholders in the editor."
-msgstr "Platzhalter im Übersetzungseditor hervorheben."
+msgstr "Die Hervorhebung von Platzhaltern im Editor deaktivieren."
 
 #: ../../user/checks.rst:289
 msgid "``-require_other``"
@@ -39257,10 +39265,8 @@ msgid "``There are {count} apples``"
 msgstr "``There are {count} apples``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Information"
 msgid "Rails i18n formatting"
-msgstr "Information"
+msgstr "Rails i18n-Formatierung"
 
 #: ../../user/checks.rst:619
 msgid "``There are %{count} apples``"
@@ -40585,10 +40591,8 @@ msgid "TermBase eXchange"
 msgstr "TermBase eXchange"
 
 #: ../../user/files.rst:34
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "Translation Memory eXchange"
-msgstr "Übersetzungsspeicher"
+msgstr "Translation Memory eXchange"
 
 #: ../../user/files.rst:35
 msgid "gettext MO (only available when translation is using gettext PO)"
@@ -40673,10 +40677,8 @@ msgstr ""
 "zusätzlichen Inhalte."
 
 #: ../../user/files.rst:92
-#, fuzzy
-#| msgid "Add as suggestion"
 msgid "Add as suggestion (``suggest``)"
-msgstr "Als Vorschlag hinzufügen"
+msgstr "Als Vorschlag hinzufügen (``suggest``)"
 
 #: ../../user/files.rst:90
 msgid ""
@@ -40685,10 +40687,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:97
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing edit (``fuzzy``)"
-msgstr "Als bearbeitungsbedürftige Übersetzung hinzufügen"
+msgstr "Als fragwürdige Übersetzung hinzufügen (``fuzzy``)"
 
 #: ../../user/files.rst:95
 msgid ""
@@ -40707,10 +40707,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:105
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Update source strings (``source``)"
-msgstr "Ausgangszeichenketten aktualisieren"
+msgstr "Ausgangszeichenketten aktualisieren (``source``)"
 
 #: ../../user/files.rst:103
 msgid ""
@@ -40719,10 +40717,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:106
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "This option is supported only for some file formats."
-msgstr "Nicht unterstütztes Dateiformat."
+msgstr "Diese Option wird nur für einige Dateiformate unterstützt."
 
 #: ../../user/files.rst:115
 msgid "Add new strings (``add``)"
@@ -41078,16 +41074,13 @@ msgid ""
 msgstr ""
 
 #: ../../user/profile.rst:81
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
 #: ../../user/profile.rst:83
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid "Choose the language you want to display the UI in."
-msgstr "Bitte wählen Sie die Sprache, in welche Sie gerne übersetzen möchten."
+msgstr ""
+"Wählen Sie die Sprache, in der die Benutzeroberfläche angezeigt werden soll."
 
 #: ../../user/profile.rst:86
 msgid "Translated languages"
@@ -43298,11 +43291,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:30
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "Docker usage"
-msgstr "Hauptbenutzer"
+msgstr "Verwendung von Docker"
 
 #: ../../wlc.rst:32
 msgid "The Weblate Client is also available as a Docker image."
