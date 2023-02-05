@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-04 01:50+0000\n"
+"PO-Revision-Date: 2023-02-05 13:19+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -424,7 +424,7 @@ msgstr ""
 "Weblete tarafından `Kullanıcılar` ve `Görüntüleyenler` :ref: `varsayılan "
 "takımlar <default-teams>` için sağlanan erişim izinlerinin verilmesini "
 "engeller. Bu durum, varsayılan takımları değiştirerek, yeni bir tane "
-"oluşturarak ya da aşağıdaki :ref:`custom-acl' bölümünde açıklandığı gibi tek "
+"oluşturarak ya da aşağıdaki :ref:`custom-acl` bölümünde açıklandığı gibi tek "
 "tek bileşenler için ek özel ayarlar oluşturarak site genelinde bu projelere "
 "izin vermenizi engellemez."
 
@@ -743,7 +743,7 @@ msgstr ""
 "Kullanıcı, projeye bağlı bir takımın veya bu projenin içindeki herhangi bir "
 "bileşenin üyesi olmalıdır. Üye olmak yeterlidir. Projeye göz atabilmek için "
 "ayrıca özel bir izin gerekmez (bu, varsayılan `Görüntüleyiciler` takımında "
-"kullanılır. Bilgi almak için :ref:`default-teams')."
+"kullanılır. Bilgi almak için :ref:`default-teams`)."
 
 #: ../../admin/access.rst:340
 msgid "Access for browse to a component"
@@ -812,7 +812,7 @@ msgstr ""
 "doğrudan listeleyerek veya :guilabel:`Proje seçimi` değerini :guilabel:`Tüm "
 "herkese açık projeler` gibi bir değere ayarlayarak, tüm bu izinler tüm "
 "projelere uygulanır ve bu da tüm projelere erişmek için aynı izinleri etkin "
-"bir şekilde verir :ref:`kısıtlanmamış bileşenler <component-restricted>'."
+"bir şekilde verir :ref:`kısıtlanmamış bileşenler <component-restricted>`."
 
 #: ../../admin/access.rst:372
 msgid ""
@@ -833,7 +833,7 @@ msgid ""
 "automate inclusion of all languages or projects."
 msgstr ""
 "Tüm dillerin veya projelerin katılmasını otomatikleştirmek için :guilabel:`"
-"Dil seçimi` veya :guilabel:`Proje seçimi' kullanın."
+"Dil seçimi` ya da :guilabel:`Proje seçimi` kullanın."
 
 #: ../../admin/access.rst:384
 msgid ""
@@ -845,7 +845,7 @@ msgstr ""
 
 #: ../../admin/access.rst:387
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr "Grup 'İspanyol Yönetici-Onaylayıcılar`"
+msgstr "Grup `İspanyol Yönetici-Onaylayıcılar`"
 
 #: ../../admin/access.rst:391
 msgid "`Review Strings`, `Manage repository`"
@@ -923,7 +923,7 @@ msgid ""
 msgstr ""
 "Bu özelliğin en yaygın kullanım örneği, tüm yeni kullanıcıların bazı "
 "varsayılan takımlara atanmasıdır. Bunu yapmak için, büyük olasılıkla kurallı "
-"ifade alanındaki varsayılan değeri (''^.*$'') korumak isteyeceksiniz. Bu "
+"ifade alanındaki varsayılan değeri (``^.*$`) korumak isteyeceksiniz. Bu "
 "seçeneğin başka bir kullanım örneği, varsayılan olarak şirketinizin "
 "çalışanlarına bazı ek ayrıcalıklar vermek olabilir. Hepsinin etki "
 "alanınızdaki kurumsal e-posta adreslerini kullandığını varsayarsak, bu \""
@@ -970,8 +970,8 @@ msgid ""
 "own set of permissions."
 msgstr ""
 "Bu roller ve takımlar kurulum sonrasında oluşturulur. Hazır roller, "
-"yükseltme sırasında veritabanı geçişi tarafından her zaman güncel tutulur. "
-"Bunları gerçekten değiştiremezsiniz. Kendi izin kümenizi tanımlamak "
+"yükseltme sırasında veri tabanı aktarımı tarafından her zaman güncel "
+"tutulur. Bunları gerçekten değiştiremezsiniz. Kendi izin kümenizi tanımlamak "
 "istiyorsanız lütfen yeni bir rol tanımlayın."
 
 #: ../../admin/access.rst:449
@@ -1500,19 +1500,19 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"Weblate kurulumunuzu daha az herkese açık olacak biçimde kullanmak, yani "
+"Weblate kurulumunuzu herkese daha az açık olacak biçimde kullanmak, yani "
 "yeni kullanıcıları yalnızca davet ederek izin vermek istiyorsanız, Weblate "
 "yapılandırmasını yalnızca bilinen kullanıcıların erişebileceği şekilde "
-"yapabilirsiniz. Bunun için, yeni kullanıcıların hesap açmasını önlemek "
-"amacıyla :setting:`REGISTRATION_OPEN` seçeneğini ``Yanlış`` olarak ve "
-":setting:`REQUIRE_LOGIN` seçeneğini ''/.'' olarak ayarlayarak tüm site "
+"ayarlayabilirsiniz. Bu amaçla, yeni kullanıcıların hesap açmasını önlemek "
+"için :setting:`REGISTRATION_OPEN` seçeneğini ``Yanlış`` olarak ve "
+":setting:`REQUIRE_LOGIN` seçeneğini ``/.*’`` olarak ayarlayarak tüm site "
 "sayfalarına erişmek için oturum açmayı zorunlu kılabilirsiniz. Böylece "
 "kolayca Weblate kurulumunuzu kilitlemiş olursunuz."
 
 #: ../../admin/access.rst:643
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
-"Yeni kullanıcılar eklemek için iç :ref:`invite-user' komutunu "
+"Yeni kullanıcılar eklemek için iç :ref:`invite-user` komutunu "
 "kullanabilirsiniz."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2283
@@ -2914,10 +2914,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"Art bilgiler (“Co-authored-by: ...'' gibi işleme satırları) isteğe bağlı "
+"Art bilgiler (``Co-authored-by: …`` gibi işleme satırları) isteğe bağlı "
 "olarak özgün işleme iletilerinden kaldırılabilir ve sıkıştırılmış işleme "
 "iletisinin sonuna eklenebilir. Bu aynı zamanda her çevirmen için özel bir "
-"\"Co-authored-by:\" bilgisi oluşturur."
+"``Co-authored-by:` bilgisi oluşturur."
 
 #: ../../admin/addons.rst:644
 msgid "Customize JSON output"
@@ -3449,15 +3449,15 @@ msgid ""
 msgstr ""
 "Bölümlerden herhangi birinin altındaki veri tabanı nesnelerini yönetin. "
 "Büyük olasılıkla en ilginç olanı, çevrilebilir projeleri yönetebileceğiniz "
-":guilabel:'Weblate çevirileri’, ayrıntılı bilgi için: :ref:'project' ve "
-":ref:'component'."
+":guilabel:`Weblate çevirileri`. Bilgi almak için: :ref:`project` ve "
+":ref:`component`."
 
 #: ../../admin/admin.rst:43
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
-":guilabel:`Weblate dilleri` bölümünde dil tanımları bulunur. Ayrıntılı bilgi "
+":guilabel:`Weblate dilleri` bölümünde dil tanımları bulunur. Bilgi almak "
 "için: :ref:`languages`."
 
 #: ../../admin/admin.rst:47
@@ -3472,7 +3472,7 @@ msgid ""
 msgstr ""
 "Eklenen bir proje, tüm bileşenler için bir kapsayıcı görevi görür. "
 "Genellikle bir yazılım ya da kitap parçası için bir proje oluşturursunuz ("
-"kullanılabilecek parametreler hakkında bilgi almak için: :ref:`project' "
+"kullanılabilecek parametreler hakkında bilgi almak için: :ref:`project` "
 "bölümüne bakabilirsiniz):"
 
 #: ../../admin/admin.rst:57
@@ -3507,8 +3507,8 @@ msgid ""
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
 "Bunların daha kolay çevrilmesi için, ileti kimliklerinin ilgili kaynak "
-"diliyle (genellikle İngilizce) eşlenebileceği bir kalıp dosyası sağlayın. ("
-"kullanılabilecek parametrelerle ilgili bilgi almak için :ref:`component' "
+"diliyle (genellikle İngilizce) eşlenebileceği bir kalıp dosyası sağlayın ("
+"kullanılabilecek parametrelerle ilgili bilgi almak için :ref:`component` "
 "bölümüne bakabilirsiniz):"
 
 #: ../../admin/announcements.rst:2
@@ -3643,12 +3643,12 @@ msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
-"Yeni kullanıcı hesaplarının açılmasını :setting:`REGISTRATION_OPEN' komutu "
+"Yeni kullanıcı hesaplarının açılmasını :setting:`REGISTRATION_OPEN` komutu "
 "ile de kapatabilirsiniz."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr "Kimlik doğrulama girişimleri :ref:`rate-limit' değeriyle sınırlanır."
+msgstr "Kimlik doğrulama girişimleri :ref:`rate-limit` değeriyle sınırlanır."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
@@ -3663,7 +3663,7 @@ msgstr ""
 "Hazır Django çözümü, çeşitli sosyal ağ seçenekleri ile birlikte kimlik "
 "doğrulama için kullanılır. Bu özelliği kullanmak, diğer Django tabanlı "
 "projelerin kullanıcı veri tabanını içe aktarabilmenizi sağlar (bilgi almak "
-"için: :ref:`pootle-migration')."
+"için: :ref:`pootle-migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
@@ -3814,7 +3814,7 @@ msgstr ""
 "Weblate, kimlik doğrulaması sırasında sağlanan geri çağırma adresinde "
 "yapılandırılmış etki alanı bulunur. Adres uyuşmazlığıyla ilgili sorunlar "
 "görürseniz bu ayarı düzeltmek isteyebilirsiniz. Bilgi almak için: :ref"
-":`production-site'."
+":`production-site`."
 
 #: ../../admin/auth.rst:126
 msgid ":doc:`psa:backends/github`"
@@ -4165,7 +4165,7 @@ msgid ""
 msgstr ""
 "Yukarıdaki örnek ve Docker görüntüsü ``weblate`` adlı bir kimlik hizmeti "
 "sağlayıcısı tanımlamaktadır. Bu dizgeyi kimlik hizmeti sağlayıcınızda "
-":guilabel:`Relay' olarak yapılandırmanız gerekebilir."
+":guilabel:`Relay` olarak yapılandırmanız gerekebilir."
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -4192,7 +4192,7 @@ msgid ""
 "docker`."
 msgstr ""
 "Bu paket Docker kapsayıcısı ile birlikte gelir. Bilgi almak için: :doc:`/"
-"admin/install/docker'."
+"admin/install/docker`."
 
 #: ../../admin/auth.rst:496
 msgid ""
@@ -4309,8 +4309,8 @@ msgstr ""
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
-"Uygulamanızın yapılandırmasında :p y:meth:`django:django.apps.AppConfig."
-"ready` yöntemi"
+"Uygulamanızın yapılandırmasında :p y:meth:`django:"
+"django.apps.AppConfig.ready yöntemi"
 
 #: ../../admin/auth.rst:645
 msgid "In the project's :file:`urls.py` file (when no models exist)"
@@ -4362,7 +4362,7 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
-"Yedeklemeler yalnızca veritabanı olarak PostgreSQL ya da MariaDB 10.5+ "
+"Yedeklemeler yalnızca veri tabanı olarak PostgreSQL ya da MariaDB 10.5+ "
 "kullanıldığında geri yüklenebilir."
 
 #: ../../admin/backup.rst:17
@@ -4465,12 +4465,17 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ şifrelenmiş yedekler alır ve parola olmadan bunları geri "
+"yükleyemezsiniz. Parola, yeni bir yedekleme hizmeti eklerken oluşturulur ve "
+"bunu kopyalayıp güvenli bir yerde saklamanız gerekir."
 
 #: ../../admin/backup.rst:66
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+":ref:`cloudbackup` kullanıyorsanız, yedeklerinize erişmek için "
+"kullanıldığından, lütfen kişisel SSH anahtarınızı da yedekleyin."
 
 #: ../../admin/backup.rst:71
 msgid ":doc:`borg:usage/init`"
@@ -4488,10 +4493,11 @@ msgstr ""
 #: ../../admin/backup.rst:77
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
+"Yedek oluşturma :setting:`BORG_EXTRA_ARGS` kullanılarak özelleştirilebilir."
 
 #: ../../admin/backup.rst:82
 msgid "Weblate provisioned backup storage"
-msgstr ""
+msgstr "Weblate tarafından sağlanan yedekleme depolama alanı"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -4499,26 +4505,36 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"Weblate bulut sunucunuzu yedeklemenin en kolay yolu `weblate.org "
+"<https://weblate.org/support/#backup> üzerinden yedekleme hizmeti`_ satın "
+"almaktır. Şu şekilde çalışır duruma getirebilirsiniz:"
 
 #: ../../admin/backup.rst:88
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
+"https://weblate.org/support/#backup üzerinden `Yedekleme hizmeti` satın alın."
 
 #: ../../admin/backup.rst:89
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
+"Size verilen anahtarı yönetim bölümüne yazın. Bilgi almak için: :ref"
+":`activate-support`."
 
 #: ../../admin/backup.rst:90
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
+"Weblate bulut hizmeti ile bağlantı kurar ve yedekler için erişim bilgilerini "
+"alır."
 
 #: ../../admin/backup.rst:91
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
+":guilabel:`Yedekler` sekmesinden yeni yedekleme yapılandırmasını "
+"etkinleştirin."
 
 #: ../../admin/backup.rst:92
 msgid ""
@@ -4534,10 +4550,13 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"Güvenliğiniz için el ile her şeyi etkinleştirme adımı bulunur. İzniniz "
+"olmadan, hesap açma işlemi yoluyla elde edilen yedekleme havuzuna herhangi "
+"bir veri gönderilmez."
 
 #: ../../admin/backup.rst:103
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Özel yedekleme depolama alanını kullanmak"
 
 #: ../../admin/backup.rst:105
 msgid ""
@@ -4545,6 +4564,9 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"Yedekler için kendi depolama alanınızı da kullanabilirsiniz. SSH, yedekleri "
+"uzak hedefte depolamak için kullanılabilir. Hedef sunucuda `BorgBackup`_ "
+"kurulu olmalıdır."
 
 #: ../../admin/backup.rst:111
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -4561,6 +4583,10 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
+"Yerel yedekleme için mutlak yolun belirtilmesi önerilir. Örneğin ‘/yedek/"
+"klasoru/yolu’. Klasör, Weblate çalıştıran kullanıcı tarafından yazılabilir "
+"olmalıdır (bilgi almak için: :ref:`file-permissions`). Klasör yoksa, Weblate "
+"oluşturmaya çalışır, ancak bunu yapmak için uygun izinlere gerek duyar."
 
 #: ../../admin/backup.rst:123
 msgid ""
@@ -4568,24 +4594,34 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
+"Docker üzerinde Weblate çalıştırırken, lütfen yedekleme konumunun Weblate "
+"kapsayıcısında bir birim olarak gösterildiğinden emin olun. Yoksa, içinde "
+"bulunduğu kapsayıcı yeniden başlatıldığında yedekler Docker tarafından "
+"atılır."
 
 #: ../../admin/backup.rst:127
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
+"Yedekleri :file:`/app/data/borgbackup` gibi var olan bir birime yerleştirmek "
+"bir seçenek olabilir. Bu birim kapsayıcıda vardır."
 
 #: ../../admin/backup.rst:130
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
+"Docker Compose dosyasındaki yedekler için örneğin :file:`/borgbackup` "
+"kullanarak yeni bir kapsayıcı da ekleyebilirsiniz:"
 
 #: ../../admin/backup.rst:141
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"Yedeklerin depolanacağı klasör için UID 1000 olmalıdır. Yoksa Weblate "
+"yedekleri bu klasöre yazamaz."
 
 #: ../../admin/backup.rst:145
 msgid "Remote backups"
@@ -4597,34 +4633,46 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"Uzak yedekler almak için, Weblate SSH anahtarını kullanarak SSH üzerinden "
+"Weblate dağıtımınız için erişilebilen başka bir sunucuya `BorgBackup`_ "
+"kurmanız gerekir:"
 
 #: ../../admin/backup.rst:151
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Yedeklerinizin depolanacağı bir sunucu hazırlayın."
 
 #: ../../admin/backup.rst:152
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"SSH sunucusunu üzerine kurun (çoğu Linux dağıtımında varsayılan olarak "
+"bulunur)."
 
 #: ../../admin/backup.rst:153
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Bu sunucuya `BorgBackup`_ kurun. Çoğu Linux dağıtımında kullanılabilecek "
+"paketleri bulunur (bilgi almak için: :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:154
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Var olan bir kullanıcı seçin ya da yedekleme için kullanılacak yeni bir "
+"kullanıcı ekleyin."
 
 #: ../../admin/backup.rst:155
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Weblate tarafından parola olmadan sunucu ile SSH bağlantısının kurulabilmesi "
+"için kullanıcıya Weblate SSH anahtarını ekleyin (bilgi almak için: :ref"
+":`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:156
 msgid ""
@@ -4654,28 +4702,38 @@ msgstr "BorgBackup yedeklerini geri yüklemek"
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Yedekleme deponuza erişimi geri yükleyin ve yedekleme parolanızı hazırlayın."
 
 #: ../../admin/backup.rst:171
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
+"Sunucudaki tüm yedekleri ``borg list REPOSITORY`` komutunu kullanarak "
+"listeleyin."
 
 #: ../../admin/backup.rst:173
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"İstediğiniz yedeği geçerli klasöre geri yüklemek için ``borg extract "
+"REPOSITORY::ARCHIVE`` komutunu kullanın."
 
 #: ../../admin/backup.rst:175
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Veri tabanını, Weblate data klasörü içindeki ``backup`` klasörüne kaydedilen "
+"SQL dökümünden geri yükleyin (bilgi almak için: :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:177
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Weblate yapılandırmasını (:file:`backups/settings.py`, bilgi almak için: :ref"
+":`backup-dumps`) doğru konuma kopyalayın. Bilgi almak için: "
+":ref:`configuration`."
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -4684,24 +4742,34 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Docker kapsayıcısını kullanırken, ayarlar dosyası zaten kapsayıcı içine "
+"eklenmiştir ve özgün ortam değişkenlerini geri yüklemeniz gerekir. "
+":file:`environment.yml` dosyası bu konuda size yardımcı olabilir (bilgi "
+"almak için: :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:184
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Geri yüklenen tüm data klasörünü :setting:`DATA_DIR` ile yapılandırılmış "
+"konuma kopyalayın."
 
 #: ../../admin/backup.rst:187
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
+"Docker kapsayıcısını kullanırken verileri veri birimine yerleştirin. Bilgi "
+"almak için: :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:190
 msgid ""
 "Please make sure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
+"Lütfen dosyaların sahiplik ve erişim izinlerinin doğru olduğundan emin olun. "
+"Bilgi almak için: :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:192
 msgid "The Borg session might look like this:"
@@ -4720,6 +4788,8 @@ msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"Neyi kaydetmek istediğinize bağlı olarak, Weblate tarafından her biri ilgili "
+"yere kaydedilmiş olan veri türünü yedekleyin."
 
 #: ../../admin/backup.rst:218
 msgid ""
@@ -4728,6 +4798,10 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"El ile yedekleme yapıyorsanız, Weblate yedekleme eksikliği uyarısını, "
+":file:`settings.py` içindeki :setting:`django:SILENCED_SYSTEM_CHECKS` ya da "
+"Docker için :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` seçeneğini ``weblate."
+"I028`` ile ekleyerek kapatmak isteyebilirsiniz."
 
 #: ../../admin/backup.rst:228
 msgid "Database"
@@ -4735,13 +4809,15 @@ msgstr "Veri tabanı"
 
 #: ../../admin/backup.rst:230
 msgid "The actual storage location depends on your database setup."
-msgstr ""
+msgstr "Gerçek depolama konumu, veri tabanı kurulumunuza bağlıdır."
 
 #: ../../admin/backup.rst:234
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
+"Veri tabanı en önemli depolama alanıdır. Veri tabanınızı düzenli olarak "
+"yedeklenecek biçimde ayarlayın. Veri tabanı olmadan, tüm çeviriler kaybolur."
 
 #: ../../admin/backup.rst:238
 msgid "Native database backup"
@@ -4754,6 +4830,10 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
+"Veri tabanı dökümününün :program:`pg_dump` ya da :program:`mysqldump` gibi "
+"veri tabanına özgü araçlar kullanılarak kaydedilmesi önerilir. Başarımı "
+"genellikle Django yedeklemesinden daha iyidir ve tüm tablolar tüm "
+"verileriyle geri yüklenir."
 
 #: ../../admin/backup.rst:244
 msgid ""
@@ -4762,6 +4842,10 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"Bu yedeği daha yeni bir Weblate sürümünde geri yükleyebilirsiniz, "
+":djadmin:`django:migrate` içinde çalışırken gerekli tüm aktarımlar yapılır. "
+"Sürümler arasında nasıl yükseltme yapılacağı hakkında ayrıntılı bilgi almak "
+"için :doc:`upgrade` bölümüne bakabilirsiniz."
 
 #: ../../admin/backup.rst:249
 msgid "Django database backup"
@@ -4773,6 +4857,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
+"Alternatif olarak, :djadmin:`django:dumpdata` Django komutunu kullanarak "
+"veri tabanınızı yedekleyebilirsiniz. Bu şekilde, alınan yedek veri "
+"tabanından bağımsız olur ve veri tabanı işleyicisini değiştirmek "
+"istediğinizde kullanılabilir."
 
 #: ../../admin/backup.rst:255
 msgid ""
@@ -4782,6 +4870,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
+"Veri tabanını geri yüklemeden önce, yedeklemenin yapıldığı Weblate sürümüyle "
+"tam olarak aynı sürümü çalıştırıyor olmanız gerekir. Veri tabanı yapısı "
+"sürümler arasında değiştiğinden ve verilerin bir şekilde bozulmasına neden "
+"olacağından böyle olması gereklidir. Aynı sürümü kurduktan sonra, tüm veri "
+"tabanı aktarımlarını yapmak için :djadmin:`django:migrate` komutunu kullanın."
 
 #: ../../admin/backup.rst:261
 msgid ""
@@ -4790,6 +4883,10 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Daha sonra veri tabanında bazı kayıtlar zaten oluşturulmuş olacak ve bunlar "
+"veri tabanı yedeğinde de bulunuyor olacak. Önerilen yaklaşım, yönetim "
+"kabuğunu kullanarak bu tür kayıtları el ile silmektir (bilgi almak için :ref"
+":`invoke-manage`):"
 
 #: ../../admin/backup.rst:272
 msgid "Files"
@@ -4802,20 +4899,26 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
+"Yeterli yedekleme alanınız varsa, :setting:`DATA_DIR` klasörünü tümüyle "
+"yedekleyin. Bu yedek, istemediğiniz bazı dosyaları içerse bile en "
+"güvenlisidir. Aşağıdaki bölümlerde, neleri yedeklemeniz gerektiğini ve "
+"neleri atlayabileceğinizi ayrıntılı olarak görebilirsiniz."
 
 #: ../../admin/backup.rst:282
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Yedeklemeler için dökümü yapılan veriler"
 
 #: ../../admin/backup.rst:286
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"Docker ortamlarında geri yüklemeye yardımcı olacak ortam dökümü "
+":file:`environment.yml` olarak eklenmiştir."
 
 #: ../../admin/backup.rst:289
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr ":setting:`DATA_DIR` ``/backups`` içine kaydedilir."
 
 #: ../../admin/backup.rst:291
 msgid ""
@@ -4823,31 +4926,42 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate buraya çeşitli verileri döker. Daha eksiksiz yedeklemeler için bu "
+"dosyaları ekleyebilirsiniz. Dosyalar günlük olarak güncellenir (çalışan bir "
+"Çeler beats sunucusu gerekir. Bilgi almak için: :ref:`celery`). Şu anda, "
+"bulunan veriler:"
 
 #: ../../admin/backup.rst:295
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Weblate ayarları için :file:`settings.py` (:file:`settings-expanded.py` "
+"dosyasında genişletilmiş bir sürümü de bulunur)."
 
 #: ../../admin/backup.rst:296
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr ""
+msgstr "PostgreSQL veritabanı yedeği için :file:`database.sql`."
 
 #: ../../admin/backup.rst:297
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Ortam dökümü için :file:`environment.yml`."
 
 #: ../../admin/backup.rst:299
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Veritabanı yedekleri varsayılan olarak düz metin biçiminde kaydedilir. Ancak "
+":setting:`DATABASE_BACKUP` seçeneği ile sıkıştırılabilir ya da tümüyle "
+"atlanabilir."
 
 #: ../../admin/backup.rst:302
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr ""
+"Veritabanı yedeğini geri yüklemek için veritabanı araçlarını kullanın. "
+"Örneğin:"
 
 #: ../../admin/backup.rst:309
 msgid "Version control repositories"
@@ -4868,9 +4982,9 @@ msgid ""
 msgstr ""
 "Sürüm denetimi depolarında, Weblate değişiklikleriyle birlikte yukarı akış "
 "depolarınızın bir kopyası bulunur. Tüm çeviri bileşenleriniz için :ref"
-":'component-push_on_commit' etkinse, tüm Weblate değişiklikleri yukarı akışa "
-"dahil edilir. Weblate tarafındaki depoları yedeklemek gerekmez çünkü veri "
-"kaybı olmadan yukarı akış konumlarından yeniden kopyalanabilir."
+":`component-push_on_commit` seçeneği etkinse, tüm Weblate değişiklikleri "
+"yukarı akışa dahil edilir. Weblate tarafındaki depoları yedeklemek gerekmez "
+"çünkü veri kaybı olmadan yukarı akış konumlarından yeniden kopyalanabilir."
 
 #: ../../admin/backup.rst:320
 msgid "SSH and GPG keys"
@@ -5105,7 +5219,7 @@ msgstr "``font-family:NAME``"
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
 msgstr ""
 "Görselleştirme denetimleri için yazı tipi ailesini belirler. Bilgi almak "
-"için: :ref:`fonts'."
+"için: :ref:`fonts`."
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
@@ -5115,7 +5229,7 @@ msgstr "``font-weight:WEIGHT``"
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
 msgstr ""
 "Görselleştirme denetimleri için yazı koyuluğunu belirler. Bilgi almak için: "
-":ref:`fonts'."
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
@@ -5125,7 +5239,7 @@ msgstr "``font-size:SIZE``"
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
 msgstr ""
 "Görselleştirme denetimleri için yazı boyutunu belirler. Bilgi almak için: "
-":ref:`fonts'."
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
@@ -5170,7 +5284,7 @@ msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
 "Çeviride beklenen yer belirtici dizgeleri belirler. Bilgi almak için: :ref"
-":'check-placeholders'."
+":'check-placeholders`."
 
 #: ../../admin/checks.rst:80
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
@@ -5199,7 +5313,7 @@ msgid ""
 "`variants`."
 msgstr ""
 "Bu dizgenin, eşleşen kaynağın bir dizge çeşidi olarak imlenmesini sağlar. "
-"Bilgi almak için: :ref:'variants'."
+"Bilgi almak için: :ref:'variants`."
 
 #: ../../admin/checks.rst:84
 msgid "``regex:REGEX``"
@@ -5232,7 +5346,7 @@ msgid ""
 "ref:`check-same`."
 msgstr ""
 "\"Değiştirilmemiş çeviri\" içinde iç kara listedeki sözcüklerin kullanmasını "
-"engeller. Bilgi almak için: :ref:`check-same'."
+"engeller. Bilgi almak için: :ref:`check-same`."
 
 #: ../../admin/checks.rst:90 ../../user/checks.rst:98
 msgid "``check-glossary``"
@@ -5464,7 +5578,7 @@ msgid ""
 "md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
 "Metnin Markdown belgesi olarak işlenmesini sağlar. :ref:`check-md-link`, :ref"
-":`check-md-reflink` ve :ref:`check-md-syntax' kalite denetimlerini "
+":`check-md-reflink` ve :ref:`check-md-syntax` kalite denetimlerini "
 "etkinleştirin."
 
 #: ../../admin/checks.rst:137
@@ -6485,7 +6599,7 @@ msgstr "AUTOFIX_LIST"
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
 msgstr ""
-"Bir dizge kaydedilirken uygulanacak kendiliğinden düzeltmelerin listesi."
+"Bir çeviri kaydedilirken uygulanacak kendiliğinden düzeltmelerin listesi."
 
 #: ../../admin/config.rst:162
 msgid ""
@@ -6505,7 +6619,7 @@ msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
-msgstr ""
+msgstr "Çevirinin başındaki ve sonundaki boşlukları kaynak ile eşleştirir."
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
@@ -6516,6 +6630,8 @@ msgid ""
 "Replaces trailing dots (...) if the source string has a corresponding "
 "ellipsis (…)."
 msgstr ""
+"Kaynakta üç nokta karakteri (…) varsa çevirinin sonundaki üç ayrı noktayı "
+"(...) değiştirir."
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
@@ -6524,6 +6640,8 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Kaynakta bulunmuyorsa çevirideki sıfır genişlikli boşluk karakterlerini "
+"kaldırır."
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
@@ -6531,7 +6649,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Kaynakta bulunmuyorsa denetim karakterlerini kaldırır."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -6542,10 +6660,12 @@ msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Güvenli olmayan HTML kod imlerini ``safe-html`` olarak işaretlenmiş "
+"çevirilerden kaldırır (bilgi almak için: :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Hangilerinin kullanılacağını seçebilirsiniz:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -6559,11 +6679,11 @@ msgstr "BACKGROUND_TASKS"
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
-msgstr ""
+msgstr "Bir bileşen için uzun bakım görevlerinin tetiklenme sıklığını belirtir."
 
 #: ../../admin/config.rst:201
 msgid "Right now this controls:"
-msgstr ""
+msgstr "Şu anda bunun kontrol ettikleri:"
 
 #: ../../admin/config.rst:203
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
@@ -6579,7 +6699,7 @@ msgstr "Olası seçenekler:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
-msgstr "``monthly`` (varsayılan)"
+msgstr "``aylık`` (varsayılan)"
 
 #: ../../admin/config.rst:209
 msgid "``weekly``"
@@ -6598,6 +6718,7 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"Weblate üzerinde binlerce bileşen bulunuyorsa sıklığın artırılması önerilmez."
 
 #: ../../admin/config.rst:221
 msgid "BASIC_LANGUAGES"
@@ -6609,6 +6730,9 @@ msgid ""
 "specified built-in list is used which includes all commonly used languages, "
 "but without country specific variants."
 msgstr ""
+"Kullanıcılara yeni çeviriye başlamaları için sunulacak dillerin listesi. "
+"Belirtilmediğinde, yaygın olarak kullanılan tüm dilleri içeren, ancak ülkeye "
+"özgü lehçeleri olmayan iç liste kullanılır."
 
 #: ../../admin/config.rst:229
 msgid ""
@@ -6616,12 +6740,17 @@ msgid ""
 "admins are still presented with full selection of languages defined in "
 "Weblate."
 msgstr ""
+"Bu seçenek, yalnızca yetki verilmemiş kullanıcıların istenmeyen diller "
+"eklemesini engeller. Proje yöneticilerine Weblate üzerinde tanımlanmış "
+"dillerin tümü sunulur."
 
 #: ../../admin/config.rst:234
 msgid ""
 "This does not define new languages for Weblate, it only filters existing "
 "ones in the database."
 msgstr ""
+"Bu seçenek, Weblate üzerinde yeni diller tanımlamaz, yalnızca veri tabanında "
+"var olan dilleri süzer."
 
 #: ../../admin/config.rst:245 ../../faq.rst:369
 msgid ":ref:`languages`"
@@ -7298,6 +7427,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITLAB_CREDENTIALS`."
 msgstr ""
+"Bu yapılandırma güvenli değildir, :setting:`GITLAB_CREDENTIALS` seçeneğine "
+"geçmeniz önerilir."
 
 #: ../../admin/config.rst:837
 msgid "GitLab username used to send merge requests for translation updates."
@@ -7354,6 +7485,8 @@ msgid ""
 "This configuration is insecure, it is recommended to switch to :setting:"
 "`GITHUB_CREDENTIALS`."
 msgstr ""
+"Bu yapılandırma güvenli değildir, :setting:`GITHUB_CREDENTIALS` seçeneğine "
+"geçmeniz önerilir."
 
 #: ../../admin/config.rst:901
 msgid "GitHub username used to send pull requests for translation updates."
@@ -8771,6 +8904,9 @@ msgid ""
 "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
 "hooks/azure/`, :ref:`hosted-push`"
 msgstr ""
+"`Azure DevOps rehberinde web kancaları <https://learn.microsoft.com/en-us/"
+"azure/devops/service-hooks/services/webhooks?view=azure-devops>`_, "
+":http:post:`/hooks/azure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:233
 msgid "Automatically receiving changes from Gitea Repos"
@@ -8790,6 +8926,8 @@ msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, :http:"
 "post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgstr ""
+"`Gitea rehberinde web kancaları <https://docs.gitea.io/en-us/webhooks/>`_, "
+":http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:250
 msgid "Automatically receiving changes from Gitee Repos"
@@ -8809,6 +8947,8 @@ msgid ""
 "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, :http:"
 "post:`/hooks/gitee/`, :ref:`hosted-push`"
 msgstr ""
+"`Gitee rehberinde web kancaları <https://gitee.com/help/categories/40>`_, "
+":http:post:`/hooks/gitee/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:265
 msgid "Automatically updating repositories nightly"
@@ -8823,7 +8963,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:274
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "Weblate üzerindeki değişiklikleri itmek"
 
 #: ../../admin/continuous.rst:276
 msgid ""
@@ -8964,7 +9104,7 @@ msgstr "Pagure dalından birleştirme isteği"
 
 #: ../../admin/continuous.rst:319
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
+msgstr ":ref:`component-repo` itmeyi destekliyorsa boş olabilir."
 
 #: ../../admin/continuous.rst:324
 msgid ""
@@ -9102,7 +9242,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:416
 msgid "Consistency check"
-msgstr ""
+msgstr "Tutarlılık denetimi"
 
 #: ../../admin/continuous.rst:418
 msgid ""
@@ -9122,7 +9262,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "Weblate platformunu özelleştirmek"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -9145,7 +9285,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Bir Python modülü oluşturmak"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -9236,7 +9376,7 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:91
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "Gezinme çubuğunda görüntülenecek logo."
 
 #: ../../admin/customize.rst:92
 msgid ":file:`logo-*.png`"
@@ -9244,7 +9384,7 @@ msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:93
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "Ekran çözünürlüğüne ve web tarayıcısına bağlı olarak web simgeleri."
 
 #: ../../admin/customize.rst:94
 msgid ":file:`favicon.ico`"
@@ -9252,7 +9392,7 @@ msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:95
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Eski tarayıcılar tarafından kullanılan web simgesi."
 
 #: ../../admin/customize.rst:96
 msgid ":file:`weblate-*.png`"
@@ -9263,6 +9403,8 @@ msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Botlar ve anonim kullanıcılar için avatarlar. Bazı web tarayıcıları bunları "
+"kısayol simgeleri olarak kullanır."
 
 #: ../../admin/customize.rst:99
 msgid ":file:`email-logo.png`"
@@ -9270,7 +9412,7 @@ msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:99
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Bildirim e-postalarında kullanılır."
 
 #: ../../admin/customize.rst:101
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
@@ -9318,7 +9460,7 @@ msgstr ""
 
 #: ../../admin/deployments.rst:4
 msgid "Weblate deployments"
-msgstr ""
+msgstr "Weblate dağıtımları"
 
 #: ../../admin/deployments.rst:6
 msgid ""
@@ -9419,14 +9561,16 @@ msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
 msgstr ""
+"Kurulumunuza ve deneyiminize bağlı olarak, size en uygun kurulum yöntemi "
+"seçin:"
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ""
+msgstr "Üretim kurulumları için önerilen :doc:`install/docker`."
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr ""
+msgstr "Üretim kurulumları için önerilen Virtualenv kurulumu:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -9503,7 +9647,7 @@ msgstr ""
 
 #: ../../admin/install.rst:72
 msgid "Most notable dependencies:"
-msgstr ""
+msgstr "En önemli bağımlılıklar:"
 
 #: ../../admin/install.rst:74
 msgid "Django"
@@ -12085,38 +12229,47 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:730
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:734
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
+msgstr ":setting:`DEFAULT_COMMITER_NAME` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:738
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
+msgstr ":setting:`DEFAULT_SHARED_TM` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:742
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
+"Akismet API anahtarını yapılandırır. Bilgi almak için: "
+":setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:746
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Gönderimlerin GPG imzamalamasını yapılandırır. Bilgi almak için: "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:754
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
+"Weblate ortamının çalıştığı adres ön ekini yapılandırır. Bilgi almak için: "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:758
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"Görüntülenmesini istemediğiniz denetimleri yapılandırır. Bilgi almak için: "
+":setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:767
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr ""
+"``Content-Security-Policy`` HTTP üst bilgisinin özelleştirilmesini sağlar."
 
 #: ../../admin/install/docker.rst:771
 msgid ""
@@ -12128,27 +12281,27 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:780
 msgid "Configures :setting:`LICENSE_FILTER`."
-msgstr ""
+msgstr ":setting:`LICENSE_FILTER` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:784
 msgid "Configures :setting:`LICENSE_REQUIRED`"
-msgstr ""
+msgstr ":setting:`LICENSE_REQUIRED` seçeneğini yapılandırır"
 
 #: ../../admin/install/docker.rst:788
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
-msgstr ""
+msgstr ":setting:`WEBSITE_REQUIRED` seçeneğini yapılandırır"
 
 #: ../../admin/install/docker.rst:792
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr ""
+msgstr ":setting:`HIDE_VERSION` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:796
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr ""
+msgstr ":setting:`BASIC_LANGUAGES` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:800
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr ""
+msgstr ":setting:`DEFAULT_AUTO_WATCH` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:808
 msgid "Configures rate limiter."
@@ -12182,43 +12335,44 @@ msgstr ":ref:`ci-tests`"
 
 #: ../../admin/install/docker.rst:839
 msgid "Configures :setting:`ENABLE_HOOKS`."
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:845
 msgid "Configures :setting:`ENABLE_AVATARS`."
-msgstr ""
+msgstr ":setting:`ENABLE_AVATARS` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:851
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr ""
+msgstr ":setting:`AVATAR_URL_PREFIX` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:857
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 msgstr ""
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:863
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
-msgstr ""
+msgstr ":setting:`SSH_EXTRA_ARGS` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:869
 msgid "Configures :setting:`BORG_EXTRA_ARGS`."
-msgstr ""
+msgstr ":setting:`BORG_EXTRA_ARGS` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:875
 msgid "Configures :setting:`ENABLE_SHARING`."
-msgstr ""
+msgstr ":setting:`ENABLE_SHARING` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:881
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr ""
+msgstr ":setting:`EXTRA_HTML_HEAD` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:887
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr ""
+msgstr ":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:893
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr ""
+msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:898
 msgid "Automatic suggestion settings"
@@ -12245,10 +12399,8 @@ msgid "LDAP"
 msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:923
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Path to the file containing the LDAP server bind password."
-msgstr "E-posta kimlik doğrulama parolasını içeren dosyanın yolu."
+msgstr "LDAP sunucusunun bind parolasını içeren dosyanın yolu."
 
 #: ../../admin/install/docker.rst:925
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
@@ -12256,7 +12408,7 @@ msgstr ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
 
 #: ../../admin/install/docker.rst:933
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "LDAP kimlik doğrulama yapılandırması."
 
 #: ../../admin/install/docker.rst:935
 msgid "**Example for direct bind:**"
@@ -12284,7 +12436,7 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:999
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr ":ref:`github_auth` seçeneğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:1002
 msgid "Bitbucket"
@@ -12292,7 +12444,7 @@ msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:1009
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr ":ref:`bitbucket_auth` seçeneğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:1012
 msgid "Facebook"
@@ -12300,7 +12452,7 @@ msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:1017
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr ":ref:`facebook_auth` seçeneğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:1020
 msgid "Google"
@@ -12308,7 +12460,7 @@ msgstr "Google"
 
 #: ../../admin/install/docker.rst:1027
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr ":ref:`google_auth` seçeneğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:1030
 msgid "GitLab"
@@ -12316,7 +12468,7 @@ msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:1036
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr ":ref:`gitlab_auth` seçeneğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:1039
 msgid "Gitea"
@@ -12333,20 +12485,24 @@ msgstr "Azure Active Directory"
 #: ../../admin/install/docker.rst:1053
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
+"Azure Active Directory kimlik doğrulamasını etkinleştirir. Bilgi almak için: "
+":ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1056
 msgid "Azure Active Directory with Tenant support"
-msgstr ""
+msgstr "Kiracı destekli Azure Active Directory"
 
 #: ../../admin/install/docker.rst:1062
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
+"Kiracı destekli Azure Active Directory kimlik doğrulamasını etkinleştirir. "
+"Bilgi almak için: :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1066
 msgid "Keycloak"
-msgstr ""
+msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1077
 msgid ""
@@ -12357,7 +12513,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1081
 msgid "Linux vendors"
-msgstr ""
+msgstr "Linux hizmet sağlayıcıları"
 
 #: ../../admin/install/docker.rst:1083
 msgid ""
@@ -14506,9 +14662,8 @@ msgid "``endpoint_url``"
 msgstr ""
 
 #: ../../admin/machine.rst:279
-#, fuzzy
 msgid "Application endpoint URL"
-msgstr "Uygulama uç noktası URL'si"
+msgstr "Uygulama uç noktası adresi"
 
 #: ../../admin/machine.rst:281
 msgid "``base_url``"
@@ -21113,9 +21268,8 @@ msgid "Returns information about a task"
 msgstr "Bir görevle ilgili bilgileri döndürür"
 
 #: ../../api.rst:2434
-#, fuzzy
 msgid "Task UUID"
-msgstr "Görev UUID'si"
+msgstr "Görev UUID"
 
 #: ../../api.rst:2436
 #, fuzzy
@@ -23060,14 +23214,13 @@ msgid "Performance improvements for components with linked repositories."
 msgstr "Bağlantılı depolara sahip bileşenler için performans iyileştirmeleri."
 
 #: ../../changes.rst:412
-#, fuzzy
 msgid "Added support for free DeepL API."
-msgstr "Ücretsiz DeepL API'si için destek eklendi."
+msgstr "Ücretsiz DeepL API desteği eklendi."
 
 #: ../../changes.rst:413
-#, fuzzy
 msgid "The user management no longer needs Django admin interface."
-msgstr "Kullanıcı yönetimi artık Django yönetici arayüzüne ihtiyaç duymuyor."
+msgstr ""
+"Kullanıcı yönetimi için artık Django yönetici arayüzüne gerek duyulmuyor."
 
 #: ../../changes.rst:415
 msgid ""
@@ -30579,7 +30732,7 @@ msgstr "*Hedef Dili*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr "Tr"
+msgstr "tr"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #, fuzzy
@@ -30739,32 +30892,29 @@ msgstr "*boolean*"
 
 #: ../../contributing/schemas.rst:19
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
 msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "*İkincil çevirileri Zen kipinde göster*"
+msgstr "*Zen kipinde ikincil çevirileri görüntüler*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
 msgstr "**hide\\_source\\_secondary**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Hide source if a secondary translation exists*"
-msgstr "*İkincil çeviri varsa kaynağı gizle*"
+msgstr "*İkincil çeviri varsa kaynağı gizler*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**editor\\_link**"
 msgstr "**editor\\_link**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Editor link*"
 msgstr "*Düzenleyici bağlantısı*"
 
@@ -30777,7 +30927,6 @@ msgid "**translate\\_mode**"
 msgstr "**translate\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Translation editor mode*"
 msgstr "*Çeviri düzenleyici kipi*"
 
@@ -30786,7 +30935,6 @@ msgid "**zen\\_mode**"
 msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Zen editor mode*"
 msgstr "*Zen düzenleyici kipi*"
 
@@ -30795,7 +30943,6 @@ msgid "**special\\_chars**"
 msgstr "**special\\_chars**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Special characters*"
 msgstr "*Özel karakterler*"
 
@@ -30804,7 +30951,6 @@ msgid "**dashboard\\_view**"
 msgstr "**dashboard\\_view**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Default dashboard view*"
 msgstr "*Varsayılan pano görünümü*"
 
@@ -30813,7 +30959,6 @@ msgid "**dashboard\\_component\\_list**"
 msgstr "**dashboard\\_component\\_list**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Default component list*"
 msgstr "*Varsayılan bileşen listesi*"
 
@@ -30830,26 +30975,22 @@ msgid "*null*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "**languages**"
 msgstr "**languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Translated languages*"
-msgstr "*Çevrilen diller*"
+msgstr "*Translated languages*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Language code*"
-msgstr "*Dil kodu*"
+msgstr "*Language code*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_languages**"
 msgstr "**secondary\\_languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Secondary languages*"
 msgstr "*İkincil diller*"
 
@@ -30858,32 +30999,26 @@ msgid "sk"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "**watched**"
 msgstr "**watched**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Watched projects*"
 msgstr "*İzlenen projeler*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Project slug*"
 msgstr "*Proje kısaltması*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "weblate"
 msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "**auditlog**"
 msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Audit log*"
 msgstr "*Denetim günlüğü*"
 
@@ -30898,7 +31033,6 @@ msgid "**address**"
 msgstr "**address**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*IP address*"
 msgstr "*IP adresi*"
 
@@ -30911,12 +31045,10 @@ msgid "**user\\_agent**"
 msgstr "**user\\_agent**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*User agent*"
-msgstr "*Kullanıcı tanıtıcı*"
+msgstr "*Kullanıcı uygulaması*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "PC / Linux / Firefox 70.0"
 msgstr "PC / Linux / Firefox 70.0"
 
@@ -30925,12 +31057,10 @@ msgid "**timestamp**"
 msgstr "**timestamp**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Timestamp*"
 msgstr "*Zaman damgası*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "2019-11-18T18:58:30.845Z"
 msgstr "2019-11-18T18:58:30.845Z"
 
@@ -30939,32 +31069,28 @@ msgid "**activity**"
 msgstr "**activity**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "*Activity*"
 msgstr "*Etkinlik*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
 msgid "login"
-msgstr "oturum aç"
+msgstr "oturum açma"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
-#, fuzzy
 msgid "Security and privacy"
 msgstr "Güvenlik ve gizlilik"
 
 #: ../../contributing/security.rst:6
-#, fuzzy
 msgid ""
 "At Weblate, security maintains an environment that values the privacy of our "
 "users."
 msgstr ""
-"Weblate'de güvenlik, kullanıcılarımızın gizliliğine değer veren bir ortam "
-"sağlar."
+"Weblate üzerinde güvenlik, kullanıcılarımızın gizliliğine önem veren bir "
+"ortam sağlar."
 
 #: ../../contributing/security.rst:8
 #, fuzzy
@@ -31006,7 +31132,7 @@ msgstr ""
 
 #: ../../contributing/security.rst:27
 msgid "Docker container security"
-msgstr ""
+msgstr "Docker kapsayıcı güvenliği"
 
 #: ../../contributing/security.rst:29
 msgid ""
@@ -31032,9 +31158,8 @@ msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
 #: ../../contributing/start.rst:2
-#, fuzzy
 msgid "Starting contributing code to Weblate"
-msgstr "Weblate kodlarına katkıda bulunmaya başlama"
+msgstr "Weblate kodlarına katkıda bulunmak"
 
 #: ../../contributing/start.rst:4
 #, fuzzy
@@ -31105,32 +31230,22 @@ msgid "Create a virtualenv:"
 msgstr "Bir sanal ortam (virtualenv) oluşturun:"
 
 #: ../../contributing/start.rst:37
-#, fuzzy
-#| msgid ""
-#| "Install Weblate (this will need some system deps, see :doc:`../admin/"
-#| "install/source`):"
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
 msgstr ""
-"Weblate'i kurun (bu, bazı sistem bağımlılıklarına ihtiyaç duyacaktır, bkz: :"
-"doc:`../admin/install/source`):"
+"Weblate kurulumu yapın (bunun için bazı sistem bağımlılıklarına gerek "
+"duyulur. Bilgi almak için: :doc:`../admin/install/source`):"
 
 #: ../../contributing/start.rst:43
-#, fuzzy
 msgid "Install all dependencies useful for development:"
-msgstr "Geliştirme için faydalı olacak tüm bağımlılıkları kurun:"
+msgstr "Geliştirme için yararlı olacak tüm bağımlılıkları kurun:"
 
 #: ../../contributing/start.rst:49
-#, fuzzy
 msgid "Start a development server:"
 msgstr "Bir geliştirme sunucusu başlatın:"
 
 #: ../../contributing/start.rst:55
-#, fuzzy
-#| msgid ""
-#| "Depending on your configuration you might also want to start Celery "
-#| "workers:"
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
 msgstr ""
@@ -31396,46 +31511,41 @@ msgstr ""
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr ""
+msgstr "Şu anda şu listedeki sorunlar işleniyor:"
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr ""
+msgstr "Çeviri dosyalarında çift kaynak dizgeler"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr ""
+msgstr "Çevirilerde çift diller"
 
 #: ../../devel/alerts.rst:13
-#, fuzzy
-#| msgid "There has been a merge failure in the repository"
 msgid "Merge, update, or push failures in the repository"
-msgstr "Depoda bir birleştirme hatası oldu"
+msgstr "Depo birleştirme, güncelleme ya da itme sorunları"
 
 #: ../../devel/alerts.rst:14
 msgid "Parse errors in the translation files"
-msgstr ""
+msgstr "Çeviri dosyalarında işleme hataları"
 
 #: ../../devel/alerts.rst:15
-#, fuzzy
-#| msgid "Billing (see :ref:`billing`)"
 msgid "Billing limits (see :ref:`billing`)"
-msgstr "Faturalandırma (bkz: :ref:`billing`)"
+msgstr "Faturalama (bilgi almak için: :ref:`billing`)"
 
 #: ../../devel/alerts.rst:16
-#, fuzzy
-#| msgid "Repository containing Weblate translations"
 msgid "Repository containing too many outgoing or missing commits"
-msgstr "Weblate çevirilerini içeren depo"
+msgstr "Çok fazla sayıda giden ya da eksik gönderimler içeren depo"
 
 #: ../../devel/alerts.rst:17
-#, fuzzy
 msgid "Missing licenses"
 msgstr "Eksik lisanslar"
 
 #: ../../devel/alerts.rst:18
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
 msgstr ""
+"Eklenti çalıştırılırken çıkan sorunlar (bilgi almak için: :doc:`/admin/"
+"addons`)"
 
 #: ../../devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
@@ -31447,33 +31557,31 @@ msgstr "Bozuk :ref:`component`"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
-msgstr ""
+msgstr "Bozuk adresler"
 
 #: ../../devel/alerts.rst:22
-#, fuzzy
 msgid "Unused screenshots"
 msgstr "Kullanılmayan ekran görüntüleri"
 
 #: ../../devel/alerts.rst:23
-#, fuzzy
 msgid "Ambiguous language code"
-msgstr "Belirsiz dil kodu"
+msgstr "Anlaşılamayan dil kodu"
 
 #: ../../devel/alerts.rst:24
 msgid "Unused new base in component settings"
-msgstr ""
+msgstr "Bileşen ayarlarında kullanılmayan yeni temel"
 
 #: ../../devel/alerts.rst:25
-#, fuzzy
 msgid "Duplicate file mask used for linked components"
-msgstr ""
-"Bağlantılı bileşenler için çift dosya maskesi kullanılması sorunu düzeltildi"
+msgstr "Bağlantılı bileşenlerde çift dosya maskesi kullanılması"
 
 #: ../../devel/alerts.rst:27
 msgid ""
 "The alerts are updated daily, or on related change (for example when :ref:"
 "`component` is changed or when repository is updated)."
 msgstr ""
+"Uyarılar günlük olarak veya ilgili değişiklik yapıldığında güncellenir (:ref:"
+"'component' değiştirildiğinde veya depo güncellendiğinde gibi)."
 
 #: ../../devel/alerts.rst:30
 msgid ""
@@ -31492,7 +31600,7 @@ msgstr ""
 
 #: ../../devel/community.rst:2
 msgid "Building translators community"
-msgstr ""
+msgstr "Çevirmen topluluğu oluşturmak"
 
 #: ../../devel/community.rst:4
 msgid ""
@@ -32868,30 +32976,36 @@ msgid ""
 msgstr ""
 
 #: ../../devel/thirdparty.rst:7
-#, fuzzy
-#| msgid "Weblate Translation Memory Schema"
 msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
-msgstr "Weblate Çeviri Belleği Şeması"
+msgstr ""
+"`Symfony Translation için Weblate çeviri hizmeti sağlayıcısı <https://github."
+"com/m2mtech/weblate-translation-provider/>`_"
 
 #: ../../devel/thirdparty.rst:8
 msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/"
 "plugin/1053050985172660071/weblate-integration>`_"
 msgstr ""
+"`Figma için Weblate uygulama eki <https://www.figma.com/community/plugin/"
+"1053050985172660071/weblate-integration>`_"
 
 #: ../../devel/thirdparty.rst:9
 msgid ""
 "`WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/"
 "javierllorente/weblatefx>`_"
 msgstr ""
+"`WeblateFX, JavaFX temelli Weblate masaüstü istemcisi <https://github.com/"
+"javierllorente/weblatefx>`_"
 
 #: ../../devel/thirdparty.rst:10
 msgid ""
 "`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
 "jweblate>`_"
 msgstr ""
+"`JWeblate, Java temelli Weblate kitaplığı <https://github.com/javierllorente/"
+"jweblate>`_"
 
 #: ../../devel/thirdparty.rst:11
 msgid ""
