@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-05 13:19+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2023-02-05 17:22+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -182,7 +182,7 @@ msgstr "Zugriffsteuerung pro Projekt"
 
 #: ../../admin/access.rst:74
 msgid "Managing per-project access control"
-msgstr "Verwaltung der projektbezogenen Zugriffssteuerung"
+msgstr "Verwaltung der projektspezifischen Zugriffssteuerung"
 
 #: ../../admin/access.rst:76
 msgid ""
@@ -4832,8 +4832,8 @@ msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
-"Bei der Verwendung von Docker-Containern legen Sie die Daten in das "
-"Datenvolumen, siehe :ref:`docker-volume`."
+"Bei der Verwendung von Docker-Containern legen Sie die Daten in das Daten-"
+"Volume, siehe :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:190
 msgid ""
@@ -13008,7 +13008,7 @@ msgid ""
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
 "Wenn Sie ein eigenes SSL-Zertifikat haben, das Sie verwenden möchten, legen "
-"Sie die Dateien einfach in das Weblate-Datenvolumen (siehe :ref:`docker-"
+"Sie die Dateien einfach in das Weblate-Daten-Volume (siehe :ref:`docker-"
 "volume`):"
 
 #: ../../admin/install/docker.rst:113
@@ -14345,18 +14345,18 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
-"Ob eine implizite TLS-Verbindung (sicher) für die Kommunikation mit dem SMTP-"
-"Server verwendet werden soll. In den meisten E-Mail-Dokumentationen wird "
-"diese Art der TLS-Verbindung als SSL bezeichnet. Sie wird im Allgemeinen auf "
-"Port 465 eingesetzt. Wenn Sie Probleme haben, lesen Sie bitte die explizite "
-"TLS-Einstellung :envvar:`WEBLATE_EMAIL_USE_TLS`."
+"Ob eine implizite (sichere) TLS-Verbindung für die Kommunikation mit dem "
+"SMTP-Server verwendet werden soll. In den meisten E-Mail-Dokumentationen "
+"wird diese Art der TLS-Verbindung als SSL bezeichnet. Sie wird im "
+"Allgemeinen auf Port 465 eingesetzt. Wenn Sie Probleme haben, sehen Sie sich "
+"die explizite TLS-Einstellung :envvar:`WEBLATE_EMAIL_USE_TLS` an."
 
 #: ../../admin/install/docker.rst:1349 ../../admin/install/docker.rst:1367
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
-"Die SSL/TLS-Unterstützung wird automatisch auf der Grundlage der "
+"Die SSL/TLS-Unterstützung wird automatisch auf der Grundlage des "
 ":envvar:`WEBLATE_EMAIL_PORT` aktiviert."
 
 #: ../../admin/install/docker.rst:1354
@@ -14374,11 +14374,11 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
-"Ob eine TLS-Verbindung (sicher) verwendet werden soll, wenn mit dem SMTP-"
+"Ob eine (sichere) TLS-Verbindung verwendet werden soll, wenn mit dem SMTP-"
 "Server kommuniziert wird. Dies wird für explizite TLS-Verbindungen "
 "verwendet, im Allgemeinen auf Port 587 oder 25. Wenn Sie feststellen, dass "
-"Verbindungen hängen bleiben, lesen Sie die implizite TLS-Einstellung "
-":envvar:`WEBLATE_EMAIL_USE_SSL`."
+"Verbindungen hängen bleiben, sehen Sie sich die implizite TLS-Einstellung "
+":envvar:`WEBLATE_EMAIL_USE_SSL` an."
 
 #: ../../admin/install/docker.rst:1372
 msgid ""
@@ -14484,7 +14484,7 @@ msgid ""
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
 "Der :envvar:`WEBLATE_LOCALIZE_CDN_PATH` ist ein Pfad innerhalb des "
-"Containers. Er sollte auf dem dauerhaften Volume und nicht im transienten "
+"Containers. Er sollte auf dem dauerhaften Volume und nicht im flüchtigen "
 "Speicher gespeichert werden."
 
 #: ../../admin/install/docker.rst:1454
@@ -14630,7 +14630,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1574
 msgid "Generic Celery worker."
-msgstr "Generischer Celery-Worker."
+msgstr "Allgemeiner Celery-Worker."
 
 #: ../../admin/install/docker.rst:1575
 msgid "``celery-memory``"
@@ -14684,7 +14684,7 @@ msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
 msgstr ""
-"Das Datenvolumen wird verwendet, um persistente Weblate-Daten wie geklonte "
+"Das Daten-Volume wird verwendet, um dauerhafte Weblate-Daten wie geklonte "
 "Repositorys zu speichern oder die Weblate-Installation anzupassen."
 
 #: ../../admin/install/docker.rst:1597
@@ -15001,7 +15001,7 @@ msgstr ""
 "Mit dem Kubernetes Helm-Diagramm können Sie Ihre persönliche Weblate-Instanz "
 "in Sekundenschnelle zum Laufen bringen. Alle Abhängigkeiten von Weblate sind "
 "bereits enthalten. PostgreSQL ist als Standarddatenbank eingerichtet und es "
-"werden persistente Volume-Claims verwendet."
+"werden dauerhafte Volume-Claims verwendet."
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
@@ -15137,7 +15137,7 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
-"Durch die Verarbeitung des Templates wird eine entsprechende ``ConfigMap`` "
+"Durch die Verarbeitung der Vorlage wird eine entsprechende ``ConfigMap`` "
 "erstellt, die zur Anpassung des Weblate-Images verwendet werden kann. Die "
 "``ConfigMap`` wird direkt als Umgebungsvariable eingebunden und löst bei "
 "jeder Änderung eine neue Bereitstellung aus. Für weitere "
@@ -20640,7 +20640,7 @@ msgid ""
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
-"Die automatische Übersetzung :ref:`deepl` hat jetzt eine generische "
+"Die automatische Übersetzung :ref:`deepl` hat jetzt eine allgemeine "
 "Einstellung ``MT_DEEPL_API_URL``, um sich flexibler an verschiedene "
 "Abonnementmodelle anzupassen. Die Einstellung ``MT_DEEPL_API_VERSION`` wird "
 "nicht mehr verwendet."
@@ -20932,7 +20932,7 @@ msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
 msgstr ""
-"Der `pgloader`_ ist ein generisches Migrationswerkzeug für die Migration von "
+"Der `pgloader`_ ist ein allgemeines Migrationswerkzeug für die Migration von "
 "Daten nach PostgreSQL. Sie können es verwenden, um Weblate-Datenbanken zu "
 "migrieren."
 
@@ -20965,11 +20965,11 @@ msgstr ""
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "Weblates REST API"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
-msgstr "Die REST-API ist seit Weblate 2.6 verfügbar."
+msgstr "Die REST API ist seit Weblate 2.6 verfügbar."
 
 #: ../../api.rst:14
 msgid ""
@@ -20977,10 +20977,13 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
+"Die API ist unter der URL ``/api/`` erreichbar und basiert auf dem `Django "
+"REST-Framework <https://www.django-rest-framework.org/>`_. Sie können sie "
+"direkt oder über den :ref:`wlc` verwenden."
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
-msgstr ""
+msgstr "Authentifizierung und allgemeine Parameter"
 
 #: ../../api.rst:23
 msgid ""
@@ -20990,16 +20993,23 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
+"Die öffentliche Projekt-API ist ohne Authentifizierung verfügbar, allerdings "
+"werden unauthentifizierte Anfragen stark gedrosselt (standardmäßig auf 100 "
+"Anfragen pro Tag), so dass eine Authentifizierung empfohlen wird. Für die "
+"Authentifizierung wird ein Token verwendet, das Sie in Ihrem Profil erhalten "
+"können. Verwenden Sie es in der ``Authorization``-Kopfzeile:"
 
 #: ../../api.rst:30
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
 msgstr ""
+"Das allgemeine Anfrageverhalten für die API, die Header, Statuscodes und "
+"Parameter hier gelten für alle Endpunkte gleichermaßen."
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "Abfrageparameter"
 
 #: ../../api.rst:33
 msgid ""
@@ -21007,6 +21017,10 @@ msgid ""
 "on REST framework setup, by default ``json`` and ``api`` are supported. The "
 "latter provides web browser interface for API."
 msgstr ""
+"Antwortformat (hat Vorrang vor :http:header:`Accept`). Mögliche Werte hängen "
+"von der Einrichtung des REST-Frameworks ab, standardmäßig werden ``json`` "
+"und ``api`` unterstützt. Letzteres bietet eine Webbrowser-Schnittstelle für "
+"die API."
 
 #: ../../api.rst:37
 msgid ""
@@ -21018,11 +21032,11 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "Anfrage-Kopfzeile"
 
 #: ../../api.rst:38
 msgid "the response content type depends on :http:header:`Accept` header"
-msgstr ""
+msgstr "der Inhaltstyp der Antwort hängt vom :http:header:`Accept`-Header ab"
 
 #: ../../api.rst:40
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
@@ -21032,49 +21046,51 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "Antwort-Kopfzeile"
 
 #: ../../api.rst:42
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr ""
+msgstr "dies hängt vom :http:header:`Accept`-Header der Anfrage ab"
 
 #: ../../api.rst:44
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "aufgelistete zulässige HTTP-Methoden für das Objekt"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "JSON Object-Antwort"
 
 #: ../../api.rst:45
 msgid ""
 "verbose description of the result (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
+"ausführliche Beschreibung des Ergebnisses (für andere HTTP-Statuscodes als "
+":http:statuscode:`200`)"
 
 #: ../../api.rst:46
 msgid "total item count for object lists"
-msgstr ""
+msgstr "gesamte Anzahl der Elemente für Objektlisten"
 
 #: ../../api.rst:47
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "URL der nächsten Seite für Objektlisten"
 
 #: ../../api.rst:48
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "URL der vorherigen Seite für Objektlisten"
 
 #: ../../api.rst:49
 msgid "results for object lists"
-msgstr ""
+msgstr "Ergebnisse für Objektlisten"
 
 #: ../../api.rst:50
 msgid "URL to access this resource using API"
-msgstr ""
+msgstr "URL für den Zugriff auf diese Ressource über die API"
 
 #: ../../api.rst:51
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "URL für den Zugriff auf diese Ressource mit einem Webbrowser"
 
 #: ../../api.rst:0
 msgid "Status Codes"
@@ -21117,12 +21133,18 @@ msgid ""
 "Each user has his personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Jeder Benutzer hat sein persönliches Zugangstoken, das im Benutzerprofil "
+"abgerufen werden kann. Neu generierte Benutzertoken haben das Präfix "
+"``wlu_``."
 
 #: ../../api.rst:69
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"Es ist möglich, projektspezifische Token für den API-Zugang nur für ein "
+"bestimmtes Projekt zu erstellen. Diese Token können durch das Präfix ``wlp_``"
+" identifiziert werden."
 
 #: ../../api.rst:73
 msgid "Authentication examples"
@@ -21144,7 +21166,7 @@ msgstr "**CURL-Beispiel:**"
 
 #: ../../api.rst:113
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "Beispiele für die Parameterübergabe"
 
 #: ../../api.rst:115
 msgid ""
@@ -21152,6 +21174,9 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
+"Bei der :http:method:`POST`-Methode können die Parameter entweder als "
+"Formularübermittlung (:mimetype:`application/x-www-form-urlencoded`) oder "
+"als JSON (:mimetype:`application/json`) angegeben werden."
 
 #: ../../api.rst:119
 msgid "**Form request example:**"
@@ -21176,6 +21201,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"Die Anzahl der API-Anfragen ist begrenzt; die Standardkonfiguration "
+"beschränkt sie auf 100 Anfragen pro Tag für anonyme Benutzer und 5000 "
+"Anfragen pro Stunde für authentifizierte Benutzer."
 
 #: ../../api.rst:172
 msgid ""
@@ -21183,16 +21211,22 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"Die Ratenbegrenzung kann in :file:`settings.py` eingestellt werden; siehe `"
+"Drosselung in Django REST-Framework Dokumentation <https://www.django-rest-"
+"framework.org/api-guide/throttling/>`_ für weitere Details zur Konfiguration."
 
 #: ../../api.rst:176
 msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgstr ""
+"Im Docker-Container kann dies mit :envvar:`WEBLATE_API_RATELIMIT_ANON` und "
+":envvar:`WEBLATE_API_RATELIMIT_USER` konfiguriert werden."
 
 #: ../../api.rst:179
 msgid "The status of rate limiting is reported in following headers:"
 msgstr ""
+"Der Status der Ratenbegrenzung wird in den folgenden Kopfzeilen gemeldet:"
 
 #: ../../api.rst:182
 msgid "``X-RateLimit-Limit``"
@@ -21200,7 +21234,7 @@ msgstr ""
 
 #: ../../api.rst:182
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Limit der Anzahl der auszuführenden Anfragen"
 
 #: ../../api.rst:184
 msgid "``X-RateLimit-Remaining``"
@@ -21208,7 +21242,7 @@ msgstr ""
 
 #: ../../api.rst:184
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Verbleibendes Limit für Anfragen"
 
 #: ../../api.rst:186
 msgid "``X-RateLimit-Reset``"
@@ -21216,11 +21250,11 @@ msgstr ""
 
 #: ../../api.rst:186
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "Anzahl der Sekunden bis zum Zurücksetzen des Ratenbegrenzungsfensters"
 
 #: ../../api.rst:191
 msgid "Added ratelimiting status headers."
-msgstr ""
+msgstr "Statuskopfzeilen für die Ratenbegrenzung hinzugefügt."
 
 #: ../../api.rst:195
 msgid ""
@@ -21232,11 +21266,11 @@ msgstr ""
 
 #: ../../api.rst:202
 msgid "API Entry Point"
-msgstr ""
+msgstr "API-Einstiegspunkt"
 
 #: ../../api.rst:206
 msgid "The API root entry point."
-msgstr ""
+msgstr "Der API-Root-Einstiegspunkt."
 
 #: ../../api.rst:239
 msgid "Users"
@@ -21247,12 +21281,16 @@ msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
 msgstr ""
+"Gibt eine Liste der Benutzer zurück, wenn Sie die Berechtigung haben, "
+"Benutzer zu verwalten. Wenn nicht, sehen Sie nur Ihre eigenen Details."
 
 #: ../../api.rst:250
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
+"Die Objektattribute von Benutzern sind unter :http:get:`/api/users/"
+"(str:username)/` dokumentiert."
 
 #: ../../api.rst:254
 msgid "Creates a new user."
@@ -21277,6 +21315,8 @@ msgstr "Ist der Benutzer aktiv? (Optional)"
 #: ../../api.rst:266
 msgid "Is user bot? (optional) (used for project scoped tokens)"
 msgstr ""
+"Ist der Benutzer ein Bot? (Optional) (wird für projektspezifische Token "
+"verwendet)"
 
 #: ../../api.rst:271
 msgid "Returns information about users."
@@ -21291,7 +21331,7 @@ msgstr "Name des Benutzers"
 
 #: ../../api.rst:275 ../../api.rst:310 ../../api.rst:324
 msgid "username of a user"
-msgstr "Benutzernamen eines Benutzers"
+msgstr "Benutzername eines Benutzers"
 
 #: ../../api.rst:276 ../../api.rst:311 ../../api.rst:325
 msgid "full name of a user"
@@ -21312,8 +21352,7 @@ msgstr "Ob der Benutzer aktiv ist"
 #: ../../api.rst:280 ../../api.rst:315 ../../api.rst:329
 msgid "whether the user is bot (used for project scoped tokens)"
 msgstr ""
-"ob es sich bei dem Benutzer um einen Bot handelt (wird für "
-"projektspezifische Token verwendet)"
+"Ob der Benutzer ein Bot ist (wird für projektspezifische Token verwendet)"
 
 #: ../../api.rst:281 ../../api.rst:316 ../../api.rst:330
 msgid "date the user is created"
@@ -21322,12 +21361,13 @@ msgstr "Datum der Erstellung des Benutzers"
 #: ../../api.rst:282
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
 msgstr ""
+"Link zu den zugeordneten Gruppen; siehe :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:284 ../../api.rst:471 ../../api.rst:633 ../../api.rst:710
 #: ../../api.rst:833 ../../api.rst:895 ../../api.rst:1225 ../../api.rst:1428
 #: ../../api.rst:1761
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**Beispiel für JSON-Daten:**"
 
 #: ../../api.rst:306 ../../api.rst:320
 msgid "Changes the user parameters."
@@ -21340,11 +21380,11 @@ msgstr ""
 
 #: ../../api.rst:341
 msgid "Associate groups with a user."
-msgstr "Zuordnen von Gruppen zu einem Benutzer."
+msgstr "Ordnet Gruppen einem Benutzer zu."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "Formularparameter"
 
 #: ../../api.rst:345 ../../api.rst:355
 msgid "The unique group ID"
@@ -21352,11 +21392,11 @@ msgstr "Die eindeutige Gruppen-ID"
 
 #: ../../api.rst:351
 msgid "Remove user from a group."
-msgstr "Benutzer aus einer Gruppe entfernen."
+msgstr "Entfernt Benutzer aus einer Gruppe."
 
 #: ../../api.rst:359
 msgid "List statistics of a user."
-msgstr "Statistik eines Benutzers auflisten."
+msgstr "Listet die Statistik eines Benutzers auf."
 
 #: ../../api.rst:363
 msgid "Number of translations by user"
@@ -21380,31 +21420,31 @@ msgstr "Anzahl der Sprachen, die der Benutzer übersetzen kann"
 
 #: ../../api.rst:371
 msgid "List subscriptions of a user."
-msgstr "Liste der Abonnements eines Benutzers."
+msgstr "Listet die Abonnements eines Benutzers auf."
 
 #: ../../api.rst:378
 msgid "Associate subscriptions with a user."
-msgstr "Verknüpfen Sie Abonnements mit einem Benutzer."
+msgstr "Ordnet Abonnements einem Benutzer zu."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "JSON Object-Anfrage"
 
 #: ../../api.rst:382 ../../api.rst:403 ../../api.rst:415 ../../api.rst:425
 msgid "Name of notification registered"
-msgstr ""
+msgstr "Name der registrierten Benachrichtigung"
 
 #: ../../api.rst:383 ../../api.rst:404 ../../api.rst:416
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "Umfang der Benachrichtigung aus den verfügbaren Auswahlmöglichkeiten"
 
 #: ../../api.rst:384 ../../api.rst:405 ../../api.rst:417
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "Auswahl der Häufigkeit von Benachrichtigungen"
 
 #: ../../api.rst:388
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "Ruft das einem Benutzer zugeordnete Abonnement ab."
 
 #: ../../api.rst:392 ../../api.rst:401 ../../api.rst:413
 msgid "ID of notification registered"
@@ -21412,15 +21452,15 @@ msgstr "ID der registrierten Benachrichtigung"
 
 #: ../../api.rst:397 ../../api.rst:409
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "Bearbeitet das einem Benutzer zugeordnete Abonnement."
 
 #: ../../api.rst:421
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "Löscht das einem Benutzer zugeordnete Abonnement."
 
 #: ../../api.rst:426
 msgid "int"
-msgstr ""
+msgstr "Int"
 
 #: ../../api.rst:430
 msgid "Groups"
@@ -21431,11 +21471,16 @@ msgid ""
 "Returns a list of groups if you have permissions to see manage groups. If "
 "not, then you get to see only the groups the user is a part of."
 msgstr ""
+"Gibt eine Liste der Gruppen zurück, wenn Sie die Berechtigung haben, Gruppen "
+"zu verwalten. Wenn nicht, sehen Sie nur die Gruppen, denen der Benutzer "
+"angehört."
 
 #: ../../api.rst:441
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
+"Die Objektattribute von Gruppen sind unter :http:get:`/api/groups/(int:id)/` "
+"dokumentiert."
 
 #: ../../api.rst:445
 msgid "Creates a new group."
@@ -21447,28 +21492,30 @@ msgstr "Gruppenname"
 
 #: ../../api.rst:449
 msgid "Group of project selection from given options"
-msgstr ""
+msgstr "Gruppe der Projektauswahl aus vorgegebenen Optionen"
 
 #: ../../api.rst:451
 msgid "Group of languages selected from given options"
-msgstr ""
+msgstr "Gruppe von Sprachen aus vorgegebenen Optionen"
 
 #: ../../api.rst:453 ../../api.rst:469
 msgid ""
 "link to the defining project, used for :ref:`manage-acl`; see :http:get:`/"
 "api/projects/(string:project)/`"
 msgstr ""
+"Link zum definierenden Projekt, verwendet für die :ref:`manage-acl`; siehe "
+":http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:458
 msgid "Returns information about group."
-msgstr ""
+msgstr "Gibt Informationen über die Gruppe zurück."
 
 #: ../../api.rst:460 ../../api.rst:503 ../../api.rst:513 ../../api.rst:523
 #: ../../api.rst:530 ../../api.rst:538 ../../api.rst:546 ../../api.rst:555
 #: ../../api.rst:563 ../../api.rst:572 ../../api.rst:580 ../../api.rst:589
 #: ../../api.rst:597
 msgid "Group's ID"
-msgstr ""
+msgstr "ID der Gruppe"
 
 #: ../../api.rst:462 ../../api.rst:505 ../../api.rst:515
 msgid "name of a group"
@@ -21476,40 +21523,46 @@ msgstr "Name einer Gruppe"
 
 #: ../../api.rst:463 ../../api.rst:506 ../../api.rst:516
 msgid "integer corresponding to group of projects"
-msgstr ""
+msgstr "Ganzzahl, entsprechend einer Gruppe von Projekten"
 
 #: ../../api.rst:464 ../../api.rst:517
 msgid "integer corresponding to group of languages"
-msgstr ""
+msgstr "Ganzzahl, entsprechend einer Gruppe von Sprachen"
 
 #: ../../api.rst:465
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
-msgstr ""
+msgstr "Link zu den zugeordneten Rollen; siehe :http:get:`/api/roles/(int:id)/`"
 
 #: ../../api.rst:466
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"Link zu den zugeordneten Projekten; siehe :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:467 ../../api.rst:2366
 msgid ""
 "link to associated components; see :http:get:`/api/components/(string:"
 "project)/(string:component)/`"
 msgstr ""
+"Link zu den zugeordneten Komponenten; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:468
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
 msgstr ""
+"Link zur zugeordneten Komponentenliste; siehe :http:get:`/api/"
+"component-lists/(str:slug)/`"
 
 #: ../../api.rst:501 ../../api.rst:511
 msgid "Changes the group parameters."
-msgstr ""
+msgstr "Ändert die Gruppenparameter."
 
 #: ../../api.rst:507
 msgid "integer corresponding to group of Languages"
-msgstr ""
+msgstr "Ganzzahl, entsprechend einer Gruppe von Sprachen"
 
 #: ../../api.rst:521
 msgid "Deletes the group."
@@ -21517,7 +21570,7 @@ msgstr "Löscht die Gruppe."
 
 #: ../../api.rst:528
 msgid "Associate roles with a group."
-msgstr "Zuordnen von Rollen zu einer Gruppe."
+msgstr "Ordnet Rollen einer Gruppe zu."
 
 #: ../../api.rst:532
 msgid "The unique role ID"
@@ -21525,7 +21578,7 @@ msgstr "Die eindeutige Rollen-ID"
 
 #: ../../api.rst:536
 msgid "Associate components with a group."
-msgstr ""
+msgstr "Ordnet Komponenten einer Gruppe zu."
 
 #: ../../api.rst:540 ../../api.rst:548
 msgid "The unique component ID"
@@ -21533,11 +21586,11 @@ msgstr "Die eindeutige Komponenten-ID"
 
 #: ../../api.rst:544
 msgid "Delete component from a group."
-msgstr "Komponente aus einer Gruppe löschen."
+msgstr "Löscht die Komponente aus einer Gruppe."
 
 #: ../../api.rst:553
 msgid "Associate projects with a group."
-msgstr ""
+msgstr "Ordnet Projekte einer Gruppe zu."
 
 #: ../../api.rst:557 ../../api.rst:565
 msgid "The unique project ID"
@@ -21545,11 +21598,11 @@ msgstr "Die eindeutige Projekt-ID"
 
 #: ../../api.rst:561
 msgid "Delete project from a group."
-msgstr "Projekt aus einer Gruppe löschen."
+msgstr "Löscht das Projekt aus einer Gruppe."
 
 #: ../../api.rst:570
 msgid "Associate languages with a group."
-msgstr ""
+msgstr "Ordnet Sprachen einer Gruppe zu."
 
 #: ../../api.rst:574 ../../api.rst:582
 msgid "The unique language code"
@@ -21557,11 +21610,11 @@ msgstr "Der eindeutige Sprachcode"
 
 #: ../../api.rst:578
 msgid "Delete language from a group."
-msgstr "Sprache aus einer Gruppe löschen."
+msgstr "Löscht die Sprache aus einer Gruppe."
 
 #: ../../api.rst:587
 msgid "Associate componentlists with a group."
-msgstr ""
+msgstr "Ordnet Komponentenlisten einer Gruppe zu."
 
 #: ../../api.rst:591 ../../api.rst:599
 msgid "The unique componentlist ID"
@@ -21569,34 +21622,39 @@ msgstr "Die eindeutige Komponentenlisten-ID"
 
 #: ../../api.rst:595
 msgid "Delete componentlist from a group."
-msgstr "Komponentenliste aus einer Gruppe löschen."
+msgstr "Löscht die Komponentenliste aus einer Gruppe."
 
 #: ../../api.rst:608
 msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
 msgstr ""
+"Gibt eine Liste aller mit dem Benutzer zugeordneten Rollen zurück. Wenn der "
+"Benutzer ein Superuser ist, wird eine Liste aller vorhandenen Rollen "
+"zurückgegeben."
 
 #: ../../api.rst:613
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
 msgstr ""
+"Die Objektattribute von Rollen sind unter :http:get:`/api/roles/(int:id)/` "
+"dokumentiert."
 
 #: ../../api.rst:617
 msgid "Creates a new role."
-msgstr ""
+msgstr "Erstellt eine neue Rolle."
 
 #: ../../api.rst:619 ../../api.rst:630 ../../api.rst:652 ../../api.rst:661
 msgid "Role name"
-msgstr ""
+msgstr "Rollenname"
 
 #: ../../api.rst:621
 msgid "List of codenames of permissions"
-msgstr ""
+msgstr "Liste der Codenamen der Berechtigungen"
 
 #: ../../api.rst:626
 msgid "Returns information about a role."
-msgstr ""
+msgstr "Gibt Informationen über eine Rolle zurück."
 
 #: ../../api.rst:628
 msgid "Role ID"
@@ -21620,17 +21678,19 @@ msgstr ""
 
 #: ../../api.rst:677
 msgid "Returns a list of all languages."
-msgstr ""
+msgstr "Gibt eine Liste aller Sprachen zurück."
 
 #: ../../api.rst:681
 msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
 msgstr ""
+"Die Objektattribute von Sprachen sind unter :http:get:`/api/languages/"
+"(string:language)/` dokumentiert."
 
 #: ../../api.rst:685
 msgid "Creates a new language."
-msgstr ""
+msgstr "Erstellt eine neue Sprache."
 
 #: ../../api.rst:695
 msgid "Language plural formula and number"
@@ -21638,7 +21698,7 @@ msgstr ""
 
 #: ../../api.rst:700
 msgid "Returns information about a language."
-msgstr ""
+msgstr "Gibt Informationen über eine Sprache zurück."
 
 #: ../../api.rst:707
 msgid "Object of language plural information"
@@ -21666,7 +21726,7 @@ msgstr "Löscht die Sprache."
 
 #: ../../api.rst:769
 msgid "Returns statistics for a language."
-msgstr ""
+msgstr "Liefert Statistiken für eine Sprache."
 
 #: ../../api.rst:773 ../../api.rst:1132 ../../api.rst:1147 ../../api.rst:1750
 #: ../../api.rst:2006
@@ -21735,21 +21795,23 @@ msgstr ""
 
 #: ../../api.rst:795
 msgid "Returns a list of all projects."
-msgstr ""
+msgstr "Gibt eine Liste aller Projekte zurück."
 
 #: ../../api.rst:799
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
 msgstr ""
+"Die Objektattribute von Projekten sind unter :http:get:`/api/projects/"
+"(string:project)/` dokumentiert."
 
 #: ../../api.rst:805
 msgid "Creates a new project."
-msgstr ""
+msgstr "Erstellt ein neues Projekt."
 
 #: ../../api.rst:816
 msgid "Returns information about a project."
-msgstr ""
+msgstr "Gibt Informationen über ein Projekt zurück."
 
 #: ../../api.rst:818 ../../api.rst:851 ../../api.rst:862 ../../api.rst:871
 #: ../../api.rst:879 ../../api.rst:889 ../../api.rst:911 ../../api.rst:958
@@ -21858,6 +21920,9 @@ msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Gibt eine Liste der Projektänderungen zurück. Dies ist im Wesentlichen ein "
+"projektspezifisches :http:get:`/api/changes/` , das dieselben Parameter "
+"akzeptiert."
 
 #: ../../api.rst:881 ../../api.rst:1391 ../../api.rst:1855
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
@@ -21870,6 +21935,10 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
+"Gibt Informationen über den Status des VCS-Repositorys zurück. Dieser "
+"Endpunkt enthält nur eine Gesamtzusammenfassung für alle Repositorys für das "
+"Projekt. Um einen detaillierteren Status zu erhalten, verwenden Sie "
+":http:get:`/api/components/(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:891 ../../api.rst:1496
 msgid "whether there are any pending changes to commit"
@@ -21905,6 +21974,7 @@ msgstr ""
 #: ../../api.rst:956
 msgid "Returns a list of translation components in the given project."
 msgstr ""
+"Gibt eine Liste der Übersetzungskomponenten im angegebenen Projekt zurück."
 
 #: ../../api.rst:960
 msgid ""
@@ -21990,6 +22060,8 @@ msgstr ""
 #: ../../api.rst:1123
 msgid "Returns paginated statistics for all languages within a project."
 msgstr ""
+"Gibt paginierte Statistiken für alle Sprachen innerhalb eines Projekts "
+"zurück."
 
 #: ../../api.rst:1129
 msgid "array of translation statistics objects"
@@ -22005,7 +22077,7 @@ msgstr "Sprachcode"
 
 #: ../../api.rst:1141
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "Gibt Statistiken für ein Projekt zurück."
 
 #: ../../api.rst:1159
 msgid ""
@@ -22015,17 +22087,19 @@ msgstr ""
 
 #: ../../api.rst:1163
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Gibt eine Liste der Übersetzungskomponenten zurück."
 
 #: ../../api.rst:1167
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"Die Objektattribute von Komponenten sind unter :http:get:`/api/components/"
+"(string:project)/(string:component)/` dokumentiert."
 
 #: ../../api.rst:1171
 msgid "Returns information about translation component."
-msgstr ""
+msgstr "Gibt Informationen über die Übersetzungskomponente zurück."
 
 #: ../../api.rst:1177
 msgid ""
@@ -22339,6 +22413,9 @@ msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Gibt eine Liste der Komponentenänderungen zurück. Dies ist im Wesentlichen "
+"ein komponentenspezifisches :http:get:`/api/changes/`, das dieselben "
+"Parameter akzeptiert."
 
 #: ../../api.rst:1398
 msgid ""
@@ -22354,7 +22431,7 @@ msgstr ""
 
 #: ../../api.rst:1409
 msgid "Returns a list of component screenshots."
-msgstr "Gibt eine Liste von Komponenten-Bildschirmfotos zurück."
+msgstr "Gibt eine Liste der Komponenten-Bildschirmfotos zurück."
 
 #: ../../api.rst:1415
 msgid ""
@@ -22365,7 +22442,7 @@ msgstr ""
 
 #: ../../api.rst:1420
 msgid "Returns component lock status."
-msgstr ""
+msgstr "Gibt den Status der Komponentensperre zurück."
 
 #: ../../api.rst:1426
 msgid "whether component is locked for updates"
@@ -22387,7 +22464,7 @@ msgstr "Boolesche Angabe, ob gesperrt werden soll oder nicht."
 
 #: ../../api.rst:1488 ../../api.rst:1958
 msgid "Returns information about VCS repository status."
-msgstr ""
+msgstr "Gibt Informationen über den Status des VCS-Repositorys zurück."
 
 #: ../../api.rst:1490
 msgid ""
@@ -22434,6 +22511,7 @@ msgstr ""
 #: ../../api.rst:1573
 msgid "Returns a list of translation objects in the given component."
 msgstr ""
+"Gibt eine Liste der Übersetzungsobjekte in der angegebenen Komponente zurück."
 
 #: ../../api.rst:1579
 msgid ""
@@ -22443,7 +22521,7 @@ msgstr ""
 
 #: ../../api.rst:1583
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "Erstellt eine neue Übersetzung in der angegebenen Komponente."
 
 #: ../../api.rst:1589
 msgid ""
@@ -22457,6 +22535,8 @@ msgstr ""
 #: ../../api.rst:1664
 msgid "Returns paginated statistics for all translations within component."
 msgstr ""
+"Gibt eine paginierte Statistik für alle Übersetzungen innerhalb der "
+"Komponente zurück."
 
 #: ../../api.rst:1672
 msgid ""
@@ -22466,7 +22546,7 @@ msgstr ""
 
 #: ../../api.rst:1676
 msgid "Returns projects linked with a component."
-msgstr "Gibt Projekte zurück, die mit einer Komponente verknüpft sind."
+msgstr "Gibt mit einer Komponente verknüpfte Projekte zurück."
 
 #: ../../api.rst:1684
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
@@ -22486,17 +22566,20 @@ msgstr "Slug des zu entfernenden Projekts"
 
 #: ../../api.rst:1717
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "Gibt eine Liste der Übersetzungen zurück."
 
 #: ../../api.rst:1721
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"Die Objektattribute von Übersetzungen sind unter :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/` "
+"dokumentiert."
 
 #: ../../api.rst:1725
 msgid "Returns information about a translation."
-msgstr ""
+msgstr "Gibt Informationen über eine Übersetzung zurück."
 
 #: ../../api.rst:1731 ../../api.rst:1841 ../../api.rst:1853 ../../api.rst:1866
 #: ../../api.rst:1880 ../../api.rst:1899 ../../api.rst:1927 ../../api.rst:1938
@@ -22603,10 +22686,13 @@ msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
 msgstr ""
+"Gibt eine Liste der Übersetzungsänderungen zurück. Dies ist im Wesentlichen "
+"ein übersetzungsspezifisches :http:get:`/api/changes/`, das dieselben "
+"Parameter akzeptiert."
 
 #: ../../api.rst:1860
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "Gibt eine Liste der Übersetzungseinheiten zurück."
 
 #: ../../api.rst:1868 ../../api.rst:2045
 msgid "Search query string :ref:`Searching` (optional)"
@@ -22727,7 +22813,7 @@ msgstr ""
 
 #: ../../api.rst:1986
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "Gibt detaillierte Übersetzungsstatistiken zurück."
 
 #: ../../api.rst:1997
 msgid "number of failing checks"
@@ -22776,12 +22862,14 @@ msgstr ""
 
 #: ../../api.rst:2043
 msgid "Returns list of translation units."
-msgstr ""
+msgstr "Gibt eine Liste der Übersetzungseinheiten zurück."
 
 #: ../../api.rst:2050
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
+"Die Objektattribute von Einheiten sind unter :http:get:`/api/units/(int:id)/`"
+" dokumentiert."
 
 #: ../../api.rst:2056
 msgid ""
@@ -22941,13 +23029,15 @@ msgstr "Die Filterung von Änderungen wurde mit der Version 4.1 eingeführt."
 
 #: ../../api.rst:2140
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "Gibt eine Liste der Übersetzungsänderungen zurück."
 
 #: ../../api.rst:2144
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
+"Die Objektattribute von Änderungen sind unter :http:get:`/api/changes/"
+"(int:id)/` dokumentiert."
 
 #: ../../api.rst:2146
 msgid "Username of user to filters"
@@ -22967,7 +23057,7 @@ msgstr "ISO 8601-formatierter Zeitstempel zur Auflistung von Änderungen vor"
 
 #: ../../api.rst:2153
 msgid "Returns information about translation change."
-msgstr ""
+msgstr "Gibt Informationen über Übersetzungsänderungen zurück."
 
 #: ../../api.rst:2155
 msgid "Change ID"
@@ -23012,14 +23102,14 @@ msgstr ""
 
 #: ../../api.rst:2175
 msgid "Returns a list of screenshot string information."
-msgstr ""
+msgstr "Gibt eine Liste der Zeichenketteninformationen-Bildschirmfotos zurück."
 
 #: ../../api.rst:2179
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
-"Die Attribute von Bildschirmfoto-Objekten sind unter :http:get:`/api/"
+"Die Objektattribute von Bildschirmfotos sind unter :http:get:`/api/"
 "screenshots/(int:id)/` dokumentiert."
 
 #: ../../api.rst:2183
@@ -23034,7 +23124,7 @@ msgstr "Bildschirmfoto-ID"
 #: ../../api.rst:2187 ../../api.rst:2223 ../../api.rst:2246 ../../api.rst:2257
 #: ../../api.rst:2268
 msgid "name of a screenshot"
-msgstr "Name eines Bildschirmfotos"
+msgstr "Name des Bildschirmfotos"
 
 #: ../../api.rst:2189 ../../api.rst:2225 ../../api.rst:2248 ../../api.rst:2259
 #: ../../api.rst:2270
@@ -23049,18 +23139,20 @@ msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
 msgstr ""
+"Link zur zugehörigen Information der Ausgangszeichenkette; siehe :http:get:`/"
+"api/units/(int:id)/`"
 
 #: ../../api.rst:2194
 msgid "Download the screenshot image."
-msgstr "Laden Sie das Bildschirmfoto herunter."
+msgstr "Lädt das Bildschirmfoto herunter."
 
 #: ../../api.rst:2201
 msgid "Replace screenshot image."
-msgstr "Bildschirmfoto ersetzen."
+msgstr "Ersetzt das Bildschirmfoto."
 
 #: ../../api.rst:2218
 msgid "Associate source string with screenshot."
-msgstr "Verknüpfen Sie die Ausgangszeichenkette mit dem Bildschirmfoto."
+msgstr "Verknüpft die Ausgangszeichenkette mit dem Bildschirmfoto."
 
 #: ../../api.rst:2230
 msgid "Remove source string association with screenshot."
@@ -23074,7 +23166,7 @@ msgstr "Ausgangszeichenkette-Einheitenkennung"
 
 #: ../../api.rst:2239
 msgid "Creates a new screenshot."
-msgstr "Erzeugt ein neues Bildschirmfoto."
+msgstr "Erstellt ein neues Bildschirmfoto."
 
 #: ../../api.rst:2242
 msgid "Screenshot name"
@@ -23082,24 +23174,26 @@ msgstr "Name des Bildschirmfotos"
 
 #: ../../api.rst:2253
 msgid "Edit partial information about screenshot."
-msgstr "Teilinformationen zum Bildschirmfoto bearbeiten."
+msgstr "Bearbeitet Teilinformationen zum Bildschirmfoto."
 
 #: ../../api.rst:2264
 msgid "Edit full information about screenshot."
-msgstr "Bearbeiten Sie alle Informationen zum Bildschirmfoto."
+msgstr "Bearbeitet alle Informationen zum Bildschirmfoto."
 
 #: ../../api.rst:2275
 msgid "Delete screenshot."
-msgstr "Bildschirmfoto löschen."
+msgstr "Löscht das Bildschirmfoto."
 
 #: ../../api.rst:2289
 msgid "Returns a list of add-ons."
-msgstr "Gibt eine Liste der Erweiterungen aus."
+msgstr "Gibt eine Liste der Erweiterungen zurück."
 
 #: ../../api.rst:2293
 msgid ""
 "Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
+"Die Objektattribute von Erweiterungen sind unter :http:get:`/api/addons/"
+"(int:id)/` dokumentiert."
 
 #: ../../api.rst:2297
 msgid "Returns information about add-on information."
@@ -23107,11 +23201,11 @@ msgstr "Gibt Informationen über Erweiterungen zurück."
 
 #: ../../api.rst:2301 ../../api.rst:2315
 msgid "name of an add-on"
-msgstr "Name einer Erweiterung"
+msgstr "Name der Erweiterung"
 
 #: ../../api.rst:2303 ../../api.rst:2316 ../../api.rst:2324 ../../api.rst:2332
 msgid "Optional add-on configuration"
-msgstr "Optionale Konfiguration einer Erweiterung"
+msgstr "Optionale Konfiguration der Erweiterung"
 
 #: ../../api.rst:2307
 msgid ":doc:`/admin/addons`"
@@ -23119,19 +23213,19 @@ msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2311
 msgid "Creates a new add-on."
-msgstr "Erzeugt eine neue Erweiterung."
+msgstr "Erstellt eine neue Erweiterung."
 
 #: ../../api.rst:2320
 msgid "Edit partial information about add-on."
-msgstr "Teilinformationen zur Erweiterung bearbeiten."
+msgstr "Bearbeitet Teilinformationen zur Erweiterung."
 
 #: ../../api.rst:2328
 msgid "Edit full information about add-on."
-msgstr "Vollständige Informationen zur Erweiterung bearbeiten."
+msgstr "Bearbeitet alle Informationen zur Erweiterung."
 
 #: ../../api.rst:2336
 msgid "Delete add-on."
-msgstr "Erweiterung löschen."
+msgstr "Löscht die Erweiterung."
 
 #: ../../api.rst:2345
 msgid "Component lists"
@@ -23139,17 +23233,19 @@ msgstr "Komponentenlisten"
 
 #: ../../api.rst:2351
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "Gibt eine Liste der Komponentenlisten zurück."
 
 #: ../../api.rst:2355
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"Die Objektattribute von Komponentenlisten sind unter :http:get:`/api/"
+"component-lists/(str:slug)/` dokumentiert."
 
 #: ../../api.rst:2359
 msgid "Returns information about component list."
-msgstr ""
+msgstr "Gibt Informationen über die Komponentenliste zurück."
 
 #: ../../api.rst:2361 ../../api.rst:2373 ../../api.rst:2383 ../../api.rst:2393
 #: ../../api.rst:2400 ../../api.rst:2408
@@ -23186,7 +23282,7 @@ msgstr ""
 
 #: ../../api.rst:2402
 msgid "Component ID"
-msgstr ""
+msgstr "Komponenten-ID"
 
 #: ../../api.rst:2406
 msgid "Disassociate a component from the component list."
@@ -23200,7 +23296,7 @@ msgstr ""
 
 #: ../../api.rst:2422
 msgid "Tasks"
-msgstr ""
+msgstr "Aufgaben"
 
 #: ../../api.rst:2428
 msgid "Listing of the tasks is currently not available."
@@ -23208,15 +23304,15 @@ msgstr "Eine Auflistung der Aufgaben ist derzeit nicht verfügbar."
 
 #: ../../api.rst:2432
 msgid "Returns information about a task"
-msgstr "Gibt Informationen über eine Aufgabe zurück"
+msgstr "Gibt Informationen über eine Aufgabe zurück."
 
 #: ../../api.rst:2434
 msgid "Task UUID"
-msgstr ""
+msgstr "Aufgaben-UUID"
 
 #: ../../api.rst:2436
 msgid "Whether the task has completed"
-msgstr "ob die Aufgabe abgeschlossen ist"
+msgstr "Ob die Aufgabe abgeschlossen wurde"
 
 #: ../../api.rst:2437
 msgid "Task progress in percent"
@@ -23232,11 +23328,11 @@ msgstr "Aufgabenprotokoll"
 
 #: ../../api.rst:2442
 msgid "Metrics"
-msgstr ""
+msgstr "Metriken"
 
 #: ../../api.rst:2446
 msgid "Returns server metrics."
-msgstr ""
+msgstr "Gibt Server-Metriken zurück."
 
 #: ../../api.rst:2448
 msgid "Number of units"
@@ -23992,7 +24088,7 @@ msgstr "Das Verhalten von DeepL bei Übersetzungen mit Platzhaltern korrigiert."
 
 #: ../../changes.rst:121
 msgid "Fixed untranslating strings via API."
-msgstr "Nichtübersetzen von Zeichenfolgen über die API behoben."
+msgstr "Nichtübersetzen von Zeichenketten über die API behoben."
 
 #: ../../changes.rst:122
 msgid "Added support for removing user from a group via API."
@@ -24063,7 +24159,7 @@ msgstr ""
 
 #: ../../changes.rst:141
 msgid "Fixed variants cleanup on string removal."
-msgstr "Bereinigung von Varianten beim Entfernen von Zeichenfolgen behoben."
+msgstr "Bereinigung von Varianten beim Entfernen einer Zeichenkette behoben."
 
 #: ../../changes.rst:142
 msgid "Compatibility with Django 4.1."
@@ -25380,7 +25476,7 @@ msgstr ""
 
 #: ../../changes.rst:517
 msgid "Paginated component listing of huge projects."
-msgstr "Paginierte Komponentenliste großer Projekte."
+msgstr "Komponentenliste mit Seitenumbruch bei großen Projekten."
 
 #: ../../changes.rst:518
 msgid "Improved performance of translation, component or project removal."
@@ -40940,7 +41036,7 @@ msgid ""
 "Variants are a generic way to group strings together. All term variants are "
 "listed in the glossary sidebar when translating."
 msgstr ""
-"Varianten sind eine generische Möglichkeit, Zeichenketten zusammenzufassen. "
+"Varianten sind eine allgemeine Möglichkeit, Zeichenketten zusammenzufassen. "
 "Alle Begriffsvarianten werden beim Übersetzen in der Seitenleiste des "
 "Glossars aufgeführt."
 
@@ -43861,7 +43957,8 @@ msgstr "Übersetzergruppe"
 #: ../../workflows.rst:86 ../../workflows.rst:118 ../../workflows.rst:155
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
-"Oder `Übersetzen` mit :ref:`projektbezogener Zugriffssteuerung <manage-acl>`."
+"Oder `Übersetzen` mit :ref:`projektspezifischer Zugriffssteuerung <manage-"
+"acl>`."
 
 #: ../../workflows.rst:90 ../../workflows.rst:122 ../../workflows.rst:159
 msgid "Reviewers group"
@@ -43953,7 +44050,8 @@ msgstr ""
 #: ../../workflows.rst:159
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
-"Oder `Überprüfen` mit :ref:`projektbezogener Zugriffssteuerung <manage-acl>`."
+"Oder `Überprüfen` mit :ref:`projektspezifischer Zugriffssteuerung <manage-"
+"acl>`."
 
 #: ../../workflows.rst:165
 msgid "Turning on reviews"
