@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
 "PO-Revision-Date: 2023-02-06 09:46+0000\n"
-"Last-Translator: sokden Den <densokden611@gmail.com>\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -14979,6 +14979,10 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"Die Konfiguration kann wie in `Datenbankkonfiguration` unter https://hub."
+"docker.com/_/postgres beschrieben angepasst werden. Die für Ihre Umgebung "
+"passende Konfiguration kann mit https://pgtune.leopard.in.ua/ generiert "
+"werden."
 
 #: ../../admin/install/docker.rst:1761
 msgid "Container internals"
@@ -14990,6 +14994,9 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"Der Container verwendet :program:`supervisor`, um einzelne Dienste zu "
+"starten. Im Falle von :ref:`docker-scaling` wird nur ein einzelner Dienst in "
+"einem Container gestartet."
 
 #: ../../admin/install/docker.rst:1766
 msgid "To check the services status use:"
@@ -15001,6 +15008,9 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Für jede Celery-Warteschlange gibt es eigene Dienste (siehe :ref:`celery` "
+"für Details). Sie können die Verarbeitung einiger Aufgaben stoppen, indem "
+"Sie den entsprechenden Worker stoppen:"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -15045,7 +15055,7 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Installation auf OpenShift"
 
 #: ../../admin/install/openshift.rst:4
 msgid ""
@@ -15054,11 +15064,16 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"Mit dem Kubernetes Helm-Diagramm können Sie Ihre persönliche Weblate-Instanz "
+"in Sekundenschnelle zum Laufen bringen. Alle Abhängigkeiten von Weblate sind "
+"bereits enthalten. PostgreSQL ist als Standarddatenbank eingerichtet und es "
+"werden dauerhafte Volume-Claims verwendet."
 
 #: ../../admin/install/openshift.rst:9
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
 msgstr ""
+"Sie finden die Vorlage unter <https://github.com/WeblateOrg/openshift/>."
 
 #: ../../admin/install/openshift.rst:14
 msgid ""
@@ -15066,6 +15081,10 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"Die folgenden Beispiele gehen davon aus, dass Sie eine funktionierende "
+"OpenShift v3.x-Umgebung haben, in der das Client-Tool ``oc`` installiert "
+"ist. Bitte lesen Sie in der OpenShift-Dokumentation nach, um Anweisungen zu "
+"erhalten."
 
 #: ../../admin/install/openshift.rst:18
 msgid ""
@@ -15073,6 +15092,10 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+"Die :file:`template.yml` ist für den Betrieb aller Komponenten in OpenShift "
+"geeignet. Es gibt auch die Datei :file:`template-external-postgresql.yml`, "
+"die keinen PostgreSQL-Server startet und es Ihnen ermöglicht, einen externen "
+"PostgreSQL-Server zu konfigurieren."
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
