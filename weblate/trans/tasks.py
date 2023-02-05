@@ -346,6 +346,7 @@ def project_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
         project = Project.objects.get(pk=pk)
+        create_project_backup(pk)
         Change.objects.create(
             action=Change.ACTION_REMOVE_PROJECT,
             target=project.slug,
