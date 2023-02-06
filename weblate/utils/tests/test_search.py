@@ -330,6 +330,7 @@ class QueryParserTest(TestCase, SearchMixin):
 
     def test_id(self):
         self.assert_query("id:100", Q(id=100))
+        self.assert_query("id:100,900", Q(id__in={100, 900}))
 
     def test_text_html(self):
         self.assert_query("target:<name>", Q(target__substring="<name>"))

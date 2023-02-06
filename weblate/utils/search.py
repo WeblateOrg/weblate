@@ -300,6 +300,8 @@ class TermExpr:
         return self.convert_int(text)
 
     def convert_id(self, text):
+        if "," in text:
+            return {self.convert_int(part) for part in text.split(",")}
         return self.convert_int(text)
 
     def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):
@@ -436,6 +438,8 @@ class TermExpr:
             else:
                 query = Q(**{self.field_name(field, "lte"): end})
 
+        elif isinstance(match, set):
+            query = Q(**{self.field_name(field, "in"): match})
         else:
             # Generic query
             query = Q(**{self.field_name(field): match})
