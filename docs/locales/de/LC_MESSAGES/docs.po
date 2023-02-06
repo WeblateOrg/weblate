@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-06 17:46+0000\n"
+"PO-Revision-Date: 2023-02-08 13:04+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -15591,7 +15591,7 @@ msgstr "Suche nach integrierten Sprachaliasen."
 
 #: ../../admin/languages.rst:46
 msgid "Looking up by language name."
-msgstr "Nach Sprachnamen suchen."
+msgstr "Nach Sprachenname suchen."
 
 #: ../../admin/languages.rst:47
 msgid ""
@@ -15673,7 +15673,7 @@ msgstr "Jede Sprache besteht aus den folgenden Feldern:"
 #: ../../admin/languages.rst:105 ../../admin/projects.rst:894 ../../api.rst:702
 #: ../../api.rst:704 ../../api.rst:771 ../../api.rst:2245
 msgid "Language code"
-msgstr "Sprachkürzel"
+msgstr "Sprachcode"
 
 #: ../../admin/languages.rst:107
 msgid ""
@@ -21228,7 +21228,7 @@ msgstr ""
 
 #: ../../api.rst:119
 msgid "**Form request example:**"
-msgstr "**Formularanfrage-Beispiel:**"
+msgstr "**Formular-Anfrage-Beispiel:**"
 
 #: ../../api.rst:131 ../../api.rst:925 ../../api.rst:1293 ../../api.rst:1458
 #: ../../api.rst:1525 ../../api.rst:1601
@@ -21762,7 +21762,7 @@ msgstr "Ändert die Sprachparameter."
 
 #: ../../api.rst:742 ../../api.rst:753 ../../api.rst:764
 msgid "Language's code"
-msgstr "Sprachkürzel"
+msgstr "Sprachcode"
 
 #: ../../api.rst:747 ../../api.rst:758
 msgid "Language plural details"
@@ -21948,7 +21948,7 @@ msgstr "Name der Komponente"
 
 #: ../../api.rst:849
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr "Bearbeitet ein Projekt mit einer :http:method:`PATCH`-Anfrage."
+msgstr "Bearbeitet ein Projekt durch eine :http:method:`PATCH`-Anfrage."
 
 #: ../../api.rst:853 ../../api.rst:1175 ../../api.rst:1275 ../../api.rst:1359
 #: ../../api.rst:1379 ../../api.rst:1389 ../../api.rst:1402 ../../api.rst:1413
@@ -21963,7 +21963,7 @@ msgstr "Kurzer Komponenten-URL"
 
 #: ../../api.rst:860
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr "Bearbeitet ein Projekt mit einer :http:method:`PUT`-Anfrage."
+msgstr "Bearbeitet ein Projekt durch eine :http:method:`PUT`-Anfrage."
 
 #: ../../api.rst:869
 msgid "Deletes a project."
@@ -22098,12 +22098,16 @@ msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Komponentenparameter, siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:992
 msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Erstelltes Komponentenobjekt; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:994
 msgid ""
@@ -22111,22 +22115,26 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"JSON kann nicht verwendet werden, wenn die Dateien mit den Parametern "
+"``zipfile`` und ``docfile`` hochgeladen werden. Die Daten müssen als "
+":mimetype:`multipart/form-data` hochgeladen werden."
 
 #: ../../api.rst:998
 msgid "**CURL form request example:**"
-msgstr ""
+msgstr "**CURL-Formular-Anfrage-Beispiel:**"
 
 #: ../../api.rst:1011
 msgid "**CURL JSON request example:**"
-msgstr ""
+msgstr "**CURL-JSON-Anfrage-Beispiel:**"
 
 #: ../../api.rst:1031
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**JSON-Anfrage zur Erstellung einer neuen Komponente von Git:**"
 
 #: ../../api.rst:1054
 msgid "**JSON request to create a new component from another one:**"
 msgstr ""
+"**JSON-Anfrage zum Erstellen einer neuen Komponente aus einer anderen:**"
 
 #: ../../api.rst:1123
 msgid "Returns paginated statistics for all languages within a project."
@@ -22136,11 +22144,11 @@ msgstr ""
 
 #: ../../api.rst:1129
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "Array von Übersetzungsstatistikobjekten"
 
 #: ../../api.rst:1130 ../../api.rst:2005
 msgid "language name"
-msgstr ""
+msgstr "Sprachenname"
 
 #: ../../api.rst:1131 ../../api.rst:1996
 msgid "language code"
@@ -22155,6 +22163,8 @@ msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
+"Verwenden Sie :http:post:`/api/projects/(string:project)/components/` um "
+"neue Komponenten zu erstellen."
 
 #: ../../api.rst:1163
 msgid "Returns a list of translation components."
@@ -22176,6 +22186,7 @@ msgstr "Gibt Informationen über die Übersetzungskomponente zurück."
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"Das Übersetzungsprojekt; siehe :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1178 ../../devel/sphinx.rst:32
 #, fuzzy
@@ -22265,6 +22276,7 @@ msgstr "Name der Komponente"
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"Ausgangsspracheobjekt; siehe :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1197 ../../devel/sphinx.rst:40
 #, fuzzy
@@ -22403,73 +22415,83 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
+"URL zum Repository-Status; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1220
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
+"URL zur Übersetzungsliste; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1221
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
+"URL zum Sperrstatus; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1222
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
+"URL zur Änderungsliste; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1223
 msgid ""
 "URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`"
 msgstr ""
+"URL zur Hintergrundaufgabe (falls vorhanden); siehe :http:get:`/api/tasks/"
+"(str:uuid)/`"
 
 #: ../../api.rst:1271
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Bearbeitet eine Komponente durch eine :http:method:`PATCH`-Anfrage."
 
 #: ../../api.rst:1277
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "Sprachcode der Projekt-Ausgangssprache (optional)"
 
 #: ../../api.rst:1279 ../../api.rst:1364
 msgid "name of component"
-msgstr ""
+msgstr "Name der Komponente"
 
 #: ../../api.rst:1280 ../../api.rst:1365
 msgid "slug of component"
-msgstr ""
+msgstr "Slug der Komponente"
 
 #: ../../api.rst:1281 ../../api.rst:1366
 msgid "VCS repository URL"
-msgstr ""
+msgstr "URL des VCS-Repository"
 
 #: ../../api.rst:1355
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Bearbeitet eine Komponente durch eine :http:method:`PUT`-Anfrage."
 
 #: ../../api.rst:1361
 msgid "VCS repository branch"
-msgstr ""
+msgstr "Branch des VCS-Repository"
 
 #: ../../api.rst:1362
 msgid "file format of translations"
-msgstr ""
+msgstr "Dateiformat der Übersetzungen"
 
 #: ../../api.rst:1363
 msgid "mask of translation files in the repository"
-msgstr ""
+msgstr "Maske der Übersetzungsdateien im Repository"
 
 #: ../../api.rst:1367
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "Basisdatei für einsprachige Übersetzungen"
 
 #: ../../api.rst:1368
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "Basisdatei für das Hinzufügen neuer Übersetzungen"
 
 #: ../../api.rst:1369
 msgid "version control system"
@@ -22477,7 +22499,7 @@ msgstr "Versionsverwaltung"
 
 #: ../../api.rst:1375
 msgid "Deletes a component."
-msgstr ""
+msgstr "Löscht eine Komponente."
 
 #: ../../api.rst:1384
 msgid ""
@@ -22493,12 +22515,16 @@ msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
 msgstr ""
+"Lädt alle verfügbaren Übersetzungen, die der Komponente zugeordnet sind, als "
+"Archivdatei im gewünschten Format herunter."
 
 #: ../../api.rst:1405
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip``"
 msgstr ""
+"Das zu verwendende Archivformat; wenn nicht angegeben, wird ``zip`` als "
+"Standardwert verwendet; Unterstützte Formate: ``zip``"
 
 #: ../../api.rst:1409
 msgid "Returns a list of component screenshots."
@@ -22517,11 +22543,11 @@ msgstr "Gibt den Status der Komponentensperre zurück."
 
 #: ../../api.rst:1426
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "Ob die Komponente für Aktualisierungen gesperrt ist"
 
 #: ../../api.rst:1439
 msgid "Sets component lock status."
-msgstr ""
+msgstr "Setzt den Status der Komponentensperre."
 
 #: ../../api.rst:1441
 msgid ""
@@ -22549,39 +22575,43 @@ msgstr ""
 
 #: ../../api.rst:1499
 msgid "Remote commit information"
-msgstr ""
+msgstr "Information des Remote-Commit"
 
 #: ../../api.rst:1500
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "Repository-Status des VCS, wie von VCS gemeldet"
 
 #: ../../api.rst:1501
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "Text des Merge-Konflikts, oder Null, wenn es keinen gibt"
 
 #: ../../api.rst:1505
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "Führt die angegebene Operation an einem VCS-Repository durch."
 
 #: ../../api.rst:1507 ../../api.rst:1973
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"Siehe :http:post:`/api/projects/(string:project)/repository/` für die "
+"Dokumentation."
 
 #: ../../api.rst:1513 ../../api.rst:1981
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
 msgstr ""
+"Auszuführende Operation: eine von ``push``, ``pull``, ``commit``, ``reset``, "
+"``cleanup``"
 
 #: ../../api.rst:1555
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "Lädt die Basisdatei für einsprachige Übersetzungen herunter."
 
 #: ../../api.rst:1564
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "Lädt die Vorlagendatei für neue Übersetzungen herunter."
 
 #: ../../api.rst:1573
 msgid "Returns a list of translation objects in the given component."
@@ -22593,6 +22623,8 @@ msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"Array von Übersetzungsobjekten; siehe :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1583
 msgid "Creates new translation in the given component."
@@ -22602,10 +22634,12 @@ msgstr "Erstellt eine neue Übersetzung in der angegebenen Komponente."
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"Sprachcode der Übersetzung; siehe :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:1590
 msgid "new translation object created"
-msgstr ""
+msgstr "Neues Übersetzungsobjekt wurde erstellt"
 
 #: ../../api.rst:1664
 msgid "Returns paginated statistics for all translations within component."
@@ -22618,6 +22652,8 @@ msgid ""
 "array of translation statistics objects; see :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
+"Array von Übersetzungsstatistikobjekten; siehe :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`"
 
 #: ../../api.rst:1676
 msgid "Returns projects linked with a component."
@@ -22625,7 +22661,7 @@ msgstr "Gibt mit einer Komponente verknüpfte Projekte zurück."
 
 #: ../../api.rst:1684
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "Zugeordnete Projekte; siehe :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1688
 msgid "Associate project with a component."
@@ -22660,13 +22696,15 @@ msgstr "Gibt Informationen über eine Übersetzung zurück."
 #: ../../api.rst:1880 ../../api.rst:1899 ../../api.rst:1927 ../../api.rst:1938
 #: ../../api.rst:1966 ../../api.rst:1979 ../../api.rst:1994
 msgid "Translation language code"
-msgstr ""
+msgstr "Sprachcode der Übersetzung"
 
 #: ../../api.rst:1733
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"Komponentenobjekt; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1734
 msgid "number of strings failing checks"
@@ -22700,7 +22738,7 @@ msgstr ""
 
 #: ../../api.rst:1743
 msgid "whether the translation has a monolingual base"
-msgstr "ob die Übersetzung eine einsprachige Basis hat"
+msgstr "Ob die Übersetzung eine einsprachige Basis hat"
 
 #: ../../api.rst:1745
 msgid ""
@@ -23015,15 +23053,15 @@ msgstr ""
 
 #: ../../api.rst:2075
 msgid "whether the unit is fuzzy or marked for review"
-msgstr "ob die Einheit fragwürdig oder zur Überprüfung markiert ist"
+msgstr "Ob die Einheit fragwürdig oder zur Überprüfung markiert ist"
 
 #: ../../api.rst:2076
 msgid "whether the unit is translated"
-msgstr "ob die Einheit übersetzt wird"
+msgstr "Ob die Einheit übersetzt wird"
 
 #: ../../api.rst:2077
 msgid "whether the translation is approved"
-msgstr "ob die Übersetzung genehmigt wird"
+msgstr "Ob die Übersetzung genehmigt wird"
 
 #: ../../api.rst:2078
 msgid "unit position in translation file"
@@ -23031,15 +23069,15 @@ msgstr "Position der Einheit in der Übersetzungsdatei"
 
 #: ../../api.rst:2079
 msgid "whether the unit has suggestions"
-msgstr "ob die Einheit Vorschläge hat"
+msgstr "Ob die Einheit Vorschläge hat"
 
 #: ../../api.rst:2080
 msgid "whether the unit has comments"
-msgstr "ob die Einheit Kommentare hat"
+msgstr "Ob die Einheit Kommentare hat"
 
 #: ../../api.rst:2081
 msgid "whether the unit has failing checks"
-msgstr "ob die Einheit fehlerhafte Prüfungen aufweist"
+msgstr "Ob die Einheit fehlerhafte Prüfungen aufweist"
 
 #: ../../api.rst:2082
 msgid "number of source words"
@@ -23072,7 +23110,7 @@ msgstr ""
 
 #: ../../api.rst:2089
 msgid "whether the unit is pending for write"
-msgstr "ob die Einheit zum Schreiben aussteht"
+msgstr "Ob die Einheit zum Schreiben aussteht"
 
 #: ../../api.rst:2090
 msgid "string age"
