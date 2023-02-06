@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-06 09:46+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2023-02-06 17:44+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -32,18 +32,16 @@ msgstr ""
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
-#, fuzzy
 msgid "Access control"
 msgstr "Zugriffssteuerung"
 
 #: ../../admin/access.rst:6
-#, fuzzy
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
-"Weblate verfügt über ein sehr präzises Berechtigungssystem, um "
-"Benutzerrechte für die ganze Instanz oder nur in begrenztem Umfang "
+"Weblate verfügt über ein fein abgestuftes Berechtigungssystem, um "
+"Benutzerberechtigungen für die ganze Instanz oder in einem begrenztem Umfang "
 "zuzuweisen."
 
 #: ../../admin/access.rst:11
@@ -195,10 +193,13 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
-"Benutzer mit der Berechtigung :guilabel:`Projektzugriff verwalten` (siehe :"
-"ref:`Privilegien`) können Benutzer in Projekten verwalten, indem sie die "
-"Benutzer zu Teams hinzufügen. Sie können Benutzer einer der folgenden "
-"Gruppen zuordnen."
+"Benutzer mit der Berechtigung :guilabel:`Projektzugriff verwalten` (siehe "
+":ref:`privileges`) können Benutzer in Projekten verwalten, indem sie die "
+"Benutzer zu Teams hinzufügen. Die anfängliche Sammlung von Teams wird von "
+"Weblate bereitgestellt, aber es können zusätzliche Teams definiert werden, "
+"die eine feiner abgestufte Zugriffssteuerung ermöglichen. Sie können Teams "
+"auf Sprachen beschränken und ihnen bestimmte Zugriffsrollen zuweisen (siehe "
+":ref:`privileges`)."
 
 #: ../../admin/access.rst:82
 msgid "The following teams are automatically created for every project:"
@@ -18169,7 +18170,7 @@ msgstr "Ratenbegrenzung"
 
 #: ../../admin/optionals.rst:252
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr ""
+msgstr "Die Ratenbegrenzung lässt nun eine feiner abgestufte Konfiguration zu."
 
 #: ../../admin/optionals.rst:256 ../../changes.rst:462
 msgid "The rate limiting no longer applies to superusers."
@@ -21995,29 +21996,31 @@ msgstr ""
 
 #: ../../api.rst:891 ../../api.rst:1496
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "Ob es irgendwelche ausstehenden Änderungen zu committen gibt"
 
 #: ../../api.rst:892 ../../api.rst:1497
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "Ob es irgendwelche Upstream-Änderungen zum Zusammenführen gibt"
 
 #: ../../api.rst:893 ../../api.rst:1498
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "Ob es irgendwelche lokale Änderungen zum Pushen gibt"
 
 #: ../../api.rst:908 ../../api.rst:1971
 msgid "Performs given operation on the VCS repository."
-msgstr ""
+msgstr "Führt eine bestimmte Operation im VCS-Repository durch."
 
 #: ../../api.rst:913
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``"
 msgstr ""
+"Auszuführende Operation: eine von ``push``, ``pull``, ``commit``, ``reset``, "
+"``cleanup``, ``file-sync``"
 
 #: ../../api.rst:914 ../../api.rst:1514 ../../api.rst:1982
 msgid "result of the operation"
-msgstr ""
+msgstr "Ergebnis der Operation"
 
 #: ../../api.rst:938 ../../api.rst:1076 ../../api.rst:1308 ../../api.rst:1471
 #: ../../api.rst:1538 ../../api.rst:1614
@@ -22034,42 +22037,55 @@ msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Array von Komponentenobjekten; siehe :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:968
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
+"Die Parameter ``zipfile`` und ``docfile`` werden jetzt für VCS-freie "
+"Komponenten akzeptiert, siehe :ref:`vcs-local`."
 
 #: ../../api.rst:972
 msgid ""
 "The cloned repositories are now automatically shared within a project using :"
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
+"Die geklonten Repositorys werden nun automatisch innerhalb eines Projekts "
+"mit :ref:`internal-urls` geteilt. Verwenden Sie ``disable_autoshare`` um "
+"dies zu deaktivieren."
 
 #: ../../api.rst:974
 msgid "Creates translation components in the given project."
-msgstr ""
+msgstr "Erstellt Übersetzungskomponenten im angegebenen Projekt."
 
 #: ../../api.rst:978
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
+"Verwenden Sie :ref:`internal-urls`, wenn Sie mehrere Komponenten aus einem "
+"einzigen VCS-Repository erstellen."
 
 #: ../../api.rst:982
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
 msgstr ""
+"Der größte Teil der Komponentenerstellung erfolgt im Hintergrund. Prüfen Sie "
+"das Attribut ``task_url`` der erstellten Komponente und verfolgen Sie dort "
+"den Fortschritt."
 
 #: ../../api.rst:988
 msgid "ZIP file to upload into Weblate for translations initialization"
 msgstr ""
+"ZIP-Datei zum Hochladen in Weblate für die Initialisierung der Übersetzungen"
 
 #: ../../api.rst:989
 msgid "Document to translate"
-msgstr "Dokument zum Übersetzen"
+msgstr "Zu übersetzendes Dokument"
 
 #: ../../api.rst:990
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
@@ -22510,6 +22526,8 @@ msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"Die Antwort ist dieselbe wie bei :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`."
 
 #: ../../api.rst:1447
 msgid "Boolean whether to lock or not."
@@ -22524,6 +22542,8 @@ msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
 msgstr ""
+"Die Antwort ist dieselbe wie bei :http:get:`/api/projects/(string:project)/"
+"repository/`."
 
 #: ../../api.rst:1499
 msgid "Remote commit information"
@@ -22863,6 +22883,8 @@ msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"Die Antwort ist dieselbe wie bei :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:1986
 msgid "Returns detailed translation statistics."
@@ -38181,7 +38203,7 @@ msgstr ""
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
-msgstr ""
+msgstr "Weblates Python API"
 
 #: ../../python.rst:13
 msgid ""
@@ -38235,7 +38257,7 @@ msgstr ""
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
-msgstr ""
+msgstr ":mod:`wlc.config`"
 
 #: ../../python.rst:71
 msgid ":class:`WeblateConfig`"
@@ -38262,7 +38284,7 @@ msgstr ""
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
-msgstr ""
+msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
@@ -42987,10 +43009,17 @@ msgid ""
 "This way linked components use the VCS repository configuration of the "
 "main(referenced) component."
 msgstr ""
+"Teilen Sie ein Repository-Setup zwischen verschiedenen Komponenten, indem "
+"Sie auf seine Platzierung als ``weblate://project/component`` in anderen "
+"(verknüpften) Komponenten verweisen. Auf diese Weise verwenden verknüpfte "
+"Komponenten die VCS-Repository-Konfiguration der Haupt(referenzierten) "
+"Komponente."
 
 #: ../../vcs.rst:139
 msgid "Removing main component also removes linked components."
 msgstr ""
+"Beim Entfernen der Hauptkomponente werden auch die verknüpften Komponenten "
+"entfernt."
 
 #: ../../vcs.rst:141
 msgid ""
@@ -43396,7 +43425,7 @@ msgstr ""
 
 #: ../../vcs.rst:466
 msgid "Local files"
-msgstr ""
+msgstr "Lokale Dateien"
 
 #: ../../vcs.rst:473
 msgid ""
@@ -43425,7 +43454,7 @@ msgstr ""
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Weblate-Client"
 
 #: ../../wlc.rst:14
 msgid ""
@@ -43480,7 +43509,7 @@ msgstr ""
 
 #: ../../wlc.rst:68
 msgid "Getting started"
-msgstr ""
+msgstr "Erste Schritte"
 
 #: ../../wlc.rst:70
 msgid ""
@@ -43498,7 +43527,7 @@ msgstr ""
 
 #: ../../wlc.rst:94
 msgid "Synopsis"
-msgstr ""
+msgstr "Kurzfassung"
 
 #: ../../wlc.rst:100
 msgid "Commands actually indicate which operation should be performed."
