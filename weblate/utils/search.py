@@ -50,6 +50,7 @@ class Comparer:
 PLAIN_FIELDS = ("source", "target", "context", "note", "location")
 NONTEXT_FIELDS = {
     "priority": "priority",
+    "id": "id",
     "state": "state",
     "pending": "pending",
     "changed": "change__timestamp",
@@ -296,6 +297,9 @@ class TermExpr:
         return int(text)
 
     def convert_priority(self, text):
+        return self.convert_int(text)
+
+    def convert_id(self, text):
         return self.convert_int(text)
 
     def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):

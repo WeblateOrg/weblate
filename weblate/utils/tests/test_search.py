@@ -328,6 +328,9 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))
 
+    def test_id(self):
+        self.assert_query("id:100", Q(id=100))
+
     def test_text_html(self):
         self.assert_query("target:<name>", Q(target__substring="<name>"))
 

@@ -37,6 +37,8 @@ Fields
    Location string case-insensitive search.
 ``priority:NUMBER``
    String priority.
+``id:NUMBER``
+   String unique identifier.
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
