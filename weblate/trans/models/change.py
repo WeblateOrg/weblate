@@ -592,6 +592,9 @@ class Change(models.Model, UserDisplayMixin):
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
+        if self.action == self.ACTION_NEW_SOURCE:
+            return self.get_source()
+
         return str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def get_state_display(self):
