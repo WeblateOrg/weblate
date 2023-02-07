@@ -30,8 +30,9 @@ else
     # Install cython and pycairo first, these are needed during install of others
     pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements.txt)
 
-    pip install --upgrade-strategy eager -U -r requirements-test.txt
+    pip install -r requirements-test.txt
     if [ ${1:-latest} = edge ] ; then
+        pip install --upgrade-strategy eager -U -r requirements-test.txt -r requirements-ci.txt
         # Install from git / pre-release
         pip install --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
         pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip
