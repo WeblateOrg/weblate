@@ -17,7 +17,7 @@ if [ ${1:-latest} = migrations ] ; then
     pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements.txt)
     pip install $(grep -E '^(psycopg2|mysqlclient)' requirements-optional.txt)
     pip install $(grep -E '^coverage[>=<]' requirements-test.txt)
-    pip install --upgrade-strategy eager -U -r requirements.txt
+    pip install -r requirements.txt
 elif [ ${1:-latest} = minimal ] ; then
     # Build list of minimal requirements
     requirements-builder --req requirements-test.txt --level min > requirements-min.txt
