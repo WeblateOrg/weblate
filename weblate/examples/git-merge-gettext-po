@@ -48,6 +48,20 @@ FILENAME="$4"
 OUTPUT="$LOCAL"
 
 ##########################################################################
+# First try standard git three way merge. In some cases it works fine and
+# smarter merging fails.
+
+TEMP_FILE="$(mktemp /tmp/merge-po.XXXXXX)"
+git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE"
+if [ $? -eq 0 ] ;  then
+    cat "$TEMP_FILE" >  "$OTHER"
+    rm "$TEMP_FILE"
+    exit 0
+fi
+rm "$TEMP_FILE"
+
+
+##########################################################################
 # Fallback when gettext tools are not installed:
 
 if ! type msgmerge >/dev/null 2>&1 ; then

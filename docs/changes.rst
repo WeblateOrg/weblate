@@ -9,6 +9,7 @@ Not yet released.
 * Added support for IBM Watson Language Translator.
 * Dropped support for VCS integration settings deprecated in 4.14.
 * Added support for Bitbucket Server pull requests.
+* Improved conflicts handling in gettext PO files.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
 
