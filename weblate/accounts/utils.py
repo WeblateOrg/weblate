@@ -52,6 +52,10 @@ def remove_user(user, request):
     # Remove user translation memory
     user.memory_set.all().delete()
 
+    # Clear subscriptions
+    user.subscription_set.all().delete()
+    user.profile.watched.clear()
+
     # Cleanup profile
     try:
         profile = user.profile
