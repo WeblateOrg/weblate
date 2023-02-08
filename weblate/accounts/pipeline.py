@@ -28,7 +28,12 @@ from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.requests import request
-from weblate.utils.validators import USERNAME_MATCHER, EmailValidator, clean_fullname
+from weblate.utils.validators import (
+    CRUD_RE,
+    USERNAME_MATCHER,
+    EmailValidator,
+    clean_fullname,
+)
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
@@ -442,6 +447,9 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
                 full_name = first_name
             else:
                 full_name = last_name
+
+        if CRUD_RE.match(full_name):
+            full_name = ""
 
         if not full_name and username:
             full_name = username
