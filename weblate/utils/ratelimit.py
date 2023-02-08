@@ -57,15 +57,8 @@ def revert_rate_limit(scope, request):
         pass
 
 
-def check_rate_limit(scope, request):
-    """Check authentication rate limit."""
-    if request.user.is_superuser:
-        return True
-
-    key = get_cache_key(scope, request)
-    window = get_rate_setting(scope, "WINDOW")
-    attempts = get_rate_setting(scope, "ATTEMPTS")
-
+def rate_limit(key: str, attempts: int, window: int) -> bool:
+    """Generic rate limit helper."""
     # Initialize the bucket (atomically on redis)
     if not IS_USING_REDIS:
         if cache.get(key) is None:
@@ -79,7 +72,19 @@ def check_rate_limit(scope, request):
     # Get remaining bucket
     current = cache.get(key)
 
-    if current < 0:
+    return current < 0
+
+
+def check_rate_limit(scope, request):
+    """Check authentication rate limit."""
+    if request.user.is_superuser:
+        return True
+
+    key = get_cache_key(scope, request)
+    window = get_rate_setting(scope, "WINDOW")
+    attempts = get_rate_setting(scope, "ATTEMPTS")
+
+    if rate_limit(key, attempts, window):
         # Set key to longer expiry for lockout period
         cache.touch(key, get_rate_setting(scope, "LOCKOUT"))
         LOGGER.info(
