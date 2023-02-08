@@ -24,6 +24,7 @@ def cleanup_deleted_users(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("accounts", "0022_alter_profile_linkedin"),
+        ("authtoken", "0002_auto_20160226_1747"),
     ]
 
     operations = [
