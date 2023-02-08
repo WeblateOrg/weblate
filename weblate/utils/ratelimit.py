@@ -66,11 +66,14 @@ def rate_limit(key: str, attempts: int, window: int) -> bool:
     else:
         cache.set(key, attempts, window, nx=True)
 
-    # Count current event
-    cache.decr(key)
-
-    # Get remaining bucket
-    current = cache.get(key)
+    try:
+        # Count current event
+        cache.decr(key)
+    except ValueError:
+        current = 0
+    else:
+        # Get remaining bucket
+        current = cache.get(key, 0)
 
     return current < 0
 
