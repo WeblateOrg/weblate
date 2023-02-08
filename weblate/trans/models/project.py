@@ -44,6 +44,10 @@ def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
         queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
+        # Fallback value for locking and alerts
+        for project in projects:
+            project.__dict__["locked"] = True
+            project.__dict__["has_alerts"] = False
         # Indicate alerts
         for alert in queryset.filter(component__alert__dismissed=False).annotate(
             Count("component__alert")
@@ -51,9 +55,6 @@ def prefetch_project_flags(projects):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
-        # Fallback value for locking
-        for project in projects:
-            project.__dict__["locked"] = True
         # Filter unlocked projects
         for locks in (
             queryset.filter(component__locked=False)
