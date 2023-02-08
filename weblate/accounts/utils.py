@@ -59,6 +59,9 @@ def remove_user(user, request):
     # Cleanup profile
     try:
         profile = user.profile
+    except ObjectDoesNotExist:
+        pass
+    else:
         profile.website = ""
         profile.liberapay = ""
         profile.fediverse = ""
@@ -70,8 +73,6 @@ def remove_user(user, request):
         profile.company = ""
         profile.public_email = ""
         profile.save()
-    except ObjectDoesNotExist:
-        pass
 
     # Delete API tokens
     Token.objects.filter(user=user).delete()
