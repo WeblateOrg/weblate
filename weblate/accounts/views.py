@@ -584,6 +584,9 @@ class UserPage(UpdateView):
         self.object = form.save(self.request)
         return HttpResponseRedirect(self.get_success_url())
 
+    def get_queryset(self):
+        return super().get_queryset().select_related("profile")
+
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
