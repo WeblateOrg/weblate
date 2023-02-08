@@ -18,18 +18,13 @@ from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
-from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
-
-
-def translation_prefetch_tasks(translations):
-    prefetch_tasks([translation.component for translation in translations])
-    return translations
 
 
 def get_untranslated(base, limit=None):

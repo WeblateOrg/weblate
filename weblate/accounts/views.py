@@ -100,6 +100,7 @@ from weblate.auth.models import User
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
+from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, report_error
@@ -615,7 +616,9 @@ class UserPage(UpdateView):
         context["page_profile"] = user.profile
         context["last_changes"] = last_changes.preload()
         context["last_changes_url"] = urlencode({"user": user.username})
-        context["page_user_translations"] = prefetch_stats(user_translations)
+        context["page_user_translations"] = translation_prefetch_tasks(
+            prefetch_stats(user_translations)
+        )
         context["page_owned_projects"] = prefetch_project_flags(
             prefetch_stats((user.owned_projects & allowed_projects.distinct()).order())
         )

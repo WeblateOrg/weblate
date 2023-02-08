@@ -190,6 +190,11 @@ def prefetch_tasks(components):
     return components
 
 
+def translation_prefetch_tasks(translations):
+    prefetch_tasks([translation.component for translation in translations])
+    return translations
+
+
 class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
