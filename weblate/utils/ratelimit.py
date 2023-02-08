@@ -16,7 +16,7 @@ from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
 
-def get_cache_key(scope, request=None, address=None, user=None):
+def get_cache_key(scope: str, request=None, address=None, user=None):
     """Generate cache key for request."""
     if (request and request.user.is_authenticated) or user:
         if user is None:
@@ -36,7 +36,7 @@ def reset_rate_limit(scope, request=None, address=None, user=None):
     cache.delete(get_cache_key(scope, request, address, user))
 
 
-def get_rate_setting(scope, suffix):
+def get_rate_setting(scope: str, suffix: str):
     key = f"RATELIMIT_{scope.upper()}_{suffix}"
     if hasattr(settings, key):
         return getattr(settings, key)
@@ -75,7 +75,7 @@ def rate_limit(key: str, attempts: int, window: int) -> bool:
     return current < 0
 
 
-def check_rate_limit(scope, request):
+def check_rate_limit(scope: str, request) -> bool:
     """Check authentication rate limit."""
     if request.user.is_superuser:
         return True
@@ -98,7 +98,7 @@ def check_rate_limit(scope, request):
     return True
 
 
-def session_ratelimit_post(scope):
+def session_ratelimit_post(scope: str):
     def session_ratelimit_post_inner(function):
         """Session based rate limiting for POST requests."""
 
