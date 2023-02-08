@@ -24,7 +24,7 @@ from django.core.signing import (
     loads,
 )
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http.response import HttpResponseServerError
 from django.middleware.csrf import rotate_token
@@ -621,9 +621,11 @@ class UserPage(UpdateView):
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
-        context["page_user_groups"] = user.groups.prefetch_related(
-            "defining_project"
-        ).order()
+        context["page_user_groups"] = (
+            user.groups.annotate(Count("user"))
+            .prefetch_related("defining_project")
+            .order()
+        )
         return context
 
 

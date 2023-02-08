@@ -257,7 +257,7 @@
               <td><em>{% trans "None" context "None project associated with group" %}</em></td>
             {% endif %}
             <th>{{ group.name }}</th>
-            <td class="number">{{ group.user_set.count }}</td>
+            <td class="number">{{ group.user__count }}</td>
             <td>
               <a href="" class="btn btn-link btn-xs red link-post" data-href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
                 {% icon 'delete.svg' %}
