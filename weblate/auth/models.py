@@ -48,7 +48,7 @@ from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
-from weblate.utils.validators import validate_fullname, validate_username
+from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 
 class Permission(models.Model):
@@ -675,7 +675,9 @@ class User(AbstractBaseUser):
 
     def get_visible_name(self) -> str:
         """Get full name from database or username."""
-        return self.full_name or self.username
+        if not self.full_name or CRUD_RE.match(self.full_name):
+            return self.username
+        return self.full_name
 
     def get_author_name(self, address: Optional[str] = None) -> str:
         """Return formatted author name with e-mail."""
