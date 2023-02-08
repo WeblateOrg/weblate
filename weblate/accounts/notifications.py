@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.utils.translation import get_language, get_language_bidi
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
+from siphashc import siphash
 
 from weblate.accounts.tasks import send_mails
 from weblate.auth.models import User
@@ -24,6 +25,7 @@ from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Translation
 from weblate.utils.markdown import get_mention_users
+from weblate.utils.ratelimit import rate_limit
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
@@ -211,9 +213,22 @@ class Notification:
             yield last_user
 
     def send(self, address, subject, body, headers):
-        self.outgoing.append(
-            {"address": address, "subject": subject, "body": body, "headers": headers}
-        )
+        encoded_email = siphash("Weblate notifier", address)
+        if rate_limit(f"notify:rate:{encoded_email}", 1000, 86400):
+            LOGGER.info(
+                "discarding notification %s to %s after sending too many",
+                self.get_name(),
+                address,
+            )
+        else:
+            self.outgoing.append(
+                {
+                    "address": address,
+                    "subject": subject,
+                    "body": body,
+                    "headers": headers,
+                }
+            )
 
     def render_template(self, suffix, context, digest=False):
         """Render single mail template with given context."""

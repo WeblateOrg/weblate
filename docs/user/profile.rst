@@ -170,6 +170,11 @@ default value depends on :setting:`DEFAULT_AUTO_WATCH`.
 
     You will not receive notifications for your own actions.
 
+.. hint::
+
+    Sending out notifications is limited, you will not receive more than 1000
+    e-mails per day. Any further notifications for you will be discarded.
+
 .. image:: /screenshots/profile-subscriptions.png
 
 Account
