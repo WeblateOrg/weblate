@@ -52,8 +52,7 @@ OUTPUT="$LOCAL"
 # smarter merging fails.
 
 TEMP_FILE="$(mktemp /tmp/merge-po.XXXXXX)"
-git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE"
-if [ $? -eq 0 ] ;  then
+if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE" ; then
     cat "$TEMP_FILE" >  "$OTHER"
     rm "$TEMP_FILE"
     exit 0
@@ -74,7 +73,7 @@ if ! type msgmerge >/dev/null 2>&1 ; then
     REGX='^"POT-Creation-Date:.*'
 
     # Grab date from other branch
-    REPL=`grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/'`
+    REPL=$(grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/')
 
     # Push it into other files
     sed -i -e "s/$REGX/$REPL/" "$LOCAL"
@@ -180,8 +179,8 @@ function show_conflicts()
     filename="$1"
     shift
     # Count number of lines to remove from the output and output conflict lines without the header
-    CONFLICT_HEADER_LINES=$(cat "$OUTPUT" | msggrep --force-po --msgstr -F -e '#-#-#-#-#' - | extract_header - | wc -l)
-    CONFLICTS=$(cat "$OUTPUT" | msggrep --force-po --color --msgstr -F -e '#-#-#-#-#' - | tail -n "-$CONFLICT_HEADER_LINES")
+    CONFLICT_HEADER_LINES=$(msggrep --force-po --msgstr -F -e '#-#-#-#-#' "$filename" | extract_header - | wc -l)
+    CONFLICTS=$(msggrep --force-po --color --msgstr -F -e '#-#-#-#-#' "$filename" | tail -n "-$CONFLICT_HEADER_LINES")
     if test -n "$CONFLICTS"
     then
         #echo "----------------------------"
@@ -244,6 +243,7 @@ msgcat --force-po -o - "${TEMP}/local" "${TEMP}/other" | apply_po_template -o "$
 
 # Final merge result is merge2 with original header
 status "Fixing the header after merge ..."
+# shellcheck disable=SC2086
 msgcat --force-po $MSGCAT_FINAL_FLAGS -o "${TEMP}/merge3" --use-first "${TEMP}/header" "${TEMP}/merge2"
 
 # Produce output file (overwrites input LOCAL file because git expects that for the results)

@@ -62,7 +62,7 @@ sources.
 
    .. code-block:: sh
 
-      . scripts/test-database
+      . scripts/test-database.sh
       ./manage.py test
 
 .. seealso::
