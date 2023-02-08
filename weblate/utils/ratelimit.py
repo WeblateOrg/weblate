@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 
 from weblate.logger import LOGGER
 from weblate.utils import messages
+from weblate.utils.cache import IS_USING_REDIS
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
@@ -51,7 +52,7 @@ def revert_rate_limit(scope, request):
 
     try:
         # Try to decrease cache key
-        cache.decr(key)
+        cache.incr(key)
     except ValueError:
         pass
 
@@ -62,18 +63,25 @@ def check_rate_limit(scope, request):
         return True
 
     key = get_cache_key(scope, request)
+    window = get_rate_setting(scope, "WINDOW")
+    attempts = get_rate_setting(scope, "ATTEMPTS")
 
-    try:
-        # Try to increase cache key
-        attempts = cache.incr(key)
-    except ValueError:
-        # No such key, so set it
-        cache.set(key, 1, get_rate_setting(scope, "WINDOW"))
-        attempts = 1
+    # Initialize the bucket (atomically on redis)
+    if not IS_USING_REDIS:
+        if cache.get(key) is None:
+            cache.set(key, attempts, window)
+    else:
+        cache.set(key, attempts, window, nx=True)
 
-    if attempts > get_rate_setting(scope, "ATTEMPTS"):
+    # Count current event
+    cache.decr(key)
+
+    # Get remaining bucket
+    current = cache.get(key)
+
+    if current < 0:
         # Set key to longer expiry for lockout period
-        cache.set(key, attempts, get_rate_setting(scope, "LOCKOUT"))
+        cache.touch(key, get_rate_setting(scope, "LOCKOUT"))
         LOGGER.info(
             "rate-limit lockout for %s in %s scope from %s",
             key,

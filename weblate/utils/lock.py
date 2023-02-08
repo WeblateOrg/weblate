@@ -5,10 +5,11 @@
 import os
 from typing import Optional
 
-from django.core.cache import caches
-from django_redis.cache import RedisCache
+from django.core.cache import cache
 from filelock import FileLock, Timeout
 from redis_lock import AlreadyAcquired, Lock, NotAcquired
+
+from weblate.utils.cache import IS_USING_REDIS
 
 
 class WeblateLockTimeout(Exception):
@@ -34,12 +35,11 @@ class WeblateLock:
         self._key = key
         self._slug = slug
         self._depth = 0
-        default_cache = caches["default"]
-        self.use_redis = isinstance(default_cache, RedisCache)
+        self.use_redis = IS_USING_REDIS
         if self.use_redis:
             # Prefer Redis locking as it works distributed
             self._lock = Lock(
-                default_cache.client.get_client(),
+                cache.client.get_client(),
                 name=self._format_template(cache_template),
                 expire=60,
                 auto_renewal=True,
