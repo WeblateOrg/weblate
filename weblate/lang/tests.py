@@ -471,7 +471,7 @@ class PluralTest(BaseTestCase):
         plural = Plural.objects.get(language__code="cs")
         self.assertEqual(plural.get_plural_name(0), "One")
         self.assertEqual(plural.get_plural_name(1), "Few")
-        self.assertEqual(plural.get_plural_name(2), "Other")
+        self.assertEqual(plural.get_plural_name(2), "Many")
 
     def test_plural_names_invalid(self):
         plural = Plural.objects.get(language__code="cs")
@@ -489,7 +489,7 @@ class PluralTest(BaseTestCase):
         self.assertIn("Few", label)
         self.assertIn("2, 3, 4", label)
         label = plural.get_plural_label(2)
-        self.assertIn("Other", label)
+        self.assertIn("Many", label)
         self.assertIn("5, 6, 7", label)
 
     def test_plural_type(self):
@@ -503,7 +503,7 @@ class PluralTest(BaseTestCase):
             ),
             source=Plural.SOURCE_GETTEXT,
         )
-        self.assertEqual(plural.type, data.PLURAL_ONE_FEW_OTHER)
+        self.assertEqual(plural.type, data.PLURAL_ONE_FEW_MANY)
 
     def test_definitions(self):
         """Verify consistency of plural definitions."""
