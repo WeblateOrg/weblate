@@ -410,18 +410,20 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
         self.assertEqual(
             machine_translation.cleanup_text(unit.source, unit),
-            ("Hello, [X7X]!", {"[X7X]": "%s"})
+            ("Hello, [X7X]!", {"[X7X]": "%s"}),
         )
         self.assertEqual(
             machine_translation.translate(unit),
-            [[
-                {
-                    "quality": 100,
-                    "service": "Dummy",
-                    "source": "Hello, %s!",
-                    "text": "Nazdar %s!",
-                }
-            ]],
+            [
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": "Hello, %s!",
+                        "text": "Nazdar %s!",
+                    }
+                ]
+            ],
         )
 
 
@@ -1262,11 +1264,16 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             self.assertIsInstance(translation, list)
             self.assertEqual(
                 translation,
-                [[{
-                    "text": "Ahoj",
-                    "quality": 88,
-                    "service": "AWS", "source": "Hello",
-                }]],
+                [
+                    [
+                        {
+                            "text": "Ahoj",
+                            "quality": 88,
+                            "service": "AWS",
+                            "source": "Hello",
+                        }
+                    ]
+                ],
             )
 
     def test_batch(self, machine=None):

@@ -439,7 +439,7 @@ class BaseFormatCheck(TargetCheck):
                 return ""
         else:
             return ""
-        return text[:match.start()] + str(number) + text[match.end():]
+        return text[: match.start()] + str(number) + text[match.end() :]
 
 
 class BasePrintfCheck(BaseFormatCheck):
