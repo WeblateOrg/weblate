@@ -3145,6 +3145,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         """Load translate-toolkit store for intermediate."""
         return self.file_format_cls.parse(
             self.get_intermediate_filename(),
+            language_code=self.source_language.code,
             source_language=self.source_language.code,
         )
 
@@ -3164,6 +3165,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         """Load translate-toolkit store for template."""
         return self.file_format_cls.parse(
             fileobj or self.get_template_filename(),
+            language_code=self.source_language.code,
             source_language=self.source_language.code,
             is_template=True,
         )
