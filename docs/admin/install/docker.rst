@@ -278,7 +278,13 @@ of upgrading.
 
       cat backup.sql | docker-compose exec -T database psql --username weblate --dbname postgres
 
-8. Start all remaining containers:
+8. (Optional) Update password for the Weblate user. This might be needed when migrating to PostgreSQL 14 or 15 as way of storing passwords has been changed:
+
+   .. code-block:: shell
+
+      docker-compose exec -T database psql --username weblate --dbname postgres -c "ALTER USER weblate WITH PASSWORD 'weblate'"
+
+9. Start all remaining containers:
 
    .. code-block:: shell
 
