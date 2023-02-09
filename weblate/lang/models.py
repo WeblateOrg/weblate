@@ -480,6 +480,25 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     )
                     logger(f"Created plural {plural_formula} for language {code}")
 
+        self._fixup_plural_types(logger)
+
+    def _fixup_plural_types(self, logger):
+        """Fixes plural types as they were changed in Weblate codebase."""
+        if not Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
+            for plural in Plural.objects.filter(
+                type=data.PLURAL_ONE_FEW_OTHER
+            ).select_related("language"):
+                language = plural.language
+                newtype = get_plural_type(language.base_code, plural.formula)
+                if newtype == data.PLURAL_UNKNOWN:
+                    raise ValueError(f"Invalid plural type of {plural.formula}")
+                if newtype != plural.type:
+                    plural.type = newtype
+                    plural.save(update_fields=["type"])
+                    logger(
+                        f"Updated type of {plural.formula} for language {language.code}"
+                    )
+
 
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
@@ -593,11 +612,11 @@ class Plural(models.Model):
         ),
         (
             data.PLURAL_ONE_OTHER,
-            pgettext_lazy("Plural type", "One/other (classic plural)"),
+            pgettext_lazy("Plural type", "One/other"),
         ),
         (
             data.PLURAL_ONE_FEW_OTHER,
-            pgettext_lazy("Plural type", "One/few/other (Slavic languages)"),
+            pgettext_lazy("Plural type", "One/few/other"),
         ),
         (
             data.PLURAL_ARABIC,
@@ -674,6 +693,10 @@ class Plural(models.Model):
         (
             data.PLURAL_ZERO_ONE_MANY_OTHER,
             pgettext_lazy("Plural type", "Zero/one/many/other"),
+        ),
+        (
+            data.PLURAL_ONE_FEW_MANY,
+            pgettext_lazy("Plural type", "One/few/many"),
         ),
         (
             data.PLURAL_UNKNOWN,
