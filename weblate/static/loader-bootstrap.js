@@ -989,7 +989,7 @@ $(function () {
   $("#position-input").on("click", function () {
     $("#position-input").hide();
     $("#position-input-editable").show();
-    $("#position-input-editable input").focus();
+    $("#position-input-editable input").attr("type", "number").focus();
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
   });
@@ -999,6 +999,7 @@ $(function () {
       event.target != $("#position-input")[0]
     ) {
       $("#position-input").show();
+      $("#position-input-editable input").attr("type", "hidden");
       $("#position-input-editable").hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
@@ -1007,6 +1008,7 @@ $(function () {
   var pressedEscape = function (event) {
     if (event.key == "Escape" && event.target != $("#position-input")[0]) {
       $("#position-input").show();
+      $("#position-input-editable input").attr("type", "hidden");
       $("#position-input-editable").hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
