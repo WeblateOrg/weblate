@@ -862,7 +862,6 @@ class Plural(models.Model):
 
 
 class PluralMapper:
-
     instances = WeakValueDictionary()
 
     def __new__(cls, source_plural, target_plural):
@@ -880,7 +879,8 @@ class PluralMapper:
     @cached_property
     def _target_map(self):
         source_map = {
-            examples[0]: i for i, examples in self.source_plural.examples.items()
+            examples[0]: i
+            for i, examples in self.source_plural.examples.items()
             if len(examples) == 1
         }
         target_plural = self.target_plural
@@ -908,13 +908,18 @@ class PluralMapper:
             strings_to_translate = [source_strings[-1]]
         else:
             strings_to_translate = []
-            format_check = next((
-                check for check in CHECKS.values() if (
-                    isinstance(check, BaseFormatCheck)
-                    and check.enable_string in unit.all_flags
-                    and check.plural_parameter_regexp
-                )
-            ), None)
+            format_check = next(
+                (
+                    check
+                    for check in CHECKS.values()
+                    if (
+                        isinstance(check, BaseFormatCheck)
+                        and check.enable_string in unit.all_flags
+                        and check.plural_parameter_regexp
+                    )
+                ),
+                None,
+            )
             for source_index, number_to_interpolate in self._target_map:
                 s = "" if source_index is None else source_strings[source_index]
                 if s and number_to_interpolate is not None and format_check:

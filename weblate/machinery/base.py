@@ -354,8 +354,7 @@ class MachineTranslation:
         return cache_key, None
 
     def search(self, unit, text, user):
-        """Search for known translations of `text`.
-        """
+        """Search for known translations of `text`."""
         translation = unit.translation
         try:
             source, language = self.get_languages(
@@ -397,9 +396,7 @@ class MachineTranslation:
             for text in plural_mapper.map(unit)
         ]
 
-    def _translate(
-        self, source, language, text, unit, user=None, threshold: int = 75
-    ):
+    def _translate(self, source, language, text, unit, user=None, threshold: int = 75):
         text, replacements = self.cleanup_text(text, unit)
 
         if not text or self.is_rate_limited():
@@ -413,14 +410,16 @@ class MachineTranslation:
 
         try:
             result = [
-                item for item in self.download_translations(
+                item
+                for item in self.download_translations(
                     source,
                     language,
                     text,
                     unit,
                     user,
                     threshold=threshold,
-                ) if item["quality"] >= threshold
+                )
+                if item["quality"] >= threshold
             ]
             if replacements or self.force_uncleanup:
                 self.uncleanup_results(replacements, result)
