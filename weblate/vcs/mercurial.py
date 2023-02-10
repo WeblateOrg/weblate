@@ -354,7 +354,7 @@ class HgRepository(Repository):
         self.clean_revision_cache()
 
     def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
-        """Parses output with chanaged files."""
+        """Parses output with changed files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 

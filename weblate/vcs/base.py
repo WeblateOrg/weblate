@@ -503,7 +503,7 @@ class Repository:
         return list(self.parse_changed_files(lines))
 
     def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
-        """Parses output with chanaged files."""
+        """Parses output with changed files."""
         raise NotImplementedError()
 
     def list_upstream_changed_files(self):
