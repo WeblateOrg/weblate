@@ -501,7 +501,7 @@ class GitRepository(Repository):
         self.execute(["fetch", "--unshallow"])
 
     def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
-        """Parses output with chanaged files."""
+        """Parses output with changed files."""
         # Strip action prefix we do not use
         for line in lines:
             yield from line.split("\t")[1:]
