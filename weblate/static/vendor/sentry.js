@@ -2229,7 +2229,7 @@ function createFrame(filename, func, lineno, colno) {
 
 // Chromium based browsers: Chrome, Brave, new Opera, new Edge
 const chromeRegex =
-  /^\s*at (?:(.*\).*?|.*?) ?\((?:address at )?)?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/)?.*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+  /^\s*at (?:(.*\).*?|.*?) ?\((?:address at )?)?(?:async )?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/)?.*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
 const chromeEvalRegex = /\((\S*)(?::(\d+))(?::(\d+))\)/;
 
 const chrome = line => {
@@ -5981,7 +5981,7 @@ exports.prepareEvent = prepareEvent;
 },{"../scope.js":28,"@sentry/utils":44}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.37.0';
+const SDK_VERSION = '7.37.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -9944,7 +9944,8 @@ function createPerformanceSpans(
 }
 
 /**
- * Check whether a given request URL should be filtered out.
+ * Check whether a given request URL should be filtered out. This is so we
+ * don't log Sentry ingest requests.
  */
 function shouldFilterRequest(replay, url) {
   // If we enabled the `traceInternals` experiment, we want to trace everything
@@ -9952,7 +9953,7 @@ function shouldFilterRequest(replay, url) {
     return false;
   }
 
-  return !_isSentryRequest(url);
+  return _isSentryRequest(url);
 }
 
 /**
