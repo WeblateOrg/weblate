@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-02-11 14:03+0000\n"
+"PO-Revision-Date: 2023-02-11 16:08+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -90,7 +90,7 @@ msgstr "전자우편 주소를 공개하지 않음"
 #: weblate/accounts/forms.py:309
 #, python-format
 msgid "Component list: %s"
-msgstr "컴포넌트 목록: %s"
+msgstr "구성요소 목록: %s"
 
 #: weblate/accounts/forms.py:335 weblate/accounts/forms.py:402
 #: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:322
@@ -186,7 +186,7 @@ msgstr "이 계정은 비활성화된 계정입니다."
 
 #: weblate/accounts/forms.py:689
 msgid "Component wide notifications"
-msgstr "컴포넌트 전체 알림"
+msgstr "구성요소 전체 알림"
 
 #: weblate/accounts/forms.py:694
 msgid "Translation notifications"
@@ -216,18 +216,20 @@ msgstr "프로젝트: {}"
 
 #: weblate/accounts/forms.py:746
 msgid "Component: {}"
-msgstr "컴포넌트: {}"
+msgstr "구성요소: {}"
 
 #: weblate/accounts/forms.py:752
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "참여하지 않은 프로젝트의 모든 사건에 대한 알림을 받습니다."
+msgstr "참여하지 않는 프로젝트에서 앞에 이미 언급한 이벤트가 발생할 때마다 알림을 "
+"받게 됩니다."
 
 #: weblate/accounts/forms.py:757
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr "참여하고있는 프로젝트의 모든 사건에 대한 알림을 받습니다."
+msgstr "참여중인 프로젝트에서 앞에 이미 언급한 이벤트가 발생할 때마다 알림을 받게 "
+"됩니다."
 
 #: weblate/accounts/forms.py:762
 msgid ""
@@ -249,16 +251,15 @@ msgstr "%(component)s 의 모든 해당 이벤트에 대한 알림을 받게 됩
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
-msgstr ""
-"참여하지 않은 프로젝트의 번역된 언어에 대해서만 이러한 알림을 받습니다."
+msgstr "참여하지 않는 프로젝트의 번역된 언어에 대해서만 앞에 이미 언급한 알림을 받게 "
+"됩니다."
 
 #: weblate/accounts/forms.py:782
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
-msgstr ""
-"당신은 당신의 참여중인 프로젝트에서 번역된 언어에 대해서만 이러한 알림을 받"
-"게 됩니다."
+msgstr "참여중인 프로젝트에서 번역된 언어에 대해서만 앞에 이미 언급한 알림을 받게 "
+"됩니다."
 
 #: weblate/accounts/forms.py:787
 msgid ""
@@ -302,7 +303,7 @@ msgstr "게시된 제안사항"
 
 #: weblate/accounts/forms.py:841
 msgid "Comments made"
-msgstr "의견이 생성됨"
+msgstr "주석 붙여짐"
 
 #: weblate/accounts/forms.py:842
 msgid "Screenshots uploaded"
@@ -350,7 +351,7 @@ msgstr "암호 재설정이 확인되면, 암호는 꺼집니다."
 #: weblate/accounts/models.py:142
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "{method} ({name}) 이용한 로그인 설정했습니다."
+msgstr "{method} ({name}) 이용한 로그인을 구성했습니다."
 
 #: weblate/accounts/models.py:143
 #, python-brace-format
@@ -422,7 +423,7 @@ msgstr "{project} 프로젝트의 접근이 차단되었습니다"
 
 #: weblate/accounts/models.py:164
 msgid "Configured password to sign in."
-msgstr "비밀번호를 설정했습니다."
+msgstr "로그인을 위한 비밀번호를 구성했습니다."
 
 #: weblate/accounts/models.py:165
 msgid "Signed in using password."
@@ -479,7 +480,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:392
 msgid "Hide completed translations on the dashboard"
-msgstr "완료된 번역문을 참여 프로젝트에서 숨기기"
+msgstr "참여 프로젝트에서 완료된 번역 숨기기"
 
 #: weblate/accounts/models.py:395
 msgid "Show secondary translations in the Zen mode"
@@ -550,25 +551,25 @@ msgstr "편집기의 각 방향으로 표시할 주변 문자열의 수입니다
 
 #: weblate/accounts/models.py:449
 msgid "Automatically watch projects on contribution"
-msgstr "기여한 프로젝트에 자동으로 참여"
+msgstr "기여한 프로젝트에 자동으로 참여하기"
 
 #: weblate/accounts/models.py:452
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr "프로젝트에서 문자열을 번역할 때마다 참여가 이루어집니다."
+msgstr "프로젝트에서 문자열을 번역할 때마다 해당 문자열을 보기 시작합니다."
 
 #: weblate/accounts/models.py:462 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
-msgstr "참여 중인 번역"
+msgstr "참여중인 번역"
 
 #: weblate/accounts/models.py:463 weblate/auth/models.py:127
 #: weblate/templates/dashboard/user.html:21
 msgid "Component lists"
-msgstr "컴포넌트 목록들"
+msgstr "구성요소 목록들"
 
 #: weblate/accounts/models.py:464 weblate/templates/dashboard/user.html:59
 msgid "Component list"
-msgstr "컴포넌트 목록"
+msgstr "구성요소 목록"
 
 #: weblate/accounts/models.py:465 weblate/templates/dashboard/user.html:23
 msgid "Suggested translations"
@@ -576,11 +577,11 @@ msgstr "제안된 번역"
 
 #: weblate/accounts/models.py:477
 msgid "Default dashboard view"
-msgstr "기본 대시보드 보기"
+msgstr "기본 참여 프로젝트 보기"
 
 #: weblate/accounts/models.py:483
 msgid "Default component list"
-msgstr "기본 컴포넌트 목록"
+msgstr "기본 구성요소 목록"
 
 #: weblate/accounts/models.py:493
 #: weblate/templates/snippets/watch-dropdown.html:28
@@ -588,7 +589,7 @@ msgstr "기본 컴포넌트 목록"
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr "참여중인 프로젝트에 대한 알림을 받을 수 있으며, 기본적으로 대시보드에 "
+msgstr "참여중인 프로젝트에 대한 알림을 받을 수 있으며, 기본적으로 참여 프로젝트에 "
 "표시됩니다."
 
 #: weblate/accounts/models.py:501
@@ -653,11 +654,11 @@ msgstr "회사"
 #: weblate/accounts/models.py:609
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "대시보드에 표시할 컴포넌트 목록을 선택하세요."
+msgstr "참여 프로젝트에 표시할 구성요소 목록을 선택하세요."
 
 #: weblate/accounts/models.py:620
 msgid "Selecting component list has no effect when not shown on the dashboard."
-msgstr "컴포넌트 목록을 선택하면 대시보드에 표시되지 않습니다."
+msgstr "구성요소 목록을 선택하면 참여 프로젝트에 표시되지 않습니다."
 
 #: weblate/accounts/models.py:736 weblate/trans/views/edit.py:365
 #, python-format
@@ -707,7 +708,7 @@ msgstr "저장소 작업"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:444
 msgid "Component locking"
-msgstr "컴포넌트 잠금"
+msgstr "구성요소 잠금"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:452
@@ -744,13 +745,13 @@ msgstr "번역에 대한 주석"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:545
 msgid "Mentioned in comment"
-msgstr "의견에서 언급됨"
+msgstr "주석에서 언급됨"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:588 weblate/templates/translate.html:431
 #: weblate/trans/forms.py:1027
 msgid "New comment"
-msgstr "새로운 의견"
+msgstr "새 주석"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609
@@ -775,7 +776,7 @@ msgstr "새로운 언어"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:653
 msgid "New translation component"
-msgstr "새로운 번역 컴포넌트"
+msgstr "새로운 번역 구성요소"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -1020,8 +1021,7 @@ msgstr "알림 설정이 조정되었습니다."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
-msgstr ""
-"알림 변경 고리가 비활성화 되었습니다. 알림을 구성하려면 로그인하십시오."
+msgstr "알림 변경 링크가 더 이상 유효하지 않으므로 로그인하여 알림을 구성하세요."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:20 weblate/templates/translation.html:74
@@ -1033,7 +1033,7 @@ msgstr "자동 번역"
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
-msgstr "번역엔진 또는 그 외의 컴포넌트를 사용해 문자열을 자동으로 번역합니다."
+msgstr "번역엔진 또는 그 외의 구성요소를 사용해 문자열을 자동으로 번역합니다."
 
 #: weblate/addons/base.py:312 weblate/trans/views/create.py:232
 msgid ""
@@ -1082,17 +1082,17 @@ msgstr "부족한 언어 추가"
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
-msgstr "프로젝트 내의 모든 컴포넌트에 일관된 언어 집합이 사용되도록 합니다."
+msgstr "프로젝트 내의 모든 구성요소에 일관된 언어 집합이 사용되도록 합니다."
 
 #: weblate/addons/discovery.py:17
 msgid "Component discovery"
-msgstr "컴포넌트 발견"
+msgstr "구성요소 발견"
 
 #: weblate/addons/discovery.py:19
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
-msgstr "버전 제어 시스템에서 파일 변경을 기반으로 하여 프로젝트 컴포넌트를 자동으로 "
+msgstr "버전 제어 시스템에서 파일 변경을 기반으로 하여 프로젝트 구성요소를 자동으로 "
 "추가하거나 삭제합니다."
 
 #: weblate/addons/example.py:20
@@ -1346,7 +1346,7 @@ msgstr "파일 유형"
 
 #: weblate/addons/forms.py:255
 msgid "Customize the component name"
-msgstr "컴포넌트 이름을 커스터마이즈하기"
+msgstr "구성요소 이름 커스터마이즈하기"
 
 #: weblate/addons/forms.py:260
 msgid "Define the monolingual base filename"
@@ -1395,11 +1395,11 @@ msgstr "파일 마스크를 검사할 때 번역 파일을 골라내는데 사�
 
 #: weblate/addons/forms.py:296
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "기본 컴포넌트에서 새로 생성된 컴포넌트로 애드온을 복제합니다"
+msgstr "기본 구성요소에서 새로 생성된 구성요소로 애드온을 복제합니다"
 
 #: weblate/addons/forms.py:301
 msgid "Remove components for inexistent files"
-msgstr "존재하지 않는 파일의 컴포넌트 제거"
+msgstr "존재하지 않는 파일에 대한 구성요소 제거하기"
 
 #: weblate/addons/forms.py:304
 msgid "I confirm the above matches look correct"
@@ -1407,11 +1407,11 @@ msgstr "나는 위의 일치 항목이 올바른지 확인합니다"
 
 #: weblate/addons/forms.py:366
 msgid "Please review and confirm the matched components."
-msgstr "일치하는 컴포넌트를 검토하고 확인하십시오."
+msgstr "일치하는 구성요소를 검토하고 확인하십시오."
 
 #: weblate/addons/forms.py:394
 msgid "Please include component markup in the template."
-msgstr "서식에 컴포넌트 마크 업을 포함시키십시오."
+msgstr "서식에 구성요소 마크업을 포함시키십시오."
 
 #: weblate/addons/forms.py:439
 msgid "Translation threshold"
@@ -1547,15 +1547,15 @@ msgstr "새 번역이 추가될 때 LINGUAS 파일을 업데이트 합니다."
 
 #: weblate/addons/gettext.py:144
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "\"configure\" 파일에서 ALL_LINGUAS 변수를 업데이트하기"
+msgstr "\"configure\" 파일에서 ALL_LINGUAS 변수 업데이트하기"
 
 #: weblate/addons/gettext.py:146
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"새 번역이 추가될 때, \"configure\", \"configure.in\", \"configure.ac\" 중의 "
-"파일에서 ALL_LINGUAS 파일을 업데이트 합니다."
+"새 번역이 추가되면, \"configure\", \"configure.in\" 또는 \"configure.ac\" "
+"파일에서 ALL_LINGUAS 변수를 업데이트합니다."
 
 #: weblate/addons/gettext.py:215
 msgid "Update PO files to match POT (msgmerge)"
@@ -1566,8 +1566,8 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"msgmerge를 사용하여 POT 파일(\"새로운 번역용 서식\"에 의해 구성됨)과 일치하도"
-"록 모든 PO 파일(\"파일마스크\"로 구성됨)을 업데이트합니다."
+"msgmerge를 사용하여 모든 PO 파일(\"파일 마스크\"에서 구성한 대로)을 POT 파일("
+"\"새 번역용 서식\"에서 구성한 대로)과 일치하도록 업데이트합니다."
 
 #: weblate/addons/gettext.py:300
 msgid "Customize gettext output"
@@ -1580,7 +1580,7 @@ msgstr "gettext 출력 방식을 커스터마이즈하도록 합니다, 예를 �
 
 #: weblate/addons/gettext.py:313
 msgid "Contributors in comment"
-msgstr "의견에 기여한 사람들"
+msgstr "주석에 기여한 분들"
 
 #: weblate/addons/gettext.py:315
 msgid ""
@@ -1689,11 +1689,11 @@ msgstr "중요 날짜"
 
 #: weblate/auth/admin.py:217
 msgid "This is not used when a component list is selected."
-msgstr "컴포넌트 목록을 선택한 경우에는 사용되지 않습니다."
+msgstr "구성요소 목록을 선택한 경우에는 사용되지 않습니다."
 
 #: weblate/auth/admin.py:223
 msgid "This is not used when a component is selected."
-msgstr "컴포넌트를 선택했을 때는 사용하지 않습니다."
+msgstr "구성요소를 선택했을 때는 사용하지 않습니다."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:21
@@ -1708,27 +1708,27 @@ msgstr "내려받기 변경"
 #. Translators: Permission name
 #: weblate/auth/data.py:25
 msgid "Post comment"
-msgstr "의견 달기"
+msgstr "주석 달기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:27
 msgid "Delete comment"
-msgstr "의견 삭제하기"
+msgstr "주석 삭제하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
 msgid "Resolve comment"
-msgstr "해결된 의견"
+msgstr "주석 해결하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
 msgid "Edit component settings"
-msgstr "컴포넌트 설정 편집하기"
+msgstr "구성요소 설정 편집하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:33
 msgid "Lock component, preventing translations"
-msgstr "컴포넌트 잠금, 번역 방지"
+msgstr "구성요소 잠금, 번역 방지"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -1980,7 +1980,7 @@ msgstr "번역기 관리"
 #. Translators: Permission name
 #: weblate/auth/data.py:139
 msgid "Manage component lists"
-msgstr "컴포넌트 목록 관리"
+msgstr "구성요소 목록 관리하기"
 
 #: weblate/auth/data.py:169
 msgctxt "Access-control role"
@@ -2200,7 +2200,7 @@ msgstr "모든 보호된 프로젝트"
 
 #: weblate/auth/models.py:115
 msgid "From component list"
-msgstr "컴포넌트 목록에서"
+msgstr "구성요소 목록에서"
 
 #: weblate/auth/models.py:120 weblate/billing/admin.py:62
 #: weblate/billing/models.py:274 weblate/templates/accounts/profile.html:220
@@ -2220,7 +2220,7 @@ msgstr "프로젝트"
 #: weblate/templates/snippets/info.html:446 weblate/trans/forms.py:886
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:2041
 msgid "Components"
-msgstr "컴포넌트"
+msgstr "구성요소"
 
 #: weblate/auth/models.py:132
 msgid "Language selection"
@@ -2435,7 +2435,7 @@ msgstr[0] "%d 개 프로젝트 포함"
 #, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "%d 개 컴포넌트 포함"
+msgstr[0] "%d개 구성요소 포함"
 
 #: weblate/billing/models.py:457
 msgid "Missing license"
@@ -2630,7 +2630,7 @@ msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr "이 문자열은 이 프로젝트에서 하나 이상의 번역을 가지고 있거나 일부 "
-"컴포넌트에서 번역되지 않았습니다."
+"구성요소에서 번역되지 않았습니다."
 
 #: weblate/checks/consistency.py:137
 msgid "Has been translated"
@@ -4245,7 +4245,7 @@ msgstr "이 페이지를 표시할 권한이 없습니다."
 #: weblate/templates/403.html:20 weblate/templates/404.html:20
 #: weblate/templates/base.html:131 weblate/templates/base.html:302
 msgid "Dashboard"
-msgstr "대시보드"
+msgstr "참여 프로젝트"
 
 #: weblate/templates/403.html:21 weblate/templates/404.html:21
 #: weblate/templates/base.html:145
@@ -4415,7 +4415,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:40
 msgid "Commit signing is not configured."
-msgstr "커밋 서명이 설정되지 않았습니다."
+msgstr "커밋 서명이 구성되지 않았습니다."
 
 #: weblate/templates/about/stats.html:8
 #: weblate/templates/dashboard/user.html:34 weblate/templates/data.html:51
@@ -4639,7 +4639,7 @@ msgstr "비밀번호는 계정의 중요한 변경 사항을 확인하는 데 �
 
 #: weblate/templates/accounts/password-warning.html:14
 msgid "Configure the password"
-msgstr "비밀번호 설정"
+msgstr "비밀번호 구성하기"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -4744,8 +4744,8 @@ msgstr "저장"
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
-msgstr ""
-"번역하려는 모든 프로젝트를 추가하여 대시보드에서 프로젝트를 주시합니다."
+msgstr "번역하려는 모든 프로젝트를 추가하여 참여 프로젝트에서 참여한 프로젝트로 "
+"확인하세요."
 
 #: weblate/templates/accounts/profile.html:79
 #: weblate/templates/mail/base.html:103
@@ -5101,7 +5101,7 @@ msgstr[0] "%(count)s개의 갈무리"
 #, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "%(count)s 개의 의견"
+msgstr[0] "주석 %(count)s 개"
 
 #: weblate/templates/accounts/user.html:141
 msgid "Translations with contribution"
@@ -5269,7 +5269,7 @@ msgstr "애드온 구성하기"
 msgid ""
 "This add-on is used for the whole project, it is enough to install it for "
 "one component."
-msgstr "이 애드온은 전체 프로젝트에 사용되며, 하나의 컴포넌트에 설치하는 것으로 "
+msgstr "이 애드온은 전체 프로젝트에 사용되며, 하나의 구성요소에 설치하는 것으로 "
 "충분합니다."
 
 #: weblate/templates/addons/addon_head.html:7
@@ -5278,7 +5278,7 @@ msgstr "전체 프로젝트"
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "This add-on is used for all components sharing this repository."
-msgstr "이 애드온은 이 저장소를 공유하는 모든 컴포넌트에 사용됩니다."
+msgstr "이 애드온은 이 저장소를 공유하는 모든 구성요소에 사용됩니다."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "repository wide"
@@ -5296,7 +5296,7 @@ msgstr "제거"
 #: weblate/templates/machinery/list.html:41
 #: weblate/templates/memory/index.html:172
 msgid "Configure"
-msgstr "설정"
+msgstr "구성하기"
 
 #: weblate/templates/addons/addon_list.html:41
 msgid "There are no add-ons currently installed."
@@ -5321,7 +5321,7 @@ msgstr "설치"
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
-msgstr "이 번역 컴포넌트와 호환되는 추가 애드온을 찾을 수 없습니다."
+msgstr "이 번역 구성요소와 호환되는 추가 애드온을 찾을 수 없습니다."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some add-ons will ask for additional configuration during installation."
@@ -5337,15 +5337,14 @@ msgstr "CDN에서 현지화를 불러오려면 다음 토막(스니펫)을 포�
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
-msgstr "현지화 가능한 컴포넌트는 CSS 선택자와 일치해야 합니다."
+msgstr "현지화 가능한 요소는 구성된 CSS 선택기와 일치해야 합니다."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
-msgstr ""
-"번역 파일과 일치하는 정규 표현식은 컴포넌트와 언어에 일치하기 위한 두 개의 "
-"명명된 그룹을 포함하고 있어야 합니다, 몇 가지 예로:"
+msgstr "번역 파일과 일치하는 정규식에는 구성요소와 언어가 일치하는 두 개의 명명된 "
+"그룹이 포함되어야 합니다, 일부 예시들:"
 
 #: weblate/templates/addons/discovery_help.html:9
 msgid "Example matched files"
@@ -5353,7 +5352,7 @@ msgstr "일치하는 파일 예"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr "컴포넌트의 번역 파일이 들어있는 언어별 하나의 폴더."
+msgstr "구성요소에 대한 번역 파일이 포함된 언어당 하나의 폴더가 있습니다."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext PO files."
@@ -5361,7 +5360,7 @@ msgstr "gettext PO 파일을 저장하기 위한 일반적인 구조."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr "파일 이름 내에서 컴포넌트와 언어 이름을 모두 사용합니다."
+msgstr "파일 이름 안에 구성요소와 언어 이름을 모두 사용합니다."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
@@ -5379,16 +5378,16 @@ msgstr "Java 속성 번역이 포함된 다중 모듈 Maven 프로젝트입니�
 msgid ""
 "You can use Django template markup in both component name and the "
 "monolingual base filename, for example:"
-msgstr "컴포넌트 이름과 단일 언어 기반 파일 이름 모두에 장고(Django) 템플릿 마크업을 "
-"사용하실 수 있습니다, 예를 들어:"
+msgstr "구성요소 이름과 단일 언어 기반 파일 이름 모두에 Django 서식 마크업을 "
+"사용하실 수 있습니다. 예시:"
 
 #: weblate/templates/addons/discovery_help.html:81
 msgid "Component filename match"
-msgstr "컴포넌트 파일 이름 맞추기"
+msgstr "구성요소 파일 이름 맞추기"
 
 #: weblate/templates/addons/discovery_help.html:83
 msgid "Component filename with upper case first letter"
-msgstr "대문자가 첫 문자로 있는 컴포넌트 파일 이름"
+msgstr "대문자가 첫 문자로 있는 구성요소 파일 이름"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/check_project.html:20
@@ -5398,7 +5397,7 @@ msgstr "대문자가 첫 문자로 있는 컴포넌트 파일 이름"
 #: weblate/templates/translation.html:203 weblate/trans/forms.py:1639
 #: weblate/trans/models/announcement.py:82
 msgid "Component"
-msgstr "컴포넌트"
+msgstr "구성요소"
 
 #: weblate/templates/addons/discovery_preview.html:5
 msgid "Matched files"
@@ -5406,11 +5405,11 @@ msgstr "일치하는 파일"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "The following components would be deleted"
-msgstr "다음 컴포넌트가 삭제됩니다"
+msgstr "다음 구성요소가 삭제됩니다"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "The following components would be created"
-msgstr "다음 컴포넌트가 생성됩니다"
+msgstr "다음 구성요소가 생성됩니다"
 
 #: weblate/templates/addons/discovery_preview.html:21
 #: weblate/templates/addons/discovery_preview.html:38
@@ -5430,11 +5429,11 @@ msgstr "파일 마스크"
 
 #: weblate/templates/addons/discovery_preview.html:32
 msgid "The following components matched existing ones"
-msgstr "다음 컴포넌트는 기존 구성 요소와 일치합니다"
+msgstr "다음 구성요소는 기존 구성 요소와 일치합니다"
 
 #: weblate/templates/addons/discovery_preview.html:49
 msgid "No matching components were found!"
-msgstr "일치하는 컴포넌트가 없습니다!"
+msgstr "일치하는 구성요소가 없습니다!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -5459,11 +5458,11 @@ msgstr "번역 파일이름"
 #: weblate/templates/addons/generate_help.html:22
 #: weblate/trans/models/component.py:266
 msgid "Component name"
-msgstr "컴포넌트 이름"
+msgstr "구성요소 이름"
 
 #: weblate/templates/addons/generate_help.html:24
 msgid "Component URL slug"
-msgstr "컴포넌트 URL 슬러그"
+msgstr "구성요소 URL 슬러그"
 
 #: weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:81
@@ -5496,7 +5495,7 @@ msgstr "원본 문자열"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "이 저장소 내 모든 컴포넌트에서 온 웨블레이트 커밋이 손실될 것입니다."
+msgstr "이 저장소 내의 구성요소에서 받은 Weblate 커밋은 손실될 것입니다."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -5674,7 +5673,7 @@ msgstr "새로운 번역 프로젝트 추가하기"
 #: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
-msgstr "새로운 번역 컴포넌트 추가"
+msgstr "새로운 번역 구성요소 추가하기"
 
 #: weblate/templates/base.html:236
 msgid "Try Weblate for free"
@@ -6064,11 +6063,11 @@ msgstr "과정"
 
 #: weblate/templates/component-progress.html:17
 msgid "Component is being updated…"
-msgstr "컴포넌트 업데이트 중…"
+msgstr "구성요소 업데이트 중…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
 msgid "Return to the component"
-msgstr "컴포넌트로 돌아가기"
+msgstr "구성요소로 돌아가기"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -6076,7 +6075,7 @@ msgstr "업데이트 되돌리기"
 
 #: weblate/templates/component-progress.html:38
 msgid "Return to the component after completion"
-msgstr "완료 후 컴포넌트로 돌아가기"
+msgstr "완료 후 구성요소로 돌아가기"
 
 #: weblate/templates/component.html:33
 #: weblate/templates/language-project.html:18 weblate/templates/project.html:32
@@ -6268,35 +6267,35 @@ msgstr "적용"
 
 #: weblate/templates/component.html:227
 msgid "Browse all component changes"
-msgstr "모든 컴포넌트 변경 사항 찾아보기"
+msgstr "모든 구성요소 변경사항 찾아보기"
 
 #: weblate/templates/component.html:241
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
-msgstr "이 메시지는 컴포넌트 내의 모든 번역에 대해 지정된 만기일까지 또는 영구적으로 "
+msgstr "이 메시지는 구성요소 내의 모든 번역에 대해 지정된 만기일까지 또는 영구적으로 "
 "삭제될 때까지 표시됩니다."
 
 #: weblate/templates/component.html:261
 msgid "Rename component"
-msgstr "컴포넌트 이름 변경"
+msgstr "구성요소 이름 바꾸기"
 
 #: weblate/templates/component.html:264
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr "컴포넌트의 이름을 변경하면 모든 URL 또한 변경될 것입니다, 사용자는 복사된 "
+msgstr "구성요소의 이름을 변경하면 모든 URL 또한 변경될 것입니다, 사용자는 복사된 "
 "저장소에서 북마크나 참조를 업데이트해야 합니다!"
 
 #: weblate/templates/component.html:276
 msgid "Move component"
-msgstr "컴포넌트 이동"
+msgstr "구성요소 이동하기"
 
 #: weblate/templates/component.html:279
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr "컴포넌트를 이동하면 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 "
+msgstr "구성요소를 이동하면 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 "
 "북마크나 참조를 업데이트해야 합니다!"
 
 #: weblate/templates/component.html:284
@@ -6327,8 +6326,8 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"주어진 기간 동안 이 컴포넌트에 기여하는 모든 번역자를 나열합니다. 번역자에게 "
-"감사를 표하고 의견을 내기 위해 문서 또는 앱 자체에 포함할 때 유용합니다."
+"특정한 기간 동안 이 구성요소에 기여한 모든 번역자를 나열합니다. 문서 또는 앱 "
+"자체에 포함시켜, 번역자에게 감사를 표하고 피드백을 생성하는 데 유용합니다."
 
 #: weblate/templates/component.html:320 weblate/templates/component.html:339
 #: weblate/templates/dashboard/user.html:106
@@ -6392,7 +6391,7 @@ msgstr[0] "%(count)s 개의 프로젝트 모두 찾아보기"
 
 #: weblate/templates/dashboard/user.html:13
 msgid "Configure dashboard"
-msgstr "대시보드 설정"
+msgstr "참여 프로젝트 구성하기"
 
 #: weblate/templates/dashboard/user.html:33
 msgid "Recent additions"
@@ -6418,8 +6417,8 @@ msgid ""
 "inclusion in documentation or the app itself, to thank translators and "
 "generate feedback to them."
 msgstr ""
-"지정된 기간에 기여한 모든 번역자를 나열합니다. 번역자에게 감사하고 의견을 내"
-"기 위해 문서 또는 앱 자체에 포함 할 때 유용합니다."
+"특정한 기간 동안 기여한 모든 번역자를 나열합니다. 문서나 앱 자체에 포함시켜 "
+"번역가에게 감사를 표하고 피드백을 생성하는 데 유용합니다."
 
 #: weblate/templates/data.html:13
 msgid "Various data from Weblate is available in machine-readable format."
@@ -6455,13 +6454,13 @@ msgstr ""
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
-msgstr "JSON 형식의 모든 컴포넌트에 대한 변환 통계를 사용하면 다른 누리집이나 "
+msgstr "JSON 형식의 모든 구성요소에 대한 변환 통계를 사용하면 다른 누리집이나 "
 "도구에서 데이터를 사용할 수 있습니다."
 
 #: weblate/templates/data.html:79
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
-msgstr "다음과 같이 하나의 컴포넌트에서 모든 번역에 대한 통계를 가져올 수 있습니다:"
+msgstr "다음과 같이 하나의 구성요소에서 모든 번역에 대한 통계를 가져올 수 있습니다:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
@@ -6843,8 +6842,7 @@ msgstr "웨블레이트 저장소에서 나가는 커밋입니다"
 msgid ""
 "Please configure push URL in the component settings to enable pushing from "
 "Weblate."
-msgstr "웹레이트에서 푸시를 사용 설정하려면 컴포넌트 설정에서 URL 밀기를 "
-"구성하십시오."
+msgstr "Weblate에서 푸싱을 활성화하려면 구성요소 설정에서 푸시 URL을 구성하세요."
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
@@ -7013,11 +7011,11 @@ msgstr "해결된 주석"
 
 #: weblate/templates/list-comments.html:15
 msgid "Source string comment"
-msgstr "원본 문자열 의견"
+msgstr "원본 문자열 주석"
 
 #: weblate/templates/list-comments.html:17
 msgid "Translation comment"
-msgstr "번역 의견"
+msgstr "번역 주석"
 
 #: weblate/templates/list-comments.html:30
 msgid "Resolve"
@@ -7085,7 +7083,7 @@ msgstr "추가 서비스를 찾을 수 없습니다."
 #: weblate/templates/machinery/list.html:81
 msgid ""
 "Some services will ask for additional configuration during installation."
-msgstr "일부 서비스는 설치 과정중에 추가 컴포넌트를 요청할 수 있습니다."
+msgstr "일부 서비스는 설치 과정중에 추가 구성요소를 요청할 수 있습니다."
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -7122,7 +7120,7 @@ msgstr "번역 정보"
 
 #: weblate/templates/mail/base.html:62
 msgid "Component Information"
-msgstr "컴포넌트 정보"
+msgstr "구성요소 정보"
 
 #: weblate/templates/mail/base.html:77
 msgid "Project Information"
@@ -7240,7 +7238,7 @@ msgstr "%(translation)s에서 새로운 번역"
 #: weblate/templates/mail/component_license.html:12
 #, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "컴포넌트 %(component)s 에 대한 기여자 계약이 변경되었습니다."
+msgstr "구성요소 %(component)s에 대한 기여자 계약이 변경되었습니다."
 
 #: weblate/templates/mail/component_license.html:15
 msgid "Old agreement:"
@@ -7271,12 +7269,12 @@ msgstr "%(component)s의 기여자 계약이 변경됨"
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
 msgid "Component %(component)s was locked"
-msgstr "%(component)s 컴포넌트가 잠김"
+msgstr "%(component)s 구성요소가 잠겼습니다"
 
 #: weblate/templates/mail/component_lock_subject.txt:6
 #, python-format
 msgid "Component %(component)s was unlocked"
-msgstr "%(component)s 컴포넌트가 잠금 해제됨"
+msgstr "%(component)s 구성요소가 잠금 해제되었습니다"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -7322,17 +7320,17 @@ msgstr "%(site_title)s 의 새로운 공지사항"
 
 #: weblate/templates/mail/new_comment.html:9
 msgid "Comment"
-msgstr "의견"
+msgstr "주석"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
 #, python-format
 msgid "New comment in %(component)s"
-msgstr "%(component)s에 새로운 의견"
+msgstr "%(component)s의 새 주석"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, python-format
 msgid "New translation component %(component)s"
-msgstr "새로운 번역 컴포넌트 %(component)s"
+msgstr "새로운 번역 구성요소 %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:6
 msgid "Congratulations"
@@ -7380,7 +7378,7 @@ msgstr "요청된 언어"
 
 #: weblate/templates/mail/new_language.html:33
 msgid "View translation component"
-msgstr "번역 컴포넌트 보기"
+msgstr "번역 구성요소 보기"
 
 #: weblate/templates/mail/new_language_subject.txt:4
 #, python-format
@@ -7569,11 +7567,11 @@ msgstr[0] "%(count)s개의 완료되지 않은 문자열"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
-msgstr "컴포넌트 알림"
+msgstr "구성요소 알림"
 
 #: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
-msgstr "컴포넌트가 없는 프로젝트"
+msgstr "구성요소가 없는 프로젝트"
 
 #: weblate/templates/manage/alerts.html:45
 #: weblate/templates/manage/performance.html:92
@@ -8179,8 +8177,8 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"지정된 기간 동안 이 프로젝트에 기여하는 모든 번역자를 나열합니다. 번역자에게 "
-"감사하고 의견을 내기 위해 문서 또는 앱 자체에 포함 할 때 유용합니다."
+"특정한 기간 동안 이 프로젝트에 기여한 모든 번역자를 나열합니다. 문서 또는 앱 "
+"자체에 포함시켜, 번역자에게 감사를 표하고 피드백을 생성하는 데 유용합니다."
 
 #: weblate/templates/projects.html:19
 msgid "Ask for project hosting"
@@ -8268,8 +8266,11 @@ msgid ""
 "source files."
 msgstr ""
 "웨블레이트는 버전 관리 시스템과 잘 연계된 웹 기반의 번역 도구입니다. "
-"간결하고 깔끔한 사용자 인터페이스, 하위 컴포넌트에 대한 번역 확대, 품질 "
-"검사, 원본 파일에 대한 자동화된 연결을 제공합니다."
+"간결하고 깔끔한 사용자 인터페이스, 하위 구성요소에 대한 번역 확대, 품질 "
+"검사, 원본 파일에 대한 자동화된 연결을 제공합니다.\n"
+"웹레이트는 긴밀한 버전 관리 통합 기능을 갖춘 웹 기반 번역 도구입니다. "
+"간단하고 깔끔한 사용자 인터페이스, 구성 요소 간 번역 전파, 품질 검사 및 소스 "
+"파일에 대한 자동 링크가 특징입니다."
 
 #: weblate/templates/snippets/about.html:5
 #, python-format
@@ -8756,7 +8757,7 @@ msgstr "제안사항"
 #: weblate/templates/snippets/list-objects.html:103
 #: weblate/templates/translate.html:258 weblate/templates/translate.html:529
 msgid "Comments"
-msgstr "의견"
+msgstr "주석"
 
 #: weblate/templates/snippets/list-objects.html:125
 msgid "Create translation"
@@ -8847,7 +8848,7 @@ msgstr "주의요망"
 msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
-msgstr "버전 관리 또는 번역할 파일은 개별 컴포넌트로 저장됩니다:"
+msgstr "버전 제어 또는 번역할 파일은 개별 컴포넌트에서 구성됩니다:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -8946,7 +8947,7 @@ msgstr "번역된 문자열"
 #: weblate/templates/snippets/query-builder.html:86 weblate/trans/filter.py:33
 #: weblate/trans/filter.py:114
 msgid "Strings with comments"
-msgstr "의견이 있는 문자열"
+msgstr "주석이 있는 문자열"
 
 #: weblate/templates/snippets/query-builder.html:91 weblate/trans/filter.py:34
 #: weblate/trans/filter.py:115
@@ -9091,7 +9092,7 @@ msgstr "참여중"
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "%(project)s 프로젝트 참여 해제하기"
+msgstr "%(project)s 프로젝트 참여 취소하기"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
@@ -9896,7 +9897,7 @@ msgstr "젠 모드"
 
 #: weblate/templates/translate.html:60 weblate/templates/zen.html:48
 msgid "Configure editor"
-msgstr "편집기 설정"
+msgstr "편집기 구성하기"
 
 #: weblate/templates/translate.html:78
 msgid "Permalink copied to clipboard."
@@ -10114,8 +10115,7 @@ msgstr "유사성"
 
 #: weblate/templates/translate.html:433
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr ""
-"동료 번역가와 개발자가 읽을 수 있도록 이 문자열에 의견을 달아 주십시오."
+msgstr "동료 번역가와 개발자가 읽을 수 있도록 이 문자열에 주석을 달아주세요."
 
 #: weblate/templates/translate.html:455
 msgid "Things to check"
@@ -10148,12 +10148,10 @@ msgid "Selecting this option will set the corresponding ignore flag."
 msgstr "이 선택사항을 선택하면 해당 무시 플래그가 설정됩니다."
 
 #: weblate/templates/translate.html:531
-#, fuzzy, python-format
-#| msgid "There is %(count)s comment for this string."
-#| msgid_plural "There are %(count)s comments for this string."
+#, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "이 문자열에 대한 %(count)s 개의 의견이 있습니다."
+msgstr[0] "이 문자열에 대한 %(count)s개의 해결되지 않은 주석이 있습니다."
 
 #: weblate/templates/translate.html:545
 #, fuzzy, python-format
@@ -10520,10 +10518,8 @@ msgid "Strings with variants"
 msgstr "변형이 있는 문자열"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "의견이 있는 문자열"
+msgstr "스크린숏이 있는 문자열"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10554,10 +10550,8 @@ msgid "Strings waiting for review"
 msgstr "검토 대기 중인 문자열"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "의견이 있는 문자열"
+msgstr "스크린숏이 없는 문자열"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -10835,21 +10829,18 @@ msgid "Scope"
 msgstr "범위"
 
 #: weblate/trans/forms.py:1007
-#, fuzzy
-#| msgid ""
-#| "Is your comment specific to this translation or generic for all of them?"
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
-msgstr ""
-"이 의견은 이 번역에 특정되어 있나요, 아니면 전체적으로 포괄하고 있나요?"
+msgstr "주석이 이 번역에만 해당되는 내용인가요, 아니면 모든 번역에 적용되는 일반적인 "
+"내용인가요?"
 
 #: weblate/trans/forms.py:1017
 msgid "Source string comment, suggestions for changes to this string"
-msgstr "이 문자열을 변경하기 위한 제안사항, 원본 문자열 의견"
+msgstr "원본 문자열 설명, 이 문자열에 대한 변경사항 제안"
 
 #: weblate/trans/forms.py:1021
 msgid "Translation comment, discussions with other translators"
-msgstr "번역 의견, 다른 번역자와의 토론"
+msgstr "번역 주석, 다른 번역자와의 토론"
 
 #: weblate/trans/forms.py:1028 weblate/trans/models/announcement.py:71
 #: weblate/trans/models/project.py:103
@@ -11213,12 +11204,11 @@ msgstr "버전 관리 통합"
 
 #: weblate/trans/guide.py:74
 msgid "Configure repository hooks for automated flow of updates to Weblate."
-msgstr ""
-"웨블레이트에 대한 업데이트의 자동 흐름을 위한 저장소 후크를 구성하십시오."
+msgstr "Weblate에 대한 업데이트의 자동 흐름을 위한 저장소 후크를 구성합니다."
 
 #: weblate/trans/guide.py:95
 msgid "Configure push URL for automated flow of translations from Weblate."
-msgstr "웨블레이트에서 자동 번역 흐름을 위해 푸시 URL을 구성하십시오."
+msgstr "Weblate에서 자동화된 번역 흐름을 위한 푸시 URL을 구성합니다."
 
 #: weblate/trans/guide.py:109
 msgid "Building community"
@@ -11322,7 +11312,7 @@ msgstr "애드온을 실행할 수 없습니다."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:314
 msgid "Misconfigured monolingual translation."
-msgstr "잘못 구성된 단일 언어 번역."
+msgstr "단일 언어 번역이 잘못 구성되었습니다."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:322
@@ -11437,7 +11427,7 @@ msgstr "새로운 번역"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:272
 msgid "Comment added"
-msgstr "의견이 추가됨"
+msgstr "주석 추가됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:278
@@ -12436,12 +12426,12 @@ msgstr "컴포넌트 목록 이름"
 
 #: weblate/trans/models/componentlist.py:40
 msgid "Show on dashboard"
-msgstr "대시보드에 표시하기"
+msgstr "참여 프로젝트에 표시하기"
 
 #: weblate/trans/models/componentlist.py:44
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr "이 구성 요소 목록이 활성화되면 대시보드에 탭으로 표시됩니다."
+msgstr "이 컴포넌트 목록이 활성화되면 참여 프로젝트에 탭으로 표시됩니다"
 
 #: weblate/trans/models/componentlist.py:73
 msgid "Project regular expression"
@@ -12698,7 +12688,7 @@ msgstr "전각 대시(—)"
 
 #: weblate/trans/specialchars.py:287
 msgid "User configured character: {}"
-msgstr "사용자 구성 문자: {}"
+msgstr "사용자가 구성한 문자: {}"
 
 #: weblate/trans/tasks.py:399
 msgid "Automatic translation completed, no strings were updated."
@@ -12895,7 +12885,7 @@ msgstr "부적당한 검사:"
 #: weblate/trans/templatetags/translations.py:625
 msgctxt "String state"
 msgid "Commented"
-msgstr "의견있음"
+msgstr "주석을 달았습니다"
 
 #: weblate/trans/templatetags/translations.py:627
 msgctxt "String state"
@@ -13151,9 +13141,7 @@ msgstr "올려진 ZIP 파일을 구문 분석하지 못했습니다."
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
-msgstr ""
-"귀하가 찾으시는 프로젝트는 제거되었습니다만, 대신 다른 프로젝트에 참여하실 "
-"수 있습니다."
+msgstr "찾으시던 프로젝트는 삭제되었지만, 다른 프로젝트에 기여하실 수 있습니다."
 
 #: weblate/trans/views/dashboard.py:153
 msgid ""
@@ -13251,23 +13239,19 @@ msgstr "원본에 검토가 필요합니다"
 
 #: weblate/trans/views/edit.py:778
 msgid "Posted new comment"
-msgstr "새로운 의견이 등록되었습니다"
+msgstr "새 주석을 달았습니다"
 
 #: weblate/trans/views/edit.py:780
 msgid "Failed to add comment!"
-msgstr "의견 추가하기 실패!"
+msgstr "주석을 추가하지 못했습니다!"
 
 #: weblate/trans/views/edit.py:799
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been deleted."
-msgstr "번역 의견이 해결됐습니다."
+msgstr "주석이 삭제되었습니다."
 
 #: weblate/trans/views/edit.py:816
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been resolved."
-msgstr "번역 의견이 해결됐습니다."
+msgstr "주석이 해결되었습니다."
 
 #: weblate/trans/views/edit.py:980
 msgid "New string has been added."
@@ -13725,7 +13709,7 @@ msgstr "단어의 수"
 
 #: weblate/utils/views.py:127
 msgid "Number of comments"
-msgstr "의견 개수"
+msgstr "주석 수"
 
 #: weblate/utils/views.py:128
 msgid "Number of failing checks"
