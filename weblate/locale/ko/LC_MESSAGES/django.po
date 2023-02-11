@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-02-11 16:57+0000\n"
+"PO-Revision-Date: 2023-02-11 18:52+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -462,9 +462,8 @@ msgstr "번역된 언어"
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
-msgstr ""
-"번역 할 수있는 언어를 선택합니다. 선택한 번역에 더 쉽게 접근할 수 있도록 계기"
-"판에 제공됩니다."
+msgstr "번역할 수 있는 언어를 선택하세요. 선택한 번역에 쉽게 접근할 수 있도록 참여 "
+"프로젝트에서 번역이 제공됩니다."
 
 #: weblate/accounts/models.py:378
 msgid "Secondary languages"
@@ -474,9 +473,8 @@ msgstr "제2언어"
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
-msgstr ""
-"이해하실 수 있는 언어들을 선택해주십시오. 원문과 함께 해당 언어 번역본들이 같"
-"이 표시됩니다."
+msgstr "이해할 수 있는 언어를 선택하면, 해당 언어의 문자열이 원본 문자열에 추가로 "
+"표시됩니다."
 
 #: weblate/accounts/models.py:392
 msgid "Hide completed translations on the dashboard"
@@ -1783,19 +1781,19 @@ msgstr "보고서 내려받기"
 #. Translators: Permission name
 #: weblate/auth/data.py:55 weblate/templates/translate.html:629
 msgid "Add screenshot"
-msgstr "갈무리 추가"
+msgstr "스크린숏 추가하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/base.html:341
 #: weblate/templates/screenshots/screenshot_detail.html:70
 msgid "Edit screenshot"
-msgstr "갈무리 편집"
+msgstr "스크린숏 편집하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:59
 #: weblate/templates/screenshots/screenshot_detail.html:94
 msgid "Delete screenshot"
-msgstr "갈무리 삭제"
+msgstr "스크린숏 삭제하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:61 weblate/templates/translate.html:744
@@ -2915,11 +2913,11 @@ msgstr "용어집을 따르지 않음"
 
 #: weblate/checks/glossary.py:18
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "용어집에 있는 용어를 사용하지 않았습니다."
+msgstr "번역은 용어집에 정의된 용어를 따르지 않습니다."
 
 #: weblate/checks/glossary.py:68
 msgid "Following terms are not translated according to glossary: {}"
-msgstr "용어집을 따르지 않고 번역된 용어: {}"
+msgstr "다음 용어는 용어집에 따라 번역되지 않았습니다: {}"
 
 #: weblate/checks/icu.py:247
 msgid "ICU MessageFormat syntax"
@@ -3521,7 +3519,7 @@ msgstr "잘못된 정수 목록!"
 
 #: weblate/glossary/forms.py:32
 msgid "String will be part of the glossary in all languages"
-msgstr "문자열은 모든 언어에서 용어집의 일부가 됨"
+msgstr "문자열은 모든 언어에서 용어집의 일부가 됩니다"
 
 #: weblate/glossary/forms.py:40
 msgid "Untranslatable term"
@@ -4194,7 +4192,7 @@ msgstr "%s 번역은 현재 사용할 수 없지만 추가할 수 있습니다."
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_list.html:37
 msgid "Screenshot name"
-msgstr "갈무리 이름"
+msgstr "스크린숏 이름"
 
 #: weblate/screenshots/models.py:40
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4552,8 +4550,9 @@ msgstr "등록 양식에서 오류를 수정하십시오."
 msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
-msgstr "가입함으로서, 각각 번역된 프로젝트에 정의된 허가서 아래 커밋에서 이름과 "
-"전자우편을 사용하고 기여를 제공하는 것에 동의합니다."
+msgstr ""
+"등록하면 커밋에 사용자의 이름과 전자우편을 사용하고 각 번역 프로젝트에서 "
+"정의한 라이선스에 따라 사용자의 기여를 제공하는 데 동의하는 것입니다."
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:46 weblate/templates/base.html:221
@@ -4687,7 +4686,7 @@ msgstr "팀"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:344
 msgid "Licenses"
-msgstr "허가서"
+msgstr "라이선스"
 
 #: weblate/templates/accounts/profile.html:31
 #: weblate/templates/accounts/profile.html:252
@@ -4943,8 +4942,10 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
 "project."
-msgstr "가입함으로서, 각각의 번역 프로젝트에 정의된 허가서 아래 커밋에서 이름과 "
-"전자우편을 사용하고 기여를 제공하는 것에 동의합니다."
+msgstr ""
+"등록하면 커밋에 사용자의 이름과 전자우편을 사용하는 데 동의하고, 각 현지화 "
+"프로젝트에서 정의한 라이선스에 따라 사용자의 기여를 제공하는 데 동의하는 "
+"것입니다."
 
 #: weblate/templates/accounts/profile.html:353
 msgid "You have agreed to the following as a contributor:"
@@ -5622,7 +5623,7 @@ msgstr "참여중인 프로젝트 관리하기"
 
 #: weblate/templates/base.html:159
 msgid "Manage translated languages"
-msgstr "번역된 언어 관리"
+msgstr "번역된 언어 관리하기"
 
 #: weblate/templates/base.html:162
 msgid "Browse all languages"
@@ -6174,7 +6175,7 @@ msgstr "저장소 유지보수"
 #: weblate/templates/screenshots/screenshot_detail.html:11
 #: weblate/templates/screenshots/screenshot_list.html:11
 msgid "Screenshots"
-msgstr "스크린샷"
+msgstr "스크린숏"
 
 #: weblate/templates/component.html:91 weblate/templates/component.html:236
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:85
@@ -8155,9 +8156,8 @@ msgstr "모든 프로젝트 변경 사항 찾아보기"
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
-msgstr ""
-"메시지는 주어진 번역본이 만료될 때까지 프로젝트 내의 모든 번역본에 대해 표시"
-"되거나 삭제될 때까지 영구적으로 표시됩니다."
+msgstr "이 메시지는 프로젝트 내의 모든 번역에 대해 지정된 만료일까지 또는 삭제될 "
+"때까지 영구적으로 표시됩니다."
 
 #: weblate/templates/project.html:256
 msgid "Rename project"
@@ -8425,7 +8425,7 @@ msgstr "번역에 단어 복사"
 
 #: weblate/templates/snippets/glossary.html:23
 msgid "Edit glossary term"
-msgstr "용어집 약관 편집"
+msgstr "용어집 용어 편집하기"
 
 #: weblate/templates/snippets/glossary.html:54
 msgid "No related strings found in the glossary."
@@ -8460,7 +8460,7 @@ msgstr "프로젝트 책임자"
 #: weblate/templates/snippets/info.html:186
 #: weblate/trans/models/component.py:471
 msgid "Translation license"
-msgstr "번역 허가서"
+msgstr "번역 라이선스"
 
 #: weblate/templates/snippets/info.html:143
 msgid "Automatic component list assignment"
@@ -8784,8 +8784,9 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"가입함으로서, 각각 번역된 프로젝트에 의해 정의된 허가서 아래 버전 관리 "
-"시스템 커밋에서 이름과 전자우편을 사용하고 기여를 제공하는 것에 동의합니다."
+"등록하면 사용자의 버전 관리 시스템 커밋에 사용자의 이름과 전자우편을 "
+"사용하고 각 번역 프로젝트에서 정의한 라이선스에 따라 사용자의 기여를 "
+"제공하는 데 동의하게 됩니다."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -9457,7 +9458,7 @@ msgstr "문자열에 할당되지 않은 하나 이상의 갈무리가 있습니
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
-msgstr "스크린샷 관리"
+msgstr "스크린숏 관리하기"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -9906,16 +9907,12 @@ msgid "Copy permalink"
 msgstr "퍼머링크 복사"
 
 #: weblate/templates/translate.html:82
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Forbidden glossary term"
-msgstr "용어집 항목 추가"
+msgstr "금지된 용어집 용어"
 
 #: weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary term"
-msgstr "용어집 이름"
+msgstr "용어집 용어"
 
 #: weblate/templates/translate.html:113 weblate/templates/zen-units.html:64
 msgid "Source change"
@@ -10166,7 +10163,7 @@ msgstr "용어집 %(name)s을 찾아보기"
 
 #: weblate/templates/translate.html:584 weblate/templates/translate.html:594
 msgid "Add term to glossary"
-msgstr "용어집에 추가"
+msgstr "용어집에 용어 추가하기"
 
 #: weblate/templates/translate.html:613
 msgid "String information"
@@ -11643,17 +11640,13 @@ msgstr "변경된 기여자 계약"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:376
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screnshot added"
-msgstr "갈무리 이름"
+msgstr "스크린숏 추가됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:378
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
-msgstr "올린 갈무리 갯수"
+msgstr "스크린숏 업로드됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:380
@@ -12407,10 +12400,8 @@ msgid "Key"
 msgstr "키"
 
 #: weblate/trans/models/component.py:3424
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add new glossary term"
-msgstr "용어집 항목 추가"
+msgstr "새 용어집 용어 추가하기"
 
 #: weblate/trans/models/component.py:3425
 msgid "Add new translation string"
