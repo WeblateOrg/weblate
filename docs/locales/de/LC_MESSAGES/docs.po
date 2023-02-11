@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-11 16:58+0000\n"
+"PO-Revision-Date: 2023-02-11 18:52+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -15637,7 +15637,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:32
 msgid "Parsing language codes"
-msgstr ""
+msgstr "Parsing von Sprachcodes"
 
 #: ../../admin/languages.rst:34
 msgid ""
@@ -15645,26 +15645,34 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
+"Während des Parsens von Übersetzungen versucht Weblate, den Sprachcode (in "
+"der Regel den ISO 639-1 Code) aus der :ref:`component-filemask` auf ein "
+"vorhandenes Sprachobjekt abzubilden."
 
 #: ../../admin/languages.rst:38
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
+"Sie können diese Zuordnung auf Projektebene durch :ref:`project-"
+"language_aliases` weiter anpassen."
 
 #: ../../admin/languages.rst:40
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
+"Wenn keine exakte Übereinstimmung gefunden werden kann, wird versucht, sie "
+"bestmöglich in eine bestehende Sprache einzupassen. Die folgenden Schritte "
+"werden versucht:"
 
 #: ../../admin/languages.rst:43
 msgid "Case insensitive lookups."
-msgstr ""
+msgstr "Suchen ohne Berücksichtigung der Groß-/Kleinschreibung."
 
 #: ../../admin/languages.rst:44
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "Normalisierung von Unterstrichen und Bindestrichen."
 
 #: ../../admin/languages.rst:45
 msgid "Looking up built-in language aliases."
@@ -15679,6 +15687,8 @@ msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
 msgstr ""
+"Ignorieren des Standard-Ländercodes für eine bestimmte Sprache - Auswahl von "
+"``cs`` anstelle von ``cs_CZ``."
 
 #: ../../admin/languages.rst:49
 msgid ""
@@ -15690,12 +15700,23 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
+"Sollte auch dies fehlschlagen, wird eine neue Sprachdefinition unter "
+"Verwendung der Standardeinstellungen (Textrichtung von links nach rechts, "
+"ein Plural) erstellt. Die automatisch erstellte Sprache mit dem Code "
+"``xx_XX`` wird als :guilabel:`xx_XX (erzeugt)` benannt. Sie können dies "
+"später in der Administrationsoberfläche ändern (siehe :ref:`changing-"
+"languages`) und es im Issue-Tracker melden (siehe :ref:`contributing`), "
+"damit die richtige Definition in die nächste Weblate-Version aufgenommen "
+"werden kann."
 
 #: ../../admin/languages.rst:59
 msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"Falls Sie etwas Unerwünschtes als Sprache sehen, sollten Sie :ref:`component-"
+"language_regex` so anpassen, dass solche Dateien beim Parsen von "
+"Übersetzungen ignoriert werden."
 
 #: ../../admin/languages.rst:65
 msgid ":ref:`language-code`, :ref:`new-translations`"
@@ -15710,6 +15731,8 @@ msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"Sie können Sprachdefinitionen in der Sprachoberfläche (:file:`/languages/` "
+"URL) ändern."
 
 #: ../../admin/languages.rst:77
 msgid ""
@@ -15717,6 +15740,9 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
+"Achten Sie bei der Bearbeitung darauf, dass alle Felder korrekt ausgefüllt "
+"sind (insbesondere die Pluralformen und die Leserichtung), da die Übersetzer "
+"die Übersetzungen sonst nicht richtig bearbeiten können."
 
 #: ../../admin/languages.rst:84
 msgid "Ambiguous language codes and macrolanguages"
@@ -15819,6 +15845,8 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Gettext-kompatible Pluralformel, die verwendet wird, um zu bestimmen, welche "
+"Pluralform für eine bestimmte Zählung verwendet wird."
 
 #: ../../admin/languages.rst:151
 msgid ""
