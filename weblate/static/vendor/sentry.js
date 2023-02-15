@@ -5981,7 +5981,7 @@ exports.prepareEvent = prepareEvent;
 },{"../scope.js":28,"@sentry/utils":44}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.37.1';
+const SDK_VERSION = '7.37.2';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -6011,9 +6011,6 @@ const VISIBILITY_CHANGE_TIMEOUT = SESSION_IDLE_DURATION;
 
 // The maximum length of a session
 const MAX_SESSION_LIFE = 3600000; // 60 minutes
-
-/** The select to use for the `maskAllText` option  */
-const MASK_ALL_TEXT_SELECTOR = 'body *:not(style), body *:not(script)';
 
 /** Default flush delays */
 const DEFAULT_FLUSH_MIN_DELAY = 5000;
@@ -6082,6 +6079,9 @@ function is2DCanvasBlank(canvas) {
 let _id = 1;
 const tagNameRegex = new RegExp('[^a-z0-9-_:]');
 const IGNORED_NODE = -2;
+function defaultMaskFn(str) {
+    return str.replace(/[\S]/g, '*');
+}
 function genId() {
     return _id++;
 }
@@ -6250,7 +6250,7 @@ function getHref() {
     a.href = '';
     return a.href;
 }
-function transformAttribute(doc, tagName, name, value) {
+function transformAttribute(doc, tagName, name, value, maskAllText, maskTextFn) {
     if (name === 'src' || (name === 'href' && value)) {
         return absoluteToDoc(doc, value);
     }
@@ -6270,6 +6270,9 @@ function transformAttribute(doc, tagName, name, value) {
     }
     else if (tagName === 'object' && name === 'data' && value) {
         return absoluteToDoc(doc, value);
+    }
+    else if (maskAllText && ['placeholder', 'title', 'aria-label'].indexOf(name) > -1) {
+        return maskTextFn ? maskTextFn(value) : defaultMaskFn(value);
     }
     else {
         return value;
@@ -6297,41 +6300,41 @@ function _isBlockedElement(element, blockClass, blockSelector, unblockSelector) 
     }
     return false;
 }
-function needMaskingText(node, maskTextClass, maskTextSelector, unmaskTextSelector) {
+function needMaskingText(node, maskTextClass, maskTextSelector, unmaskTextSelector, maskAllText) {
     if (!node) {
         return false;
     }
-    if (node.nodeType === node.ELEMENT_NODE) {
-        if (unmaskTextSelector) {
-            if (node.matches(unmaskTextSelector) ||
-                node.closest(unmaskTextSelector)) {
-                return false;
-            }
+    if (node.nodeType !== node.ELEMENT_NODE) {
+        return needMaskingText(node.parentNode, maskTextClass, maskTextSelector, unmaskTextSelector, maskAllText);
+    }
+    if (unmaskTextSelector) {
+        if (node.matches(unmaskTextSelector) ||
+            node.closest(unmaskTextSelector)) {
+            return false;
         }
-        if (typeof maskTextClass === 'string') {
-            if (node.classList.contains(maskTextClass)) {
+    }
+    if (maskAllText) {
+        return true;
+    }
+    if (typeof maskTextClass === 'string') {
+        if (node.classList.contains(maskTextClass)) {
+            return true;
+        }
+    }
+    else {
+        for (let eIndex = 0; eIndex < node.classList.length; eIndex++) {
+            const className = node.classList[eIndex];
+            if (maskTextClass.test(className)) {
                 return true;
             }
         }
-        else {
-            for (let eIndex = 0; eIndex < node.classList.length; eIndex++) {
-                const className = node.classList[eIndex];
-                if (maskTextClass.test(className)) {
-                    return true;
-                }
-            }
-        }
-        if (maskTextSelector) {
-            if (node.matches(maskTextSelector)) {
-                return true;
-            }
-        }
-        return needMaskingText(node.parentNode, maskTextClass, maskTextSelector, unmaskTextSelector);
     }
-    if (node.nodeType === node.TEXT_NODE) {
-        return needMaskingText(node.parentNode, maskTextClass, maskTextSelector, unmaskTextSelector);
+    if (maskTextSelector) {
+        if (node.matches(maskTextSelector)) {
+            return true;
+        }
     }
-    return needMaskingText(node.parentNode, maskTextClass, maskTextSelector, unmaskTextSelector);
+    return needMaskingText(node.parentNode, maskTextClass, maskTextSelector, unmaskTextSelector, maskAllText);
 }
 function onceIframeLoaded(iframeEl, listener, iframeLoadTimeout) {
     const win = iframeEl.contentWindow;
@@ -6371,7 +6374,7 @@ function onceIframeLoaded(iframeEl, listener, iframeLoadTimeout) {
 }
 function serializeNode(n, options) {
     var _a;
-    const { doc, blockClass, blockSelector, unblockSelector, maskTextClass, maskTextSelector, unmaskTextSelector, inlineStylesheet, maskInputSelector, unmaskInputSelector, maskInputOptions = {}, maskTextFn, maskInputFn, dataURLOptions = {}, inlineImages, recordCanvas, keepIframeSrcFn, } = options;
+    const { doc, blockClass, blockSelector, unblockSelector, maskTextClass, maskTextSelector, unmaskTextSelector, inlineStylesheet, maskInputSelector, unmaskInputSelector, maskAllText, maskInputOptions = {}, maskTextFn, maskInputFn, dataURLOptions = {}, inlineImages, recordCanvas, keepIframeSrcFn, } = options;
     let rootId;
     if (doc.__sn) {
         const docId = doc.__sn.id;
@@ -6407,7 +6410,7 @@ function serializeNode(n, options) {
             const tagName = getValidTagName(n);
             let attributes = {};
             for (const { name, value } of Array.from(n.attributes)) {
-                attributes[name] = transformAttribute(doc, tagName, name, value);
+                attributes[name] = transformAttribute(doc, tagName, name, value, maskAllText, maskTextFn);
             }
             if (tagName === 'link' && inlineStylesheet) {
                 const stylesheet = Array.from(doc.styleSheets).find((s) => {
@@ -6565,13 +6568,25 @@ function serializeNode(n, options) {
             if (isScript) {
                 textContent = 'SCRIPT_PLACEHOLDER';
             }
-            if (!isStyle &&
+            if (parentTagName === 'TEXTAREA' && textContent) {
+                textContent = maskInputValue({
+                    input: n.parentNode,
+                    maskInputSelector,
+                    unmaskInputSelector,
+                    maskInputOptions,
+                    tagName: parentTagName,
+                    type: null,
+                    value: textContent,
+                    maskInputFn,
+                });
+            }
+            else if (!isStyle &&
                 !isScript &&
-                needMaskingText(n, maskTextClass, maskTextSelector, unmaskTextSelector) &&
+                needMaskingText(n, maskTextClass, maskTextSelector, unmaskTextSelector, maskAllText) &&
                 textContent) {
                 textContent = maskTextFn
                     ? maskTextFn(textContent)
-                    : textContent.replace(/[\S]/g, '*');
+                    : defaultMaskFn(textContent);
             }
             return {
                 type: NodeType.Text,
@@ -6675,7 +6690,7 @@ function slimDOMExcluded(sn, slimDOMOptions) {
     return false;
 }
 function serializeNodeWithId(n, options) {
-    const { doc, map, blockClass, blockSelector, unblockSelector, maskTextClass, maskTextSelector, unmaskTextSelector, skipChild = false, inlineStylesheet = true, maskInputSelector, unmaskInputSelector, maskInputOptions = {}, maskTextFn, maskInputFn, slimDOMOptions, dataURLOptions = {}, inlineImages = false, recordCanvas = false, onSerialize, onIframeLoad, iframeLoadTimeout = 5000, keepIframeSrcFn = () => false, } = options;
+    const { doc, map, blockClass, blockSelector, unblockSelector, maskTextClass, maskTextSelector, unmaskTextSelector, skipChild = false, inlineStylesheet = true, maskInputSelector, unmaskInputSelector, maskAllText, maskInputOptions = {}, maskTextFn, maskInputFn, slimDOMOptions, dataURLOptions = {}, inlineImages = false, recordCanvas = false, onSerialize, onIframeLoad, iframeLoadTimeout = 5000, keepIframeSrcFn = () => false, } = options;
     let { preserveWhiteSpace = true } = options;
     const _serializedNode = serializeNode(n, {
         doc,
@@ -6688,6 +6703,7 @@ function serializeNodeWithId(n, options) {
         inlineStylesheet,
         maskInputSelector,
         unmaskInputSelector,
+        maskAllText,
         maskInputOptions,
         maskTextFn,
         maskInputFn,
@@ -6751,6 +6767,7 @@ function serializeNodeWithId(n, options) {
             inlineStylesheet,
             maskInputSelector,
             unmaskInputSelector,
+            maskAllText,
             maskInputOptions,
             maskTextFn,
             maskInputFn,
@@ -6801,6 +6818,7 @@ function serializeNodeWithId(n, options) {
                     inlineStylesheet,
                     maskInputSelector,
                     unmaskInputSelector,
+                    maskAllText,
                     maskInputOptions,
                     maskTextFn,
                     maskInputFn,
@@ -6823,7 +6841,7 @@ function serializeNodeWithId(n, options) {
     return serializedNode;
 }
 function snapshot(n, options) {
-    const { blockClass = 'rr-block', blockSelector = null, unblockSelector = null, maskTextClass = 'rr-mask', maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, inlineImages = false, recordCanvas = false, maskInputSelector = null, unmaskInputSelector = null, maskAllInputs = false, maskTextFn, maskInputFn, slimDOM = false, dataURLOptions, preserveWhiteSpace, onSerialize, onIframeLoad, iframeLoadTimeout, keepIframeSrcFn = () => false, } = options || {};
+    const { blockClass = 'rr-block', blockSelector = null, unblockSelector = null, maskTextClass = 'rr-mask', maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, inlineImages = false, recordCanvas = false, maskInputSelector = null, unmaskInputSelector = null, maskAllText = false, maskAllInputs = false, maskTextFn, maskInputFn, slimDOM = false, dataURLOptions, preserveWhiteSpace, onSerialize, onIframeLoad, iframeLoadTimeout, keepIframeSrcFn = () => false, } = options || {};
     const idNodeMap = {};
     const maskInputOptions = maskAllInputs === true
         ? {
@@ -6880,6 +6898,7 @@ function snapshot(n, options) {
             inlineStylesheet,
             maskInputSelector,
             unmaskInputSelector,
+            maskAllText,
             maskInputOptions,
             maskTextFn,
             maskInputFn,
@@ -7118,33 +7137,42 @@ function getWindowWidth() {
         (document.documentElement && document.documentElement.clientWidth) ||
         (document.body && document.body.clientWidth));
 }
-function isBlocked(node, blockClass) {
+function isBlocked(node, blockClass, blockSelector, unblockSelector) {
     if (!node) {
         return false;
     }
     if (node.nodeType === node.ELEMENT_NODE) {
         let needBlock = false;
+        const needUnblock = unblockSelector && node.matches(unblockSelector);
         if (typeof blockClass === 'string') {
             if (node.closest !== undefined) {
-                return node.closest('.' + blockClass) !== null;
+                needBlock =
+                    !needUnblock &&
+                        node.closest('.' + blockClass) !== null;
             }
             else {
-                needBlock = node.classList.contains(blockClass);
+                needBlock =
+                    !needUnblock && node.classList.contains(blockClass);
             }
         }
         else {
-            node.classList.forEach((className) => {
-                if (blockClass.test(className)) {
-                    needBlock = true;
-                }
-            });
+            !needUnblock &&
+                node.classList.forEach((className) => {
+                    if (blockClass.test(className)) {
+                        needBlock = true;
+                    }
+                });
         }
-        return needBlock || isBlocked(node.parentNode, blockClass);
+        if (!needBlock && blockSelector) {
+            needBlock = node.matches(blockSelector);
+        }
+        return ((!needUnblock && needBlock) ||
+            isBlocked(node.parentNode, blockClass, blockSelector, unblockSelector));
     }
     if (node.nodeType === node.TEXT_NODE) {
-        return isBlocked(node.parentNode, blockClass);
+        return isBlocked(node.parentNode, blockClass, blockSelector, unblockSelector);
     }
-    return isBlocked(node.parentNode, blockClass);
+    return isBlocked(node.parentNode, blockClass, blockSelector, unblockSelector);
 }
 function isIgnored(n) {
     if ('__sn' in n) {
@@ -7352,6 +7380,7 @@ class MutationBuffer {
                     unmaskInputSelector: this.unmaskInputSelector,
                     skipChild: true,
                     inlineStylesheet: this.inlineStylesheet,
+                    maskAllText: this.maskAllText,
                     maskInputOptions: this.maskInputOptions,
                     maskTextFn: this.maskTextFn,
                     maskInputFn: this.maskInputFn,
@@ -7472,9 +7501,9 @@ class MutationBuffer {
             switch (m.type) {
                 case 'characterData': {
                     const value = m.target.textContent;
-                    if (!isBlocked(m.target, this.blockClass) && value !== m.oldValue) {
+                    if (!isBlocked(m.target, this.blockClass, this.blockSelector, this.unblockSelector) && value !== m.oldValue) {
                         this.texts.push({
-                            value: needMaskingText(m.target, this.maskTextClass, this.maskTextSelector, this.unmaskTextSelector) && value
+                            value: needMaskingText(m.target, this.maskTextClass, this.maskTextSelector, this.unmaskTextSelector, this.maskAllText) && value
                                 ? this.maskTextFn
                                     ? this.maskTextFn(value)
                                     : value.replace(/[\S]/g, '*')
@@ -7499,7 +7528,7 @@ class MutationBuffer {
                             maskInputFn: this.maskInputFn,
                         });
                     }
-                    if (isBlocked(m.target, this.blockClass) || value === m.oldValue) {
+                    if (isBlocked(m.target, this.blockClass, this.blockSelector, this.unblockSelector) || value === m.oldValue) {
                         return;
                     }
                     let item = this.attributes.find((a) => a.node === m.target);
@@ -7545,7 +7574,7 @@ class MutationBuffer {
                         }
                     }
                     else {
-                        item.attributes[m.attributeName] = transformAttribute(this.doc, m.target.tagName, m.attributeName, value);
+                        item.attributes[m.attributeName] = transformAttribute(this.doc, m.target.tagName, m.attributeName, value, this.maskAllText, this.maskTextFn);
                     }
                     break;
                 }
@@ -7556,7 +7585,7 @@ class MutationBuffer {
                         const parentId = isShadowRoot(m.target)
                             ? this.mirror.getId(m.target.host)
                             : this.mirror.getId(m.target);
-                        if (isBlocked(m.target, this.blockClass) || isIgnored(n)) {
+                        if (isBlocked(m.target, this.blockClass, this.blockSelector, this.unblockSelector) || isIgnored(n)) {
                             return;
                         }
                         if (this.addedSet.has(n)) {
@@ -7583,7 +7612,7 @@ class MutationBuffer {
             }
         };
         this.genAdds = (n, target) => {
-            if (target && isBlocked(target, this.blockClass)) {
+            if (target && isBlocked(target, this.blockClass, this.blockSelector, this.unblockSelector)) {
                 return;
             }
             if (isINode(n)) {
@@ -7603,7 +7632,7 @@ class MutationBuffer {
                 this.addedSet.add(n);
                 this.droppedSet.delete(n);
             }
-            if (!isBlocked(n, this.blockClass))
+            if (!isBlocked(n, this.blockClass, this.blockSelector, this.unblockSelector))
                 n.childNodes.forEach((childN) => this.genAdds(childN));
         };
     }
@@ -7619,6 +7648,7 @@ class MutationBuffer {
             'maskInputSelector',
             'unmaskInputSelector',
             'inlineStylesheet',
+            'maskAllText',
             'maskInputOptions',
             'maskTextFn',
             'maskInputFn',
@@ -7792,7 +7822,7 @@ function initMoveObserver({ mousemoveCb, sampling, doc, mirror, }) {
         handlers.forEach((h) => h());
     });
 }
-function initMouseInteractionObserver({ mouseInteractionCb, doc, mirror, blockClass, sampling, }) {
+function initMouseInteractionObserver({ mouseInteractionCb, doc, mirror, blockClass, blockSelector, unblockSelector, sampling, }) {
     if (sampling.mouseInteraction === false) {
         return () => { };
     }
@@ -7804,7 +7834,7 @@ function initMouseInteractionObserver({ mouseInteractionCb, doc, mirror, blockCl
     const getHandler = (eventKey) => {
         return (event) => {
             const target = getEventTarget(event);
-            if (isBlocked(target, blockClass)) {
+            if (isBlocked(target, blockClass, blockSelector, unblockSelector)) {
                 return;
             }
             const e = isTouchEvent(event) ? event.changedTouches[0] : event;
@@ -7834,10 +7864,10 @@ function initMouseInteractionObserver({ mouseInteractionCb, doc, mirror, blockCl
         handlers.forEach((h) => h());
     });
 }
-function initScrollObserver({ scrollCb, doc, mirror, blockClass, sampling, }) {
+function initScrollObserver({ scrollCb, doc, mirror, blockClass, blockSelector, unblockSelector, sampling, }) {
     const updatePosition = throttle((evt) => {
         const target = getEventTarget(evt);
-        if (!target || isBlocked(target, blockClass)) {
+        if (!target || isBlocked(target, blockClass, blockSelector, unblockSelector)) {
             return;
         }
         const id = mirror.getId(target);
@@ -7884,7 +7914,7 @@ function wrapEventWithUserTriggeredFlag(v, enable) {
 }
 const INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const lastInputValueMap = new WeakMap();
-function initInputObserver({ inputCb, doc, mirror, blockClass, ignoreClass, ignoreSelector, maskInputSelector, unmaskInputSelector, maskInputOptions, maskInputFn, sampling, userTriggeredOnInput, }) {
+function initInputObserver({ inputCb, doc, mirror, blockClass, blockSelector, unblockSelector, ignoreClass, ignoreSelector, maskInputSelector, unmaskInputSelector, maskInputOptions, maskInputFn, sampling, userTriggeredOnInput, }) {
     function eventHandler(event) {
         let target = getEventTarget(event);
         const userTriggered = event.isTrusted;
@@ -7893,7 +7923,7 @@ function initInputObserver({ inputCb, doc, mirror, blockClass, ignoreClass, igno
         if (!target ||
             !target.tagName ||
             INPUT_TAGS.indexOf(target.tagName) < 0 ||
-            isBlocked(target, blockClass)) {
+            isBlocked(target, blockClass, blockSelector, unblockSelector)) {
             return;
         }
         const type = target.type;
@@ -8134,10 +8164,10 @@ function initStyleDeclarationObserver({ styleDeclarationCb, mirror }, { win }) {
         win.CSSStyleDeclaration.prototype.removeProperty = removeProperty;
     });
 }
-function initMediaInteractionObserver({ mediaInteractionCb, blockClass, mirror, sampling, }) {
+function initMediaInteractionObserver({ mediaInteractionCb, blockClass, blockSelector, unblockSelector, mirror, sampling, }) {
     const handler = (type) => throttle(callbackWrapper((event) => {
         const target = getEventTarget(event);
-        if (!target || isBlocked(target, blockClass)) {
+        if (!target || isBlocked(target, blockClass, blockSelector, unblockSelector)) {
             return;
         }
         const { currentTime, volume, muted } = target;
@@ -8416,7 +8446,7 @@ function __rest(s, e) {
     return t;
 }
 
-function initCanvas2DMutationObserver(cb, win, blockClass, mirror) {
+function initCanvas2DMutationObserver(cb, win, blockClass, unblockSelector, blockSelector, mirror) {
     const handlers = [];
     const props2D = Object.getOwnPropertyNames(win.CanvasRenderingContext2D.prototype);
     for (const prop of props2D) {
@@ -8426,7 +8456,7 @@ function initCanvas2DMutationObserver(cb, win, blockClass, mirror) {
             }
             const restoreHandler = patch(win.CanvasRenderingContext2D.prototype, prop, function (original) {
                 return function (...args) {
-                    if (!isBlocked(this.canvas, blockClass)) {
+                    if (!isBlocked(this.canvas, blockClass, blockSelector, unblockSelector)) {
                         setTimeout(() => {
                             const recordArgs = [...args];
                             if (prop === 'drawImage') {
@@ -8470,12 +8500,12 @@ function initCanvas2DMutationObserver(cb, win, blockClass, mirror) {
     };
 }
 
-function initCanvasContextObserver(win, blockClass) {
+function initCanvasContextObserver(win, blockClass, blockSelector, unblockSelector) {
     const handlers = [];
     try {
         const restoreHandler = patch(win.HTMLCanvasElement.prototype, 'getContext', function (original) {
             return function (contextType, ...args) {
-                if (!isBlocked(this, blockClass)) {
+                if (!isBlocked(this, blockClass, blockSelector, unblockSelector)) {
                     if (!('__context' in this))
                         this.__context = contextType;
                 }
@@ -8632,7 +8662,7 @@ const isInstanceOfWebGLObject = (value, win) => {
     return Boolean(supportedWebGLConstructorNames.find((name) => value instanceof win[name]));
 };
 
-function patchGLPrototype(prototype, type, cb, blockClass, mirror, win) {
+function patchGLPrototype(prototype, type, cb, blockClass, unblockSelector, blockSelector, mirror, win) {
     const handlers = [];
     const props = Object.getOwnPropertyNames(prototype);
     for (const prop of props) {
@@ -8644,7 +8674,7 @@ function patchGLPrototype(prototype, type, cb, blockClass, mirror, win) {
                 return function (...args) {
                     const result = original.apply(this, args);
                     saveWebGLVar(result, win, prototype);
-                    if (!isBlocked(this.canvas, blockClass)) {
+                    if (!isBlocked(this.canvas, blockClass, blockSelector, unblockSelector)) {
                         const id = mirror.getId(this.canvas);
                         const recordArgs = serializeArgs([...args], win, prototype);
                         const mutation = {
@@ -8675,11 +8705,11 @@ function patchGLPrototype(prototype, type, cb, blockClass, mirror, win) {
     }
     return handlers;
 }
-function initCanvasWebGLMutationObserver(cb, win, blockClass, mirror) {
+function initCanvasWebGLMutationObserver(cb, win, blockClass, blockSelector, unblockSelector, mirror) {
     const handlers = [];
-    handlers.push(...patchGLPrototype(win.WebGLRenderingContext.prototype, CanvasContext.WebGL, cb, blockClass, mirror, win));
+    handlers.push(...patchGLPrototype(win.WebGLRenderingContext.prototype, CanvasContext.WebGL, cb, blockClass, blockSelector, unblockSelector, mirror, win));
     if (typeof win.WebGL2RenderingContext !== 'undefined') {
-        handlers.push(...patchGLPrototype(win.WebGL2RenderingContext.prototype, CanvasContext.WebGL2, cb, blockClass, mirror, win));
+        handlers.push(...patchGLPrototype(win.WebGL2RenderingContext.prototype, CanvasContext.WebGL2, cb, blockClass, blockSelector, unblockSelector, mirror, win));
     }
     return () => {
         handlers.forEach((h) => h());
@@ -8721,14 +8751,14 @@ class CanvasManager {
         this.mutationCb = options.mutationCb;
         this.mirror = options.mirror;
         if (options.recordCanvas === true)
-            this.initCanvasMutationObserver(options.win, options.blockClass);
+            this.initCanvasMutationObserver(options.win, options.blockClass, options.blockSelector, options.unblockSelector);
     }
-    initCanvasMutationObserver(win, blockClass) {
+    initCanvasMutationObserver(win, blockClass, unblockSelector, blockSelector) {
         this.startRAFTimestamping();
         this.startPendingCanvasMutationFlusher();
-        const canvasContextReset = initCanvasContextObserver(win, blockClass);
-        const canvas2DReset = initCanvas2DMutationObserver(this.processMutation.bind(this), win, blockClass, this.mirror);
-        const canvasWebGL1and2Reset = initCanvasWebGLMutationObserver(this.processMutation.bind(this), win, blockClass, this.mirror);
+        const canvasContextReset = initCanvasContextObserver(win, blockClass, blockSelector, unblockSelector);
+        const canvas2DReset = initCanvas2DMutationObserver(this.processMutation.bind(this), win, blockClass, blockSelector, unblockSelector, this.mirror);
+        const canvasWebGL1and2Reset = initCanvasWebGLMutationObserver(this.processMutation.bind(this), win, blockClass, blockSelector, unblockSelector, this.mirror);
         this.resetObservers = () => {
             canvasContextReset();
             canvas2DReset();
@@ -8776,7 +8806,7 @@ let wrappedEmit;
 let takeFullSnapshot;
 const mirror = createMirror();
 function record(options = {}) {
-    const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskTextClass = 'rr-mask', maskTextSelector = null, maskInputSelector = null, unmaskTextSelector = null, unmaskInputSelector = null, inlineStylesheet = true, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskInputFn, maskTextFn, hooks, packFn, sampling = {}, mousemoveWait, recordCanvas = false, userTriggeredOnInput = false, collectFonts = false, inlineImages = false, plugins, keepIframeSrcFn = () => false, } = options;
+    const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskTextClass = 'rr-mask', maskTextSelector = null, maskInputSelector = null, unmaskTextSelector = null, unmaskInputSelector = null, inlineStylesheet = true, maskAllText = false, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskInputFn, maskTextFn, hooks, packFn, sampling = {}, mousemoveWait, recordCanvas = false, userTriggeredOnInput = false, collectFonts = false, inlineImages = false, plugins, keepIframeSrcFn = () => false, } = options;
     if (!emit) {
         throw new Error('emit function is required');
     }
@@ -8884,6 +8914,8 @@ function record(options = {}) {
         mutationCb: wrappedCanvasMutationEmit,
         win: window,
         blockClass,
+        blockSelector,
+        unblockSelector,
         mirror,
     });
     const shadowDomManager = new ShadowDomManager({
@@ -8899,6 +8931,7 @@ function record(options = {}) {
             maskInputSelector,
             unmaskInputSelector,
             inlineStylesheet,
+            maskAllText,
             maskInputOptions,
             maskTextFn,
             maskInputFn,
@@ -8932,6 +8965,7 @@ function record(options = {}) {
             maskInputSelector,
             unmaskInputSelector,
             inlineStylesheet,
+            maskAllText,
             maskAllInputs: maskInputOptions,
             maskTextFn,
             slimDOM: slimDOMOptions,
@@ -9042,6 +9076,7 @@ function record(options = {}) {
                 userTriggeredOnInput,
                 collectFonts,
                 doc,
+                maskAllText,
                 maskInputFn,
                 maskTextFn,
                 blockSelector,
@@ -11782,7 +11817,7 @@ function isElectronNodeRenderer() {
   return typeof process !== 'undefined' && (process ).type === 'renderer';
 }
 
-const MEDIA_SELECTORS = 'img,image,svg,path,rect,area,video,object,picture,embed,map,audio';
+const MEDIA_SELECTORS = 'img,image,svg,video,object,picture,embed,map,audio';
 
 let _initialized = false;
 
@@ -11820,7 +11855,7 @@ class Replay  {
     _experiments = {},
     sessionSampleRate,
     errorSampleRate,
-    maskAllText,
+    maskAllText = true,
     maskAllInputs = true,
     blockAllMedia = true,
 
@@ -11846,6 +11881,7 @@ class Replay  {
   } = {}) {Replay.prototype.__init.call(this);
     this._recordingOptions = {
       maskAllInputs,
+      maskAllText,
       maskInputOptions: { ...(maskInputOptions || {}), password: true },
       maskTextFn: maskFn,
       maskInputFn: maskFn,
@@ -11880,7 +11916,6 @@ class Replay  {
       sessionSampleRate,
       errorSampleRate,
       useCompression,
-      maskAllText: typeof maskAllText === 'boolean' ? maskAllText : !maskTextSelector,
       blockAllMedia,
       _experiments,
     };
@@ -11907,13 +11942,6 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
       );
 
       this._initialOptions.errorSampleRate = errorSampleRate;
-    }
-
-    if (this._initialOptions.maskAllText) {
-      // `maskAllText` is a more user friendly option to configure
-      // `maskTextSelector`. This means that all nodes will have their text
-      // content masked.
-      this._recordingOptions.maskTextSelector = MASK_ALL_TEXT_SELECTOR;
     }
 
     if (this._initialOptions.blockAllMedia) {
