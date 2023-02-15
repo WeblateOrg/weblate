@@ -73,7 +73,7 @@ class ContextDiv(Div):
         self.context = kwargs.pop("context", {})
         super().__init__(*fields, **kwargs)
 
-    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
+    def render(self, form, context, template_pack=TEMPLATE_PACK, **kwargs):
         template = self.get_template_name(template_pack)
         return render_to_string(template, self.context)
 
@@ -83,11 +83,9 @@ class SearchField(Field):
         kwargs["template"] = "snippets/query-field.html"
         super().__init__(*args, **kwargs)
 
-    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
+    def render(self, form, context, template_pack=TEMPLATE_PACK, **kwargs):
         extra_context = {"custom_filter_list": self.get_search_query_choices()}
-        return super().render(
-            form, form_style, context, template_pack, extra_context, **kwargs
-        )
+        return super().render(form, context, template_pack, extra_context, **kwargs)
 
     def get_search_query_choices(self):
         """Return all filtering choices for query field."""

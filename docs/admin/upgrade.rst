@@ -376,6 +376,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
   changed for that.
 * The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
+* Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
