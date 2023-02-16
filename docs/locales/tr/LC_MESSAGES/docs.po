@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-13 13:54+0000\n"
+"PO-Revision-Date: 2023-02-16 17:56+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -422,7 +422,7 @@ msgid ""
 msgstr ""
 "Varsayılan olarak bu durum, bu takımların kendi yapılandırması nedeniyle "
 "Weblete tarafından `Kullanıcılar` ve `Görüntüleyenler` :ref: `varsayılan "
-"takımlar <default-teams>` için sağlanan erişim izinlerinin verilmesini "
+"takımlar <default-teams>` için sunulan erişim izinlerinin verilmesini "
 "engeller. Bu durum, varsayılan takımları değiştirerek, yeni bir tane "
 "oluşturarak ya da aşağıdaki :ref:`custom-acl` bölümünde açıklandığı gibi tek "
 "tek bileşenler için ek özel ayarlar oluşturarak site genelinde bu projelere "
@@ -6808,7 +6808,7 @@ msgstr "Bir bileşen için uzun bakım görevlerinin tetiklenme sıklığını b
 
 #: ../../admin/config.rst:201
 msgid "Right now this controls:"
-msgstr "Şu anda bunun kontrol ettikleri:"
+msgstr "Şu anda bunun denetlediği:"
 
 #: ../../admin/config.rst:203
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
@@ -7405,7 +7405,7 @@ msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 
 #: ../../admin/config.rst:629
 msgid "Default setting for translation propagation, defaults to ``True``."
-msgstr "Varsayılan çeviri yayılımı ayarı. Varsayılan değer ``True``."
+msgstr "Varsayılan çeviri yayılması ayarı. Varsayılan değer ``True``."
 
 #: ../../admin/config.rst:633
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
@@ -7543,7 +7543,7 @@ msgstr "GET_HELP_URL"
 
 #: ../../admin/config.rst:730
 msgid "URL where support for your Weblate instance can be found."
-msgstr "Weblate kopyanız için destek bilgilerinin bulunduğu adres."
+msgstr "Weblate kopyanızın destek bilgilerinin bulunduğu adres."
 
 #: ../../admin/config.rst:735
 msgid "GITEA_CREDENTIALS"
@@ -8918,11 +8918,11 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
-"Şu anda bu yalnızca :ref:`vcs-git` için desteklenir. Varsayılan olarak "
-"Weblate, kopyalamayı hızlandırmak ve disk alanını korumak için sığ depo "
-"kopyaları oluşturur. Kullanımınıza bağlı olarak (örneğin custom :ref:`addons`"
-" kullanırken), kopya derinliği artırmak ya da 0 olarak ayarlayarak tümüyle "
-"kapatmak isteyebilirsiniz."
+"Bu seçenek şu anda yalnızca :ref:`vcs-git` için destekleniyor. Varsayılan "
+"olarak Weblate, kopyalamayı hızlandırmak ve disk alanını korumak için sığ "
+"depo kopyaları oluşturur. Kullanımınıza bağlı olarak (örneğin custom "
+":ref:`addons` kullanırken), kopya derinliği artırmak ya da 0 olarak "
+"ayarlayarak tümüyle kapatmak isteyebilirsiniz."
 
 #: ../../admin/config.rst:1927
 msgid ""
@@ -9157,24 +9157,32 @@ msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
+"Depo yönetiminden ya da :ref:`api` ya da :ref:`wlc` kullanarak güncellemeyi "
+"el ile başlatabilirsiniz"
 
 #: ../../admin/continuous.rst:65
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Weblate kopyanızdaki tüm bileşenlerin kendiliğinden güncellenmesi için "
+":setting:`AUTO_UPDATE` seçeneğini etkinleştirin"
 
 #: ../../admin/continuous.rst:67
 msgid ""
 "Execute :djadmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
+":djadmin:`updategit` komutunu yürütün (projeyi seçin ya da tümünü ‘’—"
+"güncellemek için ``all`` kullanın)"
 
 #: ../../admin/continuous.rst:69
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Weblate depoyu her güncellediğinde, güncelleme sonrası eklentileri "
+"tetiklenir. Bilgi almak için: :ref:`addons`."
 
 #: ../../admin/continuous.rst:75
 msgid "Avoiding merge conflicts"
@@ -9187,6 +9195,12 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"Aynı dosya hem Weblate üzerinde hem de Weblate dışında değiştirildiğinde "
+"Weblate üzerinden gelen birleştirmelerde çakışmalar ortaya çıkar. Bu sorunu "
+"çözmek için kullanılabilecek iki yaklaşım vardır. Weblate dışındaki "
+"düzenlemelerden kaçınmak ya da güncelleme sürecinizi Weblate ile "
+"bütünleştirmek. Böylece Weblate dışındaki dosyalar güncellenmeden önce "
+"değişiklikler temizlenir."
 
 #: ../../admin/continuous.rst:82
 msgid ""
@@ -9200,6 +9214,16 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
+"Tek dilli dosyalar için ilk yaklaşım kolaydır. Weblate üzerinde yeni "
+"dizgeler ekleyebilir ve dosyaların tüm düzenleme işlemlerini orada "
+"yapabilirsiniz. İki dilli dosyalar için, kaynak kodundan çevrilebilir "
+"dosyalar oluşturmak için genellikle bir tür ileti ayıklama işlemi vardır. "
+"Bazı durumlarda bu işlem iki bölüme ayrılabilir. Birinci adım ayıklama "
+"kalıbını oluşturur (örneğin gettext POT :program:`xgettext` kullanılarak "
+"oluşturulur) ve ikinci adım onu gerçek çevirilerle birleştirir (gettext PO "
+"dosyaları :program:`msgmerge` kullanılarak güncellenir). İkinci adımı "
+"Weblate içinde yapabilirsiniz ve bu işlemden önce bekleyen tüm "
+"değişikliklerin katıldığına emin olabilirsiniz."
 
 #: ../../admin/continuous.rst:92
 msgid ""
@@ -9207,6 +9231,9 @@ msgid ""
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
 msgstr ""
+"İkinci yaklaşım, :ref:`api` ile Weblate uygulamasını bekleyen tüm "
+"değişiklikleri itmek ve kendi tarafınızda değişiklikler yaparken çeviriyi "
+"kilitlemek yoluyla uygulanabilir."
 
 #: ../../admin/continuous.rst:96
 msgid "The script for doing updates can look like this:"
@@ -9217,6 +9244,8 @@ msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
 msgstr ""
+"Aynı depoyu paylaşan birden fazla bileşeniniz varsa hepsini ayrı ayrı "
+"kilitlemeniz gerekir:"
 
 #: ../../admin/continuous.rst:128
 msgid ""
@@ -9224,6 +9253,9 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of wlc, e.g. curl, see :ref:`api`."
 msgstr ""
+"Örnekte, uzaktan Weblate yönetimi için yapılandırmaya (API anahtarları) "
+"gerek duyan :ref:`wlc` kullanılır. Bunu wlc yerine curl gibi herhangi bir "
+"HTTP istemcisini kullanarak da yapabilirsiniz. Bilgi almak için: :ref:`api`."
 
 #: ../../admin/continuous.rst:134
 #, fuzzy
@@ -9246,6 +9278,10 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"Hosted Weblate kullanıyorsanız, `Weblate uygulaması <https://github.com/apps/"
+"weblate>`_ kurmanız önerilir. Böylece çok fazla şeyi ayarlamanız gerekmeden "
+"doğru kurulumu elde edersiniz. Değişiklikleri geri itmek için de "
+"kullanılabilir."
 
 #: ../../admin/continuous.rst:148
 msgid ""
@@ -9253,6 +9289,9 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"GitHub deposuna yapılan her itmede bildirim almak için, depo ayarlarına "
+"(:guilabel:`Webhooks`) aşağıdaki görseldeki gibi Weblate web kancasını "
+"ekleyin:"
 
 #: ../../admin/continuous.rst:154
 msgid ""
@@ -9260,12 +9299,17 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"Yük adresi olarak, Weblate adresinizin sonuna \"/hooks/github/\" ekleyin. "
+"Örneğin Hosted Weblate hizmeti için \"https://hosted.weblate.org/hooks/"
+"github/\" kullanabilirsiniz."
 
 #: ../../admin/continuous.rst:157
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
+"Diğer ayarları varsayılan değerlerinde bırakabilirsiniz (Weblate her iki "
+"içerik türünü de işleyebilir ve yalnızca `push` işlemine gerek duyar)."
 
 #: ../../admin/continuous.rst:162
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
@@ -9282,6 +9326,10 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate, Bitbucket web kancalarını destekler. Weblate kurulumunuza hedef "
+"olarak ``/hooks/bitbucket/`` adresiyle depo itme işlemi sırasında "
+"tetiklenecek bir web kancası ekleyin (``https://hosted.weblate.org/hooks/"
+"bitbucket/`` gibi)."
 
 #: ../../admin/continuous.rst:178
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -9297,6 +9345,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate, GitLab kancalarını destekler. Weblate kurulumunuza hedef olarak ``/"
+"hooks/gitlab/`` adresiyle hedefi bir proje web kancası ekleyin "
+"(``https://hosted.weblate.org/hooks/gitlab/``gibi)."
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -9313,6 +9364,10 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate, Pagure kancalarını destekler. Weblate kurulumunuza hedef olarak ``/"
+"hooks/pagure/`` web kancasını ekleyin (``https://hosted.weblate.org/hooks/"
+"pagure/`` gibi). Bu işlem, :guilabel:`Proje ayarları` bölümündeki :guilabel:`"
+"Web kancaları kullanılsın` seçeneği ile yapılabilir:"
 
 #: ../../admin/continuous.rst:209
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -9320,7 +9375,7 @@ msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:214
 msgid "Automatically receiving changes from Azure Repos"
-msgstr "Aşure depoları değişikliklerini kendiliğinden almak"
+msgstr "Azure Repos değişikliklerini kendiliğinden almak"
 
 #: ../../admin/continuous.rst:218
 msgid ""
@@ -9330,6 +9385,11 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"Weblate, Azure Repos kancalarını destekler. Weblate kurulumunuza :guilabel:`"
+"İtilecek kod` işlemi için hedef olarak ``/hooks/azure/`` web kancasını "
+"ekleyin (``https://hosted.weblate.org/hooks/azure/`` gibi). Bu işlem, "
+":guilabel:`Proje ayarları` bölümündeki :guilabel:`Hizmet kancaları` seçeneği "
+"ile yapılabilir."
 
 #: ../../admin/continuous.rst:227
 msgid ""
@@ -9353,6 +9413,11 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate, Gitea kancalarını destekler. Weblate kurulumunuza :guilabel:`İtme "
+"işlemleri` içinden :guilabel:`Gitea web kancası` işlemi için hedef olarak ``/"
+"hooks/gitea/`` web kancasını ekleyin (``https://hosted.weblate.org/hooks/"
+"gitea/`` gibi). Bu işlem, :guilabel:`Ayarlar` bölümündeki :guilabel:`Web "
+"kancaları` seçeneği ile yapılabilir."
 
 #: ../../admin/continuous.rst:244
 msgid ""
@@ -9364,7 +9429,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:250
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr "Gitme depoları değişikliklerini kendiliğinden almak"
+msgstr "Gitee depoları değişikliklerini kendiliğinden almak"
 
 #: ../../admin/continuous.rst:254
 msgid ""
@@ -9374,6 +9439,11 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"Weblate, Gitee kancalarını destekler. Weblate kurulumunuza :guilabel:`İtme` "
+"işlemi için hedef olarak ``/hooks/gitee/`` web kancasını ekleyin "
+"(``https://hosted.weblate.org/hooks/gitee/`` gibi). Bu işlem, "
+":guilabel:`Yönetim` bölümündeki :guilabel:`Web kancaları` seçeneği ile "
+"yapılabilir."
 
 #: ../../admin/continuous.rst:261
 msgid ""
@@ -9393,6 +9463,10 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate, daha sonra değişiklik birleştirme başarımını artırmak için her gece "
+"uzak depoları kendiliğinden alır. İsteğe bağlı olarak, :setting:`AUTO_UPDATE`"
+" seçeneğini etkinleştirerek bunu gecelik birleştirmeler yapmaya da "
+"dönüştürebilirsiniz."
 
 #: ../../admin/continuous.rst:274
 msgid "Pushing changes from Weblate"
@@ -9407,12 +9481,21 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
+"Her çeviri bileşeni için ayrı bir itme adresi ayarlanabilir (bilgi almak "
+"için :ref:`component-push`) ve bu durumda Weblate, değişikliği uzak depoya "
+"itebilir.  Weblate, değişiklikleri her işlemede otomatik olarak gönderecek "
+"şekilde de yapılandırılabilir (varsayılan davranış, bilgi almak için: :ref"
+":`component-push_on_commit`). Değişikliklerin kendiliğinden itilmesini "
+"istemiyorsanız, bunu el ile :guilabel:`Depo bakımı` bölümünden ya da "
+":option:`wlc push` API seçeneğini kullanarak yapabilirsiniz."
 
 #: ../../admin/continuous.rst:283
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
+"İtme seçenekleri, kullanılan :ref:`vcs` değerine göre farklılık gösterir. "
+"Ayrıntılı bilgileri bu bölümden alabilirsiniz."
 
 #: ../../admin/continuous.rst:285
 msgid ""
@@ -9422,6 +9505,12 @@ msgid ""
 "guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` "
 "or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"İtme işleminin doğrudan Weblate tarafından yapılmasını istemiyorsanız, :ref"
+":`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` çekme "
+"istekleri ya da :ref:`vcs-gerrit` onayları desteklenmektedir. Bunları "
+":ref:`component` içindeki :ref:`component-vcs` bölümünden :guilabel:`GitHub`"
+", :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` ya da "
+":guilabel:`Pagure` olarak seçerek etkinleştirebilirsiniz."
 
 #: ../../admin/continuous.rst:291
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -9638,6 +9727,8 @@ msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
+"Değişiklik, :ref:`component` üzerinde :ref:`component-commit_pending_age` "
+"olarak tanımlanmış dönemden daha eski olduğunda."
 
 #: ../../admin/continuous.rst:375
 msgid ""
@@ -9645,12 +9736,17 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` add-on in that case."
 msgstr ""
+"Gönderimler her bileşen için ayrı oluşturulur. Bu nedenle, birçok "
+"bileşeniniz varsa, gene çok sayıda gönderim görürsünüz. Bu durumda :ref"
+":`addon-weblate.git.squash` eklentisini kullanabilirsiniz."
 
 #: ../../admin/continuous.rst:379
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit:"
 msgstr ""
+"Değişiklikleri daha sık ve yaş denetimi olmadan yapmak istiyorsanız, işlemi "
+"yapmak için bir normal görev zamanlayabilirsiniz:"
 
 #: ../../admin/continuous.rst:388
 msgid "Processing repository with scripts"
@@ -9662,6 +9758,9 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
+"Weblate ile depo arasındaki etkileşim :ref:`addons` ile özelleştirilebilir. "
+"Eklentiler ile dış betiklerin nasıl yürütüleceği hakkında ayrıntılı bilgi "
+"almak için :ref:`addon-script` bölümüne bakabilirsiniz."
 
 #: ../../admin/continuous.rst:397
 msgid "Keeping translations same across components"
@@ -9673,10 +9772,13 @@ msgid ""
 "the same strings have same translation. This can be achieved at several "
 "levels."
 msgstr ""
+"Birden çok çeviri bileşeniniz olduğunda, aynı dizgelerin çevirilerinin de "
+"aynı olduğundan emin olmak isteyebilirsiniz. Bu tutarlılık birkaç düzeyde "
+"sağlanabilir."
 
 #: ../../admin/continuous.rst:403
 msgid "Translation propagation"
-msgstr "Çevirileri yaymak"
+msgstr "Çevirilerin yayılmasını sağlamak"
 
 #: ../../admin/continuous.rst:405
 msgid ""
@@ -9685,12 +9787,18 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
+":ref:`component-allow_translation_propagation` seçeneği etkinken (varsayılan "
+"değer nedir, bilgi almak için: :ref:`component`), tüm yeni çeviriler "
+"dizgeleri eşleşen tüm bileşenlerde kendiliğinden yapılır. Bu tür çevirilerin "
+"kredisi, tüm bileşenlerde çeviri yapan geçerli kullanıcıya verilir."
 
 #: ../../admin/continuous.rst:412
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr ""
+"Çeviri yayılması için, anahtarın tek dilli çeviri biçimleriyle eşleşmesi "
+"gerekir. Çeviri anahtarlarını oluştururken bunu aklınızda bulundurun."
 
 #: ../../admin/continuous.rst:416
 msgid "Consistency check"
@@ -9702,6 +9810,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+"Dizgeler farklı olduğunda :ref:`check-inconsistent` denetimi tetiklenir. Bu "
+"tür farklılıkları el ile incelemek ve doğru çeviriyi seçmek için bunu "
+"kullanabilirsiniz."
 
 #: ../../admin/continuous.rst:425
 msgid ""
@@ -9711,6 +9822,11 @@ msgid ""
 "repository update using add-on (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
+"Farklı bileşenleri temel alan kendiliğinden çeviri, çevirileri bileşenler "
+"arasında eşitlemenin bir yöntemi olabilir. El ile tetikleyebilir (bilgi "
+"almak için: :ref:`auto-translation`) veya eklentiyi kullanarak depo "
+"güncellemelerinde kendiliğinden çalışmasını sağlayabilirsiniz (bilgi almak "
+"için: :ref:`addon-weblate.autotranslate.autotranslate`)."
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
@@ -9723,6 +9839,10 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
+"Django ve Python kullanarak zenginleştirebilir ve özelleştirebilirsiniz. "
+"Herkesin yararlanabilmesi için değişikliklerinizi yukarı akışa katın. Bu "
+"yöntem, bakım maliyetlerinizi azaltır. İç arayüzler değiştirilirken veya kod "
+"yeniden düzenlenirken Weblate üzerindeki kod ele alınır."
 
 #: ../../admin/customize.rst:11
 msgid ""
@@ -9730,6 +9850,9 @@ msgid ""
 "Please review your own customizations for every upgrade, the interfaces or "
 "their semantics might change without notice."
 msgstr ""
+"Ne iç arayüzler ne de kalıplar kararlı bir API olarak kabul edilmez. Lütfen "
+"her yükseltme için kendi özelleştirmelerinizi gözden geçirin. Arayüzler veya "
+"bağlamları önceden bildirilmeksizin değişebilir."
 
 #: ../../admin/customize.rst:17
 msgid ":ref:`contributing`"
@@ -9745,6 +9868,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Python ile ilgili değilseniz, temel bilgileri açıklayan ve eğitimlerin "
+"bulunduğu 'Yeni başlayanlar için Python <https://www.python.org/about/"
+"gettingstarted/>'_ bölümüne bakmak isteyebilirsiniz."
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -9753,6 +9879,10 @@ msgid ""
 "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
+"Özel Python kodu (modül olarak adlandırılır) içeren bir dosya yazmak için, "
+"sistem yolunda (genellikle :file:`/usr/lib/python3.9/site-packages/` gibi "
+"bir şey) veya yorumlayıcı arama yoluna da eklenen Weblate klasöründe bir "
+"depolama alanına gerek duyulur."
 
 #: ../../admin/customize.rst:35
 msgid ""
@@ -9761,52 +9891,70 @@ msgid ""
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
+":ref:`Docker kullanıldığında<docker-deploy>`, Python modüllerini :file:`/app/"
+"data/python/` (see :ref:`docker-volume`) içine yerleştirebilirsiniz. Böylece "
+"Weblate bunları yükleyebilir. Örneğin bir :ref:`ayar değiştirme dosyası "
+"<docker-settings-override>` kullanabilirsiniz."
 
 #: ../../admin/customize.rst:40
 msgid "Better yet, turn your customization into a proper Python package:"
 msgstr ""
+"Daha da iyisi, özelleştirmenizi uygun bir Python paketine "
+"dönüştürebilirsiniz:"
 
 #: ../../admin/customize.rst:42
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr ""
+"Paketiniz için bir klasör oluşturun (`weblate_customization' kullanacağız)."
 
 #: ../../admin/customize.rst:43
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
+msgstr "İçinde paketi açıklayan bir :file:`setup.py` dosyası oluşturun:"
 
 #: ../../admin/customize.rst:60
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
+"Özelleştirme kodunun bulunduğu Python modülü için bir klasör oluşturun "
+"(``weblate_customization`` olarak da adlandırılır)."
 
 #: ../../admin/customize.rst:62
 msgid ""
 "Within it, create a :file:`__init__.py` file to make sure Python can import "
 "the module."
 msgstr ""
+"İçinde bir :file:`__init__.py` dosyası oluşturarak modülün Python tarafından "
+"içe aktarabildiğinden emin olun."
 
 #: ../../admin/customize.rst:63
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
+"Bu paket artık :command:`pip install -e` kullanılarak kurulabilir. Bilgi "
+"almak için: :ref:`pip:editable-installs`."
 
 #: ../../admin/customize.rst:64
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"Kurulduktan sonra, modül Weblate yapılandırmasında kullanılabilir "
+"(``weblate_customization.checks.FooCheck`` gibi)."
 
 #: ../../admin/customize.rst:67
 msgid "Your package structure should look like this:"
-msgstr ""
+msgstr "Paket yapınız şöyle görünmelidir:"
 
 #: ../../admin/customize.rst:78
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"<https://github.com/WeblateOrg/customize-example> adresinde bir Weblate "
+"özelleştirme örneği bulabilirsiniz. Bu örnek aşağıda açıklanan tüm konuları "
+"kapsar."
 
 #: ../../admin/customize.rst:83
 msgid "Changing the logo"
@@ -10534,12 +10682,17 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
+"Django temelli siteler için genellikle en iyi seçim PostgreSQL kullanmaktır. "
+"Django tarafından referans olarak kullanılan veri tabanıdır."
 
 #: ../../admin/install.rst:343
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
+"Weblate, bazı durumlarda ayrı olarak kurulması gereken trigram eklentisini "
+"kullanır. ``Postgresql-contrib`` ya da benzer şekilde adlandırılmış bir "
+"paket arayın."
 
 #: ../../admin/install.rst:348
 msgid ":ref:`django:postgresql-notes`"
@@ -10554,6 +10707,8 @@ msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
 msgstr ""
+"Weblate için ayrı bir kullanıcı hesabı ile ayrı bir veritabanı kullanmak "
+"genellikle iyi bir fikirdir:"
 
 #: ../../admin/install.rst:370
 msgid ""
@@ -10561,6 +10716,10 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
+"Weblate kullanıcısını PostgreSQL üzerinde süper kullanıcı yapmak "
+"istemiyorsanız, bu seçeneği atlayabilirsiniz. Bu durumda, PostgreSQL süper "
+"kullanıcısı ile Weblate şemasındaki bazı aktarım adımlarını el ile yapmanız "
+"gerekir:"
 
 #: ../../admin/install.rst:382
 msgid "Configuring Weblate to use PostgreSQL"
@@ -11000,7 +11159,7 @@ msgid ""
 "You can also review the very same checklist from the :ref:`management-"
 "interface`."
 msgstr ""
-"Aynı kontrol listesini :ref:`management-interface` bölümünden de gözden "
+"Aynı denetim listesini :ref:`management-interface` bölümünden de gözden "
 "geçirebilirsiniz."
 
 #: ../../admin/install.rst:778
@@ -12154,6 +12313,8 @@ msgid ""
 "Weblate stable release with development changes in the Docker container (for "
 "example updated dependencies)"
 msgstr ""
+"Docker kapsayıcısındaki geliştirme değişiklikleriyle Weblate kararlı sürümü ("
+"güncelleştirilmiş bağımlılıklar gibi)"
 
 #: ../../admin/install/docker.rst:86
 msgid "Rolling updates in a staging environment"
@@ -12177,7 +12338,7 @@ msgstr "Git üzerinden Weblate geliştirme sürümü"
 
 #: ../../admin/install/docker.rst:90
 msgid "Rollling updates to test upcoming Weblate features"
-msgstr ""
+msgstr "Yakında eklencek Weblate özelliklerini denemel için güncelleme ekleri"
 
 #: ../../admin/install/docker.rst:92
 msgid "``bleeding-<DATE>-<SHA>``"
@@ -12185,13 +12346,15 @@ msgstr "``bleeding-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:92
 msgid "Well defined deploy to test upcoming Weblate features"
-msgstr ""
+msgstr "Yaklaşan Weblate özelliklerini denemek için iyi tanımlanmış dağıtım"
 
 #: ../../admin/install/docker.rst:95
 msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
+"Her kalıp yayınlanmadan önce denenir. Bu nedenle `bleeding` sürümünün "
+"kullanımı bile oldukça güvenli olmalıdır."
 
 #: ../../admin/install/docker.rst:100
 msgid "Docker container with HTTPS support"
@@ -12715,24 +12878,32 @@ msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
+"Tüm Weblate üzerinde kimlik doğrulamasını zorunlu kılmak için "
+":setting:`REQUIRE_LOGIN` seçeneğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:645
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
+":setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` seçeneğini kullanarak tüm Weblate "
+"kurulumu için gereken kimlik doğrulama adresi istisnalarını ekler."
 
 #: ../../admin/install/docker.rst:648
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
+"Tüm ayarları değiştirebilir ya da ``ADD`` ve ``REMOVE`` seçeneklerini "
+"kullanarak varsayılan değeri değiştirebilirsiniz."
 
 #: ../../admin/install/docker.rst:652
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
+":setting:`GOOGLE_ANALYTICS_ID` seçeneğini değiştirerek Google Analytics "
+"kimliğini yapılandırır."
 
 #: ../../admin/install/docker.rst:658
 msgid ""
@@ -12740,6 +12911,9 @@ msgid ""
 "`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or :setting:"
 "`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`."
 msgstr ""
+":setting:`GITHUB_CREDENTIALS` (:envvar:`WEBLATE_GITHUB_HOST` ayarlanmışsa) "
+"ya da :setting:`GITHUB_USERNAME` ve :setting:`GITHUB_TOKEN` seçeneklerini "
+"değiştirerek GitHub çekme istekleri bütünleştirmesini yapılandırır."
 
 #: ../../admin/install/docker.rst:670
 msgid ""
@@ -12747,6 +12921,9 @@ msgid ""
 "`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or :setting:"
 "`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`."
 msgstr ""
+":setting:`GITLAB_CREDENTIALS` (:envvar:`WEBLATE_GITLAB_HOST` ayarlanmışsa) "
+"ya da :setting:`GITLAB_USERNAME` ve :setting:`GITLAB_TOKEN` seçeneklerini "
+"değiştirerek GitLab birleştirme istekleri bütünleştirmesini yapılandırır."
 
 #: ../../admin/install/docker.rst:682
 msgid ""
@@ -12754,6 +12931,9 @@ msgid ""
 "`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or :setting:"
 "`GITEA_USERNAME` and :setting:`GITEA_TOKEN`."
 msgstr ""
+":setting:`GITEA_CREDENTIALS` (:envvar:`WEBLATE_GITEA_HOST` ayarlanmışsa) ya "
+"da :setting:`GITEA_USERNAME` ve :setting:`GITEA_TOKEN` seçeneklerini "
+"değiştirerek Gitea çekme istekleri bütünleştirmesini yapılandırır."
 
 #: ../../admin/install/docker.rst:695
 msgid ""
@@ -12761,12 +12941,17 @@ msgid ""
 "`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or :setting:"
 "`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`."
 msgstr ""
+":setting:`PAGURE_CREDENTIALS` (:envvar:`WEBLATE_PAGURE_HOST` ayarlanmışsa) "
+"ya da :setting:`PAGURE_USERNAME` ve :setting:`PAGURE_TOKEN` seçeneklerini "
+"değiştirerek Pagure birleştirme istekleri bütünleştirmesini yapılandırır."
 
 #: ../../admin/install/docker.rst:705
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
 msgstr ""
+":setting:`DEFAULT_PULL_MESSAGE` seçeneğini değiştirerek API ile yapılan "
+"çekme isteklerinin varsayılan başlığını ve iletiyi yapılandırır"
 
 #: ../../admin/install/docker.rst:710
 #, fuzzy
@@ -12779,18 +12964,25 @@ msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
+"Dil basitleştirme ilkesini yapılandırır. Bilgi almak için: "
+":setting:`SIMPLIFY_LANGUAGES'."
 
 #: ../../admin/install/docker.rst:718
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Yeni projeler için varsayılan :ref:`project-access_control` ögesini "
+"yapılandırır. Bilgi almak için: :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/install/docker.rst:722
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Yeni bileşenler için :ref:`component-restricted` seçeneğinin varsayılan "
+"değerini yapılandırır. Bilgi almak için: "
+":setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/install/docker.rst:726
 msgid ""
@@ -12798,6 +12990,9 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"Yeni bileşenler için :ref:`component-allow_translation_propagation` "
+"seçeneğinin varsayılan değerini yapılandırır. Bilgi almak için: "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:730
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
@@ -13136,6 +13331,10 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Kendiliğinden imzalanan SAML anahtarları, ilk kapsayıcı başlatıldığında "
+"kendiliğinden oluşturulur. Kendi anahtarlarınızı kullanmak isterseniz, "
+"sertifikayı ve kişisel anahtarı :file:`/app/data/ssl/saml.crt` ve :file:`/"
+"app/data/ssl/saml.key` dosyalarına yerleştirin."
 
 #: ../../admin/install/docker.rst:1130
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
@@ -13151,6 +13350,8 @@ msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
+"Herhangi bir değere ayarlandığında e-posta kimlik doğrulamasını devre dışı "
+"bırakır. Bilgi almak için: :ref:`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1143
 msgid "PostgreSQL database setup"
@@ -13161,6 +13362,8 @@ msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"Veri tabanı :file:`docker-compose.yml` tarafından oluşturulur. Bu nedenle bu "
+"ayarlar hem Weblate hem de PostgreSQL kapsayıcılarını etkiler."
 
 #: ../../admin/install/docker.rst:1148
 msgid ":ref:`database-setup`"
@@ -14635,7 +14838,7 @@ msgstr "Dosya biçimine göre varsayılan"
 
 #: ../../admin/languages.rst:197
 msgid "Dependent on file format, for most of them POSIX is used."
-msgstr ""
+msgstr "Dosya biçimine bağlıdır. Çoğu için POSIX kullanılır."
 
 #: ../../admin/languages.rst:199
 msgid "POSIX style using underscore as a separator"
@@ -14646,6 +14849,8 @@ msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "``pt_BR``."
 msgstr ""
+"Genellikle gettext ve ilgili araçlar tarafından kullanılır. ``pt_BR`` gibi "
+"dil kodlarını üretir."
 
 #: ../../admin/languages.rst:202
 msgid "POSIX style using underscore as a separator, including country code"
@@ -14656,6 +14861,8 @@ msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example ``cs_CZ``)."
 msgstr ""
+"Gerekli olmadığında bile ülke kodunu içeren POSIX biçemindeki dil kodu "
+"(``tr_TR`` gibi)."
 
 #: ../../admin/languages.rst:205
 msgid "BCP style using hyphen as a separator"
@@ -14665,6 +14872,8 @@ msgstr "Ayraç olarak tire kullanan BCP biçemi"
 msgid ""
 "Typically used on web platforms, produces language codes like ``pt-BR``."
 msgstr ""
+"Genellikle web platformlarında kullanılır. ''pt-BR'' gibi dil kodlarını "
+"üretir."
 
 #: ../../admin/languages.rst:208
 msgid "BCP style using hyphen as a separator, including country code"
@@ -14675,6 +14884,8 @@ msgid ""
 "BCP style language code including the country code even when not necessary "
 "(for example ``cs-CZ``)."
 msgstr ""
+"Gerekli olmadığında bile ülke kodunu içeren BCP biçemindeki dil kodu (``tr-"
+"TR`` gibi)."
 
 #: ../../admin/languages.rst:210
 msgid "BCP style using hyphen as a separator, legacy language codes"
@@ -14682,7 +14893,7 @@ msgstr "Ayraç olarak tire kullanan BCP biçemi, eski dil kodları"
 
 #: ../../admin/languages.rst:211
 msgid "Uses legacy codes for Chinese and BCP style notation."
-msgstr ""
+msgstr "Çince ve BCP biçeminde gösterim için eski kodları kullanır."
 
 #: ../../admin/languages.rst:212
 msgid "BCP style using hyphen as a separator, lower cased"
@@ -14690,7 +14901,7 @@ msgstr "Ayraç olarak tire kullanan BCP biçemi, küçük harfli"
 
 #: ../../admin/languages.rst:213
 msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
-msgstr ""
+msgstr "BCP biçeminde gösterim. Tümü küçük harfle (örneğin ``tr-tr``)."
 
 #: ../../admin/languages.rst:214
 msgid "Apple App Store metadata style"
@@ -14698,7 +14909,7 @@ msgstr "Apple App Store üst veri biçemi"
 
 #: ../../admin/languages.rst:215
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr ""
+msgstr "Üst verileri Apple App Store üzerine yüklemeye uygun biçem."
 
 #: ../../admin/languages.rst:216
 msgid "Google Play metadata style"
@@ -14706,7 +14917,7 @@ msgstr "Google Play üst veri biçemi"
 
 #: ../../admin/languages.rst:217
 msgid "Style suitable for uploading metadata to Google Play Store."
-msgstr ""
+msgstr "Üst verileri Google Play Store üzerine yüklemeye uygun biçem."
 
 #: ../../admin/languages.rst:219
 msgid "Android style"
@@ -14715,6 +14926,8 @@ msgstr "Android biçemi"
 #: ../../admin/languages.rst:219
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
 msgstr ""
+"Yalnızca Android uygulamalarında kullanıldığında, ``tr-TR`` gibi dil kodları "
+"üretir."
 
 #: ../../admin/languages.rst:222
 msgid "Linux style"
@@ -14725,18 +14938,24 @@ msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation."
 msgstr ""
+"Linux tarafından kullanılan yerel ayarlar, Çince ve POSIX biçeminde gösterim "
+"için eski kodları kullanır."
 
 #: ../../admin/languages.rst:224
 msgid ""
 "Additionally, any mappings defined in :ref:`project-language_aliases` are "
 "applied in reverse."
 msgstr ""
+"Ek olarak, :ref:`project-language_aliases` içinde tanımlanan eşlemeler ters "
+"yönde uygulanır."
 
 #: ../../admin/languages.rst:229
 msgid ""
 "Weblate recognizes any of these when parsing translation files, the above "
 "settings only influences how new files are created."
 msgstr ""
+"Weblate, çeviri dosyalarını işlerken bunlardan herhangi birini tanır. "
+"Yukarıdaki ayarlar yalnızca yeni dosyaların nasıl oluşturulacağını etkiler."
 
 #: ../../admin/languages.rst:234
 msgid ""
@@ -14748,7 +14967,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Çeviri lisanslarını belirlemek"
 
 #: ../../admin/licensing.rst:3
 msgid ""
@@ -14756,12 +14975,17 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Çevirmenlerin katkıda bulunmak için kabul etmesi gereken lisans koşullarını "
+"belirleyebilirsiniz. Bu özellik, herkese açık olan çevirilerin ne amaçla "
+"kullanılabileceğini belirlemek özellikle önemlidir."
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+":ref:`component` lisans bilgilerini belirtmelisiniz. Yapılabiliyor olsa da, "
+"bir katılımcı lisans anlaşmasını zorunlu kılmaktan kaçının."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
@@ -14772,6 +14996,8 @@ msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Lisans bilgileri (lisans adı ve adresi) belirtildikten sonra, bu bilgiler "
+"ilgili :ref:`component` için çeviri bilgileri bölümünde görüntülenir."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -14779,6 +15005,9 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Genellikle açık bir onay gerekmiyorsa lisans bilgilerini yayınlamak için en "
+"iyi yer burasıdır. Projeniz veya çeviriniz özgür değilse, büyük olasılıkla "
+"önceden izin almanız gerekir."
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:571
 msgid "Contributor agreement"
@@ -14790,12 +15019,17 @@ msgid ""
 "to it will be able to contribute. This is a clearly visible step when "
 "accessing the translation:"
 msgstr ""
+"Bir katılımcı lisans anlaşması belirtirseniz, çeviriye yalnızca bunu kabul "
+"eden kullanıcılar katkıda bulunabilir. Katılımcı anlaşması çeviriye "
+"erişirken açıkça görülebilir:"
 
 #: ../../admin/licensing.rst:27
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
 msgstr ""
+"Yazılan metinde paragraflar kullanılabilir ve dış bağlantılar eklenebilir. "
+"HTML kod imleri kullanılamaz."
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
@@ -14806,6 +15040,8 @@ msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Herhangi bir kullanıcı, bulut sunucusunda herkese açık tüm projelerin tüm "
+"çeviri lisanslarını profilinde inceleyebilir:"
 
 #: ../../admin/machine.rst:4
 msgid "Configuring automatic suggestions"
@@ -14815,6 +15051,8 @@ msgstr "Kendiliğinden önerileri yapılandırmak"
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
 msgstr ""
+"Weblate 4.13 sürümünden önce, hizmetler :ref:`config` içinden "
+"yapılandırılıyordu."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -14822,12 +15060,17 @@ msgid ""
 "is built-in. Each service can be turned on by the administrator for whole "
 "site or at the project settings:"
 msgstr ""
+"Çeşitli makine çevirisi ve çeviri belleği hizmetlerinin desteği içeriden "
+"sağlanır. Her hizmet, yönetici tarafından tüm site için ya da projeye özel "
+"olarak ayarlanabilir:"
 
 #: ../../admin/machine.rst:18
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Hizmetlerin kendi kullanım koşulları olduğundan, bunları istediğiniz gibi "
+"kullanmanıza izin verildiğinden emin olun."
 
 #: ../../admin/machine.rst:21
 msgid ""
@@ -14865,6 +15108,8 @@ msgstr "`Bu eklentinin yapılandırması yok.`"
 msgid ""
 "Special installation of :ref:`mt-tmserver` run by the authors of Virtaal."
 msgstr ""
+"Virtaal geliştiricileri tarafından işletilen özel :ref:`mt-tmserver` "
+"kurulumu."
 
 #: ../../admin/machine.rst:40
 msgid ""
@@ -14893,11 +15138,14 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Sınırlı bir dil kümesine çeviri sağlayan bir özgür yazılım makine çevirisi "
+"platformu."
 
 #: ../../admin/machine.rst:58
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"Apertium kullanmak için kendi Apertium-APy sunucunuzu işletmeniz önerilir."
 
 #: ../../admin/machine.rst:62
 msgid ""
@@ -14954,6 +15202,8 @@ msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages."
 msgstr ""
+"Amazon Translate, desteklenen çok sayıda dilde İngilizce'ye ve İngilizce'den "
+"metin çevirme için kullanılabilecek bir nöral makine çevirisi hizmetidir."
 
 #: ../../admin/machine.rst:88
 msgid ""
@@ -14987,6 +15237,8 @@ msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Bu hizmet bir API kullanır ve bunu kullanmak için Baidu üzerinden bir kimlik "
+"ve API anahtarı edinmeniz gerekir."
 
 #: ../../admin/machine.rst:110
 msgid ""
@@ -15015,12 +15267,17 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL, birkaç dil için iyi makine çevirisi sağlayan ücretli bir hizmettir. "
+":guilabel:`DeepL API` aboneliği satın almanız gerekir veya eski :guilabel:`"
+"DeepL Pro (klasik)` tarifesini kullanabilirsiniz."
 
 #: ../../admin/machine.rst:130
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"DeepL hizmetiyle kullanılacak API adresi. Bu bilgi yazıldığında, API v1 "
+"yanında ücretsiz ve ücretli API v2 sürümleri bulunuyordu."
 
 #: ../../admin/machine.rst:133
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
@@ -15029,7 +15286,7 @@ msgstr "``https://api.deepl.com/v2/`` (Weblate içinde varsayılan)"
 #: ../../admin/machine.rst:134
 msgid ""
 "Is meant for API usage on the paid plan, and the subscription is usage-based."
-msgstr ""
+msgstr "Ücretli olarak API kullanımı içindir ve abonelik yöntemi uygulanır."
 
 #: ../../admin/machine.rst:135
 msgid "``https://api-free.deepl.com/v2/``"
@@ -15038,7 +15295,7 @@ msgstr "``https://api-free.deepl.com/v2/``"
 #: ../../admin/machine.rst:136
 msgid ""
 "Is meant for API usage on the free plan, and the subscription is usage-based."
-msgstr ""
+msgstr "Ücretsiz olarak API kullanımı içindir ve abonelik yöntemi uygulanır."
 
 #: ../../admin/machine.rst:138
 msgid "``https://api.deepl.com/v1/``"
@@ -15046,7 +15303,7 @@ msgstr "``https://api.deepl.com/v1/``"
 
 #: ../../admin/machine.rst:138
 msgid "Is meant for CAT tools and is usable with a per-user subscription."
-msgstr ""
+msgstr "CAT araçları içindir ve kullanıcı başına abonelik yöntemi uygulanır."
 
 #: ../../admin/machine.rst:140
 msgid ""
@@ -15055,35 +15312,51 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"Weblate daha önce, DeepL tarafından bir CAT aracı olarak sınıflandırılmıştı. "
+"Bu nedenle API v1 kullanması gerekiyordu. Ancak şimdi API v2 kullanması "
+"gerekiyor. Bu nedenle, v2 varsayılan değerdir ve var olan bir CAT "
+"aboneliğiniz varsa ve Weblate tarafından bunun kullanılmasını istiyorsanız "
+"bu değeri v1 olarak değiştirebilirsiniz."
 
 #: ../../admin/machine.rst:145
 msgid ""
 "The easiest way to find out which one to use is to open an URL like the "
 "following in your browser:"
 msgstr ""
+"Hangisini kullanacağınızı öğrenmenin en kolay yolu, tarayıcınızda "
+"aşağıdakine benzer bir adres açmaktır:"
 
 #: ../../admin/machine.rst:148
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=TR&auth_key=XXX"
 
 #: ../../admin/machine.rst:150
 msgid ""
 "Replace the XXX with your auth_key. If you receive a JSON object which "
 "contains \"Bonjour\", you have the correct URL; if not, try the other three."
 msgstr ""
+"XXX yerine kimlik doğrulama anahtarınızı (auth_key) yazın. \"Bonjour\" "
+"içeren bir JSON nesnesi alırsanız adresiniz doğrudur. Yoksa, diğer üçünü "
+"deneyin."
 
 #: ../../admin/machine.rst:153
 msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"Weblate, DeepL resmilik düzeyini destekler ve dile göre eşleşen birini seçer "
+"(örneğin, \"de@formal\" ve \"de@informal\" seçenekleri vardır)."
 
 #: ../../admin/machine.rst:158
 msgid ""
 "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl."
 "com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-api.html>`_"
 msgstr ""
+"`DeepL web sitesi <https://www.deepl.com/>`_, `DeepL fiyatları <https://www."
+"deepl.com/pro>`_, `DeepL API belgeleri <https://www.deepl.com/docs-api."
+"html>`_"
 
 #: ../../admin/machine.rst:165
 msgid "Glosbe"
@@ -15317,32 +15590,38 @@ msgid ""
 "Machine translation service provided by Microsoft in Azure portal as a one "
 "of Cognitive Services."
 msgstr ""
+"Microsoft tarafından Azure portalında Cognitive Services altında sunulan "
+"makine çevirisi hizmeti."
 
 #: ../../admin/machine.rst:299
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate, Translator API V3 kullanır."
 
 #: ../../admin/machine.rst:302
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Translator Text API V2"
 
 #: ../../admin/machine.rst:303
 msgid "The key you use with Translator API V2 can be used with API 3."
 msgstr ""
+"Translator API V2 ile kullandığınız anahtar, API 3 ile de kullanılabilir."
 
 #: ../../admin/machine.rst:306
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Translator Text API V3"
 
 #: ../../admin/machine.rst:307
 msgid ""
 "You need to register at Azure portal and use the key you obtain there. With "
 "new Azure keys, you also need to set ``region`` to locale of your service."
 msgstr ""
+"Azure portalında bir hesap açmanız ve oradan alacağınız anahtarı kullanmanız "
+"gerekir. Yeni Azure anahtarlarıyla, ``region`` seçeneği için hizmetinizin "
+"yerel ayarını belirtmeniz gerekir."
 
 #: ../../admin/machine.rst:312
 msgid "For Azure China, please use your endpoint from the Azure Portal."
-msgstr ""
+msgstr "Azure Çin için lütfen Azure Portal üzerindeki uç noktanızı kullanın."
 
 #: ../../admin/machine.rst:316
 msgid ""
@@ -15357,6 +15636,16 @@ msgid ""
 "cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
 "an-access-token>`_"
 msgstr ""
+"`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
+"en-us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
+"<https://portal.azure.com/>`_, `Temel adresler <https://learn.microsoft.com/"
+"en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-"
+"urls>`_, `”Çok hizmetli bir kaynak ile kimlik doğrulamak\" <https://learn."
+"microsoft.com/en-us/azure/cognitive-services/translator/reference/"
+"v3-0-reference#authenticating-with-a-multi-service-resource>`_ `”Erişim kodu "
+"ile kimlik doğrulamak“ bölümü <https://learn.microsoft.com/en-us/azure/"
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
+"an-access-token>`_"
 
 #: ../../admin/machine.rst:325
 msgid "ModernMT"
@@ -15394,7 +15683,7 @@ msgstr "Dosya adı"
 
 #: ../../admin/machine.rst:355
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Makine çevirisi ile çok büyük bir çeviri belleği."
 
 #: ../../admin/machine.rst:357
 msgid ""
@@ -15402,6 +15691,9 @@ msgid ""
 "requests/day when you provide a contact e-mail address in ``email``. You can "
 "also ask them for more."
 msgstr ""
+"Ücretsiz, anonim kullanım şu anda günde 100 istek ya da ``email`` içine bir "
+"iletişim e-posta adresi yazdığınızda günde 1.000 istek ile sınırlıdır. "
+"Ayrıca onlara yazarak daha fazlasını da isteyebilirsiniz."
 
 #: ../../admin/machine.rst:364
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
@@ -15423,10 +15715,12 @@ msgstr "NetEase tarafından sunulan makine çevirisi hizmeti."
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Bu hizmet bir API kullanır ve bir NetEase anahtarı ile parolası edinmeniz "
+"gerekir."
 
 #: ../../admin/machine.rst:386
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
-msgstr ""
+msgstr "`NetEase Sight çeviri platformu <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:391
 msgid "SAP Translation Hub"
@@ -15462,29 +15756,36 @@ msgstr "Makine çevirisi kullanılsın"
 
 #: ../../admin/machine.rst:406
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "SAP tarafından sunulan makine çevirisi hizmeti."
 
 #: ../../admin/machine.rst:408
 msgid ""
 "You need to have a SAP account (and the SAP Translation Hub enabled in the "
 "SAP Cloud Platform) to use this service."
 msgstr ""
+"Bu hizmeti kullanmak için bir SAP hesabınızın (ve SAP Cloud Platform "
+"üzerinde etkinleştirilmiş SAP Translation Hub) olması gerekir."
 
 #: ../../admin/machine.rst:411
 msgid ""
 "You can also configure whether to also use machine translation services, in "
 "addition to the term database."
 msgstr ""
+"Veri tabanı terimine ek olarak, makine çevirisi hizmetlerinin de kullanılıp "
+"kullanılmayacağını yapılandırabilirsiniz."
 
 #: ../../admin/machine.rst:416
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
 msgstr ""
+"Sandbox API erişimi için ``url`` ve ``key`` değerlerini ayarlamalısınız."
 
 #: ../../admin/machine.rst:419
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
+"Üretken API erişimi için ``url``, ``username`` ve ``password`` seçeneklerini "
+"ayarlamalısınız."
 
 #: ../../admin/machine.rst:423
 msgid ""
@@ -15493,6 +15794,10 @@ msgid ""
 "Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 msgstr ""
+"`SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
+"SAPTranslationHub/api/translationhub>`_, `SAP Translation Hub temel adresini "
+"oluşturmak<https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
+"ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:429
 msgid "tmserver"
@@ -17772,7 +18077,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:505
 msgid "Allow translation propagation"
-msgstr "Çeviriler yayılabilsin"
+msgstr "Çevirilerin yayılmasını sağlamak"
 
 #: ../../admin/projects.rst:507
 msgid ""
@@ -17865,7 +18170,7 @@ msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
-"Bir kullanıcının bu bileşeni çevirmeden önce onaylaması gereken kullanıcı "
+"Bir kullanıcının bu bileşeni çevirmeden önce kabul etmesi gereken katılımcı "
 "anlaşması."
 
 #: ../../admin/projects.rst:579
@@ -20762,6 +21067,7 @@ msgstr "Çeviri bileşeni hakkındaki bilgileri görüntüler."
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"çeviri projesi. Bilgi almak için :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1178 ../../devel/sphinx.rst:32
 msgid ":ref:`component-name`"
@@ -21491,6 +21797,8 @@ msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
+"``Hedef`` ve ``kaynak`` çoğul dizgeleri doğru işlemek için diziye "
+"dönüştürüldü."
 
 #: ../../api.rst:2059
 msgid "Returns information about translation unit."
@@ -21675,11 +21983,11 @@ msgstr "Süzülecek işlem, birkaç kez kullanılabilir"
 
 #: ../../api.rst:2148
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr ""
+msgstr "Sonraki değişiklikleri listelemek için ISO 8601 biçiminde zaman damgası"
 
 #: ../../api.rst:2149
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr ""
+msgstr "Önceki değişiklikleri listelemek için ISO 8601 biçiminde zaman damgası"
 
 #: ../../api.rst:2153
 msgid "Returns information about translation change."
@@ -22021,6 +22329,8 @@ msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Bildirim kancaları, dış uygulamaların sürüm denetimi sistemi deposunun "
+"güncellendiğini Weblate tarafına bildirmesini sağlar."
 
 #: ../../api.rst:2470
 msgid ""
@@ -22028,6 +22338,9 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
+"Depoları ayrı ayrı güncellemek için proje, bileşen ve çeviri depo uç "
+"noktalarını kullanabilirsiniz. Bilgi almak için :http:post:`/api/projects/"
+"(string:project)/repository/`."
 
 #: ../../api.rst:2478
 msgid ""
@@ -22035,24 +22348,34 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Erişim denetimi listesi ile kısıtlanmış projeler için kimlik doğrulaması ile "
+"düzgün çalışan :http:post:`/api/components/"
+"(string:project)/(string:component)/repository/` kullanın."
 
 #: ../../api.rst:2481
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
 msgstr ""
+"Bir bileşenin güncellenmesini tetikler (sürüm denetimi sisteminden çekme ve "
+"çeviri değişikliklerini tarama)."
 
 #: ../../api.rst:2488
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"Erişim denetimi listesi ile kısıtlanmış projeler için kimlik doğrulaması ile "
+"düzgün çalışan :http:post:`/api/projects/(string:project)/repository/` "
+"kullanın."
 
 #: ../../api.rst:2491
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
 msgstr ""
+"Bir projedeki tüm bileşenlerin güncellenmesini tetikler (sürüm denetimi "
+"sisteminden çekme ve çeviri değişikliklerini tarama)."
 
 #: ../../api.rst:2496
 msgid ""
@@ -22068,6 +22391,9 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub, doğrudan Weblate bilgilendirmelerini destekler: Depo ayarlarından "
+"Weblate hizmet kancasını etkinleştirin ve adres olarak Weblate kurulumunuzun "
+"adresini yazın."
 
 #: ../../api.rst:2508
 msgid "For instruction on setting up GitHub integration"
@@ -22168,6 +22494,8 @@ msgid ""
 "Please make sure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"Lütfen :guilabel:`Gönderilecek kaynak ayrıntıları` değerinin *Tümü* olarak "
+"ayarlandığından emin olun. Yoksa Weblate ile Azure deponuz eşleşemez."
 
 #: ../../api.rst:2573
 msgid "For instruction on setting up Azure integration"
@@ -22378,7 +22706,7 @@ msgstr "Dizgeyi öneri olarak göndermek için Alt+Enter klavye kısayolu eklend
 
 #: ../../changes.rst:26
 msgid "Added support for placeables in the Fluent format."
-msgstr "Fluent biçiminde yerleştirilebilirler için destek eklendi."
+msgstr "Fluent biçiminde yerleştirilebilir ögeler desteği eklendi."
 
 #: ../../changes.rst:27
 msgid "Improved performance of translation memory."
@@ -22644,7 +22972,7 @@ msgstr "Dil kodu biçemi yapılandırma seçenekleri genişletildi."
 
 #: ../../changes.rst:98
 msgid "Added support for plurals updated in the recent CLDR releases."
-msgstr "Son CLDR sürümlerinde güncellenen çoğul biçimler için destek eklendi."
+msgstr "Son CLDR sürümlerinde güncellenen çoğul biçimler desteği eklendi."
 
 #: ../../changes.rst:99
 msgid ""
@@ -25197,7 +25525,7 @@ msgstr "7 Mayıs 2020 tarihinde yayınlandı."
 #: ../../changes.rst:806
 msgid "Fixed testsuite execution on some Python 3.8 environments."
 msgstr ""
-"Bazı Python 3.8 ortamlarında yaşanan test paketini çalıştırma sorunu "
+"Bazı Python 3.8 ortamlarında yaşanan deneme paketini çalıştırma sorunu "
 "düzeltildi."
 
 #: ../../changes.rst:807
@@ -26270,7 +26598,7 @@ msgstr "Dil yönetimi görünümleri eklendi."
 
 #: ../../changes.rst:1117
 msgid "Add checks for Qt library and Ruby format strings."
-msgstr "Qt kitaplığı ve Ruby biçimindeki dizgeler için denetimler eklendi."
+msgstr "Qt kitaplığı ve Ruby biçim dizgeleri için denetimler eklendi."
 
 #: ../../changes.rst:1118
 msgid "Added configuration to better fit single project installations."
@@ -27035,7 +27363,7 @@ msgstr "27 Temmuz 2018 tarihinde yayınlandı."
 
 #: ../../changes.rst:1342
 msgid "Fix testsuite failure on some setups."
-msgstr "Bazı kurulumlarda yaşanan test paketi sorunu düzeltildi."
+msgstr "Bazı kurulumlarda yaşanan deneme paketi sorunu düzeltildi."
 
 #: ../../changes.rst:1345
 msgid "Weblate 3.1"
@@ -27172,7 +27500,7 @@ msgstr ""
 
 #: ../../changes.rst:1386
 msgid "Add support for collecting contributor agreements."
-msgstr "Katılımcı sözleşmelerini toplama desteği eklendi."
+msgstr "Katılımcı anlaşmalarını toplama desteği eklendi."
 
 #: ../../changes.rst:1387
 msgid "Access control changes are now tracked in history."
@@ -27222,40 +27550,45 @@ msgstr "Yalnızca işlem gerektiren dizgeleri indirme desteği eklendi."
 
 #: ../../changes.rst:1403
 msgid "Added support for searching in several languages at once."
-msgstr ""
+msgstr "Aynı anda birkaç dilde arama yapma özelliği eklendi."
 
 #: ../../changes.rst:1404
 msgid "New add-on to configure gettext output wrapping."
-msgstr ""
+msgstr "Gettext çıktı kaydırmasını yapılandıran yeni eklenti eklendi."
 
 #: ../../changes.rst:1405
 msgid "New add-on to configure JSON formatting."
-msgstr ""
+msgstr "JSON biçimlendirmesini yapılandıran yeni eklenti eklendi."
 
 #: ../../changes.rst:1406
 msgid ""
 "Added support for authentication in API using RFC 6750 compatible Bearer "
 "authentication."
 msgstr ""
+"RFC 6750 uyumlu Bearer kimlik doğrulaması kullanılarak, API üzerine kimlik "
+"doğrulama desteği eklendi."
 
 #: ../../changes.rst:1407
 msgid ""
 "Added support for automatic translation using machine translation services."
 msgstr ""
+"Makine çevirisi hizmetlerini kullanan kendiliğinden çeviri özelliği eklendi."
 
 #: ../../changes.rst:1408
 msgid "Added support for HTML markup in whiteboard messages."
-msgstr ""
+msgstr "Beyaz tahta iletilerine HTML kod imi desteği eklendi."
 
 #: ../../changes.rst:1409
 msgid "Added support for mass changing state of strings."
-msgstr ""
+msgstr "Dizge durumlarını toplu değiştirme özelliği eklendi."
 
 #: ../../changes.rst:1410
 msgid ""
 "Translate-toolkit at least 2.3.0 is now required, older versions are no "
 "longer supported."
 msgstr ""
+"En düşük translate-toolkit sürümü 2.3.0 olarak güncellendi. Eski sürümler "
+"artık desteklenmiyor."
 
 #: ../../changes.rst:1411
 msgid "Added built-in translation memory."
@@ -27266,14 +27599,16 @@ msgid ""
 "Added componentlists overview to dashboard and per component list overview "
 "pages."
 msgstr ""
+"Panoya bileşen listeleri özeti ve her bileşen listesinin özeti sayfaları "
+"eklendi."
 
 #: ../../changes.rst:1413
 msgid "Added support for DeepL machine translation service."
-msgstr ""
+msgstr "DeepL makine çevirisi hizmeti desteği eklendi."
 
 #: ../../changes.rst:1414
 msgid "Machine translation results are now cached inside Weblate."
-msgstr ""
+msgstr "Makine çevirisi sonuçlarının Weblate ön belleğine alınması sağlandı."
 
 #: ../../changes.rst:1415
 msgid "Added support for reordering committed changes."
@@ -27305,44 +27640,49 @@ msgstr "15 Şubat 2018 tarihinde yayınlandı."
 
 #: ../../changes.rst:1430
 msgid "Fixed imports across some file formats."
-msgstr ""
+msgstr "Bazı dosya biçimlerinde yaşanan içe aktarma sorunları düzeltildi."
 
 #: ../../changes.rst:1431
 msgid "Display human friendly browser information in audit log."
 msgstr ""
+"İnsan dostu tarayıcı bilgilerinin denetim günlüğünde görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1432
 msgid "Added TMX exporter for files."
-msgstr ""
+msgstr "Dosyalar için TMX dışa aktarıcısı eklendi."
 
 #: ../../changes.rst:1433
 msgid "Various performance improvements for loading translation files."
 msgstr ""
+"Çeviri dosyalarının yüklenmesinde çeşitli başarım iyileştirmeleri yapıldı."
 
 #: ../../changes.rst:1434
 msgid ""
 "Added option to disable access management in Weblate in favor of Django one."
 msgstr ""
+"Django kullanımını öne alacak biçimde Weblate erişim yönetimini devre dışı "
+"bırakma seçeneği eklendi."
 
 #: ../../changes.rst:1435
 msgid "Improved glossary lookup speed for large strings."
-msgstr ""
+msgstr "Büyük dizgeler için sözlük arama hızı iyileştirildi."
 
 #: ../../changes.rst:1436
 msgid "Compatibility with django_auth_ldap 1.3.0."
-msgstr ""
+msgstr "django_auth_ldap 1.3.0 uyumluluğu sağlandı."
 
 #: ../../changes.rst:1437
 msgid "Configuration errors are now stored and reported persistently."
 msgstr ""
+"Yapılandırma hatalarının kaydedilmesi ve kalıcı olarak bildirilmesi sağlandı."
 
 #: ../../changes.rst:1438
 msgid "Honor ignore flags in whitespace autofixer."
-msgstr ""
+msgstr "Beyaz boşluk düzelticisinde imlerin yok sayılmasına uyuldu."
 
 #: ../../changes.rst:1439
 msgid "Improved compatibility with some Subversion setups."
-msgstr ""
+msgstr "Bazı Subversion kurulumlarıyla uyumluluk geliştirildi."
 
 #: ../../changes.rst:1440
 msgid "Improved built-in machine translation service."
@@ -27350,27 +27690,27 @@ msgstr "İç makine çevirisi hizmeti iyileştirildi."
 
 #: ../../changes.rst:1441
 msgid "Added support for SAP Translation Hub service."
-msgstr ""
+msgstr "SAP Translation Hub hizmeti desteği eklendi."
 
 #: ../../changes.rst:1442
 msgid "Added support for Microsoft Terminology service."
-msgstr ""
+msgstr "Microsoft Terminology hizmeti desteği eklendi."
 
 #: ../../changes.rst:1443
 msgid "Removed support for advertisement in notification e-mails."
-msgstr ""
+msgstr "Bildirim e-postalarındaki reklam özelliği kaldırıldı."
 
 #: ../../changes.rst:1444
 msgid "Improved translation progress reporting at language level."
-msgstr ""
+msgstr "Dil düzeyinde çeviri ilerleme raporları iyileştirildi."
 
 #: ../../changes.rst:1445
 msgid "Improved support for different plural formulas."
-msgstr ""
+msgstr "Farklı çoğul biçim formülleri desteği iyileştirildi."
 
 #: ../../changes.rst:1446
 msgid "Added support for Subversion repositories not using stdlayout."
-msgstr ""
+msgstr "stdlayout kullanmayan Subversion depoları desteği eklendi."
 
 #: ../../changes.rst:1447
 msgid "Added add-ons to customize translation workflows."
@@ -27386,48 +27726,51 @@ msgstr "15 Aralık 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1454
 msgid "Extended contributor stats."
-msgstr ""
+msgstr "Katılımcı istatistikleri zenginleştirildi."
 
 #: ../../changes.rst:1455
 msgid "Improved configuration of special characters virtual keyboard."
-msgstr ""
+msgstr "Özel karakterler sanal klavye yapılandırması iyileştirildi."
 
 #: ../../changes.rst:1456
 msgid "Added support for DTD file format."
-msgstr ""
+msgstr "DTD dosya biçimi desteği eklendi."
 
 #: ../../changes.rst:1457
 msgid ""
 "Changed keyboard shortcuts to less likely collide with browser/system ones."
 msgstr ""
+"Klavye kısayolları, tarayıcı ve sistem kısayolları ile çakışma olasılığını "
+"düşürmek için değiştirildi."
 
 #: ../../changes.rst:1458
 msgid "Improved support for approved flag in XLIFF files."
-msgstr ""
+msgstr "XLIFF dosyaları için onaylandı imi desteği iyileştirildi."
 
 #: ../../changes.rst:1459
 msgid "Added support for not wrapping long strings in gettext PO files."
 msgstr ""
+"gettext PO dosyalarında uzun dizgelerin kaydırılmaması özelliği eklendi."
 
 #: ../../changes.rst:1460
 msgid "Added button to copy permalink for current translation."
-msgstr ""
+msgstr "Geçerli çevirinin kalıcı bağlantısını kopyalama düğmesi eklendi."
 
 #: ../../changes.rst:1461
 msgid "Dropped support for Django 1.10 and added support for Django 2.0."
-msgstr ""
+msgstr "Django 1.10 desteği kaldırıldı ve Django 2.0 desteği eklendi."
 
 #: ../../changes.rst:1462
 msgid "Removed locking of translations while translating."
-msgstr ""
+msgstr "Çeviri sırasında çevirilerin kilitlenmesi özelliği kaldırıldı."
 
 #: ../../changes.rst:1463
 msgid "Added support for adding new strings to monolingual translations."
-msgstr ""
+msgstr "Tek dilli çevirilere yeni dizgeler ekleme özelliği eklendi."
 
 #: ../../changes.rst:1464
 msgid "Added support for translation workflows with dedicated reviewers."
-msgstr ""
+msgstr "Seçilmiş onaylayıcılar ile çeviri iş akışı özelliği eklendi."
 
 #: ../../changes.rst:1467
 msgid "Weblate 2.17.1"
@@ -27440,10 +27783,12 @@ msgstr "13 Ekim 2017 tarihinde yayınlandı."
 #: ../../changes.rst:1471
 msgid "Fixed running testsuite in some specific situations."
 msgstr ""
+"Bazı özel durumlarda deneme paketinin çalıştırılmasında yaşanan sorun "
+"düzeltildi."
 
 #: ../../changes.rst:1472
 msgid "Locales updates."
-msgstr ""
+msgstr "Yereller güncellendi."
 
 #: ../../changes.rst:1475
 msgid "Weblate 2.17"
@@ -27451,47 +27796,54 @@ msgstr "Weblate 2.17"
 
 #: ../../changes.rst:1479
 msgid "Weblate by default does shallow Git clones now."
-msgstr ""
+msgstr "Git kopyalarının varsayılan olarak sığ olması sağlandı."
 
 #: ../../changes.rst:1480
 msgid "Improved performance when updating large translation files."
-msgstr ""
+msgstr "Büyük çeviri dosyalarını güncelleme başarımı artırıldı."
 
 #: ../../changes.rst:1481
 msgid "Added support for blocking certain e-mails from registration."
 msgstr ""
+"Belirli e-posta adresleri ile hesap açılması engelleme özelliği eklendi."
 
 #: ../../changes.rst:1482
 msgid "Users can now delete their own comments."
-msgstr ""
+msgstr "Kullanıcıların kendi yorumlarını silebilmesi özelliği eklendi."
 
 #: ../../changes.rst:1483
 msgid "Added preview step to search and replace feature."
-msgstr ""
+msgstr "Arama ve değiştirme özelliği için ön izleme adımı eklendi."
 
 #: ../../changes.rst:1484
 msgid "Client side persistence of settings in search and upload forms."
 msgstr ""
+"Arama ve yükleme formlarındaki ayarların istemci tarafında tutulması "
+"sağlandı."
 
 #: ../../changes.rst:1486
 msgid "More fine grained per project ACL configuration."
 msgstr ""
+"Her projeye özel erişim denetimi yapılandırmasının ayrıntıları artırıldı."
 
 #: ../../changes.rst:1487
 msgid "Default value of BASE_DIR has been changed."
-msgstr ""
+msgstr "BASE_DIR varsayılan değeri değiştirildi."
 
 #: ../../changes.rst:1488
 msgid "Added two step account removal to prevent accidental removal."
 msgstr ""
+"Yanlışlıkla silmeyi önlemek için hesap silme işleminin iki adımda yapılması "
+"sağlandı."
 
 #: ../../changes.rst:1489
 msgid "Project access control settings is now editable."
-msgstr ""
+msgstr "Proje erişim denetimi ayarlarını düzenleme özelliği eklendi."
 
 #: ../../changes.rst:1490
 msgid "Added optional spam protection for suggestions using Akismet."
 msgstr ""
+"Öneriler için Akismet ile istenmeyen içerikleri engelleme özelliği eklendi."
 
 #: ../../changes.rst:1493
 msgid "Weblate 2.16"
@@ -27503,43 +27855,45 @@ msgstr "11 Ağustos 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1497 ../../changes.rst:1623 ../../changes.rst:1975
 msgid "Various performance improvements."
-msgstr ""
+msgstr "Çeşitli başarım iyileştirmeleri yapıldı."
 
 #: ../../changes.rst:1498
 msgid "Added support for nested JSON format."
-msgstr ""
+msgstr "İç içe geçmiş JSON biçimi desteği eklendi."
 
 #: ../../changes.rst:1499
 msgid "Added support for WebExtension JSON format."
-msgstr ""
+msgstr "WebExtension JSON biçimi desteği eklendi."
 
 #: ../../changes.rst:1500
 msgid "Fixed git exporter authentication."
-msgstr ""
+msgstr "Git dışa aktarıcıda yaşanan kimlik doğrulaması sorunu düzeltildi."
 
 #: ../../changes.rst:1501
 msgid "Improved CSV import in certain situations."
-msgstr ""
+msgstr "Belirli durumlar için CSV içe aktarma işlemi iyileştirildi."
 
 #: ../../changes.rst:1502
 msgid "Improved look of Other translations widget."
-msgstr ""
+msgstr "Diğer çeviriler pano bileşeni görünümü iyileştirildi."
 
 #: ../../changes.rst:1503
 msgid "The max-length checks is now enforcing length of text in form."
 msgstr ""
+"En fazla uzunluk denetimlerinin formda metnin uzunluğunu dayatması sağlandı."
 
 #: ../../changes.rst:1504
 msgid "Make the commit_pending age configurable per component."
-msgstr ""
+msgstr "commit_pending yaşının her bileşene özel yapılandırılabilmesi sağlandı."
 
 #: ../../changes.rst:1505
 msgid "Various user interface cleanups."
-msgstr ""
+msgstr "Kullanıcı arayüzünde bazı sadeleştirmeler yapıldı."
 
 #: ../../changes.rst:1506
 msgid "Fixed component/project/site wide search for translations."
 msgstr ""
+"Çevirilerin bileşen/proje/site genelinde aramasında yaşanan sorun düzeltildi."
 
 #: ../../changes.rst:1509
 msgid "Weblate 2.15"
@@ -27551,43 +27905,47 @@ msgstr "30 Haziran 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1513
 msgid "Show more related translations in other translations."
-msgstr ""
+msgstr "Diğer çevirilerden daha fazla ilgili çevirinin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1514
 msgid "Add option to see translations of current string to other languages."
 msgstr ""
+"Geçerli dizgenin diğer dillerdeki çevirilerini görüntüleme özelliği eklendi."
 
 #: ../../changes.rst:1515
 msgid "Use 4 plural forms for Lithuanian by default."
 msgstr ""
+"Litvanyaca için varsayılan olarak 4 çoğul biçimin kullanılması sağlandı."
 
 #: ../../changes.rst:1516
 msgid "Fixed upload for monolingual files of different format."
 msgstr ""
+"Farklı biçimdeki tek dilli dosyalarda yaşanan yükleme sorunu düzeltildi."
 
 #: ../../changes.rst:1517
 msgid "Improved error messages on failed authentication."
-msgstr ""
+msgstr "Başarısız olan kimlik doğrulaması hata iletileri iyileştirildi."
 
 #: ../../changes.rst:1518
 msgid "Keep page state when removing word from glossary."
-msgstr ""
+msgstr "Sözcüğü sözlükten silerken sayfa durumunun korunması sağlandı."
 
 #: ../../changes.rst:1519
 msgid "Added direct link to edit secondary language translation."
-msgstr ""
+msgstr "İkincil dil çevirisini düzenlemek için doğrudan bağlantı eklendi."
 
 #: ../../changes.rst:1520
 msgid "Added Perl format quality check."
-msgstr ""
+msgstr "Perl biçimi kalite denetimi eklendi."
 
 #: ../../changes.rst:1521
 msgid "Added support for rejecting reused passwords."
-msgstr ""
+msgstr "Yeniden kullanılan parolaları reddetme özelliği eklendi."
 
 #: ../../changes.rst:1522
 msgid "Extended toolbar for editing RTL languages."
 msgstr ""
+"Araç çubuğu sağdan sola yazılan dilleri düzenlemek için zenginleştirildi."
 
 #: ../../changes.rst:1525
 msgid "Weblate 2.14.1"
@@ -27599,7 +27957,7 @@ msgstr "24 Mayıs 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1529
 msgid "Fixed possible error when paginating search results."
-msgstr ""
+msgstr "Arama sonuçları sayfalandırılırken yaşanabilecek sorun düzeltildi."
 
 #: ../../changes.rst:1530
 msgid "Fixed migrations from older versions in some corner cases."
@@ -27608,14 +27966,18 @@ msgstr "Bazı uç durumlarda yaşanan eski sürümlerden aktarım sorunu düzelt
 #: ../../changes.rst:1531
 msgid "Fixed possible CSRF on project watch and unwatch."
 msgstr ""
+"Proje izleme ve izlemeyi bırakma işlemlerinde yaşanabilecek CSRF sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:1532
 msgid "The password reset no longer authenticates user."
 msgstr ""
+"Parola sıfırlama işleminde kullanıcı kimliğinin doğrulanması özelliği "
+"kaldırıldı."
 
 #: ../../changes.rst:1533
 msgid "Fixed possible CAPTCHA bypass on forgotten password."
-msgstr ""
+msgstr "Parola unutulduğunda yaşanabilecek CAPTCHA atlama sorunu düzeltildi."
 
 #: ../../changes.rst:1536
 msgid "Weblate 2.14"
@@ -27627,79 +27989,91 @@ msgstr "17 Mayıs 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1540
 msgid "Add glossary entries using AJAX."
-msgstr ""
+msgstr "Sözlük kayıtlarının eklenmesinde AJAX kullanıldı."
 
 #: ../../changes.rst:1541
 msgid "The logout now uses POST to avoid CSRF."
 msgstr ""
+"Oturumu kapatma işleminde CSRF engellemesi için POST kullanımına geçildi."
 
 #: ../../changes.rst:1542
 msgid "The API key token reset now uses POST to avoid CSRF."
 msgstr ""
+"API anahtarı belirtecini sıfırlama işleminde CSRF engellemesi için POST "
+"kullanımına geçildi."
 
 #: ../../changes.rst:1543
 msgid "Weblate sets Content-Security-Policy by default."
 msgstr ""
+"Weblate tarafından, Content-Security-Policy ayarının varsayılan olarak "
+"yapılması sağlandı."
 
 #: ../../changes.rst:1544
 msgid "The local editor URL is validated to avoid self-XSS."
 msgstr ""
+"Yerel düzenleyici adresinin, kendi kendine XSS tehlikesini önlemek için "
+"doğrulanması sağlandı."
 
 #: ../../changes.rst:1545
 msgid "The password is now validated against common flaws by default."
 msgstr ""
+"Parolanın varsayılan olarak bilinen sorunlara karşı doğrulanması sağlandı."
 
 #: ../../changes.rst:1546
 msgid ""
 "Notify users about important activity with their account such as password "
 "change."
 msgstr ""
+"Kullanıcıların, hesaplarında yapılan parola değişikliği gibi önemli "
+"işlemlerle ilgili bilgilendirilmesi sağlandı."
 
 #: ../../changes.rst:1547
 msgid "The CSV exports now escape potential formulas."
-msgstr ""
+msgstr "CSV dışa aktarımlarında olabilecek formüllerden kaçınılması sağlandı."
 
 #: ../../changes.rst:1548
 msgid "Various minor improvements in security."
-msgstr ""
+msgstr "Güvenlikte bazı küçük iyileştirmeler yapıldı."
 
 #: ../../changes.rst:1549
 msgid "The authentication attempts are now rate limited."
-msgstr ""
+msgstr "Kimlik doğrulama girişimlerine hız sınırlama özelliği eklendi."
 
 #: ../../changes.rst:1550
 msgid "Suggestion content is stored in the history."
-msgstr ""
+msgstr "Geçmişe öneri içeriklerinin kaydedilmesi sağlandı."
 
 #: ../../changes.rst:1551
 msgid "Store important account activity in audit log."
-msgstr ""
+msgstr "Önemli hesap işlemlerinin denetim günlüğüne kaydedilmesi sağlandı."
 
 #: ../../changes.rst:1552
 msgid ""
 "Ask for password confirmation when removing account or adding new "
 "associations."
 msgstr ""
+"Hesap silme ya da ilişkilendirme işlemlerinde parola onayı istenmesi "
+"özelliği eklendi."
 
 #: ../../changes.rst:1553
 msgid "Show time when suggestion has been made."
-msgstr ""
+msgstr "Önerinin yapıldığı zamanın görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1554
 msgid "There is new quality check for trailing semicolon."
-msgstr ""
+msgstr "Sondaki noktalı virgül karakteri kalite denetimi eklendi."
 
 #: ../../changes.rst:1555
 msgid "Ensure that search links can be shared."
-msgstr ""
+msgstr "Arama bağlantılarının paylaşılabildiğinden emin olunması sağlandı."
 
 #: ../../changes.rst:1556
 msgid "Included source string information and screenshots in the API."
-msgstr ""
+msgstr "API üzerine kaynak dizge bilgileri ve ekran görüntüleri eklendi."
 
 #: ../../changes.rst:1557
 msgid "Allow to overwrite translations through API upload."
-msgstr ""
+msgstr "API yüklemesi ile çevirilerin üzerine yazma özelliği eklendi."
 
 #: ../../changes.rst:1560
 msgid "Weblate 2.13.1"
@@ -27712,19 +28086,25 @@ msgstr "12 Nisan 2017 tarihinde yayınlandı."
 #: ../../changes.rst:1564
 msgid "Fixed listing of managed projects in profile."
 msgstr ""
+"Yönetilen projelerin kullanıcı profilinde listelenmesinde yaşanan sorun "
+"düzeltildi."
 
 #: ../../changes.rst:1565
 msgid "Fixed migration issue where some permissions were missing."
-msgstr ""
+msgstr "Bazı izinlerin eksik olmasına neden olan aktarım sorunu düzeltildi."
 
 #: ../../changes.rst:1566
 msgid "Fixed listing of current file format in translation download."
 msgstr ""
+"Çevirileri indirirken geçerli dosya biçiminin listelenmesinde yaşanan sorun "
+"düzeltildi."
 
 #: ../../changes.rst:1567
 msgid ""
 "Return HTTP 404 when trying to access project where user lacks privileges."
 msgstr ""
+"Kullanıcı izinlerinin yetersiz olduğu bir projeye erişmeye çalıştığında HTTP "
+"404 sayfasının görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1570
 msgid "Weblate 2.13"
@@ -27732,55 +28112,59 @@ msgstr "Weblate 2.13"
 
 #: ../../changes.rst:1574
 msgid "Fixed quality checks on translation templates."
-msgstr ""
+msgstr "Çeviri kalıplarında yaşanan kalite denetimleri sorunu düzeltildi."
 
 #: ../../changes.rst:1575
 msgid "Added quality check to trigger on losing translation."
-msgstr ""
+msgstr "Çeviri kaybında tetiklenen kalite denetimi eklendi."
 
 #: ../../changes.rst:1576
 msgid "Add option to view pending suggestions from user."
-msgstr ""
+msgstr "Bekleyen kullanıcı önerilerini görüntüleme seçeneği eklendi."
 
 #: ../../changes.rst:1577
 msgid "Add option to automatically build component lists."
-msgstr ""
+msgstr "Bileşen listelerini kendiliğinden oluşturma seçeneği eklendi."
 
 #: ../../changes.rst:1578
 msgid "Default dashboard for unauthenticated users can be configured."
 msgstr ""
+"Kimliğini doğrulamamış kullanıcılara görüntülenecek varsayılan panonun "
+"yapılandırılabilmesi sağlandı."
 
 #: ../../changes.rst:1579
 msgid "Add option to browse 25 random strings for review."
-msgstr ""
+msgstr "Onaylama işlemi için 25 rastgele dizgeye göz atma seçeneği eklendi."
 
 #: ../../changes.rst:1580
 msgid "History now indicates string change."
-msgstr ""
+msgstr "Geçmişe dizge değişikliği işlemlerinin kaydedilmesi sağlandı."
 
 #: ../../changes.rst:1581
 msgid "Better error reporting when adding new translation."
-msgstr ""
+msgstr "Yeni çeviri ekleme sırasındaki hata bildirimleri iyileştirildi."
 
 #: ../../changes.rst:1582
 msgid "Added per language search within project."
-msgstr ""
+msgstr "Proje içindeki her dile özel arama özelliği eklendi."
 
 #: ../../changes.rst:1583
 msgid "Group ACLs can now be limited to certain permissions."
-msgstr ""
+msgstr "Grup erişim denetimi listeleri belirli izinlerle sınırlandırıldı."
 
 #: ../../changes.rst:1584
 msgid "The per project ACLs are now implemented using Group ACL."
 msgstr ""
+"Her projeye özel ayrı erişim denetimi listesi için grup erişim denetimi "
+"listesinin kullanılması sağlandı."
 
 #: ../../changes.rst:1585
 msgid "Added more fine grained privileges control."
-msgstr ""
+msgstr "İzin denetiminin daha ayrıntılı yapılması sağlandı."
 
 #: ../../changes.rst:1586
 msgid "Various minor UI improvements."
-msgstr ""
+msgstr "Kullanıcı arayüzünde bazı küçük iyileştirmeler yapıldı."
 
 #: ../../changes.rst:1589
 msgid "Weblate 2.12"
@@ -27792,40 +28176,42 @@ msgstr "3 Mart 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1593
 msgid "Improved admin interface for groups."
-msgstr ""
+msgstr "Grup yönetimi arayüzü iyileştirildi."
 
 #: ../../changes.rst:1594
 msgid "Added support for Yandex Translate API."
-msgstr ""
+msgstr "Yandex Translate API desteği eklendi."
 
 #: ../../changes.rst:1595
 msgid "Improved speed of site wide search."
-msgstr ""
+msgstr "Site genelinde arama hızı iyileştirildi."
 
 #: ../../changes.rst:1596
 msgid "Added project and component wide search."
-msgstr ""
+msgstr "Proje ve bileşen kapsamında arama özelliği eklendi."
 
 #: ../../changes.rst:1597
 msgid "Added project and component wide search and replace."
-msgstr ""
+msgstr "Proje ve bileşen kapsamında arama ve değiştirme özelliği eklendi."
 
 #: ../../changes.rst:1598
 msgid "Improved rendering of inconsistent translations."
-msgstr ""
+msgstr "Tutarsız çevirilerin görüntülenmesi iyileştirildi."
 
 #: ../../changes.rst:1599
 msgid "Added support for opening source files in local editor."
-msgstr ""
+msgstr "Kaynak dosyaları yerel düzenleyicide açma desteği eklendi."
 
 #: ../../changes.rst:1600
 msgid "Added support for configuring visual keyboard with special characters."
-msgstr ""
+msgstr "Görsel klavyeyi özel karakterlerle yapılandırma desteği eklendi."
 
 #: ../../changes.rst:1601
 msgid ""
 "Improved screenshot management with OCR support for matching source strings."
 msgstr ""
+"Kaynak dizgeleri eşleştirmek için görsel karakter tanıma (OCR) desteği ile "
+"ekran görüntüsü yönetimi iyileştirildi."
 
 #: ../../changes.rst:1602
 msgid "Default commit message now includes translation information and URL."
@@ -27833,11 +28219,11 @@ msgstr "Varsayılan işleme iletisine çeviri bilgileri ve adresi eklendi."
 
 #: ../../changes.rst:1603
 msgid "Added support for Joomla translation format."
-msgstr ""
+msgstr "Joomla! çeviri biçimi desteği eklendi."
 
 #: ../../changes.rst:1604
 msgid "Improved reliability of import across file formats."
-msgstr ""
+msgstr "Farklı dosya biçimleri için içe aktarma güvenilirliği iyileştirildi."
 
 #: ../../changes.rst:1607
 msgid "Weblate 2.11"
@@ -27849,54 +28235,63 @@ msgstr "31 Ocak 2017 tarihinde yayınlandı."
 
 #: ../../changes.rst:1611
 msgid "Include language detailed information on language page."
-msgstr ""
+msgstr "Dil sayfasına ayrıntılı dil bilgileri eklendi."
 
 #: ../../changes.rst:1612
 msgid "Mercurial backend improvements."
-msgstr ""
+msgstr "Mercurial arka ucunda iyileştirmeler yapıldı."
 
 #: ../../changes.rst:1613
 msgid "Added option to specify translation component priority."
-msgstr ""
+msgstr "Çeviri bileşeni önceliğini belirtme özelliği eklendi."
 
 #: ../../changes.rst:1614
 msgid "More consistent usage of Group ACL even with less used permissions."
 msgstr ""
+"Daha az kullanılan izinlerle bile Grup erişim denetiminin daha tutarlı "
+"kullanılması sağlandı."
 
 #: ../../changes.rst:1615
 msgid "Added WL_BRANCH variable to hook scripts."
-msgstr ""
+msgstr "Kanca betiklerine WL_BRANCH değişkeni eklendi."
 
 #: ../../changes.rst:1616
 msgid "Improved developer documentation."
-msgstr ""
+msgstr "Geliştirici belgeleri iyileştirildi."
 
 #: ../../changes.rst:1617
 msgid "Better compatibility with various Git versions in Git exporter add-on."
 msgstr ""
+"Git dışa aktarma eklentisinde çeşitli Git sürümleriyle daha iyi uyumluluk "
+"sağlandı."
 
 #: ../../changes.rst:1618
 msgid "Included per project and component stats."
-msgstr ""
+msgstr "Her proje ve her bileşen için ayrı istatistikler özelliği eklendi."
 
 #: ../../changes.rst:1619
 msgid ""
 "Added language code mapping for better support of Microsoft Translate API."
 msgstr ""
+"Microsoft Translate API desteğine iyileştirmek için dil kodu eşleme özelliği "
+"eklendi."
 
 #: ../../changes.rst:1620
 msgid ""
 "Moved fulltext cleanup to background job to make translation removal faster."
 msgstr ""
+"Çeviri silme işleminin daha hızlı yapılabilmesi için tam metin temizleme "
+"işlemi arka plan görevine taşındı."
 
 #: ../../changes.rst:1621
 msgid ""
 "Fixed displaying of plural source for languages with single plural form."
 msgstr ""
+"Tek çoğul biçimi olan dillerde çoğul kaynağın görüntülenme sorunu düzeltildi."
 
 #: ../../changes.rst:1622
 msgid "Improved error handling in import_project."
-msgstr ""
+msgstr "import_project komutunda hata işleme iyileştirildi."
 
 #: ../../changes.rst:1626
 msgid "Weblate 2.10.1"
@@ -27909,6 +28304,8 @@ msgstr "20 Ocak 2017 tarihinde yayınlandı."
 #: ../../changes.rst:1630
 msgid "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgstr ""
+"Parola sıfırlama formundan hesabın varlığı bilgisinin sızdırılması "
+"engellendi (CVE-2017-5537)."
 
 #: ../../changes.rst:1633
 msgid "Weblate 2.10"
@@ -27921,51 +28318,54 @@ msgstr "15 Aralık 2016 tarihinde yayınlandı."
 #: ../../changes.rst:1637
 msgid ""
 "Added quality check to check whether plurals are translated differently."
-msgstr ""
+msgstr "Çoğul biçimlerin aynı olup olmadığına bakan kalite denetimi eklendi."
 
 #: ../../changes.rst:1638
 msgid "Fixed GitHub hooks for repositories with authentication."
 msgstr ""
+"Kimlik doğrulaması kullanan depolarda yaşanan GitHub kancaları sorunu "
+"düzeltildi."
 
 #: ../../changes.rst:1639
 msgid "Added optional Git exporter module."
-msgstr ""
+msgstr "İsteğe bağlı Git dışa aktarma modülü eklendi."
 
 #: ../../changes.rst:1640
 msgid "Support for Microsoft Cognitive Services Translator API."
-msgstr ""
+msgstr "Microsoft Cognitive Services Translator API desteği eklendi."
 
 #: ../../changes.rst:1641
 msgid "Simplified project and component user interface."
-msgstr ""
+msgstr "Proje ve bileşen kullanıcı arayüzü basitleştirildi."
 
 #: ../../changes.rst:1642
 msgid "Added automatic fix to remove control characters."
 msgstr ""
+"Kontrol karakterlerini kaldıran kendiliğinden düzeltme özelliği eklendi."
 
 #: ../../changes.rst:1643
 msgid "Added per language overview to project."
-msgstr ""
+msgstr "Projelere her dilin özeti görünümü eklendi."
 
 #: ../../changes.rst:1644
 msgid "Added support for CSV export."
-msgstr ""
+msgstr "CSV dışa aktarma özelliği eklendi."
 
 #: ../../changes.rst:1645
 msgid "Added CSV download for stats."
-msgstr ""
+msgstr "İstatistiklerin CSV olarak indirilmesi özelliği eklendi."
 
 #: ../../changes.rst:1646
 msgid "Added matrix view for quick overview of all translations."
-msgstr ""
+msgstr "Tüm çevirilere hızlı özet için matris görünümü eklendi."
 
 #: ../../changes.rst:1647
 msgid "Added basic API for changes and strings."
-msgstr ""
+msgstr "Değişiklikler ve dizgeler için temel API eklendi."
 
 #: ../../changes.rst:1648
 msgid "Added support for Apertium APy server for machine translations."
-msgstr ""
+msgstr "Makine çevirileri için Apertium APy sunucusu desteği eklendi."
 
 #: ../../changes.rst:1651
 msgid "Weblate 2.9"
@@ -27977,69 +28377,76 @@ msgstr "4 Kasım 2016 tarihinde yayınlandı."
 
 #: ../../changes.rst:1655
 msgid "Extended parameters for createadmin management command."
-msgstr ""
+msgstr "createadmin yönetim komutu parametreleri zenginleştirildi."
 
 #: ../../changes.rst:1656
 msgid "Extended import_json to be able to handle with existing components."
-msgstr ""
+msgstr "import_json komutu var olan bileşenleri işlemek için zenginleştirildi."
 
 #: ../../changes.rst:1657
 msgid "Added support for YAML files."
-msgstr ""
+msgstr "YAML dosyaları desteği eklendi."
 
 #: ../../changes.rst:1658
 msgid ""
 "Project owners can now configure translation component and project details."
 msgstr ""
+"Proje sahiplerinin çeviri bileşenini ve proje ayrıntılarını yapılandırması "
+"özelliği eklendi."
 
 #: ../../changes.rst:1659
 msgid "Use \"Watched\" instead of \"Subscribed\" projects."
-msgstr ""
+msgstr "Projeler için “Abone olma” terimi \"İzleme” terimi ile değiştirildi."
 
 #: ../../changes.rst:1660
 msgid "Projects can be watched directly from project page."
-msgstr ""
+msgstr "Projelerin doğrudan proje sayfasından izlenebilmesi sağlandı."
 
 #: ../../changes.rst:1661
 msgid "Added multi language status widget."
-msgstr ""
+msgstr "Çok dilli durum pano bileşeni eklendi."
 
 #: ../../changes.rst:1662
 msgid "Highlight secondary language if not showing source."
-msgstr ""
+msgstr "Kaynak gösterilmiyorsa ikincil dilin vurgulanması sağlandı."
 
 #: ../../changes.rst:1663
 msgid "Record suggestion deletion in history."
-msgstr ""
+msgstr "Geçmişe öneri silme işlemlerinin kaydedilmesi sağlandı."
 
 #: ../../changes.rst:1664
 msgid "Improved UX of languages selection in profile."
-msgstr ""
+msgstr "Kullanıcı profilinde dil seçimi arayüzü iyileştirildi."
 
 #: ../../changes.rst:1665
 msgid "Fixed showing whiteboard messages for component."
 msgstr ""
+"Bileşen için beyaz tahta iletilerinin görüntülenmesinde yaşanan sorun "
+"düzeltildi."
 
 #: ../../changes.rst:1666
 msgid "Keep preferences tab selected after saving."
-msgstr ""
+msgstr "Kaydettikten sonra ayarlar sekmesinin seçili tutulması sağlandı."
 
 #: ../../changes.rst:1667
 msgid "Show source string comment more prominently."
-msgstr ""
+msgstr "Kaynak dizge yorumunun daha belirgin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1668
 msgid "Automatically install Gettext PO merge driver for Git repositories."
 msgstr ""
+"Git depoları için Gettext PO birleştirme sürücüsünün kendiliğinden kurulması "
+"sağlandı."
 
 #: ../../changes.rst:1669
 msgid "Added search and replace feature."
-msgstr ""
+msgstr "Arama ve değiştirme özelliği eklendi."
 
 #: ../../changes.rst:1670
 msgid ""
 "Added support for uploading visual context (screenshots) for translations."
 msgstr ""
+"Çeviriler için görsel bağlam (ekran görüntüleri) yükleme özelliği eklendi."
 
 #: ../../changes.rst:1673
 msgid "Weblate 2.8"
@@ -28055,59 +28462,61 @@ msgstr "Çeviriler."
 
 #: ../../changes.rst:1679
 msgid "Updated bundled JavaScript libraries."
-msgstr ""
+msgstr "Paketlenmiş JavaScript kitaplıkları güncellendi."
 
 #: ../../changes.rst:1680
 msgid "Added list_translators management command."
-msgstr ""
+msgstr "list_translators yönetim komutu eklendi."
 
 #: ../../changes.rst:1681
 msgid "Django 1.8 is no longer supported."
-msgstr ""
+msgstr "Django 1.8 desteği eklendi."
 
 #: ../../changes.rst:1682
 msgid "Fixed compatibility with Django 1.10."
-msgstr ""
+msgstr "Django 1.10 uyumluluğunda yaşanan sorun düzeltildi."
 
 #: ../../changes.rst:1683
 msgid "Added Subversion support."
-msgstr ""
+msgstr "Subversion desteği eklendi."
 
 #: ../../changes.rst:1684
 msgid "Separated XML validity check from XML mismatched tags."
-msgstr ""
+msgstr "XML geçerlilik denetimi uyumsuz XML kod imlerinden ayrıldı."
 
 #: ../../changes.rst:1685
 msgid "Fixed API to honor HIDE_REPO_CREDENTIALS settings."
-msgstr ""
+msgstr "API, HIDE_REPO_CREDENTIALS ayarlarına uyacak biçimde düzeltildi."
 
 #: ../../changes.rst:1686
 msgid "Show source change in Zen mode."
-msgstr ""
+msgstr "Zen kipinde kaynak değişikliğinin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1687
 msgid "Alt+PageUp/PageDown/Home/End now works in Zen mode as well."
 msgstr ""
+"Alt + PageUp/PageDown/Home/End kısayol tuşlarının Zen kipinde de çalışması "
+"sağlandı."
 
 #: ../../changes.rst:1688
 msgid "Add tooltip showing exact time of changes."
-msgstr ""
+msgstr "Değişikliklerin tam zamanını görüntüleyen ipucu eklendi."
 
 #: ../../changes.rst:1689
 msgid "Add option to select filters and search from translation page."
-msgstr ""
+msgstr "Çeviri sayfasına süzgeç seçme ve arama yapma seçeneği eklendi."
 
 #: ../../changes.rst:1690
 msgid "Added UI for translation removal."
-msgstr ""
+msgstr "Çeviri silme kullanıcı arayüzü eklendi."
 
 #: ../../changes.rst:1691
 msgid "Improved behavior when inserting placeables."
-msgstr ""
+msgstr "Yerleştirilebilir ögeleri ekleme davranışı iyileştirildi."
 
 #: ../../changes.rst:1692
 msgid "Fixed auto locking issues in Zen mode."
-msgstr ""
+msgstr "Zen kipinde yaşanan kendiliğinden kilitleme sorunları düzeltildi."
 
 #: ../../changes.rst:1695
 msgid "Weblate 2.7"
@@ -28119,7 +28528,7 @@ msgstr "10 Temmuz 2016 tarihinde yayınlandı."
 
 #: ../../changes.rst:1699
 msgid "Removed Google web translate machine translation."
-msgstr ""
+msgstr "Google web çeviri makine çeviri hizmeti kaldırıldı."
 
 #: ../../changes.rst:1700
 msgid "Improved commit message when adding translation."
@@ -28139,19 +28548,20 @@ msgstr "import_json yönetim komutu eklendi."
 
 #: ../../changes.rst:1704
 msgid "Correct ordering of listed translations."
-msgstr ""
+msgstr "Listelenen çevirilerin doğru sıralanması sağlandı."
 
 #: ../../changes.rst:1705
 msgid "Show full suggestion text, not only a diff."
-msgstr ""
+msgstr "Yalnızca bir farkın değil, tam öneri metninin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1706
 msgid "Extend API (detailed repository status, statistics, …)."
-msgstr ""
+msgstr "API zenginleştirildi (ayrıntılı depo durumu, istatistikler, ...)."
 
 #: ../../changes.rst:1707
 msgid "Testsuite no longer requires network access to test repositories."
 msgstr ""
+"Deneme paketindeki deneme depoları için ağ erişimi gereksinimi kaldırıldı."
 
 #: ../../changes.rst:1710
 msgid "Weblate 2.6"
@@ -28163,27 +28573,27 @@ msgstr "28 Nisan 2016 tarihinde yayınlandı."
 
 #: ../../changes.rst:1714
 msgid "Fixed validation of components with language filter."
-msgstr ""
+msgstr "Dil süzgeci ile bileşenlerin doğrulanmasında yaşanan sorun düzeltildi."
 
 #: ../../changes.rst:1715 ../../changes.rst:1742
 msgid "Improved support for XLIFF files."
-msgstr ""
+msgstr "XLIFF dosyaları desteği iyileştirildi."
 
 #: ../../changes.rst:1716
 msgid "Fixed machine translation for non English sources."
-msgstr ""
+msgstr "İngilizce olmayan kaynakların makine çevirisi sorunu düzeltildi."
 
 #: ../../changes.rst:1717
 msgid "Added REST API."
-msgstr ""
+msgstr "REST API eklendi."
 
 #: ../../changes.rst:1718
 msgid "Django 1.10 compatibility."
-msgstr ""
+msgstr "Django 1.10 uyumluluğu sağlandı."
 
 #: ../../changes.rst:1719
 msgid "Added categories to whiteboard messages."
-msgstr ""
+msgstr "Beyaz tahta iletilerine kategori özelliği eklendi."
 
 #: ../../changes.rst:1722
 msgid "Weblate 2.5"
@@ -28195,7 +28605,7 @@ msgstr "10 Mart 2016 tarihinde yayınlandı."
 
 #: ../../changes.rst:1726
 msgid "Fixed automatic translation for project owners."
-msgstr ""
+msgstr "Proje sahipleri için kendiliğinden çeviri düzeltildi."
 
 #: ../../changes.rst:1727
 msgid "Improved performance of commit and push operations."
@@ -28203,48 +28613,48 @@ msgstr "İşleme ve itme işlemlerinin başarımı iyileştirildi."
 
 #: ../../changes.rst:1728
 msgid "New management command to add suggestions from command-line."
-msgstr ""
+msgstr "Komut satırından öneriler eklemek için yeni yönetim komutu eklendi."
 
 #: ../../changes.rst:1729
 msgid "Added support for merging comments on file upload."
-msgstr ""
+msgstr "Dosya yüklerken yorumları birleştirme özelliği eklendi."
 
 #: ../../changes.rst:1730
 msgid "Added support for some GNU extensions to C printf format."
-msgstr ""
+msgstr "C printf biçimindeki bazı GNU eklentileri desteği eklendi."
 
 #: ../../changes.rst:1732
 msgid "Added support for generating translator credits."
-msgstr ""
+msgstr "Çevirmen kredileri oluşturma özelliği eklendi."
 
 #: ../../changes.rst:1733
 msgid "Added support for generating contributor stats."
-msgstr ""
+msgstr "Katılımcı istatistikleri oluşturma özelliği eklendi."
 
 #: ../../changes.rst:1734
 msgid "Site wide search can search only in one language."
-msgstr ""
+msgstr "Site genelinde aramanın yalnızca bir dilde arama yapması sağlandı."
 
 #: ../../changes.rst:1735
 msgid "Improve quality checks for Armenian."
-msgstr ""
+msgstr "Ermenice için kalite denetimleri iyileştirildi."
 
 #: ../../changes.rst:1736
 msgid ""
 "Support for starting translation components without existing translations."
-msgstr ""
+msgstr "Çeviriler var olmadan çeviri bileşenlerini başlatma özelliği eklendi."
 
 #: ../../changes.rst:1737
 msgid "Support for adding new translations in Qt TS."
-msgstr ""
+msgstr "Qt TS ile yeni çeviriler ekleme özelliği eklendi."
 
 #: ../../changes.rst:1738 ../../changes.rst:1761
 msgid "Improved support for translating PHP files."
-msgstr ""
+msgstr "PHP dosyalarını çevirme desteği iyileştirildi."
 
 #: ../../changes.rst:1739
 msgid "Performance improvements for quality checks."
-msgstr ""
+msgstr "Kalite denetimlerinin başarımı iyileştirildi."
 
 #: ../../changes.rst:1740
 msgid "Fixed site wide search for failing checks."
@@ -28252,98 +28662,107 @@ msgstr "Denetim hatalarının site genelinde aranması sorunu düzeltildi."
 
 #: ../../changes.rst:1741
 msgid "Added option to specify source language."
-msgstr ""
+msgstr "Kaynak dili belirtme seçeneği eklendi."
 
 #: ../../changes.rst:1743
 msgid "Extended list of options for import_project."
-msgstr ""
+msgstr "import_project için seçenekler listesi zenginleştirildi."
 
 #: ../../changes.rst:1744
 msgid "Improved targeting for whiteboard messages."
-msgstr ""
+msgstr "Beyaz tahta iletileri için hedefleme iyileştirildi."
 
 #: ../../changes.rst:1745
 msgid "Support for automatic translation across projects."
-msgstr ""
+msgstr "Projeler arasında kendiliğinden çeviri özelliği eklendi."
 
 #: ../../changes.rst:1746
 msgid "Optimized fulltext search index."
-msgstr ""
+msgstr "Tam metin arama dizini iyileştirildi."
 
 #: ../../changes.rst:1747
 msgid "Added management command for auto translation."
-msgstr ""
+msgstr "Kendiliğinden çeviri için yönetim komutu eklendi."
 
 #: ../../changes.rst:1748
 msgid "Added placeables highlighting."
-msgstr ""
+msgstr "Yerleştirilebilir ögeleri vurgulama özelliği eklendi."
 
 #: ../../changes.rst:1749
 msgid ""
 "Added keyboard shortcuts for placeables, checks and machine translations."
 msgstr ""
+"Yerleştirilebilir ögeler, denetimler ve makine çevirileri için klavye "
+"kısayolları eklendi."
 
 #: ../../changes.rst:1750
 msgid "Improved translation locking."
-msgstr ""
+msgstr "Çeviri kilitleme özelliği iyileştirildi."
 
 #: ../../changes.rst:1751
 msgid "Added quality check for AngularJS interpolation."
-msgstr ""
+msgstr "AngularJS ara değerlemesi için kalite denetimi eklendi."
 
 #: ../../changes.rst:1752
 msgid "Added extensive group based ACLs."
-msgstr ""
+msgstr "Kapsamlı grup tabanlı erişim denetimi listeleri eklendi."
 
 #: ../../changes.rst:1753
 msgid "Clarified terminology on strings needing edit (formerly fuzzy)."
 msgstr ""
+"Düzenlenmesi gereken dizgeler (eski adıyla belirsiz) terimi açıklığa "
+"kavuşturuldu."
 
 #: ../../changes.rst:1754
 msgid ""
 "Clarified terminology on strings needing action and untranslated strings."
 msgstr ""
+"İşlem yapılması gereken ve çevrilmemiş dizgelerle ilgili terimler açıklığa "
+"kavuşturuldu."
 
 #: ../../changes.rst:1755
 msgid "Support for Python 3."
-msgstr ""
+msgstr "Python 3 desteği eklendi."
 
 #: ../../changes.rst:1756
 msgid "Dropped support for Django 1.7."
-msgstr ""
+msgstr "Django 1.7 desteği kaldırıldı."
 
 #: ../../changes.rst:1757
 msgid "Dropped dependency on msginit for creating new gettext PO files."
 msgstr ""
+"Yeni gettext PO dosyaları oluşturmak için msginit bağımlılığı kaldırıldı."
 
 #: ../../changes.rst:1758
 msgid "Added configurable dashboard views."
-msgstr ""
+msgstr "Yapılandırılabilir pano görünümleri eklendi."
 
 #: ../../changes.rst:1759
 msgid "Improved notifications on parse errors."
-msgstr ""
+msgstr "İşleme hatalarıyla ilgili bildirimler iyileştirildi."
 
 #: ../../changes.rst:1760
 msgid ""
 "Added option to import components with duplicate name to import_project."
 msgstr ""
+"Aynı adlı bileşenleri import_project komutu ile içe aktarma seçeneği eklendi."
 
 #: ../../changes.rst:1762
 msgid "Added XLIFF export for dictionary."
-msgstr ""
+msgstr "Sözlüğü XLIFF olarak dışa aktarma özelliği eklendi."
 
 #: ../../changes.rst:1763
 msgid "Added XLIFF and gettext PO export for all translations."
 msgstr ""
+"Tüm çevirileri XLIFF ve gettext PO olarak dışa aktarma özelliği eklendi."
 
 #: ../../changes.rst:1765
 msgid "Added support for configurable automatic group assignments."
-msgstr ""
+msgstr "Kendiliğinden grup atamalarını yapılandırma özelliği eklendi."
 
 #: ../../changes.rst:1766
 msgid "Improved adding of new translations."
-msgstr ""
+msgstr "Yeni çevirilerin eklenmesi iyileştirildi."
 
 #: ../../changes.rst:1769
 msgid "Weblate 2.4"
@@ -28355,107 +28774,114 @@ msgstr "20 Eylül 2015 tarihinde yayınlandı."
 
 #: ../../changes.rst:1773
 msgid "Improved support for PHP files."
-msgstr ""
+msgstr "PHP dosyaları desteği iyileştirildi."
 
 #: ../../changes.rst:1774
 msgid "Ability to add ACL to anonymous user."
-msgstr ""
+msgstr "Anonim kullanıcıya erişim denetimi listesi ekleme özelliği eklendi."
 
 #: ../../changes.rst:1775
 msgid "Improved configurability of import_project command."
-msgstr ""
+msgstr "import_project komutunun yapılandırılabilirliği iyileştirildi."
 
 #: ../../changes.rst:1776
 msgid "Added CSV dump of history."
-msgstr ""
+msgstr "Geçmişin CSV dökümünü alma özelliği eklendi."
 
 #: ../../changes.rst:1777
 msgid "Avoid copy/paste errors with whitespace characters."
-msgstr ""
+msgstr "Kopyalama/yapıştırma işlemlerinde boşluk karakteri hataları engellendi."
 
 #: ../../changes.rst:1778
 msgid "Added support for Bitbucket webhooks."
-msgstr ""
+msgstr "Bitbucket web kancaları desteği eklendi."
 
 #: ../../changes.rst:1779
 msgid "Tighter control on fuzzy strings on translation upload."
 msgstr ""
+"Çeviri yüklerken belirsiz dizgeler üzerine uygulanan denetim sıkışlaştırıldı."
 
 #: ../../changes.rst:1780
 msgid "Several URLs have changed, you might have to update your bookmarks."
-msgstr ""
+msgstr "Birkaç adres değişti. Yer imlerinizi güncellemeniz gerekebilir."
 
 #: ../../changes.rst:1781
 msgid "Hook scripts are executed with VCS root as current directory."
 msgstr ""
+"Kanca betiklerinin, geçerli klasör olarak sürüm denetimi sistemi kökü ile "
+"yürütülmesi sağlandı."
 
 #: ../../changes.rst:1782
 msgid ""
 "Hook scripts are executed with environment variables describing current "
 "component."
 msgstr ""
+"Kanca betiklerinin, geçerli bileşeni tanımlayan ortam değişkenleriyle "
+"yürütülmesi sağlandı."
 
 #: ../../changes.rst:1783
 msgid "Add management command to optimize fulltext index."
-msgstr ""
+msgstr "Tam metin dizinini en iyi duruma getiren yönetim komutu eklendi."
 
 #: ../../changes.rst:1784
 msgid "Added support for error reporting to Rollbar."
-msgstr ""
+msgstr "Rollbar üzerine hata bildirme desteği eklendi."
 
 #: ../../changes.rst:1785
 msgid "Projects now can have multiple owners."
-msgstr ""
+msgstr "Projelere birden fazla sahip olabilmesi özelliği eklendi."
 
 #: ../../changes.rst:1786
 msgid "Project owners can manage themselves."
-msgstr ""
+msgstr "Proje sahiplerinin kendilerini yönetebilmesi özelliği eklendi."
 
 #: ../../changes.rst:1787
 msgid "Added support for ``javascript-format`` used in gettext PO."
-msgstr ""
+msgstr "gettext PO ile kullanılan ``javascript-format`` desteği eklendi."
 
 #: ../../changes.rst:1788
 msgid "Support for adding new translations in XLIFF."
-msgstr ""
+msgstr "XLIFF olarak yeni çeviri ekleme özelliği eklendi."
 
 #: ../../changes.rst:1789
 msgid "Improved file format autodetection."
-msgstr ""
+msgstr "Dosya biçiminin kendiliğinden algılanması iyileştirildi."
 
 #: ../../changes.rst:1790
 msgid "Extended keyboard shortcuts."
-msgstr ""
+msgstr "Klavye kısayolları zenginleştirildi."
 
 #: ../../changes.rst:1791
 msgid "Improved dictionary matching for several languages."
-msgstr ""
+msgstr "Birkaç dil için sözlük eşleştirmesi iyileştirildi."
 
 #: ../../changes.rst:1792
 msgid "Improved layout of most of pages."
-msgstr ""
+msgstr "Sayfaların çoğunun düzeni iyileştirildi."
 
 #: ../../changes.rst:1793
 msgid "Support for adding words to dictionary while translating."
-msgstr ""
+msgstr "Çeviri yaparken sözlüğe sözcük ekleme özelliği eklendi."
 
 #: ../../changes.rst:1794
 msgid "Added support for filtering languages to be managed by Weblate."
-msgstr ""
+msgstr "Weblate tarafından yönetilen dilleri süzme özelliği eklendi."
 
 #: ../../changes.rst:1795
 msgid "Added support for translating and importing CSV files."
-msgstr ""
+msgstr "CSV dosyalarını çevirme ve içe aktarma özelliği eklendi."
 
 #: ../../changes.rst:1796
 msgid "Rewritten handling of static files."
-msgstr ""
+msgstr "Durağan dosyaların işlenmesi yeniden yazıldı."
 
 #: ../../changes.rst:1797
 msgid ""
 "Direct login/registration links to third-party service if that's the only "
 "one."
 msgstr ""
+"Tek seçenek olduğunda, üçüncü taraf hizmetine doğrudan oturum / hesap açma "
+"bağlantılarının sunulması sağlandı."
 
 #: ../../changes.rst:1798
 msgid "Commit pending changes on account removal."
@@ -28467,15 +28893,15 @@ msgstr "Site adını değiştiren yönetim komutu eklendi."
 
 #: ../../changes.rst:1800
 msgid "Add option to configure default committer."
-msgstr "Varsaylan işleyeni yapılandırma seçeneği eklendi."
+msgstr "Varsayılan işleyeni yapılandırma seçeneği eklendi."
 
 #: ../../changes.rst:1801
 msgid "Add hook after adding new translation."
-msgstr ""
+msgstr "Yeni çeviri eklenmesinden sonra kancası eklendi."
 
 #: ../../changes.rst:1802
 msgid "Add option to specify multiple files to add to commit."
-msgstr ""
+msgstr "Gönderime birden çok dosya eklemek için Ekle seçeneği eklendi."
 
 #: ../../changes.rst:1805
 msgid "Weblate 2.3"
@@ -28487,59 +28913,63 @@ msgstr "22 Mayıs 2015 tarihinde yayınlandı."
 
 #: ../../changes.rst:1809
 msgid "Dropped support for Django 1.6 and South migrations."
-msgstr ""
+msgstr "Django 1.6 ve South aktarımlarının desteği kaldırıldı."
 
 #: ../../changes.rst:1810
 msgid "Support for adding new translations when using Java Property files."
 msgstr ""
+"Java özellik dosyaları kullanılırken yeni çeviriler ekleme özelliği eklendi."
 
 #: ../../changes.rst:1811
 msgid "Allow to accept suggestion without editing."
-msgstr ""
+msgstr "Düzenleme yapmadan öneriyi onaylama özelliği eklendi."
 
 #: ../../changes.rst:1812
 msgid "Improved support for Google OAuth 2.0."
-msgstr ""
+msgstr "Google OAuth 2.0 desteği iyileştirildi."
 
 #: ../../changes.rst:1813
 msgid "Added support for Microsoft .resx files."
-msgstr ""
+msgstr "Microsoft .resx dosyaları desteği eklendi."
 
 #: ../../changes.rst:1814
 msgid "Tuned default robots.txt to disallow big crawling of translations."
 msgstr ""
+"Varsayılan robots.txt dosyası çevirilerin kapsamlı olarak taranmasını "
+"engelleyecek biçimde ayarlandı."
 
 #: ../../changes.rst:1815
 msgid "Simplified workflow for accepting suggestions."
-msgstr ""
+msgstr "Önerileri kabul etme iş akışı basitleştirildi."
 
 #: ../../changes.rst:1816
 msgid "Added project owners who always receive important notifications."
-msgstr ""
+msgstr "Önemli bildirimleri her zaman alacak proje sahipleri eklendi."
 
 #: ../../changes.rst:1817
 msgid "Allow to disable editing of monolingual template."
-msgstr ""
+msgstr "Tek dilli kalıbın düzenlenmesini devre dışı bırakma özelliği eklendi.."
 
 #: ../../changes.rst:1818
 msgid "More detailed repository status view."
-msgstr ""
+msgstr "Depo durumu görünümünde ayrıntılar artırıldı."
 
 #: ../../changes.rst:1819
 msgid "Direct link for editing template when changing translation."
 msgstr ""
+"Çeviriyi değiştirirken kalıbı düzenlemek için doğrudan bağlantı eklendi."
 
 #: ../../changes.rst:1820
 msgid "Allow to add more permissions to project owners."
-msgstr ""
+msgstr "Proje sahiplerine daha fazla izin eklenmesi sağlandı."
 
 #: ../../changes.rst:1821
 msgid "Allow to show secondary language in Zen mode."
-msgstr ""
+msgstr "Zen kipinde ikincil dilin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1822
 msgid "Support for hiding source string in favor of secondary language."
-msgstr ""
+msgstr "Kaynak dizgenin ikincil dil için gizlenmesi özelliği eklendi."
 
 #: ../../changes.rst:1825
 msgid "Weblate 2.2"
@@ -28551,7 +28981,7 @@ msgstr "19 Şubat 2015 tarihinde yayınlandı."
 
 #: ../../changes.rst:1830
 msgid "Fulltext search on location and comments fields."
-msgstr ""
+msgstr "Konum ve yorum alanlarında tam metin arama özelliği eklendi."
 
 #: ../../changes.rst:1831
 msgid "New SVG/JavaScript-based activity charts."
@@ -28559,40 +28989,41 @@ msgstr "Yeni SVG/JavaScript temelli etkinlik çizelgeleri eklendi."
 
 #: ../../changes.rst:1832
 msgid "Support for Django 1.8."
-msgstr ""
+msgstr "Django 1.8 desteği eklendi."
 
 #: ../../changes.rst:1833
 msgid "Support for deleting comments."
-msgstr ""
+msgstr "Yorumları silme özelliği eklendi."
 
 #: ../../changes.rst:1834
 msgid "Added own SVG badge."
-msgstr "Sahib SVG simgesi eklendi."
+msgstr "Sahip SVG simgesi eklendi."
 
 #: ../../changes.rst:1835
 msgid "Added support for Google Analytics."
-msgstr ""
+msgstr "Google Analytics desteği eklendi."
 
 #: ../../changes.rst:1836
 msgid "Improved handling of translation filenames."
-msgstr ""
+msgstr "Çeviri dosyası adlarının işlenmesi iyileştirildi."
 
 #: ../../changes.rst:1837
 msgid "Added support for monolingual JSON translations."
-msgstr ""
+msgstr "Tek dilli JSON çevirileri desteği eklendi."
 
 #: ../../changes.rst:1838
 msgid "Record component locking in a history."
-msgstr ""
+msgstr "Geçmişe bileşen kilitleme işlemlerinin kaydedilmesi sağlandı."
 
 #: ../../changes.rst:1839
 msgid ""
 "Support for editing source (template) language for monolingual translations."
 msgstr ""
+"Tek dilli çeviriler için kaynak (kalıp) dilini düzenleme özelliği eklendi."
 
 #: ../../changes.rst:1840
 msgid "Added basic support for Gerrit."
-msgstr ""
+msgstr "Temel Gerrit desteği eklendi."
 
 #: ../../changes.rst:1843
 msgid "Weblate 2.1"
@@ -28604,47 +29035,49 @@ msgstr "5 Aralık 2014 tarihinde yayınlandı."
 
 #: ../../changes.rst:1847
 msgid "Added support for Mercurial repositories."
-msgstr ""
+msgstr "Mercurial depoları desteği eklendi."
 
 #: ../../changes.rst:1848
 msgid "Replaced Glyphicon font by Awesome."
-msgstr ""
+msgstr "Glyphicon yazı tipi Awesome ile değiştirildi."
 
 #: ../../changes.rst:1849
 msgid "Added icons for social authentication services."
-msgstr ""
+msgstr "Sosyal ağ kimlik doğrulama hizmetlerinin simgeleri eklendi."
 
 #: ../../changes.rst:1850
 msgid "Better consistency of button colors and icons."
-msgstr ""
+msgstr "Düğme renklerinin ve simgelerinin tutarlılığı artırıldı."
 
 #: ../../changes.rst:1852
 msgid "Various bugfixes."
-msgstr ""
+msgstr "Çeşitli hata düzeltmeleri yapıldı."
 
 #: ../../changes.rst:1853
 msgid "Automatic hiding of columns in translation listing for small screens."
 msgstr ""
+"Küçük ekranlar için çeviri listesindeki sütunların kendiliğinden gizlenmesi "
+"sağlandı."
 
 #: ../../changes.rst:1854
 msgid "Changed configuration of filesystem paths."
-msgstr ""
+msgstr "Dosya sistemi yollarının yapılandırması değiştirildi."
 
 #: ../../changes.rst:1855
 msgid "Improved SSH keys handling and storage."
-msgstr ""
+msgstr "SSH anahtarlarının işlenmesi ve depolanması iyileştirildi."
 
 #: ../../changes.rst:1856
 msgid "Improved repository locking."
-msgstr ""
+msgstr "Depo kilitleme özelliği iyileştirildi."
 
 #: ../../changes.rst:1857
 msgid "Customizable quality checks per source string."
-msgstr ""
+msgstr "Her kaynak dizge için özelleştirilebilir kalite denetimleri eklendi."
 
 #: ../../changes.rst:1858
 msgid "Allow to hide completed translations from dashboard."
-msgstr ""
+msgstr "Tamamlanan çevirilerin panoda gizlenmesi sağlanması."
 
 #: ../../changes.rst:1861
 msgid "Weblate 2.0"
@@ -28656,75 +29089,76 @@ msgstr "6 Kasım 2014 tarihinde yayınlandı."
 
 #: ../../changes.rst:1865
 msgid "New responsive UI using Bootstrap."
-msgstr ""
+msgstr "Bootstrap kullanan yeni uyumlu kullanıcı arayüzü eklendi."
 
 #: ../../changes.rst:1866
 msgid "Rewritten VCS backend."
-msgstr ""
+msgstr "Sürüm denetimi sistemi arka ucu yeniden yazıldı."
 
 #: ../../changes.rst:1868
 msgid "Added whiteboard for site wide messages."
-msgstr ""
+msgstr "Site genelindeki iletiler için beyaz tahta eklendi."
 
 #: ../../changes.rst:1869
 msgid "Configurable strings priority."
-msgstr ""
+msgstr "Dizgelerin önceğinin yapılandırılabilmesi sağlandı."
 
 #: ../../changes.rst:1870
 msgid "Added support for JSON file format."
-msgstr ""
+msgstr "JSON dosya biçimi desteği eklendi."
 
 #: ../../changes.rst:1871
 msgid "Fixed generating mo files in certain cases."
-msgstr ""
+msgstr "Bazı durumlarda mo dosyaları oluşturulurken yaşanan sorun düzeltildi."
 
 #: ../../changes.rst:1872
 msgid "Added support for GitLab notifications."
-msgstr ""
+msgstr "GitLab bildirimleri özelliği eklendi."
 
 #: ../../changes.rst:1873
 msgid "Added support for disabling translation suggestions."
-msgstr ""
+msgstr "Çeviri önerilerini devre dışı bırakma özelliği eklendi."
 
 #: ../../changes.rst:1874
 msgid "Django 1.7 support."
-msgstr ""
+msgstr "Django 1.7 desteği eklendi."
 
 #: ../../changes.rst:1875
 msgid "ACL projects now have user management."
-msgstr ""
+msgstr "Erişim denetimi listesi projelerine kullanıcı yönetimi eklendi."
 
 #: ../../changes.rst:1876
 msgid "Extended search possibilities."
-msgstr ""
+msgstr "Arama olanakları genişletildi."
 
 #: ../../changes.rst:1877
 msgid "Give more hints to translators about plurals."
 msgstr ""
+"Çevirmenlere çoğul biçimler hakkında daha fazla ipucu verilmesi sağlandı."
 
 #: ../../changes.rst:1878
 msgid "Fixed Git repository locking."
-msgstr ""
+msgstr "Git deposunun kilitlenmesi sorunu düzeltildi."
 
 #: ../../changes.rst:1879
 msgid "Compatibility with older Git versions."
-msgstr ""
+msgstr "Eski Git sürümleriyle uyumluluk sağlandı."
 
 #: ../../changes.rst:1880
 msgid "Improved ACL support."
-msgstr ""
+msgstr "Erişim denetimi listesi desteği geliştirildi."
 
 #: ../../changes.rst:1881
 msgid "Added buttons for per language quotes and other special characters."
-msgstr ""
+msgstr "Her dil için tırnak ve diğer özel karakter düğmeleri eklendi."
 
 #: ../../changes.rst:1882
 msgid "Support for exporting stats as JSONP."
-msgstr ""
+msgstr "İstatistikleri JSONP olarak dışa aktarma özelliği eklendi."
 
 #: ../../changes.rst:1885
 msgid "Weblate 1.x series"
-msgstr ""
+msgstr "Weblate 1.x serisi"
 
 #: ../../changes.rst:1888
 msgid "Weblate 1.9"
@@ -28736,35 +29170,35 @@ msgstr "6 Mayıs 2014 tarihinde yayınlandı."
 
 #: ../../changes.rst:1892
 msgid "Django 1.6 compatibility."
-msgstr ""
+msgstr "Django 1.6 uyumluluğu sağlandı."
 
 #: ../../changes.rst:1893
 msgid "No longer maintained compatibility with Django 1.4."
-msgstr ""
+msgstr "Artık Django 1.4 uyumluluğu korunmuyor."
 
 #: ../../changes.rst:1894
 msgid "Management commands for locking/unlocking translations."
-msgstr ""
+msgstr "Çeviriler için kilitleme ve kilit açma yönetim komutları eklendi."
 
 #: ../../changes.rst:1895
 msgid "Improved support for Qt TS files."
-msgstr ""
+msgstr "Qt TS dosyaları desteği iyileştirildi."
 
 #: ../../changes.rst:1896
 msgid "Users can now delete their account."
-msgstr ""
+msgstr "Kullanıcıların hesaplarını silebilmesi sağlandı."
 
 #: ../../changes.rst:1897
 msgid "Avatars can be disabled."
-msgstr ""
+msgstr "Avatarları devre dışı bırakma özelliği eklendi."
 
 #: ../../changes.rst:1898
 msgid "Merged first and last name attributes."
-msgstr ""
+msgstr "Ad ve soyad öznitelikleri birleştirildi."
 
 #: ../../changes.rst:1899
 msgid "Avatars are now fetched and cached server side."
-msgstr ""
+msgstr "Avatarların sunucu tarafında tutulması ve ön belleğe alınması sağlandı."
 
 #: ../../changes.rst:1900
 msgid "Added support for shields.io badge."
@@ -28780,28 +29214,30 @@ msgstr "7 Kasım 2013 tarihinde yayınlandı."
 
 #: ../../changes.rst:1907 ../../changes.rst:1924 ../../changes.rst:1965
 msgid "Please check manual for upgrade instructions."
-msgstr ""
+msgstr "Lütfen yükseltme yönergeleri için rehbere bakın."
 
 #: ../../changes.rst:1908
 msgid "Nicer listing of project summary."
-msgstr ""
+msgstr "Proje özetinin görünümü güzelleştirildi."
 
 #: ../../changes.rst:1909
 msgid "Better visible options for sharing."
-msgstr ""
+msgstr "Paylaşım seçeneklerinin daha iyi görünmesi sağlandı."
 
 #: ../../changes.rst:1910
 msgid "More control over anonymous users privileges."
-msgstr ""
+msgstr "Anonim kullanıcı izinleri üzerinde daha fazla denetim sağlandı."
 
 #: ../../changes.rst:1911
 msgid ""
 "Supports login using third party services, check manual for more details."
 msgstr ""
+"Üçüncü taraf hizmetlerini kullanarak oturum açma desteği eklendi. Bilgi "
+"almak için rehbere bakabilirsiniz."
 
 #: ../../changes.rst:1912
 msgid "Users can login by e-mail instead of username."
-msgstr ""
+msgstr "Kullanıcı adı yerine e-posta ile oturum açılabilmesi sağlandı."
 
 #: ../../changes.rst:1914
 msgid "Improved source strings review."
@@ -28809,15 +29245,15 @@ msgstr "Kaynak dizge onaylama işlemi geliştirildi."
 
 #: ../../changes.rst:1915
 msgid "Searching across all strings."
-msgstr ""
+msgstr "Tüm dizgelerde arama özelliği eklendi."
 
 #: ../../changes.rst:1916
 msgid "Better tracking of source strings."
-msgstr ""
+msgstr "Kaynak dizgelerin izlenmesi iyileştirildi."
 
 #: ../../changes.rst:1917
 msgid "Captcha protection for registration."
-msgstr ""
+msgstr "Hesap açılışına Captcha koruması eklendi."
 
 #: ../../changes.rst:1920
 msgid "Weblate 1.7"
@@ -28829,36 +29265,39 @@ msgstr "7 Ekim 2013 tarihinde yayınlandı."
 
 #: ../../changes.rst:1925
 msgid "Support for checking Python brace format string."
-msgstr ""
+msgstr "Python parantezi biçim dizgesini denetleme desteği eklendi."
 
 #: ../../changes.rst:1926
 msgid "Per component customization of quality checks."
-msgstr ""
+msgstr "Kalite denetimlerinin her bileşen için ayrı özelleştirilmesi sağlandı."
 
 #: ../../changes.rst:1927
 msgid "Detailed per translation stats."
-msgstr ""
+msgstr "Çeviri istatistiklerine göre ayrıntılar eklendi."
 
 #: ../../changes.rst:1928
 msgid "Changed way of linking suggestions, checks and comments to strings."
 msgstr ""
+"Öneri, denetim ve yorumların dizgelerle ilişkilendirme yöntemi değiştirildi."
 
 #: ../../changes.rst:1929
 msgid "Users can now add text to commit message."
-msgstr ""
+msgstr "Kullanıcıların gönderim iletisine metin ekleyebilmesi sağlandı."
 
 #: ../../changes.rst:1930
 msgid "Support for subscribing on new language requests."
-msgstr ""
+msgstr "Yeni dil isteklerine abone olma özelliği eklendi."
 
 #: ../../changes.rst:1931
 msgid "Support for adding new translations."
-msgstr ""
+msgstr "Yeni çeviriler ekleme özelliği eklendi."
 
 #: ../../changes.rst:1932
 msgid ""
 "Widgets and charts are now rendered using Pillow instead of Pango + Cairo."
 msgstr ""
+"Pano bileşenleri ve çizelgelerde Pango + Cairo yerine Pillow kullanılması "
+"sağlandı."
 
 #: ../../changes.rst:1933
 msgid "Add status badge widget."
@@ -28866,11 +29305,11 @@ msgstr "Durum simgesi pano bileşeni eklendi."
 
 #: ../../changes.rst:1934
 msgid "Dropped invalid text direction check."
-msgstr ""
+msgstr "Geçersiz metin yönü denetimi kaldırıldı."
 
 #: ../../changes.rst:1935
 msgid "Changes in dictionary are now logged in history."
-msgstr ""
+msgstr "Sözlükte yapılan değişiklikler geçmiş kayıtlarına eklendi."
 
 #: ../../changes.rst:1936
 msgid "Performance improvements for translation view."
@@ -28886,67 +29325,67 @@ msgstr "25 Temmuz 2013 tarihinde yayınlandı."
 
 #: ../../changes.rst:1943
 msgid "Nicer error handling on registration."
-msgstr ""
+msgstr "Hesap açarken çıkabilecek sorunların işlenmesi iyileştirildi."
 
 #: ../../changes.rst:1944
 msgid "Browsing of changes."
-msgstr ""
+msgstr "Değişikliklere göz atma özelliği eklendi."
 
 #: ../../changes.rst:1945
 msgid "Fixed sorting of machine translation suggestions."
-msgstr ""
+msgstr "Makine çevirisi önerilerinin sıralanması düzeltildi."
 
 #: ../../changes.rst:1946
 msgid "Improved support for MyMemory machine translation."
-msgstr ""
+msgstr "MyMemory makine çevirisi desteği iyileştirildi."
 
 #: ../../changes.rst:1947
 msgid "Added support for Amagama machine translation."
-msgstr ""
+msgstr "Amagama makine çevirisi desteği eklendi."
 
 #: ../../changes.rst:1948
 msgid "Various optimizations on frequently used pages."
-msgstr ""
+msgstr "Sık kullanılan sayfalarda çeşitli iyileştirmeler yapıldı."
 
 #: ../../changes.rst:1949
 msgid "Highlights searched phrase in search results."
-msgstr ""
+msgstr "Arama sonuçlarında aranan ifadenin vurgulanması sağlandı."
 
 #: ../../changes.rst:1950
 msgid "Support for automatic fixups while saving the message."
-msgstr ""
+msgstr "İleti kaydedilirken kendiliğinden düzeltme özelliği eklendi."
 
 #: ../../changes.rst:1951
 msgid "Tracking of translation history and option to revert it."
-msgstr ""
+msgstr "Çeviri geçmişini izleme ve geri döndürme özellikleri eklendi."
 
 #: ../../changes.rst:1952
 msgid "Added support for Google Translate API."
-msgstr ""
+msgstr "Google Çeviri API desteği eklendi."
 
 #: ../../changes.rst:1953
 msgid "Added support for managing SSH host keys."
-msgstr ""
+msgstr "SSH sunucu anahtarları yönetimi desteği eklendi."
 
 #: ../../changes.rst:1954
 msgid "Various form validation improvements."
-msgstr ""
+msgstr "Çeşitli form doğrulama iyileştirmeleri yapıldı."
 
 #: ../../changes.rst:1955 ../../changes.rst:2006
 msgid "Various quality checks improvements."
-msgstr ""
+msgstr "Çeşitli kalite denetimi iyileştirmeleri yapıldı."
 
 #: ../../changes.rst:1956
 msgid "Performance improvements for import."
-msgstr ""
+msgstr "İçe aktarma başarımı iyileştirildi."
 
 #: ../../changes.rst:1957
 msgid "Added support for voting on suggestions."
-msgstr ""
+msgstr "Önerilere oy verme desteği eklendi."
 
 #: ../../changes.rst:1958
 msgid "Cleanup of admin interface."
-msgstr ""
+msgstr "Yönetim arayüzü sadeleştirildi."
 
 #: ../../changes.rst:1961
 msgid "Weblate 1.5"
@@ -28962,67 +29401,76 @@ msgstr "Herkese açık kullanıcı sayfaları eklendi."
 
 #: ../../changes.rst:1967
 msgid "Better naming of plural forms."
-msgstr ""
+msgstr "Çoğul biçimlerin adlandırılması iyileştirildi."
 
 #: ../../changes.rst:1968
 msgid "Added support for TBX export of glossary."
-msgstr ""
+msgstr "Sözlüğün TBX olarak dışa aktarılması desteği eklendi."
 
 #: ../../changes.rst:1969
 msgid "Added support for Bitbucket notifications."
-msgstr ""
+msgstr "Bitbucket bildirimleri desteği eklendi."
 
 #: ../../changes.rst:1970
 msgid ""
 "Activity charts are now available for each translation, language or user."
 msgstr ""
+"Etkinlik çizelgelerinin her çeviri, dil ya da kullanıcı için görülebilmesi "
+"sağlandı."
 
 #: ../../changes.rst:1971
 msgid "Extended options of import_project admin command."
-msgstr ""
+msgstr "import_project yönetici komutunun seçenekleri zenginleştirildi."
 
 #: ../../changes.rst:1972
 msgid "Compatible with Django 1.5."
-msgstr ""
+msgstr "Django 1.5 uyumluluğu sağlandı."
 
 #: ../../changes.rst:1973
 msgid "Avatars are now shown using libravatar."
-msgstr ""
+msgstr "Avatarların libravatar kullanılarak görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1974
 msgid "Added possibility to pretty print JSON export."
-msgstr ""
+msgstr "JSON dışa aktarımının güzel biçimde yazdırılabilmesi sağlandı."
 
 #: ../../changes.rst:1976
 msgid ""
 "Indicate failing checks or fuzzy strings in progress bars for projects or "
 "languages as well."
 msgstr ""
+"Başarısız olan denetimlerin veya belirsiz dizgelerin projelerin veya "
+"dillerin ilerleme çubuklarında görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1977
 msgid ""
 "Added support for custom pre-commit hooks and committing additional files."
 msgstr ""
+"Özel ön gönderim kancaları ve ek dosyaların gönderilmesi özellikleri eklendi."
 
 #: ../../changes.rst:1978
 msgid "Rewritten search for better performance and user experience."
 msgstr ""
+"Arama özelliği daha iyi başarım ve kullanıcı deneyimi sağlamak için yeniden "
+"yazıldı."
 
 #: ../../changes.rst:1979
 msgid "New interface for machine translations."
-msgstr ""
+msgstr "Makine çevirileri arayüzü yenilendi."
 
 #: ../../changes.rst:1980
 msgid "Added support for monolingual po files."
-msgstr ""
+msgstr "Tek dilli po dosyaları desteği eklendi."
 
 #: ../../changes.rst:1981
 msgid "Extend amount of cached metadata to improve speed of various searches."
 msgstr ""
+"Çeşitli aramaların hızını artırmak için ön belleğe alınmış üst veri miktarı "
+"artırıldı."
 
 #: ../../changes.rst:1982
 msgid "Now shows word counts as well."
-msgstr ""
+msgstr "Sözcük sayılarının görüntülenmesi sağlandı."
 
 #: ../../changes.rst:1985
 msgid "Weblate 1.4"
@@ -29035,78 +29483,93 @@ msgstr "23 Ocak 2013 tarihinde yayınlandı."
 #: ../../changes.rst:1989
 msgid "Fixed deleting of checks/comments on string deletion."
 msgstr ""
+"Dizge silme işlemiyle ilgili denetimlerin ve yorumların silinmesinde yaşanan "
+"sorun düzeltildi."
 
 #: ../../changes.rst:1990
 msgid "Added option to disable automatic propagation of translations."
-msgstr ""
+msgstr "Çevirilerin kendiliğinden yayılmasını engelleme seçeneği eklendi."
 
 #: ../../changes.rst:1991
 msgid "Added option to subscribe for merge failures."
-msgstr ""
+msgstr "Birleştirme hatalarına abone olma seçeneği eklendi."
 
 #: ../../changes.rst:1992
 msgid "Correctly import on projects which needs custom ttkit loader."
 msgstr ""
+"Özel ttkit yükleyiciye gerek duyan projelerin doğru biçimde içe aktarılması "
+"sağlandı."
 
 #: ../../changes.rst:1993
 msgid "Added sitemaps to allow easier access by crawlers."
 msgstr ""
+"Arama motoru robotlarının erişimini kolaylaştırmak için site haritaları "
+"eklendi."
 
 #: ../../changes.rst:1994
 msgid "Provide direct links to string in notification e-mails or feeds."
 msgstr ""
+"Bildirim e-postalarına veya özet akışlarına doğrudan dizge bağlantısı "
+"eklendi."
 
 #: ../../changes.rst:1995
 msgid "Various improvements to admin interface."
-msgstr ""
+msgstr "Yönetim arayüzünde çeşitli iyileştirmeler yapıldı."
 
 #: ../../changes.rst:1996
 msgid "Provide hints for production setup in admin interface."
-msgstr ""
+msgstr "Yönetim arayüzünde üretim ortamı kurulumu için ipuçları sunuldu."
 
 #: ../../changes.rst:1997
 msgid "Added per language widgets and engage page."
-msgstr ""
+msgstr "Her dil için ayrı pano bileşeni ve etkileşim sayfası eklendi."
 
 #: ../../changes.rst:1998
 msgid "Improved translation locking handling."
-msgstr ""
+msgstr "Çeviri kilitleme işlemi iyileştirildi."
 
 #: ../../changes.rst:1999
 msgid "Show code snippets for widgets in more variants."
 msgstr ""
+"Pano bileşenleri için daha fazla kod parçası çeşidinin görüntülenmesi "
+"sağlandı."
 
 #: ../../changes.rst:2000
 msgid "Indicate failing checks or fuzzy strings in progress bars."
 msgstr ""
+"Başarısız olan denetimlerin veya belirsiz dizgelerin ilerleme çubuklarında "
+"belirtilmesi sağlandı."
 
 #: ../../changes.rst:2001
 msgid "More options for formatting commit message."
-msgstr ""
+msgstr "Gönderim iletisine daha fazla biçimlendirme seçeneği eklendi."
 
 #: ../../changes.rst:2002
 msgid "Fixed error handling with machine translation services."
 msgstr ""
+"Makine çevirisi hizmetleriyle ilgili hataların işlenmesinde yaşanan sorun "
+"düzeltildi."
 
 #: ../../changes.rst:2003
 msgid "Improved automatic translation locking behaviour."
-msgstr ""
+msgstr "Kendiliğinden çeviri kilitleme davranışı iyileştirildi."
 
 #: ../../changes.rst:2004
 msgid "Support for showing changes from previous source string."
 msgstr ""
+"Önceki kaynak dizgeye göre yapılan değişikliklerin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:2005
 msgid "Added support for substring search."
-msgstr ""
+msgstr "Alt dizge arama özelliği eklendi."
 
 #: ../../changes.rst:2007
 msgid "Support for per project ACL."
-msgstr ""
+msgstr "Her proje için erişim denetimi listesi özelliği eklendi."
 
 #: ../../changes.rst:2008
 msgid "Basic code coverage by unit tests."
-msgstr ""
+msgstr "Birim sınamalarına göre temel kod kapsamı."
 
 #: ../../changes.rst:2011
 msgid "Weblate 1.3"
@@ -29118,76 +29581,84 @@ msgstr "16 Kasım 2012 tarihinde yayınlandı."
 
 #: ../../changes.rst:2015
 msgid "Compatibility with PostgreSQL database backend."
-msgstr ""
+msgstr "PostgreSQL veritabanı arka ucuyla uyumluluk sağlandı."
 
 #: ../../changes.rst:2016
 msgid "Removes languages removed in upstream git repository."
-msgstr ""
+msgstr "Yukarı akış Git deposunda silinen dillerin kaldırılması sağlandı."
 
 #: ../../changes.rst:2017
 msgid "Improved quality checks processing."
-msgstr ""
+msgstr "Kalite denetimlerinin işlenmesi iyileştirildi."
 
 #: ../../changes.rst:2018
 msgid "Added new checks (BBCode, XML markup and newlines)."
 msgstr ""
+"Yeni denetimler eklendi (BBCode, XML biçimlendirmesi ve yeni satır "
+"karakterleri)."
 
 #: ../../changes.rst:2019
 msgid "Support for optional rebasing instead of merge."
-msgstr ""
+msgstr "Birleştirme yerine isteğe bağlı yeniden temellendirme desteği sağlandı."
 
 #: ../../changes.rst:2020
 msgid ""
 "Possibility to relocate Weblate (for example to run it under /weblate path)."
 msgstr ""
+"Weblate kurulumunun yerinin değiştirilmesi sağlandı (örneğin /weblate yolu "
+"altında çalıştırmak için)."
 
 #: ../../changes.rst:2021
 msgid "Support for manually choosing file type in case autodetection fails."
 msgstr ""
+"Kendiliğinden algılamanın başarısız olması durumunda dosya türünü el ile "
+"seçme özelliği eklendi."
 
 #: ../../changes.rst:2022
 msgid "Better support for Android resources."
-msgstr ""
+msgstr "Android kaynakları için daha iyi destek sağlandı."
 
 #: ../../changes.rst:2023
 msgid "Support for generating SSH key from web interface."
-msgstr ""
+msgstr "Web arayüzünden SSH anahtarı oluşturma özelliği eklendi."
 
 #: ../../changes.rst:2024
 msgid "More visible data exports."
-msgstr ""
+msgstr "Veri dışa aktarımlarının daha görünür olması sağlandı."
 
 #: ../../changes.rst:2025
 msgid "New buttons to enter some special characters."
-msgstr ""
+msgstr "Bazı özel karakterleri yazmak için yeni düğmeler eklendi."
 
 #: ../../changes.rst:2026
 msgid "Support for exporting dictionary."
-msgstr ""
+msgstr "Sözlüğü dışa aktarma özelliği eklendi."
 
 #: ../../changes.rst:2027
 msgid "Support for locking down whole Weblate installation."
-msgstr ""
+msgstr "Tüm Weblate kurulumunu kilitleme özelliği eklendi."
 
 #: ../../changes.rst:2028
 msgid "Checks for source strings and support for source strings review."
-msgstr ""
+msgstr "Kaynak dizge denetimleri ve kaynak dizge onaylama özellikleri eklendi."
 
 #: ../../changes.rst:2029
 msgid "Support for user comments for both translations and source strings."
 msgstr ""
+"Hem çeviriler hem de kaynak dizgeler için kullanıcı yorumları özelliği "
+"eklendi."
 
 #: ../../changes.rst:2030
 msgid "Better changes log tracking."
-msgstr ""
+msgstr "Günlük izleme iyileştirildi."
 
 #: ../../changes.rst:2031
 msgid "Changes can now be monitored using RSS."
-msgstr ""
+msgstr "Değişikliklerin RSS ile izlenebilmesi sağlandı."
 
 #: ../../changes.rst:2032
 msgid "Improved support for RTL languages."
-msgstr ""
+msgstr "Sağdan sola yazılan dillerin desteği iyileştirildi."
 
 #: ../../changes.rst:2035
 msgid "Weblate 1.2"
@@ -29202,79 +29673,88 @@ msgid ""
 "Weblate now uses South for database migration, please check upgrade "
 "instructions if you are upgrading."
 msgstr ""
+"Weblate veritabanı aktarımı için South kullanımına geçildi. Yükseltme "
+"yapıyorsanız lütfen yükseltme yönergelerine bakın."
 
 #: ../../changes.rst:2040
 msgid "Fixed minor issues with linked git repos."
-msgstr ""
+msgstr "Bağlı Git depolarıyla ilgili yaşanan küçük sorunlar düzeltildi."
 
 #: ../../changes.rst:2041
 msgid ""
 "New introduction page for engaging people with translating using Weblate."
 msgstr ""
+"Giriş sayfası Weblate kullanarak çeviri yapan kişilerin ilgisini çekecek "
+"biçimde yenilendi."
 
 #: ../../changes.rst:2042
 msgid "Added widgets which can be used for promoting translation projects."
 msgstr ""
+"Çeviri projelerini tanıtmak için kullanılabilecek pano bileşenleri eklendi."
 
 #: ../../changes.rst:2043
 msgid "Added option to reset repository to origin (for privileged users)."
 msgstr ""
+"Depoyu özgün durumuna sıfırlama seçeneği eklendi (izin verilmiş kullanıcılar "
+"için)."
 
 #: ../../changes.rst:2044
 msgid "Project or component can now be locked for translations."
-msgstr ""
+msgstr "Proje ve bileşenlere çevirileri kilitleme özelliği eklendi."
 
 #: ../../changes.rst:2045
 msgid "Possibility to disable some translations."
-msgstr ""
+msgstr "Bazı çevirilerin devre dışı bırakılabilmesi sağlandı."
 
 #: ../../changes.rst:2046
 msgid "Configurable options for adding new translations."
-msgstr ""
+msgstr "Yeni çevirilerin eklenmesine yapılandırılabilir seçenekler eklendi."
 
 #: ../../changes.rst:2047
 msgid "Configuration of git commits per project."
-msgstr ""
+msgstr "Her proje için Git işlemelerini yapılandırma özelliği eklendi."
 
 #: ../../changes.rst:2048
 msgid "Simple antispam protection."
-msgstr ""
+msgstr "Basit antispam koruması eklendi."
 
 #: ../../changes.rst:2049
 msgid "Better layout of main page."
-msgstr ""
+msgstr "Ana sayfanın düzeni iyileştirildi."
 
 #: ../../changes.rst:2050
 msgid "Support for automatically pushing changes on every commit."
-msgstr ""
+msgstr "Her işlemede değişikliklerin kendiliğinden itilmesi sağlandı."
 
 #: ../../changes.rst:2051
 msgid "Support for e-mail notifications of translators."
-msgstr ""
+msgstr "Çevirmenlere e-posta bildirimleri gönderme özelliği eklendi."
 
 #: ../../changes.rst:2052
 msgid "List only used languages in preferences."
-msgstr ""
+msgstr "Ayarlarda yalnızca kullanılan dillerin listelenmesi sağlandı."
 
 #: ../../changes.rst:2053
 msgid "Improved handling of not known languages when importing project."
-msgstr ""
+msgstr "Proje içe aktarılırken bilinmeyen dillerin işlenmesi iyileştirildi."
 
 #: ../../changes.rst:2054
 msgid "Support for locking translation by translator."
-msgstr ""
+msgstr "Çevirmen tarafından çeviriyi kilitleme özelliği eklendi."
 
 #: ../../changes.rst:2055
 msgid "Optionally maintain ``Language-Team`` header in po file."
 msgstr ""
+"İsteğe bağlı olarak po dosyasında \"Language-Team\" üst bilgisinin korunması "
+"sağlandı."
 
 #: ../../changes.rst:2056
 msgid "Include some statistics in about page."
-msgstr ""
+msgstr "Hakkında sayfasına bazı istatistikler eklendi."
 
 #: ../../changes.rst:2057
 msgid "Supports (and requires) django-registration 0.8."
-msgstr ""
+msgstr "Django-registration 0.8 sürümü desteği eklendi (ve zorunlu kılındı)."
 
 #: ../../changes.rst:2058
 msgid "Caching counts of strings with failing checks."
@@ -29282,7 +29762,7 @@ msgstr "Denetim hatası olan dizge sayısının ön belleğe alınması sağland
 
 #: ../../changes.rst:2059
 msgid "Checking of requirements during setup."
-msgstr ""
+msgstr "Kurulum sırasında gereksinimlerin denetlenmesi sağlandı."
 
 #: ../../changes.rst:2063
 msgid "Weblate 1.1"
@@ -29294,23 +29774,24 @@ msgstr "4 Temmuz 2012 tarihinde yayınlandı."
 
 #: ../../changes.rst:2067
 msgid "Improved several translations."
-msgstr ""
+msgstr "Birkaç çeviri iyileştirildi."
 
 #: ../../changes.rst:2068 ../../changes.rst:2103
 msgid "Better validation while creating component."
-msgstr ""
+msgstr "Bileşen oluştururken doğrulama iyileştirildi."
 
 #: ../../changes.rst:2069
 msgid "Added support for shared git repositories across components."
-msgstr ""
+msgstr "Bileşenler arasında paylaşılan Git depoları desteği eklendi."
 
 #: ../../changes.rst:2070
 msgid "Do not necessary commit on every attempt to pull remote repo."
 msgstr ""
+"Uzak depoyu çekmek için her girişimin işlenmesinin gerekmemesi sağlandı."
 
 #: ../../changes.rst:2071
 msgid "Added support for offloading indexing."
-msgstr ""
+msgstr "Dizin oluşturma yükünü aktarma desteği eklendi."
 
 #: ../../changes.rst:2074
 msgid "Weblate 1.0"
@@ -29322,23 +29803,25 @@ msgstr "10 Mayıs 2012 tarihinde yayınlandı."
 
 #: ../../changes.rst:2078
 msgid "Improved validation while adding/saving component."
-msgstr ""
+msgstr "Bileşen eklenirken ve kaydedilirken doğrulama iyileştirildi."
 
 #: ../../changes.rst:2079
 msgid "Experimental support for Android component files (needs patched ttkit)."
 msgstr ""
+"Android bileşen dosyaları için deneysel destek eklendi (yamanmış ttkit "
+"gerekir)."
 
 #: ../../changes.rst:2080
 msgid "Updates from hooks are run in background."
-msgstr ""
+msgstr "Kancalardan gelen güncellemelerin arka planda yapılması sağlandı."
 
 #: ../../changes.rst:2081
 msgid "Improved installation instructions."
-msgstr ""
+msgstr "Yükleme yönergeleri iyileştirildi."
 
 #: ../../changes.rst:2082
 msgid "Improved navigation in dictionary."
-msgstr ""
+msgstr "Sözlükte gezinme iyileştirildi."
 
 #: ../../changes.rst:2085
 msgid "Weblate 0.x series"
@@ -34385,11 +34868,11 @@ msgstr "Biçim"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "Dil bilgisi [#m]_"
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr "Çağoullar [#p]_"
+msgstr "Çoğullar [#p]_"
 
 #: ../../formats.rst:59
 msgid "Descriptions [#n]_"
@@ -34716,10 +35199,12 @@ msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Dosyada depolanan bağlamsal bilgiler, üst bilgileri ayarlanarak veya ilgili "
+"kaynak dosyalarla bağlantı kurularak sağlanabilir."
 
 #: ../../formats.rst:175
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "İki dilli gettext PO dosyası genellikle şöyle görünür:"
 
 #: ../../formats.rst:193 ../../formats.rst:259 ../../formats.rst:445
 #: ../../formats.rst:480 ../../formats.rst:515 ../../formats.rst:550
@@ -34732,7 +35217,7 @@ msgstr ""
 #: ../../formats.rst:1448 ../../formats.rst:1480 ../../formats.rst:1593
 #: ../../formats.rst:1624 ../../formats.rst:1659
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "Tipik Weblate :ref:`component`"
 
 #: ../../formats.rst:197 ../../formats.rst:396 ../../formats.rst:451
 #: ../../formats.rst:486 ../../formats.rst:521 ../../formats.rst:556
@@ -34745,7 +35230,7 @@ msgstr ""
 #: ../../formats.rst:1597 ../../formats.rst:1599 ../../formats.rst:1631
 #: ../../formats.rst:1665
 msgid "`Empty`"
-msgstr ""
+msgstr "`Boş`"
 
 #: ../../formats.rst:199 ../../formats.rst:265
 msgid "``po/messages.pot``"
@@ -34763,10 +35248,15 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
+":doc:`devel/gettext`, :doc:`devel/sphinx`, `Vikipedi üzerinde Gettext "
+"<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
+"weblate.gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref"
+":`addon-weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref"
+":`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:219
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "Tek dilli gettext"
 
 #: ../../formats.rst:221
 msgid ""
@@ -34778,11 +35268,11 @@ msgstr ""
 
 #: ../../formats.rst:226
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Tek dilli gettext PO dosyası genellikle şöyle görünür:"
 
 #: ../../formats.rst:242
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "Temel dil dosyası şöyle olacaktır:"
 
 #: ../../formats.rst:263
 msgid "``po/en.po``"
@@ -34988,6 +35478,10 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
+"`Vikipedi üzerinde XLIFF <https://en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:"
+"formats/xliff`, `font attribute in XLIFF 1.2 <http://docs.oasis-open.org/"
+"xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
+"<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats.rst:425
 msgid "Java properties"
@@ -35035,6 +35529,10 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
+"`Vikipedi üzerinde Java özellikleri <https://en.wikipedia.org/wiki/."
+"properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, "
+":ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:470
 msgid "mi18n lang files"
@@ -35614,7 +36112,7 @@ msgstr ""
 
 #: ../../formats.rst:1088
 msgid "WebExtension JSON"
-msgstr ""
+msgstr "WebExtension JSON"
 
 #: ../../formats.rst:1092
 msgid ""
@@ -35838,7 +36336,7 @@ msgstr "``translations/messages.en.yml``"
 
 #: ../../formats.rst:1299
 msgid "`YAML file`"
-msgstr ""
+msgstr "`YAML dosyası`"
 
 #: ../../formats.rst:1302
 msgid ":doc:`tt:formats/yaml`, :ref:`ryaml`"
@@ -35918,7 +36416,7 @@ msgstr "Windows RC dosyaları"
 
 #: ../../formats.rst:1402
 msgid "Support for Windows RC files has been rewritten."
-msgstr ""
+msgstr "Windows RC dosyaları desteği yeniden yazıldı."
 
 #: ../../formats.rst:1406 ../../formats.rst:1521 ../../formats.rst:1538
 #: ../../formats.rst:1562 ../../formats.rst:1579 ../../formats.rst:1619
@@ -35927,6 +36425,8 @@ msgid ""
 "Support for this format is currently in beta, feedback from testing is "
 "welcome."
 msgstr ""
+"Bu biçimin desteği şu anda beta sürümünde. Denemelerin geri bildirimini "
+"bekliyoruz."
 
 #: ../../formats.rst:1411
 msgid "Example Windows RC file:"
@@ -35963,24 +36463,32 @@ msgid ""
 "`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
 "publisher>`_"
 msgstr ""
+"`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
+"publisher>`_"
 
 #: ../../formats.rst:1441
 msgid ""
 "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
 "your-app-metadata>`_"
 msgstr ""
+"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
+"your-app-metadata>`_"
 
 #: ../../formats.rst:1442
 msgid ""
 "`F-Droid <https://f-droid.org/docs/"
 "All_About_Descriptions_Graphics_and_Screenshots/>`_"
 msgstr ""
+"`F-Droid <https://f-droid.org/docs/"
+"All_About_Descriptions_Graphics_and_Screenshots/>`_"
 
 #: ../../formats.rst:1444
 msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
 msgstr ""
+"Üst veriler, Weblate tarafından çevrilmek üzere ayrı dizgeler olarak "
+"sunulacak birkaç metin dosyasından oluşur."
 
 #: ../../formats.rst:1450
 msgid "``fastlane/android/metadata/*``"
@@ -35992,7 +36500,7 @@ msgstr "``fastlane/android/metadata/en-US``"
 
 #: ../../formats.rst:1456
 msgid "`App store metadata files`"
-msgstr ""
+msgstr "`App store üst veri dosyaları`"
 
 #: ../../formats.rst:1461
 msgid ""
@@ -36011,19 +36519,19 @@ msgstr "Weblate çeşitli altyazı dosyalarını çevirebilir:"
 
 #: ../../formats.rst:1474
 msgid "SubRip subtitle file (``*.srt``)"
-msgstr ""
+msgstr "SubRip alt yazı dosyası (``*.srt``)"
 
 #: ../../formats.rst:1475
 msgid "MicroDVD subtitle file (``*.sub``)"
-msgstr ""
+msgstr "MicroDVD alt yazı dosyası (``*.sub``)"
 
 #: ../../formats.rst:1476
 msgid "Advanced Substation Alpha subtitles file (``*.ass``)"
-msgstr ""
+msgstr "Advanced Substation Alpha alt yazı dosyası (``*.ass``)"
 
 #: ../../formats.rst:1477
 msgid "Substation Alpha subtitle file (``*.ssa``)"
-msgstr ""
+msgstr "Substation Alpha alt yazı dosyası (``*.ssa``)"
 
 #: ../../formats.rst:1482
 msgid "``path/*.srt``"
@@ -36035,7 +36543,7 @@ msgstr "``path/en.srt``"
 
 #: ../../formats.rst:1488
 msgid "`SubRip subtitle file`"
-msgstr ""
+msgstr "`SubRip alt yazı dosyası`"
 
 #: ../../formats.rst:1493
 msgid ":doc:`tt:formats/subtitles`"
@@ -36445,6 +36953,8 @@ msgid ""
 "See https://wiki.python.org/moin/"
 "PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F"
 msgstr ""
+"Bilgi almak için: https://wiki.python.org/moin/"
+"PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F"
 
 #: ../../legal.rst:46
 msgid "`GnuPG <https://www.gnupg.org/>`_"
@@ -36452,7 +36962,7 @@ msgstr "`GnuPG <https://www.gnupg.org/>`_"
 
 #: ../../legal.rst:47 ../../legal.rst:49
 msgid "Optionally used by Weblate"
-msgstr ""
+msgstr "Weblate tarafından isteğe bağlı olarak kullanılır"
 
 #: ../../legal.rst:48
 msgid "`Git <https://git-scm.com/>`_"
@@ -36464,7 +36974,7 @@ msgstr "`curl <https://curl.se/>`_"
 
 #: ../../legal.rst:51
 msgid "Used by Git"
-msgstr ""
+msgstr "Git tarafından kullanılır"
 
 #: ../../legal.rst:53
 msgid "`OpenSSL <https://www.openssl.org/>`_"
@@ -36472,7 +36982,7 @@ msgstr "`OpenSSL <https://www.openssl.org/>`_"
 
 #: ../../legal.rst:53
 msgid "Used by Python and cURL"
-msgstr ""
+msgstr "Python ve cURL tarafından kullanılır"
 
 #: ../../legal.rst:55
 msgid ""
@@ -36543,7 +37053,7 @@ msgstr ":exc:`WeblateException`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
-msgstr ""
+msgstr "Tüm özel durumlar için temel sınıf."
 
 #: ../../python.rst:34
 msgid ":class:`Weblate`"
@@ -37406,6 +37916,12 @@ msgid ""
 "formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
+":ref:`check-formats`, `Object Pascal biçimlendirme dizgeleri <https://www.gnu"
+".org/software/gettext/manual/html_node/object_002dpascal_002dformat."
+"html#object_002dpascal_002dformat>`_, `Free Pascal biçimlendirme dizgeleri "
+"<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
+"biçimlendirme dizgeleri <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
+"System.SysUtils.Format>`_"
 
 #: ../../user/checks.rst:434
 msgid "Percent placeholders"
@@ -37427,7 +37943,7 @@ msgstr "Yüzde yer tutucuları"
 
 #: ../../user/checks.rst:444
 msgid "``There are %number% apples``"
-msgstr ""
+msgstr "``%number% elma var``"
 
 #: ../../user/checks.rst:453
 msgid "Perl format"
@@ -37453,6 +37969,9 @@ msgid ""
 "sprintf>`_, `Perl Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/perl_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
+"sprintf>`_, `Perl biçim dizgeleri <https://www.gnu.org/software/gettext/"
+"manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:473
 msgid "PHP format"
@@ -37478,6 +37997,9 @@ msgid ""
 "en/function.sprintf.php>`_, `PHP Format Strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/php_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, `PHP sprintf belgeleri <https://www.php.net/manual/en/"
+"function.sprintf.php>`_, `PHP biçim dizgeleri <https://www.gnu.org/software/"
+"gettext/manual/html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:493
 msgid "Python brace format"
@@ -37503,7 +38025,7 @@ msgstr "Basit biçim dizgesi"
 
 #: ../../user/checks.rst:501
 msgid "``There are {} apples``"
-msgstr ""
+msgstr "``{} elma var``"
 
 #: ../../user/checks.rst:502
 msgid "``Your balance is {amount} {currency}``"
@@ -37515,6 +38037,9 @@ msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, :ref:`Python parantez biçimi <python:formatstrings>`, `"
+"Python biçim dizgeleri <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:513
 msgid "Python format"
@@ -37544,6 +38069,9 @@ msgid ""
 "formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/python_002dformat.html>`_"
 msgstr ""
+":ref:`check-formats`, :ref:`Python dizge biçimlendirmeleri <python:old-"
+"string-formatting>`, `Python biçim dizgeleri <https://www.gnu.org/software/"
+"gettext/manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:533
 msgid "Qt format"
@@ -40193,10 +40721,12 @@ msgid ""
 "The keyboard shortcuts have been revamped in 2.18 to less likely collide "
 "with browser or system defaults."
 msgstr ""
+"Klavye kısayolları, 2.18 sürümünde tarayıcı veya sistem varsayılanlarıyla "
+"çakışma olasılığını azaltmak için yenilendi."
 
 #: ../../user/translating.rst:179
 msgid "The following keyboard shortcuts can be utilized during translation:"
-msgstr ""
+msgstr "Çeviri sırasında şu klavye kısayolları kullanılabilir:"
 
 #: ../../user/translating.rst:182
 msgid "Keyboard shortcut"
@@ -40334,6 +40864,8 @@ msgstr ":kbd:`Cmd+M`"
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
 msgstr ""
+":guilabel:`Kendiliğinden öneriler` sekmesini görüntüler. Bilgi almak için: "
+":ref:`machine-translation`."
 
 #: ../../user/translating.rst:228
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
@@ -40345,27 +40877,27 @@ msgstr ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
 
 #: ../../user/translating.rst:228
 msgid "Copies placeable of given number from source string."
-msgstr ""
+msgstr "Kaynak dizgeden belirtilen numaralı yerleştirilebilir ögeyi kopyalar."
 
 #: ../../user/translating.rst:232
 msgid ":kbd:`Ctrl+M`\\+\\ :kbd:`1` to :kbd:`9` or"
-msgstr ""
+msgstr ":kbd:`Ctrl+M`\\+\\ :kbd:`1` ile :kbd:`9` arası ya da"
 
 #: ../../user/translating.rst:234
 msgid ":kbd:`Cmd+M`\\+\\ :kbd:`1` to :kbd:`9`"
-msgstr ""
+msgstr ":kbd:`Cmd+M`\\+\\ :kbd:`1` ile :kbd:`9` arası"
 
 #: ../../user/translating.rst:232
 msgid "Copy the machine translation of given number to current translation."
-msgstr ""
+msgstr "Belirtilen numaralı makine çevirisini geçerli çeviriye kopyalar."
 
 #: ../../user/translating.rst:236
 msgid ":kbd:`Ctrl+I`\\+\\ :kbd:`1` to :kbd:`9` or"
-msgstr ""
+msgstr ":kbd:`Ctrl+I`\\+\\ :kbd:`1` ile :kbd:`9` arası ya da"
 
 #: ../../user/translating.rst:238
 msgid ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
-msgstr ""
+msgstr ":kbd:`Cmd+I`\\+\\ :kbd:`1` ile :kbd:`9` arası"
 
 #: ../../user/translating.rst:236
 msgid "Ignore one item in the list of failing checks."
@@ -40452,7 +40984,7 @@ msgstr ""
 
 #: ../../user/translating.rst:277
 msgid "Translation context"
-msgstr ""
+msgstr "Çeviri bağlamı"
 
 #: ../../user/translating.rst:279
 msgid ""
@@ -40461,7 +40993,7 @@ msgstr ""
 
 #: ../../user/translating.rst:281
 msgid "String attributes"
-msgstr ""
+msgstr "Dizge öznitelikleri"
 
 #: ../../user/translating.rst:282
 msgid ""
@@ -40528,7 +41060,7 @@ msgstr ""
 
 #: ../../user/translating.rst:306
 msgid "Translation history"
-msgstr ""
+msgstr "Çeviri geçmişi"
 
 #: ../../user/translating.rst:308
 msgid ""
@@ -40539,7 +41071,7 @@ msgstr ""
 
 #: ../../user/translating.rst:313
 msgid "Translated string length"
-msgstr ""
+msgstr "Çevrilmiş dizgenin uzunluğu"
 
 #: ../../user/translating.rst:315
 msgid ""
@@ -40591,7 +41123,7 @@ msgstr ""
 
 #: ../../user/translating.rst:352
 msgid "Two modes of operation are possible:"
-msgstr ""
+msgstr "İki şekilde işlem yapılabilir:"
 
 #: ../../user/translating.rst:354
 msgid "Using other Weblate components as a source for translations."
@@ -40742,7 +41274,7 @@ msgstr ""
 
 #: ../../vcs.rst:13
 msgid "Accessing repositories"
-msgstr ""
+msgstr "Depolara erişmek"
 
 #: ../../vcs.rst:15
 msgid ""
@@ -40755,7 +41287,7 @@ msgstr ""
 
 #: ../../vcs.rst:24
 msgid "Accessing repositories from Hosted Weblate"
-msgstr ""
+msgstr "Hosted Weblate üzerinden depolara erişmek"
 
 #: ../../vcs.rst:26
 msgid ""
@@ -40784,7 +41316,7 @@ msgstr ""
 
 #: ../../vcs.rst:44
 msgid "SSH repositories"
-msgstr ""
+msgstr "SSH depoları"
 
 #: ../../vcs.rst:46
 msgid ""
@@ -40812,7 +41344,7 @@ msgstr ""
 
 #: ../../vcs.rst:66
 msgid "Weblate SSH key"
-msgstr ""
+msgstr "Weblate SSH anahtarı"
 
 #: ../../vcs.rst:68
 msgid ""
@@ -40839,7 +41371,7 @@ msgstr ""
 
 #: ../../vcs.rst:85
 msgid "Verifying SSH host keys"
-msgstr ""
+msgstr "SSH sunucu anahtarlarını doğrulamak"
 
 #: ../../vcs.rst:87
 msgid ""
@@ -40862,7 +41394,7 @@ msgstr ""
 
 #: ../../vcs.rst:103
 msgid "GitHub repositories"
-msgstr ""
+msgstr "GitHub depoları"
 
 #: ../../vcs.rst:105
 msgid ""
@@ -40900,7 +41432,7 @@ msgstr ""
 
 #: ../../vcs.rst:131
 msgid "Weblate internal URLs"
-msgstr ""
+msgstr "İç Weblate adresleri"
 
 #: ../../vcs.rst:133
 msgid ""
@@ -40923,7 +41455,7 @@ msgstr ""
 
 #: ../../vcs.rst:145
 msgid "Reasons to use this:"
-msgstr ""
+msgstr "Bunu kullanma nedenleri:"
 
 #: ../../vcs.rst:147
 msgid "Saves disk space on the server, the repository is stored just once."
@@ -40947,7 +41479,7 @@ msgstr ""
 
 #: ../../vcs.rst:154
 msgid "HTTPS repositories"
-msgstr ""
+msgstr "HTTPS depoları"
 
 #: ../../vcs.rst:156
 msgid ""
@@ -40971,7 +41503,7 @@ msgstr ""
 
 #: ../../vcs.rst:170
 msgid "Using proxy"
-msgstr ""
+msgstr "Vekil sunucu kullanmak"
 
 #: ../../vcs.rst:172
 msgid ""
@@ -41033,7 +41565,7 @@ msgstr ""
 
 #: ../../vcs.rst:223
 msgid "Customizing Git configuration"
-msgstr ""
+msgstr "Git yapılandırmasını özelleştirmek"
 
 #: ../../vcs.rst:225
 msgid ""
@@ -41044,7 +41576,7 @@ msgstr ""
 
 #: ../../vcs.rst:232
 msgid "Git remote helpers"
-msgstr ""
+msgstr "Uzak Git yardımcıları"
 
 #: ../../vcs.rst:234
 msgid ""
@@ -41277,7 +41809,7 @@ msgstr ""
 
 #: ../../vcs.rst:446
 msgid "Subversion credentials"
-msgstr ""
+msgstr "Subversion kimlik doğrulama bilgileri"
 
 #: ../../vcs.rst:448
 msgid ""
@@ -41289,7 +41821,7 @@ msgstr ""
 
 #: ../../vcs.rst:466
 msgid "Local files"
-msgstr ""
+msgstr "Yerel dosyalar"
 
 #: ../../vcs.rst:473
 msgid ""
@@ -41315,7 +41847,7 @@ msgstr ""
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Weblate istemcisi"
 
 #: ../../wlc.rst:14
 msgid ""
@@ -41366,7 +41898,7 @@ msgstr ""
 
 #: ../../wlc.rst:68
 msgid "Getting started"
-msgstr ""
+msgstr "Başlarken"
 
 #: ../../wlc.rst:70
 msgid ""
@@ -41384,7 +41916,7 @@ msgstr ""
 
 #: ../../wlc.rst:94
 msgid "Synopsis"
-msgstr ""
+msgstr "Özet"
 
 #: ../../wlc.rst:100
 msgid "Commands actually indicate which operation should be performed."
@@ -41409,7 +41941,7 @@ msgstr ""
 
 #: ../../wlc.rst:117
 msgid "Specify the output format."
-msgstr ""
+msgstr "Çıktı biçimini belirtin."
 
 #: ../../wlc.rst:121
 msgid ""
@@ -41747,7 +42279,7 @@ msgstr ""
 
 #: ../../workflows.rst:14
 msgid "Translation access"
-msgstr ""
+msgstr "Çeviri erişimi"
 
 #: ../../workflows.rst:16
 msgid ""
@@ -41777,6 +42309,8 @@ msgid ""
 "Translation is empty, it might or not be stored in the file, depending on "
 "the file format."
 msgstr ""
+"Çeviri yapılmamıştır ve boştur. Dosya biçimine bağlı olarak dosyada "
+"bulunabilir ya da bulunmayabilir."
 
 #: ../../workflows.rst:37
 msgid "Needs editing"
@@ -41789,6 +42323,11 @@ msgid ""
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
+"Çevirinin düzenlenmesi gereklidir. Genellikle bir kaynak dizge "
+"değişikliğinden, belirsiz eşleşmeden veya çevirmen işleminden kaynaklanır. "
+"Çeviri, dosya biçimine bağlı olarak dosyada bulunabilir ve düzenlenmesi "
+"gerekli şeklinde işaretlenebilir (örneğin, Gettext dosyasında ``fuzzy`` "
+"olarak imlenir)."
 
 #: ../../workflows.rst:40
 msgid "Waiting for review"
@@ -41799,6 +42338,8 @@ msgid ""
 "Translation is made, but not reviewed. It is stored in the file as a valid "
 "translation."
 msgstr ""
+"Çeviri yapılmış, ancak onaylanmamıştır. Dosyada geçerli bir çeviri olarak "
+"bulunur."
 
 #: ../../workflows.rst:46
 msgid "Approved"
@@ -41810,14 +42351,17 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"Çeviri onaylanmıştır. Artık çevirmenler tarafından değiştirilemez. Yalnızca "
+"onaylayanlar değiştirebilir. Çevirmenler yalnızca öneri ekleyebilir."
 
 #: ../../workflows.rst:47
 msgid "This state is only available when reviews are enabled."
 msgstr ""
+"Bu durum yalnızca onaylama özelliği etkinleştirildiğinde kullanılabilir."
 
 #: ../../workflows.rst:49
 msgid "Suggestions are stored in Weblate only and not in the translation file."
-msgstr ""
+msgstr "Öneriler yalnızca Weblate üzerinde bulunur. Çeviri dosyasında bulunmaz."
 
 #: ../../workflows.rst:51
 msgid "The states are represented in the translation files when possible."
@@ -41829,6 +42373,9 @@ msgid ""
 "to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
 "as needing editing."
 msgstr ""
+"Kullandığınız dosya biçimi durumların kaydedilmesini desteklemiyorsa, "
+"değiştirilmemiş dizgeleri düzenlenmesi gerekli olarak işaretlemek için :ref"
+":`addon-weblate.flags.same_edit` eklentisini kullanmak isteyebilirsiniz."
 
 #: ../../workflows.rst:61
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
@@ -41843,6 +42390,8 @@ msgid ""
 "This is most usual setup for smaller teams, anybody can directly translate. "
 "This is also the default setup in Weblate."
 msgstr ""
+"Bu seçenek küçük takımlar için en yaygın kullanılan kurulumdur. Herkes "
+"doğrudan çeviri yapabilir. Varsayılan Weblate kurulumudur."
 
 #: ../../workflows.rst:70
 msgid "*Any user* can edit translations."
@@ -41853,6 +42402,8 @@ msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
 msgstr ""
+"Öneriler, çevirmenlerin çeviride bir değişiklik yapmaktan emin olmadığı "
+"durumlarda isteğe bağlı bir değişiklik önerisinde bulunmalarını sağlar."
 
 #: ../../workflows.rst:75 ../../workflows.rst:107 ../../workflows.rst:144
 msgid "Setting"
@@ -41878,6 +42429,8 @@ msgstr "açık"
 #: ../../workflows.rst:79 ../../workflows.rst:148
 msgid "It is useful for users to be able to suggest when they are not sure."
 msgstr ""
+"Kullanıcıların emin olmadıkları durumlarda öneri yapabilmeleri açısından "
+"yararlıdır."
 
 #: ../../workflows.rst:86 ../../workflows.rst:118 ../../workflows.rst:155
 msgid "Translators group"
@@ -41908,23 +42461,29 @@ msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
 msgstr ""
+"Bu iş akışında, herkes öneri ekleyebilir. Önerilerin onaylanmış olarak kabul "
+"edilmesi için başka üyelerin onaylaması gerekir."
 
 #: ../../workflows.rst:102
 msgid "*Any user* can add suggestions."
-msgstr ""
+msgstr "*Tüm kullanıcılar* öneri ekleyebilir."
 
 #: ../../workflows.rst:103
 msgid "*Any user* can vote for suggestions."
-msgstr ""
+msgstr "*Tüm kullanıcılar* önerilere oy verebilir."
 
 #: ../../workflows.rst:104
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
 msgstr ""
+"Önerilerin onaylanmış olarak kabul edilmesi için önceden belirlenmiş sayıda "
+"oy alması gerekir."
 
 #: ../../workflows.rst:115
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
+"Daha fazla akran değerlendirmesi gerekmesi için yüksek bir değer "
+"ayarlayabilirsiniz."
 
 #: ../../workflows.rst:122
 msgid "Not used, all translators review."
@@ -41932,7 +42491,7 @@ msgstr ""
 
 #: ../../workflows.rst:128
 msgid "Dedicated reviewers"
-msgstr ""
+msgstr "Özel onaylayanlar"
 
 #: ../../workflows.rst:132
 msgid "The proper review workflow is supported since Weblate 2.18."
@@ -41967,7 +42526,7 @@ msgstr ""
 
 #: ../../workflows.rst:165
 msgid "Turning on reviews"
-msgstr ""
+msgstr "Onaylama özelliğini açmak"
 
 #: ../../workflows.rst:167
 msgid ""
