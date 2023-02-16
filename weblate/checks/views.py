@@ -196,8 +196,10 @@ def show_check_component(request, name, project, component):
 
     kwargs = {}
 
-    if request.GET.get("lang"):
-        kwargs["language__code"] = request.GET["lang"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("lang"):
+            kwargs["language__code"] = form.cleaned_data["lang"]
 
     translations = (
         Translation.objects.filter(
