@@ -14,7 +14,7 @@ from weblate.trans.util import redirect_param
 from weblate.utils.db import conditional_sum
 from weblate.utils.forms import FilterForm
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import get_component, get_project, show_form_errors
 
 
 def encode_optional(params):
@@ -47,6 +47,8 @@ def show_checks(request):
                 "component"
             ]
             url_params["component"] = form.cleaned_data["component"]
+    else:
+        show_form_errors(request, form)
 
     allchecks = (
         Check.objects.filter(**kwargs)
@@ -100,6 +102,8 @@ def show_check(request, name):
                 project=form.cleaned_data["project"],
                 name=name,
             )
+    else:
+        show_form_errors(request, form)
 
     projects = (
         request.user.allowed_projects.filter(**kwargs)
@@ -152,6 +156,8 @@ def show_check_project(request, name, project):
         if form.cleaned_data.get("lang"):
             kwargs["translation__language__code"] = form.cleaned_data["lang"]
             url_params["lang"] = form.cleaned_data["lang"]
+    else:
+        show_form_errors(request, form)
 
     components = (
         Component.objects.filter_access(request.user)
@@ -200,6 +206,8 @@ def show_check_component(request, name, project, component):
     if form.is_valid():
         if form.cleaned_data.get("lang"):
             kwargs["language__code"] = form.cleaned_data["lang"]
+    else:
+        show_form_errors(request, form)
 
     translations = (
         Translation.objects.filter(
