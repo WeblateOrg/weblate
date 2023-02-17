@@ -1099,7 +1099,9 @@ class GiteaRepository(GitMergeRequestBase):
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
 
-        response, error = self.request("post", credentials, fork_url)
+        # Empty json body is required here, otherwise we'll get an
+        # "Empty Content-Type" error from gitea.
+        response, error = self.request("post", credentials, fork_url, json={})
         if "message" in response and "repository is already forked by user" in error:
             # we have to get the repository again if it is already forked
             response, error = self.request("get", credentials, credentials["url"])
