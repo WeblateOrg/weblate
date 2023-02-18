@@ -545,7 +545,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             match=[matchers.header_matcher({"Content-Type": "application/json"})],
         )
 
-    def test_api_url_github_com(self):
+    def test_api_url_try_gitea(self):
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
         self.assertEqual(
             self.repo.get_api_url()[0],
