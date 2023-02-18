@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-16 17:56+0000\n"
+"PO-Revision-Date: 2023-02-18 20:19+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -4432,8 +4432,8 @@ msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
-"Kendiliğinden alınan yedeklere hem PostgreSQL hem de MySQL/MariaDB "
-"veritabanları katılır."
+"Kendiliğinden alınan yedeklere hem PostgreSQL hem de MySQL/MariaDB veri "
+"tabanları katılır."
 
 #: ../../admin/backup.rst:49
 msgid ""
@@ -4941,7 +4941,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:296
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr "PostgreSQL veritabanı yedeği için :file:`database.sql`."
+msgstr "PostgreSQL veri tabanı yedeği için :file:`database.sql`."
 
 #: ../../admin/backup.rst:297
 msgid "Environment dump as :file:`environment.yml`."
@@ -4952,15 +4952,15 @@ msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Veritabanı yedekleri varsayılan olarak düz metin biçiminde kaydedilir. Ancak "
-":setting:`DATABASE_BACKUP` seçeneği ile sıkıştırılabilir ya da tümüyle "
+"Veri tabanı yedekleri varsayılan olarak düz metin biçiminde kaydedilir. "
+"Ancak :setting:`DATABASE_BACKUP` seçeneği ile sıkıştırılabilir ya da tümüyle "
 "atlanabilir."
 
 #: ../../admin/backup.rst:302
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr ""
-"Veritabanı yedeğini geri yüklemek için veritabanı araçlarını kullanın. "
+"Veri tabanı yedeğini geri yüklemek için veri tabanı araçlarını kullanın. "
 "Örneğin:"
 
 #: ../../admin/backup.rst:309
@@ -7360,7 +7360,7 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
-"Varsayılan değer: `en`. Eşleşen dil nesnesinin veritabanında bulunması "
+"Varsayılan değer: `en`. Eşleşen dil nesnesinin veri tabanında bulunması "
 "gerekir."
 
 #: ../../admin/config.rst:593
@@ -8793,7 +8793,7 @@ msgid ""
 "migration and is enabled by default. This setting has no effect on "
 "invocation of :djadmin:`setuplang`."
 msgstr ""
-"Veritabanı aktarımı çalıştırılırken dil veritabanının güncellenmesinin "
+"Veri tabanı aktarımı çalıştırılırken dil veri tabanının güncellenmesinin "
 "gerekip gerekmediğini denetler ve varsayılan olarak etkindir. Bu ayarın :d "
 "jadmin:`setuplang` ögesinin çağrılması üzerinde herhangi bir etkisi yoktur."
 
@@ -10522,6 +10522,11 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
+"Bazı :ref:`python-deps` bağımlılıklarını kurmanız gerekebilir. Bu durum, "
+"bunları nasıl kurduğunuza bağlıdır. O yüzden her paketin kendi belgesine "
+"başvurun. ``Pip`` kullanarak yapılan kurulum sorasında ya da dağıtım "
+"paketlerini kullanırken önceden oluşturulmuş ``Wheels`` kullanıyorsanız, "
+"bunlara gerek duymazsınız."
 
 #: ../../admin/install.rst:167
 msgid "Pango and Cairo"
@@ -10535,6 +10540,12 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
+"Weblate, bitmap bileşenlerini (bilgi almak için: :ref:`promotion`) ve "
+"görüntüleme denetimlerini (bilgi almak için: :ref:`fonts`) oluşturmak için "
+"Pango ve Cairo kullanır. Python bağlantılarını düzgün olarak kurmak için "
+"önce sistem kitaplıklarını kurmanız gerekir. Hem Cairo hem de Pango "
+"gereklidir, bunun için de GLib gereklidir. Tüm bunlar geliştirme dosyaları "
+"ve GObject iç gözlem verileriyle birlikte kurulmalıdır."
 
 #: ../../admin/install.rst:180
 msgid "Verifying release signatures"
@@ -10545,12 +10556,16 @@ msgid ""
 "Weblate release are cryptographically signed by the releasing developer. "
 "Currently this is Michal Čihař. Fingerprint of his PGP key is:"
 msgstr ""
+"Weblate sürümü, yayın geliştiricisi tarafından şifrelenmiş olarak imzalanır. "
+"Şu anda bu işi Michal Čihař yapıyor ve onun PGP anahtarının parmak izi:"
 
 #: ../../admin/install.rst:189
 msgid ""
 "and you can get more identification information from <https://keybase.io/"
 "nijel>."
 msgstr ""
+"ve <https://keybase.io/nijel> adresinden diğer kimlik bilgilerini "
+"alabilirsiniz."
 
 #: ../../admin/install.rst:191
 msgid ""
@@ -10559,6 +10574,9 @@ msgid ""
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
 msgstr ""
+"İmzanın indirdiğiniz arşivle eşleştiğini doğrulamanız gerekir. Bu şekilde, "
+"yayınlanan kodu değiştirilmemiş olduğundan emin olabilirsiniz. Güncel sürümü "
+"indirdiğinizden emin olmak için imzanın tarihini de doğrulamalısınız."
 
 #: ../../admin/install.rst:196
 msgid ""
@@ -10566,12 +10584,16 @@ msgid ""
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
 msgstr ""
+"Her arşiv dosyası için, PGP imzasının bulunduğu ``.asc`` dosyaları bulunur. "
+"Bu iki dosyayı aynı klasöre kaydettikten sonra imzayı doğrulayabilirsiniz:"
 
 #: ../../admin/install.rst:207
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
 msgstr ""
+"Görebileceğiniz gibi GPG, herkese açık anahtarı bilmediğini bildiriyor. Bu "
+"aşamada şu adımlardan birini uygulamanız gerekir:"
 
 #: ../../admin/install.rst:210
 msgid "Use `wkd` to download the key:"
@@ -10582,10 +10604,12 @@ msgid ""
 "Download the keyring from `Michal's server <https://cihar.com/.well-known/"
 "openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:"
 msgstr ""
+"`Michal sunucusundan <https://cihar.com/.well-known/openpgpkey/hu/"
+"wmxth3chu9jfxdxywj1skpmhsj311mzm>`_ anahtarlığı indirip şununla içe aktarın:"
 
 #: ../../admin/install.rst:231
 msgid "Download and import the key from one of the key servers:"
-msgstr ""
+msgstr "Anahtarı bir anahtar sunucusundan indirip içe aktarın:"
 
 #: ../../admin/install.rst:240
 msgid ""
@@ -10593,6 +10617,9 @@ msgid ""
 "the signature from the given key is correct but you still can not trust the "
 "name used in the key:"
 msgstr ""
+"Bu uygulama, durumu biraz iyileştirir. Bu noktada, belirtilen anahtardaki "
+"imzanın doğruluğundan emin olabilirsiniz. Ancak yine de anahtarda kullanılan "
+"ada güvenemezsiniz:"
 
 #: ../../admin/install.rst:258
 msgid ""
@@ -10604,6 +10631,13 @@ msgid ""
 "web of trust. This way you can trust the key transitively through signatures "
 "of others, who have met the developer in person."
 msgstr ""
+"Buradaki sorun, herhangi birinin aynı adlı bir anahtar yayınlayabilmesidir.  "
+"Anahtarın gerçekten ilgili kişinin olduğundan emin olmanız gerekir.  Bu "
+"konu, GNU gizlilik rehberinin `Herkese açık anahtarlığınızdaki diğer "
+"anahtarları doğrulama`_ bölümünde ele alınmıştır. En güvenilir yöntem, "
+"geliştiriciyle birebir tanışmak ve anahtar parmak izlerini takas etmektir. "
+"Ancak güven ağına da güvenebilirsiniz. Bu şekilde, geliştiriciyle birebir "
+"tanışmış başka kişilerin imzalarıyla anahtara geçici olarak güvenebilirsiniz."
 
 #: ../../admin/install.rst:266
 msgid "Once the key is trusted, the warning will not occur:"
@@ -10614,6 +10648,8 @@ msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
 msgstr ""
+"İmza geçersiz olursa (arşiv değiştirilmişse), anahtara güvenilip "
+"güvenilmediğine bakılmaksızın açık bir hata iletisi görürsünüz:"
 
 #: ../../admin/install.rst:296
 msgid "Filesystem permissions"
@@ -10626,6 +10662,10 @@ msgid ""
 "should be owned and writable by the user running all Weblate processes "
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
+"Weblate işleminin, verileri tuttuğu :setting:`DATA_DIR` klasöründe okuma ve "
+"yazma yapabilmesi gerekir. Bu klasördeki tüm dosyaların sahibi, tüm Weblate "
+"işlemlerini çalıştıran kullanıcı olmalı ve bu klasöre yazabilmelidir ("
+"genellikle WSGI ve Celery, bilgi almak için :ref:`sunucu` ve :ref:`celery`)."
 
 #: ../../admin/install.rst:302
 msgid ""
@@ -10633,12 +10673,17 @@ msgid ""
 "sources, however you might prefer to move these to a better location such "
 "as: :file:`/var/lib/weblate`."
 msgstr ""
+"Varsayılan yapılandırmada bunlar Weblate kaynaklarıyla aynı ağaca "
+"yerleştirilir. Ancak bunları :file:`/var/lib/weblate` gibi daha iyi bir "
+"konuma taşımayı yeğleyebilirsiniz."
 
 #: ../../admin/install.rst:306
 msgid ""
 "Weblate tries to create these directories automatically, but it will fail "
 "when it does not have permissions to do so."
 msgstr ""
+"Weblate bu klasörleri kendiliğinden oluşturmaya çalışır. Ancak bunu yapmak "
+"için yeterli izinleri yoksa bunu yapamaz."
 
 #: ../../admin/install.rst:309
 msgid ""
@@ -10646,12 +10691,17 @@ msgid ""
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
 msgstr ""
+":ref:`manage` komutunu çalıştırırken de dikkatli olmalısınız. Komut aynı "
+"Weblate kullanıcısı ile çalıştırılmalıdır yoksa bazı dosyaların izinler "
+"yanlış olabilir."
 
 #: ../../admin/install.rst:313
 msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by the ``weblate`` user inside the container (UID 1000)."
 msgstr ""
+"Docker kapsayıcısında, :file:`/app/data` birimindeki tüm dosyaların sahibi "
+"kapsayıcı içindeki ``weblate`` kullanıcısı olmalıdır (UID 1000)."
 
 #: ../../admin/install.rst:318
 msgid ":ref:`static-files`"
@@ -10707,7 +10757,7 @@ msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
 msgstr ""
-"Weblate için ayrı bir kullanıcı hesabı ile ayrı bir veritabanı kullanmak "
+"Weblate için ayrı bir kullanıcı hesabı ile ayrı bir veri tabanı kullanmak "
 "genellikle iyi bir fikirdir:"
 
 #: ../../admin/install.rst:370
@@ -10741,6 +10791,16 @@ msgid ""
 "set ``ALTER_ROLE`` to change name of the role Weblate should alter during "
 "the database migration."
 msgstr ""
+"Veri tabanı aktarımı, Weblate tarafından kullanılan `ALTER ROLE <https://www."
+"postgresql.org/docs/12/sql-alterrole.html>`_ veri tabanı rolüyle "
+"gerçekleştirir. Çoğu durumda rolün adı kullanıcı adıyla aynıdır. Daha "
+"karmaşık kurulumlarda rol adı kullanıcı adından farklıdır ve veri tabanı "
+"aktarımı sırasında rolün var olmadığı ile ilgili bir hata iletisi görürsünüz "
+"(``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" des not "
+"exist``). Bu sorunun PostgreSQL için Azure veri tabanı ile ortaya çıktığı "
+"biliniyor. Ancak yalnızca bu durumla sınırlı değildir. Lütfen veri tabanı "
+"aktarımı sırasında Weblate tarafından kullanılacak rolün adını ``ALTER_ROLE``"
+" seçeneğinden ayarlayın."
 
 #: ../../admin/install.rst:421
 msgid "MySQL and MariaDB"
@@ -10752,6 +10812,9 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
+"Bazı Weblate özellikleri :ref:`postgresql` ile daha iyi çalışır. PostgreSQL "
+"veri tabanı, tam metin özelliklerinin kullanılmasını sağlar ve arama ile "
+"çeviri belleği işlemlerinde daha üstündür."
 
 #: ../../admin/install.rst:429
 msgid ""
@@ -10760,10 +10823,15 @@ msgid ""
 "those. Because of the limitations it is recommended to use :ref:`postgresql` "
 "for new installations."
 msgstr ""
+"Weblate, MySQL ya da MariaDB ile de kullanılabilir. Lütfen bunları Django "
+"ile kullanmakla ilgili uyarılar için :ref:`django:mysql-notes` ve "
+":ref:`django:mariadb-notes` bölümlerine bakın. Bazı sınırlamalar nedeniyle, "
+"yeni kurulumlar için :ref:`postgresql` kullanılması önerilir."
 
 #: ../../admin/install.rst:434
 msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
 msgstr ""
+"Weblate için en az MySQL 5.7.8 ya da MariaDB 10.2.7 sürümü kullanılmalıdır."
 
 #: ../../admin/install.rst:436
 msgid "Following configuration is recommended for Weblate:"
@@ -10774,12 +10842,16 @@ msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
+"Daha yüksek Unicode düzlemlerinin (emojiler gibi) görüntülenmesini sağlamak "
+"için ``utf8mb4`` karakter kümesini kullanın."
 
 #: ../../admin/install.rst:439
 msgid ""
 "Configure the server with ``innodb_large_prefix`` to allow longer indices on "
 "text fields."
 msgstr ""
+"Metin alanlarında daha uzun dizinlerin kullanılabilmesini sağlamak için "
+"sunucuyu ``innodb_large_prefix`` seçeneği ile yapılandırın."
 
 #: ../../admin/install.rst:440
 msgid "Set the isolation level to ``READ COMMITTED``."
@@ -10795,6 +10867,9 @@ msgid ""
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
 msgstr ""
+"MySQL 8.x, MariaDB 10.5.x ya da üzeri için varsayılan yapılandırma "
+"yeterlidir. Bu nedenle sunucunun ayarlanması gerekmez ve gereken her şey "
+"istemci tarafında yapılandırılabilir."
 
 #: ../../admin/install.rst:447
 msgid ""
@@ -10805,6 +10880,11 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
+"Aşağıda 8 GB RAM belleği olan bir sunucu için :file:`/etc/my.cnf.d/server."
+"cnf` dosyasının örneğini bulabilirsiniz. Bu ayarlar çoğu kurulum için "
+"yeterli olmalıdır. MySQL ve MariaDB için, sisteme aynı anda çok sayıda "
+"kullanıcının erişmesinin gerekmediği durumlarda sunucu başarımını artıracak "
+"seçenekler vardır. Ayrıntılı bilgiyi üretici belgelerinde bulabilirsiniz."
 
 #: ../../admin/install.rst:454
 msgid ""
@@ -10812,6 +10892,10 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
+"Weblate kurulumunuza başlamadan önce ``innodb_file_per_table`` seçeneğinin "
+"doğru ayarlanması ve MySQL ya da MariaDB veri tabanı sunucusunun yeniden "
+"başlatılması kurulum yaparken karşılaşılabilecek sorunları azaltmak için çok "
+"önemlidir."
 
 #: ../../admin/install.rst:477
 msgid ""
@@ -10819,12 +10903,17 @@ msgid ""
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
+"``#1071 - Specified key was too long; max key length is 767 bytes`` hatasını "
+"görürseniz, yapılandırmanızı yukarıdaki ``innodb`` ayarlarına uygun olarak "
+"güncelleyin ve kurulumu yeniden başlatın."
 
 #: ../../admin/install.rst:483
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
+"``#2006 - MySQL server has gone away`` hatasını görürseniz, "
+":setting:`django:CONN_MAX_AGE` seçeneğini yapılandırmak yardımcı olabilir."
 
 #: ../../admin/install.rst:487
 msgid "Configuring Weblate to use MySQL/MariaDB"
@@ -10839,6 +10928,9 @@ msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
 msgstr ""
+"Kuruluma başlamadan önce MySQL ya da MariaDB veri tabanı sunucusu üzerinde "
+"``weblate`` kullanıcı hesabını oluşturmanız gerekir. Bunun için şu komutları "
+"kullanın:"
 
 #: ../../admin/install.rst:522
 msgid "Other configurations"
@@ -10854,6 +10946,9 @@ msgid ""
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
 msgstr ""
+"Weblate, hesap etkinleştirme işlemleri ve kullanıcılar tarafından "
+"yapılandırılmış çeşitli bildirimler gibi çeşitli durumlar için e-posta "
+"gönderir. Bunun için bir SMTP sunucu erişiminin yapılandırılması gerekir."
 
 #: ../../admin/install.rst:533
 msgid ""
@@ -10863,6 +10958,12 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"E-posta sunucusu şu ayarlar kullanılarak yapılandırılır: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER` ve :setting:`django:EMAIL_PORT`. "
+"Seçeneklerin adları oldukça açıklayıcıdır. Ayrıntılı bilgi almak için Django "
+"belgelerine bakabilirsiniz."
 
 #: ../../admin/install.rst:542
 msgid ""
@@ -10871,12 +10972,19 @@ msgid ""
 "insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
+"Kimlik doğrulanmasının desteklenmediği ile ilgili bir hata görürseniz (``"
+"SMTP AUTH extension not supported by server`` gibi), bu sorun büyük "
+"olasılıkla güvenli olmayan bağlantı kullanımından kaynaklanıyordur ve sunucu "
+"kimliğin bu şekilde doğrulanmasını reddeder. Böyle bir durumda "
+":setting:`django:EMAIL_USE_TLS` seçeneğini etkinleştirmeyi deneyin."
 
 #: ../../admin/install.rst:549
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
+":ref:`debug-mails`, :ref:`Docker kapsayıcısında giden e-posta ayarlarını "
+"yapılandırmak <docker-mail>`"
 
 #: ../../admin/install.rst:555
 msgid "Running behind reverse proxy"
@@ -10887,12 +10995,16 @@ msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
+":ref:`rate-limit`, :ref:`spam-protection` ve :ref:`audit-log` Weblate "
+"özellikleri istemci IP adresinin bilinmesine dayanır."
 
 #: ../../admin/install.rst:560
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
 msgstr ""
+"Varsayılan yapılandırmada Weblate, WSGI işleyicisi tarafından ayarlanan "
+"``REMOTE_ADDR`` IP adresini alır."
 
 #: ../../admin/install.rst:563
 msgid ""
@@ -10904,6 +11016,14 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
+"Ters vekil sunucu kullanıyorsanız, bu alanda büyük olasılıkla ters vekil "
+"sunucu adresi bulunacaktır. Weblate yapılandırmasını ek HTTP üst bilgilerine "
+"güvenecek ve IP adresini bunlardan alacak şekilde ayarlamanız gerekir. Bu "
+"yapılandırma, ters vekil sunucu kullanmayan kurulumlar için IP adresi "
+"sahteciliğine olanak sağlayacağından varsayılan olarak etkinleştirilemez. "
+":setting:`IP_BEHIND_REVERSE_PROXY` seçeneğini etkinleştirmek genel "
+"kurulumlar için yeterli olabilir. Ancak :setting:`IP_PROXY_HEADER` ve "
+":setting:`IP_PROXY_OFFSET` seçeneklerini de ayarlamanız gerekebilir."
 
 #: ../../admin/install.rst:571
 msgid ""
@@ -10913,6 +11033,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
+"Dikkat edilmesi gereken başka bir şey de :http:header:`Host` üst bilgisidir "
+"ve :setting:`SITE_DOMAIN` olarak yapılandırılmış değerle eşleşmelidir. Ters "
+"vekil sunucunuzda ek yapılandırma gerekebilir (örneğin, Apache için ``"
+"ProxyPreserveHost On`` ya da nginx ile ``proxy_set_header Host $host;` "
+"kullanın)."
 
 #: ../../admin/install.rst:578
 msgid ""
@@ -10934,12 +11059,17 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
+"Weblate, sürüm denetimi sistemi komutlarını yürütür ve bunlar ortamın vekil "
+"sunucu yapılandırmasını alır. Önerilen yaklaşım, :file:`settings.py` "
+"dosyasında vekil sunucu ayarlarını belirtmektir:"
 
 #: ../../admin/install.rst:602
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr ""
+"`Vekil sunucu ortam değişkenleri <https://everything.curl.dev/usingcurl/"
+"proxies/env>`_"
 
 #: ../../admin/install.rst:607
 msgid "Adjusting configuration"
@@ -11009,12 +11139,18 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
+"Oturumlarınızın nasıl kaydedileceğini yapılandırın. Varsayılan veri tabanı "
+"arka uç altyapısını korumanız durumunda, eski oturum verilerini veri "
+"tabanından kaldırmak için :command:`weblate clearsessions` görevini "
+"zamanlamanız gerekir."
 
 #: ../../admin/install.rst:661
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
+"Ön bellek olarak Redis kullanıyorsanız (bilgi almak için: :ref:`production-"
+"cache`) onu oturumlar için de kullanmanız önerilir:"
 
 #: ../../admin/install.rst:670
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
@@ -11029,8 +11165,8 @@ msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
-"Veritabanı sunucusu ile bağlantı. Ayrıntı bilgi almak içinDjango belgelerine "
-"bakabilirsiniz."
+"Veri tabanı sunucusu ile bağlantı. Ayrıntı bilgi almak içinDjango "
+"belgelerine bakabilirsiniz."
 
 #: ../../admin/install.rst:682
 msgid ""
@@ -11050,6 +11186,10 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"Herhangi bir üretim sunucusunda bu seçeneği devre dışı bırakın. Hata "
+"ayıklama kipi etkinleştirildiğinde, Django kullanıcılara hata bildirimlerini "
+"görüntüler. Devre dışı bırakıldığında, hatalar e-posta olarak ``ADMINS`` "
+"seçeneğindeki adreslere gönderilir (yukarıya bakın)."
 
 #: ../../admin/install.rst:694
 msgid ""
@@ -11086,6 +11226,8 @@ msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
+"Django tarafından çerezlerdeki bazı bilgileri imzalamak için kullanılan "
+"anahtar. Bilgi almak için: :ref:`production-secret`."
 
 #: ../../admin/install.rst:721
 msgid ":setting:`django:SECRET_KEY`"
@@ -11117,6 +11259,9 @@ msgid ""
 "create the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
+"Yapılandırmanız hazır olduktan sonra, veri tabanı yapısını oluşturmak için "
+":samp:`weblate migrate` komutunu çalıştırabilirsiniz. Bundan sonra yönetici "
+"arayüzünü kullanarak çeviri projeleri oluşturabilmelisiniz."
 
 #: ../../admin/install.rst:743
 msgid ""
@@ -11124,6 +11269,9 @@ msgid ""
 "`weblate migrate --noinput`, and then create an admin user using :djadmin:"
 "`createadmin` command."
 msgstr ""
+"Bir kurulumu etkileşimsiz olarak yapmak isterseniz, :samp:`weblate migrate "
+"--noinput` komutunu kullanabilir ve ardından :djadmin:`createadmin` komutu "
+"ile bir yönetici kullanıcı oluşturabilirsiniz."
 
 #: ../../admin/install.rst:747
 msgid ""
@@ -11131,6 +11279,9 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
+"İşiniz bittiğinde, yönetici arayüzündeki :guilabel:``Başarım raporu`` "
+"bölümüne bakmalısınız. Burada size site yapılandırmasını iyileştirmeniz için "
+"ipuçları sunulur."
 
 #: ../../admin/install.rst:753
 msgid ":ref:`config`, :ref:`privileges`"
@@ -11147,12 +11298,17 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
+"Bir üretim kurulumu için aşağıdaki bölümlerde açıklanan ayarlamaları "
+"yapmanız gerekir. Süper kullanıcı olarak oturum açıldığında en önemli "
+"ayarlar üst çubukta ünlem simgesi ile bir uyarı olarak görüntülenir:"
 
 #: ../../admin/install.rst:767
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr ""
+"Django tarafından tetiklenen denetimleri de incelemeniz önerilir (ancak "
+"hepsini düzeltmeniz gerekmeyebilir):"
 
 #: ../../admin/install.rst:774
 msgid ""
@@ -11196,6 +11352,9 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Sunucuda bir sorun olması durumunda e-postaları kimlerin alacağını "
+"belirlemek için doğru yönetici adreslerini :setting:`ADMINS` seçeneği ile "
+"ayarlayın. Örneğin:"
 
 #: ../../admin/install.rst:817
 msgid "Set correct site domain"
@@ -11207,12 +11366,17 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"Yönetici arabiriminde site adını ve etki alanını ayarlayın. Yoksa RSS ya da "
+"kayıt e-postalarındaki bağlantılar çalışmaz. Bu ayar, site etki alanı adının "
+"yazılması gereken :setting:`SITE_DOMAIN` seçeneği ile yapılandırılır."
 
 #: ../../admin/install.rst:825
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
+"4.2 sürümünden önce bunun yerine Django site çatısı kullanılıyordu. Bilgi "
+"almak için :doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:830
 msgid ""
@@ -11232,12 +11396,17 @@ msgid ""
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
+"Weblate için şifrelenmiş HTTPS iletişim kuralını kullanmanız önemle "
+"önerilir. Sertifikanızı hazırladıktan sonra :setting:`ENABLE_HTTPS` "
+"seçeneğini ayarlamanız gerekir:"
 
 #: ../../admin/install.rst:850
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
+"Ayrıca HSTS özelliğini de etkinleştirmek isteyebilirsiniz. Bilgi almak için: "
+":ref:`django:security-recommendation-ssl`."
 
 #: ../../admin/install.rst:855
 msgid ""
@@ -11278,13 +11447,15 @@ msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
+"Lütfen üretim ortamı için PostgreSQL kullanın. Bilgi almak için: :ref"
+":`database-setup`."
 
 #: ../../admin/install.rst:887
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
-"Veritabanı sunucusunu çalıştırmak için yakın konumları kullanın. Yoksa ağ "
+"Veri tabanı sunucusunu çalıştırmak için yakın konumları kullanın. Yoksa ağ "
 "başarımı ya da güvenilirliği sorunları Weblate deneyiminizi mahvedebilir."
 
 #: ../../admin/install.rst:889
@@ -11818,7 +11989,7 @@ msgstr ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1323
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Örnek Apache ve Gunicorn yapılandırması"
 
 #: ../../admin/install.rst:1325
 msgid ""
@@ -12011,7 +12182,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1484
 msgid "Monitoring Weblate"
-msgstr "Weblate platformunu izlemek"
+msgstr "Weblate uygulamasını izlemek"
 
 #: ../../admin/install.rst:1486
 msgid ""
@@ -13437,6 +13608,8 @@ msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
+"Veri tabanındaki sunucu tarafı imleçlerini devre dışı bırakın. Bu uygulama, "
+"bazı :command:`pgbouncer` kurulumlarında gereklidir."
 
 #: ../../admin/install/docker.rst:1221
 msgid ""
@@ -19013,7 +19186,7 @@ msgid ""
 "Tallies of some objects in your Weblate database (projects, components, "
 "languages, source strings and users)"
 msgstr ""
-"Weblate veritabanınızdaki bazı nesnelerin günlükleri (projeler, bileşenler, "
+"Weblate veri tabanınızdaki bazı nesnelerin günlükleri (projeler, bileşenler, "
 "diller, kaynak dizgeler ve kullanıcılar)"
 
 #: ../../admin/support.rst:33
@@ -19369,7 +19542,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:77
 msgid "Upgrade database structure:"
-msgstr "Veritabanı yapısını yükseltin:"
+msgstr "Veri tabanı yapısını yükseltin:"
 
 #: ../../admin/upgrade.rst:83
 msgid ""
@@ -26302,7 +26475,7 @@ msgstr "Raporlardaki yaşanması olası kilitlenme sorunları düzeltildi."
 
 #: ../../changes.rst:1040
 msgid "Fixed cross database migration failure."
-msgstr "Veritabanları arasında aktarma sorunu düzeltildi."
+msgstr "Veri tabanları arasında aktarma sorunu düzeltildi."
 
 #: ../../changes.rst:1041
 msgid "Added support for force pushing Git repositories."
@@ -26633,7 +26806,7 @@ msgstr "Bazı gereksinim kısıtlamaları düzeltildi."
 
 #: ../../changes.rst:1129
 msgid "Updated language database."
-msgstr "Dil veritabanı güncellendi."
+msgstr "Dil veri tabanı güncellendi."
 
 #: ../../changes.rst:1130 ../../changes.rst:1221 ../../changes.rst:1368
 msgid "Localization updates."
@@ -29581,7 +29754,7 @@ msgstr "16 Kasım 2012 tarihinde yayınlandı."
 
 #: ../../changes.rst:2015
 msgid "Compatibility with PostgreSQL database backend."
-msgstr "PostgreSQL veritabanı arka ucuyla uyumluluk sağlandı."
+msgstr "PostgreSQL veri tabanı arka ucuyla uyumluluk sağlandı."
 
 #: ../../changes.rst:2016
 msgid "Removes languages removed in upstream git repository."
@@ -29673,7 +29846,7 @@ msgid ""
 "Weblate now uses South for database migration, please check upgrade "
 "instructions if you are upgrading."
 msgstr ""
-"Weblate veritabanı aktarımı için South kullanımına geçildi. Yükseltme "
+"Weblate veri tabanı aktarımı için South kullanımına geçildi. Yükseltme "
 "yapıyorsanız lütfen yükseltme yönergelerine bakın."
 
 #: ../../changes.rst:2040
