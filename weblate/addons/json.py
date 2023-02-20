@@ -21,6 +21,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
             "json-nested",
             "webextension",
             "i18next",
+            'i18nextv4',
             "arb",
             "go-i18n-json",
         }
