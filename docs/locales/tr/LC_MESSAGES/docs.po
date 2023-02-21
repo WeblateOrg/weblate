@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-18 22:01+0000\n"
+"PO-Revision-Date: 2023-02-21 08:40+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -11424,6 +11424,11 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"Siteniz SSL üzerinden sunuluyorsa, HTTP sıkı aktarım güvenliği (HTTP Strict "
+"Transport Security) özelliğini etkinleştirmek için :file:`settings.py` "
+"dosyasında :setting:`django:SECURE_HSTS_SECONDS` değerini ayarlamayı "
+"değerlendirmeniz gerekir. Bu seçenek varsayılan olarak, aşağıda gösterildiği "
+"gibi 0 olarak ayarlanmıştır."
 
 #: ../../admin/install.rst:871
 msgid ""
@@ -11431,12 +11436,19 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"Sıfır olmayan bir tamsayı değerine ayarlanırsa, :class:`django:django."
+"middleware.security.SecurityMiddleware` üst bilgisi bulunmayan tüm "
+"yanıtlarda :ref:`django:http-strict-transport-security` üst bilgisini "
+"ayarlar."
 
 #: ../../admin/install.rst:876
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
+"Bu ayar yanlış yapılırsa, sitenizi geri dönüşü olmayan bir şekilde (bir "
+"süreliğine) bozabilir. Önce :ref:`django:http-strict-transport-security` "
+"belgelerini okuyun."
 
 #: ../../admin/install.rst:883
 msgid "Use a powerful database engine"
@@ -11463,6 +11475,9 @@ msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
+"Veritabanı sunucusunun başarımını denetleyin veya yapılandırmasını "
+"değiştirin. Örneğin `PGTune <https://pgtune.leopard.in.ua/>`_ "
+"kullanabilirsiniz."
 
 #: ../../admin/install.rst:894
 msgid ""
@@ -11481,12 +11496,16 @@ msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
+"Olabiliyorsa, ``CACHES`` yapılandırma değişkenini ayarlayarak Django Redis "
+"kullanın. Örneğin:"
 
 #: ../../admin/install.rst:925
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
+"Ön bellek için Redis ayarlarını değiştirirseniz, bunları Celery için de "
+"ayarlamanız gerekebilir. Bilgi almak için: :ref:`Celery."
 
 #: ../../admin/install.rst:930
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
@@ -11523,18 +11542,27 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate tarafından bazı e-postaların gönderilmesi gerekir ve bu e-postaların "
+"doğru bir gönderici adresi olmalıdır. Lütfen :setting:`SERVER_EMAIL` ve "
+":setting:`DEFAULT_FROM_EMAIL` değerlerini ortamınıza uygun şekilde "
+"yapılandırın. Örneğin:"
 
 #: ../../admin/install.rst:988
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"Weblate tarafından e-posta gönderilmesini devre dışı bırakmak için "
+":setting:`django:EMAIL_BACKEND` seçeneğini ``django.core.mail.backends.dummy."
+"EmailBackend`` olarak ayarlayın."
 
 #: ../../admin/install.rst:991
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Bu yapılandırma, kayıt ve parola sıfırlama e-postaları ile birlikte *tüm* e-"
+"posta gönderimini devre dışı bırakır."
 
 #: ../../admin/install.rst:996
 msgid ""
@@ -11553,6 +11581,9 @@ msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django, sitenizin sunmasına izin verilen etki alanı adlarının listesini "
+":setting:`ALLOWED_HOSTS` seçeneğinde tutar. Bu seçenek boş bırakılırsa tüm "
+"istekler engellenir."
 
 #: ../../admin/install.rst:1011
 msgid ""
@@ -11560,11 +11591,16 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
+"Bu seçenek, HTTP sunucunuzla eşleşecek şekilde yapılandırılmamışsa, :samp:`"
+"Invalid HTTP_HOST header: ‘1.1.1.1’. You may need to add ‘1.1.1.1’ to "
+"ALLOWED_HOSTS.` gibi hata iletileri görürsünüz."
 
 #: ../../admin/install.rst:1017
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"Docker kapsayıcısında :envvar:`WEBLATE_ALLOWED_HOSTS` seçeneği "
+"kullanılabilir."
 
 #: ../../admin/install.rst:1021
 msgid ""
@@ -11584,12 +11620,17 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
+":setting:`SECRET_KEY` ayarı Django tarafından çerezleri imzalamak için "
+"kullanılır. Örnek kurulumdaki değeri kullanmayıp kendiniz için "
+"oluşturacağınız gerçek bir değeri kullanmanız gerekir."
 
 #: ../../admin/install.rst:1033
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
+"Weblate içindeki :program:`weblate-generate-secret-key` komutunu kullanarak "
+"yeni bir anahtar oluşturabilirsiniz."
 
 #: ../../admin/install.rst:1038
 msgid ":setting:`SECRET_KEY`"
@@ -11605,6 +11646,9 @@ msgid ""
 "the background. This is now automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"En iyi başarım için, bazı bakım görevlerini arka planda çalıştırmak iyi bir "
+"fikirdir. Bu işlemler :ref:`Celery` tarafından kendiliğinden yapılır ve şu "
+"görevleri kapsar:"
 
 #: ../../admin/install.rst:1048
 msgid "Configuration health check (hourly)."
@@ -11615,6 +11659,8 @@ msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
 "`commit_pending`."
 msgstr ""
+"Bekleyen değişiklikleri işlemek (saatlik). Bilgi almak için: :ref:`lazy-"
+"commit` ve :djadmin:`commit_pending`."
 
 #: ../../admin/install.rst:1050
 msgid "Updating component alerts (daily)."
@@ -11636,12 +11682,17 @@ msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "djadmin:`cleanuptrans`."
 msgstr ""
+"Tam metin ve veri tabanı bakım görevleri (günlük ve haftalık görevler). "
+"Bilgi almak için: :djadmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:1057
 msgid ""
 "Since version 3.2, the default way of executing these tasks is using Celery "
 "and Weblate already comes with proper configuration, see :ref:`celery`."
 msgstr ""
+"3.2 sürümünden bu yana, bu görevleri yapmak için varsayılan olarak Celery "
+"kullanılır. Weblate içinde buna uygun yapılandırma hazırdır. Bilgi almak "
+"için: ref: `celery`."
 
 #: ../../admin/install.rst:1063
 msgid "System locales and encoding"
@@ -11653,12 +11704,17 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
+"Sistem yerel ayarları UTF-8 destekleyenler ile yapılandırılmalıdır. Çoğu "
+"Linux dağıtımında varsayılan ayar böyledir. Sisteminizde durumun böyle "
+"olmaması durumunda, lütfen yerel ayarları UTF-8 çeşidi olarak değiştirin."
 
 #: ../../admin/install.rst:1069
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there ``LANG="
 "\"C.UTF-8\"``."
 msgstr ""
+"Örneğin, :file:`/etc/default/locale` dosyasını düzenleyerek ``LANG=\"C."
+"UTF-8”`` olarak ayarlayabilirsiniz."
 
 #: ../../admin/install.rst:1072
 msgid ""
@@ -11666,6 +11722,9 @@ msgid ""
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
+"Bazı durumlarda, her hizmetin ayrı yerel ayar yapılandırması vardır. Bunlar, "
+"dağıtımlara ve web sunuculara göre farklılık gösterebilir. Bu konuda bilgi "
+"almak için web sunucusu paketlerinizin belgelerine bakın."
 
 #: ../../admin/install.rst:1076
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
@@ -11689,6 +11748,9 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
+"Weblate, HTTP istekleri sırasında SSL sertifikalarını doğrular. Varsayılan "
+"paketlerde güvenilmeyen bir özel sertifika kuruluşu kullanıyorsanız, "
+"sertifikasını güvenilir olarak eklemeniz gerekir."
 
 #: ../../admin/install.rst:1099
 msgid ""
@@ -11697,12 +11759,19 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
+"Yeğlenen yaklaşım bunu sistem düzeyinde yapmaktır. Ayrıntılı bilgi almak "
+"için dağıtım belgelerinize bakın (örneğin debian üzerinde bu işlem, "
+"sertifika kuruluşunun sertifikasını :file:`/usr/local/share/ca-certificates/`"
+" içine yerleştirip :command:`update-ca-certificates` komutunu çalıştırarak "
+"yapılabilir)."
 
 #: ../../admin/install.rst:1104
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
+"Bu işlem yapıldıktan sonra, sistem araçları sertifikaya güvenir ve Git "
+"tarafından da bu sertifika kullanılır."
 
 #: ../../admin/install.rst:1107
 msgid ""
@@ -11710,6 +11779,10 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
+"Python kodu için, kendi içinde gelen sertifika yerine istekleri sistem "
+"sertifika kuruluşu paketini kullanacak şekilde yapılandırmanız gerekir. Bu "
+"işlem, aşağıdaki kod parçasını :file:`settings.py` içine ekleyerek "
+"yapılabilir (yol Debian sistemine özgüdür):"
 
 #: ../../admin/install.rst:1121
 msgid "Compressing client assets"
@@ -11724,6 +11797,12 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
+"Weblate, bazı JavaScript ve CSS dosyalarıyla birlikte gelir. Başarımı "
+"artırmak için bunların bir istemciye gönderilmeden önce sıkıştırılması "
+"iyidir. Varsayılan yapılandırmada bu işlem çok az ek yük oluşturarak anında "
+"yapılır. Büyük kurulumlarda, çevrimdışı sıkıştırma kipini etkinleştirmeniz "
+"önerilir. Bunun yapılandırmada ayarlanması ve sıkıştırmanın her Weblate "
+"yükseltmesinde tetiklenmesi gerekir."
 
 #: ../../admin/install.rst:1130
 msgid ""
@@ -11732,10 +11811,16 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
+"Yapılandırma, :attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` "
+"seçeneği ve :attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` "
+"seçeneği etkinleştirilerek kolayca ayarlanır (ikincisi zaten örnek "
+"yapılandırmalara eklenmiştir):"
 
 #: ../../admin/install.rst:1139
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
+"Her dağıtımda, dosyaları geçerli sürümle eşleşecek şekilde sıkıştırmanız "
+"gerekir:"
 
 #: ../../admin/install.rst:1147
 msgid "The official Docker image has this feature already enabled."
@@ -11754,12 +11839,16 @@ msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
+"Aşağıda açıklanan hizmetlerle ilgili deneyiminiz yoksa, :doc:`install/docker`"
+" adresine bakmak isteyebilirsiniz."
 
 #: ../../admin/install.rst:1163
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
+"Weblate çalıştırmak için birkaç hizmete gerek duyacaksınız. Önerilen kurulum "
+"şunlardan oluşur:"
 
 #: ../../admin/install.rst:1165
 msgid "Database server (see :ref:`database-setup`)"
@@ -11791,6 +11880,8 @@ msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
+"Hizmetler arasında bazı bağımlılıklar bulunur. Örneğin Celery veya uwsgi "
+"işlemlerini başlatırken ön bellek ve veritabanı çalışıyor olmalıdır."
 
 #: ../../admin/install.rst:1176
 msgid ""
@@ -11799,6 +11890,10 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access to :"
 "setting:`DATA_DIR`."
 msgstr ""
+"Çoğu durumda, tüm hizmetleri tek (sanal) sunucu üzerinde çalıştırırsınız. "
+"Ancak kurulumunuzun yükü ağırsa, hizmetleri ayırabilirsiniz. Bu durumda, "
+"Celery ve wsgi sunucularının :setting:`DATA_DIR` klasörüne erişmesini "
+"sağlamanız yeterlidir."
 
 #: ../../admin/install.rst:1183
 msgid ""
@@ -11806,6 +11901,9 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
+"WSGI işlemini çalıştıran kullanıcı ile Celery işlemini çalıştıran kullanıcı "
+"aynı olmalıdır. Yoksa :setting:`DATA_DIR` klasöründeki dosyaların "
+"sahiplikleri karışır ve bu da çalışma sırasında sorunlara yol açar."
 
 #: ../../admin/install.rst:1187
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
@@ -11821,10 +11919,14 @@ msgid ""
 "program. Django is usually executed as uWSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
+"Weblate çalıştırmak, diğer Django temelli programları çalıştırmaktan farklı "
+"değildir. Django genellikle uWSGI ya da fcgi olarak çalıştırılır (aşağıda "
+"farklı web sunucuları için örnekler bulabilirsiniz)."
 
 #: ../../admin/install.rst:1196
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr ""
+"Deneme amacıyla, Django üzerindeki yerleşik web sunucusunu kullanabilirsiniz:"
 
 #: ../../admin/install.rst:1204
 msgid ""
@@ -11832,6 +11934,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"BU SUNUCUYU ÜRETIM AYARIYLA KULLANMAYIN. Güvenlik denetimlerinden ya da "
+"başarım sınamalarından geçirilmemiştir. Ayrıca :djadmin:`django:runserver` "
+"ile ilgili Django belgelerine bakın."
 
 #: ../../admin/install.rst:1210
 msgid ""
@@ -11840,6 +11945,10 @@ msgid ""
 "see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
+"Django içindeki sunucu, yalnızca geliştirme amaçlı olduğundan yalnızca "
+":setting:`DEBUG` seçeneği etkin olan durağan dosyaları sunar. Üretim "
+"kullanımı için lütfen :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn` ve "
+":ref:`static-files` içindeki wsgi kurulumlarına bakın."
 
 #: ../../admin/install.rst:1218
 msgid "Serving static files"
@@ -11850,6 +11959,8 @@ msgid ""
 "Prior to version 2.4, Weblate didn't properly use the Django static files "
 "framework and the setup was more complex."
 msgstr ""
+"2.4 sürümünden önce Weblate, Django durağan dosyalar çatısını düzgün "
+"kullanmıyordu ve kurulum daha karmaşıktı."
 
 #: ../../admin/install.rst:1225
 msgid ""
@@ -11858,12 +11969,19 @@ msgid ""
 "files into a directory specified by the :setting:`django:STATIC_ROOT` "
 "setting (this defaults to a ``static`` directory inside :setting:`DATA_DIR`)."
 msgstr ""
+"Durağan Django dosyalarının tek bir klasörde toplanması gerekiyor. Bunun "
+"için :samp:`weblate collectstatic --noinput` komutunu çalıştırın. Bu komut, "
+"durapan dosyaları :setting:`django:STATIC_ROOT` seçeneği ile belirtilen bir "
+"klasöre kopyalar (bu klasör, varsayılan olarak :setting:`DATA_DIR` içindeki "
+"``static`` klasörüdür)."
 
 #: ../../admin/install.rst:1230
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
+"Durağan dosyaları doğrudan web sunucunuzdan sunmanız önerilir. Bunu şu "
+"yollar ile kullanmalısınız:"
 
 #: ../../admin/install.rst:1234
 msgid ":file:`/static/`"
@@ -11919,6 +12037,12 @@ msgid ""
 "default set up to work with Weblate and its configuration, but this might "
 "need customization for your environment."
 msgstr ""
+"Varsayılan Weblate yapılandırması, ``Content-Security-Policy`` veya ``X-XSS-"
+"Protection`` gibi güvenlikle ilgili HTTP üst bilgilerini ayarlayan ``weblate."
+"middleware.SecurityMiddleware`` ara yazılımını etkinleştirir. Bunlar "
+"varsayılan olarak Weblate ve yapılandırması ile çalışacak şekilde "
+"ayarlanmıştır. Ancak bunun için ortamınıza uygun özelleştirmeler yapmanız "
+"gerekebilir."
 
 #: ../../admin/install.rst:1262
 msgid ""
@@ -11940,23 +12064,34 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"Üretim amacıyla kullanılacak web sunucusu çalıştırmak için, Weblate ile "
+"kurulan wsgi sarmalayıcısını kullanın (sanal ortamdaysanız :file:`~/weblate-"
+"env/lib/python3.9/site-packages/weblate/wsgi.py` olarak kurulur). Sanal "
+"ortamınızda Python arama yolunu ayarlamayı da unutmayın (uWSGI üzerinde ``"
+"virtualenv = /home/user/weblate-env`` gibi)."
 
 #: ../../admin/install.rst:1280
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"Aşağıdaki yapılandırma, NGINX web sunucusu üzerinde uWSGI olarak Weblate "
+"çalıştırır."
 
 #: ../../admin/install.rst:1282
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"NGINX için yapılandırma (:file:`weblate/examples/weblate.nginx.conf` "
+"dosyasında da bulunabilir):"
 
 #: ../../admin/install.rst:1287
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"uWSGI için yapılandırma (:file:`weblate/examples/weblate.uwsgi.ini` "
+"dosyasında da bulunabilir):"
 
 #: ../../admin/install.rst:1294
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
@@ -11968,13 +12103,16 @@ msgstr "Örnek Apache yapılandırması"
 
 #: ../../admin/install.rst:1301 ../../admin/install.rst:1341
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
+msgstr "Weblate ile WSGI kullanırken prefork MPM kullanılması önerilir."
 
 #: ../../admin/install.rst:1303
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"Aşağıdaki yapılandırma WSGI olarak Weblate çalıştırır. ``mod_wsgi`` "
+"modülünün etkinleştirilmiş olması gerekir (:file:`weblate/examples/apache."
+"conf` dosyasında bulunabilir):"
 
 #: ../../admin/install.rst:1311
 msgid ""
@@ -11982,6 +12120,9 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate için Python 3 gereklidir. Bu nedenle modwsgi modülünün Python 3 "
+"çeşidini çalıştırdığınızdan emin olun. Genellikle ``libapache2-mod-wsgi-py3``"
+" gibi ayrı bir paket olarak bulunur."
 
 #: ../../admin/install.rst:1317
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
@@ -11996,6 +12137,8 @@ msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"Aşağıdaki yapılandırma Gunicorn ve Apache 2.4 üzerinde Weblate çalıştırır "
+"(:file:`weblate/examples/apache.gunicorn.conf` dosyasında bulunabilir):"
 
 #: ../../admin/install.rst:1333
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -12003,7 +12146,7 @@ msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1337
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Bir yol altında Weblate çalıştırma yapılandırması"
 
 #: ../../admin/install.rst:1343
 msgid ""
@@ -12011,6 +12154,9 @@ msgid ""
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
+"Weblate çalıştırmak için ``/weblate`` gibi bir yol kullanan örnek Apache "
+"yapılandırması. Yine ``mod_wsgi`` kullanarak (:file:`weblate/examples/apache-"
+"path.conf` dosyasında bulunabilir):"
 
 #: ../../admin/install.rst:1349
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -12026,6 +12172,10 @@ msgid ""
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
+"Weblate, düzenli olarak yapılan arka plan görevlerini yerine getirmek için "
+"Celery kullanır. Bu işlemleri yapacak bir Celery hizmeti çalıştırmanız "
+"gerekiyor. Örnek olarak, aşağıdaki işlemlerin yapılır (bu liste tam "
+"değildir):"
 
 #: ../../admin/install.rst:1366
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
@@ -12037,23 +12187,26 @@ msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"Yedeklemeler, temizlemeler, günlük eklentiler veya güncellemeler gibi "
+"düzenli bakım görevlerini çalıştırmak (bilgi almak için :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
 #: ../../admin/install.rst:1369
 msgid "Running :ref:`auto-translation`."
-msgstr ":ref:`auto-translation` çalıştırılıyor."
+msgstr ":ref:`auto-translation` çalıştırmak."
 
 #: ../../admin/install.rst:1370
 msgid "Sending digest notifications."
-msgstr "Toplu bildirimler gönderiliyor."
+msgstr "Toplu bildirimleri göndermek."
 
 #: ../../admin/install.rst:1371
 msgid "Offloading expensive operations from the wsgi process."
-msgstr "Yük oluşturan işlemler wsgi işlemi üzerinden alınıyor."
+msgstr "Yük oluşturan işlemleri wsgi işlemi üzerinden almak."
 
 #: ../../admin/install.rst:1372
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr ""
-"Bekleyen değişiklikleri gönderiliyor (Bilgi almak için: :ref:`lazy-commit`)."
+"Bekleyen değişiklikleri göndermek (Bilgi almak için: :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1374
 msgid "A typical setup using Redis as a backend looks like this:"
@@ -12073,6 +12226,9 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"Görevleri işlemek ve zamanlanmış görevleri başlatmak için Celery işlemini de "
+"başlatmalısınız. Bu işlem doğrudan komut satırından yapılabilir (genellikle "
+"hata ayıklama veya geliştirme sırasında yararlıdır):"
 
 #: ../../admin/install.rst:1397
 msgid ""
@@ -12080,6 +12236,9 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
+"Celery işlemini çalıştıran kullanıcı, WSGI işlemini çalıştıran kullanıcı ile "
+"aynı olmalıdır. Yoksa :setting:`DATA_DIR` klasöründeki dosyaların "
+"sahiplikleri karışır ve bu da çalışma sırasında sorunlara yol açar."
 
 #: ../../admin/install.rst:1401
 msgid "See also :ref:`file-permissions` and :ref:`server`."
@@ -12088,7 +12247,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1404
 msgid "Executing Celery tasks in the wsgi using eager mode"
-msgstr ""
+msgstr "Wsgi üzerinde Celery görevlerini yürütürken eager kipini kullanmak"
 
 #: ../../admin/install.rst:1408
 msgid ""
@@ -12096,12 +12255,17 @@ msgid ""
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
+"Bu seçeneğin kullanılmasının web arabirimi başarımı üzerinde ciddi etkisi "
+"olur ve normal tetikleyiciye bağlı olarak özellikleri bozar (bekleyen "
+"değişiklikleri gerçekleştirmek, özet bildirimleri veya yedeklemeler gibi)."
 
 #: ../../admin/install.rst:1412
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
+"Geliştirme ortamları için, tüm görevleri anında işleyen eager "
+"yapılandırmasını kullanmak isteyebilirsiniz:"
 
 #: ../../admin/install.rst:1422
 msgid "Running Celery as system service"
@@ -12114,24 +12278,34 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
+"Büyük olasılıkla :doc:`celeri:userguide/daemonizing` bölümünde anlatıldığı "
+"gibi bir Celery daemon çalıştırmak isteyeceksiniz. systemd kullanan en "
+"yaygın Linux kurulumu için, hazır gelen ve aşağıda listesi bulunan "
+":file:`examples` klasöründeki örnek dosyaları kullanabilirsiniz."
 
 #: ../../admin/install.rst:1429
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
+":file:`/etc/systemd/system/celery-weblate.service` olarak yerleştirilecek "
+"systemd birimi:"
 
 #: ../../admin/install.rst:1434
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
+":file:`/etc/default/celery-weblate` olarak yerleştirilecek ortam "
+"yapılandırması:"
 
 #: ../../admin/install.rst:1439
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
+"Celery günlüklerini döndürmek için :command:`logrotate` komutu kullanılarak "
+":file:`/etc/logrotate.d/celery` olarak yerleştirilecek ek yapılandırma:"
 
 #: ../../admin/install.rst:1446
 msgid "Periodic tasks using Celery beat"
@@ -12143,6 +12317,9 @@ msgid ""
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
 "commit`."
 msgstr ""
+"Weblate, hazır bir zamanlanmış görevler kurulumuyla gelir. Bununla birlikte, "
+":file:`settings.py` dosyasından ek görevler tanımlayabilirsiniz. Örnek "
+"olarak :ref:`lazy-commit` bölümüne bakabilirsiniz."
 
 #: ../../admin/install.rst:1451
 msgid ""
@@ -12150,6 +12327,9 @@ msgid ""
 "not working properly, it might not be running or its database was corrupted. "
 "Check the Celery startup logs in such case to figure out root cause."
 msgstr ""
+"Görevlerin Celery beats daemon tarafından yürütülmesi gerekiyor. Beklendiği "
+"gibi çalışmıyorsa, daemon çalışmıyor veya veritabanı bozulmuş olabilir. Bu "
+"durumda temel sorunu bulmak için Celery başlangıç günlüklerine bakın."
 
 #: ../../admin/install.rst:1458
 msgid "Monitoring Celery status"
@@ -12162,6 +12342,10 @@ msgid ""
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
+"Celery görev kuyruklarının geçerli uzunluğunu :ref:`management-interface` "
+"içinden ya da komut satırında :djadmin:`celery_queues` komutunu kullanarak "
+"görebilirsiniz. Kuyruğun çok uzaması durumunda, yönetici arayüzünde de "
+"yapılandırma hatası görürsünüz."
 
 #: ../../admin/install.rst:1467
 msgid ""
@@ -12169,6 +12353,9 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
+"Celery hataları varsayılan olarak yalnızca Celery günlüğüne kaydedilir ve "
+"kullanıcı tarafından görülemez. Bu tür hataların özetini görmek "
+"istiyorsanız, :ref:`collecting-errors` seçeneğini yapılandırmanız önerilir."
 
 #: ../../admin/install.rst:1473
 msgid ""
@@ -12190,12 +12377,17 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
+"Weblate, örneğin Kubernetes gibi basit durum denetimlerinde kullanılmak "
+"üzere ``/healthz/`` adresini sunar. Docker kapsayıcısında, bu adresi "
+"kullanan iç sistem durumu denetimi bulunur."
 
 #: ../../admin/install.rst:1489
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
+"Weblate ölçümlerini izlemek için :http:get:`/api/metrics/` API uç noktasını "
+"kullanabilirsiniz."
 
 #: ../../admin/install.rst:1493
 msgid ""
@@ -12217,6 +12409,11 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"Weblate, diğer yazılımlar gibi sorun çıkarabilir. Yardımcı olabilecek sorun "
+"durumlarını derlemek için üçüncü taraf hizmetlerini kullanmanızı öneririz. "
+"Bu uygulama, özellikle Celery görevlerinin yapılamaması durumunda "
+"kullanışlıdır. Yoksa hata yalnızca günlüklere bildirilir ve bunlar hakkında "
+"bildirim almazsınız. Weblate tarafından desteklenen hizmetler şunlardır:"
 
 #: ../../admin/install.rst:1509
 msgid "Sentry"
@@ -12227,6 +12424,9 @@ msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate, `Sentry <https://sentry.io/>`_ desteği sunar. Kullanmak için, "
+":file:`settings.py` dosyasında :setting:`SENTRY_DSN` seçeneğini ayarlamak "
+"yeterlidir:"
 
 #: ../../admin/install.rst:1519
 msgid "Rollbar"
@@ -12238,6 +12438,9 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate, `Rollbar <https://rollbar.com/>`_ desteği sunar. Kullanmak için, `"
+"Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_ "
+"yönergelerini izlemek yeterlidir."
 
 #: ../../admin/install.rst:1524
 msgid "In short, you need to adjust :file:`settings.py`:"
@@ -12248,6 +12451,8 @@ msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
+"Bunun dışındaki her şey kendiliğinden bütünleştirilmiştir. Artık hem sunucu "
+"hem de istemci tarafı hatalarını derleyebilirsiniz."
 
 #: ../../admin/install.rst:1552
 msgid "Migrating Weblate to another server"
@@ -12259,6 +12464,9 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
+"Weblate kurulumunu başka bir sunucuya aktarmak oldukça kolaydır. Ancak "
+"veriler dikkatli bir şekilde aktarmanız gereken birkaç konumda bulunur. En "
+"iyi yaklaşım, aktarım sırasında Weblate kopyasını durdurmaktır."
 
 #: ../../admin/install.rst:1559
 msgid "Migrating database"
@@ -12272,6 +12480,12 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
+"Veritabanı arka ucunuza bağlı olarak, veritabanını aktarmak için birkaç "
+"seçeneğiniz olabilir. En basit yaklaşım, genellikle en etkili araçlar "
+"olduklarından, veritabanının kendi araçlarını kullanmaktır "
+"(:command:`mysqldump` ya da :command:`pg_dump` gibi). Alternatif olarak, "
+"veritabanınızın desteklemesi durumunda çoğaltma (replication) özelliğini "
+"kullanabilirsiniz."
 
 #: ../../admin/install.rst:1569
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -40974,6 +41188,8 @@ msgid ""
 "Submit current form; this is same as pressing :guilabel:`Save and continue` "
 "while editing translation."
 msgstr ""
+"Geçerli formu gönderir. Bu seçenek, çeviriyi düzenlerken :guilabel:`Kaydet "
+"ve ilerile` düğmesine basmakla aynıdır."
 
 #: ../../user/translating.rst:208
 msgid ":kbd:`Ctrl+Shift+Enter` or"
@@ -41000,6 +41216,8 @@ msgid ""
 "Submit the string as a suggestion; this is same as pressing :guilabel:"
 "`Suggest` while editing translation."
 msgstr ""
+"Dizgeyi öneri olarak gönderir. Bu seçenek, çeviriyi düzenlerken "
+":guilabel:`Suggest` düğmesine basmakla aynıdır."
 
 #: ../../user/translating.rst:216
 msgid ":kbd:`Ctrl+E` or"
@@ -42443,12 +42661,16 @@ msgid ""
 "you closer to your translators.  It is up to you to decide how many of its "
 "features you want to make use of."
 msgstr ""
+"Weblate kullanmak, sizi çevirmenlerinize ve kullanıcılarınıza yaklaştıran "
+"bir süreçtir. Hangi özellikleri kullanmak istediğinize siz karar verirsiniz."
 
 #: ../../workflows.rst:10
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
 "base other workflows on the most usual examples listed here."
 msgstr ""
+"Aşağıda, farklı Weblate yapılandırmalarının tümü bulunmuyor. Farklı iş "
+"akışlarını burada listelenen yaygın uygulamalara göre yapılandırabilirsiniz."
 
 #: ../../workflows.rst:14
 msgid "Translation access"
@@ -42461,6 +42683,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
+":ref:`Erişim denetimi <access-control>`, seçeneklerinin çoğu herhangi bir iş "
+"akışına uygulanabileceğinden, iş akışlarında tüm ayrıntılarına "
+"girilmemiştir. Çevirilere erişimin nasıl yönetileceği hakkında bilgi almak "
+"için ilgili belgelere bakın."
 
 #: ../../workflows.rst:21
 msgid ""
@@ -42468,10 +42694,13 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user that has a :guilabel:`Translate` permission for the project."
 msgstr ""
+"İzleyen bölümlerde, *tüm kullanıcılar*, çeviriye erişimi olan bir kullanıcı "
+"anlamına gelir. Proje herkese açıksa, kimliği doğrulanmış herhangi bir "
+"kullanıcı veya projede :guilabel:`Çevirme` izni olan bir kullanıcı olabilir."
 
 #: ../../workflows.rst:30
 msgid "Each translated string can be in one of following states:"
-msgstr ""
+msgstr "Çevrilmiş her dizge şu durumlardan birinde olabilir:"
 
 #: ../../workflows.rst:33
 msgid "Untranslated"
@@ -42660,7 +42889,7 @@ msgstr ""
 
 #: ../../workflows.rst:122
 msgid "Not used, all translators review."
-msgstr ""
+msgstr "Kullanılmadığında, tüm çevirmenler onaylayabilir."
 
 #: ../../workflows.rst:128
 msgid "Dedicated reviewers"
@@ -42669,6 +42898,7 @@ msgstr "Özel onaylayanlar"
 #: ../../workflows.rst:132
 msgid "The proper review workflow is supported since Weblate 2.18."
 msgstr ""
+"Weblate 2.18 sürümünden başlayarak normal onaylama iş akışı kullanılabilir."
 
 #: ../../workflows.rst:134
 msgid ""
@@ -42676,10 +42906,13 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Özel onaylayanlar kullanıldığında, biri çeviri yapan, diğeri de çevirilerin "
+"tutarlılığı ve kalitesini sağlamak için bunları gözden geçirip onaylayan iki "
+"kullanıcı grubu bulunur."
 
 #: ../../workflows.rst:138
 msgid "*Any user* can edit unapproved translations."
-msgstr ""
+msgstr "*Tüm kullanıcılar* onaylanmamış çevirileri düzenleyebilir."
 
 #: ../../workflows.rst:139
 msgid "*Reviewer* can approve / unapprove strings."
@@ -42687,15 +42920,19 @@ msgstr "*Onaylayan* dizgeleri onaylayabilir ve onayı kaldırabilir."
 
 #: ../../workflows.rst:140
 msgid "*Reviewer* can edit all translations (including approved ones)."
-msgstr ""
+msgstr "*Onaylayan* tüm çevirileri düzenleyebilir (onaylanmışlar ile birlikte)."
 
 #: ../../workflows.rst:141
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr ""
+"Öneriler, onaylanmış dizgelerde değişiklik önermek amacıyla da "
+"kullanılabilir."
 
 #: ../../workflows.rst:159
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
+"Ya da :ref:`per-project access control <manage-acl>` ile `Onayla` "
+"kullanılabilir."
 
 #: ../../workflows.rst:165
 msgid "Turning on reviews"
@@ -42707,6 +42944,9 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
+"Onaylama, proje yapılandırmasında, proje ayarlarındaki :guilabel:`İş akışı` "
+"bölümünden açılabilir (:guilabel:`Yönetim` → :guilabel:`Ayarlar` yoluyla "
+"bulabilirsiniz):"
 
 #: ../../workflows.rst:175
 msgid ""
@@ -42714,10 +42954,13 @@ msgid ""
 "you. For example on Hosted Weblate this is not available for projects hosted "
 "for free."
 msgstr ""
+"Weblate yapılandırmasına bağlı olarak, bu ayarı kullanamayabilirsiniz. "
+"Örneğin, Hosted Weblate üzerinde bu seçenek ücretsiz olarak barındırılan "
+"projeler için kullanılamaz."
 
 #: ../../workflows.rst:182
 msgid "Quality gateway for the source strings"
-msgstr ""
+msgstr "Kaynak dizgeler için kalite aracısı"
 
 #: ../../workflows.rst:184
 msgid ""
@@ -42728,6 +42971,12 @@ msgid ""
 "can help you in addressing this - there is additional quality gateway for "
 "the strings between developers and translators and users."
 msgstr ""
+"Çoğu durumda, özgün kaynak dil dizgeleri geliştiricilerden gelir. Çünkü kodu "
+"yazma ve ilk dizgeleri sağlama işini onlar yapar. Bununla birlikte, "
+"geliştiricilerin ana dili genellikle kaynak dil değildir ve kaynak dizgeler "
+"için istenilen kaliteyi sağlayamazlar. Ara çeviri bu sorunu çözmenize "
+"yardımcı olabilir. Geliştiriciler, çevirmenler ve kullanıcılar arasındaki "
+"dizgeler için kullanılabilecek bir ek kalite aracısı vardır."
 
 #: ../../workflows.rst:191
 msgid ""
@@ -42736,6 +42985,10 @@ msgid ""
 "Once the string is ready in the source language, it will be also available "
 "for translators to translate into additional languages."
 msgstr ""
+":ref:`component-intermediate` ayarlandığında, bu dosya dizgeler için kaynak "
+"olarak kullanılır. Ancak güzelleştirmek için kaynak dile göre düzenlenir. "
+"Dizge kaynak dilde hazır olduğunda, çevirmenlerin diğer dillere çevirmesi "
+"için de kullanılabilir."
 
 #: ../../workflows.rst:235
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
@@ -42752,6 +43005,10 @@ msgid ""
 "strings.  The actual process depends on whether you use bilingual or "
 "monolingual formats."
 msgstr ""
+":ref:`project-source_review` seçeneği etkinleştirildiğinde, onaylama işlemi "
+"kaynak dizgelere de uygulanabilir. Bu seçenek etkinleştirildikten sonra, "
+"kullanıcılar kaynak dizgelerdeki sorunları bildirebilir. Gerçek süreç, iki "
+"dilli ya da tek dilli biçimleri kullanıp kullanmadığınıza göre değişir."
 
 #: ../../workflows.rst:249
 msgid ""
@@ -42759,6 +43016,9 @@ msgid ""
 "ref:`reviews` - once issue is reported on the source string, it is marked "
 "as :guilabel:`Needs editing`."
 msgstr ""
+"Tek dilli biçimlerde, kaynak dizge incelemesi :ref:`reviews` ile benzer "
+"şekilde davranır. Kaynak dizge için bir sorun bildirildiğinde dizge "
+":guilabel:`Düzenlenmesi gerekli` olarak işaretlenir."
 
 #: ../../workflows.rst:253
 msgid ""
@@ -42768,6 +43028,11 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source or remove the label."
 msgstr ""
+"İki dilli biçimlerde, kaynak dizgelerin doğrudan düzenlenmesine izin "
+"verilmez (bunlar genellikle doğrudan kaynak kodundan ayıklanır). Bu durumda "
+"çevirmenler tarafından bildirilen dizgelere :guilabel:`Kaynağın incelenmesi "
+"gerekli` etiketi eklenir. Bu dizgeleri gözden geçirerek kaynağı düzenlemeniz "
+"ya da etiketi kaldırmanız gerekir."
 
 #: ../../workflows.rst:261
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
