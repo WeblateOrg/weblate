@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2023-02-21 08:40+0000\n"
+"PO-Revision-Date: 2023-02-25 02:41+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -11593,7 +11593,7 @@ msgid ""
 msgstr ""
 "Bu seçenek, HTTP sunucunuzla eşleşecek şekilde yapılandırılmamışsa, :samp:`"
 "Invalid HTTP_HOST header: ‘1.1.1.1’. You may need to add ‘1.1.1.1’ to "
-"ALLOWED_HOSTS.` gibi hata iletileri görürsünüz."
+"ALLOWED_HOSTS.` gibi hata iletileri görürsünüz"
 
 #: ../../admin/install.rst:1017
 msgid ""
@@ -12503,6 +12503,9 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
+":setting:`DATA_DIR` altına kaydedilmiş sürüm denetimi sistemi depolarının da "
+"taşınması gerekir. Aktarımı daha etkili bir şekilde yapmak için bunları "
+"kopyalayabilir ya da :command:`rsync` komutunu kullanabilirsiniz."
 
 #: ../../admin/install.rst:1579
 msgid "Other notes"
@@ -12513,6 +12516,9 @@ msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
 msgstr ""
+"Weblate tarafından kullanılıyor olabilecek, Redis, zamanlanmış Cron "
+"görevleri veya özel kimlik doğrulama arka uçları gibi diğer hizmetleri "
+"taşımayı unutmayın."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
@@ -12524,6 +12530,10 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
+"Docker için hazırlanmış Weblate dağıtımını kullanarak kişisel Weblate bulut "
+"sunucunuzu saniyeler içinde çalışır duruma getirebilirsiniz. Tüm Weblate "
+"bağımlılıkları zaten katılmıştır. Varsayılan veri tabanı olarak PostgreSQL "
+"kurulmuştur."
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -12535,6 +12545,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
+"Weblate, herhangi bir çağdaş donanımda sorunsuz çalışmalıdır, Tek bir "
+"sunucuda Weblate bileşenlerini (Weblate, veri tabanı ve web sunucusu) "
+"çalıştırmak için gerekli en az yapılandırma şu şekildedir:"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -12553,12 +12566,17 @@ msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
 msgstr ""
+"Bellek ne kadar çok olursa o kadar iyidir. Tüm düzeylerde (dosya sistemi, "
+"veri tabanı ve Weblate) ön bellek için kullanılır."
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
 msgstr ""
+"Eşzamanlı bulunacak kullanıcı sayısı, gerekli işlemci çekirdeği sayısını "
+"artırır. Yüzlerce bileşenden oluşan çevirler için en az 4 GB RAM bellek "
+"bulunması önerilir."
 
 #: ../../admin/install/steps/hw.rst:19
 msgid ""
@@ -12566,12 +12584,18 @@ msgid ""
 "words. Storage space needed for cloned repositories varies, but Weblate "
 "tries to keep their size minimal by doing shallow clones."
 msgstr ""
+"Veri tabanı depolama alanı gereksinimi, barındırılacak 1 milyon sözcük için "
+"yaklaşık 300 MB olarak düşünebilir. Kopyalanmış depolar için gereken "
+"depolama alanı değişiklik gösterir. Ancak Weblate sığ kopyalama ile depo "
+"boyutlarını en az düzeyde tutmaya çalışır."
 
 #: ../../admin/install/steps/hw.rst:25
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Weblate kurulumunuz için gerçek gereksinimler, üzerinde bulunacak "
+"çevirilerin boyutuna bağlı olarak büyük ölçüde değişiklik gösterebilir."
 
 #: ../../../README.rst:50 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -12587,6 +12611,9 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"Aşağıdaki örneklerde, ``docker-compose`` kurulumu yapılmış hazır bir Docker "
+"ortamınız olduğu varsayılmaktadır. Yönergeler için Docker belgelerine "
+"bakabilirsiniz."
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
@@ -12597,18 +12624,26 @@ msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Ayarlarınızı yaptığınız bir :file:`docker-compose.override.yml` dosyası "
+"oluşturun. Ortam değişkenlerinin tam listesi için :ref:`docker-environment` "
+"bölümüne bakabilirsiniz."
 
 #: ../../admin/install/docker.rst:47
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD` değişkeni ayarlanmamışsa, yönetici "
+"kullanıcı başta belirtilen rastgele bir parolayla oluşturulur."
 
 #: ../../admin/install/docker.rst:50
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"Verilen örnekte, Weblate 80 numaralı bağlantı noktasını dinleyecek şekilde "
+"ayarlanmıştır. :file:`docker-compose.override.yml` dosyasını düzenleyerek "
+"bağlantı noktasını değiştirebilirsiniz."
 
 #: ../../admin/install/docker.rst:53
 msgid "Start Weblate containers:"
@@ -12619,18 +12654,26 @@ msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Weblate dağıtımınızın tadını çıkarın. ``weblate`` kapsayıcısına 80 numaralı "
+"bağlantı noktasından erişilebilir."
 
 #: ../../admin/install/docker.rst:63
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"Kurulum bir süre önce değiştirildi. Daha önce ayrı bir web sunucusu "
+"kapsayıcısı vardı. 2.15-2 sürümünden sonra web sunucusu Weblate "
+"kapsayıcısına eklendi."
 
 #: ../../admin/install/docker.rst:69
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers are not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"2019 Temmuz ayında (3.7.1-6 sürümünden başlayarak), kapsayıcılar kök "
+"kullanıcı olarak çalışmayacak biçimde değiştirildi. Açık bağlantı noktası 80 "
+"yerine 8080 olarak değiştirildi."
 
 #: ../../admin/install/docker.rst:72
 msgid ":ref:`invoke-manage`"
@@ -12750,6 +12793,8 @@ msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Genel dağıtım yönergeleri için :ref:`docker-deploy` bölümüne bakabilirsiniz. "
+"Bu bölümde yalnızca oradakinden farklı olan durumlar ele alınmıştır."
 
 #: ../../admin/install/docker.rst:106
 msgid "Using own SSL certificates"
@@ -12760,16 +12805,20 @@ msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
+"Kullanmak istediğiniz bir SSL sertifikanız varsa, dosyaları Weblate veri "
+"birimine yerleştirmeniz yeterlidir (bilgi almak için: :ref:`docker-volume'):"
 
 #: ../../admin/install/docker.rst:113
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
+":file:`ssl/fullchain.pem` dosyasında gerekli sertifika kuruluşunun "
+"sertifikaları ile birlikte kullanılacak sertifika bulunur"
 
 #: ../../admin/install/docker.rst:114
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ""
+msgstr ":file:`ssl/privkey.pem` dosyasında kişisel anahtar bulunur"
 
 #: ../../admin/install/docker.rst:116
 msgid ""
@@ -12777,6 +12826,9 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
+"Bu dosyaların ikisinin de sahibi, docker kapsayıcısını başlatan kullanıcı "
+"ile aynı olmalı ve dosya izinleri ``600`` olarak ayarlanmış olmalıdır ("
+"yalnızca sahibi olan kullanıcı tarafından okunabilir ve yazılabilir)."
 
 #: ../../admin/install/docker.rst:118
 msgid ""
@@ -12784,6 +12836,9 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
+"Ek olarak, Weblate kapsayıcısı SSL bağlantılarını artık 4443 numaralı "
+"bağlantı noktasından karşılar. Docker compose değişikliklerine HTTPS için "
+"bağlantı noktası yönlendirmeyi de katmak istersiniz:"
 
 #: ../../admin/install/docker.rst:130
 msgid ""
@@ -12792,12 +12847,18 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Aynı sunucuda başka siteler barındırıyorsanız, büyük olasılıkla ``80`` ve "
+"``443`` numaralı bağlantı noktaları NGINX gibi bir ters vekil sunucu "
+"tarafından kullanılmaktadır. HTTPS bağlantısını NGINX üzerinden docker "
+"kapsayıcısına geçirmek için şu yapılandırmayı kullanabilirsiniz:"
 
 #: ../../admin/install/docker.rst:152
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"``<SITE_URL>``, ``<SITE>`` ve ``<EXPOSED_DOCKER_PORT>`` seçeneklerine "
+"ortamınızın gerçek değerlerini yazın."
 
 #: ../../admin/install/docker.rst:155
 msgid "Automatic SSL certificates using Let’s Encrypt"
@@ -12812,12 +12873,21 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file.  Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"Genel kurulumda kendiliğinden oluşturulan `Let’s Encrypt <https://letsencrypt"
+".org/>`_ SSL sertifikalarını kullanmak istiyorsanız, ters bir HTTPS vekil "
+"sunucusu eklemeniz gerekir. Bunun için ek bir Docker kapsayıcısı olan `https-"
+"portal <https://hub.docker.com/r/steveltn/https-portal/>`_ kullanılır. Bu, "
+":file:`docker-compose-https.yml` dosyası kullanılarak yapılır. Ardından "
+"ayarlarınızla bir :file:`docker-compose-https.override.yml` dosyası "
+"oluşturun:"
 
 #: ../../admin/install/docker.rst:179
 msgid ""
 "Whenever invoking :program:`docker-compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
+":program:`docker-compose` komutunu her çağırdığınızda, her iki dosyayı da "
+"belirtmeniz ve ardından şunları yapmanız gerekir:"
 
 #: ../../admin/install/docker.rst:190
 msgid "Upgrading the Docker container"
@@ -12829,6 +12899,10 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
+"Genellikle yalnızca Weblate kapsayıcısını güncellemek ve PostgreSQL "
+"kapsayıcısını olduğu sürümde tutmak iyi bir fikirdir. Çünkü PostgreSQL "
+"yükseltmesi oldukça zorlu bir işlemdir ve çoğu durumda fazla bir yarar "
+"sağlamaz."
 
 #: ../../admin/install/docker.rst:198
 msgid ""
@@ -12836,18 +12910,26 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`."
 msgstr ""
+"Weblate 4.10-1 sürümünden bu yana, Docker kapsayıcısı PostgreSQL 10 ya da "
+"üzerindeki sürümlere gerek duyan Django 4.0 kullanır. Lütfen Weblate "
+"yükseltmesinden önce Docker sürümünü yükseltin. Bilgi almak için: "
+":ref:`upgrade-4.10` ve :ref:`docker-postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:202
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
 msgstr ""
+"Bu işlemi, var olan docker-compose ögesine bağlı kalarak ve son kalıpları "
+"alıp yeniden başlatarak yapabilirsiniz:"
 
 #: ../../admin/install/docker.rst:216
 msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
 msgstr ""
+"Weblate veri tabanının başlangıçta kendiliğinden aktarılması ve el ile "
+"yapılacak ek işlemlere gerek kalmaması beklenir."
 
 #: ../../admin/install/docker.rst:221
 msgid ""
@@ -12856,6 +12938,10 @@ msgid ""
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
+"Weblate ana sürümler arasında yükseltme işlemini desteklemez. Örneğin, 3.x "
+"serisini kullanıyor ve 4.x serisine yükseltmek istiyorsanız, önce son 4.0.x-"
+"y kalıbına (yazı hazırlandığında ``4.0.4-5`` sürümüydü) yükseltin. Bu kalıp "
+"önce aktarımı yapıp ardından yeni sürümlere yükseltmeyi sağlar."
 
 #: ../../admin/install/docker.rst:226
 msgid ""
@@ -12863,6 +12949,9 @@ msgid ""
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
+"``docker-compose`` deposunu da güncellemek isteyebilirsiniz. Ancak çoğu "
+"durumda buna gerek olmaz. PostgreSQL sunucusunu yükseltmek için :ref:`docker-"
+"postgres-upgrade` sayfasına bakabilirsiniz."
 
 #: ../../admin/install/docker.rst:232
 msgid "Upgrading PostgreSQL container"
@@ -12996,6 +13085,11 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
+"Hizmeti yatay olarak ölçeklemek için birden çok Weblate kapsayıcısı "
+"çalıştırabilirsiniz. :file:`/app/data` biriminin tüm kapsayıcılar tarafından "
+"paylaşılması gerekir. Bunun için GlusterFS gibi küme dosya sistemlerinin "
+"kullanılması önerilir. :file:`/app/cache` birimi her kapsayıcı için ayrı "
+"olmalıdır."
 
 #: ../../admin/install/docker.rst:353
 msgid ""
@@ -13004,6 +13098,10 @@ msgid ""
 "the services should be running just once in the cluster and the ordering of "
 "the services matters as well."
 msgstr ""
+"Her Weblate kapsayıcısı, :envvar:`WEBLATE_SERVICE` ortam değişkenini "
+"kullanarak rolü tanımlar. Bazı hizmetlerin kümede yalnızca bir kez çalışması "
+"gerektiğinden ve hizmetlerin sıralaması önemli olduğundan, belgelere "
+"dikkatle uyun."
 
 #: ../../admin/install/docker.rst:358
 msgid ""
@@ -13011,6 +13109,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Örnek kurulumu ``docker-compose`` deposunda `docker-compose-split.yml "
+"<https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-split."
+"yml>`__ olarak bulabilirsiniz."
 
 #: ../../admin/install/docker.rst:365
 msgid "Docker environment variables"
@@ -13021,12 +13122,16 @@ msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
+"Weblate :ref:`config` ögelerinin çoğu, Docker kapsayıcısında aşağıda "
+"açıklanan ortam değişkenleri ile ayarlanabilir."
 
 #: ../../admin/install/docker.rst:370
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
+"Docker ortam değişkenlerinde bulunmayan bir ayar yapmanız gerekiyorsa bilgi "
+"almak için :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:374
 msgid "Generic settings"
@@ -13068,6 +13173,9 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"Site yöneticisinin adını ve e-posta adresini yapılandırır. Hem "
+":setting:`ADMINS` ayarını hem de `admin` kullanıcısını oluşturmak için "
+"kullanılır (bilgi almak için: :envvar:`WEBLATE_ADMIN_PASSWORD`)."
 
 #: ../../admin/install/docker.rst:429
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
@@ -13082,10 +13190,13 @@ msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Ayarlanmamışsa ve `admin` kullanıcısı yoksa, kapsayıcı ilk kez "
+"başlatıldığında görüntülenen rastgele bir parola ile oluşturulur."
 
 #: ../../admin/install/docker.rst:439
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Ayarlanmamışsa ve `admin` kullanıcısı varsa, hiçbir işlem gerçekleştirilmez."
 
 #: ../../admin/install/docker.rst:440
 msgid ""
@@ -13093,6 +13204,9 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Ayarlanmışsa, `admin` kullanıcısı her kapsayıcı başlangıcında "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` ve "
+":envvar:`WEBLATE_ADMIN_EMAIL` seçeneklerine göre ayarlanır."
 
 #: ../../admin/install/docker.rst:446
 msgid ""
@@ -13100,6 +13214,10 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"Parolayı yapılandırma dosyasında depolamak bir güvenlik riski oluşturabilir. "
+"Bu değişkeni yalnızca ilk kurulum için (ya da Weblate ilk kez "
+"başlatıldığında rastgele parola oluşturmasına izin verin) ya da parola "
+"kurtarma için kullanmayı değerlendirin."
 
 #: ../../admin/install/docker.rst:453
 msgid ""
@@ -13114,6 +13232,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:461
 msgid "Sets the path to a file containing the password for the `admin` user."
 msgstr ""
+"`Admin` kullanıcısının parolasının bulunduğu bir dosyanın yolunu ayarlar."
 
 #: ../../admin/install/docker.rst:465
 msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
@@ -13162,52 +13281,71 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+":std:setting:`REGISTRATION_OPEN` seçeneğini değiştirerek hesap açma "
+"özelliğini etkinleştirir."
 
 #: ../../admin/install/docker.rst:521
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+":setting:`REGISTRATION_ALLOW_BACKENDS` seçeneği ile yeni hesap açmak için "
+"hangi kimlik doğrulama yöntemlerinin kullanılabileceğini yapılandırır."
 
 #: ../../admin/install/docker.rst:534
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
+"Weblate üzerinde kullanılacak saat dilimini yapılandırır. Bilgi almak için: "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:538
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
+"Docker kapsayıcısının saat dilimini değiştirmek için ``TZ`` ortam "
+"değişkenini kullanın."
 
 #: ../../admin/install/docker.rst:550
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Weblate uygulamasının ters HTTPS vekil sunucu arkasında çalıştığını "
+"varsaymasını sağlar. Weblate e-posta ve API bağlantılarında HTTPS "
+"kullanılmasını sağlar ya da çerezler için güvenli imlerini ayarlar."
 
 #: ../../admin/install/docker.rst:555
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
-msgstr ""
+msgstr "Olası uyarılar için :setting:`ENABLE_HTTPS` belgelerine bakabilirsiniz."
 
 #: ../../admin/install/docker.rst:559
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
+"Bu seçenek, Weblate kapsayıcısının HTTPS bağlantılarını kabul etmesini "
+"sağlamaz. Bunu da yapılandırmanız gerekir. Bilgi almak için: :ref:`docker-"
+"ssl`."
 
 #: ../../admin/install/docker.rst:571
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
+":setting:`ENABLE_HTTPS` :ref:`production-site`, "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:579
 msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Weblate belgelerinin başındaki `meta[name=monetization]` alanının "
+"ayarlanmasını sağlar. Birden çok seçenek belirtilmişse, rastgele olarak biri "
+"seçilir."
 
 #: ../../admin/install/docker.rst:584
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -13218,12 +13356,16 @@ msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
+"IP adresinin Weblate tarafından herhangi bir HTTP üst bilgisinden alınmasını "
+"sağlar. Weblate kapsayıcısının önünde ters vekil sunucu varsa bunu kullanın."
 
 #: ../../admin/install/docker.rst:591
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
+":setting:`IP_BEHIND_REVERSE_PROXY` özelliğini etkinleştirir ve "
+":setting:`IP_PROXY_HEADER` ögesini ayarlar."
 
 #: ../../admin/install/docker.rst:595
 msgid ""
@@ -13231,6 +13373,9 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
+"Biçim, Django beklentilerine uygun olmalıdır. Django ham HTTP üst bilgi "
+"adlarını şu biçimde `dönüştürür <https://docs.djangoproject.com/en/2.2/ref/"
+"request-response/#django.http.HttpRequest.META>`_ :"
 
 #: ../../admin/install/docker.rst:599
 msgid "converts all characters to uppercase"
@@ -13242,11 +13387,12 @@ msgstr "tire karakterini alt çizgi karakterine dönüştürür"
 
 #: ../../admin/install/docker.rst:601
 msgid "prepends ``HTTP_`` prefix"
-msgstr ""
+msgstr "başa ``HTTP_`` ön ekini ekler"
 
 #: ../../admin/install/docker.rst:603
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
+"Böylece ``X-Forwarded-For`` değeri ``HTTP_X_FORWARDED_FOR`` ile eşleştirilir."
 
 #: ../../admin/install/docker.rst:615
 msgid ""
@@ -13254,6 +13400,9 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"Bir isteği belirten HTTP üst bilgi/değer ikilisini temsil eden bir demet "
+"güvenlidir. Weblate, standart HTTPS üst bilgilerini geçirmeyen SSL "
+"sonlandırma işlemi yapan bir ters vekil sunucu arkasında ise bu gereklidir."
 
 #: ../../admin/install/docker.rst:628
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
@@ -16200,6 +16349,10 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Translate-toolkit ile birlikte geleni kullanarak kendi çeviri belleği "
+"sunucunuzu işletebilir ve Weblate ile konuşmasına izin verebilirsiniz. "
+"Ayrıca, geliştirilmiş bir tmserver sürümü olan bir amaGama sunucusu ile de "
+"kullanabilirsiniz."
 
 #: ../../admin/machine.rst:440
 msgid "First you will want to import some data to the translation memory:"
