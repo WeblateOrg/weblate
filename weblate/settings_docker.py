@@ -610,6 +610,7 @@ CSP_FONT_SRC = get_env_list("WEBLATE_CSP_FONT_SRC")
 
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
+REGISTRATION_REBIND = get_env_bool("WEBLATE_REGISTRATION_REBIND", False)
 REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
 
 # Email registration filter
