@@ -328,22 +328,23 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine(cache=cache)
         translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
-        self.assertIsInstance(translation[0], list)
-        self.assertEqual(len(translation[0]), expected_len)
-        for result in translation:
-            for key, value in result.items():
-                if key == "quality":
-                    self.assertIsInstance(
-                        value, int, f"{key!r} is supposed to be a integer"
-                    )
-                elif key == "show_quality":
-                    self.assertIsInstance(
-                        value, bool, f"{key!r} is supposed to be a boolean"
-                    )
-                else:
-                    self.assertIsInstance(
-                        value, str, f"{key!r} is supposed to be a string"
-                    )
+        for items in translation:
+            self.assertEqual(len(items), expected_len)
+            self.assertIsInstance(items, list)
+            for result in items:
+                for key, value in result.items():
+                    if key == "quality":
+                        self.assertIsInstance(
+                            value, int, f"{key!r} is supposed to be a integer"
+                        )
+                    elif key == "show_quality":
+                        self.assertIsInstance(
+                            value, bool, f"{key!r} is supposed to be a boolean"
+                        )
+                    else:
+                        self.assertIsInstance(
+                            value, str, f"{key!r} is supposed to be a string"
+                        )
         return translation
 
     def mock_empty(self):
@@ -1134,7 +1135,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             machine=machine,
             unit_args={"flags": "python-format"},
         )
-        self.assertEqual(translation[0]["text"], "Hallo, %s! <<foo>>")
+        self.assertEqual(translation[0][0]["text"], "Hallo, %s! <<foo>>")
 
     @responses.activate
     def test_cache(self):
@@ -1386,12 +1387,14 @@ class ViewsTest(FixtureTestCase):
             [
                 {
                     "quality": 100,
+                    "plural_form": 0,
                     "service": "Dummy",
                     "text": "Nazdar světe!",
                     "source": "Hello, world!\n",
                 },
                 {
                     "quality": 100,
+                    "plural_form": 0,
                     "service": "Dummy",
                     "text": "Ahoj světe!",
                     "source": "Hello, world!\n",
