@@ -369,7 +369,7 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, text, unit, user)
+        return self._translate(source, language, text, unit, user, threshold=10)
 
     def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
