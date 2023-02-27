@@ -12,6 +12,7 @@ Not yet released.
 * Improved conflicts handling in gettext PO files.
 * Added support for defining strings state when adding via API.
 * Added support for configuring CORS allowed origins.
+* Added plurals support to automatic suggestions.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
 
