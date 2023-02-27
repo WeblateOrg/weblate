@@ -12,6 +12,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 
 class RepoAdminMixin:
+    @admin.action(description=_("Commit pending changes"))
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for obj in queryset:
@@ -20,15 +21,12 @@ class RepoAdminMixin:
             request, f"Flushed changes in {queryset.count():d} git repos."
         )
 
-    force_commit.short_description = _("Commit pending changes")
-
+    @admin.action(description=_("Update VCS repository"))
     def update_from_git(self, request, queryset):
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
-
-    update_from_git.short_description = _("Update VCS repository")
 
     def get_qs_units(self, queryset):
         raise NotImplementedError()
@@ -36,6 +34,7 @@ class RepoAdminMixin:
     def get_qs_translations(self, queryset):
         raise NotImplementedError()
 
+    @admin.action(description=_("Update quality checks"))
     def update_checks(self, request, queryset):
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
@@ -46,8 +45,6 @@ class RepoAdminMixin:
             translation.invalidate_cache()
 
         self.message_user(request, f"Updated checks for {len(units):d} units.")
-
-    update_checks.short_description = _("Update quality checks")
 
 
 class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
@@ -67,33 +64,28 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     search_fields = ["name", "slug", "web"]
     actions = ["update_from_git", "update_checks", "force_commit"]
 
+    @admin.display(description=_("Administrators"))
     def list_admins(self, obj):
         return ", ".join(
             User.objects.all_admins(obj).values_list("username", flat=True)
         )
 
-    list_admins.short_description = _("Administrators")
-
+    @admin.display(description=_("Source strings"))
     def get_total(self, obj):
         return obj.stats.source_strings
 
-    get_total.short_description = _("Source strings")
-
+    @admin.display(description=_("Source words"))
     def get_source_words(self, obj):
         return obj.stats.source_words
 
-    get_source_words.short_description = _("Source words")
-
+    @admin.display(description=_("Languages"))
     def get_language_count(self, obj):
         """Return number of languages used in this project."""
         return obj.stats.languages
 
-    get_language_count.short_description = _("Languages")
-
+    @admin.display(description=_("VCS repositories"))
     def num_vcs(self, obj):
         return obj.component_set.with_repo().count()
-
-    num_vcs.short_description = _("VCS repositories")
 
     def get_qs_units(self, queryset):
         return Unit.objects.filter(translation__component__project__in=queryset)

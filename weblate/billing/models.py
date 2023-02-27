@@ -7,6 +7,7 @@ from datetime import timedelta
 
 from appconf import AppConf
 from django.conf import settings
+from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Prefetch, Q
@@ -252,35 +253,31 @@ class Billing(models.Model):
             return True
         return self.count_projects > 0
 
+    @admin.display(description=_("Changes in last month"))
     @cached_property
     def monthly_changes(self):
         return sum(project.stats.monthly_changes for project in self.all_projects)
 
-    monthly_changes.short_description = _("Changes in last month")
-
+    @admin.display(description=_("Number of changes"))
     @cached_property
     def total_changes(self):
         return sum(project.stats.total_changes for project in self.all_projects)
-
-    total_changes.short_description = _("Number of changes")
 
     @cached_property
     def count_projects(self):
         return len(self.all_projects)
 
+    @admin.display(description=_("Projects"))
     def display_projects(self):
         return f"{self.count_projects} / {self.plan.display_limit_projects}"
-
-    display_projects.short_description = _("Projects")
 
     @cached_property
     def count_strings(self):
         return sum(p.stats.source_strings for p in self.all_projects)
 
+    @admin.display(description=_("Source strings"))
     def display_strings(self):
         return f"{self.count_strings} / {self.plan.display_limit_strings}"
-
-    display_strings.short_description = _("Source strings")
 
     @cached_property
     def count_words(self):
@@ -290,19 +287,17 @@ class Billing(models.Model):
     def hosted_words(self):
         return sum(p.stats.all_words for p in self.all_projects)
 
+    @admin.display(description=_("Source words"))
     def display_words(self):
         return f"{self.count_words}"
-
-    display_words.short_description = _("Source words")
 
     @cached_property
     def count_languages(self):
         return max((p.stats.languages for p in self.all_projects), default=0)
 
+    @admin.display(description=_("Languages"))
     def display_languages(self):
         return f"{self.count_languages} / {self.plan.display_limit_languages}"
-
-    display_languages.short_description = _("Languages")
 
     def flush_cache(self):
         keys = list(self.__dict__.keys())
@@ -329,11 +324,11 @@ class Billing(models.Model):
             and self.expiry < timezone.now()
         )
 
+    @admin.display(description=_("Number of strings"))
     def unit_count(self):
         return sum(p.stats.all for p in self.all_projects)
 
-    unit_count.short_description = _("Number of strings")
-
+    @admin.display(description=_("Last invoice"))
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
@@ -341,8 +336,10 @@ class Billing(models.Model):
         except IndexError:
             return _("N/A")
 
-    last_invoice.short_description = _("Last invoice")
-
+    @admin.display(
+        description=_("In display limits"),
+        boolean=True,
+    )
     def in_display_limits(self, plan=None):
         if plan is None:
             plan = self.plan
@@ -361,9 +358,7 @@ class Billing(models.Model):
             )
         )
 
-    in_display_limits.boolean = True
     # Translators: Whether the package is inside displayed (soft) limits
-    in_display_limits.short_description = _("In display limits")
 
     def check_payment_status(self, now: bool = False):
         """Check current payment status.

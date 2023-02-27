@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from django.contrib import admin
 from django.contrib.admin import RelatedOnlyFieldListFilter
 from django.utils.translation import gettext_lazy as _
 
@@ -54,17 +55,15 @@ class BillingAdmin(WeblateModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("projects", "owners")
 
+    @admin.display(description=_("Projects"))
     def list_projects(self, obj):
         if not obj.all_projects:
             return "none projects associated"
         return ",".join(project.name for project in obj.all_projects)
 
-    list_projects.short_description = _("Projects")
-
+    @admin.display(description=_("Owners"))
     def list_owners(self, obj):
         return ",".join(owner.full_name for owner in obj.owners.all())
-
-    list_owners.short_description = _("Owners")
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
