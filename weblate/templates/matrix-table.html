@@ -3,7 +3,7 @@
 {% for source, translations in data %}
 <tr {% if last %} id="last-section"{% endif %}>
 <td>
-<a href="{{ source.get_absolute_url }}">{% format_translation source.source source.translation.component.source_language num_plurals=source.translation.plural.number unit=source simple=True %}</a>
+<a href="{{ source.get_absolute_url }}">{% format_translation source.source source.translation.component.source_language unit=source simple=True %}</a>
 </td>
 {% for unit in translations %}
 <td>
