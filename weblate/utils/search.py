@@ -421,7 +421,7 @@ class TermExpr:
                 re.compile(match.expr)
             except re.error as error:
                 raise ValueError(_("Invalid regular expression: {}").format(error))
-            return Q(**{self.field_name(field, "regex"): match.expr})
+            return Q(**{self.field_name(field, "trgm_regex"): match.expr})
 
         if isinstance(match, tuple):
             start, end = match

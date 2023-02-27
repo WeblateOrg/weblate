@@ -103,9 +103,9 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("source:=hello", Q(source__exact="hello"))
 
     def test_regex(self):
-        self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
+        self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
         with self.assertRaises(ValueError):
-            self.assert_query('source:r"^(hello"', Q(source__regex="^(hello"))
+            self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
 
     def test_logic(self):
         self.assert_query(
@@ -230,7 +230,9 @@ class QueryParserTest(TestCase, SearchMixin):
 
     def test_language(self):
         self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
-        self.assert_query('language:r".*"', Q(translation__language__code__regex=".*"))
+        self.assert_query(
+            'language:r".*"', Q(translation__language__code__trgm_regex=".*")
+        )
 
     def test_component(self):
         self.assert_query(
