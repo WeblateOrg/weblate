@@ -37,7 +37,7 @@ class WeblateMemory(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 10,
+        threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
         for result in Memory.objects.lookup(
