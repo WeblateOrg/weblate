@@ -19,6 +19,7 @@ class LibreTranslateTranslation(MachineTranslation):
         "zh_hans": "zh",
     }
     settings_form = KeyURLMachineryForm
+    request_timeout = 20
 
     @staticmethod
     def migrate_settings():
