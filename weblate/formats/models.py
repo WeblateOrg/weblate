@@ -105,6 +105,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.I18NextFormat",
         "weblate.formats.ttkit.I18NextV4Format",
         "weblate.formats.ttkit.GoI18JSONFormat",
+        "weblate.formats.ttkit.GoI18V2JSONFormat",
         "weblate.formats.ttkit.GoTextFormat",
         "weblate.formats.ttkit.ARBFormat",
         "weblate.formats.ttkit.CSVFormat",
