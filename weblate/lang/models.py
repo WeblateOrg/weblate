@@ -352,7 +352,7 @@ class LanguageQuerySet(models.QuerySet):
         language with higher rank and OS language with lower rank so it still
         might be usable guess.
         """
-        accept = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
+        accept = request.headers.get("accept-language", "")
         for accept_lang, _unused in parse_accept_lang_header(accept):
             if accept_lang == "en":
                 continue

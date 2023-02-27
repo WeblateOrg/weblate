@@ -67,7 +67,7 @@ def git_export(request, project, component, path):
     path = path.lstrip("/\\")
 
     # HTTP authentication
-    auth = request.META.get("HTTP_AUTHORIZATION", b"")
+    auth = request.headers.get("authorization", b"")
 
     # Reject non pull access early
     if request.GET.get("service", "") not in ("", "git-upload-pack"):
@@ -115,9 +115,9 @@ def run_git_http(request, obj, path):
         "REQUEST_METHOD": request.method,
         "PATH_TRANSLATED": os.path.join(obj.full_path, path),
         "GIT_HTTP_EXPORT_ALL": "1",
-        "CONTENT_TYPE": request.META.get("CONTENT_TYPE", ""),
+        "CONTENT_TYPE": request.headers.get("content-type", ""),
         "QUERY_STRING": query,
-        "HTTP_CONTENT_ENCODING": request.META.get("HTTP_CONTENT_ENCODING", ""),
+        "HTTP_CONTENT_ENCODING": request.headers.get("content-encoding", ""),
     }
     process = subprocess.Popen(
         [git_http_backend],
