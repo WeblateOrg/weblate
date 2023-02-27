@@ -56,10 +56,7 @@ class PoExporterTest(BaseTestCase):
         self.assertIn(b"msgstr[2]", result)
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
-        if nplurals == 3:
-            formula = "n==0 ? 0 : n==1 ? 1 : 2"
-        else:
-            formula = "0"
+        formula = "n==0 ? 0 : n==1 ? 1 : 2" if nplurals == 3 else "0"
         lang = Language.objects.create(code="zz")
         plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
         project = Project(slug="test")

@@ -247,10 +247,7 @@ def cleanup_next(strategy, **kwargs):
 def store_params(strategy, user, **kwargs):
     """Store Weblate specific parameters in the pipeline."""
     # Registering user
-    if user and user.is_authenticated:
-        registering_user = user.pk
-    else:
-        registering_user = None
+    registering_user = user.pk if user and user.is_authenticated else None
 
     # Pipeline action
     session = strategy.request.session
@@ -329,10 +326,7 @@ def ensure_valid(
         return
 
     # Add e-mail/register should stay on same user
-    if user and user.is_authenticated:
-        current_user = user.pk
-    else:
-        current_user = None
+    current_user = user.pk if user and user.is_authenticated else None
 
     if current_user != registering_user:
         if registering_user is None:

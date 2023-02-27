@@ -77,10 +77,7 @@ class ContentWidget(Widget):
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get translation status
-        if lang:
-            stats = obj.stats.get_single_language_stats(lang)
-        else:
-            stats = obj.stats
+        stats = obj.stats.get_single_language_stats(lang) if lang else obj.stats
         self.percent = stats.translated_percent
 
     def get_percent_text(self):

@@ -268,10 +268,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
         else:
-            if isinstance(self.MATCH, bytes):
-                mode = "rb"
-            else:
-                mode = "r"
+            mode = "rb" if isinstance(self.MATCH, bytes) else "r"
             with open(out, mode) as handle:
                 data = handle.read()
             self.assertIn(self.MATCH, data)

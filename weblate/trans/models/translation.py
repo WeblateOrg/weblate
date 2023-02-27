@@ -337,10 +337,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         """Check whether database is in sync with git and possibly updates."""
         if change is None:
             change = Change.ACTION_UPDATE
-        if request is None:
-            user = None
-        else:
-            user = request.user
+        user = None if request is None else request.user
 
         details = {
             "filename": self.filename,
@@ -1120,10 +1117,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         else:
             existing = set(self.unit_set.values_list("context", "source"))
         for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
-            if has_template:
-                idkey = unit.context
-            else:
-                idkey = (unit.context, unit.source)
+            idkey = unit.context if has_template else (unit.context, unit.source)
             if idkey in existing:
                 skipped += 1
                 continue
@@ -1362,10 +1356,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if auto_context:
             suffix = 0
             base = context
-            if not has_template:
-                filter_args = {"source": source}
-            else:
-                filter_args = {}
+            filter_args = {"source": source} if not has_template else {}
             while self.unit_set.filter(context=context, **filter_args).exists():
                 suffix += 1
                 context = f"{base}{suffix}"

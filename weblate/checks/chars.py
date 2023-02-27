@@ -68,10 +68,7 @@ class BeginSpaceCheck(TargetCheck):
         source = unit.source_string
         stripped_source = source.lstrip(" ")
         spaces = len(source) - len(stripped_source)
-        if spaces:
-            replacement = source[:spaces]
-        else:
-            replacement = ""
+        replacement = source[:spaces] if spaces else ""
         return [("^ *", replacement, "u")]
 
 
@@ -107,10 +104,7 @@ class EndSpaceCheck(TargetCheck):
         source = unit.source_string
         stripped_source = source.rstrip(" ")
         spaces = len(source) - len(stripped_source)
-        if spaces:
-            replacement = source[-spaces:]
-        else:
-            replacement = ""
+        replacement = source[-spaces:] if spaces else ""
         return [(" *$", replacement, "u")]
 
 

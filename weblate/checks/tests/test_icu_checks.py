@@ -21,10 +21,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         elif flags and self.flags:
             flags = f"{self.flags}:{flags}"
 
-        if flags:
-            flags = f"{self.flag}, icu-flags:{flags}"
-        else:
-            flags = self.flag
+        flags = f"{self.flag}, icu-flags:{flags}" if flags else self.flag
 
         return MockUnit(
             self.id_hash, flags=flags, source=source, is_source=source is not None

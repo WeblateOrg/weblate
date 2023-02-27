@@ -318,10 +318,7 @@ class PluralTextarea(forms.Textarea):
             fieldid = f"{base_id}_{idx}"
             attrs["id"] = fieldid
             attrs["tabindex"] = tabindex + idx
-            if idx and len(plurals) > 1:
-                source = plurals[1]
-            else:
-                source = plurals[0]
+            source = plurals[1] if idx and len(plurals) > 1 else plurals[0]
 
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
@@ -694,7 +691,7 @@ def get_upload_form(user, translation, *args, **kwargs):
         if not check_upload_method_permissions(user, translation, method):
             result.remove_translation_choice(method)
     # Remove approved choice for non review projects
-    if not user.has_perm("unit.review", translation) and not form == SimpleUploadForm:
+    if not user.has_perm("unit.review", translation) and form != SimpleUploadForm:
         result.fields["conflicts"].choices = [
             choice
             for choice in result.fields["conflicts"].choices

@@ -425,10 +425,7 @@ if platform.system() != "Windows":
     except OSError:
         HAVE_SYSLOG = False
 
-if DEBUG or not HAVE_SYSLOG:
-    DEFAULT_LOG = "console"
-else:
-    DEFAULT_LOG = "syslog"
+DEFAULT_LOG = "console" if DEBUG or not HAVE_SYSLOG else "syslog"
 DEFAULT_LOGLEVEL = "DEBUG" if DEBUG else "INFO"
 
 # A sample logging configuration. The only tangible logging

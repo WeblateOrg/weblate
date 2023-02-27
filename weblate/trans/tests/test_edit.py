@@ -944,7 +944,7 @@ class EditComplexTest(ViewTestCase):
         response = self.client.get(url)
         form = response.context["form"]
         params = {}
-        for field in form.fields.keys():
+        for field in form.fields:
             params[field] = form[field].value()
         params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)

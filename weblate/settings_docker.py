@@ -719,10 +719,7 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporte
 # Detect if we can connect to syslog
 HAVE_SYSLOG = False
 
-if DEBUG or not HAVE_SYSLOG:
-    DEFAULT_LOG = "console"
-else:
-    DEFAULT_LOG = "syslog"
+DEFAULT_LOG = "console" if DEBUG or not HAVE_SYSLOG else "syslog"
 DEFAULT_LOGLEVEL = os.environ.get("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
 
 # A sample logging configuration. The only tangible logging

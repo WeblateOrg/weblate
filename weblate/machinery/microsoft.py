@@ -42,10 +42,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         self._token_expiry = None
 
         # check settings for Microsoft region prefix
-        if not self.settings["region"]:
-            region = ""
-        else:
-            region = f"{self.settings['region']}."
+        region = "" if not self.settings["region"] else f"{self.settings['region']}."
 
         self._cognitive_token_url = TOKEN_URL.format(
             region,

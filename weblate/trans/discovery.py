@@ -128,7 +128,7 @@ class ComponentDiscovery:
 
                 # Calculate file mask for match
                 replacements = [(matches.start("language"), matches.end("language"))]
-                for group in matches.groupdict().keys():
+                for group in matches.groupdict():
                     if group.startswith("_language_"):
                         replacements.append((matches.start(group), matches.end(group)))
                 maskparts = []

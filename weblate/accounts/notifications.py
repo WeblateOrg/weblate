@@ -544,10 +544,7 @@ class LastAuthorCommentNotificaton(Notification):
         users=None,
     ):
         last_author = change.unit.get_last_content_change()[0]
-        if last_author.is_anonymous:
-            users = []
-        else:
-            users = [last_author.pk]
+        users = [] if last_author.is_anonymous else [last_author.pk]
         return super().get_users(
             frequency, change, project, component, translation, users
         )

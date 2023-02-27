@@ -100,10 +100,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request, format)
-        if hasattr(response, "content"):
-            content = response.content
-        else:
-            content = "<stream>"
+        content = response.content if hasattr(response, "content") else "<stream>"
 
         self.assertEqual(
             response.status_code,

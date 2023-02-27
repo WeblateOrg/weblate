@@ -513,10 +513,7 @@ class CaptchaForm(forms.Form):
                 _("That was not correct, please try again.")
             )
 
-        if self.form.is_valid():
-            mail = self.form.cleaned_data["email"]
-        else:
-            mail = "NONE"
+        mail = self.form.cleaned_data["email"] if self.form.is_valid() else "NONE"
 
         LOGGER.info(
             "Correct CAPTCHA for %s (%s = %s)",

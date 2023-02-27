@@ -88,11 +88,7 @@ class Check:
         if len(sources) > 1:
             source = sources[1]
         # Check plurals against plural from source
-        for target in targets[1:]:
-            if self.check_single(source, target, unit):
-                return True
-        # Check did not fire
-        return False
+        return any(self.check_single(source, target, unit) for target in targets[1:])
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
@@ -165,10 +161,7 @@ class Check:
         flags = unit.all_flags
 
         # chain XML striping if needed
-        if "xml-text" in flags:
-            replacement = strip_xml
-        else:
-            replacement = noop
+        replacement = strip_xml if "xml-text" in flags else noop
 
         if not flags.has_value("replacements"):
             return replacement
@@ -181,7 +174,7 @@ class Check:
         )
 
         # Build regexp matcher
-        pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+        pattern = re.compile("|".join(re.escape(key) for key in replacements))
 
         return lambda text: pattern.sub(
             lambda m: replacements[m.group(0)], replacement(text)

@@ -491,10 +491,7 @@ class GitRepository(Repository):
 
     def push(self, branch):
         """Push given branch to remote repository."""
-        if branch:
-            refspec = f"{self.branch}:{branch}"
-        else:
-            refspec = self.branch
+        refspec = f"{self.branch}:{branch}" if branch else self.branch
         self.execute(self._cmd_push + ["origin", refspec])
 
     def unshallow(self):
