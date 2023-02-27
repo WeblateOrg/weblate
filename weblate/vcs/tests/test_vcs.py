@@ -182,10 +182,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                     else:
                         filenames = None
                 else:
-                    if conflict:
-                        filename = "testfile"
-                    else:
-                        filename = "test2"
+                    filename = "testfile" if conflict else "test2"
                     # Create test file
                     with open(os.path.join(tempdir, filename), "w") as handle:
                         handle.write("SECOND TEST FILE\n")
@@ -844,7 +841,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         responses.add(
             responses.GET,
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
-            json=[] if not get_forks else get_forks,
+            json=get_forks if get_forks else [],
         )
 
     def mock_pr_responses(self, pr_response, pr_status):
@@ -1242,9 +1239,8 @@ class VCSSubversionTest(VCSGitTest):
         self.assertIn("nothing to commit", status)
 
     def test_configure_remote(self):
-        with self.repo.lock:
-            with self.assertRaises(RepositoryException):
-                self.repo.configure_remote("pullurl", "pushurl", "branch")
+        with self.repo.lock, self.assertRaises(RepositoryException):
+            self.repo.configure_remote("pullurl", "pushurl", "branch")
         self.verify_pull_url()
 
     def test_configure_remote_no_push(self):
@@ -1412,10 +1408,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
 
     def mock_repo_response(self, status: int):
-        if status == 200:
-            body = {"id": 111}
-        else:
-            body = self._bb_api_error_stub
+        body = {"id": 111} if status == 200 else self._bb_api_error_stub
 
         responses.add(  # get remote repo id
             responses.GET,
@@ -1482,12 +1475,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
 
     def mock_pr_response(self, status):
-        if status == 201:
-            body = {
-                "id": "333",
-            }
-        else:
-            body = self._bb_api_error_stub
+        body = {"id": "333"} if status == 201 else self._bb_api_error_stub
 
         responses.add(
             responses.POST,

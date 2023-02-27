@@ -1462,10 +1462,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
                 return True
-        for path in changed:
-            if self.filemask_re.match(path):
-                return True
-        return False
+        return any(self.filemask_re.match(path) for path in changed)
 
     def needs_commit_upstream(self):
         """Detect whether commit is needed for upstream changes."""
@@ -1847,10 +1844,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         if not error_message:
             error_message = str(error).replace(self.full_path, "")
         if filename is None:
-            if translation is None:
-                filename = self.template
-            else:
-                filename = translation.filename
+            filename = self.template if translation is None else translation.filename
         self.trigger_alert("ParseError", error=error_message, filename=filename)
         if self.id:
             Change.objects.create(

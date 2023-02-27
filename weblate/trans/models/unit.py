@@ -1178,10 +1178,7 @@ class Unit(models.Model, LoggerMixin):
             meth = "check_source"
             args = src, self
         else:
-            if self.readonly:
-                checks = {}
-            else:
-                checks = CHECKS.target
+            checks = {} if self.readonly else CHECKS.target
             meth = "check_target"
             args = src, tgt, self
 

@@ -253,10 +253,7 @@ class ACLTest(FixtureTestCase):
 
     def test_acl_groups(self):
         """Test handling ACL groups."""
-        if "weblate.billing" in settings.INSTALLED_APPS:
-            billing_group = 1
-        else:
-            billing_group = 0
+        billing_group = 1 if "weblate.billing" in settings.INSTALLED_APPS else 0
         self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.translation_review = False

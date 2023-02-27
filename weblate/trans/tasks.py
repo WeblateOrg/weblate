@@ -343,10 +343,7 @@ def component_removal(pk, uid):
 
 @app.task(trail=False)
 def project_removal(pk: int, uid: Optional[int]):
-    if uid is None:
-        user = get_anonymous()
-    else:
-        user = User.objects.get(pk=uid)
+    user = get_anonymous() if uid is None else User.objects.get(pk=uid)
     try:
         project = Project.objects.get(pk=pk)
         create_project_backup(pk)
@@ -382,10 +379,7 @@ def auto_translate(
 ):
     if translation is None:
         translation = Translation.objects.get(pk=translation_id)
-    if user_id:
-        user = User.objects.get(pk=user_id)
-    else:
-        user = None
+    user = User.objects.get(pk=user_id) if user_id else None
     translation.log_info(
         "starting automatic translation %s: %s: %s",
         current_task.request.id,

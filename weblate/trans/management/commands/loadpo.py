@@ -28,9 +28,6 @@ class Command(WeblateLangCommand):
         langs = None
         if options["lang"] is not None:
             langs = options["lang"].split(",")
-        if options["foreground"]:
-            loader = perform_load
-        else:
-            loader = perform_load.delay
+        loader = perform_load if options["foreground"] else perform_load.delay
         for component in self.get_components(**options):
             loader(component.pk, force=options["force"], langs=langs)

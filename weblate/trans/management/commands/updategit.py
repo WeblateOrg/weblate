@@ -20,9 +20,6 @@ class Command(WeblateComponentCommand):
         )
 
     def handle(self, *args, **options):
-        if options["foreground"]:
-            updater = perform_update
-        else:
-            updater = perform_update.delay
+        updater = perform_update if options["foreground"] else perform_update.delay
         for component in self.get_components(*args, **options):
             updater("Component", component.pk)

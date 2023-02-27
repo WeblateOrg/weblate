@@ -231,10 +231,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def open_manage(self, login=True):
         # Login as superuser
-        if login:
-            user = self.do_login(superuser=True)
-        else:
-            user = None
+        user = self.do_login(superuser=True) if login else None
 
         # Open admin page
         with self.wait_for_page_load():

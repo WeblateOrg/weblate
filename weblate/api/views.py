@@ -200,10 +200,7 @@ class WeblateViewSet(DownloadViewSet):
 
         obj.acting_user = request.user
 
-        if takes_request:
-            args = args + (request,)
-        else:
-            args = args + (request.user,)
+        args = args + (request,) if takes_request else args + (request.user,)
 
         return getattr(obj, method)(*args)
 

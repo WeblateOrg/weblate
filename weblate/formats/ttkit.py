@@ -392,10 +392,7 @@ class TTKitFormat(TranslationFormat):
 
         # Process target
         if isinstance(target, list):
-            if len(target) == 1:
-                target = target[0]
-            else:
-                target = multistring(target)
+            target = target[0] if len(target) == 1 else multistring(target)
 
         # Build the unit
         unit = self.construct_unit(context)
@@ -927,7 +924,7 @@ class PlaceholdersJSONUnit(JSONUnit):
             placeholder_ids = [f"{{{p['id']}}}" for p in placeholders]
         else:
             # WebExtension placeholders
-            placeholder_ids = [f"${key.upper()}$" for key in placeholders.keys()]
+            placeholder_ids = [f"${key.upper()}$" for key in placeholders]
             flags = ",case-insensitive"
         return "placeholders:{}{}".format(
             ":".join(Flags.format_value(key) for key in placeholder_ids), flags
@@ -1112,10 +1109,7 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             in_file,
             template,
         ]
-        if "args" in kwargs:
-            args = kwargs["args"] + args
-        else:
-            args = ["--previous"] + args
+        args = kwargs["args"] + args if "args" in kwargs else ["--previous"] + args
 
         cmd = ["msgmerge"] + args
         try:

@@ -42,10 +42,7 @@ class WeblateTranslation(MachineTranslation):
     ):
         """Download list of possible translations from a service."""
         # Filter based on user access
-        if user:
-            base = Unit.objects.filter_access(user)
-        else:
-            base = Unit.objects.all()
+        base = Unit.objects.filter_access(user) if user else Unit.objects.all()
 
         # Use memory_db for the query in case it exists. This is supposed
         # to be a read-only replica for offloading expensive translation

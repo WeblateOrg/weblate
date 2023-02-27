@@ -233,10 +233,7 @@ class Formatter:
 
         for match in WHITESPACE_RE.finditer(self.value):
             whitespace = match.group(0)
-            if whitespace == "\t":
-                cls = "space-tab"
-            else:
-                cls = "space-space"
+            cls = "space-tab" if whitespace == "\t" else "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
                 format_html(

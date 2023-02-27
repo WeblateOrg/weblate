@@ -22,10 +22,7 @@ class BaseScriptAddon(BaseAddon):
         if translation:
             component = translation.component
             command.append(translation.get_filename())
-        if component.is_repo_link:
-            target = component.linked_component
-        else:
-            target = component
+        target = component.linked_component if component.is_repo_link else component
         environment = {
             "WL_VCS": target.vcs,
             "WL_REPO": target.repo,

@@ -533,7 +533,7 @@ class User(AbstractBaseUser):
         # Add project-specific allowance
         project_ids = {
             key
-            for key in self.project_permissions.keys()
+            for key in self.project_permissions
             if key
             not in {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
         }
@@ -790,7 +790,7 @@ def change_componentlist(sender, instance, action, **kwargs):
 
 @receiver(m2m_changed, sender=User.groups.through)
 def remove_group_admin(sender, instance, action, pk_set, **kwargs):
-    if not action == "post_remove":
+    if action != "post_remove":
         return
     pk = pk_set.pop()
     if reverse:

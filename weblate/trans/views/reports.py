@@ -162,10 +162,7 @@ def generate_counts(user, start_date, end_date, **kwargs):
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
 
     base = Change.objects.content().filter(unit__isnull=False)
-    if user:
-        base = base.filter(author=user)
-    else:
-        base = base.filter(author__isnull=False)
+    base = base.filter(author=user) if user else base.filter(author__isnull=False)
 
     changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
