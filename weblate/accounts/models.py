@@ -7,6 +7,7 @@ from typing import Set
 
 from appconf import AppConf
 from django.conf import settings
+from django.contrib import admin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -289,6 +290,7 @@ class AuditLog(models.Model):
             result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
+    @admin.display(description=_("Account activity"))
     def get_message(self):
         method = self.params.get("method")
         activity = self.activity
@@ -297,8 +299,6 @@ class AuditLog(models.Model):
         else:
             message = ACCOUNT_ACTIVITY[activity]
         return message.format(**self.get_params())
-
-    get_message.short_description = _("Account activity")
 
     def get_extra_message(self):
         if self.activity in EXTRA_MESSAGES:

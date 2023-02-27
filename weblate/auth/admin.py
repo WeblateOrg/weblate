@@ -165,14 +165,13 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         """Display comma separated list of user groups."""
         return ",".join(obj.groups.values_list("name", flat=True))
 
+    @admin.display(
+        description=format_html('<input type="checkbox" id="action-toggle" />')
+    )
     def action_checkbox(self, obj):
         if obj.is_anonymous:
             return ""
         return super().action_checkbox(obj)
-
-    action_checkbox.short_description = format_html(
-        '<input type="checkbox" id="action-toggle" />'
-    )
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.is_anonymous:
@@ -243,14 +242,13 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
 
     new_obj = None
 
+    @admin.display(
+        description=format_html('<input type="checkbox" id="action-toggle" />')
+    )
     def action_checkbox(self, obj):
         if obj.internal:
             return ""
         return super().action_checkbox(obj)
-
-    action_checkbox.short_description = format_html(
-        '<input type="checkbox" id="action-toggle" />'
-    )
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.internal:
