@@ -377,6 +377,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   changed for that.
 * The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
 * Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
+* Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

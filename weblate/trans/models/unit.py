@@ -780,15 +780,16 @@ class Unit(models.Model, LoggerMixin):
                 )
             )
         # Track VCS change
-        translation.update_changes.append(
-            self.generate_change(
-                user=None,
-                author=None,
-                change_action=Change.ACTION_STRING_REPO_UPDATE,
-                check_new=False,
-                save=False,
+        if not same_data:
+            translation.update_changes.append(
+                self.generate_change(
+                    user=None,
+                    author=None,
+                    change_action=Change.ACTION_STRING_REPO_UPDATE,
+                    check_new=False,
+                    save=False,
+                )
             )
-        )
 
         # Update translation memory if needed
         if (

@@ -6,7 +6,9 @@
 
 from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import Contains, Exact, PatternLookup
+from django.db.models.lookups import Contains, Exact, PatternLookup, Regex
+
+from .inv_regex import invert_re
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
@@ -47,6 +49,10 @@ def adjust_similarity_threshold(value: float):
             connection.weblate_similarity = value
 
 
+def count_alnum(string):
+    return sum(map(str.isalnum, string))
+
+
 class PostgreSQLFallbackLookup(PatternLookup):
     def __init__(self, lhs, rhs):
         self.orig_lhs = lhs
@@ -54,9 +60,7 @@ class PostgreSQLFallbackLookup(PatternLookup):
         super().__init__(lhs, rhs)
 
     def needs_fallback(self):
-        return isinstance(self.orig_rhs, str) and not any(
-            char.isalnum() for char in self.orig_rhs
-        )
+        return isinstance(self.orig_rhs, str) and count_alnum(self.orig_rhs) < 3
 
 
 class FallbackStringMixin:
@@ -67,12 +71,35 @@ class FallbackStringMixin:
         return f"{lhs_sql} || ''", params
 
 
+class PostgreSQLRegexFallbackLookup(FallbackStringMixin, Regex):
+    pass
+
+
 class PostgreContainsFallbackLookup(FallbackStringMixin, Contains):
     pass
 
 
 class PostgreExactFallbackLookup(FallbackStringMixin, Exact):
     pass
+
+
+class PostgreSQLRegexLookup(Regex):
+    def __init__(self, lhs, rhs):
+        self.orig_lhs = lhs
+        self.orig_rhs = rhs
+        super().__init__(lhs, rhs)
+
+    def needs_fallback(self):
+        if not isinstance(self.orig_rhs, str):
+            return False
+        return min(count_alnum(match) for match in invert_re(self.orig_rhs)) < 3
+
+    def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return PostgreSQLRegexFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
+        return super().as_sql(compiler, connection)
 
 
 class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):

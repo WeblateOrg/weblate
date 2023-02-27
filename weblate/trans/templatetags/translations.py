@@ -287,7 +287,6 @@ def format_translation(
     search_match=None,
     simple: bool = False,
     wrap: bool = False,
-    num_plurals=2,
     unit=None,
     match="search",
     glossary=None,
@@ -299,10 +298,6 @@ def format_translation(
 
     if plural is None:
         plural = language.plural
-
-    # Show plurals?
-    if int(num_plurals) <= 1 and not is_multivalue:
-        plurals = plurals[-1:]
 
     # Split diff plurals
     if diff is not None:

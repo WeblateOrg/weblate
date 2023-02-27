@@ -627,6 +627,7 @@ REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN")
 MIDDLEWARE = [
     "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -701,6 +702,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "django_filters",
     "django_celery_beat",
+    "corsheaders",
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")
@@ -1298,6 +1300,10 @@ CELERY_TASK_ROUTES = {
     "weblate.wladmin.tasks.backup_service": {"queue": "backup"},
     "weblate.memory.tasks.*": {"queue": "memory"},
 }
+
+# CORS allowed origins
+CORS_ALLOWED_ORIGINS = get_env_list("WEBLATE_CORS_ALLOWED_ORIGINS")
+CORS_URLS_REGEX = r"^/api/.*$"
 
 # Database backup type
 DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")

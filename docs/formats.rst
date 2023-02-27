@@ -996,10 +996,10 @@ go-i18n JSON files
 go-i18n translations are monolingual, so it is recommended to specify a base file
 with (what is most often the) English strings.
 
-.. note::
+.. versionchanged:: 4.16
 
-   Weblate supports the go-i18n JSON v1 format, for flat JSON formats please
-   use :ref:`json`. The v2 format with hash is currently not supported.
+   Weblate supports both v1 and v2 formats, please choose corresponding
+   version when selecting file format.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1010,7 +1010,7 @@ with (what is most often the) English strings.
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `go-i18n JSON file`              |
+| File format                    | `go-i18n v1 JSON file`           |
 +--------------------------------+----------------------------------+
 
 .. seealso::
