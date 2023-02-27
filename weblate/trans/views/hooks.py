@@ -114,7 +114,7 @@ def parse_hook_payload(request):
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
-    if "application/json" in request.META["CONTENT_TYPE"].lower():
+    if "application/json" in request.headers["content-type"].lower():
         return json.loads(request.body.decode())
     return json.loads(request.POST["payload"])
 
@@ -292,7 +292,7 @@ def bitbucket_extract_repo_url(data, repository):
 def bitbucket_hook_helper(data, request):
     """API to handle service hooks from Bitbucket."""
     # Bitbucket ping event
-    if request and request.META.get("HTTP_X_EVENT_KEY") not in (
+    if request and request.headers.get("x-event-key") not in (
         "repo:push",
         "repo:refs_changed",
         "pullrequest:fulfilled",
@@ -344,7 +344,7 @@ def bitbucket_hook_helper(data, request):
 def github_hook_helper(data, request):
     """API to handle commit hooks from GitHub."""
     # Ignore non push events
-    if request and request.META.get("HTTP_X_GITHUB_EVENT") != "push":
+    if request and request.headers.get("x-github-event") != "push":
         return None
     # Parse owner, branch and repository name
     o_data = data["repository"]["owner"]

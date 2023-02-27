@@ -15,7 +15,7 @@ from weblate.utils.errors import report_error
 
 def bad_request(request, exception=None):
     """Error handler for bad request."""
-    if "text/html" not in request.META.get("HTTP_ACCEPT", ""):
+    if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.bad_request(request, exception)
     if exception:
         report_error(cause="Bad request")
@@ -54,7 +54,7 @@ def csrf_failure(request, reason=""):
 
 def server_error(request):
     """Error handler for server errors."""
-    if "text/html" not in request.META.get("HTTP_ACCEPT", ""):
+    if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.server_error(request)
     try:
         return render(

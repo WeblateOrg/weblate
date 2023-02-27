@@ -119,7 +119,7 @@ class RequireLoginMiddleware:
             import weblate.gitexport.views
 
             if request.path.startswith("/git/"):
-                if request.META.get("HTTP_AUTHORIZATION"):
+                if request.headers.get("authorization"):
                     return None
                 return weblate.gitexport.views.response_authenticate()
 
