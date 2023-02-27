@@ -5,7 +5,7 @@ Not yet released.
 
 * Format string checks now also detects duplicated formats.
 * Improved search performance for some specially formatted strings.
-* Celery beat is now stroring the tasks schedule in the database.
+* Celery beat is now storing the tasks schedule in the database.
 * Added support for IBM Watson Language Translator.
 * Dropped support for VCS integration settings deprecated in 4.14.
 * Added support for Bitbucket Server pull requests.

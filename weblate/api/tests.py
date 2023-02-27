@@ -2037,7 +2037,7 @@ class LanguageAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "Czech")
         # Check plural exists
-        self.assertEqual(response.data["plural"]["type"], 2)
+        self.assertEqual(response.data["plural"]["type"], 22)
         self.assertEqual(response.data["plural"]["number"], 3)
         # Check for aliases, with recent language-data there are 3
         self.assertGreaterEqual(len(response.data["aliases"]), 2)

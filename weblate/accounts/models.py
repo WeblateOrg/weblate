@@ -56,6 +56,9 @@ class WeblateAccountsConf(AppConf):
     # Allow registration from certain backends
     REGISTRATION_ALLOW_BACKENDS = []
 
+    # Allow rebinding to existing accounts
+    REGISTRATION_REBIND = False
+
     # Registration email filter
     REGISTRATION_EMAIL_MATCH = ".*"
 

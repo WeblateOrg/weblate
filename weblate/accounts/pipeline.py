@@ -359,7 +359,7 @@ def ensure_valid(
         if user:
             same = same.exclude(social__user=user)
 
-        if same.exists():
+        if not settings.REGISTRATION_REBIND and same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
             raise EmailAlreadyAssociated(backend, "E-mail exists")
 

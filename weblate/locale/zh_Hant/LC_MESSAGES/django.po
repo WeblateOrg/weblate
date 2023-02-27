@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-02-03 21:45+0000\n"
+"PO-Revision-Date: 2023-02-23 00:29+0000\n"
 "Last-Translator: Toomore Chiang <toomore0929@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -67,8 +67,6 @@ msgid "Commit e-mail"
 msgstr "提交用的郵件信箱"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Use account e-mail"
 msgid "Use account e-mail address"
 msgstr "使用帳號的郵件信箱"
 
@@ -77,8 +75,6 @@ msgid "Public e-mail"
 msgstr "公開郵件信箱"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Do not publicly display e-mail"
 msgid "Do not publicly display e-mail address"
 msgstr "不要公開顯示郵件信箱"
 
@@ -467,7 +463,7 @@ msgstr "於控制面板中隱藏已完成的翻譯"
 
 #: weblate/accounts/models.py:395
 msgid "Show secondary translations in the Zen mode"
-msgstr "在禪心連續模式中顯示第二語言翻譯"
+msgstr "在禪譯模式中顯示第二語言翻譯"
 
 #: weblate/accounts/models.py:398
 msgid "Hide source if a secondary translation exists"
@@ -496,11 +492,11 @@ msgstr "完整編輯器"
 
 #: weblate/accounts/models.py:416
 msgid "Zen mode"
-msgstr "禪心模式"
+msgstr "禪譯模式"
 
 #: weblate/accounts/models.py:422
 msgid "Zen editor mode"
-msgstr "禪心編輯模式"
+msgstr "禪譯編輯模式"
 
 #: weblate/accounts/models.py:424
 msgid "Top to bottom"
@@ -1617,14 +1613,10 @@ msgid "Customize XML output"
 msgstr "自訂 XML 輸出"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid ""
 "Allows adjusting XML output behavior, for example closing tags instead of "
 "self-closing tags for empty tags."
-msgstr "允許調整 YAML 輸出行為，例如列長或換列。"
+msgstr "允許調整 XML 輸出行為，例如在空標籤使用結束標籤取代自閉合標籤。"
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -3370,10 +3362,8 @@ msgid "i18next JSON file v3"
 msgstr "i18next JSON 檔 v3"
 
 #: weblate/formats/ttkit.py:1441
-#, fuzzy
-#| msgid "i18next JSON file v3"
 msgid "i18next JSON file v4"
-msgstr "i18next JSON 檔 v3"
+msgstr "i18next JSON 檔 v4"
 
 #: weblate/formats/ttkit.py:1447
 msgid "go-i18n JSON file"
@@ -3384,10 +3374,8 @@ msgid "ARB file"
 msgstr "ARB 檔"
 
 #: weblate/formats/ttkit.py:1463
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "gettext PO 檔"
+msgstr "gotext JSON 檔"
 
 #: weblate/formats/ttkit.py:1471
 msgid "CSV file"
@@ -9505,15 +9493,10 @@ msgid "Project to remove"
 msgstr "要移除的專案"
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "Add missing languages add-on is installed on this component, removed "
-#| "language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, removed "
 "language might be re-added by it again."
-msgstr ""
-"本組件已經安裝「加入遺漏語言」附加元件，移除的語言可能會被這個附加元件重新加"
+msgstr "本組件已經安裝「加入遺漏語言」附加元件，移除的語言可能會被這個附加元件重新加"
 "回。"
 
 #: weblate/templates/trans/delete-translation.html:11
@@ -9553,10 +9536,8 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "合併 Weblate 的變更並解決衝突。"
 
 #: weblate/templates/trans/merge_instructions.html:23
-#, fuzzy
-#| msgid "Merge Weblate changes and resolve any conflicts."
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "合併 Weblate 的變更並解決衝突。"
+msgstr "合併（Rebase） Weblate 的變更並解決任何衝突。"
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
@@ -9701,12 +9682,12 @@ msgstr ""
 
 #: weblate/templates/translate.html:57
 msgid "Edit in Zen mode"
-msgstr "在禪心模式中編輯"
+msgstr "在禪譯模式中編輯"
 
 #: weblate/templates/translate.html:57 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
 msgid "Zen"
-msgstr "禪心"
+msgstr "禪譯"
 
 #: weblate/templates/translate.html:60 weblate/templates/zen.html:48
 msgid "Configure editor"
@@ -10210,7 +10191,7 @@ msgstr "在單一字串模式中編輯"
 
 #: weblate/templates/zen.html:46
 msgid "Exit Zen"
-msgstr "退出禪心模式"
+msgstr "退出禪譯模式"
 
 #: weblate/trans/admin.py:23
 msgid "Commit pending changes"
@@ -10287,10 +10268,8 @@ msgid "Strings with variants"
 msgstr "有變體的字串"
 
 #: weblate/trans/filter.py:25
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with screenshots"
-msgstr "有評註內容的字串"
+msgstr "有截圖的字串"
 
 #: weblate/trans/filter.py:26
 msgid "Strings with labels"
@@ -10321,10 +10300,8 @@ msgid "Strings waiting for review"
 msgstr "等候檢閱的字串"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings without screenshots"
-msgstr "有評註內容的字串"
+msgstr "無截圖的字串"
 
 #: weblate/trans/filter.py:53
 msgid "Strings without a label"
@@ -12951,44 +12928,30 @@ msgid "Settings saved"
 msgstr "設定已儲存"
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
-#, fuzzy
-#| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
-msgstr "無效的設定，請檢查表單看是否有錯誤！"
+msgstr "無效的設定，請檢查表單看是否有錯誤。"
 
 #: weblate/trans/views/settings.py:102
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
-msgstr "儲存庫已過期，若未更新，可能無法得到預期結果。"
+msgstr "儲存庫已過期，可能無法得到預期結果直到更新。"
 
 #: weblate/trans/views/settings.py:148
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "翻譯已經移除。"
 
 #: weblate/trans/views/settings.py:167
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "翻譯組件已安排移除。"
 
 #: weblate/trans/views/settings.py:186
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "專案已安排移除。"
 
 #: weblate/trans/views/settings.py:208
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "已移除專案的語言。"
+msgstr "一個語系已從專案中移除。"
 
 #: weblate/trans/views/settings.py:222
 #, python-format
@@ -12996,10 +12959,8 @@ msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr "因為組態中有尚未解決的問題，因此無法重新命名：%s"
 
 #: weblate/trans/views/settings.py:372
-#, fuzzy
-#| msgid "Backup was triggered, it will be shorly available."
 msgid "Backup scheduled. It will be available soon."
-msgstr "已觸發備份，稍後即可取用。"
+msgstr "已排程備份，稍後即可取用。"
 
 #: weblate/trans/views/source.py:60
 msgid "Failed to change additional string info!"
@@ -13286,10 +13247,8 @@ msgid "Number of failing checks"
 msgstr "未通過查核數"
 
 #: weblate/utils/views.py:130
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "來源字串位置"
+msgstr "字串位置"
 
 #: weblate/utils/views.py:375
 #, python-format

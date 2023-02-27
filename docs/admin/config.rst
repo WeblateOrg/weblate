@@ -1517,6 +1517,22 @@ Python Social Auth (you can whitelist certain back-ends using
     :setting:`REGISTRATION_EMAIL_MATCH`,
     :doc:`auth`
 
+.. setting:: REGISTRATION_REBIND
+
+REGISTRATION_REBIND
+-------------------
+
+.. versionadded:: 4.16
+
+Allow rebinding authentication backends for existing users. Turn this on when
+migrating between authentication providers.
+
+.. note::
+
+   Disabled by default to not allow adding other authentication backends to
+   existing account. Rebinding can lead to account compromise when using
+   more third-party authentication backends.
+
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 
 REPOSITORY_ALERT_THRESHOLD

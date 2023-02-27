@@ -147,6 +147,31 @@
       {% endif %}
 
       {% if component %}
+        {% if component.license %}
+        <tr>
+        <th>{% trans "Translation license" %}</th>
+        <td class="full-cell">
+        {% if component.license_url %}
+        <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
+        {% else %}
+        {{ component.get_license_display }}
+        {% endif %}
+        </td>
+        </tr>
+        {% endif %}
+
+        {% if component.agreement %}
+        <tr>
+        <th>{% trans "Contributor agreement" %}</th>
+        <td class="full-cell">
+          {% if user.is_authenticated %}
+            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=component.project.slug component=component.slug %}">{% trans "View" %}</a>
+          {% endif %}
+          {{ component.agreement|markdown }}
+        </td>
+        </tr>
+        {% endif %}
+
         <tr>
         <th>{% trans "Translation process" %}</th>
         <td class="full-cell">
@@ -179,32 +204,7 @@
         {% endif %}
         </ul>
         </td>
-
-
-        {% if component.license %}
-        <tr>
-        <th>{% trans "Translation license" %}</th>
-        <td class="full-cell">
-        {% if component.license_url %}
-        <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
-        {% else %}
-        {{ component.get_license_display }}
-        {% endif %}
-        </td>
         </tr>
-        {% endif %}
-
-        {% if component.agreement %}
-        <tr>
-        <th>{% trans "Contributor agreement" %}</th>
-        <td class="full-cell">
-          {% if user.is_authenticated %}
-            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=component.project.slug component=component.slug %}">{% trans "View" %}</a>
-          {% endif %}
-          {{ component.agreement|markdown }}
-        </td>
-        </tr>
-        {% endif %}
 
         {% include "snippets/git-info.html" with object=component %}
 

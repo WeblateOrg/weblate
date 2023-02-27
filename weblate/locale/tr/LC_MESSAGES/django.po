@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-01-16 16:36+0000\n"
-"PO-Revision-Date: 2023-02-05 20:13+0000\n"
+"PO-Revision-Date: 2023-02-18 22:01+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1251,7 +1251,7 @@ msgstr "Belirsiz eşleşme kullanılsın"
 
 #: weblate/addons/forms.py:131
 msgid "Commit squashing"
-msgstr "İşleme sıkıştırma"
+msgstr "İşlemeleri bir araya toplama"
 
 #: weblate/addons/forms.py:134
 msgid "All commits into one"
@@ -1271,7 +1271,7 @@ msgstr "Katkıda bulunana göre"
 
 #: weblate/addons/forms.py:143
 msgid "Append trailers to squashed commit message"
-msgstr "Sıkıştırılmış işleme iletisine art bilgiler eklensin"
+msgstr "Bir araya toplanmış işlemelerin iletisine art bilgiler eklensin"
 
 #: weblate/addons/forms.py:147
 msgid ""
@@ -1292,8 +1292,8 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Bu işleme iletisi, sıkıştırılmış işleme iletilerinden gelen birleşik işleme "
-"iletileri yerine kullanılır."
+"Bu işleme iletisi, bir araya toplanmış işleme iletilerinden gelen birleşik "
+"işleme iletileri yerine kullanılır."
 
 #: weblate/addons/forms.py:174
 msgid "Sort JSON keys"
@@ -1415,7 +1415,7 @@ msgid ""
 "source strings."
 msgstr ""
 "Ara çeviri dosyasının adı. Çoğu durumda bu dosya geliştiriciler tarafından "
-"sağlanan bir çeviri dosyasıdır ve gerçek kaynak dizgeler oluşturulurken "
+"sunulan bir çeviri dosyasıdır ve gerçek kaynak dizgeler oluşturulurken "
 "kullanılır."
 
 #: weblate/addons/forms.py:286 weblate/trans/models/component.py:613
@@ -1635,7 +1635,7 @@ msgstr ""
 
 #: weblate/addons/git.py:19
 msgid "Squash Git commits"
-msgstr "Git işlemelerini sıkıştırma"
+msgstr "Git işlemelerini bir araya toplar"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
@@ -1696,7 +1696,7 @@ msgstr "Belirtilen eklenti adı geçersiz!"
 
 #: weblate/addons/views.py:82
 msgid "Add-on installed, please review integration instructions."
-msgstr "Eklenti yüklendi. Lütfen bütünleştirme yönergelerini gözden geçirin."
+msgstr "Eklenti kuruldu. Lütfen tümleşim yönergelerini gözden geçirin."
 
 #: weblate/addons/xml.py:17
 msgid "Customize XML output"
@@ -2997,7 +2997,7 @@ msgstr "ICU MessageFormat"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"ICU MessageFormat dizgelerinde söz dizimi hataları ve/veya yer belirteci "
+"ICU MessageFormat dizgelerinde söz dizimi hataları ve/veya yer belirtici "
 "uyuşmazlıkları var."
 
 #: weblate/checks/icu.py:444
@@ -3967,7 +3967,7 @@ msgstr ""
 #: weblate/legal/templates/legal/cookies.html:32
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
-"Belirli durumlarda kullanıcı seçimlerini kaydetmek için seçim tanımlama "
+"Belirli durumlarda kullanıcı seçimlerini kaydetmek için seçimler tanımlama "
 "bilgisi."
 
 #: weblate/legal/templates/legal/cookies.html:34
@@ -5438,7 +5438,7 @@ msgstr "Bazı eklentiler kurulum sırasında ek yapılandırma isteyecektir."
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
-msgstr "Bütünleştirme yönergeleri"
+msgstr "Tümleşim yönergeleri"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
@@ -8092,11 +8092,11 @@ msgstr "Deneme e-postası gönder"
 
 #: weblate/templates/manage/tools.html:63
 msgid "Test Sentry integration"
-msgstr "Sentry bütünleştirmesini sına"
+msgstr "Sentry tümleşimini sına"
 
 #: weblate/templates/manage/tools.html:66
 msgid "Generate a test event to test Sentry integration."
-msgstr "Sentry bütünleştirmesini sınamak için bir sınama etkinliği oluşturun."
+msgstr "Sentry tümleşimini sınamak için sınama etkinliği oluştur."
 
 #: weblate/templates/manage/users.html:28
 msgid "Add new user"
@@ -8973,7 +8973,7 @@ msgstr "Çeviri oluştur"
 #: weblate/templates/translate.html:30 weblate/templates/translation.html:146
 #: weblate/templates/translation.html:192
 msgid "Translate"
-msgstr "Çevirme"
+msgstr "Çevir"
 
 #: weblate/templates/snippets/list-objects.html:201
 msgid "Nothing to list here."
@@ -11982,7 +11982,7 @@ msgid ""
 msgstr ""
 "Çevirilerin bulunduğu deponuza erişmek için kullanılacak sürüm denetleme "
 "sistemi. Ayrıca birleştirme istekleri göndermek için üçüncü taraf himzet "
-"sağlayıcılarla bütünleştirmeyi seçebilirsiniz."
+"sağlayıcılarla tümleşimi seçebilirsiniz."
 
 #: weblate/trans/models/component.py:297
 msgid ""
@@ -12082,7 +12082,7 @@ msgstr "Kilitli bileşen herhangi bir çeviri güncellemesi almayacak."
 
 #: weblate/trans/models/component.py:424
 msgid "Allow translation propagation"
-msgstr "Çeviriler yayılabilsin"
+msgstr "Çevirilerin yayılmasını sağlamak"
 
 #: weblate/trans/models/component.py:428
 msgid ""
@@ -12142,7 +12142,7 @@ msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
-"Bir kullanıcının bu bileşeni çevirmeden önce onaylaması gereken kullanıcı "
+"Bir kullanıcının bu bileşeni çevirmeden önce kabul etmesi gereken katılımcı "
 "anlaşması."
 
 #: weblate/trans/models/component.py:489

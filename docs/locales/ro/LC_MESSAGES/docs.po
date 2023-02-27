@@ -2,7 +2,7 @@
 # Copyright (C) 2012 - 2021 Michal Čihař
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
-# Simona Iacob <s@zp1.net>, 2022.
+# Simona Iacob <s@zp1.net>, 2022, 2023.
 # yangyangdaji <1504305527@qq.com>, 2022.
 # Licaon Kter <licaon.kter@protonmail.com>, 2022.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-16 17:36+0100\n"
-"PO-Revision-Date: 2022-11-21 03:48+0000\n"
+"PO-Revision-Date: 2023-02-11 14:03+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -319,16 +319,17 @@ msgstr ""
 "`Users`."
 
 #: ../../admin/access.rst:129
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Administratori"
+msgstr "Administratorii echipei"
 
 #: ../../admin/access.rst:133
 msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
 msgstr ""
+"Fiecare echipă poate avea un administrator de echipă, care poate adăuga și "
+"elimina utilizatori în cadrul echipei. Acest lucru este util în cazul în "
+"care doriți să creați echipe autoguvernate."
 
 #: ../../admin/access.rst:139
 msgid "New user invitation"
@@ -406,14 +407,6 @@ msgstr ""
 "users <manage-acl>` per-proiect în interfața de utilizator Weblate."
 
 #: ../../admin/access.rst:179
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -423,10 +416,10 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "În mod implicit, acest lucru împiedică Weblate să acorde accesul oferit de "
-"`Users` și `Viewers` :ref:`default groups <default-groups>` din cauza "
-"configurației proprii a acestor grupuri. Acest lucru nu vă împiedică să "
+"`Users` și `Viewers` :ref:`default teams <default-teams>` din cauza "
+"configurației proprii a acestor echipe. Acest lucru nu vă împiedică să "
 "acordați permisiuni pentru aceste proiecte la nivelul întregului site prin "
-"modificarea grupurilor implicite, prin crearea unuia nou sau prin crearea "
+"modificarea echipelor implicite, prin crearea uneia noi sau prin crearea "
 "unor setări personalizate suplimentare pentru componente individuale, așa "
 "cum este descris în :ref:`custom-acl` de mai jos."
 
@@ -448,18 +441,13 @@ msgid "Custom access control"
 msgstr "Control acces personalizat"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"Sistemul de permisiuni se bazează pe grupuri și roluri, unde rolurile "
-"definesc un set de permisiuni, iar grupurile le leagă de utilizatori și "
+"Sistemul de permisiuni se bazează pe echipe și roluri, unde rolurile "
+"definesc un set de permisiuni, iar echipele le leagă de utilizatori și "
 "traduceri, vezi :ref:`auth-model` pentru mai multe detalii."
 
 #: ../../admin/access.rst:201
@@ -508,29 +496,21 @@ msgid "Site-wide permission management"
 msgstr "Gestionarea permisiunilor la nivelul întregului site"
 
 #: ../../admin/access.rst:221
-#, fuzzy
-#| msgid ""
-#| "To manage permissions for a whole instance at once, add users to "
-#| "appropriate :ref:`default groups <default-groups>`:"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
-"Pentru a gestiona simultan permisiunile pentru o întreagă instanță, adăugați "
-"utilizatorii la grupurile corespunzătoare :ref:`default groups <default-"
-"groups>`:"
+"Pentru a gestiona deodată permisiunile pentru o întreagă instanță, adăugați "
+"utilizatorii la echipele corespunzătoare :ref:`default teams <default-"
+"teams>`:"
 
 #: ../../admin/access.rst:224
-#, fuzzy
-#| msgid ""
-#| "`Users` (this is done by default by the :ref:`automatic group assignment "
-#| "<autogroup>`)."
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Utilizatori` (acest lucru este făcut în mod implicit de către :ref:"
-"`asignarea automată a grupului <autogroup>`)."
+"`Utilizatori` (acest lucru este făcut în mod implicit de către :ref:`"
+"asignarea automată a echipei <autoteam>`)."
 
 #: ../../admin/access.rst:226
 msgid ""
@@ -549,19 +529,14 @@ msgstr ""
 "altcuiva)."
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid ""
-#| "You should keep all projects configured as `Public` (see :ref:`acl`), "
-#| "otherwise the site-wide permissions provided by membership in the `Users` "
-#| "and `Reviewers` groups won’t have any effect."
 msgid ""
 "You should keep all projects configured as `Public` (see :ref:`acl`), "
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"Ar trebui să păstrați toate proiectele configurate ca `Public` (see :ref:"
-"`acl`)), în caz contrar permisiunile la nivel de site oferite de apartenența "
-"la grupurile `Users` și `Reviewers` nu vor avea niciun efect."
+"Ar trebui să păstrați toate proiectele configurate ca `Public` (a se vedea "
+":ref:`acl`), altfel permisiunile la nivel de site oferite de apartenența la "
+"echipele `Users` și `Reviewers` nu vor avea niciun efect."
 
 #: ../../admin/access.rst:235
 #, fuzzy
@@ -10628,7 +10603,7 @@ msgstr "https://toolkit.translatehouse.org/"
 
 #: ../../admin/install.rst:80
 msgid "translation-finder"
-msgstr "traducător-finder"
+msgstr "traducător-detector"
 
 #: ../../admin/install.rst:81
 msgid "https://github.com/WeblateOrg/translation-finder"
@@ -12746,7 +12721,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1509
 msgid "Sentry"
-msgstr "Santinela"
+msgstr "Sentry"
 
 #: ../../admin/install.rst:1511
 msgid ""
@@ -12759,7 +12734,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1519
 msgid "Rollbar"
-msgstr "Rollabil"
+msgstr "Rollbar"
 
 #: ../../admin/install.rst:1521
 msgid ""
@@ -16861,7 +16836,7 @@ msgstr "`ModernMT API <https://www.modernmt.com/api/#translation>``_,"
 
 #: ../../admin/machine.rst:343 ../../changes.rst:2160
 msgid "MyMemory"
-msgstr "MemoriaMea"
+msgstr "MyMemory"
 
 #: ../../admin/machine.rst:345
 #, fuzzy

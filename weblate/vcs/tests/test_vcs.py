@@ -14,6 +14,7 @@ import responses
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
@@ -534,15 +535,17 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             responses.POST,
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
             json={"ssh_url": "git@github.com:test/test.git"},
+            match=[matchers.header_matcher({"Content-Type": "application/json"})],
         )
         responses.add(
             responses.POST,
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls",
             json=pr_response,
             status=pr_status,
+            match=[matchers.header_matcher({"Content-Type": "application/json"})],
         )
 
-    def test_api_url_github_com(self):
+    def test_api_url_try_gitea(self):
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
         self.assertEqual(
             self.repo.get_api_url()[0],

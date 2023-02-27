@@ -5,6 +5,7 @@
 from datetime import datetime
 
 from django.conf import settings
+from django.core.cache import cache
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.db.models.base import post_save
@@ -179,10 +180,16 @@ class ChangeQuerySet(models.QuerySet):
         return self.order_by("-timestamp")
 
     def bulk_create(self, *args, **kwargs):
-        """Executes post save to ensure messages are sent to fedora messaging."""
+        """Adds processing to bulk creation."""
         changes = super().bulk_create(*args, **kwargs)
+        # Executes post save to ensure messages are sent to fedora messaging
         for change in changes:
             post_save.send(change.__class__, instance=change, created=True)
+        # Store last content change in cache for improved performance
+        for change in reversed(changes):
+            if change.is_last_content_change_storable():
+                transaction.on_commit(change.update_cache_last_change)
+                break
         return changes
 
 
@@ -541,6 +548,8 @@ class Change(models.Model, UserDisplayMixin):
 
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
+        if self.is_last_content_change_storable():
+            transaction.on_commit(self.update_cache_last_change)
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""
@@ -568,6 +577,18 @@ class Change(models.Model, UserDisplayMixin):
         super().__init__(*args, **kwargs)
         if not self.pk:
             self.fixup_refereces()
+
+    @staticmethod
+    def get_last_change_cache_key(translation_id: int):
+        return f"last-content-change-{translation_id}"
+
+    def is_last_content_change_storable(self):
+        return self.translation_id and self.action in self.ACTIONS_CONTENT
+
+    def update_cache_last_change(self):
+        cache_key = self.get_last_change_cache_key(self.translation_id)
+        cache.set(cache_key, self.pk, 180 * 86400)
+        return True
 
     def fixup_refereces(self):
         """Updates references based to least specific one."""
