@@ -587,7 +587,7 @@
         $(
           "<td>" +
             '<a class="js-copy-machinery btn btn-warning">' +
-            gettext("Accept and edit") +
+            gettext("Clone to translation") +
             '<span class="mt-number text-info"></span>' +
             "</a>" +
             "</td>" +
