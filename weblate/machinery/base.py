@@ -476,7 +476,7 @@ class MachineTranslation:
             ]
             n = len(translation_lists)
             translation = result.setdefault("translation", [""] * n)
-            quality = result.setdefault("quality", [-1] * n)
+            quality = result.setdefault("quality", [0] * n)
             for i, possible_translations in enumerate(translation_lists):
                 for item in possible_translations:
                     if quality[i] > item["quality"]:
