@@ -77,7 +77,7 @@ class MockUnit:
         self.state = 20
         self.note = note
         self.check_cache = {}
-        self.machinery = {"best": -1}
+        self.machinery = None
         self.is_source = is_source
 
     @property
