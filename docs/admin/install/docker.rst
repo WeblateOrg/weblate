@@ -912,6 +912,19 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
 
+.. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
+
+   .. versionadded:: 4.16
+
+   Allow CORS requests from given origins.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+        environment:
+          WEBLATE_CORS_ALLOWED_ORIGINS: https://example.com,https://weblate.org
+
 .. _docker-machine:
 
 Automatic suggestion settings
