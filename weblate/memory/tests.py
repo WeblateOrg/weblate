@@ -49,7 +49,7 @@ class MemoryModelTest(FixtureTestCase):
         unit = self.get_unit()
         machine_translation = WeblateMemory({})
         self.assertEqual(
-            machine_translation.translate(unit, search="Hello"),
+            machine_translation.search(unit, "Hello", None),
             [
                 {
                     "quality": 100,
@@ -66,7 +66,7 @@ class MemoryModelTest(FixtureTestCase):
         self.user.is_superuser = True
         self.user.save()
         self.assertEqual(
-            machine_translation.translate(unit, user=self.user, search="Hello"),
+            machine_translation.search(unit, "Hello", self.user),
             [
                 {
                     "quality": 100,
