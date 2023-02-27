@@ -63,6 +63,7 @@ class MachineTranslation:
     hightlight_syntax = False
     settings_form = None
     validate_payload = ("en", "de", "test", None, None, False, 75)
+    request_timeout = 5
 
     @classmethod
     def get_rank(cls):
@@ -142,7 +143,9 @@ class MachineTranslation:
             headers.update(self.get_authentication())
 
         # Fire request
-        response = request(method, url, headers=headers, timeout=5.0, **kwargs)
+        response = request(
+            method, url, headers=headers, timeout=self.request_timeout, **kwargs
+        )
 
         # Directly raise error when response is empty
         if response.content:
