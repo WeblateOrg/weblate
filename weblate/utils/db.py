@@ -54,8 +54,8 @@ class PostgreSQLFallbackLookup(PatternLookup):
         super().__init__(lhs, rhs)
 
     def needs_fallback(self):
-        return isinstance(self.orig_rhs, str) and not any(
-            char.isalnum() for char in self.orig_rhs
+        return (
+            isinstance(self.orig_rhs, str) and sum(map(str.isalnum, self.orig_rhs)) > 2
         )
 
 
