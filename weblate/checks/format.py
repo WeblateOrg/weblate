@@ -422,6 +422,8 @@ class BaseFormatCheck(TargetCheck):
 
     def interpolate_number(self, text: str, number: int) -> str:
         """
+        Interpolates a count in the format strings.
+        
         Attempt to find, in `text`, the placeholder for the number that controls
         which plural form is used, and replace it with `number`.
 
