@@ -146,14 +146,6 @@ class TranslatedCheck(TargetCheck):
             return super().get_description(check_obj)
         return _('Previous translation was "%s".') % target
 
-    @property
-    def change_states(self):
-        from weblate.trans.models import Change
-
-        states = {Change.ACTION_SOURCE_CHANGE}
-        states.update(Change.ACTIONS_CONTENT)
-        return states
-
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
             return False
@@ -165,13 +157,13 @@ class TranslatedCheck(TargetCheck):
 
         from weblate.trans.models import Change
 
-        changes = unit.change_set.filter(action__in=self.change_states).order()
+        changes = unit.change_set.filter(action__in=Change.ACTIONS_CONTENT).order()
 
         for action, target in changes.values_list("action", "target"):
-            if action in Change.ACTIONS_CONTENT and target and target != unit.target:
-                return target
             if action == Change.ACTION_SOURCE_CHANGE:
                 break
+            if action in Change.ACTIONS_CONTENT and target and target != unit.target:
+                return target
 
         return False
 
@@ -191,14 +183,14 @@ class TranslatedCheck(TargetCheck):
         units = (
             Unit.objects.filter(
                 translation__component=component,
-                change__action__in=self.change_states,
+                change__action__in=Change.ACTIONS_CONTENT,
                 state__lt=STATE_TRANSLATED,
             )
             .prefetch_related(
                 Prefetch(
                     "change_set",
                     queryset=Change.objects.filter(
-                        action__in=self.change_states
+                        action__in=Change.ACTIONS_CONTENT,
                     ).order(),
                     to_attr="recent_consistency_changes",
                 )
@@ -209,7 +201,7 @@ class TranslatedCheck(TargetCheck):
 
         for unit in units:
             for change in unit.recent_consistency_changes:
-                if change.action in Change.ACTIONS_CONTENT and change.target:
-                    yield unit
                 if change.action == Change.ACTION_SOURCE_CHANGE:
                     break
+                if change.action in Change.ACTIONS_CONTENT and change.target:
+                    yield unit
