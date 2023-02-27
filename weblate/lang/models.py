@@ -811,7 +811,11 @@ class Plural(models.Model):
 
     def same_plural(self, number, formula):
         """Compare whether given plurals formula matches."""
-        return self._same_plural(number, formula, gettext.c2py(formula))
+        try:
+            compiled_formula = gettext.c2py(formula)
+        except ValueError:
+            return False
+        return self._same_plural(number, formula, compiled_formula)
 
     def _same_plural(self, number, formula, plural_function):
         if number != self.number:
