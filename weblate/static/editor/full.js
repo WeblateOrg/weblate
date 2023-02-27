@@ -587,13 +587,13 @@
         $(
           "<td>" +
             '<a class="js-copy-machinery btn btn-warning">' +
-            gettext("Copy") +
+            gettext("Accept and edit") +
             '<span class="mt-number text-info"></span>' +
             "</a>" +
             "</td>" +
             "<td>" +
             '<a class="js-copy-save-machinery btn btn-primary">' +
-            gettext("Copy and save") +
+            gettext("Accept") +
             "</a>" +
             "</td>",
         ),
