@@ -162,7 +162,7 @@ class TranslatedCheck(TargetCheck):
         for action, target in changes.values_list("action", "target"):
             if action == Change.ACTION_SOURCE_CHANGE:
                 break
-            if action in Change.ACTIONS_CONTENT and target and target != unit.target:
+            if target and target != unit.target:
                 return target
 
         return False
@@ -203,5 +203,5 @@ class TranslatedCheck(TargetCheck):
             for change in unit.recent_consistency_changes:
                 if change.action == Change.ACTION_SOURCE_CHANGE:
                     break
-                if change.action in Change.ACTIONS_CONTENT and change.target:
+                if change.target:
                     yield unit
