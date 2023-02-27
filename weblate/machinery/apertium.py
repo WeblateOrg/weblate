@@ -75,6 +75,7 @@ class ApertiumAPYTranslation(MachineTranslation):
     name = "Apertium APy"
     max_score = 90
     settings_form = URLMachineryForm
+    request_timeout = 20
 
     @staticmethod
     def migrate_settings():
