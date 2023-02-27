@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from functools import reduce
+from itertools import chain
 from typing import Dict, Optional
 
 from django.core.exceptions import PermissionDenied
@@ -327,7 +327,7 @@ def handle_machinery(request, service, unit, search=None):
                 for plural_form, possible_translations in enumerate(translations):
                     for item in possible_translations:
                         item["plural_form"] = plural_form
-                response["translations"] = reduce(list.extend, translations, [])
+                response["translations"] = list(chain.from_iterable(translations))
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
