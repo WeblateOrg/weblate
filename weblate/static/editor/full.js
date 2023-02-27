@@ -24,7 +24,7 @@
       var $el = $(e.target);
       var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.get(raw.plural_form).replaceValue(raw.text);
+      $(this.$translationArea.get(raw.plural_form)).replaceValue(raw.text);
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -34,7 +34,7 @@
       var $el = $(e.target);
       var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.get(raw.plural_form).replaceValue(raw.text);
+      $(this.$translationArea.get(raw.plural_form)).replaceValue(raw.text);
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
