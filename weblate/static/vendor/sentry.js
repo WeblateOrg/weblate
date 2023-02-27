@@ -140,7 +140,7 @@ class BrowserClient extends core.BaseClient {
 exports.BrowserClient = BrowserClient;
 
 
-},{"./eventbuilder.js":2,"./helpers.js":3,"./integrations/breadcrumbs.js":5,"@sentry/core":23,"@sentry/utils":44}],2:[function(require,module,exports){
+},{"./eventbuilder.js":2,"./helpers.js":3,"./integrations/breadcrumbs.js":5,"@sentry/core":23,"@sentry/utils":45}],2:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -426,7 +426,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"@sentry/core":23,"@sentry/utils":44}],3:[function(require,module,exports){
+},{"@sentry/core":23,"@sentry/utils":45}],3:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -587,7 +587,7 @@ exports.shouldIgnoreOnError = shouldIgnoreOnError;
 exports.wrap = wrap;
 
 
-},{"@sentry/core":23,"@sentry/utils":44}],4:[function(require,module,exports){
+},{"@sentry/core":23,"@sentry/utils":45}],4:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -678,7 +678,7 @@ exports.Dedupe = dedupe.Dedupe;
 exports.Integrations = INTEGRATIONS;
 
 
-},{"./client.js":1,"./eventbuilder.js":2,"./helpers.js":3,"./integrations/breadcrumbs.js":5,"./integrations/dedupe.js":6,"./integrations/globalhandlers.js":7,"./integrations/httpcontext.js":8,"./integrations/index.js":9,"./integrations/linkederrors.js":10,"./integrations/trycatch.js":11,"./sdk.js":12,"./stack-parsers.js":13,"./transports/fetch.js":14,"./transports/offline.js":15,"./transports/xhr.js":17,"@sentry/core":23,"@sentry/replay":36}],5:[function(require,module,exports){
+},{"./client.js":1,"./eventbuilder.js":2,"./helpers.js":3,"./integrations/breadcrumbs.js":5,"./integrations/dedupe.js":6,"./integrations/globalhandlers.js":7,"./integrations/httpcontext.js":8,"./integrations/index.js":9,"./integrations/linkederrors.js":10,"./integrations/trycatch.js":11,"./sdk.js":12,"./stack-parsers.js":13,"./transports/fetch.js":14,"./transports/offline.js":15,"./transports/xhr.js":17,"@sentry/core":23,"@sentry/replay":37}],5:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -989,7 +989,7 @@ exports.BREADCRUMB_INTEGRATION_ID = BREADCRUMB_INTEGRATION_ID;
 exports.Breadcrumbs = Breadcrumbs;
 
 
-},{"../helpers.js":3,"@sentry/core":23,"@sentry/utils":44}],6:[function(require,module,exports){
+},{"../helpers.js":3,"@sentry/core":23,"@sentry/utils":45}],6:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -1204,7 +1204,7 @@ function _getFramesFromEvent(event) {
 exports.Dedupe = Dedupe;
 
 
-},{"@sentry/utils":44}],7:[function(require,module,exports){
+},{"@sentry/utils":45}],7:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -1456,7 +1456,7 @@ function getHubAndOptions() {
 exports.GlobalHandlers = GlobalHandlers;
 
 
-},{"../eventbuilder.js":2,"../helpers.js":3,"@sentry/core":23,"@sentry/utils":44}],8:[function(require,module,exports){
+},{"../eventbuilder.js":2,"../helpers.js":3,"@sentry/core":23,"@sentry/utils":45}],8:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -1620,7 +1620,7 @@ exports._handler = _handler;
 exports._walkErrorTree = _walkErrorTree;
 
 
-},{"../eventbuilder.js":2,"@sentry/core":23,"@sentry/utils":44}],11:[function(require,module,exports){
+},{"../eventbuilder.js":2,"@sentry/core":23,"@sentry/utils":45}],11:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -1905,7 +1905,7 @@ function _wrapEventTarget(target) {
 exports.TryCatch = TryCatch;
 
 
-},{"../helpers.js":3,"@sentry/utils":44}],12:[function(require,module,exports){
+},{"../helpers.js":3,"@sentry/utils":45}],12:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2200,7 +2200,7 @@ exports.showReportDialog = showReportDialog;
 exports.wrap = wrap;
 
 
-},{"./client.js":1,"./helpers.js":3,"./integrations/breadcrumbs.js":5,"./integrations/dedupe.js":6,"./integrations/globalhandlers.js":7,"./integrations/httpcontext.js":8,"./integrations/linkederrors.js":10,"./integrations/trycatch.js":11,"./stack-parsers.js":13,"./transports/fetch.js":14,"./transports/xhr.js":17,"@sentry/core":23,"@sentry/utils":44}],13:[function(require,module,exports){
+},{"./client.js":1,"./helpers.js":3,"./integrations/breadcrumbs.js":5,"./integrations/dedupe.js":6,"./integrations/globalhandlers.js":7,"./integrations/httpcontext.js":8,"./integrations/linkederrors.js":10,"./integrations/trycatch.js":11,"./stack-parsers.js":13,"./transports/fetch.js":14,"./transports/xhr.js":17,"@sentry/core":23,"@sentry/utils":45}],13:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -2380,7 +2380,7 @@ exports.opera11StackLineParser = opera11StackLineParser;
 exports.winjsStackLineParser = winjsStackLineParser;
 
 
-},{"@sentry/utils":44}],14:[function(require,module,exports){
+},{"@sentry/utils":45}],14:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2433,7 +2433,7 @@ function makeFetchTransport(
 exports.makeFetchTransport = makeFetchTransport;
 
 
-},{"./utils.js":16,"@sentry/core":23,"@sentry/utils":44}],15:[function(require,module,exports){
+},{"./utils.js":16,"@sentry/core":23,"@sentry/utils":45}],15:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2573,7 +2573,7 @@ exports.makeBrowserOfflineTransport = makeBrowserOfflineTransport;
 exports.pop = pop;
 
 
-},{"@sentry/core":23,"@sentry/utils":44}],16:[function(require,module,exports){
+},{"@sentry/core":23,"@sentry/utils":45}],16:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -2663,7 +2663,7 @@ exports.clearCachedFetchImplementation = clearCachedFetchImplementation;
 exports.getNativeFetchImplementation = getNativeFetchImplementation;
 
 
-},{"../helpers.js":3,"@sentry/utils":44}],17:[function(require,module,exports){
+},{"../helpers.js":3,"@sentry/utils":45}],17:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2719,7 +2719,7 @@ function makeXHRTransport(options) {
 exports.makeXHRTransport = makeXHRTransport;
 
 
-},{"@sentry/core":23,"@sentry/utils":44}],18:[function(require,module,exports){
+},{"@sentry/core":23,"@sentry/utils":45}],18:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -2810,7 +2810,7 @@ exports.getEnvelopeEndpointWithUrlEncodedAuth = getEnvelopeEndpointWithUrlEncode
 exports.getReportDialogEndpoint = getReportDialogEndpoint;
 
 
-},{"@sentry/utils":44}],19:[function(require,module,exports){
+},{"@sentry/utils":45}],19:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -3452,7 +3452,7 @@ function isTransactionEvent(event) {
 exports.BaseClient = BaseClient;
 
 
-},{"./api.js":18,"./envelope.js":20,"./integration.js":24,"./session.js":30,"./utils/prepareEvent.js":34,"@sentry/utils":44}],20:[function(require,module,exports){
+},{"./api.js":18,"./envelope.js":20,"./integration.js":24,"./session.js":30,"./utils/prepareEvent.js":35,"@sentry/utils":45}],20:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -3531,7 +3531,7 @@ exports.createEventEnvelope = createEventEnvelope;
 exports.createSessionEnvelope = createSessionEnvelope;
 
 
-},{"@sentry/utils":44}],21:[function(require,module,exports){
+},{"@sentry/utils":45}],21:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const hub = require('./hub.js');
@@ -4274,7 +4274,7 @@ exports.makeMain = makeMain;
 exports.setHubOnCarrier = setHubOnCarrier;
 
 
-},{"./scope.js":28,"./session.js":30,"@sentry/utils":44}],23:[function(require,module,exports){
+},{"./scope.js":28,"./session.js":30,"@sentry/utils":45}],23:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const exports$1 = require('./exports.js');
@@ -4291,6 +4291,7 @@ const version = require('./version.js');
 const integration = require('./integration.js');
 const index = require('./integrations/index.js');
 const prepareEvent = require('./utils/prepareEvent.js');
+const hasTracingEnabled = require('./utils/hasTracingEnabled.js');
 const functiontostring = require('./integrations/functiontostring.js');
 const inboundfilters = require('./integrations/inboundfilters.js');
 
@@ -4331,11 +4332,12 @@ exports.SDK_VERSION = version.SDK_VERSION;
 exports.getIntegrationsToSetup = integration.getIntegrationsToSetup;
 exports.Integrations = index;
 exports.prepareEvent = prepareEvent.prepareEvent;
+exports.hasTracingEnabled = hasTracingEnabled.hasTracingEnabled;
 exports.FunctionToString = functiontostring.FunctionToString;
 exports.InboundFilters = inboundfilters.InboundFilters;
 
 
-},{"./api.js":18,"./baseclient.js":19,"./exports.js":21,"./hub.js":22,"./integration.js":24,"./integrations/functiontostring.js":25,"./integrations/inboundfilters.js":26,"./integrations/index.js":27,"./scope.js":28,"./sdk.js":29,"./session.js":30,"./sessionflusher.js":31,"./transports/base.js":32,"./transports/offline.js":33,"./utils/prepareEvent.js":34,"./version.js":35}],24:[function(require,module,exports){
+},{"./api.js":18,"./baseclient.js":19,"./exports.js":21,"./hub.js":22,"./integration.js":24,"./integrations/functiontostring.js":25,"./integrations/inboundfilters.js":26,"./integrations/index.js":27,"./scope.js":28,"./sdk.js":29,"./session.js":30,"./sessionflusher.js":31,"./transports/base.js":32,"./transports/offline.js":33,"./utils/hasTracingEnabled.js":34,"./utils/prepareEvent.js":35,"./version.js":36}],24:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4443,7 +4445,7 @@ exports.setupIntegration = setupIntegration;
 exports.setupIntegrations = setupIntegrations;
 
 
-},{"./hub.js":22,"./scope.js":28,"@sentry/utils":44}],25:[function(require,module,exports){
+},{"./hub.js":22,"./scope.js":28,"@sentry/utils":45}],25:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4480,7 +4482,7 @@ class FunctionToString  {constructor() { FunctionToString.prototype.__init.call(
 exports.FunctionToString = FunctionToString;
 
 
-},{"@sentry/utils":44}],26:[function(require,module,exports){
+},{"@sentry/utils":45}],26:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4666,7 +4668,7 @@ exports._mergeOptions = _mergeOptions;
 exports._shouldDropEvent = _shouldDropEvent;
 
 
-},{"@sentry/utils":44}],27:[function(require,module,exports){
+},{"@sentry/utils":45}],27:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const functiontostring = require('./functiontostring.js');
@@ -5231,7 +5233,7 @@ exports.Scope = Scope;
 exports.addGlobalEventProcessor = addGlobalEventProcessor;
 
 
-},{"./session.js":30,"@sentry/utils":44}],29:[function(require,module,exports){
+},{"./session.js":30,"@sentry/utils":45}],29:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5272,7 +5274,7 @@ function initAndBind(
 exports.initAndBind = initAndBind;
 
 
-},{"./hub.js":22,"@sentry/utils":44}],30:[function(require,module,exports){
+},{"./hub.js":22,"@sentry/utils":45}],30:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5433,7 +5435,7 @@ exports.makeSession = makeSession;
 exports.updateSession = updateSession;
 
 
-},{"@sentry/utils":44}],31:[function(require,module,exports){
+},{"@sentry/utils":45}],31:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5541,7 +5543,7 @@ class SessionFlusher  {
 exports.SessionFlusher = SessionFlusher;
 
 
-},{"./hub.js":22,"@sentry/utils":44}],32:[function(require,module,exports){
+},{"./hub.js":22,"@sentry/utils":45}],32:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5644,7 +5646,7 @@ exports.DEFAULT_TRANSPORT_BUFFER_SIZE = DEFAULT_TRANSPORT_BUFFER_SIZE;
 exports.createTransport = createTransport;
 
 
-},{"@sentry/utils":44}],33:[function(require,module,exports){
+},{"@sentry/utils":45}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5652,18 +5654,6 @@ const utils = require('@sentry/utils');
 const MIN_DELAY = 100; // 100 ms
 const START_DELAY = 5000; // 5 seconds
 const MAX_DELAY = 3.6e6; // 1 hour
-
-function isReplayEnvelope(envelope) {
-  let isReplay = false;
-
-  utils.forEachEnvelopeItem(envelope, (_, type) => {
-    if (type === 'replay_event') {
-      isReplay = true;
-    }
-  });
-
-  return isReplay;
-}
 
 function log(msg, error) {
   (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.info(`[Offline]: ${msg}`, error);
@@ -5688,7 +5678,8 @@ function makeOfflineTransport(
       // We don't queue Session Replay envelopes because they are:
       // - Ordered and Replay relies on the response status to know when they're successfully sent.
       // - Likely to fill the queue quickly and block other events from being sent.
-      if (isReplayEnvelope(env)) {
+      // We also want to drop client reports because they can be generated when we retry sending events while offline.
+      if (utils.envelopeContainsItemType(env, ['replay_event', 'replay_recording', 'client_report'])) {
         return false;
       }
 
@@ -5783,7 +5774,34 @@ exports.START_DELAY = START_DELAY;
 exports.makeOfflineTransport = makeOfflineTransport;
 
 
-},{"@sentry/utils":44}],34:[function(require,module,exports){
+},{"@sentry/utils":45}],34:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const hub = require('../hub.js');
+
+// Treeshakable guard to remove all code related to tracing
+
+/**
+ * Determines if tracing is currently enabled.
+ *
+ * Tracing is enabled when at least one of `tracesSampleRate` and `tracesSampler` is defined in the SDK config.
+ */
+function hasTracingEnabled(
+  maybeOptions,
+) {
+  if (typeof __SENTRY_TRACING__ === 'boolean' && !__SENTRY_TRACING__) {
+    return false;
+  }
+
+  const client = hub.getCurrentHub().getClient();
+  const options = maybeOptions || (client && client.getOptions());
+  return !!options && (options.enableTracing || 'tracesSampleRate' in options || 'tracesSampler' in options);
+}
+
+exports.hasTracingEnabled = hasTracingEnabled;
+
+
+},{"../hub.js":22}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5822,6 +5840,7 @@ function prepareEvent(
 
   applyClientOptions(prepared, options);
   applyIntegrationsMetadata(prepared, integrations);
+  applyDebugMetadata(prepared, options.stackParser);
 
   // If we have scope given to us, use it as the base for further modifications.
   // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
@@ -5896,6 +5915,59 @@ function applyClientOptions(event, options) {
   if (request && request.url) {
     request.url = utils.truncate(request.url, maxValueLength);
   }
+}
+
+/**
+ * Applies debug metadata images to the event in order to apply source maps by looking up their debug ID.
+ */
+function applyDebugMetadata(event, stackParser) {
+  const debugIdMap = utils.GLOBAL_OBJ._sentryDebugIds;
+
+  if (!debugIdMap) {
+    return;
+  }
+
+  // Build a map of abs_path -> debug_id
+  const absPathDebugIdMap = Object.keys(debugIdMap).reduce((acc, debugIdStackTrace) => {
+    const parsedStack = stackParser(debugIdStackTrace);
+    for (const stackFrame of parsedStack) {
+      if (stackFrame.abs_path) {
+        acc[stackFrame.abs_path] = debugIdMap[debugIdStackTrace];
+        break;
+      }
+    }
+    return acc;
+  }, {});
+
+  // Get a Set of abs_paths in the stack trace
+  const errorAbsPaths = new Set();
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    event.exception.values.forEach(exception => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      exception.stacktrace.frames.forEach(frame => {
+        if (frame.abs_path) {
+          errorAbsPaths.add(frame.abs_path);
+        }
+      });
+    });
+  } catch (e) {
+    // To save bundle size we're just try catching here instead of checking for the existence of all the different objects.
+  }
+
+  // Fill debug_meta information
+  event.debug_meta = event.debug_meta || {};
+  event.debug_meta.images = event.debug_meta.images || [];
+  const images = event.debug_meta.images;
+  errorAbsPaths.forEach(absPath => {
+    if (absPathDebugIdMap[absPath]) {
+      images.push({
+        type: 'sourcemap',
+        code_file: absPath,
+        debug_id: absPathDebugIdMap[absPath],
+      });
+    }
+  });
 }
 
 /**
@@ -5975,18 +6047,19 @@ function normalizeEvent(event, depth, maxBreadth) {
   return normalized;
 }
 
+exports.applyDebugMetadata = applyDebugMetadata;
 exports.prepareEvent = prepareEvent;
 
 
-},{"../scope.js":28,"@sentry/utils":44}],35:[function(require,module,exports){
+},{"../scope.js":28,"@sentry/utils":45}],36:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.38.0';
+const SDK_VERSION = '7.39.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -6041,13 +6114,20 @@ function isShadowRoot(n) {
     const host = n === null || n === void 0 ? void 0 : n.host;
     return Boolean(host && host.shadowRoot && host.shadowRoot === n);
 }
+function isInputTypeMasked({ maskInputOptions, tagName, type, }) {
+    return (maskInputOptions[tagName.toLowerCase()] ||
+        maskInputOptions[type] ||
+        (tagName === 'input' && !type && maskInputOptions['text']));
+}
+function hasInputMaskOptions({ tagName, type, maskInputOptions, maskInputSelector, }) {
+    return (maskInputSelector || isInputTypeMasked({ maskInputOptions, tagName, type }));
+}
 function maskInputValue({ input, maskInputSelector, unmaskInputSelector, maskInputOptions, tagName, type, value, maskInputFn, }) {
     let text = value || '';
     if (unmaskInputSelector && input.matches(unmaskInputSelector)) {
         return text;
     }
-    if (maskInputOptions[tagName.toLowerCase()] ||
-        maskInputOptions[type] ||
+    if (isInputTypeMasked({ maskInputOptions, tagName, type }) ||
         (maskInputSelector && input.matches(maskInputSelector))) {
         if (maskInputFn) {
             text = maskInputFn(text);
@@ -6082,7 +6162,7 @@ let _id = 1;
 const tagNameRegex = new RegExp('[^a-z0-9-_:]');
 const IGNORED_NODE = -2;
 function defaultMaskFn(str) {
-    return str.replace(/[\S]/g, '*');
+    return str ? str.replace(/[\S]/g, '*') : '';
 }
 function genId() {
     return _id++;
@@ -6253,32 +6333,33 @@ function getHref() {
     return a.href;
 }
 function transformAttribute(doc, tagName, name, value, maskAllText, maskTextFn) {
-    if (name === 'src' || (name === 'href' && value)) {
+    if (!value) {
+        return value;
+    }
+    if (name === 'src' || name === 'href') {
         return absoluteToDoc(doc, value);
     }
-    else if (name === 'xlink:href' && value && value[0] !== '#') {
+    else if (name === 'xlink:href' && value[0] !== '#') {
         return absoluteToDoc(doc, value);
     }
     else if (name === 'background' &&
-        value &&
         (tagName === 'table' || tagName === 'td' || tagName === 'th')) {
         return absoluteToDoc(doc, value);
     }
-    else if (name === 'srcset' && value) {
+    else if (name === 'srcset') {
         return getAbsoluteSrcsetString(doc, value);
     }
-    else if (name === 'style' && value) {
+    else if (name === 'style') {
         return absoluteToStylesheet(value, getHref());
     }
-    else if (tagName === 'object' && name === 'data' && value) {
+    else if (tagName === 'object' && name === 'data') {
         return absoluteToDoc(doc, value);
     }
-    else if (maskAllText && ['placeholder', 'title', 'aria-label'].indexOf(name) > -1) {
+    else if (maskAllText &&
+        ['placeholder', 'title', 'aria-label'].indexOf(name) > -1) {
         return maskTextFn ? maskTextFn(value) : defaultMaskFn(value);
     }
-    else {
-        return value;
-    }
+    return value;
 }
 function _isBlockedElement(element, blockClass, blockSelector, unblockSelector) {
     if (unblockSelector && element.matches(unblockSelector)) {
@@ -6412,7 +6493,9 @@ function serializeNode(n, options) {
             const tagName = getValidTagName(n);
             let attributes = {};
             for (const { name, value } of Array.from(n.attributes)) {
-                attributes[name] = transformAttribute(doc, tagName, name, value, maskAllText, maskTextFn);
+                if (!skipAttribute(tagName, name)) {
+                    attributes[name] = transformAttribute(doc, tagName, name, value, maskAllText, maskTextFn);
+                }
             }
             if (tagName === 'link' && inlineStylesheet) {
                 const stylesheet = Array.from(doc.styleSheets).find((s) => {
@@ -6571,16 +6654,7 @@ function serializeNode(n, options) {
                 textContent = 'SCRIPT_PLACEHOLDER';
             }
             if (parentTagName === 'TEXTAREA' && textContent) {
-                textContent = maskInputValue({
-                    input: n.parentNode,
-                    maskInputSelector,
-                    unmaskInputSelector,
-                    maskInputOptions,
-                    tagName: parentTagName,
-                    type: null,
-                    value: textContent,
-                    maskInputFn,
-                });
+                textContent = '';
             }
             else if (!isStyle &&
                 !isScript &&
@@ -6613,7 +6687,7 @@ function serializeNode(n, options) {
     }
 }
 function lowerIfExists(maybeAttr) {
-    if (maybeAttr === undefined) {
+    if (maybeAttr === undefined || maybeAttr === null) {
         return '';
     }
     else {
@@ -6628,7 +6702,8 @@ function slimDOMExcluded(sn, slimDOMOptions) {
         if (slimDOMOptions.script &&
             (sn.tagName === 'script' ||
                 (sn.tagName === 'link' &&
-                    sn.attributes.rel === 'preload' &&
+                    (sn.attributes.rel === 'preload' ||
+                        sn.attributes.rel === 'modulepreload') &&
                     sn.attributes.as === 'script') ||
                 (sn.tagName === 'link' &&
                     sn.attributes.rel === 'prefetch' &&
@@ -6916,6 +6991,9 @@ function snapshot(n, options) {
         }),
         idNodeMap,
     ];
+}
+function skipAttribute(tagName, attributeName, value) {
+    return ((tagName === 'video' || tagName === 'audio') && attributeName === 'autoplay');
 }
 
 var EventType;
@@ -7358,7 +7436,7 @@ class MutationBuffer {
                         ((_e = (_d = rootShadowHost === null || rootShadowHost === void 0 ? void 0 : rootShadowHost.getRootNode) === null || _d === void 0 ? void 0 : _d.call(rootShadowHost)) === null || _e === void 0 ? void 0 : _e.host) ||
                             null;
                 const notInDoc = !this.doc.contains(n) &&
-                    (rootShadowHost === null || !this.doc.contains(rootShadowHost));
+                    (!rootShadowHost || !this.doc.contains(rootShadowHost));
                 if (!n.parentNode || notInDoc) {
                     return;
                 }
@@ -7938,8 +8016,12 @@ function initInputObserver({ inputCb, doc, mirror, blockClass, blockSelector, un
         if (type === 'radio' || type === 'checkbox') {
             isChecked = target.checked;
         }
-        else if (maskInputOptions[target.tagName.toLowerCase()] ||
-            maskInputOptions[type]) {
+        else if (hasInputMaskOptions({
+            maskInputOptions,
+            maskInputSelector,
+            tagName: target.tagName,
+            type,
+        })) {
             text = maskInputValue({
                 input: target,
                 maskInputOptions,
@@ -10492,16 +10574,19 @@ function createLargestContentfulPaint(entry) {
     startTimeOrNavigationActivation = (navEntry && navEntry.activationStart) || 0;
   }
 
-  const start = getAbsoluteTime(startTimeOrNavigationActivation);
+  // value is in ms
   const value = Math.max(startTime - startTimeOrNavigationActivation, 0);
+  // LCP doesn't have a "duration", it just happens at a single point in time.
+  // But the UI expects both, so use end (in seconds) for both timestamps.
+  const end = getAbsoluteTime(startTimeOrNavigationActivation) + value / 1000;
 
   return {
     type: entryType,
     name: entryType,
-    start,
-    end: start + value,
+    start: end,
+    end,
     data: {
-      value,
+      value, // LCP "duration" in ms
       size,
       // Not sure why this errors, Node should be correct (Argument of type 'Node' is not assignable to parameter of type 'INode')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11802,6 +11887,8 @@ function getPrivacyOptions({
   // eslint-disable-next-line deprecation/deprecation
   ignoreClass,
 }) {
+  const defaultBlockedElements = ['base[href="/"]'];
+
   const maskSelector = getOption(mask, ['.sentry-mask', '[data-sentry-mask]'], maskTextClass, maskTextSelector);
   const unmaskSelector = getOption(unmask, ['.sentry-unmask', '[data-sentry-unmask]']);
 
@@ -11812,7 +11899,12 @@ function getPrivacyOptions({
     maskInputSelector: maskSelector,
     unmaskInputSelector: unmaskSelector,
 
-    blockSelector: getOption(block, ['.sentry-block', '[data-sentry-block]'], blockClass, blockSelector),
+    blockSelector: getOption(
+      block,
+      ['.sentry-block', '[data-sentry-block]', ...defaultBlockedElements],
+      blockClass,
+      blockSelector,
+    ),
     unblockSelector: getOption(unblock, ['.sentry-unblock', '[data-sentry-unblock]']),
     ignoreSelector: getOption(ignore, ['.sentry-ignore', '[data-sentry-ignore]'], ignoreClass),
   };
@@ -11841,7 +11933,8 @@ function isElectronNodeRenderer() {
   return typeof process !== 'undefined' && (process ).type === 'renderer';
 }
 
-const MEDIA_SELECTORS = 'img,image,svg,video,object,picture,embed,map,audio';
+const MEDIA_SELECTORS =
+  'img,image,svg,video,object,picture,embed,map,audio,link[rel="icon"],link[rel="apple-touch-icon"]';
 
 let _initialized = false;
 
@@ -12103,7 +12196,7 @@ exports.Replay = Replay;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@sentry/core":23,"@sentry/utils":44,"_process":66}],37:[function(require,module,exports){
+},{"@sentry/core":23,"@sentry/utils":45,"_process":67}],38:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -12257,7 +12350,7 @@ exports.baggageHeaderToDynamicSamplingContext = baggageHeaderToDynamicSamplingCo
 exports.dynamicSamplingContextToSentryBaggageHeader = dynamicSamplingContextToSentryBaggageHeader;
 
 
-},{"./is.js":46,"./logger.js":47}],38:[function(require,module,exports){
+},{"./is.js":47,"./logger.js":48}],39:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -12415,7 +12508,7 @@ exports.getLocationHref = getLocationHref;
 exports.htmlTreeAsString = htmlTreeAsString;
 
 
-},{"./is.js":46,"./worldwide.js":65}],39:[function(require,module,exports){
+},{"./is.js":47,"./worldwide.js":66}],40:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const envelope = require('./envelope.js');
@@ -12444,7 +12537,7 @@ function createClientReportEnvelope(
 exports.createClientReportEnvelope = createClientReportEnvelope;
 
 
-},{"./envelope.js":42,"./time.js":62}],40:[function(require,module,exports){
+},{"./envelope.js":43,"./time.js":63}],41:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -12559,7 +12652,7 @@ exports.dsnToString = dsnToString;
 exports.makeDsn = makeDsn;
 
 
-},{"./error.js":43}],41:[function(require,module,exports){
+},{"./error.js":44}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -12598,7 +12691,7 @@ exports.getSDKSource = getSDKSource;
 exports.isBrowserBundle = isBrowserBundle;
 
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dsn = require('./dsn.js');
@@ -12627,16 +12720,32 @@ function addItemToEnvelope(envelope, newItem) {
 /**
  * Convenience function to loop through the items and item types of an envelope.
  * (This function was mostly created because working with envelope types is painful at the moment)
+ *
+ * If the callback returns true, the rest of the items will be skipped.
  */
 function forEachEnvelopeItem(
   envelope,
   callback,
 ) {
   const envelopeItems = envelope[1];
-  envelopeItems.forEach((envelopeItem) => {
+
+  for (const envelopeItem of envelopeItems) {
     const envelopeItemType = envelopeItem[0].type;
-    callback(envelopeItem, envelopeItemType);
-  });
+    const result = callback(envelopeItem, envelopeItemType);
+
+    if (result) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Returns true if the envelope contains any of the given envelope item types
+ */
+function envelopeContainsItemType(envelope, types) {
+  return forEachEnvelopeItem(envelope, (_, type) => types.includes(type));
 }
 
 /**
@@ -12820,6 +12929,7 @@ exports.addItemToEnvelope = addItemToEnvelope;
 exports.createAttachmentEnvelopeItem = createAttachmentEnvelopeItem;
 exports.createEnvelope = createEnvelope;
 exports.createEventEnvelopeHeaders = createEventEnvelopeHeaders;
+exports.envelopeContainsItemType = envelopeContainsItemType;
 exports.envelopeItemTypeToDataCategory = envelopeItemTypeToDataCategory;
 exports.forEachEnvelopeItem = forEachEnvelopeItem;
 exports.getSdkMetadataForEnvelopeHeader = getSdkMetadataForEnvelopeHeader;
@@ -12827,7 +12937,7 @@ exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
-},{"./dsn.js":40,"./normalize.js":51,"./object.js":52}],43:[function(require,module,exports){
+},{"./dsn.js":41,"./normalize.js":52,"./object.js":53}],44:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -12848,7 +12958,7 @@ class SentryError extends Error {
 exports.SentryError = SentryError;
 
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -12992,6 +13102,7 @@ exports.addItemToEnvelope = envelope.addItemToEnvelope;
 exports.createAttachmentEnvelopeItem = envelope.createAttachmentEnvelopeItem;
 exports.createEnvelope = envelope.createEnvelope;
 exports.createEventEnvelopeHeaders = envelope.createEventEnvelopeHeaders;
+exports.envelopeContainsItemType = envelope.envelopeContainsItemType;
 exports.envelopeItemTypeToDataCategory = envelope.envelopeItemTypeToDataCategory;
 exports.forEachEnvelopeItem = envelope.forEachEnvelopeItem;
 exports.getSdkMetadataForEnvelopeHeader = envelope.getSdkMetadataForEnvelopeHeader;
@@ -13014,7 +13125,7 @@ exports.parseUrl = url.parseUrl;
 exports.stripUrlQueryAndFragment = url.stripUrlQueryAndFragment;
 
 
-},{"./baggage.js":37,"./browser.js":38,"./clientreport.js":39,"./dsn.js":40,"./env.js":41,"./envelope.js":42,"./error.js":43,"./instrument.js":45,"./is.js":46,"./logger.js":47,"./memo.js":48,"./misc.js":49,"./node.js":50,"./normalize.js":51,"./object.js":52,"./path.js":53,"./promisebuffer.js":54,"./ratelimit.js":55,"./requestdata.js":56,"./severity.js":57,"./stacktrace.js":58,"./string.js":59,"./supports.js":60,"./syncpromise.js":61,"./time.js":62,"./tracing.js":63,"./url.js":64,"./worldwide.js":65}],45:[function(require,module,exports){
+},{"./baggage.js":38,"./browser.js":39,"./clientreport.js":40,"./dsn.js":41,"./env.js":42,"./envelope.js":43,"./error.js":44,"./instrument.js":46,"./is.js":47,"./logger.js":48,"./memo.js":49,"./misc.js":50,"./node.js":51,"./normalize.js":52,"./object.js":53,"./path.js":54,"./promisebuffer.js":55,"./ratelimit.js":56,"./requestdata.js":57,"./severity.js":58,"./stacktrace.js":59,"./string.js":60,"./supports.js":61,"./syncpromise.js":62,"./time.js":63,"./tracing.js":64,"./url.js":65,"./worldwide.js":66}],46:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -13592,7 +13703,7 @@ function instrumentUnhandledRejection() {
 exports.addInstrumentationHandler = addInstrumentationHandler;
 
 
-},{"./is.js":46,"./logger.js":47,"./object.js":52,"./stacktrace.js":58,"./supports.js":60,"./worldwide.js":65}],46:[function(require,module,exports){
+},{"./is.js":47,"./logger.js":48,"./object.js":53,"./stacktrace.js":59,"./supports.js":61,"./worldwide.js":66}],47:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -13788,7 +13899,7 @@ exports.isSyntheticEvent = isSyntheticEvent;
 exports.isThenable = isThenable;
 
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('./worldwide.js');
@@ -13876,7 +13987,7 @@ exports.CONSOLE_LEVELS = CONSOLE_LEVELS;
 exports.consoleSandbox = consoleSandbox;
 
 
-},{"./worldwide.js":65}],48:[function(require,module,exports){
+},{"./worldwide.js":66}],49:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -13925,7 +14036,7 @@ function memoBuilder() {
 exports.memoBuilder = memoBuilder;
 
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -14133,7 +14244,7 @@ exports.parseSemver = parseSemver;
 exports.uuid4 = uuid4;
 
 
-},{"./object.js":52,"./string.js":59,"./worldwide.js":65}],50:[function(require,module,exports){
+},{"./object.js":53,"./string.js":60,"./worldwide.js":66}],51:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -14207,7 +14318,7 @@ exports.loadModule = loadModule;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./env.js":41,"_process":66}],51:[function(require,module,exports){
+},{"./env.js":42,"_process":67}],52:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -14463,7 +14574,7 @@ exports.walk = visit;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is.js":46,"./memo.js":48,"./object.js":52,"./stacktrace.js":58}],52:[function(require,module,exports){
+},{"./is.js":47,"./memo.js":49,"./object.js":53,"./stacktrace.js":59}],53:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -14754,7 +14865,7 @@ exports.objectify = objectify;
 exports.urlEncode = urlEncode;
 
 
-},{"./browser.js":38,"./is.js":46,"./string.js":59}],53:[function(require,module,exports){
+},{"./browser.js":39,"./is.js":47,"./string.js":60}],54:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -14952,7 +15063,7 @@ exports.relative = relative;
 exports.resolve = resolve;
 
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -15058,7 +15169,7 @@ function makePromiseBuffer(limit) {
 exports.makePromiseBuffer = makePromiseBuffer;
 
 
-},{"./error.js":43,"./syncpromise.js":61}],55:[function(require,module,exports){
+},{"./error.js":44,"./syncpromise.js":62}],56:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Intentionally keeping the key broad, as we don't know for sure what rate limit headers get returned from backend
@@ -15163,7 +15274,7 @@ exports.parseRetryAfterHeader = parseRetryAfterHeader;
 exports.updateRateLimits = updateRateLimits;
 
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -15484,7 +15595,7 @@ exports.extractPathForTransaction = extractPathForTransaction;
 exports.extractRequestData = extractRequestData;
 
 
-},{"./is.js":46,"./normalize.js":51,"./url.js":64}],57:[function(require,module,exports){
+},{"./is.js":47,"./normalize.js":52,"./url.js":65}],58:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Note: Ideally the `SeverityLevel` type would be derived from `validSeverityLevels`, but that would mean either
@@ -15526,14 +15637,10 @@ exports.severityLevelFromString = severityLevelFromString;
 exports.validSeverityLevels = validSeverityLevels;
 
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const worldwide = require('./worldwide.js');
-
 const STACKTRACE_LIMIT = 50;
-
-const debugIdParserCache = new Map();
 
 /**
  * Creates a stack parser with the supplied line parsers
@@ -15547,29 +15654,6 @@ function createStackParser(...parsers) {
 
   return (stack, skipFirst = 0) => {
     const frames = [];
-
-    for (const parser of sortedParsers) {
-      let debugIdCache = debugIdParserCache.get(parser);
-      if (!debugIdCache) {
-        debugIdCache = new Map();
-        debugIdParserCache.set(parser, debugIdCache);
-      }
-
-      const debugIdMap = worldwide.GLOBAL_OBJ._sentryDebugIds;
-
-      if (debugIdMap) {
-        Object.keys(debugIdMap).forEach(debugIdStackTrace => {
-          debugIdStackTrace.split('\n').forEach(line => {
-            const frame = parser(line);
-            if (frame && frame.filename) {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              debugIdCache.set(frame.filename, debugIdMap[debugIdStackTrace]);
-            }
-          });
-        });
-      }
-    }
-
     for (const line of stack.split('\n').slice(skipFirst)) {
       // Ignore lines over 1kb as they are unlikely to be stack frames.
       // Many of the regular expressions use backtracking which results in run time that increases exponentially with
@@ -15587,14 +15671,6 @@ function createStackParser(...parsers) {
         const frame = parser(cleanedLine);
 
         if (frame) {
-          const debugIdCache = debugIdParserCache.get(parser);
-          if (debugIdCache && frame.filename) {
-            const cachedDebugId = debugIdCache.get(frame.filename);
-            if (cachedDebugId) {
-              frame.debug_id = cachedDebugId;
-            }
-          }
-
           frames.push(frame);
           break;
         }
@@ -15767,7 +15843,7 @@ exports.stackParserFromStackParserOptions = stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stripSentryFramesAndReverse;
 
 
-},{"./worldwide.js":65}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -15925,7 +16001,7 @@ exports.stringMatchesSomePattern = stringMatchesSomePattern;
 exports.truncate = truncate;
 
 
-},{"./is.js":46}],60:[function(require,module,exports){
+},{"./is.js":47}],61:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const logger = require('./logger.js');
@@ -16118,7 +16194,7 @@ exports.supportsReferrerPolicy = supportsReferrerPolicy;
 exports.supportsReportingObserver = supportsReportingObserver;
 
 
-},{"./logger.js":47,"./worldwide.js":65}],61:[function(require,module,exports){
+},{"./logger.js":48,"./worldwide.js":66}],62:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -16315,7 +16391,7 @@ exports.rejectedSyncPromise = rejectedSyncPromise;
 exports.resolvedSyncPromise = resolvedSyncPromise;
 
 
-},{"./is.js":46}],62:[function(require,module,exports){
+},{"./is.js":47}],63:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const node = require('./node.js');
@@ -16501,7 +16577,7 @@ exports.timestampWithMs = timestampWithMs;
 exports.usingPerformanceAPI = usingPerformanceAPI;
 
 
-},{"./node.js":50,"./worldwide.js":65}],63:[function(require,module,exports){
+},{"./node.js":51,"./worldwide.js":66}],64:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const TRACEPARENT_REGEXP = new RegExp(
@@ -16545,7 +16621,7 @@ exports.TRACEPARENT_REGEXP = TRACEPARENT_REGEXP;
 exports.extractTraceparentData = extractTraceparentData;
 
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -16603,7 +16679,7 @@ exports.parseUrl = parseUrl;
 exports.stripUrlQueryAndFragment = stripUrlQueryAndFragment;
 
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -16681,7 +16757,7 @@ exports.getGlobalSingleton = getGlobalSingleton;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
