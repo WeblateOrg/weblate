@@ -174,7 +174,9 @@ class AutoTranslate:
                 self.set_progress(pos * num_units + batch_start)
 
         return {
-            unit.id: unit.machinery["translation"] for unit in units if unit.machinery
+            unit.id: unit.machinery["translation"]
+            for unit in units
+            if unit.machinery and any(unit.machinery["quality"])
         }
 
     def process_mt(self, engines: List[str], threshold: int):
