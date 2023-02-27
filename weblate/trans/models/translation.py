@@ -34,13 +34,7 @@ from weblate.trans.exceptions import (
 from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
-from weblate.trans.models.unit import (
-    STATE_APPROVED,
-    STATE_EMPTY,
-    STATE_FUZZY,
-    STATE_TRANSLATED,
-    Unit,
-)
+from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
 from weblate.trans.util import join_plural, split_plural
@@ -48,6 +42,12 @@ from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import GhostStats, TranslationStats
 
 
@@ -1341,6 +1341,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         is_batch_update: bool = False,
         skip_existing: bool = False,
         sync_terminology: bool = True,
+        state: Optional[int] = None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1414,12 +1415,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
+                if state is None:
+                    unit_state = (
+                        STATE_TRANSLATED if bool(current_target) else STATE_EMPTY
+                    )
+                else:
+                    unit_state = state
                 unit = Unit(
                     translation=translation,
                     context=context,
                     source=source,
                     target=current_target,
-                    state=STATE_TRANSLATED if bool(current_target) else STATE_EMPTY,
+                    state=unit_state,
                     source_unit=source_unit,
                     id_hash=id_hash,
                     position=translation.stats.all + 1,
@@ -1572,6 +1579,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         auto_context: bool = False,
         extra_flags: Optional[str] = None,
         explanation: str = "",
+        state: Optional[int] = None,
     ):
         extra = {}
         if isinstance(source, str):
@@ -1580,6 +1588,17 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if any(char in text for char in CONTROLCHARS):
                 raise ValidationError(
                     _("String contains control character: %s") % repr(text)
+                )
+        if state is not None:
+            if state == STATE_EMPTY and any(source):
+                raise ValidationError(
+                    _("Empty state is supported for blank strings only.")
+                )
+            if not any(source) and state != STATE_EMPTY:
+                raise ValidationError(_("Blank strings reqire an empty state."))
+            if state == STATE_APPROVED and not self.enable_review:
+                raise ValidationError(
+                    _("Appoved state is not available as reviews are not enabled.")
                 )
         if context:
             self.component.file_format_cls.validate_context(context)

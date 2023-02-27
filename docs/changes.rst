@@ -10,6 +10,7 @@ Not yet released.
 * Dropped support for VCS integration settings deprecated in 4.14.
 * Added support for Bitbucket Server pull requests.
 * Improved conflicts handling in gettext PO files.
+* Added support for defining strings state when adding via API.
 * Added support for configuring CORS allowed origins.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.

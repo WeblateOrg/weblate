@@ -28,6 +28,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
+from weblate.utils.state import STATE_CHOICES, STATE_READONLY
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import (
     create_component_from_doc,
@@ -1032,6 +1033,11 @@ class UnitWriteSerializer(serializers.ModelSerializer):
 
 
 class NewUnitSerializer(serializers.Serializer):
+    state = serializers.ChoiceField(
+        choices=[choice for choice in STATE_CHOICES if choice[0] != STATE_READONLY],
+        required=False,
+    )
+
     def as_kwargs(self, data=None):
         raise NotImplementedError()
 
@@ -1052,7 +1058,12 @@ class MonolingualUnitSerializer(NewUnitSerializer):
     def as_kwargs(self, data=None):
         if data is None:
             data = self.validated_data
-        return {"context": data["key"], "source": data["value"], "target": None}
+        return {
+            "context": data["key"],
+            "source": data["value"],
+            "target": None,
+            "state": data.get("state", None),
+        }
 
 
 class BilingualUnitSerializer(NewUnitSerializer):
@@ -1067,6 +1078,7 @@ class BilingualUnitSerializer(NewUnitSerializer):
             "context": data.get("context", ""),
             "source": data["source"],
             "target": data["target"],
+            "state": data.get("state", None),
         }
 
 

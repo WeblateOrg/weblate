@@ -1881,6 +1881,7 @@ Translations
     :type language: string
     :<json string key: Name of translation unit (used as key or context)
     :<json array value: Source strings (use single string if not creating plural)
+    :<json int state: String state; see :http:get:`/api/units/(int:id)/`
     :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
     .. seealso::

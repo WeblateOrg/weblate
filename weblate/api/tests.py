@@ -2781,6 +2781,91 @@ class TranslationAPITest(APIBaseTest):
             request={"source": "Source", "target": "Target", "context": "Another"},
             code=200,
         )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Wrong",
+                "state": "0",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Wrong",
+                "state": "30",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Wrong",
+                "state": "100",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "",
+                "context": "Wrong",
+                "state": "0",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Fuzzy",
+                "state": "10",
+            },
+            code=200,
+        )
 
     def test_delete(self):
         start_count = Translation.objects.count()
