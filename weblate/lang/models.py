@@ -756,7 +756,7 @@ class Plural(models.Model):
         if self.type == data.PLURAL_UNKNOWN:
             for formulas, plural in data.PLURAL_MAPPINGS:
                 for formula in formulas:
-                    if self.same_plural(self.number, formula):
+                    if self.same_plural(-1, formula):
                         self.type = plural
                         break
                 if self.type != data.PLURAL_UNKNOWN:
@@ -809,7 +809,7 @@ class Plural(models.Model):
         """Check whether the given plurals are equivalent."""
         return self._same_plural(other.number, other.formula, other.plural_function)
 
-    def same_plural(self, number, formula):
+    def same_plural(self, number: int, formula: str):
         """Compare whether given plurals formula matches."""
         try:
             compiled_formula = gettext.c2py(formula)
@@ -817,8 +817,8 @@ class Plural(models.Model):
             return False
         return self._same_plural(number, formula, compiled_formula)
 
-    def _same_plural(self, number, formula, plural_function):
-        if number != self.number:
+    def _same_plural(self, number: int, formula: str, plural_function):
+        if number != -1 and number != self.number:
             return False
         if formula == self.formula:
             return True
