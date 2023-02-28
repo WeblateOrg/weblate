@@ -1598,7 +1598,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 raise ValidationError(_("Blank strings reqire an empty state."))
             if state == STATE_APPROVED and not self.enable_review:
                 raise ValidationError(
-                    _("Appoved state is not available as reviews are not enabled.")
+                    _("Approved state is not available as reviews are not enabled.")
                 )
         if context:
             self.component.file_format_cls.validate_context(context)
