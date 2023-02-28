@@ -69,17 +69,29 @@ def get_plural_type(base_code, plural_formula):
     # Log error in case of unknown mapping
     LOGGER.error("Can not guess type of plural for %s: %s", base_code, plural_formula)
 
+    # Try to calculate based on formula
+    for formulas, plural in data.PLURAL_MAPPINGS:
+        for data_formula in formulas:
+            if is_same_plural(-1, plural_formula, -1, data_formula):
+                return plural
+
     return data.PLURAL_UNKNOWN
 
 
 def is_same_plural(
     our_number: int,
     our_formula: str,
-    our_function: Callable,
     number: int,
     formula: str,
+    our_function: Optional[Callable] = None,
     plural_function: Optional[Callable] = None,
 ):
+    if our_function is None:
+        try:
+            our_function = gettext.c2py(our_formula)
+        except ValueError:
+            return False
+
     if plural_function is None:
         try:
             plural_function = gettext.c2py(formula)
@@ -781,15 +793,6 @@ class Plural(models.Model):
 
     def save(self, *args, **kwargs):
         self.type = get_plural_type(self.language.base_code, self.formula)
-        # Try to calculate based on formula
-        if self.type == data.PLURAL_UNKNOWN:
-            for formulas, plural in data.PLURAL_MAPPINGS:
-                for formula in formulas:
-                    if self.same_plural(-1, formula):
-                        self.type = plural
-                        break
-                if self.type != data.PLURAL_UNKNOWN:
-                    break
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -839,16 +842,20 @@ class Plural(models.Model):
         return is_same_plural(
             self.number,
             self.formula,
-            self.plural_function,
             other.number,
             other.formula,
-            other.plural_function,
+            our_function=self.plural_function,
+            plural_function=other.plural_function,
         )
 
     def same_plural(self, number: int, formula: str):
         """Compare whether given plurals formula matches."""
         return is_same_plural(
-            self.number, self.formula, self.plural_function, number, formula
+            self.number,
+            self.formula,
+            number,
+            formula,
+            our_function=self.plural_function,
         )
 
     def get_plural_label(self, idx):
