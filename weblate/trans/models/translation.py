@@ -1595,7 +1595,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     _("Empty state is supported for blank strings only.")
                 )
             if not any(source) and state != STATE_EMPTY:
-                raise ValidationError(_("Blank strings reqire an empty state."))
+                raise ValidationError(_("Blank strings require an empty state."))
             if state == STATE_APPROVED and not self.enable_review:
                 raise ValidationError(
                     _("Appoved state is not available as reviews are not enabled.")
