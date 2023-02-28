@@ -146,7 +146,7 @@ class MicrosoftMachineryForm(KeyMachineryForm):
             ("api.cognitive.microsoft.us", "Azure US Government cloud"),
         ),
         help_text=gettext_lazy(
-            "Regional or multi-service can be spcified using region field below."
+            "Regional or multi-service can be specified using region field below."
         ),
     )
     region = forms.CharField(
