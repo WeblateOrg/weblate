@@ -310,7 +310,7 @@ var _rollbarConfig = {
 <div class="main-content {% block content_class %}{% endblock %}">
 
 {% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
-  {% trans 'Your Weblate is exceeding service limits. Please uprade the subscription.' as msg %}
+  {% trans 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}
   {% show_message 'warning' msg %}
 {% endif %}
 
