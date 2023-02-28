@@ -23,7 +23,7 @@ def get_root_dir():
 VERSION = "4.16"
 
 # Version string without suffix
-VERSION_BASE = VERSION.replace("-dev", "")
+VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
 
 # User-Agent string to use
 USER_AGENT = f"Weblate/{VERSION}"
@@ -51,7 +51,7 @@ except (RepositoryException, OSError):
 
 if GIT_REVISION:
     GIT_LINK = f"https://github.com/WeblateOrg/weblate/commits/{GIT_REVISION}"
-elif "-dev" not in VERSION:
+elif VERSION == VERSION_BASE:
     GIT_LINK = f"https://github.com/WeblateOrg/weblate/releases/tag/weblate-{VERSION}"
 else:
     GIT_LINK = None
