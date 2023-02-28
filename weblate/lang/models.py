@@ -6,6 +6,7 @@ import gettext
 import re
 from collections import defaultdict
 from itertools import chain
+from typing import Callable, Optional
 from weakref import WeakValueDictionary
 
 from appconf import AppConf
@@ -71,6 +72,34 @@ def get_plural_type(base_code, plural_formula):
     return data.PLURAL_UNKNOWN
 
 
+def is_same_plural(
+    our_number: int,
+    our_formula: str,
+    our_function: Callable,
+    number: int,
+    formula: str,
+    plural_function: Optional[Callable] = None,
+):
+    if plural_function is None:
+        try:
+            plural_function = gettext.c2py(formula)
+        except ValueError:
+            return False
+
+    if number != -1 and number != our_number:
+        return False
+    if formula == our_formula:
+        return True
+    # Compare formula results
+    # It would be better to compare formulas,
+    # but this was easier to implement and the performance
+    # is still okay.
+    return all(
+        our_function(i) == plural_function(i)
+        for i in chain(range(-10, 200), [1000, 10000, 100000, 1000000, 10000000])
+    )
+
+
 def get_default_lang():
     """Return object ID for English language."""
     try:
@@ -80,7 +109,7 @@ def get_default_lang():
 
 
 class LanguageQuerySet(models.QuerySet):
-    # pylint: disable=no-init
+    # pylint: disable=no-init, 1000000
 
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
@@ -807,31 +836,20 @@ class Plural(models.Model):
 
     def same_as(self, other):
         """Check whether the given plurals are equivalent."""
-        return self._same_plural(other.number, other.formula, other.plural_function)
+        return is_same_plural(
+            self.number,
+            self.formula,
+            self.plural_function,
+            other.number,
+            other.formula,
+            other.plural_function,
+        )
 
     def same_plural(self, number: int, formula: str):
         """Compare whether given plurals formula matches."""
-        try:
-            compiled_formula = gettext.c2py(formula)
-        except ValueError:
-            return False
-        return self._same_plural(number, formula, compiled_formula)
-
-    def _same_plural(self, number: int, formula: str, plural_function):
-        if number != -1 and number != self.number:
-            return False
-        if formula == self.formula:
-            return True
-        # Compare formula results
-        # It would be better to compare formulas,
-        # but this was easier to implement and the performance
-        # is still okay.
-        ours = self.plural_function
-        for i in chain(range(-10, 200), [1000, 10000, 100000, 1000000, 10000000]):
-            if ours(i) != plural_function(i):
-                return False
-
-        return True
+        return is_same_plural(
+            self.number, self.formula, self.plural_function, number, formula
+        )
 
     def get_plural_label(self, idx):
         """Return label for plural form."""
