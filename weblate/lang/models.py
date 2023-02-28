@@ -827,7 +827,7 @@ class Plural(models.Model):
         # but this was easier to implement and the performance
         # is still okay.
         ours = self.plural_function
-        for i in range(-10, 200):
+        for i in chain(range(-10, 200), [1000, 10000, 100000, 1000000, 10000000]):
             if ours(i) != plural_function(i):
                 return False
 
