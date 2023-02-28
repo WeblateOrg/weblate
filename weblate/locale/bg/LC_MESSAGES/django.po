@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-02-28 08:04+0000\n"
-"PO-Revision-Date: 2023-02-28 10:13+0000\n"
+"PO-Revision-Date: 2023-02-28 12:29+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -3506,10 +3506,8 @@ msgid "go-i18n v1 JSON file"
 msgstr "Файл JSON на go-i18n v1"
 
 #: weblate/formats/ttkit.py:1465
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "go-i18n v2 JSON file"
-msgstr "Файл JSON на go-i18n"
+msgstr "Файл JSON на go-i18n v2"
 
 #: weblate/formats/ttkit.py:1472
 msgid "ARB file"
@@ -3733,20 +3731,14 @@ msgid "None"
 msgstr "Няма"
 
 #: weblate/lang/models.py:618
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/two"
 msgctxt "Plural type"
 msgid "One/other"
-msgstr "Едно/други/две"
+msgstr "Едно/други"
 
 #: weblate/lang/models.py:622
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/few/other"
-msgstr "Едно/две/няколко/други"
+msgstr "Едно/няколко/други"
 
 #: weblate/lang/models.py:626
 msgctxt "Plural type"
@@ -3839,20 +3831,14 @@ msgid "One/many/other"
 msgstr "Едно/много/други"
 
 #: weblate/lang/models.py:698
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
-msgstr "Нула/едно/няколко/много/други"
+msgstr "Нула/едно/много/други"
 
 #: weblate/lang/models.py:702
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/few/many"
-msgstr "Едно/няколко/много/други"
+msgstr "Едно/няколко/много"
 
 #: weblate/lang/models.py:706
 msgctxt "Plural type"
@@ -4128,22 +4114,20 @@ msgid "Application base URL"
 msgstr "Основен адрес на приложението"
 
 #: weblate/machinery/forms.py:140
-#, fuzzy
-#| msgid "Authentication"
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "Удостоверяване"
+msgstr "Адрес на услуга за удостоверяване"
 
 #: weblate/machinery/forms.py:149
 msgid "Regional or multi-service can be spcified using region field below."
 msgstr ""
+"В полето за регион по-долу може да бъде посочено дали да се ползва "
+"регионална или множество услуги."
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Удостоверяването е отказано."
+msgstr "Регион на услугата за удостоверяване"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -4205,10 +4189,9 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "В качения файл няма валидни записи!"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON file: %s"
-msgstr "Неуспешен анализ на файла JSON: {!s}"
+msgstr "Неуспешен анализ на файла JSON: %s"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
@@ -5929,6 +5912,8 @@ msgstr "Допринасяне към Weblate"
 msgid ""
 "Your Weblate is exceeding service limits. Please uprade the subscription."
 msgstr ""
+"Вашата инсталация на Weblate превишава ограниченият на услугата. Моля, "
+"надградете абонамента си."
 
 #: weblate/templates/base.html:346
 #: weblate/templates/screenshots/screenshot_detail.html:82
@@ -7205,10 +7190,8 @@ msgstr "Добавяне на език"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
-msgstr "Всички промени от потребителя"
+msgstr "Преглед на всички промени по този език"
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -7917,10 +7900,8 @@ msgid "Support status"
 msgstr "Състояние на поддръжката"
 
 #: weblate/templates/manage/index.html:42
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Refresh support status"
-msgstr "Състояние на поддръжката на Weblate"
+msgstr "Опресняване на състоянието на поддръжката"
 
 #: weblate/templates/manage/index.html:53
 msgid "Support expiry"
@@ -8411,10 +8392,8 @@ msgid "Color"
 msgstr "Цвят"
 
 #: weblate/templates/project-labels.html:20
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Labeled source strings"
-msgstr "Обновяване на изходните низове"
+msgstr "Изходни низове с етикети"
 
 #: weblate/templates/project-labels.html:44
 msgid "Add label"
@@ -12854,15 +12833,16 @@ msgstr "Низът съдържа контролен знак: %s"
 
 #: weblate/trans/models/translation.py:1595
 msgid "Empty state is supported for blank strings only."
-msgstr ""
+msgstr "Празното състояние е приложимо само за празни низове."
 
 #: weblate/trans/models/translation.py:1598
 msgid "Blank strings reqire an empty state."
-msgstr ""
+msgstr "Празните низове изискват празно състояние."
 
 #: weblate/trans/models/translation.py:1601
 msgid "Appoved state is not available as reviews are not enabled."
 msgstr ""
+"Одобреното състояние не е налично, тъй като рецензирането не е включено."
 
 #: weblate/trans/models/translation.py:1608
 msgid "This string seems to already exist."
@@ -14008,10 +13988,8 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Грешка в параметъра „%(field)s“: %(error)s"
 
 #: weblate/vcs/git.py:514
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible cleanups:"
-msgstr "Възможна настройка"
+msgstr "Възможни почиствания:"
 
 #: weblate/vcs/git.py:701
 msgid "Git with force push"
@@ -14038,10 +14016,8 @@ msgid "Pagure merge request"
 msgstr "Заявка за сливане в Pagure"
 
 #: weblate/vcs/git.py:1466
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull request"
-msgstr "Заявка за изтегляне в GItea"
+msgstr "Заявка за изтегляне в Bitbucket Server"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:55
