@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 09:05+0100\n"
+"POT-Creation-Date: 2023-02-28 19:50+0100\n"
 "PO-Revision-Date: 2023-02-28 10:14+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -34028,42 +34028,46 @@ msgid "Continuous integration"
 msgstr "連續集成"
 
 #: ../../contributing/tests.rst:12
+#, fuzzy
+#| msgid ""
+#| "Current test results can be found on `GitHub Actions <https://github.com/"
+#| "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov "
+#| "<https://codecov.io/github/WeblateOrg/weblate>`_."
 msgid ""
-"Current test results can be found on `GitHub Actions <https://github.com/"
-"WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
-"codecov.io/github/WeblateOrg/weblate>`_."
+"Current test results can be found on `GitHub Actions`_ and coverage is "
+"reported on `Codecov`_."
 msgstr ""
 "當前的測試結果可以在`GitHub Actions <https://github.com/WeblateOrg/weblate/"
 "actions>`_ 上找到，並且覆蓋範圍在`Codecov <https://codecov.io/github/"
 "WeblateOrg/weblate> `_ 上報告。"
 
-#: ../../contributing/tests.rst:16
+#: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
 msgstr "有幾項工作來確認不同的方面："
 
-#: ../../contributing/tests.rst:18
+#: ../../contributing/tests.rst:20
 msgid "Unit tests"
 msgstr "單元測試"
 
-#: ../../contributing/tests.rst:19
+#: ../../contributing/tests.rst:21
 msgid "Documentation build and external links"
 msgstr "文件構建與外部鏈接"
 
-#: ../../contributing/tests.rst:20
+#: ../../contributing/tests.rst:22
 msgid "Migration testing from all supported releases"
 msgstr "來自所有支持的發佈版本的合併測試"
 
-#: ../../contributing/tests.rst:21
+#: ../../contributing/tests.rst:23
 msgid "Code linting"
 msgstr "代碼整理"
 
-#: ../../contributing/tests.rst:22
+#: ../../contributing/tests.rst:24
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr "設置確認（確保生成的 dist 文件不丟失任何內容，並可以測試）"
 
-#: ../../contributing/tests.rst:24
+#: ../../contributing/tests.rst:26
 msgid ""
 "The configuration for the CI is in :file:`.github/workflows` directory. It "
 "heavily uses helper scripts stored in :file:`ci` directory. The scripts can "
@@ -34076,19 +34080,19 @@ msgstr ""
 "設置要使用的文件和資料庫連接。它的示例定義在 :file:`scripts/test-database` "
 "中："
 
-#: ../../contributing/tests.rst:33
+#: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
 msgstr "簡單的執行看起來可以像這樣："
 
-#: ../../contributing/tests.rst:45
+#: ../../contributing/tests.rst:47
 msgid "Local testing"
 msgstr "本地測試"
 
-#: ../../contributing/tests.rst:47
+#: ../../contributing/tests.rst:49
 msgid "To run a testsuite locally, use:"
 msgstr "如果本地運行測試套件，要使用："
 
-#: ../../contributing/tests.rst:55
+#: ../../contributing/tests.rst:57
 msgid ""
 "You will need a database (PostgreSQL) server to be used for tests. By "
 "default Django creates separate database to run tests with ``test_`` prefix, "
@@ -34100,7 +34104,7 @@ msgstr ""
 "以 ``test_`` 前綴來運行測試，因此在您的設置配置使用 ``weblate`` 的情況下，測"
 "試會使用 ``test_weblate`` 資料庫。設置的指示請參見 :ref:`database-setup`。"
 
-#: ../../contributing/tests.rst:61
+#: ../../contributing/tests.rst:63
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
@@ -34108,23 +34112,23 @@ msgstr ""
 ":file:`weblate/settings_test.py` 也用在 CI 環境中（請參見 :ref:`ci-tests`），"
 "並且可以使用環境變量調整："
 
-#: ../../contributing/tests.rst:67
+#: ../../contributing/tests.rst:69
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr "運行測試前，應該收集靜態文件，因為一些測試在出現時依賴於它們："
 
-#: ../../contributing/tests.rst:73
+#: ../../contributing/tests.rst:75
 msgid "You can also specify individual tests to run:"
 msgstr "您也可以指定要運行的各自測試："
 
-#: ../../contributing/tests.rst:81
+#: ../../contributing/tests.rst:83
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
 msgstr "測試也可以在開發者 docker 容器內執行，請參見 :ref:`dev-docker`。"
 
-#: ../../contributing/tests.rst:85
+#: ../../contributing/tests.rst:87
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."

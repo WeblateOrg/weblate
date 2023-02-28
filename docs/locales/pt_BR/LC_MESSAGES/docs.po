@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 09:05+0100\n"
+"POT-Creation-Date: 2023-02-28 19:50+0100\n"
 "PO-Revision-Date: 2023-02-28 10:14+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -34614,36 +34614,40 @@ msgid "Continuous integration"
 msgstr "Integração contínua"
 
 #: ../../contributing/tests.rst:12
+#, fuzzy
+#| msgid ""
+#| "Current test results can be found on `GitHub Actions <https://github.com/"
+#| "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov "
+#| "<https://codecov.io/github/WeblateOrg/weblate>`_."
 msgid ""
-"Current test results can be found on `GitHub Actions <https://github.com/"
-"WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
-"codecov.io/github/WeblateOrg/weblate>`_."
+"Current test results can be found on `GitHub Actions`_ and coverage is "
+"reported on `Codecov`_."
 msgstr ""
 "Os resultados do teste atual podem ser encontrados em `GitHub Actions "
 "<https://github.com/WeblateOrg/weblate/actions>`_ e a cobertura é relatada "
 "em `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_."
 
-#: ../../contributing/tests.rst:16
+#: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
 msgstr "Existem vários trabalhos para verificar diferentes aspectos:"
 
-#: ../../contributing/tests.rst:18
+#: ../../contributing/tests.rst:20
 msgid "Unit tests"
 msgstr "Testes de unidade"
 
-#: ../../contributing/tests.rst:19
+#: ../../contributing/tests.rst:21
 msgid "Documentation build and external links"
 msgstr "Construção de documentação e links externos"
 
-#: ../../contributing/tests.rst:20
+#: ../../contributing/tests.rst:22
 msgid "Migration testing from all supported releases"
 msgstr "Testes de migração de todas as versões com suporte"
 
-#: ../../contributing/tests.rst:21
+#: ../../contributing/tests.rst:23
 msgid "Code linting"
 msgstr "Linting de código"
 
-#: ../../contributing/tests.rst:22
+#: ../../contributing/tests.rst:24
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
@@ -34651,7 +34655,7 @@ msgstr ""
 "Verificação de configuração (garante que os arquivos dist gerados não percam "
 "nada e possam ser testados)"
 
-#: ../../contributing/tests.rst:24
+#: ../../contributing/tests.rst:26
 msgid ""
 "The configuration for the CI is in :file:`.github/workflows` directory. It "
 "heavily uses helper scripts stored in :file:`ci` directory. The scripts can "
@@ -34666,19 +34670,19 @@ msgstr ""
 "para usar e conexão com o banco de dados. A definição de exemplo disso está "
 "em :file:`scripts/test-database.sh`:"
 
-#: ../../contributing/tests.rst:33
+#: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
 msgstr "A execução simples pode ser semelhante a:"
 
-#: ../../contributing/tests.rst:45
+#: ../../contributing/tests.rst:47
 msgid "Local testing"
 msgstr "Teste local"
 
-#: ../../contributing/tests.rst:47
+#: ../../contributing/tests.rst:49
 msgid "To run a testsuite locally, use:"
 msgstr "Para executar um conjunto de testes localmente, use:"
 
-#: ../../contributing/tests.rst:55
+#: ../../contributing/tests.rst:57
 msgid ""
 "You will need a database (PostgreSQL) server to be used for tests. By "
 "default Django creates separate database to run tests with ``test_`` prefix, "
@@ -34693,7 +34697,7 @@ msgstr ""
 "dados ``test_weblate``. Veja :ref:`database-setup` para instruções de "
 "configuração."
 
-#: ../../contributing/tests.rst:61
+#: ../../contributing/tests.rst:63
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
@@ -34701,7 +34705,7 @@ msgstr ""
 "O :file:`weblate/settings_test.py` é usado no ambiente CI também (veja :ref:"
 "`ci-tests`) e pode ser ajustado usando variáveis de ambiente:"
 
-#: ../../contributing/tests.rst:67
+#: ../../contributing/tests.rst:69
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
@@ -34709,11 +34713,11 @@ msgstr ""
 "Antes de executar os testes, você deve coletar arquivos estáticos, pois "
 "alguns testes contam com a presença deles:"
 
-#: ../../contributing/tests.rst:73
+#: ../../contributing/tests.rst:75
 msgid "You can also specify individual tests to run:"
 msgstr "Você também pode especificar testes individuais para executar:"
 
-#: ../../contributing/tests.rst:81
+#: ../../contributing/tests.rst:83
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
@@ -34721,7 +34725,7 @@ msgstr ""
 "Os testes também podem ser executados dentro de um contêiner Docker do "
 "desenvolvedor, consulte :ref:`dev-docker`."
 
-#: ../../contributing/tests.rst:85
+#: ../../contributing/tests.rst:87
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."

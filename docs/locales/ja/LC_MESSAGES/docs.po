@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 09:05+0100\n"
+"POT-Creation-Date: 2023-02-28 19:50+0100\n"
 "PO-Revision-Date: 2023-02-28 10:14+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -33599,43 +33599,47 @@ msgid "Continuous integration"
 msgstr "継続的な統合"
 
 #: ../../contributing/tests.rst:12
+#, fuzzy
+#| msgid ""
+#| "Current test results can be found on `GitHub Actions <https://github.com/"
+#| "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov "
+#| "<https://codecov.io/github/WeblateOrg/weblate>`_."
 msgid ""
-"Current test results can be found on `GitHub Actions <https://github.com/"
-"WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
-"codecov.io/github/WeblateOrg/weblate>`_."
+"Current test results can be found on `GitHub Actions`_ and coverage is "
+"reported on `Codecov`_."
 msgstr ""
 "現在のテスト結果は `GitHub Actions <https://github.com/WeblateOrg/weblate/"
 "actions>`_ から確認でき、検証の対象は `Codecov <https://codecov.io/github/"
 "WeblateOrg/weblate>`_ において報告します。"
 
-#: ../../contributing/tests.rst:16
+#: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
 msgstr "さまざまな側面を検証するためのジョブ:"
 
-#: ../../contributing/tests.rst:18
+#: ../../contributing/tests.rst:20
 msgid "Unit tests"
 msgstr "単体テスト"
 
-#: ../../contributing/tests.rst:19
+#: ../../contributing/tests.rst:21
 msgid "Documentation build and external links"
 msgstr "ドキュメントの作成と外部リンク"
 
-#: ../../contributing/tests.rst:20
+#: ../../contributing/tests.rst:22
 msgid "Migration testing from all supported releases"
 msgstr "対応しているすべてのリリースからの移行テスト"
 
-#: ../../contributing/tests.rst:21
+#: ../../contributing/tests.rst:23
 msgid "Code linting"
 msgstr "低品質コードの検出"
 
-#: ../../contributing/tests.rst:22
+#: ../../contributing/tests.rst:24
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
 "設定の検証（生成された dist ファイルに間違いがなく、テスト済みを保証する）"
 
-#: ../../contributing/tests.rst:24
+#: ../../contributing/tests.rst:26
 msgid ""
 "The configuration for the CI is in :file:`.github/workflows` directory. It "
 "heavily uses helper scripts stored in :file:`ci` directory. The scripts can "
@@ -33649,19 +33653,19 @@ msgstr ""
 "定するなど、環境変数の設定が必要です。:file:`scripts/test-database.sh` に記述"
 "された設定例:"
 
-#: ../../contributing/tests.rst:33
+#: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
 msgstr "単純な実行例:"
 
-#: ../../contributing/tests.rst:45
+#: ../../contributing/tests.rst:47
 msgid "Local testing"
 msgstr "ローカル テスト"
 
-#: ../../contributing/tests.rst:47
+#: ../../contributing/tests.rst:49
 msgid "To run a testsuite locally, use:"
 msgstr "テストスイートをローカルで実行するコマンド:"
 
-#: ../../contributing/tests.rst:55
+#: ../../contributing/tests.rst:57
 msgid ""
 "You will need a database (PostgreSQL) server to be used for tests. By "
 "default Django creates separate database to run tests with ``test_`` prefix, "
@@ -33675,7 +33679,7 @@ msgstr ""
 "テストには ``test_weblate`` データベースを使用します。設定方法については、:"
 "ref:`database-setup` を確認してください。"
 
-#: ../../contributing/tests.rst:61
+#: ../../contributing/tests.rst:63
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
@@ -33683,7 +33687,7 @@ msgstr ""
 ":file:`weblate/settings_test.py` は CI 環境でも使用されます（参照: :ref:`ci-"
 "tests`）。環境変数を用いた設定方法:"
 
-#: ../../contributing/tests.rst:67
+#: ../../contributing/tests.rst:69
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
@@ -33691,11 +33695,11 @@ msgstr ""
 "テストを実行する前に、静的ファイルの収集が必要です。テストによっては、静的"
 "ファイルの存在に依存しているためです。静的ファイルの収集方法:"
 
-#: ../../contributing/tests.rst:73
+#: ../../contributing/tests.rst:75
 msgid "You can also specify individual tests to run:"
 msgstr "実行する個々のテストの指定方法:"
 
-#: ../../contributing/tests.rst:81
+#: ../../contributing/tests.rst:83
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
@@ -33703,7 +33707,7 @@ msgstr ""
 "テストは、開発者の Docker コンテナ内でも実行できます。参照: :ref:`dev-"
 "docker`。"
 
-#: ../../contributing/tests.rst:85
+#: ../../contributing/tests.rst:87
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
