@@ -1,7 +1,7 @@
 Weblate 4.16
 ------------
 
-Not yet released.
+Released on March 1st 2023.
 
 * Format string checks now also detects duplicated formats.
 * Improved search performance for some specially formatted strings.
