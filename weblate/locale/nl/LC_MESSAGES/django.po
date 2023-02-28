@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-02-28 08:04+0000\n"
-"PO-Revision-Date: 2023-02-28 12:29+0000\n"
+"PO-Revision-Date: 2023-02-28 15:32+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.16-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -4116,13 +4116,13 @@ msgstr "Verificatiedienst-url"
 #: weblate/machinery/forms.py:149
 msgid "Regional or multi-service can be spcified using region field below."
 msgstr ""
+"Regionale of meerdere diensten kunnen met behulp van onderstaand veld worden "
+"opgegeven."
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Verificatie afgebroken."
+msgstr "Verificatiedienstregio"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -4184,10 +4184,9 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Geen geldige items aangetroffen in het geüploade bestand!"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON file: %s"
-msgstr "Het json-bestand, {!s}, kan niet worden verwerkt"
+msgstr "Het json-bestand kan niet worden verwerkt: %s"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
@@ -5906,6 +5905,8 @@ msgstr "Bijdragen aan Weblate"
 msgid ""
 "Your Weblate is exceeding service limits. Please uprade the subscription."
 msgstr ""
+"Uw Weblategebruik overschrijdt de limieten. Stap over op een ander "
+"abonnement."
 
 #: weblate/templates/base.html:346
 #: weblate/templates/screenshots/screenshot_detail.html:82
@@ -7190,10 +7191,8 @@ msgstr "Taal toevoegen"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
-msgstr "Alle aanpassingen van deze gebruiker tonen"
+msgstr "Alle aanpassingen in deze taal tonen"
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -7907,10 +7906,8 @@ msgid "Support status"
 msgstr "Ondersteuningsstatus"
 
 #: weblate/templates/manage/index.html:42
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Refresh support status"
-msgstr "Weblate-ondersteuningsstatus"
+msgstr "Ondersteuningsstatus herladen"
 
 #: weblate/templates/manage/index.html:53
 msgid "Support expiry"
@@ -8399,10 +8396,8 @@ msgid "Color"
 msgstr "Kleur"
 
 #: weblate/templates/project-labels.html:20
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Labeled source strings"
-msgstr "Brontekenreeksen bijwerken"
+msgstr "Gelabelde brontekenreeksen"
 
 #: weblate/templates/project-labels.html:44
 msgid "Add label"
@@ -12844,14 +12839,18 @@ msgstr "De tekenreeks bevat controletekens: %s"
 #: weblate/trans/models/translation.py:1595
 msgid "Empty state is supported for blank strings only."
 msgstr ""
+"Blanco statussen worden alleen ondersteund bij gebruik van blanco "
+"tekenreeksen."
 
 #: weblate/trans/models/translation.py:1598
 msgid "Blank strings reqire an empty state."
-msgstr ""
+msgstr "Blanco tekenreeksen vereisen een blanco status."
 
 #: weblate/trans/models/translation.py:1601
 msgid "Appoved state is not available as reviews are not enabled."
 msgstr ""
+"De goedgekeurde status is niet beschikbaar omdat beoordelingen niet zijn "
+"ingeschakeld."
 
 #: weblate/trans/models/translation.py:1608
 msgid "This string seems to already exist."
@@ -14003,10 +14002,8 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Fout in parameter %(field)s: %(error)s"
 
 #: weblate/vcs/git.py:514
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible cleanups:"
-msgstr "Mogelijke configuratie"
+msgstr "Mogelijke opruimingen:"
 
 #: weblate/vcs/git.py:701
 msgid "Git with force push"
@@ -14033,10 +14030,8 @@ msgid "Pagure merge request"
 msgstr "Pagure-samenvoegverzoek"
 
 #: weblate/vcs/git.py:1466
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull request"
-msgstr "‘Pull request’ op Gitea"
+msgstr "‘Pull request’ op Bitbucket"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:55
