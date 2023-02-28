@@ -9,9 +9,11 @@ functionality, and verify that it works.
 Continuous integration
 ++++++++++++++++++++++
 
-Current test results can be found on
-`GitHub Actions <https://github.com/WeblateOrg/weblate/actions>`_ and coverage
-is reported on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
+Current test results can be found on `GitHub Actions`_ and coverage is reported
+on `Codecov`_.
+
+.. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
+.. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
 
 There are several jobs to verify different aspects:
 
