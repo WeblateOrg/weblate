@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-28 09:05+0100\n"
-"PO-Revision-Date: 2023-02-28 17:11+0000\n"
+"PO-Revision-Date: 2023-02-28 18:37+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -6774,12 +6774,16 @@ msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
 msgstr ""
+"Кількість днів, протягом яких Weblate відмовлятиметься повторно "
+"використовувати раніше використаний пароль для користувача."
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Перевірку засновано на журналі ревізії, :setting:`AUDITLOG_EXPIRY` має бути "
+"принаймні таким самим великим, як це значення."
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -6969,22 +6973,24 @@ msgid ":ref:`backup`, :doc:`borg:usage/create`"
 msgstr ":ref:`backup`, :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:273
-#, fuzzy
-#| msgid "BASE_DIR"
 msgid "CACHE_DIR"
-msgstr "BASE_DIR"
+msgstr "CACHE_DIR"
 
 #: ../../admin/config.rst:277
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Каталог, у якому Weblate зберігає файли кешу. Типовим є підкаталог "
+":file:`cache` у :setting:`DATA_DIR`."
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Змініть це на локальну або тимчасову файлову систему, якщо "
+":setting:`DATA_DIR` є каталогом мережевої файлової системи."
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -7239,6 +7245,8 @@ msgstr ":file:`home`"
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Різноманітні кеші, можна розташувати деінде за допомогою "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7264,10 +7272,8 @@ msgstr ""
 "відповідним чином."
 
 #: ../../admin/config.rst:445
-#, fuzzy
-#| msgid ":ref:`file-permissions`, :doc:`backup`"
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
-msgstr ":ref:`file-permissions`, :doc:`backup`"
+msgstr ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
 
 #: ../../admin/config.rst:452
 msgid "DATABASE_BACKUP"
@@ -7655,14 +7661,8 @@ msgid "List for credentials for Gitea servers."
 msgstr "Список реєстраційних даних для серверів Gitea."
 
 #: ../../admin/config.rst:777
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea "
-#| "personal access token`_"
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
-msgstr ""
-":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Створення особистого жетона "
-"доступу Gitea`_"
+msgstr ":ref:`vcs-gitea`, `Створення особистого жетона доступу Gitea`_"
 
 #: ../../admin/config.rst:785
 msgid "GITLAB_CREDENTIALS"
@@ -7673,18 +7673,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Список реєстраційних даних для серверів GitLab."
 
 #: ../../admin/config.rst:806
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal "
-#| "access token <https://docs.gitlab.com/ee/user/profile/"
-#| "personal_access_tokens.html>`_"
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: особистий жетон "
-"доступу <https://docs.gitlab.com/ee/user/profile/personal_access_tokens."
-"html>`_"
+":ref:`vcs-gitlab`, `GitLab: особистий жетон доступу <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:812
 msgid "GITHUB_CREDENTIALS"
@@ -7695,32 +7689,25 @@ msgid "List for credentials for GitHub servers."
 msgstr "Список реєстраційних даних для серверів GitHub."
 
 #: ../../admin/config.rst:833
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `створення особистого "
-"жетона доступу GitHub`_"
+msgstr ":ref:`vcs-github`, `створення особистого жетона доступу GitHub`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "GITEA_CREDENTIALS"
 msgid "BITBUCKETSERVER_CREDENTIALS"
-msgstr "GITEA_CREDENTIALS"
+msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Gitea servers."
 msgid "List for credentials for Bitbucket servers."
-msgstr "Список реєстраційних даних для серверів Gitea."
+msgstr "Список реєстраційних даних для серверів Bitbucket."
 
 #: ../../admin/config.rst:858
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`, `Bitbucket: жетон доступу HTTP "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8186,14 +8173,9 @@ msgid "List for credentials for Pagure servers."
 msgstr "Список реєстраційних даних для серверів Pagure."
 
 #: ../../admin/config.rst:1271
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-#| "pagure.io/api/0/>`_"
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 msgstr ""
-":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `програмний інтерфейс "
-"Pagure <https://pagure.io/api/0/>`_"
+":ref:`vcs-pagure`, `програмний інтерфейс Pagure <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1278
 msgid "PRIVACY_URL"
@@ -8518,16 +8500,17 @@ msgstr ""
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
 #: ../../admin/config.rst:1523
-#, fuzzy
-#| msgid "REGISTRATION_OPEN"
 msgid "REGISTRATION_REBIND"
-msgstr "REGISTRATION_OPEN"
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1527
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Уможливлює повторну прив'язку модулів розпізнавання для наявних "
+"користувачів. Увімкніть при перенесенні між різними надавачами засобів для "
+"розпізнавання."
 
 #: ../../admin/config.rst:1532
 msgid ""
@@ -8535,6 +8518,10 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Типово, вимкнено, щоб заборонити додавання інших модулів розпізнавання до "
+"наявного облікового запису. Повторна прив'язка може призвести до "
+"компрометації облікового запису при використанні додаткових сторонніх "
+"модулів розпізнавання."
 
 #: ../../admin/config.rst:1539
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -9749,6 +9736,13 @@ msgid ""
 "choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"Якщо ви хочете вносити зміни частіше і без перевірки віку, ви можете "
+"запланувати регулярне задання для створення внесків. Зробити це можна за "
+"допомогою пункту :guilabel:`Періодичні завдання` і :ref:`адміністративного "
+"інтерфейсу <admin-interface>`. Спочатку створіть бажаний :guilabel:`Інтервал`"
+" (наприклад 120 секунд). Далі, додайте періодичне завдання і виберіть "
+"``weblate.trans.tasks.commit_pending``, як :guilabel:`Завдання` з ``{\"hours"
+"\": 0}`` у полі :guilabel:`Аргументи ключових слів` та бажаним інтервалом."
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -10118,12 +10112,16 @@ msgid ""
 "Bitnami provides a Weblate stack for many platforms at <https://bitnami.com/"
 "stack/weblate>."
 msgstr ""
+"У Bitnami передбачено стек Weblate для багатьох платформ у <https://bitnami."
+"com/stack/weblate>."
 
 #: ../../admin/deployments.rst:28
 msgid ""
 "`Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/"
 ">`_"
 msgstr ""
+"`Weblate, який запаковано Bitnami <https://docs.bitnami.com/general/apps/"
+"weblate/>`_"
 
 #: ../../admin/deployments.rst:31
 msgid "Weblate Cloudron Package"
@@ -12588,10 +12586,8 @@ msgstr ""
 "вузлі (Weblate, бази даних і вебсервера):"
 
 #: ../../admin/install/steps/hw.rst:8
-#, fuzzy
-#| msgid "2 GB of RAM"
 msgid "3 GB of RAM"
-msgstr "2 ГБ оперативної пам'яті"
+msgstr "3 ГБ оперативної пам'яті"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -13051,6 +13047,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(Необов'язкове) Оновити пароль для користувача Weblate. У цьому може "
+"виникнути потреба при перенесенні на PostgreSQL 14 або 15, оскільки спосіб "
+"зберігання паролів було змінено:"
 
 #: ../../admin/install/docker.rst:287
 msgid "Start all remaining containers:"
@@ -13344,10 +13343,8 @@ msgstr ""
 "облікового запису за допомогою :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: ../../admin/install/docker.rst:543
-#, fuzzy
-#| msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr "Налаштовує :setting:`EXTRA_HTML_HEAD`."
+msgstr "Налаштовує :std:setting:`REGISTRATION_REBIND`."
 
 #: ../../admin/install/docker.rst:547
 msgid ""
@@ -13498,64 +13495,44 @@ msgstr ""
 "`GOOGLE_ANALYTICS_ID`."
 
 #: ../../admin/install/docker.rst:671
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures GitHub pull-requests integration by changing :setting:"
 "`GITHUB_CREDENTIALS`."
 msgstr ""
-"Налаштовує ім'я користувача GitHub для запитів щодо об'єднання GitHub "
-"зміною :setting:`GITHUB_USERNAME`."
+"Налаштовує GItHub для інтеграції запитів щодо злиття Gitea зміною "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:682
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab username for GitLab merge-requests by changing :setting:"
-#| "`GITLAB_USERNAME`"
 msgid ""
 "Configures GitLab merge-requests integration  by changing :setting:"
 "`GITLAB_CREDENTIALS`."
 msgstr ""
-"Налаштовує ім'я користувача GitLab для запитів щодо об'єднання GitLab "
-"зміною :setting:`GITLAB_USERNAME`"
+"Налаштовує GitLab для інтеграції запитів щодо об'єднання Pagure зміною "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:693
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures Gitea pull-requests integration by changing :setting:"
 "`GITEA_CREDENTIALS`."
 msgstr ""
-"Налаштовує ім'я користувача GitHub для запитів щодо об'єднання GitHub "
-"зміною :setting:`GITHUB_USERNAME`."
+"Налаштовує Pagure для інтеграції запитів щодо злиття Gitea зміною "
+":setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:705
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure username for Pagure merge-requests by changing :setting:"
-#| "`PAGURE_USERNAME`"
 msgid ""
 "Configures Pagure merge-requests integration  by changing :setting:"
 "`PAGURE_CREDENTIALS`."
 msgstr ""
-"Налаштовує ім'я користувача Pagure для запитів щодо об'єднання Pagure "
-"зміною :setting:`PAGURE_USERNAME`"
+"Налаштовує Pagure для інтеграції запитів щодо об'єднання Pagure зміною "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:716
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures Bitbucket Server pull-requests integration by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Налаштовує ім'я користувача GitHub для запитів щодо об'єднання GitHub "
-"зміною :setting:`GITHUB_USERNAME`."
+"Налаштовує сервер Bitbucket для інтеграції запитів щодо злиття Gitea зміною "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:721
 #, fuzzy
@@ -13763,7 +13740,7 @@ msgstr "Налаштовує :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:919
 msgid "Allow CORS requests from given origins."
-msgstr ""
+msgstr "Уможливити запит CORS вказаного походження."
 
 #: ../../admin/install/docker.rst:931
 msgid "Automatic suggestion settings"
@@ -14583,11 +14560,6 @@ msgstr ""
 "змонтовано до :file:`/app/data`."
 
 #: ../../admin/install/docker.rst:1636
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files. Its content is recreated on container startup and the "
-#| "volume can be mounted using ephemeral filesystem such as `tmpfs`."
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
@@ -14595,9 +14567,9 @@ msgid ""
 "`tmpfs`."
 msgstr ""
 "Том кешу монтується як :file:`/app/cache` і використовується для зберігання "
-"статичних файлів. Його вміст відтворюється при запуску контейнера, а тому "
-"може бути змонтовано з використанням тимчасової файлової системи, зокрема "
-"`tmpfs`."
+"статичних файлів і :setting:`CACHE_DIR`. Його вміст відтворюється при "
+"запуску контейнера, а тому може бути змонтовано з використанням тимчасової "
+"файлової системи, зокрема `tmpfs`."
 
 #: ../../admin/install/docker.rst:1640
 msgid ""
@@ -16577,10 +16549,8 @@ msgid "``api.translator.azure.cn`` -- China"
 msgstr "``api.translator.azure.cn`` -- Китай"
 
 #: ../../admin/machine.rst:291
-#, fuzzy
-#| msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
 msgid "``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud"
-msgstr "``api-eur.cognitive.microsofttranslator.com`` -- Європа"
+msgstr "``api.cognitive.microsofttranslator.us`` -- хмара Azure уряду США"
 
 #: ../../admin/machine.rst:293
 #, fuzzy
@@ -16902,10 +16872,8 @@ msgstr ""
 "amagama`, `пам'ять перекладів Amagama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:478
-#, fuzzy
-#| msgid "Can manage translation memory."
 msgid "IBM Watson Language Translator"
-msgstr "Може керувати пам'яттю перекладів."
+msgstr "Перекладач IBM Watson"
 
 #: ../../admin/machine.rst:480
 msgid "``ibm``"
@@ -16916,6 +16884,8 @@ msgid ""
 "IBM Watson Language Translator translates text from one language to another. "
 "The service offers multiple domain-specific models."
 msgstr ""
+"Перекладач IBM Watson перекладає текст з однієї мови іншою. Служба пропонує "
+"декілька специфічних для домену моделей."
 
 #: ../../admin/machine.rst:492
 msgid ""
@@ -16923,6 +16893,9 @@ msgid ""
 "translator>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-"
 "translator>`_"
 msgstr ""
+"`Перекладач Watson <https://www.ibm.com/cloud/watson-language-translator>`_, "
+"`Документація до хмарного програмного інтерфейсу IBM <https://cloud.ibm.com/"
+"apidocs/language-translator>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:498
 msgid "Weblate"
@@ -17262,19 +17235,15 @@ msgid "Commits any possible pending changes to the back-end Git repository."
 msgstr "Надсилає усі можливі зміни з черги до репозиторію Git модуля обробки."
 
 #: ../../admin/management.rst:186
-#, fuzzy
-#| msgid ""
-#| "You can either define which project or component to update (for example "
-#| "``weblate/application``), or use ``--all`` to update all existing "
-#| "components."
 msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
-"Ви можете або визначити проєкт або складник для оновлення (наприклад, "
-"``weblate/application``), або скористатися ``--all`` для оновлення усіх "
-"наявних складників."
+"Ви можете або визначити проєкт або складник для оновлення (наприклад, ``"
+"weblate/application``), або скористатися ``--all`` для оновлення усіх "
+"наявних складників або скористайтеся ``--file-format`` для фільтрування на "
+"основі формату файлів."
 
 #: ../../admin/management.rst:191
 msgid "commit_pending"
@@ -21823,10 +21792,8 @@ msgstr ""
 "``DEFAULT_PAGINATION_CLASS`` у решті параметрів бібліотек."
 
 #: ../../admin/upgrade.rst:371
-#, fuzzy
-#| msgid "Upgrade from 4.5 to 4.6"
 msgid "Upgrade from 4.15 to 4.16"
-msgstr "Оновлення з 4.5 до 4.6"
+msgstr "Оновлення з 4.15 до 4.16"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
@@ -21834,26 +21801,32 @@ msgid ""
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
+"У новій версії биття Celery зберігає план завдань у базі даних. Для цього "
+"слід змінити ``CELERY_BEAT_SCHEDULER`` і :setting:`django:INSTALLED_APPS`."
 
 #: ../../admin/upgrade.rst:378
 msgid ""
 "The deprecated VCS setting for credentials is no longer supported, see :ref:"
 "`up-4-14`."
 msgstr ""
+"Припинено підтримку застарілого параметра системи керування версіями для "
+"реєстраційних даних, див. :ref:`up-4-14`."
 
 #: ../../admin/upgrade.rst:379
-#, fuzzy
-#| msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgid ""
 "Upgrade of `django-crispy-forms` requires changes in :setting:`django:"
 "INSTALLED_APPS`."
-msgstr "Змінено :setting:`django:INSTALLED_APPS`."
+msgstr ""
+"Оновлення `django-crispy-forms` потребує змін у "
+":setting:`django:INSTALLED_APPS`."
 
 #: ../../admin/upgrade.rst:380
 msgid ""
 "Integration of `django-cors-headers` requires changes in :setting:`django:"
 "INSTALLED_APPS` and :setting:`django:MIDDLEWARE`."
 msgstr ""
+"Інтеграція `django-cors-headers` потребує змін у "
+":setting:`django:INSTALLED_APPS` і :setting:`django:MIDDLEWARE`."
 
 #: ../../admin/upgrade.rst:387
 msgid "Upgrading from Python 2 to Python 3"
@@ -23717,10 +23690,8 @@ msgid "Source strings (use single string if not creating plural)"
 msgstr "Початкові рядки (один рядок, якщо не створено форм множини)"
 
 #: ../../api.rst:1884
-#, fuzzy
-#| msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
-msgstr "новостворений модуль; див. :http:get:`/api/units/(int:id)/`"
+msgstr "Стан рядка, див. :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1885
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
@@ -23773,11 +23744,6 @@ msgstr ""
 "у тому форматі, у якому він зберігається у системі керування версіями."
 
 #: ../../api.rst:1921
-#, fuzzy
-#| msgid ""
-#| "File format to use; if not specified no format conversion happens; "
-#| "supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, "
-#| "``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 msgid ""
 "File format to use; if not specified no format conversion happens; supported "
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, "
@@ -23785,8 +23751,8 @@ msgid ""
 msgstr ""
 "Формат файлів, яким слід скористатися; якщо не вказано, перетворення "
 "форматів не виконуватиметься; підтримувані формати файлів: ``po``, ``mo``, "
-"``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, "
-"``strings``"
+"``xliff``, ``xliff11``, ``tbx``, ``tmx``, ``csv``, ``xlsx``, ``json``, "
+"``aresource``, ``strings``"
 
 #: ../../api.rst:1922
 msgid ""
@@ -24735,143 +24701,104 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.16"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.16"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 1st 2023."
-msgstr "Випущено 11 березня 2020 року."
+msgstr "Випущено 1 березня 2023 року."
 
 #: ../../changes.rst:6
 msgid "Format string checks now also detects duplicated formats."
 msgstr ""
+"У новій версії перевірки форматування рядків виявляють дубльовані формати."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance for some monolingual translations."
 msgid "Improved search performance for some specially formatted strings."
-msgstr "Удосконалено швидкодію обробки деяких одномовних перекладів."
+msgstr ""
+"Удосконалено швидкодію пошуку для деяких спеціально форматованих рядків."
 
 #: ../../changes.rst:8
 msgid "Celery beat is now storing the tasks schedule in the database."
-msgstr ""
+msgstr "У новій версії биття Celery зберігає план завдань у базі даних."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for Amazon Translate."
 msgid "Added support for IBM Watson Language Translator."
-msgstr "Додано підтримку Amazon Translate."
+msgstr "Додано підтримку перекладача IBM Watson."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "Dropped support for migrating from 3.x releases, migrate through 4.1 or "
-#| "4.0."
 msgid "Dropped support for VCS integration settings deprecated in 4.14."
 msgstr ""
-"Відкинуто підтримку перенесення даних з випусків 3.x — перенесення слід "
-"виконувати із проміжними версіями 4.1 або 4.0."
+"Відкинуто підтримку параметрів інтеграції з системами керування версіями, "
+"яку визнано застарілою у 4.14."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Bitbucket Server pull requests."
-msgstr "Додано підтримку запитів щодо об'єднання Pagure."
+msgstr "Додано підтримку запитів щодо злиття для сервера Bitbucket."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved error handling in gitexport module."
 msgid "Improved conflicts handling in gettext PO files."
-msgstr "Удосконалено обробку помилок у модулі gitexport."
+msgstr "Удосконалено обробку конфліктів у файлах PO gettext."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added support for manually defining string variants using a flag."
 msgid "Added support for defining strings state when adding via API."
 msgstr ""
-"Додано підтримку власноручного визначення варіантів рядків за допомогою "
-"позначки."
+"Додано підтримку визначення стану рядків при додаванні за допомогою "
+"програмного інтерфейсу."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Add support for configuring msgmerge add-on."
 msgid "Added support for configuring CORS allowed origins."
-msgstr "Додано підтримку налаштовування додатка msgmerge."
+msgstr "Додано підтримку налаштовування дозволених джерел CORS."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for voting on suggestions."
 msgid "Added plurals support to automatic suggestions."
-msgstr "Додано підтримку голосування за пропозиції."
+msgstr "Додано підтримку форм множини для автоматичних пропозицій."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/88?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/88?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"89?closed=1>`__."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.15.2"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.15.2"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 25th 2023."
-msgstr "Випущено 9 січня 2020 року."
+msgstr "Випущено 25 січня 2023 року."
 
 #: ../../changes.rst:24
 msgid ""
 "Enabled gotext JSON and i18next v4 formats in the default configuration."
-msgstr ""
+msgstr "Уможливлено формати gotext JSON і i18next v4 у типовій конфігурації."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed crash on uploading corrupted files."
 msgstr ""
-"Виправлено аварійне завершення роботи при показі результатів деяких "
-"перевірок."
+"Виправлено аварійне завершення роботи при вивантаженні пошкоджених файлів."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "More detailed repository status view."
 msgid "Show stale directories in Git repository status."
-msgstr "Реалізовано докладнішу панель перегляду стану репозиторію."
+msgstr "Реалізовано показ незмінних каталогів у стані сховища Git."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"91?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 4.15.1"
 msgstr "Weblate 4.15.1"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 19th 2023."
-msgstr "Випущено 9 січня 2020 року."
+msgstr "Випущено 19 січня 2023 року."
 
 #: ../../changes.rst:35
 msgid "Fixed suggestions from automatic translation."
@@ -39504,6 +39431,9 @@ msgid ""
 "handling with CLDR. Older versions have different plural rules for some "
 "languages which are not correct."
 msgstr ""
+"Якщо ви користуєтеся формами множини, рекомендуємо скористатися версією 4, "
+"оскільки у ній вирівняно з CLDR оброку таких форм. У попередніх версіях для "
+"деяких мови використовувалися інші форми множини, що не є правильним."
 
 #: ../../formats.rst:946
 msgid ""
@@ -39575,22 +39505,16 @@ msgstr ""
 "яким (здебільшого) є файл з рядками англійською мовою."
 
 #: ../../formats.rst:1001
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports both v1 and v2 formats, please choose corresponding version "
 "when selecting file format."
 msgstr ""
-"У Weblate передбачено підтримку формату версій 3 і 4 JSON i18next. Будь "
-"ласка, виберіть належний формат файлів, що відповідає вашому середовищу."
+"У Weblate передбачено підтримку одразу версій 1 і 2 формату. Будь ласка, "
+"виберіть відповідну версію при виборі формату файлів."
 
 #: ../../formats.rst:1013
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "`go-i18n v1 JSON file`"
-msgstr "Файл JSON go-i18n"
+msgstr "`файл JSON go-i18n версії 1`"
 
 #: ../../formats.rst:1018
 msgid ""
@@ -39615,10 +39539,8 @@ msgstr ""
 "яким (здебільшого) є файл з рядками англійською мовою."
 
 #: ../../formats.rst:1040
-#, fuzzy
-#| msgid "``internal/translations/locales/*/mesages.gotext.json``"
 msgid "``internal/translations/locales/*/messages.gotext.json``"
-msgstr "``internal/translations/locales/*/mesages.gotext.json``"
+msgstr "``internal/translations/locales/*/messages.gotext.json``"
 
 #: ../../formats.rst:1042
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
@@ -43066,16 +42988,12 @@ msgstr ""
 "у стилі Markdown."
 
 #: ../../user/checks.rst:1228
-#, fuzzy
-#| msgid ""
-#| "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
-#| ">`_ library developed by Mozilla."
 msgid ""
 "The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/"
 "ammonia>`_ library."
 msgstr ""
-"Перевірка HTML виконується бібліотекою `Bleach <https://bleach.readthedocs."
-"io/>`_, яку розроблено Mozilla."
+"Перевірка HTML виконується бібліотекою `Ammonia <https://github.com/"
+"rust-ammonia/ammonia>`_."
 
 #: ../../user/checks.rst:1236
 msgid "URL"
@@ -44208,6 +44126,9 @@ msgid ""
 "Sending out notifications is limited, you will not receive more than 1000 e-"
 "mails per day. Any further notifications for you will be discarded."
 msgstr ""
+"Надсилання сповіщень обмежено. Ви не отримуватимете більше, ніж 1000 "
+"повідомлень електронної пошти щодня. Усі сповіщення поза цією кількістю буде "
+"відкинуто."
 
 #: ../../user/profile.rst:181
 msgid "Account"
@@ -44408,16 +44329,12 @@ msgid "String priority."
 msgstr "Пріоритетність рядка."
 
 #: ../../user/search.rst:40
-#, fuzzy
-#| msgid "``priority:NUMBER``"
 msgid "``id:NUMBER``"
-msgstr "``priority:ЧИСЛО``"
+msgstr "``id:ЧИСЛО``"
 
 #: ../../user/search.rst:41
-#, fuzzy
-#| msgid "unit identifier"
 msgid "String unique identifier."
-msgstr "ідентифікатор модуля"
+msgstr "Унікальний ідентифікатор рядка."
 
 #: ../../user/search.rst:42
 msgid "``added:DATETIME``"
@@ -45728,21 +45645,16 @@ msgid "Version control integration"
 msgstr "Налаштування інтеграції із керуванням версіями"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit` and :"
-#| "ref:`vcs-git-svn`) and :ref:`vcs-mercurial` as version control back-ends."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
 "`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as "
 "version control back-ends."
 msgstr ""
-"У поточній версії Weblate передбачено підтримку модулів керування версіями :"
-"ref:`vcs-git` (із розширеною підтримкою :ref:`vcs-github`, :ref:`vcs-"
-"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit` і :ref:`vcs-git-svn`) та :ref:"
-"`vcs-mercurial`."
+"У поточній версії Weblate передбачено підтримку модулів керування версіями "
+":ref:`vcs-git` (із розширеною підтримкою :ref:`vcs-github`, :ref:`vcs-gitlab`"
+", :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:`vcs-git-svn` і :ref:`vcs-"
+"bitbucket-server`) та :ref:`vcs-mercurial`."
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -46241,14 +46153,8 @@ msgstr ""
 "керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:294
 msgid "GitLab merge requests"
@@ -46289,14 +46195,8 @@ msgstr ""
 "керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:313
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
-"setting:`GITLAB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:322
 msgid "Gitea pull requests"
@@ -46337,47 +46237,28 @@ msgstr ""
 "керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:341
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
-#| "setting:`GITEA_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
-"setting:`GITEA_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:350
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull requests"
-msgstr "Запит щодо злиття Gitea"
+msgstr "Запит щодо злиття для сервера Bitbucket"
 
 #: ../../vcs.rst:354
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
-#| "allow pushing translation changes as pull requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Server "
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"Це додає тонкий шар над :ref:`vcs-git` з використанням інструмента `Gitea "
-"API`_, щоб уможливити запис змін у перекладах як запитів щодо об'єднання, "
-"замість безпосереднього запису до репозиторію."
+"Це додає тонкий шар над :ref:`vcs-git` з використанням інструмента `"
+"програмного інтерфейсу Bitbucket`_, щоб уможливити запис змін у перекладах "
+"як запитів щодо об'єднання, замість безпосереднього запису до репозиторію."
 
 #: ../../vcs.rst:360
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Тут не передбачено підтримки хмарного програмного інтерфейсу Bitbucket."
 
 #: ../../vcs.rst:363
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitea` creates pull requests."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -46387,15 +46268,10 @@ msgstr ""
 "Потреби у використання цього інструмента для доступу до репозиторіїв Git, "
 "звичайний :ref:`vcs-git` працює так само. Єдиною відмінністю є спосіб "
 "обробки запису до репозиторію. З :ref:`vcs-git` зміни записуються "
-"безпосередньо до репозиторію, а :ref:`vcs-gitea` створює запит щодо "
-"об'єднання."
+"безпосередньо до репозиторію, а :ref:`vcs-bitbucket-server` створює запит "
+"щодо об'єднання."
 
 #: ../../vcs.rst:368
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:`GITEA_CREDENTIALS`) in "
-#| "the Weblate settings to make this work. Once configured, you will see a :"
-#| "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:"
 "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
@@ -46403,19 +46279,13 @@ msgid ""
 "selecting :ref:`component-vcs`."
 msgstr ""
 "Щоб це спрацювало, вам слід налаштувати реєстраційні дані для програмного "
-"інтерфейсу (:setting:`GITEA_CREDENTIALS`) у параметрах Weblate. Після "
-"налаштовування ви побачите пункт :guilabel:`Gitea` при виборі :ref:`системи "
-"керування версіями складника <component-vcs>`."
+"інтерфейсу (:setting:`BITBUCKETSERVER_CREDENTIALS`) у параметрах Weblate. "
+"Після налаштовування ви побачите пункт :guilabel:`сервер Bitbucket` при "
+"виборі :ref:`системи керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:374
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:383
 msgid "Pagure merge requests"
@@ -46456,14 +46326,8 @@ msgstr ""
 "керування версіями складника <component-vcs>`."
 
 #: ../../vcs.rst:402
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:"
-#| "`PAGURE_TOKEN`, :setting:`PAGURE_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :"
-"setting:`PAGURE_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:410
 msgid "Gerrit"
