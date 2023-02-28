@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-02-28 08:04+0000\n"
-"PO-Revision-Date: 2023-02-28 15:32+0000\n"
+"PO-Revision-Date: 2023-02-28 17:10+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -3812,20 +3812,14 @@ msgid "None"
 msgstr "Aucun"
 
 #: weblate/lang/models.py:618
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/two"
 msgctxt "Plural type"
 msgid "One/other"
-msgstr "Un / autre / deux"
+msgstr "Un / autre"
 
 #: weblate/lang/models.py:622
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/few/other"
-msgstr "Un / deux / quelques / autre"
+msgstr "Un / peu / autre"
 
 #: weblate/lang/models.py:626
 msgctxt "Plural type"
@@ -4212,11 +4206,9 @@ msgid "Regional or multi-service can be spcified using region field below."
 msgstr ""
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Authentification annulée."
+msgstr "Région du service d'authentification"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -4279,14 +4271,13 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Aucune entrée valide n’a été trouvée dans le fichier téléversé !"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON file: %s"
-msgstr "Échec d’analyse du fichier JSON : {!s}"
+msgstr "Échec lors de l’analyse du fichier JSON&nbsp;: %s"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
-msgstr "Échec de l’analyse du fichier TMX !"
+msgstr "Échec lors de l’analyse du fichier TMX !"
 
 #: weblate/memory/models.py:156
 msgid "Source language not defined in the TMX file!"
@@ -7324,10 +7315,8 @@ msgstr "Ajouter la langue"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
-msgstr "Afficher plus de modifications par cet utilisateur"
+msgstr "Parcourir toutes les modifications de cette langue"
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -8044,10 +8033,8 @@ msgid "Support status"
 msgstr "Statut de l’assistance"
 
 #: weblate/templates/manage/index.html:42
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Refresh support status"
-msgstr "Statut de l’assistance Weblate"
+msgstr "Actualiser le statut de l’assistance"
 
 #: weblate/templates/manage/index.html:53
 msgid "Support expiry"
@@ -8783,7 +8770,7 @@ msgstr "Longueur de chaîne source"
 #: weblate/templates/snippets/embed-units-clone.html:5
 #: weblate/templates/snippets/format-translation.html:16
 msgid "Clone to translation"
-msgstr "Dupliquer comme traduction"
+msgstr "Coller dans traduction"
 
 #: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:123
 msgid "Target string"
@@ -13045,7 +13032,7 @@ msgstr "La chaîne contient les caractères de contrôle : %s"
 
 #: weblate/trans/models/translation.py:1595
 msgid "Empty state is supported for blank strings only."
-msgstr ""
+msgstr "L'état vide n'est autorisé que pour les chaînes vides."
 
 #: weblate/trans/models/translation.py:1598
 msgid "Blank strings reqire an empty state."
