@@ -15,7 +15,7 @@
 # Luis Saavedra <luis94855510@gmail.com>, 2020.
 # Eduardo de Miguel <shide.shugo@gmail.com>, 2021.
 # Joaquin Gomez <joa97@hotmail.com.ar>, 2021.
-# David Leal <halfpacho@gmail.com>, 2021, 2022.
+# David Leal <halfpacho@gmail.com>, 2021, 2022, 2023.
 # Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2021.
 # Vladimir Knobel <vladimir.knobel@gmail.com>, 2021.
 # Javier Llorente <javier@opensuse.org>, 2021.
@@ -33,8 +33,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-01 08:50+0000\n"
-"PO-Revision-Date: 2023-02-28 05:42+0000\n"
-"Last-Translator: j_chan <jennifer.chan.p@gmail.com>\n"
+"PO-Revision-Date: 2023-03-02 22:04+0000\n"
+"Last-Translator: David Leal <halfpacho@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -42,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -3489,16 +3489,12 @@ msgid "Joomla language file"
 msgstr "Archivo de idioma de Joomla"
 
 #: weblate/formats/ttkit.py:1322
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "GWT properties (UTF-8)"
-msgstr "Propiedades de Java (UTF-8)"
+msgstr "Propiedades de GWT (UTF-8)"
 
 #: weblate/formats/ttkit.py:1331
-#, fuzzy
-#| msgid "Java Properties (ISO 8859-1)"
 msgid "GWT properties (ISO-8859-1)"
-msgstr "Propiedades de Java (ISO 8859-1)"
+msgstr "Propiedades de GWT (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1337
 msgid "PHP strings"
@@ -3538,16 +3534,12 @@ msgid "i18next JSON file v4"
 msgstr "Archivo JSON de i18next v4"
 
 #: weblate/formats/ttkit.py:1452
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "go-i18n v1 JSON file"
-msgstr "Archivo JSON de go-i18n"
+msgstr "Archivo JSON v1 de go-i18n"
 
 #: weblate/formats/ttkit.py:1459
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "go-i18n v2 JSON file"
-msgstr "Archivo JSON de go-i18n"
+msgstr "Archivo JSON v2 de go-i18n"
 
 #: weblate/formats/ttkit.py:1466
 msgid "ARB file"
@@ -3771,20 +3763,14 @@ msgid "None"
 msgstr "Ninguno"
 
 #: weblate/lang/models.py:659
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/two"
 msgctxt "Plural type"
 msgid "One/other"
-msgstr "Uno/resto/dos"
+msgstr "Uno/otro"
 
 #: weblate/lang/models.py:663
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/few/other"
-msgstr "Uno/dos/pocos/resto"
+msgstr "Uno/pocos/otro"
 
 #: weblate/lang/models.py:667
 msgctxt "Plural type"
@@ -3877,20 +3863,14 @@ msgid "One/many/other"
 msgstr "Uno/muchos/otros"
 
 #: weblate/lang/models.py:739
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
-msgstr "Cero/uno/pocos/muchos/resto"
+msgstr "Cero/uno/muchos/otro"
 
 #: weblate/lang/models.py:743
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/few/many"
-msgstr "Uno/pocos/muchos/resto"
+msgstr "Uno/pocos/muchos"
 
 #: weblate/lang/models.py:747
 msgctxt "Plural type"
@@ -4167,22 +4147,20 @@ msgid "Application base URL"
 msgstr "URL base de la aplicación"
 
 #: weblate/machinery/forms.py:140
-#, fuzzy
-#| msgid "Authentication"
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "Autenticación"
+msgstr "URL del servicio de autenticación"
 
 #: weblate/machinery/forms.py:149
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
+"Regional o multi-servicio puede ser especificado usando el campo de region a "
+"continuación."
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Se canceló la autenticación."
+msgstr "Región del servicio de autenticación"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -4245,10 +4223,9 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "¡No se han encontraron entradas válidas en el archivo, que ha cargado!"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON file: %s"
-msgstr "No se pudo procesar el archivo JSON: {!s}"
+msgstr "No se pudo procesar el archivo JSON: %s"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
@@ -5976,6 +5953,8 @@ msgstr "Colaborar con Weblate"
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
 msgstr ""
+"Tu Weblate está excediendo los límites del servicio. Por favor actualiza tu "
+"suscripción."
 
 #: weblate/templates/base.html:346
 #: weblate/templates/screenshots/screenshot_detail.html:82
@@ -7261,10 +7240,8 @@ msgstr "Añadir idioma"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
-msgstr "Explorar todos los cambios del usuario"
+msgstr "Explorar todos los para este lenguaje"
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -7979,10 +7956,8 @@ msgid "Support status"
 msgstr "Estado de asistencia"
 
 #: weblate/templates/manage/index.html:42
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Refresh support status"
-msgstr "Estado de asistencia de Weblate"
+msgstr "Actualizar el estado del soporte"
 
 #: weblate/templates/manage/index.html:53
 msgid "Support expiry"
@@ -8476,10 +8451,8 @@ msgid "Color"
 msgstr "Color"
 
 #: weblate/templates/project-labels.html:20
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Labeled source strings"
-msgstr "Actualizar cadenas de origen"
+msgstr "Cadenas de origen etiquetadas"
 
 #: weblate/templates/project-labels.html:44
 msgid "Add label"
@@ -12947,15 +12920,17 @@ msgstr "La cadena contiene un carácter de control: %s"
 
 #: weblate/trans/models/translation.py:1586
 msgid "Empty state is supported for blank strings only."
-msgstr ""
+msgstr "El estado vacío solo se puede para cadenas en blanco."
 
 #: weblate/trans/models/translation.py:1589
 msgid "Blank strings require an empty state."
-msgstr ""
+msgstr "Las cadenas en blanco requieren un estado vacío."
 
 #: weblate/trans/models/translation.py:1592
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
+"El estado aprobado no está disponible porque las revisiones no están "
+"habilitadas."
 
 #: weblate/trans/models/translation.py:1599
 msgid "This string seems to already exist."
@@ -14108,10 +14083,8 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Error en el parámetro %(field)s: %(error)s"
 
 #: weblate/vcs/git.py:511
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible cleanups:"
-msgstr "Configuración posible"
+msgstr "Posibles limpiezas:"
 
 #: weblate/vcs/git.py:698
 msgid "Git with force push"
@@ -14138,10 +14111,8 @@ msgid "Pagure merge request"
 msgstr "Solicitud de fusión de Pagure"
 
 #: weblate/vcs/git.py:1463
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull request"
-msgstr "Solicitud de incorporación de Gitea"
+msgstr "Solicitud de incorporación del servidor de BitBucket"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:55
