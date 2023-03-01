@@ -11,17 +11,20 @@ import weblate.utils.version
 
 def get_doc_url(page, anchor="", user=None):
     """Return URL to documentation."""
+    version = weblate.utils.version.VERSION
     # Should we use tagged release or latest version
-    if "-dev" in weblate.utils.version.VERSION or (
-        (user is None or not user.is_authenticated) and settings.HIDE_VERSION
+    if (
+        version.endswith("-dev")
+        or version.endswith("-rc")
+        or (settings.HIDE_VERSION and (user is None or not user.is_authenticated))
     ):
-        version = "latest"
+        doc_version = "latest"
     else:
-        version = f"weblate-{weblate.utils.version.VERSION}"
+        doc_version = f"weblate-{version}"
     # Language variant
     code = DOCUMENTATION_LANGUAGES.get(get_language(), "en")
     # Generate URL
-    url = f"https://docs.weblate.org/{code}/{version}/{page}.html"
+    url = f"https://docs.weblate.org/{code}/{doc_version}/{page}.html"
     # Optionally append anchor
     if anchor != "":
         url += "#{}".format(anchor.replace("_", "-"))
