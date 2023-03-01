@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-01 09:51+0100\n"
-"PO-Revision-Date: 2023-02-28 17:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-03-01 14:17+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -3441,7 +3441,7 @@ msgstr "Sie enthält einen grundlegenden Überblick über Ihr Weblate:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr "Support-Status, siehe :doc:`support`"
+msgstr "Supportstatus, siehe :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
@@ -3475,6 +3475,10 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"Seien Sie vorsichtig, denn dies ist eine Schnittstelle auf niedriger Ebene. "
+"Sie sollten diese in den meisten Fällen nicht benötigen, da die meisten "
+"Dinge bequem über die Weblate-Benutzeroberfläche oder die API zugänglich "
+"sind."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -6827,12 +6831,16 @@ msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
 msgstr ""
+"Für wie viele Tage Weblate die Wiederverwendung eines zuvor verwendeten "
+"Passworts für einen Benutzer ablehnt."
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Die Prüfung basiert auf dem Audit-Protokoll, :setting:`AUDITLOG_EXPIRY` muss "
+"mindestens so hoch sein wie diese Einstellung."
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -7033,19 +7041,23 @@ msgstr ":ref:`Backup`, :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:273
 msgid "CACHE_DIR"
-msgstr ""
+msgstr "CACHE_DIR"
 
 #: ../../admin/config.rst:277
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Das Verzeichnis, in dem Weblate Cache-Dateien speichert. Standardmäßig ist "
+"dies der Unterordner :file:`cache` in :setting:`DATA_DIR`."
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Ändern Sie dies in lokales oder temporäres Dateisystem, wenn "
+":setting:`DATA_DIR` auf einem Netzwerk-Dateisystem liegt."
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -7303,6 +7315,8 @@ msgstr ":file:`/static/`"
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Verschiedene Caches können mit :setting:`CACHE_DIR` an anderer Stelle "
+"platziert werden."
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7329,10 +7343,8 @@ msgstr ""
 "dass sie konfiguriert wird."
 
 #: ../../admin/config.rst:445
-#, fuzzy
-#| msgid ":ref:`file-permissions`, :doc:`backup`"
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
-msgstr ":ref:`file-permissions`, :doc:`backup`"
+msgstr ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
 
 #: ../../admin/config.rst:452
 msgid "DATABASE_BACKUP"
@@ -7727,14 +7739,8 @@ msgid "List for credentials for Gitea servers."
 msgstr "Liste der Zugangsdaten für Gitea-Server."
 
 #: ../../admin/config.rst:777
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea "
-#| "personal access token`_"
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-gitea`, `Erstellen eines "
-"persönlichen Gitea-Zugangstokens`_"
+msgstr ":ref:`vcs-gitea`, `Erstellen eines persönlichen Gitea-Zugangstokens`_"
 
 #: ../../admin/config.rst:785
 msgid "GITLAB_CREDENTIALS"
@@ -7745,18 +7751,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Liste der Zugangsdaten für GitLab-Server."
 
 #: ../../admin/config.rst:806
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal "
-#| "access token <https://docs.gitlab.com/ee/user/profile/"
-#| "personal_access_tokens.html>`_"
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Persönliche "
-"Zugangs-Token <https://docs.gitlab.com/ee/user/profile/"
-"personal_access_tokens.html>`_"
+":ref:`vcs-gitlab`, `GitLab: Persönliche Zugangs-Token <https://docs.gitlab."
+"com/ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:812
 msgid "GITHUB_CREDENTIALS"
@@ -7767,32 +7767,25 @@ msgid "List for credentials for GitHub servers."
 msgstr "Liste für Zugangsdaten für GitHub-Server."
 
 #: ../../admin/config.rst:833
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Erstellen eines "
-"persönlichen GitHub-Zugangstokens`_"
+msgstr ":ref:`vcs-github`, `Erstellen eines persönlichen GitHub-Zugangstokens`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "GITEA_CREDENTIALS"
 msgid "BITBUCKETSERVER_CREDENTIALS"
-msgstr "GITEA_CREDENTIALS"
+msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Gitea servers."
 msgid "List for credentials for Bitbucket servers."
-msgstr "Liste der Zugangsdaten für Gitea-Server."
+msgstr "Liste der Zugangsdaten für Bitbucket-Server."
 
 #: ../../admin/config.rst:858
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP-Zugangstoken "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8255,14 +8248,8 @@ msgid "List for credentials for Pagure servers."
 msgstr "Liste der Zugangsdaten für Pagure-Server."
 
 #: ../../admin/config.rst:1271
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-#| "pagure.io/api/0/>`_"
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
-":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure-API <https://"
-"pagure.io/api/0/>`_"
+msgstr ":ref:`vcs-pagure`, `Pagure-API <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1278
 msgid "PRIVACY_URL"
@@ -8585,16 +8572,17 @@ msgstr ""
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
 #: ../../admin/config.rst:1523
-#, fuzzy
-#| msgid "REGISTRATION_OPEN"
 msgid "REGISTRATION_REBIND"
-msgstr "REGISTRATION_OPEN"
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1527
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Erlaubt das erneute Binden von Authentifizierungs-Backends für bestehende "
+"Benutzer. Aktivieren Sie dies, wenn Sie zwischen Authentifizierungsanbietern "
+"migrieren."
 
 #: ../../admin/config.rst:1532
 msgid ""
@@ -8602,6 +8590,10 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Standardmäßig deaktiviert, um das Hinzufügen anderer Authentifizierungs-"
+"Backends zu einem bestehenden Konto zu verhindern. Eine erneute Bindung kann "
+"zur Kompromittierung des Kontos führen, wenn mehr Authentifizierungs-"
+"Backends von Drittanbietern verwendet werden."
 
 #: ../../admin/config.rst:1539
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -10202,12 +10194,16 @@ msgid ""
 "Bitnami provides a Weblate stack for many platforms at <https://bitnami.com/"
 "stack/weblate>."
 msgstr ""
+"Bitnami bietet einen Weblate-Stack für viele Plattformen unter "
+"<https://bitnami.com/stack/weblate>."
 
 #: ../../admin/deployments.rst:28
 msgid ""
 "`Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/"
 ">`_"
 msgstr ""
+"`Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/"
+">`_"
 
 #: ../../admin/deployments.rst:31
 msgid "Weblate Cloudron Package"
@@ -12675,10 +12671,8 @@ msgstr ""
 "einem einzelnen Host zu betreiben (Weblate, Datenbank und Webserver):"
 
 #: ../../admin/install/steps/hw.rst:8
-#, fuzzy
-#| msgid "2 GB of RAM"
 msgid "3 GB of RAM"
-msgstr "2 GB Arbeitsspeicher"
+msgstr "3 GB Arbeitsspeicher"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -13142,6 +13136,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(Optional) Aktualisieren Sie das Passwort für den Weblate-Benutzer. Dies "
+"kann bei der Migration auf PostgreSQL 14 oder 15 erforderlich sein, da die "
+"Art der Speicherung von Passwörtern geändert wurde:"
 
 #: ../../admin/install/docker.rst:287
 msgid "Start all remaining containers:"
@@ -13439,10 +13436,8 @@ msgstr ""
 "können."
 
 #: ../../admin/install/docker.rst:543
-#, fuzzy
-#| msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr "Konfiguriert :setting:`EXTRA_HTML_HEAD`."
+msgstr "Konfiguriert :std:setting:`REGISTRATION_REBIND`."
 
 #: ../../admin/install/docker.rst:547
 msgid ""
@@ -13596,66 +13591,44 @@ msgstr ""
 "`GOOGLE_ANALYTICS_ID`."
 
 #: ../../admin/install/docker.rst:671
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub pull-requests integration by changing :setting:"
-#| "`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or :"
-#| "setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`."
 msgid ""
 "Configures GitHub pull-requests integration by changing :setting:"
 "`GITHUB_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von GitHub-Pull-Requests durch Ändern von :"
-"setting:`GITHUB_CREDENTIALS` (wenn :envvar:`WEBLATE_GITHUB_HOST` gesetzt "
-"ist), oder :setting:`GITHUB_USERNAME` und :setting:`GITHUB_TOKEN`."
+"Konfiguriert die Integration von GitHub-Pull-Requests durch Ändern von "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:682
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab merge-requests integration  by changing :setting:"
-#| "`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or :"
-#| "setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`."
 msgid ""
 "Configures GitLab merge-requests integration  by changing :setting:"
 "`GITLAB_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von GitLab-Merge-Requests durch Ändern von :"
-"setting:`GITLAB_CREDENTIALS` (wenn :envvar:`WEBLATE_GITLAB_HOST` gesetzt "
-"ist), oder :setting:`GITLAB_USERNAME` und :setting:`GITLAB_TOKEN`."
+"Konfiguriert die Integration von GitLab-Merge-Requests durch Ändern von "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:693
-#, fuzzy
-#| msgid ""
-#| "Configures Gitea pull-requests integration by changing :setting:"
-#| "`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or :setting:"
-#| "`GITEA_USERNAME` and :setting:`GITEA_TOKEN`."
 msgid ""
 "Configures Gitea pull-requests integration by changing :setting:"
 "`GITEA_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von Gitea-Pull-Requests durch Ändern von :"
-"setting:`GITEA_CREDENTIALS` (wenn :envvar:`WEBLATE_GITEA_HOST` gesetzt ist), "
-"oder :setting:`GITEA_USERNAME` und :setting:`GITEA_TOKEN`."
+"Konfiguriert die Integration von Gitea-Pull-Requests durch Ändern von "
+":setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:705
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or :"
-#| "setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`."
 msgid ""
 "Configures Pagure merge-requests integration  by changing :setting:"
 "`PAGURE_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von Pagure-Merge-Requests durch Ändern von :"
-"setting:`PAGURE_CREDENTIALS` (wenn :envvar:`WEBLATE_PAGURE_HOST` gesetzt "
-"ist), oder :setting:`PAGURE_USERNAME` und :setting:`PAGURE_TOKEN`."
+"Konfiguriert die Integration von Pagure-Merge-Requests durch Ändern von "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:716
 msgid ""
 "Configures Bitbucket Server pull-requests integration by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Konfiguriert die Integration von Bitbucket-Server-Pull-Requests durch Ändern "
+"von :setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:721
 #, fuzzy
@@ -14678,21 +14651,16 @@ msgstr ""
 "den Volume-Namen). Im Container wird es als :file:`/app/data` eingehängt."
 
 #: ../../admin/install/docker.rst:1636
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files. Its content is recreated on container startup and the "
-#| "volume can be mounted using ephemeral filesystem such as `tmpfs`."
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"Das Cache-Volume wird als :file:`/app/cache` gemountet und dient der "
-"Speicherung statischer Dateien. Sein Inhalt wird beim Start des Containers "
-"neu erstellt und das Volume kann mit einem ephemeren Dateisystem wie `tmpfs` "
-"eingebunden werden."
+"Das Cache-Volume wird als :file:`/app/cache` gemountet und dient zum "
+"Speichern von statischen Dateien und :setting:`CACHE_DIR`. Sein Inhalt wird "
+"beim Start des Containers neu erstellt und das Volume kann mit einem "
+"ephemeren Dateisystem wie `tmpfs` eingebunden werden."
 
 #: ../../admin/install/docker.rst:1640
 msgid ""
@@ -16625,10 +16593,8 @@ msgid "``api.translator.azure.cn`` -- China"
 msgstr "`api.translator.azure.cn`` -- China"
 
 #: ../../admin/machine.rst:291
-#, fuzzy
-#| msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
 msgid "``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud"
-msgstr "`api-eur.cognitive.microsofttranslator.com`` -- Europa"
+msgstr "``api.cognitive.microsofttranslator.us`` -- Azure US-Regierungscloud"
 
 #: ../../admin/machine.rst:293
 msgid "``endpoint_url``"
@@ -16642,25 +16608,19 @@ msgstr "Authentifizierungsdienst-URL"
 msgid "Regional or multi-service can be spcified using region field below."
 msgstr ""
 "Regional oder Multi-Service kann über das unten stehende Feld Region "
-"spezifiziert werden."
+"angegeben werden."
 
 #: ../../admin/machine.rst:297
-#, fuzzy
-#| msgid "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
 msgid "``api.cognitive.microsoft.com`` -- Global"
-msgstr "`api.cognitive.microsofttranslator.com`-- Global (nicht regional)"
+msgstr "``api.cognitive.microsoft.com`` -- Global"
 
 #: ../../admin/machine.rst:299
-#, fuzzy
-#| msgid "``api.translator.azure.cn`` -- China"
 msgid "``api.cognitive.azure.cn`` -- China"
-msgstr "`api.translator.azure.cn`` -- China"
+msgstr "``api.cognitive.azure.cn`` -- China"
 
 #: ../../admin/machine.rst:301
-#, fuzzy
-#| msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
 msgid "``api.cognitive.microsoft.us`` -- Azure US Government cloud"
-msgstr "`api-eur.cognitive.microsofttranslator.com`` -- Europa"
+msgstr "``api.cognitive.microsoft.us`` -- Azure US-Regierungscloud"
 
 #: ../../admin/machine.rst:303
 msgid "Authentication service region"
@@ -16850,8 +16810,8 @@ msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
-"Die ID einer Übersetzungsdomain, z. B. BC. Wenn Sie keine Domain angeben, "
-"sucht die Methode nach Übersetzungen in allen verfügbaren Domains."
+"Die ID einer Übersetzungsdomain, zum Beispiel BC. Wenn Sie keine Domain "
+"angeben, sucht die Methode nach Übersetzungen in allen verfügbaren Domains."
 
 #: ../../admin/machine.rst:418
 msgid "Machine translation service provided by SAP."
@@ -21080,10 +21040,8 @@ msgstr ""
 "den Rest-Framework-Einstellungen geändert."
 
 #: ../../admin/upgrade.rst:371
-#, fuzzy
-#| msgid "Upgrade from 4.5 to 4.6"
 msgid "Upgrade from 4.15 to 4.16"
-msgstr "Upgrade von 4.5 auf 4.6"
+msgstr "Upgrade von 4.15 auf 4.16"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
@@ -23065,10 +23023,8 @@ msgstr ""
 "erstellt wird)"
 
 #: ../../api.rst:1884
-#, fuzzy
-#| msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
-msgstr "Neu erstellte Einheit; siehe :http:get:`/api/units/(int:id)/`"
+msgstr "Zeichenkettenstatus; siehe :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1885
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
@@ -23121,11 +23077,6 @@ msgstr ""
 "gespeichert ist."
 
 #: ../../api.rst:1921
-#, fuzzy
-#| msgid ""
-#| "File format to use; if not specified no format conversion happens; "
-#| "supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, "
-#| "``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 msgid ""
 "File format to use; if not specified no format conversion happens; supported "
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, "
@@ -23133,7 +23084,8 @@ msgid ""
 msgstr ""
 "Zu verwendendes Dateiformat; wenn nicht angegeben, erfolgt keine "
 "Formatkonvertierung; unterstützte Dateiformate: ``po``, ``mo``, ``xliff``, "
-"``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
+"``xliff11``, ``tbx``, ``tmx``, ``csv``, ``xlsx``, ``json``, ``aresource``, "
+"``strings``"
 
 #: ../../api.rst:1922
 msgid ""
@@ -24089,37 +24041,29 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.16"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.16"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 1st 2023."
-msgstr "Veröffentlicht am 11. März 2020."
+msgstr "Veröffentlicht am 1. März 2023."
 
 #: ../../changes.rst:6
 msgid "Format string checks now also detects duplicated formats."
 msgstr ""
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance of translation memory for long strings."
 msgid "Improved search performance for some specially formatted strings."
 msgstr ""
-"Verbesserte Leistung des Übersetzungsspeichers für lange Zeichenketten."
+"Die Suchleistung für einige speziell formatierte Zeichenketten verbessert."
 
 #: ../../changes.rst:8
 msgid "Celery beat is now storing the tasks schedule in the database."
 msgstr ""
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for Amazon Translate."
 msgid "Added support for IBM Watson Language Translator."
-msgstr "Unterstützung für Amazon Translate hinzugefügt."
+msgstr "Unterstützung für IBM Watson Language Translator hinzugefügt."
 
 #: ../../changes.rst:10
 #, fuzzy
@@ -24132,16 +24076,12 @@ msgstr ""
 "Migration erfolgt über 4.1 oder 4.0."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Bitbucket Server pull requests."
-msgstr "Unterstützung für Pagure-Pull-Requests hinzugefügt."
+msgstr "Unterstützung für Bitbucket-Server-Pull-Requests hinzugefügt."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved handling of context in monolingual PO files."
 msgid "Improved conflicts handling in gettext PO files."
-msgstr "Verbesserte Handhabung des Kontexts in einsprachigen PO-Dateien."
+msgstr "Verbesserte Konfliktbehandlung in gettext PO-Dateien."
 
 #: ../../changes.rst:13
 #, fuzzy
@@ -24166,28 +24106,20 @@ msgstr ""
 "Unterstützung für die Bereinigung alter Übersetzungsvorschläge hinzugefügt."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/88?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/88?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"89?closed=1>`__."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.15.2"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.15.2"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 25th 2023."
-msgstr "Veröffentlicht am 9. Januar 2020."
+msgstr "Veröffentlicht am 25. Januar 2023."
 
 #: ../../changes.rst:24
 msgid ""
@@ -24207,26 +24139,20 @@ msgid "Show stale directories in Git repository status."
 msgstr "Wie exportiert man das von Weblate verwendete Git-Repository?"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"91?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 4.15.1"
 msgstr "Weblate 4.15.1"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 19th 2023."
-msgstr "Veröffentlicht am 9. Januar 2020."
+msgstr "Veröffentlicht am 19. Januar 2023."
 
 #: ../../changes.rst:35
 msgid "Fixed suggestions from automatic translation."
@@ -33451,10 +33377,8 @@ msgid ":ref:`security`"
 msgstr "Testabonnements"
 
 #: ../../contributing/security.rst:15
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security updates"
-msgstr "Sicherheitslücken"
+msgstr "Sicherheitsupdates"
 
 #: ../../contributing/security.rst:17
 msgid "Only the latest release is guaranteed to receive security updates."
@@ -37720,22 +37644,16 @@ msgstr ""
 "Basisdatei mit (meist) englischen Zeichenketten anzugeben."
 
 #: ../../formats.rst:1001
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports both v1 and v2 formats, please choose corresponding version "
 "when selecting file format."
 msgstr ""
-"Weblate unterstützt die Varianten i18next JSON v3 und v4. Bitte wählen Sie "
-"das richtige Dateiformat für Ihre Einsatzumgebung."
+"Weblate unterstützt sowohl das v1- als auch das v2-Format, bitte bei der "
+"Auswahl des Dateiformats die entsprechende Version auswählen."
 
 #: ../../formats.rst:1013
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "`go-i18n v1 JSON file`"
-msgstr "go-i18n-JSON-Datei"
+msgstr "`go-i18n-JSON-Datei`"
 
 #: ../../formats.rst:1018
 msgid ""
@@ -37749,7 +37667,7 @@ msgstr ""
 
 #: ../../formats.rst:1027
 msgid "gotext JSON files"
-msgstr "`gotext-JSON-Dateien`"
+msgstr "gotext-JSON-Dateien"
 
 #: ../../formats.rst:1034
 msgid ""
@@ -37760,10 +37678,8 @@ msgstr ""
 "Basisdatei mit (meist) englischen Zeichenketten anzugeben."
 
 #: ../../formats.rst:1040
-#, fuzzy
-#| msgid "``internal/translations/locales/*/mesages.gotext.json``"
 msgid "``internal/translations/locales/*/messages.gotext.json``"
-msgstr "``internal/translations/locales/*/mesages.gotext.json``"
+msgstr "``internal/translations/locales/*/messages.gotext.json``"
 
 #: ../../formats.rst:1042
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
@@ -42159,10 +42075,8 @@ msgid "String priority."
 msgstr "Priorität der Zeichenkette."
 
 #: ../../user/search.rst:40
-#, fuzzy
-#| msgid "``priority:NUMBER``"
 msgid "``id:NUMBER``"
-msgstr "``priority:NUMMER``"
+msgstr "``id:NUMBER``"
 
 #: ../../user/search.rst:41
 #, fuzzy
@@ -43968,14 +43882,8 @@ msgstr ""
 "`component-vcs` auswählen."
 
 #: ../../vcs.rst:374
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:383
 msgid "Pagure merge requests"
@@ -44009,14 +43917,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:402
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:"
-#| "`PAGURE_TOKEN`, :setting:`PAGURE_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :"
-"setting:`PAGURE_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:410
 msgid "Gerrit"
