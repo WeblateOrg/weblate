@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-28 19:50+0100\n"
-"PO-Revision-Date: 2023-02-28 18:46+0000\n"
-"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
+"PO-Revision-Date: 2023-03-01 04:37+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -10111,7 +10111,7 @@ msgstr "Üretim kurulumları için önerilen :doc:`install/docker`."
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Üretim kurulumları için önerilen Virtualenv kurulumu:"
+msgstr "Üretim kurulumları için önerilen virtualenv kurulumu:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -11978,9 +11978,9 @@ msgid ""
 msgstr ""
 "Üretim amacıyla kullanılacak web sunucusu çalıştırmak için, Weblate ile "
 "kurulan wsgi sarmalayıcısını kullanın (sanal ortamdaysanız :file:`~/weblate-"
-"env/lib/python3.9/site-packages/weblate/wsgi.py` olarak kurulur). Sanal "
-"ortamınızda Python arama yolunu ayarlamayı da unutmayın (uWSGI üzerinde "
-"``virtualenv = /home/user/weblate-env`` gibi)."
+"env/lib/python3.9/site-packages/weblate/wsgi.py` olarak kurulur). "
+"Kullandığınız virtualenv üzerinde Python arama yolunu ayarlamayı da "
+"unutmayın (uWSGI üzerinde ``virtualenv = /home/user/weblate-env`` gibi)."
 
 #: ../../admin/install.rst:1280
 msgid ""
@@ -13901,12 +13901,18 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 msgstr ""
+"PostgreSQL sunucusunun SSL bağlantılarını nasıl işleyeceğini yapılandırın. "
+"Kullanılabilecek seçenekler için `SSL kipi açıklamaları <https://www."
+"postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_ "
+"bölümüne bakabilirsiniz"
 
 #: ../../admin/install/docker.rst:1214
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
 msgstr ""
+"Aktarım sırasında değiştirilecek rol adını yapılandırır. Bilgi almak için: "
+":ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1220
 msgid ""
@@ -13914,12 +13920,18 @@ msgid ""
 "close database connections at the end of each request (this is the default "
 "behavior)."
 msgstr ""
+"Saniye ve tamsayı olarak veri tabanı bağlantısının yaşam süresi. Her isteğin "
+"sonunda veri tabanı bağlantılarını kapatılması için 0 yazın (varsayılan "
+"davranış)."
 
 #: ../../admin/install/docker.rst:1224
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
+"Bağlantı kalıcılığını etkinleştirmek genellikle veri tabanına daha açık bir "
+"bağlantı kurulmasına neden olur. Lütfen bu seçeneği etkinleştirmeden önce "
+"veri tabanı yapılandırmanızı ayarlayın."
 
 #: ../../admin/install/docker.rst:1236
 msgid ""
@@ -14086,12 +14098,19 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"SMTP sunucusuyla iletişim için örtülü TLS (güvenli) bağlantısının kullanılıp "
+"kullanılmayacağını yapılandırır. Çoğu e-posta belgesinde, bu tür TLS "
+"bağlantısı SSL olarak adlandırılır. Genellikle 465 numaralı bağlantı "
+"noktasıyla kullanılır. Sorun yaşıyorsanız :envvar:`WEBLATE_EMAIL_USE_TLS` "
+"açık TLS ayarına bakın."
 
 #: ../../admin/install/docker.rst:1382 ../../admin/install/docker.rst:1400
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
+"SSL/TLS desteği :envvar:`WEBLATE_EMAIL_PORT` seçeneğine göre kendiliğinden "
+"etkinleştirilir."
 
 #: ../../admin/install/docker.rst:1387
 msgid ""
@@ -14108,6 +14127,11 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"SMTP sunucusuyla iletişim için TLS (güvenli) bağlantısının kullanılıp "
+"kullanılmayacağını yapılandırır. Bu seçenek, genellikle 587 ya da 25 "
+"numaralı bağlantı noktalarında bulunan açık TLS bağlantıları için "
+"kullanılır. Bağlantıların askıda kalması sorunu yaşıyorsanız "
+"envvar:`WEBLATE_EMAIL_USE_SSL` seçeneğindeki örtülü TLS ayarına bakın."
 
 #: ../../admin/install/docker.rst:1405
 msgid ""
@@ -14119,7 +14143,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1411
 msgid "Configures Django back-end to use for sending e-mails."
-msgstr ""
+msgstr "Django arka ucunu e-posta göndermek için yapılandırır."
 
 #: ../../admin/install/docker.rst:1416
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
@@ -14208,16 +14232,21 @@ msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
+":envvar:`WEBLATE_LOCALIZE_CDN_PATH` kapsayıcı içindeki yoldur. Geçici "
+"depolama biriminde değil, kalıcı birimde olmalıdır."
 
 #: ../../admin/install/docker.rst:1487
 msgid "One of possibilities is storing that inside the Weblate data dir:"
-msgstr ""
+msgstr "Olasılıklardan biri, Weblate verilerinin içinde tutulmasıdır:"
 
 #: ../../admin/install/docker.rst:1497
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr ""
+"Weblate tarafından oluşturulan dosyaların sunulmasını ayarlamak sizin "
+"sorumluluğunuzdur. Bu seçenek yalnızca dosyaları yapılandırılmış konumda "
+"tutar."
 
 #: ../../admin/install/docker.rst:1502
 msgid ""
@@ -14228,12 +14257,16 @@ msgstr ""
 #: ../../admin/install/docker.rst:1508
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
+"Etkin uygulamaları, denetimleri, eklentileri ya da kendiliğinden "
+"düzeltmeleri değiştirmek"
 
 #: ../../admin/install/docker.rst:1512
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
+"Etkin denetimlerin, eklentilerin ya da kendiliğinden düzeltmelerin iç "
+"yapılandırması şu değişkenlerle ayarlanabilir:"
 
 #: ../../admin/install/docker.rst:1534
 msgid ""
@@ -14253,6 +14286,9 @@ msgid ""
 "determined automatically on container startup based on number of CPU cores "
 "available."
 msgstr ""
+"Kapsayıcıda çalışan işlemlerin temel sayısı. Ayarlanmadığında, "
+"kullanılabilir işlemci çekirdeği sayısına bağlı olarak kapsayıcı "
+"başlangıcında kendiliğinden belirlenir."
 
 #: ../../admin/install/docker.rst:1550
 msgid ""
@@ -14262,6 +14298,11 @@ msgid ""
 "`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use these settings "
 "to fine-tune."
 msgstr ""
+":envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
+":envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, "
+":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, ve "
+":envvar:`WEB_WORKERS` seçeneklerini ayarlamak için kullanılır. Bu "
+"seçenekleri ince ayar yapmak için kullanabilirsiniz."
 
 #: ../../admin/install/docker.rst:1563
 msgid ""
@@ -14269,12 +14310,17 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
+"Bu seçenekler, Celery işlemi seçeneklerini ayarlamanızı sağlar. "
+"Eşzamanlılığı ayarlamak (``—concurrency 16``) veya farklı havuz uygulaması "
+"kullanmak (``—pool=gevent``) yararlı olabilir."
 
 #: ../../admin/install/docker.rst:1567
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
 msgstr ""
+"Varsayılan olarak, eşzamanlı işlem sayısı :envvar:`WEBLATE_WORKERS` "
+"seçeneğinden alınır."
 
 #: ../../admin/install/docker.rst:1578
 msgid ""
@@ -14297,6 +14343,8 @@ msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
+"Kapsayıcı içinde hangi hizmetlerin yürütülmesi gerektiğini tanımlar. Bunu "
+":ref:`docker-scaling` için kullanın."
 
 #: ../../admin/install/docker.rst:1598
 msgid "Following services are defined:"
@@ -14374,12 +14422,17 @@ msgid ""
 "The other service containers (PostgreSQL or Redis) have their data volumes "
 "as well, but those are not covered by this document."
 msgstr ""
+"Weblate kapsayıcısı tarafından dışa aktarılan iki birim (veri ve ön bellek) "
+"bulunur. Ayrıca diğer hizmet kapsayıcılarının (PostgreSQL ya da Redis) da "
+"veri birimleri vardır. Ancak bunlar bu belgenin kapsamında değildir."
 
 #: ../../admin/install/docker.rst:1627
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
 msgstr ""
+"Veri birimi, kopyalanmış depolar gibi Weblate kalıcı verilerini depolamak "
+"veya Weblate kurulumunu özelleştirmek için kullanılır."
 
 #: ../../admin/install/docker.rst:1630
 msgid ""
@@ -14389,6 +14442,11 @@ msgid ""
 "compose directory, container, and volume names). In the container it is "
 "mounted as :file:`/app/data`."
 msgstr ""
+"Docker biriminin barındırma sistemindeki konumu Docker yapılandırmanıza "
+"bağlıdır. Ancak genellikle :file:`/var/lib/docker/volumes/"
+"weblate-docker_weblate-data/_data/` (yol, docker-compose klasörünüzün adı, "
+"kapsayıcı ve birim adlarından oluşur) içinde tutulur. Kapsayıcıda :file:`/"
+"app/data` olarak bağlanır."
 
 #: ../../admin/install/docker.rst:1636
 msgid ""
@@ -14403,6 +14461,8 @@ msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Birimleri el ile oluştururken, klasörlerin sahibi kapsayıcı içindeki UID "
+"1000 olmalıdır."
 
 #: ../../admin/install/docker.rst:1645
 msgid ""
@@ -14420,6 +14480,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker ortam değişkenleri <docker-environment>`, Weblate kurulumları "
+"ile ilgili pek çok :ref:`yapılandırma ayarını <config>` karşılamayı "
+"amaçlıyor."
 
 #: ../../admin/install/docker.rst:1657
 msgid ""
@@ -14427,6 +14490,9 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Bir ortam değişkeni olarak karşılığı olmayan bir ayar bulursanız ve var "
+"olması gerektiğine inanıyorsanız, :ref:`Gelecek Weblate sürümlerine "
+"eklenmesini istemekten çekinmeyin <report-issue>`."
 
 #: ../../admin/install/docker.rst:1661
 msgid ""
@@ -14435,6 +14501,9 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Docker ortam değişkeni olarak karşılığı olmayan bir ayarı değiştirmeniz "
+"gerekirse, bunu :ref:`veri biriminden <docker-settings-override>` ya da "
+":ref:`Docker kalıbını genişleterek <docker-custom-settings>` yapabilirsiniz."
 
 #: ../../admin/install/docker.rst:1668
 msgid ":doc:`../customize`"
@@ -14450,6 +14519,9 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"Ortam değişkenleri ile tanımlanan ayarları genişletmek ya da değiştirmek "
+"için :ref:`veri birimi </docker-volume>` kök klasöründe bir :file:`/app/data/"
+"settings-override.py` dosyası oluşturabilirsiniz."
 
 #: ../../admin/install/docker.rst:1683
 msgid "Overriding settings by extending the Docker image"
@@ -14459,7 +14531,7 @@ msgstr "Docker kalıbını genişleterek ayarları değiştirmek"
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
-msgstr ""
+msgstr "Ayarları veri birimi yerine Docker kalıbı düzeyinde değiştirmek için:"
 
 #: ../../admin/install/docker.rst:1687
 msgid ":ref:`Create a custom Python package <custom-module>`."
@@ -14470,6 +14542,8 @@ msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
+"Paketinize, ``weblate.settings_docker`` ögesinden tüm ayarları içe aktaran "
+"bir modül ekleyin."
 
 #: ../../admin/install/docker.rst:1692
 msgid ""
@@ -14477,6 +14551,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Örneğin, :ref:`custom-module` adresinde tanımlanan örnek paket yapısı "
+"içinde, şu başlangıç koduyla bir ``weblate_customization/"
+"weblate_customization/settings.py`` dosyası oluşturabilirsiniz:"
 
 #: ../../admin/install/docker.rst:1701
 msgid ""
@@ -14484,12 +14561,17 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"Resmi Weblate Docker kalıbından devralınan ve ardından paketinizi kuran ve "
+"ayarlar modülünüze ``DJANGO_SETTINGS_MODULE`` ortam değişkenini gösteren "
+"özel bir ``Dockerfile`` oluşturun:"
 
 #: ../../admin/install/docker.rst:1717
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"Resmi Weblate Docker kalıbını kullanmak yerine, bu ``Dockerfile`` "
+"dosyasından özel bir kalıp oluşturun."
 
 #: ../../admin/install/docker.rst:1720
 msgid ""
@@ -14498,6 +14580,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"Bunu ``docker-compose.override.yml`` ile yapmanın `temiz bir yolu yoktur "
+"<https://github.com/docker/compose/issues/7231>`__. Bu dosyadaki ``weblate`` "
+"düğümüne ``build: .`` ekleyebilirsiniz. Ancak daha sonra özel kalıbınız "
+"sisteminizde ``weblate/weblate\" olarak etiketlenir ve bu da soruna yol "
+"açabilir."
 
 #: ../../admin/install/docker.rst:1726
 msgid ""
@@ -14507,16 +14594,26 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"Bu nedenle, ``docker-compose.yml`` dosyasını doğrudan ``resmi depo "
+"<https://github.com/WeblateOrg/docker-compose>``__ üzerinden değiştirmeden "
+"kullanmak ve ``docker-compose.override.yml`` ile genişletmek yerine, resmi "
+"``docker-compose.yml`` dosyasının bir kopyasını oluşturmak ve kopyanızı "
+"``image: weblate/weblate`` yerine ``build: .`` ile değiştirmek için "
+"düzenlemek isteyebilirsiniz."
 
 #: ../../admin/install/docker.rst:1732
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"``docker-compose`` kullanırken kaynaktan kalıp oluşturma hakkında ayrıntılı "
+"bilgi almak için `Dosya oluşturma referansı`_ bölümüne bakın."
 
 #: ../../admin/install/docker.rst:1737
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
+"Ayarları tanımlamak veya yeniden tanımlamak için özel ayarlar modülünüzü "
+"genişletin."
 
 #: ../../admin/install/docker.rst:1739
 msgid ""
@@ -14526,6 +14623,11 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overriden."
 msgstr ""
+"Hangi ayarların öncelikli olduğunu belirlemek için ayarları yukarıdaki içe "
+"aktarma ifadesinden önce ya da sonra tanımlayabilirsiniz. İçe aktarma "
+"ifadesinden önce tanımlanmış ayarlar, ortam değişkenleri ve veri biriminde "
+"tanımlanmış ayar değişiklikleri tarafından değiştirilebilir. İçe aktarma "
+"ifadesinden sonra tanımlanan ayar değiştirilmez."
 
 #: ../../admin/install/docker.rst:1745
 msgid ""
@@ -14535,6 +14637,12 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"Ayrıca daha ileri gidebilirsiniz. Örneğin, ayarların karşılığını belirlemek "
+"gibi ``weblate.docker_settings`` uygulamasının <https://github.com/"
+"WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__ yaptığı bazı "
+"şeyleri yeniden oluşturabilirsiniz. Ortam değişkenleri olarak veya veri "
+"birimindeki Python dosyalarından ayarların değiştirilmesini "
+"sağlayabilirsiniz."
 
 #: ../../admin/install/docker.rst:1752
 msgid "Replacing logo and other static files"
@@ -14547,12 +14655,18 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"Weblate ile birlikte gelen durağan dosyalar :file:`/app/data/python/"
+"customize/static` içinden değiştirilebilir (bilgi almak için: :ref:`docker-"
+"volume`). Örneğin, :file:`/app/data/python/customize/static/favicon.ico` "
+"dosyası favicon simgesi için kullanılır."
 
 #: ../../admin/install/docker.rst:1763
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
+"Dosyalar kapsayıcı başlatıldığında ilgili konuma kopyalanır. Bu nedenle "
+"birimin içeriğini değiştirdikten sonra Weblate yeniden başlatılmalıdır."
 
 #: ../../admin/install/docker.rst:1766
 msgid ""
@@ -14560,12 +14674,18 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"Bu yaklaşım, Weblate kalıplarını değiştirmek için de kullanılabilir. Örneğin "
+":ref:`legal` belgeler :file:`/app/data/python/customize/templates/legal/"
+"documents` içine yerleştirilebilir."
 
 #: ../../admin/install/docker.rst:1770
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Alternatif olarak, kendi modülünüzü de ekleyebilir (bilgi almak için: :doc:`"
+".. /customize`) ve Docker kapsayıcısına ayrı birim olarak ekleyebilirsiniz. "
+"Örneğin:"
 
 #: ../../admin/install/docker.rst:1783
 msgid "Configuring PostgreSQL server"
@@ -14577,6 +14697,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"PostgtreSQL kapsayıcısı varsayılan PostgreSQL yapılandırmasını kullanır ve "
+"işlemci çekirdeklerini ya da belleği etkili bir şekilde kullanmaz. Başarımı "
+"artırmak için yapılandırmanın özelleştirilmesi önerilir."
 
 #: ../../admin/install/docker.rst:1789
 msgid ""
@@ -14584,6 +14707,10 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"Yapılandırma, https://hub.docker.com/_/postgres adresindeki `Database "
+"Configuration` bölümünde açıklandığı gibi ayarlanabilir. Ortamınıza uygun "
+"bir yapılandırma oluşturmak için https://pgtune.leopard.in.ua/ "
+"kullanabilirsiniz."
 
 #: ../../admin/install/docker.rst:1794
 msgid "Container internals"
@@ -14595,6 +14722,9 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"Kapsayıcı, bireysel hizmetleri başlatmak için :program: `supervisor` "
+"kullanır. :ref:`docker-scaling` kullanılması durumunda, bir kapsayıcıda "
+"yalnızca tek bir hizmet başlatılır."
 
 #: ../../admin/install/docker.rst:1799
 msgid "To check the services status use:"
@@ -14606,6 +14736,9 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Her Celery kuyruğu için ayrı hizmetler bulunur (bilgi almak için: "
+"ref:`celery`). Uygun işlemi durdurarak bazı görevlerin yürütülmesini "
+"durdurabilirsiniz:"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -14616,6 +14749,8 @@ msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
 msgstr ""
+"Bu rehberde, kurulumu daha ayrıntılı olarak ele alabilmek için Kubernetes "
+"konusunda deneyimli gönüllüler arıyoruz."
 
 #: ../../admin/install/kubernetes.rst:9
 msgid ""
@@ -14624,18 +14759,27 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Kubernetes Helm çizelgesi ile kişisel Weblate bulut sunucunuzu saniyeler "
+"içinde çalışır duruma getirebilirsiniz. Tüm Weblate bağımlılıkları önceden "
+"katılmıştır. Varsayılan veritabanı olarak PostgreSQL ayarlanır ve kalıcı "
+"birim kullanılır."
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
 "You can find the chart at <https://github.com/WeblateOrg/helm/> and it can "
 "be displayed at <https://artifacthub.io/packages/helm/weblate/weblate>."
 msgstr ""
+"Çizelgeyi <https://github.com/WeblateOrg/helm/> adresinde bulabilir ve "
+"<https://artifacthub.io/packages/helm/weblate/weblate> adresinde "
+"görebilirsiniz."
 
 #: ../../admin/install/kubernetes.rst:28
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
+"Daha fazla yapılandırma seçeneği sunan ortam değişkenlerinin tam listesi "
+"için :ref:`docker-environment` bölümüne bakabilirsiniz."
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
@@ -14648,6 +14792,10 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"OpenShift Weblate kalıbıyla kişisel Weblate bulut sunucunuzu saniyeler "
+"içinde çalışır duruma getirebilirsiniz. Tüm Weblate bağımlılıkları önceden "
+"katılmıştır. PostgreSQL varsayılan veritabanı olarak ayarlanır ve kalıcı "
+"birim kullanılır."
 
 #: ../../admin/install/openshift.rst:9
 msgid ""
@@ -14661,6 +14809,9 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"Aşağıdaki örneklerde, ``oc`` istemci aracının yüklü olduğu çalışan bir "
+"OpenShift v3.x ortamınız olduğu varsayılmıştır. Lütfen yönergeler için "
+"OpenShift belgelerine bakın."
 
 #: ../../admin/install/openshift.rst:18
 msgid ""
@@ -14668,6 +14819,10 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+":file:`template.yml` dosyası OpenShift üzerinde tüm bileşenleri çalıştırmak "
+"için uygundur. Ayrıca :file:`template-external-postgresql.yml` dosyası bir "
+"PostgreSQL sunucusunu başlatmaz ve bir dış PostgreSQL sunucusunu "
+"yapılandırmanızı sağlar."
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
@@ -14681,6 +14836,11 @@ msgid ""
 "application. The web console will prompt you for the values for all of the "
 "parameters used by the template."
 msgstr ""
+"Ham içeriği `template.yml <https://github.com/WeblateOrg/openshift/blob/main/"
+"template.yml>`_ dosyasından kopyalayın ve projenize aktarın. Ardından "
+"uygulamanızı oluşturmak için OpenShift web konsolundaki ``Create`` düğmesini "
+"kullanın. Web konsolu, sizden kalıp tarafından kullanılan tüm parametrelerin "
+"değerlerini ister."
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
@@ -14691,11 +14851,14 @@ msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Weblate kalıbını geçerli projenizin kalıp kitaplığına yüklemek için şu "
+"komutta :file:`template.yml` dosyasını belirtin:"
 
 #: ../../admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
 msgstr ""
+"Kalıp artık web konsolu ya da komut satırı (CLI) kullanılarak seçilebilir."
 
 #: ../../admin/install/openshift.rst:46 ../../api.rst:0 ../../python.rst:0
 #: ../../../weblate/addons/base.py:docstring of
@@ -14709,6 +14872,9 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
+"Değiştirebileceğiniz parametreler kalıbın parametreler bölümünde listelenir. "
+"Şu komutu kullanarak ve kullanılacak dosyayı belirterek bunları komut satırı "
+"(CLI) ile listeleyebilirsiniz:"
 
 #: ../../admin/install/openshift.rst:60
 msgid "Provisioning"
@@ -14719,12 +14885,16 @@ msgid ""
 "You can also use the CLI to process templates and use the configuration that "
 "is generated to create objects immediately."
 msgstr ""
+"Komut satırını (CLI) kalıpları işlemek ve hazırlanan yapılandırmadan "
+"nesneleri hemen oluşturmak için de kullanabilirsiniz."
 
 #: ../../admin/install/openshift.rst:75
 msgid ""
 "The Weblate instance should be available after successful migration and "
 "deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
 msgstr ""
+"Weblate kopyası, başarılı bir aktarım ve dağıtımdan sonra belirtilmiş "
+"``WEBLATE_SITE_DOMAIN`` parametresinde kullanılabilir olmalıdır."
 
 #: ../../admin/install/openshift.rst:78
 msgid ""
@@ -14732,12 +14902,18 @@ msgid ""
 "provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
 "first start if that was not set."
 msgstr ""
+"Kapsayıcı kurulumundan sonra, ``WEBLATE_ADMIN_PASSWORD`` seçeneğinde "
+"belirtilen parolayla ya da ayarlanmamışsa ilk başlatılmada oluşturulan "
+"rastgele bir parolayla ``admin`` kullanıcısı olarak oturum açabilirsiniz."
 
 #: ../../admin/install/openshift.rst:82
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
 msgstr ""
+"‘Admin’ parolasını sıfırlamak için, ilgili ``Secret`` bölümünde "
+"``WEBLATE_ADMIN_PASSWORD`` seçeneğine yeni parola ayarladıktan sonra "
+"kapsayıcıyı yeniden başlatın."
 
 #: ../../admin/install/openshift.rst:86
 msgid "Eliminate"
@@ -14751,16 +14927,23 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
+"Kalıbı işleyerek, Weblate kalıbını özelleştirmek için kullanılabilecek "
+"ilgili bir ``ConfigMap`` oluşturulur. ``ConfigMap`` doğrudan ortam "
+"değişkenleri olarak bağlanır ve her değiştirildiğinde yeni bir dağıtımı "
+"tetikler. Daha fazla yapılandırma seçeneği sunan ortam değişkenlerinin tam "
+"listesi için :ref:`docker-environment` bölümüne bakabilirsiniz."
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr "Kaynaklardan kurmak"
+msgstr "Kaynaklardan kurulum"
 
 #: ../../admin/install/source.rst:4
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
+"Lütfen Weblate kurulumu için öncelikle sisteminize uygun kurulum "
+"yönergelerini izleyin:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -14779,6 +14962,8 @@ msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
+"Git kullanarak güncel Weblate kaynaklarını edinin (ya da bir tarball indirip "
+"paketi ayıklayın):"
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -14786,10 +14971,13 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"Alternatif olarak, yayınlanmış arşiv dosyalarını da kullanabilirsiniz. "
+"Bunları web sitemizden <https://weblate.org/> indirebilirsiniz. Bu "
+"indirmeler şifrelenerek imzalanmıştır. Bilgi almak için: ref:`verify'."
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr ""
+msgstr "Geçerli Weblate kodunu virtualenv üzerine kurun:"
 
 #: ../../admin/install/source.rst:28
 msgid ""
@@ -14805,6 +14993,10 @@ msgid ""
 "key, but you will want more changes for production setup, see :ref:"
 "`configuration`."
 msgstr ""
+"Yeni :file:`settings.py` dosyasındaki değerleri istediğiniz gibi ayarlayın. "
+"En azından veritabanı kimlik doğrulama bilgilerini ve Django gizli "
+"anahtarını belirtmeniz gerekir. Ancak üretim kurulumu için daha fazla "
+"değişiklik yapmak isteyeceksiniz. Bilgi almak için: :ref:`configuration`."
 
 #: ../../admin/install/source.rst:33
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -14817,10 +15009,12 @@ msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Django tablolarını, durağan dosyaları ve başlangıç verilerini oluşturun ("
+"bilgi almak için: :ref:`tables-setup` ve :ref:`static-files`):"
 
 #: ../../admin/install/source.rst:46
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "Bu adım, her depo güncellemesi yaptığınızda yinelenmelidir."
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
@@ -14835,12 +15029,16 @@ msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
 msgstr ""
+"Python modüllerini oluşturmak için gereken bağımlılıkları kurun (bilgi almak "
+"için: :ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`optional-deps`):"
 msgstr ""
+"Kullanmak istediğiniz özelliklere bağlı olarak gereken isteğe bağlı "
+"bağımlılıkları kurun (bilgi almak için: :ref:`optional-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -14848,6 +15046,10 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
+"İsteğe bağlı olarak üretim sunucusunu çalıştırmak için gereken yazılımı "
+"kurun. Bilgi almak için: :ref:`sunucu`, :ref:`database-setup`, :ref:`celery`"
+". Kurulumunuzun boyutuna bağlı olarak, bu bileşenleri adanmış sunucular "
+"üzerinde çalıştırmak isteyebilirsiniz."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
@@ -14863,27 +15065,34 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"Sisteminizden ayrı bir ortama Weblate kurmak için virtualenv kullanıyoruz. "
+"Bu konuda bilginiz yoksa, virtualenv :doc:`venv:user_guide` bölümüne "
+"bakabilirsiniz."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Weblate için virtualenv oluşturun:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Weblate için virtualenv etkinleştirin:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
+msgstr "Tüm isteğe bağlı bağımlılıklar ile birlikte Weblate kurulumunu yapın:"
 
 #: ../../admin/install/steps/install-python.rst:29
 msgid ""
 "Please check :ref:`optional-deps` for fine-tuning of optional dependencies."
 msgstr ""
+"İsteğe bağlı bağımlılıkları ayarlamak için lütfen :ref:`optional-deps` "
+"seçeneğini denetleyin."
 
 #: ../../admin/install/steps/install-python.rst:33
 msgid "On some Linux distributions running Weblate fails with libffi error:"
 msgstr ""
+"Bazı Linux dağıtımlarında Weblate çalıştırıldığında libffi hatasıyla "
+"karşılaşılabilir:"
 
 #: ../../admin/install/steps/install-python.rst:39
 msgid ""
@@ -14891,6 +15100,9 @@ msgid ""
 "with the distribution. To address this, you need to rebuild the package on "
 "your system:"
 msgstr ""
+"Bu durum, PyPI ile dağıtılan binary paketlerinin dağıtımla uyumsuz "
+"olmasından kaynaklanır. Bu sorunu gidermek için, paketi sisteminizde yeniden "
+"oluşturmanız gerekir:"
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
@@ -14902,6 +15114,10 @@ msgid ""
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
+"Aşağıdakiler, Weblate için virtualenv kullanımının etkinleştirilmiş olduğunu "
+"varsayar (``. ~/weblate-env/bin/activate`` komutu yürütülerek). Virtualenv "
+"etkin değilse, :command:`weblate` komutunun tam yolunu ``~/weblate-env/bin/"
+"weblate`` olarak belirtin."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -14909,41 +15125,58 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+":file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings_example.py`"
+" dosyasını :file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings."
+"py` dosyası olarak kopyalayın."
 
 #: ../../admin/install/steps/install-configure.rst:16
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
+"Weblate için veritabanını ve yapısını oluşturun (örnek ayarlar PostgreSQL "
+"kullanır, üretime hazır bir kurulum için :ref:`database-setup` bölümüne "
+"bakabilirsiniz):"
 
 #: ../../admin/install/steps/install-configure.rst:23
 msgid ""
 "Create an account for the administrator user and copy its password to the "
 "clipboard, and also save it for later use:"
 msgstr ""
+"Yönetici için bir hesap oluşturun ve parolasını panoya kopyalayıp daha sonra "
+"kullanmak üzere kaydedin:"
 
 #: ../../admin/install/steps/install-configure.rst:30
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
+"Web sunucunuz için durağan dosyaları derleyin (bilgi almak için: "
+":ref:`server` ve :ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
+"JavaScript ve CSS dosyalarını sıkıştırın (isteğe bağlı, bilgi almak için: "
+":ref:`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:42
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
+"Celery işlemlerini başlatın. Bu adım, geliştirme ortamları için gerekli "
+"değildir. Ancak üretim ortamlarında yapılması önemle önerilir. Bilgi almak "
+"için :ref:`celery`:"
 
 #: ../../admin/install/steps/install-configure.rst:49
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
+"Geliştirme sunucusunu başlatın (:ref:`server` bölümünden üretim kurulumunun "
+"ayrıntılarına bakabilirsiniz):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -14954,26 +15187,33 @@ msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Tebrikler, Weblate sunucunuz artık çalışıyor ve kullanmaya başlayabilirsiniz."
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
 msgstr ""
+"Weblate arayüzüne ``http://localhost:8000/`` adresinden erişebilirsiniz."
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
 msgstr ""
+"Kurulum sırasında belirtilen yönetici kimlik doğrulama bilgileriyle oturum "
+"açın ya da yeni kullanıcı hesapları açın."
 
 #: ../../admin/install/steps/install-after.rst:8
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
 msgstr ""
+"Weblate virtualenv etkinleştirildiğinde :command:`weblate` komutunu "
+"kullanarak Weblate komutlarını yürütebilirsiniz, Bilgi almak için: "
+":ref:`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with Ctrl+C."
-msgstr ""
+msgstr "Deneme sunucusunu Ctrl+C tuşlarıyla durdurabilirsiniz."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -14981,6 +15221,9 @@ msgid ""
 "performance/`` URL (see :ref:`management-interface`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
+"Kurulumunuzla ilgili olası sorunları ``/manage/performance/`` adresinden ("
+"bilgi almak için: :ref:`management-interface`) ya da :command:`weblate check "
+"--deploy` komutundan görebilirsiniz. Bilgi almak için: :ref:`production`."
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -16114,10 +16357,8 @@ msgid "``api.cognitive.microsoft.us`` -- Azure US Government cloud"
 msgstr "``api-eur.cognitive.microsofttranslator.com`` -- Avrupa"
 
 #: ../../admin/machine.rst:303
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgid "Authentication service region"
-msgstr "Kimlik doğrulaması iptal edildi."
+msgstr "Kimlik doğrulama hizmeti bölgesi"
 
 #: ../../admin/machine.rst:306
 msgid ""
@@ -16391,10 +16632,8 @@ msgstr ""
 "amagama`, `Amagama çeviri belleği <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:478
-#, fuzzy
-#| msgid "Can manage translation memory."
 msgid "IBM Watson Language Translator"
-msgstr "Çeviri belleğini yönetebilir."
+msgstr "IBM Watson Language Translator"
 
 #: ../../admin/machine.rst:480
 msgid "``ibm``"
@@ -16543,6 +16782,8 @@ msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"Weblate için virtualenv kullanıyorsanız, :command:`weblate` komutunun tam "
+"yolunu belirtebilir ya da çağırmadan önce virtualenv etkinleştirebilirsiniz:"
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -16557,6 +16798,9 @@ msgid ""
 "`./setup.py` script, the :command:`weblate` is installed to your path (or "
 "virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"Weblate kurulumu için pip kurucusunu ya da :file:`./setup.py` betiğini "
+"kullandıysanız, Weblate denetimi için kullanılacak :command:`weblate` "
+"yolunuza (ya da kullandığınız virtualenv yoluna) kurulur:"
 
 #: ../../admin/management.rst:50
 msgid ""
@@ -32866,7 +33110,7 @@ msgid ""
 msgstr ""
 "Weblate geliştirmeye başlamanın en kolay yolu :doc:`../admin/install/source` "
 "bölümündeki yönergeleri izlemektir. Böylece, düzenlenebilir Weblate "
-"kaynaklarını içeren bir sanal ortamınız olur."
+"kaynaklarını içeren bir virtualenv oluşturabilirsiniz."
 
 #: ../../contributing/start.rst:23
 msgid "Clone the Weblate source code:"
@@ -32874,7 +33118,7 @@ msgstr "Weblate kaynak kodlarını kopyalayın:"
 
 #: ../../contributing/start.rst:30
 msgid "Create a virtualenv:"
-msgstr "Bir sanal ortam (virtualenv) oluşturun:"
+msgstr "Bir virtualenv oluşturun:"
 
 #: ../../contributing/start.rst:37
 msgid ""
@@ -32996,6 +33240,8 @@ msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
 msgstr ""
+"PyCharm sizin için bir virtualenv oluşturabilir ya da zaten var olan bir "
+"virtualenv kullanmayı seçebilirsiniz:"
 
 #: ../../contributing/start.rst:148
 msgid ""
@@ -33004,6 +33250,10 @@ msgid ""
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
+"Yorumlayıcı ayarlandıktan sonra bağımlılıkları kurmayı unutmayın: Konsol "
+"üzerinden (IDE içindeki konsol varsayılan olarak doğrudan belirttiğiniz "
+"virtualenv kullanır) ya da eksik bağımlılıklar hakkında bir uyarı "
+"aldığınızda arabirim üzerinden."
 
 #: ../../contributing/start.rst:153
 msgid ""
@@ -40947,10 +41197,8 @@ msgid "``id:NUMBER``"
 msgstr "``priority:SAYI``"
 
 #: ../../user/search.rst:41
-#, fuzzy
-#| msgid "unit identifier"
 msgid "String unique identifier."
-msgstr "birim kimliği"
+msgstr "Eşsiz dizge belirteci."
 
 #: ../../user/search.rst:42
 msgid "``added:DATETIME``"
