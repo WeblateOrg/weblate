@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 19:50+0100\n"
+"POT-Creation-Date: 2023-03-01 09:51+0100\n"
 "PO-Revision-Date: 2023-03-01 08:22+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -6917,8 +6917,8 @@ msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
-"Weblate ön bellek dosyalarının tutulacağı klasör. Varsayılan olarak "
-":setting:`DATA_DIR` içindeki :file:`cache` alt klasörü kullanılır."
+"Weblate ön bellek dosyalarının tutulacağı klasör. Varsayılan olarak :setting:"
+"`DATA_DIR` içindeki :file:`cache` alt klasörü kullanılır."
 
 #: ../../admin/config.rst:280
 msgid ""
@@ -7634,8 +7634,8 @@ msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
-":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP erişim kodu <https://confluence"
-".atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
+":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP erişim kodu <https://"
+"confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -9640,22 +9640,30 @@ msgstr ""
 "`addon-weblate.git.squash` eklentisini kullanabilirsiniz."
 
 #: ../../admin/continuous.rst:380
+#, fuzzy
+#| msgid ""
+#| "If you want to commit changes more frequently and without checking of "
+#| "age, you can schedule a regular task to perform a commit. This can be "
+#| "done using :guilabel:`Periodic Tasks` in :ref:`admin-interface`. First "
+#| "create desired :guilabel:`Iterval` (for example 120 seconds). Then add "
+#| "new periodic task and choose ``weblate.trans.tasks.commit_pending`` as :"
+#| "guilabel:`Task` with ``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` "
+#| "and desired interval."
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
 "guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired :"
-"guilabel:`Iterval` (for example 120 seconds). Then add new periodic task and "
-"choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
+"guilabel:`Interval` (for example 120 seconds). Then add new periodic task "
+"and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
 "Değişikliklerin daha sık ve yaşları denetlemeden yapılmasını istiyorsanız, "
-"gönderimi yapacak bir zamanlanmış görev ayarlayabilirsiniz. Bu işlemi :ref"
-":`admin-interface` içinde :guilabel:`Zamanlanmış görevler` bölümünden "
+"gönderimi yapacak bir zamanlanmış görev ayarlayabilirsiniz. Bu işlemi :ref:"
+"`admin-interface` içinde :guilabel:`Zamanlanmış görevler` bölümünden "
 "yapabilirsiniz. Önce istediğiniz :guilabel:`Sıklık` ögesini oluşturun (120 "
-"saniye gibi). Ardından yeni bir zamanlanmış görev ekleyin ve "
-":guilabel:`Görev` olarak ``weblate.trans.tasks.commit_pending``, :guilabel:`"
-"Anahtar sözcük parametreleri` olarak ``{“hours\": 0}`` ve istediğiniz "
-"sıklığı seçin."
+"saniye gibi). Ardından yeni bir zamanlanmış görev ekleyin ve :guilabel:"
+"`Görev` olarak ``weblate.trans.tasks.commit_pending``, :guilabel:`Anahtar "
+"sözcük parametreleri` olarak ``{“hours\": 0}`` ve istediğiniz sıklığı seçin."
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -13890,8 +13898,8 @@ msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
 msgstr ""
-"Aktarım sırasında değiştirilecek rol adını yapılandırır. Bilgi almak için: "
-":ref:`config-postgresql`."
+"Aktarım sırasında değiştirilecek rol adını yapılandırır. Bilgi almak için: :"
+"ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1220
 msgid ""
@@ -14109,8 +14117,8 @@ msgstr ""
 "SMTP sunucusuyla iletişim için TLS (güvenli) bağlantısının kullanılıp "
 "kullanılmayacağını yapılandırır. Bu seçenek, genellikle 587 ya da 25 "
 "numaralı bağlantı noktalarında bulunan açık TLS bağlantıları için "
-"kullanılır. Bağlantıların askıda kalması sorunu yaşıyorsanız "
-"envvar:`WEBLATE_EMAIL_USE_SSL` seçeneğindeki örtülü TLS ayarına bakın."
+"kullanılır. Bağlantıların askıda kalması sorunu yaşıyorsanız envvar:"
+"`WEBLATE_EMAIL_USE_SSL` seçeneğindeki örtülü TLS ayarına bakın."
 
 #: ../../admin/install/docker.rst:1405
 msgid ""
@@ -14277,11 +14285,11 @@ msgid ""
 "`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use these settings "
 "to fine-tune."
 msgstr ""
-":envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
-":envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, "
-":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, ve "
-":envvar:`WEB_WORKERS` seçeneklerini ayarlamak için kullanılır. Bu "
-"seçenekleri ince ayar yapmak için kullanabilirsiniz."
+":envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:"
+"`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:"
+"`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, ve :envvar:"
+"`WEB_WORKERS` seçeneklerini ayarlamak için kullanılır. Bu seçenekleri ince "
+"ayar yapmak için kullanabilirsiniz."
 
 #: ../../admin/install/docker.rst:1563
 msgid ""
@@ -14322,8 +14330,8 @@ msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
-"Kapsayıcı içinde hangi hizmetlerin yürütülmesi gerektiğini tanımlar. Bunu "
-":ref:`docker-scaling` için kullanın."
+"Kapsayıcı içinde hangi hizmetlerin yürütülmesi gerektiğini tanımlar. Bunu :"
+"ref:`docker-scaling` için kullanın."
 
 #: ../../admin/install/docker.rst:1598
 msgid "Following services are defined:"
@@ -14422,10 +14430,10 @@ msgid ""
 "mounted as :file:`/app/data`."
 msgstr ""
 "Docker biriminin barındırma sistemindeki konumu Docker yapılandırmanıza "
-"bağlıdır. Ancak genellikle :file:`/var/lib/docker/volumes/"
-"weblate-docker_weblate-data/_data/` (yol, docker-compose klasörünüzün adı, "
-"kapsayıcı ve birim adlarından oluşur) içinde tutulur. Kapsayıcıda :file:`/"
-"app/data` olarak bağlanır."
+"bağlıdır. Ancak genellikle :file:`/var/lib/docker/volumes/weblate-"
+"docker_weblate-data/_data/` (yol, docker-compose klasörünüzün adı, kapsayıcı "
+"ve birim adlarından oluşur) içinde tutulur. Kapsayıcıda :file:`/app/data` "
+"olarak bağlanır."
 
 #: ../../admin/install/docker.rst:1636
 msgid ""
@@ -14434,8 +14442,8 @@ msgid ""
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"Ön bellek birimi :file:`/app/cache` olarak bağlanır ve durağan dosyalar ile "
-":setting:`CACHE_DIR` klasörünü tutmak için kullanılır. İçeriği kapsayıcı "
+"Ön bellek birimi :file:`/app/cache` olarak bağlanır ve durağan dosyalar ile :"
+"setting:`CACHE_DIR` klasörünü tutmak için kullanılır. İçeriği kapsayıcı "
 "başlangıcında yeniden oluşturulur ve birim `tmpfs` gibi kısa ömürlü dosya "
 "sistemi kullanılarak bağlanabilir."
 
@@ -14485,8 +14493,8 @@ msgid ""
 "settings>`."
 msgstr ""
 "Docker ortam değişkeni olarak karşılığı olmayan bir ayarı değiştirmeniz "
-"gerekirse, bunu :ref:`veri biriminden <docker-settings-override>` ya da "
-":ref:`Docker kalıbını genişleterek <docker-custom-settings>` yapabilirsiniz."
+"gerekirse, bunu :ref:`veri biriminden <docker-settings-override>` ya da :ref:"
+"`Docker kalıbını genişleterek <docker-custom-settings>` yapabilirsiniz."
 
 #: ../../admin/install/docker.rst:1668
 msgid ":doc:`../customize`"
@@ -14577,12 +14585,12 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
-"Bu nedenle, ``docker-compose.yml`` dosyasını doğrudan ``resmi depo "
-"<https://github.com/WeblateOrg/docker-compose>``__ üzerinden değiştirmeden "
-"kullanmak ve ``docker-compose.override.yml`` ile genişletmek yerine, resmi "
-"``docker-compose.yml`` dosyasının bir kopyasını oluşturmak ve kopyanızı "
-"``image: weblate/weblate`` yerine ``build: .`` ile değiştirmek için "
-"düzenlemek isteyebilirsiniz."
+"Bu nedenle, ``docker-compose.yml`` dosyasını doğrudan ``resmi depo <https://"
+"github.com/WeblateOrg/docker-compose>``__ üzerinden değiştirmeden kullanmak "
+"ve ``docker-compose.override.yml`` ile genişletmek yerine, resmi ``docker-"
+"compose.yml`` dosyasının bir kopyasını oluşturmak ve kopyanızı ``image: "
+"weblate/weblate`` yerine ``build: .`` ile değiştirmek için düzenlemek "
+"isteyebilirsiniz."
 
 #: ../../admin/install/docker.rst:1732
 msgid ""
@@ -14657,17 +14665,17 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
-"Bu yaklaşım, Weblate kalıplarını değiştirmek için de kullanılabilir. Örneğin "
-":ref:`legal` belgeler :file:`/app/data/python/customize/templates/legal/"
-"documents` içine yerleştirilebilir."
+"Bu yaklaşım, Weblate kalıplarını değiştirmek için de kullanılabilir. "
+"Örneğin :ref:`legal` belgeler :file:`/app/data/python/customize/templates/"
+"legal/documents` içine yerleştirilebilir."
 
 #: ../../admin/install/docker.rst:1770
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
-"Alternatif olarak, kendi modülünüzü de ekleyebilir (bilgi almak için: :doc:`"
-".. /customize`) ve Docker kapsayıcısına ayrı birim olarak ekleyebilirsiniz. "
+"Alternatif olarak, kendi modülünüzü de ekleyebilir (bilgi almak için: :doc:"
+"`.. /customize`) ve Docker kapsayıcısına ayrı birim olarak ekleyebilirsiniz. "
 "Örneğin:"
 
 #: ../../admin/install/docker.rst:1783
@@ -14719,8 +14727,8 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
-"Her Celery kuyruğu için ayrı hizmetler bulunur (bilgi almak için: "
-"ref:`celery`). Uygun işlemi durdurarak bazı görevlerin yürütülmesini "
+"Her Celery kuyruğu için ayrı hizmetler bulunur (bilgi almak için: ref:"
+"`celery`). Uygun işlemi durdurarak bazı görevlerin yürütülmesini "
 "durdurabilirsiniz:"
 
 #: ../../admin/install/kubernetes.rst:2
@@ -14992,8 +15000,8 @@ msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
-"Django tablolarını, durağan dosyaları ve başlangıç verilerini oluşturun ("
-"bilgi almak için: :ref:`tables-setup` ve :ref:`static-files`):"
+"Django tablolarını, durağan dosyaları ve başlangıç verilerini oluşturun "
+"(bilgi almak için: :ref:`tables-setup` ve :ref:`static-files`):"
 
 #: ../../admin/install/source.rst:46
 msgid "This step should be repeated whenever you update the repository."
@@ -15030,9 +15038,9 @@ msgid ""
 "installation you might want to run these components on dedicated servers."
 msgstr ""
 "İsteğe bağlı olarak üretim sunucusunu çalıştırmak için gereken yazılımı "
-"kurun. Bilgi almak için: :ref:`sunucu`, :ref:`database-setup`, :ref:`celery`"
-". Kurulumunuzun boyutuna bağlı olarak, bu bileşenleri adanmış sunucular "
-"üzerinde çalıştırmak isteyebilirsiniz."
+"kurun. Bilgi almak için: :ref:`sunucu`, :ref:`database-setup`, :ref:"
+"`celery`. Kurulumunuzun boyutuna bağlı olarak, bu bileşenleri adanmış "
+"sunucular üzerinde çalıştırmak isteyebilirsiniz."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
@@ -15108,9 +15116,9 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
-":file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings_example.py`"
-" dosyasını :file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings."
-"py` dosyası olarak kopyalayın."
+":file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings_example."
+"py` dosyasını :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"settings.py` dosyası olarak kopyalayın."
 
 #: ../../admin/install/steps/install-configure.rst:16
 msgid ""
@@ -15134,16 +15142,16 @@ msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
-"Web sunucunuz için durağan dosyaları derleyin (bilgi almak için: "
-":ref:`server` ve :ref:`static-files`):"
+"Web sunucunuz için durağan dosyaları derleyin (bilgi almak için: :ref:"
+"`server` ve :ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
-"JavaScript ve CSS dosyalarını sıkıştırın (isteğe bağlı, bilgi almak için: "
-":ref:`production-compress`):"
+"JavaScript ve CSS dosyalarını sıkıştırın (isteğe bağlı, bilgi almak için: :"
+"ref:`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:42
 msgid ""
@@ -15191,8 +15199,8 @@ msgid ""
 "Weblate virtualenv is active, see :ref:`manage`."
 msgstr ""
 "Weblate virtualenv etkinleştirildiğinde :command:`weblate` komutunu "
-"kullanarak Weblate komutlarını yürütebilirsiniz, Bilgi almak için: "
-":ref:`manage`."
+"kullanarak Weblate komutlarını yürütebilirsiniz, Bilgi almak için: :ref:"
+"`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with Ctrl+C."
@@ -15204,9 +15212,10 @@ msgid ""
 "performance/`` URL (see :ref:`management-interface`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
-"Kurulumunuzla ilgili olası sorunları ``/manage/performance/`` adresinden ("
-"bilgi almak için: :ref:`management-interface`) ya da :command:`weblate check "
-"--deploy` komutundan görebilirsiniz. Bilgi almak için: :ref:`production`."
+"Kurulumunuzla ilgili olası sorunları ``/manage/performance/`` adresinden "
+"(bilgi almak için: :ref:`management-interface`) ya da :command:`weblate "
+"check --deploy` komutundan görebilirsiniz. Bilgi almak için: :ref:"
+"`production`."
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -20689,7 +20698,7 @@ msgstr "4.15 sürümünden 4.16 sürümüne yükseltmek"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
-"Celery beat is now stroring the tasks schedule in the database, "
+"Celery beat is now storing the tasks schedule in the database, "
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
@@ -23479,7 +23488,8 @@ msgstr "1 Mart 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:6
 msgid "Format string checks now also detects duplicated formats."
-msgstr "Biçim dizesi denetimlerinin yinelenen biçimleri de algılaması sağlandı."
+msgstr ""
+"Biçim dizesi denetimlerinin yinelenen biçimleri de algılaması sağlandı."
 
 #: ../../changes.rst:7
 msgid "Improved search performance for some specially formatted strings."
@@ -23487,7 +23497,8 @@ msgstr "Bazı özel biçimlendirilmiş dizgelerin arama başarımı iyileştiril
 
 #: ../../changes.rst:8
 msgid "Celery beat is now storing the tasks schedule in the database."
-msgstr "Celery görev zamanlamasının kayıt yeri veri tabanı olarak değiştirildi."
+msgstr ""
+"Celery görev zamanlamasının kayıt yeri veri tabanı olarak değiştirildi."
 
 #: ../../changes.rst:9
 msgid "Added support for IBM Watson Language Translator."
@@ -32967,10 +32978,20 @@ msgid ":ref:`security`"
 msgstr ":ref:`subscriptions`"
 
 #: ../../contributing/security.rst:15
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security updates"
+msgstr "Güvenlik sorunları"
+
+#: ../../contributing/security.rst:17
+msgid "Only the latest release is guaranteed to receive security updates."
+msgstr ""
+
+#: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
 msgstr "Güvenlik açıkları için bağımlılıkları izlemek"
 
-#: ../../contributing/security.rst:17
+#: ../../contributing/security.rst:22
 msgid ""
 "Security issues in our dependencies are monitored using `Dependabot`_. This "
 "covers the Python and JavaScript libraries, and the latest stable release "
@@ -32980,7 +33001,7 @@ msgstr ""
 "ve JavaScript kitaplıkları kapsanır ve son kararlı sürümde, güvenlik "
 "açıklarını önlemek için bağımlılıklar güncellenir."
 
-#: ../../contributing/security.rst:23
+#: ../../contributing/security.rst:28
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
@@ -32989,11 +33010,11 @@ msgstr ""
 "açıkları olabilir. Bu nedenle Weblate hata düzeltme sürümleri yayınlanmaz ve "
 "bunlar giderilmez."
 
-#: ../../contributing/security.rst:27
+#: ../../contributing/security.rst:32
 msgid "Docker container security"
 msgstr "Docker kapsayıcısı güvenliği"
 
-#: ../../contributing/security.rst:29
+#: ../../contributing/security.rst:34
 msgid ""
 "The Docker containers are regularly scanned using `Anchore`_ and `Trivy`_ "
 "security scanners."
@@ -33001,7 +33022,7 @@ msgstr ""
 "Docker kapsayıcıları `Anchore`_ ve `Trivy`_ güvenlik tarayıcıları ile "
 "düzenli olarak taranır."
 
-#: ../../contributing/security.rst:32
+#: ../../contributing/security.rst:37
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
@@ -33009,7 +33030,7 @@ msgstr ""
 "Böylece, güvenlik açıklarını erken bulmamız ve iyileştirmeleri hızlı bir "
 "şekilde yayınlamamız sağlanır."
 
-#: ../../contributing/security.rst:34
+#: ../../contributing/security.rst:39
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
@@ -33019,7 +33040,7 @@ msgstr ""
 "üzerinde SARIF (Statik Analiz Sonuçları Değişim Biçimi) yapıları biçiminde "
 "tutulur."
 
-#: ../../contributing/security.rst:39
+#: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
@@ -42976,8 +42997,8 @@ msgstr ""
 #: ../../wlc.rst:135
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
-"Kullanımdaki yapılandırma dosyası bölümünü değiştirir. Bilgi almak için: :ref"
-":`wlc-config`."
+"Kullanımdaki yapılandırma dosyası bölümünü değiştirir. Bilgi almak için: :"
+"ref:`wlc-config`."
 
 #: ../../wlc.rst:138
 msgid "Commands"

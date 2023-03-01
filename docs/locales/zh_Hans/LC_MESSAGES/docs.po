@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 19:50+0100\n"
+"POT-Creation-Date: 2023-03-01 09:51+0100\n"
 "PO-Revision-Date: 2023-03-01 08:49+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -8950,8 +8950,8 @@ msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
 "guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired :"
-"guilabel:`Iterval` (for example 120 seconds). Then add new periodic task and "
-"choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
+"guilabel:`Interval` (for example 120 seconds). Then add new periodic task "
+"and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
 
@@ -12372,7 +12372,8 @@ msgstr "配置 GitHub 拉取请求集成，方法是更改 :setting:`GITHUB_CRED
 msgid ""
 "Configures GitLab merge-requests integration  by changing :setting:"
 "`GITLAB_CREDENTIALS`."
-msgstr "配置 GitLab merge-requests 集成，  方法是更改 :setting:`GITLAB_CREDENTIALS`。"
+msgstr ""
+"配置 GitLab merge-requests 集成，  方法是更改 :setting:`GITLAB_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:693
 msgid ""
@@ -12384,14 +12385,16 @@ msgstr "配置 Gitea 拉取请求集成，方法是更改 :setting:`GITEA_CREDEN
 msgid ""
 "Configures Pagure merge-requests integration  by changing :setting:"
 "`PAGURE_CREDENTIALS`."
-msgstr "配置 Pagure merge-requests 集成，  方法是更改 :setting:`PAGURE_CREDENTIALS`。"
+msgstr ""
+"配置 Pagure merge-requests 集成，  方法是更改 :setting:`PAGURE_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:716
 msgid ""
 "Configures Bitbucket Server pull-requests integration by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
-msgstr "配置 Bitbucket 服务器拉取请求集成，方法是更改 "
-":setting:`BITBUCKETSERVER_CREDENTIALS`。"
+msgstr ""
+"配置 Bitbucket 服务器拉取请求集成，方法是更改 :setting:"
+"`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:721
 #, fuzzy
@@ -13352,9 +13355,8 @@ msgid ""
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"缓存卷被挂载为 :file:`/app/cache`，用于存储静态文件和 :setting:`CACHE_DIR` "
-"。它的内容在容器启动时被重新创建，卷可以使用短暂的文件系统（如 `tmpfs` "
-"）挂载。"
+"缓存卷被挂载为 :file:`/app/cache`，用于存储静态文件和 :setting:`CACHE_DIR` 。"
+"它的内容在容器启动时被重新创建，卷可以使用短暂的文件系统（如 `tmpfs` ）挂载。"
 
 #: ../../admin/install/docker.rst:1640
 msgid ""
@@ -15767,9 +15769,9 @@ msgid ""
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
-"您可以确定或者哪个项目或部件要更新（例如 ``weblate/application`` ），"
-"或者使用 ``--all`` 来更新所有现有部件，或使用 ``--file-format`` "
-"基于文件格式进行过滤。"
+"您可以确定或者哪个项目或部件要更新（例如 ``weblate/application`` ），或者使"
+"用 ``--all`` 来更新所有现有部件，或使用 ``--file-format`` 基于文件格式进行过"
+"滤。"
 
 #: ../../admin/management.rst:191
 msgid "commit_pending"
@@ -19887,7 +19889,7 @@ msgstr "从 4.15 升级到 4.16"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
-"Celery beat is now stroring the tasks schedule in the database, "
+"Celery beat is now storing the tasks schedule in the database, "
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
@@ -19902,8 +19904,9 @@ msgstr ""
 msgid ""
 "Upgrade of `django-crispy-forms` requires changes in :setting:`django:"
 "INSTALLED_APPS`."
-msgstr "升级 `django-crispy-forms` 需要在 :setting:`django:INSTALLED_APPS` "
-"中进行更改。"
+msgstr ""
+"升级 `django-crispy-forms` 需要在 :setting:`django:INSTALLED_APPS` 中进行更"
+"改。"
 
 #: ../../admin/upgrade.rst:380
 msgid ""
@@ -21748,8 +21751,8 @@ msgid ""
 "``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 msgstr ""
 "使用的文件格式；如果不指定，则不会进行格式转换；支持的文件格式有：``po``, "
-"``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, ``csv``, ``xlsx``, ``json``"
-", ``aresource``, ``strings``"
+"``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, ``csv``, ``xlsx``, "
+"``json``, ``aresource``, ``strings``"
 
 #: ../../api.rst:1922
 msgid ""
@@ -31651,10 +31654,20 @@ msgid ":ref:`security`"
 msgstr ":ref:`celery`"
 
 #: ../../contributing/security.rst:15
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security updates"
+msgstr "安全问题"
+
+#: ../../contributing/security.rst:17
+msgid "Only the latest release is guaranteed to receive security updates."
+msgstr ""
+
+#: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
 msgstr "跟踪漏洞的依赖关系"
 
-#: ../../contributing/security.rst:17
+#: ../../contributing/security.rst:22
 msgid ""
 "Security issues in our dependencies are monitored using `Dependabot`_. This "
 "covers the Python and JavaScript libraries, and the latest stable release "
@@ -31663,7 +31676,7 @@ msgstr ""
 "我们使用 `Dependabot`_ 来监控我们依赖关系中的安全问题。这涵盖了Python和"
 "JavaScript库，最新的稳定版已经更新了其依赖关系，以避免漏洞。"
 
-#: ../../contributing/security.rst:23
+#: ../../contributing/security.rst:28
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
@@ -31671,23 +31684,23 @@ msgstr ""
 "第三方库中可能存在不影响Weblate的漏洞，所以这些漏洞不会通过发布Weblate的错误"
 "修复版本来解决。"
 
-#: ../../contributing/security.rst:27
+#: ../../contributing/security.rst:32
 msgid "Docker container security"
 msgstr "Docker 容器安全"
 
-#: ../../contributing/security.rst:29
+#: ../../contributing/security.rst:34
 msgid ""
 "The Docker containers are regularly scanned using `Anchore`_ and `Trivy`_ "
 "security scanners."
 msgstr "使用 `Anchore`_ 和 `Trivy`_ 安全扫描器对Docker容器进行定期扫描。"
 
-#: ../../contributing/security.rst:32
+#: ../../contributing/security.rst:37
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr "这使我们能够及早发现漏洞并迅速发布改进措施。"
 
-#: ../../contributing/security.rst:34
+#: ../../contributing/security.rst:39
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
@@ -31696,7 +31709,7 @@ msgstr ""
 "你可以在GitHub上获得这些扫描的结果--它们以SARIF格式（静态分析结果交换格式）作"
 "为工件存储在我们的CI上。"
 
-#: ../../contributing/security.rst:39
+#: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 

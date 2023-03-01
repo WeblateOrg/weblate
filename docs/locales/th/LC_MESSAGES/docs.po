@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 19:50+0100\n"
+"POT-Creation-Date: 2023-03-01 09:51+0100\n"
 "PO-Revision-Date: 2022-11-15 11:00+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/"
@@ -8669,8 +8669,8 @@ msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
 "guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired :"
-"guilabel:`Iterval` (for example 120 seconds). Then add new periodic task and "
-"choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
+"guilabel:`Interval` (for example 120 seconds). Then add new periodic task "
+"and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
 
@@ -18482,7 +18482,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:375
 msgid ""
-"Celery beat is now stroring the tasks schedule in the database, "
+"Celery beat is now storing the tasks schedule in the database, "
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
@@ -30727,46 +30727,56 @@ msgid ":ref:`security`"
 msgstr "คำอธิบาย"
 
 #: ../../contributing/security.rst:15
+#, fuzzy
+#| msgid "Security"
+msgid "Security updates"
+msgstr "ความปลอดภัย"
+
+#: ../../contributing/security.rst:17
+msgid "Only the latest release is guaranteed to receive security updates."
+msgstr ""
+
+#: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
 msgstr ""
 
-#: ../../contributing/security.rst:17
+#: ../../contributing/security.rst:22
 msgid ""
 "Security issues in our dependencies are monitored using `Dependabot`_. This "
 "covers the Python and JavaScript libraries, and the latest stable release "
 "has its dependencies updated to avoid vulnerabilities."
 msgstr ""
 
-#: ../../contributing/security.rst:23
+#: ../../contributing/security.rst:28
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
 msgstr ""
 
-#: ../../contributing/security.rst:27
+#: ../../contributing/security.rst:32
 msgid "Docker container security"
 msgstr ""
 
-#: ../../contributing/security.rst:29
+#: ../../contributing/security.rst:34
 msgid ""
 "The Docker containers are regularly scanned using `Anchore`_ and `Trivy`_ "
 "security scanners."
 msgstr ""
 
-#: ../../contributing/security.rst:32
+#: ../../contributing/security.rst:37
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
 
-#: ../../contributing/security.rst:34
+#: ../../contributing/security.rst:39
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
 "Format)."
 msgstr ""
 
-#: ../../contributing/security.rst:39
+#: ../../contributing/security.rst:44
 #, fuzzy
 #| msgid "Component name"
 msgid ":ref:`ci-tests`"

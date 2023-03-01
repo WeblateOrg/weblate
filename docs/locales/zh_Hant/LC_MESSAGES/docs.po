@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 19:50+0100\n"
+"POT-Creation-Date: 2023-03-01 09:51+0100\n"
 "PO-Revision-Date: 2023-02-28 10:14+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -9387,8 +9387,8 @@ msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
 "guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired :"
-"guilabel:`Iterval` (for example 120 seconds). Then add new periodic task and "
-"choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
+"guilabel:`Interval` (for example 120 seconds). Then add new periodic task "
+"and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
 
@@ -20789,7 +20789,7 @@ msgstr "從 4.5 升級到了 4.6"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
-"Celery beat is now stroring the tasks schedule in the database, "
+"Celery beat is now storing the tasks schedule in the database, "
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
@@ -33700,10 +33700,20 @@ msgid ":ref:`security`"
 msgstr "試用約期訂購"
 
 #: ../../contributing/security.rst:15
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security updates"
+msgstr "安全性問題"
+
+#: ../../contributing/security.rst:17
+msgid "Only the latest release is guaranteed to receive security updates."
+msgstr ""
+
+#: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
 msgstr ""
 
-#: ../../contributing/security.rst:17
+#: ../../contributing/security.rst:22
 #, fuzzy
 #| msgid ""
 #| "Security issues in our dependencies are monitored using `Dependabot "
@@ -33718,7 +33728,7 @@ msgstr ""
 "我們的依賴項中的安全問題是使用`depenabot <https://dependabot.com/>`_監視的。"
 "這包括Python和JavaScript庫，最新的穩定版本有其依賴項，以避免漏洞。"
 
-#: ../../contributing/security.rst:23
+#: ../../contributing/security.rst:28
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
@@ -33726,11 +33736,11 @@ msgstr ""
 "在第三方庫中可能存在漏洞，不會影響WebLate，因此不會通過釋放釋放的WebLate的錯"
 "誤文件來解決這些內容。"
 
-#: ../../contributing/security.rst:27
+#: ../../contributing/security.rst:32
 msgid "Docker container security"
 msgstr "Docker 容器安全"
 
-#: ../../contributing/security.rst:29
+#: ../../contributing/security.rst:34
 #, fuzzy
 #| msgid ""
 #| "The Docker containers are scanned using `Anchore <https://anchore.com/>`_ "
@@ -33742,13 +33752,13 @@ msgstr ""
 "使用`anchore <https://anchore.com/ >> _和`trivy <https://github.com/"
 "aquaseecurity/trivy>`_。"
 
-#: ../../contributing/security.rst:32
+#: ../../contributing/security.rst:37
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr "這使我們能夠早期檢測漏洞并快速釋放改進。"
 
-#: ../../contributing/security.rst:34
+#: ../../contributing/security.rst:39
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
@@ -33757,7 +33767,7 @@ msgstr ""
 "您可以在GitHub上獲取這些掃描的結果 - 它們以SARIF格式（靜態分析結果交換格式）"
 "存儲在我們的CI上的偽影。"
 
-#: ../../contributing/security.rst:39
+#: ../../contributing/security.rst:44
 #, fuzzy
 #| msgid "Component name"
 msgid ":ref:`ci-tests`"

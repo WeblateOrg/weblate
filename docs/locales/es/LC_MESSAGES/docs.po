@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 19:50+0100\n"
+"POT-Creation-Date: 2023-03-01 09:51+0100\n"
 "PO-Revision-Date: 2023-02-28 10:13+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -9652,8 +9652,8 @@ msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
 "guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired :"
-"guilabel:`Iterval` (for example 120 seconds). Then add new periodic task and "
-"choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
+"guilabel:`Interval` (for example 120 seconds). Then add new periodic task "
+"and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
 
@@ -19566,7 +19566,7 @@ msgstr "Actualizar desde la 4.5 a la 4.6"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
-"Celery beat is now stroring the tasks schedule in the database, "
+"Celery beat is now storing the tasks schedule in the database, "
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
@@ -32032,10 +32032,20 @@ msgid ":ref:`security`"
 msgstr "Suscripciones de prueba"
 
 #: ../../contributing/security.rst:15
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security updates"
+msgstr "Problemas de seguridad"
+
+#: ../../contributing/security.rst:17
+msgid "Only the latest release is guaranteed to receive security updates."
+msgstr ""
+
+#: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
 msgstr "Búsqueda de vulnerabilidades en las dependencias"
 
-#: ../../contributing/security.rst:17
+#: ../../contributing/security.rst:22
 #, fuzzy
 #| msgid ""
 #| "We do monitor security issues in our dependencies using `Dependabot "
@@ -32052,7 +32062,7 @@ msgstr ""
 "dependabot.com/>`_. Toda versión estable nueva incluye cambios en las "
 "dependencias para evitar las vulnerabilidades."
 
-#: ../../contributing/security.rst:23
+#: ../../contributing/security.rst:28
 #, fuzzy
 #| msgid ""
 #| "There might be vulnerabilities in third-party libraries which do not "
@@ -32065,13 +32075,13 @@ msgstr ""
 "efecto alguno en Weblate. No creamos versiones con arreglos para esos "
 "problemas."
 
-#: ../../contributing/security.rst:27
+#: ../../contributing/security.rst:32
 #, fuzzy
 #| msgid "Docker containers security"
 msgid "Docker container security"
 msgstr "Seguridad de los contenedores Docker"
 
-#: ../../contributing/security.rst:29
+#: ../../contributing/security.rst:34
 #, fuzzy
 #| msgid ""
 #| "The Docker containers are scanned using `Anchore <https://anchore.com/>`_ "
@@ -32083,7 +32093,7 @@ msgstr ""
 "Los contenedores para Docker se analizan con `Anchore <https://anchore.com/"
 ">`_ y `Trivy <https://github.com/aquasecurity/trivy>`_."
 
-#: ../../contributing/security.rst:32
+#: ../../contributing/security.rst:37
 #, fuzzy
 #| msgid ""
 #| "This allows us to detect vulnerabilities early and release an updated "
@@ -32095,7 +32105,7 @@ msgstr ""
 "Esto nos permite detectar vulnerabilidades de manera pronta y publicar una "
 "versión actualizada del contenedor que incluya arreglos."
 
-#: ../../contributing/security.rst:34
+#: ../../contributing/security.rst:39
 #, fuzzy
 #| msgid ""
 #| "You can get the results of these scans at GitHub - they are stored as "
@@ -32109,7 +32119,7 @@ msgstr ""
 "productos de la integración continua en el formato de intercambio de "
 "resultados de análisis estáticos (SARIF, por sus siglas en inglés)."
 
-#: ../../contributing/security.rst:39
+#: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
