@@ -372,7 +372,7 @@ Upgrade from 4.15 to 4.16
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* Celery beat is now stroring the tasks schedule in the database,
+* Celery beat is now storing the tasks schedule in the database,
   ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
   changed for that.
 * The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
