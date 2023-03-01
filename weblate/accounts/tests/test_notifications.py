@@ -343,6 +343,20 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Announcement.objects.create(component=self.component, message="Hello word")
         self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox = []
+        Announcement.objects.create(
+            component=self.component,
+            language=Language.objects.get(code="cs"),
+            message="Hello word",
+        )
+        self.validate_notifications(1, "[Weblate] New announcement on Test")
+        mail.outbox = []
+        Announcement.objects.create(
+            component=self.component,
+            language=Language.objects.get(code="de"),
+            message="Hello word",
+        )
+        self.validate_notifications(0)
+        mail.outbox = []
         Announcement.objects.create(message="Hello global word")
         self.validate_notifications(
             User.objects.filter(is_active=True).count(),

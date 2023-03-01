@@ -90,8 +90,10 @@ class Notification:
         else:
             self.perm_cache = {}
 
-    def need_language_filter(self, change):
-        return self.filter_languages
+    def get_language_filter(self, change, translation):
+        if self.filter_languages:
+            return translation.language
+        return None
 
     @staticmethod
     def get_freq_choices():
@@ -126,7 +128,7 @@ class Notification:
                 query |= Q(scope=SCOPE_WATCHED) & Q(user__profile__watched=project)
             query |= Q(project=project)
         if lang_filter:
-            result = result.filter(user__profile__languages=translation.language)
+            result = result.filter(user__profile__languages=lang_filter)
         return (
             result.filter(query)
             .order_by("user", "-scope")
@@ -134,9 +136,9 @@ class Notification:
         )
 
     def get_subscriptions(self, change, project, component, translation, users):
-        lang_filter = self.need_language_filter(change)
+        lang_filter = self.get_language_filter(change, translation)
         cache_key = (
-            translation.language_id if lang_filter else lang_filter,
+            lang_filter.id if lang_filter else None,
             component.pk if component else None,
             project.pk if project else None,
         )
@@ -602,8 +604,10 @@ class NewCommentNotificaton(Notification):
     filter_languages = True
     required_attr = "comment"
 
-    def need_language_filter(self, change):
-        return not change.comment.unit.is_source
+    def get_language_filter(self, change, translation):
+        if not change.comment.unit.is_source:
+            return translation.language
+        return None
 
     def notify_immediate(self, change):
         super().notify_immediate(change)
@@ -677,6 +681,9 @@ class NewAnnouncementNotificaton(Notification):
 
     def should_skip(self, user, change):
         return not change.announcement.notify
+
+    def get_language_filter(self, change, translation):
+        return change.announcement.language
 
 
 @register_notification
