@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-01 09:51+0100\n"
-"PO-Revision-Date: 2023-03-01 09:34+0000\n"
+"PO-Revision-Date: 2023-03-01 14:18+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -3226,7 +3226,8 @@ msgid ""
 "Use with caution as this is a low level interface. You should not need it in "
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
-msgstr ""
+msgstr "请小心使用，因为这是一个底层接口。多数情况下你不应该使用它，因为通过 Weblate "
+"用户界面或 API 你可以舒服地访问多数设置项。"
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -6253,13 +6254,13 @@ msgstr "AUTH_PASSWORD_DAYS"
 msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
-msgstr ""
+msgstr "Weblate 拒绝用户重复使用之前用过的密码的情况会持续多少天。"
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
-msgstr ""
+msgstr "检查是基于审计日志进行的，:setting:`AUDITLOG_EXPIRY` 需要至少和这个一样。"
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -6441,13 +6442,14 @@ msgstr "CACHE_DIR"
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
-msgstr ""
+msgstr "Weblate 存放缓存文件的目录。默认为 :setting:`DATA_DIR` 中的 :file:`cache` "
+"子目录。"
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
-msgstr ""
+msgstr "将此更改为本地或临时文件系统，如果 :setting:`DATA_DIR` 位于网络文件系统上。"
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -6683,7 +6685,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
-msgstr ""
+msgstr "可使用 :setting:`CACHE_DIR`将多个缓存置于别处。"
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7115,6 +7117,8 @@ msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP 访问令牌 <https://confluence."
+"atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -7540,10 +7544,6 @@ msgid "List for credentials for Pagure servers."
 msgstr "Pagure服务器凭据列表。"
 
 #: ../../admin/config.rst:1271
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-#| "pagure.io/api/0/>`_"
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 msgstr ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 
@@ -7840,14 +7840,16 @@ msgstr "REGISTRATION_REBIND"
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
-msgstr ""
+msgstr "允许为现有用户重新绑定身份验证后端。在不同身份验证提供者之间迁移时请打开此选"
+"项。"
 
 #: ../../admin/config.rst:1532
 msgid ""
 "Disabled by default to not allow adding other authentication backends to "
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
-msgstr ""
+msgstr "默认禁用，不允许添加其他身份验证后端到现有账户。使用更多第三方身份验证后端时"
+"，重新绑定可导致账户沦陷。"
 
 #: ../../admin/config.rst:1539
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -8954,6 +8956,12 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"如果你想更频繁地提交更改而无需检查存在时间，你可以设置一个定时任务来执行提交"
+"。方法是使用 :ref:`admin-interface` 中的 :guilabel:`Periodic Tasks`。首先，"
+"创建期望的 :guilabel:`Interval` （比如 120 秒）。接着，"
+"添加新的定时任务并选择 ``weblate.trans.tasks.commit_pending`` 为 "
+":guilabel:`Task`， ``{\"hours\": 0}`` 为 :guilabel:`Keyword Arguments` "
+"和想要的间隔。"
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -9295,12 +9303,14 @@ msgid ""
 "Bitnami provides a Weblate stack for many platforms at <https://bitnami.com/"
 "stack/weblate>."
 msgstr ""
+"Bitnami 为许多平台提供 Weblate 一键安装包，详情请访问 <https://bitnami.com/"
+"stack/weblate>。"
 
 #: ../../admin/deployments.rst:28
 msgid ""
 "`Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/"
 ">`_"
-msgstr ""
+msgstr "`Bitnami 打包的 Weblate <https://docs.bitnami.com/general/apps/weblate/>`_"
 
 #: ../../admin/deployments.rst:31
 msgid "Weblate Cloudron Package"
@@ -11953,7 +11963,8 @@ msgid ""
 "(Optional) Update password for the Weblate user. This might be needed when "
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
-msgstr ""
+msgstr "（可选）更新 Weblate 用户的密码。迁移到 PostgreSQL 14 或 15 "
+"时可能需要这么做，因为密码存储方式发生了改变："
 
 #: ../../admin/install/docker.rst:287
 msgid "Start all remaining containers:"
@@ -12591,7 +12602,7 @@ msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:919
 msgid "Allow CORS requests from given origins."
-msgstr ""
+msgstr "允许来自给定源的 CORS 请求。"
 
 #: ../../admin/install/docker.rst:931
 msgid "Automatic suggestion settings"
@@ -15155,7 +15166,7 @@ msgstr "身份验证服务 URL"
 
 #: ../../admin/machine.rst:293
 msgid "Regional or multi-service can be spcified using region field below."
-msgstr ""
+msgstr "可使用下方的区域指端指定区域或多服务。"
 
 #: ../../admin/machine.rst:297
 msgid "``api.cognitive.microsoft.com`` -- Global"
@@ -15447,7 +15458,8 @@ msgstr ""
 msgid ""
 "IBM Watson Language Translator translates text from one language to another. "
 "The service offers multiple domain-specific models."
-msgstr ""
+msgstr "BM Watson Language Translator "
+"将文本从一种语言翻译到另一种语言。该服务提供多个域名特定的模型。"
 
 #: ../../admin/machine.rst:492
 msgid ""
@@ -15455,6 +15467,9 @@ msgid ""
 "translator>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-"
 "translator>`_"
 msgstr ""
+"`Watson Language Translator <https://www.ibm.com/cloud/watson-language-"
+"translator>`_, `IBM Cloud API 文档 <https://cloud.ibm.com/apidocs/language-"
+"translator>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:498
 msgid "Weblate"
@@ -19893,12 +19908,14 @@ msgid ""
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
+"Celery beat 现在在数据库中保存任务计划，需要为此更改 "
+"``CELERY_BEAT_SCHEDULER`` 和 :setting:`django:INSTALLED_APPS`。"
 
 #: ../../admin/upgrade.rst:378
 msgid ""
 "The deprecated VCS setting for credentials is no longer supported, see :ref:"
 "`up-4-14`."
-msgstr ""
+msgstr "不再支持已废弃的 VCS 凭据设置，见 :ref:`up-4-14`。"
 
 #: ../../admin/upgrade.rst:379
 msgid ""
@@ -19913,6 +19930,8 @@ msgid ""
 "Integration of `django-cors-headers` requires changes in :setting:`django:"
 "INSTALLED_APPS` and :setting:`django:MIDDLEWARE`."
 msgstr ""
+"`django-cors-headers` 集成需要在 :setting:`django:INSTALLED_APPS` 和 "
+":setting:`django:MIDDLEWARE` 中做出更改。"
 
 #: ../../admin/upgrade.rst:387
 msgid "Upgrading from Python 2 to Python 3"
@@ -22656,7 +22675,7 @@ msgstr "发布于 2023 年 3 月 1 日。"
 
 #: ../../changes.rst:6
 msgid "Format string checks now also detects duplicated formats."
-msgstr ""
+msgstr "格式字符串检查现在同样检查重复和格式。"
 
 #: ../../changes.rst:7
 msgid "Improved search performance for some specially formatted strings."
@@ -22664,7 +22683,7 @@ msgstr "改进了搜索某些特殊格式字符串的性能。"
 
 #: ../../changes.rst:8
 msgid "Celery beat is now storing the tasks schedule in the database."
-msgstr ""
+msgstr "Celery beat 现在在数据库中保存任务计划。"
 
 #: ../../changes.rst:9
 msgid "Added support for IBM Watson Language Translator."
@@ -22687,79 +22706,57 @@ msgid "Added support for defining strings state when adding via API."
 msgstr "新增支持通过 API 添加字符串时定义字符串的状态。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Add support for configuring msgmerge add-on."
 msgid "Added support for configuring CORS allowed origins."
-msgstr "支持配置 msgmerge 附加组件。"
+msgstr "新增支持配置允许的 CORS 源。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for voting on suggestions."
 msgid "Added plurals support to automatic suggestions."
-msgstr "为建议投票添加了支持。"
+msgstr "自动建议新增复数形式支持。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/88?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/88?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"89?closed=1>`__。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.15.2"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.15.2"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 25th 2023."
-msgstr "发布于 2020 年 1 月 9 日。"
+msgstr "发布于 2023 年 1 月 25 日。"
 
 #: ../../changes.rst:24
 msgid ""
 "Enabled gotext JSON and i18next v4 formats in the default configuration."
-msgstr ""
+msgstr "在默认配置中启用了 gotext JSON 和 i18next v4 版格式。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed crash on uploading corrupted files."
-msgstr "修复了显示一些检查时的崩溃。"
+msgstr "修复了上传破损文件时的崩溃。"
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "More detailed repository status view."
 msgid "Show stale directories in Git repository status."
-msgstr "更具体的仓库状态视图。"
+msgstr "在 Git 仓库状态中显示 stale 目录。"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/90?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"91?closed=1>`__。"
 
 #: ../../changes.rst:31
 msgid "Weblate 4.15.1"
 msgstr "Weblate 4.15.1"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 19th 2023."
-msgstr "发布于 2020 年 1 月 9 日。"
+msgstr "发布于 2023 年 1 月 19 日。"
 
 #: ../../changes.rst:35
 msgid "Fixed suggestions from automatic translation."
@@ -31654,14 +31651,12 @@ msgid ":ref:`security`"
 msgstr ":ref:`celery`"
 
 #: ../../contributing/security.rst:15
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security updates"
-msgstr "安全问题"
+msgstr "安全更新"
 
 #: ../../contributing/security.rst:17
 msgid "Only the latest release is guaranteed to receive security updates."
-msgstr ""
+msgstr "只保证最新版能接收安全更新。"
 
 #: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
@@ -31971,18 +31966,11 @@ msgid "Continuous integration"
 msgstr "持续集成"
 
 #: ../../contributing/tests.rst:12
-#, fuzzy
-#| msgid ""
-#| "Current test results can be found on `GitHub Actions <https://github.com/"
-#| "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov "
-#| "<https://codecov.io/github/WeblateOrg/weblate>`_."
 msgid ""
 "Current test results can be found on `GitHub Actions`_ and coverage is "
 "reported on `Codecov`_."
-msgstr ""
-"当前的测试结果可以在 `GitHub Actions <https://github.com/WeblateOrg/weblate/"
-"actions>`_ 上找到，并且覆盖范围在 `Codecov <https://codecov.io/github/"
-"WeblateOrg/weblate>`_ 上报告。"
+msgstr "当前的测试结果可以在 `GitHub Actions`_ 上找到，覆盖范围在 `Codecov`_ "
+"上进行报告。"
 
 #: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
@@ -36118,7 +36106,8 @@ msgid ""
 "In case you use plurals, it is recommended to use v4 as that aligned plural "
 "handling with CLDR. Older versions have different plural rules for some "
 "languages which are not correct."
-msgstr ""
+msgstr "如果你使用复数形式，那么建议你使用 v4 版格式，因其在复数形式处理方面对齐 "
+"CLDR。旧版格式对某些语言有不同的复数规则，这些规则是错误的。"
 
 #: ../../formats.rst:946
 msgid ""
@@ -36184,21 +36173,14 @@ msgstr ""
 "go-i18n 翻译是单语言的因此建议使用（最常见的）英文字符串指定一个基本文件。"
 
 #: ../../formats.rst:1001
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports both v1 and v2 formats, please choose corresponding version "
 "when selecting file format."
-msgstr ""
-"Weblate 支持 i18next JSON v3 和 v4 变体。请选择匹配你环境的正确文件格式。"
+msgstr "Weblate 支持 v1 和 v2 版格式，请在挑选文件格式时选择相应的版本。"
 
 #: ../../formats.rst:1013
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "`go-i18n v1 JSON file`"
-msgstr "go-i18n JSON 文件"
+msgstr "`go-i18n v1 JSON 文件`"
 
 #: ../../formats.rst:1018
 msgid ""
@@ -36223,10 +36205,8 @@ msgstr ""
 "件。"
 
 #: ../../formats.rst:1040
-#, fuzzy
-#| msgid "``internal/translations/locales/*/mesages.gotext.json``"
 msgid "``internal/translations/locales/*/messages.gotext.json``"
-msgstr "``internal/translations/locales/*/mesages.gotext.json``"
+msgstr "``internal/translations/locales/*/messages.gotext.json``"
 
 #: ../../formats.rst:1042
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
@@ -39468,16 +39448,10 @@ msgid ""
 msgstr "当同时使用 ``md-text`` 标志时，也允许使用 Markdown 样式链接。"
 
 #: ../../user/checks.rst:1228
-#, fuzzy
-#| msgid ""
-#| "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
-#| ">`_ library developed by Mozilla."
 msgid ""
 "The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/"
 "ammonia>`_ library."
-msgstr ""
-"HTML 检查由 Mozilla 开发的 `Bleach <https://bleach.readthedocs.io/>`_ 库执"
-"行。"
+msgstr "HTML 检查的执行者是 `Ammonia <https://github.com/rust-ammonia/ammonia>`_ 库。"
 
 #: ../../user/checks.rst:1236
 msgid "URL"
@@ -40504,7 +40478,8 @@ msgstr "您不会收到有关您自己操作的通知。"
 msgid ""
 "Sending out notifications is limited, you will not receive more than 1000 e-"
 "mails per day. Any further notifications for you will be discarded."
-msgstr ""
+msgstr "发送通知的数量是有限制的，你每天收到的电子邮件不会超过 1000 封。第 1001 "
+"封及之后发给你的邮件通知都将被抛弃。"
 
 #: ../../user/profile.rst:181
 msgid "Account"
@@ -40685,10 +40660,8 @@ msgid "String priority."
 msgstr "字符串优先级。"
 
 #: ../../user/search.rst:40
-#, fuzzy
-#| msgid "``priority:NUMBER``"
 msgid "``id:NUMBER``"
-msgstr "``priority:NUMBER``"
+msgstr "``id:NUMBER``"
 
 #: ../../user/search.rst:41
 msgid "String unique identifier."
@@ -41875,20 +41848,15 @@ msgid "Version control integration"
 msgstr "版本控制集成"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit` and :"
-#| "ref:`vcs-git-svn`) and :ref:`vcs-mercurial` as version control back-ends."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
 "`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as "
 "version control back-ends."
 msgstr ""
-"Weblate 当前支持 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref:`vcs-"
-"gitlab`、:ref:`vcs-gitea`、:ref:`vcs-gerrit` 及 :ref:`vcs-git-svn`）和 :ref:"
-"`vcs-mercurial` 作为版本控制后端。"
+"Weblate 当前支持 :ref:`vcs-git` （扩展支持 :ref:`vcs-github`, :ref:`vcs-"
+"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:`vcs-git-svn` 及 :ref"
+":`vcs-bitbucket-server`）和 :ref:`vcs-mercurial` 作为版本控制后端。"
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -42332,14 +42300,8 @@ msgstr ""
 "选项。"
 
 #: ../../vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:294
 msgid "GitLab merge requests"
@@ -42376,14 +42338,8 @@ msgstr ""
 "选项。"
 
 #: ../../vcs.rst:313
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :"
-"setting:`GITLAB_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:322
 msgid "Gitea pull requests"
@@ -42420,55 +42376,36 @@ msgstr ""
 "项。"
 
 #: ../../vcs.rst:341
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
-#| "setting:`GITEA_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
-"setting:`GITEA_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:350
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull requests"
-msgstr "Gitea 拉取请求"
+msgstr "Bitbucket 服务器拉取请求"
 
 #: ../../vcs.rst:354
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
-#| "allow pushing translation changes as pull requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Server "
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"这只是使用 `Gitea API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为拉取请求推送，而不是直接推送到仓库。"
+"这只是使用 `Bitbucket Server API`_ 在 :ref:`vcs-git` "
+"上添加了一个薄层，以允许将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:360
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "这不支持 Bitbucket Cloud API。"
 
 #: ../../vcs.rst:363
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitea` creates pull requests."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-server` creates pull request."
 msgstr ""
-"不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别是"
-"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-"
-"gitea` 创建拉取请求。"
+"不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` "
+"工作方式相同，唯一的区别是如何处理推送到仓库。使用 :ref:`vcs-git` "
+"将更改直接推送到仓库，而 :ref:`vcs-bitbucket-server` 创建拉取请求。"
 
 #: ../../vcs.rst:368
 msgid ""
@@ -42482,10 +42419,6 @@ msgstr ""
 "Bitbucket Server` 选项。"
 
 #: ../../vcs.rst:374
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
