@@ -11,6 +11,11 @@ Development of Weblate adheres to the `Best Practices of the Linux Foundation's 
 
    :ref:`security`
 
+Security updates
+----------------
+
+Only the latest release is guaranteed to receive security updates.
+
 Tracking dependencies for vulnerabilities
 -----------------------------------------
 
