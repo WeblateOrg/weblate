@@ -8,6 +8,7 @@ import os.path
 from django.core import mail
 from django.urls import reverse
 
+from weblate.lang.models import Language
 from weblate.trans.models import Announcement, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
@@ -192,6 +193,9 @@ class AnnouncementTest(ViewTestCase):
         self.make_manager()
         # Add second user to receive notifications
         self.project.add_user(self.anotheruser, "Administration")
+        czech = Language.objects.get(code="cs")
+        self.anotheruser.profile.languages.add(czech)
+
         response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)
