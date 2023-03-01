@@ -1,7 +1,9 @@
 Weblate 4.16.1
 --------------
 
-Not yet released.
+Released on March 1st 2023.
+
+* Fixed testsuite error.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?closed=1>`__.
 
