@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-28 19:50+0100\n"
-"PO-Revision-Date: 2023-03-01 04:58+0000\n"
+"PO-Revision-Date: 2023-03-01 08:22+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -3420,6 +3420,9 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"Bu arayüz düşük düzeyde olduğundan kullanırken dikkatli olun. Genellikle "
+"bunu kullanmaya gerek duymamalısınız. Çoğu şeye Weblate kullanıcı arayüzü "
+"veya API üzerinden rahatça ulaşılabilir."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -6705,12 +6708,16 @@ msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
 msgstr ""
+"Bir kullanıcının daha önce kullandığı bir parolayı yeniden kullanabilmesi "
+"için geçmesi gereken gün sayısı."
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Bu işlem denetim günlüğü ile yapılır. :setting:`AUDITLOG_EXPIRY` seçeneğinin "
+"değeri en az bu değer ile aynı olmalıdır."
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -6903,19 +6910,23 @@ msgstr ":ref:`backup`, :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:273
 msgid "CACHE_DIR"
-msgstr ""
+msgstr "CACHE_DIR"
 
 #: ../../admin/config.rst:277
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Weblate ön bellek dosyalarının tutulacağı klasör. Varsayılan olarak "
+":setting:`DATA_DIR` içindeki :file:`cache` alt klasörü kullanılır."
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+":setting:`DATA_DIR` bir ağ dosya sisteminde bulunuyorsa bunu yerel ya da "
+"geçici bir dosya sistemi olarak değiştirin."
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -7167,6 +7178,8 @@ msgstr ":file:`/static/`"
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Çeşitli ön bellekler, :setting:`CACHE_DIR` seçeneği kullanılarak başka bir "
+"konuma taşınabilir."
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7621,6 +7634,8 @@ msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP erişim kodu <https://confluence"
+".atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8413,6 +8428,9 @@ msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Var olan kullanıcılar için kimlik doğrulama hizmeti arka uçlarının yeniden "
+"bağlanmasını sağlar. Kimlik doğrulama hizmeti sağlayıcıları arasında geçiş "
+"yaparken bu seçeneği etkinleştirin."
 
 #: ../../admin/config.rst:1532
 msgid ""
@@ -8420,6 +8438,10 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Bu seçenek varsayılan olarak, var olan hesaba başka kimlik doğrulama hizmeti "
+"arka uçlarının eklenmesini engellemek için devre dışı bırakılmıştır. Yeniden "
+"bağlama seçeneği, daha fazla üçüncü taraf kimlik doğrulama hizmeti arka "
+"ucunun kullanılmasını sağlarken hesabın ele geçirilme riskini artırır."
 
 #: ../../admin/config.rst:1539
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -9626,6 +9648,14 @@ msgid ""
 "choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"Değişikliklerin daha sık ve yaşları denetlemeden yapılmasını istiyorsanız, "
+"gönderimi yapacak bir zamanlanmış görev ayarlayabilirsiniz. Bu işlemi :ref"
+":`admin-interface` içinde :guilabel:`Zamanlanmış görevler` bölümünden "
+"yapabilirsiniz. Önce istediğiniz :guilabel:`Sıklık` ögesini oluşturun (120 "
+"saniye gibi). Ardından yeni bir zamanlanmış görev ekleyin ve "
+":guilabel:`Görev` olarak ``weblate.trans.tasks.commit_pending``, :guilabel:`"
+"Anahtar sözcük parametreleri` olarak ``{“hours\": 0}`` ve istediğiniz "
+"sıklığı seçin."
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -9992,16 +10022,19 @@ msgid ""
 "Bitnami provides a Weblate stack for many platforms at <https://bitnami.com/"
 "stack/weblate>."
 msgstr ""
+"Bitnami, <https://bitnami.com/stack/weblate> adresinden birçok platform için "
+"hazır Weblate paketleri sunar."
 
 #: ../../admin/deployments.rst:28
 msgid ""
 "`Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/"
 ">`_"
 msgstr ""
+"`Bitnami Weblate paketi <https://docs.bitnami.com/general/apps/weblate/>`_"
 
 #: ../../admin/deployments.rst:31
 msgid "Weblate Cloudron Package"
-msgstr "Weblate Cloudron paketi"
+msgstr "Cloudron Weblate paketi"
 
 #: ../../admin/deployments.rst:33
 msgid ""
@@ -12889,6 +12922,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(İsteğe bağlı) Weblate kullanıcısının parolasını güncelleyin. Parolaları "
+"depolama yöntemi değiştirildiği için PostgreSQL 14 ya da 15 sürümüne geçiş "
+"yaparken bu işlemi yapmanız gerekebilir:"
 
 #: ../../admin/install/docker.rst:287
 msgid "Start all remaining containers:"
@@ -13370,6 +13406,8 @@ msgid ""
 "Configures Bitbucket Server pull-requests integration by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+":setting:`BITBUCKETSERVER_CREDENTIALS` seçeneğini değiştirerek Bitbucket "
+"sunucusu birleştirme istekleri bütünleştirmesini yapılandırır."
 
 #: ../../admin/install/docker.rst:721
 #, fuzzy
@@ -13581,7 +13619,7 @@ msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:919
 msgid "Allow CORS requests from given origins."
-msgstr ""
+msgstr "Belirtilen kaynaklardan CORS istekleri yapılabilmesini sağlar."
 
 #: ../../admin/install/docker.rst:931
 msgid "Automatic suggestion settings"
@@ -14396,6 +14434,10 @@ msgid ""
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
+"Ön bellek birimi :file:`/app/cache` olarak bağlanır ve durağan dosyalar ile "
+":setting:`CACHE_DIR` klasörünü tutmak için kullanılır. İçeriği kapsayıcı "
+"başlangıcında yeniden oluşturulur ve birim `tmpfs` gibi kısa ömürlü dosya "
+"sistemi kullanılarak bağlanabilir."
 
 #: ../../admin/install/docker.rst:1640
 msgid ""
@@ -15176,10 +15218,12 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Yönetim arayüzünü açın (``http://localhost:8000/create/project/``) ve "
+"çevirmek istediğiniz bir proje oluşturun. Bilgi almak için :ref:`project`."
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
-msgstr ""
+msgstr "Burada yalnızca proje adı ve web sitesini belirtmeniz gerekir."
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -16261,7 +16305,7 @@ msgstr "``api.translator.azure.cn`` -- Çin"
 
 #: ../../admin/machine.rst:291
 msgid "``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud"
-msgstr "``api.cognitive.microsofttranslator.us`` -- Azure ABD Hükümeti bulutu"
+msgstr "``api.cognitive.microsofttranslator.us`` -- Azure ABD hükümeti bulutu"
 
 #: ../../admin/machine.rst:293
 msgid "``endpoint_url``"
@@ -16274,10 +16318,12 @@ msgstr "Kimlik doğrulama hizmeti adresi"
 #: ../../admin/machine.rst:293
 msgid "Regional or multi-service can be spcified using region field below."
 msgstr ""
+"Bölgesel ya da çoklu hizmet, aşağıdaki bölge alanı kullanılarak "
+"belirtilebilir."
 
 #: ../../admin/machine.rst:297
 msgid "``api.cognitive.microsoft.com`` -- Global"
-msgstr "``api.cognitive.microsofttranslator.com`` -- Küresel"
+msgstr "``api.cognitive.microsoft.com`` -- Genel"
 
 #: ../../admin/machine.rst:299
 msgid "``api.cognitive.azure.cn`` -- China"
@@ -16473,8 +16519,8 @@ msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
-"Bir çeviri etki alanının kimliği, örneğin, BC. Eğer bir etki alanı "
-"belirtmezseniz, yöntem var olan tüm etki alanlarındaki çevirileri arar."
+"Bir çeviri etki alanının kimliği. Örnek: BC. Bir etki alanı belirtmezseniz, "
+"yöntem kullanılabilir tüm etki alanlarındaki çevirileri arar."
 
 #: ../../admin/machine.rst:418
 msgid "Machine translation service provided by SAP."
@@ -16667,7 +16713,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:564
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Özel makine çevirisi"
 
 #: ../../admin/machine.rst:566
 msgid ""
@@ -16684,7 +16730,7 @@ msgstr ""
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "Yönetim komutları"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -20660,7 +20706,7 @@ msgid ""
 "INSTALLED_APPS`."
 msgstr ""
 "`django-crispy-forms` yükseltmesi için :setting:`django:INSTALLED_APPS` "
-"içinde değişikler yapılması gerekiyor."
+"içinde değişiklikler yapılmalıdır."
 
 #: ../../admin/upgrade.rst:380
 msgid ""
@@ -21653,7 +21699,7 @@ msgstr ":ref:`project-language_aliases`"
 
 #: ../../api.rst:849
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Bir projeyi :http:method:`PATCH` isteğiyle düzenler."
 
 #: ../../api.rst:853 ../../api.rst:1175 ../../api.rst:1275 ../../api.rst:1359
 #: ../../api.rst:1379 ../../api.rst:1389 ../../api.rst:1402 ../../api.rst:1413
@@ -21668,7 +21714,7 @@ msgstr "Bileşen adresinin kısaltması"
 
 #: ../../api.rst:860
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Bir projeyi :http:method:`PUT` isteğiyle düzenler."
 
 #: ../../api.rst:869
 msgid "Deletes a project."
@@ -21804,11 +21850,11 @@ msgstr "**CURL JSON isteği örneği:**"
 
 #: ../../api.rst:1031
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**Git üzerinden yeni bir bileşen oluşturan JSON isteği:**"
 
 #: ../../api.rst:1054
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**Başka bir bileşenden yeni bir bileşen oluşturan JSON isteği:**"
 
 #: ../../api.rst:1123
 msgid "Returns paginated statistics for all languages within a project."
@@ -21835,6 +21881,8 @@ msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
+"Yeni bileşenler oluşturmak için :http:post:`/api/projects/(string:project)/"
+"components/` kullanın."
 
 #: ../../api.rst:1163
 msgid "Returns a list of translation components."
@@ -22111,18 +22159,24 @@ msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Bileşen değişikliklerinin listesini görüntüler. Temelde :http:get:`/api/"
+"changes/` kapsamında bir bileşendir ve aynı parametreleri kabul eder."
 
 #: ../../api.rst:1398
 msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
 msgstr ""
+"Bileşenle ilişkili tüm kullanılabilir çevirileri istenilen biçimdeki arşiv "
+"dosyası olarak indirir."
 
 #: ../../api.rst:1405
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip``"
 msgstr ""
+"Kullanılacak arşiv biçimi belirtilmemişse varsayılan olarak ``zip`` biçimi "
+"kullanılır. Desteklenen biçimler: ``zip``"
 
 #: ../../api.rst:1409
 msgid "Returns a list of component screenshots."
@@ -22157,7 +22211,7 @@ msgstr ""
 
 #: ../../api.rst:1447
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "Kilitli olduğunu ya da olmadığını belirten ikili değer."
 
 #: ../../api.rst:1488 ../../api.rst:1959
 msgid "Returns information about VCS repository status."
@@ -22169,6 +22223,7 @@ msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
 msgstr ""
+"Yanıt :http:get:`/api/projects/(string:project)/repository/` ile aynıdır."
 
 #: ../../api.rst:1499
 msgid "Remote commit information"
@@ -23424,15 +23479,15 @@ msgstr "1 Mart 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:6
 msgid "Format string checks now also detects duplicated formats."
-msgstr ""
+msgstr "Biçim dizesi denetimlerinin yinelenen biçimleri de algılaması sağlandı."
 
 #: ../../changes.rst:7
 msgid "Improved search performance for some specially formatted strings."
-msgstr "Bazı özel biçimlendirilmiş dizgeler için arama başarımı iyileştirildi."
+msgstr "Bazı özel biçimlendirilmiş dizgelerin arama başarımı iyileştirildi."
 
 #: ../../changes.rst:8
 msgid "Celery beat is now storing the tasks schedule in the database."
-msgstr ""
+msgstr "Celery görev zamanlamasının kayıt yeri veri tabanı olarak değiştirildi."
 
 #: ../../changes.rst:9
 msgid "Added support for IBM Watson Language Translator."
@@ -23442,7 +23497,7 @@ msgstr "IBM Watson Language Translator desteği eklendi."
 msgid "Dropped support for VCS integration settings deprecated in 4.14."
 msgstr ""
 "4.14 sürümünde kullanımdan kaldırılan sürüm denetimi sistemi bütünleştirmesi "
-"ayarları desteği kaldırıldı."
+"desteği kaldırıldı."
 
 #: ../../changes.rst:11
 msgid "Added support for Bitbucket Server pull requests."
@@ -23450,7 +23505,7 @@ msgstr "Bitbucket sunucusu çekme istekleri desteği eklendi."
 
 #: ../../changes.rst:12
 msgid "Improved conflicts handling in gettext PO files."
-msgstr "Gettext PO dosyalarında çakışmaların işlenmesi iyileştirildi."
+msgstr "Gettext po dosyalarında çakışmaların işlenmesi iyileştirildi."
 
 #: ../../changes.rst:13
 msgid "Added support for defining strings state when adding via API."
@@ -23462,7 +23517,7 @@ msgstr "CORS tarafından izin verilen kaynakları yapılandırma desteği eklend
 
 #: ../../changes.rst:15
 msgid "Added plurals support to automatic suggestions."
-msgstr "Çoğul biçimlere kendiliğinden öneri desteği eklendi."
+msgstr "Çoğul biçimler için kendiliğinden öneri desteği eklendi."
 
 #: ../../changes.rst:17
 msgid ""
@@ -23484,6 +23539,8 @@ msgstr "25 Ocak 2023 tarihinde yayınlandı."
 msgid ""
 "Enabled gotext JSON and i18next v4 formats in the default configuration."
 msgstr ""
+"Varsayılan yapılandırmada gotext JSON ve i18next v4 biçimleri "
+"etkinleştirildi."
 
 #: ../../changes.rst:25
 msgid "Fixed crash on uploading corrupted files."
@@ -23491,8 +23548,7 @@ msgstr "Bozuk dosyalar yüklendiğinde yaşanan çökme sorunu düzeltildi."
 
 #: ../../changes.rst:26
 msgid "Show stale directories in Git repository status."
-msgstr ""
-"Git depo durumunda görünümünde eski klasörlerin görüntülenmesi sağlandı."
+msgstr "Git depo durumunda eski klasörlerin görüntülenmesi sağlandı."
 
 #: ../../changes.rst:28
 msgid ""
@@ -42627,7 +42683,7 @@ msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:350
 msgid "Bitbucket Server pull requests"
-msgstr "Bitbucket sunucusu çekme istekleri"
+msgstr "Bitbucket sunucusu çekme isteği"
 
 #: ../../vcs.rst:354
 msgid ""
@@ -42862,7 +42918,7 @@ msgstr "Özet"
 
 #: ../../wlc.rst:100
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
+msgstr "Komutlar aslında hangi işlemin yapılması gerektiğini belirtir."
 
 #: ../../wlc.rst:105
 msgid ""
@@ -42870,6 +42926,10 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
+"Weblate Client, Weblate yönetiminin :ref:`api` üzerinden yapılmasını "
+"sağlayan bir Python kitaplığı ve komut satırı uygulamasıdır. Komut satırı "
+"uygulaması :command:`wlc` komutu ile çağrılabilir ve :mod:`wlc` modülü "
+"üzerinde bulunur."
 
 #: ../../wlc.rst:110
 msgid "Arguments"
@@ -42880,6 +42940,9 @@ msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
+"Çıktı biçimini veya hangi Weblate kopyasının kullanılacağını tanımlamak için "
+"aşağıdaki bağımsız değişkenler kullanılabilir. Bunlar herhangi bir komuttan "
+"önce yazılmalıdır."
 
 #: ../../wlc.rst:117
 msgid "Specify the output format."
@@ -42891,6 +42954,9 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"API adresini belirtir. Yapılandırma dosyasındaki tüm değerlerin yerini alır. "
+"Bilgi almak için: :ref:`wlc-config`. Adres ``/api/`` ile bitmelidir. Örnek: "
+"``https://hosted.weblate.org/api/`."
 
 #: ../../wlc.rst:126
 msgid ""
@@ -42898,14 +42964,20 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"Kullanılacak API kullanıcı anahtarını belirtir. Yapılandırma dosyasındaki "
+"tüm değerlerin yerini alır. Bilgi almak için: :ref:`wlc-config`. "
+"Anahtarınızı Weblate profilinizde bulabilirsiniz."
 
 #: ../../wlc.rst:131
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
 msgstr ""
+"Yapılandırma dosyası yolunu değiştirir. Bilgi almak için: :ref:`wlc-config`."
 
 #: ../../wlc.rst:135
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Kullanımdaki yapılandırma dosyası bölümünü değiştirir. Bilgi almak için: :ref"
+":`wlc-config`."
 
 #: ../../wlc.rst:138
 msgid "Commands"
