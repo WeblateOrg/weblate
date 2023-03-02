@@ -320,7 +320,7 @@ def handle_machinery(request, service, unit, search=None):
         try:
             if search:
                 response["translations"] = translation_service.search(
-                    search, unit, request.user
+                    unit, search, request.user
                 )
             else:
                 translations = translation_service.translate(unit, request.user)

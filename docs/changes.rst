@@ -3,6 +3,8 @@ Weblate 4.16.2
 
 Not yet released.
 
+* Fixed searching in the translation memory.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?closed=1>`__.
 
 Weblate 4.16.1
