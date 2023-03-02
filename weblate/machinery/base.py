@@ -468,7 +468,7 @@ class MachineTranslation:
             result = unit.machinery
             if result is None:
                 result = unit.machinery = {}
-            elif min(*result.get("quality", (-1,))) >= self.max_score:
+            elif min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
             translation_lists = [
                 self._translate(source, language, text, unit, user, threshold=threshold)
