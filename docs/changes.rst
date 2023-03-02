@@ -4,6 +4,7 @@ Weblate 4.16.2
 Not yet released.
 
 * Fixed searching in the translation memory.
+* Fixed automatic translation with more services.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?closed=1>`__.
 
