@@ -21,3 +21,9 @@ class InvertRegexTest(TestCase):
         self.assertEqual(list(invert_re("a?")), [""])
         self.assertEqual(list(invert_re("a*")), [""])
         self.assertEqual(list(invert_re("a+")), ["a"])
+
+    def test_broken(self):
+        self.assertEqual(list(invert_re("(")), [])
+
+    def test_question(self):
+        self.assertEqual(list(invert_re("(?i)(^|\\W)via")), ["via", " via"])

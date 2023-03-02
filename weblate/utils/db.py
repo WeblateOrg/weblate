@@ -92,7 +92,10 @@ class PostgreSQLRegexLookup(Regex):
     def needs_fallback(self):
         if not isinstance(self.orig_rhs, str):
             return False
-        return min(count_alnum(match) for match in invert_re(self.orig_rhs)) < 3
+        return (
+            min((count_alnum(match) for match in invert_re(self.orig_rhs)), default=0)
+            < 3
+        )
 
     def as_sql(self, compiler, connection):
         if self.needs_fallback():

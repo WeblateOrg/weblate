@@ -10,9 +10,11 @@ from pyparsing import (
     Empty,
     Literal,
     OpAssoc,
+    ParseException,
     ParseFatalException,
     ParserElement,
     ParseResults,
+    Regex,
     SkipTo,
     Suppress,
     Word,
@@ -22,6 +24,8 @@ from pyparsing import (
     printables,
     srange,
 )
+
+from weblate.utils.errors import report_error
 
 
 class CharacterRangeEmitter:
@@ -191,7 +195,7 @@ def get_parser():
 
     re_range = Combine(lbrack + SkipTo(rbrack, ignore=escaped_char) + rbrack)
     re_literal = escaped_char | one_of(list(re_literal_char))
-    re_non_capture_group = Suppress("?:")
+    re_non_capture_group = Suppress(Regex(r"\?[aiLmsux:-]"))
     re_dot = Literal(".")
     re_boundary = cflex | dollar
     repetition = (
@@ -230,5 +234,9 @@ def invert_re(regex):
 
     This is a single purpose generator to optimize database queries in Weblate.
     """
-    invre = GroupEmitter(RE_PARSER.parseString(regex)).make_generator()
+    try:
+        invre = GroupEmitter(RE_PARSER.parseString(regex)).make_generator()
+    except ParseException:
+        report_error(cause="Regexp parser")
+        return []
     return invre()
