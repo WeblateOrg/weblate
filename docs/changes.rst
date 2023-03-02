@@ -5,6 +5,7 @@ Not yet released.
 
 * Fixed searching in the translation memory.
 * Fixed automatic translation with more services.
+* Improved rendering of overlapping glossary term matches.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?closed=1>`__.
 

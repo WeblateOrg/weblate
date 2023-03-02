@@ -379,6 +379,31 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_overlap(self):
+        self.maxDiff = None
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                glossary=[
+                    Unit(
+                        source="hello world",
+                        target="ahoj svete",
+                        translation=self.translation,
+                    ),
+                    Unit(source="hello", target="ahoj", translation=self.translation),
+                ],
+            )["items"][0]["content"],
+            """
+            <span class="glossary-term" title="Glossary translation: ahoj svete, ahoj">
+                Hello
+            </span>
+            <span class="glossary-term" title="Glossary translation: ahoj svete">
+                world
+            </span>
+            """,
+        )
+
     def test_glossary_brackets(self):
         self.assertHTMLEqual(
             format_translation(

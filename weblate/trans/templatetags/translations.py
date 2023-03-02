@@ -198,14 +198,27 @@ class Formatter:
 
     def parse_glossary(self):
         """Highlights glossary entries."""
+        # Annotate string with glossary terms
+        locations = defaultdict(list)
         for htext, entries in self.terms.items():
             for match in re.finditer(
                 rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
-                self.tags[match.start(2)].append(
+                for i in range(match.start(2), match.end(2)):
+                    locations[i].extend(entries)
+                locations[match.end(2)].extend([])
+
+        # Render span tags for each glossary term match
+        last_entries = []
+        for position, entries in sorted(locations.items()):
+            if last_entries and entries != last_entries:
+                self.tags[position].insert(0, "</span>")
+
+            if entries and entries != last_entries:
+                self.tags[position].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end(2)].insert(0, "</span>")
+            last_entries = entries
 
     def parse_search(self):
         """Highlights search matches."""
