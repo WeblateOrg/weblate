@@ -227,6 +227,12 @@ class AutoTranslationMtTest(ViewTestCase):
         """Test for automatic translation with different content."""
         self.perform_auto(engines=["weblate"], threshold=80)
 
+    def test_multi(self):
+        """Test for automatic translation with more providers."""
+        self.perform_auto(
+            engines=["weblate", "weblate-translation-memory"], threshold=80
+        )
+
     def test_inconsistent(self):
         self.perform_auto(
             0, filter_type="check:inconsistent", engines=["weblate"], threshold=80
