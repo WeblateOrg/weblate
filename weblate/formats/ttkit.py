@@ -242,13 +242,6 @@ class TTKitFormat(TranslationFormat):
             is_template=is_template,
             source_language=source_language,
         )
-        # Set language (needed for some which do not include this)
-        if language_code is not None and self.store.gettargetlanguage() is None:
-            # This gets already native language code, so no conversion is needed
-            self.store.settargetlanguage(language_code)
-        if source_language is not None and self.store.getsourcelanguage() is None:
-            # This gets already native language code, so no conversion is needed
-            self.store.setsourcelanguage(source_language)
 
     @staticmethod
     def serialize(store):
@@ -259,6 +252,11 @@ class TTKitFormat(TranslationFormat):
         """Perform optional fixups on store."""
         if self.force_encoding is not None:
             store.encoding = self.force_encoding
+        # This gets already native language code, so no conversion is needed
+        if self.language_code is not None:
+            store.settargetlanguage(self.language_code)
+        if self.source_language is not None:
+            store.setsourcelanguage(self.source_language)
         return
 
     def load(self, storefile, template_store):
