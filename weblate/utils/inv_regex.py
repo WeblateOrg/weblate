@@ -25,8 +25,6 @@ from pyparsing import (
     srange,
 )
 
-from weblate.utils.errors import report_error
-
 
 class CharacterRangeEmitter:
     def __init__(self, chars):
@@ -234,6 +232,8 @@ def invert_re(regex):
 
     This is a single purpose generator to optimize database queries in Weblate.
     """
+    from weblate.utils.errors import report_error
+
     try:
         invre = GroupEmitter(RE_PARSER.parseString(regex)).make_generator()
     except ParseException:
