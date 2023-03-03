@@ -668,7 +668,10 @@ def user_avatar(request, user: str, size: int):
 
 def redirect_single(request, backend):
     """Redirect user to single authentication backend."""
-    return render(request, "accounts/redirect.html", {"backend": backend, "next": request.GET.get("next")})
+    return render(
+        request, "accounts/redirect.html",
+        {"backend": backend, "next": request.GET.get("next")}
+    )
 
 
 class WeblateLoginView(LoginView):
