@@ -24,6 +24,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
             "i18nextv4",
             "arb",
             "go-i18n-json",
+            "go-i18n-json-v2",
         }
     }
 

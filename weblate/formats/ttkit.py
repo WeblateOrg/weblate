@@ -1456,7 +1456,7 @@ class GoI18JSONFormat(JSONFormat):
 class GoI18V2JSONFormat(JSONFormat):
     name = _("go-i18n v2 JSON file")
     format_id = "go-i18n-json-v2"
-    loader = ("jsonl10n", "GoI18NJsonFile")
+    loader = ("jsonl10n", "GoI18NV2JsonFile")
     autoload = ()
 
 
