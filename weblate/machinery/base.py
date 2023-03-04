@@ -62,7 +62,7 @@ class MachineTranslation:
     force_uncleanup = False
     hightlight_syntax = False
     settings_form = None
-    validate_payload = ("en", "de", "test", None, None, False, 75)
+    validate_payload = ("en", "de", "test", None, None, 75)
     request_timeout = 5
 
     @classmethod
