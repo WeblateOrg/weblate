@@ -9,7 +9,9 @@ from itertools import chain
 from typing import Dict
 
 from dateutil.parser import ParserError, parse
-from django.db.models import Q
+from django.db import transaction
+from django.db.models import Q, Value
+from django.db.utils import DataError
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from pyparsing import (
@@ -421,6 +423,15 @@ class TermExpr:
                 re.compile(match.expr)
             except re.error as error:
                 raise ValueError(_("Invalid regular expression: {}").format(error))
+            from weblate.trans.models import Unit
+
+            with transaction.atomic():
+                try:
+                    Unit.objects.annotate(test=Value("")).filter(
+                        test__trgm_regex=match.expr
+                    ).exists()
+                except DataError as error:
+                    raise ValueError(str(error))
             return Q(**{self.field_name(field, "trgm_regex"): match.expr})
 
         if isinstance(match, tuple):

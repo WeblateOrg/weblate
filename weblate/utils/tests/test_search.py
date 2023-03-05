@@ -104,8 +104,14 @@ class QueryParserTest(TestCase, SearchMixin):
 
     def test_regex(self):
         self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
+        # Invalid regex
         with self.assertRaises(ValueError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
+        # Not supported regex
+        with self.assertRaises(ValueError):
+            self.assert_query(
+                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+            )
 
     def test_logic(self):
         self.assert_query(
