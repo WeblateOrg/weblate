@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-01 08:50+0000\n"
-"PO-Revision-Date: 2023-03-04 14:40+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-03-06 08:07+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -622,9 +622,8 @@ msgstr "Fediverse URL"
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
-msgstr ""
-"Mastodon や diaspora* などの統合サービスを利用して、あなたの fediverse プロ"
-"フィールにリンクしてください。"
+msgstr "Mastodon や diaspora* などの連携サービスを利用して、あなたの fediverse "
+"プロフィールにリンクしてください。"
 
 #: weblate/accounts/models.py:525
 msgid "Code site URL"
@@ -1671,7 +1670,7 @@ msgstr "アドオン名が正しくありません！"
 
 #: weblate/addons/views.py:82
 msgid "Add-on installed, please review integration instructions."
-msgstr "アドオンがインストールされました。統合手順を確認してください。"
+msgstr "アドオンがインストールされました。連携手順を確認してください。"
 
 #: weblate/addons/xml.py:17
 msgid "Customize XML output"
@@ -4064,14 +4063,12 @@ msgstr "認証サービス URL"
 
 #: weblate/machinery/forms.py:149
 msgid "Regional or multi-service can be specified using region field below."
-msgstr ""
+msgstr "地域またはマルチサービスは、以下の地域フィールドを使用して指定します。"
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "認証が取り消されました。"
+msgstr "認証サービス地域"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -5420,7 +5417,7 @@ msgstr ""
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
-msgstr "統合の手順"
+msgstr "連携の手順"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
@@ -5592,9 +5589,8 @@ msgstr "原文"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr ""
-"このリポジトリ内のすべてのコンポーネントのすべての Weblate のコミットは統合さ"
-"れます。"
+msgstr "このリポジトリ内のすべてのコンポーネントのすべての Weblate "
+"のコミットはまとめられます。"
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -5833,7 +5829,8 @@ msgstr "Weblate に貢献する"
 #: weblate/templates/base.html:313 weblate/templates/manage/index.html:46
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
-msgstr ""
+msgstr "ご使用の Weblate はサービスの制限を超えています。サブスクリプションをアップグ"
+"レードしてください。"
 
 #: weblate/templates/base.html:346
 #: weblate/templates/screenshots/screenshot_detail.html:82
@@ -7094,10 +7091,8 @@ msgstr "言語の追加"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
-msgstr "ユーザーが行った変更をすべて表示"
+msgstr "この言語のすべての変更箇所を表示"
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -7802,10 +7797,8 @@ msgid "Support status"
 msgstr "サポート状況"
 
 #: weblate/templates/manage/index.html:42
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Refresh support status"
-msgstr "Weblate サポート状況"
+msgstr "サポート状態の更新"
 
 #: weblate/templates/manage/index.html:53
 msgid "Support expiry"
@@ -8063,11 +8056,11 @@ msgstr "メールのテスト送信"
 
 #: weblate/templates/manage/tools.html:63
 msgid "Test Sentry integration"
-msgstr "Sentry 統合のテスト"
+msgstr "Sentry 連携のテスト"
 
 #: weblate/templates/manage/tools.html:66
 msgid "Generate a test event to test Sentry integration."
-msgstr "Sentry の統合を試験するためにテスト イベントを生成します。"
+msgstr "Sentry との統合を試験するためにテスト イベントを生成します。"
 
 #: weblate/templates/manage/users.html:28
 msgid "Add new user"
@@ -8286,10 +8279,8 @@ msgid "Color"
 msgstr "色"
 
 #: weblate/templates/project-labels.html:20
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Labeled source strings"
-msgstr "原文の更新"
+msgstr "ラベル付き原文"
 
 #: weblate/templates/project-labels.html:44
 msgid "Add label"
@@ -8426,9 +8417,9 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate は、バージョン管理サービスと密接に統合された、Web ベースの翻訳ツール"
-"です。シンプルで明瞭なユーザーインターフェイス、コンポーネント間の翻訳の連"
-"携、検査、ソースファイルへの自動リンクなどの機能を備えています。"
+"Weblate は、バージョン管理サービスと密接に連携した、Web ベースの翻訳ツールで"
+"す。シンプルで明瞭なユーザーインターフェイス、コンポーネント間の翻訳の連携、"
+"検査、ソースファイルへの自動リンクなどの機能を備えています。"
 
 #: weblate/templates/snippets/about.html:5
 #, python-format
@@ -8577,7 +8568,7 @@ msgstr "Weblate のリポジトリ"
 #: weblate/templates/snippets/glossary.html:7
 #: weblate/trans/templatetags/translations.py:618
 msgid "This translation is forbidden."
-msgstr "この訳語は禁止されています。"
+msgstr "この用語の翻訳は禁止されています。"
 
 #: weblate/templates/snippets/glossary.html:9
 msgid "This term should not be translated."
@@ -11280,7 +11271,7 @@ msgstr "過去の日付は、有効期限として設定できません。"
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
-msgstr "バージョン管理の統合"
+msgstr "バージョン管理との連携"
 
 #: weblate/trans/guide.py:74
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -11893,8 +11884,8 @@ msgid ""
 "providers to submit merge requests."
 msgstr ""
 "翻訳時に使用するリポジトリに、アクセスするためのバージョン管理システム。マー"
-"ジリクエストの送信のために、サードパーティ プロバイダとの統合の追加も選択でき"
-"ます。"
+"ジリクエストの送信のために、サードパーティ "
+"プロバイダとの連携の追加も選択できます。"
 
 #: weblate/trans/models/component.py:302
 msgid ""
@@ -12611,15 +12602,15 @@ msgstr "文字列に制御文字が含まれています: %s"
 
 #: weblate/trans/models/translation.py:1586
 msgid "Empty state is supported for blank strings only."
-msgstr ""
+msgstr "空の状態は、空白文字列にのみ対応しています。"
 
 #: weblate/trans/models/translation.py:1589
 msgid "Blank strings require an empty state."
-msgstr ""
+msgstr "空白の文字列には空の状態が必要です。"
 
 #: weblate/trans/models/translation.py:1592
 msgid "Approved state is not available as reviews are not enabled."
-msgstr ""
+msgstr "査読が有効でないため、承認された状態は使用できません。"
 
 #: weblate/trans/models/translation.py:1599
 msgid "This string seems to already exist."
@@ -13735,10 +13726,8 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "パラメータ %(field)s 内でエラー: %(error)s"
 
 #: weblate/vcs/git.py:511
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible cleanups:"
-msgstr "考えられる設定"
+msgstr "可能なクリーンアップ:"
 
 #: weblate/vcs/git.py:698
 msgid "Git with force push"
@@ -13765,10 +13754,8 @@ msgid "Pagure merge request"
 msgstr "Pagure マージリクエスト"
 
 #: weblate/vcs/git.py:1463
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull request"
-msgstr "Gitea プルリクエスト"
+msgstr "Bitbucket Server プルリクエスト"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:55
