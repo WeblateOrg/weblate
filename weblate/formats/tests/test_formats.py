@@ -23,6 +23,8 @@ from weblate.formats.ttkit import (
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
+    GoI18JSONFormat,
+    GoI18V2JSONFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -60,6 +62,8 @@ TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
+TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
+TEST_GO18N_V2_JSON = get_test_file("cs-go18n-v2.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
 TEST_PHP = get_test_file("cs.php")
@@ -523,6 +527,30 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
         "placeholders:$URL$,case-insensitive",
         "placeholders:$COUNT$,case-insensitive",
     ]
+    MONOLINGUAL = True
+
+
+class GoI18NV1JSONFormatTest(JSONFormatTest):
+    FORMAT = GoI18JSONFormat
+    FILE = TEST_GO18N_V1_JSON
+    COUNT = 4
+    MASK = "go-i18n-json/*.json"
+    EXPECTED_PATH = "go-i18n-json/cs_CZ.json"
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = (
+        b'{\n        "id": "key",\n        "translation": "Source string"\n    }\n'
+    )
+    MONOLINGUAL = True
+
+
+class GoI18NV2JSONFormatTest(JSONFormatTest):
+    FORMAT = GoI18V2JSONFormat
+    FILE = TEST_GO18N_V2_JSON
+    COUNT = 4
+    MASK = "go-i18n-json-v2/*.json"
+    EXPECTED_PATH = "go-i18n-json-v2/cs_CZ.json"
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
     MONOLINGUAL = True
 
 
