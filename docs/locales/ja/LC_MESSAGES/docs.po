@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-01 09:51+0100\n"
-"PO-Revision-Date: 2023-02-28 10:14+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-03-06 08:07+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:189
@@ -3352,6 +3352,8 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"これは低レベルのインターフェイスであり、使用には注意が必要です。通常は、"
+"Weblate UI または API を通じて快適に操作できるので使用する必要はありません。"
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -4154,7 +4156,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:565
 msgid "Active Directory integration"
-msgstr "Active Directory の統合"
+msgstr "Active Directory との連携"
 
 #: ../../admin/auth.rst:598
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
@@ -6303,9 +6305,9 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"大規模なインストール時に、コンポーネント リストを管理する場合、またはインス"
-"トール済みの Weblate のすべてのコンポーネントを 1 つのコンポーネント リストに"
-"統合する場合に便利です。"
+"大規模なインストール時に、コンポーネント リストを管理する場合、"
+"またはインストール済みの Weblate のすべてのコンポーネントを 1 "
+"つのコンポーネント リストと連携する場合に便利です。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
@@ -6564,13 +6566,14 @@ msgstr "AUTH_PASSWORD_DAYS"
 msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
-msgstr ""
+msgstr "Weblate において、ユーザーが以前に使用したパスワードの再利用を禁止する日数。"
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
-msgstr ""
+msgstr "チェックは監査ログに基づいて実施されます。:setting:`AUDITLOG_EXPIRY` "
+"は使用使用日数以上に設定してください。"
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -6761,22 +6764,23 @@ msgid ":ref:`backup`, :doc:`borg:usage/create`"
 msgstr ":ref:`backup`、:doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:273
-#, fuzzy
-#| msgid "BASE_DIR"
 msgid "CACHE_DIR"
-msgstr "BASE_DIR"
+msgstr "CACHE_DIR"
 
 #: ../../admin/config.rst:277
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Weblate がキャッシュ ファイルを保存するディレクトリ。デフォルトは "
+":setting:`DATA_DIR` のサブフォルダ :file:`cache` です。"
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
-msgstr ""
+msgstr ":setting:`DATA_DIR` がネットワーク ファイルシステム上にある場合は、これをロー"
+"カルまたは一時ファイルシステムに変更します。"
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -6799,9 +6803,9 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"Weblate の ``Content-Security-Policy`` ヘッダーをカスタマイズします。ヘッダー"
-"は、サード パーティのサービス（Matomo、Google アナリティクス、Sentry、…）との"
-"統合が有効として自動的に生成されます。"
+"Weblate の ``Content-Security-Policy`` "
+"ヘッダーをカスタマイズします。ヘッダーは、サード パーティのサービス（Matomo、"
+"Google アナリティクス、Sentry、…）との連携が有効として自動的に生成されます。"
 
 #: ../../admin/config.rst:298
 msgid "All these default to empty list."
@@ -7025,7 +7029,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
-msgstr ""
+msgstr ":setting:`CACHE_DIR` を使用して、さまざまなキャッシュを別の場所に設定します。"
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7047,10 +7051,8 @@ msgid ""
 msgstr "デフォルトは ``/home/weblate/data`` ですが、設定が必要です。"
 
 #: ../../admin/config.rst:445
-#, fuzzy
-#| msgid ":ref:`file-permissions`, :doc:`backup`"
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
-msgstr ":ref:`file-permissions`、:doc:`backup`"
+msgstr ":ref:`file-permissions`、:doc:`backup`、:setting:`CACHE_DIR`"
 
 #: ../../admin/config.rst:452
 msgid "DATABASE_BACKUP"
@@ -7433,14 +7435,8 @@ msgid "List for credentials for Gitea servers."
 msgstr "Gitea サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:777
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea "
-#| "personal access token`_"
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
-msgstr ""
-":setting:`GITEA_CREDENTIALS`、:ref:`vcs-gitea`、`Creating a Gitea personal "
-"access token`_"
+msgstr ":ref:`vcs-gitea`、`Creating a Gitea personal access token`_"
 
 #: ../../admin/config.rst:785
 msgid "GITLAB_CREDENTIALS"
@@ -7451,17 +7447,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "GitLab サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:806
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal "
-#| "access token <https://docs.gitlab.com/ee/user/profile/"
-#| "personal_access_tokens.html>`_"
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":setting:`GITLAB_CREDENTIALS`、:ref:`vcs-gitlab`、`GitLab: Personal access "
-"token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
+":ref:`vcs-gitlab`、`GitLab: Personal access token <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:812
 msgid "GITHUB_CREDENTIALS"
@@ -7472,32 +7463,25 @@ msgid "List for credentials for GitHub servers."
 msgstr "GitHub サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:833
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`、:ref:`vcs-github`、`個人アクセストークンを使用"
-"する`_"
+msgstr ":ref:`vcs-github`、`個人アクセス トークンを使用する`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "GITEA_CREDENTIALS"
 msgid "BITBUCKETSERVER_CREDENTIALS"
-msgstr "GITEA_CREDENTIALS"
+msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Gitea servers."
 msgid "List for credentials for Bitbucket servers."
-msgstr "Gitea サーバーの資格情報の一覧。"
+msgstr "Bitbucket サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:858
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`、`Bitbucket: HTTP アクセス トークン "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -7887,7 +7871,7 @@ msgstr "追跡する Matomo（旧 Piwik）内のサイト ID。"
 
 #: ../../admin/config.rst:1201 ../../admin/config.rst:1218
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr "この統合は、Matomo タグ マネージャーに対応していません。"
+msgstr "この連携は、Matomo タグ マネージャーに対応していません。"
 
 #: ../../admin/config.rst:1205
 msgid ":setting:`MATOMO_URL`"
@@ -7941,14 +7925,8 @@ msgid "List for credentials for Pagure servers."
 msgstr "Pagure サーバーの資格情報の一覧です。"
 
 #: ../../admin/config.rst:1271
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-#| "pagure.io/api/0/>`_"
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
-":setting:`PAGURE_CREDENTIALS`、:ref:`vcs-pagure`、`Pagure API <https://"
-"pagure.io/api/0/>`_"
+msgstr ":ref:`vcs-pagure`、`Pagure API <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1278
 msgid "PRIVACY_URL"
@@ -8256,16 +8234,15 @@ msgstr ""
 "`REGISTRATION_EMAIL_MATCH`、:doc:`auth`"
 
 #: ../../admin/config.rst:1523
-#, fuzzy
-#| msgid "REGISTRATION_OPEN"
 msgid "REGISTRATION_REBIND"
-msgstr "REGISTRATION_OPEN"
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1527
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
-msgstr ""
+msgstr "既存のユーザの認証バックエンドの再バインドを許可します。認証プロバイダー間の"
+"移行時は有効にしてください。"
 
 #: ../../admin/config.rst:1532
 msgid ""
@@ -8273,6 +8250,9 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"デフォルトでは無効であるため、既存のアカウントに他の認証バックエンドは追加で"
+"きません。再バインドは、複数のサードパーティ認証バックエンドを使用すると、ア"
+"カウントの侵害につながる恐れがあります。"
 
 #: ../../admin/config.rst:1539
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -8319,7 +8299,7 @@ msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "guides/django/>`_"
 msgstr ""
-"`Sentry の Django 統合 <https://docs.sentry.io/platforms/python/guides/"
+"`Sentry の Django 連携 <https://docs.sentry.io/platforms/python/guides/"
 "django/>`_"
 
 #: ../../admin/config.rst:1581
@@ -8769,9 +8749,8 @@ msgstr ""
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate."
-msgstr ""
-":doc:`/devel/integration` で、開発環境と Weblate を統合する基本的な方法を説明"
-"しています。"
+msgstr ":doc:`/devel/integration` で、開発環境と Weblate "
+"を連携する基本的な方法を説明しています。"
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
@@ -8833,9 +8812,8 @@ msgstr ""
 #: ../../admin/continuous.rst:55
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
-msgstr ""
-"一般的なコード ホスティング サービスと統合するために、:ref:`hooks` を使用する"
-"機能:"
+msgstr "一般的なコード ホスティング サービスと連携するために、:ref:`hooks` "
+"を使用する機能:"
 
 #: ../../admin/continuous.rst:57 ../../api.rst:2508
 msgid ":ref:`github-setup`"
@@ -9444,6 +9422,13 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"頻繁に、経過時間を考慮せずに変更をコミットする場合は、通常のタスクをスケジュ"
+"ールしてコミットを実行させます。この実行には、:ref:`admin-interface` の "
+"guilabel:`Periodic Tasks` を使用します。まず guilabel:`Interval` "
+"を設定します（例: 120秒）。次に、新しい定期タスクを追加し、タスクとして "
+"``weblate.trans.tasks.commit_pending`` を選択し、:guilabel:`Keyword "
+"Arguments` として ``{\"hours\": 0}`` "
+"を選択して必要な間隔時間を設定してください。"
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -9810,12 +9795,16 @@ msgid ""
 "Bitnami provides a Weblate stack for many platforms at <https://bitnami.com/"
 "stack/weblate>."
 msgstr ""
+"Bitnami は、<https://bitnami.com/stack/weblate> "
+"で多くのプラットフォーム向けに Weblate スタックを提供しています。"
 
 #: ../../admin/deployments.rst:28
 msgid ""
 "`Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/"
 ">`_"
 msgstr ""
+"`Bitnami 提供の Weblate パッケージ <https://docs.bitnami.com/general/apps/"
+"weblate/>`_"
 
 #: ../../admin/deployments.rst:31
 msgid "Weblate Cloudron Package"
@@ -12086,8 +12075,7 @@ msgstr "つまり、:file:`settings.py` に必要な設定:"
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
-msgstr ""
-"他のすべてを自動的に統合して、サーバー側とクライアント側の両方のエラーを収集"
+msgstr "他のすべてを自動的に連携して、サーバー側とクライアント側の両方のエラーを収集"
 "します。"
 
 #: ../../admin/install.rst:1552
@@ -12181,10 +12169,8 @@ msgstr ""
 "小限の構成:"
 
 #: ../../admin/install/steps/hw.rst:8
-#, fuzzy
-#| msgid "2 GB of RAM"
 msgid "3 GB of RAM"
-msgstr "2 GB の RAM"
+msgstr "3 GB の RAM"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -12632,6 +12618,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"（オプション）Weblate ユーザーのパスワードを更新させる。これは、パスワードの"
+"保存方法が変更されたため、PostgreSQL 14 または 15 "
+"に移行するときに必要となる場合の方法:"
 
 #: ../../admin/install/docker.rst:287
 msgid "Start all remaining containers:"
@@ -12916,10 +12905,8 @@ msgstr ""
 "用できる認証方式を設定します。"
 
 #: ../../admin/install/docker.rst:543
-#, fuzzy
-#| msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr ":setting:`EXTRA_HTML_HEAD` を設定します。"
+msgstr ":std:setting:`REGISTRATION_REBIND` を設定します。"
 
 #: ../../admin/install/docker.rst:547
 msgid ""
@@ -13069,64 +13056,40 @@ msgstr ""
 "す。"
 
 #: ../../admin/install/docker.rst:671
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures GitHub pull-requests integration by changing :setting:"
 "`GITHUB_CREDENTIALS`."
-msgstr ""
-":setting:`GITHUB_USERNAME` を変更して、GitHub プルリクエストの GitHub ユー"
-"ザー名を設定します。"
+msgstr ":setting:`GITHUB_CREDENTIALS` を変更して、GitHub "
+"プルリクエストの連携を設定します。"
 
 #: ../../admin/install/docker.rst:682
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab username for GitLab merge-requests by changing :setting:"
-#| "`GITLAB_USERNAME`"
 msgid ""
 "Configures GitLab merge-requests integration  by changing :setting:"
 "`GITLAB_CREDENTIALS`."
-msgstr ""
-":setting:`GITLAB_USERNAME` を変更して、GitLabマージ要求のGitLabユーザー名を構"
-"成します。"
+msgstr ":setting:`GITLAB_CREDENTIALS` を変更して、GitLab マージ "
+"リクエストの連携を設定します。"
 
 #: ../../admin/install/docker.rst:693
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures Gitea pull-requests integration by changing :setting:"
 "`GITEA_CREDENTIALS`."
-msgstr ""
-":setting:`GITHUB_USERNAME` を変更して、GitHub プルリクエストの GitHub ユー"
-"ザー名を設定します。"
+msgstr ":setting:`GITEA_CREDENTIALS` を変更して、Gitea "
+"プルリクエストの連携を設定します。"
 
 #: ../../admin/install/docker.rst:705
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure username for Pagure merge-requests by changing :setting:"
-#| "`PAGURE_USERNAME`"
 msgid ""
 "Configures Pagure merge-requests integration  by changing :setting:"
 "`PAGURE_CREDENTIALS`."
-msgstr ""
-":setting:`PAGURE_USERNAME` を変更して、Pagure merge-requests 用の Pagure ユー"
-"ザー名を設定する。"
+msgstr ":setting:`PAGURE_CREDENTIALS` を変更して、Pagure "
+"マージリクエストの連携を設定します。"
 
 #: ../../admin/install/docker.rst:716
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures Bitbucket Server pull-requests integration by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-":setting:`GITHUB_USERNAME` を変更して、GitHub プルリクエストの GitHub ユー"
-"ザー名を設定します。"
+":setting:`BITBUCKETSERVER_CREDENTIALS` を変更して、Bitbucket Server "
+"プルリクエストの連携を設定します。"
 
 #: ../../admin/install/docker.rst:721
 #, fuzzy
@@ -13328,7 +13291,7 @@ msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を設定します。"
 
 #: ../../admin/install/docker.rst:919
 msgid "Allow CORS requests from given origins."
-msgstr ""
+msgstr "指定したオリジンからの CORS 要求を許可します。"
 
 #: ../../admin/install/docker.rst:931
 msgid "Automatic suggestion settings"
@@ -13493,7 +13456,7 @@ msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1142
 msgid "Configures generic OpenID Connect intergration."
-msgstr "一般的な OpenID Connect の統合を設定します。"
+msgstr "一般的な OpenID Connect との連携を設定します。"
 
 #: ../../admin/install/docker.rst:1146
 msgid ":doc:`psa:backends/oidc`"
@@ -13836,7 +13799,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1430
 msgid "Site integration"
-msgstr "サイト統合"
+msgstr "サイト連携"
 
 #: ../../admin/install/docker.rst:1434
 msgid "Configures :setting:`GET_HELP_URL`."
@@ -14123,20 +14086,16 @@ msgstr ""
 "てマウントされます。"
 
 #: ../../admin/install/docker.rst:1636
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files. Its content is recreated on container startup and the "
-#| "volume can be mounted using ephemeral filesystem such as `tmpfs`."
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"キャッシュ ボリュームは、:file:`/app/cache` としてマウントされ、静的ファイル"
-"の格納に使用されます。その内容はコンテナの起動時に再作成され、`tmpfs` などの"
-"一時ファイルシステムを使用してボリュームをマウントできます。"
+"キャッシュ ボリュームは、:file:`/app/cache` としてマウントされ、"
+"静的ファイルと :setting:`CACHE_DIR` "
+"を保存するために使用します。その内容はコンテナの起動時に再作成され、`tmpfs` "
+"などの一時ファイルシステムを使用してボリュームをマウントできます。"
 
 #: ../../admin/install/docker.rst:1640
 msgid ""
@@ -16040,10 +15999,8 @@ msgid "``api.translator.azure.cn`` -- China"
 msgstr "``api.translator.azure.cn`` -- 中国"
 
 #: ../../admin/machine.rst:291
-#, fuzzy
-#| msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
 msgid "``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud"
-msgstr "``api-eur.cognitive.microsofttranslator.com`` -- ヨーロッパ"
+msgstr "``api.cognitive.microsofttranslator.us`` -- Azure 米国政府クラウド"
 
 #: ../../admin/machine.rst:293
 #, fuzzy
@@ -16052,38 +16009,28 @@ msgid "``endpoint_url``"
 msgstr "``url``"
 
 #: ../../admin/machine.rst:293
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authentication service URL"
-msgstr "認証"
+msgstr "認証サービスの URL"
 
 #: ../../admin/machine.rst:293
 msgid "Regional or multi-service can be spcified using region field below."
-msgstr ""
+msgstr "地域またはマルチサービスは、以下の地域フィールドを使用して指定します。"
 
 #: ../../admin/machine.rst:297
-#, fuzzy
-#| msgid "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
 msgid "``api.cognitive.microsoft.com`` -- Global"
-msgstr "``api.cognitive.microsofttranslator.com`` ‐‐ 全世界（地域設定無し）"
+msgstr "``api.cognitive.microsoft.com`` ‐‐ 全世界"
 
 #: ../../admin/machine.rst:299
-#, fuzzy
-#| msgid "``api.translator.azure.cn`` -- China"
 msgid "``api.cognitive.azure.cn`` -- China"
-msgstr "``api.translator.azure.cn`` -- 中国"
+msgstr "``api.cognitive.azure.cn`` -- 中国"
 
 #: ../../admin/machine.rst:301
-#, fuzzy
-#| msgid "Defaults to ``api.cognitive.microsoft.com`` for Azure Global."
 msgid "``api.cognitive.microsoft.us`` -- Azure US Government cloud"
-msgstr "Azure グローバルのデフォルトは ``api.cognitive.microsoft.com`` です。"
+msgstr "``api.cognitive.microsoft.us`` -- Azure 米国政府クラウド"
 
 #: ../../admin/machine.rst:303
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgid "Authentication service region"
-msgstr "認証が取り消されました。"
+msgstr "認証サービス地域"
 
 #: ../../admin/machine.rst:306
 msgid ""
@@ -16367,10 +16314,8 @@ msgstr ""
 "amagama`、`Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:478
-#, fuzzy
-#| msgid "Can manage translation memory."
 msgid "IBM Watson Language Translator"
-msgstr "翻訳メモリを管理するアクセス権。"
+msgstr "IBM Watson Language Translator"
 
 #: ../../admin/machine.rst:480
 msgid "``ibm``"
@@ -16381,6 +16326,8 @@ msgid ""
 "IBM Watson Language Translator translates text from one language to another. "
 "The service offers multiple domain-specific models."
 msgstr ""
+"IBM Watson Language Translator は、テキストをある言語から別の言語に翻訳します"
+"。このサービスは、複数のドメイン固有のモデルを提供します。"
 
 #: ../../admin/machine.rst:492
 msgid ""
@@ -16388,6 +16335,9 @@ msgid ""
 "translator>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-"
 "translator>`_"
 msgstr ""
+"`Watson Language Translator <https://www.ibm.com/cloud/watson-language-"
+"translator>`_ 、`IBM Cloud API ドキュメント <https://cloud.ibm.com/apidocs/"
+"language-translator>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:498
 msgid "Weblate"
@@ -16716,18 +16666,15 @@ msgstr ""
 "保留中の可能性がある変更を、バックエンド Git リポジトリにコミットします。"
 
 #: ../../admin/management.rst:186
-#, fuzzy
-#| msgid ""
-#| "You can either define which project or component to update (for example "
-#| "``weblate/application``), or use ``--all`` to update all existing "
-#| "components."
 msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
-"更新するプロジェクトまたはコンポーネント（例: ``weblate/application``）を設定"
-"するか、``--all`` を使用して既存のすべてのコンポーネントを更新します。"
+"更新するプロジェクトまたはコンポーネント（例: ``weblate/"
+"application``）を設定するか、``--all`` "
+"を使用して既存のすべてのコンポーネントを更新するか、``--file-format`` "
+"を使用してファイル形式に基づいてフィルタリングできます。"
 
 #: ../../admin/management.rst:191
 msgid "commit_pending"
@@ -18192,7 +18139,7 @@ msgstr ":ref:`user-rate`、:ref:`reverse-proxy`、:ref:`api-rate`"
 
 #: ../../admin/optionals.rst:298
 msgid "Fedora Messaging integration"
-msgstr "Fedora Messaging の統合"
+msgstr "Fedora Messaging との連携"
 
 #: ../../admin/optionals.rst:300
 msgid ""
@@ -18210,7 +18157,7 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
-"Fedora Messaging の統合は、別の Python モジュール ``weblate-fedora-"
+"Fedora Messaging との連携は、別の Python モジュール ``weblate-fedora-"
 "messaging`` として使用します。設定手順については、<https://github.com/"
 "WeblateOrg/fedora_messaging/> を確認してください。"
 
@@ -18380,9 +18327,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
-"バージョン管理をしていない、または Weblate と統合したくない場合に、翻訳ファイ"
-"ルを Weblate にアップロードします。あとから Web 画面または、:ref:`api` を使用"
-"してコンテンツを更新できます。"
+"バージョン管理をしていない、または Weblate と連携したくない場合に、"
+"翻訳ファイルを Weblate にアップロードします。あとから Web "
+"画面または、:ref:`api` を使用してコンテンツを更新できます。"
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -18863,9 +18810,8 @@ msgstr ""
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
-msgstr ""
-"現在、Git、GitLab、および GitHub にのみ対応しており、他の VCS 統合では無効と"
-"なります。"
+msgstr "現在、Git、GitLab、および GitHub にのみ対応しており、他の VCS "
+"との連携では無効になります。"
 
 #: ../../admin/projects.rst:409 ../../devel/gettext.rst:226
 #: ../../formats.rst:195 ../../formats.rst:261 ../../formats.rst:394
@@ -20044,10 +19990,10 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
-"購入したサポート パッケージは、オプションとして Weblate `サブスクリプションの"
-"管理 <https://weblate.org/user/>`_ 画面にあるリンクを使用して統合できます。イ"
-"ンストールした基本インスタンスの詳細も、この方法で Weblate へ報告が送信されま"
-"す。"
+"購入したサポート パッケージは、オプションとして Weblate `"
+"サブスクリプションの管理 <https://weblate.org/user/>`_ 画面にあるリンクを使用"
+"して連携できます。インストールした基本インスタンスの詳細も、この方法で "
+"Weblate へ報告が送信されます。"
 
 #: ../../admin/support.rst:27
 msgid "Data submitted to the Weblate"
@@ -20091,7 +20037,7 @@ msgstr "他のデータは送信されません。"
 
 #: ../../admin/support.rst:42
 msgid "Integration services"
-msgstr "統合サービス"
+msgstr "連携サービス"
 
 #: ../../admin/support.rst:44
 msgid "See if your support package is still valid"
@@ -20111,8 +20057,7 @@ msgstr ":ref:`funding-weblate`"
 msgid ""
 "Purchased support packages are already activated upon purchase, and can be "
 "used without integrating them."
-msgstr ""
-"購入したサポート パッケージは、購入時にすでに有効になっているので、統合しなく"
+msgstr "購入したサポート パッケージは、購入時にすでに有効になっているので、連携しなく"
 "てもご利用いただけます。"
 
 #: ../../admin/support.rst:55
@@ -20761,9 +20706,9 @@ msgid ""
 "GitHub or GitLab, you will need to reconfigure this, see :setting:"
 "`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
-":command:`hub` または :command:`lab`を使用して、GitHub または GitLab と統合し"
-"ていた場合は、再設定が必要です。参照: :setting:`GITHUB_CREDENTIALS` および :"
-"setting:`GITLAB_CREDENTIALS`。"
+":command:`hub` または :command:`lab`を使用して、GitHub または GitLab "
+"と連携していた場合は、再設定が必要です。参照: :setting:`GITHUB_CREDENTIALS` "
+"および :setting:`GITLAB_CREDENTIALS`。"
 
 #: ../../admin/upgrade.rst:188
 msgid ""
@@ -21111,10 +21056,8 @@ msgstr ""
 "デフォルト値が変更されました。"
 
 #: ../../admin/upgrade.rst:371
-#, fuzzy
-#| msgid "Upgrade from 4.5 to 4.6"
 msgid "Upgrade from 4.15 to 4.16"
-msgstr "4.5 から 4.6 にアップグレード"
+msgstr "4.15 から 4.16 にアップグレード"
 
 #: ../../admin/upgrade.rst:375
 msgid ""
@@ -21122,26 +21065,32 @@ msgid ""
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
+"現在、celery beat はデータベースにタスク "
+"スケジュールを保存するようになりました。そのため、``CELERY_BEAT_SCHEDULER`"
+"および :setting:`django:INSTALLED_APPS` の変更が必要です。"
 
 #: ../../admin/upgrade.rst:378
 msgid ""
 "The deprecated VCS setting for credentials is no longer supported, see :ref:"
 "`up-4-14`."
-msgstr ""
+msgstr "非推奨の VCS 設定による認証情報への対応は終了しました。 参照: "
+":ref:`up-4-14`。"
 
 #: ../../admin/upgrade.rst:379
-#, fuzzy
-#| msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgid ""
 "Upgrade of `django-crispy-forms` requires changes in :setting:`django:"
 "INSTALLED_APPS`."
-msgstr ":setting:`django:INSTALLED_APPS` が変更されました。"
+msgstr ""
+"`django-crispy-forms` "
+"をアップグレードするには、:setting:`django:INSTALLED_APPS` の変更が必要です。"
 
 #: ../../admin/upgrade.rst:380
 msgid ""
 "Integration of `django-cors-headers` requires changes in :setting:`django:"
 "INSTALLED_APPS` and :setting:`django:MIDDLEWARE`."
 msgstr ""
+"`django-cors-headers` を統合するには、:setting:`django:INSTALLED_APPS` と "
+":setting:`django:MIDDLEWARE` の変更が必要です。"
 
 #: ../../admin/upgrade.rst:387
 msgid "Upgrading from Python 2 to Python 3"
@@ -22988,10 +22937,8 @@ msgid "Source strings (use single string if not creating plural)"
 msgstr "原文（複数形を作成しない場合は単一の文字列を使用）"
 
 #: ../../api.rst:1884
-#, fuzzy
-#| msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
-msgstr "新しく作成されたユニット。参照: :http:get:`/api/units/(int:id)/`"
+msgstr "文字列の状態。参照: :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1885
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
@@ -23043,19 +22990,15 @@ msgstr ""
 "ファイルを取得します。"
 
 #: ../../api.rst:1921
-#, fuzzy
-#| msgid ""
-#| "File format to use; if not specified no format conversion happens; "
-#| "supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, "
-#| "``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 msgid ""
 "File format to use; if not specified no format conversion happens; supported "
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, "
 "``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 msgstr ""
-"使用するファイル形式; 指定しない場合、フォーマット変換は行われません。対応す"
-"るファイル形式: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, "
-"``xlsx``, ``json``, ``aresource``, ``strings``"
+"使用するファイル形式; "
+"指定しない場合、フォーマット変換は行われません。対応するファイル形式: ``po``"
+", ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, ``csv``, ``xlsx``, "
+"``json``, ``aresource``, ``strings``"
 
 #: ../../api.rst:1922
 msgid ""
@@ -23843,7 +23786,7 @@ msgstr ""
 
 #: ../../api.rst:2553
 msgid "For instruction on setting up Pagure integration"
-msgstr "Pagure 統合の設定方法について"
+msgstr "Pagure 連携の設定方法について"
 
 #: ../../api.rst:2554
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
@@ -23994,138 +23937,97 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.16"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.16"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "Released on March 1st 2023."
-msgstr "2020 年 3 月 11 日にリリース。"
+msgstr "2023 年 3 月 1 日にリリース。"
 
 #: ../../changes.rst:6
 msgid "Format string checks now also detects duplicated formats."
-msgstr ""
+msgstr "書式文字列検査で、重複する書式も検出されるように改良。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved performance for some monolingual translations."
 msgid "Improved search performance for some specially formatted strings."
-msgstr "一部のモノリンガル翻訳の性能の改良。"
+msgstr "一部の特殊な書式を持つ文字列に対する検索性能を改良。"
 
 #: ../../changes.rst:8
 msgid "Celery beat is now storing the tasks schedule in the database."
-msgstr ""
+msgstr "現在、Celery beat をタスクのスケジュールをデータベースに保存するように改良。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for Amazon Translate."
 msgid "Added support for IBM Watson Language Translator."
-msgstr "Amazon Translate に対応。"
+msgstr "IBM Watson Language Translator に対応。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "Dropped support for migrating from 3.x releases, migrate through 4.1 or "
-#| "4.0."
 msgid "Dropped support for VCS integration settings deprecated in 4.14."
-msgstr ""
-"3.x リリースからの移行対応を終了し、4.1 または 4.0 からの移行対応に変更。"
+msgstr "4.14 で非推奨となった VCS 統合設定への対応を終了。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for Pagure pull requests."
 msgid "Added support for Bitbucket Server pull requests."
-msgstr "Pagure のプルリクエストの対応の追加。"
+msgstr "Bitbucket Server のプルリクエストへの対応。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved error handling in gitexport module."
 msgid "Improved conflicts handling in gettext PO files."
-msgstr "gitexport モジュールのエラー処理の改良。"
+msgstr "gettext PO ファイルでの競合処理の改良。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added support for manually defining string variants using a flag."
 msgid "Added support for defining strings state when adding via API."
-msgstr "フラグを使用して文字列の別表記を手動で設定する機能の追加。"
+msgstr "API 経由で追加するときに文字列の状態の定義への対応。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Add support for configuring msgmerge add-on."
 msgid "Added support for configuring CORS allowed origins."
-msgstr "msgmerge アドオンの設定に対応。"
+msgstr "CORS が許可するオリジンの設定に対応。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for voting on suggestions."
 msgid "Added plurals support to automatic suggestions."
-msgstr "提案に対する投票機能の追加。"
+msgstr "複数形の自動提案に対応。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/88?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/88?"
-"closed=1>`__ 。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"89?closed=1>`__ 。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.15.2"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.15.2"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 25th 2023."
-msgstr "2020 年 1 月 9 日にリリース。"
+msgstr "2023 年 1 月 25 日にリリース。"
 
 #: ../../changes.rst:24
 msgid ""
 "Enabled gotext JSON and i18next v4 formats in the default configuration."
-msgstr ""
+msgstr "デフォルト設定で gotext JSON および i18next v4 形式に対応。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed crash on uploading corrupted files."
-msgstr "一部の検査を表示する際のクラッシュ問題の修正。"
+msgstr "破損したファイルをアップロードする際のクラッシュを修正。"
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "More detailed repository status view."
 msgid "Show stale directories in Git repository status."
-msgstr "より詳細なリポジトリの状態を表示できるように改良。"
+msgstr "Git リポジトリのステータスで古いディレクトリを表示するように改良。"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/90?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/90?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"91?closed=1>`__。"
 
 #: ../../changes.rst:31
 msgid "Weblate 4.15.1"
 msgstr "Weblate 4.15.1"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Released on January 9th 2020."
 msgid "Released on January 19th 2023."
-msgstr "2020 年 1 月 9 日にリリース。"
+msgstr "2023 年 1 月 19 日にリリース。"
 
 #: ../../changes.rst:35
 msgid "Fixed suggestions from automatic translation."
@@ -25479,12 +25381,12 @@ msgstr ":ref:`mi18n-lang` に対応しました。"
 
 #: ../../changes.rst:432
 msgid "Improved SAML authentication integration."
-msgstr "SAML 認証の統合の改善。"
+msgstr "SAML 認証との連携の改善。"
 
 #: ../../changes.rst:433
 msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
-msgstr ""
-"一部の特殊なケースをより適切に処理するために :ref:`vcs-gerrit` の統合を修正。"
+msgstr "一部の特殊なケースをより適切に処理するために :ref:`vcs-gerrit` "
+"との連携を修正。"
 
 #: ../../changes.rst:434
 msgid "Weblate now requires Django 3.2."
@@ -25797,7 +25699,7 @@ msgstr "一部の性能の改善。"
 
 #: ../../changes.rst:529
 msgid "Added integration with :ref:`discover-weblate`."
-msgstr ":ref:`discover-weblate` との統合の追加。"
+msgstr ":ref:`discover-weblate` との連携の追加。"
 
 #: ../../changes.rst:530
 msgid "Fixed checks behavior with read-only strings."
@@ -26108,7 +26010,7 @@ msgstr "一括編集時の翻訳禁止扱いの修正。"
 
 #: ../../changes.rst:624
 msgid "Improved CodeMirror integration."
-msgstr "CodeMirror の統合の改善。"
+msgstr "CodeMirror との連携の改善。"
 
 #: ../../changes.rst:625
 msgid "Added add-on to remove blank strings from translation files."
@@ -28258,7 +28160,7 @@ msgstr "アプリストアのメタデータファイルに対応。"
 
 #: ../../changes.rst:1267
 msgid "Added support for toggling GitHub or Gerrit integration."
-msgstr "GitHub または Gerrit 統合の切り替えに対応。"
+msgstr "GitHub または Gerrit 連携の切り替えに対応。"
 
 #: ../../changes.rst:1268
 msgid "Added check for Kashida letters."
@@ -28517,7 +28419,7 @@ msgstr "Baidu API の機械翻訳に対応しました。"
 
 #: ../../changes.rst:1350
 msgid "Integrated maintenance and cleanup tasks using Celery."
-msgstr "Celery を使用してメンテナンスとクリーンアップのタスクを統合。"
+msgstr "Celery を使用してメンテナンスとクリーンアップのタスクを連携。"
 
 #: ../../changes.rst:1351
 msgid "Improved performance of loading translations by almost 25%."
@@ -30979,7 +30881,7 @@ msgstr "po ファイル名の変更処理の改良。"
 
 #: ../../changes.rst:2133
 msgid "Integrated full setup into syncdb."
-msgstr "完全なセットアップを syncdb に統合。"
+msgstr "完全なセットアップを syncdb と連携。"
 
 #: ../../changes.rst:2134
 msgid "Added list of recent changes to all translation pages."
@@ -31257,8 +31159,8 @@ msgid ""
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
-"幅広い :ref:`ファイル形式 <formats>` に対応し、:ref:`vcs` と密接に統合し、翻"
-"訳者が貢献しやすくする Web ベースの継続的な翻訳ツール。"
+"幅広い :ref:`ファイル形式 <formats>` に対応し、:ref:`vcs` と密接に連携し、"
+"翻訳者が貢献しやすくする Web ベースの継続的な翻訳ツール。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -32290,7 +32192,7 @@ msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:78
 msgid "Integration of machine translation services."
-msgstr "機械翻訳サービスの統合。"
+msgstr "機械翻訳サービスとの連携。"
 
 #: ../../contributing/internals.rst:80
 msgid "``memory``"
@@ -33272,14 +33174,13 @@ msgid ":ref:`security`"
 msgstr ":ref:`celery`"
 
 #: ../../contributing/security.rst:15
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security updates"
-msgstr "セキュリティの問題"
+msgstr "セキュリティ アップデート"
 
 #: ../../contributing/security.rst:17
 msgid "Only the latest release is guaranteed to receive security updates."
-msgstr ""
+msgstr "セキュリティアップデートを受けることが保証されているのは、最新のリリースのみ"
+"です。"
 
 #: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
@@ -33594,7 +33495,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr "Weblate テストスイートと継続的な統合"
+msgstr "Weblate テストスイートと継続的な連携"
 
 #: ../../contributing/tests.rst:4
 msgid ""
@@ -33606,21 +33507,14 @@ msgstr ""
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr "継続的な統合"
+msgstr "継続的な連携"
 
 #: ../../contributing/tests.rst:12
-#, fuzzy
-#| msgid ""
-#| "Current test results can be found on `GitHub Actions <https://github.com/"
-#| "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov "
-#| "<https://codecov.io/github/WeblateOrg/weblate>`_."
 msgid ""
 "Current test results can be found on `GitHub Actions`_ and coverage is "
 "reported on `Codecov`_."
-msgstr ""
-"現在のテスト結果は `GitHub Actions <https://github.com/WeblateOrg/weblate/"
-"actions>`_ から確認でき、検証の対象は `Codecov <https://codecov.io/github/"
-"WeblateOrg/weblate>`_ において報告します。"
+msgstr "現在のテスト結果は `GitHub Actions`_ で確認でき、カバレッジは `Codecov`_ "
+"で報告されます。"
 
 #: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
@@ -33992,7 +33886,7 @@ msgid ""
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
 "ニューラル ファジー修復。Bram Bulté と Arda Tezcan、ニューラル ファジー修復: "
-"あいまい一致のニューラル機械翻訳への統合、2019 年。https://aclanthology.org/"
+"あいまい一致のニューラル機械翻訳との連携、2019 年。https://aclanthology.org/"
 "P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
@@ -34454,8 +34348,9 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
-":guilabel:`言語 Cookie 名` は、他のアプリケーションとの統合に役立ちます（たと"
-"えば、Django を使用する場合は ``django_language`` を選択する）。"
+":guilabel:`言語 Cookie 名` "
+"は、他のアプリケーションとの連携に役立ちます（たとえば、Django "
+"を使用する場合は ``django_language`` を選択する）。"
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -34475,7 +34370,7 @@ msgstr "この場合、実際の現地語化のプログラムの実装が必要
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
-msgstr "Weblate との統合"
+msgstr "Weblate との連携"
 
 #: ../../snippets/basics.rst:2
 msgid "Weblate basics"
@@ -34525,10 +34420,10 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
-"Weblate は基本機能として、VCS との統合を前提に開発されています。そのため、イ"
-"ンポートする最も簡単な方法は、Weblate に対してリポジトリへのアクセス権を付与"
-"することです。インポートの処理では、翻訳をコンポーネントへ変換する設定の方法"
-"が表示されます。"
+"Weblate は基本機能として、VCS "
+"との連携を前提に開発されています。そのため、インポートする最も簡単な方法は、"
+"Weblate に対してリポジトリへのアクセス権を付与することです。インポートの処理"
+"では、翻訳をコンポーネントへ変換する設定の方法が表示されます。"
 
 #: ../../devel/integration.rst:13
 msgid ""
@@ -34611,9 +34506,8 @@ msgstr ""
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
-msgstr ""
-"VCS の統合を使用しない場合は、UI または :doc:`/api` を使用して、あなたのコー"
-"ド ベースに合うように翻訳を更新します。"
+msgstr "VCS との連携を使用しない場合は、UI または :doc:`/api` を使用して、"
+"あなたのコード ベースに合うように翻訳を更新します。"
 
 #: ../../devel/integration.rst:57
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -37975,6 +37869,9 @@ msgid ""
 "handling with CLDR. Older versions have different plural rules for some "
 "languages which are not correct."
 msgstr ""
+"複数形を使用する場合は、CLDR での複数形の扱いに合わせて v4 を使用することをお"
+"勧めします。古いバージョンでは、一部の言語で異なる複数形の規則があり、正確で"
+"はありません。"
 
 #: ../../formats.rst:946
 msgid ""
@@ -38044,22 +37941,15 @@ msgstr ""
 "る翻訳ファイルを設定してください。"
 
 #: ../../formats.rst:1001
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports both v1 and v2 formats, please choose corresponding version "
 "when selecting file format."
-msgstr ""
-"Weblate は、i18next JSON v3 および v4 形式に対応しています。ご使用の環境に"
-"合った正しいファイル形式を選択してください。"
+msgstr "Weblate は v1 と v2 の両方の形式に対応しています。ファイル形式を選択する際に"
+"、対応するバージョンを選択してください。"
 
 #: ../../formats.rst:1013
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "`go-i18n v1 JSON file`"
-msgstr "go-i18n JSON ファイル"
+msgstr "`go-i18n v1 JSON ファイル`"
 
 #: ../../formats.rst:1018
 msgid ""
@@ -38084,10 +37974,8 @@ msgstr ""
 "翻訳ファイルを設定してください。"
 
 #: ../../formats.rst:1040
-#, fuzzy
-#| msgid "``internal/translations/locales/*/mesages.gotext.json``"
 msgid "``internal/translations/locales/*/messages.gotext.json``"
-msgstr "``internal/translations/locales/*/mesages.gotext.json``"
+msgstr "``internal/translations/locales/*/messages.gotext.json``"
 
 #: ../../formats.rst:1042
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
@@ -41467,16 +41355,12 @@ msgstr ""
 "れます。"
 
 #: ../../user/checks.rst:1228
-#, fuzzy
-#| msgid ""
-#| "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
-#| ">`_ library developed by Mozilla."
 msgid ""
 "The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/"
 "ammonia>`_ library."
 msgstr ""
-"HTML の検査は、Mozilla が開発した `Bleach <https://bleach.readthedocs.io/>`_ "
-"ライブラリによって行われます。"
+"HTML の検査は `Ammonia <https://github.com/rust-ammonia/ammonia>`_ "
+"ライブラリで処理されます。"
 
 #: ../../user/checks.rst:1236
 msgid "URL"
@@ -42563,7 +42447,8 @@ msgstr "自分自身が行った操作は通知されません。"
 msgid ""
 "Sending out notifications is limited, you will not receive more than 1000 e-"
 "mails per day. Any further notifications for you will be discarded."
-msgstr ""
+msgstr "通知の送信は制限されており、1 日あたり 1000 "
+"通を超えるメールは受信できません。それ以上の通知は破棄されます。"
 
 #: ../../user/profile.rst:181
 msgid "Account"
@@ -42755,16 +42640,12 @@ msgid "String priority."
 msgstr "文字列の優先度。"
 
 #: ../../user/search.rst:40
-#, fuzzy
-#| msgid "``priority:NUMBER``"
 msgid "``id:NUMBER``"
-msgstr "``priority:NUMBER``"
+msgstr "``id:NUMBER``"
 
 #: ../../user/search.rst:41
-#, fuzzy
-#| msgid "unit identifier"
 msgid "String unique identifier."
-msgstr "ユニット識別子"
+msgstr "文字列固有の識別子。"
 
 #: ../../user/search.rst:42
 msgid "``added:DATETIME``"
@@ -44001,24 +43882,19 @@ msgstr ""
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
-msgstr "バージョン管理の統合"
+msgstr "バージョン管理との連携"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit` and :"
-#| "ref:`vcs-git-svn`) and :ref:`vcs-mercurial` as version control back-ends."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
 "`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as "
 "version control back-ends."
 msgstr ""
-"Weblate は現在、バージョン管理のバックエンドとして :ref:`vcs-git` （:ref:"
-"`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-gerrit` および :"
-"ref:`vcs-git-svn` の拡張サポート付き）および :ref:`vcs-mercurial` に対応して"
-"います。"
+"Weblate は現在、バージョン管理のバックエンドとして :ref:`vcs-git` （:ref"
+":`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-gerrit`、:ref"
+":`vcs-git-svn`、および :ref:`vcs-bitbucket-server` の拡張サポート付き）"
+"および :ref:`vcs-mercurial` に対応しています。"
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -44496,14 +44372,8 @@ msgstr ""
 "択時に、:guilabel:`GitHub` オプションが表示されます。"
 
 #: ../../vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`、:setting:`GITHUB_USERNAME`、:setting:`GITHUB_TOKEN`、:"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`、:setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:294
 msgid "GitLab merge requests"
@@ -44542,14 +44412,8 @@ msgstr ""
 "択時に、:guilabel:`GitLab` オプションが表示されます。"
 
 #: ../../vcs.rst:313
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITLAB_USERNAME`, :setting:"
-#| "`GITLAB_TOKEN`, :setting:`GITLAB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`、:setting:`GITLAB_USERNAME`、:setting:`GITLAB_TOKEN`、:"
-"setting:`GITLAB_CREDENTIALS`"
+msgstr ":ref:`push-changes`、:setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:322
 msgid "Gitea pull requests"
@@ -44588,83 +44452,53 @@ msgstr ""
 "時に、:guilabel:`Gitea` オプションが表示されます。"
 
 #: ../../vcs.rst:341
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITEA_USERNAME`, :setting:`GITEA_TOKEN`, :"
-#| "setting:`GITEA_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`、:setting:`GITEA_USERNAME`、:setting:`GITEA_TOKEN`、:"
-"setting:`GITEA_CREDENTIALS`"
+msgstr ":ref:`push-changes`、:setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:350
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull requests"
-msgstr "Gitea プルリクエスト"
+msgstr "Bitbucket Server プルリクエスト"
 
 #: ../../vcs.rst:354
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
-#| "allow pushing translation changes as pull requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Server "
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"これは、`Gitea API`_ を使用して :ref:`vcs-git` の上に薄いレイヤーを追加するだ"
-"けで、リポジトリに直接プッシュするのではなく、翻訳の変更をプルリクエストとし"
-"てプッシュできます。"
+"これは、`Bitbucket Server API`_ を使用して :ref:`vcs-git` の上に薄いレイヤー"
+"を追加するだけで、リポジトリに直接プッシュするのではなく、翻訳の変更をプルリ"
+"クエストとしてプッシュできます。"
 
 #: ../../vcs.rst:360
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Bitbucket Cloud API には対応していません。"
 
 #: ../../vcs.rst:363
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitea` creates pull requests."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-server` creates pull request."
 msgstr ""
-"Git リポジトリにアクセスするために、これを使用する必要はありません。通常 :"
-"ref:`vcs-git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの"
-"扱い方です。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:"
-"ref:`vcs-gitea` ではプルリクエストが作成されます。"
+"Git リポジトリにアクセスするために、これを使用する必要はありません。通常 :ref"
+":`vcs-git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い"
+"方です。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref"
+":`vcs-bitbucket-server` ではプルリクエストが作成されます。"
 
 #: ../../vcs.rst:368
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:`GITEA_CREDENTIALS`) in "
-#| "the Weblate settings to make this work. Once configured, you will see a :"
-#| "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:"
 "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
 "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
-"この機能を使用するには、Weblate の設定で API 資格情報（:setting:"
-"`GITEA_CREDENTIALS`）の設定が必要です。設定すると、:ref:`component-vcs の選択"
-"時に、:guilabel:`Gitea` オプションが表示されます。"
+"この機能を使用するには、Weblate の設定で API 資格情報（:setting:`BITBUCKETSER"
+"VER_CREDENTIALS`）の設定が必要です。設定すると、:ref:`component-vcs "
+"の選択時に、:guilabel:`Bitbucket Server` オプションが表示されます。"
 
 #: ../../vcs.rst:374
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`GITHUB_USERNAME`, :setting:"
-#| "`GITHUB_TOKEN`, :setting:`GITHUB_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`、:setting:`GITHUB_USERNAME`、:setting:`GITHUB_TOKEN`、:"
-"setting:`GITHUB_CREDENTIALS`"
+msgstr ":ref:`push-changes`、:setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:383
 msgid "Pagure merge requests"
@@ -44703,14 +44537,8 @@ msgstr ""
 "択時に、:guilabel:`Pagure` オプションが表示されます。"
 
 #: ../../vcs.rst:402
-#, fuzzy
-#| msgid ""
-#| ":ref:`push-changes`, :setting:`PAGURE_USERNAME`, :setting:"
-#| "`PAGURE_TOKEN`, :setting:`PAGURE_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
-msgstr ""
-":ref:`push-changes`、:setting:`PAGURE_USERNAME`、:setting:`PAGURE_TOKEN`、:"
-"setting:`PAGURE_CREDENTIALS`"
+msgstr ":ref:`push-changes`、:setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:410
 msgid "Gerrit"
@@ -44748,9 +44576,9 @@ msgid ""
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
-"Mercurial のどのバージョンでも動作するはずですが、コマンドライン インタフェー"
-"スに互換性のない変更が追加されたので、Weblate との統合ができないことがありま"
-"す。"
+"Mercurial のどのバージョンでも動作するはずですが、コマンドライン "
+"インタフェースに互換性のない変更が追加されたので、Weblate "
+"との連携ができないことがあります。"
 
 #: ../../vcs.rst:446
 msgid "Subversion"
