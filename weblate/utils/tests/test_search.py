@@ -107,8 +107,13 @@ class QueryParserTest(TestCase, SearchMixin):
         # Invalid regex
         with self.assertRaises(ValueError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
-        # Not supported regex
-        with self.assertRaises(ValueError):
+        # Not supported regex on PostgreSQL
+        if using_postgresql():
+            with self.assertRaises(ValueError):
+                self.assert_query(
+                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+                )
+        else:
             self.assert_query(
                 'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
             )
