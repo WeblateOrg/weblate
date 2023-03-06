@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-01 09:51+0100\n"
-"PO-Revision-Date: 2023-03-06 08:07+0000\n"
-"Last-Translator: Joachim Wetzig <jo.wetzig@web.de>\n"
+"PO-Revision-Date: 2023-03-07 13:32+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -9820,6 +9820,14 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"Wenn Sie Änderungen häufiger und ohne Überprüfung des Alters übertragen "
+"möchten, können Sie eine regelmäßige Aufgabe zur Durchführung einer "
+"Übertragung planen. Dies kann mit :guilabel:`Periodic Tasks` in :ref:`admin-"
+"interface` erfolgen. Legen Sie zunächst das gewünschte :guilabel:`Interval` "
+"fest (zum Beispiel 120 Sekunden). Fügen Sie dann eine neue periodische "
+"Aufgabe hinzu und wählen Sie ``weblate.trans.tasks.commit_pending`` als "
+":guilabel:`Task` mit ``{\"hours\": 0}`` als :guilabel:`Keyword Arguments` "
+"und dem gewünschten Intervall."
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -13835,7 +13843,7 @@ msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:919
 msgid "Allow CORS requests from given origins."
-msgstr ""
+msgstr "CORS-Anfragen von verschiedenen Stellen zulassen."
 
 #: ../../admin/install/docker.rst:931
 msgid "Automatic suggestion settings"
@@ -15795,6 +15803,9 @@ msgid ""
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
 "Rules by the Unicode Consortium`_"
 msgstr ""
+":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
+"software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
+"Rules by the Unicode Consortium`_"
 
 #: ../../admin/languages.rst:160 ../../api.rst:693 ../../api.rst:706
 #: ../../api.rst:746 ../../api.rst:757
@@ -15833,6 +15844,13 @@ msgid ""
 "depend on the format, but rather on the framework you use to handle the "
 "translation (for example with :ref:`json`)."
 msgstr ""
+"Einige Formate erwarten zu Beginn eine leere Datei und nur übersetzte "
+"Zeichenfolgen (z. B. :ref:`aresource`), während andere alle Schlüssel "
+"erwarten (z. B. :ref:`gettext`). Die dokumentenbasierten Formate (z.B. "
+":ref:`odf`) beginnen mit einer Kopie des Quelldokuments und allen "
+"Zeichenfolgen, die als bearbeitungsbedürftig markiert sind.  In manchen "
+"Situationen hängt dies nicht vom Format ab, sondern eher von dem Framework, "
+"das Sie für die Übersetzung verwenden (zum Beispiel mit :ref:`json`)."
 
 #: ../../admin/languages.rst:185
 msgid ""
@@ -15980,12 +15998,16 @@ msgid ""
 "Additionally, any mappings defined in :ref:`project-language_aliases` are "
 "applied in reverse."
 msgstr ""
+"Außerdem werden alle in :ref:`project-language_aliases` definierten "
+"Zuordnungen in umgekehrter Reihenfolge angewendet."
 
 #: ../../admin/languages.rst:229
 msgid ""
 "Weblate recognizes any of these when parsing translation files, the above "
 "settings only influences how new files are created."
 msgstr ""
+"Weblate erkennt diese beim Parsen von Übersetzungsdateien, die obigen "
+"Einstellungen beeinflussen nur, wie neue Dateien erstellt werden."
 
 #: ../../admin/languages.rst:234
 msgid ""
@@ -15997,7 +16019,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Lizenzierung von Übersetzungen"
 
 #: ../../admin/licensing.rst:3
 msgid ""
@@ -16005,12 +16027,18 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Sie können angeben, unter welcher Lizenz die Übersetzungen bereitgestellt "
+"werden. Dies ist besonders wichtig, wenn Übersetzungen öffentlich zugänglich "
+"sind, um festzulegen, wofür sie verwendet werden dürfen."
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"Sie sollten :ref:`component`-Lizenzinformationen angeben. Sie sollten "
+"vermeiden, eine Lizenzvereinbarung von den Mitwirkenden zu verlangen, obwohl "
+"dies möglich ist."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
@@ -16021,6 +16049,9 @@ msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Bei Angabe von Lizenzinformationen (Lizenzname und URL) werden diese "
+"Informationen im Abschnitt Übersetzungsinformationen der jeweiligen "
+":ref:`component` angezeigt."
 
 #: ../../admin/licensing.rst:16
 msgid ""
