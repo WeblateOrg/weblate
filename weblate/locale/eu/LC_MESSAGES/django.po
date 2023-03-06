@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-01 08:50+0000\n"
-"PO-Revision-Date: 2023-03-02 22:04+0000\n"
+"PO-Revision-Date: 2023-03-07 13:32+0000\n"
 "Last-Translator: Aitor Salaberria <trslbrr@gmail.com>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/weblate/"
 "application/eu/>\n"
@@ -883,21 +883,19 @@ msgstr "Zure eskaera bidali da, laster jarriko gara zurekin harremanetan."
 
 #: weblate/accounts/views.py:334
 msgid "Your profile has been updated."
-msgstr ""
+msgstr "Zure profila eguneratu da."
 
 #: weblate/accounts/views.py:371
 msgid "User profile"
-msgstr ""
+msgstr "Erabiltzaile-profila"
 
 #: weblate/accounts/views.py:392
 msgid "Your account has been removed."
-msgstr ""
+msgstr "Zure kontua ezabatu da."
 
 #: weblate/accounts/views.py:456
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Too many messages sent, please try again later."
-msgstr "Hori ez da zuzena, saiatu berriro."
+msgstr "Mezu gehiegi bidali dira, mesedez, saia zaitez berriro geroago."
 
 #: weblate/accounts/views.py:479 weblate/templates/accounts/contact.html:6
 #: weblate/templates/base.html:283 weblate/templates/footer.html:16
@@ -913,17 +911,22 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Badirudi duela gutxi probaldia eskatu zenuela. Mesedez, jar zaitez gurekin "
+"harremanetan zure galdera adieraziz, konponbiderik egokiena aurkitu ahal "
+"izan dezagun."
 
 #: weblate/accounts/views.py:544
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Zure probaldia abian da. Sortu zure itzulpen-proiektua eta Weblate-i "
+"probetxu atera!"
 
 #: weblate/accounts/views.py:550 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Doako probaldia"
 
 #: weblate/accounts/views.py:686 weblate/templates/403.html:18
 #: weblate/templates/404.html:18 weblate/templates/accounts/login.html:8
@@ -931,19 +934,21 @@ msgstr ""
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:223
 msgid "Sign in"
-msgstr ""
+msgstr "Sartu"
 
 #: weblate/accounts/views.py:716 weblate/wladmin/sites.py:189
 msgid "Thank you for using Weblate."
-msgstr ""
+msgstr "Eskerrik asko Weblate erabiltzeagatik."
 
 #: weblate/accounts/views.py:809 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr ""
+msgstr "Erregistratu helbide-elektronikoa"
 
 #: weblate/accounts/views.py:824 weblate/accounts/views.py:899
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
+"Ezin da pasahitza berrezarri, helbide-elektroniko bidezko autentifikazioa "
+"desgaituta dago."
 
 #: weblate/accounts/views.py:855 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:134
@@ -952,10 +957,8 @@ msgid "Change password"
 msgstr "Aldatu pasahitza"
 
 #: weblate/accounts/views.py:865
-#, fuzzy
-#| msgid "Password reset almost complete"
 msgid "Password reset has been already completed."
-msgstr "Pasahitza berrezartzea bukatzear"
+msgstr "Pasahitzaren berrezarpena jada burutu da."
 
 #: weblate/accounts/views.py:1090
 msgid "Could not remove user identity"
@@ -964,30 +967,33 @@ msgstr "Ezin izan da erabiltzailearen identitatea kendu"
 #: weblate/accounts/views.py:1100
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
+"Zure helbide-elektronikoa konfirmatu beste identitate bat gehitu aurretik."
 
 #: weblate/accounts/views.py:1146
-#, fuzzy
-#| msgid "You can not change password to the one you were using!"
 msgid "Could not complete registration."
-msgstr "Ezin duzu pasahitza jada erabiltzen ari zaren berberera aldatu!"
+msgstr "Ezin izan da erregistroa burutu."
 
 #: weblate/accounts/views.py:1149
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Mesedez, begiratu ea jada erregistratutako kontu bat duzun."
 
 #: weblate/accounts/views.py:1151
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
+"Baita ere, pasahitza berri bat eska dezakezu, zure egiaztagiriak galdu "
+"badituzu."
 
 #: weblate/accounts/views.py:1161
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
+"Saia zaitez berriro erregistratzen zure identitatea egiaztatzeko, egiaztatze-"
+"tokena agian iraungi da."
 
 #: weblate/accounts/views.py:1168
 msgid "Could not authenticate due to invalid session state."
-msgstr ""
+msgstr "Ezin izan da autentifikatu saioaren egoera baliogabea delako."
 
 #: weblate/accounts/views.py:1175
 msgid "Got no e-mail address from third party authentication service."
@@ -996,16 +1002,18 @@ msgstr ""
 
 #: weblate/accounts/views.py:1177
 msgid "Please register using e-mail instead."
-msgstr ""
+msgstr "Mesedez, erregistra zaitez helbide-elektronikoarekin."
 
 #: weblate/accounts/views.py:1184
 msgid "New registrations are turned off."
-msgstr ""
+msgstr "Erregistro berriak desgaituta daude."
 
 #: weblate/accounts/views.py:1242
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
+"Ezin izan da autentifikatu, agian iraungitako token bat edo konexioaren "
+"errore batengatik bestela."
 
 #: weblate/accounts/views.py:1248
 msgid "Authentication cancelled."
@@ -1013,27 +1021,20 @@ msgstr "Autentifikazioa ezeztatuta."
 
 #: weblate/accounts/views.py:1251
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Zerbitzariak ez du autentifikazioa baimentzen."
 
 #: weblate/accounts/views.py:1255
-#, fuzzy
-#| msgid ""
-#| "This e-mail address is already in use. Please supply a different e-mail "
-#| "address."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr "E-mail helbide hau erabilita dago. Eman e-mail helbide desberdin bat."
+msgstr "Emandako helbide-elektronikoa jada beste kontu batean erabiltzen da."
 
 #: weblate/accounts/views.py:1259
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "Erabiltzaile-izen hau hartuta dago. Hautatu beste bat."
+msgstr "Emandako erabiltzaile-izena jada beste kontu batean erabiltzen da."
 
 #: weblate/accounts/views.py:1264
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied user identity is already in use for another account."
-msgstr "Erabiltzaile-izen hau hartuta dago. Hautatu beste bat."
+msgstr ""
+"Emandako erabiltzaile-identitatea jada beste kontu batean erabiltzen da."
 
 #: weblate/accounts/views.py:1290 weblate/accounts/views.py:1303
 msgid "Notification settings adjusted."
@@ -1044,34 +1045,42 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
+"Jakinarazpenak aldatzeko estekak jada ez du balio, mesedez, sartu "
+"jakinarazpenak konfiguratzeko."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:20 weblate/templates/translation.html:74
 #: weblate/templates/translation.html:230 weblate/trans/models/change.py:283
 msgid "Automatic translation"
-msgstr ""
+msgstr "Itzulpen automatikoa"
 
 #: weblate/addons/autotranslate.py:22
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+"Kateak automatikoki itzultzen ditu itzulpengintza automatikoa edo beste "
+"osagaietaz baliatuta."
 
 #: weblate/addons/base.py:312 weblate/trans/views/create.py:232
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Biltegia ez dago eguneratua, espero ez dituzun emaitzak jaso ahal ditzakezu "
+"eguneratzen duzun arte."
 
 #: weblate/addons/cdn.py:25
 msgid "JavaScript localization CDN"
-msgstr ""
+msgstr "JavaScripten CDN lokalizazioa"
 
 #: weblate/addons/cdn.py:27
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"Itzulpenak edukien banaketarako sarera argitaratzen ditu JavaScript edo "
+"HTMLen lokalizaziotarako."
 
 #: weblate/addons/cleanup.py:22
 msgid "Cleanup translation files"
