@@ -554,24 +554,32 @@ def create_project_backup(pk):
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(
-        crontab(hour=3, minute=30), update_remotes.s(), name="update-remotes"
+        crontab(hour=3, minute=5), update_remotes.s(), name="update-remotes"
     )
     sender.add_periodic_task(
-        crontab(hour=0, minute=30), daily_update_checks.s(), name="daily-update-checks"
-    )
-    sender.add_periodic_task(3600 * 24, repository_alerts.s(), name="repository-alerts")
-    sender.add_periodic_task(3600 * 24, component_alerts.s(), name="component-alerts")
-    sender.add_periodic_task(
-        3600 * 24, cleanup_suggestions.s(), name="suggestions-cleanup"
+        crontab(hour=3, minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_stale_repos.s(), name="cleanup-stale-repos"
+        crontab(hour=3, minute=45), repository_alerts.s(), name="repository-alerts"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_old_suggestions.s(), name="cleanup-old-suggestions"
+        crontab(hour=3, minute=55), component_alerts.s(), name="component-alerts"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
+        crontab(hour=0, minute=40), cleanup_suggestions.s(), name="suggestions-cleanup"
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=40), cleanup_stale_repos.s(), name="cleanup-stale-repos"
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=45),
+        cleanup_old_suggestions.s(),
+        name="cleanup-old-suggestions",
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=50),
+        cleanup_old_comments.s(),
+        name="cleanup-old-comments",
     )
     sender.add_periodic_task(
         crontab(hour=2, minute=30),

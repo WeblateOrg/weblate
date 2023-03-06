@@ -4,6 +4,8 @@
 
 import subprocess
 
+from celery.schedules import crontab
+
 from weblate.fonts.models import FONT_STORAGE, Font
 from weblate.fonts.utils import configure_fontconfig
 from weblate.trans.util import get_clean_env
@@ -38,5 +40,5 @@ def update_fonts_cache():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        3600 * 24, cleanup_font_files.s(), name="font-files-cleanup"
+        crontab(hour=0, minute=55), cleanup_font_files.s(), name="font-files-cleanup"
     )

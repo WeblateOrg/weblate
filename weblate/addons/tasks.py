@@ -5,6 +5,7 @@
 import os
 from typing import List
 
+from celery.schedules import crontab
 from django.db import Error as DjangoDatabaseError
 from django.db import transaction
 from django.db.models import Q
@@ -106,4 +107,6 @@ def daily_addons():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600 * 24, daily_addons.s(), name="daily-addons")
+    sender.add_periodic_task(
+        crontab(hour=3, minute=45), daily_addons.s(), name="daily-addons"
+    )

@@ -135,7 +135,9 @@ def perform_removal():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, billing_check.s(), name="billing-check")
-    sender.add_periodic_task(3600 * 24, billing_alert.s(), name="billing-alert")
+    sender.add_periodic_task(
+        crontab(hour=0, minute=50), billing_alert.s(), name="billing-alert"
+    )
     sender.add_periodic_task(
         crontab(hour=3, minute=0, day_of_week="monday,thursday"),
         billing_notify.s(),
