@@ -5,6 +5,7 @@
 from datetime import date
 
 from celery.schedules import crontab
+from django.conf import settings
 
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeout
@@ -38,7 +39,11 @@ def backup_service(pk):
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
+    # Randomize this per site to avoid all instances hitting server at the same time
+    minute_to_run = hash(settings.SITE_DOMAIN) % 1440
     sender.add_periodic_task(
-        24 * 3600, support_status_update.s(), name="support-status-update"
+        crontab(hour=minute_to_run // 60, minute=minute_to_run % 60),
+        support_status_update.s(),
+        name="support-status-update",
     )
     sender.add_periodic_task(crontab(hour=2, minute=0), backup.s(), name="backup")
