@@ -15,7 +15,10 @@
 {% else %}
   {{ item.unit.position }}
 {% endif %}
-<a href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip full-edit-link" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
+<div class="pull-right flip btn-padded">
+  <a class="btn btn-link btn-xs" href="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-message="{% trans "Permalink copied to clipboard." %}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
+  <a class="btn btn-link btn-xs" href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
+</div>
 {% get_location_links user.profile item.unit %}
 </td>
 </tr>

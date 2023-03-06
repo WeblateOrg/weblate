@@ -581,8 +581,9 @@ form + .login-label {
   padding: 0 2px;
 }
 
-.btn-float .btn {
-  padding: 2px 4px;
+.btn-float .btn,
+.btn-padded .btn {
+  padding: 2px 4px !important;
   line-height: 0;
 }
 
@@ -1151,8 +1152,8 @@ svg {
 .pagination svg,
 .btn-xs svg,
 .btn-group-xs svg {
-  width: 18px;
-  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
 }
 
 #popup-alerts {
@@ -1743,16 +1744,6 @@ a.language:hover {
 }
 .table-stats td {
   vertical-align: middle !important;
-}
-.full-edit-link svg {
-  width: 14px;
-  height: 14px;
-}
-.full-edit-link path {
-  fill: #1fa385;
-}
-.full-edit-link:hover path {
-  fill: #144d3f !important;
 }
 .btn-sidebar {
   position: relative;
