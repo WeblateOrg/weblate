@@ -7,7 +7,7 @@ Not yet released.
 * Fixed automatic translation with more services.
 * Improved rendering of overlapping glossary term matches.
 * Fixed plurals parsing for non-English source language in some formats.
-* Added support for new file format: :ref:`go-i18n-json-v2`.
+* Added support for go-i18n v2 JSON files.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?closed=1>`__.
 

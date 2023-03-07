@@ -176,14 +176,6 @@ Translation types capabilities
      - no
      - no
      -
-   * - :ref:`go-i18n-json-v2`
-     - mono
-     - yes
-     - yes
-     - no
-     - no
-     - no
-     -
    * - :ref:`gotext-json`
      - mono
      - yes
@@ -1102,7 +1094,6 @@ Weblate currently supports several variants of JSON translations:
 * Files with nested keys.
 * :ref:`js-i18next`
 * :ref:`go-i18n-json`
-* :ref:`go-i18n-json-v2`
 * :ref:`gotext-json`
 * :ref:`webex`
 * :ref:`arb`
@@ -1230,11 +1221,21 @@ go-i18n JSON files
 
 .. versionadded:: 4.1
 
+.. versionchanged:: 4.16
+
+    Support for v2 variant of this format was added.
+
 go-i18n translations are monolingual, so it is recommended to specify a base file
 with (what is most often the) English strings.
 
+
+.. note::
+
+   Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct file format
+   matching your environment.
+
 +-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
+| Typical Weblate :ref:`component` for v1                           |
 +================================+==================================+
 | File mask                      | ``langs/*.json``                 |
 +--------------------------------+----------------------------------+
@@ -1245,30 +1246,9 @@ with (what is most often the) English strings.
 | File format                    | `go-i18n v1 JSON file`           |
 +--------------------------------+----------------------------------+
 
-.. seealso::
-
-    :doc:`tt:formats/json`,
-    `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
-
-.. _go-i18n-json-v2:
-
-go-i18n v2 JSON files
----------------------
-
-.. index::
-    pair: go-i18n-v2; file format
-
-.. versionadded:: 4.16.2
-
-go-i18n-v2 translations are monolingual, so it is recommended to specify a base file
-with (what is most often the) English strings.
-
 
 +-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
+| Typical Weblate :ref:`component` for v2                           |
 +================================+==================================+
 | File mask                      | ``langs/*.json``                 |
 +--------------------------------+----------------------------------+
