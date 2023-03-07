@@ -26,7 +26,7 @@ from weblate.trans.forms import (
     ProjectSettingsForm,
     TranslationDeleteForm,
 )
-from weblate.trans.models import Announcement, Change, Component
+from weblate.trans.models import Announcement, Component
 from weblate.trans.tasks import (
     component_removal,
     create_project_backup,
