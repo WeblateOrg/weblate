@@ -1,11 +1,16 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
 name: ruff
 on:
   push:
-    branches:
-    - main
+    branches-ignore:
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
   pull_request:
-    branches:
-    - main
 jobs:
   ruff:
     runs-on: ubuntu-latest
