@@ -154,7 +154,7 @@ def get_other_units(unit):
         return result
 
     if units_count == max_units:
-        # Get the real units count from the databse
+        # Get the real units count from the database
         units_count = units.count()
 
     result["total"] = units_count

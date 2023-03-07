@@ -1139,7 +1139,7 @@ OpenID Connect
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY
 
-   Configures generic OpenID Connect intergration.
+   Configures generic OpenID Connect integration.
 
    .. seealso::
 
@@ -1738,9 +1738,9 @@ To override settings at the Docker image level instead of from the data volume:
 
     You can define settings before or after the import statement above to
     determine which settings take precedence. Settings defined before the
-    import statement can be overriden by environment variables and setting
+    import statement can be overridden by environment variables and setting
     overrides defined in the data volume. Setting defined after the import
-    statement cannot be overriden.
+    statement cannot be overridden.
 
     You can also go further. For example, you can reproduce some of the things
     that ``weblate.docker_settings`` `does

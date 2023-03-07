@@ -16,7 +16,7 @@ class ExamplePreAddon(BaseScriptAddon):
     events = (EVENT_PRE_COMMIT,)
     # Name of the addon, has to be unique
     name = "weblate.example.pre"
-    # Verbose name and long descrption
+    # Verbose name and long description
     verbose = _("Execute script before commit")
     description = _("This add-on executes a script.")
 

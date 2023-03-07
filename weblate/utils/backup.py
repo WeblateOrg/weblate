@@ -51,7 +51,7 @@ def make_password(length: int = 50):
 
 
 def tag_cache_dirs():
-    """Create CACHEDIR.TAG in our cache dirs to exlude from backups."""
+    """Create CACHEDIR.TAG in our cache dirs to exclude from backups."""
     dirs = [
         # Fontconfig cache
         data_dir("cache", "fonts"),

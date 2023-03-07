@@ -792,7 +792,7 @@ class SearchForm(forms.Form):
         """
         Resets form offset.
 
-        Thsi is needed to avoid issues when using the form as the default for
+        This is needed to avoid issues when using the form as the default for
         any new search.
         """
         data = copy.copy(self.data)

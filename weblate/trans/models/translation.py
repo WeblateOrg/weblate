@@ -582,7 +582,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         Assumptions:
 
         - repository lock is held
-        - the source translation needs to be commited first
+        - the source translation needs to be committed first
         - signals and alerts are updated by the caller
         - repository push is handled by the caller
         """

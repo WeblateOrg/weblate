@@ -101,7 +101,7 @@ Released on November 5th 2022.
 
 * Added support for removing entries from translation memory.
 * Improved analysis on the duplicate language alert.
-* Improved accurancy of the consecutive duplicated words check.
+* Improved accuracy of the consecutive duplicated words check.
 * Improved scaling of sending many notifications.
 * Improved string state handling for subtitle translation.
 * Deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list.

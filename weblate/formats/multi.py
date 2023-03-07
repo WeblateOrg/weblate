@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Translate Toolkit based file-format wrappers for mutli string support."""
+"""Translate Toolkit based file-format wrappers for multi string support."""
 
 from typing import List, Union
 

@@ -290,7 +290,7 @@ Microsoft Translator
                 |                  |                               |                                                                       |
                 |                  |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud |
                 +------------------+-------------------------------+-----------------------------------------------------------------------+
-                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be spcified using region field below.   |
+                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be specified using region field below.  |
                 |                  |                               |                                                                       |
                 |                  |                               | Available choices:                                                    |
                 |                  |                               |                                                                       |

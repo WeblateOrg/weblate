@@ -642,7 +642,7 @@ def user_avatar(request, user: str, size: int):
         24,
         # In text avatars
         32,
-        # 80 pixes used when linked with weblate.org
+        # 80 pixels used when linked with weblate.org
         80,
         # Public profile
         128,

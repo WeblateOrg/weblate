@@ -2696,7 +2696,7 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             superuser=True,
             format="json",
-            request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
+            request={"key": "plural", "value": ["Source Language", "Source Languages"]},
             code=200,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
@@ -3509,7 +3509,7 @@ class ChangeAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 30)
 
     def test_filter_changes_after(self):
-        """Filter chanages since timestamp."""
+        """Filter changes since timestamp."""
         start = Change.objects.order().last().timestamp
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}

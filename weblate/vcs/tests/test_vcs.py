@@ -1431,7 +1431,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         else:
             body = self._bb_api_error_stub
 
-        if pages > 0:  # Add paginated irrelevant reponses
+        if pages > 0:  # Add paginated irrelevant responses
             while pages > 0:
                 fork_stub = copy.deepcopy(self._bb_fork_stub)
                 fork_stub["slug"] = "not_the_slug_youre_looking_for"

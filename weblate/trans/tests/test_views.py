@@ -370,7 +370,7 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, other.name)
 
     def test_view_redirect(self):
-        """Test case insentivite lookups and aliases in middleware."""
+        """Test case insensitive lookups and aliases in middleware."""
         # Non existing fails with 404
         kwargs = {"project": "invalid"}
         response = self.client.get(reverse("project", kwargs=kwargs))
