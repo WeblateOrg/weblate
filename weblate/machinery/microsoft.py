@@ -33,6 +33,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "bs-latn": "bs-Latn",
         "sr-latn": "sr-Latn",
         "sr-cyrl": "sr-Cyrl",
+        'mn': 'mn-Mong'
     }
 
     def __init__(self, settings: Dict[str, str]):
