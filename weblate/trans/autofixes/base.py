@@ -23,7 +23,10 @@ class AutoFix:
         else:
             source_plural = unit.translation.component.source_language.plural
             target_plural = unit.translation.plural
-            source_examples = {tuple(l): i for i, l in source_plural.examples.items()}
+            source_examples = {
+                tuple(examples): number
+                for number, examples in source_plural.examples.items()
+            }
             plurals_map = [
                 source_examples.get(
                     tuple(target_plural.examples.get(target_index, [])), -1
