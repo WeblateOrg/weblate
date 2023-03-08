@@ -132,9 +132,8 @@ class ImportProject(CreateProject):
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
-            if "zipfile" in request.POST:
+            if "zipfile" in request.FILES:
                 # Delete previous (stale) import data
-                os.unlink(self.projectbackup.filename)
                 del self.request.session["import_project"]
                 self.projectbackup = None
             else:
@@ -160,7 +159,7 @@ class ImportProject(CreateProject):
         return kwargs
 
     def post(self, request, *args, **kwargs):
-        if "zipfile" in request.POST and self.projectbackup:
+        if "zipfile" in request.FILES and self.projectbackup:
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
             del self.request.session["import_project"]
@@ -181,6 +180,7 @@ class ImportProject(CreateProject):
             user=self.request.user,
             billing=form.cleaned_data["billing"],
         )
+        del self.request.session["import_project"]
         return redirect(project)
 
 
