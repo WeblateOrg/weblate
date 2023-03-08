@@ -229,16 +229,24 @@ def validate_project_name(value):
 
 
 def validate_project_web(value):
+    # Regular expression filtering
     if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
         settings.PROJECT_WEB_RESTRICT_RE, value
     ):
         raise ValidationError(_("This URL is prohibited"))
     parsed = urlparse(value)
-    if parsed.hostname.lower() in settings.PROJECT_WEB_RESTRICT_HOST:
+    hostname = parsed.hostname.lower()
+
+    # Hostname filtering
+    if any(
+        hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
+    ):
         raise ValidationError(_("This URL is prohibited"))
+
+    # Numeric address filtering
     if settings.PROJECT_WEB_RESTRICT_NUMERIC:
         try:
-            validate_ipv46_address(parsed.hostname)
+            validate_ipv46_address(hostname)
         except ValidationError:
             pass
         else:

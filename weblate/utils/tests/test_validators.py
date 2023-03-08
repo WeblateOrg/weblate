@@ -104,18 +104,25 @@ class RegexTest(SimpleTestCase):
 
 
 class WebsiteTest(SimpleTestCase):
-    def test_generic(self):
+    def test_regexp(self):
         validate_project_web("https://weblate.org")
         with override_settings(
             PROJECT_WEB_RESTRICT_RE="https://weblate.org"
         ), self.assertRaises(ValidationError):
             validate_project_web("https://weblate.org")
 
-    def test_localhost(self):
+    def test_host(self):
         with self.assertRaises(ValidationError):
             validate_project_web("https://localhost")
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://localHOST")
         with override_settings(PROJECT_WEB_RESTRICT_HOST={}):
             validate_project_web("https://localhost")
+        with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
+            with self.assertRaises(ValidationError):
+                validate_project_web("https://example.com")
+            with self.assertRaises(ValidationError):
+                validate_project_web("https://foo.example.com")
 
     def test_numeric(self):
         with self.assertRaises(ValidationError):
