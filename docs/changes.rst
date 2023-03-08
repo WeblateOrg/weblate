@@ -1,7 +1,7 @@
 Weblate 4.16.2
 --------------
 
-Not yet released.
+Released on March 8th 2023.
 
 * Fixed searching in the translation memory.
 * Fixed automatic translation with more services.
