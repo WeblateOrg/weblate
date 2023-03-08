@@ -184,9 +184,6 @@ class ImportProject(CreateProject):
         return redirect(project)
 
 
-# ProjectImportForm
-
-
 @method_decorator(login_required, name="dispatch")
 class CreateComponent(BaseCreateView):
     model = Component
