@@ -45,6 +45,7 @@ milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"
 api_auth = f"token {config['github.com'][0]['oauth_token']}"
 headers = {"Authorization": api_auth, "Accept": "application/vnd.github.v3+json"}
 response = requests.get(milestones_api, headers=headers)
+response.raise_for_status()
 milestone_url = None
 for milestone in response.json():
     if milestone["title"] == version:
