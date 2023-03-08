@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-03-08 12:22+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-03-09 22:56+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
 "Language: pt_PT\n"
@@ -3448,6 +3448,9 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"Use com cuidado, pois esta é uma interface de baixo nível. Geralmente, não "
+"deve precisar dele, pois a maioria das coisas podem ser acessadas "
+"confortavelmente pela IU do utilizador ou a API do Weblate."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -6750,12 +6753,16 @@ msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
 msgstr ""
+"Quantos dias o Weblate rejeitará a reutilização da palavra-passe usada "
+"anteriormente por um utilizador."
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"A verificação é baseada no registo de auditoria, :setting:'AUDITLOG_EXPIRY' "
+"precisa ser pelo menos o mesmo que isto."
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -6962,12 +6969,16 @@ msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Diretório onde o Weblate armazena ficheiros de cache. O padrão é a "
+"subpasta:file:'cache' em :setting:'DATA_DIR'."
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Altere isto para o sistema de ficheiros local ou temporário se :setting:"
+"'DATA_DIR' estiver num sistema de ficheiros de rede."
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -7221,6 +7232,8 @@ msgstr ":file:`home`"
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Vários caches podem ser posicionados em outro lugar através de "
+"setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7702,6 +7715,9 @@ msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:'vcs-bitbucket-server', 'Bitbucket: Token de acesso HTTP "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>'_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8283,6 +8299,10 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Rejeitar o uso de determinados hosts no site do projeto. Qualquer subdomínio "
+"é correspondido, então incluir ``example.com`` também irá bloquear ``test."
+"example.com``. A lista deve conter apenas cadeias em letras minúsculas, o "
+"domínio analisado é transformado em letras minúsculas antes da corresponder."
 
 #: ../../admin/config.rst:1381
 #, fuzzy
@@ -8295,6 +8315,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1397
 #, fuzzy
@@ -8305,12 +8327,16 @@ msgstr "PROJECT_WEB_RESTRICT_RE"
 #: ../../admin/config.rst:1401
 msgid "Reject using numeric IP address in project website. Enabled by default."
 msgstr ""
+"Rejeitar o uso de endereço IP numérico no site do projeto. Ativado por "
+"padrão."
 
 #: ../../admin/config.rst:1405
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1412
 msgid "PROJECT_WEB_RESTRICT_RE"
@@ -8329,6 +8355,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1427
 msgid "RATELIMIT_ATTEMPTS"
@@ -8535,6 +8563,8 @@ msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Permitir backends de autenticação de religação para utilizadores existentes. "
+"Ative isto ao migrar entre provedores de autenticação."
 
 #: ../../admin/config.rst:1574
 msgid ""
@@ -8542,6 +8572,9 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Desativado por padrão para não permitir a adição de outros backends de "
+"autenticação à conta existente. A religação pode comprometer a conta ao usar "
+"mais backends de autenticação de terceiros."
 
 #: ../../admin/config.rst:1581
 msgid "REPOSITORY_ALERT_THRESHOLD"
