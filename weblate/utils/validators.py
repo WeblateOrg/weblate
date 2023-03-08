@@ -234,7 +234,7 @@ def validate_project_web(value):
     ):
         raise ValidationError(_("This URL is prohibited"))
     parsed = urlparse(value)
-    if parsed.hostname in settings.PROJECT_WEB_RESTRICT_HOST:
+    if parsed.hostname.lower() in settings.PROJECT_WEB_RESTRICT_HOST:
         raise ValidationError(_("This URL is prohibited"))
     if settings.PROJECT_WEB_RESTRICT_NUMERIC:
         try:
