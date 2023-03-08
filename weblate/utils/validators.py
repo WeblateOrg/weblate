@@ -7,10 +7,12 @@ import os
 import re
 import sys
 from io import BytesIO
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
+from django.core.validators import validate_ipv46_address
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from PIL import Image
@@ -231,3 +233,13 @@ def validate_project_web(value):
         settings.PROJECT_WEB_RESTRICT_RE, value
     ):
         raise ValidationError(_("This URL is prohibited"))
+    parsed = urlparse(value)
+    if parsed.hostname in settings.PROJECT_WEB_RESTRICT_HOST:
+        raise ValidationError(_("This URL is prohibited"))
+    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
+        try:
+            validate_ipv46_address(parsed.hostname)
+        except ValidationError:
+            pass
+        else:
+            raise ValidationError(_("This URL is prohibited"))

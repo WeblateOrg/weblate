@@ -67,6 +67,8 @@ class WeblateConf(AppConf):
 
     PROJECT_NAME_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_RE = None
+    PROJECT_WEB_RESTRICT_HOST = {"localhost"}
+    PROJECT_WEB_RESTRICT_NUMERIC = True
 
     class Meta:
         prefix = ""

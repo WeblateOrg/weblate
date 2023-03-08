@@ -4,12 +4,14 @@
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
 from weblate.utils.render import validate_editor
 from weblate.utils.validators import (
     clean_fullname,
     validate_filename,
     validate_fullname,
+    validate_project_web,
     validate_re,
 )
 
@@ -99,3 +101,27 @@ class RegexTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_re("(Min|Short)", ("component",))
         validate_re("(?P<component>Min|Short)", ("component",))
+
+
+class WebsiteTest(SimpleTestCase):
+    def test_generic(self):
+        validate_project_web("https://weblate.org")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_RE="https://weblate.org"
+        ), self.assertRaises(ValidationError):
+            validate_project_web("https://weblate.org")
+
+    def test_localhost(self):
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://localhost")
+        with override_settings(PROJECT_WEB_RESTRICT_HOST={}):
+            validate_project_web("https://localhost")
+
+    def test_numeric(self):
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://1.1.1.1")
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://[2606:4700:4700::1111]")
+        with override_settings(PROJECT_WEB_RESTRICT_NUMERIC=False):
+            validate_project_web("https://[2606:4700:4700::1111]")
+            validate_project_web("https://1.1.1.1")

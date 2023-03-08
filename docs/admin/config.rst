@@ -1366,6 +1366,43 @@ Defines a regular expression to restrict project naming. Any matching names will
 
    :ref:`project-name`
 
+.. setting:: PROJECT_WEB_RESTRICT_LOCALHOST
+
+PROJECT_WEB_RESTRICT_HOST
+-------------------------
+
+.. versionadded:: 4.16.2
+
+Reject using certain hosts in project website.
+
+Default configuration:
+
+.. code-block:: python
+
+   PROJECT_WEB_RESTRICT_HOST = {"localhost"}
+
+.. seealso::
+
+   :ref:`project-web`
+   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+   :setting:`PROJECT_WEB_RESTRICT_RE`,
+
+
+.. setting:: PROJECT_WEB_RESTRICT_NUMERIC
+
+PROJECT_WEB_RESTRICT_NUMERIC
+----------------------------
+
+.. versionadded:: 4.16.2
+
+Reject using numeric IP address in project website. Enabled by default.
+
+.. seealso::
+
+   :ref:`project-web`
+   :setting:`PROJECT_WEB_RESTRICT_HOST`,
+   :setting:`PROJECT_WEB_RESTRICT_RE`,
+
 .. setting:: PROJECT_WEB_RESTRICT_RE
 
 PROJECT_WEB_RESTRICT_RE
@@ -1378,6 +1415,8 @@ Defines a regular expression to restrict project websites. Any matching URLs wil
 .. seealso::
 
    :ref:`project-web`
+   :setting:`PROJECT_WEB_RESTRICT_LOCALHOST`,
+   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
 
 .. setting:: RATELIMIT_ATTEMPTS
 
