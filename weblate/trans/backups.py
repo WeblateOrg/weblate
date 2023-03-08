@@ -583,11 +583,11 @@ class ProjectBackup:
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
+        # self.filename is a file object from upload here
+        self.filename.seek(0)
         while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):
             timestamp += 1
         filename = os.path.join(backup_dir, f"{timestamp}.zip")
-        # self.filename is a file object from upload here
-        self.filename.seek(0)
-        with open(filename, "wb") as target:
+        with open(filename, "xb") as target:
             copyfileobj(self.filename, target)
         return filename
