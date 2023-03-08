@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-03-08 12:22+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-03-09 22:56+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -3450,6 +3450,9 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"Use com cuidado, pois esta é uma interface de baixo nível. Geralmente, não "
+"deve precisar dele, pois a maioria das coisas podem ser acessadas "
+"confortavelmente pela IU do utilizador ou a API do Weblate."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -6752,12 +6755,16 @@ msgid ""
 "How many days will Weblate reject reusing previously used password for an "
 "user."
 msgstr ""
+"Quantos dias o Weblate rejeitará a reutilização da palavra-passe usada "
+"anteriormente por um utilizador."
 
 #: ../../admin/config.rst:147
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"A verificação é baseada no registo de auditoria, :setting:'AUDITLOG_EXPIRY' "
+"precisa ser pelo menos o mesmo que isto."
 
 #: ../../admin/config.rst:152
 msgid ""
@@ -6956,22 +6963,24 @@ msgid ":ref:`backup`, :doc:`borg:usage/create`"
 msgstr ":ref:`backup`, :doc:`borg:usage/create`"
 
 #: ../../admin/config.rst:273
-#, fuzzy
-#| msgid "BASE_DIR"
 msgid "CACHE_DIR"
-msgstr "BASE_DIR"
+msgstr "CACHE_DIR"
 
 #: ../../admin/config.rst:277
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Diretório onde o Weblate armazena ficheiros de cache. O padrão é a "
+"subpasta:file:'cache' em :setting:'DATA_DIR'."
 
 #: ../../admin/config.rst:280
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Altere isto para o sistema de ficheiros local ou temporário se :setting:"
+"'DATA_DIR' estiver num sistema de ficheiros de rede."
 
 #: ../../admin/config.rst:283 ../../admin/config.rst:416
 #: ../../admin/config.rst:428
@@ -7225,6 +7234,8 @@ msgstr ":file:`home`"
 #: ../../admin/config.rst:426
 msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Vários caches podem ser posicionados em outro lugar através de "
+"setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:432
 msgid ""
@@ -7248,10 +7259,8 @@ msgid ""
 msgstr "O padrão é ``/home/weblate/data``, mas espera-se que seja configurado."
 
 #: ../../admin/config.rst:445
-#, fuzzy
-#| msgid ":ref:`file-permissions`, :doc:`backup`"
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
-msgstr ":ref:`file-permissions`, :doc:`backup`"
+msgstr ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
 
 #: ../../admin/config.rst:452
 msgid "DATABASE_BACKUP"
@@ -7640,14 +7649,8 @@ msgid "List for credentials for Gitea servers."
 msgstr "Lista para credenciais para servidores Gitea."
 
 #: ../../admin/config.rst:777
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea "
-#| "personal access token`_"
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
-msgstr ""
-":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Criar um token de acesso "
-"pessoal Gitea`_"
+msgstr ":ref:`vcs-gitea`, `Criar um token de acesso pessoal Gitea`_"
 
 #: ../../admin/config.rst:785
 msgid "GITLAB_CREDENTIALS"
@@ -7658,18 +7661,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Lista para credenciais para servidores de GitLab."
 
 #: ../../admin/config.rst:806
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal "
-#| "access token <https://docs.gitlab.com/ee/user/profile/"
-#| "personal_access_tokens.html>`_"
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":setting:`GITLAB_CREDENTIALS`,:ref:`vcs-gitlab`, `GitLab: Ficha de acesso "
-"pessoal <https://docs.gitlab.com/ee/user/profile/personal_access_tokens."
-"html>`_"
+":ref:`vcs-gitlab`, `GitLab: Token de acesso pessoal <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:812
 msgid "GITHUB_CREDENTIALS"
@@ -7680,32 +7677,25 @@ msgid "List for credentials for GitHub servers."
 msgstr "Lista para credenciais para servidores GitHub."
 
 #: ../../admin/config.rst:833
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Criar um token de acesso "
-"pessoal`_"
+msgstr ":ref:`vcs-github`, `Criar um token de acesso pessoal`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "GITEA_CREDENTIALS"
 msgid "BITBUCKETSERVER_CREDENTIALS"
-msgstr "GITEA_CREDENTIALS"
+msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Gitea servers."
 msgid "List for credentials for Bitbucket servers."
-msgstr "Lista para credenciais para servidores Gitea."
+msgstr "Lista de credenciais para servidores Bitbucket."
 
 #: ../../admin/config.rst:858
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:'vcs-bitbucket-server', 'Bitbucket: Token de acesso HTTP "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>'_"
 
 #: ../../admin/config.rst:864
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8162,14 +8152,8 @@ msgid "List for credentials for Pagure servers."
 msgstr "Lista para credenciais para servidores de Pagure."
 
 #: ../../admin/config.rst:1271
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-#| "pagure.io/api/0/>`_"
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
-":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-"pagure.io/api/0/>`_"
+msgstr ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1278
 msgid "PRIVACY_URL"
@@ -8275,10 +8259,8 @@ msgid ":ref:`project-name`"
 msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_HOST"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_HOST"
 
 #: ../../admin/config.rst:1376
 msgid ""
@@ -8287,34 +8269,40 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Rejeitar o uso de determinados hosts no site do projeto. Qualquer subdomínio "
+"é correspondido, então incluir ``example.com`` também irá bloquear ``test."
+"example.com``. A lista deve conter apenas cadeias em letras minúsculas, o "
+"domínio analisado é transformado em letras minúsculas antes da corresponder."
 
 #: ../../admin/config.rst:1381
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Default configuration:"
-msgstr "Configuração do Weblate"
+msgstr "Configuração padrão:"
 
 #: ../../admin/config.rst:1389
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1397
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1401
 msgid "Reject using numeric IP address in project website. Enabled by default."
 msgstr ""
+"Rejeitar o uso de endereço IP numérico no site do projeto. Ativado por "
+"padrão."
 
 #: ../../admin/config.rst:1405
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1412
 msgid "PROJECT_WEB_RESTRICT_RE"
@@ -8333,6 +8321,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1427
 msgid "RATELIMIT_ATTEMPTS"
@@ -8529,16 +8519,16 @@ msgstr ""
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
 #: ../../admin/config.rst:1565
-#, fuzzy
-#| msgid "REGISTRATION_OPEN"
 msgid "REGISTRATION_REBIND"
-msgstr "REGISTRATION_OPEN"
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1569
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Permitir backends de autenticação de religação para utilizadores existentes. "
+"Ative isto ao migrar entre provedores de autenticação."
 
 #: ../../admin/config.rst:1574
 msgid ""
@@ -8546,6 +8536,9 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Desativado por padrão para não permitir a adição de outros backends de "
+"autenticação à conta existente. A religação pode comprometer a conta ao usar "
+"mais backends de autenticação de terceiros."
 
 #: ../../admin/config.rst:1581
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -12543,10 +12536,8 @@ msgstr ""
 "único host (Weblate, banco de dados e servidor web):"
 
 #: ../../admin/install/steps/hw.rst:8
-#, fuzzy
-#| msgid "2 GB of RAM"
 msgid "3 GB of RAM"
-msgstr "2 GB de RAM"
+msgstr "3 GB de RAM"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -13292,10 +13283,8 @@ msgstr ""
 "conta via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: ../../admin/install/docker.rst:543
-#, fuzzy
-#| msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr "Configura :setting:`EXTRA_HTML_HEAD`."
+msgstr "Configura :std:setting:`REGISTRATION_REBIND`."
 
 #: ../../admin/install/docker.rst:547
 msgid ""
@@ -16530,10 +16519,8 @@ msgid "``api.cognitive.azure.cn`` -- China"
 msgstr "``api.translator.azure.cn`` -- China"
 
 #: ../../admin/machine.rst:301
-#, fuzzy
-#| msgid "Defaults to ``api.cognitive.microsoft.com`` for Azure Global."
 msgid "``api.cognitive.microsoft.us`` -- Azure US Government cloud"
-msgstr "A predefinição é ``api.cognitive.microsoft.com`` para Azure Global."
+msgstr "``api.cognitive.microsoft.us`` -- Nuvem Azure do Governo dos EUA"
 
 #: ../../admin/machine.rst:303
 msgid "Authentication service region"
@@ -16818,10 +16805,8 @@ msgstr ""
 ">`_"
 
 #: ../../admin/machine.rst:478
-#, fuzzy
-#| msgid "Can manage translation memory."
 msgid "IBM Watson Language Translator"
-msgstr "Pode gerir memória de tradução."
+msgstr "Tradutor de Idiomas IBM Watson"
 
 #: ../../admin/machine.rst:480
 msgid "``ibm``"
@@ -24612,10 +24597,8 @@ msgid "Released on March 8th 2023."
 msgstr "Lançado em 11 de março de 2020."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Fixed searching in the translation memory."
-msgstr "Utilizar memória de tradução partilhada"
+msgstr "A pesquisa na memória de tradução corrigida."
 
 #: ../../changes.rst:7
 #, fuzzy
@@ -37983,10 +37966,8 @@ msgid "Translation types capabilities"
 msgstr "Capacidades dos tipos de tradução"
 
 #: ../../formats.rst:56
-#, fuzzy
-#| msgid "Capabilities of all supported formats:"
 msgid "Capabilities of all supported formats"
-msgstr "Capacidades de todos os formatos suportados:"
+msgstr "Capacidades de todos os formatos suportados"
 
 #: ../../formats.rst:59
 msgid "Format"
@@ -44219,10 +44200,8 @@ msgid "``id:NUMBER``"
 msgstr "``priority:NÚMERO``"
 
 #: ../../user/search.rst:41
-#, fuzzy
-#| msgid "unit identifier"
 msgid "String unique identifier."
-msgstr "identificador da unidade"
+msgstr "Identificador exclusivo de cadeia de caracteres."
 
 #: ../../user/search.rst:42
 msgid "``added:DATETIME``"
