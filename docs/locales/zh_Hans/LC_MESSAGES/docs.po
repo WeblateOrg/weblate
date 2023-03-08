@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-03-06 08:07+0000\n"
-"Last-Translator: Xzonn <Xzonn@outlook.com>\n"
+"PO-Revision-Date: 2023-03-08 12:22+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -7647,10 +7647,8 @@ msgid ":ref:`project-name`"
 msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_HOST"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_HOST"
 
 #: ../../admin/config.rst:1376
 msgid ""
@@ -7659,34 +7657,37 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"在项目网站中拒绝使用特定的主机。匹配任意子域名，因此包含 ``example.com`` "
+"会同样拦截 ``test.example.com``. "
+"此列表只应包含小写字符串，进行匹配前，解析的域名名称会转为小写。"
 
 #: ../../admin/config.rst:1381
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Default configuration:"
-msgstr "Weblate 配置"
+msgstr "默认配置："
 
 #: ../../admin/config.rst:1389
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1397
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1401
 msgid "Reject using numeric IP address in project website. Enabled by default."
-msgstr ""
+msgstr "拒绝在项目网站中使用数字 IP 地址。默认启用。"
 
 #: ../../admin/config.rst:1405
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1412
 msgid "PROJECT_WEB_RESTRICT_RE"
@@ -7703,6 +7704,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1427
 msgid "RATELIMIT_ATTEMPTS"
@@ -12815,8 +12818,6 @@ msgid "OpenID Connect"
 msgstr "OpenID 连接"
 
 #: ../../admin/install/docker.rst:1142
-#, fuzzy
-#| msgid "Configures generic OpenID Connect intergration."
 msgid "Configures generic OpenID Connect integration."
 msgstr "配置通用 OpenID Connect 集成。"
 
@@ -13569,13 +13570,6 @@ msgid "Extend your custom settings module to define or redefine settings."
 msgstr "扩展你的自定义设置模块来定义或重新定义设置。"
 
 #: ../../admin/install/docker.rst:1739
-#, fuzzy
-#| msgid ""
-#| "You can define settings before or after the import statement above to "
-#| "determine which settings take precedence. Settings defined before the "
-#| "import statement can be overriden by environment variables and setting "
-#| "overrides defined in the data volume. Setting defined after the import "
-#| "statement cannot be overriden."
 msgid ""
 "You can define settings before or after the import statement above to "
 "determine which settings take precedence. Settings defined before the import "
@@ -13583,9 +13577,9 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overridden."
 msgstr ""
-"你可以定义上方 import 语句之前或之后的设置，以确定哪些设置优先。import 语句之"
-"前定义的设置可以被环境变量和数据卷中定义的设置覆盖所覆盖。不能覆盖 import 语"
-"句后定义的设置。"
+"你可以定义上方 import 语句之前或之后的设置，以确定哪些设置优先。import "
+"语句之前定义的设置可以被环境变量和数据卷中定义的设置覆盖所覆盖。不能覆盖 "
+"import 语句后定义的设置。"
 
 #: ../../admin/install/docker.rst:1745
 msgid ""
@@ -14174,17 +14168,12 @@ msgid "Installing on macOS"
 msgstr "在 macOS 上安装"
 
 #: ../../admin/install/venv-macos.rst:13
-#, fuzzy
-#| msgid ""
-#| "Make sure pip will be able to find the ``libffi`` version provided by "
-#| "homebrew — this will be needed during the installation build step."
 msgid ""
 "Make sure pip will be able to find the ``libffi`` and ``openssl`` versions "
 "provided by homebrew — this will be needed during the installation build "
 "step."
-msgstr ""
-"确认 pip 能够找到 homebrew 提供的 ``libffi`` 版本——这在安装构建步骤中是必需"
-"的。"
+msgstr "确认 pip 能够找到 homebrew 提供的 ``libffi`` 和 ``openssl`` "
+"版本——这在安装构建步骤中是必需的。"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
@@ -17507,6 +17496,8 @@ msgid ""
 ":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:`PROJECT_WEB_RESTRICT_RE`"
 msgstr ""
+":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
+", :setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:157
 msgid "Translation instructions"
@@ -22735,65 +22726,44 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.2"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 1st 2023."
 msgid "Released on March 8th 2023."
-msgstr "发布于 2023 年 3 月 1 日。"
+msgstr "发布于 2023 年 3 月 8 日。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Fixed searching in the translation memory."
-msgstr "使用共享的翻译记忆库"
+msgstr "修复了翻译记忆库中搜索的问题。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed automatic translation for project owners."
 msgid "Fixed automatic translation with more services."
-msgstr "修复了项目所有者的自动翻译。"
+msgstr "修复了使用更多服务进行自动化翻译的问题。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Improved rendering of overlapping glossary term matches."
-msgstr "改进了变更中警报的呈现方式。"
+msgstr "改进了重叠的术语表术语匹配的解析。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid "Fixed plurals parsing for non-English source language in some formats."
-msgstr "修复了具有单复数形式的语言的复数原文显示问题。"
+msgstr "修复了某些格式下非英语源语言的复数形式解析。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added support for gotext JSON files."
 msgid "Added support for go-i18n v2 JSON files."
-msgstr "新增支持 gotext JSON 文件。"
+msgstr "新增支持 go-i18n v2 JSON 文件。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/91?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/91?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"94?closed=1>`__。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.16.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.16.1"
 
 #: ../../changes.rst:17 ../../changes.rst:26
 msgid "Released on March 1st 2023."
@@ -22801,19 +22771,15 @@ msgstr "发布于 2023 年 3 月 1 日。"
 
 #: ../../changes.rst:19
 msgid "Fixed testsuite error."
-msgstr ""
+msgstr "修复了测试套件错误。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/91?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/91?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"92?closed=1>`__。"
 
 #: ../../changes.rst:24
 msgid "Weblate 4.16"
@@ -35033,10 +34999,8 @@ msgid "Translation types capabilities"
 msgstr "翻译类型功能"
 
 #: ../../formats.rst:56
-#, fuzzy
-#| msgid "Capabilities of all supported formats:"
 msgid "Capabilities of all supported formats"
-msgstr "所有受支持格式的功能："
+msgstr "所有受支持格式的功能"
 
 #: ../../formats.rst:59
 msgid "Format"
@@ -36349,10 +36313,8 @@ msgid "go-i18n JSON files"
 msgstr "go-i18n JSON 文件"
 
 #: ../../formats.rst:1226
-#, fuzzy
-#| msgid "Support for v4 variant of this format was added."
 msgid "Support for v2 variant of this format was added."
-msgstr "添加了对此格式 v4 变体的支持。"
+msgstr "添加了对此格式 v2 变体的支持。"
 
 #: ../../formats.rst:1228
 msgid ""
@@ -36362,37 +36324,26 @@ msgstr ""
 "go-i18n 翻译是单语言的因此建议使用（最常见的）英文字符串指定一个基本文件。"
 
 #: ../../formats.rst:1234
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct "
 "file format matching your environment."
-msgstr ""
-"Weblate 支持 i18next JSON v3 和 v4 变体。请选择匹配你环境的正确文件格式。"
+msgstr "Weblate 支持 go-i18n JSON v1 和 v2 变体。请选择匹配你环境的正确文件格式。"
 
 #: ../../formats.rst:1238
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr "典型的 Weblate :ref:`component`"
+msgstr "典型的 Weblate :ref:`component` for v1"
 
 #: ../../formats.rst:1246
 msgid "`go-i18n v1 JSON file`"
 msgstr "`go-i18n v1 JSON 文件`"
 
 #: ../../formats.rst:1251
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr "典型的 Weblate :ref:`component`"
+msgstr "典型的 Weblate :ref:`component` for v2"
 
 #: ../../formats.rst:1259
-#, fuzzy
-#| msgid "`go-i18n v1 JSON file`"
 msgid "`go-i18n v2 JSON file`"
-msgstr "`go-i18n v1 JSON 文件`"
+msgstr "`go-i18n v2 JSON 文件`"
 
 #: ../../formats.rst:1264
 msgid ""
