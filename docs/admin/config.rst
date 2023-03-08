@@ -1366,14 +1366,17 @@ Defines a regular expression to restrict project naming. Any matching names will
 
    :ref:`project-name`
 
-.. setting:: PROJECT_WEB_RESTRICT_LOCALHOST
+.. setting:: PROJECT_WEB_RESTRICT_HOST
 
 PROJECT_WEB_RESTRICT_HOST
 -------------------------
 
 .. versionadded:: 4.16.2
 
-Reject using certain hosts in project website.
+Reject using certain hosts in project website. Any subdomain is matched, so
+including ``example.com`` will block ``test.example.com`` as well. The list
+should contain lower case strings only, the parsed domain is lower cased before
+matching.
 
 Default configuration:
 
@@ -1415,7 +1418,7 @@ Defines a regular expression to restrict project websites. Any matching URLs wil
 .. seealso::
 
    :ref:`project-web`
-   :setting:`PROJECT_WEB_RESTRICT_LOCALHOST`,
+   :setting:`PROJECT_WEB_RESTRICT_HOST`,
    :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
 
 .. setting:: RATELIMIT_ATTEMPTS
