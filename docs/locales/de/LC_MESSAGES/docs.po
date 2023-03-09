@@ -15,13 +15,14 @@
 # Felix Herold <felix@herold.solutions>, 2022.
 # sokden Den <densokden611@gmail.com>, 2023.
 # Joachim Wetzig <jo.wetzig@web.de>, 2023.
+# RandomModderJDK <bqistgeil@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
 "PO-Revision-Date: 2023-03-09 22:56+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"Last-Translator: RandomModderJDK <bqistgeil@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -8367,6 +8368,11 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Verhindert das Benutzen von gewissen Hosts auf der Projektwebsite. Jede "
+"Subdomain wird blockiert, d. h. beim Blockieren von ``example.com`` wird "
+"auch ``test.example.com`` blockiert. Die Liste sollte nur kleingeschriebene "
+"Strings enthalten, die zu vergleichende Domain wird kleingeschrieben vor dem "
+"Prüfen."
 
 #: ../../admin/config.rst:1381
 msgid "Default configuration:"
@@ -8387,6 +8393,8 @@ msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 #: ../../admin/config.rst:1401
 msgid "Reject using numeric IP address in project website. Enabled by default."
 msgstr ""
+"Verhindert die Nutzung von numerischen IP-Addressen auf der Projektwebsite. "
+"Standardmäßig aktiviert."
 
 #: ../../admin/config.rst:1405
 msgid ""
@@ -16103,6 +16111,10 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Normalerweise ist das der beste Ort, um Lizenzinformationen zu posten, "
+"sofern keine explizite Einverständnis erforderlich ist. Wenn dein Projekt "
+"oder Übersetzung nicht frei ist, must du höchstwahrscheinlich vorher eine "
+"Einverständnis einholen."
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:573
 msgid "Contributor agreement"
@@ -16114,22 +16126,29 @@ msgid ""
 "to it will be able to contribute. This is a clearly visible step when "
 "accessing the translation:"
 msgstr ""
+"Wenn du eine Mitwirkendelizenzvereinbarung definierst, können nur Nutzer, "
+"welche dieser zugestimmt haben mitwirken. Dies ist ein klar sichtbarer "
+"Schritt beim Zugriff auf die Übersetzung:"
 
 #: ../../admin/licensing.rst:27
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
 msgstr ""
+"Der eingegebene Text ist aufgeteilt in Paragraphen und externe Links können "
+"benutzt werden. Hyper Text Markup Language(HTML) kann nicht benutzt werden."
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
-msgstr ""
+msgstr "Benutzerlizensen"
 
 #: ../../admin/licensing.rst:33
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Jeder Benutzer kann die Übersetzungslizensen von allen öffentlichen "
+"Projekten auf der Instanz aus deren Profil überprüfen:"
 
 #: ../../admin/machine.rst:4
 msgid "Configuring automatic suggestions"
@@ -16138,7 +16157,7 @@ msgstr "Automatische Vorschläge konfigurieren"
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "Vor Weblate 4.13 wurden die Services in der :ref:`config` konfiguriert."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -16193,6 +16212,8 @@ msgstr "`Dieser Dienst hat keine Konfiguration.`"
 msgid ""
 "Special installation of :ref:`mt-tmserver` run by the authors of Virtaal."
 msgstr ""
+"Besondere Installation von :ref:`mt-tmserver`, betrieben von den Autoren von "
+"Virtaal."
 
 #: ../../admin/machine.rst:40
 msgid ""
@@ -16561,6 +16582,13 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/standard/locations>`_"
 msgstr ""
+"`Google Cloud Translation-Dokumentation <https://cloud.google.com/translate/"
+"docs>`_, `Mithilfe von Clientbibliotheken bei Cloud-Diensten "
+"authentifizieren <https://cloud.google.com/docs/authentication/client-"
+"libraries>`_, `Google Cloud Translation Projekt erstellen <https://cloud."
+"google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_, `"
+"Google Cloud App Engine-Standorte <https://cloud.google.com/appengine/docs/"
+"standard/locations>`_"
 
 #: ../../admin/machine.rst:225
 msgid "LibreTranslate"
@@ -16912,13 +16940,15 @@ msgstr ""
 
 #: ../../admin/machine.rst:428
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
-msgstr ""
+msgstr "Um auf die Sandbox API zuzugreifen musst du ``url`` und ``key`` setzen."
 
 #: ../../admin/machine.rst:431
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
+"Um auf die produktive API zuzugreifen, musst du ``url``, ``username`` und "
+"``password`` setzen."
 
 #: ../../admin/machine.rst:435
 msgid ""
@@ -16927,6 +16957,10 @@ msgid ""
 "Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 msgstr ""
+"`SAP Translation Hub API <https://www.sapstore.com/solutions/80248/SAP-"
+"Translation-Hub>`_,`Die Basis-URL des SAP Translation Hub builden "
+"<https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
+"ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:441
 msgid "tmserver"
@@ -16944,6 +16978,10 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Du kannst jetzt deinen eigenen Übersetzungs-Gedächtnis-Server laufen lassen, "
+"indem du den mitgelieferten Server mit Translate-toolkit benutzt und Weblate "
+"mit ihm sprechen lässt. Du kannst es auch mit einem amaGama Server benutzen, "
+"welcher eine verbesserte Version von tmserver ist."
 
 #: ../../admin/machine.rst:452
 msgid "First you will want to import some data to the translation memory:"
