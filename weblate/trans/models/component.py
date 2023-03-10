@@ -3252,7 +3252,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             code = language_aliases[code]
 
         # Check if resulting language is not present
-        new_lang = Language.objects.fuzzy_get(code=self.get_language_alias(code))
+        new_lang = Language.objects.fuzzy_get(
+            code=self.get_language_alias(code), strict=True
+        )
         if new_lang is not None:
             if new_lang == self.source_language:
                 messages.error(
