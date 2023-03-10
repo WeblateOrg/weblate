@@ -23,18 +23,22 @@ SUPPORTED_VCS = {
 }
 
 
-def get_export_url(component):
-    """Return Git export URL for component."""
+def get_export_url_path(project: str, component: str) -> str:
     return get_site_url(
         reverse(
             "git-export",
             kwargs={
-                "project": component.project.slug,
-                "component": component.slug,
+                "project": project,
+                "component": component,
                 "path": "",
             },
         )
     )
+
+
+def get_export_url(component: Component) -> str:
+    """Return Git export URL for component."""
+    return get_export_url_path(component.project.slug, component.slug)
 
 
 @receiver(pre_save, sender=Component)
