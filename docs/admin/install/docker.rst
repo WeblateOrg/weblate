@@ -1118,6 +1118,7 @@ setting following variables to any value.
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_FEDORA
 .. envvar:: WEBLATE_SOCIAL_AUTH_OPENSUSE
+.. envvar:: WEBLATE_SOCIAL_AUTH_OPENINFRA
 .. envvar:: WEBLATE_SOCIAL_AUTH_UBUNTU
 
 Slack
