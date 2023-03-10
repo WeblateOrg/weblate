@@ -440,6 +440,8 @@ if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
     SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.ubuntu.UbuntuOpenId",)
+if "WEBLATE_SOCIAL_AUTH_OPENINFRA" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.openinfra.OpenInfraOpenId",)
 
 # Slack
 if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
@@ -519,7 +521,7 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
 AUTHENTICATION_BACKENDS += ("weblate.accounts.auth.WeblateUserBackend",)
 
 # Social auth settings
-SOCIAL_AUTH_PIPELINE = (
+SOCIAL_AUTH_PIPELINE = [
     "social_core.pipeline.social_auth.social_details",
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
@@ -543,7 +545,7 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
-)
+]
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     "social_core.pipeline.disconnect.allowed_to_disconnect",
     "social_core.pipeline.disconnect.get_entries",
@@ -1338,6 +1340,7 @@ DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
+ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")
 
 SSH_EXTRA_ARGS = os.environ.get("WEBLATE_SSH_EXTRA_ARGS", "")
 
@@ -1372,14 +1375,39 @@ MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID")
 MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL")
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID")
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
-SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT")
+SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", SITE_DOMAIN)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
+SENTRY_TOKEN = os.environ.get("SENTRY_TOKEN")
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY")
 
 # Web Monetization
 INTERLEDGER_PAYMENT_POINTERS = get_env_list(
     "WEBLATE_INTERLEDGER_PAYMENT_POINTERS", ["$ilp.uphold.com/ENU7fREdeZi9"]
 )
+
+# Legal integartion
+LEGAL_INTEGRATION = os.environment.get("WEBLATE_LEGAL_INTEGRATION")
+if LEGAL_INTEGRATION:
+    # Enable legal app
+    INSTALLED_APPS.append("weblate.legal")
+
+    # Hosted Weblate legal documents
+    if LEGAL_INTEGRATION == "wllegal":
+        INSTALLED_APPS.append("wllegal")
+
+    # TOS confirmation enforcement
+    if LEGAL_INTEGRATION in ("tos-confirm", "wllegal"):
+        # Social auth pipeline to confirm TOS upon registration/subsequent sign in
+        SOCIAL_AUTH_PIPELINE.insert(
+            SOCIAL_AUTH_PIPELINE.index(
+                "social_core.pipeline.social_auth.load_extra_data"
+            )
+            + 1,
+            "weblate.legal.pipeline.tos_confirm",
+        )
+        # Middleware to enforce TOS confirmation of signed in users
+        MIDDLEWARE.append("weblate.legal.middleware.RequireTOSMiddleware")
+
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):
