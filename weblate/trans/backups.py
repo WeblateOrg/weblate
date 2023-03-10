@@ -377,6 +377,13 @@ class ProjectBackup:
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
         )
+        # Regenerate git export URL
+        if "weblate.gitexport" in settings.INSTALLED_APPS:
+            from weblate.gitexport.models import get_export_url_path
+
+            kwargs["git_export"] = get_export_url_path(
+                self.project.slug, kwargs["slug"]
+            )
         # Use bulk create to avoid triggering save() and any signals
         component = Component.objects.bulk_create(
             [Component(project=self.project, **kwargs)]
