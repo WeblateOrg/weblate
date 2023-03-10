@@ -5,7 +5,7 @@
 # Janar Leas <janar.leas@gmail.com>, 2019, 2021.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
-# Priit Jõerüüt <hwlate@joeruut.com>, 2020, 2021.
+# Priit Jõerüüt <hwlate@joeruut.com>, 2020, 2021, 2023.
 # Stanislav Lem <justaryo@yandex.ru>, 2020.
 # Janar Leas <janarleas+ubuntuone@googlemail.com>, 2020.
 # Kristjan Räts <kristjanrats@gmail.com>, 2021.
@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-08 08:18+0000\n"
-"PO-Revision-Date: 2022-06-26 12:16+0000\n"
-"Last-Translator: PriitUring <priit.uring@gmail.com>\n"
+"PO-Revision-Date: 2023-03-10 11:02+0000\n"
+"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1479,10 +1479,8 @@ msgid "Target translation"
 msgstr "Soovitatud tõlked"
 
 #: weblate/addons/forms.py:499
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "Eemaldame järgnevad tõlkeosised:"
+msgstr "Kõik selles tõlkes olevad sõned kirjutatakse üle"
 
 #: weblate/addons/forms.py:502 weblate/templates/addons/pseudolocale.html:11
 #, fuzzy
@@ -1855,11 +1853,8 @@ msgstr "Kustuta lausend"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:67
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgid "Dismiss failing check"
-msgstr "Ei suutnud kontrollida:"
+msgstr "Ära arvesta seda loogilist kontrolli"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:69
@@ -2643,10 +2638,10 @@ msgid "Mismatched \\n"
 msgstr "Vastuolulised \\n"
 
 #: weblate/checks/chars.py:303
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "Mitmus Qt-vormingus ei vasta lähtelausendile"
+msgstr ""
+"\\n"
+" märgete arv tõlkes ei vasta lähtelausendis leiduvatele"
 
 #: weblate/checks/chars.py:321
 msgid "Mismatching line breaks"
@@ -2785,7 +2780,7 @@ msgstr ""
 
 #: weblate/checks/flags.py:41
 msgid "Strict unchanged check"
-msgstr ""
+msgstr "Kontrolli mittemuutmist rangelt"
 
 #: weblate/checks/flags.py:42 weblate/glossary/forms.py:36
 #, fuzzy
@@ -2799,7 +2794,7 @@ msgstr ""
 
 #: weblate/checks/flags.py:44
 msgid "Ignore all checks"
-msgstr ""
+msgstr "Eira kõiki loogilisi kontrolle"
 
 #: weblate/checks/flags.py:46 weblate/fonts/models.py:23
 #: weblate/templates/fonts/font_detail.html:18
@@ -3205,16 +3200,12 @@ msgid "Regular expression"
 msgstr "Regulaaravaldis"
 
 #: weblate/checks/placeholders.py:123
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "Tõlge ei klapi regulaaravaldisega:"
+msgstr "Tõlge ei klapi regulaaravaldisega"
 
 #: weblate/checks/placeholders.py:152
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Does not match regular expression {}."
-msgstr "Tõlge ei klapi regulaaravaldisega:"
+msgstr "Ei klapi regulaaravaldisega {}."
 
 #: weblate/checks/qt.py:34
 msgid "Qt format"
@@ -3276,15 +3267,15 @@ msgstr ""
 
 #: weblate/checks/source.py:51
 msgid "Multiple failing checks"
-msgstr ""
+msgstr "Leidub mitu loogilise kontrolliga tuvastatud viga"
 
 #: weblate/checks/source.py:52
 msgid "The translations in several languages have failing checks"
-msgstr ""
+msgstr "Mitme keele tõlgetes leidub mitu loogilise kontrolliga tuvastatud viga"
 
 #: weblate/checks/source.py:75
 msgid "Following checks are failing:"
-msgstr "Järgnevad kontrollid näitavad vigu:"
+msgstr "Järgnevad loogilised kontrollid näitavad vigu:"
 
 #: weblate/checks/source.py:91
 #, fuzzy
@@ -3301,7 +3292,7 @@ msgstr ""
 #: weblate/templates/language.html:28 weblate/templates/project.html:70
 #: weblate/templates/translation.html:77
 msgid "Failing checks"
-msgstr ""
+msgstr "Loogilise kontrolliga leitud vead"
 
 #: weblate/configuration/apps.py:12
 #, fuzzy
@@ -4139,10 +4130,9 @@ msgid "Overview"
 msgstr "Ülevaade"
 
 #: weblate/machinery/base.py:94
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to fetch supported languages: %s"
-msgstr "Ei leidnud lähtekeelt!"
+msgstr "Toetatud keelte laadimine ei õnnestunud: %s"
 
 #: weblate/machinery/base.py:98
 #, fuzzy, python-format
@@ -6003,7 +5993,7 @@ msgstr "Lehitse kõiki keeli"
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:83
 msgid "Checks"
-msgstr "Kontrollid"
+msgstr "Loogilised kontrollid"
 
 #: weblate/templates/base.html:172
 #, fuzzy, python-format
@@ -6027,7 +6017,7 @@ msgstr "Loogiliste kontrollide tulemusel leitud vead %(language)s keeles"
 
 #: weblate/templates/base.html:193
 msgid "Checks overview"
-msgstr "Kontrollide ülevaade"
+msgstr "Loogiliste kontrollide ülevaade"
 
 #: weblate/templates/base.html:203 weblate/templates/base.html:205
 msgid "Administration"
@@ -6195,10 +6185,8 @@ msgid "Request approval for Libre hosting"
 msgstr ""
 
 #: weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please check that following conditions are met:"
-msgstr "Palume lugeda järgnevat toetaja lepet:"
+msgstr "Palun kontrolli, kas järgnevad tingimused on täidetud:"
 
 #: weblate/templates/billing/detail.html:124
 #, fuzzy
@@ -6306,10 +6294,8 @@ msgstr "Projektide piirang"
 
 #: weblate/templates/billing/status.html:122
 #: weblate/templates/manage/users.html:40
-#, fuzzy
-#| msgid "Check details"
 msgid "Check user access"
-msgstr "Kontrolli üksikasjad"
+msgstr "Kontrolli kasutaja ligipääsu"
 
 #. Translators: Number of projects/repositories/strings used in billing when there is no limit
 #: weblate/templates/billing/used.html:7
@@ -6410,13 +6396,11 @@ msgstr "Tõlgitud"
 #: weblate/templates/check.html:43 weblate/templates/check_component.html:65
 #: weblate/templates/check_project.html:44
 msgid "Check details"
-msgstr "Kontrolli üksikasjad"
+msgstr "Kontrolli üksikasju"
 
 #: weblate/templates/checks.html:18
-#, fuzzy
-#| msgid "Checks"
 msgid "Check"
-msgstr "Kontrollid"
+msgstr "Kontroll"
 
 #: weblate/templates/checks.html:42 weblate/templates/component-list.html:16
 #: weblate/templates/language.html:20
@@ -6427,15 +6411,15 @@ msgstr "Teave"
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
-msgstr "Kohandatavad taseme kontrollid aitavad sul tõlgete taset tõsta."
+msgstr "Kohandatavad loogilised kontrollid aitavad sul tõlgete taset parandada."
 
 #: weblate/templates/checks.html:45
 msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Kontrollid võivad aidata sul tuvastada problemaatilisi tõlkeid või lähte "
-"lausendeid, mida on keeruline tõlkida."
+"Loogilised kontrollid võivad aidata sul tuvastada problemaatilisi tõlkeid "
+"või lähtelausendeid, mida on keeruline tõlkida."
 
 #: weblate/templates/component-list.html:19 weblate/templates/component.html:53
 #: weblate/templates/language-project.html:30 weblate/templates/project.html:52
@@ -6905,10 +6889,8 @@ msgid "Hook"
 msgstr ""
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Luba muutused kohalikus varamus"
+msgstr "Sa saad välisest varamust laadida muudatusi Weblate'i niiviisi:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -7530,10 +7512,8 @@ msgid "Disable"
 msgstr ""
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Enable"
-msgstr "Võta laiendus kasutusele:"
+msgstr "Võta kasutusele"
 
 #: weblate/templates/machinery/list.html:50
 #, fuzzy
@@ -8264,7 +8244,7 @@ msgstr ""
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
-msgstr ""
+msgstr "Süsteemsed kontrollid"
 
 #: weblate/templates/manage/performance.html:102
 msgid "Celery queues"
@@ -8942,10 +8922,8 @@ msgstr "Lähtelausendid"
 
 #: weblate/templates/snippets/embed-units-clone.html:5
 #: weblate/templates/snippets/format-translation.html:16
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Clone to translation"
-msgstr "Soovitatud tõlked"
+msgstr "Klooni tõlkeks"
 
 #: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:123
 #, fuzzy
@@ -9242,11 +9220,9 @@ msgid "Read-only"
 msgstr "Tõlgitud"
 
 #: weblate/templates/snippets/info.html:358
-#, fuzzy
-#| msgid "Watched projects"
 msgctxt "Number of strings"
 msgid "Failing checks"
-msgstr "Jälgitavad projektid"
+msgstr "Loogilise kontrolliga leitud vead"
 
 #: weblate/templates/snippets/info.html:367
 #, fuzzy
@@ -9736,12 +9712,9 @@ msgstr "Muudatusettepanek:"
 
 #: weblate/templates/snippets/suggestions.html:59
 #: weblate/trans/templatetags/translations.py:614
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgctxt "String state"
 msgid "Failing checks:"
-msgstr "Ei suutnud kontrollida:"
+msgstr "Automaatkontrollide tulemused:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 #, fuzzy
@@ -10114,7 +10087,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Järgnevaid kontrolle ei ole kusagil kasutusel:"
+msgstr "Järgnevaid loogilisi kontrolle ei ole kusagil kasutusel:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
 #, python-format
@@ -10414,7 +10387,7 @@ msgstr "Weblate näeb nüüd uuendatud varamut ning sa võid selle avada."
 
 #: weblate/templates/trans/merge_instructions.html:39
 msgid "Check the FAQ for info on how to resolve this."
-msgstr ""
+msgstr "Vaata võimalikku lahendust KKK loendist."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -10496,10 +10469,8 @@ msgid "Create"
 msgstr "Jälgitavad projektid"
 
 #: weblate/templates/trans/project-access.html:269
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "Sinu isiklik API võti:"
+msgstr "Isiklik API võti"
 
 #: weblate/templates/trans/project-access.html:282
 msgid "This is your personal API key, do not share it with anybody else."
@@ -11242,13 +11213,11 @@ msgstr "Heakskiidetud lausendid, mille kohta on tehtud ettepanekuid"
 
 #: weblate/trans/filter.py:37
 msgid "Translated strings with any failing checks"
-msgstr ""
+msgstr "Tõlked, kus loogilised kontrollid on leidnud vigu"
 
 #: weblate/trans/filter.py:42
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translated strings with dismissed checks"
-msgstr "Tõlgitud lausendid"
+msgstr "Tõlked, kus loogilised kontrollid on leidnud vigu, mida on eiratud"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:116
 msgid "Approved strings"
@@ -11277,11 +11246,8 @@ msgid "Pluralized string"
 msgstr "Tõlgitud"
 
 #: weblate/trans/filter.py:59 weblate/trans/filter.py:121
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgid "Failing check: {}"
-msgstr "Ei suutnud kontrollida:"
+msgstr "Automaatkontroll: {}"
 
 #: weblate/trans/filter.py:85 weblate/trans/filter.py:126
 msgid "Labeled: {}"
@@ -11289,7 +11255,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:140
 msgid "Invalid checksum specified!"
-msgstr ""
+msgstr "Vigane kontrollsumma!"
 
 #: weblate/trans/forms.py:146
 #, fuzzy
@@ -11360,12 +11326,10 @@ msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
 
 #: weblate/trans/forms.py:551
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
-msgstr "Selle lausendi tõlked muudes keeltes"
+msgstr "Tõlgitav lausend on vahepeal muutunud. Palun vaata oma tõlge üle."
 
 #: weblate/trans/forms.py:562
 msgid "Translation text too long!"
@@ -11545,10 +11509,8 @@ msgstr ""
 
 #: weblate/trans/forms.py:975 weblate/trans/forms.py:984
 #: weblate/trans/forms.py:992
-#, fuzzy
-#| msgid "Component list"
 msgid "Component not found!"
-msgstr "Komponentide nimekiri"
+msgstr "Osist ei leidu!"
 
 #: weblate/trans/forms.py:994
 msgid "Please provide valid component slug!"
@@ -11681,10 +11643,8 @@ msgid "The starting date has to be before the ending date."
 msgstr ""
 
 #: weblate/trans/forms.py:1294
-#, fuzzy
-#| msgid "You do not have permission to access this component!"
 msgid "You do not have permission to access this component."
-msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele!"
+msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
 
 #: weblate/trans/forms.py:1351
 msgid "This field has been identified as spam!"
@@ -12094,7 +12054,7 @@ msgstr ""
 
 #: weblate/trans/models/alert.py:393
 msgid "Unused enforced checks."
-msgstr ""
+msgstr "Jõustatud loogilised kontrollid, mis pole kasutusel."
 
 #: weblate/trans/models/alert.py:400
 msgid "No file mask matches."
@@ -12469,10 +12429,8 @@ msgstr[0] "Uus tõlkimist ootav lausend"
 msgstr[1] "Uued tõlkimist ootavad lausendid"
 
 #: weblate/trans/models/change.py:476
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Selle projekti tõlked lukustati automaatselt järgmistel põhjustel:"
+msgstr "See osis lukustati hoiatuse alusel automaatselt."
 
 #: weblate/trans/models/change.py:480
 msgid "Fixing an alert automatically unlocked the component."
@@ -12754,11 +12712,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:468
 msgid "Enforced checks"
-msgstr ""
+msgstr "Jõustatud loogilised kontrollid"
 
 #: weblate/trans/models/component.py:469
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "Loogiliste kontrollide loend, mida ei saa eirata."
 
 #: weblate/trans/models/component.py:487
 msgid ""
@@ -13023,8 +12981,6 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:2482
-#, fuzzy
-#| msgid "Could not find any matching language, please check the filemask."
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Ei õnnestunud laida ühtegi sobivat keelt, palun kontrolli failimaski."
 
@@ -13329,10 +13285,9 @@ msgstr ""
 #: weblate/trans/models/translation.py:1000
 #: weblate/trans/models/translation.py:1082
 #: weblate/trans/models/translation.py:1200
-#, fuzzy, python-format
-#| msgid "Failed to find source language!"
+#, python-format
 msgid "Failed to commit pending changes: %s"
-msgstr "Ei leidnud lähtekeelt!"
+msgstr "Ootel olevate muudatuste laadimine repositooriumi ei õnnestunud: %s"
 
 #: weblate/trans/models/translation.py:1581 weblate/trans/models/unit.py:591
 #, fuzzy, python-format
@@ -13684,12 +13639,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:622
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Ei suutnud kontrollida:"
+msgstr "Eiratud loogiliste kontrollide tulemused:"
 
 #: weblate/trans/templatetags/translations.py:627
 #, fuzzy
@@ -13810,19 +13762,19 @@ msgid "Failed to parse flags: %s"
 msgstr "Muuda lausendite lisateavet"
 
 #: weblate/trans/validators.py:50
-#, fuzzy, python-format
-#| msgid "Could not find any matching language, please check the filemask."
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "Ei õnnestunud laida ühtegi sobivat keelt, palun kontrolli failimaski."
+msgstr "„%(filename)s“ keelekood on puudu, palun kontrolli failimaski."
 
 #: weblate/trans/validators.py:56
-#, fuzzy, python-format
-#| msgid "Could not find any matching language, please check the filemask."
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "Ei õnnestunud laida ühtegi sobivat keelt, palun kontrolli failimaski."
+msgstr ""
+"„%(filename)s“ faili keelekood „%(code)s“ on liiga pikk, palun kontrolli "
+"failimaski."
 
 #: weblate/trans/views/about.py:19
 msgid "Keys"
@@ -13833,10 +13785,8 @@ msgid "Weblate statistics"
 msgstr ""
 
 #: weblate/trans/views/acl.py:82 weblate/trans/views/acl.py:218
-#, fuzzy
-#| msgid "User has been invited to this project."
 msgid "You can not remove yourself!"
-msgstr "Kasutaja on kutsutud liituma selle projektiga."
+msgstr "Sa ei saa ennast eemaldada!"
 
 #: weblate/trans/views/acl.py:116
 msgid "User has been added to this project."
@@ -13940,7 +13890,7 @@ msgstr ""
 #: weblate/trans/views/create.py:261
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr ""
+msgstr "Tuvastasime %s litsentsi, palun kontrolli, kas see on õige."
 
 #: weblate/trans/views/create.py:367
 msgid "Failed to parse uploaded ZIP file."
@@ -13996,6 +13946,8 @@ msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr ""
+"Tõlge on salvestatud. Aga palun vaata selliste loogiliste kontrollide vigu: "
+"{0}"
 
 #: weblate/trans/views/edit.py:442
 msgid "Invalid merge request!"
@@ -14197,7 +14149,7 @@ msgstr ""
 
 #: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:90
 msgid "Invalid settings. Please check the form for errors."
-msgstr ""
+msgstr "Vigased seadistused. Palun otsi vormilt võimalikke vigu."
 
 #: weblate/trans/views/settings.py:102
 msgid ""
@@ -14536,10 +14488,8 @@ msgid "Number of comments"
 msgstr "Osiste arv"
 
 #: weblate/utils/views.py:127
-#, fuzzy
-#| msgid "Translation key"
 msgid "Number of failing checks"
-msgstr "Tõlke võti"
+msgstr "Loogiliste kontrollide alusel leitud vigu"
 
 #: weblate/utils/views.py:129
 #, fuzzy
