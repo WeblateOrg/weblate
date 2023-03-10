@@ -15,7 +15,7 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
-from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
+from weblate.trans.defines import BRANCH_LENGTH, LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
     AutoComponentList,
     Change,
@@ -438,8 +438,10 @@ class ComponentSerializer(RemovableSerializer):
     repo = RepoField(max_length=REPO_LENGTH)
 
     push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
-    branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
-    push_branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    branch = LinkedField(required=False, allow_blank=True, max_length=BRANCH_LENGTH)
+    push_branch = LinkedField(
+        required=False, allow_blank=True, max_length=BRANCH_LENGTH
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 

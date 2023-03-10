@@ -34,6 +34,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.glossary.models import get_glossary_sources
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
+    BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
     PROJECT_NAME_LENGTH,
@@ -346,14 +347,14 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     )
     branch = models.CharField(
         verbose_name=gettext_lazy("Repository branch"),
-        max_length=REPO_LENGTH,
+        max_length=BRANCH_LENGTH,
         help_text=gettext_lazy("Repository branch to translate"),
         default="",
         blank=True,
     )
     push_branch = models.CharField(
         verbose_name=gettext_lazy("Push branch"),
-        max_length=REPO_LENGTH,
+        max_length=BRANCH_LENGTH,
         help_text=gettext_lazy(
             "Branch for pushing changes, leave empty to use repository branch"
         ),

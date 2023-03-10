@@ -41,7 +41,12 @@ from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
 from weblate.trans.backups import ProjectBackup
-from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH, REPO_LENGTH
+from weblate.trans.defines import (
+    BRANCH_LENGTH,
+    COMPONENT_NAME_LENGTH,
+    FILENAME_LENGTH,
+    REPO_LENGTH,
+)
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
@@ -1789,7 +1794,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     )
     branch = forms.CharField(
         label=Component.branch.field.verbose_name,
-        max_length=REPO_LENGTH,
+        max_length=BRANCH_LENGTH,
         help_text=Component.branch.field.help_text,
         required=False,
     )
