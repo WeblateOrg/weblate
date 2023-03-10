@@ -11,7 +11,7 @@ COMPONENT_NAME_LENGTH = 100
 PROJECT_NAME_LENGTH = 60
 
 # Repository length
-REPO_LENGTH = 200
+REPO_LENGTH = 300
 BRANCH_LENGTH = 200
 
 # Maximal length of filename or mask
