@@ -850,7 +850,7 @@ Mismatched \\n
 :Flag to ignore: ``ignore-escaped-newline``
 
 Usually escaped newlines are important for formatting program output.
-Check fails if the number of ``\n`` literals in translation do not match the source.
+Check fails if the number of ``\n`` literals in translation does not match the source.
 
 .. _check-end-colon:
 
@@ -980,7 +980,7 @@ Mismatching line breaks
 :Flag to ignore: ``ignore-newline-count``
 
 Usually newlines are important for formatting program output.
-Check fails if the number of ``\n`` literals in translation do not match the source.
+Check fails if the number of new lines in translation does not match the source.
 
 
 .. _check-plurals:
