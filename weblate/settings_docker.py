@@ -1386,7 +1386,7 @@ INTERLEDGER_PAYMENT_POINTERS = get_env_list(
 )
 
 # Legal integartion
-LEGAL_INTEGRATION = os.environment.get("WEBLATE_LEGAL_INTEGRATION")
+LEGAL_INTEGRATION = os.environ.get("WEBLATE_LEGAL_INTEGRATION")
 if LEGAL_INTEGRATION:
     # Hosted Weblate legal documents
     if LEGAL_INTEGRATION == "wllegal":
