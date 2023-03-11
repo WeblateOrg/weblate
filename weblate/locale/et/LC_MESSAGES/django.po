@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-08 08:18+0000\n"
-"PO-Revision-Date: 2023-03-10 11:02+0000\n"
+"PO-Revision-Date: 2023-03-12 12:38+0000\n"
 "Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
@@ -61,20 +61,16 @@ msgid "Commit e-mail"
 msgstr "Kasutajanimi või e-post"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "Use account e-mail address"
-msgstr "Registreeri e-kiri"
+msgstr "Kasuta oma kontoga seotud e-posti aadressi"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:557
 msgid "Public e-mail"
 msgstr "Avalik e-posti aadress"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Do not publicly display e-mail address"
-msgstr "Palun sisestage kehtiv e-posti aadress."
+msgstr "Ära näita avalikult e-posti aadressi"
 
 #: weblate/accounts/forms.py:308
 #, python-format
@@ -504,7 +500,7 @@ msgid ""
 msgstr ""
 "Sisesta kohandatud URL, mis viitab lähtekoodile. Sa võid kasutada {{branch}} "
 "haru märgistamiseks ning {{filename}} ja {{line}} failinime ja rea "
-"kohatäitjana."
+"muutujatena."
 
 #: weblate/accounts/models.py:418
 msgid "Translation editor mode"
@@ -802,10 +798,8 @@ msgstr "Ootel kommentaarid"
 #: weblate/accounts/notifications.py:792
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:20
 #: weblate/trans/filter.py:109
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Unfinished strings"
-msgstr "Tõlgitud lausendid"
+msgstr "Lõpetamata tõlked"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1012,14 +1006,8 @@ msgid "The supplied username is already in use for another account."
 msgstr "See kasutajanimi on juba võetud teise kasutaja poolt."
 
 #: weblate/accounts/views.py:1268
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Registreerumist ei saa lõpetada. Pakutud tõendus, e-posti aadress või "
-"kasutajanimi on juba kasutusel teise kasutajakonto poolt."
+msgstr "Sarnane identiteet on juba kasutusel teise kasutajakonto poolt."
 
 #: weblate/accounts/views.py:1294 weblate/accounts/views.py:1307
 msgid "Notification settings adjusted."
@@ -1071,20 +1059,16 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/cleanup.py:48
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Kustuta lausend"
+msgstr "Eemalda tühjad tekstid"
 
 #: weblate/addons/cleanup.py:49
 msgid "Removes strings without a translation from translation files."
 msgstr ""
 
 #: weblate/addons/consistency.py:17
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Add missing languages"
-msgstr "Tõlgitud keeled"
+msgstr "Lisa puuduvaid keeli"
 
 #: weblate/addons/consistency.py:19
 msgid ""
@@ -1185,16 +1169,15 @@ msgid "Long lines wrapping"
 msgstr "Pikkade ridade murdmine"
 
 #: weblate/addons/forms.py:100
-#, fuzzy
-#| msgid "Wrap lines at 80 chars"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Voldi read 80 tähemärgi juures"
+msgstr ""
+"Voldi read 77 tähemärgi või reavahetuse juures (vaikimisi väärtus xgettext "
+"puhul)"
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Murra ridu vaid reavahemärgi kohalt"
+msgstr ""
+"Murra ridu vaid reavahemärgi kohalt (samamoodi nagu „xgettext --no-wrap“)"
 
 #: weblate/addons/forms.py:102 weblate/addons/forms.py:210
 msgid "No line wrapping"
@@ -2995,16 +2978,12 @@ msgid "ECMAScript template literals do not match source"
 msgstr "Tõlgitud"
 
 #: weblate/checks/format.py:648
-#, fuzzy
-#| msgid "Percents translated"
 msgid "Percent placeholders"
-msgstr "Protsenti tõlgitud"
+msgstr "Muutujad"
 
 #: weblate/checks/format.py:649
-#, fuzzy
-#| msgid "Translated"
 msgid "The percent placeholders do not match source"
-msgstr "Tõlgitud"
+msgstr "Protsendimärgiga muutujad ei vasta lähtekirjetele"
 
 #: weblate/checks/format.py:656
 #, fuzzy
@@ -3058,6 +3037,7 @@ msgstr ""
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"„ICU MessageFormat“ sõnedes on süntaksivigu ja/või mittevastavaid muutujaid."
 
 #: weblate/checks/icu.py:444
 #, python-format
@@ -3065,21 +3045,19 @@ msgid "Syntax error: %s"
 msgstr ""
 
 #: weblate/checks/icu.py:448
-#, fuzzy, python-format
-#| msgid "Suggested translations"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Soovitatud tõlked"
+msgstr "Tõlkes on üks või enam tundmatut muutujat: %s"
 
 #: weblate/checks/icu.py:453
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Tõlgete salvestamiseks palun logi sisse."
+msgstr "Üks või enam muutujat on tõlkest puudu: %s"
 
 #: weblate/checks/icu.py:457
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Üks või enam muutuja tüüpi on vigased: %s"
 
 #: weblate/checks/icu.py:462
 #, python-format
@@ -3101,14 +3079,13 @@ msgstr ""
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr ""
+msgstr "Ühel või enamal muutujal peab tõlkes olema vastav XML-silt: %s"
 
 #: weblate/checks/icu.py:482
-#, fuzzy, python-format
-#| msgid "Suggested translations"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Soovitatud tõlked"
+msgstr "Üks või enam muutujat ei peaks tõlkes olema XML-sildina: %s"
 
 #: weblate/checks/icu.py:488
 #, fuzzy, python-format
@@ -3188,11 +3165,11 @@ msgstr "Tõlgitud"
 
 #: weblate/checks/placeholders.py:24
 msgid "Placeholders"
-msgstr "Kohatäited"
+msgstr "Muutujad"
 
 #: weblate/checks/placeholders.py:25
 msgid "Translation is missing some placeholders"
-msgstr "Tõlkel puuduvad mõned kohatäited"
+msgstr "Tõlkel puuduvad mõned muutujad"
 
 #: weblate/checks/placeholders.py:122
 #: weblate/templates/addons/discovery_help.html:8
@@ -12594,19 +12571,14 @@ msgid "Repository browser"
 msgstr ""
 
 #: weblate/trans/models/component.py:324
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Sisesta kohandatud URL, mis viitab lähtekoodile. Sa võid kasutada {{branch}} "
-"haru märgistamiseks ning {{filename}} ja {{line}} failinime ja rea "
-"kohatäitjana."
+"Viide lähtekoodi varamusse. Sa võid kasutada {{branch}} haru märgistamiseks "
+"ning {{filename}} ja {{line}} vastavalt failinime ja rea muutujatena. "
+"{{filename|parentdir}} abil saad eemaldada asukoha algusest kausta nime."
 
 #: weblate/trans/models/component.py:332
 msgid "Exported repository URL"
@@ -13747,7 +13719,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:21
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Failimaskis ei sisaldu *, mis tähistab keele muutujat!"
 
 #: weblate/trans/validators.py:30
 msgid ""
