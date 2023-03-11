@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-03-06 08:07+0000\n"
+"PO-Revision-Date: 2023-03-12 12:38+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -7949,13 +7949,11 @@ msgid "PRIVATE_COMMIT_EMAIL_OPT_IN"
 msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 
 #: ../../admin/config.rst:1306
-#, fuzzy
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-out)."
-msgstr ""
-"ユーザーごとのコミット用メールアドレスを、オプトインにするかを設定します（デ"
-"フォルトではオプトアウト）。"
+msgstr "非公開用のコミット用メールアドレスを、使用するかしないかを設定します（デフォ"
+"ルトでは使用しない）。"
 
 #: ../../admin/config.rst:1310
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -7966,13 +7964,12 @@ msgid "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1320
-#, fuzzy
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"ユーザーごとのコミット用メールアドレスを生成するためのテンプレート。デフォル"
-"トは、``\"{username}@users.noreply.{site_domain}\"``。"
+"ユーザーの非公開用のコミット用メールアドレスを生成するためのテンプレート。デ"
+"フォルトは、``\"{username}@users.noreply.{site_domain}\"``。"
 
 #: ../../admin/config.rst:1322
 msgid "Set to blank string to disable."
@@ -8037,10 +8034,8 @@ msgid ":ref:`project-name`"
 msgstr ":ref:`project`"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_HOST"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_HOST"
 
 #: ../../admin/config.rst:1376
 msgid ""
@@ -8049,34 +8044,39 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"プロジェクトの Web サイトを、指定したホストで使用禁止にします。すべてのサブド"
+"メインを照合するので、``example.com`` が含まれていれば ``test.example.com`` "
+"も使用禁止となります。ドメインは、照合する前に小文字に変換されて照合されるの"
+"で、リストは小文字の文字列でのみ記述してください。"
 
 #: ../../admin/config.rst:1381
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Default configuration:"
-msgstr "Weblate の設定"
+msgstr "デフォルト設定:"
 
 #: ../../admin/config.rst:1389
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`、:setting:`PROJECT_WEB_RESTRICT_RE`、"
 
 #: ../../admin/config.rst:1397
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1401
 msgid "Reject using numeric IP address in project website. Enabled by default."
-msgstr ""
+msgstr "プロジェクトの Web サイトで、数値の IP "
+"アドレスの使用を使用禁止にします。デフォルトは有効です。"
 
 #: ../../admin/config.rst:1405
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` "
+":setting:`PROJECT_WEB_RESTRICT_HOST`、:setting:`PROJECT_WEB_RESTRICT_RE`、"
 
 #: ../../admin/config.rst:1412
 msgid "PROJECT_WEB_RESTRICT_RE"
@@ -8095,6 +8095,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
+":ref:`project-web` "
+":setting:`PROJECT_WEB_RESTRICT_HOST`、:setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1427
 msgid "RATELIMIT_ATTEMPTS"
@@ -13508,8 +13510,6 @@ msgid "OpenID Connect"
 msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1142
-#, fuzzy
-#| msgid "Configures generic OpenID Connect intergration."
 msgid "Configures generic OpenID Connect integration."
 msgstr "一般的な OpenID Connect との連携を設定します。"
 
@@ -14311,13 +14311,6 @@ msgid "Extend your custom settings module to define or redefine settings."
 msgstr "カスタム設定モジュールを拡張して、設定を定義または再定義します。"
 
 #: ../../admin/install/docker.rst:1739
-#, fuzzy
-#| msgid ""
-#| "You can define settings before or after the import statement above to "
-#| "determine which settings take precedence. Settings defined before the "
-#| "import statement can be overriden by environment variables and setting "
-#| "overrides defined in the data volume. Setting defined after the import "
-#| "statement cannot be overriden."
 msgid ""
 "You can define settings before or after the import statement above to "
 "determine which settings take precedence. Settings defined before the import "
@@ -14325,9 +14318,10 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overridden."
 msgstr ""
-"上記の import ステートメントの前後に設定を定義して、どの設定を優先するかを決"
-"定できます。import ステートメントの前に定義された設定は、環境変数およびデー"
-"タ ボリュームで定義された設定のオーバーライドによって上書きできます。import "
+"上記の import "
+"ステートメントの前後に設定を定義して、どの設定を優先するかを決定できます。"
+"import ステートメントの前に定義された設定は、環境変数およびデータ "
+"ボリュームで定義された設定のオーバーライドによって上書きできます。import "
 "ステートメントの後に定義された設定は上書きできません。"
 
 #: ../../admin/install/docker.rst:1745
@@ -14966,17 +14960,14 @@ msgid "Installing on macOS"
 msgstr "macOS にインストール"
 
 #: ../../admin/install/venv-macos.rst:13
-#, fuzzy
-#| msgid ""
-#| "Make sure pip will be able to find the ``libffi`` version provided by "
-#| "homebrew — this will be needed during the installation build step."
 msgid ""
 "Make sure pip will be able to find the ``libffi`` and ``openssl`` versions "
 "provided by homebrew — this will be needed during the installation build "
 "step."
 msgstr ""
-"pip が、homebrew が提供する ``libffi`` バージョンを見つけられることを確認して"
-"ください — これはインストール ビルド ステップ中に必要となります。"
+"pip が、homebrew が提供する ``libffi`` および ``openssl`` "
+"のバージョンを見つけられることを確認してください — これはインストール ビルド "
+"ステップ中に必要となります。"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
@@ -18515,6 +18506,8 @@ msgid ""
 ":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:`PROJECT_WEB_RESTRICT_RE`"
 msgstr ""
+":setting:`PROJECT_WEB_RESTRICT_HOST`、:setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
+"、:setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:157
 msgid "Translation instructions"
@@ -22998,7 +22991,7 @@ msgstr ""
 
 #: ../../api.rst:1874
 msgid "Add new unit."
-msgstr "新しいユニットの追加"
+msgstr "新しいユニットの追加。"
 
 #: ../../api.rst:1882
 msgid "Name of translation unit (used as key or context)"
@@ -24008,65 +24001,44 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.2"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 1st 2023."
 msgid "Released on March 8th 2023."
-msgstr "2023 年 3 月 1 日にリリース。"
+msgstr "2023 年 3 月 8 日にリリース。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Fixed searching in the translation memory."
-msgstr "共有翻訳メモリの使用"
+msgstr "翻訳メモリでの検索を修正。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed automatic translation for project owners."
 msgid "Fixed automatic translation with more services."
-msgstr "プロジェクト所有者の自動翻訳を修正。"
+msgstr "多くの機能で自動翻訳を修正。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Improved rendering of overlapping glossary term matches."
-msgstr "変更時の警告表示の改善。"
+msgstr "重複する用語集の用語の照合のレンダリングを改良。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid "Fixed plurals parsing for non-English source language in some formats."
-msgstr "単一の複数形の言語の複数形のソースの表示を修正。"
+msgstr "一部のファイル形式での英語以外の原文の複数形の解析を修正。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added support for gotext JSON files."
 msgid "Added support for go-i18n v2 JSON files."
-msgstr "gotext JSON ファイルに対応。"
+msgstr "go-i18n v2 JSON ファイルに対応。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/91?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/91?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"94?closed=1>`__。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.16.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.16.1"
 
 #: ../../changes.rst:17 ../../changes.rst:26
 msgid "Released on March 1st 2023."
@@ -24074,19 +24046,15 @@ msgstr "2023 年 3 月 1 日にリリース。"
 
 #: ../../changes.rst:19
 msgid "Fixed testsuite error."
-msgstr ""
+msgstr "テストスイートのエラーを修正。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/91?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/91?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"92?closed=1>`__。"
 
 #: ../../changes.rst:24
 msgid "Weblate 4.16"
@@ -26618,7 +26586,7 @@ msgstr ""
 
 #: ../../changes.rst:779
 msgid "Added support for ModernMT."
-msgstr "ModernMT に対応"
+msgstr "ModernMT に対応。"
 
 #: ../../changes.rst:780
 msgid "Allow to avoid overwriting approved translations on file upload."
@@ -36765,10 +36733,8 @@ msgid "Translation types capabilities"
 msgstr "翻訳の種類別の機能"
 
 #: ../../formats.rst:56
-#, fuzzy
-#| msgid "Capabilities of all supported formats:"
 msgid "Capabilities of all supported formats"
-msgstr "ファイル形式が対応するすべての機能:"
+msgstr "ファイル形式が対応するすべての機能"
 
 #: ../../formats.rst:59
 msgid "Format"
@@ -38120,10 +38086,8 @@ msgid "go-i18n JSON files"
 msgstr "go-i18n JSON ファイル"
 
 #: ../../formats.rst:1226
-#, fuzzy
-#| msgid "Support for v4 variant of this format was added."
 msgid "Support for v2 variant of this format was added."
-msgstr "この形式の v4 版に対応しました。"
+msgstr "この形式の v2 版に対応しました。"
 
 #: ../../formats.rst:1228
 msgid ""
@@ -38134,38 +38098,28 @@ msgstr ""
 "る翻訳ファイルを設定してください。"
 
 #: ../../formats.rst:1234
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the i18next JSON v3 and v4 variants. Please choose "
-#| "correct file format matching your environment."
 msgid ""
 "Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct "
 "file format matching your environment."
 msgstr ""
-"Weblate は、i18next JSON v3 および v4 形式に対応しています。ご使用の環境に"
-"合った正しいファイル形式を選択してください。"
+"Weblate は、go-i18n JSON v1 および v2 形式に対応しています。ご使用の環境に合"
+"った正しいファイル形式を選択してください。"
 
 #: ../../formats.rst:1238
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr "典型的な Weblate :ref:`component`"
+msgstr "典型的な Weblate :ref:`component` go-i18n JSON v1 用"
 
 #: ../../formats.rst:1246
 msgid "`go-i18n v1 JSON file`"
 msgstr "`go-i18n v1 JSON ファイル`"
 
 #: ../../formats.rst:1251
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr "典型的な Weblate :ref:`component`"
+msgstr "典型的な Weblate :ref:`component` go-i18n JSON v2 用"
 
 #: ../../formats.rst:1259
-#, fuzzy
-#| msgid "`go-i18n v1 JSON file`"
 msgid "`go-i18n v2 JSON file`"
-msgstr "`go-i18n v1 JSON ファイル`"
+msgstr "`go-i18n v2 JSON ファイル`"
 
 #: ../../formats.rst:1264
 msgid ""
@@ -42706,7 +42660,6 @@ msgstr ""
 "ることに同意したとみなされます。"
 
 #: ../../user/profile.rst:204
-#, fuzzy
 msgid ""
 "The commit e-mail will be used instead of your account e-mail in version "
 "control commits. Use this to avoid leaking your real e-mail there. Be aware "
@@ -42715,12 +42668,13 @@ msgid ""
 "on GitHub). The private e-mail can be turned on site-wide using :setting:"
 "`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
-"コミット用メールアドレスは、アカウントのメールアドレスの代わりにバージョン管"
-"理システムへのコミットで使われます。これを使用すると、実際のメールアドレスの"
-"漏洩を防止できます。別のメールアドレスを使用すると、他のサーバーでの貢献と紐"
-"づかなくなることがあるので注意してください（たとえば、翻訳が GitHub のプロ"
-"フィールに紐づかなくなります）。 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を使"
-"用して、ユーザーごとのコミット用メールアドレスをサイト全体で有効にできます。"
+"非公開用のコミット用メールアドレスは、アカウントのメールアドレスの代わりにバ"
+"ージョン管理システムへのコミットで使われます。これを使用すると、実際のメール"
+"アドレスの漏洩を防止できます。別のメールアドレスを使用すると、他のサーバーで"
+"の貢献と紐づかなくなることがあるので注意してください（たとえば、翻訳が "
+"GitHub のプロフィールに紐づかなくなります）。 "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を使用して、ユーザーごとのコミット用メ"
+"ールアドレスをサイト全体で有効にできます。"
 
 #: ../../user/profile.rst:211
 msgid ""
