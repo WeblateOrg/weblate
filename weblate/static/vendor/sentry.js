@@ -5295,7 +5295,7 @@ function getIntegrationsToSetup(options) {
   // `beforeSendTransaction`. It therefore has to run after all other integrations, so that the changes of all event
   // processors will be reflected in the printed values. For lack of a more elegant way to guarantee that, we therefore
   // locate it and, assuming it exists, pop it out of its current spot and shove it onto the end of the array.
-  const debugIndex = finalIntegrations.findIndex(integration => integration.name === 'Debug');
+  const debugIndex = findIndex(finalIntegrations, integration => integration.name === 'Debug');
   if (debugIndex !== -1) {
     const [debugInstance] = finalIntegrations.splice(debugIndex, 1);
     finalIntegrations.push(debugInstance);
@@ -5332,6 +5332,17 @@ function setupIntegration(integration, integrationIndex) {
     installedIntegrations.push(integration.name);
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Integration installed: ${integration.name}`);
   }
+}
+
+// Polyfill for Array.findIndex(), which is not supported in ES5
+function findIndex(arr, callback) {
+  for (let i = 0; i < arr.length; i++) {
+    if (callback(arr[i]) === true) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 exports.getIntegrationsToSetup = getIntegrationsToSetup;
@@ -8243,7 +8254,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":25,"../scope.js":34,"@sentry/utils":57}],48:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.42.0';
+const SDK_VERSION = '7.43.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -17907,6 +17918,8 @@ exports.validSeverityLevels = validSeverityLevels;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const STACKTRACE_LIMIT = 50;
+// Used to sanitize webpack (error: *) wrapped stack errors
+const WEBPACK_ERROR_REGEXP = /\(error: (.*)\)/;
 
 /**
  * Creates a stack parser with the supplied line parsers
@@ -17931,7 +17944,7 @@ function createStackParser(...parsers) {
 
       // https://github.com/getsentry/sentry-javascript/issues/5459
       // Remove webpack (error: *) wrappers
-      const cleanedLine = line.replace(/\(error: (.*)\)/, '$1');
+      const cleanedLine = WEBPACK_ERROR_REGEXP.test(line) ? line.replace(WEBPACK_ERROR_REGEXP, '$1') : line;
 
       for (const parser of sortedParsers) {
         const frame = parser(cleanedLine);
