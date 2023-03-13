@@ -1264,6 +1264,9 @@ not a desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
+The check is automatically enabled for XML like strings. You might need to add
+``xml-text`` flag in some cases to force turning it on.
+
 .. note::
 
    This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
@@ -1283,6 +1286,9 @@ XML syntax
 :Flag to ignore: ``ignore-xml-invalid``
 
 The XML markup is not valid.
+
+The check is automatically enabled for XML like strings. You might need to add
+``xml-text`` flag in some cases to force turning it on.
 
 .. note::
 
