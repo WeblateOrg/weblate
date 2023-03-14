@@ -541,7 +541,7 @@ importuserdata
 
 .. django-admin:: importuserdata <file.json>
 
-Imports user data from a file created by :djadmin:`dumpuserdata`
+Imports user data from a file created by :djadmin:`dumpuserdata`.
 
 importusers
 -----------
