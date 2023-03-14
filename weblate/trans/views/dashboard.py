@@ -269,7 +269,7 @@ def dashboard_user(request):
                 .order()
             ),
             "active_tab_slug": active_tab_slug,
-            "reports_form": ReportsForm(),
+            "reports_form": ReportsForm({}),
         },
     )
 

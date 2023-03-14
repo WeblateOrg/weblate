@@ -3,6 +3,8 @@ Weblate 4.17
 
 Not yet released.
 
+* Allow to filter on language in reports.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 
 Weblate 4.16.2
