@@ -118,12 +118,16 @@ class BaseAddon:
         component.log_debug("configuring events for %s add-on", self.name)
         self.instance.configure_events(self.events)
 
-        if not run:
-            return
+        if run:
+            self.post_configure_run()
 
+    def post_configure_run(self):
         # Trigger post events to ensure direct processing
+        component = self.instance.component
         if self.repo_scope and component.linked_component:
             component = component.linked_component
+
+        previous = component.repository.last_revision
 
         if EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
@@ -141,6 +145,13 @@ class BaseAddon:
         if EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
             self.daily(component)
+
+        current = component.repository.last_revision
+        if previous != current:
+            component.log_debug(
+                "add-ons updated repository from %s to %s", previous, current
+            )
+            component.create_translations()
 
     def post_uninstall(self):
         pass

@@ -2844,19 +2844,12 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point. This complements
             # installation in install_autoaddon.
-            previous = self.repository.last_remote_revision
             for addon in self.addons_cache["__all__"]:
                 # Skip addons installed elsewhere (repo/project wide)
                 if addon.component_id != self.id:
                     continue
-                self.log_debug("configuring add-on: %s", addon.name)
-                addon.addon.post_configure()
-            current = self.repository.last_remote_revision
-            if previous != current:
-                self.log_debug(
-                    "add-ons updated repository from %s to %s", previous, current
-                )
-                self.create_translations()
+                self.log_debug("triggering add-on: %s", addon.name)
+                addon.addon.post_configure_run()
 
     def update_variants(self, updated_units=None):
         from weblate.trans.models import Unit
