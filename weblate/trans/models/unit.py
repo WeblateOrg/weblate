@@ -1361,7 +1361,8 @@ class Unit(models.Model, LoggerMixin):
         if (
             user
             and self.target != self.old_unit["target"]
-            and self.target
+            and any(self.get_target_plurals())
+            and any(self.get_source_plurals())
             and self.state >= STATE_TRANSLATED
             and not component.is_glossary
         ):
