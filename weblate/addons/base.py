@@ -20,6 +20,7 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
 )
 from weblate.addons.forms import BaseAddonForm
+from weblate.addons.tasks import postconfigure_addon
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
@@ -119,7 +120,9 @@ class BaseAddon:
         self.instance.configure_events(self.events)
 
         if run:
-            self.post_configure_run()
+            postconfigure_addon.delay(self.instance.pk)
+            # Flush cache in case this was eager mode
+            component.repository.clean_revision_cache()
 
     def post_configure_run(self):
         # Trigger post events to ensure direct processing
