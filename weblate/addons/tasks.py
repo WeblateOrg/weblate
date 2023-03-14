@@ -105,6 +105,12 @@ def daily_addons():
                 handle_addon_error(addon, addon.component)
 
 
+@app.task(trail=False)
+def postconfigure_addon(addon_id: int):
+    addon = Addon.objects.get(pk=addon_id)
+    addon.addon.post_configure_run()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(

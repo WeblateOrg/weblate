@@ -47,12 +47,28 @@ from weblate.addons.xml import XMLCustomizeAddon
 from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
 
 
-class AddonBaseTest(FixtureTestCase):
+class TestAddonMixin:
+    def setUp(self):
+        super().setUp()
+        ADDONS.data[TestAddon.name] = TestAddon
+        ADDONS.data[ExampleAddon.name] = ExampleAddon
+        ADDONS.data[TestCrashAddon.name] = TestCrashAddon
+        ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
+
+    def tearDown(self):
+        super().tearDown()
+        del ADDONS.data[TestAddon.name]
+        del ADDONS.data[ExampleAddon.name]
+        del ADDONS.data[TestCrashAddon.name]
+        del ADDONS.data[ExamplePreAddon.name]
+
+
+class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self):
         self.assertTrue(TestAddon.can_install(self.component, None))
 
@@ -76,7 +92,7 @@ class AddonBaseTest(FixtureTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
 
-class IntegrationTest(ViewTestCase):
+class IntegrationTest(TestAddonMixin, ViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -893,7 +909,7 @@ class DiscoveryTest(ViewTestCase):
         self.assertContains(response, "1 add-on installed")
 
 
-class ScriptsTest(ViewTestCase):
+class ScriptsTest(TestAddonMixin, ViewTestCase):
     def test_example_pre(self):
         self.assertTrue(ExamplePreAddon.can_install(self.component, None))
         translation = self.get_translation()
@@ -1014,11 +1030,7 @@ class GitSquashAddonTest(ViewTestCase):
         self.assertEqual(self.component.repository.count_outgoing(), 1)
 
 
-class TestRemoval(FixtureTestCase):
-    def setUp(self):
-        super().setUp()
-        self.component = self.create_component()
-
+class TestRemoval(ViewTestCase):
     def install(self):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
@@ -1069,7 +1081,7 @@ class TestRemoval(FixtureTestCase):
         self.assert_count(suggestions=1)
 
 
-class AutoTranslateAddonTest(FixtureTestCase):
+class AutoTranslateAddonTest(ViewTestCase):
     def test_auto(self):
         self.assertTrue(AutoTranslateAddon.can_install(self.component, None))
         addon = AutoTranslateAddon.create(
@@ -1086,7 +1098,7 @@ class AutoTranslateAddonTest(FixtureTestCase):
         addon.component_update(self.component)
 
 
-class BulkEditAddonTest(FixtureTestCase):
+class BulkEditAddonTest(ViewTestCase):
     def test_bulk(self):
         label = self.project.label_set.create(name="test", color="navy")
         self.assertTrue(BulkEditAddon.can_install(self.component, None))

@@ -170,7 +170,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             pass
         super().post_uninstall()
 
-    def post_configure(self, run: bool = True):
+    def post_configure_run(self):
+        super().post_configure_run()
         try:
             target_translation = self.get_target_translation(self.instance.component)
             flags = Flags(target_translation.check_flags)
@@ -179,7 +180,6 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation.save(update_fields=["check_flags"])
         except Translation.DoesNotExist:
             pass
-        super().post_configure(run=run)
 
 
 class PrefillAddon(LocaleGenerateAddonBase):
