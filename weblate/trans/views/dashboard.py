@@ -38,13 +38,13 @@ def get_untranslated(base, limit=None):
     return result
 
 
-def get_suggestions(request, user, user_has_languages, base, filtered=False):
+def get_suggestions(user, user_has_languages, base, filtered=False):
     """Return suggested translations for user."""
     if not filtered:
         non_alerts = base.annotate(alert_count=Count("component__alert__pk")).filter(
             alert_count=0
         )
-        result = get_suggestions(request, user, user_has_languages, non_alerts, True)
+        result = get_suggestions(user, user_has_languages, non_alerts, True)
         if result:
             return result
     if user_has_languages:
@@ -221,7 +221,7 @@ def dashboard_user(request):
 
     user_translations = get_user_translations(request, user, user_has_languages)
 
-    suggestions = get_suggestions(request, user, user_has_languages, user_translations)
+    suggestions = get_suggestions(user, user_has_languages, user_translations)
 
     usersubscriptions = None
 
