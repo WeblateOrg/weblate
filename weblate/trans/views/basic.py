@@ -170,7 +170,7 @@ def show_project(request, project):
             "project": obj,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
-            "reports_form": ReportsForm(),
+            "reports_form": ReportsForm({"project": obj}),
             "last_changes_url": urlencode({"project": obj.slug}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(request.user),
@@ -233,7 +233,7 @@ def show_component(request, project, component):
             "object": obj,
             "project": obj.project,
             "translations": translations,
-            "reports_form": ReportsForm(),
+            "reports_form": ReportsForm({"component": obj}),
             "last_changes": last_changes,
             "last_changes_url": urlencode(
                 {"component": obj.slug, "project": obj.project.slug}

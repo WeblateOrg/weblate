@@ -1219,14 +1219,18 @@ class ReportsForm(forms.Form):
     end_date = WeblateDateField(
         label=_("Ending date"), required=False, datepicker=False
     )
+    language = forms.ChoiceField(
+        label=_("Language"), choices=[("", _("All languages"))], required=False
+    )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, scope, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("style"),
             Field("period"),
+            Field("language"),
             Div(
                 "start_date",
                 "end_date",
@@ -1235,6 +1239,17 @@ class ReportsForm(forms.Form):
                 data_date_format="yyyy-mm-dd",
             ),
         )
+        if not scope:
+            languages = Language.objects.have_translation()
+        elif "project" in scope:
+            languages = Language.objects.filter(
+                translation__component__project=scope["project"]
+            )
+        elif "component" in scope:
+            languages = Language.objects.filter(
+                translation__component=scope["component"]
+            ).exclude(pk=scope["component"].source_language_id)
+        self.fields["language"].choices += languages.as_choices()
 
     def clean(self):
         super().clean()
