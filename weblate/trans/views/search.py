@@ -90,16 +90,21 @@ def search_replace(request, project, component=None, lang=None):
 
     matching = unit_set.filter(target__contains=search_text)
     if query:
-        matching = matching.search(query, distinct=False)
+        matching = matching.search(query)
 
     updated = 0
-    if matching.exists():
+
+    matching_ids = list(matching.order_by("id").values_list("id", flat=True)[:251])
+
+    if matching_ids:
+        if len(matching_ids) == 251:
+            matching_ids = matching_ids[:250]
+            limited = True
+
+        matching = Unit.objects.filter(id__in=matching_ids).prefetch()
+
         confirm = ReplaceConfirmForm(matching, request.POST)
         limited = False
-
-        if matching.count() > 300:
-            matching = matching.order_by("id")[:250]
-            limited = True
 
         if not confirm.is_valid():
             for unit in matching:

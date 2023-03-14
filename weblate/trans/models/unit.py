@@ -128,12 +128,10 @@ class UnitQuerySet(models.QuerySet):
             )
         )
 
-    def search(self, query, distinct: bool = True, **context):
+    def search(self, query, **context):
         """High level wrapper for searching."""
         result = self.filter(parse_query(query, **context))
-        if distinct:
-            result = result.distinct()
-        return result
+        return result.distinct()
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""

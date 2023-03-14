@@ -23,7 +23,7 @@ def bulk_perform(
     project,
     components=None,
 ):
-    matching = unit_set.search(query, distinct=False, project=project).prefetch()
+    matching = unit_set.search(query, project=project)
     if components is None:
         components = Component.objects.filter(
             id__in=matching.values_list("translation__component_id", flat=True)
@@ -52,8 +52,11 @@ def bulk_perform(
             else:
                 update_unit_ids = []
                 source_units = []
+                unit_ids = list(component_units.values_list("id", flat=True))
                 # Generate changes for state change
-                for unit in component_units.select_for_update():
+                for unit in (
+                    Unit.objects.filter(id__in=unit_ids).prefetch().select_for_update()
+                ):
                     source_unit_ids.add(unit.source_unit_id)
 
                     if (
