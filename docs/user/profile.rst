@@ -201,7 +201,7 @@ All of the fields on this page are optional and can be deleted at any time, and
 by filling them out, you're giving us consent to share this data wherever your
 user profile appears.
 
-The commit e-mail will be used instead of your account e-mail in version
+The private commit e-mail will be used instead of your account e-mail in version
 control commits. Use this to avoid leaking your real e-mail there. Be aware
 that using different e-mail can disconnect your contributions on other servers
 (for example your contributions will no longer link to your profile on GitHub).
