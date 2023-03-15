@@ -1,7 +1,7 @@
 Weblate 4.16.3
 --------------
 
-Not yet released.
+Released on March 15th 2023.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/95?closed=1>`__.
 
