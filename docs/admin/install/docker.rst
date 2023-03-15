@@ -931,7 +931,7 @@ Generic settings
 
 .. envvar:: CLIENT_MAX_BODY_SIZE
 
-   .. versionadded:: 4.16.2-2
+   .. versionadded:: 4.16.3
 
    Configures maximal body size accepted by the built-in web server.
 
