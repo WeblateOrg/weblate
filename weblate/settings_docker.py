@@ -1388,12 +1388,12 @@ INTERLEDGER_PAYMENT_POINTERS = get_env_list(
 # Legal integartion
 LEGAL_INTEGRATION = os.environ.get("WEBLATE_LEGAL_INTEGRATION")
 if LEGAL_INTEGRATION:
-    # Enable legal app
-    INSTALLED_APPS.append("weblate.legal")
-
     # Hosted Weblate legal documents
     if LEGAL_INTEGRATION == "wllegal":
         INSTALLED_APPS.append("wllegal")
+
+    # Enable legal app
+    INSTALLED_APPS.append("weblate.legal")
 
     # TOS confirmation enforcement
     if LEGAL_INTEGRATION in ("tos-confirm", "wllegal"):
