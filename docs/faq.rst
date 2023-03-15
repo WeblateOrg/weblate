@@ -414,6 +414,22 @@ add-on :ref:`addon-weblate.gettext.msgmerge`.
 
    :ref:`updating-target-files`
 
+How to handle renaming translation files?
+-----------------------------------------
+
+When renaming files in the repository, it can happen that Weblate sees this as
+removal and adding of the files. This can lead to losing strings history,
+commends and suggestions.
+
+To avoid that, perform renaming in following steps:
+
+1. Lock the translation component in :ref:`manage-vcs`.
+2. Commit pending changes in :ref:`manage-vcs`.
+3. Merge Weblate changes to the upstream repository.
+4. Disable receiving updates via hooks using :ref:`project-enable_hooks`.
+5. Perform the renaming of the files in the repository.
+6. Update the component configuration to match new file names.
+7. Enable update hooks and unlock the component.
 
 Troubleshooting
 +++++++++++++++
