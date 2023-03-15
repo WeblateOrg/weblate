@@ -151,6 +151,9 @@ If you already host other sites on the same server, it is likely ports ``80`` an
 
 Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual values from your environment.
 
+
+.. _docker-https-portal:
+
 Automatic SSL certificates using Let’s Encrypt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -924,6 +927,23 @@ Generic settings
 
         environment:
           WEBLATE_CORS_ALLOWED_ORIGINS: https://example.com,https://weblate.org
+
+
+.. envvar:: CLIENT_MAX_BODY_SIZE
+
+   .. versionadded:: 4.16.2-2
+
+   Configures maximal body size accepted by the built-in web server.
+
+   .. code-block:: yaml
+
+        environment:
+            CLIENT_MAX_BODY_SIZE: 200m
+
+   .. hint::
+
+      This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
+      with third-party container used in :ref:`docker-https-portal`.
 
 .. _docker-machine:
 
