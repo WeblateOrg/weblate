@@ -1,7 +1,7 @@
 Weblate 4.16.4
 --------------
 
-Not yet released.
+Released on March 16th 2023.
 
 * Dependencies updates.
 * Improved background tasks scheduling.
