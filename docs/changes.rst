@@ -7,6 +7,16 @@ Not yet released.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 
+Weblate 4.16.4
+--------------
+
+Released on March 16th 2023.
+
+* Dependencies updates.
+* Improved background tasks scheduling.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/96?closed=1>`__.
+
 Weblate 4.16.3
 --------------
 
