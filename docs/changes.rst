@@ -3,6 +3,9 @@ Weblate 4.16.4
 
 Not yet released.
 
+* Dependencies updates.
+* Improved background tasks scheduling.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/96?closed=1>`__.
 
 Weblate 4.16.3
