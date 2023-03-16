@@ -108,5 +108,5 @@ def daily_addons():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour=3, minute=45), daily_addons.s(), name="daily-addons"
+        crontab(hour=4, minute=45), daily_addons.s(), name="daily-addons"
     )
