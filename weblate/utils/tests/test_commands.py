@@ -11,11 +11,6 @@ from weblate.trans.tests.utils import TempDirMixin
 
 
 class CommandTests(SimpleTestCase, TempDirMixin):
-    def test_cleanup(self):
-        output = StringIO()
-        call_command("cleanup_celery", stderr=output)
-        self.assertIn(" it will be removed in Weblate", output.getvalue())
-
     def test_queues(self):
         output = StringIO()
         call_command("celery_queues", stdout=output)
