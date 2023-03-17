@@ -1051,6 +1051,17 @@ GitHub
 
     Enables :ref:`github_auth`.
 
+GitHub Enterprise Edition
++++++++++++++++++++++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE
+
+    Enables :ref:`github_ee_auth`.
+
 Bitbucket
 +++++++++
 
