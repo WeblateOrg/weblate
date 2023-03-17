@@ -125,6 +125,44 @@ callback URLs are ``https://example.com/accounts/complete/github-org/`` and
 
     :doc:`psa:backends/github`
 
+.. _github_ee_auth:
+
+GitHub EE authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You need to register an OAuth application on GitHub EE and then tell Weblate all its secrets:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = "GitHub App Client ID"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = "GitHub App Client Secret"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_URL = "https://git.example.com/"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = "https://git.example.com/api/v3/"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = ["user:email"]
+
+The GitHub App should be configured to have callback URL as
+``https://example.com/complete/github-enterprise/``.
+
+There are similar authentication backends for GitHub EE for Organizations and
+GitHub EE for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_*``
+and ``SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_*``, and they require additional setting
+of the scope - ``SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_NAME`` or
+``SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_ID``. Their callbacks might be different.
+
+.. include:: /snippets/oauth-site.rst
+
+.. seealso::
+
+    :doc:`psa:backends/github_enterprise`
+
 .. _bitbucket_auth:
 
 Bitbucket authentication
