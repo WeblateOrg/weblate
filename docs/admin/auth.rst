@@ -110,14 +110,14 @@ You need to register an OAuth application on GitHub and then tell Weblate all it
     SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
 
 The GitHub should be configured to have callback URL as
-``https://example.com/accounts/complete/github/``.
+``https://WEBLATE SERVER/accounts/complete/github/``.
 
 There are similar authentication backends for GitHub for Organizations and
 GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and
 ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they require additional setting of the scope
 - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their
-callback URLs are ``https://example.com/accounts/complete/github-org/`` and
-``https://example.com/accounts/complete/github-teams/``.
+callback URLs are ``https://WEBLATE SERVER/accounts/complete/github-org/`` and
+``https://WEBLATE SERVER/accounts/complete/github-teams/``.
 
 .. include:: /snippets/oauth-site.rst
 
@@ -130,7 +130,7 @@ callback URLs are ``https://example.com/accounts/complete/github-org/`` and
 GitHub EE authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to register an OAuth application on GitHub EE and then tell Weblate all its secrets:
+You need to register an OAuth App on GitHub EE and then tell Weblate all its secrets:
 
 .. code-block:: python
 
@@ -142,20 +142,19 @@ You need to register an OAuth application on GitHub EE and then tell Weblate all
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = "GitHub App Client ID"
-    SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = "GitHub App Client Secret"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = "GitHub OAuth App Client ID"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = "GitHub OAuth App Client Secret"
     SOCIAL_AUTH_GITHUB_ENTERPRISE_URL = "https://git.example.com/"
     SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = "https://git.example.com/api/v3/"
     SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = ["user:email"]
 
-The GitHub App should be configured to have callback URL as
-``https://example.com/complete/github-enterprise/``.
+The GitHub OAuth App should be configured to have callback URL as
+``https://WEBLATE SERVER/accounts/complete/github-enterprise/``.
 
-There are similar authentication backends for GitHub EE for Organizations and
-GitHub EE for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_*``
-and ``SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_*``, and they require additional setting
-of the scope - ``SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_NAME`` or
-``SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_ID``. Their callbacks might be different.
+Instead GitHub OAuth App, GitHub App can also be used. With GitHub App 
+permissions can be granted on repositories, organisation and/or user level. If 
+you decide to use GitHub App, you need to enable `Access: Read-only` permission 
+for Users - <Email addresses> and Organisation - <Members>.
 
 .. include:: /snippets/oauth-site.rst
 
