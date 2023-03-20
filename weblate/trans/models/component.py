@@ -20,7 +20,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
-from django.db import models, transaction
+from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -987,17 +987,29 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @cached_property
     def source_translation(self):
+        # This is basically copy of get_or_create, but avoids additional
+        # SQL query to get source_langauge in case the source translation
+        # already exists. The source_language is only fetched in the slow
+        # path when creating the translation.
         try:
             return self.translation_set.get(language_id=self.source_language_id)
-        except ObjectDoesNotExist:
+        except self.translation_set.model.DoesNotExist:
             language = self.source_language
-            return self.translation_set.create(
-                language=language,
-                check_flags="read-only",
-                filename=self.template,
-                plural=self.file_format_cls.get_plural(language),
-                language_code=language.code,
-            )
+            try:
+                with transaction.atomic():
+                    return self.translation_set.create(
+                        language=language,
+                        check_flags="read-only",
+                        filename=self.template,
+                        plural=self.file_format_cls.get_plural(language),
+                        language_code=language.code,
+                    )
+            except IntegrityError:
+                try:
+                    return self.translation_set.get(language_id=self.source_language_id)
+                except self.translation_set.model.DoesNotExist:
+                    pass
+                raise
 
     def preload_sources(self, sources=None):
         """Preload source objects to improve performance on load."""
