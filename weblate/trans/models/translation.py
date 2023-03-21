@@ -681,7 +681,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
 
             # Do actual commit with git lock
-            if not self.component.commit_files(
+            if self.component.commit_files(
                 template=template,
                 author=author,
                 timestamp=timestamp,
