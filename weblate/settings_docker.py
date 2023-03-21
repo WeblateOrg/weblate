@@ -792,6 +792,7 @@ LOGGING = {
             "handlers": [DEFAULT_LOG],
             "level": os.environ.get("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
         },
+        "redis_lock": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
