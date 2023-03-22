@@ -87,7 +87,7 @@ def init_error_collection(celery=False):
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
             integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
-            send_default_pii=True,
+            send_default_pii=settings.SENTRY_SEND_PII,
             release=weblate.utils.version.GIT_REVISION
             or weblate.utils.version.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
