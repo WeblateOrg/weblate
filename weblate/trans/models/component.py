@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
+import sentry_sdk
 from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
@@ -1822,30 +1823,31 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self,
             )
 
-        if message is None:
-            # Handle context
-            context = {"component": component or self, "author": author}
-            if extra_context:
-                context.update(extra_context)
+        with sentry_sdk.start_span(op="commit_files"):
+            if message is None:
+                # Handle context
+                context = {"component": component or self, "author": author}
+                if extra_context:
+                    context.update(extra_context)
 
-            # Generate commit message
-            message = render_template(template, **context)
+                # Generate commit message
+                message = render_template(template, **context)
 
-        # Actual commit
-        if not self.repository.commit(message, author, timestamp, files):
-            return False
+            # Actual commit
+            if not self.repository.commit(message, author, timestamp, files):
+                return False
 
-        # Send post commit signal
-        if signals:
-            vcs_post_commit.send(sender=self.__class__, component=self)
+            # Send post commit signal
+            if signals:
+                vcs_post_commit.send(sender=self.__class__, component=self)
 
-        self.store_local_revision()
+            self.store_local_revision()
 
-        # Push if we should
-        if not skip_push:
-            self.push_if_needed()
+            # Push if we should
+            if not skip_push:
+                self.push_if_needed()
 
-        return True
+            return True
 
     def handle_parse_error(
         self, error, translation=None, filename=None, reraise: bool = True
@@ -2097,7 +2099,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock:
+            with self.lock and sentry_sdk.start_span(op="create_translations"):
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
