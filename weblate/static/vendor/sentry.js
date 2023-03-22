@@ -7264,6 +7264,8 @@ class BaseClient {
    */
    _sendEnvelope(envelope) {
     if (this._transport && this._dsn) {
+      this.emit('beforeEnvelope', envelope);
+
       return this._transport.send(envelope).then(null, reason => {
         (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Error while sending event:', reason);
       });
@@ -10849,7 +10851,6 @@ exports.getActiveTransaction = getActiveTransaction;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
-const hub = require('../hub.js');
 
 const DEFAULT_TRANSPORT_BUFFER_SIZE = 30;
 
@@ -10868,13 +10869,9 @@ function createTransport(
 ) {
   let rateLimits = {};
   const flush = (timeout) => buffer.drain(timeout);
-  const client = hub.getCurrentHub().getClient();
 
   function send(envelope) {
     const filteredEnvelopeItems = [];
-    if (client && client.emit) {
-      client.emit('beforeEnvelope', envelope);
-    }
 
     // Drop rate limited items from envelope
     utils.forEachEnvelopeItem(envelope, (item, type) => {
@@ -10956,7 +10953,7 @@ exports.DEFAULT_TRANSPORT_BUFFER_SIZE = DEFAULT_TRANSPORT_BUFFER_SIZE;
 exports.createTransport = createTransport;
 
 
-},{"../hub.js":56,"@sentry/utils":100}],74:[function(require,module,exports){
+},{"@sentry/utils":100}],74:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11365,7 +11362,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":53,"../scope.js":62,"@sentry/utils":100}],77:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.44.0';
+const SDK_VERSION = '7.44.2';
 
 exports.SDK_VERSION = SDK_VERSION;
 
