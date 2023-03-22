@@ -9,6 +9,7 @@ try:
     import importlib.metadata as importlib_metadata
 except ImportError:
     import importlib_metadata
+
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
