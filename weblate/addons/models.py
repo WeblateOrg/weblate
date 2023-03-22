@@ -224,6 +224,8 @@ def pre_push(sender, component, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, component)
+        else:
+            component.log_debug("completed pre_push add-on: %s", addon.name)
 
 
 @receiver(vcs_post_push)
@@ -236,6 +238,8 @@ def post_push(sender, component, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, component)
+        else:
+            component.log_debug("completed post_push add-on: %s", addon.name)
 
 
 @receiver(vcs_post_update)
@@ -257,6 +261,8 @@ def post_update(
             raise
         except Exception:
             handle_addon_error(addon, component)
+        else:
+            component.log_debug("completed post_update add-on: %s", addon.name)
 
 
 @receiver(component_post_update)
@@ -269,6 +275,8 @@ def component_update(sender, component, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, component)
+        else:
+            component.log_debug("completed component_update add-on: %s", addon.name)
 
 
 @receiver(vcs_pre_update)
@@ -281,6 +289,8 @@ def pre_update(sender, component, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, component)
+        else:
+            component.log_debug("completed pre_update add-on: %s", addon.name)
 
 
 @receiver(vcs_pre_commit)
@@ -294,6 +304,8 @@ def pre_commit(sender, translation, author, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, translation.component)
+        else:
+            translation.log_debug("completed pre_commit add-on: %s", addon.name)
 
 
 @receiver(vcs_post_commit)
@@ -307,6 +319,8 @@ def post_commit(sender, component, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, component)
+        else:
+            component.log_debug("completed post_commit add-on: %s", addon.name)
 
 
 @receiver(translation_post_add)
@@ -320,37 +334,41 @@ def post_add(sender, translation, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, translation.component)
+        else:
+            translation.log_debug("completed post_add add-on: %s", addon.name)
 
 
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit, **kwargs):
-    addons = Addon.objects.filter_event(
-        unit.translation.component, EVENT_UNIT_PRE_CREATE
-    )
+    translation = unit.translation
+    addons = Addon.objects.filter_event(translation.component, EVENT_UNIT_PRE_CREATE)
     for addon in addons:
-        unit.translation.log_debug("running unit_pre_create add-on: %s", addon.name)
+        translation.log_debug("running unit_pre_create add-on: %s", addon.name)
         try:
             addon.addon.unit_pre_create(unit)
         except DjangoDatabaseError:
             raise
         except Exception:
             handle_addon_error(addon, unit.translation.component)
+        else:
+            translation.log_debug("completed unit_pre_create add-on: %s", addon.name)
 
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance, created, **kwargs):
-    addons = Addon.objects.filter_event(
-        instance.translation.component, EVENT_UNIT_POST_SAVE
-    )
+    translation = instance.translation
+    addons = Addon.objects.filter_event(translation.component, EVENT_UNIT_POST_SAVE)
     for addon in addons:
-        instance.translation.log_debug("running unit_post_save add-on: %s", addon.name)
+        translation.log_debug("running unit_post_save add-on: %s", addon.name)
         try:
             addon.addon.unit_post_save(instance, created)
         except DjangoDatabaseError:
             raise
         except Exception:
             handle_addon_error(addon, instance.translation.component)
+        else:
+            translation.log_debug("completed unit_post_save add-on: %s", addon.name)
 
 
 @receiver(store_post_load)
@@ -364,3 +382,5 @@ def store_post_load_handler(sender, translation, store, **kwargs):
             raise
         except Exception:
             handle_addon_error(addon, translation.component)
+        else:
+            translation.log_debug("completed store_post_load add-on: %s", addon.name)
