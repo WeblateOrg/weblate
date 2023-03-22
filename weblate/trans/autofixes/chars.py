@@ -9,7 +9,7 @@ from weblate.trans.autofixes.base import AutoFix
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
-    """Replace Trailing Dots with an Ellipsis."""
+    """Replace trailing dots with an ellipsis."""
 
     fix_id = "end-ellipsis"
     name = _("Trailing ellipsis")

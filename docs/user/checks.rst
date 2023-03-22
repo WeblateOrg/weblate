@@ -23,6 +23,39 @@ it add errors.
 
    :setting:`AUTOFIX_LIST`
 
+Trailing ellipsis replacer
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Replace trailing dots (``...``) with an ellipsis (``…``) to make it consistent with the source string.
+
+
+Zero-width space removal
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Zero width space is typically not desired in the translation. This fix will
+remove it unless it is present in the source string as well.
+
+Control characters removal
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Removes any control characters from the translation.
+
+Unsafe HTML cleanup
+~~~~~~~~~~~~~~~~~~~
+
+When turned on using a ``safe-html`` flag it sanitizes HTML markup.
+
+.. seealso::
+
+   :ref:`check-safe-html`
+
+Trailing and leading whitespace fixer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Makes leading and trailing whitespace consistent with the source string. The
+behavior can be fine-tuned using ``ignore-begin-space`` and
+``ignore-end-space`` flags to skip processing parts of the string.
+
 .. _checks:
 
 Quality checks
