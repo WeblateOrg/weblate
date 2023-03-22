@@ -526,17 +526,15 @@ class User(AbstractBaseUser):
         if self.is_superuser:
             return Project.objects.order()
         # All public and protected projects are accessible
-        condition = Q(
-            access_control__in={Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
-        )
+        acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
+        if -SELECTION_ALL in self.project_permissions:
+            acls.add(Project.ACCESS_PRIVATE)
+            acls.add(Project.ACCESS_CUSTOM)
+        condition = Q(access_control__in=acls)
 
         # Add project-specific allowance
-        project_ids = {
-            key
-            for key in self.project_permissions
-            if key
-            not in {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
-        }
+        restricted = {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
+        project_ids = {key for key in self.project_permissions if key not in restricted}
         if project_ids:
             condition |= Q(pk__in=project_ids)
 
