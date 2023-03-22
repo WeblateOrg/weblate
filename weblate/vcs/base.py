@@ -86,6 +86,7 @@ class Repository:
             file_template="{slug}.lock",
             timeout=120,
         )
+        self._config_updated = False
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
@@ -116,10 +117,13 @@ class Repository:
 
     def ensure_config_updated(self):
         """Ensures the configuration is periodically checked."""
+        if self._config_updated:
+            return
         cache_key = f"sp-config-check-{self.component.pk}"
         if cache.get(cache_key) is None:
             self.check_config()
             cache.set(cache_key, True, 86400)
+        self._config_updated = True
 
     def check_config(self):
         """Check VCS configuration."""
