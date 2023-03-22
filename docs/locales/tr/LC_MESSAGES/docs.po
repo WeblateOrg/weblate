@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-03-22 17:27+0000\n"
+"PO-Revision-Date: 2023-03-22 19:23+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -8207,10 +8207,8 @@ msgid ":ref:`project-name`"
 msgstr ":ref:`component-name`"
 
 #: ../../admin/config.rst:1372
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_HOST"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_HOST"
 
 #: ../../admin/config.rst:1376
 msgid ""
@@ -8219,34 +8217,40 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Proje web sitesinde belirli sunucuların kullanmasını reddeder. Tüm alt etki "
+"alanları eşleşir. Bu nedenle ``example.com’’ katıldığında ``test.example."
+"com`` alt etki alanı da engellenir. Listede yalnızca küçük harfli dizgeler "
+"bulunmalıdır. Ayrıştırılan etki alanı eşleştirmeden önce küçük harflidir."
 
 #: ../../admin/config.rst:1381
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Default configuration:"
-msgstr "Weblate yapılandırması"
+msgstr "Varsayılan yapılandırma:"
 
 #: ../../admin/config.rst:1389
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1397
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1401
 msgid "Reject using numeric IP address in project website. Enabled by default."
 msgstr ""
+"Proje web sitesinde sayısal IP adresi kullanarak reddedilir. Varsayılan "
+"olarak etkindir."
 
 #: ../../admin/config.rst:1405
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1412
 msgid "PROJECT_WEB_RESTRICT_RE"
@@ -8265,6 +8269,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1427
 msgid "RATELIMIT_ATTEMPTS"
@@ -9683,15 +9689,6 @@ msgstr ""
 "`addon-weblate.git.squash` eklentisini kullanabilirsiniz."
 
 #: ../../admin/continuous.rst:380
-#, fuzzy
-#| msgid ""
-#| "If you want to commit changes more frequently and without checking of "
-#| "age, you can schedule a regular task to perform a commit. This can be "
-#| "done using :guilabel:`Periodic Tasks` in :ref:`admin-interface`. First "
-#| "create desired :guilabel:`Iterval` (for example 120 seconds). Then add "
-#| "new periodic task and choose ``weblate.trans.tasks.commit_pending`` as :"
-#| "guilabel:`Task` with ``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` "
-#| "and desired interval."
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit. This can be done using :"
@@ -9701,12 +9698,13 @@ msgid ""
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
 "Değişikliklerin daha sık ve yaşları denetlemeden yapılmasını istiyorsanız, "
-"gönderimi yapacak bir zamanlanmış görev ayarlayabilirsiniz. Bu işlemi :ref:"
-"`admin-interface` içinde :guilabel:`Zamanlanmış görevler` bölümünden "
+"gönderimi yapacak bir zamanlanmış görev ayarlayabilirsiniz. Bu işlemi :ref"
+":`admin-interface` içinde :guilabel:`Zamanlanmış görevler` bölümünden "
 "yapabilirsiniz. Önce istediğiniz :guilabel:`Sıklık` ögesini oluşturun (120 "
-"saniye gibi). Ardından yeni bir zamanlanmış görev ekleyin ve :guilabel:"
-"`Görev` olarak ``weblate.trans.tasks.commit_pending``, :guilabel:`Anahtar "
-"sözcük parametreleri` olarak ``{“hours\": 0}`` ve istediğiniz sıklığı seçin."
+"saniye gibi). Ardından yeni bir zamanlanmış görev ekleyin ve "
+":guilabel:`Görev` olarak ``weblate.trans.tasks.commit_pending``, :guilabel:`"
+"Anahtar sözcük parametreleri` ve istenilen sıklık olarak ``{“hours\": 0}`` "
+"yazın."
 
 #: ../../admin/continuous.rst:390
 msgid "Processing repository with scripts"
@@ -13839,8 +13837,6 @@ msgid "OpenID Connect"
 msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1142
-#, fuzzy
-#| msgid "Configures generic OpenID Connect intergration."
 msgid "Configures generic OpenID Connect integration."
 msgstr "Genel OpenID Connect bütünleştirmesini yapılandırır."
 
@@ -14652,13 +14648,6 @@ msgstr ""
 "genişletin."
 
 #: ../../admin/install/docker.rst:1739
-#, fuzzy
-#| msgid ""
-#| "You can define settings before or after the import statement above to "
-#| "determine which settings take precedence. Settings defined before the "
-#| "import statement can be overriden by environment variables and setting "
-#| "overrides defined in the data volume. Setting defined after the import "
-#| "statement cannot be overriden."
 msgid ""
 "You can define settings before or after the import statement above to "
 "determine which settings take precedence. Settings defined before the import "
@@ -15330,6 +15319,9 @@ msgid ""
 "provided by homebrew — this will be needed during the installation build "
 "step."
 msgstr ""
+"Homebrew tarafından sağlanan ``libffi`` ve `òpenssl`` sürümlerinin pip "
+"tarafından bulunabileceğinden emin olun. Kurulum oluşturma adımı sırasında "
+"buna gerek duyulur."
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
@@ -16439,7 +16431,9 @@ msgstr "Kimlik doğrulama hizmeti adresi"
 
 #: ../../admin/machine.rst:293
 msgid "Regional or multi-service can be specified using region field below."
-msgstr "Aşağıdaki bölge alanında bölgesel ya da çoklu hizmet belirtilebilir."
+msgstr ""
+"Bölgesel ya da çoklu hizmet, aşağıdaki bölge alanı kullanılarak "
+"belirtilebilir."
 
 #: ../../admin/machine.rst:297
 msgid "``api.cognitive.microsoft.com`` -- Global"
@@ -17558,10 +17552,14 @@ msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
+"Bu seçenekle, yalnızca belirli bir dosyanın içe aktarılıp aktarılamayacağı "
+"denetlenir ve kullanıcı adlarından ya da e-posta adreslerinden kaynaklanan "
+"olası çakışmalar bildirilir."
 
 #: ../../admin/management.rst:559
 msgid "You can dump users from the existing Django installation using:"
 msgstr ""
+"Şunu kullanarak kullanıcıları var olan Django kurulumundan dökebilirsiniz:"
 
 #: ../../admin/management.rst:566
 msgid "install_addon"
@@ -17569,12 +17567,12 @@ msgstr "install_addon"
 
 #: ../../admin/management.rst:572
 msgid "Installs an add-on to a set of components."
-msgstr ""
+msgstr "Bir bileşen kümesine bir eklenti kurar."
 
 #: ../../admin/management.rst:576
 msgid ""
 "Name of the add-on to install. For example ``weblate.gettext.customize``."
-msgstr ""
+msgstr "Kurulacak eklentinin adı. Örneğin ``weblate.gettext.customize``."
 
 #: ../../admin/management.rst:580
 msgid "JSON encoded configuration of an add-on."
@@ -17590,10 +17588,13 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
+"Eklentinin hangi projeye ya da bileşene kurulacağını belirtebilir (``weblate/"
+"application`` gibi) ya da var olan tüm bileşenleri katmak için ``--all`` "
+"kullanabilirsiniz."
 
 #: ../../admin/management.rst:589
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
-msgstr ""
+msgstr "Tüm bileşenler için :ref:`addon-weblate.gettext.customize` kurmak için:"
 
 #: ../../admin/management.rst:597
 msgid ":doc:`addons`"
@@ -17608,12 +17609,16 @@ msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
+"MediaWiki kodlarında desteklenen dilleri listeler. Dil kodları, İngilizce "
+"adlar ve yerelleştirilmiş adlar."
 
 #: ../../admin/management.rst:607
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
 "%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
+"Bu, <https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF> oluşturmak "
+"için kullanılır."
 
 #: ../../admin/management.rst:610
 msgid "list_translators"
@@ -17621,11 +17626,11 @@ msgstr "list_translators"
 
 #: ../../admin/management.rst:614
 msgid "Lists translators by contributed language for the given project::"
-msgstr ""
+msgstr "belirtilen projeye katkıda bulunan çevirmenleri dile göre listeler::"
 
 #: ../../admin/management.rst:623
 msgid "List names by language code instead of language name."
-msgstr ""
+msgstr "Adları dil adı yerine dil koduna göre listeler."
 
 #: ../../admin/management.rst:625
 msgid ""
@@ -17633,6 +17638,9 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
+"Hangi projenin ya da bileşenin kullanılacağını belirtebilirsiniz (``weblate/"
+"application`` gibi) ya da var olan tüm bileşenlerin çevirmenlerini "
+"listelemek için ``--all`` seçeneğini kullanabilirsiniz."
 
 #: ../../admin/management.rst:630
 msgid "list_versions"
@@ -19454,6 +19462,11 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"Gönderilen değişikliklerin otomatik olarak yukarı akış deposuna itilip "
+"itilmeyeceğini belirler. Etkinleştirildiğinde, Weblate değişiklikleri temel "
+"depoya kaydettikten sonra itme başlatılır (bilgi almak için: ref:`lazy-"
+"commit`). İtmeyi etkinleştirmek için :guilabel:`Depo itme adresi` ayarının "
+"da yapılandırılması gerekir."
 
 #: ../../admin/projects.rst:712
 msgid "Age of changes to commit"
@@ -19466,6 +19479,10 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
+"Değişikliklerin arka plan görevi ya da :djadmin:`commit_pending` yönetim "
+"komutu tarafından uygulanmasından önce ne kadar eski (saat cinsinden) olması "
+"gerektiğini ayarlar. Bir bileşendeki tüm değişiklikler, bu dönemden daha "
+"eski en az bir değişiklik olduğunda gönderilir."
 
 #: ../../admin/projects.rst:719
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -23837,66 +23854,46 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`Vikipedi üzerinde RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.2"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on March 1st 2023."
 msgid "Released on March 8th 2023."
-msgstr "1 Mart 2023 tarihinde yayınlandı."
+msgstr "8 Mart 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Fixed searching in the translation memory."
-msgstr "Paylaşılan çeviri belleği kullanılsın"
+msgstr "Çeviri belleğinde arama sorunu düzeltildi."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed automatic translation for project owners."
 msgid "Fixed automatic translation with more services."
-msgstr "Proje sahipleri için kendiliğinden çeviri düzeltildi."
+msgstr "Kendiliğinden çeviri daha fazla hizmet ile düzeltildi."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Improved rendering of overlapping glossary term matches."
-msgstr "Değişiklik uyarılarının görüntülenmesi iyileştirildi."
+msgstr "Örtüşen sözlük terim eşleşmelerinin sunumu geliştirildi."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid "Fixed plurals parsing for non-English source language in some formats."
 msgstr ""
-"Tek çoğul biçimi olan dillerde çoğul kaynağın görüntülenme sorunu düzeltildi."
+"Bazı biçimlerde İngilizce olmayan kaynak dil için çoğul ayrıştırması "
+"düzeltildi."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added support for gotext JSON files."
 msgid "Added support for go-i18n v2 JSON files."
-msgstr "gotext JSON dosyaları desteği eklendi."
+msgstr "go-i18n v2 JSON dosyaları desteği eklendi."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/91?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/91?closed=1>`__."
+"milestone/94?closed=1>`__."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.16.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.16.1"
 
 #: ../../changes.rst:17 ../../changes.rst:26
 msgid "Released on March 1st 2023."
@@ -23904,19 +23901,15 @@ msgstr "1 Mart 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:19
 msgid "Fixed testsuite error."
-msgstr ""
+msgstr "Deneme kümesi sorunu düzeltildi."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/91?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/91?closed=1>`__."
+"milestone/92?closed=1>`__."
 
 #: ../../changes.rst:24
 msgid "Weblate 4.16"
@@ -33418,14 +33411,12 @@ msgid ":ref:`security`"
 msgstr ":ref:`subscriptions`"
 
 #: ../../contributing/security.rst:15
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security updates"
-msgstr "Güvenlik sorunları"
+msgstr "Güvenlik güncellemeleri"
 
 #: ../../contributing/security.rst:17
 msgid "Only the latest release is guaranteed to receive security updates."
-msgstr ""
+msgstr "Yalnızca son sürümün güvenlik güncellemelerini alacağı garanti edilir."
 
 #: ../../contributing/security.rst:20
 msgid "Tracking dependencies for vulnerabilities"
@@ -36277,10 +36268,8 @@ msgid "Translation types capabilities"
 msgstr "Çeviri türü yetenekleri"
 
 #: ../../formats.rst:56
-#, fuzzy
-#| msgid "Capabilities of all supported formats:"
 msgid "Capabilities of all supported formats"
-msgstr "Desteklenen tüm biçimlerdeki yetenekler:"
+msgstr "Desteklenen tüm biçimlerdeki yetenekler"
 
 #: ../../formats.rst:59
 msgid "Format"
@@ -37506,26 +37495,20 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1238
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr "Tipik Weblate :ref:`component`"
+msgstr "V1 için tipik Weblate :ref:`component`"
 
 #: ../../formats.rst:1246
 msgid "`go-i18n v1 JSON file`"
 msgstr "`go-i18n v1 JSON dosyası`"
 
 #: ../../formats.rst:1251
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr "Tipik Weblate :ref:`component`"
+msgstr "V2 için tipik Weblate :ref:`component`"
 
 #: ../../formats.rst:1259
-#, fuzzy
-#| msgid "`go-i18n v1 JSON file`"
 msgid "`go-i18n v2 JSON file`"
-msgstr "`go-i18n v1 JSON dosyası`"
+msgstr "`go-i18n v2 JSON dosyası`"
 
 #: ../../formats.rst:1264
 msgid ""
