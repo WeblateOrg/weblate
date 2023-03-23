@@ -619,11 +619,15 @@ class UserPage(UpdateView):
         context["page_user_translations"] = translation_prefetch_tasks(
             prefetch_stats(user_translations)
         )
+        owned = (user.owned_projects & allowed_projects.distinct()).order()[:11]
+        context["page_owned_projects_more"] = len(owned) == 11
         context["page_owned_projects"] = prefetch_project_flags(
-            prefetch_stats((user.owned_projects & allowed_projects.distinct()).order())
+            prefetch_stats(owned[:10])
         )
+        watched = (user.watched_projects & allowed_projects).order()[:11]
+        context["page_watched_projects_more"] = len(watched) == 11
         context["page_watched_projects"] = prefetch_project_flags(
-            prefetch_stats((user.watched_projects & allowed_projects).order())
+            prefetch_stats(watched[:10])
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()

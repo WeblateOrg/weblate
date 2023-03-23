@@ -165,12 +165,18 @@
 <div class="tab-pane" id="managed">
 <div class="list-group">
 {% include "list-projects.html" with projects=page_owned_projects %}
+{% if page_owned_projects_more %}
+  <a href="{% url 'projects' %}?owned={{page_user.username}}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
+{% endif %}
 </div>
 </div>
 
 <div class="tab-pane" id="watched">
 <div class="list-group">
 {% include "list-projects.html" with projects=page_watched_projects %}
+{% if page_watched_projects_more %}
+  <a href="{% url 'projects' %}?watched={{page_user.username}}" class="btn btn-primary">{% trans "Browse all watched projects" %}</a>
+{% endif %}
 </div>
 </div>
 

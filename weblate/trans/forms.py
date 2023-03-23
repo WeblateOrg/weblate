@@ -147,8 +147,10 @@ class ChecksumField(forms.CharField):
 
 class UserField(forms.CharField):
     def clean(self, value):
-        if not value and self.required:
-            raise ValidationError(_("Missing username or e-mail."))
+        if not value:
+            if self.required:
+                raise ValidationError(_("Missing username or e-mail."))
+            return None
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
@@ -2656,3 +2658,8 @@ class ProjectUserGroupForm(UserManageForm):
         super().__init__(*args, **kwargs)
         self.fields["user"].widget = forms.HiddenInput()
         self.fields["groups"].queryset = project.defined_groups.all()
+
+
+class ProjectFilterForm(forms.Form):
+    owned = UserField(required=False)
+    watched = UserField(required=False)

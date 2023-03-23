@@ -23,6 +23,7 @@ from weblate.trans.forms import (
     ComponentRenameForm,
     DownloadForm,
     ProjectDeleteForm,
+    ProjectFilterForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -46,6 +47,7 @@ from weblate.utils.views import (
     get_project,
     get_translation,
     optional_form,
+    show_form_errors,
     try_set_language,
 )
 
@@ -53,15 +55,33 @@ from weblate.utils.views import (
 @never_cache
 def list_projects(request):
     """List all projects."""
+    query_string = ""
+    projects = request.user.allowed_projects
+    form = ProjectFilterForm(request.GET)
+    if form.is_valid():
+        query = {}
+        if form.cleaned_data["owned"]:
+            user = form.cleaned_data["owned"]
+            query["owned"] = user.username
+            projects = (user.owned_projects & projects.distinct()).order()
+        elif form.cleaned_data["watched"]:
+            user = form.cleaned_data["watched"]
+            query["watched"] = user.username
+            projects = (user.watched_projects & projects).order()
+        query_string = urlencode(query)
+    else:
+        show_form_errors(request, form)
+
     return render(
         request,
         "projects.html",
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                get_paginator(request, prefetch_stats(request.user.allowed_projects))
+                get_paginator(request, prefetch_stats(projects))
             ),
             "title": _("Projects"),
+            "query_string": query_string,
         },
     )
 
