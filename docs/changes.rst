@@ -6,6 +6,7 @@ Not yet released.
 * Allow to filter on language in reports.
 * Dropped deprecated command ``cleanup_celery``.
 * Fixed private project visibility for some teams.
+* Automatic translation now honors target state when translating from other components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 

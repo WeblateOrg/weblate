@@ -109,7 +109,7 @@ class AutoTranslate:
 
         # Fetch translations
         translations = {
-            source: (state, split_plural(target))
+            source: split_plural(target)
             for source, state, target in sources.filter(
                 source__in=self.get_units().values("source")
             ).values_list("source", "state", "target")
@@ -128,7 +128,7 @@ class AutoTranslate:
         for pos, unit in enumerate(units):
             # Get update
             try:
-                state, target = translations[unit.source]
+                target = translations[unit.source]
             except KeyError:
                 # Happens on MySQL due to case-insensitive lookup
                 continue
@@ -136,10 +136,10 @@ class AutoTranslate:
             self.set_progress(pos)
 
             # No save if translation is same or unit does not exist
-            if unit.state == state and unit.target == target:
+            if unit.state == self.target_state and unit.target == target:
                 continue
             # Copy translation
-            self.update(unit, state, target)
+            self.update(unit, self.target_state, target)
 
         self.post_process()
 
