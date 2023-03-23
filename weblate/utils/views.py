@@ -6,7 +6,7 @@
 
 import os
 from time import mktime
-from typing import Optional
+from typing import List, Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -282,7 +282,7 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root, filenames, name="translations"):
+def zip_download(root: str, filenames: List[str], name: str = "translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
