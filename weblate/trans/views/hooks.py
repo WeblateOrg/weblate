@@ -427,13 +427,16 @@ def gitlab_hook_helper(data, request):
         data["repository"]["git_ssh_url"],
         data["repository"]["homepage"],
     ]
+    full_name = ssh_url.split(":", 1)[1]
+    if full_name.endswith(".git"):
+        full_name = full_name[:-4]
 
     return {
         "service_long_name": "GitLab",
         "repo_url": data["repository"]["homepage"],
         "repos": repos,
         "branch": branch,
-        "full_name": ssh_url.split(":", 1)[1],
+        "full_name": full_name,
     }
 
 
