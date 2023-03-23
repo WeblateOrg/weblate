@@ -176,7 +176,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def download_file(self, filename, content_type, component=None):
         """Wrapper for file download."""
         if os.path.isdir(filename):
-            response = zip_download(filename, filename)
+            response = zip_download(filename, [filename])
             basename = component.slug if component else "weblate"
             filename = f"{basename}.zip"
         else:
