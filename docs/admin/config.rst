@@ -1303,7 +1303,7 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 .. versionadded:: 4.15
 
-Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-out).
+Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
 
 .. seealso::
 
