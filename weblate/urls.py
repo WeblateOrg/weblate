@@ -1024,6 +1024,11 @@ real_patterns = [
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
     ),
     path(
+        "user/<name:user>/contributions/",
+        weblate.accounts.views.user_contributions,
+        name="user_contributions",
+    ),
+    path(
         "user/<name:user>/suggestions/",
         weblate.accounts.views.SuggestionView.as_view(),
         name="user_suggestions",

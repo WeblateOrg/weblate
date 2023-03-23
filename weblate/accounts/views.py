@@ -108,7 +108,7 @@ from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.token import get_token
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import get_component, get_paginator, get_project
 
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
@@ -603,11 +603,15 @@ class UserPage(UpdateView):
         last_changes = all_changes[:10]
 
         # Filter where project is active
-        user_translation_ids = set(all_changes.values_list("translation", flat=True))
+        user_translation_ids = set(
+            all_changes.filter(
+                timestamp__gte=timezone.now() - timedelta(days=90)
+            ).values_list("translation", flat=True)
+        )
         user_translations = (
             Translation.objects.prefetch()
             .filter(
-                id__in=user_translation_ids,
+                id__in=list(user_translation_ids)[:10],
                 component__project__in=allowed_projects,
             )
             .order()
@@ -637,6 +641,32 @@ class UserPage(UpdateView):
             .order()
         )
         return context
+
+
+def user_contributions(request, user: str):
+    user = get_object_or_404(User, username=user)
+    user_translation_ids = set(
+        Change.objects.filter(user=user).values_list("translation", flat=True)
+    )
+    user_translations = (
+        Translation.objects.filter_access(request.user)
+        .prefetch()
+        .filter(
+            id__in=user_translation_ids,
+        )
+        .order()
+    )
+    return render(
+        request,
+        "accounts/user_contributions.html",
+        {
+            "page_user": user,
+            "page_profile": user.profile,
+            "page_user_translations": translation_prefetch_tasks(
+                prefetch_stats(get_paginator(request, user_translations))
+            ),
+        },
+    )
 
 
 def user_avatar(request, user: str, size: int):

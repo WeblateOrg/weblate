@@ -209,6 +209,17 @@ class ViewTest(RepoTestCase):
         response = self.client.get(reverse("user_suggestions", kwargs={"user": "-"}))
         self.assertContains(response, "Suggestions")
 
+    def test_contributions(self):
+        """Test user pages."""
+        # Setup user
+        user = self.get_user()
+
+        # Get public profile
+        response = self.client.get(
+            reverse("user_contributions", kwargs={"user": user.username})
+        )
+        self.assertContains(response, "Translations with contribution")
+
     def test_login(self):
         user = self.get_user()
 
