@@ -4,6 +4,7 @@
 
 import os
 import subprocess
+from contextlib import suppress
 from itertools import chain
 from typing import List, Optional, Tuple
 
@@ -361,11 +362,9 @@ class UpdateBaseAddon(BaseAddon):
         raise NotImplementedError
 
     def post_update(self, component, previous_head: str, skip_push: bool):
-        try:
+        # Ignore file parse error, it will be properly tracked as an alert
+        with suppress(FileParseError):
             self.update_translations(component, previous_head)
-        except FileParseError:
-            # Ignore file parse error, it will be properly tracked as an alert
-            pass
         self.commit_and_push(component, skip_push=skip_push)
 
 

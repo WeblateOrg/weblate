@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
+from contextlib import suppress
 from datetime import timedelta
 
 from appconf import AppConf
@@ -415,10 +416,9 @@ class Billing(models.Model):
         message = ngettext(
             "Contains %d project", "Contains %d projects", self.count_projects
         )
-        try:
+        # Ignore when format string is not present
+        with suppress(TypeError):
             message = message % self.count_projects
-        except TypeError:
-            pass
         yield LibreCheck(self.count_projects == 1, message)
         for project in self.all_projects:
             yield LibreCheck(

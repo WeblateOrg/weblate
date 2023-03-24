@@ -5,6 +5,7 @@
 import json
 import os
 import subprocess
+from contextlib import suppress
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -67,10 +68,8 @@ class CreateProject(BaseCreateView):
             billing_field = form.fields["billing"]
             if self.has_billing:
                 billing_field.queryset = self.billings
-                try:
+                with suppress(ValueError, KeyError):
                     billing_field.initial = int(self.request.GET["billing"])
-                except (ValueError, KeyError):
-                    pass
                 billing_field.required = not self.request.user.is_superuser
                 if self.request.user.is_superuser:
                     billing_field.empty_label = "-- without billing --"
@@ -292,12 +291,10 @@ class CreateComponent(BaseCreateView):
             project_field.empty_label = None
             if self.selected_project:
                 project_field.initial = self.selected_project
-                try:
+                with suppress(IndexError):
                     form.fields["source_language"].initial = Component.objects.filter(
                         project=self.selected_project
                     )[0].source_language_id
-                except IndexError:
-                    pass
         self.empty_form = False
         return form
 

@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from contextlib import suppress
 from copy import copy
 from datetime import timedelta
 from itertools import chain
@@ -342,21 +343,18 @@ class TranslationStats(BaseStats):
         parents: bool = True,
     ):
         result = super().get_invalidate_keys(language, childs, parents)
-        try:
+        # Happens when deleting language from the admin interface
+        with suppress(ObjectDoesNotExist):
             result.update(self._object.language.stats.get_invalidate_keys())
-        except ObjectDoesNotExist:
-            # Happens when deleting language from the admin interface
-            pass
+
         if parents:
-            try:
+            # Happens when deleting language from the admin interface
+            with suppress(ObjectDoesNotExist):
                 result.update(
                     self._object.component.stats.get_invalidate_keys(
                         language=self._object.language
                     )
                 )
-            except ObjectDoesNotExist:
-                # Happens when deleting language from the admin interface
-                pass
         return result
 
     @property
