@@ -562,7 +562,7 @@ class UserPage(UpdateView):
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
-            raise PermissionDenied()
+            raise PermissionDenied
         user = self.object = self.get_object()
         if "add_group" in request.POST:
             self.group_form = GroupAddForm(request.POST)

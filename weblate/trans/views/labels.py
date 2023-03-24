@@ -21,7 +21,7 @@ def project_labels(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if request.method == "POST":
         form = LabelForm(request.POST)
@@ -50,7 +50,7 @@ def label_edit(request, project, pk):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     label = get_object_or_404(Label, pk=pk, project=obj)
 
@@ -76,7 +76,7 @@ def label_delete(request, project, pk):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     label = get_object_or_404(Label, pk=pk, project=obj)
 

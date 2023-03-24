@@ -132,7 +132,7 @@ class BitmapWidget(ContentWidget):
         )
 
     def get_columns(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_column_width(self, surface, columns):
         return surface.get_width() // len(columns)
@@ -201,7 +201,7 @@ class SVGWidget(ContentWidget):
 
     def render(self, response):
         """Rendering method to be implemented."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class RedirectWidget(Widget):

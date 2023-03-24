@@ -19,7 +19,7 @@ class URLMixin:
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def reverse_url(self, name=None):
         """Generic reverser for URL."""
@@ -92,7 +92,7 @@ class PathMixin(LoggerMixin):
 
     def _get_path(self):
         """Actual calculation of path."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @cached_property
     def full_path(self):

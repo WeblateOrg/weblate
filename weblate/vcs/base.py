@@ -127,15 +127,15 @@ class Repository:
 
     def check_config(self):
         """Check VCS configuration."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def is_valid(self):
         """Check whether this is a valid repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def init(self):
         """Initialize the repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def resolve_symlinks(self, path):
         """Resolve any symlinks in the path."""
@@ -267,7 +267,7 @@ class Repository:
     @classmethod
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     def clone(cls, source: str, target: str, branch: str, component=None):
@@ -279,7 +279,7 @@ class Repository:
 
     def update_remote(self):
         """Update remote repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def status(self):
         """Return status of the repository."""
@@ -287,7 +287,7 @@ class Repository:
 
     def push(self, branch):
         """Push given branch to remote repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def unshallow(self):
         """Unshallow working copy."""
@@ -295,21 +295,21 @@ class Repository:
 
     def reset(self):
         """Reset working copy to match remote branch."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def merge(
         self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
     ):
         """Merge remote branch or reverts the merge."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def count_missing(self):
         """Count missing commits."""
@@ -341,7 +341,7 @@ class Repository:
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -392,7 +392,7 @@ class Repository:
 
     def set_committer(self, name, mail):
         """Configure committer name."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def commit(
         self,
@@ -402,11 +402,11 @@ class Repository:
         files: Optional[List[str]] = None,
     ) -> bool:
         """Create new revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
     def update_hash(objhash, filename, extra=None):
@@ -449,19 +449,19 @@ class Repository:
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
         """Configure remote repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def configure_branch(self, branch):
         """Configure repository branch."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def describe(self):
         """Verbosely describes current revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
     def get_examples_paths():
@@ -487,14 +487,14 @@ class Repository:
 
     def cleanup(self):
         """Remove not tracked files from the repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def log_revisions(self, refspec):
         """Log revisions for given refspec.
 
         This is not universal as refspec is different per vcs.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def list_changed_files(self, refspec: str) -> List:
         """List changed files for given refspec.
@@ -508,7 +508,7 @@ class Repository:
 
     def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with changed files."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def list_upstream_changed_files(self):
         """List files missing upstream."""

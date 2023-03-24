@@ -122,7 +122,7 @@ class WeblateComponentCommand(BaseCommand):
 
         Subclasses must implement this method.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class WeblateLangCommand(WeblateComponentCommand):
@@ -165,7 +165,7 @@ class WeblateLangCommand(WeblateComponentCommand):
 
         Subclasses must implement this method.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class WeblateTranslationCommand(BaseCommand):
@@ -202,4 +202,4 @@ class WeblateTranslationCommand(BaseCommand):
 
         Subclasses must implement this method.
         """
-        raise NotImplementedError()
+        raise NotImplementedError

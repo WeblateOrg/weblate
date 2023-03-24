@@ -109,7 +109,7 @@ def render_widget(
     if lang is not None and isinstance(lang, str):
         lang = Language.objects.fuzzy_get(code=lang, strict=True)
         if lang is None:
-            raise Http404()
+            raise Http404
         if "native" not in request.GET:
             try_set_language(lang.code)
     else:
@@ -119,7 +119,7 @@ def render_widget(
     try:
         widget_class = WIDGETS[widget]
     except KeyError:
-        raise Http404()
+        raise Http404
 
     # Construct object
     widget_obj = widget_class(obj, color, lang)

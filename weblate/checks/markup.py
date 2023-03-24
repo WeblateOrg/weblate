@@ -139,7 +139,7 @@ class BaseXMLCheck(TargetCheck):
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class XMLValidityCheck(BaseXMLCheck):

@@ -38,7 +38,7 @@ class FontListView(ProjectViewMixin, ListView):
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         if request.FILES:
             form = self._font_form = FontForm(request.POST, request.FILES)
         else:
@@ -75,7 +75,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
     def post(self, request, **kwargs):
         self.object = self.get_object()
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         self.object.delete()
         messages.error(request, _("Font deleted."))
@@ -103,7 +103,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
     def post(self, request, **kwargs):
         self.object = self.get_object()
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         if "name" in request.POST:
             form = self._form = FontGroupForm(

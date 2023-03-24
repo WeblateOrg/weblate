@@ -60,7 +60,7 @@ class DeleteView(MemoryFormView):
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.delete", self.objects):
-            raise PermissionDenied()
+            raise PermissionDenied
         entries = Memory.objects.filter_type(**self.objects)
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
@@ -77,7 +77,7 @@ class RebuildView(MemoryFormView):
             not check_perm(self.request.user, "memory.delete", self.objects)
             or "project" not in self.objects
         ):
-            raise PermissionDenied()
+            raise PermissionDenied
         origin = self.request.POST.get("origin")
         project = self.objects["project"]
         component_id = None
@@ -87,7 +87,7 @@ class RebuildView(MemoryFormView):
                     slug=origin.split("/", 1)[-1]
                 ).id
             except ObjectDoesNotExist:
-                raise PermissionDenied()
+                raise PermissionDenied
         # Delete private entries
         entries = Memory.objects.filter_type(**self.objects)
         if origin:
@@ -116,7 +116,7 @@ class UploadView(MemoryFormView):
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.edit", self.objects):
-            raise PermissionDenied()
+            raise PermissionDenied
         try:
             Memory.objects.import_file(
                 self.request, form.cleaned_data["file"], **self.objects

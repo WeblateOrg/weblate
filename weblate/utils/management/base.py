@@ -31,4 +31,4 @@ class BaseCommand(DjangoBaseCommand):
 
         Subclasses must implement this method.
         """
-        raise NotImplementedError()
+        raise NotImplementedError

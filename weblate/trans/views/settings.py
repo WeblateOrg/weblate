@@ -49,7 +49,7 @@ def change_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise Http404()
+        raise Http404
 
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
@@ -77,7 +77,7 @@ def change_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise Http404()
+        raise Http404
 
     if request.method == "POST":
         form = ComponentSettingsForm(request, request.POST, instance=obj)
@@ -118,7 +118,7 @@ def dismiss_alert(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise Http404()
+        raise Http404
 
     try:
         alert = obj.alert_set.get(name=request.POST["dismiss"])
@@ -137,7 +137,7 @@ def remove_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
     if not request.user.has_perm("translation.delete", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = TranslationDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -156,7 +156,7 @@ def remove_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ComponentDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -175,7 +175,7 @@ def remove_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -195,7 +195,7 @@ def remove_project_language(request, project, lang):
     obj = ProjectLanguage(project_object, language_object)
 
     if not request.user.has_perm("translation.delete", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectLanguageDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -211,7 +211,7 @@ def remove_project_language(request, project, lang):
 
 def perform_rename(form_cls, request, obj, perm: str):
     if not request.user.has_perm(perm, obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Make sure any non-rename related issues are resolved first
     try:
@@ -267,7 +267,7 @@ def announcement_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
     if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
@@ -291,7 +291,7 @@ def announcement_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
@@ -311,7 +311,7 @@ def announcement_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
@@ -361,7 +361,7 @@ class BackupsMixin:
         super().setup(request, *args, **kwargs)
         self.obj = get_project(request, kwargs["project"])
         if not request.user.has_perm("project.edit", self.obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
 
 class BackupsView(BackupsMixin, TemplateView):

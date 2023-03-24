@@ -107,7 +107,7 @@ class ConvertFormat(TranslationFormat):
 
     def save_content(self, handle):
         """Store content to file."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def save(self):
         """Save underlying store to disk."""
@@ -115,7 +115,7 @@ class ConvertFormat(TranslationFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
     def needs_target_sync(template_store):

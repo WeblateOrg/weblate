@@ -92,7 +92,7 @@ class Check:
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_source(self, source, unit):
         """Check source strings."""
@@ -102,7 +102,7 @@ class Check:
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_chars(self, source, target, pos, chars):
         """Generic checker for chars presence."""
@@ -248,7 +248,7 @@ class TargetCheck(Check):
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def format_value(self, value: str):
         from weblate.trans.templatetags.translations import Formatter
@@ -288,7 +288,7 @@ class SourceCheck(Check):
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class TargetCheckParametrized(TargetCheck):
@@ -311,7 +311,7 @@ class TargetCheckParametrized(TargetCheck):
         return False
 
     def check_target_params(self, sources, targets, unit, value):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""

@@ -38,7 +38,7 @@ class WeblateSitemap(Sitemap):
     changefreq = None
 
     def items(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def lastmod(self, item):
         return item.stats.last_changed

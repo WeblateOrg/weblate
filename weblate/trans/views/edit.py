@@ -709,7 +709,7 @@ def auto_translation(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
     project = translation.component.project
     if not request.user.has_perm("translation.auto", project):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     autoform = AutoForm(translation.component, request.POST)
 
@@ -750,7 +750,7 @@ def comment(request, pk):
     component = unit.translation.component
 
     if not request.user.has_perm("comment.add", unit.translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = CommentForm(component.project, request.POST)
 
@@ -789,7 +789,7 @@ def delete_comment(request, pk):
     comment_obj = get_object_or_404(Comment, pk=pk)
 
     if not request.user.has_perm("comment.delete", comment_obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
@@ -808,7 +808,7 @@ def resolve_comment(request, pk):
     comment_obj = get_object_or_404(Comment, pk=pk)
 
     if not request.user.has_perm("comment.resolve", comment_obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
@@ -970,7 +970,7 @@ def save_zen(request, project, component, lang):
 def new_unit(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
     if not request.user.has_perm("unit.add", translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = get_new_unit_form(translation, request.user, request.POST)
     if not form.is_valid():
@@ -990,7 +990,7 @@ def delete_unit(request, unit_id):
     unit = get_object_or_404(Unit, pk=unit_id)
 
     if not request.user.has_perm("unit.delete", unit):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     try:
         unit.translation.delete_unit(request, unit)

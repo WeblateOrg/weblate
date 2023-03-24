@@ -1041,7 +1041,7 @@ class NewUnitSerializer(serializers.Serializer):
     )
 
     def as_kwargs(self, data=None):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def validate(self, attrs):
         try:

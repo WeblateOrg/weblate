@@ -47,7 +47,7 @@ class TeamUpdateView(UpdateView):
             and not user.has_perm("meta:team.users", result)
             and not user.groups.filter(pk=result.pk).exists()
         ):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         return result
 
