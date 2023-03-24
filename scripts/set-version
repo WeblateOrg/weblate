@@ -79,20 +79,5 @@ files = [
     "docs/changes.rst",
     "setup.py",
 ]
-subprocess.run(
-    [
-        "pre-commit",
-        "run",
-        "--files",
-    ]
-    + files
-)
-subprocess.check_call(
-    [
-        "git",
-        "commit",
-        "-m",
-        f"Setting version to {version}",
-    ]
-    + files
-)
+subprocess.run(["pre-commit", "run", "--files", *files])
+subprocess.check_call(["git", "commit", "-m", f"Setting version to {version}", *files])

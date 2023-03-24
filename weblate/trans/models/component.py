@@ -2020,7 +2020,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 matches.discard(self.intermediate)
             # We want to list template among translations as well
             matches.discard(self.template)
-            return [self.template] + sorted(matches)
+            return [self.template, *sorted(matches)]
         return sorted(matches)
 
     def update_source_checks(self):
@@ -2176,7 +2176,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 and os.path.exists(self.get_new_base_filename())
             ):
                 # Process pot file as source to include additional metadata
-                matches = [self.new_base] + matches
+                matches = [self.new_base, *matches]
                 source_file = self.new_base
             else:
                 # Always include source language to avoid parsing matching files

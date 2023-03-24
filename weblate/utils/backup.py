@@ -79,7 +79,7 @@ def run_borg(cmd: List[str], env: Dict[str, str] = None) -> str:
         SSH_WRAPPER.create()
         try:
             return subprocess.check_output(
-                ["borg", "--rsh", SSH_WRAPPER.filename] + cmd,
+                ["borg", "--rsh", SSH_WRAPPER.filename, *cmd],
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(env),
                 text=True,

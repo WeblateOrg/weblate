@@ -277,7 +277,7 @@ def show_change(request, pk):
     others = request.GET.getlist("other")
     changes = None
     if others:
-        changes = Change.objects.filter(pk__in=others + [change.pk])
+        changes = Change.objects.filter(pk__in=[*others, change.pk])
         for change in changes:
             acl_obj = change.translation or change.component or change.project
             if not request.user.has_perm("unit.edit", acl_obj):

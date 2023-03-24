@@ -76,7 +76,7 @@ class WeblateBuild(build):
     """Override the default build with new subcommands."""
 
     # The build_mo has to be before build_data
-    sub_commands = [("build_mo", lambda self: True)] + build.sub_commands
+    sub_commands = [("build_mo", lambda self: True), *build.sub_commands]
 
 
 setup(

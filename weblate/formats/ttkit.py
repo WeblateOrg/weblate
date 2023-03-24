@@ -1118,9 +1118,9 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             in_file,
             template,
         ]
-        args = kwargs["args"] + args if "args" in kwargs else ["--previous"] + args
+        args = kwargs["args"] + args if "args" in kwargs else ["--previous", *args]
 
-        cmd = ["msgmerge"] + args
+        cmd = ["msgmerge", *args]
         try:
             result = subprocess.run(
                 cmd,

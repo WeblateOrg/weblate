@@ -206,9 +206,9 @@ def get_db_cache_version():
 
 def get_versions_list():
     """Return list with version information summary."""
-    return (
-        [("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION)]
-        + get_versions()
-        + get_optional_versions()
-        + get_db_cache_version()
-    )
+    return [
+        ("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION),
+        *get_versions(),
+        *get_optional_versions(),
+        *get_db_cache_version(),
+    ]

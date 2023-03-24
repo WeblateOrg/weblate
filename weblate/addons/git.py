@@ -46,7 +46,7 @@ class GitSquashAddon(BaseAddon):
 
     def get_filenames(self, component):
         languages = defaultdict(list)
-        for origin in [component] + list(component.linked_childs):
+        for origin in [component, *list(component.linked_childs)]:
             for translation in origin.translation_set.prefetch_related("language"):
                 code = translation.language.code
                 if not translation.filename:
@@ -61,7 +61,7 @@ class GitSquashAddon(BaseAddon):
             f"{remote}..HEAD",
         ]
         if filenames:
-            command += ["--"] + filenames
+            command += ["--", *filenames]
 
         return repository.execute(command)
 
@@ -75,7 +75,7 @@ class GitSquashAddon(BaseAddon):
                 f"{remote}..HEAD",
             ]
             if filenames:
-                command += ["--"] + filenames
+                command += ["--", *filenames]
 
             trailer_lines = set()
             change_id_line = None
@@ -192,14 +192,14 @@ class GitSquashAddon(BaseAddon):
                 base = repository.get_last_revision()
                 # Cherry pick current commit (this should work
                 # unless something is messed up)
-                repository.execute(["cherry-pick", commit] + gpg_sign)
+                repository.execute(["cherry-pick", commit, *gpg_sign])
                 handled = []
                 # Pick other commits by same author
                 for i, other in enumerate(commits):
                     if other[1] != author:
                         continue
                     try:
-                        repository.execute(["cherry-pick", other[0]] + gpg_sign)
+                        repository.execute(["cherry-pick", other[0], *gpg_sign])
                         handled.append(i)
                     except RepositoryException:
                         # If fails, continue to another author, we will

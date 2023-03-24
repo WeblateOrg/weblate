@@ -56,7 +56,7 @@ BASIC_KEYS = frozenset(
     + ["last_changed", "last_author"]
 )
 SOURCE_KEYS = frozenset(
-    list(BASIC_KEYS) + ["source_strings", "source_words", "source_chars"]
+    [*list(BASIC_KEYS), "source_strings", "source_words", "source_chars"]
 )
 
 
