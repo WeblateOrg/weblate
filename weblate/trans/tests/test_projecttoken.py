@@ -58,7 +58,7 @@ class ProjectTokenTest(ViewTestCase):
 
         response = self.client.get(
             reverse("api:project-detail", kwargs={"slug": self.project.slug}),
-            **{"HTTP_AUTHORIZATION": f"Token {token}"},
+            HTTP_AUTHORIZATION=f"Token {token}",
         )
 
         self.assertEqual(response.data["slug"], self.project.slug)
@@ -71,7 +71,7 @@ class ProjectTokenTest(ViewTestCase):
 
         response = self.client.get(
             reverse("api:project-detail", kwargs={"slug": self.project.slug}),
-            **{"HTTP_AUTHORIZATION": f"Token {token}"},
+            HTTP_AUTHORIZATION=f"Token {token}",
         )
 
         self.assertEqual(response.status_code, 401)
