@@ -76,8 +76,7 @@ def strip_format(msg, flags):
         regex = PERCENT_MATCH
     else:
         return msg
-    stripped = regex.sub("", msg)
-    return stripped
+    return regex.sub("", msg)
 
 
 def strip_string(msg, flags):
@@ -110,7 +109,7 @@ def strip_string(msg, flags):
     stripped = TEMPLATE_RE.sub("", stripped)
 
     # Cleanup trailing/leading chars
-    return stripped
+    return stripped  # noqa: RET504
 
 
 def test_word(word, extra_ignore):
