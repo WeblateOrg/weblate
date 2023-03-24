@@ -936,8 +936,9 @@ class AutoForm(forms.Form):
             ]
 
             self.fields["component"].choices = [
-                ("", _("All components in current project"))
-            ] + choices
+                ("", _("All components in current project")),
+                *choices,
+            ]
 
         machinery_settings = obj.project.get_machinery_settings()
 
@@ -1090,9 +1091,10 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(component, *args, **kwargs)
-        self.fields["lang"].choices = [("", _("Please choose"))] + self.fields[
-            "lang"
-        ].choices
+        self.fields["lang"].choices = [
+            ("", _("Please choose")),
+            *self.fields["lang"].choices,
+        ]
 
     def clean_lang(self):
         # Compatibility with NewLanguageOwnerForm

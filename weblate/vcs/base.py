@@ -175,7 +175,7 @@ class Repository:
         if args is None:
             raise RepositoryException(0, "Not supported functionality")
         if not fullcmd:
-            args = [cls._cmd] + list(args)
+            args = [cls._cmd, *list(args)]
         text_cmd = " ".join(args)
         kwargs = {}
         # These are mutually exclusive
@@ -507,7 +507,7 @@ class Repository:
         This is not universal as refspec is different per vcs.
         """
         lines = self.execute(
-            self._cmd_list_changed_files + [refspec], needs_lock=False, merge_err=False
+            [*self._cmd_list_changed_files, refspec], needs_lock=False, merge_err=False
         ).splitlines()
         return list(self.parse_changed_files(lines))
 

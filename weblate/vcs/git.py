@@ -138,7 +138,7 @@ class GitRepository(Repository):
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
         cls._popen(
-            ["clone"] + cls.get_depth() + ["--branch", branch, "--", source, target]
+            ["clone", *cls.get_depth()] + ["--branch", branch, "--", source, target]
         )
 
     def get_config(self, path):
@@ -343,7 +343,7 @@ class GitRepository(Repository):
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        self.execute(["rm", "--force", "--"] + files)
+        self.execute(["rm", "--force", "--", *files])
         self.commit(message, author)
 
     def configure_remote(
@@ -480,7 +480,7 @@ class GitRepository(Repository):
         else:
             # Doing initial fetch
             try:
-                self.execute(["fetch", "origin"] + self.get_depth())
+                self.execute(["fetch", "origin", *self.get_depth()])
             except RepositoryException as error:
                 if error.retcode == 1 and error.args[0] == "":
                     # Fetch with --depth fails on blank repo
@@ -493,7 +493,7 @@ class GitRepository(Repository):
     def push(self, branch):
         """Push given branch to remote repository."""
         refspec = f"{self.branch}:{branch}" if branch else self.branch
-        self.execute(self._cmd_push + ["origin", refspec])
+        self.execute([*self._cmd_push, "origin", refspec])
 
     def unshallow(self):
         self.execute(["fetch", "--unshallow"])
@@ -626,7 +626,7 @@ class SubversionRepository(GitRepository):
                 raise RepositoryException(-1, "Can not switch subversion URL")
             return
         args, self._fetch_revision = self.get_remote_args(pull_url, self.path)
-        self.execute(["svn", "init"] + args)
+        self.execute(["svn", "init", *args])
 
     def update_remote(self):
         """Update remote repository."""
@@ -643,7 +643,7 @@ class SubversionRepository(GitRepository):
         args, revision = cls.get_remote_args(source, target)
         if revision:
             args.insert(0, revision)
-        cls._popen(["svn", "clone"] + args)
+        cls._popen(["svn", "clone", *args])
 
     def merge(
         self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False

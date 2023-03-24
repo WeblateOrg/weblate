@@ -280,7 +280,7 @@ class HgRepository(Repository):
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        self.execute(["remove", "--force", "--"] + files)
+        self.execute(["remove", "--force", "--", *files])
         self.commit(message, author)
 
     def configure_remote(

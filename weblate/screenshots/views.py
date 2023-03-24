@@ -224,7 +224,7 @@ def ocr_extract(api, image, strings):
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
         api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
         ocr_result = api.GetUTF8Text()
-        parts = [ocr_result] + ocr_result.split("|") + ocr_result.split()
+        parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
     api.Clear()
