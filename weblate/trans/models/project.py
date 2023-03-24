@@ -108,7 +108,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy('Set "Language-Team" header'),
         default=True,
         help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header ' "of your project."
+            'Lets Weblate update the "Language-Team" file header of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
