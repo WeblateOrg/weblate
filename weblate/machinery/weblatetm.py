@@ -28,7 +28,7 @@ class WeblateTranslation(MachineTranslation):
         return True
 
     def is_rate_limited(self):
-        """This service has no rate limiting."""
+        """Disable rate limiting."""
         return False
 
     def download_translations(
