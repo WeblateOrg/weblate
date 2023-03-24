@@ -81,7 +81,7 @@ def database_backup():
         compress = settings.DATABASE_BACKUP == "compressed"
 
         out_compressed = data_dir("backups", "database.sql.gz")
-        out_plain = data_dir("backups", "database.sql")
+        out_text = data_dir("backups", "database.sql")
 
         if using_postgresql():
             cmd = ["pg_dump", "--dbname", database["NAME"]]
@@ -97,14 +97,14 @@ def database_backup():
                 cmd.extend(["--compress", "6"])
                 compress = False
             else:
-                cmd.extend(["--file", out_plain])
+                cmd.extend(["--file", out_text])
 
             env["PGPASSWORD"] = database["PASSWORD"]
         else:
             cmd = [
                 "mysqldump",
                 "--result-file",
-                out_plain,
+                out_text,
                 "--single-transaction",
                 "--skip-lock-tables",
             ]
@@ -140,10 +140,9 @@ def database_backup():
             raise
 
         if compress:
-            with open(out_plain, "rb") as f_in:
-                with gzip.open(out_compressed, "wb") as f_out:
-                    shutil.copyfileobj(f_in, f_out)
-            os.unlink(out_plain)
+            with open(out_text, "rb") as f_in, gzip.open(out_compressed, "wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
+            os.unlink(out_text)
 
 
 @app.on_after_finalize.connect
