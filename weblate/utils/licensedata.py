@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""License data definitions.
+"""
+License data definitions.
 
 This is an automatically generated file, see scripts/generate-license-data
 """

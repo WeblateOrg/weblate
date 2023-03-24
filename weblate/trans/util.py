@@ -82,7 +82,8 @@ def is_repo_link(val):
 
 
 def get_distinct_translations(units):
-    """Return list of distinct translations.
+    """
+    Return list of distinct translations.
 
     It should be possible to use distinct('target') since Django 1.4, but it is not
     supported with MySQL, so let's emulate that based on presumption we won't get too
@@ -256,7 +257,8 @@ def redirect_next(next_url, fallback):
 
 
 def xliff_string_to_rich(string):
-    """Convert XLIFF string to StringElement.
+    """
+    Convert XLIFF string to StringElement.
 
     Transform a string containing XLIFF placeholders as XML into a rich content
     (StringElement)
@@ -267,7 +269,8 @@ def xliff_string_to_rich(string):
 
 
 def rich_to_xliff_string(string_elements):
-    """Convert StringElement to XLIFF string.
+    """
+    Convert StringElement to XLIFF string.
 
     Transform rich content (StringElement) into a string with placeholder kept as XML
     """

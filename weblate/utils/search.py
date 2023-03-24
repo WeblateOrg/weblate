@@ -38,7 +38,8 @@ from weblate.utils.state import (
 
 
 class Comparer:
-    """String comparer abstraction.
+    """
+    String comparer abstraction.
 
     The reason is to be able to change implementation.
     """

@@ -222,7 +222,8 @@ class HgRepository(Repository):
         ).splitlines()
 
     def needs_ff(self):
-        """Check whether repository needs a fast-forward to upstream.
+        """
+        Check whether repository needs a fast-forward to upstream.
 
         Checks whether the path to the upstream is linear.
         """

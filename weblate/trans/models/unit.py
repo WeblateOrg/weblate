@@ -210,7 +210,8 @@ class UnitQuerySet(models.QuerySet):
         return {unit.source: unit for unit in self}
 
     def get_unit(self, ttunit):
-        """Find unit matching translate-toolkit unit.
+        """
+        Find unit matching translate-toolkit unit.
 
         This is used for import, so kind of fuzzy matching is expected.
         """
@@ -938,7 +939,8 @@ class Unit(models.Model, LoggerMixin):
         run_checks: bool = True,
         request=None,
     ):
-        """Stores unit to backend.
+        """
+        Stores unit to backend.
 
         Optional user parameters defines authorship of a change.
 
@@ -1013,7 +1015,8 @@ class Unit(models.Model, LoggerMixin):
         return True
 
     def update_source_units(self, previous_source, user, author):
-        """Update source for units within same component.
+        """
+        Update source for units within same component.
 
         This is needed when editing template translation for monolingual formats.
         """
@@ -1451,7 +1454,8 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def checksum(self):
-        """Return unique hex identifier.
+        """
+        Return unique hex identifier.
 
         It's unsigned representation of id_hash in hex.
         """
@@ -1505,7 +1509,8 @@ class Unit(models.Model, LoggerMixin):
         return self.change_set.content().select_related("author").order_by("-timestamp")
 
     def get_last_content_change(self, silent=False):
-        """Wrapper to get last content change metadata.
+        """
+        Wrapper to get last content change metadata.
 
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.

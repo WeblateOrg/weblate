@@ -55,7 +55,8 @@ DB_TAGS = ("screen", "indexterm", "programlisting")
 
 
 def strip_format(msg, flags):
-    """Remove format strings from the strings.
+    """
+    Remove format strings from the strings.
 
     These are quite often not changed by translators.
     """

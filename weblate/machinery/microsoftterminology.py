@@ -13,7 +13,8 @@ MST_WSDL_URL = f"{MST_API_URL}?wsdl"
 
 
 class MicrosoftTerminologyService(MachineTranslation):
-    """The Microsoft Terminology Service API.
+    """
+    The Microsoft Terminology Service API.
 
     Allows you to programmatically access the terminology, definitions and user
     interface (UI) strings available on the MS Language Portal through a web service
@@ -77,7 +78,8 @@ class MicrosoftTerminologyService(MachineTranslation):
             }
 
     def map_language_code(self, code):
-        """Convert language to service specific code.
+        """
+        Convert language to service specific code.
 
         Add country part of locale if missing.
         """

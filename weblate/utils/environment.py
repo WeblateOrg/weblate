@@ -14,7 +14,8 @@ def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
 
 
 def get_env_map(name: str, default: Optional[Dict[str, str]] = None) -> Dict[str, str]:
-    """Helper to get mapping from environment.
+    """
+    Helper to get mapping from environment.
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """

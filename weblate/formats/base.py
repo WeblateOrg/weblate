@@ -104,7 +104,8 @@ class UpdateError(Exception):
 
 
 class TranslationUnit:
-    """Wrapper for translate-toolkit unit.
+    """
+    Wrapper for translate-toolkit unit.
 
     It handles ID/template based translations and other API differences.
     """
@@ -153,7 +154,8 @@ class TranslationUnit:
 
     @cached_property
     def context(self):
-        """Return context of message.
+        """
+        Return context of message.
 
         In some cases we have to use ID here to make all backends consistent.
         """
@@ -166,7 +168,8 @@ class TranslationUnit:
 
     @classmethod
     def calculate_id_hash(cls, has_template: bool, source: str, context: str):
-        """Return hash of source string, used for quick lookup.
+        """
+        Return hash of source string, used for quick lookup.
 
         We use siphash as it is fast and works well for our purpose.
         """
@@ -252,7 +255,8 @@ class TranslationFormat:
         source_language: Optional[str] = None,
         is_template: bool = False,
     ):
-        """Parse store and returns TranslationFormat instance.
+        """
+        Parse store and returns TranslationFormat instance.
 
         This wrapper is needed for AutodetectFormat to be able to return instance of
         different class.
@@ -389,7 +393,8 @@ class TranslationFormat:
             raise UnitNotFound(context, source)
 
     def find_unit(self, context: str, source: Optional[str] = None) -> Tuple[Any, bool]:
-        """Find unit by context and source.
+        """
+        Find unit by context and source.
 
         Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
         """
@@ -594,7 +599,8 @@ class TranslationFormat:
         raise NotImplementedError
 
     def iterate_merge(self, fuzzy: str, only_translated: bool = True):
-        """Iterate over units for merging.
+        """
+        Iterate over units for merging.
 
         Note: This can change fuzzy state of units!
         """

@@ -1789,7 +1789,8 @@ class ComponentDocCreateForm(ComponentProjectForm):
 
 
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
-    """Component creation form.
+    """
+    Component creation form.
 
     This is mostly copied from the Component model. Probably should be extracted to a
     standalone Repository model…

@@ -80,7 +80,8 @@ class MathCaptcha:
 
 
 def eval_expr(expr):
-    """Evaluate arithmetic expression used in Captcha.
+    """
+    Evaluate arithmetic expression used in Captcha.
 
     >>> eval_expr('2+6')
     8

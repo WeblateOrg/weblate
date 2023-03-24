@@ -116,7 +116,8 @@ description of the API.</p>
 
 
 def get_view_description(view, html=False):
-    """Given a view class, return a textual description to represent the view.
+    """
+    Given a view class, return a textual description to represent the view.
 
     This name is used in the browsable API, and in OPTIONS responses. This function is
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
@@ -141,7 +142,8 @@ def get_view_description(view, html=False):
 
 
 class MultipleFieldMixin:
-    """Multiple field filtering mixin.
+    """
+    Multiple field filtering mixin.
 
     Apply this mixin to any view or viewset to get multiple field filtering based on a
     `lookup_fields` attribute, instead of the default single field filtering.

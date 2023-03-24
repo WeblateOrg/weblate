@@ -258,7 +258,8 @@ class SSHWrapper:
 
     @property
     def path(self):
-        """Calculates unique wrapper path.
+        """
+        Calculates unique wrapper path.
 
         It is based on template and DATA_DIR settings.
         """

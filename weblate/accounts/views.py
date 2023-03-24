@@ -1118,7 +1118,8 @@ def store_userid(request, reset=False, remove=False, invite=False):
 @require_POST
 @login_required
 def social_disconnect(request, backend, association_id=None):
-    """Wrapper around social_django.views.disconnect.
+    """
+    Wrapper around social_django.views.disconnect.
 
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting last entry
@@ -1145,7 +1146,8 @@ def social_disconnect(request, backend, association_id=None):
 @never_cache
 @require_POST
 def social_auth(request, backend):
-    """Wrapper around social_django.views.auth.
+    """
+    Wrapper around social_django.views.auth.
 
     - Incorporates modified social_djang.utils.psa
     - Requires POST (to avoid CSRF on auth)
@@ -1226,7 +1228,8 @@ def handle_missing_parameter(request, backend, error):
 @csrf_exempt
 @never_cache
 def social_complete(request, backend):  # noqa: C901
-    """Wrapper around social_django.views.complete.
+    """
+    Wrapper around social_django.views.complete.
 
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by JavaScript) to avoid

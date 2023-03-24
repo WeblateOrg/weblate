@@ -46,7 +46,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create admin account with admin password.
+        """
+        Create admin account with admin password.
 
         This is useful mostly for setup inside appliances, when user wants to be able to
         login remotely and change password then.

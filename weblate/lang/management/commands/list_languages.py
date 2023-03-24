@@ -18,7 +18,8 @@ class Command(BaseCommand):
         parser.add_argument("locale", help="Locale for printing")
 
     def handle(self, *args, **options):
-        """Create default set of languages.
+        """
+        Create default set of languages.
 
         Optionally updating them to match current shipped definitions.
         """

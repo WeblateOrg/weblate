@@ -44,7 +44,8 @@ def get_rate_setting(scope: str, suffix: str):
 
 
 def revert_rate_limit(scope, request):
-    """Revert rate limit to previous state.
+    """
+    Revert rate limit to previous state.
 
     This can be used when rate limiting POST, but ignoring some events.
     """

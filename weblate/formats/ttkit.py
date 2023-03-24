@@ -86,7 +86,8 @@ class TTKitUnit(TranslationUnit):
 
     @cached_property
     def context(self):
-        """Return context of message.
+        """
+        Return context of message.
 
         In some cases we have to use ID here to make all the back-ends consistent.
         """
@@ -152,7 +153,8 @@ class TTKitUnit(TranslationUnit):
 
     @cached_property
     def flags(self):
-        """Return flags from unit.
+        """
+        Return flags from unit.
 
         We currently extract maxwidth attribute.
         """
@@ -188,7 +190,8 @@ class KeyValueUnit(TTKitUnit):
 
     @cached_property
     def context(self):
-        """Return context of message.
+        """
+        Return context of message.
 
         In some cases we have to use ID here to make all the back-ends consistent.
         """
@@ -338,7 +341,8 @@ class TTKitFormat(TranslationFormat):
         return cls.get_class().Extensions[0]
 
     def is_valid(self):
-        """Check whether store seems to be valid.
+        """
+        Check whether store seems to be valid.
 
         In some cases Translate Toolkit happily "parses" the file, even though it really
         did not do so (e.g. gettext parser on a random textfile).
@@ -558,7 +562,8 @@ class PoUnit(TTKitUnit):
 class PoMonoUnit(PoUnit):
     @cached_property
     def context(self):
-        """Return context of message.
+        """
+        Return context of message.
 
         In some cases we have to use ID here to make all the backends consistent.
         """
@@ -595,7 +600,8 @@ class PoMonoUnit(PoUnit):
 
 
 class XliffUnit(TTKitUnit):
-    """Wrapper unit for XLIFF.
+    """
+    Wrapper unit for XLIFF.
 
     XLIFF is special in Translate Toolkit — it uses locations for what
     is context in other formats.
@@ -627,7 +633,8 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def context(self):
-        """Return context of message.
+        """
+        Return context of message.
 
         Use resname if available as it usually is more interesting for the translator
         than ID.
@@ -643,7 +650,8 @@ class XliffUnit(TTKitUnit):
         return ""
 
     def is_translated(self):
-        """Check whether unit is translated.
+        """
+        Check whether unit is translated.
 
         We replace Translate Toolkit logic here as the isfuzzy is pretty much wrong
         there, see is_fuzzy docs.
@@ -651,7 +659,8 @@ class XliffUnit(TTKitUnit):
         return bool(self.target)
 
     def is_fuzzy(self, fallback=False):
-        """Check whether unit needs edit.
+        """
+        Check whether unit needs edit.
 
         The isfuzzy on XLIFF is really messing up the "approved" flag with "fuzzy"
         flag, leading to various problems.
@@ -684,7 +693,8 @@ class XliffUnit(TTKitUnit):
         return fallback
 
     def has_content(self):
-        """Check whether unit has content.
+        """
+        Check whether unit has content.
 
         For some reason, blank string does not mean non-translatable unit in XLIFF, so
         lets skip those as well.
@@ -819,7 +829,8 @@ class FlatXMLUnit(TTKitUnit):
         return get_string(self.mainunit.target)
 
     def has_content(self):
-        """Check whether unit has content.
+        """
+        Check whether unit has content.
 
         The attribute-less units will have context None.
         """
@@ -1785,7 +1796,8 @@ class InnoSetupINIFormat(INIFormat):
 
 
 class XWikiUnit(PropertiesUnit):
-    """Dedicated unit for XWiki.
+    """
+    Dedicated unit for XWiki.
 
     Inspired from PropertiesUnit, allow to override the methods to use the right
     XWikiDialect methods for decoding properties.
@@ -1811,7 +1823,8 @@ class XWikiUnit(PropertiesUnit):
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):
-    """Represents an XWiki Java Properties translation file.
+    """
+    Represents an XWiki Java Properties translation file.
 
     This format specification is detailed in
     https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiJavaProperties
@@ -1866,7 +1879,8 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
 
 
 class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
-    """Represents an XWiki Page Properties translation file.
+    """
+    Represents an XWiki Page Properties translation file.
 
     This format specification is detailed in
     https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiPageProperties
@@ -1884,7 +1898,8 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
 
 
 class XWikiFullPageFormat(XWikiPagePropertiesFormat):
-    """Represents an XWiki Full Page translation file.
+    """
+    Represents an XWiki Full Page translation file.
 
     This format specification is detailed in
     https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiFullContentTranslation

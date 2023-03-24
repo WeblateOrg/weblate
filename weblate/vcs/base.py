@@ -326,14 +326,16 @@ class Repository:
         )
 
     def needs_merge(self):
-        """Check whether repository needs merge with upstream.
+        """
+        Check whether repository needs merge with upstream.
 
         It is missing some revisions.
         """
         return self.count_missing() > 0
 
     def needs_push(self):
-        """Check whether repository needs push to upstream.
+        """
+        Check whether repository needs push to upstream.
 
         It has additional revisions.
         """
@@ -423,7 +425,8 @@ class Repository:
         objhash.update(data)
 
     def get_object_hash(self, path):
-        """Return hash of object in the VCS.
+        """
+        Return hash of object in the VCS.
 
         For files in a way compatible with Git (equivalent to git ls-tree HEAD), for
         dirs it behaves differently as we do not need to track some attributes (for
@@ -490,14 +493,16 @@ class Repository:
         raise NotImplementedError
 
     def log_revisions(self, refspec):
-        """Log revisions for given refspec.
+        """
+        Log revisions for given refspec.
 
         This is not universal as refspec is different per vcs.
         """
         raise NotImplementedError
 
     def list_changed_files(self, refspec: str) -> List:
-        """List changed files for given refspec.
+        """
+        List changed files for given refspec.
 
         This is not universal as refspec is different per vcs.
         """

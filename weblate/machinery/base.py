@@ -177,7 +177,8 @@ class MachineTranslation:
         user,
         threshold: int = 75,
     ):
-        """Download list of possible translations from a service.
+        """
+        Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
         translation, source string.

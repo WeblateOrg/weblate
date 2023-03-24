@@ -268,7 +268,8 @@ def store_params(strategy, user, **kwargs):
 
 
 def verify_username(strategy, backend, details, username, user=None, **kwargs):
-    """Verified whether username is still free.
+    """
+    Verified whether username is still free.
 
     It can happen that user has registered several times or other user has taken the
     username meanwhile.
@@ -281,7 +282,8 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
 
 
 def revoke_mail_code(strategy, details, **kwargs):
-    """Remove old mail validation code for Python Social Auth.
+    """
+    Remove old mail validation code for Python Social Auth.
 
     PSA keeps them around, but we really don't need them again.
     """
@@ -463,7 +465,8 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
 
 
 def slugify_username(value):
-    """Clean up username.
+    """
+    Clean up username.
 
     This is based on Django slugify with exception of lowercasing
 

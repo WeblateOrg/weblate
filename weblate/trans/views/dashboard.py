@@ -61,7 +61,8 @@ def get_suggestions(user, user_has_languages, base, filtered=False):
 
 
 def guess_user_language(request, translations):
-    """Guess user language for translations.
+    """
+    Guess user language for translations.
 
     It tries following:
 
@@ -92,7 +93,8 @@ def guess_user_language(request, translations):
 
 
 def get_user_translations(request, user, user_has_languages):
-    """Get list of translations in user languages.
+    """
+    Get list of translations in user languages.
 
     Works also for anonymous users based on current UI language.
     """

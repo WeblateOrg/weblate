@@ -118,7 +118,8 @@ class WeblateComponentCommand(BaseCommand):
         return result
 
     def handle(self, *args, **options):
-        """The actual logic of the command.
+        """
+        The actual logic of the command.
 
         Subclasses must implement this method.
         """
@@ -126,7 +127,8 @@ class WeblateComponentCommand(BaseCommand):
 
 
 class WeblateLangCommand(WeblateComponentCommand):
-    """Command accepting additional language parameter.
+    """
+    Command accepting additional language parameter.
 
     It can filter list of languages to process.
     """
@@ -161,7 +163,8 @@ class WeblateLangCommand(WeblateComponentCommand):
         return result
 
     def handle(self, *args, **options):
-        """The actual logic of the command.
+        """
+        The actual logic of the command.
 
         Subclasses must implement this method.
         """
@@ -198,7 +201,8 @@ class WeblateTranslationCommand(BaseCommand):
             raise CommandError("No matching translation project found!")
 
     def handle(self, *args, **options):
-        """The actual logic of the command.
+        """
+        The actual logic of the command.
 
         Subclasses must implement this method.
         """

@@ -528,7 +528,8 @@ def naturaltime_future(value, now):
 
 @register.filter(is_safe=True)
 def naturaltime(value, now=None):
-    """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
+    """
+    Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
     For date and time values shows how many seconds, minutes or hours ago compared to
     current timestamp returns representing string.
@@ -921,7 +922,8 @@ def markdown(text):
 
 @register.filter
 def choiceval(boundfield):
-    """Get literal value from a field's choices.
+    """
+    Get literal value from a field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """

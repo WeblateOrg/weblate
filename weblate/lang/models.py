@@ -212,7 +212,8 @@ class LanguageQuerySet(models.QuerySet):
         return None
 
     def fuzzy_get(self, code, strict=False):
-        """Get matching language for code.
+        """
+        Get matching language for code.
 
         The code does not have to be exactly same (cs_CZ is trteated same as
         cs-CZ) or returns None.
@@ -297,7 +298,8 @@ class LanguageQuerySet(models.QuerySet):
         return self.auto_create(ret, create)
 
     def auto_create(self, code, create=True):
-        """Automatically create new language.
+        """
+        Automatically create new language.
 
         It is based on code and best guess of parameters.
         """
@@ -422,7 +424,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         )
 
     def setup(self, update, logger=lambda x: x):
-        """Create basic set of languages.
+        """
+        Create basic set of languages.
 
         It is based on languages defined in the languages-data repo.
         """
@@ -622,7 +625,8 @@ class Language(models.Model, CacheKeyMixin):
         return self.code not in data.NO_CODE_LANGUAGES
 
     def get_html(self):
-        """Return html attributes for markup in this language.
+        """
+        Return html attributes for markup in this language.
 
         Includes language and direction HTML.
         """

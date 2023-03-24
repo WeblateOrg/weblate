@@ -171,7 +171,8 @@ class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
 
 
 def re_escape(pattern):
-    """Escape for use in database regexp match.
+    """
+    Escape for use in database regexp match.
 
     This is based on re.escape, but that one escapes too much.
     """

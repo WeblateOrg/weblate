@@ -238,7 +238,8 @@ class GitRepository(Repository):
         return status != ""
 
     def show(self, revision):
-        """Helper method to get content of revision.
+        """
+        Helper method to get content of revision.
 
         Used in tests.
         """
@@ -607,7 +608,8 @@ class SubversionRepository(GitRepository):
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
-        """Initialize the git-svn repository.
+        """
+        Initialize the git-svn repository.
 
         This does not support switching remote as it's quite complex:
         https://git.wiki.kernel.org/index.php/GitSvnSwitch
@@ -646,7 +648,8 @@ class SubversionRepository(GitRepository):
     def merge(
         self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
     ):
-        """Rebases.
+        """
+        Rebases.
 
         Git-svn does not support merge.
         """
@@ -654,7 +657,8 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     def rebase(self, abort=False):
-        """Rebase remote branch or reverts the rebase.
+        """
+        Rebase remote branch or reverts the rebase.
 
         Git-svn does not support merge.
         """
@@ -674,7 +678,8 @@ class SubversionRepository(GitRepository):
         )
 
     def get_remote_branch_name(self):
-        """Return the remote branch name.
+        """
+        Return the remote branch name.
 
         trunk if local branch is master, local branch otherwise.
         """
@@ -820,7 +825,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.create_fork(credentials)
 
     def push(self, branch: str):
-        """Fork repository on GitHub and push changes.
+        """
+        Fork repository on GitHub and push changes.
 
         Pushes changes to *-weblate branch on fork and creates pull request against
         original repository.
@@ -1037,7 +1043,8 @@ class GithubRepository(GitMergeRequestBase):
         fork_branch: str,
         retry_fork: bool = True,
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1114,7 +1121,8 @@ class GiteaRepository(GitMergeRequestBase):
         fork_branch: str,
         retry_fork: bool = True,
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1282,7 +1290,8 @@ class GitLabRepository(GitMergeRequestBase):
         return response["id"]
 
     def configure_fork_features(self, credentials: Dict, forked_url: str):
-        """Disable features in fork.
+        """
+        Disable features in fork.
 
         GitLab initializes a lot of the features in the fork
         that are not desirable, such as merge requests, issues, etc.
@@ -1345,7 +1354,8 @@ class GitLabRepository(GitMergeRequestBase):
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1414,7 +1424,8 @@ class PagureRepository(GitMergeRequestBase):
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """

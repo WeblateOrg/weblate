@@ -80,7 +80,8 @@ OPTIONAL = [
 
 
 def get_version_module(name, optional=False):
-    """Return module object.
+    """
+    Return module object.
 
     On error raises verbose exception with name and URL.
     """

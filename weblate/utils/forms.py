@@ -34,7 +34,8 @@ class UsernameField(forms.CharField):
 
 
 class EmailField(forms.EmailField):
-    """Slightly restricted EmailField.
+    """
+    Slightly restricted EmailField.
 
     We blacklist some additional local parts and customize error messages.
     """
