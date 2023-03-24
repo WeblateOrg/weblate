@@ -176,7 +176,7 @@ class LanguageQuerySet(models.QuerySet):
         # Strip leading and trailing .
         code = code.strip(".")
 
-        return code
+        return code  # noqa: RET504
 
     def aliases_get(self, code, expanded_code=None):
         code = code.lower()
@@ -902,7 +902,7 @@ class PluralMapper:
         obj = cls.instances.get(key)
         if obj is None:
             obj = cls.instances[key] = super().__new__(cls)
-        return obj
+        return obj  # noqa: RET504
 
     def __init__(self, source_plural, target_plural):
         self.source_plural = source_plural

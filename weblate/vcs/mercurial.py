@@ -68,7 +68,7 @@ class HgRepository(Repository):
         config.read(filename)
         if config.has_option(section, option):
             result = config.get(section, option)
-        return result
+        return result  # noqa: RET504
 
     def set_config(self, path, value):
         """Set entry in local configuration."""

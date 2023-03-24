@@ -106,11 +106,10 @@ class SearchField(Field):
             "approved",
             "unapproved",
         ]
-        result = [
+        return [
             (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
             for key in filter_keys
         ]
-        return result
 
 
 class FilterForm(forms.Form):

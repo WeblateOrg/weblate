@@ -1259,7 +1259,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def get_clean_slug(self, slug):
         if slug.endswith(".git"):
             slug = slug[:-4]
-        return slug
+        return slug  # noqa: RET504
 
     def get_bitbucket_git_repoweb_template(self):
         owner, slug, matches = None, None, None

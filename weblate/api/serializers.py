@@ -890,14 +890,13 @@ class StatisticsSerializer(ReadOnlySerializer):
 class UserStatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
         profile = instance.profile
-        result = {
+        return {
             "translated": profile.translated,
             "suggested": profile.suggested,
             "uploaded": profile.uploaded,
             "commented": profile.commented,
             "languages": profile.languages.count(),
         }
-        return result
 
 
 class PluralField(serializers.ListField):

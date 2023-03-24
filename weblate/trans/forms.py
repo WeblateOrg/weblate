@@ -289,7 +289,7 @@ class PluralTextarea(forms.Textarea):
         if language.direction == "rtl":
             result = format_html("{}{}", self.get_rtl_toolbar(fieldname), result)
 
-        return result
+        return result  # noqa: RET504
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""

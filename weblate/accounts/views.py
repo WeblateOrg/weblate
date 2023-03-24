@@ -353,7 +353,7 @@ def user_profile(request):
         .order_by("license")
     )
 
-    result = render(
+    return render(
         request,
         "accounts/profile.html",
         {
@@ -376,7 +376,6 @@ def user_profile(request):
             "auditlog": request.user.auditlog_set.order()[:20],
         },
     )
-    return result
 
 
 @login_required
