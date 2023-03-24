@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from contextlib import suppress
 from typing import Optional
 
 from django.core.cache import cache
@@ -81,12 +82,10 @@ class WeblateLock:
         self._depth -= 1
         if self._depth > 0:
             return
-        try:
+        # This can happen in case of overloaded server fails to renew the
+        # lock before expiry
+        with suppress(NotAcquired):
             self._lock.release()
-        except NotAcquired:
-            # This can happen in case of overloaded server fails to renew the
-            # lock before expiry
-            pass
 
     @property
     def is_locked(self):

@@ -6,6 +6,7 @@ import os
 import re
 import time
 from collections import Counter, defaultdict
+from contextlib import suppress
 from copy import copy
 from datetime import datetime
 from glob import glob
@@ -1415,12 +1416,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         )
                 if self.id:
                     self.delete_alert("UpdateFailure")
-                    try:
+                    with suppress(RepositoryException):
                         Component.objects.filter(pk=self.pk).update(
                             remote_revision=self.repository.last_remote_revision
                         )
-                    except RepositoryException:
-                        pass
             return True
         except RepositoryException as error:
             report_error(cause="Could not update the repository", project=self.project)
