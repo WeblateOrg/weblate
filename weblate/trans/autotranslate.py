@@ -89,7 +89,7 @@ class AutoTranslate:
                 not component.project.contribute_shared_tm
                 and not component.project != self.translation.component.project
             ) or component.source_language != source_language:
-                raise PermissionDenied()
+                raise PermissionDenied
             kwargs["translation__component"] = component
         else:
             project = self.translation.component.project

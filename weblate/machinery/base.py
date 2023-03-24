@@ -186,7 +186,7 @@ class MachineTranslation:
         better hint and text parameter as source string if you do no fuzzy
         matching.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def map_language_code(self, code):
         """Map language code to service specific."""

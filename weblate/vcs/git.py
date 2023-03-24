@@ -843,12 +843,12 @@ class GitMergeRequestBase(GitForcePushRepository):
         self.create_pull_request(credentials, self.branch, fork_remote, fork_branch)
 
     def create_fork(self, credentials: Dict):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_merge_message(self):
         lines = render_template(

@@ -19,7 +19,7 @@ def lock_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.lock", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     obj.do_lock(request.user)
     perform_commit.delay(obj.pk, "lock", None)
@@ -35,7 +35,7 @@ def unlock_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.lock", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     obj.do_lock(request.user, False)
 
@@ -50,7 +50,7 @@ def lock_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("component.lock", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     for component in obj.component_set.iterator():
         component.do_lock(request.user)
@@ -69,7 +69,7 @@ def unlock_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("component.lock", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     for component in obj.component_set.iterator():
         component.do_lock(request.user, False)

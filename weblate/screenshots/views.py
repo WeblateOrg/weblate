@@ -70,7 +70,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
     def post(self, request, **kwargs):
         component = self.get_component()
         if not request.user.has_perm("screenshot.add", component):
-            raise PermissionDenied()
+            raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
@@ -144,7 +144,7 @@ def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     component = obj.translation.component
     if not request.user.has_perm("screenshot.delete", obj.translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     kwargs = {"project": component.project.slug, "component": component.slug}
 
@@ -158,7 +158,7 @@ def delete_screenshot(request, pk):
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     if not request.user.has_perm("screenshot.edit", obj.translation.component):
-        raise PermissionDenied()
+        raise PermissionDenied
     return obj
 
 

@@ -357,7 +357,7 @@ class UpdateBaseAddon(BaseAddon):
                 yield translation
 
     def update_translations(self, component, previous_head):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def post_update(self, component, previous_head: str, skip_push: bool):
         try:

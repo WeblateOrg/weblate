@@ -765,7 +765,7 @@ class SummaryNotification(Notification):
 
     @staticmethod
     def get_count(translation):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_context(
         self, change=None, subscription=None, extracontext=None, changes=None

@@ -1102,7 +1102,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
 def get_new_language_form(request, component):
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
-        raise PermissionDenied()
+        raise PermissionDenied
     if request.user.has_perm("translation.add_more", component):
         return NewLanguageOwnerForm
     return NewLanguageForm

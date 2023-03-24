@@ -229,7 +229,7 @@ class BaseStats:
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def ensure_basic(self, save=True):
         """Ensure we have basic stats."""
@@ -250,7 +250,7 @@ class BaseStats:
             self._prefetch_basic()
 
     def _prefetch_basic(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def calculate_percents(self, item, total=None):
         """Calculate percent value for given item."""

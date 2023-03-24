@@ -13,7 +13,7 @@ class AutoFix:
 
     def fix_single_target(self, target, source, unit):
         """Fix a single target, implement this method in subclasses."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def fix_target(self, target, unit):
         """Return a target translation array with a single fix applied."""

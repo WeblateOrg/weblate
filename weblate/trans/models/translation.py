@@ -1225,7 +1225,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 try:
                     number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
                     if not self.plural.same_plural(number, formula):
-                        raise PluralFormsMismatch()
+                        raise PluralFormsMismatch
                 except (ValueError, KeyError):
                     # Formula wrong or missing
                     pass

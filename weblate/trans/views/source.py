@@ -29,7 +29,7 @@ def edit_context(request, pk):
     do_add = "addflag" in request.POST
     if do_add or "removeflag" in request.POST:
         if not request.user.has_perm("unit.flag", unit.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
         flag = request.POST.get("addflag", request.POST.get("removeflag"))
         flags = unit.get_unit_flags()
         if (
@@ -49,7 +49,7 @@ def edit_context(request, pk):
             unit.save(same_content=True, update_fields=["extra_flags"])
     else:
         if not request.user.has_perm("source.edit", unit.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         form = ContextForm(request.POST, instance=unit, user=request.user)
 

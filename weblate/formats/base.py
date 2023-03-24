@@ -144,12 +144,12 @@ class TranslationUnit:
     @cached_property
     def source(self):
         """Return source string from a ttkit unit."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @cached_property
     def target(self):
         """Return target string from a ttkit unit."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @cached_property
     def context(self):
@@ -157,7 +157,7 @@ class TranslationUnit:
 
         In some cases we have to use ID here to make all backends consistent.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @cached_property
     def previous_source(self):
@@ -204,11 +204,11 @@ class TranslationUnit:
 
     def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def set_state(self, state):
         """Set fuzzy /approved flag on translated unit."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def has_unit(self) -> bool:
         return self.unit is not None
@@ -314,7 +314,7 @@ class TranslationFormat:
         return [self.storefile.name]
 
     def load(self, storefile, template_store):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     def get_plural(cls, language, store=None):
@@ -402,7 +402,7 @@ class TranslationFormat:
 
     def add_unit(self, ttkit_unit):
         """Add new unit to underlying store."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def update_header(self, **kwargs):
         """Update store header if available."""
@@ -423,7 +423,7 @@ class TranslationFormat:
 
     def save(self):
         """Save underlying store to disk."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @property
     def all_store_units(self):
@@ -487,7 +487,7 @@ class TranslationFormat:
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     def get_language_code(cls, code: str, language_format: Optional[str] = None) -> str:
@@ -591,7 +591,7 @@ class TranslationFormat:
         callback: Optional[Callable] = None,
     ):
         """Handle creation of new translation file."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def iterate_merge(self, fuzzy: str, only_translated: bool = True):
         """Iterate over units for merging.
@@ -621,7 +621,7 @@ class TranslationFormat:
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
     ):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def new_unit(
         self,
@@ -665,14 +665,14 @@ class TranslationFormat:
 
     @classmethod
     def get_class(cls):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     def add_breadcrumb(cls, message, **data):
         add_breadcrumb(category="storage", message=message, **data)
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def cleanup_unused(self) -> List[str]:
         """Removes unused strings, returning list of additional changed files."""
@@ -756,7 +756,7 @@ class EmptyFormat(TranslationFormat):
 class BilingualUpdateMixin:
     @classmethod
     def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     def update_bilingual(cls, filename: str, template: str, **kwargs):

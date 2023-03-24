@@ -42,7 +42,7 @@ def check_user_form(
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = form_class(obj, request.POST) if pass_project else form_class(request.POST)
 
@@ -244,7 +244,7 @@ def manage_access(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     groups = (
         obj.defined_groups.order().annotate(Count("user")).prefetch_related("languages")
@@ -316,7 +316,7 @@ def create_token(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectTokenCreateForm(obj, request.POST)
 
@@ -341,7 +341,7 @@ def create_group(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectTeamForm(request.POST)
 

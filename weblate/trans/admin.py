@@ -29,10 +29,10 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
     def get_qs_units(self, queryset):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_qs_translations(self, queryset):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @admin.action(description=_("Update quality checks"))
     def update_checks(self, request, queryset):

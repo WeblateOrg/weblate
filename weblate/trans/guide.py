@@ -33,7 +33,7 @@ class Guideline:
         self.passed = self.is_passing()
 
     def is_passing(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def is_relevant(self):
         return True

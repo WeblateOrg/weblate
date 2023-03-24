@@ -196,7 +196,7 @@ class WeblateViewSet(DownloadViewSet):
         permission, method, args, takes_request = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         obj.acting_user = request.user
 
@@ -234,7 +234,7 @@ class WeblateViewSet(DownloadViewSet):
             return Response(data)
 
         if not request.user.has_perm("meta:vcs.status", project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         data = {
             "needs_commit": obj.needs_commit(),
@@ -772,7 +772,7 @@ class ComponentViewSet(
 
         if request.method == "POST":
             if not request.user.has_perm("component.lock", obj):
-                raise PermissionDenied()
+                raise PermissionDenied
 
             serializer = LockRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -1018,7 +1018,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         user = request.user
         if request.method == "GET":
             if not user.has_perm("translation.download", obj):
-                raise PermissionDenied()
+                raise PermissionDenied
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
             if query_string and not fmt:
@@ -1034,7 +1034,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 raise ValidationError({"format": str(error)})
 
         if not user.has_perm("upload.perform", obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1289,7 +1289,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 )
 
             if not user.has_perm("unit.edit", unit):
-                raise PermissionDenied()
+                raise PermissionDenied
 
             if new_state == STATE_APPROVED and not user.has_perm(
                 "unit.review", translation
@@ -1356,7 +1356,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             return self.download_file(obj.image.path, "application/binary")
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         serializer = ScreenshotFileSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1372,7 +1372,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         obj = self.get_object()
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         if "unit_id" not in request.data:
             raise ValidationError({"unit_id": "This field is required."})
@@ -1391,7 +1391,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def delete_units(self, request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         try:
             unit = obj.translation.unit_set.get(pk=unit_id)
@@ -1596,9 +1596,9 @@ class TasksViewSet(ViewSet):
             # Check access or permission
             if permission:
                 if not request.user.has_perm(permission, obj):
-                    raise PermissionDenied()
+                    raise PermissionDenied
             elif not request.user.can_access_component(component):
-                raise PermissionDenied()
+                raise PermissionDenied
 
         return task, component
 
