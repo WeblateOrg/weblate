@@ -218,7 +218,8 @@ class UserManager(BaseUserManager):
 
 class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
-        """All users having explicit permission on a project.
+        """
+        All users having explicit permission on a project.
 
         Note: This intentionally does not list superusers or site-wide permissions
         given using project_selection.

@@ -695,7 +695,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return "/".join((str(self.project), self.name))
 
     def save(self, *args, **kwargs):
-        """Save wrapper.
+        """
+        Save wrapper.
 
         It updates the back-end repository and regenerates translation data.
         """
@@ -972,7 +973,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
 
     def get_source_translation(self):
-        """Return source translation object if it exists.
+        """
+        Return source translation object if it exists.
 
         In some cases we do not want to create source translation object as
         source_translation property does, but we want to utilize its cache.
@@ -1192,7 +1194,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         template: Optional[str] = None,
         user=None,
     ):
-        """Generate link to source code browser for given file and line.
+        """
+        Generate link to source code browser for given file and line.
 
         For linked repositories, it is possible to override the linked repository path
         here.
@@ -1332,7 +1335,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return cleanup_repo_url(self.repo, message)
 
     def add_ssh_host_key(self):
-        """Add SSH key for current repo as trusted.
+        """
+        Add SSH key for current repo as trusted.
 
         This is essentially a TOFU approach.
         """
@@ -1550,7 +1554,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @perform_on_link
     def push_if_needed(self, do_update=True):
-        """Wrapper to push if needed.
+        """
+        Wrapper to push if needed.
 
         Checks for:
 
@@ -2669,7 +2674,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             raise ValidationError({field: msg})
 
     def clean(self):
-        """Validator fetches repository.
+        """
+        Validator fetches repository.
 
         It tries to find translation files and checks that they are valid.
         """
@@ -3195,7 +3201,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return self.file_format_cls.has_multiple_strings
 
     def can_add_new_language(self, user, fast: bool = False):
-        """Wrapper to check if a new language can be added.
+        """
+        Wrapper to check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.

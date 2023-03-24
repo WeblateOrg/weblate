@@ -110,7 +110,8 @@ def update_project(request, project):
 
 
 def parse_hook_payload(request):
-    """Parse hook payload.
+    """
+    Parse hook payload.
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
@@ -122,7 +123,8 @@ def parse_hook_payload(request):
 @require_POST
 @csrf_exempt
 def vcs_service_hook(request, service):
-    """Shared code between VCS service hooks.
+    """
+    Shared code between VCS service hooks.
 
     Currently used for bitbucket_hook, github_hook and gitlab_hook, but should be usable
     for other VCS services (Google Code, custom coded sites, etc.) too.

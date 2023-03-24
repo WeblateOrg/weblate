@@ -131,7 +131,8 @@ class ChangeQuerySet(models.QuerySet):
     def last_changes(
         self, user, unit=None, translation=None, component=None, project=None
     ):
-        """Return the most recent changes for an user.
+        """
+        Return the most recent changes for an user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.

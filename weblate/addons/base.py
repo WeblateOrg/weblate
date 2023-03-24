@@ -339,7 +339,8 @@ class TestAddon(BaseAddon):
 
 
 class UpdateBaseAddon(BaseAddon):
-    """Base class for add-ons updating translation files.
+    """
+    Base class for add-ons updating translation files.
 
     It hooks to post update and commits all changed translations.
     """

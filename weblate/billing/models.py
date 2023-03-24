@@ -361,7 +361,8 @@ class Billing(models.Model):
     # Translators: Whether the package is inside displayed (soft) limits
 
     def check_payment_status(self, now: bool = False):
-        """Check current payment status.
+        """
+        Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """

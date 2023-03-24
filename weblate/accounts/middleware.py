@@ -16,7 +16,8 @@ from weblate.auth.models import get_anonymous
 
 
 def get_user(request):
-    """Based on django.contrib.auth.middleware.get_user.
+    """
+    Based on django.contrib.auth.middleware.get_user.
 
     Adds handling of anonymous user which is stored in database.
     """
@@ -68,7 +69,8 @@ class AuthenticationMiddleware:
 
 
 class RequireLoginMiddleware:
-    """Middleware that applies the login_required decorator to matching URL patterns.
+    """
+    Middleware that applies the login_required decorator to matching URL patterns.
 
     To use, add the class to MIDDLEWARE and
     define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your

@@ -80,7 +80,8 @@ def get_queue_stats():
 
 
 def is_task_ready(task):
-    """Workaround broken ready() for failed Celery results.
+    """
+    Workaround broken ready() for failed Celery results.
 
     In case the task ends with an exception, the result tries to reconstruct
     that. It can fail in case the exception can not be reconstructed using

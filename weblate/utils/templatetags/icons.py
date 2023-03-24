@@ -21,7 +21,8 @@ SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
 @register.simple_tag()
 def icon(name):
-    """Inlines SVG icon.
+    """
+    Inlines SVG icon.
 
     Inlining is necessary to be able to apply CSS styles on the path.
     """

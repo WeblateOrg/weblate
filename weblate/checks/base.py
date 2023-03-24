@@ -123,7 +123,8 @@ class Check:
         return get_doc_url("user/checks", self.doc_id, user=user)
 
     def check_highlight(self, source, unit):
-        """Return parts of the text that match to highlight them.
+        """
+        Return parts of the text that match to highlight them.
 
         Result is list that contains lists of two elements with start position of the
         match and the value of the match

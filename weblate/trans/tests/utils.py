@@ -69,7 +69,8 @@ class RepoTestMixin:
     local_repo_path = "local:"
 
     def optional_extract(self, output, tarname):
-        """Extract test repository data if needed.
+        """
+        Extract test repository data if needed.
 
         Checks whether directory exists or is older than archive.
         """

@@ -87,7 +87,8 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         return super().map_language_code(code).replace("_", "-")
 
     def download_languages(self):
-        """Download list of supported languages from a service.
+        """
+        Download list of supported languages from a service.
 
         Example of the response:
 

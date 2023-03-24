@@ -524,7 +524,8 @@ class VCSGiteaTest(VCSGitUpstreamTest):
     _sets_push = False
 
     def mock_responses(self, pr_response, pr_status=200):
-        """Mock response helper function.
+        """
+        Mock response helper function.
 
         This function will mock request responses for both fork and PRs
         """
@@ -642,7 +643,8 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     _sets_push = False
 
     def mock_responses(self, pr_response, pr_status=200):
-        """Mock response helper function.
+        """
+        Mock response helper function.
 
         This function will mock request responses for both fork and PRs
         """
@@ -887,7 +889,8 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     def mock_responses(
         self, pr_response, pr_status=200, get_forks=None, repo_state: int = 409
     ):
-        """Mock response helper function.
+        """
+        Mock response helper function.
 
         This function will mock request responses for both fork and PRs,
         GET request to get all forks and target project id, and PUT request

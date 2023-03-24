@@ -127,7 +127,8 @@ class WeblateAuthAdmin(WeblateModelAdmin):
 
 
 class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
-    """Custom UserAdmin class.
+    """
+    Custom UserAdmin class.
 
     Used to add listing of group membership and whether a user is active.
     """
@@ -261,7 +262,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         return super().has_change_permission(request, obj)
 
     def save_model(self, request, obj, form, change):
-        """Fix saving of automatic language/project selection, part 1.
+        """
+        Fix saving of automatic language/project selection, part 1.
 
         Stores saved object as an attribute to be used by save_related.
         """
@@ -269,7 +271,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         self.new_obj = obj
 
     def save_related(self, request, form, formsets, change):
-        """Fix saving of automatic language/project selection, part 2.
+        """
+        Fix saving of automatic language/project selection, part 2.
 
         Uses stored attribute to save the model again. Saving triggers the automation
         and adjusts project/language selection according to the chosen value.

@@ -53,7 +53,8 @@ def authenticate(request, auth):
 @never_cache
 @csrf_exempt
 def git_export(request, project, component, path):
-    """Git HTTP server view.
+    """
+    Git HTTP server view.
 
     Wrapper around git-http-backend to provide Git repositories export over HTTP.
     Performs permission checks and hands over execution to the wrapper.

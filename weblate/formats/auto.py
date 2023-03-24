@@ -88,7 +88,8 @@ class AutodetectFormat(TTKitFormat):
         source_language: Optional[str] = None,
         is_template: bool = False,
     ):
-        """Parse store and returns TTKitFormat instance.
+        """
+        Parse store and returns TTKitFormat instance.
 
         First attempt own autodetection, then fallback to ttkit.
         """

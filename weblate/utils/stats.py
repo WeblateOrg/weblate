@@ -302,7 +302,8 @@ class BaseStats:
 
 
 class DummyTranslationStats(BaseStats):
-    """Dummy stats to report 0 in all cases.
+    """
+    Dummy stats to report 0 in all cases.
 
     Used when given language does not exist in a component.
     """

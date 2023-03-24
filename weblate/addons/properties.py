@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Properties cleanup addon.
+"""
+Properties cleanup addon.
 
 This is reimplementation of
 https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/

@@ -35,7 +35,8 @@ def report_error(
     extra_log: str = None,
     project=None,
 ):
-    """Wrapper for error reporting.
+    """
+    Wrapper for error reporting.
 
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.

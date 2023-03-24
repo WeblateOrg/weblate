@@ -35,7 +35,8 @@ from weblate.vcs.ssh import get_key_data
 def check_user_form(
     request, project, form_class=UserManageForm, pass_project: bool = False
 ):
-    """Check project permission and UserManageForm.
+    """
+    Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all user management views.
     """

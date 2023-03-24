@@ -164,7 +164,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     @cached_property
     def is_template(self):
-        """Check whether this is template translation.
+        """
+        Check whether this is template translation.
 
         This means that translations should be propagated as sources to others.
         """
@@ -172,7 +173,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     @cached_property
     def is_source(self):
-        """Check whether this is source strings.
+        """
+        Check whether this is source strings.
 
         This means that translations should be propagated as sources to others.
         """
@@ -880,7 +882,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def merge_translations(
         self, request, store2, conflicts: str, method: str, fuzzy: str
     ):
-        """Merge translation unit wise.
+        """
+        Merge translation unit wise.
 
         Needed for template based translations to add new strings.
         """
