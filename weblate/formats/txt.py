@@ -241,10 +241,10 @@ class AppStoreFormat(TranslationFormat):
         try:
             if not fast:
                 AppStoreParser(base)
-            return True
         except Exception:
             report_error(cause="File parse error")
             return False
+        return True
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:
         filename = self.store.get_filename(ttkit_unit.filename)

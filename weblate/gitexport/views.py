@@ -33,21 +33,24 @@ def authenticate(request, auth):
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)
-        if method.lower() == "basic":
-            username, code = b64decode(data).decode("iso-8859-1").split(":", 1)
-            try:
-                user = User.objects.get(username=username, auth_token__key=code)
-            except User.DoesNotExist:
-                return False
-
-            if not user.is_active:
-                return False
-
-            request.user = user
-            return True
-        return False
     except (ValueError, TypeError):
         return False
+    if method.lower() == "basic":
+        try:
+            username, code = b64decode(data).decode("iso-8859-1").split(":", 1)
+        except (ValueError, TypeError):
+            return False
+        try:
+            user = User.objects.get(username=username, auth_token__key=code)
+        except User.DoesNotExist:
+            return False
+
+        if not user.is_active:
+            return False
+
+        request.user = user
+        return True
+    return False
 
 
 @never_cache

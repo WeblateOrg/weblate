@@ -984,10 +984,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return self.__dict__["source_translation"]
         try:
             result = self.translation_set.get(language_id=self.source_language_id)
-            self.__dict__["source_translation"] = result
-            return result
         except ObjectDoesNotExist:
             return None
+        self.__dict__["source_translation"] = result
+        return result
 
     @cached_property
     def source_translation(self):
@@ -1402,25 +1402,6 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.repository.update_remote()
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
-                for line in self.repository.last_output.splitlines():
-                    self.log_debug("update: %s", line)
-                if previous:
-                    current = self.repository.last_remote_revision
-                    if previous == current:
-                        self.log_info("repository up to date at %s", previous)
-                    else:
-                        self.log_info(
-                            "repository updated from %s to %s",
-                            previous,
-                            current,
-                        )
-                if self.id:
-                    self.delete_alert("UpdateFailure")
-                    with suppress(RepositoryException):
-                        Component.objects.filter(pk=self.pk).update(
-                            remote_revision=self.repository.last_remote_revision
-                        )
-            return True
         except RepositoryException as error:
             report_error(cause="Could not update the repository", project=self.project)
             error_text = self.error_text(error)
@@ -1430,6 +1411,26 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             if self.id:
                 self.add_alert("UpdateFailure", error=error_text)
             return False
+
+        for line in self.repository.last_output.splitlines():
+            self.log_debug("update: %s", line)
+        if previous:
+            current = self.repository.last_remote_revision
+            if previous == current:
+                self.log_info("repository up to date at %s", previous)
+            else:
+                self.log_info(
+                    "repository updated from %s to %s",
+                    previous,
+                    current,
+                )
+        if self.id:
+            self.delete_alert("UpdateFailure")
+            with suppress(RepositoryException):
+                Component.objects.filter(pk=self.pk).update(
+                    remote_revision=self.repository.last_remote_revision
+                )
+        return True
 
     def configure_repo(self, validate=False, pull=True):
         """Ensure repository is correctly set up."""
@@ -1583,12 +1584,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def push_repo(self, request, retry=True):
         """Push repository changes upstream."""
         with self.repository.lock:
+            self.log_info("pushing to remote repo")
             try:
-                self.log_info("pushing to remote repo")
                 self.repository.push(self.push_branch)
-                self.delete_alert("RepositoryChanges")
-                self.delete_alert("PushFailure")
-                return True
             except RepositoryException as error:
                 error_text = self.error_text(error)
                 report_error(cause="Could not push the repo", project=self.project)
@@ -1608,15 +1606,21 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     ):
                         try:
                             self.repository.unshallow()
-                            return self.push_repo(request, retry=False)
                         except RepositoryException:
                             report_error(
                                 cause="Could not unshallow the repo",
                                 project=self.project,
                             )
-            messages.error(request, _("Could not push to remote branch on %s.") % self)
-            self.add_alert("PushFailure", error=error_text)
-            return False
+                        else:
+                            return self.push_repo(request, retry=False)
+                messages.error(
+                    request, _("Could not push to remote branch on %s.") % self
+                )
+                self.add_alert("PushFailure", error=error_text)
+                return False
+            self.delete_alert("RepositoryChanges")
+            self.delete_alert("PushFailure")
+            return True
 
     @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True, retry=True):
@@ -1703,9 +1707,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             # create translation objects for all files
             try:
                 self.create_translations(request=request, force=True)
-                return True
             except FileParseError:
                 return False
+            return True
 
     @perform_on_link
     def do_cleanup(self, request=None):

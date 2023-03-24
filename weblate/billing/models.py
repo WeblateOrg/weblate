@@ -333,9 +333,9 @@ class Billing(models.Model):
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
-            return f"{invoice.start} - {invoice.end}"
         except IndexError:
             return _("N/A")
+        return f"{invoice.start} - {invoice.end}"
 
     @admin.display(
         description=_("In display limits"),

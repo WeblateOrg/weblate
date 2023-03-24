@@ -41,17 +41,17 @@ def is_spam(text, request):
                 comment_content=text,
                 comment_type="comment",
             )
-            if result:
-                try:
-                    raise Exception(
-                        f"Akismet reported spam: {user_ip} / {user_agent} / {text!r}"
-                    )
-                except Exception:
-                    report_error(cause="Akismet reported spam")
-            return result == SpamStatus.DefiniteSpam
         except (OSError, AkismetServerError):
             report_error()
             return True
+        if result:
+            try:
+                raise Exception(
+                    f"Akismet reported spam: {user_ip} / {user_agent} / {text!r}"
+                )
+            except Exception:
+                report_error(cause="Akismet reported spam")
+        return result == SpamStatus.DefiniteSpam
     return False
 
 

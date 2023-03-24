@@ -164,10 +164,10 @@ class ConvertFormat(TranslationFormat):
         try:
             if not fast:
                 cls(base, None)
-            return True
         except Exception:
             report_error(cause="File parse error")
             return False
+        return True
 
     def add_unit(self, ttkit_unit):
         self.store.addunit(ttkit_unit)

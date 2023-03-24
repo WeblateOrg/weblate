@@ -1519,9 +1519,9 @@ class Unit(models.Model, LoggerMixin):
 
         try:
             change = self.recent_content_changes[0]
-            return change.author or get_anonymous(), change.timestamp
         except IndexError:
             return get_anonymous(), timezone.now()
+        return change.author or get_anonymous(), change.timestamp
 
     def get_locations(self) -> Generator[Tuple[str, str, str], None, None]:
         """Returns list of location filenames."""

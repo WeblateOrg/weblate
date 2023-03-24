@@ -323,9 +323,9 @@ class URLCheck(TargetCheck):
             return False
         try:
             self.validator(target)
-            return False
         except ValidationError:
             return True
+        return False
 
 
 class SafeHTMLCheck(TargetCheck):

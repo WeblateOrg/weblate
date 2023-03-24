@@ -174,9 +174,11 @@ class QueryField(forms.CharField):
             return ""
         try:
             parse_query(value)
-            return value
         except Exception as error:
-            raise ValidationError(_("Could not parse query string: {}").format(error))
+            raise ValidationError(
+                _("Could not parse query string: {}").format(error)
+            ) from error
+        return value
 
 
 class FlagField(forms.CharField):

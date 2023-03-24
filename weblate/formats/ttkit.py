@@ -478,12 +478,12 @@ class TTKitFormat(TranslationFormat):
         try:
             if not fast:
                 cls(base)
-            return os.path.exists(base)
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
             report_error(cause="File-parsing error")
             return False
+        return os.path.exists(base)
 
     @property
     def all_store_units(self):
