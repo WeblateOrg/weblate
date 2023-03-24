@@ -528,7 +528,7 @@ def cleanup_project_backups():
                     datetime.fromtimestamp(int(path.split(".")[0])),
                 )
                 for path in os.listdir(projectdir)
-                if path.endswith(".zip") or path.endswith(".zip.part")
+                if path.endswith((".zip", ".zip.part"))
             ),
             key=lambda item: item[1],
             reverse=True,

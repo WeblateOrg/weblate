@@ -299,7 +299,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
+                self.assertTrue(text.endswith(("!!!", "!!!\n")))
 
     def test_pseudolocale_variable(self):
         self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
@@ -322,7 +322,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@_"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
+                self.assertTrue(text.endswith(("_!!!", "_!!!\n")))
         for addon in self.component.addon_set.all():
             addon.delete()
         translation = self.component.translation_set.get(language_code="de")

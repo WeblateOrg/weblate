@@ -13,10 +13,8 @@ def get_doc_url(page: str, anchor: str = "", user=None):
     """Return URL to documentation."""
     version = weblate.utils.version.VERSION
     # Should we use tagged release or latest version
-    if (
-        version.endswith("-dev")
-        or version.endswith("-rc")
-        or (settings.HIDE_VERSION and (user is None or not user.is_authenticated))
+    if version.endswith(("-dev", "-rc")) or (
+        settings.HIDE_VERSION and (user is None or not user.is_authenticated)
     ):
         doc_version = "latest"
     else:
