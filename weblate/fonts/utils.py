@@ -228,6 +228,6 @@ def check_fonts(app_configs=None, **kwargs):
     """Checks font rendering."""
     try:
         render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, "test")
-        return []
     except Exception as error:
         return [weblate_check("weblate.C024", f"Failed to use Pango: {error}")]
+    return []

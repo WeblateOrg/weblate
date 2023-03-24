@@ -1060,23 +1060,23 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 data["method"],
                 data["fuzzy"],
             )
-
-            return Response(
-                data={
-                    "not_found": not_found,
-                    "skipped": skipped,
-                    "accepted": accepted,
-                    "total": total,
-                    # Compatibility with older less detailed API
-                    "result": accepted > 0,
-                    "count": total,
-                }
-            )
         except Exception as error:
             report_error(
                 cause="Upload error", print_tb=True, project=obj.component.project
             )
             raise ValidationError({"file": str(error)})
+
+        return Response(
+            data={
+                "not_found": not_found,
+                "skipped": skipped,
+                "accepted": accepted,
+                "total": total,
+                # Compatibility with older less detailed API
+                "result": accepted > 0,
+                "count": total,
+            }
+        )
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):

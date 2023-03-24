@@ -174,9 +174,9 @@ class GitRepository(Repository):
     def has_rev(self, rev):
         try:
             self.execute(["rev-parse", "--verify", rev], needs_lock=False)
-            return True
         except RepositoryException:
             return False
+        return True
 
     def merge(
         self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False

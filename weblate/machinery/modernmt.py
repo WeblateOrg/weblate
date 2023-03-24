@@ -78,7 +78,7 @@ class ModernMTTranslation(MachineTranslation):
             content = exc.read()
             try:
                 data = json.loads(content)
-                return data["error"]["message"]
+                return data["error"]["message"]  # noqa: TRY300
             except Exception:
                 pass
 

@@ -87,17 +87,17 @@ def get_version_module(name, optional=False):
     """
     try:
         metadata = importlib_metadata.metadata(name)
-        return (
-            name,
-            metadata.get("Home-page"),
-            metadata.get("Version"),
-        )
     except importlib_metadata.PackageNotFoundError:
         if optional:
             return None
         raise ImproperlyConfigured(
             "Missing dependency {0}, please install using: pip install {0}".format(name)
         )
+    return (
+        name,
+        metadata.get("Home-page"),
+        metadata.get("Version"),
+    )
 
 
 def get_optional_versions():

@@ -51,10 +51,11 @@ class FontListView(ProjectViewMixin, ListView):
             instance.user = self.request.user
             try:
                 instance.validate_unique()
-                instance.save()
-                return redirect(instance)
             except ValidationError:
                 messages.error(request, _("Font with the same name already exists."))
+            else:
+                instance.save()
+                return redirect(instance)
         else:
             messages.error(request, _("Creation failed, please fix the errors below."))
         return self.get(request, **kwargs)
@@ -113,12 +114,13 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 instance = form.save(commit=False)
                 try:
                     instance.validate_unique()
-                    instance.save()
-                    return redirect(self.object)
                 except ValidationError:
                     messages.error(
                         request, _("Font group with the same name already exists.")
                     )
+                else:
+                    instance.save()
+                    return redirect(self.object)
             return self.get(request, **kwargs)
         if "language" in request.POST:
             form = self._form = FontOverrideForm(request.POST)
@@ -127,21 +129,24 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 instance.group = self.object
                 try:
                     instance.validate_unique()
-                    instance.save()
-                    return redirect(self.object)
                 except ValidationError:
                     messages.error(
                         request, _("Font group with the same name already exists.")
                     )
+                else:
+                    instance.save()
+                    return redirect(self.object)
+
             return self.get(request, **kwargs)
         if "override" in request.POST:
             try:
                 self.object.fontoverride_set.filter(
                     pk=int(request.POST["override"])
                 ).delete()
-                return redirect(self.object)
             except (ValueError, ObjectDoesNotExist):
                 messages.error(request, _("No override found."))
+            else:
+                return redirect(self.object)
 
         self.object.delete()
         messages.error(request, _("Font group deleted."))

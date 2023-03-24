@@ -422,11 +422,6 @@ class MachineTranslation:
                 )
                 if item["quality"] >= threshold
             ]
-            if replacements or self.force_uncleanup:
-                self.uncleanup_results(replacements, result)
-            if cache_key:
-                cache.set(cache_key, result, 30 * 86400)
-            return result
         except Exception as exc:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
@@ -434,7 +429,12 @@ class MachineTranslation:
             self.report_error("Failed to fetch translations from %s")
             if isinstance(exc, MachineTranslationError):
                 raise
-            raise MachineTranslationError(self.get_error_message(exc))
+            raise MachineTranslationError(self.get_error_message(exc)) from exc
+        if replacements or self.force_uncleanup:
+            self.uncleanup_results(replacements, result)
+        if cache_key:
+            cache.set(cache_key, result, 30 * 86400)
+        return result
 
     def get_error_message(self, exc):
         return f"{exc.__class__.__name__}: {exc}"

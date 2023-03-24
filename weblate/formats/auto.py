@@ -65,9 +65,10 @@ def try_load(
             try:
                 result = file_format.parse(BytesIOMode(filename, content))
                 result.check_valid()
-                return result
             except Exception as error:
                 failure = error
+            else:
+                return result
 
     raise failure
 

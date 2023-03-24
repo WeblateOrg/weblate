@@ -45,10 +45,10 @@ def generate_gpg_key() -> Optional[str]:
             text=True,
             check=True,
         )
-        return get_gpg_key()
     except (subprocess.CalledProcessError, OSError) as error:
         gpg_error("GPG key generating", error)
         return None
+    return get_gpg_key()
 
 
 def get_gpg_key(silent=False) -> Optional[str]:
@@ -66,14 +66,14 @@ def get_gpg_key(silent=False) -> Optional[str]:
             text=True,
             check=True,
         )
-        for line in result.stdout.splitlines():
-            if not line.startswith("fpr:"):
-                continue
-            return line.split(":")[9]
-        return None
     except (subprocess.CalledProcessError, OSError) as error:
         gpg_error("GPG key listing", error, silent)
         return None
+    for line in result.stdout.splitlines():
+        if not line.startswith("fpr:"):
+            continue
+        return line.split(":")[9]
+    return None
 
 
 def gpg_cache_key(suffix: str) -> str:
@@ -112,9 +112,9 @@ def get_gpg_public_key() -> Optional[str]:
                 text=True,
                 check=True,
             )
-            data = result.stdout
-            cache.set(cache_key, data, 7 * 86400)
         except (subprocess.CalledProcessError, OSError) as error:
             gpg_error("GPG key public", error)
             return None
+        data = result.stdout
+        cache.set(cache_key, data, 7 * 86400)
     return data
