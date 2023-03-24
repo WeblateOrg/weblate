@@ -2,6 +2,9 @@
 # Minimum requirements for the build system to execute.
 requires = ["setuptools", "wheel", "translate-toolkit"]  # PEP 508 specifications.
 
+[project]
+requires-python = ">=3.7"
+
 [tool.black]
 target-version = ['py37']
 
@@ -10,3 +13,43 @@ skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
 
 [tool.isort]
 profile = "black"
+
+[tool.ruff]
+# Should be fixed:
+# D10 - we are missing many docstrings
+# D401 - many strings need rephrasing
+# TRY200, B904, PLR0913, PLR0915, PLR0912
+# E501 - probably not needed with black?
+# Wontfix:
+# TRY003, PLR2004, RUF001, RUF002, RUF003
+# A001,A002,A003 - the names are mostlu coming from outside APIs
+ignore = ["D10", "D401", "TRY003", "PLR2004", "RUF001", "RUF002", "RUF003", "TRY200", "B904", "PLR0913", "PLR0915", "E501", "PLR0912", "PLR0911", "D212", "D203"]
+select = ["E", "F", "B", "T10", "A", "C4", "C90", "YTT", "DJ", "UP", "D", "PD", "PGH", "PL", "TRY", "RUF", "ERA", "ICN", "ISC", "EXE", "INP", "PIE", "G", "PYI", "Q", "SIM", "TID", "RSE", "T20", "RET", "SLF", "N"]
+target-version = "py37"
+
+[tool.ruff.mccabe]
+max-complexity = 16
+
+[tool.ruff.per-file-ignores]
+"docs/_ext/djangodocs.py" = ["INP001"]
+"docs/conf.py" = ["INP001", "ERA001", "A001"]
+"scripts/*" = ["T201", "T203"]
+"weblate/*/management/commands/*.py" = ["A003"]  # Needed by Django API
+"weblate/*/migrations/*.py" = ["C405", "E501", "N806", "DJ01"]
+"weblate/addons/management/commands/list_addons.py" = ["E501"]
+"weblate/addons/utils.py" = ["N806"]
+"weblate/auth/migrations/0018_fixup_role.py" = ["T201", "N806"]
+"weblate/examples/*.py" = ["INP001"]
+"weblate/lang/data.py" = ["E501"]
+"weblate/machinery/management/commands/list_machinery.py" = ["E501"]
+"weblate/settings_*.py" = ["F405"]
+"weblate/settings_docker.py" = ["ERA001"]
+"weblate/settings_example.py" = ["ERA001"]
+"weblate/trans/migrations/0103_update_source_unit.py" = ["T201", "N806"]
+"weblate/trans/migrations/0116_migrate_glossaries.py" = ["T201", "N806", "E501"]
+"weblate/trans/migrations/0127_fix_source_glossary.py" = ["T201", "N806"]
+"weblate/trans/migrations/0133_glossary_missing_files.py" = ["T201", "N806"]
+"weblate/trans/tests/test_files.py" = ["E501"]
+"weblate/utils/generate_secret_key.py" = ["T201"]
+"weblate/utils/licensedata.py" = ["E501"]
+"weblate/utils/locale.py" = ["B012"]
