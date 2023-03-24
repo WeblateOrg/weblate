@@ -33,7 +33,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
     for filename in files.splitlines():
         filename = filename.strip()
         try:
-            if filename.startswith("http://") or filename.startswith("https://"):
+            if filename.startswith(("http://", "https://")):
                 with request("get", filename) as handle:
                     content = handle.text
             else:
