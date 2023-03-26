@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-03-22 19:23+0000\n"
+"PO-Revision-Date: 2023-03-26 03:51+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:191
@@ -3786,7 +3786,7 @@ msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
-"GitHub, geri çağırma adresi \"https://ornek.com/accounts/complete/github/\" "
+"GitHub, geri çağırma adresi \"https://site.com/accounts/complete/github/\" "
 "olacak biçimde yapılandırılmalıdır."
 
 #: ../../admin/auth.rst:115
@@ -3802,8 +3802,8 @@ msgstr ""
 "yüzleri vardır. Ayarları ``SOCIAL_AUTH_GITHUB_ORG_*`` ve "
 "``SOCIAL_AUTH_GITHUB_TEAM_*`` olarak adlandırılmıştır ve "
 "``SOCIAL_AUTH_GITHUB_ORG_NAME`` ya da ``SOCIAL_AUTH_GITHUB_TEAM_ID`` "
-"kapsamları için ek ayarlara gerek duyarlar. Geri çağırma adresleri ``https://"
-"example.com/accounts/complete/github-org/`` ve ``https://example.com/"
+"kapsamları için ek ayarlara gerek duyarlar. Geri çağırma adresleri "
+"``https://site.com/accounts/complete/github-org/`` ve ``https://site.com/"
 "accounts/complete/github-teams/`` biçimindedir."
 
 #: ../../snippets/oauth-site.rst:3
@@ -4799,10 +4799,10 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
-"El ile yedekleme yapıyorsanız, Weblate yedekleme eksikliği uyarısını, :file:"
-"`settings.py` içindeki :setting:`django:SILENCED_SYSTEM_CHECKS` ya da Docker "
-"için :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` seçeneğini ``weblate.I028`` "
-"ile ekleyerek kapatmak isteyebilirsiniz."
+"El ile yedekleme yapıyorsanız, Weblate yedekleme eksikliği uyarısını, "
+":file:`settings.py` dosyasındaki :setting:`django:SILENCED_SYSTEM_CHECKS` ya "
+"da Docker için :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` seçeneğini ``weblate."
+"I028`` ile ekleyerek kapatmak isteyebilirsiniz."
 
 #: ../../admin/backup.rst:228
 msgid "Database"
@@ -4937,8 +4937,8 @@ msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
-"Weblate ayarları için :file:`settings.py` (:file:`settings-expanded.py` "
-"dosyasında genişletilmiş bir sürümü de bulunur)."
+"Weblate ayarları için :file:`settings.py` dosyası (:file:`settings-expanded."
+"py` dosyasında genişletilmiş bir sürümü de bulunur)."
 
 #: ../../admin/backup.rst:296
 msgid "PostgreSQL database backup as :file:`database.sql`."
@@ -10740,7 +10740,7 @@ msgstr "Weblate yapılandırmasını PostgreSQL kullanacak biçimde ayarlamak"
 
 #: ../../admin/install.rst:384
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr "PostgreSQL için :file:`settings.py` kod parçası:"
+msgstr "PostgreSQL için :file:`settings.py` dosyasına eklenecek kod parçası:"
 
 #: ../../admin/install.rst:408
 msgid ""
@@ -10884,7 +10884,8 @@ msgstr "Weblate için MySQL/MariaDB yapılandırması"
 
 #: ../../admin/install.rst:489
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
-msgstr "MySQL ve MariaDB için :file:`settings.py` kod parçası:"
+msgstr ""
+"MySQL ve MariaDB için :file:`settings.py` dosyasına eklenecek kod parçası:"
 
 #: ../../admin/install.rst:513
 msgid ""
@@ -11744,7 +11745,7 @@ msgid ""
 msgstr ""
 "Python kodu için, kendi içinde gelen sertifika yerine istekleri sistem "
 "sertifika kuruluşu paketini kullanacak şekilde yapılandırmanız gerekir. Bu "
-"işlem, aşağıdaki kod parçasını :file:`settings.py` içine ekleyerek "
+"işlem, aşağıdaki kod parçasını :file:`settings.py` dosyasına ekleyerek "
 "yapılabilir (yol Debian sistemine özgüdür):"
 
 #: ../../admin/install.rst:1121
@@ -17626,7 +17627,7 @@ msgstr "list_translators"
 
 #: ../../admin/management.rst:614
 msgid "Lists translators by contributed language for the given project::"
-msgstr "belirtilen projeye katkıda bulunan çevirmenleri dile göre listeler::"
+msgstr "Belirtilen projeye katkıda bulunan çevirmenleri dile göre listeler::"
 
 #: ../../admin/management.rst:623
 msgid "List names by language code instead of language name."
@@ -17659,14 +17660,16 @@ msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
 msgstr ""
+"Çevirileri diskten yeniden yükler (örneğin, sürüm denetimi sistemi deposunda "
+"bazı güncellemeler yaptıysanız)."
 
 #: ../../admin/management.rst:646
 msgid "Force update, even if the files should be up-to-date."
-msgstr ""
+msgstr "Dosyalar güncel olsa bile güncellemeye zorlayın."
 
 #: ../../admin/management.rst:650
 msgid "Limit processing to a single language."
-msgstr ""
+msgstr "İşlemi tek bir dille sınırlandırın."
 
 #: ../../admin/management.rst:657
 msgid ""
@@ -17675,6 +17678,11 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
+"Bunu nadiren çağırmanız gerekir, Weblate her sürüm denetimi sistemi "
+"güncellemesi için değiştirilen dosyaları otomatik olarak yükler. Bu işlem, "
+"temel alınan bir Weblate sürüm denetimi sistemi deposunu el ile "
+"değiştirmeniz durumunda ya da yükseltmenin ardından bazı özel durumlarda "
+"gerekir."
 
 #: ../../admin/management.rst:662
 msgid "lock_translation"
@@ -17682,12 +17690,13 @@ msgstr "lock_translation"
 
 #: ../../admin/management.rst:666
 msgid "Prevents further translation of a component."
-msgstr ""
+msgstr "Bir bileşen üzerinde çeviri yapılmasını önler."
 
 #: ../../admin/management.rst:670 ../../admin/management.rst:729
 msgid ""
 "Useful in case you want to do some maintenance on the underlying repository."
 msgstr ""
+"Temel alınan depoda bazı bakım işlemleri yapmak istediğinizde yararlıdır."
 
 #: ../../admin/management.rst:677
 msgid ":djadmin:`unlock_translation`"
@@ -17704,6 +17713,10 @@ msgid ""
 "been created with the `(generated)` suffix. It moves all content from the "
 "`source` language to the `target` one."
 msgstr ""
+"Dil içeriğini birleştirmenizi sağlar. Bu seçenek, `(generated)` son ekiyle "
+"oluşturulmuş daha önce bilinmeyen dillerin diğer adlarını içeren yeni bir "
+"sürüme güncellerken yararlıdır. Tüm içeriği `kaynak` dilden `hedef` dile "
+"taşır."
 
 #: ../../admin/management.rst:697
 msgid ""
@@ -17711,6 +17724,9 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the `(generated)` language."
 msgstr ""
+"İçeriği taşıdıktan sonra, geride bir şey kalıp kalmadığını denetleyip (bu "
+"arada birisi depoyu güncellerse yarış koşulları geçerli olur) ve "
+"`(generated)` dili kaldırmalısınız."
 
 #: ../../admin/management.rst:702
 msgid "pushgit"
@@ -17729,6 +17745,9 @@ msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` in :"
 "ref:`component` is turned on, which is the default."
 msgstr ""
+"Weblate :ref:`component` içindeki :ref:`component-push_on_commit` seçeneği "
+"etkinleştirilmiş ise değişiklikler otomatik olarak gönderilir ve bu "
+"varsayılan değerdir."
 
 #: ../../admin/management.rst:721
 msgid "unlock_translation"
@@ -17736,7 +17755,7 @@ msgstr "unlock_translation"
 
 #: ../../admin/management.rst:725
 msgid "Unlocks a given component, making it available for translation."
-msgstr ""
+msgstr "Belirli bir bileşenin kilidini açarak çeviri yapılmasına izin verir."
 
 #: ../../admin/management.rst:736
 msgid ":djadmin:`lock_translation`"
@@ -17751,16 +17770,23 @@ msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
 msgstr ""
+"Varsayılan grupları yapılandırır ve isteğe bağlı olarak tüm kullanıcıları bu "
+"varsayılan gruba atar."
 
 #: ../../admin/management.rst:747
 msgid "Turns off automatic updating of existing groups (only adds new ones)."
 msgstr ""
+"Var olan grupların otomatik olarak güncellenmesini devre dışı bırakır ("
+"yalnızca yeniler eklenir)."
 
 #: ../../admin/management.rst:751
 msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
 msgstr ""
+"Var olan projeler için grupların otomatik olarak güncellenmesini engeller. "
+"Bu seçenek, var olan projelere yeni grupların eklenmesine izin verir. Bilgi "
+"almak için: :ref:`acl`."
 
 #: ../../admin/management.rst:756
 msgid ":ref:`privileges`"
@@ -17772,11 +17798,13 @@ msgstr "setuplang"
 
 #: ../../admin/management.rst:763
 msgid "Updates list of defined languages in Weblate."
-msgstr ""
+msgstr "Weblate üzerinde tanımlanmış dillerin listesini günceller."
 
 #: ../../admin/management.rst:767
 msgid "Turns off automatic updates of existing languages (only adds new ones)."
 msgstr ""
+"Var olan dillerin otomatik olarak güncellenmesini devre dışı bırakır ("
+"yalnızca yeniler eklenir)."
 
 #: ../../admin/management.rst:770
 msgid "updatechecks"
@@ -17784,11 +17812,12 @@ msgstr "updatechecks"
 
 #: ../../admin/management.rst:774
 msgid "Updates all checks for all strings."
-msgstr ""
+msgstr "Tüm dizgeler için tüm denetimleri günceller."
 
 #: ../../admin/management.rst:778
 msgid "Useful for upgrades which do major changes to checks."
 msgstr ""
+"Denetimlerde büyük değişiklikler yapılmış olan yükseltmelerde yararlıdır."
 
 #: ../../admin/management.rst:784
 msgid "updategit"
@@ -17797,12 +17826,16 @@ msgstr "updategit"
 #: ../../admin/management.rst:788
 msgid "Fetches remote VCS repositories and updates the internal cache."
 msgstr ""
+"Uzak sürüm denetimi sistemi depolarını getirir ve iç ön belleği günceller."
 
 #: ../../admin/management.rst:795
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular polling by :djadmin:`updategit`."
 msgstr ""
+"Genellikle depodaki kancaları, :djadmin:`updategit` ile düzenli olarak "
+"yoklamak yerine, :ref:`hooks` ögesini tetikleyecek şekilde yapılandırmak "
+"daha iyidir."
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -17812,24 +17845,28 @@ msgstr "Çeviri belleği"
 msgid ""
 "Weblate comes with a built-in translation memory consisting of the following:"
 msgstr ""
+"Weblate üzerinde şu yetenekleri olan bir çeviri belleği özelliği bulunur:"
 
 #: ../../admin/memory.rst:11
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
 msgstr ""
+"El ile içe aktarılmış çeviri belleği (bilgi almak için :ref:`memory-user`)."
 
 #: ../../admin/memory.rst:12
 msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
 msgstr ""
+"Weblate üzerinde yapılan ve otomatik olarak kaydedilen çeviriler (:ref"
+":`memory-scopes` kapsamında)."
 
 #: ../../admin/memory.rst:13
 msgid "Automatically imported past translations."
-msgstr ""
+msgstr "Geçmiş çeviriler otomatik olarak içe aktarılır."
 
 #: ../../admin/memory.rst:15
 msgid "Content in the translation memory can be applied one of two ways:"
-msgstr ""
+msgstr "Çeviri belleğindeki içerik iki yoldan biriyle uygulanabilir:"
 
 #: ../../admin/memory.rst:17
 msgid "Manually, :ref:`machine-translation` view while translating."
@@ -17995,25 +18032,28 @@ msgstr "İsteğe bağlı Weblate modülleri"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
-msgstr ""
+msgstr "Kurulumunuz için isteğe bağlı çeşitli modüller vardır."
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
-msgstr ""
+msgstr "Git dışa aktarıcı"
 
 #: ../../admin/optionals.rst:13
 msgid ""
 "Provides you read-only access to the underlying Git repository using HTTP(S)."
-msgstr ""
+msgstr "HTTP(S) kullanarak temel alınan Git deposuna salt okunur erişim sağlar."
 
 #: ../../admin/optionals.rst:18
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
 msgstr ""
+":file:`settings.py` dosyasındaki kurulu uygulamalara ``weblate.gitexport`` "
+"ekleyin:"
 
 #: ../../admin/optionals.rst:24
 msgid ""
 "Export existing repositories by migrating your database after installation:"
 msgstr ""
+"Kurulumdan sonra veri tabanınızı aktararak var olan depoları dışa aktarın:"
 
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:87
 #: ../../admin/optionals.rst:166 ../../faq.rst:296
@@ -18027,12 +18067,16 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/main/``."
 msgstr ""
+"Modül otomatik olarak Weblate bağlantısı kurar ve :ref:`component` içinde "
+"dışa aktarılan depo adresini ayarlar. Depolara Weblate adresinin ``/git/`` "
+"bölümünden erişilebilir. örneğin ``https://site.org/git/weblate/main/``."
 
 #: ../../admin/optionals.rst:38
 msgid ""
 "Repositories for publicly available projects can be cloned without "
 "authentication:"
 msgstr ""
+"Herkese açık projelerin depoları kimlik doğrulaması olmadan kopyalanabilir:"
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -18041,6 +18085,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"Sınırlanmış erişimi olan depolara göz atmak için erişim (`Özel` :ref:`erişim "
+"denetimi <acl>` ile ya da :setting:`REQUIRE_LOGIN` seçeneği "
+"etkinleştirilerek), :ref:`<user-profile> kullanıcı profilinizden` "
+"alabileceğiniz bir API kodu ile sağlanır:"
 
 #: ../../admin/optionals.rst:55
 msgid ""
@@ -18048,22 +18096,32 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"Varsayılan olarak, üyeler veya :guilabel:`Kullanıcılar` grubu ve anonim "
+"kullanıcı, herkese açık projeler için depolara :guilabel:`Depo erişimi` ve "
+":guilabel:`Uzman kullanıcı` rolleri ile erişebilir."
 
 #: ../../admin/optionals.rst:67
 msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"Bu seçenek, faturalama tarifelerini tanımlamak, faturaları ve kullanım "
+"sınırlarını izlemek için `Hosted Weblate <https://weblate.org/hosting/>`_ "
+"üzerinde kullanılır."
 
 #: ../../admin/optionals.rst:73
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. :file:`.py settings` dosyasındaki kurulu uygulamalara ``weblate.billing`` "
+"ekleyin:"
 
 #: ../../admin/optionals.rst:80 ../../admin/optionals.rst:157
 msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
+"İsteğe bağlı olarak modül için ek veri tabanı yapıları kurmak üzere veri "
+"tabanı aktarımını çalıştırın:"
 
 #: ../../admin/optionals.rst:89
 msgid ""
@@ -18071,6 +18129,9 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"Kurulumdan sonra faturalamayı yönetici arayüzünden yönetebilirsiniz. "
+"Faturalamanın etkin olduğu kullanıcılara :ref:`user-profile` içinde "
+":guilabel:`Faturalama` sekmesi görüntülenir."
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -18078,12 +18139,17 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"Faturalama modülü ayrıca proje yöneticilerinin süper kullanıcı olmadan yeni "
+"projeler ve bileşenler oluşturmasını sağlar (bilgi almak için: :ref:`adding-"
+"projects`). Bunun için şu koşullar yerine getirilmelidir:"
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
 msgstr ""
+"Faturalama yapılandırılmış sınırlar içindedir (aşırı kullanım, proje/bileşen "
+"oluşturulmasını engeller) ve ödenmiştir (fiyatı sıfır değilse)"
 
 #: ../../admin/optionals.rst:99
 msgid ""
@@ -18091,12 +18157,18 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"Kullanıcı, faturalama ile var olan projenin yöneticisidir ya da kullanıcı "
+"faturalamanın sahibidir (ikincisi, kullanıcıların yeni projeleri içe "
+"aktarabilmesi için yeni faturalama oluştururken gereklidir)."
 
 #: ../../admin/optionals.rst:103
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
 msgstr ""
+"Proje oluşturulduktan sonra kullanıcı, daha fazla özelliğe erişebilmesi "
+"durumunda proje için hangi fatura ücretlendirmesinin uygulanacağını "
+"seçebilir."
 
 #: ../../admin/optionals.rst:110
 msgid "Legal"
@@ -18108,6 +18180,9 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Bu seçenek, gerekli yasal belgeleri sağlamak için `Hosted Weblate "
+"<https://weblate.org/hosting/>`_ üzerinde kullanılır. Boş belgelerle gelir "
+"ve belgelerde aşağıdaki kalıpları doldurmanız beklenir:"
 
 #: ../../admin/optionals.rst:118
 msgid ":file:`legal/documents/tos.html`"
@@ -18139,6 +18214,9 @@ msgid ""
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
 msgstr ""
+"Hizmet koşulları belgelerini değiştirirken, lütfen :setting:`LEGAL_TOS_DATE` "
+"ayarını yapın, böylece kullanıcılar güncellenmiş belgeleri kabul etmeye "
+"zorlanır."
 
 #: ../../admin/optionals.rst:131
 msgid ""
@@ -18146,28 +18224,40 @@ msgid ""
 "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
 "templates/legal/documents>."
 msgstr ""
+"Hosted Weblate hizmeti için yasal belgeler <https://github.com/WeblateOrg/"
+"wllegal/tree/main/wllegal/templates/legal/documents> Git deposunda "
+"bulunabilir."
 
 #: ../../admin/optionals.rst:134
 msgid ""
 "Most likely these will not be directly usable to you, but might come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
+"Büyük olasılıkla bunları olduğu gibi kullanamazsınız. Ancak "
+"gereksinimlerinize uygun olarak ayarlamakta başlangıç noktası olarak yararlı "
+"olabilir."
 
 #: ../../admin/optionals.rst:140
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. :file:`settings.py` dosyasındaki kurulu uygulamalara ``weblate.legal`` "
+"ekleyin:"
 
 #: ../../admin/optionals.rst:163
 msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
 msgstr ""
+":file:`weblate/legal/templates/legal/` klasöründeki yasal belgeleri size "
+"uygun şekilde düzenleyin."
 
 #: ../../admin/optionals.rst:168
 msgid ""
 "After installation and editing, the legal documents are shown in the Weblate "
 "UI."
 msgstr ""
+"Kurulum ve düzenlemeden sonra, yasal belgeler Weblate arayüzünde "
+"görüntülenir."
 
 #: ../../admin/optionals.rst:173
 msgid "Avatars"
@@ -18180,10 +18270,14 @@ msgid ""
 "from e-mails addresses configured for it can be turned off using :setting:"
 "`ENABLE_AVATARS`."
 msgstr ""
+"Avatarlar, varsayılan olarak hizmet verdikleri sitelerden bilgi "
+"sızıntılarını azaltmak için sunucu tarafına indirilir ve ön belleğe alınır. "
+"Bunun için yapılandırılmış e-posta adreslerinden avatarları almayı sağlama "
+"özelliği :setting:`ENABLE_AVATARS` seçeneği kullanılarak kapatılabilir."
 
 #: ../../admin/optionals.rst:179
 msgid "Weblate currently supports:"
-msgstr ""
+msgstr "Weblate şu anda şunları destekliyor:"
 
 #: ../../admin/optionals.rst:181
 msgid "`Gravatar <https://gravatar.com/>`_"
@@ -18203,33 +18297,37 @@ msgstr ""
 
 #: ../../admin/optionals.rst:193
 msgid "Spam protection"
-msgstr ""
+msgstr "İstenmeyen gönderim koruması"
 
 #: ../../admin/optionals.rst:195
 msgid ""
 "You can protect against spamming by users by using the `Akismet <https://"
 "akismet.com/>`_ service."
 msgstr ""
+"`Akismet <https://akismet.com/>`_ hizmetiyle kullanıcıların istenmeyen "
+"gönderimler yapmasını engelleyebilirsiniz."
 
 #: ../../admin/optionals.rst:198
 msgid ""
 "Install the `akismet` Python module (this is already included in the "
 "official Docker image)."
-msgstr ""
+msgstr "`Akismet` Python modülünü kurun (resmi Docker kalıbında zaten vardır)."
 
 #: ../../admin/optionals.rst:199
 msgid "Obtain the Akismet API key."
-msgstr ""
+msgstr "Akismet API anahtarını edinin."
 
 #: ../../admin/optionals.rst:200
 msgid ""
 "Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` "
 "in Docker."
 msgstr ""
+":envvar:`WEBLATE_AKISMET_API_KEY` ayarına ya da Docker üzerinde "
+":setting:`AKISMET_API_KEY` ayarına ekleyin."
 
 #: ../../admin/optionals.rst:202
 msgid "Following content is sent to Akismet for checking:"
-msgstr ""
+msgstr "Şu içerikler denetlenmesi için Akismet üzerine gönderilir:"
 
 #: ../../admin/optionals.rst:204
 msgid "Suggestions from unauthenticated users"
@@ -18244,6 +18342,9 @@ msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
 msgstr ""
+"Bu (diğer şeylerin yanında) istemcinin IP adresini kullanır. Lütfen bu "
+"yapılandırmayı düzgün bir şekilde yapmak için :ref:`reverse-proxy` bölümüne "
+"bakın."
 
 #: ../../admin/optionals.rst:214
 msgid ""
@@ -18260,28 +18361,37 @@ msgstr "Git işlemelerini GnuPG ile imzalamak"
 #: ../../admin/optionals.rst:226
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
 msgstr ""
+"Tüm gönderimler Weblate kopyasının GnuPG anahtarı tarafından imzalanabilir."
 
 #: ../../admin/optionals.rst:228
 msgid ""
 "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG "
 "key when needed and will use it to sign all translation commits.)"
 msgstr ""
+"1. :setting:`WEBLATE_GPG_IDENTITY` ayarını açın. (Weblate, gerektiğinde bir "
+"GnuPG anahtarı oluşturur ve bunu tüm çeviri gönderimlerini imzalamak için "
+"kullanır.)"
 
 #: ../../admin/optionals.rst:231
 msgid "This feature needs GnuPG 2.1 or newer installed."
-msgstr ""
+msgstr "Bu özellik için GnuPG 2.1 ya da üzerindeki bir sürüm kurulu olmalıdır."
 
 #: ../../admin/optionals.rst:233
 msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Anahtarı :setting:`DATA_DIR` içinde bulabilirsiniz. Herkese açık anahtar "
+"\"Hakkında\" sayfasında görüntülenir:"
 
 #: ../../admin/optionals.rst:238
 msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"2. Alternatif olarak, var olan anahtarları Weblate içine de "
+"aktarabilirsiniz. gpg çağırırken ``HOME = $DATA_DIR/home`` ayarını yapmanız "
+"yeterlidir."
 
 #: ../../admin/optionals.rst:243
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -18289,15 +18399,15 @@ msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:248 ../../user/translating.rst:380
 msgid "Rate limiting"
-msgstr "Hız sınırlama"
+msgstr "Hızı sınırlamak"
 
 #: ../../admin/optionals.rst:252
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr ""
+msgstr "Hız sınırlaması artık daha ayrıntlı yapılandırabiliyor."
 
 #: ../../admin/optionals.rst:256 ../../changes.rst:513
 msgid "The rate limiting no longer applies to superusers."
-msgstr ""
+msgstr "Hız sınırlaması artık süper kullanıcılara uygulanmıyor."
 
 #: ../../admin/optionals.rst:258
 msgid ""
@@ -18308,10 +18418,17 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Weblate üzerinde bazı işlemlere hız sınırlaması uygulanır. "
+":setting:`RATELIMIT_WINDOW` saniye içinde en fazla "
+":setting:`RATELIMIT_ATTEMPTS` girişim yapılmasına izin verilir. Kullanıcı "
+"daha sonra :setting:`RATELIMIT_LOCKOUT` süreyle engellenir. Kapsamlara özgü "
+"ayarlar da vardır. Örneğin ``RATELIMIT_CONTACT_ATTEMPTS`` ya da "
+"``RATELIMIT_TRANSLATE_ATTEMPTS``. Aşağıdaki tabloda, kullanılabilecek "
+"kapsamların tam listesini görebilirsiniz."
 
 #: ../../admin/optionals.rst:262
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "Hız sınırlaması uygulanan işlemler şunlardır:"
 
 #: ../../admin/optionals.rst:265
 msgid "Name"
@@ -18433,6 +18550,8 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Bir kullanıcı :setting:`AUTH_LOCK_ATTEMPTS` kez oturum açamazsa, parola "
+"sıfırlama işlemini yapana kadar hesabın parola kimlik doğrulaması kapatılır."
 
 #: ../../admin/optionals.rst:287
 msgid ""
@@ -18440,10 +18559,15 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"Ayarlar, seçenek adına ``WEBLATE_`` ön eki eklenerek Docker kapsayıcısına da "
+"uygulanabilir. Örneğin :setting:`RATELIMIT_ATTEMPTS` seçeneği "
+":envvar:`WEBLATE_RATELIMIT_ATTEMPTS` olur."
 
 #: ../../admin/optionals.rst:289
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
+"API için ayrı hız sınırlama ayarları vardır. Bilgi almak için: :ref:`api-"
+"rate`."
 
 #: ../../admin/optionals.rst:293
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
@@ -18486,6 +18610,8 @@ msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
 msgstr ""
+"Weblate, projenin/bileşenlerin çevrilebilir sürüm denetimi sistemi içeriğini "
+"ağaç benzeri bir yapıya dönüştürür."
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -18493,6 +18619,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"En alt düzeydeki nesne :ref:`project` olur ve tüm çevirileri bir arada "
+"bulundurmalıdır (bir uygulamanın birkaç sürümünün ve/veya ekindeki "
+"belgelerin çevirisi gibi)."
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -18500,6 +18629,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"Yukarıdaki düzeyde, çevrilecek bileşen olan :ref:`component`, kullanılacak "
+"sürüm denetimi sistemi deposu ve çevrilecek dosyaların maskesi gibi "
+"bilgileri tanımlayabilirsiniz."
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -18507,12 +18639,18 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Yukarıda :ref:`component` sürüm denetimi sistemi deposunda, çeviri dosyaları "
+"(:ref:`component` içinde tanımlanan :ref:`component-filemask` ile eşleşen) "
+"Weblate tarafından otomatik olarak işlenen bireysel çeviriler bulunur."
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate, Translate Toolkit tarafından desteklenen çok çeşitli çeviri "
+"biçimlerini (hem iki dilli hem de tek dilli olanları) destekler. Bilgi almak "
+"için: ref:`formats`."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -18520,22 +18658,30 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Kopyalanmış sürüm denetimi sistemi depolarını :ref:`internal-urls` ile "
+"paylaşabilirsiniz. Aynı sürüm denetimi sistemini paylaşan birçok bileşeniniz "
+"olduğunda bu özelliği kullanmanız önemle önerilir. Başarımı artırır ve "
+"kullanılacak disk alanını azaltır."
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "Çeviri projelerini ve bileşenleri eklemek"
 
 #: ../../admin/projects.rst:37
 msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
 msgstr ""
+"Proje ve bileşen eklemek için bir arayüz vardır ve artık :ref:`admin-"
+"interface` kullanmanız gerekmez."
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
 msgstr ""
+"Bileşen ekleme işlemi artık çoğu parametrenin otomatik olarak "
+"keşfedilmesiyle çok aşamalı olarak yapılır."
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -18545,10 +18691,15 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"İzinlerinize göre, yeni çeviri projeleri ve bileşenleri ekleyebilirsiniz. "
+":guilabel:`Yeni proje ekleyebilir` izni olan kullanıcılara her zaman izin "
+"verilir ve bulut sunucunuz faturalama kullanıyorsa (https://hosted.weblate."
+"org/ gibi, bilgi almak için: :ref:`billing`), faturalamayı yöneten kullanıcı "
+"hesabından tarifenizin sınırlarına göre de bunları oluşturabilirsiniz."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "Var olan faturalama tarifenizi ayrı bir sayfada görüntüleyebilirsiniz:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -18556,10 +18707,13 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"Proje ekleme işlemi oradan ya da başlatılabilir ya da gezinme çubuğundaki "
+"menüden eklemeyi tamamlamak için çeviri projesiyle ilgili temel bilgiler "
+"doldurulabilir:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
-msgstr ""
+msgstr "Proje eklendikten sonra, doğrudan proje sayfasına yönlendirilirsiniz:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -18568,6 +18722,10 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Yeni bir çeviri bileşeni oluşturmak, oradan tek bir tıklama ile "
+"başlatılabilir. Bileşen ekleme işleminin birkaç aşaması vardır ve çoğu "
+"çeviri parametresini otomatik olarak algılar. Bileşen eklemek için birkaç "
+"yaklaşım vardır:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -18575,7 +18733,7 @@ msgstr "Sürüm denetiminden"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr ""
+msgstr "Bileşeni uzak sürüm denetimi deposundan ekler."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -18585,6 +18743,8 @@ msgstr "Var olan bileşenden"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
+"Bileşeni seçilmiş farklı dosyalar ile var olan bileşene ek bileşen olarak "
+"ekler."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -18594,10 +18754,12 @@ msgstr "Ek dal"
 msgid ""
 "Creates additional component to existing one, just for different branch."
 msgstr ""
+"Bileşeni yalnızca farklı dallar için var olan bileşene ek bileşen olarak "
+"ekler."
 
 #: ../../admin/projects.rst:76
 msgid "Upload translations files"
-msgstr "Çeviri dosyalarını yükle"
+msgstr "Çeviri dosyalarını yükleyerek"
 
 #: ../../admin/projects.rst:75
 msgid ""
@@ -18605,44 +18767,55 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Sürüm denetimi kullanmadığınız ya da Weblate ile bütünleştirmek "
+"istemediğiniz durumlarda çeviri dosyalarını Weblate üzerine "
+"yükleyebilirsiniz. İçeriği daha sonra site arayüzü ya da :ref:`api` ile "
+"güncelleyebilirsiniz."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
-msgstr "Belgeyi çevir"
+msgstr "Belgeyi çevirerek"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document or translation file and translate that."
-msgstr ""
+msgstr "Tek bir belge veya çeviri dosyası yükleyip ve çevirebilirsiniz."
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
-msgstr "Sıfırdan başla"
+msgstr "Sıfırdan başlayarak"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
 msgstr ""
+"Boş bir çeviri projesi oluşturabilir ve dizgeleri el ile ekleyebilirsiniz."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Çeviri bileşenlerini ekledikten sonra, aynı depoyu kullanarak ek dosyalar ya "
+"da dallar için kolayca yeni bileşenler ekleyebilirsiniz."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Öncelikle adı ve depo konumunu yazmanız gerekir:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"Sonraki sayfada, keşfedilmiş çevrilebilir kaynakların bir listesini "
+"göreceksiniz:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"Son olarak, çeviri bileşeni bilgilerini gözden geçirebilir ve isteğe bağlı "
+"bilgileri yazabilirsiniz:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -18661,6 +18834,11 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Bir çeviri projesi oluşturun ve içine çevrilecek yeni bir bileşen ekleyin. "
+"Proje, gerçek çevirilerin konulduğu bir raf gibidir. Aynı projedeki tüm "
+"bileşenler önerileri ve sözlüğü paylaşır. Ayrıca yapılan çeviriler tek bir "
+"projedeki tüm bileşenlere kendiliğinden yayılır (bileşen yapılandırmasında "
+"kapatılmadıkça). Bilgi almak için: :ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:269
 msgid ":doc:`/devel/integration`"
@@ -18669,6 +18847,7 @@ msgstr ":doc:`/devel/integration`"
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
 msgstr ""
+"Bu temel öznitelikler kurulur ve bir projenin çevirmenlerine bildirilir:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:904 ../../api.rst:807
 #: ../../contributing/about.rst:11
@@ -18677,7 +18856,7 @@ msgstr "Proje adı"
 
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Proje adını görüntülemek için kullanılan ayrıntılı proje adı."
 
 #: ../../admin/projects.rst:130
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
@@ -18689,7 +18868,7 @@ msgstr "Adres kısaltması"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "Projenin adreslerde kullanılmaya uygun adı."
 
 #: ../../admin/projects.rst:142 ../../api.rst:811
 #: ../../contributing/about.rst:16
@@ -18698,19 +18877,23 @@ msgstr "Proje web sitesi"
 
 #: ../../admin/projects.rst:144
 msgid "URL where translators can find more info about the project."
-msgstr ""
+msgstr "Çevirmenlerin proje hakkında ayrıntılı bilgi bulabileceği adres."
 
 #: ../../admin/projects.rst:146
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
+"Bu parametre :setting:`WEBSITE_REQUIRED` tarafından kapatılmadığı sürece "
+"zorunludur."
 
 #: ../../admin/projects.rst:150
 msgid ""
 ":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:`PROJECT_WEB_RESTRICT_RE`"
 msgstr ""
+":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
+", :setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:157
 msgid "Translation instructions"
@@ -18722,6 +18905,9 @@ msgid ""
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
 msgstr ""
+"Projedeki yerelleştirme sürecini açıklayan metin ve çevirmenler için yararlı "
+"olabilecek diğer bilgiler. Metin biçimlendirme ya da bağlantı ekleme "
+"işlemleri için markdown kullanılabilir."
 
 #: ../../admin/projects.rst:165
 msgid "Set \"Language-Team\" header"
@@ -18732,6 +18918,8 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"``Language-Team`` üst bilgisinin Weblate tarafından yönetmesinin gerekip "
+"gerekmediği (bu şu anda yalnızca bir :ref:`gettext` özelliğidir)."
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
@@ -18742,6 +18930,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Paylaşılan çeviri belleğinin kullanılıp kullanılmayacağı. Bilgi almak için: "
+":ref:`shared-tm`."
 
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:186
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
@@ -18758,10 +18948,13 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Paylaşılan çeviri belleğine katkıda bulunulup bulunulmayacağı. Bilgi almak "
+"için: :ref:`shared-tm`."
 
 #: ../../admin/projects.rst:193
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Her proje için erişim denetimi yapılandırması. Bilgi almak için: :ref:`acl'."
 
 #: ../../admin/projects.rst:200 ../../workflows.rst:77 ../../workflows.rst:109
 #: ../../workflows.rst:146
@@ -18796,6 +18989,8 @@ msgstr "Kancalar kullanılsın"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
+"Bu depo için kimliği doğrulanmamış :ref:`hooks` özelliğinin kullanılıp "
+"kullanılmayacağı."
 
 #: ../../admin/projects.rst:225
 msgid ""
@@ -18816,20 +19011,29 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
+"Çevirileri Weblate içine aktarmak için kullanılacak dil kodları "
+"eşleştirmesini tanımlayın. Dil kodları depolarınızda tutarsız olduğunda ve "
+"Weblate üzerinde tutarlı bir görünüm elde etmek istediğinizde ya da çeviri "
+"dosyalarınızda standart olmayan adlandırma kullanmak istediğinizde bunu "
+"kullanın."
 
 #: ../../admin/projects.rst:240
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"Tipik kullanım örneği, Amerikan İngilizcesi ile İngiliz İngilizcesi’ni "
+"eşleştirmek olabilir: ``en_US:en``"
 
 #: ../../admin/projects.rst:242
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
 msgstr ""
+"Birden fazla eşleştirmeyi virgül ile ayırarak yazabilirsiniz: "
+"``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:244
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "Standart olmayan kod kullanmak: ``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:248
 msgid ""
@@ -18837,6 +19041,9 @@ msgid ""
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
 msgstr ""
+"Çeviri dosyaları eşleştirilirken dil kodlarına bakılır ve eşleşmeler büyük/"
+"küçük harfe duyarlıdır. Bu nedenle kaynak dil kodlarını dosya adlarındakiler "
+"ile aynı şekilde kullandığınızdan emin olun."
 
 #: ../../admin/projects.rst:254 ../../admin/projects.rst:647
 msgid ""
@@ -18855,11 +19062,16 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Bir bileşen, çevrilecek bir şeyin gruplanmasıdır. Çevrilmesini istediğiniz "
+"dosyalar için bir sürüm denetimi sistemi deposu konumu ve dosya maskesi "
+"belirtirsiniz ve Weblate otomatik olarak bu sürüm denetimi sisteminden "
+"eşleşen tüm çevrilebilir dosyaları bulup alır."
 
 #: ../../admin/projects.rst:271
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
 msgstr ""
+"Bazı yaygın yapılandırma örneklerini :ref:`formats` bölümünde bulabilirsiniz."
 
 #: ../../admin/projects.rst:275
 msgid ""
@@ -18867,6 +19079,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
+"Çeviri bileşenlerini makul bir boyutta tutmanız önerilir. Çeviriyi sizin "
+"durumunuzda anlamlı olan herhangi bir şeye göre bölün (bireysel uygulamalar "
+"ya da eklentiler, kitap bölümleri ya da siteler)."
 
 #: ../../admin/projects.rst:279
 msgid ""
@@ -18874,6 +19089,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate, onbinlerce dizgeden oluşan çevirileri kolayca işler. Ancak işi "
+"bölmek ve bu kadar büyük çeviri bileşenlerinin çevirmenler arasında "
+"koordinasyonunu sağlamak daha zordur."
 
 #: ../../admin/projects.rst:282
 msgid ""
@@ -18882,12 +19100,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Bir çevirinin dil tanımı eksikse, boş bir tanım oluşturulur ve “tr_TR "
+"(oluşturulmuş)” olarak adlandırılır. Tanımı ayarlamalı ve eksik dillerin bir "
+"sonraki sürüme katılabilmesi için bunu Weblate geliştiricilerine "
+"bildirmelisiniz."
 
 #: ../../admin/projects.rst:287
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Bileşende, sürüm denetim sistemi ile çalışmak ve çevirileri almak için "
+"gereken tüm önemli parametreler bulunur:"
 
 #: ../../admin/projects.rst:293 ../../admin/projects.rst:900
 msgid "Component name"
@@ -18895,7 +19119,7 @@ msgstr "Bileşen adı"
 
 #: ../../admin/projects.rst:295
 msgid "Verbose component name, used to display the component name."
-msgstr ""
+msgstr "Bileşen adını görüntülemek için kullanılan ayrıntılı bileşen adı."
 
 #: ../../admin/projects.rst:300 ../../admin/projects.rst:902 ../../api.rst:2245
 #: ../../api.rst:2315 ../../api.rst:2411
@@ -18904,11 +19128,11 @@ msgstr "Bileşen kısaltması"
 
 #: ../../admin/projects.rst:302
 msgid "Component name suitable for URLs."
-msgstr "Adresler için uygun bileşen adı."
+msgstr "Bileşenin adreslerde kullanılmaya uygun adı."
 
 #: ../../admin/projects.rst:307
 msgid "Component project"
-msgstr "Bileşen projesi"
+msgstr "Bileşenin projesi"
 
 #: ../../admin/projects.rst:309
 msgid ":ref:`project` where the component belongs."
@@ -18920,7 +19144,7 @@ msgstr "Sürüm denetimi sistemi"
 
 #: ../../admin/projects.rst:316
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
+msgstr "Kullanılacak sürüm denetimi sistemi. Bilgi almak için: :ref:`vcs`."
 
 #: ../../admin/projects.rst:320 ../../admin/projects.rst:406
 msgid ":ref:`push-changes`"
@@ -18932,11 +19156,11 @@ msgstr "Kaynak kod deposu"
 
 #: ../../admin/projects.rst:327
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "Değişikliklerin alınacağı sürüm denetimi sistemi deposu."
 
 #: ../../admin/projects.rst:331
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
-msgstr ""
+msgstr "Adresleri belirtmek ile ilgili bilgi almakiçin: :ref:`vcs-repos`."
 
 #: ../../admin/projects.rst:335
 msgid ""
@@ -19665,6 +19889,9 @@ msgid ""
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
+"Varsayılan olarak, bileşen, bileşende herhangi bir değişiklik yapamasa bile, "
+"projeye erişimi olan herkes tarafından görülebilir. Böylece proje içinde "
+"çeviri tutarlılığının korunması kolaylaşır."
 
 #: ../../admin/projects.rst:822
 msgid ""
@@ -19674,6 +19901,12 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"Bir bileşene ya da bileşen listesi düzeyine erişimi kısıtlamak, proje düzeyi "
+"izinlerinden bağımsız olarak bir bileşene erişim iznini devralır. Erişim "
+"iznini açıkça vermeniz gerekir. Bunun için, yeni bir kullanıcı grubuna "
+"erişim izni verebilir ve kullanıcıları bu gruba yerleştirebilir ya da "
+"varsayılan `özel` ya da `kişisel` erişim denetimi gruplarını "
+"kullanabilirsiniz."
 
 #: ../../admin/projects.rst:828
 msgid ""
@@ -19699,6 +19932,8 @@ msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
 msgstr ""
+"Bileşenin görünür olacağı ek projeler seçebilirsiniz. Bu özellik birkaç "
+"projede kullandığınız paylaşılan kitaplıklar için kullanışlıdır."
 
 #: ../../admin/projects.rst:845
 msgid ""
@@ -19706,6 +19941,9 @@ msgid ""
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
 msgstr ""
+"Bir bileşenin paylaşılması, erişim denetimini değiştirmez. Yalnızca diğer "
+"projelere göz atarken görünmesini sağlar. Kullanıcıların göz atmak ya da "
+"çevirmek için gerçek bileşene erişebilmesi gerekir."
 
 #: ../../admin/projects.rst:853
 msgid "Use as a glossary"
@@ -19724,12 +19962,16 @@ msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
+"Sözlük, :ref:`component-links` tarafından tanımlanan tüm projelerden "
+"erişilebilir olur."
 
 #: ../../admin/projects.rst:862
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
+"Sözlüklere yeni sözcükler eklenmesine izin vermek için sözlüklerde :ref"
+":`component-manage_units` özelliğinin etkinleştirilmesi önerilir."
 
 #: ../../admin/projects.rst:867
 msgid ":ref:`glossary`"
@@ -19753,10 +19995,13 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"Weblate, metin işlemenin gerekli olduğu çeşitli yerlerde basit markup dili "
+"kullanır. :doc:`django:ref/templates/language` üzerine kurulu olduğundan "
+"oldukça güçlüdür."
 
 #: ../../admin/projects.rst:885
 msgid "Currently it is used in:"
-msgstr ""
+msgstr "Şu anda şuralarda kullanılabilir:"
 
 #: ../../admin/projects.rst:887
 msgid "Commit message formatting, see :ref:`component`"
@@ -32050,6 +32295,9 @@ msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
+"Weblate şu anda materyal design simgelerini kullanıyor. Yeni simgeler "
+"arıyorsanız, `Material Design Icons`_ ya da `Material Design Resources`_ "
+"seçeneğini işaretleyin."
 
 #: ../../contributing/frontend.rst:84
 msgid ""
@@ -32057,6 +32305,9 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"Ek olarak, SVG boyutunu küçültmek için :file:`scripts/optimize-svg` "
+"kullanılır. Çünkü simgelerin çoğu yolların biçemine izin vermek için HTML "
+"içine gömülüdür."
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
