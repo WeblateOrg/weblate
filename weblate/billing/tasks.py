@@ -139,7 +139,7 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=0, minute=50), billing_alert.s(), name="billing-alert"
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=0, day_of_week="monday,thursday"),
+        crontab(hour=3, minute=0, day_of_week="mon,thu"),
         billing_notify.s(),
         name="billing-notify",
     )
@@ -149,12 +149,12 @@ def setup_periodic_tasks(sender, **kwargs):
         name="perform-removal",
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=0, day_of_week="monday,thursday"),
+        crontab(hour=2, minute=0, day_of_week="mon,thu"),
         schedule_removal.s(),
         name="schedule-removal",
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="monday,thursday"),
+        crontab(hour=2, minute=30, day_of_week="mon,thu"),
         notify_expired.s(),
         name="notify-expired",
     )
