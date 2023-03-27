@@ -59,6 +59,7 @@ extensions = [
     "sphinx-jsonschema",
     "sphinx_rtd_theme",
     "sphinx_copybutton",
+    "sphinxext.opengraph",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -75,6 +76,17 @@ exclude_patterns = [
     "devel/reporting-example.rst",
 ]
 
+ogp_social_cards = {
+    "image": "../weblate/static/logo-1024.png",
+    "line_color": "#144d3f",
+    "site_url": "docs.weblate.org",
+}
+ogp_custom_meta_tags = [
+    '<meta property="fb:app_id" content="741121112629028" />',
+    '<meta property="fb:page_id" content="371217713079025" />',
+    '<meta name="twitter:card" content="summary_large_image" />',
+    '<meta name="twitter:site" content="@WeblateOrg" />',
+]
 
 # -- Options for HTML output -------------------------------------------------
 
