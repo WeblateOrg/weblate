@@ -685,6 +685,14 @@ Generic settings
     Configures GitLab merge-requests integration  by changing
     :setting:`GITLAB_CREDENTIALS`.
 
+    **Example:**
+
+    .. code-block:: sh
+
+       WEBLATE_GITLAB_USERNAME=weblate
+       WEBLATE_GITLAB_HOST=gitlab.com
+       WEBLATE_GITLAB_TOKEN=token
+
     .. seealso::
 
        :ref:`vcs-gitlab`
