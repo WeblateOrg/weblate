@@ -134,7 +134,7 @@ class ImportProject(CreateProject):
             if "zipfile" in request.FILES:
                 # Delete previous (stale) import data
                 del request.session["import_project"]
-                del request.session["import_billing"]
+                request.session.pop("import_billing", None)
                 self.projectbackup = None
             else:
                 self.projectbackup = ProjectBackup(request.session["import_project"])
@@ -143,6 +143,7 @@ class ImportProject(CreateProject):
                 self.projectbackup.validate()
         else:
             request.session.pop("import_project", None)
+            request.session.pop("import_billing", None)
             self.projectbackup = None
         super().setup(request, *args, **kwargs)
 
@@ -173,7 +174,7 @@ class ImportProject(CreateProject):
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
             del self.request.session["import_project"]
-            del self.request.session["import_billing"]
+            self.request.session.pop("import_billing", None)
             self.projectbackup = None
         return super().post(request, *args, **kwargs)
 
@@ -183,7 +184,8 @@ class ImportProject(CreateProject):
             self.request.session["import_project"] = form.cleaned_data[
                 "projectbackup"
             ].store_for_import()
-            self.request.session["import_billing"] = form.cleaned_data["billing"].pk
+            if form.cleaned_data["billing"]:
+                self.request.session["import_billing"] = form.cleaned_data["billing"].pk
             return redirect("create-project-import")
         # Perform actual import
         project = self.projectbackup.restore(
