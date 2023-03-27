@@ -25,7 +25,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 def setup(app):
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-3.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
-    app.add_css_file("docs.css")
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",
@@ -57,7 +56,6 @@ extensions = [
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",
-    "sphinx_rtd_theme",
     "sphinx_copybutton",
     "sphinxext.opengraph",
 ]
@@ -93,7 +91,8 @@ ogp_custom_meta_tags = [
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+# html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -103,6 +102,24 @@ html_static_path = ["../weblate/static/"]
 
 html_logo = "../weblate/static/logo-128.png"
 
+
+html_theme_options = {
+    "source_repository": "https://github.com/WeblateOrg/weblate/",
+    "source_branch": "main",
+    "source_directory": "docs/",
+    "dark_css_variables": {
+        "font-stack": '"Source Sans 3", sans-serif',
+        "font-stack--monospace": '"Source Code Pro", monospace',
+        "color-brand-primary": "#1fa385",
+        "color-brand-content": "#1fa385",
+    },
+    "light_css_variables": {
+        "font-stack": '"Source Sans 3", sans-serif',
+        "font-stack--monospace": '"Source Code Pro", monospace',
+        "color-brand-primary": "#1fa385",
+        "color-brand-content": "#1fa385",
+    },
+}
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
