@@ -133,7 +133,8 @@ class ImportProject(CreateProject):
         ):
             if "zipfile" in request.FILES:
                 # Delete previous (stale) import data
-                del self.request.session["import_project"]
+                del request.session["import_project"]
+                del request.session["import_billing"]
                 self.projectbackup = None
             else:
                 self.projectbackup = ProjectBackup(request.session["import_project"])
@@ -144,6 +145,16 @@ class ImportProject(CreateProject):
             request.session.pop("import_project", None)
             self.projectbackup = None
         super().setup(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if "billing" in form.fields and self.has_billing:
+            from weblate.billing.models import Billing
+
+            billing = self.request.session.get("import_billing")
+            if billing:
+                form.fields["billing"].initial = Billing.objects.get(pk=billing)
+        return form
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -162,6 +173,7 @@ class ImportProject(CreateProject):
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
             del self.request.session["import_project"]
+            del self.request.session["import_billing"]
             self.projectbackup = None
         return super().post(request, *args, **kwargs)
 
@@ -171,6 +183,7 @@ class ImportProject(CreateProject):
             self.request.session["import_project"] = form.cleaned_data[
                 "projectbackup"
             ].store_for_import()
+            self.request.session["import_billing"] = form.cleaned_data["billing"].pk
             return redirect("create-project-import")
         # Perform actual import
         project = self.projectbackup.restore(
