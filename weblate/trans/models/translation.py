@@ -1576,7 +1576,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.was_new += 1
         self.notify_new(None)
 
-    def validate_new_unit_data(  # noqa: C901
+    def validate_new_unit_data(
         self,
         context: str,
         source: Union[str, List[str]],
