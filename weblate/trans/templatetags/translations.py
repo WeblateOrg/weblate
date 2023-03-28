@@ -58,8 +58,8 @@ GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 # This should match whitespace_regex in weblate/static/loader-bootstrap.js
 WHITESPACE_REGEX = (
     r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
-    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
-    + r"\u202F|\u205F|\u3000)"
+    r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)

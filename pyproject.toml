@@ -21,10 +21,11 @@ format = "github"
 # D401 - many strings need rephrasing
 # TRY200, B904, PLR0913, PLR0915, PLR0912
 # E501 - probably not needed with black?
+# PLW2901 - overwriting variables inside loop
 # Wontfix:
 # TRY003, PLR2004, RUF001, RUF002, RUF003
 # A001,A002,A003 - the names are mostlu coming from outside APIs
-ignore = ["D10", "D401", "TRY003", "PLR2004", "RUF001", "RUF002", "RUF003", "TRY200", "B904", "PLR0913", "PLR0915", "E501", "PLR0912", "PLR0911", "D212", "D203"]
+ignore = ["D10", "D401", "TRY003", "PLR2004", "RUF001", "RUF002", "RUF003", "TRY200", "B904", "PLR0913", "PLR0915", "E501", "PLR0912", "PLR0911", "D212", "D203", "PLW2901"]
 select = ["E", "F", "B", "T10", "A", "C4", "C90", "YTT", "DJ", "UP", "D", "PD", "PGH", "PL", "TRY", "RUF", "ERA", "ICN", "ISC", "EXE", "INP", "PIE", "G", "PYI", "Q", "SIM", "TID", "RSE", "T20", "RET", "SLF", "N"]
 target-version = "py37"
 
