@@ -2107,7 +2107,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock and sentry_sdk.start_span(op="create_translations"):
+            with self.lock and sentry_sdk.start_span(
+                op="create_translations", description=self.full_slug
+            ):
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
@@ -3174,12 +3176,15 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
-        return self.file_format_cls.parse(
-            fileobj or self.get_template_filename(),
-            language_code=self.source_language.code,
-            source_language=self.source_language.code,
-            is_template=True,
-        )
+        with sentry_sdk.start_span(
+            op="load_template_store", description=self.get_template_filename()
+        ):
+            return self.file_format_cls.parse(
+                fileobj or self.get_template_filename(),
+                language_code=self.source_language.code,
+                source_language=self.source_language.code,
+                is_template=True,
+            )
 
     @cached_property
     def template_store(self):

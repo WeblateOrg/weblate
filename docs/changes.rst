@@ -8,6 +8,7 @@ Not yet released.
 * Fixed private project visibility for some teams.
 * Automatic translation now honors target state when translating from other components.
 * Improved performace of public user profiles.
+* Improved Sentry performance integration.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 
