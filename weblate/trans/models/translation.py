@@ -320,7 +320,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             }
             is_new = True
 
-        newunit.update_from_unit(unit, pos, is_new)
+        with sentry_sdk.start_span(
+            op="update_from_unit", description=f"{self.full_slug}:{pos}"
+        ):
+            newunit.update_from_unit(unit, pos, is_new)
 
         # Check if unit is worth notification:
         # - new and untranslated
