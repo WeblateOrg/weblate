@@ -109,7 +109,7 @@ def strip_string(msg, flags):
     stripped = TEMPLATE_RE.sub("", stripped)
 
     # Cleanup trailing/leading chars
-    return stripped  # noqa: RET504
+    return stripped
 
 
 def test_word(word, extra_ignore):

@@ -107,7 +107,7 @@ class TTKitUnit(TranslationUnit):
             if template_comment != comment:
                 comment = template_comment + "\n" + comment
 
-        return comment  # noqa: RET504
+        return comment
 
     def is_translated(self):
         """Check whether unit is translated."""
@@ -438,7 +438,7 @@ class TTKitFormat(TranslationFormat):
         result = cls.new_translation
         if isinstance(result, str):
             result = result.encode()
-        return result  # noqa: RET504
+        return result
 
     @classmethod
     def create_new_file(

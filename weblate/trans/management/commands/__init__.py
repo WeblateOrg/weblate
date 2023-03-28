@@ -150,7 +150,7 @@ class WeblateLangCommand(WeblateComponentCommand):
         if options["lang"] is not None:
             units = units.filter(translation__language__code=options["lang"])
 
-        return units  # noqa: RET504
+        return units
 
     def get_translations(self, **options):
         """Return list of translations matching parameters."""
@@ -160,7 +160,7 @@ class WeblateLangCommand(WeblateComponentCommand):
             langs = options["lang"].split(",")
             result = result.filter(language_code__in=langs)
 
-        return result  # noqa: RET504
+        return result
 
     def handle(self, *args, **options):
         """

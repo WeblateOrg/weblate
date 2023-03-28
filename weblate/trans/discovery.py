@@ -188,7 +188,7 @@ class ComponentDiscovery:
             result = match[key]
             if len(result) > max_length - extra:
                 result = result[: max_length - extra]
-            return result  # noqa: RET504
+            return result
 
         # Get name and slug
         name = get_val("name") or "Component"

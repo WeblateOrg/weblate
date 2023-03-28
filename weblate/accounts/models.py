@@ -754,7 +754,7 @@ class Profile(models.Model):
             email = self.get_site_commit_email()
         if not email:
             email = self.user.email
-        return email  # noqa: RET504
+        return email
 
     def get_site_commit_email(self) -> str:
         if not settings.PRIVATE_COMMIT_EMAIL_TEMPLATE:

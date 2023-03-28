@@ -147,7 +147,7 @@ def filter_perms(prefix: str, exclude: Optional[set] = None):
     result = {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
     if exclude:
         result = result.difference(exclude)
-    return result  # noqa: RET504
+    return result
 
 
 # Translator permissions

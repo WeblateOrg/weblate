@@ -93,7 +93,7 @@ def ensure_ssh_key():
     if not ssh_key:
         generate_ssh_key(None)
         ssh_key = get_key_data()
-    return ssh_key  # noqa: RET504
+    return ssh_key
 
 
 def generate_ssh_key(request):

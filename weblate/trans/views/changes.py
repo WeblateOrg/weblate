@@ -209,7 +209,7 @@ class ChangesView(ListView):
         if self.user is not None:
             result = result.filter(user=self.user)
 
-        return result  # noqa: RET504
+        return result
 
     def paginate_queryset(self, queryset, page_size):
         if not self.changes_form.is_valid():

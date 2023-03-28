@@ -146,7 +146,7 @@ class UnitQuerySet(models.QuerySet):
         )
         if exclude:
             result = result.exclude(pk=unit.id)
-        return result  # noqa: RET504
+        return result
 
     def order_by_request(self, form_data, obj):
         sort_list_request = form_data.get("sort_by", "").split(",")

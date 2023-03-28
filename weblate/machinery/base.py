@@ -102,7 +102,7 @@ class MachineTranslation:
         base = self.settings["url"]
         if base.endswith("/"):
             base = base.rstrip("/")
-        return base  # noqa: RET504
+        return base
 
     def get_api_url(self, *parts):
         """Generates service URL gracefully handle trailing slashes."""
