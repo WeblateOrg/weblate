@@ -600,11 +600,13 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         result = super().check_format(source, target, ignore_missing, unit)
 
         # Even number of quotes, unless in GWT which enforces this
-        if unit.translation.component.file_format != "gwt":
-            if target.count("'") % 2 != 0:
-                if not result:
-                    result = {"missing": [], "extra": []}
-                result["missing"].append("'")
+        if (
+            unit.translation.component.file_format != "gwt"
+            and target.count("'") % 2 != 0
+        ):
+            if not result:
+                result = {"missing": [], "extra": []}
+            result["missing"].append("'")
 
         return result
 

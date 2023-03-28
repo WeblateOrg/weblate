@@ -207,12 +207,14 @@ class Billing(models.Model):
         update_fields=None,
         skip_limits=False,
     ):
-        if not skip_limits and self.pk:
-            if self.check_limits(save=False) and update_fields:
-                update_fields = set(update_fields)
-                update_fields.update(
-                    ("state", "expiry", "removal", "paid", "in_limits")
-                )
+        if (
+            not skip_limits
+            and self.pk
+            and self.check_limits(save=False)
+            and update_fields
+        ):
+            update_fields = set(update_fields)
+            update_fields.update(("state", "expiry", "removal", "paid", "in_limits"))
 
         super().save(
             force_insert=force_insert,

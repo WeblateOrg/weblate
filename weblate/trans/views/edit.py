@@ -299,11 +299,12 @@ def perform_suggestion(unit, form, request):
         messages.error(request, _("You don't have privileges to add suggestions!"))
         # Stay on same entry
         return False
-    if not request.user.is_authenticated:
-        # Spam check
-        if is_spam("\n".join(form.cleaned_data["target"]), request):
-            messages.error(request, _("Your suggestion has been identified as spam!"))
-            return False
+    # Spam check for unauthenticated users
+    if not request.user.is_authenticated and is_spam(
+        "\n".join(form.cleaned_data["target"]), request
+    ):
+        messages.error(request, _("Your suggestion has been identified as spam!"))
+        return False
 
     # Create the suggestion
     result = Suggestion.objects.add(
