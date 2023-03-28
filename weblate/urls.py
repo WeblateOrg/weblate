@@ -1125,7 +1125,6 @@ real_patterns = [
 
 # Billing integration
 if "weblate.billing" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.billing.views
 
     real_patterns += [
@@ -1141,7 +1140,6 @@ if "weblate.billing" in settings.INSTALLED_APPS:
 
 # Git exporter integration
 if "weblate.gitexport" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.gitexport.views
 
     real_patterns += [
@@ -1189,7 +1187,6 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
 
 # Legal integartion
 if "weblate.legal" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.legal.views
 
     real_patterns += [
@@ -1217,14 +1214,12 @@ if settings.DEBUG:
 
 # Django debug toolbar integration
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import debug_toolbar
 
     real_patterns += [path("__debug__/", include(debug_toolbar.urls))]
 
 # Hosted Weblate integration
 if "wlhosted.integrations" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     from wlhosted.integrations.views import CreateBillingView
 
     real_patterns += [

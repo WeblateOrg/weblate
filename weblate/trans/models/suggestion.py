@@ -21,8 +21,6 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager):
-    # pylint: disable=no-init
-
     def add(self, unit, target, request, vote=False):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous

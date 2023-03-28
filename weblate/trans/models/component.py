@@ -199,8 +199,6 @@ def translation_prefetch_tasks(translations):
 
 
 class ComponentQuerySet(models.QuerySet):
-    # pylint: disable=no-init
-
     def prefetch(self, alerts: bool = True):
         from weblate.trans.models import Alert
 
@@ -1289,7 +1287,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"  # noqa
+            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"
 
         return None
 
@@ -1302,7 +1300,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             slug = matches.group(2)
 
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"  # noqa
+            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"
 
         return None
 
@@ -1324,7 +1322,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             repository = matches.group(3)
 
         if organization and project and repository:
-            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"  # noqa
+            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"
 
         return None
 

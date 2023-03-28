@@ -121,8 +121,6 @@ def get_default_lang():
 
 
 class LanguageQuerySet(models.QuerySet):
-    # pylint: disable=no-init, 1000000
-
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
         result = self.filter(*args, **kwargs)[:2]

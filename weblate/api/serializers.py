@@ -43,7 +43,6 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         self.strip_parts = strip_parts
         super().__init__(**kwargs)
 
-    # pylint: disable=redefined-builtin
     def get_url(self, obj, view_name, request, format):
         """
         Given an object, return the URL that hyperlinks to the object.

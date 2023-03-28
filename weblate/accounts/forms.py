@@ -446,7 +446,6 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
     new_password2 = PasswordField(label=_("New password confirmation"))
 
-    # pylint: disable=arguments-differ,signature-differs
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
             self.user, request, "password", password=self.user.password
@@ -824,7 +823,6 @@ class NotificationForm(forms.Form):
 class UserSearchForm(forms.Form):
     """User searching form."""
 
-    # pylint: disable=invalid-name
     q = forms.CharField(required=False)
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
 

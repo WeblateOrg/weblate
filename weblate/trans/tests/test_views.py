@@ -169,8 +169,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(response.status_code, 302)
 
         # We don't use all variables
-        # pylint: disable=unused-variable
-        scheme, netloc, path, query, fragment = urlsplit(response["Location"])
+        _scheme, _netloc, path, query, _fragment = urlsplit(response["Location"])
 
         self.assertEqual(path, exp_path)
 

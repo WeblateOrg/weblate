@@ -383,7 +383,6 @@ class Repository:
             except Exception as error:
                 cls._version = error
         if isinstance(cls._version, Exception):
-            # pylint: disable=raising-bad-type
             raise cls._version
         return cls._version
 

@@ -13,8 +13,6 @@ from weblate.utils.request import get_ip_address, get_user_agent_raw
 
 
 class CommentManager(models.Manager):
-    # pylint: disable=no-init
-
     def add(self, unit, request, text):
         """Add comment to this unit."""
         user = request.user

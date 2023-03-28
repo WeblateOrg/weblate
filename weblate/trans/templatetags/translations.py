@@ -414,9 +414,6 @@ def show_message(tags, message):
 
 def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = now - value
 
     if delta.days >= 365:
@@ -471,9 +468,6 @@ def naturaltime_past(value, now):
 
 def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = value - now
 
     if delta.days >= 365:

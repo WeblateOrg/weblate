@@ -9,7 +9,7 @@
 import os
 import warnings
 
-from weblate.settings_example import *  # noqa
+from weblate.settings_example import *  # noqa: F403
 
 CI_DATABASE = os.environ.get("CI_DATABASE", "")
 

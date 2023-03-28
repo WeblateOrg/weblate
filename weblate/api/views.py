@@ -1551,7 +1551,6 @@ class Metrics(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    # pylint: disable=redefined-builtin
     def get(self, request, format=None):
         """Return a list of all users."""
         stats = GlobalStats()

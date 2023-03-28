@@ -1977,7 +1977,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
     <dict>
     </dict>
 </plist>
-"""  # noqa: E501
+"""
 
     @staticmethod
     def mimetype():

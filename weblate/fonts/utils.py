@@ -22,7 +22,7 @@ from weblate.utils.data import data_dir
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
-from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
+from gi.repository import Pango, PangoCairo  # noqa: E402
 
 FONTCONFIG_CONFIG = """<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">

@@ -133,7 +133,7 @@ It also includes following components:
 Current translation status:
 
 ![Weblate translation status]({{widget_url}})
-"""  # noqa: E501
+"""
 
     # Billing
     INVOICE_PATH = ""

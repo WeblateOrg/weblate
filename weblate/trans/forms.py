@@ -712,7 +712,6 @@ def get_upload_form(user, translation, *args, **kwargs):
 class SearchForm(forms.Form):
     """Text-searching form."""
 
-    # pylint: disable=invalid-name
     q = QueryField()
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
     checksum = ChecksumField(required=False)

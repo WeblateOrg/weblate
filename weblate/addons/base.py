@@ -92,7 +92,6 @@ class BaseAddon:
             return None
         storage = cls.create_object(component)
         instance = cls(storage)
-        # pylint: disable=not-callable
         return cls.settings_form(user, instance, **kwargs)
 
     def get_settings_form(self, user, **kwargs):
@@ -101,7 +100,6 @@ class BaseAddon:
             return None
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
-        # pylint: disable=not-callable
         return self.settings_form(user, self, **kwargs)
 
     def get_ui_form(self):
