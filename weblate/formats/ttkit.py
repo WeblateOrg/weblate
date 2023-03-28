@@ -399,19 +399,18 @@ class TTKitFormat(TranslationFormat):
         # Build the unit
         unit = self.construct_unit(context)
 
+        # Monolingual translation
         if self.is_template or self.template_store:
-            # Monolingual translation
             unit.setid(key)
             target = source
             source = self.create_unit_key(key, source)
-        else:
-            # Bilingual translation
-            if isinstance(unit, (tbxunit, xliffunit)) and key:
-                unit.setid(key)
-            elif self.set_context_bilingual and key:
-                unit.setcontext(key)
-            elif isinstance(unit, BaseJsonUnit):
-                unit.setid(context)
+        # Bilingual translation
+        elif isinstance(unit, (tbxunit, xliffunit)) and key:
+            unit.setid(key)
+        elif self.set_context_bilingual and key:
+            unit.setcontext(key)
+        elif isinstance(unit, BaseJsonUnit):
+            unit.setid(context)
 
         if self.use_settarget and self.source_language:
             unit.setsource(source, self.source_language)

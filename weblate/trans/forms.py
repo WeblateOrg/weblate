@@ -787,10 +787,9 @@ class SearchForm(forms.Form):
                     items.append((param, val))
             elif isinstance(value, User):
                 items.append((param, value.username))
-            else:
+            elif value:
                 # It should be a string here
-                if value:
-                    items.append((param, value))
+                items.append((param, value))
         return items
 
     def urlencode(self):

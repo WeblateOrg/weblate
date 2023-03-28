@@ -335,11 +335,8 @@ def user_profile(request):
 
             # Redirect after saving (and possibly changing language)
             return redirect_profile(request.POST.get("activetab"))
-    else:
-        if not request.user.has_usable_password() and "email" in all_backends:
-            messages.warning(
-                request, render_to_string("accounts/password-warning.html")
-            )
+    elif not request.user.has_usable_password() and "email" in all_backends:
+        messages.warning(request, render_to_string("accounts/password-warning.html"))
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]

@@ -1086,11 +1086,10 @@ class Unit(models.Model, LoggerMixin):
                 action = Change.ACTION_APPROVE
             else:
                 action = Change.ACTION_CHANGE
+        elif self.state == STATE_APPROVED:
+            action = Change.ACTION_APPROVE
         else:
-            if self.state == STATE_APPROVED:
-                action = Change.ACTION_APPROVE
-            else:
-                action = Change.ACTION_NEW
+            action = Change.ACTION_NEW
 
         # Create change object
         change = Change(
