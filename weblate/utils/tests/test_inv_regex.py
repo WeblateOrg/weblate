@@ -4,7 +4,7 @@
 
 from unittest import TestCase
 
-from ..inv_regex import invert_re
+from weblate.utils.inv_regex import invert_re
 
 
 class InvertRegexTest(TestCase):

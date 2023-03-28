@@ -8,7 +8,7 @@ from unittest.mock import patch
 from django.core.cache import cache
 from django.test import SimpleTestCase
 
-from ..checks import is_celery_queue_long
+from weblate.utils.checks import is_celery_queue_long
 
 
 class CeleryQueueTest(SimpleTestCase):

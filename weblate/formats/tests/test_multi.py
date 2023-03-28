@@ -4,10 +4,10 @@
 
 """File format specific behavior."""
 
+from weblate.formats.multi import MultiCSVUtf8Format
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
 
-from ..multi import MultiCSVUtf8Format
 from .test_formats import AutoFormatTest
 
 TEST_CSV = get_test_file("fr-multi.csv")
