@@ -161,9 +161,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
             if not obj.enable_review:
                 return False
         else:
-            if isinstance(obj, Component):
-                project = obj.project
-            elif isinstance(obj, ProjectLanguage):
+            if isinstance(obj, (Component, ProjectLanguage)):
                 project = obj.project
             else:
                 project = obj

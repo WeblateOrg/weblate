@@ -232,11 +232,7 @@ class MetricsManager(models.Manager):
         """
         if obj is None:
             changes = Change.objects.all()
-        elif isinstance(obj, Translation):
-            changes = obj.change_set.all()
-        elif isinstance(obj, Component):
-            changes = obj.change_set.all()
-        elif isinstance(obj, Project):
+        elif isinstance(obj, (Translation, Component, Project, User)):
             changes = obj.change_set.all()
         elif isinstance(obj, ComponentList):
             changes = Change.objects.filter(component__in=obj.components.all())
@@ -244,8 +240,6 @@ class MetricsManager(models.Manager):
             changes = obj.project.change_set.filter(translation__language=obj.language)
         elif isinstance(obj, Language):
             changes = Change.objects.filter(translation__language=obj)
-        elif isinstance(obj, User):
-            changes = obj.change_set.all()
         else:
             raise ValueError(f"Unsupported type for metrics: {obj!r}")
 
