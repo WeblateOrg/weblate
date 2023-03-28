@@ -101,6 +101,7 @@ def get_other_units(unit):
     component = translation.component
     propagation = component.allow_translation_propagation
     same = None
+    any_propagated = False
 
     if unit.source and unit.context:
         match = Q(source=unit.source) & Q(context=unit.context)
@@ -171,6 +172,8 @@ def get_other_units(unit):
             and item.source == unit.source
             and item.context == unit.context
         )
+        if item.pk != unit.pk:
+            any_propagated |= item.is_propagated
         untranslated |= not item.translated
         allow_merge |= item.allow_merge
         if item.pk == unit.pk:
@@ -187,7 +190,7 @@ def get_other_units(unit):
 
     # Slightly different logic to allow applying current translation to
     # the propagated strings
-    if same is not None:
+    if same is not None and any_propagated:
         same.allow_merge = (
             (untranslated or allow_merge) and same.translated and propagation
         )
