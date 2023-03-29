@@ -617,7 +617,7 @@ class XliffUnit(TTKitUnit):
         if unit is not None:
             return unit.xmlelement.find(unit.namespaced(element))
         else:
-            return None        
+            return None
 
     def get_xliff_node(self):
         return self.get_unit_node(self.unit)
