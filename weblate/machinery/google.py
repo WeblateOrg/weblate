@@ -24,6 +24,13 @@ class GoogleBaseTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").split("@")[0]
 
+    def is_supported(self, source, language):
+        # Google does not support translating between variants
+        return (
+            super().is_supported(source, language)
+            and source.split("-")[0] != language.split("-")[0]
+        )
+
 
 class GoogleTranslation(GoogleBaseTranslation):
     """Google Translate API v2 machine translation support."""
