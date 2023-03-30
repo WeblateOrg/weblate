@@ -19,16 +19,19 @@ class GoogleBaseTranslation(MachineTranslation):
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
     }
+    language_aliases = {
+        {"zh-CN", "zh"},
+    }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").split("@")[0]
 
     def is_supported(self, source, language):
-        # Google does not support translating between variants
+        # Avoid translation between aliases
         return (
             super().is_supported(source, language)
-            and source.split("-")[0] != language.split("-")[0]
+            and {source, language} not in self.language_aliases
         )
 
 
