@@ -16,12 +16,12 @@ class CharsPasswordValidator:
         if not password:
             return
 
-        if password.strip() == "":
+        if not password.strip():
             raise ValidationError(
                 _("This password consists of only whitespace."),
                 code="password_whitespace",
             )
-        if password.strip(password[0]) == "":
+        if not password.strip(password[0]):
             raise ValidationError(
                 _("This password is only a single character."),
                 code="password_same_chars",

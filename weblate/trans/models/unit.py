@@ -692,7 +692,7 @@ class Unit(models.Model, LoggerMixin):
                     state = STATE_TRANSLATED
                 else:
                     # Store previous source and fuzzy flag for monolingual
-                    if previous_source == "":
+                    if not previous_source:
                         source_change = previous_source = self.source
                     state = STATE_FUZZY
                 self.pending = True
@@ -1526,7 +1526,7 @@ class Unit(models.Model, LoggerMixin):
         """Returns list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()
-            if location == "":
+            if not location:
                 continue
             location_parts = location.split(":")
             if len(location_parts) == 2:

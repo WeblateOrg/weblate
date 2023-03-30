@@ -2681,7 +2681,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         It tries to find translation files and checks that they are valid.
         """
-        if self.new_lang == "url" and self.project.instructions == "":
+        if self.new_lang == "url" and not self.project.instructions:
             msg = _(
                 "Please either fill in an instruction URL "
                 "or use a different option for adding a new language."

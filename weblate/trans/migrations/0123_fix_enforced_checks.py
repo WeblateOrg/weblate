@@ -11,7 +11,7 @@ def fixup_enforced_checks(apps, schema_editor):
     Component = apps.get_model("trans", "Component")
     db_alias = schema_editor.connection.alias
     for c in Component.objects.using(db_alias).all():
-        if c.enforced_checks == "":
+        if not c.enforced_checks:
             c.enforced_checks = []
             c.save(update_fields=["enforced_checks"])
 

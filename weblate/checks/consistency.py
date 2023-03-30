@@ -49,7 +49,7 @@ class SamePluralsCheck(TargetCheck):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
-        if targets[0] == "":
+        if not targets[0]:
             return False
         return len(set(targets)) == 1
 

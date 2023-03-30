@@ -543,10 +543,11 @@ class PasswordConfirmForm(EmptyConfirmForm):
 
     def clean_password(self):
         cur_password = self.cleaned_data["password"]
+        valid = False
         if self.user.has_usable_password():
             valid = self.user.check_password(cur_password)
-        else:
-            valid = cur_password == ""
+        elif not cur_password:
+            valid = True
         if not valid:
             rotate_token(self.request)
             raise forms.ValidationError(_("You have entered an invalid password."))

@@ -165,7 +165,7 @@ class HgRepository(Repository):
         if filenames:
             cmd.extend(filenames)
         status = self.execute(cmd, needs_lock=False)
-        return status != ""
+        return bool(status)
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""

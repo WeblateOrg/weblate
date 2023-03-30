@@ -236,7 +236,7 @@ class GitRepository(Repository):
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
-        return status != ""
+        return bool(status)
 
     def show(self, revision):
         """
@@ -483,7 +483,7 @@ class GitRepository(Repository):
             try:
                 self.execute(["fetch", "origin", *self.get_depth()])
             except RepositoryException as error:
-                if error.retcode == 1 and error.args[0] == "":
+                if error.retcode == 1 and not error.args[0]:
                     # Fetch with --depth fails on blank repo
                     self.execute(["fetch", "origin"])
                 else:

@@ -290,7 +290,7 @@ def search(
 
 def perform_suggestion(unit, form, request):
     """Handle suggesion saving."""
-    if form.cleaned_data["target"][0] == "":
+    if not form.cleaned_data["target"][0]:
         messages.error(request, _("Your suggestion is empty!"))
         # Stay on same entry
         return False
