@@ -22,7 +22,7 @@ def get_doc_url(page: str, anchor: str = "", user=None):
     # Language variant
     code = DOCUMENTATION_LANGUAGES.get(get_language(), "en")
     # Optionally append anchor
-    if anchor != "":
+    if anchor:
         anchor = "#{}".format(anchor.replace("_", "-"))
     # Generate URL
     return f"https://docs.weblate.org/{code}/{doc_version}/{page}.html{anchor}"

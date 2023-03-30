@@ -69,7 +69,7 @@ def filter_lines(lines):
 
     for line in lines:
         # Skip comments and blank lines
-        if line[0] == "#" or line.strip() == "":
+        if line[0] == "#" or not line.strip():
             continue
         parts = SPLITTER.split(line, 1)
 

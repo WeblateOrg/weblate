@@ -207,7 +207,7 @@ class KeyValueUnit(TTKitUnit):
         # The hasattr check here is needed for merged storages
         # where template is different kind than translations
         if hasattr(self.unit, "value"):
-            return not self.unit.isfuzzy() and self.unit.value != ""
+            return not self.unit.isfuzzy() and self.unit.value
         return self.unit.istranslated()
 
     def set_target(self, target: Union[str, List[str]]):

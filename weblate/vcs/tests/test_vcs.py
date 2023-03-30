@@ -1466,7 +1466,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         else:
             body = []
 
-        if branch == "":
+        if not branch:
             branch = "weblate-test-test"
         params = "targetRepoId=111&sourceRepoId=222"
         params += f"&targetRefId=main&sourceRefId={branch}"

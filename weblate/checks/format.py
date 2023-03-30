@@ -237,7 +237,7 @@ def python_format_is_position_based(string):
 
 
 def name_format_is_position_based(string):
-    return string == ""
+    return not string
 
 
 FLAG_RULES = {
