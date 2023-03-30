@@ -20,6 +20,7 @@ from django.utils.translation import ngettext, override
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
+from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -390,10 +391,18 @@ def auto_translate(
         auto = AutoTranslate(
             user, translation, filter_type, mode, component_wide=component_wide
         )
-        if auto_source == "mt":
-            auto.process_mt(engines, threshold)
-        else:
-            auto.process_others(component)
+        try:
+            if auto_source == "mt":
+                auto.process_mt(engines, threshold)
+            else:
+                auto.process_others(component)
+        except MachineTranslationError as error:
+            translation.log_error("failed automatic translation: %s", error)
+            return {
+                "translation": translation_id,
+                "message": _("Automatic translation failed: %s") % error,
+            }
+
         translation.log_info("completed automatic translation")
 
         if auto.updated == 0:
