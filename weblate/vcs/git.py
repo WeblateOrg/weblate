@@ -22,6 +22,7 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
+from requests.exceptions import HTTPError
 
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -963,7 +964,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                     )
-                except OSError as error:
+                except (OSError, HTTPError) as error:
                     report_error(cause="request")
                     raise RepositoryException(0, str(error))
 

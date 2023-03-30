@@ -13,13 +13,14 @@
 # Aputsiak Niels Janussen <aputtu@gmail.com>, 2021.
 # Aputsiaĸ Niels Janussen <aj@isit.gl>, 2021.
 # Aputsiak Niels Janussen <aj@isit.gl>, 2021.
+# Simon Nilsson <Observeramera@pm.me>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.16.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-08 08:18+0000\n"
-"PO-Revision-Date: 2023-03-13 13:15+0000\n"
-"Last-Translator: Henrik Dankvardt <dankvardt@gmail.com>\n"
+"PO-Revision-Date: 2023-03-30 01:28+0000\n"
+"Last-Translator: Simon Nilsson <Observeramera@pm.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
 "Language: da\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -63,20 +64,16 @@ msgid "Commit e-mail"
 msgstr "E-mail på indsender"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "Use account e-mail address"
-msgstr "Registrer e-mail"
+msgstr "Brug kontoens e-mailadresse"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:557
 msgid "Public e-mail"
 msgstr "Offentlig e-mail"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Do not publicly display e-mail address"
-msgstr "Angiv en gyldig e-mailadresse."
+msgstr "Må ikke vise e-mailadresse offentligt"
 
 #: weblate/accounts/forms.py:308
 #, python-format
@@ -424,7 +421,7 @@ msgstr ""
 #: weblate/accounts/models.py:163
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Adgang til projekt {project} blev blokeret"
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -450,6 +447,8 @@ msgstr ""
 #: weblate/accounts/models.py:178
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Kontakt venligst projektansvarlige, hvis du mener, at dette er "
+"uhensigtsmæssigt."
 
 #: weblate/accounts/models.py:293 weblate/templates/accounts/profile.html:257
 #: weblate/templates/accounts/user.html:223
@@ -683,6 +682,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Tilføjede %(language)s til dine oversatte sprog. Du kan justere dem i "
+"indstillingerne."
 
 #: weblate/accounts/models.py:817
 msgid ""
@@ -816,10 +817,8 @@ msgstr "Afventende forslag"
 #: weblate/accounts/notifications.py:792
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:20
 #: weblate/trans/filter.py:109
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Unfinished strings"
-msgstr "Oversatte strenge"
+msgstr "Ufærdige strenge"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1224,16 +1223,12 @@ msgid "Long lines wrapping"
 msgstr "Ombrydning af lange linjer"
 
 #: weblate/addons/forms.py:100
-#, fuzzy
-#| msgid "Wrap lines at 77 characters and at newlines"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Ombryd linjer ved 77 tegn og ved linjeskift"
+msgstr "Ombryd linjer ved 77 tegn og ved nye linjer (xgettext standard)"
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Ombryd kun linjer ved linjeskift"
+msgstr "Kun ombryde linjer ved nye linjer (som 'xgettext --no-wrap')"
 
 #: weblate/addons/forms.py:102 weblate/addons/forms.py:210
 msgid "No line wrapping"
@@ -1294,10 +1289,8 @@ msgstr ""
 "…'."
 
 #: weblate/addons/forms.py:153
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "Indsendelsesmeddelelser"
+msgstr "Indsendelsesmeddelelse"
 
 #: weblate/addons/forms.py:157
 msgid ""
@@ -1316,18 +1309,16 @@ msgid "JSON indentation"
 msgstr "JSON-indrykning"
 
 #: weblate/addons/forms.py:179
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "JSON-indrykning"
+msgstr "JSON-indrykningsstil"
 
 #: weblate/addons/forms.py:181
 msgid "Spaces"
-msgstr ""
+msgstr "Mellemrum"
 
 #: weblate/addons/forms.py:182
 msgid "Tabs"
-msgstr ""
+msgstr "Faner"
 
 #: weblate/addons/forms.py:193
 msgid "Include closing tag for blank XML tags"
@@ -4219,7 +4210,7 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:17
 #: weblate/templates/snippets/login-info.html:12
 msgid "Terms of Service"
-msgstr "Vilkår for tjeneste"
+msgstr "Vilkår for service"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:24
