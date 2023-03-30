@@ -153,7 +153,11 @@ class ViewTest(FixtureTestCase):
 
         self.assertEqual(data["responseCode"], 200)
         # We should find at least one string
-        self.assertIn('<a class="add-string', data["results"])
+        self.assertIn(
+            '<a class="add-string',
+            data["results"],
+            "OCR recognition not working, no recognized strings found",
+        )
 
     def test_ocr_disabled(self):
         orig = weblate.screenshots.views.HAS_OCR
