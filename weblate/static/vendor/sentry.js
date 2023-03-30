@@ -240,9 +240,19 @@ class BrowserTracing  {
     let inflightInteractionTransaction;
     const registerInteractionTransaction = () => {
       const { idleTimeout, finalTimeout, heartbeatInterval } = this.options;
-
       const op = 'ui.action.click';
+
+      const currentTransaction = core.getActiveTransaction();
+      if (currentTransaction && currentTransaction.op && ['navigation', 'pageload'].includes(currentTransaction.op)) {
+        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+          utils.logger.warn(
+            `[Tracing] Did not create ${op} transaction because a pageload or navigation transaction is in progress.`,
+          );
+        return undefined;
+      }
+
       if (inflightInteractionTransaction) {
+        inflightInteractionTransaction.setFinishReason('interactionInterrupted');
         inflightInteractionTransaction.finish();
         inflightInteractionTransaction = undefined;
       }
@@ -1122,6 +1132,8 @@ function instrumentRoutingWithDefaults(
   if (startTransactionOnPageLoad) {
     activeTransaction = customStartTransaction({
       name: types.WINDOW.location.pathname,
+      // pageload should always start at timeOrigin
+      startTimestamp: utils.browserPerformanceTimeOrigin,
       op: 'pageload',
       metadata: { source: 'url' },
     });
@@ -1926,6 +1938,17 @@ class Apollo  {
     this._useNest = !!options.useNestjs;
   }
 
+  /** @inheritdoc */
+   loadDependency() {
+    if (this._useNest) {
+      this._module = this._module || utils.loadModule('@nestjs/graphql');
+    } else {
+      this._module = this._module || utils.loadModule('apollo-server-core');
+    }
+
+    return this._module;
+  }
+
   /**
    * @inheritDoc
    */
@@ -1936,9 +1959,7 @@ class Apollo  {
     }
 
     if (this._useNest) {
-      const pkg = utils.loadModule
-
-('@nestjs/graphql');
+      const pkg = this.loadDependency();
 
       if (!pkg) {
         (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Apollo-NestJS Integration was unable to require @nestjs/graphql package.');
@@ -1971,9 +1992,7 @@ class Apollo  {
         },
       );
     } else {
-      const pkg = utils.loadModule
-
-('apollo-server-core');
+      const pkg = this.loadDependency();
 
       if (!pkg) {
         (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Apollo Integration was unable to require apollo-server-core package.');
@@ -2438,6 +2457,11 @@ class GraphQL  {constructor() { GraphQL.prototype.__init.call(this); }
    */
    __init() {this.name = GraphQL.id;}
 
+  /** @inheritdoc */
+   loadDependency() {
+    return (this._module = this._module || utils.loadModule('graphql/execution/execute.js'));
+  }
+
   /**
    * @inheritDoc
    */
@@ -2447,9 +2471,7 @@ class GraphQL  {constructor() { GraphQL.prototype.__init.call(this); }
       return;
     }
 
-    const pkg = utils.loadModule
-
-('graphql/execution/execute.js');
+    const pkg = this.loadDependency();
 
     if (!pkg) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('GraphQL Integration was unable to require graphql/execution package.');
@@ -2649,6 +2671,12 @@ class Mongo  {
     this._useMongoose = !!options.useMongoose;
   }
 
+  /** @inheritdoc */
+   loadDependency() {
+    const moduleName = this._useMongoose ? 'mongoose' : 'mongodb';
+    return (this._module = this._module || utils.loadModule(moduleName));
+  }
+
   /**
    * @inheritDoc
    */
@@ -2658,10 +2686,10 @@ class Mongo  {
       return;
     }
 
-    const moduleName = this._useMongoose ? 'mongoose' : 'mongodb';
-    const pkg = utils.loadModule(moduleName);
+    const pkg = this.loadDependency();
 
     if (!pkg) {
+      const moduleName = this._useMongoose ? 'mongoose' : 'mongodb';
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(`Mongo Integration was unable to require \`${moduleName}\` package.`);
       return;
     }
@@ -2808,6 +2836,11 @@ class Mysql  {constructor() { Mysql.prototype.__init.call(this); }
    */
    __init() {this.name = Mysql.id;}
 
+  /** @inheritdoc */
+   loadDependency() {
+    return (this._module = this._module || utils.loadModule('mysql/lib/Connection.js'));
+  }
+
   /**
    * @inheritDoc
    */
@@ -2817,7 +2850,7 @@ class Mysql  {constructor() { Mysql.prototype.__init.call(this); }
       return;
     }
 
-    const pkg = utils.loadModule('mysql/lib/Connection.js');
+    const pkg = this.loadDependency();
 
     if (!pkg) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Mysql Integration was unable to require `mysql` package.');
@@ -2886,6 +2919,11 @@ class Postgres  {
     this._usePgNative = !!options.usePgNative;
   }
 
+  /** @inheritdoc */
+   loadDependency() {
+    return (this._module = this._module || utils.loadModule('pg'));
+  }
+
   /**
    * @inheritDoc
    */
@@ -2895,7 +2933,7 @@ class Postgres  {
       return;
     }
 
-    const pkg = utils.loadModule('pg');
+    const pkg = this.loadDependency();
 
     if (!pkg) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Postgres Integration was unable to require `pg` package.');
@@ -6132,7 +6170,6 @@ const GECKO_PRIORITY = 50;
 function createFrame(filename, func, lineno, colno) {
   const frame = {
     filename,
-    abs_path: filename, // As opposed to filename, abs_path is immutable (I can't control your actions but don't touch it!)
     function: func,
     in_app: true, // All browser frames are considered in_app
   };
@@ -8541,6 +8578,7 @@ function _mergeOptions(
       ...(clientOptions.ignoreErrors || []),
       ...DEFAULT_IGNORE_ERRORS,
     ],
+    ignoreTransactions: [...(internalOptions.ignoreTransactions || []), ...(clientOptions.ignoreTransactions || [])],
     ignoreInternal: internalOptions.ignoreInternal !== undefined ? internalOptions.ignoreInternal : true,
   };
 }
@@ -8556,6 +8594,13 @@ function _shouldDropEvent(event, options) {
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
       utils.logger.warn(
         `Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${utils.getEventDescription(event)}`,
+      );
+    return true;
+  }
+  if (_isIgnoredTransaction(event, options.ignoreTransactions)) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      utils.logger.warn(
+        `Event dropped due to being matched by \`ignoreTransactions\` option.\nEvent: ${utils.getEventDescription(event)}`,
       );
     return true;
   }
@@ -8587,6 +8632,15 @@ function _isIgnoredError(event, ignoreErrors) {
   }
 
   return _getPossibleEventMessages(event).some(message => utils.stringMatchesSomePattern(message, ignoreErrors));
+}
+
+function _isIgnoredTransaction(event, ignoreTransactions) {
+  if (event.type !== 'transaction' || !ignoreTransactions || !ignoreTransactions.length) {
+    return false;
+  }
+
+  const name = event.transaction;
+  return name ? utils.stringMatchesSomePattern(name, ignoreTransactions) : false;
 }
 
 function _isDeniedUrl(event, denyUrls) {
@@ -10070,6 +10124,19 @@ class IdleTransaction extends transaction.Transaction {
   }
 
   /**
+   * Temporary method used to externally set the transaction's `finishReason`
+   *
+   * ** WARNING**
+   * This is for the purpose of experimentation only and will be removed in the near future, do not use!
+   *
+   * @internal
+   *
+   */
+   setFinishReason(reason) {
+    this._finishReason = reason;
+  }
+
+  /**
    * Restarts idle timeout, if there is no running idle timeout it will start one.
    */
    _restartIdleTimeout(endTimestamp) {
@@ -11362,27 +11429,27 @@ function applyDebugMetadata(event, stackParser) {
     return;
   }
 
-  // Build a map of abs_path -> debug_id
-  const absPathDebugIdMap = Object.keys(debugIdMap).reduce((acc, debugIdStackTrace) => {
+  // Build a map of filename -> debug_id
+  const filenameDebugIdMap = Object.keys(debugIdMap).reduce((acc, debugIdStackTrace) => {
     const parsedStack = stackParser(debugIdStackTrace);
     for (const stackFrame of parsedStack) {
-      if (stackFrame.abs_path) {
-        acc[stackFrame.abs_path] = debugIdMap[debugIdStackTrace];
+      if (stackFrame.filename) {
+        acc[stackFrame.filename] = debugIdMap[debugIdStackTrace];
         break;
       }
     }
     return acc;
   }, {});
 
-  // Get a Set of abs_paths in the stack trace
-  const errorAbsPaths = new Set();
+  // Get a Set of filenames in the stack trace
+  const errorFileNames = new Set();
   try {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     event.exception.values.forEach(exception => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       exception.stacktrace.frames.forEach(frame => {
-        if (frame.abs_path) {
-          errorAbsPaths.add(frame.abs_path);
+        if (frame.filename) {
+          errorFileNames.add(frame.filename);
         }
       });
     });
@@ -11394,12 +11461,12 @@ function applyDebugMetadata(event, stackParser) {
   event.debug_meta = event.debug_meta || {};
   event.debug_meta.images = event.debug_meta.images || [];
   const images = event.debug_meta.images;
-  errorAbsPaths.forEach(absPath => {
-    if (absPathDebugIdMap[absPath]) {
+  errorFileNames.forEach(filename => {
+    if (filenameDebugIdMap[filename]) {
       images.push({
         type: 'sourcemap',
-        code_file: absPath,
-        debug_id: absPathDebugIdMap[absPath],
+        code_file: filename,
+        debug_id: filenameDebugIdMap[filename],
       });
     }
   });
@@ -11489,7 +11556,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":63,"@sentry/utils":102}],79:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.45.0';
+const SDK_VERSION = '7.46.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -11528,6 +11595,9 @@ const ERROR_CHECKOUT_TIME = 60000;
 
 const RETRY_BASE_INTERVAL = 5000;
 const RETRY_MAX_COUNT = 3;
+
+/* The max (uncompressed) size in bytes of a network body. Any body larger than this will be dropped. */
+const NETWORK_BODY_MAX_SIZE = 300000;
 
 var NodeType$1;
 (function (NodeType) {
@@ -15866,7 +15936,10 @@ function _isSentryRequest(url) {
 }
 
 /** Add a performance entry breadcrumb */
-function addNetworkBreadcrumb(replay, result) {
+function addNetworkBreadcrumb(
+  replay,
+  result,
+) {
   if (!replay.isEnabled()) {
     return;
   }
@@ -15896,18 +15969,17 @@ function handleFetch(handlerData) {
     return null;
   }
 
-  const { method, request_body_size: requestBodySize, response_body_size: responseBodySize } = fetchData;
+  // This is only used as a fallback, so we know the body sizes are never set here
+  const { method, url } = fetchData;
 
   return {
     type: 'resource.fetch',
     start: startTimestamp / 1000,
     end: endTimestamp / 1000,
-    name: fetchData.url,
+    name: url,
     data: {
       method,
       statusCode: response && (response ).status,
-      requestBodySize,
-      responseBodySize,
     },
   };
 }
@@ -15935,13 +16007,8 @@ function handleXhr(handlerData) {
     return null;
   }
 
-  const {
-    method,
-    url,
-    status_code: statusCode,
-    request_body_size: requestBodySize,
-    response_body_size: responseBodySize,
-  } = xhr.__sentry_xhr__;
+  // This is only used as a fallback, so we know the body sizes are never set here
+  const { method, url, status_code: statusCode } = xhr.__sentry_xhr__;
 
   if (url === undefined) {
     return null;
@@ -15955,8 +16022,6 @@ function handleXhr(handlerData) {
     data: {
       method,
       statusCode,
-      requestBodySize,
-      responseBodySize,
     },
   };
 }
@@ -15976,14 +16041,389 @@ function handleXhrSpanListener(replay) {
   };
 }
 
+/** Get the size of a body. */
+function getBodySize(
+  body,
+  textEncoder,
+) {
+  if (!body) {
+    return undefined;
+  }
+
+  try {
+    if (typeof body === 'string') {
+      return textEncoder.encode(body).length;
+    }
+
+    if (body instanceof URLSearchParams) {
+      return textEncoder.encode(body.toString()).length;
+    }
+
+    if (body instanceof FormData) {
+      const formDataStr = _serializeFormData(body);
+      return textEncoder.encode(formDataStr).length;
+    }
+
+    if (body instanceof Blob) {
+      return body.size;
+    }
+
+    if (body instanceof ArrayBuffer) {
+      return body.byteLength;
+    }
+
+    // Currently unhandled types: ArrayBufferView, ReadableStream
+  } catch (e) {
+    // just return undefined
+  }
+
+  return undefined;
+}
+
+/** Convert a Content-Length header to number/undefined.  */
+function parseContentLengthHeader(header) {
+  if (!header) {
+    return undefined;
+  }
+
+  const size = parseInt(header, 10);
+  return isNaN(size) ? undefined : size;
+}
+
+/** Get the string representation of a body. */
+function getBodyString(body) {
+  if (typeof body === 'string') {
+    return body;
+  }
+
+  if (body instanceof URLSearchParams) {
+    return body.toString();
+  }
+
+  if (body instanceof FormData) {
+    return _serializeFormData(body);
+  }
+
+  return undefined;
+}
+
+/** Convert ReplayNetworkRequestData to a PerformanceEntry. */
+function makeNetworkReplayBreadcrumb(
+  type,
+  data,
+) {
+  if (!data) {
+    return null;
+  }
+
+  const { startTimestamp, endTimestamp, url, method, statusCode, request, response } = data;
+
+  const result = {
+    type,
+    start: startTimestamp / 1000,
+    end: endTimestamp / 1000,
+    name: url,
+    data: utils.dropUndefinedKeys({
+      method,
+      statusCode,
+      request,
+      response,
+    }),
+  };
+
+  return result;
+}
+
+/** Get either a JSON network body, or a text representation. */
+function getNetworkBody(bodyText) {
+  if (!bodyText) {
+    return;
+  }
+
+  try {
+    return JSON.parse(bodyText);
+  } catch (e2) {
+    // return text
+  }
+
+  return bodyText;
+}
+
+/** Build the request or response part of a replay network breadcrumb. */
+function buildNetworkRequestOrResponse(
+  bodySize,
+  body,
+) {
+  if (!bodySize) {
+    return undefined;
+  }
+
+  if (!body) {
+    return {
+      size: bodySize,
+    };
+  }
+
+  const info = {
+    size: bodySize,
+  };
+
+  if (bodySize < NETWORK_BODY_MAX_SIZE) {
+    info.body = body;
+  } else {
+    info._meta = {
+      errors: ['MAX_BODY_SIZE_EXCEEDED'],
+    };
+  }
+
+  return info;
+}
+
+function _serializeFormData(formData) {
+  // This is a bit simplified, but gives us a decent estimate
+  // This converts e.g. { name: 'Anne Smith', age: 13 } to 'name=Anne+Smith&age=13'
+  // @ts-ignore passing FormData to URLSearchParams actually works
+  return new URLSearchParams(formData).toString();
+}
+
 /**
- * This will enrich the xhr/fetch breadcrumbs with additional information.
- *
- * This adds:
- * * request_body_size
- * * response_body_size
- *
- * to the breadcrumb data.
+ * Capture a fetch breadcrumb to a replay.
+ * This adds additional data (where approriate).
+ */
+async function captureFetchBreadcrumbToReplay(
+  breadcrumb,
+  hint,
+  options,
+) {
+  try {
+    const data = await _prepareFetchData(breadcrumb, hint, options);
+
+    // Create a replay performance entry from this breadcrumb
+    const result = makeNetworkReplayBreadcrumb('resource.fetch', data);
+    addNetworkBreadcrumb(options.replay, result);
+  } catch (error) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Failed to capture fetch breadcrumb', error);
+  }
+}
+
+/**
+ * Enrich a breadcrumb with additional data.
+ * This has to be sync & mutate the given breadcrumb,
+ * as the breadcrumb is afterwards consumed by other handlers.
+ */
+function enrichFetchBreadcrumb(
+  breadcrumb,
+  hint,
+  options,
+) {
+  const { input, response } = hint;
+
+  const body = _getFetchRequestArgBody(input);
+  const reqSize = getBodySize(body, options.textEncoder);
+  const resSize = response ? parseContentLengthHeader(response.headers.get('content-length')) : undefined;
+
+  if (reqSize !== undefined) {
+    breadcrumb.data.request_body_size = reqSize;
+  }
+  if (resSize !== undefined) {
+    breadcrumb.data.response_body_size = resSize;
+  }
+}
+
+async function _prepareFetchData(
+  breadcrumb,
+  hint,
+  options,
+) {
+  const { startTimestamp, endTimestamp } = hint;
+
+  const {
+    url,
+    method,
+    status_code: statusCode,
+    request_body_size: requestBodySize,
+    response_body_size: responseBodySize,
+  } = breadcrumb.data;
+
+  const request = _getRequestInfo(options, hint.input, requestBodySize);
+  const response = await _getResponseInfo(options, hint.response, responseBodySize);
+
+  return {
+    startTimestamp,
+    endTimestamp,
+    url,
+    method,
+    statusCode: statusCode || 0,
+    request,
+    response,
+  };
+}
+
+function _getRequestInfo(
+  { captureBodies },
+  input,
+  requestBodySize,
+) {
+  if (!captureBodies) {
+    return buildNetworkRequestOrResponse(requestBodySize, undefined);
+  }
+
+  // We only want to transmit string or string-like bodies
+  const requestBody = _getFetchRequestArgBody(input);
+  const body = getNetworkBody(getBodyString(requestBody));
+  return buildNetworkRequestOrResponse(requestBodySize, body);
+}
+
+async function _getResponseInfo(
+  { captureBodies, textEncoder },
+  response,
+  responseBodySize,
+) {
+  if (!captureBodies && responseBodySize !== undefined) {
+    return buildNetworkRequestOrResponse(responseBodySize, undefined);
+  }
+
+  // Only clone the response if we need to
+  try {
+    // We have to clone this, as the body can only be read once
+    const res = response.clone();
+    const { body, bodyText } = await _parseFetchBody(res);
+
+    const size =
+      bodyText && bodyText.length && responseBodySize === undefined
+        ? getBodySize(bodyText, textEncoder)
+        : responseBodySize;
+
+    if (captureBodies) {
+      return buildNetworkRequestOrResponse(size, body);
+    }
+
+    return buildNetworkRequestOrResponse(size, undefined);
+  } catch (e) {
+    // fallback
+    return buildNetworkRequestOrResponse(responseBodySize, undefined);
+  }
+}
+
+async function _parseFetchBody(
+  response,
+) {
+  let bodyText;
+
+  try {
+    bodyText = await response.text();
+  } catch (e2) {
+    return {};
+  }
+
+  try {
+    const body = JSON.parse(bodyText);
+    return { body, bodyText };
+  } catch (e3) {
+    // just send bodyText
+  }
+
+  return { bodyText, body: bodyText };
+}
+
+function _getFetchRequestArgBody(fetchArgs = []) {
+  // We only support getting the body from the fetch options
+  if (fetchArgs.length !== 2 || typeof fetchArgs[1] !== 'object') {
+    return undefined;
+  }
+
+  return (fetchArgs[1] ).body;
+}
+
+/**
+ * Capture an XHR breadcrumb to a replay.
+ * This adds additional data (where approriate).
+ */
+async function captureXhrBreadcrumbToReplay(
+  breadcrumb,
+  hint,
+  options,
+) {
+  try {
+    const data = _prepareXhrData(breadcrumb, hint, options);
+
+    // Create a replay performance entry from this breadcrumb
+    const result = makeNetworkReplayBreadcrumb('resource.xhr', data);
+    addNetworkBreadcrumb(options.replay, result);
+  } catch (error) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Failed to capture fetch breadcrumb', error);
+  }
+}
+
+/**
+ * Enrich a breadcrumb with additional data.
+ * This has to be sync & mutate the given breadcrumb,
+ * as the breadcrumb is afterwards consumed by other handlers.
+ */
+function enrichXhrBreadcrumb(
+  breadcrumb,
+  hint,
+  options,
+) {
+  const { xhr, input } = hint;
+
+  const reqSize = getBodySize(input, options.textEncoder);
+  const resSize = xhr.getResponseHeader('content-length')
+    ? parseContentLengthHeader(xhr.getResponseHeader('content-length'))
+    : getBodySize(xhr.response, options.textEncoder);
+
+  if (reqSize !== undefined) {
+    breadcrumb.data.request_body_size = reqSize;
+  }
+  if (resSize !== undefined) {
+    breadcrumb.data.response_body_size = resSize;
+  }
+}
+
+function _prepareXhrData(
+  breadcrumb,
+  hint,
+  options,
+) {
+  const { startTimestamp, endTimestamp, input } = hint;
+
+  const {
+    url,
+    method,
+    status_code: statusCode,
+    request_body_size: requestBodySize,
+    response_body_size: responseBodySize,
+  } = breadcrumb.data;
+
+  if (!url) {
+    return null;
+  }
+
+  const request = buildNetworkRequestOrResponse(
+    requestBodySize,
+    options.captureBodies ? getNetworkBody(getBodyString(input)) : undefined,
+  );
+  const response = buildNetworkRequestOrResponse(
+    responseBodySize,
+    options.captureBodies ? getNetworkBody(hint.xhr.responseText) : undefined,
+  );
+
+  return {
+    startTimestamp,
+    endTimestamp,
+    url,
+    method,
+    statusCode: statusCode || 0,
+    request,
+    response,
+  };
+}
+
+/**
+ * This method does two things:
+ * - It enriches the regular XHR/fetch breadcrumbs with request/response size data
+ * - It captures the XHR/fetch breadcrumbs to the replay
+ *   (enriching it with further data that is _not_ added to the regular breadcrumbs)
  */
 function handleNetworkBreadcrumbs(replay) {
   const client = core.getCurrentHub().getClient();
@@ -15994,6 +16434,7 @@ function handleNetworkBreadcrumbs(replay) {
     const options = {
       replay,
       textEncoder,
+      captureBodies: replay.getOptions()._experiments.captureNetworkBodies || false,
     };
 
     if (client && client.on) {
@@ -16020,218 +16461,25 @@ function beforeAddNetworkBreadcrumb(
 
   try {
     if (_isXhrBreadcrumb(breadcrumb) && _isXhrHint(hint)) {
-      _handleXhrBreadcrumb(breadcrumb, hint, options);
+      // This has to be sync, as we need to ensure the breadcrumb is enriched in the same tick
+      // Because the hook runs synchronously, and the breadcrumb is afterwards passed on
+      // So any async mutations to it will not be reflected in the final breadcrumb
+      enrichXhrBreadcrumb(breadcrumb, hint, options);
+
+      void captureXhrBreadcrumbToReplay(breadcrumb, hint, options);
     }
 
     if (_isFetchBreadcrumb(breadcrumb) && _isFetchHint(hint)) {
       // This has to be sync, as we need to ensure the breadcrumb is enriched in the same tick
       // Because the hook runs synchronously, and the breadcrumb is afterwards passed on
       // So any async mutations to it will not be reflected in the final breadcrumb
-      _enrichFetchBreadcrumb(breadcrumb, hint, options);
+      enrichFetchBreadcrumb(breadcrumb, hint, options);
 
-      void _handleFetchBreadcrumb(breadcrumb, hint, options);
+      void captureFetchBreadcrumbToReplay(breadcrumb, hint, options);
     }
   } catch (e) {
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Error when enriching network breadcrumb');
   }
-}
-
-function _handleXhrBreadcrumb(
-  breadcrumb,
-  hint,
-  options,
-) {
-  // Enriches the breadcrumb overall
-  _enrichXhrBreadcrumb(breadcrumb, hint, options);
-
-  // Create a replay performance entry from this breadcrumb
-  const result = _makeNetworkReplayBreadcrumb('resource.xhr', breadcrumb, hint);
-  addNetworkBreadcrumb(options.replay, result);
-}
-
-async function _handleFetchBreadcrumb(
-  breadcrumb,
-  hint,
-  options,
-) {
-  const fullBreadcrumb = await _parseFetchResponse(breadcrumb, hint, options);
-
-  // Create a replay performance entry from this breadcrumb
-  const result = _makeNetworkReplayBreadcrumb('resource.fetch', fullBreadcrumb, hint);
-  addNetworkBreadcrumb(options.replay, result);
-}
-
-// This does async operations on the breadcrumb for replay
-async function _parseFetchResponse(
-  breadcrumb,
-  hint,
-  options,
-) {
-  if (breadcrumb.data.response_body_size || !hint.response) {
-    return breadcrumb;
-  }
-
-  // If no Content-Length header exists, we try to get the size from the response body
-  try {
-    // We have to clone this, as the body can only be read once
-    const response = (hint.response ).clone();
-    const body = await response.text();
-
-    if (body.length) {
-      return {
-        ...breadcrumb,
-        data: { ...breadcrumb.data, response_body_size: getBodySize(body, options.textEncoder) },
-      };
-    }
-  } catch (e3) {
-    // just ignore if something fails here
-  }
-
-  return breadcrumb;
-}
-
-function _makeNetworkReplayBreadcrumb(
-  type,
-  breadcrumb,
-  hint,
-) {
-  const { startTimestamp, endTimestamp } = hint;
-
-  if (!endTimestamp) {
-    return null;
-  }
-
-  const {
-    url,
-    method,
-    status_code: statusCode,
-    request_body_size: requestBodySize,
-    response_body_size: responseBodySize,
-  } = breadcrumb.data;
-
-  if (url === undefined) {
-    return null;
-  }
-
-  const result = {
-    type,
-    start: startTimestamp / 1000,
-    end: endTimestamp / 1000,
-    name: url,
-    data: {
-      method,
-      statusCode,
-    },
-  };
-
-  if (requestBodySize) {
-    result.data.requestBodySize = requestBodySize;
-  }
-  if (responseBodySize) {
-    result.data.responseBodySize = responseBodySize;
-  }
-
-  return result;
-}
-
-function _enrichXhrBreadcrumb(
-  breadcrumb,
-  hint,
-  options,
-) {
-  const { xhr, input } = hint;
-
-  const reqSize = getBodySize(input, options.textEncoder);
-  const resSize = xhr.getResponseHeader('content-length')
-    ? parseContentSizeHeader(xhr.getResponseHeader('content-length'))
-    : getBodySize(xhr.response, options.textEncoder);
-
-  if (reqSize !== undefined) {
-    breadcrumb.data.request_body_size = reqSize;
-  }
-  if (resSize !== undefined) {
-    breadcrumb.data.response_body_size = resSize;
-  }
-}
-
-function _enrichFetchBreadcrumb(
-  breadcrumb,
-  hint,
-  options,
-) {
-  const { input, response } = hint;
-
-  const body = getFetchBody(input);
-  const reqSize = getBodySize(body, options.textEncoder);
-  const resSize = response ? parseContentSizeHeader(response.headers.get('content-length')) : undefined;
-
-  if (reqSize !== undefined) {
-    breadcrumb.data.request_body_size = reqSize;
-  }
-  if (resSize !== undefined) {
-    breadcrumb.data.response_body_size = resSize;
-  }
-}
-
-/** only exported for tests */
-function getBodySize(
-  body,
-  textEncoder,
-) {
-  if (!body) {
-    return undefined;
-  }
-
-  try {
-    if (typeof body === 'string') {
-      return textEncoder.encode(body).length;
-    }
-
-    if (body instanceof URLSearchParams) {
-      return textEncoder.encode(body.toString()).length;
-    }
-
-    if (body instanceof FormData) {
-      // This is a bit simplified, but gives us a decent estimate
-      // This converts e.g. { name: 'Anne Smith', age: 13 } to 'name=Anne+Smith&age=13'
-      // @ts-ignore passing FormData to URLSearchParams actually works
-      const formDataStr = new URLSearchParams(body).toString();
-      return textEncoder.encode(formDataStr).length;
-    }
-
-    if (body instanceof Blob) {
-      return body.size;
-    }
-
-    if (body instanceof ArrayBuffer) {
-      return body.byteLength;
-    }
-
-    // Currently unhandled types: ArrayBufferView, ReadableStream
-  } catch (e4) {
-    // just return undefined
-  }
-
-  return undefined;
-}
-
-/** only exported for tests */
-function parseContentSizeHeader(header) {
-  if (!header) {
-    return undefined;
-  }
-
-  const size = parseInt(header, 10);
-  return isNaN(size) ? undefined : size;
-}
-
-function getFetchBody(fetchArgs = []) {
-  // We only support getting the body from the fetch options
-  if (fetchArgs.length !== 2 || typeof fetchArgs[1] !== 'object') {
-    return undefined;
-  }
-
-  return (fetchArgs[1] ).body;
 }
 
 function _isXhrBreadcrumb(breadcrumb) {
@@ -16374,7 +16622,9 @@ function createMemoryEntry(memoryEntry) {
 
 // Map entryType -> function to normalize data for event
 // @ts-ignore TODO: entry type does not fit the create* functions entry type
-const ENTRY_TYPES = {
+const ENTRY_TYPES
+
+ = {
   // @ts-ignore TODO: entry type does not fit the create* functions entry type
   resource: createResourceEntry,
   paint: createPaintEntry,
@@ -16387,7 +16637,9 @@ const ENTRY_TYPES = {
 /**
  * Create replay performance entries from the browser performance entries.
  */
-function createPerformanceEntries(entries) {
+function createPerformanceEntries(
+  entries,
+) {
   return entries.map(createPerformanceEntry).filter(Boolean) ;
 }
 
@@ -16405,8 +16657,6 @@ function getAbsoluteTime(time) {
   return ((utils.browserPerformanceTimeOrigin || WINDOW.performance.timeOrigin) + time) / 1000;
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createPaintEntry(entry) {
   const { duration, entryType, name, startTime } = entry;
 
@@ -16416,14 +16666,28 @@ function createPaintEntry(entry) {
     name,
     start,
     end: start + duration,
+    data: undefined,
   };
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createNavigationEntry(entry) {
-  // TODO: There looks to be some more interesting bits in here (domComplete, domContentLoaded)
-  const { entryType, name, duration, domComplete, startTime, transferSize, type } = entry;
+  const {
+    entryType,
+    name,
+    decodedBodySize,
+    duration,
+    domComplete,
+    encodedBodySize,
+    domContentLoadedEventStart,
+    domContentLoadedEventEnd,
+    domInteractive,
+    loadEventStart,
+    loadEventEnd,
+    redirectCount,
+    startTime,
+    transferSize,
+    type,
+  } = entry;
 
   // Ignore entries with no duration, they do not seem to be useful and cause dupes
   if (duration === 0) {
@@ -16437,15 +16701,34 @@ function createNavigationEntry(entry) {
     name,
     data: {
       size: transferSize,
+      decodedBodySize,
+      encodedBodySize,
       duration,
+      domInteractive,
+      domContentLoadedEventStart,
+      domContentLoadedEventEnd,
+      loadEventStart,
+      loadEventEnd,
+      domComplete,
+      redirectCount,
     },
   };
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function createResourceEntry(entry) {
-  const { entryType, initiatorType, name, responseEnd, startTime, encodedBodySize, transferSize } = entry;
+function createResourceEntry(
+  entry,
+) {
+  const {
+    entryType,
+    initiatorType,
+    name,
+    responseEnd,
+    startTime,
+    decodedBodySize,
+    encodedBodySize,
+    responseStatus,
+    transferSize,
+  } = entry;
 
   // Core SDK handles these
   if (['fetch', 'xmlhttprequest'].includes(initiatorType)) {
@@ -16459,14 +16742,16 @@ function createResourceEntry(entry) {
     name,
     data: {
       size: transferSize,
+      statusCode: responseStatus,
+      decodedBodySize,
       encodedBodySize,
     },
   };
 }
 
-// TODO: type definition!
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function createLargestContentfulPaint(entry) {
+function createLargestContentfulPaint(
+  entry,
+) {
   const { entryType, startTime, size } = entry;
 
   let startTimeOrNavigationActivation = 0;
@@ -17034,7 +17319,7 @@ class ReplayContainer  {
     recordingOptions,
   }
 
-) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);ReplayContainer.prototype.__init7.call(this);ReplayContainer.prototype.__init8.call(this);ReplayContainer.prototype.__init9.call(this);ReplayContainer.prototype.__init10.call(this);ReplayContainer.prototype.__init11.call(this);ReplayContainer.prototype.__init12.call(this);ReplayContainer.prototype.__init13.call(this);ReplayContainer.prototype.__init14.call(this);ReplayContainer.prototype.__init15.call(this);ReplayContainer.prototype.__init16.call(this);
+) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);ReplayContainer.prototype.__init7.call(this);ReplayContainer.prototype.__init8.call(this);ReplayContainer.prototype.__init9.call(this);ReplayContainer.prototype.__init10.call(this);ReplayContainer.prototype.__init11.call(this);ReplayContainer.prototype.__init12.call(this);ReplayContainer.prototype.__init13.call(this);ReplayContainer.prototype.__init14.call(this);ReplayContainer.prototype.__init15.call(this);ReplayContainer.prototype.__init16.call(this);ReplayContainer.prototype.__init17.call(this);
     this._recordingOptions = recordingOptions;
     this._options = options;
 
@@ -17123,23 +17408,7 @@ class ReplayContainer  {
         // instead, we'll always keep the last 60 seconds of replay before an error happened
         ...(this.recordingMode === 'error' && { checkoutEveryNms: ERROR_CHECKOUT_TIME }),
         emit: getHandleRecordingEmit(this),
-        onMutation: (mutations) => {
-          if (this._options._experiments.captureMutationSize) {
-            const count = mutations.length;
-
-            if (count > 500) {
-              const breadcrumb = createBreadcrumb({
-                category: 'replay.mutations',
-                data: {
-                  count,
-                },
-              });
-              this._createCustomBreadcrumb(breadcrumb);
-            }
-          }
-          // `true` means we use the regular mutation handling by rrweb
-          return true;
-        },
+        onMutation: this._onMutationHandler,
       });
     } catch (err) {
       this._handleException(err);
@@ -17538,10 +17807,10 @@ class ReplayContainer  {
    * Trigger rrweb to take a full snapshot which will cause this plugin to
    * create a new Replay event.
    */
-   _triggerFullSnapshot() {
+   _triggerFullSnapshot(checkout = true) {
     try {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Taking full rrweb snapshot');
-      record.takeFullSnapshot(true);
+      record.takeFullSnapshot(checkout);
     } catch (err) {
       this._handleException(err);
     }
@@ -17755,6 +18024,37 @@ class ReplayContainer  {
       saveSession(this.session);
     }
   }
+
+  /** Handler for rrweb.record.onMutation */
+   __init17() {this._onMutationHandler = (mutations) => {
+    const count = mutations.length;
+
+    const mutationLimit = this._options._experiments.mutationLimit || 0;
+    const mutationBreadcrumbLimit = this._options._experiments.mutationBreadcrumbLimit || 1000;
+    const overMutationLimit = mutationLimit && count > mutationLimit;
+
+    // Create a breadcrumb if a lot of mutations happen at the same time
+    // We can show this in the UI as an information with potential performance improvements
+    if (count > mutationBreadcrumbLimit || overMutationLimit) {
+      const breadcrumb = createBreadcrumb({
+        category: 'replay.mutations',
+        data: {
+          count,
+        },
+      });
+      this._createCustomBreadcrumb(breadcrumb);
+    }
+
+    if (overMutationLimit) {
+      // We want to skip doing an incremental snapshot if there are too many mutations
+      // Instead, we do a full snapshot
+      this._triggerFullSnapshot(false);
+      return false;
+    }
+
+    // `true` means we use the regular mutation handling by rrweb
+    return true;
+  };}
 }
 
 function getOption(
@@ -18120,7 +18420,7 @@ exports.Replay = Replay;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@sentry/core":58,"@sentry/utils":102,"_process":125}],81:[function(require,module,exports){
+},{"@sentry/core":58,"@sentry/utils":102,"_process":128}],81:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -18432,12 +18732,12 @@ exports.getLocationHref = getLocationHref;
 exports.htmlTreeAsString = htmlTreeAsString;
 
 
-},{"./is.js":104,"./worldwide.js":124}],83:[function(require,module,exports){
+},{"./is.js":104,"./worldwide.js":127}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _nullishCoalesce = require('./_nullishCoalesce.js');
 
-// adapted from Sucrase (https://github.com/alangpierce/sucrase)
+// https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
 
 /**
  * Polyfill for the nullish coalescing operator (`??`), when used in situations where at least one of the values is the
@@ -18535,6 +18835,8 @@ exports._asyncOptionalChain = _asyncOptionalChain;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _asyncOptionalChain = require('./_asyncOptionalChain.js');
+
+// https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
 
 /**
  * Polyfill for the optional chain operator, `?.`, given previous conversion of the expression into an array of values,
@@ -18765,6 +19067,30 @@ exports._interopRequireWildcard = _interopRequireWildcard;
 },{}],93:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+// https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
+//
+// The MIT License (MIT)
+//
+// Copyright (c) 2012-2018 various contributors (see AUTHORS)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 /**
  * Polyfill for the nullish coalescing operator (`??`).
  *
@@ -18862,6 +19188,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const _optionalChain = require('./_optionalChain.js');
 
+// https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
+
 /**
  * Polyfill for the optional chain operator, `?.`, given previous conversion of the expression into an array of values,
  * descriptors, and functions, in cases where the value of the expression is to be deleted.
@@ -18955,7 +19283,7 @@ function createClientReportEnvelope(
 exports.createClientReportEnvelope = createClientReportEnvelope;
 
 
-},{"./envelope.js":100,"./time.js":120}],98:[function(require,module,exports){
+},{"./envelope.js":100,"./time.js":121}],98:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -19355,7 +19683,7 @@ exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
-},{"./dsn.js":98,"./normalize.js":109,"./object.js":110}],101:[function(require,module,exports){
+},{"./dsn.js":98,"./normalize.js":110,"./object.js":111}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -19408,6 +19736,8 @@ const ratelimit = require('./ratelimit.js');
 const baggage = require('./baggage.js');
 const url = require('./url.js');
 const userIntegrations = require('./userIntegrations.js');
+const escapeStringForRegex = require('./vendor/escapeStringForRegex.js');
+const supportsHistory = require('./vendor/supportsHistory.js');
 
 
 
@@ -19486,7 +19816,6 @@ exports.getFunctionName = stacktrace.getFunctionName;
 exports.nodeStackLineParser = stacktrace.nodeStackLineParser;
 exports.stackParserFromStackParserOptions = stacktrace.stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stacktrace.stripSentryFramesAndReverse;
-exports.escapeStringForRegex = string.escapeStringForRegex;
 exports.isMatchingPattern = string.isMatchingPattern;
 exports.safeJoin = string.safeJoin;
 exports.snipLine = string.snipLine;
@@ -19497,7 +19826,6 @@ exports.supportsDOMError = supports.supportsDOMError;
 exports.supportsDOMException = supports.supportsDOMException;
 exports.supportsErrorEvent = supports.supportsErrorEvent;
 exports.supportsFetch = supports.supportsFetch;
-exports.supportsHistory = supports.supportsHistory;
 exports.supportsNativeFetch = supports.supportsNativeFetch;
 exports.supportsReferrerPolicy = supports.supportsReferrerPolicy;
 exports.supportsReportingObserver = supports.supportsReportingObserver;
@@ -19543,9 +19871,11 @@ exports.getNumberOfUrlSegments = url.getNumberOfUrlSegments;
 exports.parseUrl = url.parseUrl;
 exports.stripUrlQueryAndFragment = url.stripUrlQueryAndFragment;
 exports.addOrUpdateIntegration = userIntegrations.addOrUpdateIntegration;
+exports.escapeStringForRegex = escapeStringForRegex.escapeStringForRegex;
+exports.supportsHistory = supportsHistory.supportsHistory;
 
 
-},{"./baggage.js":81,"./browser.js":82,"./clientreport.js":97,"./dsn.js":98,"./env.js":99,"./envelope.js":100,"./error.js":101,"./instrument.js":103,"./is.js":104,"./logger.js":105,"./memo.js":106,"./misc.js":107,"./node.js":108,"./normalize.js":109,"./object.js":110,"./path.js":111,"./promisebuffer.js":112,"./ratelimit.js":113,"./requestdata.js":114,"./severity.js":115,"./stacktrace.js":116,"./string.js":117,"./supports.js":118,"./syncpromise.js":119,"./time.js":120,"./tracing.js":121,"./url.js":122,"./userIntegrations.js":123,"./worldwide.js":124}],103:[function(require,module,exports){
+},{"./baggage.js":81,"./browser.js":82,"./clientreport.js":97,"./dsn.js":98,"./env.js":99,"./envelope.js":100,"./error.js":101,"./instrument.js":103,"./is.js":104,"./logger.js":105,"./memo.js":106,"./misc.js":107,"./node.js":109,"./normalize.js":110,"./object.js":111,"./path.js":112,"./promisebuffer.js":113,"./ratelimit.js":114,"./requestdata.js":115,"./severity.js":116,"./stacktrace.js":117,"./string.js":118,"./supports.js":119,"./syncpromise.js":120,"./time.js":121,"./tracing.js":122,"./url.js":123,"./userIntegrations.js":124,"./vendor/escapeStringForRegex.js":125,"./vendor/supportsHistory.js":126,"./worldwide.js":127}],103:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -19554,6 +19884,7 @@ const object = require('./object.js');
 const stacktrace = require('./stacktrace.js');
 const supports = require('./supports.js');
 const worldwide = require('./worldwide.js');
+const supportsHistory = require('./vendor/supportsHistory.js');
 
 // eslint-disable-next-line deprecation/deprecation
 const WINDOW = worldwide.getGlobalObject();
@@ -19818,7 +20149,7 @@ let lastHref;
 
 /** JSDoc */
 function instrumentHistory() {
-  if (!supports.supportsHistory()) {
+  if (!supportsHistory.supportsHistory()) {
     return;
   }
 
@@ -20128,7 +20459,7 @@ function instrumentUnhandledRejection() {
 exports.addInstrumentationHandler = addInstrumentationHandler;
 
 
-},{"./is.js":104,"./logger.js":105,"./object.js":110,"./stacktrace.js":116,"./supports.js":118,"./worldwide.js":124}],104:[function(require,module,exports){
+},{"./is.js":104,"./logger.js":105,"./object.js":111,"./stacktrace.js":117,"./supports.js":119,"./vendor/supportsHistory.js":126,"./worldwide.js":127}],104:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -20412,7 +20743,7 @@ exports.CONSOLE_LEVELS = CONSOLE_LEVELS;
 exports.consoleSandbox = consoleSandbox;
 
 
-},{"./worldwide.js":124}],106:[function(require,module,exports){
+},{"./worldwide.js":127}],106:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -20669,7 +21000,101 @@ exports.parseSemver = parseSemver;
 exports.uuid4 = uuid4;
 
 
-},{"./object.js":110,"./string.js":117,"./worldwide.js":124}],108:[function(require,module,exports){
+},{"./object.js":111,"./string.js":118,"./worldwide.js":127}],108:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/** Node Stack line parser */
+// eslint-disable-next-line complexity
+function node(getModule) {
+  const FILENAME_MATCH = /^\s*[-]{4,}$/;
+  const FULL_MATCH = /at (?:async )?(?:(.+?)\s+\()?(?:(.+):(\d+):(\d+)?|([^)]+))\)?/;
+
+  // eslint-disable-next-line complexity
+  return (line) => {
+    const lineMatch = line.match(FULL_MATCH);
+
+    if (lineMatch) {
+      let object;
+      let method;
+      let functionName;
+      let typeName;
+      let methodName;
+
+      if (lineMatch[1]) {
+        functionName = lineMatch[1];
+
+        let methodStart = functionName.lastIndexOf('.');
+        if (functionName[methodStart - 1] === '.') {
+          methodStart--;
+        }
+
+        if (methodStart > 0) {
+          object = functionName.slice(0, methodStart);
+          method = functionName.slice(methodStart + 1);
+          const objectEnd = object.indexOf('.Module');
+          if (objectEnd > 0) {
+            functionName = functionName.slice(objectEnd + 1);
+            object = object.slice(0, objectEnd);
+          }
+        }
+        typeName = undefined;
+      }
+
+      if (method) {
+        typeName = object;
+        methodName = method;
+      }
+
+      if (method === '<anonymous>') {
+        methodName = undefined;
+        functionName = undefined;
+      }
+
+      if (functionName === undefined) {
+        methodName = methodName || '<anonymous>';
+        functionName = typeName ? `${typeName}.${methodName}` : methodName;
+      }
+
+      let filename = lineMatch[2] && lineMatch[2].startsWith('file://') ? lineMatch[2].slice(7) : lineMatch[2];
+      const isNative = lineMatch[5] === 'native';
+
+      if (!filename && lineMatch[5] && !isNative) {
+        filename = lineMatch[5];
+      }
+
+      const isInternal =
+        isNative || (filename && !filename.startsWith('/') && !filename.startsWith('.') && !filename.includes(':\\'));
+
+      // in_app is all that's not an internal Node function or a module within node_modules
+      // note that isNative appears to return true even for node core libraries
+      // see https://github.com/getsentry/raven-node/issues/176
+
+      const in_app = !isInternal && filename !== undefined && !filename.includes('node_modules/');
+
+      return {
+        filename,
+        module: getModule ? getModule(filename) : undefined,
+        function: functionName,
+        lineno: parseInt(lineMatch[3], 10) || undefined,
+        colno: parseInt(lineMatch[4], 10) || undefined,
+        in_app,
+      };
+    }
+
+    if (line.match(FILENAME_MATCH)) {
+      return {
+        filename: line,
+      };
+    }
+
+    return undefined;
+  };
+}
+
+exports.node = node;
+
+
+},{}],109:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -20743,7 +21168,7 @@ exports.loadModule = loadModule;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./env.js":99,"_process":125}],109:[function(require,module,exports){
+},{"./env.js":99,"_process":128}],110:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -21008,7 +21433,7 @@ exports.walk = visit;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is.js":104,"./memo.js":106,"./object.js":110,"./stacktrace.js":116}],110:[function(require,module,exports){
+},{"./is.js":104,"./memo.js":106,"./object.js":111,"./stacktrace.js":117}],111:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -21299,11 +21724,32 @@ exports.objectify = objectify;
 exports.urlEncode = urlEncode;
 
 
-},{"./browser.js":82,"./is.js":104,"./string.js":117}],111:[function(require,module,exports){
+},{"./browser.js":82,"./is.js":104,"./string.js":118}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
-// https://raw.githubusercontent.com/calvinmetcalf/rollup-plugin-node-builtins/master/src/es6/path.js
+// https://github.com/calvinmetcalf/rollup-plugin-node-builtins/blob/63ab8aacd013767445ca299e468d9a60a95328d7/src/es6/path.js
+//
+// Copyright Joyent, Inc.and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /** JSDoc */
 function normalizeArray(parts, allowAboveRoot) {
@@ -21497,7 +21943,7 @@ exports.relative = relative;
 exports.resolve = resolve;
 
 
-},{}],112:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -21603,7 +22049,7 @@ function makePromiseBuffer(limit) {
 exports.makePromiseBuffer = makePromiseBuffer;
 
 
-},{"./error.js":101,"./syncpromise.js":119}],113:[function(require,module,exports){
+},{"./error.js":101,"./syncpromise.js":120}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Intentionally keeping the key broad, as we don't know for sure what rate limit headers get returned from backend
@@ -21708,7 +22154,7 @@ exports.parseRetryAfterHeader = parseRetryAfterHeader;
 exports.updateRateLimits = updateRateLimits;
 
 
-},{}],114:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -22029,7 +22475,7 @@ exports.extractPathForTransaction = extractPathForTransaction;
 exports.extractRequestData = extractRequestData;
 
 
-},{"./is.js":104,"./normalize.js":109,"./url.js":122}],115:[function(require,module,exports){
+},{"./is.js":104,"./normalize.js":110,"./url.js":123}],116:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Note: Ideally the `SeverityLevel` type would be derived from `validSeverityLevels`, but that would mean either
@@ -22071,8 +22517,10 @@ exports.severityLevelFromString = severityLevelFromString;
 exports.validSeverityLevels = validSeverityLevels;
 
 
-},{}],116:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
+
+const nodeStackTrace = require('./node-stack-trace.js');
 
 const STACKTRACE_FRAME_LIMIT = 50;
 // Used to sanitize webpack (error: *) wrapped stack errors
@@ -22190,93 +22638,6 @@ function getFunctionName(fn) {
   }
 }
 
-// eslint-disable-next-line complexity
-function node(getModule) {
-  const FILENAME_MATCH = /^\s*[-]{4,}$/;
-  const FULL_MATCH = /at (?:async )?(?:(.+?)\s+\()?(?:(.+):(\d+):(\d+)?|([^)]+))\)?/;
-
-  // eslint-disable-next-line complexity
-  return (line) => {
-    const lineMatch = line.match(FULL_MATCH);
-
-    if (lineMatch) {
-      let object;
-      let method;
-      let functionName;
-      let typeName;
-      let methodName;
-
-      if (lineMatch[1]) {
-        functionName = lineMatch[1];
-
-        let methodStart = functionName.lastIndexOf('.');
-        if (functionName[methodStart - 1] === '.') {
-          methodStart--;
-        }
-
-        if (methodStart > 0) {
-          object = functionName.slice(0, methodStart);
-          method = functionName.slice(methodStart + 1);
-          const objectEnd = object.indexOf('.Module');
-          if (objectEnd > 0) {
-            functionName = functionName.slice(objectEnd + 1);
-            object = object.slice(0, objectEnd);
-          }
-        }
-        typeName = undefined;
-      }
-
-      if (method) {
-        typeName = object;
-        methodName = method;
-      }
-
-      if (method === '<anonymous>') {
-        methodName = undefined;
-        functionName = undefined;
-      }
-
-      if (functionName === undefined) {
-        methodName = methodName || '<anonymous>';
-        functionName = typeName ? `${typeName}.${methodName}` : methodName;
-      }
-
-      let filename = lineMatch[2] && lineMatch[2].startsWith('file://') ? lineMatch[2].slice(7) : lineMatch[2];
-      const isNative = lineMatch[5] === 'native';
-
-      if (!filename && lineMatch[5] && !isNative) {
-        filename = lineMatch[5];
-      }
-
-      const isInternal =
-        isNative || (filename && !filename.startsWith('/') && !filename.startsWith('.') && !filename.includes(':\\'));
-
-      // in_app is all that's not an internal Node function or a module within node_modules
-      // note that isNative appears to return true even for node core libraries
-      // see https://github.com/getsentry/raven-node/issues/176
-
-      const in_app = !isInternal && filename !== undefined && !filename.includes('node_modules/');
-
-      return {
-        filename,
-        module: getModule ? getModule(filename) : undefined,
-        function: functionName,
-        lineno: parseInt(lineMatch[3], 10) || undefined,
-        colno: parseInt(lineMatch[4], 10) || undefined,
-        in_app,
-      };
-    }
-
-    if (line.match(FILENAME_MATCH)) {
-      return {
-        filename: line,
-      };
-    }
-
-    return undefined;
-  };
-}
-
 /**
  * Node.js stack line parser
  *
@@ -22284,7 +22645,7 @@ function node(getModule) {
  * This allows it to be used without referencing or importing any node specific code which causes bundlers to complain
  */
 function nodeStackLineParser(getModule) {
-  return [90, node(getModule)];
+  return [90, nodeStackTrace.node(getModule)];
 }
 
 exports.createStackParser = createStackParser;
@@ -22294,7 +22655,7 @@ exports.stackParserFromStackParserOptions = stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stripSentryFramesAndReverse;
 
 
-},{}],117:[function(require,module,exports){
+},{"./node-stack-trace.js":108}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -22427,24 +22788,6 @@ function stringMatchesSomePattern(
   return patterns.some(pattern => isMatchingPattern(testString, pattern, requireExactStringMatch));
 }
 
-/**
- * Given a string, escape characters which have meaning in the regex grammar, such that the result is safe to feed to
- * `new RegExp()`.
- *
- * Based on https://github.com/sindresorhus/escape-string-regexp. Vendored to a) reduce the size by skipping the runtime
- * type-checking, and b) ensure it gets down-compiled for old versions of Node (the published package only supports Node
- * 12+).
- *
- * @param regexString The string to escape
- * @returns An version of the string with all special regex characters escaped
- */
-function escapeStringForRegex(regexString) {
-  // escape the hyphen separately so we can also replace it with a unicode literal hyphen, to avoid the problems
-  // discussed in https://github.com/sindresorhus/escape-string-regexp/issues/20.
-  return regexString.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d');
-}
-
-exports.escapeStringForRegex = escapeStringForRegex;
 exports.isMatchingPattern = isMatchingPattern;
 exports.safeJoin = safeJoin;
 exports.snipLine = snipLine;
@@ -22452,7 +22795,7 @@ exports.stringMatchesSomePattern = stringMatchesSomePattern;
 exports.truncate = truncate;
 
 
-},{"./is.js":104}],118:[function(require,module,exports){
+},{"./is.js":104}],119:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const logger = require('./logger.js');
@@ -22614,38 +22957,17 @@ function supportsReferrerPolicy() {
   }
 }
 
-/**
- * Tells whether current environment supports History API
- * {@link supportsHistory}.
- *
- * @returns Answer to the given question.
- */
-function supportsHistory() {
-  // NOTE: in Chrome App environment, touching history.pushState, *even inside
-  //       a try/catch block*, will cause Chrome to output an error to console.error
-  // borrowed from: https://github.com/angular/angular.js/pull/13945/files
-  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const chrome = (WINDOW ).chrome;
-  const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
-  /* eslint-enable @typescript-eslint/no-unsafe-member-access */
-  const hasHistoryApi = 'history' in WINDOW && !!WINDOW.history.pushState && !!WINDOW.history.replaceState;
-
-  return !isChromePackagedApp && hasHistoryApi;
-}
-
 exports.isNativeFetch = isNativeFetch;
 exports.supportsDOMError = supportsDOMError;
 exports.supportsDOMException = supportsDOMException;
 exports.supportsErrorEvent = supportsErrorEvent;
 exports.supportsFetch = supportsFetch;
-exports.supportsHistory = supportsHistory;
 exports.supportsNativeFetch = supportsNativeFetch;
 exports.supportsReferrerPolicy = supportsReferrerPolicy;
 exports.supportsReportingObserver = supportsReportingObserver;
 
 
-},{"./logger.js":105,"./worldwide.js":124}],119:[function(require,module,exports){
+},{"./logger.js":105,"./worldwide.js":127}],120:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -22842,7 +23164,7 @@ exports.rejectedSyncPromise = rejectedSyncPromise;
 exports.resolvedSyncPromise = resolvedSyncPromise;
 
 
-},{"./is.js":104}],120:[function(require,module,exports){
+},{"./is.js":104}],121:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const node = require('./node.js');
@@ -23028,7 +23350,7 @@ exports.timestampWithMs = timestampWithMs;
 exports.usingPerformanceAPI = usingPerformanceAPI;
 
 
-},{"./node.js":108,"./worldwide.js":124}],121:[function(require,module,exports){
+},{"./node.js":109,"./worldwide.js":127}],122:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const TRACEPARENT_REGEXP = new RegExp(
@@ -23072,7 +23394,7 @@ exports.TRACEPARENT_REGEXP = TRACEPARENT_REGEXP;
 exports.extractTraceparentData = extractTraceparentData;
 
 
-},{}],122:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -23130,7 +23452,7 @@ exports.parseUrl = parseUrl;
 exports.stripUrlQueryAndFragment = stripUrlQueryAndFragment;
 
 
-},{}],123:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -23233,7 +23555,81 @@ function addOrUpdateIntegrationInFunction(
 exports.addOrUpdateIntegration = addOrUpdateIntegration;
 
 
-},{}],124:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+// Based on https://github.com/sindresorhus/escape-string-regexp but with modifications to:
+//   a) reduce the size by skipping the runtime type - checking
+//   b) ensure it gets down - compiled for old versions of Node(the published package only supports Node 12+).
+//
+// MIT License
+//
+// Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+// documentation files(the "Software"), to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, and / or sell copies of the Software, and
+// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+// the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+
+/**
+ * Given a string, escape characters which have meaning in the regex grammar, such that the result is safe to feed to
+ * `new RegExp()`.
+ *
+ * @param regexString The string to escape
+ * @returns An version of the string with all special regex characters escaped
+ */
+function escapeStringForRegex(regexString) {
+  // escape the hyphen separately so we can also replace it with a unicode literal hyphen, to avoid the problems
+  // discussed in https://github.com/sindresorhus/escape-string-regexp/issues/20.
+  return regexString.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d');
+}
+
+exports.escapeStringForRegex = escapeStringForRegex;
+
+
+},{}],126:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const worldwide = require('../worldwide.js');
+
+// Based on https://github.com/angular/angular.js/pull/13945/files
+
+// eslint-disable-next-line deprecation/deprecation
+const WINDOW = worldwide.getGlobalObject();
+
+/**
+ * Tells whether current environment supports History API
+ * {@link supportsHistory}.
+ *
+ * @returns Answer to the given question.
+ */
+function supportsHistory() {
+  // NOTE: in Chrome App environment, touching history.pushState, *even inside
+  //       a try/catch block*, will cause Chrome to output an error to console.error
+  // borrowed from: https://github.com/angular/angular.js/pull/13945/files
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const chrome = (WINDOW ).chrome;
+  const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
+  /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+  const hasHistoryApi = 'history' in WINDOW && !!WINDOW.history.pushState && !!WINDOW.history.replaceState;
+
+  return !isChromePackagedApp && hasHistoryApi;
+}
+
+exports.supportsHistory = supportsHistory;
+
+
+},{"../worldwide.js":127}],127:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -23311,7 +23707,7 @@ exports.getGlobalSingleton = getGlobalSingleton;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],125:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
