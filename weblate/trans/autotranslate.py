@@ -77,7 +77,7 @@ class AutoTranslate:
     def process_others(self, source: Optional[int]):
         """Perform automatic translation based on other components."""
         kwargs = {
-            "translation__language": self.translation.language,
+            "translation__plural": self.translation.plural,
             "state__gte": STATE_TRANSLATED,
         }
         source_language = self.translation.component.source_language
