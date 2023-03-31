@@ -47,7 +47,7 @@ You can limit user’s access to individual projects by selecting a different
 
    Only chosen users can access VCS repository.
 
-   **Choose this to gain visibility, but still have control on who can contribute.**
+   **Choose this to gain visibility, but still have control over who can contribute.**
 :guilabel:`Private`
    Visible only to chosen users.
 
@@ -67,7 +67,7 @@ You can limit user’s access to individual projects by selecting a different
 
    You will have to set up all the permissions using :ref:`custom-acl`.
 
-   **Choose this on own Weblate instance where you want to define access in a custom way.**
+   **Choose this on your own Weblate instance if you want to define access in a specific, finely customizable way.**
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
