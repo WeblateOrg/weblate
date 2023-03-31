@@ -39,13 +39,12 @@ from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
-    RSA_KEY,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
     get_host_keys,
     get_key_data,
-    ssh_file,
+    get_key_data_raw,
 )
 from weblate.wladmin.forms import (
     ActivateForm,
@@ -277,10 +276,9 @@ def performance(request):
 
 @management_access
 def ssh_key(request):
-    with open(ssh_file(RSA_KEY)) as handle:
-        data = handle.read()
+    filename, data = get_key_data_raw(kind="private")
     response = HttpResponse(data, content_type="text/plain")
-    response["Content-Disposition"] = f"attachment; filename={RSA_KEY}"
+    response["Content-Disposition"] = f"attachment; filename={filename}"
     response["Content-Length"] = len(data)
     return response
 

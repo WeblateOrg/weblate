@@ -7,11 +7,13 @@ import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
+from typing import Dict, Tuple
 
 from django.conf import settings
 from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
+from django.utils.translation import pgettext_lazy
 
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -21,8 +23,15 @@ from weblate.utils.hash import calculate_checksum
 # SSH key files
 KNOWN_HOSTS = "known_hosts"
 CONFIG = "config"
-RSA_KEY = "id_rsa"
-RSA_KEY_PUB = "id_rsa.pub"
+
+KEYS = {
+    "rsa": {
+        "private": "id_rsa",
+        "public": "id_rsa.pub",
+        "name": pgettext_lazy("SSH key type", "RSA"),
+        "keygen": ["-b", "4096", "-t", "rsa"],
+    }
+}
 
 
 def ssh_file(filename):
@@ -71,18 +80,29 @@ def get_host_keys():
     return result
 
 
-def get_key_data():
-    """Parse host key and returns it."""
+def get_key_data_raw(key_type: str = "rsa", kind: str = "public") -> Tuple[str, str]:
+    """Returns raw public key data."""
     # Read key data if it exists
-    if os.path.exists(ssh_file(RSA_KEY_PUB)):
-        with open(ssh_file(RSA_KEY_PUB)) as handle:
-            key_data = handle.read()
-        key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
+    filename = KEYS[key_type][kind]
+    key_file = ssh_file(filename)
+    if os.path.exists(key_file):
+        with open(key_file) as handle:
+            return filename, handle.read()
+    return filename, None
+
+
+def get_key_data(key_type: str = "rsa") -> Dict[str, str]:
+    """Parse host key and returns it."""
+    filename, key_data = get_key_data_raw(key_type)
+    if key_data is not None:
+        key_type_parsed, key_fingerprint, key_id = key_data.strip().split(None, 2)
         return {
             "key": key_data,
-            "type": key_type,
+            "type": key_type_parsed,
             "fingerprint": key_fingerprint,
             "id": key_id,
+            "filename": filename,
+            "name": KEYS[key_type]["name"],
         }
     return None
 
@@ -96,24 +116,22 @@ def ensure_ssh_key():
     return ssh_key
 
 
-def generate_ssh_key(request):
+def generate_ssh_key(request, key_type: str = "rsa"):
     """Generate SSH key."""
-    keyfile = ssh_file(RSA_KEY)
-    pubkeyfile = ssh_file(RSA_KEY_PUB)
+    key_info = KEYS[key_type]
+    keyfile = ssh_file(key_info["private"])
+    pubkeyfile = ssh_file(key_info["public"])
     try:
         # Actually generate the key
         subprocess.run(
             [
                 "ssh-keygen",
                 "-q",
-                "-b",
-                "4096",
+                *key_info["keygen"],
                 "-N",
                 "",
                 "-C",
                 settings.SITE_TITLE,
-                "-t",
-                "rsa",
                 "-f",
                 keyfile,
             ],
@@ -270,7 +288,7 @@ class SSHWrapper:
             command=command,
             known_hosts=ssh_file(KNOWN_HOSTS),
             config_file=ssh_file(CONFIG),
-            identity=ssh_file(RSA_KEY),
+            identity=ssh_file(KEYS["rsa"]["private"]),
             extra_args=settings.SSH_EXTRA_ARGS,
         )
 

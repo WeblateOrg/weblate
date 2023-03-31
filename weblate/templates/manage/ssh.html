@@ -11,22 +11,7 @@
 {% block content %}
 
     {% if public_key %}
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'vcs' 'ssh-repos' right=True %}
-    {% trans "Public SSH key" %}
-  </h4>
-</div>
-<div class="panel-body">
-    {% include "snippets/ssh-key.html" with ssh_key=public_key %}
-</div>
-  <div class="panel-footer">
-    <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key" %}</a>
-    </div>
-</div>
-
-
+      {% include "snippets/ssh-key.html" with ssh_key=public_key key_download=True %}
     {% elif can_generate %}
     <form method="post">
 <div class="panel panel-default">
