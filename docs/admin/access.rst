@@ -33,11 +33,23 @@ You can limit user’s access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
 
 Public
-    Publicly visible, translatable for all signed-in users.
+   Visible to everybody.
+
+   Any authenticated user can contribute.
+
+   VCS repository might be exposed to everybody.
 Protected
-    Publicly visible, but translatable only for selected users.
+   Visible to everybody.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
 Private
-    Visible and translatable only for selected users.
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
 Custom
     :ref:`User management <manage-acl>` features will be disabled; by
     default all users are forbidden to performed any actions on the project.
