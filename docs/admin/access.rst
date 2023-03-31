@@ -32,28 +32,42 @@ Project access control
 You can limit user’s access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
 
-Public
+:guilabel:`Public`
    Visible to everybody.
 
    Any authenticated user can contribute.
 
    VCS repository might be exposed to everybody.
-Protected
+
+   **Choose this for open-source projects, or when your Weblate instance is private or locked-down.**
+:guilabel:`Protected`
    Visible to everybody.
 
    Only chosen users can contribute.
 
    Only chosen users can access VCS repository.
-Private
+
+   **Choose this to gain visibility, but still have control on who can contribute.**
+:guilabel:`Private`
    Visible only to chosen users.
 
    Only chosen users can contribute.
 
    Only chosen users can access VCS repository.
-Custom
-    :ref:`User management <manage-acl>` features will be disabled; by
-    default all users are forbidden to performed any actions on the project.
-    You will have to set up all the permissions using :ref:`custom-acl`.
+
+   **Choose this for projects that should not be publicly exposed at all.**
+:guilabel:`Custom`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   Not available on Hosted Weblate.
+
+   You will have to set up all the permissions using :ref:`custom-acl`.
+
+   **Choose this on own Weblate instance where you want to define access in a custom way.**
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
