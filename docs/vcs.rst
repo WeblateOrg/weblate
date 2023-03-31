@@ -66,6 +66,10 @@ In case adjustment is needed, do so from the Weblate admin interface:
 Weblate SSH key
 ~~~~~~~~~~~~~~~
 
+.. versionchanged:: 4.17
+
+   Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is recommended for new setups.
+
 The Weblate public key is visible to all users browsing the :guilabel:`About` page.
 
 Admins can generate or display the public key currently used by Weblate in the connection

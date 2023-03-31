@@ -30,7 +30,13 @@ KEYS = {
         "public": "id_rsa.pub",
         "name": pgettext_lazy("SSH key type", "RSA"),
         "keygen": ["-b", "4096", "-t", "rsa"],
-    }
+    },
+    "ed25519": {
+        "private": "id_ed25519",
+        "public": "id_ed25519.pub",
+        "name": pgettext_lazy("SSH key type", "Ed25519"),
+        "keygen": ["-t", "ed25519"],
+    },
 }
 
 
@@ -95,25 +101,38 @@ def get_key_data(key_type: str = "rsa") -> Dict[str, str]:
     """Parse host key and returns it."""
     filename, key_data = get_key_data_raw(key_type)
     if key_data is not None:
-        key_type_parsed, key_fingerprint, key_id = key_data.strip().split(None, 2)
+        _key_type_parsed, key_fingerprint, key_id = key_data.strip().split(None, 2)
         return {
             "key": key_data,
-            "type": key_type_parsed,
             "fingerprint": key_fingerprint,
             "id": key_id,
             "filename": filename,
+            "type": key_type,
             "name": KEYS[key_type]["name"],
         }
-    return None
+    return {
+        "key": None,
+        "type": key_type,
+        "name": KEYS[key_type]["name"],
+    }
+
+
+def get_all_key_data() -> Dict[str, Dict[str, str]]:
+    """Return all supported SSH keys."""
+    return {key_type: get_key_data(key_type) for key_type in KEYS}
 
 
 def ensure_ssh_key():
     """Ensures SSH key is existing."""
-    ssh_key = get_key_data()
-    if not ssh_key:
-        generate_ssh_key(None)
+    result = None
+    for key_type in KEYS:
         ssh_key = get_key_data()
-    return ssh_key
+        if not ssh_key["key"]:
+            generate_ssh_key(None)
+            ssh_key = get_key_data()
+        if key_type == "rsa":
+            result = ssh_key
+    return result
 
 
 def generate_ssh_key(request, key_type: str = "rsa"):
@@ -253,7 +272,8 @@ def can_generate_key():
 SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
 exec {command} \
     -o "UserKnownHostsFile={known_hosts}" \
-    -o "IdentityFile={identity}" \
+    -o "IdentityFile={identity_rsa}" \
+    -o "IdentityFile={identity_ed25519}" \
     -o StrictHostKeyChecking=yes \
     -o HashKnownHosts=no \
     -o UpdateHostKeys=yes \
@@ -288,7 +308,8 @@ class SSHWrapper:
             command=command,
             known_hosts=ssh_file(KNOWN_HOSTS),
             config_file=ssh_file(CONFIG),
-            identity=ssh_file(KEYS["rsa"]["private"]),
+            identity_rsa=ssh_file(KEYS["rsa"]["private"]),
+            identity_ed25519=ssh_file(KEYS["ed25519"]["private"]),
             extra_args=settings.SSH_EXTRA_ARGS,
         )
 

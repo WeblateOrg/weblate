@@ -50,11 +50,25 @@ class AdminTest(ViewTestCase):
     def test_ssh_generate(self):
         self.assertEqual(check_data_writable(), [])
         response = self.client.get(reverse("manage-ssh"))
-        self.assertContains(response, "Generate SSH key")
+        self.assertContains(response, "Generate RSA SSH key")
+        self.assertContains(response, "Generate Ed25519 SSH key")
 
-        response = self.client.post(reverse("manage-ssh"), {"action": "generate"})
+        response = self.client.post(
+            reverse("manage-ssh"), {"action": "generate"}, follow=True
+        )
         self.assertContains(response, "Created new SSH key")
         response = self.client.get(reverse("manage-ssh-key"))
+        self.assertContains(response, "PRIVATE KEY")
+        response = self.client.get(reverse("manage-ssh-key"), {"type": "rsa"})
+        self.assertContains(response, "PRIVATE KEY")
+
+        response = self.client.post(
+            reverse("manage-ssh"),
+            {"action": "generate", "type": "ed25519"},
+            follow=True,
+        )
+        self.assertContains(response, "Created new SSH key")
+        response = self.client.get(reverse("manage-ssh-key"), {"type": "ed25519"})
         self.assertContains(response, "PRIVATE KEY")
 
     @tempdir_setting("DATA_DIR")

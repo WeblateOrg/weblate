@@ -42,8 +42,8 @@ from weblate.vcs.ssh import (
     add_host_key,
     can_generate_key,
     generate_ssh_key,
+    get_all_key_data,
     get_host_keys,
-    get_key_data,
     get_key_data_raw,
 )
 from weblate.wladmin.forms import (
@@ -276,7 +276,9 @@ def performance(request):
 
 @management_access
 def ssh_key(request):
-    filename, data = get_key_data_raw(kind="private")
+    filename, data = get_key_data_raw(
+        key_type=request.GET.get("type", "rsa"), kind="private"
+    )
     response = HttpResponse(data, content_type="text/plain")
     response["Content-Disposition"] = f"attachment; filename={filename}"
     response["Content-Length"] = len(data)
@@ -294,10 +296,11 @@ def ssh(request):
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        generate_ssh_key(request)
+        generate_ssh_key(request, key_type=request.POST.get("type", "rsa"))
+        return redirect("manage-ssh")
 
     # Read key data if it exists
-    key = get_key_data()
+    keys = get_all_key_data()
 
     # Add host key
     form = SSHAddForm()
@@ -307,8 +310,11 @@ def ssh(request):
             add_host_key(request, **form.cleaned_data)
 
     context = {
-        "public_key": key,
+        "public_ssh_keys": keys,
         "can_generate": can_generate,
+        "missing_ssh_keys": [
+            keydata for keydata in keys.values() if keydata["key"] is None
+        ],
         "host_keys": get_host_keys(),
         "menu_items": MENU,
         "menu_page": "ssh",

@@ -29,7 +29,7 @@ from weblate.trans.models import Change
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import get_all_key_data
 
 
 def check_user_form(
@@ -305,7 +305,7 @@ def manage_access(request, project):
                 initial={"user": request.GET.get("block_user")}
             ),
             "invite_user_form": InviteUserForm(),
-            "ssh_key": get_key_data(),
+            "public_ssh_keys": get_all_key_data(),
         },
     )
 

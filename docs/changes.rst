@@ -9,6 +9,7 @@ Not yet released.
 * Automatic translation now honors target state when translating from other components.
 * Improved performace of public user profiles.
 * Improved Sentry performance integration.
+* Added support for Ed25519 SSH key.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 
