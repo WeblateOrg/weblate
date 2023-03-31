@@ -185,6 +185,8 @@ Whether to contribute to shared translation memory, see :ref:`shared-tm` for mor
 
 The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
+.. include:: /snippets/not-hosted.rst
+
 .. _project-access_control:
 
 Access control
@@ -814,6 +816,8 @@ Components with higher priority are offered first to translators.
 
 Restricted access
 +++++++++++++++++
+
+.. include:: /snippets/not-hosted.rst
 
 By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it

@@ -204,7 +204,7 @@ team of the project.
 Custom access control
 ---------------------
 
-.. include:: /snippets/not-hosted-libre.rst
+.. include:: /snippets/not-hosted.rst
 
 The permission system is based on teams and roles, where roles define a set of
 permissions, and teams link them to users and translations, see
