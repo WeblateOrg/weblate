@@ -234,7 +234,8 @@ def validate_project_web(value):
     ):
         raise ValidationError(_("This URL is prohibited"))
     parsed = urlparse(value)
-    hostname = parsed.hostname.lower()
+    hostname = parsed.hostname or ""
+    hostname = hostname.lower()
 
     # Hostname filtering
     if any(

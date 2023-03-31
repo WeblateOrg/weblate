@@ -1344,7 +1344,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             parsed = urlparse(repo)
             if not parsed.hostname:
                 parsed = urlparse(f"ssh://{repo}")
-            if parsed.hostname:
+            else:
                 try:
                     port = parsed.port
                 except ValueError:
