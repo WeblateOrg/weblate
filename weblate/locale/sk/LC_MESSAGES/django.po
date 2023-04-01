@@ -16,13 +16,14 @@
 # Milan <mobrcian@hotmail.com>, 2021.
 # Palco <xpavolcsiba@gmail.com>, 2022.
 # yangyangdaji <1504305527@qq.com>, 2023.
+# Milan <brnecovsky@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.16.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-08 08:18+0000\n"
-"PO-Revision-Date: 2023-03-17 22:16+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"PO-Revision-Date: 2023-04-02 01:09+0000\n"
+"Last-Translator: Milan <brnecovsky@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -60,26 +61,20 @@ msgid "Full name"
 msgstr "Celé meno"
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:563
-#, fuzzy
-#| msgid "Committer e-mail"
 msgid "Commit e-mail"
-msgstr "E-mail pre commit"
+msgstr "Potvrdiť e-mail"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "Use account e-mail address"
-msgstr "Registrácia emailu"
+msgstr "Použiť e-mailovú adresu účtu"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:557
 msgid "Public e-mail"
 msgstr "Verejný e-mail"
 
 #: weblate/accounts/forms.py:203
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Do not publicly display e-mail address"
-msgstr "Zadajte platnú e-mailovú adresu."
+msgstr "E-mailovú adresu nezobraziť verejne"
 
 #: weblate/accounts/forms.py:308
 #, python-format
@@ -449,6 +444,7 @@ msgstr "Pre obnovenie prístupu k svojmu účtu resetujte prosím svoje heslo."
 #: weblate/accounts/models.py:178
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Pokiaľ máte pocit, že je to nevhodné, kontaktujte prosím správcu projektu."
 
 #: weblate/accounts/models.py:293 weblate/templates/accounts/profile.html:257
 #: weblate/templates/accounts/user.html:223
@@ -464,16 +460,12 @@ msgid "Translated languages"
 msgstr "Prekladané jazyky"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate. These will be offered to "
-#| "you on the dashboard to have easier access to chosen translations."
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
-"Zvoľte jazyky, ktoré chcete prekladať. Tieto vám budú zobrazované na "
-"nástenke pre ľahší prístup k zvoleným prekladom."
+"Zvoľte jazyky, ktoré chcete prekladať. Na nástenke budete mať potom preklady "
+"do týchto jazykov ľahko prístupné."
 
 #: weblate/accounts/models.py:381
 msgid "Secondary languages"
@@ -498,22 +490,14 @@ msgid "Show secondary translations in the Zen mode"
 msgstr "Zobraziť alternatívne preklady v režime Zen"
 
 #: weblate/accounts/models.py:401
-#, fuzzy
-#| msgid "Hide source if there is secondary language"
 msgid "Hide source if a secondary translation exists"
-msgstr "Skryť zdroj, ak je dostupný alternatívny jazyk"
+msgstr "Skryť zdroj, ak existuje alternatívny preklad"
 
 #: weblate/accounts/models.py:407
 msgid "Editor link"
 msgstr "Odkaz na úpravy"
 
 #: weblate/accounts/models.py:409
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -521,8 +505,7 @@ msgid ""
 msgstr ""
 "Zadajte vlastnú URL adresu, ktorá sa bude používať na otvorenie zdrojového "
 "kódu. Môžete použiť {{branch}} pre vetvu, {{filename}} a {{line}} ako "
-"zástupné názvy pre súbor a riadok. Zvyčajne niečo ako editor://open/?"
-"file={{filename}}&line={{line}} je dobrou voľbou."
+"zástupné názvy pre súbor a riadok."
 
 #: weblate/accounts/models.py:418
 msgid "Translation editor mode"
@@ -553,40 +536,33 @@ msgid "Special characters"
 msgstr "Špeciálne znaky"
 
 #: weblate/accounts/models.py:438
-#, fuzzy
-#| msgid ""
-#| "You can specify additional special characters to be shown in the visual "
-#| "keyboard while translating. It can be useful for chars you use frequently "
-#| "but are hard to type on your keyboard."
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
-"Môžete zadať ďalšie špeciálne znaky, ktoré sa zobrazia na vizuálnej "
-"klávesnici počas prekladu. Môže to byť užitočné pre znaky, ktoré používate "
-"často, no je ich ťažké napísať na vašej klávesnici."
+"Môžete zadať ďalšie špeciálne znaky, ktoré sa zobrazia počas prekladu. Môže "
+"to byť užitočné pre znaky, ktoré používate často, no je ich ťažké napísať na "
+"Vašej klávesnici."
 
 #: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of nearby strings"
-msgstr "Počet reťazcov"
+msgstr "Počet okolitých reťazcov"
 
 #: weblate/accounts/models.py:448
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
+"Počet okolitých reťazcov, ktoré sa majú zobraziť v každom smere v úplnom "
+"editore."
 
 #: weblate/accounts/models.py:452
-#, fuzzy
-#| msgid "Project Information"
 msgid "Automatically watch projects on contribution"
-msgstr "Informácie o projekte"
+msgstr "Automaticky sledovať projekty pri prispení"
 
 #: weblate/accounts/models.py:455
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "Zakaždým, keď preložíte reťazec v projekte, začnete ho sledovať."
 
 #: weblate/accounts/models.py:465 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -624,22 +600,20 @@ msgstr ""
 "zobrazovať na nástenke."
 
 #: weblate/accounts/models.py:504
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "URL licencie"
+msgstr "URL webovej stránky"
 
 #: weblate/accounts/models.py:508
-#, fuzzy
-#| msgid "Author name"
 msgid "Liberapay username"
-msgstr "Meno autora"
+msgstr "Užívateľské meno na Liberapay"
 
 #: weblate/accounts/models.py:511
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
+"Liberapay je platforma pre darovanie peňazí tímom, organizáciam a "
+"jednotlivcom."
 
 #: weblate/accounts/models.py:517
 msgid "Fediverse URL"
@@ -650,49 +624,42 @@ msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
+"Odkaz na Váš Fediverse profil pre federatívne služby, ako je Mastodon alebo "
+"diaspora*."
 
 #: weblate/accounts/models.py:525
-#, fuzzy
-#| msgid "License URL"
 msgid "Code site URL"
-msgstr "URL licencie"
+msgstr "URL vyvojárskej stránky"
 
 #: weblate/accounts/models.py:527
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
+"Odkaz na Váš vývojársky profil so službami ako je Codeberg alebo Gitlab."
 
 #: weblate/accounts/models.py:530
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "používateľské meno"
+msgstr "Uživateľské meno na GitHube"
 
 #: weblate/accounts/models.py:535
-#, fuzzy
-#| msgid "Author name"
 msgid "Twitter username"
-msgstr "Meno autora"
+msgstr "Uživateľské meno na Twitteri"
 
 #: weblate/accounts/models.py:540
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "Názov LinkedIn profilu"
 
 #: weblate/accounts/models.py:541
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Názov Vášho LinkedIn profilu z URL linkedin.com/in/názovprofilu"
 
 #: weblate/accounts/models.py:547
 #: weblate/templates/snippets/embed-units.html:64
-#, fuzzy
-#| msgid "Action"
 msgid "Location"
-msgstr "Akcia"
+msgstr "Umiestnenie"
 
 #: weblate/accounts/models.py:552
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Komponent"
+msgstr "Spoločnosť"
 
 #: weblate/accounts/models.py:613
 msgid ""
@@ -701,9 +668,6 @@ msgstr ""
 "Vyberte prosím zoznam komponentov, ktorý chcete zobrazovať na nástenke."
 
 #: weblate/accounts/models.py:624
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Výber zoznamu komponentov nemá žiaden vplyv, ak nie je zobrazený na nástenke."
@@ -714,12 +678,10 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Pridaný jazyk %(language)s do prekladaných jazykov. Môžete ho upraviť v "
+"nastaveniach."
 
 #: weblate/accounts/models.py:817
-#, fuzzy
-#| msgid ""
-#| "You can not submit translations as you do not have assigned any e-mail "
-#| "address."
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -747,31 +709,23 @@ msgstr "Mesačný súhrn"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:422
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository failure"
-msgstr "Podrobnosti repozitára"
+msgstr "Chyba repozitára"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:450
-#, fuzzy
-#| msgid "Repository branch"
 msgid "Repository operation"
-msgstr "Vetva repozitára"
+msgstr "Operácia na repozitáry"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:461
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component locking"
-msgstr "Komponent zamknutý"
+msgstr "Zamknutie komponentu"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "Changes"
 msgid "Changed license"
-msgstr "Zmeny"
+msgstr "Zmena licencie"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -797,10 +751,8 @@ msgstr "Nový návrh"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:523
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "Komentár k vášmu prekladu"
+msgstr "Komentár k vlastnému prekladu"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:559
@@ -820,17 +772,13 @@ msgstr "Zmenený reťazec"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:634 weblate/trans/forms.py:2299
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translated string"
-msgstr "Preložené reťazce"
+msgstr "Preložený reťazec"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "Source strings"
 msgid "Approved string"
-msgstr "Zdrojové reťazce"
+msgstr "Schválený reťazec"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:652
@@ -845,34 +793,26 @@ msgstr "Nová súčasť prekladu"
 #. Translators: Notification name
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:677 weblate/trans/models/change.py:361
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Nový komentár"
+msgstr "Nové oznámenie"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:693 weblate/trans/models/change.py:363
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
-msgstr "Nový riadok"
+msgstr "Nové upozornenie"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Pending suggestions"
-msgstr "Povoliť návrhy"
+msgstr "Čakajúce návrhy"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:792
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:20
 #: weblate/trans/filter.py:109
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Unfinished strings"
-msgstr "Preložené reťazce"
+msgstr "Nedokončené reťazce"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -887,10 +827,8 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "Vaše heslo sa nemôže skladať len z jediného alebo len prázdneho znaku."
 
 #: weblate/accounts/password_validation.py:52
-#, fuzzy
-#| msgid "Can not reuse previously used password!"
 msgid "Can not reuse previously used password."
-msgstr "Nie je možné znovu použiť predchádzajúce heslo!"
+msgstr "Nie je možné znovu použiť predchádzajúce heslo."
 
 #: weblate/accounts/password_validation.py:57
 msgid "Your password can't match a password you have used in the past."
@@ -898,26 +836,20 @@ msgstr ""
 "Vaše heslo nemôže byť zhodné s heslom, ktoré ste už v minulosti použili."
 
 #: weblate/accounts/pipeline.py:320
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in."
-msgstr "Nemôžete dokončiť resetovanie hesla, pokiaľ ste prihlásený!"
+msgstr "Nemôžete dokončiť obnovu hesla, pokiaľ ste prihlásený."
 
 #: weblate/accounts/pipeline.py:323 weblate/accounts/pipeline.py:343
 msgid "The registration link has been invalidated."
 msgstr "Registračný odkaz už nie je platný."
 
 #: weblate/accounts/pipeline.py:335
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in."
-msgstr "Nemôžete dokončiť registráciu, pokiaľ ste prihlasený!"
+msgstr "Nemôžete dokončiť registráciu, pokiaľ ste prihlasený."
 
 #: weblate/accounts/pipeline.py:340
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in."
-msgstr "Svoju registráciu môžete potvrdiť len ak ste prihlásený!"
+msgstr "Svoju registráciu môžete potvrdiť len ak ste prihlásený."
 
 #: weblate/accounts/pipeline.py:508
 #, python-brace-format
@@ -941,14 +873,12 @@ msgid "User registration"
 msgstr "Registrácia používateľa"
 
 #: weblate/accounts/views.py:195
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator."
-msgstr "Správa nemohla byť odoslaná administrátorovi!"
+msgstr "Správa nemohla byť odoslaná administrátorovi."
 
 #: weblate/accounts/views.py:221
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Vaša požiadavka bola odoslaná, čoskoro sa Vám ozveme."
 
 #: weblate/accounts/views.py:334
 msgid "Your profile has been updated."
@@ -963,10 +893,8 @@ msgid "Your account has been removed."
 msgstr "Váš účet bol odstránený."
 
 #: weblate/accounts/views.py:456
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "Too many messages sent, please try again later."
-msgstr "Bolo odoslaných príliš veľa správ, skúste znova neskôr!"
+msgstr "Bolo odoslaných príliš veľa správ, skúste znova neskôr."
 
 #: weblate/accounts/views.py:479 weblate/templates/accounts/contact.html:6
 #: weblate/templates/base.html:283 weblate/templates/footer.html:16
@@ -982,12 +910,16 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Zdá sa, že ste nedávno požiadali o skúšobnú dobu. Prosím kontaktujte nás s "
+"Vaším dotazom, aby sme pre Vás mohli nájsť najvhodnejšie riešenie."
 
 #: weblate/accounts/views.py:544
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Vaša skúšobná doba je aktívna; vytvorte si Váš prekladateľský projekt a "
+"začnite Weblatovať!"
 
 #: weblate/accounts/views.py:550 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
@@ -1011,11 +943,9 @@ msgid "Register e-mail"
 msgstr "Registrácia emailu"
 
 #: weblate/accounts/views.py:828 weblate/accounts/views.py:903
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
-"Nie je možné resetovať heslo, pretože autentifikácia cez email bola vypnutá!"
+"Nie je možné obnoviť heslo, pretože autentifikácia cez e-mail je vypnutá."
 
 #: weblate/accounts/views.py:859 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:134
@@ -1024,72 +954,53 @@ msgid "Change password"
 msgstr "Zmena hesla"
 
 #: weblate/accounts/views.py:869
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset has been already completed."
-msgstr "Resetovanie hesla už bolo dokončené!"
+msgstr "Obnova hesla bola dokončená."
 
 #: weblate/accounts/views.py:1094
-#, fuzzy
-#| msgid "User identities"
 msgid "Could not remove user identity"
-msgstr "Identity používateľa"
+msgstr "Nepodarilo sa odstrániť uživateľskú identitu"
 
 #: weblate/accounts/views.py:1104
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
+msgstr "Pridajte ďalšiu identitu, potvrdením prv Vašej e-mailovej adresy."
 
 #: weblate/accounts/views.py:1150
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "Could not complete registration."
-msgstr "Nemôžete dokončiť registráciu, pokiaľ ste prihlasený!"
+msgstr "Nepodarilo sa dokončiť registráciu."
 
 #: weblate/accounts/views.py:1153
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Prosím skontrolujte, či už nemáte zaregistrovaný účet."
 
 #: weblate/accounts/views.py:1155
-#, fuzzy
-#| msgid "You cannot change demo account on the demo server."
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr "Na ukážkovom serveri nemožno meniť účet užívateľa demo."
+msgstr ""
+"Môžete si vyžiadať nové heslo, ak ste stratili vaše prihlasovacie údaje."
 
 #: weblate/accounts/views.py:1165
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
-"Nepodarilo sa overiť vašu registráciu! Pravdepodobne vypršala platnosť "
-"overovacieho tokenu. Skúste sa prosím zaregistrovať znovu."
+"Skúste sa prosím zaregistrovať znova, aby ste potvrdili Vašu identitu. "
+"Verifikačný token pravdepodobne expiroval."
 
 #: weblate/accounts/views.py:1172
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "Autentifikácia zlyhala z dôvodu neplatného stavu relácie."
+msgstr "Autentifikácia sa nepodarila kvôli neplatnemu stavu relácie."
 
 #: weblate/accounts/views.py:1179
-#, fuzzy
-#| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Autentifikačná služba tretej strany neposkytla žiadnu emailovú adresu!"
+msgstr "Autentifikačná služba tretej strany neposkytla žiadnu emailovú adresu."
 
 #: weblate/accounts/views.py:1181
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "Registrovať sa pomocou e-mailu"
+msgstr "Prosím, zaregistrujte sa namiesto toho s použitím e-mailu."
 
 #: weblate/accounts/views.py:1188
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "Nové registrácie nie sú povolené!"
+msgstr "Nové registrácie sú vypnuté."
 
 #: weblate/accounts/views.py:1246
 #, fuzzy
