@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-08 09:19+0100\n"
-"PO-Revision-Date: 2023-04-02 13:34+0000\n"
+"PO-Revision-Date: 2023-04-03 02:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -35127,12 +35127,18 @@ msgid ""
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
+"Gettext çağrıları ile kodu aldıktan sonra, `xgettext`_ kullanarak iletileri "
+"ayıklayabilir ve bunları bir `.pot <https://www.gnu.org/software/gettext/"
+"manual/gettext.html#index-files_002c-_002epot>`_ dosyası içine "
+"kaydedebilirsiniz:"
 
 #: ../../devel/gettext.rst:101
 msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
 msgstr ""
+"Koddan dizgeleri ayıklamak için alternatif programlar vardır. Örneğin "
+"`pybabel`_."
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -35141,6 +35147,10 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
+"Böylece, yeni çeviriler başlatmak (`msginit`_ ile) ya da kod değişikliğinden "
+"sonra var olan çevirileri güncellemek (bunun için `msgmerge`_ "
+"kullabilirsiniz) için kullanabileceğiniz bir kalıp dosyası oluşturulur. "
+"Oluşturulan dosya yalnızca yapılandırılmış bir metin dosyasıdır:"
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -35148,6 +35158,8 @@ msgid ""
 "in the beginning is the file header containing metadata about the "
 "translation."
 msgstr ""
+"Her ``msgid`` satırı çevrilecek bir dizgeyi tanımlar. Başlangıçtaki özel boş "
+"dizge, çeviriyle ilgili üst verileri içeren dosya üst bilgisidir."
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
@@ -35155,7 +35167,7 @@ msgstr "Yeni çeviriye başlamak"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
-msgstr ""
+msgstr "Kalıp hazır olduğunda, ilk çevirimize başlayabiliriz:"
 
 #: ../../devel/gettext.rst:155
 msgid ""
@@ -35163,6 +35175,10 @@ msgid ""
 "importantly it got the proper plural forms definition for chosen language "
 "and you can see number of plurals have changed according to that:"
 msgstr ""
+"Yeni oluşturulan :file:`cs.po` dosyasında zaten doldurulmuş olan bazı "
+"bilgiler bulunur. En önemlisi, seçilmiş dil için uygun çoğul biçim tanımı "
+"yapılmıştır ve çoğul biçimlerin sayısının buna göre değiştiğini "
+"görebilirsiniz:"
 
 #: ../../devel/gettext.rst:193
 msgid ""
@@ -35170,6 +35186,9 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU gettext`_ functions at runtime."
 msgstr ""
+"Bu dosya, çalıştırma ortamında `GNU gettext`_ işlevleri tarafından "
+"kullanılmaya uygun binary `.mo <https://www.gnu.org/software/gettext/manual/"
+"gettext.html#MO-Files>`_ dosyası biçiminde derlenir."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
@@ -35180,12 +35199,18 @@ msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
+"Yeni dizgeler eklediğinizde ya da programınızdaki bazı dizgeleri "
+"değiştirdiğinizde, kalıp dosyasını yeniden oluşturan `xgettext`_ komutunu "
+"yeniden çalıştırırsınız:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
 "Then you can update individual translation files to match newly created "
 "templates (this includes reordering the strings to match new template):"
 msgstr ""
+"Ardından, yeni oluşturulan kalıplarla eşleşecek şekilde tek tek çeviri "
+"dosyalarını güncelleyebilirsiniz (bu işlem, dizgeleri yeni kalıpla eşleşecek "
+"şekilde yeniden sıralar):"
 
 #: ../../devel/gettext.rst:215
 msgid "Importing to Weblate"
@@ -35197,6 +35222,9 @@ msgid ""
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
 msgstr ""
+"Böyle bir çeviriyi Weblate içine aktarmak için, bileşen oluştururken "
+"tanımlamanız gereken tek şey aşağıdaki alanlardır (alanlarla ilgili bilgi "
+"almak için: :ref:`component`):"
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
@@ -35229,21 +35257,23 @@ msgstr "Yeni dil"
 
 #: ../../devel/gettext.rst:232
 msgid "Choose :guilabel:`Create new language file`"
-msgstr ""
+msgstr ":guilabel:`Yeni dil dosyası oluştur` seçeneğini seçin"
 
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
-msgstr ""
+msgstr "Bu kadar, artık yazılımınızı çevirmeye başlayabilirsiniz!"
 
 #: ../../devel/gettext.rst:239
 msgid ""
 "You can find a gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
+"GitHub üzerindeki Weblate Hello projesinde birçok dilde bir gettext örneği "
+"bulabilirsiniz: <https://github.com/WeblateOrg/hello>."
 
 #: ../../devel/html.rst:4
 msgid "Translating HTML and JavaScript using Weblate CDN"
-msgstr ""
+msgstr "Weblate içerik aktarım ağını kullanarak HTML ve JavaScript çevirmek"
 
 #: ../../devel/html.rst:6
 msgid ""
@@ -35260,6 +35290,9 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Bu özellik, Hosted Weblate hizmetinden yapılandırılır. Kurulumunuz için ek "
+"yapılandırma gerekir. Bilgi almak için: :setting:`LOCALIZE_CDN_URL` ve "
+":setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -35267,6 +35300,9 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
+"Bileşeninize kurulduktan sonra, kaydedilmiş çevirileri (bilgi almak için: "
+":ref:`lazy-commit`) içerik aktarım ağına iter ve bu çeviriler site "
+"sayfalarınızı yerelleştirmek için kullanılabilir."
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
@@ -35277,6 +35313,9 @@ msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
 msgstr ""
+"İlk olarak, dizgelerinizi tutacak tek dilli bir bileşen oluşturmanız "
+"gerekir. Bununla ilgili genel yönergeler için :ref:`adding-projects` "
+"bölümüne bakın."
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -35287,12 +35326,20 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an add-on configuration."
 msgstr ""
+"Başlamak için var olan bir deponuz varsa (HTML dosyalarının bulunduğu bir "
+"depo gibi), kaynak dil için depoda boş bir JSON dosyası oluşturun (bilgi "
+"almak için: :ref:`component-source_language`). Örneğin :file:`locales/en."
+"json`. Nesnenin boş olduğunu belirtmek için içerik ``{}`` olmalıdır. Bundan "
+"sonra, depoyu Weblate üzerine aktarabilir ve bir eklenti yapılandırmasıyla "
+"başlayabilirsiniz."
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
 msgstr ""
+"Var olan çevirileriniz varsa, bunları JSON dil dosyalarına yerleştirerek "
+"Weblate üzerinde kullanabilirsiniz."
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -35301,6 +35348,10 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
+"Var olan depoyu kullanmak istemeyenler için (ya da bir deposu olmayanlar "
+"için), bileşen oluştururken :guilabel:`Sıfırdan başla` seçeneğini ve dosya "
+"biçimi olarak `JSON dosyası` seçeneğini seçin (bu noktada herhangi bir tek "
+"dilli biçim seçilmesi sorun değildir)."
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN add-on"
@@ -35310,23 +35361,28 @@ msgstr "Weblate CDN eklentisini yapılandırmak"
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options."
 msgstr ""
+":ref:`addon-weblate.cdn.cdnjs` eklentisi birkaç yapılandırma seçeneği sunar."
 
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr ""
+msgstr "Bu eşiği aşan çeviriler içerik aktarım ağına katılır."
 
 #: ../../devel/html.rst:52
 msgid ""
 "Configures which strings from the HTML documents are translatable, see :ref:"
 "`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"HTML belgelerinde hangi dizgelerin çevrilebilir olduğunu yapılandırır. Bilgi "
+"almak için: :ref:`cdn-addon-extract` ve :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:55
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
+"Kullanıcının seçtiği dili içeren çerezin adı. JavaScript kod parçasında :ref"
+":`cdn-addon-html` için kullanılır."
 
 #: ../../devel/html.rst:58
 msgid ""
@@ -35334,6 +35390,9 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
+"Weblate tarafından çevrilebilir dizgelerin aranacağı ve bunları çeviri için "
+"sunulacağı depodaki dosyaların ya da adreslerin listesi. Bilgi almak için: "
+":ref:`cdn-addon-extract`."
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
@@ -35347,6 +35406,12 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"Çeviri dizgeleri Weblate üzerinde bulunmalıdır. Bunları el ile yönetebilir, "
+"oluşturmak için API kullanabilir ya da :guilabel:`HTML dosyalarından "
+"dizgeleri ayıkla` komutunu kullanarak dosyaları ya da adresleri "
+"listeleyebilirsiniz. Weblate bunları kendiliğinden ayıklar. Dosyalar depoda "
+"ya da Weblate tarafından düzenli olarak indirilecek ve ayrıştırılacak uzak "
+"adreslerde bulunmalıdır."
 
 #: ../../devel/html.rst:73
 msgid ""
@@ -35354,18 +35419,25 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+":guilabel:`CSS seçici` için varsayılan yapılandırma, CSS sınıfı ``l10n`` "
+"olan ögeleri ayıklar. Örneğin aşağıdaki parçacıklardan iki dizge ayıklanır:"
 
 #: ../../devel/html.rst:90
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
 msgstr ""
+"Var olan kodu değiştirmek istemiyorsanız, tüm ögelerin işlenmesi için seçici "
+"olarak ``*`` kullanabilirsiniz."
 
 #: ../../devel/html.rst:95
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with children."
 msgstr ""
+"Şu anda, yalnızca ögelerin metni ayıklanıyor. Bu eklenti, öge "
+"özniteliklerinin ya da alt ögeleri olan ögelerin yerelleştirilmesini "
+"desteklemez."
 
 #: ../../devel/html.rst:101
 msgid "HTML localization using Weblate CDN"
@@ -35375,6 +35447,8 @@ msgstr "Weblate CDN kullanarak HTML yerelleştirmek"
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"Bir HTML belgesini yerelleştirmek için :file:`weblate.js` betiğini "
+"yüklemelisiniz:"
 
 #: ../../devel/html.rst:109
 msgid ""
@@ -35382,12 +35456,17 @@ msgid ""
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"Yüklendikten sonra, eşleşen tüm çevrilebilir ögeler kendiliğinden bulunur "
+"(:guilabel:`CSS seçici` yapılandırmasına göre) ve metinleri bir çeviriyle "
+"değiştirir."
 
 #: ../../devel/html.rst:113
 msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
 msgstr ""
+"Kullanıcı dili, yapılandırılmış çerezden algılanır ve tarayıcıda "
+"yapılandırılan kullanıcı tarafından yeğlenen dillere döner."
 
 #: ../../devel/html.rst:116
 msgid ""
@@ -35395,6 +35474,8 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
+":guilabel:`Dil çerezi adı` diğer uygulamalarla bütünleştirme için yararlı "
+"olabilir (örneğin, Django kullanırken ``django_language`` olarak seçin)."
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -35405,18 +35486,20 @@ msgid ""
 "The individual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
 msgstr ""
+"Tek tek çeviriler, içerik aktarım ağı altında iki dilli JSON dosyaları "
+"olarak hazırlanır. Birini almak için şu kodu kullanabilirsiniz:"
 
 #: ../../devel/html.rst:131
 msgid "The actual localization logic needs to be implemented in this case."
-msgstr ""
+msgstr "Bu durumda gerçek yerelleştirme mantığının uygulanması gerekir."
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
-msgstr ""
+msgstr "Weblate ile bütünleştirmek"
 
 #: ../../snippets/basics.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Weblate temelleri"
 
 #: ../../snippets/basics.rst:5
 msgid "Project and component structure"
@@ -35431,6 +35514,12 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"Weblate üzerinde çeviriler, projeler ve bileşenler olarak düzenlenir. Bir "
+"projede çok sayıda bileşen bulunabilir ve bunlar ayrı dillerin çevirilerini "
+"içerebilir. Bileşen çevrilebilir bir dosyaya karşılık gelir :ref:`gettext` "
+"ya da :ref:`aresource`). Projeler, bileşeni mantıksal kümeler halinde "
+"düzenlemenize yardımcı olmak için düşünülmüştür (tek bir uygulamada "
+"kullanılan tüm çevirileri gruplamak gibi)."
 
 #: ../../snippets/basics.rst:14
 msgid ""
@@ -35440,6 +35529,11 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
+"İçeride, her projenin varsayılan olarak içindeki diğer bileşenlere yayılan "
+"ortak dizge çevirileri vardır. Bu özellik, yinelenen ve çok sürümlü çeviri "
+"yükünü hafifletir. Çevirilerin farklılaşması durumunda :ref:`component` için "
+":ref:`component-allow_translation_propagation` seçeneği kullanılarak "
+"çevirilerin yayılması devre dışı bırakılabilir."
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -35452,12 +35546,18 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
+"Weblete, temel bir özelliği olarak sürüm denetimi sistemi bütünleştirmesi "
+"göz önünde bulundurularak geliştirilmiştir. Bu nedenle en kolay yol, "
+"deponuza Weblate erişimi izni vermektir. İçe aktarma işlemi, çevirilerinizi "
+"bileşenlere yapılandırma konusunda size yol gösterir."
 
 #: ../../devel/integration.rst:13
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
 msgstr ""
+"Alternatif olarak, bütünleştirmeler olmadan tüm çevirileri içeren yerel bir "
+"depo kurmak için Weblate kullanabilirsiniz."
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -35476,6 +35576,12 @@ msgid ""
 "the :guilabel:`Repository maintenance`) or from the command-line using :ref:"
 "`wlc`."
 msgstr ""
+"Weblate üzerinden güncellenmiş dizgeleri almak için, temel alınan Git "
+"deposunu (dosya sisteminden ya da :ref:`git-exporter` ile kullanılabilir) "
+"getirmeniz yeterlidir. Bundan önce, bekleyen değişiklikleri göndermek "
+"isteyebilirsiniz (bilgi almak için: :ref:`lazy-commit`). Bunu kullanıcı "
+"arayüzünde (:guilabel:`Depo ‘bakımı` bölümünde) ya da komut satırında "
+":ref:`wlc` komutu ile yapabilirsiniz."
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -35483,12 +35589,17 @@ msgid ""
 "and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
 "changes`."
 msgstr ""
+"Weblate için deponuza itme erişimi verir ve :ref:`component` içinde :ref"
+":`component-push` değerini yapılandırırsanız bu işlem kendiliğinden "
+"yapılabilir. Bilgi almak için: :ref:`push-changes`."
 
 #: ../../devel/integration.rst:33
 msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
 msgstr ""
+"Alternatif olarak, çevirileri son sürümleriyle eşleşecek şekilde güncellemek "
+"için :doc:`/api` kullanabilirsiniz."
 
 #: ../../devel/integration.rst:38
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -35505,6 +35616,10 @@ msgid ""
 "interface (in the :guilabel:`Repository maintenance`), or from the command-"
 "line using :ref:`wlc`."
 msgstr ""
+"Deponuzda yeni güncellenen dizgeleri Weblate üzerine getirmek için, yukarı "
+"akış deposundan çekmesine izin vermeniz yeterlidir. Bu işlem, kullanıcı "
+"arayüzünde (:guilabel:`depo ‘bakımı` bölümünden) ya da komut satırından "
+":ref:`wlc` komutu ile yapılabilir."
 
 #: ../../devel/integration.rst:49
 msgid ""
@@ -35512,12 +35627,18 @@ msgid ""
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
+"Bu işlem, yeni bir gönderim olduğunda Weblate tetiklemesi için deponuzda bir "
+"internet kancası ayarlayarak kendiliğinden yapılabilir. Bilgi almak için: "
+":ref:`update-vcs`."
 
 #: ../../devel/integration.rst:52
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
 msgstr ""
+"Sürüm denetimi sistemi bütünleştirmesi kullanmıyorsanız, çevirileri kod "
+"tabanınızla eşleşecek şekilde güncellemek için kullanıcı arayüzü ya da "
+":doc:`/api` kullanabilirsiniz."
 
 #: ../../devel/integration.rst:57
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -35534,26 +35655,35 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
+"Çeviri dosyalarınızın kodla birlikte bir sürüm denetimi sisteminde bulunması "
+"durumunda, büyük olasılıkla geliştiricilerin yeni dizgeler eklemesi için "
+"kullanılan bir iş akışınız vardır. Dizge eklemenin herhangi bir yolu "
+"seçilir. Ancak hatalara neden olmamak için :ref:`source-quality-gateway` "
+"kullanmayı değerlendirin."
 
 #: ../../devel/integration.rst:70
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
 msgstr ""
+"Çeviri dosyaları koddan ayrı olduğunda, şu yöntemlerle Weblate üzerine yeni "
+"dizgeler eklenebilir."
 
 #: ../../devel/integration.rst:73
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the source language."
 msgstr ""
+"El ile, kaynak dildeki :guilabel:`Araçlar` menüsünden :guilabel:`Yeni çeviri "
+"dizgesi ekle` seçeneğini kullanarak."
 
 #: ../../devel/integration.rst:75
 msgid ""
 "Programmatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"Programlamada API kullanımı :http:post:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/units/`."
+"Programlamada API kullanarak :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:76
 msgid ""
@@ -35562,12 +35692,18 @@ msgid ""
 "both old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
+"Kaynak dosyayı :guilabel:`Var olan çeviri dosyasını değiştir` (var olan "
+"dizgelerin üzerine yazar, bu nedenle dosyada hem eski hem de yeni dizgelerin "
+"bulunduğundan emin olun) ya da :guilabel:`Yeni dizgeler ekle` seçeneği ile "
+"yükleyerek. Bilgi almak için: :ref:`upload-method`."
 
 #: ../../devel/integration.rst:82
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
+"Weblate üzerine dizge eklenebilmesi :ref:`component-manage_units` ögesine "
+"bağlıdır."
 
 #: ../../devel/integration.rst:87
 msgid "Updating target language files"
@@ -35582,6 +35718,12 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` add-on which will handle "
 "the cleanup according to your requirements."
 msgstr ""
+"Tek dilli dosyalar için (bilgi almak için: :ref:`format`) Weblate, gerçek "
+"çevirilerde değil, :ref:`component-template` içinde bulunmayan yeni çeviri "
+"dizgeleri ekleyebilir. Bununla birlikte, beklenmeyen sonuçları "
+"olabileceğinden, eski dizgeleri kendiliğinden temizlemez. Bunu yapmak "
+"istiyorsanız, lütfen gereksinimlerinize göre temizleme işlemini yapacak olan "
+":ref:`addon-weblate.cleanup.generic` eklentisini kurun."
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -35590,6 +35732,11 @@ msgid ""
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
+"Weblate ayrıca iki dilli dosyaları hiçbir şekilde güncellemeye çalışmaz. Bu "
+"nedenle :file:`pot` dosyaları ile güncellenen :file:`po` dosyaları "
+"kullanmanız gerekiyorsa, :guilabel:`Kaynak dizgeleri güncelle` :ref:`upload-"
+"method` ya da :ref:`addon-weblate.gettext.msgmerge` eklentisini kullanarak "
+"kendiniz yapmalısınız."
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -35611,6 +35758,9 @@ msgid ""
 "either connected to upstream one, or it can be only internal. The :guilabel:"
 "`Repository maintenance` lets you manipulate with the repository."
 msgstr ""
+"Weblate, tüm çevirileri sürüm denetimi deposunda tutar. Yukarı akışa "
+"bağlanabilir ya da yalnızca içeride olabilir. :guilabel:`Depo bakımı` "
+"bölümünden depoyla ilgili işlemleri yapabilirsiniz."
 
 #: ../../devel/integration.rst:120
 msgid ""
@@ -35618,6 +35768,8 @@ msgid ""
 "whenever there are changes and there is usually no need to manually "
 "manipulate with it."
 msgstr ""
+":doc:`/admin/continuous` ile depo, değişiklik olduğunda kendiliğinden "
+"gönderilir ve genellikle el ile işlem yapmak gerekmez."
 
 #: ../../devel/integration.rst:126
 msgid "Following operations are available:"
@@ -35657,6 +35809,9 @@ msgid ""
 "merge_style` when choosing :guilabel:`Update` or you can choose different "
 "one from the dropdown menu."
 msgstr ""
+"Weblate deposunu yukarı akış değişiklikleriyle günceller. "
+":guilabel:`Güncelle` seçeneğini belirlerken :ref:`component-merge_style` "
+"kullanabilir ya da açılır menüden başka birini seçebilirsiniz."
 
 #: ../../devel/integration.rst:143
 msgid ":guilabel:`Lock`"
@@ -35668,7 +35823,7 @@ msgstr "Kilitleme, çevirmenlerin değişiklikler yapmasını önler"
 
 #: ../../devel/integration.rst:147
 msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Bakım` bölümünden :guilabel:`Sıfırla`"
 
 #: ../../devel/integration.rst:149
 msgid ""
@@ -35676,26 +35831,33 @@ msgid ""
 "discard all translations done in Weblate and not present in the upstream "
 "repository."
 msgstr ""
+"Weblate üzerinde yapılan değişiklikleri yukarı akış deposuyla eşleşecek "
+"şekilde sıfırlar. Bu işlem, Weblate üzerinde yapılmış ve yukarı akış "
+"deposunda bulunmayan tüm çevirileri atar."
 
 #: ../../devel/integration.rst:153
 msgid ":guilabel:`Cleanup` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Bakım` bölümünden :guilabel:`Temizle`"
 
 #: ../../devel/integration.rst:155
 msgid ""
 "Removes untracked files from the repository. These could be result of "
 "misbehaving add-ons or bugs."
 msgstr ""
+"İzlenmeyen dosyaları depodan kaldırır. Bunlar, hatalı çalışan eklentilerden "
+"ya da hatalardan kaynaklanıyor olabilir."
 
 #: ../../devel/integration.rst:158
 msgid ":guilabel:`Force synchronization` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Bakım` bölümünden :guilabel:`Eşitlemeye zorla`"
 
 #: ../../devel/integration.rst:160
 msgid ""
 "Forces writing all strings to the translation files. Use this when "
 "repository files became out of sync with Weblate for some reason."
 msgstr ""
+"Tüm dizgeleri çeviri dosyalarına yazmaya zorlar. Depo dosyaları herhangi bir "
+"nedenle Weblate ile eşitlenmediğinde bunu kullanın."
 
 #: ../../devel/integration.rst:165
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -35712,6 +35874,10 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "any translation component, project or on the dashboard:"
 msgstr ""
+"Raporlama özellikleri, bir çevirinin belirli bir dönemde nasıl ilerlediği "
+"hakkında fikir verir. Herhangi bir bileşene zaman içinde yapılan katkıların "
+"özeti sunulur. Raporlama aracı, herhangi bir çeviri bileşeninin, projenin ya "
+"da panodaki :guilabel:`İçgörüler` menüsünde bulunur:"
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -35720,6 +35886,10 @@ msgid ""
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
+"Bu sayfada çeşitli raporlama araçları vardır ve hepsi HTML, reStructuredText "
+"ya da JSON olarak çıktı oluşturabilir. İlk iki biçim, istatistikleri var "
+"olan belgelere gömmek için uygundur. JSON ise verilerin dışarıda işlenmesi "
+"için kullanışlıdır."
 
 #: ../../devel/reporting.rst:19
 msgid "Translator credits"
@@ -35865,24 +36035,32 @@ msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
 msgstr ""
+"Etkinlik raporları, projeler, bileşenler ya da bireysel kullanıcılar için "
+"çeviri değişikliklerini denetler."
 
 #: ../../devel/review.rst:13
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
+"Bir proje ya da bileşenin etkinlik raporlarına panodaki :guilabel:`Bilgiler` "
+"sekmesinden erişilebilir."
 
 #: ../../devel/review.rst:18
 msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, selecting :"
 "guilabel:`Translation reports`."
 msgstr ""
+"Daha fazla rapora :guilabel:`İstatistikler` sekmesinden :guilabel:`Çeviri "
+"raporları` seçilerek erişilebilir."
 
 #: ../../devel/review.rst:21
 msgid ""
 "The activity of the currently signed in user can be seen by clicking on the "
 "user name from the user menu on the top right."
 msgstr ""
+"Oturum açmış olan kullanıcının etkinliği, sağ üstteki kullanıcı menüsünden "
+"kullanıcı adına tıklanarak görülebilir."
 
 #: ../../devel/review.rst:25
 msgid "Source strings checks"
@@ -35895,6 +36073,10 @@ msgid ""
 "easier to translate. All types of failing source checks are displayed on the "
 "source language of every component."
 msgstr ""
+"Birçok :ref:`checks` vardır. Bazıları kaynak dizgelerinin kalitesini "
+"artırmaya odaklanır. Başarısız olan birçok denetim, kaynak dizgelerin "
+"çevrilmesini kolaylaştırmak için bir ipucu önerir. Başarısız olan tüm kaynak "
+"denetimi türleri, her bileşenin kaynak dilinde görüntülenir."
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
@@ -35907,6 +36089,9 @@ msgid ""
 "of reporting it - a typical example is a missing full stop at the end of a "
 "sentence."
 msgstr ""
+"Hatalı olan çeviri dizgesi denetimleri, sorunun kaynak dizgede olduğunu "
+"gösterir. Çevirmenler bazen çevirideki hataları bildirmek yerine "
+"düzeltirler. Tipik bir örnek, bir cümlenin sonundaki eksik bir noktadır."
 
 #: ../../devel/review.rst:40
 msgid ""
@@ -35915,6 +36100,10 @@ msgid ""
 "creates a translation for the source language and shows you source level "
 "checks there:"
 msgstr ""
+"Başarısız olan tüm denetimleri gözden geçirmek, kaynak dizgelerini "
+"geliştirmek için değerli geri bildirimler sağlayabilir. Kaynak dizgelerinin "
+"gözden geçirilmesini kolaylaştırmak için, Weblate kendiliğinden kaynak dil "
+"için bir çeviri oluşturur ve kaynak düzeyi denetimlerini orada gösterir:"
 
 #: ../../devel/review.rst:47
 msgid ""
@@ -35923,10 +36112,14 @@ msgid ""
 "translations of a given string. Usually this is something to look for, as "
 "this is a string which translators have problems translating properly."
 msgstr ""
+"En ilginç denetimlerden biri :ref:`check-multiple-failures`, belirli bir "
+"dizgenin birden fazla çevirisinde hata olduğunda tetiklenir. Genellikle bu "
+"durum, çevirmenlerin düzgün çeviri yapmakta zorlandığı bir dizge olduğu için "
+"istenen bir şeydir."
 
 #: ../../devel/review.rst:52
 msgid "The detailed listing is a per language overview:"
-msgstr ""
+msgstr "Ayrıntılı liste, her dilin özetini görüntüler:"
 
 #: ../../devel/review.rst:59
 msgid "Receiving source string feedback"
@@ -35940,6 +36133,12 @@ msgid ""
 "list is usually the best approach.  This way you can keep an eye on when "
 "problems arise in translation, take care of them, and fix them quickly."
 msgstr ""
+"Çevirmenler hem çeviriler hem de kaynak dizgeler hakkında yorum yapabilir. "
+"Her :ref:`component` bu tür yorumları bir e-posta adresine alacak şekilde "
+"yapılandırılabilir (bilgi almak için: :ref:`component-report_source_bugs`) "
+"ve geliştiricilerin e-posta listesini kullanmak genellikle en iyi "
+"yaklaşımdır. Böylece, çeviride sorunlar ortaya çıktığında farkedebilir, "
+"ilgilenebilir ve hızlı bir şekilde düzeltebilirsiniz."
 
 #: ../../devel/review.rst:69
 msgid ":ref:`user-comments`"
@@ -35947,7 +36146,7 @@ msgstr ":ref:`user-comments`"
 
 #: ../../devel/share.rst:4
 msgid "Promoting the translation"
-msgstr ""
+msgstr "Çeviriyi tanıtmak"
 
 #: ../../devel/share.rst:6
 msgid ""
@@ -35957,6 +36156,12 @@ msgid ""
 "Additionally you can share information about translation using Facebook or "
 "Twitter. All these possibilities can be found on the :guilabel:`Share` tab:"
 msgstr ""
+"Weblate, çeviri projesini tanıtmak için sitenizde ya da diğer kaynaklarda "
+"paylaşabileceğiniz gereçler sağlar. Ayrıca, yeni katkıda bulunacakların "
+"çeviri hakkında temel bilgileri almaları için güzel bir karşılama sayfası "
+"sunar. Bunların yanında, Facebook ya da Twitter kullanarak çeviriyle ilgili "
+"bilgileri paylaşabilirsiniz. Tüm bu olasılıklar :guilabel:`Paylaş` "
+"sekmesinde bulunabilir:"
 
 #: ../../devel/share.rst:14
 msgid ""
@@ -35968,7 +36173,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:2
 msgid "Translating documentation using Sphinx"
-msgstr ""
+msgstr "Sphinx kullanarak belgeleri çevirmek"
 
 #: ../../devel/sphinx.rst:4
 msgid ""
@@ -35978,6 +36183,11 @@ msgid ""
 "useful companion for using Sphinx is the `Read the Docs`_ service, which "
 "will build and publish your documentation for free."
 msgstr ""
+"`Sphinx`_ güzel belgeler oluşturmakta kullanılan bir araçtır. Basit "
+"reStructuredText söz dizimini kullanır ve birçok biçimde çıktı "
+"oluşturabilir. Bir örnek arıyorsanız, bu belge de onunla oluşturulmuştur. "
+"Sphinx ile birlikte kullanılabilecek çok yararlı bir arkadaş, belgelerinizi "
+"ücretsiz olarak oluşturup yayınlayacak olan `Read the Docs`_ hizmetidir."
 
 #: ../../devel/sphinx.rst:10
 msgid ""
@@ -35988,6 +36198,12 @@ msgid ""
 "intl`.  It's matter of few configuration directives and invoking of the "
 "``sphinx-intl`` tool."
 msgstr ""
+"Belgeleri yazmaya odaklanmayacağım, bununla ilgili rehberliğe gerek "
+"duyuyorsanız, yalnızca `Sphinx`_ sitesindeki yönergeleri izleyin. Belgeler "
+"hazır olduğunda, Spihinx bunu desteklediğinden çevirisini yapmak oldukça "
+"kolaydır ve :ref:`sphinx:intl` bölümünde oldukça güzel bir şekilde ele "
+"alınmıştır. Bunun için, birkaç yapılandırma yönergesi ve \"sphinx-intl\" "
+"aracının çağrılması gereklidir."
 
 #: ../../devel/sphinx.rst:17
 msgid ""
@@ -35996,6 +36212,10 @@ msgid ""
 "pretty much everything you need - creating another project, set its language "
 "and link it from main project as a translation."
 msgstr ""
+"Read the Docs hizmetini kullanıyorsanız, Read the Docs sitesinde çevrilmiş "
+"belgeler oluşturmaya başlayabilirsiniz. :doc:`rtd:localization` gerek "
+"duyduğunuz hemen her şeyi kapsar. Başka bir proje oluşturabilir, dilini "
+"ayarlayabilir ve ana projeye çeviri olarak bağlayabilirsiniz."
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -36006,6 +36226,13 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` add-on "
 "to automatically discover all others."
 msgstr ""
+"Şimdi tek gereken belgelerin içeriğini çevirmeniz. Sphinx, her klasör ya da "
+"üst düzey dosya için bir PO dosyası oluşturur. Bu da çevrilmesi gereken "
+"oldukça fazla dosya olmasına yol açabilir (:confval:`sphinx:gettext_compact` "
+"ayarlarına bağlı olarak). :file:`index.po` dosyasını Weblate üzerine ilk "
+"bileşen olarak alabilir ve ardından :ref:`addon-weblate.discovery.discovery` "
+"eklentisini diğer tüm ögeleri kendiliğinden bulacak şekilde "
+"yapılandırabilirsiniz."
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -36046,12 +36273,16 @@ msgid ""
 "Would you prefer Sphinx to generate just single PO file? Since Sphinx 3.3.0 "
 "you can achieve this using:"
 msgstr ""
+"Sphinx tarafından yalnızca tek bir PO dosyasının oluşturmasını yeğler "
+"misiniz? Sphinx 3.3.0 sürümünden beri şöyle yapabilirsiniz:"
 
 #: ../../devel/sphinx.rst:62
 msgid ""
 "You can find several documentation projects being translated using this "
 "approach:"
 msgstr ""
+"Bu yaklaşım kullanılarak çevrilmekte olan birkaç belge projesi "
+"bulabilirsiniz:"
 
 #: ../../devel/sphinx.rst:64
 msgid ""
@@ -36073,7 +36304,7 @@ msgstr "`phpMyAdmin belgeleri <https://docs.phpmyadmin.net/>`_"
 
 #: ../../devel/starting.rst:4
 msgid "Starting with internationalization"
-msgstr ""
+msgstr "Yerelleştirmeye başlamak"
 
 #: ../../devel/starting.rst:6
 msgid ""
@@ -36081,6 +36312,9 @@ msgid ""
 "will help you do so. Several typical situations are showcased, but most of "
 "the examples are generic and can be applied to other scenarios as well."
 msgstr ""
+"Bir projeniz var ve onu birkaç dile çevirmek mi istiyorsunuz? Bu rehber bunu "
+"yapmanıza yardımcı olur. Birkaç tipik durum ele alınır, ancak örneklerin "
+"çoğu geneldir ve diğer senaryolara da uygulanabilir."
 
 #: ../../devel/starting.rst:11
 msgid ""
@@ -36091,6 +36325,12 @@ msgid ""
 "handle plural forms because many languages have complex rules for that and "
 "the internationalization framework you end up using should support this."
 msgstr ""
+"Herhangi bir yazılımı çevirmeden önce, dünyadaki dillerin gerçekten farklı "
+"olduğunu fark etmeli ve deneyimlerinize dayanarak herhangi bir varsayımda "
+"bulunmamalısınız. Çoğu dil için, bir cümleyi çevrilmiş bölümlerden "
+"birleştirmeye çalışırsanız garip görünür. Ayrıca çoğul biçimleri düzgün bir "
+"şekilde ele almalısınız. Birçok dilin çoğul biçimler için karmaşık kuralları "
+"vardır ve kullandığınız yerelleştirme çatısı bunu desteklemelidir."
 
 #: ../../devel/starting.rst:18
 msgid ""
@@ -36099,10 +36339,14 @@ msgid ""
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
+"Son olarak, bir çevirmenin çeviriyi yapabilmesi için bazen çevrilen dizgeye "
+"biraz bağlam eklemek gerekebilir. Çevirmenin İngilizce ``Sun`` dizgesini "
+"gördüğünü düşünün. Bağlam olmadan çoğu insan bunu Güneş olarak çevirir. "
+"Ancak aslında Pazar gününün kısaltması olabilir."
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
-msgstr ""
+msgstr "Yerelleştirme çatısının seçilmesi"
 
 #: ../../devel/starting.rst:26
 msgid ""
@@ -36111,6 +36355,11 @@ msgid ""
 "supports most of the widely used frameworks, see :ref:`formats` for more "
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
+"Platformunuzda standart olan çatıyı seçin. Yerelleştirmeleri işlemek için "
+"kendi çatınızı oluşturarak tekerleği yeniden icat etmekten kaçınmaya "
+"çalışın. Weblate, yaygın olarak kullanılan çatıların çoğunu destekler. Bilgi "
+"almak için :ref:`format` bölümüne bakabilirsiniz (özellikle "
+":ref:`fmt_capabs`)."
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -36118,6 +36367,10 @@ msgid ""
 "This is based on our experience, but that can not cover all use cases, so "
 "always consider your environment when doing the choice."
 msgstr ""
+"Bazı platformlar için kişisel önerimizi aşağıdaki tabloda görebilirsiniz. Bu "
+"öneriler, deneyimlerimize dayanmaktadır. Ancak bunlar tüm kullanım "
+"örneklerini kapsayamaz. Bu nedenle seçimi yaparken her zaman ortamınızı göz "
+"önünde bulundurun."
 
 #: ../../devel/starting.rst:36
 msgid "Platform"
@@ -36410,21 +36663,25 @@ msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
 msgstr ""
+"Değişkenler, çevirmenlerin dizgenin tüm değişkenlerini tek bir yerde "
+"görebilmeleri için birkaç dizgeyi gruplandırmaya yarar."
 
 #: ../../devel/translations.rst:71
 msgid ""
 "Abbreviations (shortened forms, contractions) are a good example of variants."
-msgstr ""
+msgstr "Kısaltmalar (kısaltılmış biçimler) değişkenlere iyi bir örnektir."
 
 #: ../../devel/translations.rst:74
 msgid "Automated key based variants"
-msgstr ""
+msgstr "Kendiliğinden oluşturulan anahtar tabanlı çeşitler"
 
 #: ../../devel/translations.rst:78
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
 msgstr ""
+"Dizgeleri kurallı ifade tanımlayarak, :ref:`component` içindeki tek dilli "
+"çevirilerin anahtarına göre gruplayabilirsiniz:"
 
 #: ../../devel/translations.rst:83
 msgid ""
@@ -36433,10 +36690,14 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
+":guilabel:`Anahtar` ifadeyle eşleşirse, çeşidin kök anahtarını oluşturmak "
+"için eşleşen kısım kaldırılır. Ardından, kök anahtarı aynı olan tüm "
+"dizgeler, kök anahtarla tam olarak eşleşen anahtarı olan dizge ile birlikte "
+"tek bir çeşit grubunun parçası olur."
 
 #: ../../devel/translations.rst:88
 msgid "The following table lists some usage examples:"
-msgstr ""
+msgstr "Aşağıdaki tabloda bazı kullanım örneklerini bulabilirsiniz:"
 
 #: ../../devel/translations.rst:91
 msgid "Regular expression variant"
