@@ -2306,10 +2306,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.invalidate_cache()
 
         # Schedule background cleanup if needed
-        if self.needs_cleanup:
-            from weblate.trans.tasks import cleanup_project
+        if self.needs_cleanup and not self.template:
+            from weblate.trans.tasks import cleanup_component
 
-            transaction.on_commit(lambda: cleanup_project.delay(self.project_id))
+            transaction.on_commit(lambda: cleanup_component.delay(self.id))
 
         # Send notifications on new string
         for translation in translations.values():

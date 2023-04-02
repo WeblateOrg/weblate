@@ -150,36 +150,40 @@ def commit_pending(hours=None, pks=None, logger=None):
 
 
 @app.task(trail=False)
-def cleanup_project(pk):
+def cleanup_component(pk):
     """
-    Perform cleanup of project models.
+    Perform cleanup of component models.
 
     - Remove stale source Unit objects.
     - Update variants.
     """
     try:
-        project = Project.objects.get(pk=pk)
-    except Project.DoesNotExist:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
         return
 
-    for component in project.component_set.filter(template="").iterator():
-        # Remove stale variants
-        with transaction.atomic():
-            component.update_variants()
+    # Skip monolingual components, these handle cleanups based on the template
+    if component.template:
+        return
 
-        translation = component.source_translation
-        # Skip translations with a filename (eg. when POT file is present)
-        if translation.filename:
-            continue
-        with transaction.atomic():
-            # Remove all units where there is just one referenced unit (self)
-            deleted, details = (
-                translation.unit_set.annotate(Count("unit"))
-                .filter(unit__count__lte=1)
-                .delete()
-            )
-            if deleted:
-                translation.log_info("removed leaf units: %s", details)
+    # Remove stale variants
+    with transaction.atomic():
+        component.update_variants()
+
+    translation = component.source_translation
+    # Skip translations with a filename (eg. when POT file is present)
+    if translation.filename:
+        return
+
+    # Remove all units where there is just one referenced unit (self)
+    with transaction.atomic():
+        deleted, details = (
+            translation.unit_set.annotate(Count("unit"))
+            .filter(unit__count__lte=1)
+            .delete()
+        )
+        if deleted:
+            translation.log_info("removed leaf units: %s", details)
 
 
 @app.task(trail=False)
