@@ -27,7 +27,11 @@ If you don’t need any complex setup, those are sufficient for you.
 Project access control
 ++++++++++++++++++++++
 
-.. include:: /snippets/not-hosted-libre.rst
+.. note::
+
+    Projects running the gratis Libre plan on Hosted Weblate are always
+    :guilabel:`Public`. You can switch to the paid plan if you want to restrict
+    access to your project.
 
 You can limit user’s access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
