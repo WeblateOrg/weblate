@@ -29,8 +29,8 @@ Project access control
 
 .. note::
 
-    Projects running the Libre plan on Hosted Weblate are always
-    :guilabel:`Public`. Please switch to the paid plan if you want to restrict
+    Projects running the gratis Libre plan on Hosted Weblate are always
+    :guilabel:`Public`. You can switch to the paid plan if you want to restrict
     access to your project.
 
 You can limit user’s access to individual projects by selecting a different
