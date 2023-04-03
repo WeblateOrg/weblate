@@ -9,7 +9,7 @@ from typing import Dict, Optional, Set
 from django.core.cache import cache
 from django.db import models
 from django.db.models import Count, Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
@@ -492,3 +492,44 @@ def create_metrics_translation(sender, instance, created=False, **kwargs):
 def create_metrics_user(sender, instance, created=False, **kwargs):
     if created:
         Metric.objects.initialize_metrics(scope=Metric.SCOPE_USER, relation=instance.pk)
+
+
+@receiver(post_delete, sender=Project)
+@disable_for_loaddata
+def delete_metrics_project(sender, instance, **kwargs):
+    Metric.objects.filter(
+        scope__in=(Metric.SCOPE_PROJECT_LANGUAGE, Metric.SCOPE_PROJECT),
+        relation=instance.pk,
+    ).delete()
+
+
+@receiver(post_delete, sender=Component)
+@disable_for_loaddata
+def delete_metrics_component(sender, instance, **kwargs):
+    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT, relation=instance.pk).delete()
+
+
+@receiver(post_delete, sender=ComponentList)
+@disable_for_loaddata
+def delete_metrics_component_list(sender, instance, **kwargs):
+    Metric.objects.filter(
+        scope=Metric.SCOPE_COMPONENT_LIST, relation=instance.pk
+    ).delete()
+
+
+@receiver(post_delete, sender=Translation)
+@disable_for_loaddata
+def delete_metrics_translation(sender, instance, **kwargs):
+    Metric.objects.filter(scope=Metric.SCOPE_TRANSLATION, relation=instance.pk).delete()
+
+
+@receiver(post_delete, sender=User)
+@disable_for_loaddata
+def delete_metrics_user(sender, instance, **kwargs):
+    Metric.objects.filter(scope=Metric.SCOPE_USER, relation=instance.pk).delete()
+
+
+@receiver(post_delete, sender=Language)
+@disable_for_loaddata
+def delete_metrics_language(sender, instance, **kwargs):
+    Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE, relation=instance.pk).delete()

@@ -47,30 +47,6 @@ def cleanup_metrics():
         )
     ).update(data=None)
 
-    # Remove metrics for deleted objects
-    projects = Project.objects.values_list("pk", flat=True)
-    Metric.objects.filter(scope=Metric.SCOPE_PROJECT).exclude(
-        relation__in=projects
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_PROJECT_LANGUAGE).exclude(
-        relation__in=projects
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT).exclude(
-        relation__in=Component.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_TRANSLATION).exclude(
-        relation__in=Translation.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_USER).exclude(
-        relation__in=User.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT_LIST).exclude(
-        relation__in=ComponentList.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE).exclude(
-        relation__in=Language.objects.values_list("pk", flat=True)
-    ).delete()
-
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
