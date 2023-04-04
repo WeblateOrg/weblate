@@ -299,7 +299,7 @@ class OpenDocumentFormat(ConvertFormat):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
-            if unit.xliff_state == "translated":
+            if any(state == "translated" for state in unit.get_xliff_states()):
                 unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:

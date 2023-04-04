@@ -606,31 +606,28 @@ class XliffUnit(TTKitUnit):
     is context in other formats.
     """
 
-    def _invalidate_target(self):
-        """Invalidate target cache."""
-        super()._invalidate_target()
-        if "xliff_node" in self.__dict__:
-            del self.__dict__["xliff_node"]
-
     @staticmethod
     def get_unit_node(unit, element: str = "target"):
         if unit is not None:
             return unit.xmlelement.find(unit.namespaced(element))
         return None
 
-    def get_xliff_node(self):
-        return self.get_unit_node(self.unit)
+    def get_xliff_units(self):
+        # Iterate over poxliff sub-units, or main unit
+        return getattr(self.unit, "units", [self.unit])
 
-    @cached_property
-    def xliff_node(self):
-        return self.get_xliff_node()
+    def get_xliff_nodes(self):
+        return (self.get_unit_node(unit) for unit in self.get_xliff_units())
 
-    @property
-    def xliff_state(self):
-        node = self.xliff_node
-        if node is None:
-            return None
-        return node.get("state", None)
+    def get_xliff_states(self):
+        result = []
+        for node in self.get_xliff_nodes():
+            if node is None:
+                continue
+            state = node.get("state", None)
+            if state is not None:
+                result.append(state)
+        return result
 
     @cached_property
     def context(self):
@@ -668,22 +665,29 @@ class XliffUnit(TTKitUnit):
 
         That's why we handle it on our own.
         """
-        return self.target and self.xliff_state in XLIFF_FUZZY_STATES
+        return self.target and any(
+            state in XLIFF_FUZZY_STATES for state in self.get_xliff_states()
+        )
 
     def set_state(self, state):
         """Set fuzzy /approved flag on translated unit."""
         self.unit.markapproved(state == STATE_APPROVED)
+        target_state = None
         if state == STATE_FUZZY:
             # Always set state for fuzzy
-            self.xliff_node.set("state", "needs-translation")
+            target_state = "needs-translation"
         elif state == STATE_TRANSLATED:
             # Always set state for translated
-            self.xliff_node.set("state", "translated")
+            target_state = "translated"
         elif state == STATE_APPROVED:
-            self.xliff_node.set("state", "final")
-        elif self.xliff_state:
+            target_state = "final"
+        elif self.get_xliff_states():
             # Only update state if it exists
-            self.xliff_node.set("state", "new")
+            target_state = "new"
+
+        if target_state:
+            for xliff_node in self.get_xliff_nodes():
+                xliff_node.set("state", target_state)
 
     def is_approved(self, fallback=False):
         """Check whether unit is approved."""
@@ -709,9 +713,9 @@ class XliffUnit(TTKitUnit):
     def untranslate(self, language):
         super().untranslate(language)
         # Delete empty <target/> tag
-        xmlnode = self.get_xliff_node()
-        if xmlnode is not None:
-            xmlnode.getparent().remove(xmlnode)
+        for xmlnode in self.get_xliff_nodes():
+            if xmlnode is not None:
+                xmlnode.getparent().remove(xmlnode)
 
     def set_target(self, target: Union[str, List[str]]):
         """Set translation unit target."""
@@ -798,9 +802,9 @@ class RichXliffUnit(XliffUnit):
         self._invalidate_target()
         # Delete the empty target element
         if not target:
-            xmlnode = self.get_xliff_node()
-            if xmlnode is not None:
-                xmlnode.getparent().remove(xmlnode)
+            for xmlnode in self.get_xliff_nodes():
+                if xmlnode is not None:
+                    xmlnode.getparent().remove(xmlnode)
             return
         try:
             converted = xliff_string_to_rich(target)
