@@ -11,6 +11,7 @@ Not yet released.
 * Improved Sentry performance integration.
 * Added support for Ed25519 SSH key.
 * Rewritten metrics storage.
+* Added support for searching strings by position.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 

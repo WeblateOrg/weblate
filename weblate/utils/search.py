@@ -55,6 +55,7 @@ NONTEXT_FIELDS = {
     "priority": "priority",
     "id": "id",
     "state": "state",
+    "position": "position",
     "pending": "pending",
     "changed": "change__timestamp",
     "change_time": "change__timestamp",
@@ -297,7 +298,15 @@ class TermExpr:
         return self.convert_bool(text)
 
     def convert_int(self, text):
+        if isinstance(text, RangeExpr):
+            return (
+                self.convert_int(text.start),
+                self.convert_int(text.end),
+            )
         return int(text)
+
+    def convert_position(self, text):
+        return self.convert_int(text)
 
     def convert_priority(self, text):
         return self.convert_int(text)

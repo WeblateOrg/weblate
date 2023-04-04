@@ -220,6 +220,11 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
 
+    def test_position(self):
+        self.assert_query("position:>=1", Q(position__gte=1))
+        self.assert_query("position:<10", Q(position__lt=10))
+        self.assert_query("position:[1 to 10]", Q(position__range=(1, 10)))
+
     def test_invalid_state(self):
         with self.assertRaises(ValueError):
             self.assert_query("state:invalid", Q())

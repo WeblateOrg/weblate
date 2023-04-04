@@ -39,6 +39,8 @@ Fields
    String priority.
 ``id:NUMBER``
    String unique identifier.
+``position:NUMBER``
+   String position in the translation file.
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
@@ -109,6 +111,8 @@ You can specify operators, ranges or partial lookups for date or numeric searche
    Changed in year 2019.
 ``changed:[2019-03-01 to 2019-04-01]``
    Changed between two given dates.
+``position:[10 to 100]``
+   Strings with position between 10 and 100 (inclusive).
 
 Exact operators
 ---------------
