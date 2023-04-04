@@ -354,7 +354,6 @@ def component_progress(request, project, component):
 
 
 class BackupsMixin:
-    @method_decorator(login_required)
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.obj = get_project(request, kwargs["project"])
@@ -362,6 +361,7 @@ class BackupsMixin:
             raise PermissionDenied
 
 
+@method_decorator(login_required, name="dispatch")
 class BackupsView(BackupsMixin, TemplateView):
     template_name = "trans/backups.html"
 
@@ -379,6 +379,7 @@ class BackupsView(BackupsMixin, TemplateView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class BackupsDownloadView(BackupsMixin, View):
     def get(self, request, *args, **kwargs):
         for backup in self.obj.list_backups():
