@@ -95,20 +95,6 @@ class Command(BaseCommand):
 
             try:
                 component = Component.objects.get(slug=item["slug"], project=project)
-                self.stderr.write(f"Component {component} already exists")
-                if options["ignore"]:
-                    continue
-                if options["update"]:
-                    for key in item:
-                        if key not in allfields or key == "slug":
-                            continue
-                        setattr(component, key, item[key])
-                    component.save()
-                    continue
-                raise CommandError(
-                    "Component already exists, use --ignore or --update!"
-                )
-
             except Component.DoesNotExist:
                 params = {key: item[key] for key in allfields if key in item}
                 component = Component(project=project, **params)
@@ -125,4 +111,18 @@ class Command(BaseCommand):
                     "Imported {} with {} translations".format(
                         component, component.translation_set.count()
                     )
+                )
+            else:
+                self.stderr.write(f"Component {component} already exists")
+                if options["ignore"]:
+                    continue
+                if options["update"]:
+                    for key in item:
+                        if key not in allfields or key == "slug":
+                            continue
+                        setattr(component, key, item[key])
+                    component.save()
+                    continue
+                raise CommandError(
+                    "Component already exists, use --ignore or --update!"
                 )

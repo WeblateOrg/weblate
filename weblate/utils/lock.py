@@ -66,12 +66,14 @@ class WeblateLock:
         with sentry_sdk.start_span(op="lock.wait", description=self._name):
             if self.use_redis:
                 try:
-                    if not self._lock.acquire(timeout=self._timeout):
+                    lock_result = self._lock.acquire(timeout=self._timeout)
+                except AlreadyAcquired:
+                    pass
+                else:
+                    if not lock_result:
                         raise WeblateLockTimeout(
                             f"Lock could not be acquired in {self._timeout}s"
                         )
-                except AlreadyAcquired:
-                    pass
             else:
                 # Fall back to file based locking
                 try:

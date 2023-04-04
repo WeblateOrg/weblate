@@ -1135,6 +1135,13 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 check=True,
                 text=True,
             )
+        except OSError as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(" ".join(cmd), error) from error
+        except subprocess.CalledProcessError as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(" ".join(cmd), error.output + error.stderr) from error
+        else:
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)
             errors = []
@@ -1147,12 +1154,6 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 errors.append(line)
             if errors:
                 raise UpdateError(" ".join(cmd), "\n".join(errors))
-        except OSError as error:
-            report_error(cause="Failed msgmerge")
-            raise UpdateError(" ".join(cmd), error)
-        except subprocess.CalledProcessError as error:
-            report_error(cause="Failed msgmerge")
-            raise UpdateError(" ".join(cmd), error.output + error.stderr)
 
     def add_unit(self, ttkit_unit):
         self.store.require_index()

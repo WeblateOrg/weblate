@@ -1238,11 +1238,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 header = store.store.parseheader()
                 try:
                     number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
-                    if not self.plural.same_plural(number, formula):
-                        raise PluralFormsMismatch
                 except (ValueError, KeyError):
                     # Formula wrong or missing
                     pass
+                else:
+                    if not self.plural.same_plural(number, formula):
+                        raise PluralFormsMismatch
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level

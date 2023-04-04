@@ -2430,6 +2430,16 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         if self.is_repo_link:
             try:
                 repo = Component.objects.get_linked(self.repo)
+            except (Component.DoesNotExist, ValueError):
+                raise ValidationError(
+                    {
+                        "repo": _(
+                            "Invalid link to a Weblate project, "
+                            "use weblate://project/component."
+                        )
+                    }
+                )
+            else:
                 if repo is not None and repo.is_repo_link:
                     raise ValidationError(
                         {
@@ -2448,15 +2458,6 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                             )
                         }
                     )
-            except (Component.DoesNotExist, ValueError):
-                raise ValidationError(
-                    {
-                        "repo": _(
-                            "Invalid link to a Weblate project, "
-                            "use weblate://project/component."
-                        )
-                    }
-                )
             # Push repo is not used with link
             for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):

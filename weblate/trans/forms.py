@@ -823,20 +823,21 @@ class MergeForm(UnitForm):
         super().clean()
         if "merge" not in self.cleaned_data:
             return None
+        unit = self.unit
+        translation = unit.translation
+        project = translation.component.project
         try:
-            unit = self.unit
-            translation = unit.translation
-            project = translation.component.project
             self.cleaned_data["merge_unit"] = merge_unit = Unit.objects.get(
                 pk=self.cleaned_data["merge"],
                 translation__component__project=project,
                 translation__language=translation.language,
             )
+        except Unit.DoesNotExist:
+            raise ValidationError(_("Could not find the merged string."))
+        else:
             # Compare in Python to ensure case sensitiveness on MySQL
             if not translation.is_source and unit.source != merge_unit.source:
                 raise ValidationError(_("Could not find merged string."))
-        except Unit.DoesNotExist:
-            raise ValidationError(_("Could not find the merged string."))
         return self.cleaned_data
 
 
