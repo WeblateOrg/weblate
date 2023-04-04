@@ -31,7 +31,7 @@ def block_role_edit(obj):
 class AutoGroupChangeForm(forms.ModelForm):
     class Meta:
         model = AutoGroup
-        fields = "__all__"
+        fields = "__all__"  # noqa: DJ007
 
     def has_changed(self):
         """
@@ -81,7 +81,7 @@ class RoleAdmin(WeblateModelAdmin):
 class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = "__all__"  # noqa: DJ007
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
@@ -192,7 +192,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 class GroupChangeForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = "__all__"
+        fields = "__all__"  # noqa: DJ007
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
