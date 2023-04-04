@@ -340,10 +340,12 @@ class Unit(models.Model, LoggerMixin):
 
     def __str__(self):
         if self.translation.is_template:
-            return self.context
-        if self.context:
-            return f"[{self.context}] {self.source}"
-        return self.source
+            name = self.context
+        elif self.context:
+            name = f"[{self.context}] {self.source}"
+        else:
+            name = self.source
+        return f"{self.pk}: {name}"
 
     def save(
         self,
