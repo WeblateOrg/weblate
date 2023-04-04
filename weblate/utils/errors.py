@@ -92,7 +92,11 @@ def init_error_collection(celery=False):
     if settings.SENTRY_DSN:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
-            integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
+            integrations=[
+                CeleryIntegration(monitor_beat_tasks=True),
+                DjangoIntegration(),
+                RedisIntegration(),
+            ],
             send_default_pii=settings.SENTRY_SEND_PII,
             release=weblate.utils.version.GIT_REVISION
             or weblate.utils.version.TAG_NAME,
