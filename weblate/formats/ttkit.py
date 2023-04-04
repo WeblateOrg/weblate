@@ -260,7 +260,6 @@ class TTKitFormat(TranslationFormat):
             store.settargetlanguage(self.language_code)
         if self.source_language is not None:
             store.setsourcelanguage(self.source_language)
-        return
 
     def load(self, storefile, template_store):
         """Load file using defined loader."""
