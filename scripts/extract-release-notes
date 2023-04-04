@@ -7,7 +7,7 @@
 import sys
 
 if len(sys.argv) != 2:
-    raise Exception("Missing argument")
+    raise ValueError("Missing argument")
 
 start = f"Weblate {sys.argv[1]}\n"
 display = False

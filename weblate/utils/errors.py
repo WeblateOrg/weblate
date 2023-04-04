@@ -34,6 +34,7 @@ def report_error(
     print_tb: bool = False,
     extra_log: str = None,
     project=None,
+    message: bool = False,
 ):
     """
     Wrapper for error reporting.
@@ -41,6 +42,7 @@ def report_error(
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.
     """
+    __traceback_hide__ = True  # noqa: F841
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.report_exc_info(level=level)
 
@@ -51,7 +53,10 @@ def report_error(
                 scope.set_tag("project", project.slug)
             scope.set_tag("user.locale", get_language())
             scope.level = level
-            sentry_sdk.capture_exception()
+            if message:
+                sentry_sdk.capture_message(cause)
+            else:
+                sentry_sdk.capture_exception()
 
     log = getattr(LOGGER, level)
 
@@ -93,6 +98,7 @@ def init_error_collection(celery=False):
             or weblate.utils.version.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
             traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+            attach_stacktrace=True,
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those are reported using capture_exception

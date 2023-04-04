@@ -192,7 +192,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def upload_file(self, element, filename):
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
-            raise Exception(f"Test file not found: {filename}")
+            raise ValueError(f"Test file not found: {filename}")
         element.send_keys(filename)
 
     def clear_field(self, element):

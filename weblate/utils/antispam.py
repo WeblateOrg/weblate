@@ -45,12 +45,7 @@ def is_spam(text, request):
             report_error()
             return True
         if result:
-            try:
-                raise Exception(
-                    f"Akismet reported spam: {user_ip} / {user_agent} / {text!r}"
-                )
-            except Exception:
-                report_error(cause="Akismet reported spam")
+            report_error(cause="Akismet reported spam", level="info", message=True)
         return result == SpamStatus.DefiniteSpam
     return False
 

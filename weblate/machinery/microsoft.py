@@ -108,7 +108,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         # We should get an object, string usually means an error
         if isinstance(payload, str):
-            raise Exception(payload)
+            raise ValueError(payload)
 
         return payload["translation"].keys()
 

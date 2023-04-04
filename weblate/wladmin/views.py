@@ -120,12 +120,11 @@ def tools(request):
                 except Exception as error:
                     report_error()
                     messages.error(request, _("Could not send test e-mail: %s") % error)
+                return redirect("manage-tools")
 
         if "sentry" in request.POST:
-            try:
-                raise Exception("Test exception")
-            except Exception:
-                report_error()
+            report_error(cause="Test message", message=True, level="info")
+            return redirect("manage-tools")
 
         if "message" in request.POST:
             announce_form = AnnouncementForm(request.POST)
