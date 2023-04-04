@@ -124,7 +124,7 @@ class ConvertFormat(TranslationFormat):
     def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
+            storefile = open(storefile, "rb")  # noqa: SIM115
         # Adjust store to have translations
         store = self.convertfile(storefile, template_store)
         if self.needs_target_sync(template_store):

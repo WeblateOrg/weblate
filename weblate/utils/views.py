@@ -337,7 +337,7 @@ def download_translation_file(
                 raise Http404("File not found")
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"),
+                open(filenames[0], "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:

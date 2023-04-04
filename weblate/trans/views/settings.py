@@ -385,7 +385,7 @@ class BackupsDownloadView(BackupsMixin, View):
         for backup in self.obj.list_backups():
             if backup["name"] == kwargs["backup"]:
                 return FileResponse(
-                    open(backup["path"], "rb"),
+                    open(backup["path"], "rb"),  # noqa: SIM115
                     as_attachment=True,
                     filename=backup["name"],
                 )
