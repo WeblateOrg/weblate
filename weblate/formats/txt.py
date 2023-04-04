@@ -71,7 +71,7 @@ class MultiParser:
 
     def __init__(self, storefile):
         if not isinstance(storefile, str):
-            raise ValueError("Needs string as a storefile!")
+            raise TypeError("Needs string as a storefile!")
 
         self.base = storefile
         self.parsers = self.load_parser()

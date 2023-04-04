@@ -106,7 +106,7 @@ def check_can_edit(user, permission, obj, is_vote=False):
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
     else:
-        raise ValueError(f"Unknown object for permission check: {obj.__class__}")
+        raise TypeError(f"Unknown object for permission check: {obj.__class__}")
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
