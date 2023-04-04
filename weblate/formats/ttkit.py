@@ -382,12 +382,8 @@ class TTKitFormat(TranslationFormat):
         # Process source
         if isinstance(source, list):
             context = source[0]
-            if len(source) == 1:
-                # Single string passed plain
-                source = context
-            else:
-                # List passed as multistirng
-                source = multistring(source)
+            # Single string passed plain or multistring
+            source = context if len(source) == 1 else multistring(source)
         else:
             # This is string
             context = source
@@ -1065,11 +1061,9 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     @classmethod
     def get_plural(cls, language, store=None):
         """Return matching plural object."""
-        if store:
-            header = store.store.parseheader()
-        else:
-            # This will trigger KeyError later
-            header = {}
+        # Fallback will trigger KeyError later
+        header = store.store.parseheader() if store else {}
+
         try:
             number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):

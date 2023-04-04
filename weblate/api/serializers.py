@@ -1233,12 +1233,8 @@ class AddonSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"name": "Can not change add-on name"}
                 )
-        if instance:
-            # Update
-            component = instance.component
-        else:
-            # Create
-            component = self._context["component"]
+        # Update or create
+        component = instance.component if instance else self._context["component"]
 
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:
