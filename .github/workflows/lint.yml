@@ -35,8 +35,6 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
-        pip install ruff # TODO: remove
         pip install -r requirements-lint.txt
     - name: Run ruff
-      # TODO: replace with pre-commit
-      run: ruff check weblate docs/ setup.py scripts/extract-release-notes scripts/generate-license-data scripts/generate-non-word-chars scripts/generate-specialchars scripts/set-version
+      run: pre-commit run ruff --all-files

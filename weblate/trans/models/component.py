@@ -1767,7 +1767,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         # Validate template is valid
         if self.has_template():
             try:
-                self.template_store
+                self.template_store  # noqa: B018
             except FileParseError as error:
                 report_error(
                     cause="Failed to parse template file on commit",

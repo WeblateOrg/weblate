@@ -315,7 +315,7 @@ def download_translation_file(
             units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
-            "{{project}}-{0}-{{language}}.{{extension}}".format(
+            "{{project}}-{}-{{language}}.{{extension}}".format(
                 translation.component.slug
             )
         )
