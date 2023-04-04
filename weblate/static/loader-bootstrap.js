@@ -987,7 +987,9 @@ $(function () {
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
   $("#position-input").on("click", function () {
+    var $form = $(this).closest("form");
     $("#position-input").hide();
+    $form.find("input[name=offset]").prop("disabled", false);
     $("#position-input-editable").show();
     $("#position-input-editable-input").attr("type", "number").focus();
     document.addEventListener("click", clickedOutsideEditableInput);
@@ -1040,7 +1042,7 @@ $(function () {
       $group.find("input[name=q]").val($this.data("field"));
       if ($this.closest(".result-page-form").length) {
         var $form = $this.closest("form");
-        $form.find("input[name=offset]").val("1");
+        $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
       }
     }
@@ -1074,7 +1076,7 @@ $(function () {
     });
   $("#id_q").on("change", function (event) {
     var $form = $(this).closest("form");
-    $form.find("input[name=offset]").val("1");
+    $form.find("input[name=offset]").prop("disabled", true);
   });
   $(".search-add").click(function () {
     var group = $(this).closest(".search-group");
