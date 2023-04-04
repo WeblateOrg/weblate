@@ -8,7 +8,7 @@ from typing import Dict
 from django.conf import settings
 from django.utils import timezone
 
-from .base import MachineTranslation
+from .base import MachineTranslation, MachineTranslationError
 from .forms import MicrosoftMachineryForm
 
 TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
@@ -108,7 +108,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         # We should get an object, string usually means an error
         if isinstance(payload, str):
-            raise ValueError(payload)
+            raise MachineTranslationError(payload)
 
         return payload["translation"].keys()
 
