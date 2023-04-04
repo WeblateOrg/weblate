@@ -16,17 +16,62 @@ profile = "black"
 
 [tool.ruff]
 format = "github"
-# Should be fixed:
-# D10 - we are missing many docstrings
-# D401 - many strings need rephrasing
-# TRY200, B904, PLR0913, PLR0915, PLR0912
-# E501 - probably not needed with black?
-# PLW2901 - overwriting variables inside loop
-# Wontfix:
-# TRY003, PLR2004, RUF001, RUF002, RUF003
-# A001,A002,A003 - the names are mostlu coming from outside APIs
-ignore = ["D10", "D401", "TRY003", "PLR2004", "RUF001", "RUF002", "RUF003", "TRY200", "B904", "PLR0913", "PLR0915", "E501", "PLR0912", "PLR0911", "D212", "D203", "PLW2901"]
-select = ["E", "F", "B", "T10", "A", "C4", "C90", "YTT", "DJ", "UP", "D", "PD", "PGH", "PL", "TRY", "RUF", "ERA", "ICN", "ISC", "EXE", "INP", "PIE", "G", "PYI", "Q", "SIM", "TID", "RSE", "T20", "RET", "SLF", "N"]
+ignore = [
+  "D10",  # TODO: we are missing many docstrings
+  "D203",  # CONFIG: incompatible with D211
+  "D212",  # CONFIG: incompatible with D213
+  "D401",  # TODO: many strings need rephrasing
+  "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
+  "TRY200",  # TODO: Use `raise from` to specify exception cause
+  "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+  "PLR0911",  # WONTFIX: Too many return statements
+  "PLR0912",  # WONTFIX: Too many branches
+  "PLR0913",  # WONTFIX: Too many arguments to function call
+  "PLR0915",  # WONTFIX: Too many statements
+  "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
+  "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
+  "RUF100",  # TODO: unused noqa, compatibility with flake8, can be dropped once we stop using it
+  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
+  "PLW2901",  # TODO: overwriting variables inside loop
+  "N818",  # TODO: exception naming
+  "A001",  # TODO: overriding builtins (might need noqa tags)
+  "A002",  # TODO: overriding builtins (might need noqa tags)
+  "A003"  # TODO: overriding builtins (might need noqa tags)
+]
+select = [
+  "E",
+  "F",
+  "B",
+  "T10",
+  "A",
+  "C4",
+  "C90",
+  "YTT",
+  "DJ",
+  "UP",
+  "D",
+  "PD",
+  "PGH",
+  "PL",
+  "TRY",
+  "RUF",
+  "ERA",
+  "ICN",
+  "ISC",
+  "EXE",
+  "INP",
+  "PIE",
+  "G",
+  "PYI",
+  "Q",
+  "SIM",
+  "TID",
+  "RSE",
+  "T20",
+  "RET",
+  "SLF",
+  "N"
+]
 target-version = "py37"
 
 [tool.ruff.mccabe]
