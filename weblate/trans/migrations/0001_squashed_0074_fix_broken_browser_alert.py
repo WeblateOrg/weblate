@@ -6,6 +6,7 @@
 
 import django.db.models.deletion
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.db import migrations, models
 
 import weblate.lang.models
@@ -54,7 +55,7 @@ def create_index(apps, schema_editor):
             "CREATE INDEX unit_context_index ON trans_unit(context(255))"
         )
     else:
-        raise Exception(f"Unsupported database: {vendor}")
+        raise ImproperlyConfigured(f"Unsupported database: {vendor}")
 
 
 def drop_index(apps, schema_editor):
@@ -68,7 +69,7 @@ def drop_index(apps, schema_editor):
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_index")
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_index")
     else:
-        raise Exception(f"Unsupported database: {vendor}")
+        raise ImproperlyConfigured(f"Unsupported database: {vendor}")
 
 
 class Migration(migrations.Migration):
