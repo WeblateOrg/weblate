@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models
@@ -219,7 +220,8 @@ def pre_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
         component.log_debug("running pre_push add-on: %s", addon.name)
         try:
-            addon.addon.pre_push(component)
+            with sentry_sdk.start_span(op="addon.pre_push", description=addon.name):
+                addon.addon.pre_push(component)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -233,7 +235,8 @@ def post_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
         component.log_debug("running post_push add-on: %s", addon.name)
         try:
-            addon.addon.post_push(component)
+            with sentry_sdk.start_span(op="addon.post_push", description=addon.name):
+                addon.addon.post_push(component)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -256,7 +259,8 @@ def post_update(
             continue
         component.log_debug("running post_update add-on: %s", addon.name)
         try:
-            addon.addon.post_update(component, previous_head, skip_push)
+            with sentry_sdk.start_span(op="addon.post_update", description=addon.name):
+                addon.addon.post_update(component, previous_head, skip_push)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -270,7 +274,10 @@ def component_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
         component.log_debug("running component_update add-on: %s", addon.name)
         try:
-            addon.addon.component_update(component)
+            with sentry_sdk.start_span(
+                op="addon.component_update", description=addon.name
+            ):
+                addon.addon.component_update(component)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -284,7 +291,8 @@ def pre_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
         component.log_debug("running pre_update add-on: %s", addon.name)
         try:
-            addon.addon.pre_update(component)
+            with sentry_sdk.start_span(op="addon.pre_update", description=addon.name):
+                addon.addon.pre_update(component)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -299,7 +307,8 @@ def pre_commit(sender, translation, author, **kwargs):
     for addon in addons:
         translation.log_debug("running pre_commit add-on: %s", addon.name)
         try:
-            addon.addon.pre_commit(translation, author)
+            with sentry_sdk.start_span(op="addon.pre_commit", description=addon.name):
+                addon.addon.pre_commit(translation, author)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -314,7 +323,8 @@ def post_commit(sender, component, **kwargs):
     for addon in addons:
         component.log_debug("running post_commit add-on: %s", addon.name)
         try:
-            addon.addon.post_commit(component)
+            with sentry_sdk.start_span(op="addon.post_commit", description=addon.name):
+                addon.addon.post_commit(component)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -329,7 +339,8 @@ def post_add(sender, translation, **kwargs):
     for addon in addons:
         translation.log_debug("running post_add add-on: %s", addon.name)
         try:
-            addon.addon.post_add(translation)
+            with sentry_sdk.start_span(op="addon.post_add", description=addon.name):
+                addon.addon.post_add(translation)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -345,7 +356,10 @@ def unit_pre_create_handler(sender, unit, **kwargs):
     for addon in addons:
         translation.log_debug("running unit_pre_create add-on: %s", addon.name)
         try:
-            addon.addon.unit_pre_create(unit)
+            with sentry_sdk.start_span(
+                op="addon.unit_pre_create", description=addon.name
+            ):
+                addon.addon.unit_pre_create(unit)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -362,7 +376,10 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
     for addon in addons:
         translation.log_debug("running unit_post_save add-on: %s", addon.name)
         try:
-            addon.addon.unit_post_save(instance, created)
+            with sentry_sdk.start_span(
+                op="addon.unit_post_save", description=addon.name
+            ):
+                addon.addon.unit_post_save(instance, created)
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -377,7 +394,10 @@ def store_post_load_handler(sender, translation, store, **kwargs):
     for addon in addons:
         translation.log_debug("running store_post_load add-on: %s", addon.name)
         try:
-            addon.addon.store_post_load(translation, store)
+            with sentry_sdk.start_span(
+                op="addon.store_post_load", description=addon.name
+            ):
+                addon.addon.store_post_load(translation, store)
         except DjangoDatabaseError:
             raise
         except Exception:
