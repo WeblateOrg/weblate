@@ -64,6 +64,8 @@ from weblate.utils.views import (
     show_form_errors,
 )
 
+SESSION_SEARCH_CACHE_TTL = 1800
+
 
 def parse_params(request, project, component, lang):
     """Parses base object and unit set from request."""
@@ -210,12 +212,7 @@ def cleanup_session(session, delete_all: bool = False):
         if not key.startswith("search_"):
             continue
         value = session[key]
-        if (
-            delete_all
-            or not isinstance(value, dict)
-            or value["ttl"] < now
-            or "items" not in value
-        ):
+        if delete_all or not isinstance(value, dict) or value["ttl"] < now:
             del session[key]
 
 
@@ -223,6 +220,7 @@ def search(
     base, project, unit_set, request, blank: bool = False, use_cache: bool = True
 ):
     """Perform search or returns cached search results."""
+    now = int(time.monotonic())
     # Possible new search
     form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
 
@@ -248,13 +246,13 @@ def search(
     }
     session_key = f"search_{base.cache_key}_{search_url}"
 
-    if (
-        use_cache
-        and session_key in request.session
-        and "offset" in request.GET
-        and "items" in request.session[session_key]
-    ):
+    # Remove old search results
+    cleanup_session(request.session)
+
+    session_data = request.session.get(session_key)
+    if use_cache and session_data and "offset" in request.GET:
         search_result.update(request.session[session_key])
+        request.session[session_key]["ttl"] = now + SESSION_SEARCH_CACHE_TTL
         return search_result
 
     allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
@@ -269,9 +267,6 @@ def search(
         messages.warning(request, _("No strings found!"))
         return redirect(base)
 
-    # Remove old search results
-    cleanup_session(request.session)
-
     store_result = {
         "query": search_query,
         "url": search_url,
@@ -279,7 +274,7 @@ def search(
         "key": session_key,
         "name": str(name),
         "ids": unit_ids,
-        "ttl": int(time.monotonic()) + 86400,
+        "ttl": now + SESSION_SEARCH_CACHE_TTL,
     }
     if use_cache:
         request.session[session_key] = store_result
