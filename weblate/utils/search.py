@@ -439,12 +439,7 @@ class TermExpr:
             start, end = match
             # Ranges
             if self.operator in (":", ":="):
-                query = Q(
-                    **{
-                        self.field_name(field, "gte"): start,
-                        self.field_name(field, "lte"): end,
-                    }
-                )
+                query = Q(**{self.field_name(field, "range"): (start, end)})
             elif self.operator in (":>", ":>="):
                 query = Q(**{self.field_name(field, "gte"): start})
             else:
