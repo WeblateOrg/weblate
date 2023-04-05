@@ -151,25 +151,6 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
         return f"{lhs} ILIKE {rhs}", params
 
 
-class PostgreSQLILikeLookup(PostgreSQLSubstringLookup):
-    """
-    Case insensitive string lookup.
-
-    This is essentially same as iexact in Django, but utilizes ILIKE
-    operator which can use pg_trgm index.
-    """
-
-    lookup_name = "ilike"
-    param_pattern = "%s"
-
-    def as_sql(self, compiler, connection):
-        if self.needs_fallback():
-            return PostgreExactFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
-                compiler, connection
-            )
-        return super().as_sql(compiler, connection)
-
-
 def re_escape(pattern):
     """
     Escape for use in database regexp match.
