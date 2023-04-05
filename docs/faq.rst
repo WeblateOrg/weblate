@@ -570,4 +570,4 @@ current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 
    :ref:`languages`,
    :ref:`component-language_code_style`,
-   :ref:`new-translations`
+   :ref:`adding-translation`
