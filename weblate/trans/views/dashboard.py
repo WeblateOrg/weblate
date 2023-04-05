@@ -293,8 +293,8 @@ def dashboard_anonymous(request):
         "dashboard/anonymous.html",
         {
             "top_projects": prefetch_stats(prefetch_project_flags(top_projects)),
-            "all_projects": Metric.objects.fetch_metric(None, Metric.SCOPE_GLOBAL, 0)[
-                "projects"
-            ],
+            "all_projects": Metric.objects.get_current_metric(
+                None, Metric.SCOPE_GLOBAL, 0
+            )["projects"],
         },
     )

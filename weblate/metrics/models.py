@@ -92,27 +92,27 @@ class MetricQuerySet(models.QuerySet):
         kwargs = self.get_kwargs(scope, relation, secondary)
         return self.filter(**kwargs)
 
-    def fetch_metric(
-        self, obj, scope: int, relation: int, secondary: int = 0, delta: int = 0
+    def get_current_metric(
+        self, obj, scope: int, relation: int, secondary: int = 0
     ) -> "Metric":
-        first_day = datetime.date.today() - datetime.timedelta(days=delta)
-        second_day = first_day - datetime.timedelta(days=1)
+        today = datetime.date.today()
+        yesterday = today - datetime.timedelta(days=1)
 
         base = self.filter_metric(scope, relation, secondary)
 
         # Get metrics
         try:
-            metric = base.get(date=first_day)
+            metric = base.get(date=today)
         except Metric.DoesNotExist:
             # Fallback to day before in case they are not yet calculated
             try:
-                metric = base.get(date=second_day)
+                metric = base.get(date=yesterday)
             except Metric.DoesNotExist:
                 metric = Metric()
 
         # Trigger collection in case no data is present or when only
         # changes are counted - when there is a single key.
-        if delta == 0 and (metric is None or metric.data is None):
+        if metric.data is None:
             metric = Metric.objects.collect_auto(obj)
 
         return metric

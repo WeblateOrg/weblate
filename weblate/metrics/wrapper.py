@@ -34,24 +34,42 @@ class MetricsWrapper:
         self.scope = scope
         self.relation = relation
         self.secondary = secondary
+        self._data = None
+
+    def _ensure_data(self):
+        if self._data is None:
+            metrics = Metric.objects.filter_metric(
+                self.scope, self.relation, self.secondary
+            )
+            today = date.today()
+            dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
+            metrics = metrics.filter(date__in=dates)
+
+            current = past_30 = past_60 = None
+            for metric in metrics:
+                if metric.date in dates[0:2] and current is None:
+                    current = metric
+                if metric.date in dates[2:4] and past_30 is None:
+                    past_30 = metric
+                if metric.date in dates[4:6] and past_60 is None:
+                    past_30 = metric
+
+            self._data = (current or Metric(), past_30 or Metric(), past_60 or Metric())
 
     @cached_property
     def current(self):
-        return Metric.objects.fetch_metric(
-            self.obj, self.scope, self.relation, self.secondary
-        )
+        self._ensure_data()
+        return self._data[0]
 
     @cached_property
     def past_30(self):
-        return Metric.objects.fetch_metric(
-            self.obj, self.scope, self.relation, self.secondary, 30
-        )
+        self._ensure_data()
+        return self._data[1]
 
     @cached_property
     def past_60(self):
-        return Metric.objects.fetch_metric(
-            self.obj, self.scope, self.relation, self.secondary, 60
-        )
+        self._ensure_data()
+        return self._data[2]
 
     @property
     def all_words(self):
