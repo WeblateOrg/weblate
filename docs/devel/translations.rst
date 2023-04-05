@@ -26,12 +26,12 @@ marked as needing editing.  In some situations this really doesn't depend on
 the format, but rather on the framework you use to handle the translation (for
 example with :ref:`json`).
 
-When you specify :ref:`component-new_base` in :ref:`component`, Weblate will
-use this file to start new translations. Any existing translations will be
+When you specify :ref:`component-new_base` in :ref:`component`, Weblate uses
+this file to start new translations. Any existing translations is 
 removed from the file when doing so.
 
 When :ref:`component-new_base` is empty and the file format
-supports it, an empty file is created where new strings will be added once they are
+supports it, an empty file is created where new strings are added once they are
 translated.
 
 The :ref:`component-language_code_style` allows you to customize language code
@@ -50,7 +50,7 @@ used in generated filenames. Additionally, any mappings defined in
 .. note::
 
     If you add a language file in connected remote repository, respective
-    translation will be added to the component when Weblate updates local repository.
+    translation is added to the component when Weblate updates local repository.
 
     More info on the repository update settings can be found on the :ref:`update-vcs`.
 
