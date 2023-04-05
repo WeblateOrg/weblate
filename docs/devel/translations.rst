@@ -27,7 +27,7 @@ the format, but rather on the framework you use to handle the translation (for
 example with :ref:`json`).
 
 When you specify :ref:`component-new_base` in :ref:`component`, Weblate uses
-this file to start new translations. Any existing translations is 
+this file to start new translations. Any existing translations is
 removed from the file when doing so.
 
 When :ref:`component-new_base` is empty and the file format
