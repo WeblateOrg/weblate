@@ -37,17 +37,21 @@ class MetricsWrapper:
 
     @cached_property
     def current(self):
-        return Metric.objects.get_current(
+        return Metric.objects.fetch_metric(
             self.obj, self.scope, self.relation, self.secondary
         )
 
     @cached_property
     def past_30(self):
-        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 30)
+        return Metric.objects.fetch_metric(
+            self.obj, self.scope, self.relation, self.secondary, 30
+        )
 
     @cached_property
     def past_60(self):
-        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 60)
+        return Metric.objects.fetch_metric(
+            self.obj, self.scope, self.relation, self.secondary, 60
+        )
 
     @property
     def all_words(self):

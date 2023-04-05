@@ -86,42 +86,30 @@ class MetricQuerySet(models.QuerySet):
             kwargs["secondary"] = secondary
         return kwargs
 
-    def get_current(
-        self, obj, scope: int, relation: int, secondary: int = 0
+    def fetch_metric(
+        self, obj, scope: int, relation: int, secondary: int = 0, delta: int = 0
     ) -> "Metric":
-        today = datetime.date.today()
-        yesterday = today - datetime.timedelta(days=1)
+        first_day = datetime.date.today() - datetime.timedelta(days=delta)
+        second_day = first_day - datetime.timedelta(days=1)
 
         kwargs = self.get_kwargs(scope, relation, secondary)
 
-        # Get todays stats
+        # Get metrics
         try:
-            metric = self.get(date=today, **kwargs)
+            metric = self.get(date=first_day, **kwargs)
         except Metric.DoesNotExist:
-            # Fallback to yesterday in case they are not yet calculated
+            # Fallback to day before in case they are not yet calculated
             try:
-                metric = self.get(date=yesterday, **kwargs)
+                metric = self.get(date=second_day, **kwargs)
             except Metric.DoesNotExist:
-                metric = None
+                metric = Metric()
 
         # Trigger collection in case no data is present or when only
         # changes are counted - when there is a single key.
-        if metric is None or metric.data is None:
+        if delta == 0 and (metric is None or metric.data is None):
             metric = Metric.objects.collect_auto(obj)
 
         return metric
-
-    def get_past(
-        self, scope: int, relation: int, secondary: int = 0, delta: int = 30
-    ) -> "Metric":
-        kwargs = self.get_kwargs(scope, relation, secondary)
-        try:
-            return self.get(
-                date=datetime.date.today() - datetime.timedelta(days=delta),
-                **kwargs,
-            )
-        except Metric.DoesNotExist:
-            return Metric()
 
 
 class MetricManager(models.Manager):

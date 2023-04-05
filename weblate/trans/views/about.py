@@ -55,7 +55,7 @@ class StatsView(AboutView):
         stats = GlobalStats()
 
         totals = Profile.objects.aggregate(Sum("translated"))
-        metrics = Metric.objects.get_current(None, Metric.SCOPE_GLOBAL, 0)
+        metrics = Metric.objects.fetch_metric(None, Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
         context["stats"] = stats

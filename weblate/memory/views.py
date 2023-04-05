@@ -168,7 +168,7 @@ class MemoryView(TemplateView):
         context.update(self.objects)
         context["num_entries"] = self.entries.count()
         context["entries_origin"] = self.get_origins()
-        context["total_entries"] = Metric.objects.get_current(
+        context["total_entries"] = Metric.objects.fetch_metric(
             None, Metric.SCOPE_GLOBAL, 0
         )["memory"]
         context["upload_url"] = self.get_url("memory-upload")
