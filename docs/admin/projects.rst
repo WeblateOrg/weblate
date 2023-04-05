@@ -474,12 +474,13 @@ Template for new translations
 
 Base file used to generate new translations.
 
-* Keep this empty for most of the monoligual formats. These are typically able to start from an empty file.
+* Keep this field empty for most of the monoligual formats. Those are typically able to start from an empty file.
 * Choose ``.pot`` file with GNU gettext PO files.
 * Choose blank file without translations, if you have one.
 * Choose :ref:`component-template` for monolingual formats that need a full set of keys present.
 * Choose :ref:`component-template` for document translations.
 * Choose any translation file for others.
+* Template file can be the same as the base file in most cases.
 
 .. hint::
 
@@ -650,6 +651,11 @@ Language code style
 Customize language code used to generate the filename for translations
 created by Weblate.
 
+.. note::
+
+   Weblate recognizes any of the language codes when parsing translation files,
+   following settings only influences how new files are created.
+
 Default based on the file format
    Dependent on file format, for most of them POSIX is used.
 POSIX style using underscore as a separator
@@ -677,11 +683,6 @@ Android style
    ``pt-rBR``.
 Linux style
    Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
-
-.. note::
-
-   Weblate recognizes any of the language codes when parsing translation files,
-   the above settings only influences how new files are created.
 
 .. seealso::
 
