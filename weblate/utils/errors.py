@@ -13,7 +13,6 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
 from sentry_sdk.integrations.redis import RedisIntegration
-from sentry_sdk.integrations.socket import SocketIntegration
 
 import weblate.utils.version
 
@@ -97,7 +96,6 @@ def init_error_collection(celery=False):
                 CeleryIntegration(),
                 DjangoIntegration(),
                 RedisIntegration(),
-                SocketIntegration(),
             ],
             send_default_pii=settings.SENTRY_SEND_PII,
             release=weblate.utils.version.GIT_REVISION
