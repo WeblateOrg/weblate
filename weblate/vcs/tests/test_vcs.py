@@ -1478,7 +1478,16 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
 
     def mock_pr_response(self, status):
-        body = {"id": "333"} if status == 201 else self._bb_api_error_stub
+        if status == 201:
+            body = {"id": "333"}
+        elif status == 409:
+            pr_exist_message = (
+                "Only one pull request may be open "
+                "for a given source and target branch"
+            )
+            body = {"errors": [{"context": "<string>", "message": pr_exist_message}]}
+        else:
+            body = self._bb_api_error_stub
 
         responses.add(
             responses.POST,
@@ -1588,6 +1597,45 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         self.mock_reviewer_reponse(200, branch)  # get default reviewers
         self.mock_pr_response(201)  # create pr ok
         super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push_with_existing_pr(self, branch=""):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_fork_response(201)  # fork created
+        self.mock_repo_response(200)  # get target repo info
+        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_pr_response(409)  # create pr error, PR already exists
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push_pr_error_reponse(self, branch=""):
+        self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_fork_response(201)  # fork created
+        self.mock_repo_response(200)  # get target repo info
+        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_pr_response(401)  # create pr error
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
         mock_push_to_fork.stop()
 
     @responses.activate

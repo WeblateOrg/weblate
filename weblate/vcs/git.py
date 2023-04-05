@@ -1590,5 +1590,18 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "post", credentials, pr_url, json=request_body
         )
 
+        """
+        Bitbucket Server will return error if PR already exists. The push
+        method in parent class will push changes to the correct fork or
+        branch, and always call this create_pull_request method after. If PR
+        exist already just do nothing because Bitbucket will automatically
+        update the PR if the from ref is updated.
+        """
         if "id" not in response:
+            pr_exist_message = (
+                "Only one pull request may be open "
+                "for a given source and target branch"
+            )
+            if pr_exist_message in error_message:
+                return
             raise RepositoryException(0, f"Pull request failed: {error_message}")
