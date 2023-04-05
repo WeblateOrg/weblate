@@ -39,6 +39,12 @@
         "**/package.json"
       ],
       "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "shellcheck-py/shellcheck-py"
+      ],
+      "versioning": "loose"
     }
   ],
   "regexManagers": [
@@ -61,6 +67,26 @@
       ],
       "datasourceTemplate": "npm",
       "versioningTemplate": "npm"
+    },
+    {
+      "fileMatch": [
+        "^Dockerfile$"
+      ],
+      "matchStrings": [
+        "ENV WEBLATE_VERSION (?<currentValue>.*?)\\n"
+      ],
+      "depNameTemplate": "Weblate",
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
+    },
+    {
+      "fileMatch": [
+        "(^|/)Chart\\.yaml$"
+      ],
+      "matchStrings": [
+        "#\\s?renovate: image=(?<depName>.*?)\\s?appVersion:\\s?\\\"?(?<currentValue>[\\w+\\.\\-]*)"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
