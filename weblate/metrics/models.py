@@ -120,7 +120,7 @@ class MetricQuerySet(models.QuerySet):
                 date=datetime.date.today() - datetime.timedelta(days=delta),
                 **kwargs,
             )
-        except self.DoesNotExit:
+        except Metric.DoesNotExist:
             return Metric()
 
 
