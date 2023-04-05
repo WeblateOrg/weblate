@@ -387,9 +387,11 @@ Upgrade from 4.16 to 4.17
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * Migration to rewritten metrics storage might take considerable time on larger
-  Weblate instance. To reduce downtime, you can copy
-  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start the migration
-  in the background. Once it is completed, perform full upgrade as ususal.
+  Weblate instance (expect around 15 minutes per GB of ``metrics_metric``
+  table). To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
+  the migration in the background. Once it is completed, perform full upgrade
+  as ususal.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
