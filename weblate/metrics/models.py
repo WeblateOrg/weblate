@@ -86,21 +86,27 @@ class MetricQuerySet(models.QuerySet):
             kwargs["secondary"] = secondary
         return kwargs
 
+    def filter_metric(
+        self, scope: int, relation: int, secondary: int = 0
+    ) -> "MetricQuerySet":
+        kwargs = self.get_kwargs(scope, relation, secondary)
+        return self.filter(**kwargs)
+
     def fetch_metric(
         self, obj, scope: int, relation: int, secondary: int = 0, delta: int = 0
     ) -> "Metric":
         first_day = datetime.date.today() - datetime.timedelta(days=delta)
         second_day = first_day - datetime.timedelta(days=1)
 
-        kwargs = self.get_kwargs(scope, relation, secondary)
+        base = self.filter_metric(scope, relation, secondary)
 
         # Get metrics
         try:
-            metric = self.get(date=first_day, **kwargs)
+            metric = base.get(date=first_day)
         except Metric.DoesNotExist:
             # Fallback to day before in case they are not yet calculated
             try:
-                metric = self.get(date=second_day, **kwargs)
+                metric = base.get(date=second_day)
             except Metric.DoesNotExist:
                 metric = Metric()
 
