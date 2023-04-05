@@ -531,7 +531,10 @@ $(function () {
       activeTab.tab("show");
       window.scrollTo(0, 0);
     } else {
-      document.getElementById(location.hash.substr(1)).scrollIntoView();
+      let anchor = document.getElementById(location.hash.substr(1));
+      if (anchor !== null) {
+        anchor.scrollIntoView();
+      }
     }
   } else if (
     $(".translation-tabs").length > 0 &&
