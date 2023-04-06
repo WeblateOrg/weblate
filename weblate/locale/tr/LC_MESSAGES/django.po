@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.16.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-03-08 08:18+0000\n"
-"PO-Revision-Date: 2023-04-03 15:46+0000\n"
+"PO-Revision-Date: 2023-04-07 12:57+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -187,7 +187,7 @@ msgstr "Çeviri bildirimleri"
 
 #: weblate/accounts/forms.py:709
 msgid "Use default setting"
-msgstr "Öntanımlı ayarı kullan"
+msgstr "Varsayılan ayar kullanılsın"
 
 #: weblate/accounts/forms.py:735
 msgid "Other projects"
@@ -554,7 +554,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:452
 msgid "Automatically watch projects on contribution"
-msgstr "Katkıda bulunan projeleri kendiliğinden izleyin"
+msgstr "Katkıda bulunulan projeler kendiliğinden izlensin"
 
 #: weblate/accounts/models.py:455
 msgid ""
@@ -585,7 +585,7 @@ msgstr "Varsayılan pano görünümü"
 
 #: weblate/accounts/models.py:486
 msgid "Default component list"
-msgstr "Öntanımlı bileşen listesi"
+msgstr "Varsayılan bileşen listesi"
 
 #: weblate/accounts/models.py:496
 #: weblate/templates/snippets/watch-dropdown.html:28
@@ -594,7 +594,7 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
-"İzlenen projeler için bildirim alabilirsiniz ve bunlar öntanımlı olarak "
+"İzlenen projeler için bildirim alabilirsiniz ve bunlar varsayılan olarak "
 "panoda görüntülenir."
 
 #: weblate/accounts/models.py:504
@@ -2536,7 +2536,7 @@ msgstr "Kaynağın ve çevirinin ikisi de yeni satırla başlamıyor"
 
 #: weblate/checks/chars.py:32
 msgid "Trailing newline"
-msgstr "Sonda yeni satır var"
+msgstr "Sondaki yeni satır"
 
 #: weblate/checks/chars.py:33
 msgid "Source and translation do not both end with a newline"
@@ -2600,11 +2600,11 @@ msgstr "Kaynağın ve çevirinin ikisi de ünlem işareti ile bitmiyor"
 
 #: weblate/checks/chars.py:283
 msgid "Mismatched ellipsis"
-msgstr "Üç nokta farklı"
+msgstr "Üç nokta karakteri farklı"
 
 #: weblate/checks/chars.py:284
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "Kaynağın ve çevirinin ikisi de üç nokta ile bitmiyor"
+msgstr "Kaynağın ve çevirinin ikisi de üç nokta karakteri ile bitmiyor"
 
 #: weblate/checks/chars.py:302
 msgid "Mismatched \\n"
@@ -2705,7 +2705,7 @@ msgstr "Önceki çeviri: \"%s\"."
 
 #: weblate/checks/duplicate.py:31
 msgid "Consecutive duplicated words"
-msgstr "Art arda yinelenen sözcükler"
+msgstr "Art arda yinelenen sözcükler var"
 
 #: weblate/checks/duplicate.py:32
 msgid "Text contains the same word twice in a row:"
@@ -3159,7 +3159,7 @@ msgstr "Qt çoğul biçim dizgesi kaynaktaki ile aynı değil"
 
 #: weblate/checks/render.py:30
 msgid "Maximum size of translation"
-msgstr "Çeviri en fazla uzunluğu"
+msgstr "Çevirinin en fazla uzunluğu"
 
 #: weblate/checks/render.py:31
 msgid "Translation rendered text should not exceed given size"
@@ -3256,11 +3256,12 @@ msgstr ""
 #: weblate/fonts/models.py:100 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
 msgid "Default font"
-msgstr "Öntanımlı yazı tipi"
+msgstr "Varsayılan yazı tipi"
 
 #: weblate/fonts/models.py:102
 msgid "Default font is used unless per language override matches."
-msgstr "Her dil için değiştirilmedikçe öntanımlı yazı tipi kullanılır."
+msgstr ""
+"Her dil için özel olarak değiştirilmedikçe varsayılan yazı tipi kullanılır."
 
 #: weblate/fonts/models.py:125 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
@@ -3340,7 +3341,7 @@ msgstr "MediaWiki metin dosyası"
 
 #: weblate/formats/exporters.py:203
 msgid "gettext PO"
-msgstr "gettext PO"
+msgstr "Gettext PO"
 
 #: weblate/formats/exporters.py:249
 msgid "XLIFF 1.1 with gettext extensions"
@@ -3360,7 +3361,7 @@ msgstr "TMX"
 
 #: weblate/formats/exporters.py:304
 msgid "gettext MO"
-msgstr "gettext MO"
+msgstr "Gettext MO"
 
 #: weblate/formats/exporters.py:378
 msgid "CSV"
@@ -3392,11 +3393,11 @@ msgstr "Çok değerli CSV dosyası (UTF-8)"
 
 #: weblate/formats/ttkit.py:1151
 msgid "gettext PO file"
-msgstr "gettext PO dosyası"
+msgstr "Gettext PO dosyası"
 
 #: weblate/formats/ttkit.py:1164
 msgid "gettext PO file (monolingual)"
-msgstr "gettext PO dosyası (tek dilde)"
+msgstr "Gettext PO dosyası (tek dilli)"
 
 #: weblate/formats/ttkit.py:1188
 msgid "Qt Linguist translation file"
@@ -3833,11 +3834,11 @@ msgstr "Çoğul tanım kaynağı"
 
 #: weblate/lang/models.py:760
 msgid "Default plural"
-msgstr "Öntanımlı çoğul"
+msgstr "Varsayılan çoğul"
 
 #: weblate/lang/models.py:761
 msgid "gettext plural formula"
-msgstr "gettext çoğul formülü"
+msgstr "Gettext çoğul formülü"
 
 #: weblate/lang/models.py:762
 msgid "stringsdict plural"
@@ -10792,7 +10793,7 @@ msgstr "Onaylanmış dizgeler"
 
 #: weblate/trans/filter.py:51 weblate/trans/filter.py:118
 msgid "Strings waiting for review"
-msgstr "Gözden geçirilmeyi bekleyen dizgeler"
+msgstr "Onaylanmayı bekleyen dizgeler"
 
 #: weblate/trans/filter.py:52
 msgid "Strings without screenshots"
