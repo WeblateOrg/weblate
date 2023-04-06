@@ -1,31 +1,58 @@
 Managing translations
 =====================
 
+Adding new strings
+------------------
+
+New strings can be made available for translation when they appear in the base file,
+called :ref:`component-new_base` (see :ref:`component`).
+If your file format doesn't require such a file, as is the case with most monolingual
+translation flows, you can start with empty files).
+
 .. _adding-translation:
 
 Adding new translations
 -----------------------
 
-New strings can be made available for translation when they appear in the base file,
-called :guilabel:`Template for new translations` (see :ref:`component`).
-If your file format doesn't require such a file, as is the case with most monolingual
-translation flows, you can start with empty files).
-
 New languages can be added right away when requested by a user in Weblate, or a
 notification will be sent to project admins for approval and manual addition.
 This can be done using :ref:`component-new_lang` in :ref:`component`.
 
-.. note::
+Some formats expect to start with an empty file and only translated strings to
+be included (for example :ref:`aresource`), while others expect to have all
+keys present (for example :ref:`gettext`). The document-based formats (for
+example :ref:`odf`) start with a copy of the source document and all strings
+marked as needing editing.  In some situations this really doesn't depend on
+the format, but rather on the framework you use to handle the translation (for
+example with :ref:`json`).
 
-    If you add a language file in connected remote repository, respective
-    translation will be added to the component when Weblate updates local repository.
+When you specify :ref:`component-new_base` in :ref:`component`, Weblate uses
+this file to start new translations. Any existing translations is
+removed from the file when doing so.
 
-    More info on the repository update settings can be found on the :ref:`update-vcs`.
+When :ref:`component-new_base` is empty and the file format
+supports it, an empty file is created where new strings are added once they are
+translated.
+
+The :ref:`component-language_code_style` allows you to customize language code
+used in generated filenames. Additionally, any mappings defined in
+:ref:`project-language_aliases` are applied in reverse.
 
 .. seealso::
 
    :ref:`component-new_lang`,
-   :ref:`new-translations`
+   :ref:`component-new_base`,
+   :ref:`component-language_code_style`,
+   :ref:`language-code`,
+   :ref:`project-language_aliases`,
+   :ref:`language-parsing-codes`
+
+.. note::
+
+    If you add a language file in connected remote repository, respective
+    translation is added to the component when Weblate updates local repository.
+
+    More info on the repository update settings can be found on the :ref:`update-vcs`.
 
 .. _removing-translation:
 
