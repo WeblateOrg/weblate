@@ -812,12 +812,6 @@ $(function () {
     });
   }
 
-  /*
-   * Disable modal enforce focus to fix compatibility
-   * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
-   */
-  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-
   /* Focus first input in modal */
   $(document).on("shown.bs.modal", function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -831,17 +825,20 @@ $(function () {
   });
 
   /* Copy to clipboard */
-  var clipboard = new ClipboardJS("[data-clipboard-text]");
-  clipboard.on("success", function (e) {
-    var text =
-      e.trigger.getAttribute("data-clipboard-message") ||
-      gettext("Text copied to clipboard.");
-    addAlert(text, (kind = "info"));
-  });
-  clipboard.on("error", function (e) {
-    addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
-  });
   $("[data-clipboard-text]").on("click", function (e) {
+    navigator.clipboard
+      .writeText(this.getAttribute("data-clipboard-text"))
+      .then(
+        () => {
+          var text =
+            this.getAttribute("data-clipboard-message") ||
+            gettext("Text copied to clipboard.");
+          addAlert(text, (kind = "info"));
+        },
+        () => {
+          addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
+        },
+      );
     e.preventDefault();
   });
 
