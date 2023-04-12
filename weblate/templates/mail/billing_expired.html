@@ -23,7 +23,7 @@
     <p>{% trans "This billing plan covers following projects:" %}</p>
 
     <ul>
-      {% for project in  %}
+      {% for project in projects %}
         {% if final_removal %}
           <li>{{ project }}</li>
         {% else %}
