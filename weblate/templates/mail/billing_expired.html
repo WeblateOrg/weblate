@@ -18,17 +18,23 @@
   <p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
 {% endif %}
 
-<p>{% trans "This billing plan covers following projects:" %}</p>
+{% with projects=billing.projects.all %}
+  {% if projects %}
+    <p>{% trans "This billing plan covers following projects:" %}</p>
 
-<ul>
-{% for project in billing.projects.all %}
-    {% if final_removal %}
-        <li>{{ project }}</li>
-    {% else %}
-        <li><a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#delete">{% trans "Remove the project" %}</a>]</li>
-    {% endif %}
-{% endfor %}
-</ul>
+    <ul>
+      {% for project in  %}
+        {% if final_removal %}
+          <li>{{ project }}</li>
+        {% else %}
+          <li><a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#delete">{% trans "Remove the project" %}</a>]</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{% trans "No projects in this billing. You might have other billings with projects in." %}</p>
+  {% endif %}
+{% endif %}
 
 {% if final_removal %}
     <p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
