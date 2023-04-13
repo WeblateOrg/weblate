@@ -171,11 +171,6 @@ saving.
 Keyboard shortcuts
 ++++++++++++++++++
 
-.. versionchanged:: 2.18
-
-    The keyboard shortcuts have been revamped in 2.18 to less likely collide
-    with browser or system defaults.
-
 The following keyboard shortcuts can be utilized during translation:
 
 +-------------------------------------------+-----------------------------------------------------------------------+

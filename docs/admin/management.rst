@@ -268,10 +268,6 @@ Creates an ``admin`` account with a random password, unless it is specified.
 
     Update the existing user (you can use this to change passwords).
 
-.. versionchanged:: 2.9
-
-    Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
-
 dump_memory
 -----------
 
@@ -334,11 +330,6 @@ You have to include the ``name`` and ``filemask`` fields.
 .. django-admin-option:: --update
 
     Update (already) imported components.
-
-.. versionchanged:: 2.9
-
-    The parameters ``--ignore`` and ``--update`` are there to deal with already
-    imported components.
 
 Example of JSON file:
 

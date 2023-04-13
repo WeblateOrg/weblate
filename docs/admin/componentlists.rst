@@ -7,7 +7,7 @@ Specify multiple lists of components to appear as options on the user dashboard,
 from which users can pick one as their default view.
 See :ref:`dashboard` to learn more.
 
-.. versionchanged:: 2.20
+.. hint::
 
     A status will be presented for each component list presented on the dashboard.
 
@@ -17,7 +17,7 @@ have a name that is displayed to the user, and a slug representing it in the
 URL.
 
 
-.. versionchanged:: 2.13
+.. hint::
 
     Change dashboard settings for anonymous users from the admin interface,
     altering what dashboard is presented to unauthenticated users.

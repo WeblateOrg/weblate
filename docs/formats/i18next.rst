@@ -6,11 +6,6 @@ i18next JSON files
 .. index::
     pair: i18next; file format
 
-.. versionchanged:: 2.17
-
-    Since Weblate 2.17 and with ``translate-toolkit`` at-least 2.2.5, i18next
-    JSON files with plurals are supported as well.
-
 .. versionchanged:: 4.15.1
 
     Support for v4 variant of this format was added.

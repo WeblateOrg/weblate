@@ -6,11 +6,6 @@ JSON files
 .. index::
     pair: JSON; file format
 
-.. versionchanged:: 2.16
-
-    Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested
-    structure JSON files are supported as well.
-
 .. versionchanged:: 4.3
 
     The structure of JSON file is properly preserved even for complex

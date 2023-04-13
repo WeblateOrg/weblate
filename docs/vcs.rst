@@ -456,10 +456,6 @@ users to maintain a full clone of the internal repository and commit locally.
     If your repository does not have a standard layout and you encounter errors,
     try including the branch name in the repository URL and leaving branch empty.
 
-.. versionchanged:: 2.19
-
-    Before this, only repositories using the standard layout were supported.
-
 .. _git-svn: https://git-scm.com/docs/git-svn
 
 .. _subversion: https://subversion.apache.org/

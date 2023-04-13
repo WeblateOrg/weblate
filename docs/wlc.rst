@@ -291,10 +291,6 @@ Configuration files
 +++++++++++++++++++
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
-    .. versionchanged:: 1.6
-
-        The files with `.ini` extension are accepted as well.
-
     Per project configuration file
 :file:`C:\\Users\\NAME\\AppData\\weblate.ini`
     User configuration file on Windows.

@@ -58,12 +58,6 @@ The following examples assume you have a working Docker environment, with
 
 Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
 
-.. versionchanged:: 2.15-2
-
-    The setup has changed recently, priorly there was separate web server
-    container, since 2.15-2 the web server is embedded in the Weblate
-    container.
-
 .. versionchanged:: 3.7.1-6
 
    In July 2019 (starting with the 3.7.1-6 tag), the containers are not running
