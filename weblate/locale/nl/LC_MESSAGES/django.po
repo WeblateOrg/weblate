@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-13 09:26+0000\n"
-"PO-Revision-Date: 2023-03-01 04:37+0000\n"
+"PO-Revision-Date: 2023-04-13 13:05+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16-rc\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5316,22 +5316,16 @@ msgid "Translation"
 msgstr "Vertaling"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Vertalingen met bijdragen"
+msgstr "Alle vertalingen met bijdragen tonen"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Alle projecten tonen"
+msgstr "Alle beheerde projecten tonen"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Alle projecten tonen"
+msgstr "Alle gevolgde projecten tonen"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7433,6 +7427,8 @@ msgstr "Project verwijderen"
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
 msgstr ""
+"Er zijn geen projecten opgenomen in dit pakket. Mogelijk heeft u andere "
+"pakketten met projecten."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8112,28 +8108,23 @@ msgid "SSH keys"
 msgstr "SSH-sleutels"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "SSH-sleutel genereren"
+msgstr "%(key_type)s-ssh-sleutel genereren"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"U lijkt nog niet te beschikken over een ssh-sleutel. Klik op onderstaande "
-"knop om Weblate er een te laten genereren."
+"U lijkt nog niet te beschikken over een %(key_type)s-ssh-sleutel. Klik op "
+"onderstaande knop om Weblate er een te laten genereren."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "SSH-sleutel genereren"
+msgstr "%(key_type)s-ssh-sleutel genereren"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -9342,10 +9333,9 @@ msgid "Descending"
 msgstr "Aflopend"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Publieke ssh-sleutel"
+msgstr "Publieke %(key_type)s-ssh-sleutel"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9357,10 +9347,9 @@ msgstr ""
 "deze gebruiken om Weblate toegang te geven tot een opslagruimte."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Privésleutel downloaden"
+msgstr "%(key_type)s-privésleutel downloaden"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -13001,10 +12990,9 @@ msgid "User configured character: {}"
 msgstr "Door gebruiker geconfigureerd teken: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Automatische vertaalmodus"
+msgstr "De automatische vertaling is mislukt: %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -14082,16 +14070,14 @@ msgid "Bitbucket Server pull request"
 msgstr "‘Pull request’ op Bitbucket"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
