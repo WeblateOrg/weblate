@@ -4,9 +4,10 @@
 
 """Tests for quality checks."""
 
-
 from weblate.checks.same import SameCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class SameCheckTest(CheckTestCase):
@@ -226,3 +227,52 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             True, ("routine_foobar, routine2, ...", "routine_foobar, routine2, ...", "")
         )
+
+
+class GlossarySameCheckTest(ViewTestCase):
+    check = SameCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.unit = self.get_unit()
+        self.unit.translate(self.user, self.unit.source, STATE_TRANSLATED)
+        self.unit.check_cache = {}
+        self.unit.glossary_terms = None
+        del self.unit.__dict__["all_flags"]
+        self.glossary = self.project.glossaries[0].translation_set.get(
+            language=self.unit.translation.language
+        )
+
+    def add_glossary(self, source: str, flags: str):
+        self.glossary.add_unit(None, context="", source=source, extra_flags=flags)
+
+    def add_glossary_words(self, flags: str = "terminology,read-only"):
+        self.add_glossary("hello", flags)
+        self.add_glossary("world", flags)
+
+    def add_glossary_sentence(self, flags: str = "terminology,read-only"):
+        self.add_glossary("Hello, world", flags)
+
+    def test_disabled(self):
+        self.add_glossary_words()
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_words(self):
+        self.add_glossary_words()
+        self.unit.extra_flags = "check-glossary"
+        self.assertTrue(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_translatable_words(self):
+        self.add_glossary_words("terminology")
+        self.unit.extra_flags = "check-glossary"
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_sentence(self):
+        self.add_glossary_sentence()
+        self.unit.extra_flags = "check-glossary"
+        self.assertTrue(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_translatable_sentence(self):
+        self.add_glossary_sentence("terminology")
+        self.unit.extra_flags = "check-glossary"
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))

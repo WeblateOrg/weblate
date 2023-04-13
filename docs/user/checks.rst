@@ -136,6 +136,7 @@ This check has to be turned on using ``check-glossary`` flag (see
 
 * It does exact string matching, the glossary is expected to contain terms in all variants.
 * Checking each string against glossary is expensive, it will slow down any operation in Weblate which involves running checks like importing strings or translating.
+* It also utilizes untranslatable glossary terms in :ref:`check-same`.
 
 .. seealso::
 
@@ -1229,8 +1230,14 @@ translated. This is useful to avoid false positives on short strings, which
 consist only of single word which is same in several languages. This blacklist
 can be disabled by adding ``strict-same`` flag to string or component.
 
+.. versionchanged:: 4.17
+
+   With ``check-glossary`` flag (see :ref:`check-check-glossary`), the
+   untranslatable glossary terms are excluded from the checking.
+
 .. seealso::
 
+   :ref:`check-check-glossary`,
    :ref:`component`,
    :ref:`custom-checks`
 
