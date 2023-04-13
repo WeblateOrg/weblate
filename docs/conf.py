@@ -82,7 +82,6 @@ ogp_social_cards = {
 ogp_custom_meta_tags = [
     '<meta property="fb:app_id" content="741121112629028" />',
     '<meta property="fb:page_id" content="371217713079025" />',
-    '<meta name="twitter:card" content="summary_large_image" />',
     '<meta name="twitter:site" content="@WeblateOrg" />',
 ]
 
