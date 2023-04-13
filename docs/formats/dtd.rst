@@ -11,6 +11,9 @@ Example DTD file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.dtd
     :language: yaml
 
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+

@@ -14,3 +14,18 @@ The translatable content is extracted from the HTML files and offered for the tr
 .. seealso::
 
    :doc:`tt:formats/html`
+
+Weblate configuration
++++++++++++++++++++++
+
++--------------------------------+-------------------------------------+
+| Typical Weblate :ref:`component`                                     |
++================================+=====================================+
+| File mask                      | ``path/*.html``                     |
++--------------------------------+-------------------------------------+
+| Monolingual base language file | ``path/en.html``                    |
++--------------------------------+-------------------------------------+
+| Template for new translations  | ``path/en.html``                    |
++--------------------------------+-------------------------------------+
+| File format                    | `HTML file`                         |
++--------------------------------+-------------------------------------+

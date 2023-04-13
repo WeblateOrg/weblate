@@ -14,3 +14,18 @@ contains the translation). Additionally there should be the column called ``cont
 (which contains the context path of the translation string). If you use the XLSX
 download for exporting the translations into an Excel workbook, you already get
 a file with the correct file format.
+
+Weblate configuration
++++++++++++++++++++++
+
++--------------------------------+-------------------------------------+
+| Typical Weblate :ref:`component`                                     |
++================================+=====================================+
+| File mask                      | ``path/*.xlsx``                     |
++--------------------------------+-------------------------------------+
+| Monolingual base language file | ``path/en.xlsx``                    |
++--------------------------------+-------------------------------------+
+| Template for new translations  | ``path/en.xlsx``                    |
++--------------------------------+-------------------------------------+
+| File format                    | `Excel Open XML`                    |
++--------------------------------+-------------------------------------+

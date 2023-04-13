@@ -12,6 +12,9 @@ NeXTSTEP/OpenSTEP.
 
 Apple iOS strings are usually used as monolingual.
 
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                              |
 +================================+==============================================+

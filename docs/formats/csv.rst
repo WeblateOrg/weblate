@@ -41,6 +41,9 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.csv
     :language: text
 
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual CSV                |
 +================================+==================================+

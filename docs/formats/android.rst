@@ -12,23 +12,6 @@ Android specific file format for translating applications.
 Android string resources are monolingual, the :ref:`component-template` is
 stored in a different location from the other files -- :file:`res/values/strings.xml`.
 
-+-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
-+================================+==================================+
-| File mask                      | ``res/values-*/strings.xml``     |
-+--------------------------------+----------------------------------+
-| Monolingual base language file | ``res/values/strings.xml``       |
-+--------------------------------+----------------------------------+
-| Template for new translations  | `Empty`                          |
-+--------------------------------+----------------------------------+
-| File format                    | `Android String Resource`        |
-+--------------------------------+----------------------------------+
-
-.. seealso::
-
-    `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource>`_,
-    :doc:`tt:formats/android`
-
 .. note::
 
     Android `string-array` structures are not currently supported. To work around this,
@@ -64,3 +47,23 @@ stored in a different location from the other files -- :file:`res/values/strings
    .. code-block:: xml
 
       <string name="foobar" translatable="false">@string/foo</string>
+
+.. seealso::
+
+    `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource>`_,
+    :doc:`tt:formats/android`
+
+Weblate configuration
++++++++++++++++++++++
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``res/values-*/strings.xml``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``res/values/strings.xml``       |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Android String Resource`        |
++--------------------------------+----------------------------------+

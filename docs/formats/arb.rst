@@ -11,6 +11,9 @@ ARB File
 ARB translations are monolingual, so it is recommended to specify a base file
 with (what is most often the) English strings.
 
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+

@@ -15,6 +15,9 @@ Currently the following tools are compatible:
 The metadata consists of several textfiles, which Weblate will present as
 separate strings to translate.
 
+Weblate configuration
++++++++++++++++++++++
+
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
