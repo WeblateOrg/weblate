@@ -24,28 +24,6 @@ different and provides a different set of capabilities.
     :doc:`tt:formats/index`
 
 
-.. _bimono:
-
-Bilingual and monolingual formats
----------------------------------
-
-Both :index:`monolingual <pair: translation; monolingual>`
-and :index:`bilingual <pair: translation; bilingual>` formats are supported.
-Bilingual formats store two languages in single file—source and translation
-(typical examples are :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
-monolingual formats identify the string by ID, and each language file contains
-only the mapping of those to any given language (typically :ref:`aresource`). Some file
-formats are used in both variants, see the detailed description below.
-
-For correct use of monolingual files, Weblate requires access to a file
-containing complete list of strings to translate with their source—this file
-is called :ref:`component-template` within Weblate, though the naming might
-vary in your paradigm.
-
-Additionally this workflow can be extended by utilizing
-:ref:`component-intermediate` to include strings provided by developers, but
-not to be used as is in the final strings.
-
 Automatic detection
 -------------------
 
@@ -368,7 +346,7 @@ Translation types capabilities
      -
 
 .. [#m] See :ref:`bimono`
-.. [#p] Plurals are necessary to properly localize strings with variable count.
+.. [#p] See :ref:`format-plurals`
 .. [#n] Source string descriptions can be used to pass additional info about the string to translate.
 .. [#c] Context is used to differentiate identical strings used in different scopes (for example `Sun` can be used as an abbreviated name of the day "Sunday" or as the name of our closest star).
 .. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
@@ -381,6 +359,37 @@ Translation types capabilities
 .. [#fp] Plurals are handled in the syntax of the strings and not exposed as plurals in Weblate.
 
 .. _Localization in Laravel: https://laravel.com/docs/7.x/localization
+
+.. _bimono:
+
+Bilingual and monolingual formats
++++++++++++++++++++++++++++++++++
+
+Both :index:`monolingual <pair: translation; monolingual>`
+and :index:`bilingual <pair: translation; bilingual>` formats are supported.
+Bilingual formats store two languages in single file—source and translation
+(typical examples are :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
+monolingual formats identify the string by ID, and each language file contains
+only the mapping of those to any given language (typically :ref:`aresource`). Some file
+formats are used in both variants, see the detailed description below.
+
+For correct use of monolingual files, Weblate requires access to a file
+containing complete list of strings to translate with their source—this file
+is called :ref:`component-template` within Weblate, though the naming might
+vary in your paradigm.
+
+Additionally this workflow can be extended by utilizing
+:ref:`component-intermediate` to include strings provided by developers, but
+not to be used as is in the final strings.
+
+.. _format-plurals:
+
+Pluralized strings
+++++++++++++++++++
+
+Plurals are necessary to properly localize strings with variable count. The
+rules depend on a target language and many formats follow CLDR specification
+for that.
 
 .. _read-only-strings:
 
