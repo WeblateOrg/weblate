@@ -70,7 +70,7 @@ Translation types capabilities
      - yes
      - yes
      - yes
-     - yes [#xl]_
+     - yes
      - needs editing, approved
    * - :ref:`javaprop`
      - both
@@ -110,7 +110,7 @@ Translation types capabilities
      - yes
      - no
      - yes
-     - yes [#xl]_
+     - yes
      - needs editing
    * - :ref:`aresource`
      - mono
@@ -118,7 +118,7 @@ Translation types capabilities
      - yes [#x]_
      - no
      - no
-     - yes [#xl]_
+     - yes
      -
    * - :ref:`apple`
      - both
@@ -190,7 +190,7 @@ Translation types capabilities
      - yes
      - no
      - no
-     - yes [#xl]_
+     - yes
      -
    * - :ref:`resourcedict`
      - mono
@@ -198,7 +198,7 @@ Translation types capabilities
      - no
      - no
      - no
-     - yes [#xl]_
+     - yes
      -
    * - :ref:`csv`
      - both
@@ -238,7 +238,7 @@ Translation types capabilities
      - no
      - no
      - no
-     - yes [#xl]_
+     - yes
      -
    * - :ref:`winrc`
      - mono
@@ -318,7 +318,7 @@ Translation types capabilities
      - yes
      - no
      - no
-     - yes [#xl]_
+     - yes
      -
    * - :ref:`txt`
      - mono
@@ -352,9 +352,8 @@ Translation types capabilities
 .. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to "Untranslated" and "Translated".
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a source string description.
-.. [#f] See :ref:`custom-checks`
+.. [#f] See :ref:`format-flags`.
 .. [#po] The gettext type comments are used as flags.
-.. [#xl] The flags are extracted from the non-standard attribute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
 .. [#fp] Plurals are handled in the syntax of the strings and not exposed as plurals in Weblate.
 
@@ -381,6 +380,33 @@ vary in your paradigm.
 Additionally this workflow can be extended by utilizing
 :ref:`component-intermediate` to include strings provided by developers, but
 not to be used as is in the final strings.
+
+.. _format-flags:
+
+Translation flags
++++++++++++++++++
+
+Translation flags allow customizing Weblate behavior. Some formats support
+defining those in the translation file (you can always define them in the Weblate
+interface, see :ref:`custom-checks`).
+
+This feature is modelled on flags in :ref:`gettext`.
+
+Additionally, for all XML based format, the flags are extracted from the
+non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` is
+supported through the ``maxwidth`` `attribute
+<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as
+defined in the XLIFF standard, see :ref:`xliff-flags`.
+
+.. seealso::
+
+   :ref:`custom-checks`,
+   `PO files documentation`_
+
+
+
+.. _PO files documentation: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
+
 
 .. _format-plurals:
 
