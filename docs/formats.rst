@@ -391,6 +391,12 @@ Plurals are necessary to properly localize strings with variable count. The
 rules depend on a target language and many formats follow CLDR specification
 for that.
 
+.. hint::
+
+   Pluralizing strings need proper support from the application framework as
+   well. Choose native format of your platform such as :ref:`gettext`,
+   :ref:`aresource` or :ref:`stringsdict`.
+
 .. _read-only-strings:
 
 Read-only strings
