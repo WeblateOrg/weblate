@@ -7,9 +7,7 @@ Windows RC files
 
     Support for Windows RC files has been rewritten.
 
-.. note::
-
-   Support for this format is currently in beta, feedback from testing is welcome.
+.. include:: /snippets/beta-format.rst
 
 .. index::
     pair: RC; file format

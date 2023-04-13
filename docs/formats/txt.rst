@@ -5,9 +5,7 @@ Text files
 
 .. versionadded:: 4.6
 
-.. note::
-
-   Support for this format is currently in beta, feedback from testing is welcome.
+.. include:: /snippets/beta-format.rst
 
 The translatable content is extracted from the plain text files and offered for
 the translation. Each paragraph is translated as a separate string.

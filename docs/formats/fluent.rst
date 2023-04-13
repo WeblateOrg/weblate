@@ -5,9 +5,7 @@ Fluent format
 
 .. versionadded:: 4.8
 
-.. note::
-
-   Support for this format is currently in beta, feedback from testing is welcome.
+.. include:: /snippets/beta-format.rst
 
 Fluent is a monolingual text format that focuses on asymmetric localization: a
 simple string in one language can map to a complex multi-variant translation in

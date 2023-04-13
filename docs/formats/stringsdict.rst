@@ -5,9 +5,7 @@ Stringsdict format
 
 .. versionadded:: 4.8
 
-.. note::
-
-   Support for this format is currently in beta, feedback from testing is welcome.
+.. include:: /snippets/beta-format.rst
 
 XML based format used by Apple which is able to store plural forms of a string.
 
