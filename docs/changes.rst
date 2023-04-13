@@ -14,6 +14,7 @@ Not yet released.
 * Added support for searching strings by position.
 * Documentation improvements.
 * Unchanged translation check can honor untranslatable terms from glossary.
+* Added automatic fixup for Devanagari danda.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 

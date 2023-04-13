@@ -51,6 +51,7 @@ class WeblateConf(AppConf):
         "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
         "weblate.trans.autofixes.chars.RemoveZeroSpace",
         "weblate.trans.autofixes.chars.RemoveControlChars",
+        "weblate.trans.autofixes.chars.DevanagariDanda",
         "weblate.trans.autofixes.html.BleachHTML",
     )
 

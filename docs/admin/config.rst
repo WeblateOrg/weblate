@@ -169,6 +169,8 @@ Available fixes:
     Removes zero-width space characters if the source does not contain any.
 ``weblate.trans.autofixes.chars.RemoveControlChars``
     Removes control characters if the source does not contain any.
+``weblate.trans.autofixes.chars.DevanagariDanda``
+    Replaces sentence full stop in Bangla by Devanagari danda.
 ``weblate.trans.autofixes.html.BleachHTML``
     Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 

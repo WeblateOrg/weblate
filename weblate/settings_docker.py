@@ -1085,6 +1085,8 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
+    "weblate.trans.autofixes.chars.DevanagariDanda",
+    "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
 

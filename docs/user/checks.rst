@@ -40,6 +40,11 @@ Control characters removal
 
 Removes any control characters from the translation.
 
+Devanagari danda
+~~~~~~~~~~~~~~~~
+
+Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
+
 Unsafe HTML cleanup
 ~~~~~~~~~~~~~~~~~~~
 
