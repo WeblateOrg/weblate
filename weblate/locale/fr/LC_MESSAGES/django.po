@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-13 09:26+0000\n"
-"PO-Revision-Date: 2023-03-20 09:48+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"PO-Revision-Date: 2023-04-13 15:37+0000\n"
+"Last-Translator: tachyglossues <tachyglossues@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5429,22 +5429,16 @@ msgid "Translation"
 msgstr "Traduction"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Traductions auxquelles l’utilisateur a participé"
+msgstr "Parcourir toutes les traductions avec contribution"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Parcourir tous les projets"
+msgstr "Parcourir tous les projets administrés"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Parcourir tous les projets"
+msgstr "Parcourir tous les projets surveillés"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7558,6 +7552,8 @@ msgstr "Supprimer le projet"
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
 msgstr ""
+"Il n'y a pas de projets dans cette facture. Vous pouvez avoir d'autres "
+"factures avec des projets."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8242,28 +8238,23 @@ msgid "SSH keys"
 msgstr "Clés SSH"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "Générer une clé SSH"
+msgstr "Générer la clé SSH de %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Vous semblez ne pas avoir de clé SSH. Appuyez sur le bouton ci-dessous pour "
-"que Weblate génère une clef personnelle."
+"Vous ne semblez pas avoir de clé SSH %(key_type)s existante, en appuyant sur "
+"le bouton ci-dessous Weblate va en générer une pour vous."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "Générer une clé SSH"
+msgstr "Générer une nouvelle clé SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -9487,10 +9478,9 @@ msgid "Descending"
 msgstr "Décroissant"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Clé SSH publique"
+msgstr "Clé SSH publique %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9502,10 +9492,9 @@ msgstr ""
 "accorder à Weblate l’accès à un dépôt."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Télécharger la clé privée"
+msgstr "Télécharger la clé privée de %(key_type)s"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -13192,10 +13181,9 @@ msgid "User configured character: {}"
 msgstr "Caractère défini par l’utilisateur : {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Mode de traduction automatique"
+msgstr "Échec de la traduction automatique : %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -14278,16 +14266,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Pull request du serveur Bitbucket"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 # Translators: placeholder SSH hashed hostname
 #. Translators: placeholder SSH hashed hostname
