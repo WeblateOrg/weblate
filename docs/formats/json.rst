@@ -27,6 +27,9 @@ Weblate currently supports several variants of JSON translations:
 JSON translations are usually monolingual, so it is recommended to specify a base
 file with (what is most often the) English strings.
 
+Example files
++++++++++++++
+
 Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.json
