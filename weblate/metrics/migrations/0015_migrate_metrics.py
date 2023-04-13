@@ -23,6 +23,8 @@ def migrate_metrics(apps, schema_editor):
     metrics = Metric.objects.using(db_alias).filter(
         date__gte=date.today() - timedelta(days=800)
     )
+    if not metrics.exists():
+        return
     print("Converting metric entries, this might take long", flush=True)  # noqa: T201
     for pos, metric in enumerate(
         metrics.order_by("date", "scope", "relation", "secondary").iterator()
