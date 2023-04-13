@@ -44,9 +44,10 @@ not to be used as is in the final strings.
 Automatic detection
 -------------------
 
-Weblate can automatically detect several widespread file formats, but this
-detection can harm your performance and will limit features specific to given
-file format (for example automatic addition of new translations).
+Weblate tries to detect file format during :ref:`adding-projects`. The
+detection might be wrong for different variants of the same serialization
+format (JSON, YAML, properties) or file encoding, so please verify that
+:ref:`component-file_format` is correct before creating the component.
 
 .. _fmt_capabs:
 
