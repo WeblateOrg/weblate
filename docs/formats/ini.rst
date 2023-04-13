@@ -17,18 +17,6 @@ Weblate currently supports several variants of JSON translations:
 
 INI translations are usually used as monolingual translations.
 
-+-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
-+================================+==================================+
-| File mask                      | ``language/*.ini``               |
-+--------------------------------+----------------------------------+
-| Monolingual base language file | ``language/en.ini``              |
-+--------------------------------+----------------------------------+
-| Template for new translations  | `Empty`                          |
-+--------------------------------+----------------------------------+
-| File format                    | `INI File`                       |
-+--------------------------------+----------------------------------+
-
 .. note::
 
    Weblate only extracts keys from sections within an INI file. In case your INI
@@ -41,3 +29,18 @@ INI translations are usually used as monolingual translations.
     :ref:`javaprop`,
     :ref:`joomla`,
     :ref:`islu`
+
+Weblate configuration
++++++++++++++++++++++
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``language/*.ini``               |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en.ini``              |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `INI File`                       |
++--------------------------------+----------------------------------+

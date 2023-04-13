@@ -14,10 +14,15 @@ Weblate currently supports several variants of YAML translations:
 * Files with nested keys.
 * :ref:`ryaml`
 
+.. seealso:: :doc:`tt:formats/yaml`, :ref:`ryaml`
+
 Example of a YAML file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.pyml
     :language: yaml
+
+Weblate configuration
++++++++++++++++++++++
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -30,5 +35,3 @@ Example of a YAML file:
 +--------------------------------+----------------------------------+
 | File format                    | `YAML file`                      |
 +--------------------------------+----------------------------------+
-
-.. seealso:: :doc:`tt:formats/yaml`, :ref:`ryaml`

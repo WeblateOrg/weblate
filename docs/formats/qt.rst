@@ -11,6 +11,15 @@ Translation format used in Qt based applications.
 
 Qt Linguist files are used as both bilingual and monolingual translations.
 
+.. seealso::
+
+    `Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_,
+    :doc:`tt:formats/ts`,
+    :ref:`bimono`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` when using as bilingual          |
 +================================+==================================+
@@ -34,9 +43,3 @@ Qt Linguist files are used as both bilingual and monolingual translations.
 +--------------------------------+----------------------------------+
 | File format                    | `Qt Linguist Translation File`   |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    `Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_,
-    :doc:`tt:formats/ts`,
-    :ref:`bimono`

@@ -20,6 +20,9 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.php
     :language: php
 
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+

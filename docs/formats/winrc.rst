@@ -14,10 +14,15 @@ Windows RC files
 .. index::
     pair: RC; file format
 
+.. seealso:: :doc:`tt:formats/rc`
+
 Example Windows RC file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs-CZ.rc
     :language: text
+
+Weblate configuration
++++++++++++++++++++++
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -30,5 +35,3 @@ Example Windows RC file:
 +--------------------------------+----------------------------------+
 | File format                    | `RC file`                        |
 +--------------------------------+----------------------------------+
-
-.. seealso:: :doc:`tt:formats/rc`

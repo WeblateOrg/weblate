@@ -11,6 +11,15 @@ A .XML resource (.resx) file employs a monolingual XML file format used in Micro
 .NET applications. It is `interchangeable with .resw, when using identical
 syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-localization>`_.
 
+.. seealso::
+
+    :doc:`tt:formats/resx`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.cleanup.generic`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -22,9 +31,3 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 +--------------------------------+----------------------------------+
 | File format                    | `.NET resource file`             |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/resx`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.cleanup.generic`

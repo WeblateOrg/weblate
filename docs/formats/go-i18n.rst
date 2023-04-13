@@ -21,6 +21,17 @@ with (what is most often the) English strings.
    Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct file format
    matching your environment.
 
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for v1                           |
 +================================+==================================+
@@ -45,11 +56,3 @@ with (what is most often the) English strings.
 +--------------------------------+----------------------------------+
 | File format                    | `go-i18n v2 JSON file`           |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/json`,
-    `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,

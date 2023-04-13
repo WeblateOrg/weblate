@@ -36,6 +36,22 @@ the following files:
    results. This is especially true for CSV files with newlines in the
    values. As a workaround it is recommended to omit quoting characters.
 
+.. seealso:: :doc:`tt:formats/csv`
+
+.. _translate-toolkit: https://toolkit.translatehouse.org/
+
+.. _multivalue-csv:
+
+Multivalue CSV file
++++++++++++++++++++
+
+.. versionadded:: 4.13
+
+This variant of the CSV files allows storing multiple translations per string.
+
+Example files
++++++++++++++
+
 Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.csv
@@ -67,16 +83,3 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `Simple CSV file`                |
 +--------------------------------+----------------------------------+
-
-.. _multivalue-csv:
-
-Multivalue CSV file
-+++++++++++++++++++
-
-.. versionadded:: 4.13
-
-This variant of the CSV files allows storing multiple translations per string.
-
-.. seealso:: :doc:`tt:formats/csv`
-
-.. _translate-toolkit: https://toolkit.translatehouse.org/

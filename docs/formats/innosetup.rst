@@ -17,6 +17,20 @@ Inno Setup INI translations are usually used as monolingual translations.
    The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t``
    placeholders for line break and tab.
 
+.. note::
+
+   Only Unicode files (``.islu``) are currently supported, ANSI variant
+   (``.isl``) is currently not supported.
+
+.. seealso::
+
+    :doc:`tt:formats/ini`,
+    :ref:`joomla`,
+    :ref:`ini`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -28,14 +42,3 @@ Inno Setup INI translations are usually used as monolingual translations.
 +--------------------------------+----------------------------------+
 | File format                    | `Inno Setup INI File`            |
 +--------------------------------+----------------------------------+
-
-.. note::
-
-   Only Unicode files (``.islu``) are currently supported, ANSI variant
-   (``.isl``) is currently not supported.
-
-.. seealso::
-
-    :doc:`tt:formats/ini`,
-    :ref:`joomla`,
-    :ref:`ini`

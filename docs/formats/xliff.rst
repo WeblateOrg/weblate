@@ -24,7 +24,9 @@ Weblate supports XLIFF in several variants:
 .. seealso::
 
     `XML Localization Interchange File Format (XLIFF)`_ specification,
-    `XLIFF 1.2 Representation Guide for Gettext PO`_
+    `XLIFF 1.2 Representation Guide for Gettext PO`_,
+    `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
+    :doc:`tt:formats/xliff`,
 
 .. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
 .. _XLIFF 1.2 Representation Guide for Gettext PO: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-po/xliff-profile-po-1.2-cd02.html
@@ -106,6 +108,12 @@ in the font family is converted to underscore, so ``Source Sans Pro`` becomes
 ``Source_Sans_Pro``, please keep that in mind when naming the font group (see
 :ref:`fonts`).
 
+
+.. seealso::
+
+    `font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_,
+    `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_
+
 String keys
 +++++++++++
 
@@ -117,6 +125,9 @@ unit making it more suitable for Weblate to display instead of ``id``. The
 ``resname`` has to be unique in the whole XLIFF file. This is required by
 Weblate and is not covered by the XLIFF standard - it does not put any
 uniqueness restrictions on this attribute.
+
+Weblate configuration
++++++++++++++++++++++
 
 
 +-------------------------------------------------------------------+
@@ -142,10 +153,3 @@ uniqueness restrictions on this attribute.
 +--------------------------------+----------------------------------+
 | File format                    | `XLIFF Translation File`         |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
-    :doc:`tt:formats/xliff`,
-    `font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_,
-    `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_

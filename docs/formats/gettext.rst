@@ -12,35 +12,6 @@ Most widely used format for translating libre software.
 Contextual info stored in the file is supported by adjusting its
 headers or linking to corresponding source files.
 
-The bilingual gettext PO file typically looks like this:
-
-.. code-block:: po
-
-    #: weblate/media/js/bootstrap-datepicker.js:1421
-    msgid "Monday"
-    msgstr "Pondělí"
-
-    #: weblate/media/js/bootstrap-datepicker.js:1421
-    msgid "Tuesday"
-    msgstr "Úterý"
-
-    #: weblate/accounts/avatar.py:163
-    msgctxt "No known user"
-    msgid "None"
-    msgstr "Žádný"
-
-+-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
-+================================+==================================+
-| File mask                      | ``po/*.po``                      |
-+--------------------------------+----------------------------------+
-| Monolingual base language file | `Empty`                          |
-+--------------------------------+----------------------------------+
-| Template for new translations  | ``po/messages.pot``              |
-+--------------------------------+----------------------------------+
-| File format                    | `Gettext PO file`                |
-+--------------------------------+----------------------------------+
-
 .. seealso::
 
     :doc:`../devel/gettext`,
@@ -62,6 +33,26 @@ Some projects decide to use gettext as monolingual formats—they code just the 
 in their source code and the string then needs to be translated to all languages,
 including English. This is supported, though you have to choose
 this file format explicitly when importing components into Weblate.
+
+Example files
++++++++++++++
+
+The bilingual gettext PO file typically looks like this:
+
+.. code-block:: po
+
+    #: weblate/media/js/bootstrap-datepicker.js:1421
+    msgid "Monday"
+    msgstr "Pondělí"
+
+    #: weblate/media/js/bootstrap-datepicker.js:1421
+    msgid "Tuesday"
+    msgstr "Úterý"
+
+    #: weblate/accounts/avatar.py:163
+    msgctxt "No known user"
+    msgid "None"
+    msgstr "Žádný"
 
 The monolingual gettext PO file typically looks like this:
 
@@ -95,8 +86,24 @@ While the base language file will be:
     msgid "none-user"
     msgstr "None"
 
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
+| Typical Weblate :ref:`component` for bilingual gettext            |
++================================+==================================+
+| File mask                      | ``po/*.po``                      |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Template for new translations  | ``po/messages.pot``              |
++--------------------------------+----------------------------------+
+| File format                    | `Gettext PO file`                |
++--------------------------------+----------------------------------+
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component` for monolingual gettext          |
 +================================+==================================+
 | File mask                      | ``po/*.po``                      |
 +--------------------------------+----------------------------------+

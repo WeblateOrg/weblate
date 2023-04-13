@@ -13,6 +13,16 @@ ResourceDictionary is a monolingual  XML file format used to package
 localizable string resources for Windows Presentation Foundation (WPF)
 applications.
 
+.. seealso::
+
+    :doc:`tt:formats/flatxml`,
+    :ref:`flatxml`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.cleanup.generic`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -24,10 +34,3 @@ applications.
 +--------------------------------+----------------------------------+
 | File format                    | `ResourceDictionary file`        |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/flatxml`,
-    :ref:`flatxml`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.cleanup.generic`

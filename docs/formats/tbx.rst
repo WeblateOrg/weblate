@@ -7,6 +7,15 @@ TermBase eXchange format
 
 TBX is an XML format for the exchange of terminology data.
 
+.. seealso::
+
+    `TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_,
+    :doc:`tt:formats/tbx`,
+    :ref:`glossary`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -18,9 +27,3 @@ TBX is an XML format for the exchange of terminology data.
 +--------------------------------+----------------------------------+
 | File format                    | `TermBase eXchange file`         |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    `TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_,
-    :doc:`tt:formats/tbx`,
-    :ref:`glossary`

@@ -13,6 +13,15 @@ Fluent is a monolingual text format that focuses on asymmetric localization: a
 simple string in one language can map to a complex multi-variant translation in
 another language.
 
+
+.. seealso::
+
+
+   `Project Fluent website <https://projectfluent.org/>`_
+
+Weblate configuration
++++++++++++++++++++++
+
 +-----------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                                  |
 +================================+==================================================+
@@ -24,9 +33,3 @@ another language.
 +--------------------------------+--------------------------------------------------+
 | File format                    | `Fluent file`                                    |
 +--------------------------------+--------------------------------------------------+
-
-
-.. seealso::
-
-
-   `Project Fluent website <https://projectfluent.org/>`_

@@ -10,6 +10,18 @@ Native GWT format for translations.
 
 GWT properties are usually used as monolingual translations.
 
+.. seealso::
+
+    `GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
+    `GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
+    :doc:`tt:formats/properties`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -21,12 +33,3 @@ GWT properties are usually used as monolingual translations.
 +--------------------------------+----------------------------------+
 | File format                    | `GWT Properties`                 |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    `GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
-    `GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
-    :doc:`tt:formats/properties`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`

@@ -9,10 +9,15 @@ Ruby YAML files
 
 Ruby i18n YAML files with language as root node.
 
+.. seealso:: :doc:`tt:formats/yaml`, :ref:`yaml`
+
 Example Ruby i18n YAML file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.ryml
     :language: yaml
+
+Weblate configuration
++++++++++++++++++++++
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -25,5 +30,3 @@ Example Ruby i18n YAML file:
 +--------------------------------+----------------------------------+
 | File format                    | `Ruby YAML file`                 |
 +--------------------------------+----------------------------------+
-
-.. seealso:: :doc:`tt:formats/yaml`, :ref:`yaml`

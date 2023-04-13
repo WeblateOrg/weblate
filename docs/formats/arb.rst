@@ -11,6 +11,15 @@ ARB File
 ARB translations are monolingual, so it is recommended to specify a base file
 with (what is most often the) English strings.
 
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
+    `Internationalizing Flutter apps <https://docs.flutter.dev/development/accessibility-and-localization/internationalization>`_,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`
+
 Weblate configuration
 +++++++++++++++++++++
 
@@ -25,12 +34,3 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `ARB file`                       |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/json`,
-    `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
-    `Internationalizing Flutter apps <https://docs.flutter.dev/development/accessibility-and-localization/internationalization>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`

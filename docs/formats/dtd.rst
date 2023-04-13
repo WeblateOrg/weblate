@@ -6,6 +6,8 @@ DTD files
 .. index::
     pair: DTD; file format
 
+.. seealso:: :doc:`tt:formats/dtd`
+
 Example DTD file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.dtd
@@ -25,5 +27,3 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `DTD file`                       |
 +--------------------------------+----------------------------------+
-
-.. seealso:: :doc:`tt:formats/dtd`

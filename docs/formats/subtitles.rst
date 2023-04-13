@@ -12,6 +12,13 @@ Weblate can translate various subtitle files:
 * Advanced Substation Alpha subtitles file (``*.ass``)
 * Substation Alpha subtitle file (``*.ssa``)
 
+.. seealso::
+
+   :doc:`tt:formats/subtitles`
+
+Weblate configuration
++++++++++++++++++++++
+
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
@@ -23,7 +30,3 @@ Weblate can translate various subtitle files:
 +--------------------------------+-------------------------------------+
 | File format                    | `SubRip subtitle file`              |
 +--------------------------------+-------------------------------------+
-
-.. seealso::
-
-   :doc:`tt:formats/subtitles`

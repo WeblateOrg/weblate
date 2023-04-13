@@ -31,10 +31,21 @@ with (what is most often the) English strings.
    The v2 and v1 variants are mostly compatible with v3, with exception of how
    plurals are handled.
 
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`
+
 Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/en.i18next.json
     :language: json
+
+Weblate configuration
++++++++++++++++++++++
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -47,11 +58,3 @@ Example file:
 +--------------------------------+----------------------------------+
 | File format                    | `i18next JSON file v3`           |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/json`,
-    `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`

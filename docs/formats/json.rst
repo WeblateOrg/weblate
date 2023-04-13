@@ -27,19 +27,6 @@ Weblate currently supports several variants of JSON translations:
 JSON translations are usually monolingual, so it is recommended to specify a base
 file with (what is most often the) English strings.
 
-Example files
-+++++++++++++
-
-Example file:
-
-.. literalinclude:: ../../weblate/trans/tests/data/cs.json
-    :language: json
-
-Nested files are supported as well (see above for requirements), such a file can look like:
-
-.. literalinclude:: ../../weblate/trans/tests/data/cs-nested.json
-    :language: json
-
 .. hint::
 
    The :guilabel:`JSON file` and :guilabel:`JSON nested structure file` can
@@ -58,6 +45,29 @@ Nested files are supported as well (see above for requirements), such a file can
          }
       }
 
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+Example files
++++++++++++++
+
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.json
+    :language: json
+
+Nested files are supported as well (see above for requirements), such a file can look like:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs-nested.json
+    :language: json
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -69,10 +79,3 @@ Nested files are supported as well (see above for requirements), such a file can
 +--------------------------------+----------------------------------+
 | File format                    | `JSON nested structure file`     |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/json`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,

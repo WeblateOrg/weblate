@@ -12,6 +12,13 @@ NeXTSTEP/OpenSTEP.
 
 Apple iOS strings are usually used as monolingual.
 
+.. seealso::
+
+    :ref:`stringsdict`,
+    `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
+    `Message Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_,
+    :doc:`tt:formats/strings`
+
 Weblate configuration
 +++++++++++++++++++++
 
@@ -27,10 +34,3 @@ Weblate configuration
 +--------------------------------+----------------------------------------------+
 | File format                    | `iOS Strings (UTF-8)`                        |
 +--------------------------------+----------------------------------------------+
-
-.. seealso::
-
-    :ref:`stringsdict`,
-    `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
-    `Message Catalog File Format in PWG 5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_,
-    :doc:`tt:formats/strings`

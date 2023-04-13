@@ -10,6 +10,20 @@ mi18n lang files
 
 File format used for JavaScript localization by `mi18n`_. Syntactically it matches :ref:`javaprop`.
 
+.. seealso::
+
+    `mi18n`_,
+    :doc:`tt:formats/properties`,
+    :ref:`javaprop`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`
+
+.. _mi18n: https://github.com/Draggable/mi18n
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -21,14 +35,3 @@ File format used for JavaScript localization by `mi18n`_. Syntactically it match
 +--------------------------------+----------------------------------+
 | File format                    | `mi18n lang file`                |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    `mi18n`_,
-    :doc:`tt:formats/properties`,
-    :ref:`javaprop`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`
-
-.. _mi18n: https://github.com/Draggable/mi18n

@@ -15,6 +15,12 @@ Currently the following tools are compatible:
 The metadata consists of several textfiles, which Weblate will present as
 separate strings to translate.
 
+.. hint::
+
+   In case you don't want to translate certain strings (for example
+   changelogs), mark them read-only (see :ref:`custom-checks`). This can be
+   automated by the :ref:`addon-weblate.flags.bulk`.
+
 Weblate configuration
 +++++++++++++++++++++
 
@@ -29,9 +35,3 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | File format                    | `App store metadata files`          |
 +--------------------------------+-------------------------------------+
-
-.. hint::
-
-   In case you don't want to translate certain strings (for example
-   changelogs), mark them read-only (see :ref:`custom-checks`). This can be
-   automated by the :ref:`addon-weblate.flags.bulk`.

@@ -10,6 +10,15 @@ Native Joomla format for translations.
 
 Joomla translations are usually used as monolingual translations.
 
+.. seealso::
+
+    :doc:`tt:formats/properties`,
+    :ref:`ini`,
+    :ref:`islu`
+
+Weblate configuration
++++++++++++++++++++++
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
@@ -21,9 +30,3 @@ Joomla translations are usually used as monolingual translations.
 +--------------------------------+----------------------------------+
 | File format                    | `Joomla Language File`           |
 +--------------------------------+----------------------------------+
-
-.. seealso::
-
-    :doc:`tt:formats/properties`,
-    :ref:`ini`,
-    :ref:`islu`
