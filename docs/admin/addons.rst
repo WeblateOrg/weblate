@@ -3,8 +3,6 @@
 Add-ons
 =======
 
-.. versionadded:: 2.19
-
 Add-ons provide ways to customize and automate the translation workflow.
 Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
 translation component.
@@ -851,8 +849,6 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_BRANCH
 
-    .. versionadded:: 2.11
-
     Repository branch configured in the current component.
 
 .. envvar:: WL_FILEMASK
@@ -864,8 +860,6 @@ Additionally, the following environment variables are available:
     Filename of template for monolingual translations (can be empty).
 
 .. envvar:: WL_NEW_BASE
-
-    .. versionadded:: 2.14
 
     Filename of the file used for creating new translations (can be
     empty).

@@ -6,8 +6,6 @@ DTD files
 .. index::
     pair: DTD; file format
 
-.. versionadded:: 2.18
-
 Example DTD file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.dtd

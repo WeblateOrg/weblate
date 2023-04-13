@@ -25,8 +25,6 @@ URL.
 Automatic component lists
 -------------------------
 
-.. versionadded:: 2.13
-
 Add components to the list automatically based on their slug by creating
 :guilabel:`Automatic component list assignment` rules.
 

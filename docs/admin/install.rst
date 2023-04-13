@@ -1336,8 +1336,6 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 Running Weblate under path
 ++++++++++++++++++++++++++
 
-.. versionadded:: 1.3
-
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using

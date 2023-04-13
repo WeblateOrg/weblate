@@ -81,8 +81,6 @@ add_suggestions
 
 .. django-admin:: add_suggestions <project> <component> <language> <file>
 
-.. versionadded:: 2.5
-
 Imports a translation from the file to use as a suggestion for the given translation.
 It skips duplicated translations; only different ones are added.
 
@@ -102,8 +100,6 @@ auto_translate
 --------------
 
 .. django-admin:: auto_translate <project> <component> <language>
-
-.. versionadded:: 2.5
 
 .. versionchanged:: 4.6
 
@@ -281,8 +277,6 @@ dump_memory
 
 .. django-admin:: dump_memory
 
-.. versionadded:: 2.20
-
 Export a JSON file containing Weblate Translation Memory content.
 
 .. seealso::
@@ -318,8 +312,6 @@ import_json
 -----------
 
 .. django-admin:: import_json <json-file>
-
-.. versionadded:: 2.7
 
 Batch import of components based on JSON data.
 
@@ -361,8 +353,6 @@ import_memory
 -------------
 
 .. django-admin:: import_memory <file>
-
-.. versionadded:: 2.20
 
 Imports a TMX or JSON file into the Weblate translation memory.
 

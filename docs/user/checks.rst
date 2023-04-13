@@ -1310,8 +1310,6 @@ The check is automatically enabled for XML like strings. You might need to add
 XML syntax
 ~~~~~~~~~~
 
-.. versionadded:: 2.8
-
 :Summary: The translation is not valid XML
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.XMLValidityCheck``

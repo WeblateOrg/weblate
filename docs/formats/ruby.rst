@@ -7,8 +7,6 @@ Ruby YAML files
     pair: Ruby YAML; file format
     pair: Ruby YAML Ain't Markup Language; file format
 
-.. versionadded:: 2.9
-
 Ruby i18n YAML files with language as root node.
 
 Example Ruby i18n YAML file:

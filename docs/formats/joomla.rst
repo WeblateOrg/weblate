@@ -6,8 +6,6 @@ Joomla translations
 .. index::
     pair: Joomla translations; file format
 
-.. versionadded:: 2.12
-
 Native Joomla format for translations.
 
 Joomla translations are usually used as monolingual translations.

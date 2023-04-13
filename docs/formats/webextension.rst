@@ -3,10 +3,6 @@
 WebExtension JSON
 -----------------
 
-.. versionadded:: 2.16
-
-    This is supported since Weblate 2.16 and with translate-toolkit at-least 2.2.4.
-
 File format used when translating extensions for Mozilla Firefox or Google Chromium.
 
 .. note::

@@ -22,8 +22,6 @@ Dashboard
 When you sign in, you will see an overview of projects and components,
 as well as their respective translation progression.
 
-.. versionadded:: 2.5
-
 Components of projects you are watching are shown by default, and
 cross-referenced with your preferred languages.
 

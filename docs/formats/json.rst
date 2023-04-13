@@ -6,8 +6,6 @@ JSON files
 .. index::
     pair: JSON; file format
 
-.. versionadded:: 2.0
-
 .. versionchanged:: 2.16
 
     Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested

@@ -7,8 +7,6 @@ CSV files
     pair: CSV; file format
     pair: Comma separated values; file format
 
-.. versionadded:: 2.4
-
 CSV files can contain a simple list of source and translation. Weblate supports
 the following files:
 

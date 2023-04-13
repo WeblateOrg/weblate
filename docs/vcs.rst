@@ -271,8 +271,6 @@ For the ``hello`` repository from selenic.com using Mercurial::
 GitHub pull requests
 --------------------
 
-.. versionadded:: 2.3
-
 This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow pushing
 translation changes as pull requests, instead of pushing directly to the repository.
 
@@ -413,8 +411,6 @@ Weblate settings to make this work. Once configured, you will see a
 Gerrit
 ------
 
-.. versionadded:: 2.2
-
 Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
 pushing translation changes as Gerrit review requests, instead of
 pushing them directly to the repository.
@@ -428,8 +424,6 @@ such repositories.
 
 Mercurial
 ---------
-
-.. versionadded:: 2.1
 
 Mercurial is another VCS you can use directly in Weblate.
 
@@ -448,8 +442,6 @@ Mercurial is another VCS you can use directly in Weblate.
 
 Subversion
 ----------
-
-.. versionadded:: 2.8
 
 Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is
 a Perl script that lets subversion be used by a Git client, enabling
