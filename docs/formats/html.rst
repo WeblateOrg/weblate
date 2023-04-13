@@ -5,8 +5,6 @@ HTML files
 
 .. versionadded:: 4.1
 
-.. include:: /snippets/beta-format.rst
-
 The translatable content is extracted from the HTML files and offered for the translation.
 
 .. seealso::

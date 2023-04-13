@@ -5,8 +5,6 @@ IDML Format
 
 .. versionadded:: 4.1
 
-.. include:: /snippets/beta-format.rst
-
 The translatable content is extracted from the Adobe InDesign Markup Language files and offered for the translation.
 
 Weblate configuration
