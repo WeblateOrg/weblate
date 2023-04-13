@@ -153,6 +153,17 @@
     </td>
   </tr>
   {% endfor %}
+  {% for item in entries_languages %}
+  <tr>
+    <td>{% blocktrans with source_language=item.source_language target_language=item.target_language %}Entries for {{ source_language }} to {{ target_language }}{% endblocktrans %}</td>
+    <td></td>
+    <td class="number">{{ item.id__count|intcomma }}</td>
+    <td>
+      <a href="{{ download_url }}?source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?format=tmx&amp;source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+    </tr>
+  </tr>
+  {% endfor %}
   {% if project %}
   <tr>
   <th>{% trans "Shared translation memory" %}</th>
