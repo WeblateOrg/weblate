@@ -1,0 +1,31 @@
+.. _joomla:
+
+Joomla translations
+-------------------
+
+.. index::
+    pair: Joomla translations; file format
+
+.. versionadded:: 2.12
+
+Native Joomla format for translations.
+
+Joomla translations are usually used as monolingual translations.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``language/*/com_foobar.ini``    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en-GB/com_foobar.ini``|
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Joomla Language File`           |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/properties`,
+    :ref:`ini`,
+    :ref:`islu`

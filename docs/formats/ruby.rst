@@ -1,0 +1,31 @@
+.. _ryaml:
+
+Ruby YAML files
+---------------
+
+.. index::
+    pair: Ruby YAML; file format
+    pair: Ruby YAML Ain't Markup Language; file format
+
+.. versionadded:: 2.9
+
+Ruby i18n YAML files with language as root node.
+
+Example Ruby i18n YAML file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.ryml
+    :language: yaml
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``translations/messages.*.yml``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``translations/messages.en.yml`` |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Ruby YAML file`                 |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/yaml`, :ref:`yaml`

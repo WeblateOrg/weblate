@@ -1,0 +1,29 @@
+.. _subtitles:
+
+Subtitle files
+--------------
+
+.. versionadded:: 3.7
+
+Weblate can translate various subtitle files:
+
+* SubRip subtitle file (``*.srt``)
+* MicroDVD subtitle file (``*.sub``)
+* Advanced Substation Alpha subtitles file (``*.ass``)
+* Substation Alpha subtitle file (``*.ssa``)
+
++--------------------------------+-------------------------------------+
+| Typical Weblate :ref:`component`                                     |
++================================+=====================================+
+| File mask                      | ``path/*.srt``                      |
++--------------------------------+-------------------------------------+
+| Monolingual base language file | ``path/en.srt``                     |
++--------------------------------+-------------------------------------+
+| Template for new translations  | ``path/en.srt``                     |
++--------------------------------+-------------------------------------+
+| File format                    | `SubRip subtitle file`              |
++--------------------------------+-------------------------------------+
+
+.. seealso::
+
+   :doc:`tt:formats/subtitles`
