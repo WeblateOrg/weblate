@@ -227,7 +227,7 @@ Translation types capabilities
    * - :ref:`yaml`
      - mono
      - no
-     - yes
+     - no
      - no
      - no
      - no
@@ -235,7 +235,7 @@ Translation types capabilities
    * - :ref:`ryaml`
      - mono
      - yes
-     - yes
+     - no
      - no
      - no
      - no
