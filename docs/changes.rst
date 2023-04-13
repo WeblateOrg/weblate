@@ -7,7 +7,7 @@ Not yet released.
 * Dropped deprecated command ``cleanup_celery``.
 * Fixed private project visibility for some teams.
 * Automatic translation now honors target state when translating from other components.
-* Improved performace of public user profiles.
+* Improved performance of public user profiles.
 * Improved Sentry performance integration.
 * Added support for Ed25519 SSH key.
 * Rewritten metrics storage.
@@ -15,7 +15,7 @@ Not yet released.
 * Documentation improvements.
 * Unchanged translation check can honor untranslatable terms from glossary.
 * Added automatic fixup for Devanagari danda.
-* Allow downloating project translation memory per language.
+* Allow downloading project translation memory per language.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 
