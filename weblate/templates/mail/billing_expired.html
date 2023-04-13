@@ -34,7 +34,7 @@
   {% else %}
     <p>{% trans "No projects in this billing. You might have other billings with projects in." %}</p>
   {% endif %}
-{% endif %}
+{% endwith %}
 
 {% if final_removal %}
     <p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
