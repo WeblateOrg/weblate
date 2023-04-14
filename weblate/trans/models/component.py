@@ -8,7 +8,7 @@ import time
 from collections import Counter, defaultdict
 from contextlib import suppress
 from copy import copy
-from datetime import datetime
+from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
 from typing import Any, Dict, List, Optional
@@ -25,6 +25,7 @@ from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
@@ -3065,7 +3066,30 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         else:
             self.delete_alert("InexistantFiles")
 
+        if self.is_old_unused():
+            self.add_alert("UnusedComponent")
+        else:
+            self.delete_alert("UnusedComponent")
+
         self.update_link_alerts()
+
+    def is_old_unused(self):
+        if settings.UNUSED_ALERT_DAYS == 0:
+            return False
+        if self.is_glossary:
+            # Auto created glossaries can live without being used
+            return False
+        if self.stats.all == self.stats.translated:
+            # Allow fully translated ones
+            return False
+        last_changed = self.stats.last_changed
+        cutoff = timezone.now() - timedelta(days=settings.UNUSED_ALERT_DAYS)
+        if last_changed is not None:
+            # If last content change is present, use it to decide
+            return last_changed < cutoff
+        oldest_change = self.change_set.order_by("timestamp").first()
+        # Weird, each component should have change
+        return oldest_change is None or oldest_change.timestamp < cutoff
 
     def get_ambiguous_translations(self):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())

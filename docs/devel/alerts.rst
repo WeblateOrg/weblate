@@ -23,6 +23,7 @@ Currently the following is covered:
 * Ambiguous language code
 * Unused new base in component settings
 * Duplicate file mask used for linked components
+* Component seems unused
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).

@@ -164,6 +164,7 @@ Current translation status:
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
     REPOSITORY_ALERT_THRESHOLD = 25
+    UNUSED_ALERT_DAYS = 365
     BACKGROUND_TASKS = "monthly"
 
     SINGLE_PROJECT = False

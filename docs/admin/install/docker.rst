@@ -917,6 +917,12 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
 
+.. envvar:: WEBLATE_UNUSED_ALERT_DAYS
+
+   .. versionadded:: 4.17
+
+   Configures :setting:`UNUSED_ALERT_DAYS`.
+
 .. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
 
    .. versionadded:: 4.16

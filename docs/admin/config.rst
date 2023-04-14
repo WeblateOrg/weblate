@@ -1748,6 +1748,17 @@ SUGGESTION_CLEANUP_DAYS
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
 
+.. setting:: UNUSED_ALERT_DAYS
+
+UNUSED_ALERT_DAYS
+-----------------
+
+.. versionadded:: 4.17
+
+Configures when :guilabel:`Component seems unused` alert is trigged.
+
+Defaults to 365 days, set to 0 to disable it.
+
 .. setting:: UPDATE_LANGUAGES
 
 UPDATE_LANGUAGES
