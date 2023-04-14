@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-13 09:26+0000\n"
-"PO-Revision-Date: 2023-04-10 05:36+0000\n"
+"PO-Revision-Date: 2023-04-14 14:11+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -5297,22 +5297,16 @@ msgid "Translation"
 msgstr "Çeviri"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Katkıda bulunulan çeviriler"
+msgstr "Katkıda bulunulan tüm çevirileri görüntüle"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Tüm projelere göz at"
+msgstr "Yönetilen tüm projeleri görüntüle"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Tüm projelere göz at"
+msgstr "İzlenen tüm projeleri görüntüle"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -6106,31 +6100,32 @@ msgstr "%(used)s / %(total)s kullanıldı"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:44
 msgid "Visible to everybody."
-msgstr "Herkese görünür."
+msgstr "Herkes tarafından görülebilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/snippets/info.html:193
 msgid "Any authenticated user can contribute."
-msgstr "Kimliği doğrulanmış her kullanıcı katkıda bulunabilir."
+msgstr "Kimliği doğrulanmış tüm kullanıcılar tarafından katkıda bulunulabilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr "VCS deposu herkese açık olabilir."
+msgstr "Sürüm denetimi sistemi herkese açılabilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
 #: weblate/templates/snippets/info.html:191
 msgid "Only chosen users can contribute."
-msgstr "Yalnızca seçilmiş kullanıcılar katkıda bulunabilir."
+msgstr "Yalnızca seçilmiş kullanıcılar tarafından katkıda bulunulabilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
 msgid "Only chosen users can access VCS repository."
-msgstr "Yalnızca seçilmiş kullanıcılar VCS deposuna erişebilir."
+msgstr ""
+"Yalnızca seçilmiş kullanıcılar sürüm denetimi sistemi deposuna erişebilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
-msgstr "Yalnızca seçilmiş kullanıcılara görünür."
+msgstr "Yalnızca seçilmiş kullanıcılar tarafından görülebilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:68
 msgid "Permissions are not managed in Weblate."
@@ -7397,6 +7392,7 @@ msgstr "Projeyi sil"
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
 msgstr ""
+"Bu faturada bir proje yok. İçinde projeler olan başka faturalarınız olabilir."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8071,28 +8067,23 @@ msgid "SSH keys"
 msgstr "SSH anahtarları"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "SSH anahtarı üret"
+msgstr "%(key_type)s SSH anahtarı üret"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Bir SSH anahtarınız yok gibi görünüyor. Aşağıdaki düğmeye basınca Weblate "
-"sizin için bir tane üretecek."
+"Bir %(key_type)s SSH anahtarınız yok gibi görünüyor. Aşağıdaki düğmeye "
+"basınca Weblate sizin için bir tane üretecek."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "SSH anahtarı üret"
+msgstr "%(key_type)s SSH anahtarı üret"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -9302,10 +9293,9 @@ msgid "Descending"
 msgstr "Azalan"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Herkese açık SSH anahtarı"
+msgstr "Herkese açık %(key_type)s SSH anahtarı"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9317,10 +9307,9 @@ msgstr ""
 "bunu kullanabilirsiniz."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Kişisel anahtarı indir"
+msgstr "%(key_type)s kişisel anahtarını indir"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -12914,10 +12903,9 @@ msgid "User configured character: {}"
 msgstr "Kullanıcının yapılandırdığı karakter: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Kendiliğinden çeviri kipi"
+msgstr "Kendiliğinden çeviri yapılamadı: %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -13984,16 +13972,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Bitbucket sunucusu çekme isteği"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
