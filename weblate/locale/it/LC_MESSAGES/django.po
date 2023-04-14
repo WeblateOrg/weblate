@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-13 13:05+0000\n"
+"PO-Revision-Date: 2023-04-14 19:46+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -8316,7 +8316,7 @@ msgstr "La memoria verrà quindi riempita con le traduzioni attuali."
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Voci per %(source_language)s a %(target_language)s"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9820,19 +9820,20 @@ msgstr ""
 "funzionalità o se ci sono dipendenze mancanti."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] ""
-"Il componente bloccato non otterrà alcun aggiornamento della traduzione."
+"Il componente non ha ricevuto alcuna traduzione nell'ultimo %(count)s giorno."
 msgstr[1] ""
-"Il componente bloccato non otterrà alcun aggiornamento della traduzione."
+"Il componente non ha ricevuto alcuna traduzione negli ultimi %(count)s "
+"giorni."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
+"Se non è più utile prendi in considerazione la rimozione del componente."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10883,7 +10884,7 @@ msgstr "Caratteri di controllo"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Devanagari danda"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11731,10 +11732,8 @@ msgid "Inexistent files."
 msgstr "File inesistenti."
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "Sbloccato componente"
+msgstr "Il componente sembra inutilizzato."
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
