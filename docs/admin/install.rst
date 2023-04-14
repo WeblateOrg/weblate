@@ -1536,7 +1536,7 @@ In short, you need to adjust :file:`settings.py`:
 Everything else is integrated automatically, you will now collect both server
 and client side errors.
 
-.. note:
+.. note::
 
     Error logging also includes exceptions that were gracefully handled, but
     might indicate a problem - such as failed parsing of an uploaded file.
