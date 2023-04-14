@@ -419,7 +419,7 @@ How to handle renaming translation files?
 
 When renaming files in the repository, it can happen that Weblate sees this as
 removal and adding of the files. This can lead to losing strings history,
-commends and suggestions.
+comments and suggestions.
 
 To avoid that, perform renaming in following steps:
 
