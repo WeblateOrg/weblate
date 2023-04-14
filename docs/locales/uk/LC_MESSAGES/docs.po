@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-13 16:22+0000\n"
+"PO-Revision-Date: 2023-04-14 19:46+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.17-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -6918,14 +6918,12 @@ msgid "Removes control characters if the source does not contain any."
 msgstr "Вилучає керівні символи, якщо у початковому коді міститься ці символи."
 
 #: ../../admin/config.rst:172
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:173
 msgid "Replaces sentence full stop in Bangla by Devanagari danda."
-msgstr ""
+msgstr "Замінює кінцеву крапку у бангла на данду деванагарі."
 
 #: ../../admin/config.rst:175
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -8870,15 +8868,17 @@ msgstr ""
 
 #: ../../admin/config.rst:1754
 msgid "UNUSED_ALERT_DAYS"
-msgstr ""
+msgstr "UNUSED_ALERT_DAYS"
 
 #: ../../admin/config.rst:1758
 msgid "Configures when :guilabel:`Component seems unused` alert is trigged."
 msgstr ""
+"Налаштовує часову умову для появи нагадування :guilabel:`Здається, "
+"складником не користуються`."
 
 #: ../../admin/config.rst:1760
 msgid "Defaults to 365 days, set to 0 to disable it."
-msgstr ""
+msgstr "Типовим значенням є 365 днів. Встановіть 0, щоб вимкнути обмеження."
 
 #: ../../admin/config.rst:1765
 msgid "UPDATE_LANGUAGES"
@@ -12606,6 +12606,9 @@ msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
+"До журналу помилок буде також включено виключення, які було оброблено "
+"штатно, але вони можуть вказувати на проблему, зокрема помилки при обробці "
+"вивантаженого файла."
 
 #: ../../admin/install.rst:1545
 msgid "Migrating Weblate to another server"
@@ -13847,10 +13850,8 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Налаштовує :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:924
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr "Налаштовує :setting:`LICENSE_FILTER`."
+msgstr "Налаштовує :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:930
 msgid "Allow CORS requests from given origins."
@@ -24851,8 +24852,6 @@ msgstr ""
 "складників."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performace of public user profiles."
 msgid "Improved performance of public user profiles."
 msgstr "Удосконалено швидкодію обробки відкритих профілів користувачів."
 
@@ -24880,30 +24879,23 @@ msgid "Documentation improvements."
 msgstr "Удосконалення у документації."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improved management of untranslatable terms in glossary."
 msgid ""
 "Unchanged translation check can honor untranslatable terms from glossary."
-msgstr "Удосконалено керування неперекладними термінами в глосарії."
+msgstr ""
+"У перевірці на незмінений переклад реалізовано врахування непридатних до "
+"перекладу термінів з глосарія."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added automatic fix to remove control characters."
 msgid "Added automatic fixup for Devanagari danda."
-msgstr ""
-"Додано засіб автоматичного виправлення для вилучення керівних символів."
+msgstr "Додано засіб автоматичного виправлення для данди з деванагарі."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for rebuilding project translation memory."
 msgid "Allow downloading project translation memory per language."
-msgstr "Додано підтримку для перебудови пам'яті перекладів проєкту."
+msgstr "Уможливлено отримання пам'яті перекладу проєкту для окремої мови."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgid "Added new alert on unused components."
-msgstr "Нове попередження у %(component)s"
+msgstr "Додано нове попередження щодо складників, якими не користуються."
 
 #: ../../changes.rst:21
 msgid ""
@@ -35394,10 +35386,8 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Дублювання маски файлів, використаних для пов'язаних складників"
 
 #: ../../devel/alerts.rst:26
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused"
-msgstr "Складник розблоковано"
+msgstr "Здається, складником не користуються"
 
 #: ../../devel/alerts.rst:28
 msgid ""
@@ -38188,11 +38178,6 @@ msgid "How to handle renaming translation files?"
 msgstr "Як перейменовувати файли перекладів?"
 
 #: ../../faq.rst:420
-#, fuzzy
-#| msgid ""
-#| "When renaming files in the repository, it can happen that Weblate sees "
-#| "this as removal and adding of the files. This can lead to losing strings "
-#| "history, commends and suggestions."
 msgid ""
 "When renaming files in the repository, it can happen that Weblate sees this "
 "as removal and adding of the files. This can lead to losing strings history, "
@@ -38820,10 +38805,8 @@ msgid "See :ref:`bimono`"
 msgstr "Див. :ref:`bimono`"
 
 #: ../../formats.rst:349
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-plurals`"
-msgstr ":ref:`formats`"
+msgstr "Див. :ref:`format-plurals`"
 
 #: ../../formats.rst:350
 msgid ""
@@ -38868,10 +38851,8 @@ msgstr ""
 "опис початкового рядка."
 
 #: ../../formats.rst:355
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid "See :ref:`format-flags`."
-msgstr ":ref:`formats`"
+msgstr "Див. :ref:`format-flags`."
 
 #: ../../formats.rst:356
 msgid "The gettext type comments are used as flags."
@@ -38947,19 +38928,16 @@ msgid ""
 "defining those in the translation file (you can always define them in the "
 "Weblate interface, see :ref:`custom-checks`)."
 msgstr ""
+"За допомогою прапорців перекладу можна налаштувати поведінку Weblate. У "
+"деяких форматах передбачено підтримку визначення таких прапорців у файлі "
+"перекладу (ви завжди можете визначити їх в інтерфейсі Weblate, див. :ref"
+":`custom-checks`)."
 
 #: ../../formats.rst:393
 msgid "This feature is modelled on flags in :ref:`gettext`."
-msgstr ""
+msgstr "Цю можливість моделюють на прапорцях у :ref:`gettext`."
 
 #: ../../formats.rst:395
-#, fuzzy
-#| msgid ""
-#| "The flags are extracted from the non-standard attribute ``weblate-flags`` "
-#| "for all XML based formats. Additionally ``max-length:N`` is supported "
-#| "through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/"
-#| "v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
-#| "see :ref:`xliff-flags`."
 msgid ""
 "Additionally, for all XML based format, the flags are extracted from the non-"
 "standard attribute ``weblate-flags``. Additionally ``max-length:N`` is "
@@ -38967,35 +38945,29 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Прапорці видобуваються з нестандартного атрибута ``weblate-flags`` для всіх "
-"заснованих на XML форматів. Крім того, передбачено підтримку ``max-length:"
-"N`` шляхом обробки `атрибута <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
-"core.html#maxwidth>`_ ``maxwidth`` у формі, яку визначено у стандарті XLIFF, "
-"див. :ref:`xliff-flags`."
+"Крім того, прапорці видобуваються з нестандартного атрибута ``weblate-flags``"
+" для всіх заснованих на XML форматів. Крім того, передбачено підтримку ``max-"
+"length:N`` шляхом обробки `атрибута <http://docs.oasis-open.org/xliff/v1.2/"
+"os/xliff-core.html#maxwidth>`_ ``maxwidth`` у формі, яку визначено у "
+"стандарті XLIFF, див. :ref:`xliff-flags`."
 
 #: ../../formats.rst:403
-#, fuzzy
-#| msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
 msgid ":ref:`custom-checks`, `PO files documentation`_"
-msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
+msgstr ":ref:`custom-checks`, `Документація до файлів PO`_"
 
 #: ../../formats.rst:414
-#, fuzzy
-#| msgid "Pluralized string"
 msgid "Pluralized strings"
-msgstr "Рядок із формами множини"
+msgstr "Рядки із формами множини"
 
 #: ../../formats.rst:416
-#, fuzzy
-#| msgid ""
-#| "Plurals are necessary to properly localize strings with variable count."
 msgid ""
 "Plurals are necessary to properly localize strings with variable count. The "
 "rules depend on a target language and many formats follow CLDR specification "
 "for that."
 msgstr ""
 "Форми множини потрібні для належної локалізації рядків із змінними-"
-"лічильниками."
+"лічильниками. Правила залежать від мови перекладу. Багато форматів "
+"використовують для визначення правил специфікацію CLDR."
 
 #: ../../formats.rst:422
 msgid ""
@@ -39003,6 +38975,9 @@ msgid ""
 "well. Choose native format of your platform such as :ref:`gettext`, :ref:"
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
+"Крім того, належну підтримку рядків із формами множини має бути реалізовано "
+"у бібліотеках програми. Виберіть рідний для вашої платформи формат, зокрема "
+":ref:`gettext`, :ref:`aresource` або :ref:`stringsdict`."
 
 #: ../../formats.rst:429
 msgid "Read-only strings"
@@ -41514,11 +41489,11 @@ msgstr "Вилучає усі керівні символи з переклад�
 
 #: ../../user/checks.rst:44
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Деванагарі данда"
 
 #: ../../user/checks.rst:46
 msgid "Replaces wrong full stop in Devanagari by Devanagari danda (``।``)."
-msgstr ""
+msgstr "Замінює помилкову кінцеву крапку у деванагарі на данду (``।``)."
 
 #: ../../user/checks.rst:49
 msgid "Unsafe HTML cleanup"
@@ -41751,6 +41726,8 @@ msgstr ""
 #: ../../user/checks.rst:144
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
 msgstr ""
+"Також використовує непридатні до перекладу терміни з глосарія у :ref:`check-"
+"same`."
 
 #: ../../user/checks.rst:148
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -43691,12 +43668,12 @@ msgid ""
 "With ``check-glossary`` flag (see :ref:`check-check-glossary`), the "
 "untranslatable glossary terms are excluded from the checking."
 msgstr ""
+"Якщо вказано прапорець ``check-glossary`` (див. :ref:`check-check-glossary`)"
+", непридатні до перекладу терміни з глосарія буде виключено з перевірки."
 
 #: ../../user/checks.rst:1245
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`custom-checks`"
 msgid ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
-msgstr ":ref:`component`, :ref:`custom-checks`"
+msgstr ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:1252
 msgid "Unsafe HTML"
@@ -44426,6 +44403,9 @@ msgid ""
 "The glossary terms are not used in quality checks unless you enable that, "
 "see :ref:`check-check-glossary` for more information."
 msgstr ""
+"Терміни глосарія не буде використано у перевірках якості, якщо ви не "
+"увімкнете цю можливість, див. :ref:`check-check-glossary`, щоб дізнатися "
+"більше."
 
 #: ../../user/glossary.rst:21
 msgid "Managing glossaries"
