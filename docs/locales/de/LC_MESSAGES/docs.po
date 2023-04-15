@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-14 19:46+0000\n"
-"Last-Translator: nautilusx <translate@disroot.org>\n"
+"PO-Revision-Date: 2023-04-16 01:15+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -87,6 +87,9 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"Projekte, die den kostenlosen Libre-Plan auf Hosted Weblate ausführen, sind "
+"immer :guilabel:`Öffentlich`. Sie können zum kostenpflichtigen Plan "
+"wechseln, wenn Sie den Zugriff auf Ihr Projekt einschränken möchten."
 
 #: ../../admin/access.rst:36
 msgid ""
@@ -118,6 +121,8 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Wählen Sie dies für Open-Source-Projekte oder wenn Ihre Weblate-Instanz "
+"privat oder gesperrt ist.**"
 
 #: ../../admin/access.rst:53 ../../admin/config.rst:473
 msgid ":guilabel:`Protected`"
@@ -138,6 +143,8 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Wählen Sie dies, um Sichtbarkeit zu erlangen, aber dennoch die Kontrolle "
+"darüber zu haben, wer etwas beitragen kann.**"
 
 #: ../../admin/access.rst:61 ../../admin/config.rst:475
 msgid ":guilabel:`Private`"
@@ -151,6 +158,8 @@ msgstr "Nur für ausgewählte Benutzer sichtbar."
 msgid ""
 "**Choose this for projects that should not be publicly exposed at all.**"
 msgstr ""
+"**Wählen Sie dies für Projekte, die überhaupt nicht öffentlich zugänglich "
+"gemacht werden sollen.**"
 
 #: ../../admin/access.rst:74 ../../admin/config.rst:477
 msgid ":guilabel:`Custom`"
@@ -6968,10 +6977,8 @@ msgid "Removes control characters if the source does not contain any."
 msgstr "Entfernt Steuerzeichen, wenn die Ausgangszeichenkette keine enthält."
 
 #: ../../admin/config.rst:172
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:173
 msgid "Replaces sentence full stop in Bangla by Devanagari danda."
@@ -13940,10 +13947,8 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:924
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr "Konfiguriert :setting:`LICENSE_FILTER`."
+msgstr "Konfiguriert :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:930
 msgid "Allow CORS requests from given origins."
@@ -17442,6 +17447,7 @@ msgstr "Gibt an, woher die Komponenten importiert werden sollen."
 #: ../../admin/management.rst:324
 msgid "Use the given VCS repository from this component for all of them."
 msgstr ""
+"Verwenden Sie das angegebene VCS-Repository dieser Komponente für alle davon."
 
 #: ../../admin/management.rst:328
 msgid "Skip (already) imported components."
@@ -17482,6 +17488,8 @@ msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
 msgstr ""
+"`--language-map en_US:en`\" importiert beispielsweise alle ``en_US``-"
+"Zeichenketten als ``en``."
 
 #: ../../admin/management.rst:358
 msgid ""
@@ -24367,22 +24375,16 @@ msgstr ""
 "Übersetzungen aus anderen Komponenten."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performance of several views."
 msgid "Improved performance of public user profiles."
-msgstr "Verbesserte Leistung mehrerer Ansichten."
+msgstr "Verbesserte Leistung von öffentlichen Benutzerprofilen."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved CodeMirror integration."
 msgid "Improved Sentry performance integration."
-msgstr "Verbesserte CodeMirror-Integration."
+msgstr "Verbesserte Leistung der Sentry-Integration."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added support for managing SSH host keys."
 msgid "Added support for Ed25519 SSH key."
-msgstr "Unterstützung für die Verwaltung von SSH-Hostschlüsseln hinzugefügt."
+msgstr "Unterstützung für Ed25519-SSH-Schlüssel hinzugefügt."
 
 #: ../../changes.rst:13
 msgid "Rewritten metrics storage."
@@ -24444,13 +24446,11 @@ msgstr "Veröffentlicht am 16. März 2023."
 
 #: ../../changes.rst:28 ../../changes.rst:39
 msgid "Dependencies updates."
-msgstr ""
+msgstr "Aktualisierungen der Abhängigkeiten."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Background tasks using Celery"
 msgid "Improved background tasks scheduling."
-msgstr "Hintergrundaufgaben mit Celery"
+msgstr "Verbesserte Planung von Hintergrundaufgaben."
 
 #: ../../changes.rst:31
 msgid ""
@@ -24469,17 +24469,13 @@ msgid "Released on March 15th 2023."
 msgstr "Veröffentlicht am 15. März 2023."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Improved error condition handling in machine translation backends."
 msgid "Improved session handling with project backups."
-msgstr ""
-"Verbesserte Behandlung von Fehlerbedingungen in maschinellen Übersetzungs-"
-"Backends."
+msgstr "Verbesserte Handhabung von Sitzungen bei Projektsicherungen."
 
 #: ../../changes.rst:40 ../../changes.rst:1225 ../../changes.rst:1316
 #: ../../changes.rst:1463
 msgid "Localization updates."
-msgstr ""
+msgstr "Aktualisierungen der Lokalisierung."
 
 #: ../../changes.rst:43
 msgid ""
@@ -34363,10 +34359,8 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Doppelte Dateimaske für verknüpfte Komponenten"
 
 #: ../../devel/alerts.rst:26
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused"
-msgstr "Komponente freigegeben"
+msgstr "Die Komponente scheint nicht verwendet zu werden"
 
 #: ../../devel/alerts.rst:28
 msgid ""
@@ -37340,10 +37334,8 @@ msgid "See :ref:`bimono`"
 msgstr "Siehe :ref:`bimono`"
 
 #: ../../formats.rst:349
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-plurals`"
-msgstr "Siehe :ref:`custom-checks`"
+msgstr "Siehe :ref:`format-plurals`"
 
 #: ../../formats.rst:350
 msgid ""
@@ -37377,10 +37369,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:355
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-flags`."
-msgstr "Siehe :ref:`custom-checks`"
+msgstr "Siehe :ref:`format-flags`."
 
 #: ../../formats.rst:356
 msgid "The gettext type comments are used as flags."
@@ -37452,16 +37442,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:403
-#, fuzzy
-#| msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
 msgid ":ref:`custom-checks`, `PO files documentation`_"
-msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
+msgstr ":ref:`custom-checks`, `PO-Dateien-Dokumentation`_"
 
 #: ../../formats.rst:414
-#, fuzzy
-#| msgid "Pluralized string"
 msgid "Pluralized strings"
-msgstr "Zeichenkette mit Pluralformen"
+msgstr "Zeichenketten mit Pluralformen"
 
 #: ../../formats.rst:416
 msgid ""
