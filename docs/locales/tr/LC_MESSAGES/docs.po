@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-15 12:19+0000\n"
+"PO-Revision-Date: 2023-04-16 01:15+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -6854,14 +6854,12 @@ msgid "Removes control characters if the source does not contain any."
 msgstr "Kaynakta bulunmuyorsa denetim karakterlerini kaldırır."
 
 #: ../../admin/config.rst:172
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:173
 msgid "Replaces sentence full stop in Bangla by Devanagari danda."
-msgstr ""
+msgstr "Bangla yazımındaki cümle sonunu Devanagari danda ile değiştirir."
 
 #: ../../admin/config.rst:175
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -8790,15 +8788,18 @@ msgstr ""
 
 #: ../../admin/config.rst:1754
 msgid "UNUSED_ALERT_DAYS"
-msgstr ""
+msgstr "UNUSED_ALERT_DAYS"
 
 #: ../../admin/config.rst:1758
 msgid "Configures when :guilabel:`Component seems unused` alert is trigged."
 msgstr ""
+":guilabel:`Bileşen kullanılmıyor gibi görünüyor` uyarısının ne zaman "
+"verileceğini yapılandırır."
 
 #: ../../admin/config.rst:1760
 msgid "Defaults to 365 days, set to 0 to disable it."
 msgstr ""
+"Varsayılan değer 365 gündür. Devre dışı bırakmak için 0 olarak ayarlayın."
 
 #: ../../admin/config.rst:1765
 msgid "UPDATE_LANGUAGES"
@@ -12490,6 +12491,8 @@ msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
+"Hata günlüğü, düzgün bir şekilde işlenen özel durumları da içerir. Ancak "
+"yüklenen bir dosyanın işlenememesi gibi bir sorunu da gösteriyor olabilir."
 
 #: ../../admin/install.rst:1545
 msgid "Migrating Weblate to another server"
@@ -13731,10 +13734,8 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:924
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr ":setting:`LICENSE_FILTER` seçeneğini yapılandırır."
+msgstr ":setting:`UNUSED_ALERT_DAYS` seçeneğini yapılandırır."
 
 #: ../../admin/install/docker.rst:930
 msgid "Allow CORS requests from given origins."
@@ -24615,8 +24616,6 @@ msgstr ""
 "dikkate alması sağlandı."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performace of public user profiles."
 msgid "Improved performance of public user profiles."
 msgstr "Herkese açık kullanıcı profillerinin başarımı iyileştirildi."
 
@@ -24644,30 +24643,23 @@ msgid "Documentation improvements."
 msgstr "Belgelendirmede iyileştirmeler yapıldı."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improved management of untranslatable terms in glossary."
 msgid ""
 "Unchanged translation check can honor untranslatable terms from glossary."
-msgstr "Sözlükte çevrilemeyen terimlerin yönetimi iyileştirildi."
+msgstr ""
+"Çeviri değiştirilmemiş denetiminin sözlükte çevrilemez olarak imlenmiş "
+"terimlere uygun davranması sağlandı."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added automatic fix to remove control characters."
 msgid "Added automatic fixup for Devanagari danda."
-msgstr ""
-"Kontrol karakterlerini kaldıran kendiliğinden düzeltme özelliği eklendi."
+msgstr "Kendiliğinden Devanagari danda düzeltme özelliği eklendi."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for rebuilding project translation memory."
 msgid "Allow downloading project translation memory per language."
-msgstr "Proje çeviri belleğini yeniden oluşturma özelliği eklendi."
+msgstr "Her dilin proje çeviri belleğini indirme özelliği eklendi."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgid "Added new alert on unused components."
-msgstr "%(component)s bileşeninde yeni uyarı"
+msgstr "Kullanılmayan bileşenler için yeni uyarı eklendi."
 
 #: ../../changes.rst:21
 msgid ""
@@ -34992,10 +34984,8 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Bağlantılı bileşenlerde çift dosya maskesi kullanılması"
 
 #: ../../devel/alerts.rst:26
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused"
-msgstr "Bileşen kilidi açıldı"
+msgstr "Bileşen kullanılmıyor gibi görünüyor"
 
 #: ../../devel/alerts.rst:28
 msgid ""
@@ -37735,11 +37725,6 @@ msgid "How to handle renaming translation files?"
 msgstr "Çeviri dosyaları nasıl yeniden adlandırılır?"
 
 #: ../../faq.rst:420
-#, fuzzy
-#| msgid ""
-#| "When renaming files in the repository, it can happen that Weblate sees "
-#| "this as removal and adding of the files. This can lead to losing strings "
-#| "history, commends and suggestions."
 msgid ""
 "When renaming files in the repository, it can happen that Weblate sees this "
 "as removal and adding of the files. This can lead to losing strings history, "
@@ -38361,10 +38346,8 @@ msgid "See :ref:`bimono`"
 msgstr "Bilgi almak için: :ref:`bimono`"
 
 #: ../../formats.rst:349
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-plurals`"
-msgstr "Bilgi almak için: :ref:`custom-checks`"
+msgstr "Bilgi almak için: :ref:`format-plurals`"
 
 #: ../../formats.rst:350
 msgid ""
@@ -38409,10 +38392,8 @@ msgstr ""
 "açıklaması olarak işlenir."
 
 #: ../../formats.rst:355
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-flags`."
-msgstr "Bilgi almak için: :ref:`custom-checks`"
+msgstr "Bilgi almak için: :ref:`format-flags`."
 
 #: ../../formats.rst:356
 msgid "The gettext type comments are used as flags."
@@ -38486,19 +38467,16 @@ msgid ""
 "defining those in the translation file (you can always define them in the "
 "Weblate interface, see :ref:`custom-checks`)."
 msgstr ""
+"Çeviri imleri, Weblate davranışının özelleştirilmesini sağlar. Bazı "
+"biçimler, imlerin çeviri dosyasında tanımlanmasını destekler (Weblate "
+"arayüzünden her zaman tanımlayabilirsiniz. Bilgi almak için: :ref:`custom-"
+"checks')."
 
 #: ../../formats.rst:393
 msgid "This feature is modelled on flags in :ref:`gettext`."
-msgstr ""
+msgstr "Bu özellik, :ref:`gettext` içindeki imlerde modellenmiştir."
 
 #: ../../formats.rst:395
-#, fuzzy
-#| msgid ""
-#| "The flags are extracted from the non-standard attribute ``weblate-flags`` "
-#| "for all XML based formats. Additionally ``max-length:N`` is supported "
-#| "through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/"
-#| "v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
-#| "see :ref:`xliff-flags`."
 msgid ""
 "Additionally, for all XML based format, the flags are extracted from the non-"
 "standard attribute ``weblate-flags``. Additionally ``max-length:N`` is "
@@ -38509,32 +38487,26 @@ msgstr ""
 "İmler, tüm XML tabanlı biçimler için standart olmayan ``weblate-flags`` "
 "özniteliğinden ayıklanır. Ek olarak, ``max-length:N``, XLIFF standardında "
 "tanımlandığı gibi ``maxwidth`` `özniteliği <http://docs.oasis-open.org/xliff/"
-"v1.2/os/xliff-core.html#maxwidth>`_ ile desteklenir. Bilgi almak için: :ref:"
-"`xliff-flags`."
+"v1.2/os/xliff-core.html#maxwidth>`_ ile desteklenir. Bilgi almak için: :ref"
+":`xliff-flags`."
 
 #: ../../formats.rst:403
-#, fuzzy
-#| msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
 msgid ":ref:`custom-checks`, `PO files documentation`_"
-msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
+msgstr ":ref:`custom-checks`, `PO dosyaları belgeleri`_"
 
 #: ../../formats.rst:414
-#, fuzzy
-#| msgid "Pluralized string"
 msgid "Pluralized strings"
-msgstr "Çoğul biçimi olan dizgeler"
+msgstr "Çoğul biçimli dizgeler"
 
 #: ../../formats.rst:416
-#, fuzzy
-#| msgid ""
-#| "Plurals are necessary to properly localize strings with variable count."
 msgid ""
 "Plurals are necessary to properly localize strings with variable count. The "
 "rules depend on a target language and many formats follow CLDR specification "
 "for that."
 msgstr ""
 "Çoğul biçimler, değişken sayısı olan dizgeleri doğru yerelleştirmek için "
-"gereklidir."
+"gereklidir. Kurallar hedef dile bağlıdır ve birçok biçim bunun için CLDR "
+"teknik özelliklerini kullanılır."
 
 #: ../../formats.rst:422
 msgid ""
@@ -38542,6 +38514,9 @@ msgid ""
 "well. Choose native format of your platform such as :ref:`gettext`, :ref:"
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
+"Çoğul biçimli dizgeler uygulama çatısı tarafından da desteklenmelidir. "
+"Platformunuza uygun :ref:`gettext`, :ref:`aresource' ya da :ref:"
+"'stringsdict' yerel biçimini seçin."
 
 #: ../../formats.rst:429
 msgid "Read-only strings"
@@ -41040,6 +41015,7 @@ msgstr "Devanagari danda"
 #: ../../user/checks.rst:46
 msgid "Replaces wrong full stop in Devanagari by Devanagari danda (``।``)."
 msgstr ""
+"Devanagari'deki yanlış cümle sonunu Devanagari danda (``।``) ile değiştirir."
 
 #: ../../user/checks.rst:49
 msgid "Unsafe HTML cleanup"
@@ -41253,8 +41229,8 @@ msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
 msgstr ""
-"Tam dizge eşleştirmesi yapar. Sözlükte tüm çeşitlerdeki terimlerin bulunması "
-"beklenir."
+"Dizgenin çeviri ile tam olarak eşleşip eşlemediğine bakar. Sözlükte tüm "
+"çeşitlerdeki terimlerin bulunması beklenir."
 
 #: ../../user/checks.rst:143
 msgid ""
@@ -41269,6 +41245,8 @@ msgstr ""
 #: ../../user/checks.rst:144
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
 msgstr ""
+"Ayrıca :ref:`check-same` içinde çevrilemez sözlük terimlerini de "
+"değerlendirir."
 
 #: ../../user/checks.rst:148
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -43175,12 +43153,12 @@ msgid ""
 "With ``check-glossary`` flag (see :ref:`check-check-glossary`), the "
 "untranslatable glossary terms are excluded from the checking."
 msgstr ""
+"``check-glossary`` imiyle (bilgi almak için: :ref:`check-check-glossary`), "
+"çevrilemeyecek sözlük terimleri denetime katılmaması sağlanır."
 
 #: ../../user/checks.rst:1245
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`custom-checks`"
 msgid ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
-msgstr ":ref:`component`, :ref:`custom-checks`"
+msgstr ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:1252
 msgid "Unsafe HTML"
@@ -43899,6 +43877,8 @@ msgid ""
 "The glossary terms are not used in quality checks unless you enable that, "
 "see :ref:`check-check-glossary` for more information."
 msgstr ""
+"Siz etkinleştirmediğiniz sürece kalite denetimlerinde sözlük terimleri "
+"kullanılmaz. Bilgi almak için :ref:`check-check-glossary`."
 
 #: ../../user/glossary.rst:21
 msgid "Managing glossaries"
