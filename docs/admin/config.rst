@@ -7,7 +7,7 @@ All settings are stored in :file:`settings.py` (as is usual for Django).
 
 .. note::
 
-    After changing any of these settings, you need to restart Weblate - both
+    After changing any of these settings, you need to restart Weblate — both
     WSGI and Celery processes.
 
     In case it is run as ``mod_wsgi``, you need to restart Apache to reload the
@@ -45,8 +45,8 @@ AUDITLOG_EXPIRY
 
 .. versionadded:: 3.6
 
-How many days Weblate should keep audit logs, which contain info about account
-activity.
+How many days Weblate should keep audit logs, (which contain info about account
+activity).
 
 Defaults to 180 days.
 
@@ -62,7 +62,7 @@ This is currently applied in the following locations:
 * Sign in. Deletes the account password, preventing the user from signing in
   without requesting a new password.
 * Password reset. Prevents new e-mails from being sent, avoiding spamming
-  users with too many password reset attempts.
+  users with too many password-reset attempts.
 
 Defaults to 10.
 
@@ -91,7 +91,7 @@ Updates all repositories on a daily basis.
 
     On/off options exist in addition to string selection for backward compatibility.
 
-Options are:
+The options are:
 
 ``"none"``
     No daily updates.
@@ -136,7 +136,7 @@ Set in number of seconds, defaulting to 172800 (2 days).
 AUTH_PASSWORD_DAYS
 ------------------
 
-How many days will Weblate reject reusing previously used password for an user.
+How many days Weblate rejects reusing a previously used password for a user.
 
 The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to be
 at least same as this.
@@ -156,7 +156,7 @@ List of automatic fixes to apply when saving a string.
 
 .. note::
 
-    Provide a fully-qualified path to the Python class that implementing the
+    Provide a fully-qualified path to the Python class that implements the
     autofixer interface.
 
 Available fixes:
@@ -170,7 +170,7 @@ Available fixes:
 ``weblate.trans.autofixes.chars.RemoveControlChars``
     Removes control characters if the source does not contain any.
 ``weblate.trans.autofixes.chars.DevanagariDanda``
-    Replaces sentence full stop in Bangla by Devanagari danda.
+    Replaces sentence full stop in Bangla by the devanagari danda character.
 ``weblate.trans.autofixes.html.BleachHTML``
     Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 
@@ -221,16 +221,16 @@ BASIC_LANGUAGES
 
 .. versionadded:: 4.4
 
-List of languages to offer users for starting new translation. When not
-specified built-in list is used which includes all commonly used languages, but
-without country specific variants.
+List of languages to offer users for starting a new translation. When not
+specified a built-in list is used (which includes all commonly used languages, but
+without country specific variants).
 
-This only limits non privileged users to add unwanted languages. The project
-admins are still presented with full selection of languages defined in Weblate.
+This only limits non privileged users to add unwanted languages. Project
+admins are still presented with the full selection of languages defined in Weblate.
 
 .. note::
 
-   This does not define new languages for Weblate, it only filters existing ones
+   This does not define new languages for Weblate — it only filters existing ones
    in the database.
 
 **Example:**
@@ -321,7 +321,7 @@ Adjust the list of checks to include ones relevant to you.
 
 All built-in :ref:`checks` are turned on by default, from
 where you can change these settings. By default they are commented out in :ref:`sample-configuration`
-so that default values are used. New checks then carried out for each new Weblate version.
+so that default values are used. New checks are then carried out for each new Weblate version.
 
 You can turn off all checks:
 
@@ -341,7 +341,7 @@ You can turn on only a few:
 
 .. note::
 
-    Changing this setting only affects newly changed translations, existing checks
+    Changing this setting only affects newly changed translations. Existing checks
     will still be stored in the database. To also apply changes to the stored translations, run
     :djadmin:`updatechecks`.
 
@@ -381,8 +381,8 @@ CONTACT_FORM
 
 .. versionadded:: 4.6
 
-Configures how e-mail from the contact form is being sent. Choose a
-configuration that matches your mail server configuration.
+Configures how e-mail from the contact form is being sent.
+Choose a configuration that matches the configuration of your mail server.
 
 ``"reply-to"``
    The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
@@ -411,13 +411,13 @@ The following subdirectories usually exist:
 :file:`media`
     Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
-    Version control repositories for translations.
+    Version-control repositories for translations.
 :file:`backups`
-    Daily backup data, please check :ref:`backup-dumps` for details.
+    Daily backup data. Please check :ref:`backup-dumps` for details.
 :file:`fonts`:
     User-uploaded  fonts, see :ref:`fonts`.
 :file:`cache`
-    Various caches, can be placed elsewhere using :setting:`CACHE_DIR`.
+    Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`.
 
     The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
@@ -465,7 +465,7 @@ DEFAULT_ACCESS_CONTROL
 
 .. versionadded:: 3.3
 
-The default access control setting for new projects:
+The default access-control setting for new projects:
 
 ``0``
    :guilabel:`Public`
@@ -536,7 +536,7 @@ Default commit messages for different operations, please check :ref:`component` 
 DEFAULT_ADDONS
 --------------
 
-Default add-ons to install on every created component.
+Default add-ons to install for every created component.
 
 .. note::
 
@@ -571,7 +571,7 @@ Example:
 DEFAULT_COMMITER_EMAIL
 ----------------------
 
-Committer e-mail address defaulting to ``noreply@weblate.org``.
+Committer e-mail address, defaulting to ``noreply@weblate.org``.
 
 .. seealso::
 
@@ -582,7 +582,7 @@ Committer e-mail address defaulting to ``noreply@weblate.org``.
 DEFAULT_COMMITER_NAME
 ---------------------
 
-Committer name defaulting to ``Weblate``.
+Committer name, defaulting to ``Weblate``.
 
 .. seealso::
 
@@ -595,7 +595,7 @@ DEFAULT_LANGUAGE
 
 .. versionadded:: 4.3.2
 
-Default source language to use for example in :ref:`component-source_language`.
+Default source-language to use for example in :ref:`component-source_language`.
 
 Defaults to `en`. The matching language object needs to exist in the database.
 
@@ -611,7 +611,7 @@ DEFAULT_MERGE_STYLE
 
 .. versionadded:: 3.4
 
-Merge style for any new components.
+Merge-style for any new components.
 
 * `rebase` - default
 * `merge`
@@ -628,7 +628,7 @@ DEFAULT_SHARED_TM
 
 .. versionadded:: 3.2
 
-Configures default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
+Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
@@ -656,7 +656,7 @@ Configures the default title and message for pull requests.
 ENABLE_AVATARS
 --------------
 
-Whether to turn on Gravatar-based avatars for users. By default this is on.
+Whether to turn on Gravatar-based avatars for users. On by default.
 
 Avatars are fetched and cached on the server, lowering the risk of
 leaking private info, speeding up the user experience.
@@ -672,7 +672,7 @@ leaking private info, speeding up the user experience.
 ENABLE_HOOKS
 ------------
 
-Whether to enable anonymous remote hooks.
+Whether to turn on anonymous remote hooks.
 
 .. seealso::
 
@@ -687,13 +687,13 @@ Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent
 e-mails and generated absolute URLs.
 
 In the default configuration this is also used for several Django settings
-related to HTTPS - it enables secure cookies, toggles HSTS or enables
-redirection to HTTPS URL.
+related to HTTPS — it enables secure cookies, toggles HSTS or enables
+redirection to a HTTPS URL.
 
 The HTTPS redirection might be problematic in some cases and you might hit
-issue with infinite redirection in case you are using a reverse proxy doing SSL
-termination which does not correctly pass protocol headers to Django. Please
-tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` or
+an issue with infinite redirection in case you are using a reverse proxy doing
+an SSL termination which does not correctly pass protocol headers to Django.
+Please tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` or
 ``Forwarded`` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
 let Django correctly detect the SSL status.
 
@@ -719,7 +719,7 @@ EXTRA_HTML_HEAD
 
 .. versionadded:: 4.15
 
-Insert additional markup into HTML header. Can be used for verification of site ownership, for example:
+Insert additional markup into the HTML header. Can be used for verification of site ownership, for example:
 
 .. code-block:: python
 
@@ -727,7 +727,7 @@ Insert additional markup into HTML header. Can be used for verification of site 
 
 .. warning::
 
-   No sanitization is performed on the string, it is inserted as is into the HTML header.
+   No sanitization is performed on the string. It is inserted as-is into the HTML header.
 
 .. setting:: GET_HELP_URL
 
@@ -868,7 +868,7 @@ error messages too in a similar manner.
 
 .. note::
 
-    This is turned on by default.
+    On by default.
 
 .. setting:: HIDE_VERSION
 
@@ -877,12 +877,12 @@ HIDE_VERSION
 
 .. versionadded:: 4.3.1
 
-Hides version information from unauthenticated users. This also makes all
-documentation links point to latest version instead of the documentation
-matching currently installed version.
+Hides version info from unauthenticated users. This also makes all
+documentation links point to the latest version instead of the documentation
+matching the currently installed version.
 
-Hiding version is recommended security practice in some corporations, but it
-doesn't prevent attacker to figure out version by probing the behavior.
+Hiding the version is a recommended security practice in some corporations,
+does not prevent an attacker from figuring out version by probing behavior.
 
 .. note::
 
@@ -964,8 +964,8 @@ which address from the header is used as client IP address here.
 
 .. warning::
 
-   Setting this affects the security of your installation, you should only
-   configure it to use trusted proxies for determining IP address.
+   Setting this affects the security of your installation. You should only
+   configure it to use trusted proxies for determining IP addresses.
 
 Defaults to 0.
 
@@ -989,7 +989,7 @@ LEGAL_TOS_DATE
    You need :ref:`legal` installed to make this work.
 
 Date of last update of terms of service documents. Whenever the date changes,
-users are required to agree with the terms of service.
+users are required to agree with the updated terms of service.
 
 .. code-block:: python
 
@@ -1008,8 +1008,8 @@ URL where your Weblate instance shows its legal documents.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
-    please check :ref:`legal` for details.
+    Useful if you host your legal documents outside Weblate for embedding them inside Weblate.
+    Please check :ref:`legal` for details.
 
 Example:
 
@@ -1154,14 +1154,14 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS
 ------------------------------
 
 List of exceptions for :setting:`LOGIN_REQUIRED_URLS`.
-If not specified, users are allowed to access the sign in page.
+If not specified, users are allowed to access the sign-in page.
 
 Some of exceptions you might want to include:
 
 .. code-block:: python
 
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r"/accounts/(.*)$",  # Required for sign in
+        r"/accounts/(.*)$",  # Required for sign-in
         r"/static/(.*)$",  # Required for development mode
         r"/widgets/(.*)$",  # Allowing public access to widgets
         r"/data/(.*)$",  # Allowing public access to data exports
@@ -1176,7 +1176,7 @@ Some of exceptions you might want to include:
 MATOMO_SITE_ID
 --------------
 
-ID of a site in Matomo (formerly Piwik) you want to track.
+ID of a site in Matomo (formerly Piwik) you want to track it.
 
 .. note::
 
@@ -1316,7 +1316,7 @@ PROJECT_BACKUP_KEEP_COUNT
 
 .. versionadded:: 4.14
 
-Defines how many backups per project are kept on the server. It defaults to 3.
+Defines how many backups per project are kept on the server. Defaults to 3.
 
 .. seealso::
 
@@ -1380,7 +1380,7 @@ PROJECT_WEB_RESTRICT_NUMERIC
 
 .. versionadded:: 4.16.2
 
-Reject using numeric IP address in project website. Enabled by default.
+Reject using numeric IP address in project website. On by default.
 
 .. seealso::
 
@@ -1429,7 +1429,7 @@ RATELIMIT_WINDOW
 
 How long authentication is accepted after rate limiting applies.
 
-An amount of seconds defaulting to 300 (5 minutes).
+An amount of seconds, defaulting to 300 (5 minutes).
 
 .. seealso::
 
@@ -1463,10 +1463,10 @@ REGISTRATION_ALLOW_BACKENDS
 
 List of authentication backends to allow registration from. This only limits
 new registrations, users can still authenticate and add authentication using
-all configured authentication backends.
+all configured authentication back-ends.
 
-It is recommended to keep :setting:`REGISTRATION_OPEN` enabled while limiting
-registration backends, otherwise users will be able to register, but Weblate
+It is recommended to keep :setting:`REGISTRATION_OPEN` on while limiting
+registration back-ends, otherwise users will be able to register, but Weblate
 will not show links to register in the user interface.
 
 Example:
@@ -1477,7 +1477,7 @@ Example:
 
 .. hint::
 
-   The backend names match names used in URL for authentication.
+   The back-end names match names used in the URL for authentication.
 
 .. seealso::
 
@@ -1489,9 +1489,8 @@ Example:
 REGISTRATION_CAPTCHA
 --------------------
 
-A value of either ``True`` or ``False`` indicating whether registration of new
-accounts is protected by CAPTCHA. This setting is optional, and a default of
-``True`` will be assumed if it is not supplied.
+An optional value of either ``True`` or ``False`` indicating whether registration of new
+accounts is protected by a CAPTCHA. A default of ``True`` is assumed if not supplied.
 
 If turned on, a CAPTCHA is added to all pages where a users enters their e-mail address:
 
@@ -1521,7 +1520,7 @@ REGISTRATION_OPEN
 -----------------
 
 Whether registration of new accounts is currently permitted.
-This optional setting can remain the default ``True``, or changed to ``False``.
+This optional setting can remain the default ``True``, or be changed to ``False``.
 
 This setting affects built-in authentication by e-mail address or through the
 Python Social Auth (you can whitelist certain back-ends using
@@ -1546,14 +1545,14 @@ REGISTRATION_REBIND
 
 .. versionadded:: 4.16
 
-Allow rebinding authentication backends for existing users. Turn this on when
+Allow rebinding authentication back-ends for existing users. Turn this on when
 migrating between authentication providers.
 
 .. note::
 
-   Disabled by default to not allow adding other authentication backends to
-   existing account. Rebinding can lead to account compromise when using
-   more third-party authentication backends.
+   Off by default to not allow adding other authentication back-ends to
+   an existing account. Rebinding can lead to account compromise when using
+   more third-party authentication back-ends.
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 
@@ -1616,10 +1615,10 @@ Set session expiry for authenticated users. This complements
 SIMPLIFY_LANGUAGES
 ------------------
 
-Use simple language codes for default language/country combinations. For
-example an ``fr_FR`` translation will use the ``fr`` language code. This is usually
-the desired behavior, as it simplifies listing languages for these default
-combinations.
+Use simple language codes for default language/country combinations.
+For example an ``fr_FR`` translation will use the ``fr`` language code.
+This is usually the desired behavior, as it simplifies listing languages
+for these default combinations.
 
 Turn this off if you want to different translations for each variant.
 
@@ -1628,10 +1627,10 @@ Turn this off if you want to different translations for each variant.
 SITE_DOMAIN
 -----------
 
-Configures site domain. This is necessary to produce correct absolute links in
+Configures site domain. Necessary to produce correct absolute links in
 many scopes (for example activation e-mails, notifications or RSS feeds).
 
-In case Weblate is running on non-standard port, include it here as well.
+If Weblate is running on a non-standard port, include it here as well.
 
 **Examples:**
 
@@ -1646,8 +1645,8 @@ In case Weblate is running on non-standard port, include it here as well.
 .. note::
 
     This setting should only contain the domain name. For configuring protocol,
-    (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
-    URL, use :setting:`URL_PREFIX`.
+    (turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
+    the URL, use :setting:`URL_PREFIX`.
 
 .. hint::
 
@@ -1690,8 +1689,8 @@ SINGLE_PROJECT
 .. versionadded:: 3.8
 
 Redirects users directly to a project or component instead of showing
-the dashboard. You can either set it to ``True`` and in this case it only works in
-case there is actually only single project in Weblate. Alternatively set
+the dashboard. You can either set it to ``True`` so it only works in
+if there is actually only single project in Weblate. Alternatively, set
 the project slug, and it will redirect unconditionally to this project.
 
 .. versionchanged:: 3.11
@@ -1712,11 +1711,11 @@ SSH_EXTRA_ARGS
 
 .. versionadded:: 4.9
 
-Allows to add custom parameters when Weblate is invoking SSH. This is useful
-when connecting to servers using legacy encryption or other non-standard features.
+Allows adding custom parameters when Weblate is invoking SSH.
+Useful when connecting to servers using legacy encryption or other non-standard features.
 
 For example when SSH connection in Weblate fails with `Unable to negotiate with legacyhost: no matching key exchange method found.
-Their offer: diffie-hellman-group1-sha1`, you can enable that using:
+Their offer: diffie-hellman-group1-sha1`, you can turn that on using:
 
 .. code-block:: python
 
@@ -1724,8 +1723,8 @@ Their offer: diffie-hellman-group1-sha1`, you can enable that using:
 
 .. hint::
 
-   The string is evaluated by shell, so make sure to quote any whitespace and
-   special characters.
+   The string is evaluated by the shell, so ensure any whitespace and
+   special characters is quoted.
 
 .. seealso::
 
@@ -1755,9 +1754,9 @@ UNUSED_ALERT_DAYS
 
 .. versionadded:: 4.17
 
-Configures when :guilabel:`Component seems unused` alert is trigged.
+Configures when :guilabel:`Component seems unused` alert is triggered.
 
-Defaults to 365 days, set to 0 to disable it.
+Defaults to 365 days, set to 0 to turn it off.
 
 .. setting:: UPDATE_LANGUAGES
 
@@ -1767,13 +1766,13 @@ UPDATE_LANGUAGES
 .. versionadded:: 4.3.2
 
 Controls whether languages database should be updated when running database
-migration and is enabled by default. This setting has no effect on invocation
+migration and is on by default. This setting has no effect on invocation
 of :djadmin:`setuplang`.
 
 .. warning::
 
    The languages display might become inconsistent with this. Weblate language
-   definitions extend over time and it will not display language code for
+   definitions expand over time and it will not display language code for
    the defined languages.
 
 .. seealso::
@@ -1820,7 +1819,7 @@ Configures minimal delay in seconds between third-party API calls in
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
-If you are being limited by secondary rate limiter at GitHub, increasing this might help.
+If you are being limited by secondary rate-limiter at GitHub, increasing this might help.
 
 The default value is 10.
 
@@ -1918,7 +1917,7 @@ example:
 .. note::
 
     Removing the add-on from the list does not uninstall it from the components.
-    Weblate will crash in that case. Please uninstall add-on from all components
+    Weblate will crash in that case. Please uninstall the add-on from all components
     prior to removing it from this list.
 
 .. seealso::
@@ -1998,4 +1997,4 @@ WEBSITE_REQUIRED
 ----------------
 
 Defines whether :ref:`project-web` has to be specified when creating a project.
-Turned on by default as that suits public server setups.
+On by default, as that suits public server setups.
