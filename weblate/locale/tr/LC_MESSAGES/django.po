@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-14 14:11+0000\n"
+"PO-Revision-Date: 2023-04-15 12:19+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -8240,7 +8240,7 @@ msgstr "Bellek daha sonra şu anki çevirilerle doldurulacak."
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "%(source_language)s - %(target_language)s kayıtları"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9735,17 +9735,16 @@ msgstr ""
 "eksik olduğunda ortaya çıkabilir."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Kilitli bileşen herhangi bir çeviri güncellemesi almayacak."
-msgstr[1] "Kilitli bileşen herhangi bir çeviri güncellemesi almayacak."
+msgstr[0] "Bileşen %(count)s gündür herhangi bir çeviri almadı."
+msgstr[1] "Bileşen %(count)s gündür herhangi bir çeviri almadı."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "Artık kullanılmıyorsa lütfen bileşeni kaldırmayı değerlendirin."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10773,7 +10772,7 @@ msgstr "Denetim karakterleri"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Devanagari danda"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11614,10 +11613,8 @@ msgid "Inexistent files."
 msgstr "Var olmayan dosyalar."
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "Bileşen kilidi açıldı"
+msgstr "Bileşen kullanılmıyor gibi görünüyor."
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
