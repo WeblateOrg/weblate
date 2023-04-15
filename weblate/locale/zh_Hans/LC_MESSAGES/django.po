@@ -46,8 +46,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-14 14:11+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2023-04-15 09:28+0000\n"
+"Last-Translator: Xiang Heng Wei <yylteam@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -7947,7 +7947,7 @@ msgstr "记忆届时将由当前翻译组成。"
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "%(source_language)s 到 %(target_language)s 的条目"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9352,16 +9352,15 @@ msgid ""
 msgstr "在关闭对这些功能的支持或缺少依赖项时，可能会发生这种情况。"
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "锁定的部件将不会收到任何翻译更新。"
+msgstr[0] "该组件在 %(count)s 天内未收到任何翻译。"
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "如果组件不再有用，请考虑将其删除。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10318,7 +10317,7 @@ msgstr "控制字符"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "梵文 danda"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11132,10 +11131,8 @@ msgid "Inexistent files."
 msgstr "不存在的文件。"
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "解锁了部件"
+msgstr "该部件似乎未使用。"
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
