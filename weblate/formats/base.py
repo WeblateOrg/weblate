@@ -690,7 +690,7 @@ class TranslationFormat:
         result = []
 
         for unit in self.all_store_units:
-            if self.unit_class(self, unit, unit).context not in existing:
+            if self.unit_class(self, None, unit).context not in existing:
                 item = self.delete_unit(unit)
                 if item is not None:
                     result.append(item)
