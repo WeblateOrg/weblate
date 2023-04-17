@@ -965,7 +965,7 @@ which address from the header is used as client IP address here.
 .. warning::
 
    Setting this affects the security of your installation. You should only
-   configure it to use trusted proxies for determining IP addresses.
+   configure it to use trusted proxies for determining the IP address.
 
 Defaults to 0.
 
