@@ -312,3 +312,8 @@ def check_upload_method_permissions(user, translation, method: str):
     if method == "replace":
         return translation.filename and user.has_perm("component.edit", translation)
     raise ValueError(f"Invalid method: {method}")
+
+
+def is_unused_string(string: str):
+    """Check whether string should not be used."""
+    return string.startswith("<unused singular")
