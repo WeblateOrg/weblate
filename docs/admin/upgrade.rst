@@ -62,7 +62,7 @@ work, but is not as well tested as single version upgrades.
         cd weblate-src
         git pull
         # Update Weblate inside your virtualenv
-        . ~/weblate-env/bin/pip install -e .
+        . ~/weblate-env/bin/pip install -e '.[all]'
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
         # Install optional dependencies directly when not using virtualenv
