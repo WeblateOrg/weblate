@@ -1,7 +1,7 @@
 Weblate 4.17
 ------------
 
-Not yet released.
+Released on April 17th 2023.
 
 * Allow to filter on language in reports.
 * Dropped deprecated command ``cleanup_celery``.
