@@ -4,6 +4,7 @@ Weblate 4.18
 Not yet released.
 
 * Improved API error messages on permission denied.
+* Reduced false positives of the XML checks.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
