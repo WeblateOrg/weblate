@@ -17,13 +17,14 @@
 # Ahmed <7epicahmed@gmail.com>, 2022.
 # criticalumami <criticalumami@protonmail.com>, 2022.
 # asaah18 <asaah18@hotmail.com>, 2023.
+# Meno25 <meno25mail@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-01-15 09:52+0000\n"
-"Last-Translator: asaah18 <asaah18@hotmail.com>\n"
+"PO-Revision-Date: 2023-04-17 15:04+0000\n"
+"Last-Translator: Meno25 <meno25mail@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
 "Language: ar\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.17\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -196,7 +197,7 @@ msgstr "استخدم الإعداد الافتراضي"
 
 #: weblate/accounts/forms.py:735
 msgid "Other projects"
-msgstr "المشاريع الأخرى"
+msgstr "مشاريع اخرى"
 
 #: weblate/accounts/forms.py:737 weblate/accounts/models.py:496
 #: weblate/templates/accounts/profile.html:68
@@ -219,7 +220,7 @@ msgstr "المكون: {}"
 #: weblate/accounts/forms.py:748
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "سوف تستقبل إشعارًا عند كل حدث يحدث في المشاريع التي لا تراقبها."
+msgstr "سوف تستقبل إشعارًا عند كل حدث يحدث في المشاريع التي تراقبها."
 
 #: weblate/accounts/forms.py:753
 msgid ""
@@ -548,7 +549,7 @@ msgstr "عدد السلاسل المجاورة التي ستُعرض في كل �
 
 #: weblate/accounts/models.py:454
 msgid "Automatically watch projects on contribution"
-msgstr "مراقبة المشاريع تلقائيًا على المساهمة"
+msgstr "معلومات المشروع"
 
 #: weblate/accounts/models.py:457
 msgid ""
@@ -908,7 +909,7 @@ msgstr ""
 #: weblate/accounts/views.py:546 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "تجربة مجانية"
 
 #: weblate/accounts/views.py:720 weblate/templates/403.html:18
 #: weblate/templates/404.html:18 weblate/templates/accounts/login.html:8
@@ -1426,10 +1427,8 @@ msgstr ""
 #: weblate/addons/forms.py:275
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:395
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Intermediate language file"
-msgstr "اللغة المطلوبة:"
+msgstr "ملف اللغة المتوسطة"
 
 #: weblate/addons/forms.py:279 weblate/trans/models/component.py:399
 msgid ""
@@ -1532,10 +1531,8 @@ msgid "Target translation"
 msgstr "إنشاء ترجمة"
 
 #: weblate/addons/forms.py:497
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "All strings in this translation will be overwritten"
-msgstr "ستتم إزالة مكونات الترجمة التالية:"
+msgstr "سيتم الكتابة فوق جميع السلاسل في هذه الترجمة"
 
 #: weblate/addons/forms.py:500 weblate/templates/addons/pseudolocale.html:11
 #, fuzzy
@@ -2726,20 +2723,16 @@ msgid "Translation contains double space"
 msgstr "تمت إزالة تعليق عن الترجمة."
 
 #: weblate/checks/chars.py:137
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "غير متطابقة \\n"
+msgstr "نقطة توقف كاملة غير متطابقة"
 
 #: weblate/checks/chars.py:138
 msgid "Source and translation do not both end with a full stop"
 msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنقطة"
 
 #: weblate/checks/chars.py:188
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "غير متطابقة \\n"
+msgstr "القولون غير المتطابقة"
 
 #: weblate/checks/chars.py:189
 msgid "Source and translation do not both end with a colon"
@@ -2766,10 +2759,8 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنفس نقطة التعجّب"
 
 #: weblate/checks/chars.py:283
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "غير متطابقة \\n"
+msgstr "علامة حذف غير متطابقة"
 
 #: weblate/checks/chars.py:284
 msgid "Source and translation do not both end with an ellipsis"
@@ -2790,10 +2781,8 @@ msgid "Mismatching line breaks"
 msgstr "فواصل الأسطر غير متطابقة"
 
 #: weblate/checks/chars.py:322
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "عدد \\n في الترجمة لا يطابق عدده في المصدر"
+msgstr "عدد الأسطر الجديدة في الترجمة لا يتطابق مع المصدر"
 
 #: weblate/checks/chars.py:329 weblate/trans/autofixes/chars.py:27
 msgid "Zero-width space"
@@ -2812,10 +2801,8 @@ msgid "Translation should not exceed given length"
 msgstr "ينبغي ألا تتجاوز الترجمة الطول المحدد"
 
 #: weblate/checks/chars.py:364
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "غير متطابقة \\n"
+msgstr "فاصلة منقوطة غير متطابقة"
 
 #: weblate/checks/chars.py:365
 msgid "Source and translation do not both end with a semicolon"
@@ -3363,10 +3350,8 @@ msgid "Placeholders"
 msgstr "العناصر النائبة"
 
 #: weblate/checks/placeholders.py:25
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "تفتقد الترجمة بعض العناصر النائبة:"
+msgstr "تفتقد الترجمة بعض العناصر النائبة"
 
 #: weblate/checks/placeholders.py:122
 #: weblate/templates/addons/discovery_help.html:8
@@ -3374,16 +3359,12 @@ msgid "Regular expression"
 msgstr "تعبير عادي"
 
 #: weblate/checks/placeholders.py:123
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "الترجمة لا تتطابق مع التعبير العادي:"
+msgstr "الترجمة لا تتطابق مع التعبير العادي"
 
 #: weblate/checks/placeholders.py:152
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Does not match regular expression {}."
-msgstr "الترجمة لا تتطابق مع التعبير العادي:"
+msgstr "لا يتطابق مع التعبير العادي {}."
 
 #: weblate/checks/qt.py:34
 msgid "Qt format"
@@ -3457,10 +3438,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "الترجمات في لغات عديدة فيها فحوص فاشلة"
 
 #: weblate/checks/source.py:75
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "الفحوص الفاشلة الموجودة"
+msgstr "فشل عمليات التحقق التالية:"
 
 #: weblate/checks/source.py:91
 #, fuzzy
@@ -4400,19 +4379,15 @@ msgstr "فشل إجراء تعديل أعلام الترجمة!"
 
 #: weblate/machinery/forms.py:33 weblate/machinery/forms.py:70
 #: weblate/machinery/forms.py:77
-#, fuzzy
-#| msgid "Your personal API key:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "مفتاح API الشخصي الخاص بك:"
+msgstr "مفتاح API"
 
 #: weblate/machinery/forms.py:39 weblate/machinery/forms.py:203
 #: weblate/machinery/forms.py:210
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "رابط الجذر لواجهة برمجة التطبيقات API:"
+msgstr "عنوان URL لواجهة برمجة التطبيقات"
 
 #: weblate/machinery/forms.py:45
 msgctxt "Automatic suggestion service configuration"
@@ -5164,10 +5139,8 @@ msgid "Get started"
 msgstr "الحصول على الدعم"
 
 #: weblate/templates/accounts/hosting.html:57
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "تواصل معنا من أجل الاستضافة التجارية"
+msgstr "هل تبحث عن استضافة تجارية؟"
 
 #: weblate/templates/accounts/hosting.html:61
 #, python-format
@@ -6146,10 +6119,8 @@ msgid "Generated strings"
 msgstr "السلاسل المُترجمة"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The strings will be generated using following pattern:"
-msgstr "لقد تم ترجمة هذه السلسة من قبلُ"
+msgstr "سيتم إنشاء السلاسل باستخدام النمط التالي:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -6390,10 +6361,8 @@ msgid "Help"
 msgstr "المساعدة"
 
 #: weblate/templates/base.html:277
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Get support"
-msgstr "دعم ويب لايت"
+msgstr "الحصول على الدعم"
 
 #: weblate/templates/base.html:280 weblate/templates/manage/index.html:84
 msgid "Get help"
@@ -6587,10 +6556,8 @@ msgid "Current plan"
 msgstr "الخطة الحالية"
 
 #: weblate/templates/billing/status.html:17
-#, fuzzy
-#| msgid "Change payment plan"
 msgid "Change plan"
-msgstr "تغير خطة الدفع"
+msgstr "تغيير الخطة"
 
 #: weblate/templates/billing/status.html:28
 #: weblate/templates/billing/status.html:39
@@ -7242,10 +7209,8 @@ msgid "Hook"
 msgstr "الإمساك"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "سحب التغييرات من المستودع البعيد"
+msgstr "يمكنك سحب التغييرات من مستودع بعيد إلى Weblate مثل هذا:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -7334,29 +7299,28 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[1] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[2] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[3] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[4] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[5] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"يحتوي مشروع الترجمة ل %(project)s حاليا على سلاسل %(count)s للترجمة وهو "
+"[<strong>X125X] %% مكتمل</strong>.<strong></strong>"
 
 #: weblate/templates/engage.html:44
 #, fuzzy, python-format
@@ -7372,29 +7336,28 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[1] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[2] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[3] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[4] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
+"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
+"%(percent)s%%."
 msgstr[5] ""
-"<a href=\"%(url)s\">مشروع ترجمة %(project)s</a> يحتوي حاليا على %(total)s "
-"سلاسل للترجمة <a href=\"%(lang_url)s\">و هو قيد الترجمة إلى %(languages)s "
-"لغات</a>. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع %(percent)s%%."
+"يحتوي مشروع الترجمة ل %(project)s حاليا على <strong>سلاسل %(count)s</strong> "
+"للترجمة."
 
 #: weblate/templates/engage.html:46
 #, fuzzy, python-format
@@ -8186,10 +8149,8 @@ msgid "There was no contributor agreement before."
 msgstr "عرض عقد المُساهِم"
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New comment"
 msgid "New agreement:"
-msgstr "تعليق جديد"
+msgstr "اتفاقية جديدة:"
 
 #: weblate/templates/mail/component_license.html:24
 #, fuzzy
@@ -8416,15 +8377,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
-#| "a>"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a href=\"%(registration_hint)s\">"
 "%(registration_hint)s</a>?"
 msgstr ""
-"يمكنك الترجمة علي <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+"ربما قمت بالتسجيل في <a href=\"%(registration_hint)s\""
+">%(registration_hint)s</a>؟"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -8646,10 +8605,8 @@ msgid "Support expiry"
 msgstr "انتهاء صلاحية الدعم"
 
 #: weblate/templates/manage/index.html:59
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Discover Weblate"
-msgstr "ارجع إلى Weblate"
+msgstr "اكتشف ويبليت"
 
 #: weblate/templates/manage/index.html:61
 #, fuzzy
@@ -9403,10 +9360,8 @@ msgid ""
 msgstr "تم إغلاق الترجمة مؤقتًا للمساهمات بسبب الصيانة ، يرجى الرجوع لاحقًا."
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "الترجمة حالياً مغلقة من أجل التحديثات."
+msgstr "تم قفل الترجمة تلقائيا بسبب التنبيهات التالية:"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -9836,10 +9791,8 @@ msgid "The project has had active development for at least three months."
 msgstr ""
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Unmet guidelines from the community localization checklist:"
-msgstr "قائمة مراجعة تعريب المجتمع"
+msgstr "الإرشادات غير المستوفاة من قائمة مراجعة توطين المجتمع:"
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -10666,10 +10619,8 @@ msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "الفحوص الفاشلة الموجودة"
+msgstr "لا يتم استخدام عمليات التحقق القسرية التالية في أي مكان:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
 #, python-format
@@ -11069,10 +11020,8 @@ msgid "Create"
 msgstr "تم إنشاؤه في"
 
 #: weblate/templates/trans/project-access.html:269
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "مفتاح API الشخصي الخاص بك:"
+msgstr "مفتاح API الشخصي"
 
 #: weblate/templates/trans/project-access.html:282
 msgid "This is your personal API key, do not share it with anybody else."
@@ -11179,10 +11128,8 @@ msgid "Source change"
 msgstr "تغيير المصدر"
 
 #: weblate/templates/translate.html:129
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "لغة الواجهة"
+msgstr "اللغة المتوسطة"
 
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:640
 #: weblate/templates/zen-units.html:31 weblate/trans/forms.py:482
@@ -11313,10 +11260,8 @@ msgid "Variants of the string"
 msgstr "سلسلة غُيرت"
 
 #: weblate/templates/translate.html:252 weblate/templates/translate.html:546
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "البافارية"
+msgstr "المتغيرات"
 
 #: weblate/templates/translate.html:258
 #, fuzzy
@@ -11932,10 +11877,8 @@ msgid "Pluralized string"
 msgstr "السلاسل المُترجمة"
 
 #: weblate/trans/filter.py:59 weblate/trans/filter.py:121
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "الفحوص الفاشلة:"
+msgstr "فشل التحقق: {}"
 
 #: weblate/trans/filter.py:85 weblate/trans/filter.py:126
 #, fuzzy
@@ -12111,10 +12054,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:673
-#, fuzzy
-#| msgid "Untranslated strings:"
 msgid "Change only untranslated strings"
-msgstr "السلاسل التي لم تُتَرجَم :"
+msgstr "تغيير السلاسل غير المترجمة فقط"
 
 #: weblate/trans/forms.py:674
 #, fuzzy
@@ -13072,10 +13013,8 @@ msgstr "إدارة اللغات"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested new language"
-msgstr "اللغة المطلوبة:"
+msgstr "اللغة الجديدة المطلوبة"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:368
@@ -13261,10 +13200,8 @@ msgstr "أشر إلى عنوان الرابط لتعليمات الترجمة"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:110
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Create new language file"
-msgstr "اللغة المطلوبة:"
+msgstr "إنشاء ملف لغة جديدة"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:112
@@ -14523,12 +14460,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:617
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "فحوص منبوذه"
+msgstr "الشيكات المرفوضة:"
 
 #: weblate/trans/templatetags/translations.py:622
 msgctxt "String state"
@@ -15420,15 +15354,13 @@ msgstr ""
 
 #: weblate/vcs/git.py:704
 msgid "Git with force push"
-msgstr ""
+msgstr "دفع بقوة"
 
 #: weblate/vcs/git.py:998
 msgid "GitHub pull request"
 msgstr ""
 
 #: weblate/vcs/git.py:1099
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Gitea pull request"
 msgstr "طلب دمج غير صالح !"
 
@@ -15445,8 +15377,6 @@ msgid "GitLab merge request"
 msgstr "طلب دمج غير صالح !"
 
 #: weblate/vcs/git.py:1390
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Pagure merge request"
 msgstr "طلب دمج غير صالح !"
 
@@ -15532,8 +15462,6 @@ msgid "Please provide font family suitable for CSS."
 msgstr ""
 
 #: weblate/wladmin/forms.py:69
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
 msgstr "الصفحة غير موجودة"
 
@@ -15584,16 +15512,12 @@ msgid "Extended self-hosted support"
 msgstr "دعم ممتد للاستضافة الذاتية"
 
 #: weblate/wladmin/models.py:69
-#, fuzzy
-#| msgid "Basic self-hosted support"
 msgid "Premium self-hosted support"
-msgstr "دعم استضافة ذاتية بسيطة"
+msgstr "دعم متميز ذاتي الاستضافة"
 
 #: weblate/wladmin/models.py:149
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "مستودع النسخ الاحتياطي"
+msgstr "مستودع النسخ الاحتياطي م م م م"
 
 #: weblate/wladmin/models.py:151
 msgid ""
