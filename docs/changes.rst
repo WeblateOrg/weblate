@@ -3,6 +3,8 @@ Weblate 4.18
 
 Not yet released.
 
+* Improved API error messages on permission denied.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
 Weblate 4.17
