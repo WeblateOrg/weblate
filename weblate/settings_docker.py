@@ -98,6 +98,7 @@ LANGUAGES = (
     ("br", "Brezhoneg"),
     ("ca", "Català"),
     ("cs", "Čeština"),
+    ("cy", "Cymraeg"),
     ("da", "Dansk"),
     ("de", "Deutsch"),
     ("en", "English"),
