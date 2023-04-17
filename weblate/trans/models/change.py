@@ -632,7 +632,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_source(self):
         """Whether to show content as source change."""
-        return self.action == self.ACTION_SOURCE_CHANGE
+        return self.action in (self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE)
 
     def show_content(self):
         """Whether to show content as translation."""
