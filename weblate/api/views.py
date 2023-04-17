@@ -1108,8 +1108,9 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            if not request.user.has_perm("unit.add", obj):
-                self.permission_denied(request, "Can not add unit")
+            can_add = request.user.has_perm("unit.add", obj)
+            if not can_add:
+                self.permission_denied(request, can_add.reason)
             serializer = serializer_class(
                 data=request.data, context={"translation": obj}
             )
@@ -1290,8 +1291,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                     {"state": "Can not use non empty state with empty target"}
                 )
 
-            if not user.has_perm("unit.edit", unit):
-                raise PermissionDenied
+            can_edit = user.has_perm("unit.edit", unit)
+            if not can_edit:
+                self.permission_denied(request, can_edit.reason)
 
             if new_state == STATE_APPROVED and not user.has_perm(
                 "unit.review", translation
@@ -1318,8 +1320,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
-        if not request.user.has_perm("unit.delete", obj):
-            self.permission_denied(request, "Can not remove string")
+        can_delete = request.user.has_perm("unit.delete", obj)
+        if not can_delete:
+            self.permission_denied(request, can_delete.reason)
         try:
             obj.translation.delete_unit(request, obj)
         except FileParseError as error:
