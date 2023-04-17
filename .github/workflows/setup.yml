@@ -72,7 +72,7 @@ jobs:
     - name: Install pip dependencies
       run: ./ci/pip-install
     - name: Install Weblate
-      run: pip install .
+      run: pip install '.[all]'
     - name: Check difference
       run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
 
