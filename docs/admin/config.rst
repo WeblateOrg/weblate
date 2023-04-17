@@ -1755,7 +1755,7 @@ UNUSED_ALERT_DAYS
 
 .. versionadded:: 4.17
 
-Configures when :guilabel:`Component seems unused` alert is trigged.
+Configures when :guilabel:`Component seems unused` alert is triggered.
 
 Defaults to 365 days, set to 0 to disable it.
 
