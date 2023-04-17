@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
+from typing import Any, Tuple
 
 import nh3
 from django.core.exceptions import ValidationError
@@ -104,18 +105,18 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def parse_xml(self, text, wrap=None):
+    def detect_xml_wrapping(self, text: str) -> Tuple[Any, bool]:
+        """Detect whether wrapping is desired."""
+        try:
+            return self.parse_xml(text, True), True
+        except SyntaxError:
+            return self.parse_xml(text, False), False
+
+    def parse_xml(self, text: str, wrap: bool) -> Any:
         """Wrapper for parsing XML."""
-        if wrap is None:
-            # Detect whether wrapping is desired
-            try:
-                return self.parse_xml(text, True), True
-            except SyntaxError:
-                return self.parse_xml(text, False), False
         text = strip_entities(text)
         if wrap:
             text = f"<weblate>{text}</weblate>"
-
         return parse_xml(text.encode() if "encoding" in text else text)
 
     def should_skip(self, unit):
@@ -152,7 +153,7 @@ class XMLValidityCheck(BaseXMLCheck):
     def check_single(self, source, target, unit):
         # Check if source is XML
         try:
-            wrap = self.parse_xml(source)[1]
+            wrap = self.detect_xml_wrapping(source)[1]
         except SyntaxError:
             # Source is not valid XML, we give up
             return False
@@ -177,7 +178,7 @@ class XMLTagsCheck(BaseXMLCheck):
     def check_single(self, source, target, unit):
         # Check if source is XML
         try:
-            source_tree, wrap = self.parse_xml(source)
+            source_tree, wrap = self.detect_xml_wrapping(source)
             source_tags = [(x.tag, x.keys()) for x in source_tree.iter()]
         except SyntaxError:
             # Source is not valid XML, we give up
@@ -197,11 +198,11 @@ class XMLTagsCheck(BaseXMLCheck):
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
             return []
-        ret = []
         try:
-            self.parse_xml(source)
+            self.detect_xml_wrapping(source)
         except SyntaxError:
-            return ret
+            return []
+        ret = []
         # Include XML markup
         for match in XML_MATCH.finditer(source):
             ret.append((match.start(), match.end(), match.group()))
