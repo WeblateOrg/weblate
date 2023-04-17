@@ -45,7 +45,7 @@ AUDITLOG_EXPIRY
 
 .. versionadded:: 3.6
 
-How many days Weblate should keep audit logs, (which contain info about account
+How many days Weblate should keep audit logs (which contain info about account
 activity).
 
 Defaults to 180 days.
@@ -222,7 +222,7 @@ BASIC_LANGUAGES
 .. versionadded:: 4.4
 
 List of languages to offer users for starting a new translation. When not
-specified a built-in list is used (which includes all commonly used languages, but
+specified, a built-in list is used (which includes all commonly used languages, but
 without country specific variants).
 
 This only limits non privileged users to add unwanted languages. Project
@@ -595,7 +595,7 @@ DEFAULT_LANGUAGE
 
 .. versionadded:: 4.3.2
 
-Default source-language to use for example in :ref:`component-source_language`.
+:ref:`component-source_language` for any new components.
 
 Defaults to `en`. The matching language object needs to exist in the database.
 
@@ -611,7 +611,7 @@ DEFAULT_MERGE_STYLE
 
 .. versionadded:: 3.4
 
-Merge-style for any new components.
+:ref:`component-merge_style` for any new components.
 
 * `rebase` - default
 * `merge`
@@ -1176,7 +1176,7 @@ Some of exceptions you might want to include:
 MATOMO_SITE_ID
 --------------
 
-ID of a site in Matomo (formerly Piwik) you want to track it.
+ID of the site in Matomo (formerly Piwik) you want to use for tracking Weblate.
 
 .. note::
 
@@ -1463,10 +1463,10 @@ REGISTRATION_ALLOW_BACKENDS
 
 List of authentication backends to allow registration from. This only limits
 new registrations, users can still authenticate and add authentication using
-all configured authentication back-ends.
+all configured authentication backends.
 
 It is recommended to keep :setting:`REGISTRATION_OPEN` on while limiting
-registration back-ends, otherwise users will be able to register, but Weblate
+registration backends, otherwise users will be able to register, but Weblate
 will not show links to register in the user interface.
 
 Example:
@@ -1477,7 +1477,7 @@ Example:
 
 .. hint::
 
-   The back-end names match names used in the URL for authentication.
+   The backend names match names used in the URL for authentication.
 
 .. seealso::
 
@@ -1489,8 +1489,7 @@ Example:
 REGISTRATION_CAPTCHA
 --------------------
 
-An optional value of either ``True`` or ``False`` indicating whether registration of new
-accounts is protected by a CAPTCHA. A default of ``True`` is assumed if not supplied.
+Whether registration of new accounts is protected by a CAPTCHA. Defaults to enabled.
 
 If turned on, a CAPTCHA is added to all pages where a users enters their e-mail address:
 
@@ -1521,6 +1520,7 @@ REGISTRATION_OPEN
 
 Whether registration of new accounts is currently permitted.
 This optional setting can remain the default ``True``, or be changed to ``False``.
+Defaults to enabled.
 
 This setting affects built-in authentication by e-mail address or through the
 Python Social Auth (you can whitelist certain back-ends using
@@ -1550,9 +1550,9 @@ migrating between authentication providers.
 
 .. note::
 
-   Off by default to not allow adding other authentication back-ends to
+   Off by default to not allow adding other authentication backends to
    an existing account. Rebinding can lead to account compromise when using
-   more third-party authentication back-ends.
+   more third-party authentication backends.
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 
@@ -1689,7 +1689,7 @@ SINGLE_PROJECT
 .. versionadded:: 3.8
 
 Redirects users directly to a project or component instead of showing
-the dashboard. You can either set it to ``True`` so it only works in
+the dashboard. You can either set it to ``True`` so it only works
 if there is actually only single project in Weblate. Alternatively, set
 the project slug, and it will redirect unconditionally to this project.
 
@@ -1754,7 +1754,7 @@ UNUSED_ALERT_DAYS
 
 .. versionadded:: 4.17
 
-Configures when :guilabel:`Component seems unused` alert is triggered.
+Configures when the :guilabel:`Component seems unused` alert is triggered.
 
 Defaults to 365 days, set to 0 to turn it off.
 
