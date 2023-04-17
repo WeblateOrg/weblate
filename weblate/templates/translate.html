@@ -133,6 +133,7 @@
     {% endif %}
 
     {% if unit.source_unit.explanation %}
+      {% if not unit.translation.component.is_glossary or not unit.is_source %}
         <!-- source string context  -->
         <div class="form-group help-block">
         <label>{% trans "Explanation" %}</label>
@@ -144,6 +145,7 @@
             </div>
         </div>
         </div>
+      {% endif %}
     {% endif %}
 
     {% if not unit.is_source %}
