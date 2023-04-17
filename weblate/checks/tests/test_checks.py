@@ -70,7 +70,7 @@ class MockUnit:
         self.id_hash = id_hash
         self.flags = Flags(flags)
         self.translation = MockTranslation(code)
-        if isinstance(source, str):
+        if isinstance(source, str) or source is None:
             self.source = source
             self.sources = [source]
         else:
