@@ -1519,7 +1519,6 @@ REGISTRATION_OPEN
 -----------------
 
 Whether registration of new accounts is currently permitted.
-This optional setting can remain the default ``True``, or be changed to ``False``.
 Defaults to enabled.
 
 This setting affects built-in authentication by e-mail address or through the
