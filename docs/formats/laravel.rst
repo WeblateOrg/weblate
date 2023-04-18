@@ -1,7 +1,7 @@
 .. _laravel-php:
 
 Laravel PHP strings
-+++++++++++++++++++
+-------------------
 
 .. versionchanged:: 4.1
 
