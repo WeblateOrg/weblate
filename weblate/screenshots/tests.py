@@ -2,15 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from difflib import get_close_matches
+from itertools import chain
 from unittest import SkipTest
 
 from django.urls import reverse
+from PIL import Image
 
 import weblate.screenshots.views
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.views import PyTessBaseAPI, ocr_get_strings
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.db import using_postgresql
+from weblate.utils.locale import c_locale
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -137,6 +142,29 @@ class ViewTest(FixtureTestCase):
             {"source": source_pk},
         )
         self.assertEqual(screenshot.units.count(), 0)
+
+    def test_ocr_backend(self):
+        if not weblate.screenshots.views.HAS_OCR:
+            raise SkipTest("OCR not supported")
+
+        # Convert to greyscale
+        image = Image.open(TEST_SCREENSHOT).convert("L")
+
+        # Extract strings
+        with c_locale(), PyTessBaseAPI() as api:
+            result = list(ocr_get_strings(api, image))
+
+        # Reverse logic would make sense here, but we want to use same order as in views.py
+        matches = list(
+            chain.from_iterable(
+                get_close_matches(part, ["Hello, world!\n"], cutoff=0.9)
+                for part in result
+            )
+        )
+
+        self.assertTrue(
+            matches, f"Failed to find string in tesseract results: {result}"
+        )
 
     def test_ocr(self):
         if not weblate.screenshots.views.HAS_OCR:
