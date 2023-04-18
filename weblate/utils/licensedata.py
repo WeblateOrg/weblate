@@ -1093,7 +1093,7 @@ LICENSES = (
     ("FSFUL", "FSF Unlimited License", "https://spdx.org/licenses/FSFUL.html", False),
     (
         "FSFULLRWD",
-        "FSF Unlimited License (With License Retention    and Warranty Disclaimer)",
+        "FSF Unlimited License (With License Retention and Warranty Disclaimer)",
         "https://spdx.org/licenses/FSFULLRWD.html",
         False,
     ),
@@ -1626,6 +1626,12 @@ LICENSES = (
         "https://spdx.org/licenses/MITNFA.html",
         False,
     ),
+    (
+        "MIT-Festival",
+        "MIT Festival Variant",
+        "https://spdx.org/licenses/MIT-Festival.html",
+        False,
+    ),
     ("MIT", "MIT License", "https://spdx.org/licenses/MIT.html", True),
     (
         "MIT-Modern-Variant",
@@ -1750,6 +1756,12 @@ LICENSES = (
         "NIST-PD-fallback",
         "NIST Public Domain Notice with license fallback",
         "https://spdx.org/licenses/NIST-PD-fallback.html",
+        False,
+    ),
+    (
+        "NIST-Software",
+        "NIST Software License",
+        "https://spdx.org/licenses/NIST-Software.html",
         False,
     ),
     ("NLPL", "No Limit Public License", "https://spdx.org/licenses/NLPL.html", False),
@@ -2404,6 +2416,12 @@ LICENSES = (
         "University of Illinois/NCSA Open Source License",
         "https://spdx.org/licenses/NCSA.html",
         True,
+    ),
+    (
+        "UnixCrypt",
+        "UnixCrypt License",
+        "https://spdx.org/licenses/UnixCrypt.html",
+        False,
     ),
     (
         "UCL-1.0",
