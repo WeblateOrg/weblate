@@ -42,6 +42,7 @@ PLURAL_TITLE = """
 {name} <span title="{examples}">{icon}</span>
 """
 COPY_RE = re.compile(r"\([0-9]+\)")
+KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
 
 
 def get_plural_type(base_code, plural_formula):
@@ -262,6 +263,8 @@ class LanguageQuerySet(models.QuerySet):
                 # Xliff way of defining variants
                 region, variant = country.split("_", 1)
                 country = f"{region.upper()}@{variant.lower()}"
+            elif country in KNOWN_SUFFIXES:
+                country = country.title()
             else:
                 country = country.upper()
             newcode = f"{lang.lower()}_{country}"
