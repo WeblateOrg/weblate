@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-03-20 22:39+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-04-18 22:58+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5245,22 +5245,16 @@ msgid "Translation"
 msgstr "翻訳"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "貢献した翻訳"
+msgstr "翻訳をすべて表示する"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "すべてのプロジェクトの閲覧"
+msgstr "管理するプロジェクトをすべて表示する"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "すべてのプロジェクトの閲覧"
+msgstr "監視中のプロジェクトをすべて表示する"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7332,7 +7326,8 @@ msgstr "プロジェクトの削除"
 #: weblate/templates/mail/billing_expired.html:35
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
-msgstr ""
+msgstr "課金されたプロジェクトはありません。プロジェクトを含む他の請求書がある場合が"
+"あります。"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8006,28 +8001,22 @@ msgid "SSH keys"
 msgstr "SSH 鍵"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "SSH 鍵の生成"
+msgstr "%(key_type)s SSH 鍵の生成"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
-msgstr ""
-"既存の SSH 鍵はありません。以下のボタンを押すことで、 Weblate が鍵を生成しま"
-"す。"
+msgstr "既存の %(key_type)s SSH 鍵はありません。以下のボタンを押すと、 Weblate "
+"が鍵を生成します。"
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "SSH 鍵の生成"
+msgstr "新しい %(key_type)s SSH 鍵の生成"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -8177,7 +8166,7 @@ msgstr "メモリには、現在の翻訳が記録されます。"
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "%(source_language)s から %(target_language)s への項目"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9217,10 +9206,9 @@ msgid "Descending"
 msgstr "降順"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "公開 SSH 鍵"
+msgstr "公開 %(key_type)s SSH 鍵"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9232,10 +9220,9 @@ msgstr ""
 "できます。"
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "秘密鍵のダウンロード"
+msgstr "%(key_type)s 秘密鍵のダウンロード"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -9648,16 +9635,15 @@ msgstr ""
 "することがあります。"
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "ロックしたコンポーネントは、翻訳を更新できません。"
+msgstr[0] "コンポーネントは %(count)s 日以内は翻訳を受け取っていません。"
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "不要なコンポーネントは、削除することを検討してください。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10665,7 +10651,7 @@ msgstr "制御文字"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "デーヴァナーガリー文字のダンダ句読点"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11493,10 +11479,8 @@ msgid "Inexistent files."
 msgstr "存在しないファイル。"
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "コンポーネントのアンロック"
+msgstr "未使用のコンポーネントのようです。"
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
@@ -12793,10 +12777,9 @@ msgid "User configured character: {}"
 msgstr "ユーザー定義の文字: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "自動翻訳モード"
+msgstr "失敗した自動翻訳:%s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -13838,16 +13821,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Bitbucket Server プルリクエスト"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
