@@ -28,9 +28,7 @@ def main():
     for lang in data:
         if lang["translated_percent"] > THRESHOLD:
             code = lang["code"].replace("_", "-").lower()
-            if code == "be-latn":
-                code = "be@latin"
-            elif code == "nb-no":
+            if code == "nb-no":
                 code = "nb"
             languages.append(code)
     languages.sort()
