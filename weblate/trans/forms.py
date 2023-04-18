@@ -530,7 +530,12 @@ class TranslationForm(UnitForm):
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()
-        if not unit.translation.component.is_glossary:
+        if unit.translation.component.is_glossary:
+            if unit.is_source:
+                self.fields["explanation"].label = gettext("Source string explanation")
+            else:
+                self.fields["explanation"].label = gettext("Translation explanation")
+        else:
             self.fields["explanation"].widget = forms.HiddenInput()
 
     def clean(self):

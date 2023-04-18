@@ -38,7 +38,7 @@ sources.
 
    .. code-block:: sh
 
-      pip install -e .
+      pip install -e '.[all]'
 
 3. Install all dependencies useful for development:
 

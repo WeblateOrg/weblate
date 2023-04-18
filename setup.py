@@ -81,7 +81,7 @@ class WeblateBuild(build):
 
 setup(
     name="Weblate",
-    version="4.17",
+    version="4.18",
     python_requires=">=3.7",
     packages=find_packages(),
     include_package_data=True,

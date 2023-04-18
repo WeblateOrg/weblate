@@ -684,14 +684,14 @@ class TranslationFormat:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
             return []
-        existing = {unit.context for unit in self.template_store.template_units}
+        existing = {template.context for template in self.template_store.template_units}
         changed = False
 
         result = []
 
-        for ttkit_unit in self.all_store_units:
-            if self.unit_class(self, ttkit_unit, ttkit_unit).context not in existing:
-                item = self.delete_unit(ttkit_unit)
+        for unit in self.all_store_units:
+            if self.unit_class(self, None, unit).context not in existing:
+                item = self.delete_unit(unit)
                 if item is not None:
                     result.append(item)
                 else:

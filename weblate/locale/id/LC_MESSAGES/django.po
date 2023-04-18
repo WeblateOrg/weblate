@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-03-01 08:22+0000\n"
+"PO-Revision-Date: 2023-04-17 08:54+0000\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.16-rc\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5324,22 +5324,16 @@ msgid "Translation"
 msgstr "Terjemahan"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Terjemahan dengan kontribusi"
+msgstr "Telusuri semua terjemahan dengan kontribusi"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Jelajahi semua proyek"
+msgstr "Telusuri semua proyek terkelola"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Jelajahi semua proyek"
+msgstr "Telusuri semua proyek yang dipantau"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7414,6 +7408,8 @@ msgstr "Hapus proyek"
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
 msgstr ""
+"Tidak ada proyek di tagihan ini. Anda mungkin memiliki tagihan lain yang ada "
+"proyek."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8090,28 +8086,23 @@ msgid "SSH keys"
 msgstr "Kunci SSH"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "Buat kunci SSH"
+msgstr "Buat kunci SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Anda tampaknya tidak memiliki kunci SSH, dengan menekan tombol di bawah, "
-"Weblate akan membuatkan satu kunci SSH untuk Anda."
+"Anda tampaknya tidak memiliki kunci SSH %(key_type)s, dengan menekan tombol "
+"di bawah, Weblate akan membuatkannya untuk Anda."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "Buat kunci SSH"
+msgstr "Buat kunci SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -8265,7 +8256,7 @@ msgstr "Memori akan dipenuhi dengan terjemahan saat ini."
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Entri untuk %(source_language)s ke %(target_language)s"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9321,10 +9312,9 @@ msgid "Descending"
 msgstr "Turun"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Kunci SSH publik"
+msgstr "Kunci SSH %(key_type)s publik"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9336,10 +9326,9 @@ msgstr ""
 "memberikan akses Weblate ke repositori."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Unduh kunci pribadi"
+msgstr "Unduh kunci %(key_type)s pribadi"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -9760,17 +9749,16 @@ msgstr ""
 "ketika dependensi hilang."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] ""
-"Komponen yang dikunci tidak akan mendapatkan pembaruan terjemahan apa pun."
+msgstr[0] "Komponen tidak menerima terjemahan apa pun dalam %(count)s hari."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
+"Silakan mempertimbangkan untuk menghapus komponen jika tidak ada guna lagi."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10797,7 +10785,7 @@ msgstr "Karakter kontrol"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Devanagari danda"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11641,10 +11629,8 @@ msgid "Inexistent files."
 msgstr "Berkas tidak ada."
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "Komponen tidak dikunci"
+msgstr "Komponen sepertinya tidak digunakan."
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
@@ -12962,10 +12948,9 @@ msgid "User configured character: {}"
 msgstr "Karakter dikonfigurasi oleh pengguna: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Mode penerjemahan otomatis"
+msgstr "Penerjemahan otomatis gagal: %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -14012,16 +13997,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Permintaan tarik Bitbucket Server"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70

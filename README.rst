@@ -3,7 +3,7 @@
    :target: https://weblate.org/
    :height: 80px
 
-**Weblate is a copylefted libre software web-based continuous localization system,
+**Weblate is libre software web-based continuous localization system,
 used by over 2500 libre projects and companies in more than 165 countries.**
 
 Install it, or use the Hosted Weblate service at `weblate.org`_.
@@ -37,7 +37,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 Support
 -------
 
-Weblate is a libre software with optional professional support and cloud
+Weblate is libre software with optional professional support and cloud
 hosting offerings. Check out https://weblate.org/hosting/ for more information.
 
 Documentation
