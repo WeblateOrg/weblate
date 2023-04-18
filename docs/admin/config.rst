@@ -1544,7 +1544,7 @@ REGISTRATION_REBIND
 
 .. versionadded:: 4.16
 
-Allow rebinding authentication back-ends for existing users. Turn this on when
+Allow rebinding authentication backends for existing users. Turn this on when
 migrating between authentication providers.
 
 .. note::
