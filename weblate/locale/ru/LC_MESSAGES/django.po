@@ -50,17 +50,17 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-14 14:11+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"PO-Revision-Date: 2023-04-18 18:20+0000\n"
+"Last-Translator: S3aBreeze <S3aBreeze@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -8154,28 +8154,23 @@ msgid "SSH keys"
 msgstr "SSH-ключи"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "Генерировать SSH-ключ"
+msgstr "Сгенерировать %(key_type)s SSH-ключ"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Похоже, у вас нет SSH-ключа. При нажатии на кнопку ниже, Weblate сгенерирует "
-"его для вас."
+"Похоже, у вас нет существующего %(key_type)s SSH-ключа. При нажатии на "
+"кнопку ниже, Weblate сгенерирует его для вас."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "Генерировать SSH-ключ"
+msgstr "Сгенерировать новый %(key_type)s SSH-ключ"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -9403,10 +9398,9 @@ msgid "Descending"
 msgstr "По убыванию"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Открытый SSH-ключ"
+msgstr "Открытый %(key_type)s SSH-ключ"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9418,10 +9412,9 @@ msgstr ""
 "чтобы дать Weblate доступ к репозиторию."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Скачать закрытый ключ"
+msgstr "Скачать %(key_type)s закрытый ключ"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -9847,18 +9840,19 @@ msgstr ""
 "отсутствии зависимостей."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Заблокированный компонент не получит никаких обновлений перевода."
-msgstr[1] "Заблокированный компонент не получит никаких обновлений перевода."
-msgstr[2] "Заблокированный компонент не получит никаких обновлений перевода."
+msgstr[0] "Этот компонент не получал новых переводов в течении %(count)s дня."
+msgstr[1] "Этот компонент не получал новых переводов в течении %(count)s дней."
+msgstr[2] "Этот компонент не получал новых переводов в течении %(count)s дней."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
+"Пожалуйста, рассмотрите вариант удаления этого компонента, если он больше не "
+"используется."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10909,7 +10903,7 @@ msgstr "Управляющие символы"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Деванагари данда"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11755,10 +11749,8 @@ msgid "Inexistent files."
 msgstr "Несуществующие файлы."
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "Компонент разблокирован"
+msgstr "Компонент похож на неиспользуемый."
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
@@ -13093,10 +13085,9 @@ msgid "User configured character: {}"
 msgstr "Символ, настроенный пользователем: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Режим автоматического перевода"
+msgstr "Автоматический перевод не удался: %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -14188,16 +14179,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Запрос на принятие изменений в сервер Bitbucket"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
