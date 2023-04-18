@@ -331,7 +331,7 @@ Translation types capabilities
    * - :ref:`stringsdict`
      - mono
      - yes
-     - yes
+     - no
      - no
      - no
      - no
@@ -347,7 +347,7 @@ Translation types capabilities
 
 .. [#m] See :ref:`bimono`
 .. [#p] See :ref:`format-plurals`
-.. [#n] Source string descriptions can be used to pass additional info about the string to translate.
+.. [#n] See :ref:`format-description`
 .. [#c] Context is used to differentiate identical strings used in different scopes (for example `Sun` can be used as an abbreviated name of the day "Sunday" or as the name of our closest star).
 .. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to "Untranslated" and "Translated".
@@ -380,6 +380,19 @@ vary in your paradigm.
 Additionally this workflow can be extended by utilizing
 :ref:`component-intermediate` to include strings provided by developers, but
 not to be used as is in the final strings.
+
+.. _format-description:
+
+Source string description
++++++++++++++++++++++++++
+
+Source string descriptions can be used to pass additional info about the string to translate.
+
+Several formats have native support for providing additional info to
+translators (for example :ref:`xliff`, :ref:`gettext`, :ref:`webex`,
+:ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref:`go-i18n-json`,
+:ref:`gotext-json`, :ref:`arb`, :ref:`dotnet`). Many other formats extract
+closest comment as source string description.
 
 .. _format-flags:
 

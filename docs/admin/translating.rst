@@ -99,6 +99,11 @@ Explanation
 Use the explanation to clarify scope or usage of the translation. You can use
 Markdown to include links and other markup.
 
+.. hint::
+
+   Weblate can also display description present in the translation file for
+   some formats, see :ref:`format-description`.
+
 .. _screenshots:
 
 Visual context for strings
