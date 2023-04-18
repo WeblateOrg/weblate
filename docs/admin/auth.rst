@@ -257,6 +257,12 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
 for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/``
 for tenant-specific authentication.
 
+You will need following:
+
+* *Application (client) ID* can be obtained from application page. *Object ID* is not used in Weblate.
+* *Directory (tenant) ID* is needed for tenant scoped authentication, what is usually desired.
+* *Secret value* is displayed once you generate a secret for an applicatio. *Secret ID* is not used in Weblate.
+
 .. code-block:: python
 
     # Azure AD common
@@ -283,10 +289,11 @@ for tenant-specific authentication.
         "weblate.accounts.auth.WeblateUserBackend",
     )
 
-    # OAuth2 keys
+    # Application (client) ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = ""
+    # Secret value
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ""
-    # Tenant ID
+    # Directory (tenant) ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ""
 
 .. include:: /snippets/oauth-site.rst
