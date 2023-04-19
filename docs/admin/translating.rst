@@ -53,6 +53,12 @@ Access this directly from the translation interface by clicking the
 
 .. image:: /screenshots/source-information.png
 
+.. seealso::
+
+   :ref:`format-location`,
+   :ref:`format-description`,
+   :ref:`format-context`
+
 Strings prioritization
 ++++++++++++++++++++++
 

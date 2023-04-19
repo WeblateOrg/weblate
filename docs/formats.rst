@@ -349,7 +349,7 @@ Translation types capabilities
 .. [#p] See :ref:`format-plurals`
 .. [#n] See :ref:`format-description`
 .. [#c] See :ref:`format-context`
-.. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
+.. [#l] See :ref:`format-location`
 .. [#a] Additional states supported by the file format in addition to "Untranslated" and "Translated".
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a source string description.
 .. [#f] See :ref:`format-flags`.
@@ -393,6 +393,17 @@ translators (for example :ref:`xliff`, :ref:`gettext`, :ref:`webex`,
 :ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref:`go-i18n-json`,
 :ref:`gotext-json`, :ref:`arb`, :ref:`dotnet`). Many other formats extract
 closest comment as source string description.
+
+.. _format-location:
+
+Source string location
+++++++++++++++++++++++
+
+Location of a string in source code might help proficient translators figure
+out how the string is used.
+
+This information is typically available in bilingual formats where strings are
+extracted from the source code using tools. For example :ref:`gettext` and :ref:`qtling`.
 
 .. _format-flags:
 
