@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-18 15:54+0000\n"
+"PO-Revision-Date: 2023-04-20 01:45+0000\n"
 "Last-Translator: tryvseu <tryvseu@tuta.io>\n"
 "Language-Team: Norwegian Nynorsk <https://hosted.weblate.org/projects/"
 "weblate/application/nn/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -230,32 +230,35 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
+"Du får berre desse varsla for måla du omset i prosjekt du ikkje fylgjer."
 
 #: weblate/accounts/forms.py:778
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
-msgstr ""
+msgstr "Du får berre desse varsla for måla du omset i prosjekta du fylgjer."
 
 #: weblate/accounts/forms.py:783
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
+"Du får berre desse varsla for måla du omset i prosjekt kvar du har lov til å "
+"styra."
 
 #: weblate/accounts/forms.py:788
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr ""
+msgstr "Du får berre desse varsla for måla du omset i %(project)s."
 
 #: weblate/accounts/forms.py:792
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr ""
+msgstr "Du får berre desse varsla for måla du omset i %(component)s."
 
 #: weblate/accounts/forms.py:831 weblate/auth/models.py:301
 #: weblate/templates/auth/team.html:81
@@ -277,7 +280,7 @@ msgstr "Gjevne framlegg"
 
 #: weblate/accounts/forms.py:836
 msgid "Comments made"
-msgstr ""
+msgstr "Rita merknadar"
 
 #: weblate/accounts/forms.py:837
 msgid "Screenshots uploaded"
@@ -297,12 +300,12 @@ msgstr "Legg til hop"
 
 #: weblate/accounts/models.py:140
 msgid "Password changed."
-msgstr ""
+msgstr "Bytte passord."
 
 #: weblate/accounts/models.py:141
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "Brukarnamn brigda ifrå {old} til {new}."
+msgstr "Brukarnamn bytte ifrå {old} til {new}."
 
 #: weblate/accounts/models.py:142
 #, python-brace-format
@@ -316,11 +319,11 @@ msgstr "Fullt namn brigda ifrå {old} til {new}."
 
 #: weblate/accounts/models.py:144
 msgid "Password reset requested."
-msgstr ""
+msgstr "Spurde om attendebyte av passordet."
 
 #: weblate/accounts/models.py:145
 msgid "Password reset confirmed, password turned off."
-msgstr ""
+msgstr "Stadfeste attendebyte av passordet, slo av passordet."
 
 #: weblate/accounts/models.py:146
 #, python-brace-format
@@ -369,13 +372,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Samtykke med tenestekrav {date}."
 
 #: weblate/accounts/models.py:156
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Innboden til  {site_title} av {username}."
+msgstr "Innboden til {site_title} av {username}."
 
 #: weblate/accounts/models.py:157
 msgid "Started trial period."
-msgstr "Byrja røynebolk."
+msgstr "Byrja røynetid."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -389,7 +392,7 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/models.py:163
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Access to project {project} was blocked"
 msgstr "Fekk ikkje tilgjenge til prosjektet {project}"
 
@@ -412,10 +415,11 @@ msgstr ""
 #: weblate/accounts/models.py:176
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Attendestill passordet ditt for å få attende tilgjenget til kontoen din."
 
 #: weblate/accounts/models.py:178
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "Om du synest at dette er uhøveleg, tal med prosjektvedlikehaldarane."
 
 #: weblate/accounts/models.py:295 weblate/templates/accounts/profile.html:257
 #: weblate/templates/accounts/user.html:230
@@ -447,6 +451,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"Vel mål du skjønar. Strengane i desse måla vert viste i tillegg til "
+"kjeldestrengen."
 
 #: weblate/accounts/models.py:397
 msgid "Hide completed translations on the dashboard"
