@@ -25,6 +25,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Configure Fast APT Mirror
+      uses: vegardit/fast-apt-mirror.sh@v1
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
@@ -59,6 +61,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Configure Fast APT Mirror
+      uses: vegardit/fast-apt-mirror.sh@v1
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
@@ -84,6 +88,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Configure Fast APT Mirror
+      uses: vegardit/fast-apt-mirror.sh@v1
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Setup Python

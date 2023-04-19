@@ -28,6 +28,8 @@ jobs:
         python-version: '3.11'
         cache: pip
         cache-dependency-path: '**/requirements*.txt'
+    - name: Configure Fast APT Mirror
+      uses: vegardit/fast-apt-mirror.sh@v1
     - name: Install apt dependencies
       run: |
         sudo apt update
