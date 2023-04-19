@@ -319,11 +319,9 @@ class MachineTranslation:
                     text = re.sub(self.make_re_placeholder(source), target, text)
                 result[key] = self.unescape_text(text)
 
-    def get_variants(self, language):
+    def get_language_possibilities(self, language):
         code = self.convert_language(language)
         yield code
-        if not isinstance(code, str):
-            return
         code = code.replace("-", "_")
         if "_" in code:
             yield code.split("_")[0]
@@ -332,8 +330,8 @@ class MachineTranslation:
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 
-        for source in self.get_variants(source_language):
-            for target in self.get_variants(target_language):
+        for source in self.get_language_possibilities(source_language):
+            for target in self.get_language_possibilities(target_language):
                 if self.is_supported(source, target):
                     return source, target
 
@@ -484,3 +482,20 @@ class MachineTranslation:
                         continue
                     quality[i] = item["quality"]
                     translation[i] = item["text"]
+
+
+class InternalMachineTranslation(MachineTranslation):
+    do_cleanup = False
+    accounting_key = "internal"
+    cache_translations = False
+
+    def is_supported(self, source, language):
+        """Any language is supported."""
+        return True
+
+    def is_rate_limited(self):
+        """Disable rate limiting."""
+        return False
+
+    def get_language_possibilities(self, language):
+        yield get_machinery_language(language)

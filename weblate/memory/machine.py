@@ -4,31 +4,16 @@
 
 from django.urls import reverse
 
-from weblate.machinery.base import MachineTranslation, get_machinery_language
+from weblate.machinery.base import InternalMachineTranslation
 from weblate.memory.models import Memory
 
 
-class WeblateMemory(MachineTranslation):
+class WeblateMemory(InternalMachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
     name = "Weblate Translation Memory"
     rank_boost = 2
-    cache_translations = False
     same_languages = True
-    accounting_key = "internal"
-    do_cleanup = False
-
-    def convert_language(self, language):
-        """No conversion of language object."""
-        return get_machinery_language(language)
-
-    def is_supported(self, source, language):
-        """Any language is supported."""
-        return True
-
-    def is_rate_limited(self):
-        """Disable rate limiting."""
-        return False
 
     def download_translations(
         self,

@@ -4,32 +4,17 @@
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation, get_machinery_language
+from weblate.machinery.base import InternalMachineTranslation
 from weblate.trans.models import Unit
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
 
 
-class WeblateTranslation(MachineTranslation):
+class WeblateTranslation(InternalMachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
     name = "Weblate"
     rank_boost = 1
-    cache_translations = False
-    accounting_key = "internal"
-    do_cleanup = False
-
-    def convert_language(self, language):
-        """No conversion of language object."""
-        return get_machinery_language(language)
-
-    def is_supported(self, source, language):
-        """Any language is supported."""
-        return True
-
-    def is_rate_limited(self):
-        """Disable rate limiting."""
-        return False
 
     def download_translations(
         self,
