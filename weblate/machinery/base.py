@@ -197,10 +197,6 @@ class MachineTranslation:
             return self.language_map[code]
         return code
 
-    def convert_language(self, language):
-        """Convert language to service specific object."""
-        return self.map_language_code(language.code)
-
     def report_error(self, message):
         """Wrapper for handling error situations."""
         report_error(cause="Machinery error")
@@ -320,11 +316,12 @@ class MachineTranslation:
                 result[key] = self.unescape_text(text)
 
     def get_language_possibilities(self, language):
-        code = self.convert_language(language)
-        yield code
+        code = language.code
+        yield self.map_language_code(code)
         code = code.replace("-", "_")
-        if "_" in code:
-            yield code.split("_")[0]
+        while "_" in code:
+            code = code.rsplit("_", 1)[0]
+            yield self.map_language_code(code)
 
     def get_languages(self, source_language, target_language):
         if source_language == target_language and not self.same_languages:

@@ -22,6 +22,7 @@ from google.cloud.translate_v3 import (
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.configuration.models import Setting
+from weblate.lang.models import Language
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
@@ -754,6 +755,23 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         )
         patcher.start()
         self.addCleanup(patcher.stop)
+
+    def test_mapping(self):
+        machine = self.get_machine()
+        self.assertEqual(
+            list(
+                machine.get_language_possibilities(Language.objects.get(code="zh_Hant"))
+            ),
+            ["zh-TW", "zh"],
+        )
+        self.assertEqual(
+            list(
+                machine.get_language_possibilities(
+                    Language.objects.get(code="zh_Hant_HK")
+                )
+            ),
+            ["zh-Hant-HK", "zh-TW", "zh"],
+        )
 
 
 class AmagamaTranslationTest(BaseMachineTranslationTest):
