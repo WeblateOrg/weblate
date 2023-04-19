@@ -350,7 +350,7 @@ Translation types capabilities
 .. [#n] See :ref:`format-description`
 .. [#c] See :ref:`format-context`
 .. [#l] See :ref:`format-location`
-.. [#a] Additional states supported by the file format in addition to "Untranslated" and "Translated".
+.. [#a] See :ref:`format-states`
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a source string description.
 .. [#f] See :ref:`format-flags`.
 .. [#po] The gettext type comments are used as flags.
@@ -380,6 +380,15 @@ vary in your paradigm.
 Additionally this workflow can be extended by utilizing
 :ref:`component-intermediate` to include strings provided by developers, but
 not to be used as is in the final strings.
+
+.. _format-states:
+
+String states
++++++++++++++
+
+Many file formats only differentiate "Untranslated" and "Translated" strings.
+With some formats it is possible to store more fine-grained state information,
+such as "Needs editing" or "Approved".
 
 .. _format-description:
 
