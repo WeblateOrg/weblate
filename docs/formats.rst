@@ -348,7 +348,7 @@ Translation types capabilities
 .. [#m] See :ref:`bimono`
 .. [#p] See :ref:`format-plurals`
 .. [#n] See :ref:`format-description`
-.. [#c] Context is used to differentiate identical strings used in different scopes (for example `Sun` can be used as an abbreviated name of the day "Sunday" or as the name of our closest star).
+.. [#c] See :ref:`format-context`
 .. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to "Untranslated" and "Translated".
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a source string description.
@@ -416,10 +416,20 @@ defined in the XLIFF standard, see :ref:`xliff-flags`.
    :ref:`custom-checks`,
    `PO files documentation`_
 
-
-
 .. _PO files documentation: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
 
+
+.. _format-context:
+
+Context
++++++++
+
+Context is used to differentiate identical strings in a bilingual format used
+in different scopes (for example `Sun` can be used as an abbreviated name of
+the day "Sunday" or as the name of our closest star).
+
+For monolingual formats the string identifier (often called key) can serve the
+same purpose and additional context is not necessary.
 
 .. _format-plurals:
 
