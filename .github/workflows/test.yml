@@ -33,17 +33,11 @@ jobs:
         database: [postgresql]
         include:
           # Reduced testing for mysql
-        - python-version: 3.7
-          requirements: minimal
-          database: mysql
-        - python-version: 3.9
+        - python-version: 3.11
           requirements: latest
           database: mysql
           # Reduced testing for mariadb
-        - python-version: 3.7
-          requirements: minimal
-          database: mariadb
-        - python-version: 3.9
+        - python-version: 3.11
           requirements: latest
           database: mariadb
           # Reduced testing for minimal deps
@@ -51,7 +45,7 @@ jobs:
           requirements: minimal
           database: postgresql
           # Reduced testing for edge deps
-        - python-version: 3.9
+        - python-version: 3.11
           requirements: edge
           database: postgresql
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
