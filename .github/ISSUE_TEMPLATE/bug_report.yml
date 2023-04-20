@@ -33,11 +33,14 @@ body:
   id: reproducer
   attributes:
     label: Steps to reproduce the behavior
-    value: |
+    description: What did you do before the problem has appeared?
+    placeholder: |
       1. Go to '...'
       2. Scroll down to '...'
       3. Click on '...'
       4. See error
+  validations:
+    required: true
 - type: textarea
   id: expected
   attributes:
