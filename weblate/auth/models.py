@@ -4,6 +4,7 @@
 
 import re
 from collections import defaultdict
+from functools import lru_cache
 from itertools import chain
 from typing import Optional, Set
 
@@ -236,6 +237,8 @@ class UserQuerySet(models.QuerySet):
         return self.order_by("username")
 
 
+# TODO: Use functools.cache when Python 3.9+
+@lru_cache(maxsize=None)
 def get_anonymous():
     """Return an anonymous user."""
     return User.objects.select_related("profile").get(
