@@ -73,7 +73,7 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    def supports(translation):
+    def supports(translation):  # noqa: ARG004
         return True
 
     @cached_property

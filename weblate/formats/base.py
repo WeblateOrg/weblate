@@ -744,7 +744,7 @@ class TranslationFormat:
         return result
 
     @staticmethod
-    def validate_context(context: str):
+    def validate_context(context: str):  # noqa: ARG004
         return
 
 

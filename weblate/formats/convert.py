@@ -118,7 +118,7 @@ class ConvertFormat(TranslationFormat):
         raise NotImplementedError
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return False
 
     def load(self, storefile, template_store):
@@ -283,7 +283,7 @@ class OpenDocumentFormat(ConvertFormat):
     unit_class = ConvertXliffUnit
 
     @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(storefile, template_store):  # noqa: ARG004
         store = xlifffile()
         store.setfilename(store.getfilenode("NoName"), "odf")
         contents = open_odf(storefile)
@@ -317,7 +317,7 @@ class OpenDocumentFormat(ConvertFormat):
         return "odt"
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return True
 
 
@@ -328,7 +328,7 @@ class IDMLFormat(ConvertFormat):
     check_flags = ("strict-same",)
 
     @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(storefile, template_store):  # noqa: ARG004
         store = pofile()
 
         contents = open_idml(storefile)
@@ -375,7 +375,7 @@ class IDMLFormat(ConvertFormat):
         return "idml"
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return True
 
 
