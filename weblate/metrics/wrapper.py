@@ -7,6 +7,7 @@ from datetime import date, timedelta
 from typing import Dict
 
 from django.core.cache import cache
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import pgettext_lazy
 
@@ -41,7 +42,7 @@ class MetricsWrapper:
             metrics = Metric.objects.filter_metric(
                 self.scope, self.relation, self.secondary
             )
-            today = date.today()
+            today = timezone.now().date()
             dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
             metrics = metrics.filter(date__in=dates)
 
@@ -224,7 +225,7 @@ class MetricsWrapper:
 
     @cached_property
     def daily_activity(self):
-        today = date.today()
+        today = timezone.now().date()
         result = [0] * 52
         for pos, value in self.get_daily_activity(today, 52).items():
             result[51 - (today - pos).days] = value
@@ -252,7 +253,7 @@ class MetricsWrapper:
     def monthly_activity(self):
         months = []
         prefetch = []
-        last_month_date = date.today().replace(day=1) - timedelta(days=1)
+        last_month_date = timezone.now().date().replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
         for _dummy in range(12):

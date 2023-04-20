@@ -540,7 +540,9 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         "name": entry.name,
                         "path": os.path.join(backup_dir, entry.name),
                         "timestamp": make_aware(
-                            datetime.fromtimestamp(int(entry.name.split(".")[0]))
+                            datetime.fromtimestamp(  # noqa: DTZ006
+                                int(entry.name.split(".")[0])
+                            )
                         ),
                         "size": entry.stat().st_size // 1024,
                     }

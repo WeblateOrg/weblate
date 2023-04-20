@@ -4,7 +4,7 @@
 
 import os
 import time
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from glob import glob
 from typing import List, Optional
 
@@ -14,6 +14,7 @@ from django.conf import settings
 from django.db import transaction
 from django.db.models import Count, F
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
 
@@ -505,7 +506,7 @@ def update_checks(pk: int, update_state: bool = False):
 @app.task(trail=False)
 def daily_update_checks():
     components = Component.objects.all()
-    today = date.today()
+    today = timezone.now().date()
     if settings.BACKGROUND_TASKS == "never":
         return
     if settings.BACKGROUND_TASKS == "monthly":
@@ -523,13 +524,13 @@ def cleanup_project_backups():
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
     rootdir = data_dir("projectbackups")
-    backup_cutoff = datetime.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
+    backup_cutoff = timezone.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
     for projectdir in glob(os.path.join(rootdir, "*")):
         if not os.path.isdir(projectdir):
             continue
         if projectdir.endswith("import"):
             # Keep imports for shorter time, but more of them
-            cutoff = datetime.now() - timedelta(days=1)
+            cutoff = timezone.now() - timedelta(days=1)
             max_count = 30
         else:
             cutoff = backup_cutoff
@@ -538,7 +539,9 @@ def cleanup_project_backups():
             (
                 (
                     path,
-                    datetime.fromtimestamp(int(path.split(".")[0])),
+                    make_aware(
+                        datetime.fromtimestamp(int(path.split(".")[0]))  # noqa: DTZ006
+                    ),
                 )
                 for path in os.listdir(projectdir)
                 if path.endswith((".zip", ".zip.part"))

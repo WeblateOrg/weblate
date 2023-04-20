@@ -7,7 +7,7 @@ import os
 import sys
 import time
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import timedelta
 from distutils.version import LooseVersion
 from itertools import chain
 
@@ -18,6 +18,7 @@ from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 from django.db import DatabaseError
+from django.utils import timezone
 
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
@@ -490,7 +491,7 @@ def download_version_info():
     for version, info in response.json()["releases"].items():
         if not info:
             continue
-        result.append(Release(version, parse(info[0]["upload_time"])))
+        result.append(Release(version, parse(info[0]["upload_time_iso_8601"])))
     return sorted(result, key=lambda x: x[1], reverse=True)
 
 
@@ -517,7 +518,7 @@ def check_version(app_configs=None, **kwargs):
         return []
     if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
         # With release every two months, this gets triggered after three releases
-        if latest.timestamp + timedelta(days=180) < datetime.now():
+        if latest.timestamp + timedelta(days=180) < timezone.now():
             return [
                 weblate_check(
                     "weblate.C031",

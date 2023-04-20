@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import date
 
 from celery.schedules import crontab
 from django.conf import settings
+from django.utils import timezone
 
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeout
@@ -32,7 +32,7 @@ def backup_service(pk):
     service.ensure_init()
     service.backup()
     service.prune()
-    today = date.today()
+    today = timezone.now().date()
     if today.weekday() == 3:
         service.cleanup()
 

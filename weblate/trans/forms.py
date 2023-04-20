@@ -123,7 +123,7 @@ class WeblateDateField(forms.DateField):
         value = super().to_python(value)
         if isinstance(value, date):
             return from_current_timezone(
-                datetime(value.year, value.month, value.day, 0, 0, 0)
+                datetime(value.year, value.month, value.day, 0, 0, 0)  # noqa: DTZ001
             )
         return value
 
@@ -1280,12 +1280,12 @@ class ReportsForm(forms.Form):
             start = end.replace(day=1)
         elif self.cleaned_data["period"] == "year":
             year = timezone.now().year - 1
-            end = timezone.make_aware(datetime(year, 12, 31))
-            start = timezone.make_aware(datetime(year, 1, 1))
+            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
+            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
         elif self.cleaned_data["period"] == "this-year":
             year = timezone.now().year
-            end = timezone.make_aware(datetime(year, 12, 31))
-            start = timezone.make_aware(datetime(year, 1, 1))
+            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
+            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
         else:
             # Validate custom period
             if not self.cleaned_data.get("start_date"):
