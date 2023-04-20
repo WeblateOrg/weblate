@@ -13,10 +13,28 @@ profile = "black"
 
 [tool.ruff]
 format = "github"
+# CONFIG - intentional configuration
+# TODO - needs decision whether intention, add noqa tags or fix
+# WONTFIX - not fixable in current codebase, might be better to go for noqa
 ignore = [
-  "D10",  # TODO: we are missing many docstrings
+  "COM",  # CONFIG: No trailing commas
+  "PT",  # CONFIG: Not using pytest
   "D203",  # CONFIG: incompatible with D211
   "D212",  # CONFIG: incompatible with D213
+  "ARG005",  # TODO: annotate
+  "ARG004",  # TODO: annotate
+  "ARG003",  # TODO: annotate
+  "DTZ",  # TODO: proper use of timezones
+  "S",  # TODO: annotate possible security risks
+  "EM",  # TODO: Exception strings
+  "PTH",  # TODO: Not using pathlib
+  "FBT",  # TODO: Boolean in function definition
+  "I",  # TODO: using standalone isort
+  "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
+  "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
+  "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
+  "ANN",  # TODO: we are missing many annotations
+  "D10",  # TODO: we are missing many docstrings
   "D401",  # TODO: many strings need rephrasing
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
   "TRY200",  # TODO: Use `raise from` to specify exception cause
@@ -37,39 +55,7 @@ ignore = [
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
 select = [
-  "E",
-  "F",
-  "B",
-  "T10",
-  "A",
-  "C4",
-  "C90",
-  "YTT",
-  "DJ",
-  "UP",
-  "D",
-  "PD",
-  "PGH",
-  "PL",
-  "TRY",
-  "RUF",
-  "ERA",
-  "ICN",
-  "ISC",
-  "EXE",
-  "INP",
-  "PIE",
-  "G",
-  "PYI",
-  "Q",
-  "SIM",
-  "TID",
-  "RSE",
-  "T20",
-  "RET",
-  "SLF",
-  "N",
-  "INT"
+  "ALL"
 ]
 target-version = "py37"
 
