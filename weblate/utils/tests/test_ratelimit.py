@@ -87,7 +87,9 @@ class RateLimitTest(SimpleTestCase):
     def test_post(self):
         request = self.get_request()
 
-        limiter = session_ratelimit_post("test")(lambda request: "RESPONSE")
+        limiter = session_ratelimit_post("test")(
+            lambda request: "RESPONSE"  # noqa: ARG005
+        )
 
         # First attempt should work
         self.assertEqual(limiter(request), "RESPONSE")

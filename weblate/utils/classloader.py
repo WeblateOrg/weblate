@@ -99,7 +99,12 @@ class ClassLoader:
     def exists(self):
         return bool(self.data)
 
-    def get_choices(self, empty=False, exclude=(), cond=lambda x: True):
+    def get_choices(self, empty=False, exclude=(), cond=None):
+        if cond is None:
+
+            def cond(x):
+                return True  # noqa: ARG005
+
         result = [
             (x, self[x].name)
             for x in sorted(self)
