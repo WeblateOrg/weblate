@@ -199,7 +199,12 @@ class LanguageQuerySet(models.QuerySet):
         # Alias language code only
         for newcode in codes:
             language, _sep, country = newcode.partition("_")
-            if country and len(language) > 2 and language in ALIASES:
+            if (
+                country
+                and len(language) > 2
+                and language in ALIASES
+                and "_" not in ALIASES[language]
+            ):
                 testcode = f"{ALIASES[language]}_{country}"
                 ret = self.fuzzy_get(code=testcode, strict=True)
                 if ret is not None:
