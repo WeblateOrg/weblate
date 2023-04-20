@@ -25,6 +25,9 @@ def get_user(request):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
+            # Make sure user permissions are fetched again, needed as
+            # get_anonymous() is reusing same instance.
+            user.clear_cache()
 
         request._cached_user = user
     return request._cached_user
