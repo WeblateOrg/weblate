@@ -95,7 +95,7 @@ class Repository:
                 self.init()
 
     @classmethod
-    def get_remote_branch(cls, repo: str):
+    def get_remote_branch(cls, repo: str):  # noqa: ARG003
         return cls.default_branch
 
     @classmethod

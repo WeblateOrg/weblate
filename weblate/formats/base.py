@@ -321,7 +321,7 @@ class TranslationFormat:
         raise NotImplementedError
 
     @classmethod
-    def get_plural(cls, language, store=None):
+    def get_plural(cls, language, store=None):  # noqa: ARG003
         """Return matching plural object."""
         if cls.plural_preference is not None:
             # Fetch all matching plurals
@@ -752,7 +752,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
-    def load(cls, storefile, template_store):
+    def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
     def save(self):

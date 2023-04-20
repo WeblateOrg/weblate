@@ -163,7 +163,7 @@ class BaseAddon:
         self.instance.save(update_fields=["state"])
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
             getattr(component, key) in values for key, values in cls.compat.items()
@@ -382,7 +382,7 @@ class TestCrashAddon(UpdateBaseAddon):
             raise TestException("Test error")
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user):  # noqa: ARG003
         return False
 
 

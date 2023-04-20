@@ -22,7 +22,7 @@ class XMLCustomizeAddon(StoreBaseAddon):
     settings_form = XMLCustomizeForm
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user):  # noqa: ARG003
         """Hook triggered to determine if add-on is compatible with component."""
         # component are attached to a file format which is defined by a loader
         # we want to provide this package only for component using LISAfile as loader

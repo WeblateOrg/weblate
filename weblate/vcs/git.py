@@ -639,7 +639,12 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
+    def _clone(
+        cls,
+        source: str,
+        target: str,
+        branch: str,  # noqa: ARG003
+    ):
         """Clone svn repository with git-svn."""
         args, revision = cls.get_remote_args(source, target)
         if revision:
@@ -1191,7 +1196,7 @@ class LocalRepository(GitRepository):
         return []
 
     @classmethod
-    def get_remote_branch(cls, repo: str):
+    def get_remote_branch(cls, repo: str):  # noqa: ARG003
         return cls.default_branch
 
     @classmethod
@@ -1206,7 +1211,9 @@ class LocalRepository(GitRepository):
         cls._popen(["commit", "--message", "Repository created by Weblate"], path)
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
+    def _clone(
+        cls, source: str, target: str, branch: str  # noqa: ARG003  # noqa: ARG003
+    ):
         if not os.path.exists(target):
             os.makedirs(target)
         cls._init(target)

@@ -196,9 +196,9 @@ class AppStoreFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,
-        base: str,
-        callback: Optional[Callable] = None,
+        language: str,  # noqa: ARG003
+        base: str,  # noqa: ARG003
+        callback: Optional[Callable] = None,  # noqa: ARG003
     ):
         """Handle creation of new translation file."""
         os.makedirs(filename)
@@ -231,7 +231,7 @@ class AppStoreFormat(TranslationFormat):
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,
+        monolingual: bool,  # noqa: ARG003
         errors: Optional[List] = None,
         fast: bool = False,
     ) -> bool:
@@ -241,7 +241,9 @@ class AppStoreFormat(TranslationFormat):
         try:
             if not fast:
                 AppStoreParser(base)
-        except Exception:
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
             report_error(cause="File parse error")
             return False
         return True
