@@ -1212,7 +1212,10 @@ class LocalRepository(GitRepository):
 
     @classmethod
     def _clone(
-        cls, source: str, target: str, branch: str  # noqa: ARG003  # noqa: ARG003
+        cls,
+        source: str,  # noqa: ARG003
+        target: str,
+        branch: str,  # noqa: ARG003
     ):
         if not os.path.exists(target):
             os.makedirs(target)
