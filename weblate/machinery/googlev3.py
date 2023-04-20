@@ -63,6 +63,7 @@ class GoogleV3Translation(GoogleBaseTranslation):
             "contents": [text],
             "target_language_code": language,
             "source_language_code": source,
+            "mime_type": "text/plain",
         }
         response = self.client.translate_text(request)
 
