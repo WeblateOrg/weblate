@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-20 01:45+0000\n"
+"PO-Revision-Date: 2023-04-21 09:04+0000\n"
 "Last-Translator: tryvseu <tryvseu@tuta.io>\n"
 "Language-Team: Norwegian Nynorsk <https://hosted.weblate.org/projects/"
 "weblate/application/nn/>\n"
@@ -52,10 +52,8 @@ msgid "Commit e-mail"
 msgstr "Din e-post"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Use account e-mail address"
-msgstr "Brukarnamn eller e-post"
+msgstr "Nytt e-postadressa til kontoen"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:559
 msgid "Public e-mail"
@@ -364,7 +362,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:154
 msgid "Account and all private data removed."
-msgstr ""
+msgstr "Sletta kontoen din og alle dei personlege dataa dine."
 
 #: weblate/accounts/models.py:155
 #, fuzzy, python-brace-format
@@ -432,7 +430,7 @@ msgstr "Grensesnittsmål"
 
 #: weblate/accounts/models.py:373
 msgid "Translated languages"
-msgstr "Omsette mål"
+msgstr "Mål du vil omsetja til"
 
 #: weblate/accounts/models.py:376
 msgid ""
@@ -444,7 +442,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:383
 msgid "Secondary languages"
-msgstr "Andre mål"
+msgstr "Mål du skjønar"
 
 #: weblate/accounts/models.py:385
 msgid ""
@@ -460,18 +458,17 @@ msgstr "Ikkje vis fullgjorde omsetjingar i oversynet"
 
 #: weblate/accounts/models.py:400
 msgid "Show secondary translations in the Zen mode"
-msgstr ""
+msgstr "Vis omsetjingane til mål du skjønar i den tette visinga"
 
 #: weblate/accounts/models.py:403
 msgid "Hide source if a secondary translation exists"
-msgstr ""
+msgstr "Skjul kjelda om det finst ei omsetjing på eit mål du skjønar"
 
 #: weblate/accounts/models.py:409
 msgid "Editor link"
 msgstr ""
 
 #: weblate/accounts/models.py:411
-#, fuzzy
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -483,19 +480,19 @@ msgstr ""
 
 #: weblate/accounts/models.py:420
 msgid "Translation editor mode"
-msgstr ""
+msgstr "Hovudvisinga"
 
 #: weblate/accounts/models.py:421
 msgid "Full editor"
-msgstr ""
+msgstr "Vanleg"
 
 #: weblate/accounts/models.py:421
 msgid "Zen mode"
-msgstr ""
+msgstr "Tett"
 
 #: weblate/accounts/models.py:427
 msgid "Zen editor mode"
-msgstr ""
+msgstr "Tettvisinga"
 
 #: weblate/accounts/models.py:429
 msgid "Top to bottom"
@@ -521,11 +518,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:446
 msgid "Number of nearby strings"
-msgstr ""
+msgstr "Mengda med nære strengar"
 
 #: weblate/accounts/models.py:450
 msgid "Number of nearby strings to show in each direction in the full editor."
-msgstr ""
+msgstr "Mengda med nære strengar å visa over og under i den vanlege visinga."
 
 #: weblate/accounts/models.py:454
 msgid "Automatically watch projects on contribution"
@@ -534,11 +531,11 @@ msgstr ""
 #: weblate/accounts/models.py:457
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "Du kjem til å fylgja eit prosjekt når du omset ein streng i det."
 
 #: weblate/accounts/models.py:467 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
-msgstr ""
+msgstr "Fylgde omsetjingar"
 
 #: weblate/accounts/models.py:468 weblate/auth/models.py:128
 #: weblate/templates/dashboard/user.html:21
@@ -568,14 +565,16 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
+"Du kan få varsel ifrå prosjekta du fylgjer, og dei vert som forval viste i "
+"oversynet."
 
 #: weblate/accounts/models.py:506
 msgid "Website URL"
-msgstr ""
+msgstr "Nettside-adresse"
 
 #: weblate/accounts/models.py:510
 msgid "Liberapay username"
-msgstr ""
+msgstr "Liberapay-brukarnamn"
 
 #: weblate/accounts/models.py:513
 msgid ""
@@ -585,7 +584,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:519
 msgid "Fediverse URL"
-msgstr ""
+msgstr "Fediverse-nettadresse"
 
 #: weblate/accounts/models.py:522
 msgid ""
@@ -641,12 +640,14 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"La til %(language)s i lista over mål du vil omsetja til. Du kan brigde dei i "
+"innstillingane."
 
 #: weblate/accounts/models.py:818
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
-msgstr ""
+msgstr "Du må knyta til ein e-postadresse for å senda inn omsetjingar."
 
 #: weblate/accounts/notifications.py:40
 msgid "Do not notify"
@@ -697,49 +698,49 @@ msgstr ""
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:495
 msgid "New string"
-msgstr ""
+msgstr "Ny streng"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:504 weblate/trans/models/change.py:358
 msgid "New contributor"
-msgstr ""
+msgstr "Ny medverkar"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:513
 msgid "New suggestion"
-msgstr ""
+msgstr "Nytt framlegg"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:523
 msgid "Comment on own translation"
-msgstr ""
+msgstr "Merknad på eiga omsetjing"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:559
 msgid "Mentioned in comment"
-msgstr ""
+msgstr "Nemnd i ein merknad"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:602 weblate/templates/translate.html:434
 #: weblate/trans/forms.py:1033
 msgid "New comment"
-msgstr ""
+msgstr "Ny merknad"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:625
 msgid "Changed string"
-msgstr ""
+msgstr "Brigda streng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:634 weblate/trans/forms.py:2321
 msgid "Translated string"
-msgstr ""
+msgstr "Omsett streng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:643
 msgid "Approved string"
-msgstr ""
+msgstr "Godteken streng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:652
@@ -755,45 +756,47 @@ msgstr ""
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:677 weblate/trans/models/change.py:360
 msgid "New announcement"
-msgstr ""
+msgstr "Ny lysing"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:693 weblate/trans/models/change.py:362
 msgid "New alert"
-msgstr ""
+msgstr "Nytt varsel"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:781
 msgid "Pending suggestions"
-msgstr ""
+msgstr "Ventande framlegg"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:792
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:20
 #: weblate/trans/filter.py:109
 msgid "Unfinished strings"
-msgstr ""
+msgstr "Ufullgjorde strengar"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
-msgstr ""
+msgstr "Dette passordet er set saman av berre mellomrom."
 
 #: weblate/accounts/password_validation.py:26
 msgid "This password is only a single character."
-msgstr ""
+msgstr "Dette passordet er berre eit teikn."
 
 #: weblate/accounts/password_validation.py:32
 msgid "Your password can't consist of a single character or only whitespace."
 msgstr ""
+"Passordet ditt kan ikkje vera sett saman av berre eit teikn eller berre "
+"mellomrom."
 
 #: weblate/accounts/password_validation.py:52
 msgid "Can not reuse previously used password."
-msgstr ""
+msgstr "Du kan ikkje nytte eit passord du har nytta før."
 
 #: weblate/accounts/password_validation.py:57
 msgid "Your password can't match a password you have used in the past."
-msgstr ""
+msgstr "Passordet ditt kan ikkje samsvara med eit du har nytta før."
 
 #: weblate/accounts/pipeline.py:322
 msgid "You can not complete password reset while signed in."
@@ -822,7 +825,7 @@ msgstr ""
 #: weblate/accounts/views.py:978 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
-msgstr ""
+msgstr "Nullstill passordet"
 
 #: weblate/accounts/views.py:161
 msgid "Remove account"
@@ -838,19 +841,19 @@ msgstr ""
 
 #: weblate/accounts/views.py:221
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Sendte førespurnaden din. Du vil høyra ifrå oss snart."
 
 #: weblate/accounts/views.py:334
 msgid "Your profile has been updated."
-msgstr ""
+msgstr "Retta profilen din."
 
 #: weblate/accounts/views.py:368
 msgid "User profile"
-msgstr ""
+msgstr "Brukarprofil"
 
 #: weblate/accounts/views.py:388
 msgid "Your account has been removed."
-msgstr ""
+msgstr "Sletta kontoen din."
 
 #: weblate/accounts/views.py:452
 msgid "Too many messages sent, please try again later."
@@ -880,7 +883,7 @@ msgstr ""
 #: weblate/accounts/views.py:546 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Kostnadsfri røynetid"
 
 #: weblate/accounts/views.py:720 weblate/templates/403.html:18
 #: weblate/templates/404.html:18 weblate/templates/accounts/login.html:8
@@ -892,7 +895,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:750 weblate/wladmin/sites.py:185
 msgid "Thank you for using Weblate."
-msgstr ""
+msgstr "Takk for at du nyttar Weblate."
 
 #: weblate/accounts/views.py:843 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
@@ -906,11 +909,11 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
-msgstr ""
+msgstr "Byt passord"
 
 #: weblate/accounts/views.py:899
 msgid "Password reset has been already completed."
-msgstr ""
+msgstr "Har alt nullstilt passordet."
 
 #: weblate/accounts/views.py:1125
 msgid "Could not remove user identity"
@@ -9687,12 +9690,12 @@ msgstr ""
 
 #: weblate/templates/translate.html:57
 msgid "Edit in Zen mode"
-msgstr ""
+msgstr "Omset i tett vising"
 
 #: weblate/templates/translate.html:57 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
 msgid "Zen"
-msgstr ""
+msgstr "Tett"
 
 #: weblate/templates/translate.html:60 weblate/templates/zen.html:48
 msgid "Configure editor"
@@ -10199,7 +10202,7 @@ msgstr ""
 
 #: weblate/templates/zen.html:46
 msgid "Exit Zen"
-msgstr ""
+msgstr "Gå or tettvisinga"
 
 #: weblate/trans/admin.py:15
 msgid "Commit pending changes"
