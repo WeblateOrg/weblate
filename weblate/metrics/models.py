@@ -427,7 +427,7 @@ class Metric(models.Model):
     SCOPE_LANGUAGE = 7
 
     id = models.BigAutoField(primary_key=True)  # noqa: A003
-    date = models.DateField(default=timezone.now().date)
+    date = models.DateField(default=datetime.date.today)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)
