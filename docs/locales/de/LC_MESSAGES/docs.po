@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-21 09:42+0000\n"
+"PO-Revision-Date: 2023-04-23 16:44+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -39725,7 +39725,7 @@ msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:27
 msgid "Trailing ellipsis replacer"
-msgstr "Ersetzung von Auslassungspunkten"
+msgstr "Auslassungspunkte ersetzen"
 
 #: ../../user/checks.rst:29
 msgid ""
@@ -39737,7 +39737,7 @@ msgstr ""
 
 #: ../../user/checks.rst:33
 msgid "Zero-width space removal"
-msgstr "Entfernung breitenloser Leerzeichen"
+msgstr "Breitenlose Leerzeichen entfernen"
 
 #: ../../user/checks.rst:35
 msgid ""
@@ -39746,11 +39746,11 @@ msgid ""
 msgstr ""
 "Nullbreite Leerzeichen sind in der Regel in der Übersetzung nicht erwünscht. "
 "Mit dieser Korrektur wird es entfernt, sofern es nicht in der "
-"Quellzeichenkette vorhanden ist."
+"Ausgangszeichenkette vorhanden ist."
 
 #: ../../user/checks.rst:39
 msgid "Control characters removal"
-msgstr "Entfernung von Steuerzeichen"
+msgstr "Steuerzeichen entfernen"
 
 #: ../../user/checks.rst:41
 msgid "Removes any control characters from the translation."
@@ -39762,11 +39762,12 @@ msgstr "Devanagari Danda"
 
 #: ../../user/checks.rst:46
 msgid "Replaces wrong full stop in Devanagari by Devanagari danda (``।``)."
-msgstr "Ersetzt falschen Punkt in Devenagari Danda (``।``)."
+msgstr ""
+"Ersetzt den falschen Punkt in Devenagari durch Devanagari danda (``।``)."
 
 #: ../../user/checks.rst:49
 msgid "Unsafe HTML cleanup"
-msgstr "Unsichere HTML-Bereinigung"
+msgstr "Unsicheres HTML bereinigen"
 
 #: ../../user/checks.rst:51
 msgid "When turned on using a ``safe-html`` flag it sanitizes HTML markup."
@@ -39779,10 +39780,8 @@ msgid ":ref:`check-safe-html`"
 msgstr ":ref:`check-formats`,"
 
 #: ../../user/checks.rst:58
-#, fuzzy
-#| msgid "Trailing and leading whitespace"
 msgid "Trailing and leading whitespace fixer"
-msgstr "Leerzeichen an Beginn und Ende"
+msgstr "Leerzeichen an Beginn und Ende korrigieren"
 
 #: ../../user/checks.rst:60
 msgid ""
@@ -39790,6 +39789,10 @@ msgid ""
 "behavior can be fine-tuned using ``ignore-begin-space`` and ``ignore-end-"
 "space`` flags to skip processing parts of the string."
 msgstr ""
+"Stellt führende und nachgestellte Leerzeichen in Übereinstimmung mit der "
+"Ausgangszeichenkette her. Das Verhalten kann mit den Markierungen ``ignore-"
+"begin-space`` und ``ignore-end-space`` feinabgestimmt werden, um Teile der "
+"Zeichenkette bei der Bearbeitung zu überspringen."
 
 #: ../../user/checks.rst:67
 msgid "Quality checks"
@@ -39889,16 +39892,22 @@ msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
 msgstr ""
+"BBCode steht für einfache Markierungen, wie z. B. das Hervorheben wichtiger "
+"Teile einer Nachricht in Fett- oder Kursivschrift."
 
 #: ../../user/checks.rst:97
 msgid "This check ensures they are also found in translation."
 msgstr ""
+"Diese Prüfung stellt sicher, dass sie auch in der Übersetzung gefunden "
+"werden."
 
 #: ../../user/checks.rst:101
 msgid ""
 "The method for detecting BBCode is currently quite simple so this check "
 "might produce false positives."
 msgstr ""
+"Die Methode um BBCode zu erkennen ist derzeit noch recht schlicht, so dass "
+"diese Prüfung möglicherweise zu falsch positiven Ergebnissen führt."
 
 #: ../../user/checks.rst:107
 msgid "Consecutive duplicated words"
