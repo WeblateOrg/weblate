@@ -392,6 +392,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
   the migration in the background. Once it is completed, perform full upgrade
   as ususal.
+* Docker container now requires PostgreSQL 12 or newer, please see
+  :ref:`docker-postgres-upgrade` for upgrade instructions. Weblate itself
+  supports older versions as well, when appropriate Django version is installed.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
