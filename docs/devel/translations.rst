@@ -7,7 +7,7 @@ Adding new strings
 New strings can be made available for translation when they appear in the base file,
 called :ref:`component-new_base` (see :ref:`component`).
 If your file format doesn't require such a file, as is the case with most monolingual
-translation flows, you can start with empty files).
+translation flows, you can start with empty files.
 
 .. _adding-translation:
 
