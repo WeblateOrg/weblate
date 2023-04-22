@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-03-04 14:40+0000\n"
+"PO-Revision-Date: 2023-04-23 16:44+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5284,22 +5284,16 @@ msgid "Translation"
 msgstr "Översättning"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Översättningar med bidrag"
+msgstr "Bläddra bland alla översättningar med bidrag"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Bläddra bland alla projekt"
+msgstr "Bläddra bland alla hanterade projekt"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Bläddra bland alla projekt"
+msgstr "Bläddra bland alla bevakade projekt"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7380,6 +7374,7 @@ msgstr "Ta bort projektet"
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
 msgstr ""
+"Inga projekt i denna fakturering. Du kan ha andra fakturor med projekt i."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8059,28 +8054,23 @@ msgid "SSH keys"
 msgstr "SSH-nycklar"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "Generera SSH-nyckel"
+msgstr "Generera %(key_type)s SSH nyckel"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Du verkar inte ha en befintlig SSH-nyckel, genom att trycka på knappen nedan "
-"kommer Weblate att generera en åt dig."
+"Du verkar inte ha någon befintlig %(key_type)s SSH-nyckel, genom att trycka "
+"på knappen nedan kommer Weblate att generera en åt dig."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "Generera SSH-nyckel"
+msgstr "Generera en ny %(key_type)s SSH-nyckel"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -8239,7 +8229,7 @@ msgstr "Minnet fylls sedan med nuvarande översättningar."
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Poster för %(source_language)s till %(target_language)s"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9296,10 +9286,9 @@ msgid "Descending"
 msgstr "Fallande"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Offentlig SSH-nyckel"
+msgstr "Publik %(key_type)s SSH-nyckel"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9311,10 +9300,9 @@ msgstr ""
 "tillgång till ett arkiv."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Hämta privat nyckel"
+msgstr "Ladda ner %(key_type)s privat nyckel"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -9735,19 +9723,16 @@ msgstr ""
 "när beroenden saknas."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] ""
-"Låsta komponenter kommer inte att få några översättningsuppdateringar."
-msgstr[1] ""
-"Låsta komponenter kommer inte att få några översättningsuppdateringar."
+msgstr[0] "Komponenten har inte fått någon översättning inom %(count)s dag."
+msgstr[1] "Komponenten har inte fått någon översättning inom %(count)s dagar."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "Överväg att ta bort komponenten om den inte längre är användbar."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -11621,10 +11606,8 @@ msgid "Inexistent files."
 msgstr "Icke-existerande filer."
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "Komponent olåst"
+msgstr "Komponenten verkar oanvänd."
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
@@ -12932,10 +12915,9 @@ msgid "User configured character: {}"
 msgstr "Användarkonfigurerat tecken: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Automatiskt översättningsläge"
+msgstr "Automatisk översättning misslyckades: %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -14001,16 +13983,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Bitbucket Server pull-begäran"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
