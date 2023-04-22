@@ -103,6 +103,7 @@ def init_error_collection(celery=False):
             environment=settings.SENTRY_ENVIRONMENT,
             traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
             attach_stacktrace=True,
+            _experiments={"max_spans": 2000},
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those are reported using capture_exception
