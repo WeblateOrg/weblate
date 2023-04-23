@@ -6,6 +6,7 @@ import os
 import re
 import time
 from collections import Counter, defaultdict
+from contextlib import suppress
 from copy import copy
 from datetime import datetime, timedelta
 from glob import glob
@@ -1423,9 +1424,13 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 )
         if self.id:
             self.delete_alert("UpdateFailure")
-            Component.objects.filter(pk=self.pk).update(
-                remote_revision=self.repository.last_remote_revision
-            )
+            with suppress(RepositoryException):
+                # This can actually fail without a remote repo
+                remote_revision = self.repository.last_remote_revision
+
+                Component.objects.filter(pk=self.pk).update(
+                    remote_revision=remote_revision
+                )
         return True
 
     def configure_repo(self, validate=False, pull=True):
